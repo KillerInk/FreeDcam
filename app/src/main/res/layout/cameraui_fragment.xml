@@ -380,23 +380,15 @@
         </LinearLayout>
 
     </RelativeLayout>
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#89000000"
-        android:id="@+id/LCover"
-        android:visibility="gone"></LinearLayout>
 
     <FrameLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/manualModesHolder"
         android:foregroundGravity="center_horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="110dp"
-        android:layout_marginRight="110dp"></FrameLayout>
+        android:layout_marginLeft="@dimen/manualModesHolderLeftMargine"
+        android:layout_marginRight="@dimen/manualModesHolderRightMargine"></FrameLayout>
 
 
     <FrameLayout
@@ -407,30 +399,6 @@
         android:layout_marginRight="@dimen/shuttericon_size"
         android:layout_alignParentTop="false"
         android:layout_centerVertical="true"></FrameLayout>
-
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/settingsMenuHolder"
-        android:foregroundGravity="center_horizontal"
-        android:layout_toRightOf="@+id/left_ui_holder"
-        android:layout_marginLeft="10dp"
-        android:layout_toLeftOf="@+id/right_ui_holder"
-        android:layout_toStartOf="@+id/right_ui_holder" />
-
-    <freed.cam.ui.themesample.cameraui.FocusSelector
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/custFocus"
-        android:layout_gravity="center"
-        android:visibility="invisible" />
-
-    <freed.cam.ui.themesample.cameraui.ExposureSelector
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/custExpo"
-        android:layout_gravity="center"
-        android:visibility="invisible" />
 
     <FrameLayout
         android:layout_width="fill_parent"

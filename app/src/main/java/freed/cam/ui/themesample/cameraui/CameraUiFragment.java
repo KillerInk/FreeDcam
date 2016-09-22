@@ -438,7 +438,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onCaptureStateChanged(ModuleHandlerAbstract.CaptureStates captureStates)
     {
-        switch (captureStates)
+       /* switch (captureStates)
         {
             case video_recording_start:
                 hideVIdItems();
@@ -446,7 +446,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             case video_recording_stop:
                 showVIdItems();
                 break;
-        }
+        }*/
         /*switch (captureStates)
         {
             case image_capture_stop:

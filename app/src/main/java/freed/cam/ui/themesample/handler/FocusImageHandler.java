@@ -65,16 +65,11 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private final ImageView meteringArea;
     private FocusRect meteringRect;
 
-    private FocusSelector fs;
-    private ExposureSelector es;
 
     public FocusImageHandler(View view, ActivityAbstract fragment)
     {
         super(view, fragment);
         focusImageView = (ImageView)view.findViewById(R.id.imageView_Crosshair);
-
-        fs = (FocusSelector)view.findViewById(R.id.custFocus);
-        es = (ExposureSelector) view.findViewById(R.id.custExpo);
 
         cancelFocus = (ImageView)view.findViewById(R.id.imageViewFocusClose);
         meteringArea = (ImageView)view.findViewById(R.id.imageView_meteringarea);
@@ -209,17 +204,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        try {
-
-System.out.println(" Vokuz ");
-            //Rect r = new Rect((int) focusImageView.getX(), (int) focusImageView.getY(), (int) focusImageView.getX() + focusImageView.getWidth(), (int) focusImageView.getY() + focusImageView.getHeight());
-
-           //wrapper.GetParameterHandler().SetFocusAREATest(ParametersHandler.viewToCameraArea(r, wrapper.getPreviewWidth(), wrapper.getPreviewHeight()));
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
         if (wrapper instanceof SonyCameraFragment)
             wrapper.getFocusHandler().SetMotionEvent(event);
         return false;

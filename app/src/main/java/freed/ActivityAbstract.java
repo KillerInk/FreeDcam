@@ -50,6 +50,7 @@ import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
+import freed.utils.ImageSaver;
 import freed.utils.Logger;
 import freed.utils.StorageFileHandler;
 import freed.viewer.helper.BitmapHelper;
@@ -82,6 +83,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     protected  List<FileHolder> files;
     private  List<FileEvent> fileListners;
     protected StorageFileHandler storageHandler;
+    private ImageSaver imageSaver;
 
     protected boolean RequestPermission = false;
 
@@ -103,6 +105,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
         storageHandler = new StorageFileHandler(this);
         if (appSettingsManager.getDevice() == null)
             appSettingsManager.SetDevice(new DeviceUtils().getDevice(getResources()));
+        imageSaver = new ImageSaver(this);
         HIDENAVBAR();
     }
 
@@ -200,6 +203,11 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     }
 
     @Override
+    public ImageSaver getImageSaver() {
+        return this.imageSaver;
+    }
+
+    @Override
     public BitmapHelper getBitmapHelper() {
         return bitmapHelper;
     }
@@ -254,8 +262,10 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     {
         if (files == null)
             return;
-        files.add(file);
-        SortFileHolder(files);
+        synchronized (files) {
+            files.add(file);
+            SortFileHolder(files);
+        }
         throwOnFileAdded(file.getFile());
     }
 

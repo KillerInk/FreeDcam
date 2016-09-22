@@ -20,11 +20,9 @@
 package freed.cam;
 
 
-import android.graphics.Bitmap;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -276,8 +274,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void onCameraUiWrapperRdy(CameraWrapperInterface cameraUiWrapper) {
         //note the ui that cameraFragment is loaded
         cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(this);
-        if (cameraUiWrapper.GetModuleHandler() != null)
-            cameraUiWrapper.GetModuleHandler().AddWorkFinishedListner(this);
         if (cameraUiFragment != null) {
             cameraUiFragment.SetCameraUIWrapper(cameraUiWrapper);
         }
@@ -465,35 +461,31 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void WorkHasFinished(final FileHolder fileHolder) {
         Logger.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
-        final Bitmap b = getBitmapHelper().getBitmap(fileHolder, true);
+        /*final Bitmap b = getBitmapHelper().getBitmap(fileHolder, true);
         if (b == null) {
             return;
         }
-        else {
-            AddFile(fileHolder);
+        else {*/
+        Logger.d(TAG,"WorkHasFinished:"+ fileHolder.getFile().getName());
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
 
+                    AddFile(fileHolder);
                     if (screenSlideFragment != null && activityIsResumed)
                         screenSlideFragment.NotifyDATAhasChanged();
                 }
             });
-        }
+        //}
     }
 
     private I_WorkEvent cacheImageRdy = new I_WorkEvent() {
         @Override
         public void WorkHasFinished(final FileHolder fileHolder) {
-            final Bitmap b = getBitmapHelper().getCacheBitmap(fileHolder, true);
-            if (b == null)
-                return;
-
-            new Handler(Looper.getMainLooper()).post(new Runnable()
-            {
+            runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    AddFile(fileHolder);
+                    Logger.d(TAG,"Cached Image Rdy:"+ fileHolder.getFile().getName());
                     if (screenSlideFragment != null && activityIsResumed)
                         screenSlideFragment.NotifyDATAhasChanged();
                 }

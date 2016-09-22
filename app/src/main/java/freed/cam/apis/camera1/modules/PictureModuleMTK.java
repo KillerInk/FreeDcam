@@ -30,7 +30,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
-import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
@@ -76,7 +75,7 @@ public class PictureModuleMTK extends PictureModule
             return;
         waitForPicture =false;
         Logger.d(TAG, "Take Picture CallBack");
-        FreeDPool.Execute(new Runnable() {
+        mBackgroundHandler.post(new Runnable() {
             @Override
             public void run()
             {
@@ -87,7 +86,7 @@ public class PictureModuleMTK extends PictureModule
                 switch (picformat) {
                     case KEYS.JPEG:
                         //savejpeg
-                        saveBytesToFile(data, holdFile);
+                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         try {
                             DeviceSwitcher().delete();
                         } catch (Exception ex) {
@@ -96,17 +95,16 @@ public class PictureModuleMTK extends PictureModule
                         break;
                     case FileEnding.DNG:
                         //savejpeg
-                        saveBytesToFile(data, holdFile);
+                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         CreateDNG_DeleteRaw();
                         break;
                     case FileEnding.BAYER:
                         //savejpeg
-                        saveBytesToFile(data, holdFile);
+                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         break;
                 }
                 waitForPicture = false;
                 cameraHolder.StartPreview();
-                scanAndFinishFile(holdFile);
                 isWorking = false;
                 changeCaptureState(CaptureStates.image_capture_stop);
             }
@@ -141,7 +139,6 @@ public class PictureModuleMTK extends PictureModule
         }
         File dng = new File(holdFile.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
         saveDng(data,dng);
-        scanAndFinishFile(dng);
         data = null;
         rawfile.delete();
     }

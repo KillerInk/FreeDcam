@@ -20,24 +20,17 @@
 package freed.cam.apis.basecamera.modules;
 
 
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
-import android.support.v4.provider.DocumentFile;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
-import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 15.08.2014.
@@ -53,6 +46,8 @@ public abstract class ModuleAbstract implements ModuleInterface
     protected AppSettingsManager appSettingsManager;
     protected CaptureStates currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;
+    private HandlerThread mBackgroundThread;
+    protected Handler mBackgroundHandler;
 
 
     public ModuleAbstract(CameraWrapperInterface cameraUiWrapper)
@@ -70,18 +65,17 @@ public abstract class ModuleAbstract implements ModuleInterface
     /**
      * throw this when camera starts working to notify ui
      */
-    protected void changeCaptureState(CaptureStates captureStates)
+    protected void changeCaptureState(final CaptureStates captureStates)
     {
         Logger.d(TAG, "work started");
         currentWorkState = captureStates;
-        if (captureStateChangedListner != null)
-            captureStateChangedListner.onCaptureStateChanged(captureStates);
-    }
-
-    protected void scanAndFinishFile(File file)
-    {
-        MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(),file);
-        cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if (captureStateChangedListner != null)
+                    captureStateChangedListner.onCaptureStateChanged(captureStates);
+            }
+        });
     }
 
     @Override
@@ -107,13 +101,17 @@ public abstract class ModuleAbstract implements ModuleInterface
     public void InitModule()
     {
         isWorking = false;
+        startBackgroundThread();
     }
 
     /**
      * this gets called when module gets unloaded reset the parameters that where set on InitModule
      */
     @Override
-    public abstract void DestroyModule();
+    public  void DestroyModule()
+    {
+        stopBackgroundThread();
+    }
 
     @Override
     public abstract String LongName();
@@ -121,77 +119,34 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public abstract String ShortName();
 
-    public void saveBytesToFile(byte[] bytes, File fileName)
-    {
-        Logger.d(TAG, "Start Saving Bytes");
-        OutputStream outStream = null;
-        try {
-            if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP&& !appSettingsManager.GetWriteExternal())
-            {
-                checkFileExists(fileName);
-                outStream = new FileOutputStream(fileName);
-            }
-            else
-            {
-                DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
-                Logger.d(TAG,"Filepath: " + df.getUri());
-                DocumentFile wr = df.createFile("image/*", fileName.getName());
-                Logger.d(TAG,"Filepath: " + wr.getUri());
-                outStream = cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri());
-            }
-            outStream.write(bytes);
-            outStream.flush();
-            outStream.close();
-
-
-        } catch (IOException e) {
-            Logger.exception(e);
-        }
-        Logger.d(TAG, "End Saving Bytes");
+    /**
+     * Starts a background thread and its {@link Handler}.
+     */
+    private void startBackgroundThread() {
+        mBackgroundThread = new HandlerThread("CameraBackground");
+        mBackgroundThread.start();
+        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
 
-    public void SaveBitmapToFile(Bitmap bitmap, File file)
+    /**
+     * Stops the background thread and its {@link Handler}.
+     */
+    private void stopBackgroundThread()
     {
-        OutputStream outStream = null;
-        boolean writetoExternalSD = appSettingsManager.GetWriteExternal();
-        Logger.d(TAG, "Write External " + writetoExternalSD);
-        if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || !writetoExternalSD && VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
-        {
-            try {
-                outStream= new FileOutputStream(file);
-                bitmap.compress(CompressFormat.JPEG, 100, outStream);
-                outStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if(mBackgroundThread == null)
+            return;
+        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR2) {
+            mBackgroundThread.quitSafely();
         }
         else
-        {
-            DocumentFile df =  cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
-            Logger.d(TAG,"Filepath: " + df.getUri());
-            DocumentFile wr = df.createFile("image/*", file.getName());
-            Logger.d(TAG,"Filepath: " + wr.getUri());
-            try {
-                outStream = cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri());
-                bitmap.compress(CompressFormat.JPEG, 100, outStream);
-                outStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            mBackgroundThread.quit();
+        try {
+            mBackgroundThread.join();
+            mBackgroundThread = null;
+            mBackgroundHandler = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
-    protected void checkFileExists(File fileName)
-    {
-        if (fileName.getParentFile() == null)
-            return;
-        if(!fileName.getParentFile().exists())
-            fileName.getParentFile().mkdirs();
-        if (!fileName.exists())
-            try {
-                fileName.createNewFile();
-            } catch (IOException e) {
-                Logger.exception(e);
-            }
-    }
 }

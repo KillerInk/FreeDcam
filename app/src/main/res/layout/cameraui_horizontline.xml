@@ -34,4 +34,12 @@
         android:layout_alignBottom="@+id/lineholder"
         android:layout_centerHorizontal="true"/>
 
+    <freed.cam.ui.themesample.cameraui.CompassDrawer
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:id="@+id/view_compass"
+        android:layout_below="@+id/lineholder"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible" />
+
 </RelativeLayout>

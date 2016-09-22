@@ -20,6 +20,7 @@
 package freed.cam.ui.themesample.cameraui;
 
 import android.content.Context;
+import android.graphics.Matrix;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -27,6 +28,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -67,6 +70,8 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     private final Handler handler = new Handler();
     private Handler sensorHandler;
     private final MySensorListener msl =new MySensorListener();
+    private CompassDrawer compassDrawer;
+
 
 
     @Override
@@ -86,6 +91,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        compassDrawer = (CompassDrawer)view.findViewById(id.view_compass);
 
         return view;
     }
@@ -174,7 +180,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
 
         public void onAccuracyChanged (Sensor sensor, int accuracy) {}
 
-        public void onSensorChanged(SensorEvent event) {
+        public void onSensorChanged(final SensorEvent event) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
                 mGravity = lowPass(event.values.clone(), mGravity);
             if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
@@ -185,25 +191,30 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
                 float[] I = new float[9];
                 boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
                 if (success) {
+                    //SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_X, SensorManager.AXIS_Z, R);
                     float[] orientation = new float[3];
                     SensorManager.getOrientation(R, orientation);
                     roll = orientation[1];
                     pitch = orientation[2];
                     rolldegree = roll * rad2deg;
                     pitchdegree = pitch * rad2deg;
+                    float or = ((float)Math.toDegrees(orientation[0])+360 +90)%360;
+                    compassDrawer.SetPosition(or);
                    // Logger.d("Sometag", String.valueOf(pitchdegree));
                 }
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if (RotateDegree != rolldegree) {
+                        lineImage.setRotation(((float)Math.toDegrees(roll)+360)%360);
+                        /*if (RotateDegree != rolldegree) {
+
                             RotateAnimation rotateAnimation = new RotateAnimation(RotateDegree, rolldegree, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                             //rotateAnimation.setInterpolator(lineImage.getContext(), android.R.interpolator.accelerate_decelerate);
                             rotateAnimation.setFillAfter(true);
-                            rotateAnimation.setDuration(400);
                             lineImage.startAnimation(rotateAnimation);
+
                             RotateDegree = rolldegree;
-                        }
+                        }*/
                         if (pitchdegree > -89) {
                             if(upImage.getVisibility() != View.VISIBLE)
                                 upImage.setVisibility(View.VISIBLE);

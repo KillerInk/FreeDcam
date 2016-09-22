@@ -40,7 +40,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.parameters.modes.StackModeParameter;
-import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 import freed.utils.ScriptField_MinMaxPixel;
@@ -161,19 +160,13 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     }
 
     private void saveImageToFile() {
+        changeCaptureState(CaptureStates.continouse_capture_work_stop);
         final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Config.ARGB_8888);
         renderScriptHandler.GetOut().copyTo(outputBitmap);
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                File stackedImg = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
-                SaveBitmapToFile(outputBitmap,stackedImg);
-                changeCaptureState(CaptureStates.continouse_capture_stop);
-                scanAndFinishFile(stackedImg);
-                isWorking = false;
-            }
-        });
-
+        File stackedImg = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
+        cameraUiWrapper.getActivityInterface().getImageSaver().SaveBitmapToFile(outputBitmap,stackedImg);
+        changeCaptureState(CaptureStates.cont_capture_stop_while_notworking);
+        isWorking = false;
         keepstacking =false;
     }
 
@@ -212,6 +205,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             renderScriptHandler.GetOut().setSurface(null);
             //mOutputAllocation = null;
         }
+        super.DestroyModule();
 
     }
 

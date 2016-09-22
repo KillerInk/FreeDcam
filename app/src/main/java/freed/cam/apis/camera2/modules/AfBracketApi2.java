@@ -63,11 +63,12 @@ public class AfBracketApi2 extends PictureModuleApi2
 
     @Override
     public void InitModule() {
+        super.InitModule();
         cameraUiWrapper.GetParameterHandler().Burst.SetValue(PICSTOTAKE-1);
         focuslength = parameterHandler.ManualFocus.getStringValues().length -1;
         focusStep =  focuslength/PICSTOTAKE;
         currentFocusPos = 1;
-        super.InitModule();
+
     }
 
 
@@ -101,6 +102,6 @@ public class AfBracketApi2 extends PictureModuleApi2
         if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
             cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
-        cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback);
+        cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback, mBackgroundHandler);
     }
 }

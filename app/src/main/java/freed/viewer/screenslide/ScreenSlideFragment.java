@@ -478,7 +478,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
             //if (position >= 0) {
                 // The current data matches the data in this active fragment, so let it be as it is.
             if (position == imageFragment.getPosition){
-                return position;
+                return PagerAdapter.POSITION_UNCHANGED;
             } else {
                 // Returning POSITION_NONE means the current data does not matches the data this fragment is showing right now.  Returning POSITION_NONE constant will force the fragment to redraw its view layout all over again and show new data.
                 return PagerAdapter.POSITION_NONE;

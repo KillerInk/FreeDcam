@@ -35,7 +35,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.parameters.modes.StackModeParameter;
-import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 import freed.utils.ScriptField_MinMaxPixel;
@@ -97,7 +96,7 @@ public class StackingModule extends PictureModule {
     @Override
     public void onPictureTaken(final byte[] data, Camera camera) {
         Logger.d(TAG, "Take Picture Callback");
-        FreeDPool.Execute(new Runnable() {
+        mBackgroundHandler.post(new Runnable() {
             @Override
             public void run() {
                 File f = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
@@ -119,17 +118,6 @@ public class StackingModule extends PictureModule {
     @Override
     public boolean IsWorking() {
         return isWorking;
-    }
-
-    @Override
-    public void InitModule()
-    {
-        super.InitModule();
-    }
-
-    @Override
-    public void DestroyModule(){
-
     }
 
     private void initRsStuff()
@@ -164,11 +152,9 @@ public class StackingModule extends PictureModule {
         //create file to save
         File f = new File(SessionFolder +cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFileDatedName(".jpg"));
         //save file
-        saveBytesToFile(data,f);
+        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(f,data);
         //add file for later stack
         capturedPics.add(f);
-        //Add file to media storage that its visible by mtp
-        scanAndFinishFile(f);
 
         isWorking = false;
         //notice ui/shutterbutton about the current workstate
@@ -200,10 +186,9 @@ public class StackingModule extends PictureModule {
             Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Config.ARGB_8888);
             cameraUiWrapper.getRenderScriptHandler().GetOut().copyTo(outputBitmap);
             File stackedImg = new File(SessionFolder + cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFileDatedName("_Stack.jpg"));
-            SaveBitmapToFile(outputBitmap,stackedImg);
+            cameraUiWrapper.getActivityInterface().getImageSaver().SaveBitmapToFile(outputBitmap,stackedImg);
             isWorking = false;
             changeCaptureState(CaptureStates.continouse_capture_stop);
-            scanAndFinishFile(stackedImg);
         }
     }
 

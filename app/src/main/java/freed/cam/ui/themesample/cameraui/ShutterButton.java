@@ -20,7 +20,14 @@
 package freed.cam.ui.themesample.cameraui;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
@@ -46,19 +53,61 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
     private final String TAG = ShutterButton.class.getSimpleName();
     private CaptureStates currentShow = CaptureStates.image_capture_stop;
     private boolean contshot;
+    private final Drawable shutterImage;
+    private final Paint transparent;
+    private Paint red;
+
+    //shutter_open_radius for the Transparent Radius to draw to simulate shutter open
+    private float shutter_open_radius = 0.0f;
+    //frames to draw
+    private final int MAXFRAMES = 5;
+    //holds the currentframe number
+    private int currentframe = 0;
+    //handler to call the animaiont frames
+    private Handler animationHandler = new Handler();
+    //size to calculate the shutter_open_step for Transparent shutter_open_radius aka shutteropen
+    private int size;
+    //the step wich the shutter_open_radius gets increased/decrased
+    private int shutter_open_step;
+    //true when the red recording button should get shown
+    private boolean drawRecordingImage =false;
+    //the size for the recrodingbutton to calc the shutter
+    private int recordingSize;
+
+    private int recordingRadiusCircle;
+    private int recordingRadiusRectangle;
 
     public ShutterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setBackgroundResource(R.drawable.shutter5);
+        shutterImage = getBackground();
+        transparent = new Paint();
+        transparent.setColor(Color.TRANSPARENT);
+        transparent.setStyle(Paint.Style.FILL);
+        transparent.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+        transparent.setAntiAlias(true);
         this.init();
     }
 
     public ShutterButton(Context context) {
         super(context);
+        setBackgroundResource(R.drawable.shutter5);
+        shutterImage = getBackground();
+        setBackgroundDrawable(null);
+        transparent = new Paint(Color.TRANSPARENT);
+        transparent.setStyle(Paint.Style.FILL);
+        transparent.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        transparent.setAntiAlias(true);
         this.init();
     }
 
     private void init()
     {
+        red = new Paint();
+        red.setColor(Color.RED);
+        red.setStyle(Paint.Style.FILL);
+        red.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+        red.setAntiAlias(true);
         this.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +121,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
 
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper, UserMessageHandler messageHandler)
     {
-        if (this.cameraUiWrapper == cameraUiWrapper || cameraUiWrapper.GetModuleHandler() == null)
+        if (cameraUiWrapper.GetModuleHandler() == null)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.GetModuleHandler().SetWorkListner(this);
@@ -86,57 +135,11 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
 
     private void switchBackground(final CaptureStates showstate, final boolean animate)
     {
-        this.post(new Runnable() {
-            @Override
-            public void run() {
-                ShutterButton.this.currentShow = showstate;
-                Logger.d(ShutterButton.this.TAG, "switchBackground:" + ShutterButton.this.currentShow);
-                switch (showstate)
-                {
-                    case video_recording_stop:
-                        ShutterButton.this.setBackgroundResource(R.drawable.video_recording_stop);
-                        break;
-                    case video_recording_start:
-                        ShutterButton.this.setBackgroundResource(R.drawable.video_recording_start);
-                        break;
-                    case image_capture_stop:
-                        ShutterButton.this.setBackgroundResource(R.drawable.shutteropenanimation);
-                        break;
-                    case image_capture_start:
-                        ShutterButton.this.setBackgroundResource(R.drawable.shuttercloseanimation);
-                        break;
-                    case continouse_capture_start:
-                        ShutterButton.this.setBackgroundResource(R.drawable.close_open_shutter_start_to_stop); // closed to opend shutter, set start to cancel
-                        break;
-                    case cont_capture_stop_while_working:
-                        ShutterButton.this.setBackgroundResource(R.drawable.alltime_open_shutter_stop_to_start); // opend shutter, set stop to start
-                        break;
-                    case cont_capture_stop_while_notworking:
-                        ShutterButton.this.setBackgroundResource(R.drawable.video_recording_stop); //closed shutter , set stop to start animation
-                        break;
-                    case continouse_capture_stop:
-                        ShutterButton.this.setBackgroundResource(R.drawable.open_close_shutter_stop_to_start);//close shutter animation and set stop to start button
-                        break;
-                    case continouse_capture_work_start:
-                        ShutterButton.this.setBackgroundResource(R.drawable.close_start_shutter_alltime_stop);//shows shutter open animation with stopbutton
-                        break;
-                    case continouse_capture_work_stop:
-                        ShutterButton.this.setBackgroundResource(R.drawable.start_close_shutter_alltime_stop);//shows shutter close animation with stopbutton
-                        break;
-
-
-                }
-                ShutterButton.this.shutterOpenAnimation = (AnimationDrawable) ShutterButton.this.getBackground();
-                if (animate) {
-                    if (ShutterButton.this.shutterOpenAnimation.isRunning()) {
-                        ShutterButton.this.shutterOpenAnimation.stop();
-                    }
-                    ShutterButton.this.shutterOpenAnimation.setOneShot(true);
-                    ShutterButton.this.shutterOpenAnimation.start();
-                }
-            }
-        });
-
+        if (currentShow != showstate) {
+            currentShow = showstate;
+            Logger.d(TAG, "switchBackground:" +currentShow);
+            startAnimation();
+        }
     }
 
     @Override
@@ -163,7 +166,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
                 }
                 else if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL)
                         || contshot || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_STACKING))
-                    switchBackground(CaptureStates.continouse_capture_start,false);
+                    switchBackground(CaptureStates.continouse_capture_stop,false);
 
             }
         });
@@ -213,4 +216,107 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
 
         }
     };
+
+
+
+    private void startAnimation()
+    {
+        //animationHandler.removeCallbacks(animationRunnable);
+        size = (getWidth()-100) /2;
+        shutter_open_step = (size) / MAXFRAMES;
+        recordingSize = getWidth()/4;
+        recordingRadiusCircle = recordingSize;
+        recordingRadiusRectangle = recordingSize;
+        currentframe = 0;
+        animationHandler.post(animationRunnable);
+    }
+
+    private Runnable animationRunnable = new Runnable() {
+        @Override
+        public void run() {
+            draw();
+            currentframe++;
+            if (currentframe < MAXFRAMES)
+                animationHandler.post(animationRunnable);
+        }
+    };
+
+    private void draw()
+    {
+        switch (currentShow) {
+            case video_recording_stop:
+                shutter_open_radius = 0;
+                recordingRadiusCircle +=currentframe;
+                recordingRadiusRectangle -= currentframe;
+                drawRecordingImage = true;
+                break;
+            case video_recording_start:
+                shutter_open_radius = 0;
+                recordingRadiusCircle -=currentframe;
+                recordingRadiusRectangle += currentframe;
+                drawRecordingImage = true;
+                break;
+            case image_capture_stop:
+                drawRecordingImage = false;
+                shutter_open_radius -= shutter_open_step;
+                break;
+            case image_capture_start:
+                drawRecordingImage = false;
+                shutter_open_radius += shutter_open_step;
+                break;
+            case continouse_capture_start:
+                drawRecordingImage = true;
+                if (shutter_open_radius <size)
+                    shutter_open_radius += shutter_open_step;
+                recordingRadiusCircle -=currentframe;
+                recordingRadiusRectangle += currentframe;
+                break;
+            case cont_capture_stop_while_working:
+                drawRecordingImage = true;
+                //shutter_open_radius += shutter_open_step;
+                recordingRadiusCircle +=currentframe;
+                recordingRadiusRectangle -= currentframe;
+                break;
+            case cont_capture_stop_while_notworking:
+                shutter_open_radius = 0;
+                recordingRadiusCircle +=currentframe;
+                recordingRadiusRectangle -= currentframe;
+                drawRecordingImage = true;
+                break;
+            case continouse_capture_stop:
+                recordingRadiusCircle +=currentframe;
+                recordingRadiusRectangle -= currentframe;
+                drawRecordingImage = true;
+                break;
+            case continouse_capture_work_start:
+                drawRecordingImage = true;
+                if (shutter_open_radius < size)
+                    shutter_open_radius += shutter_open_step;
+                break;
+            case continouse_capture_work_stop:
+                drawRecordingImage = true;
+                shutter_open_radius -= shutter_open_step;
+                break;
+        }
+        //Logger.d(TAG,"shutter_open:" + shutter_open_radius + " recCircle:" + recordingRadiusCircle + " recRect:" + recordingRadiusRectangle +  " captureState:" + currentShow);
+        invalidate();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas)
+    {
+        super.onDraw(canvas);
+        int halfSize = canvas.getWidth()/2;
+        shutterImage.draw(canvas);
+        canvas.drawCircle(halfSize,halfSize, shutter_open_radius, transparent);
+        if (drawRecordingImage)
+        {
+            canvas.drawCircle(halfSize,halfSize,recordingRadiusCircle/2, red);
+            int top = halfSize - recordingRadiusRectangle/2;
+            int bottom = halfSize + recordingRadiusRectangle/2;
+            int left = halfSize - recordingRadiusRectangle/2;
+            int right = halfSize + recordingRadiusRectangle/2;
+            canvas.drawRect(left,top,right,bottom,red);
+        }
+    }
 }

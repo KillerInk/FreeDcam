@@ -22,9 +22,11 @@ package freed.cam.ui.themesample.cameraui;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.Shader;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -39,7 +41,7 @@ import freed.utils.Logger;
  */
 public class RotatingSeekbar extends View
 {
-    private String[] Values = "Auto,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30,60,180".split(",");
+    private String[] Values = "Auto,1/100000,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30,60,180".split(",");
     private int currentValue = 3;
     private Paint paint;
     private int viewWidth;
@@ -65,6 +67,12 @@ public class RotatingSeekbar extends View
     //holds the position when user touched down
     private int startY;
     private boolean sliderMoving;
+    //paint object to draw the grandient to background
+    private Paint grandientPaint;
+    //draws from top to half view height transparent to black
+    private LinearGradient topToHalfGradient;
+    //draws from half view to bottom black to transparent
+    private LinearGradient halfToBottmGradient;
 
     private final int VISIBLE_ITEMS_INVIEW = 16;
 
@@ -93,6 +101,8 @@ public class RotatingSeekbar extends View
         paint.setStyle(Style.FILL);
         paint.setTextAlign(Align.RIGHT);
         textsize = (int) convertDpiToPixel(textsize);
+        grandientPaint = new Paint(Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
+
         setProgress(currentValue, false);
     }
 
@@ -112,6 +122,8 @@ public class RotatingSeekbar extends View
         super.onSizeChanged(w, h, oldw, oldh);
         viewWidth = w;
         viewHeight = h;
+        topToHalfGradient = new LinearGradient(0, 0, 0, viewHeight/2, Color.TRANSPARENT, Color.BLACK, Shader.TileMode.MIRROR);
+        halfToBottmGradient = new LinearGradient(0, viewHeight/2, 0, viewHeight, Color.BLACK, Color.TRANSPARENT, Shader.TileMode.MIRROR);
         //calculates the item height depending on view height and itemscount that should be visible
         itemHeight = viewHeight / VISIBLE_ITEMS_INVIEW;
         //calc how big the view is when all items would be drawn
@@ -132,6 +144,20 @@ public class RotatingSeekbar extends View
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
+        //draw grandient background
+        grandientPaint.setShader(topToHalfGradient);
+        canvas.drawPaint(grandientPaint);
+        grandientPaint.setShader(halfToBottmGradient);
+        canvas.drawPaint(grandientPaint);
+        paint.setStrokeWidth(10);
+        paint.setColor(textColor);
+        //draw outlines
+        canvas.drawLine(viewWidth -convertDpiToPixel(30), 0, viewWidth,0,paint);
+        canvas.drawLine(viewWidth -convertDpiToPixel(30), viewHeight, viewWidth,viewHeight,paint);
+        canvas.drawLine(viewWidth, 0, viewWidth,viewHeight,paint);
+        paint.setStrokeWidth(2);
+        canvas.drawLine(0, convertDpiToPixel(30), 0,viewHeight - convertDpiToPixel(30),paint);
+        paint.setStrokeWidth(10);
         paint.setColor(textColor);
         paint.setTextSize(textsize);
         for(int i = 0; i< Values.length; i++)
@@ -145,14 +171,14 @@ public class RotatingSeekbar extends View
                 paint.setAlpha(switchalpha(dif));
                 paint.setStrokeWidth(1);
                 int xpos = i * itemHeight + textsize + currentPosToDraw + itemHeight / 2 - textsize / 2;
-                canvas.drawLine(viewWidth - convertDpiToPixel(30), xpos - textsize / 2, viewWidth - 20, xpos - textsize / 2, paint);
+                canvas.drawLine(viewWidth - convertDpiToPixel(20), xpos - textsize / 2, viewWidth - 20, xpos - textsize / 2, paint);
                 if (null != val)
-                    canvas.drawText(val, viewWidth / 2, xpos, paint);
+                    canvas.drawText(val, viewWidth / 2 + convertDpiToPixel(10), xpos, paint);
             }
         }
         paint.setAlpha(255);
         paint.setStrokeWidth(10);
-        canvas.drawLine(viewWidth - convertDpiToPixel(20), viewHeight / 2 + itemHeight / 2, viewWidth, viewHeight / 2 + itemHeight / 2, paint);
+        canvas.drawLine(viewWidth - convertDpiToPixel(10), viewHeight / 2 + itemHeight / 2, viewWidth, viewHeight / 2 + itemHeight / 2, paint);
     }
 
     private int switchalpha(int pos)

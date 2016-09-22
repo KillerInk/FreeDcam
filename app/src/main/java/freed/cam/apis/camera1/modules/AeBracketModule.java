@@ -27,7 +27,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.utils.AppSettingsManager;
-import freed.utils.FreeDPool;
 import freed.utils.Logger;
 
 import static freed.utils.StringUtils.FileEnding.BAYER;
@@ -61,14 +60,20 @@ public class AeBracketModule extends PictureModuleMTK
     {
         if (!isWorking)
         {
-            hdrCount = 0;
-            setExposureToCamera();
-            try {
-                Thread.sleep(800);
-            } catch (InterruptedException e) {
-                Logger.exception(e);
-            }
-            super.DoWork();
+            mBackgroundHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    hdrCount = 0;
+                    setExposureToCamera();
+                    try {
+                        Thread.sleep(800);
+                    } catch (InterruptedException e) {
+                        Logger.exception(e);
+                    }
+                    AeBracketModule.super.DoWork();
+                }
+            });
+
         }
         return true;
     }
@@ -95,7 +100,7 @@ public class AeBracketModule extends PictureModuleMTK
     @Override
     public void onPictureTaken(final byte[] data, Camera camera)
     {
-        FreeDPool.Execute(new Runnable() {
+        mBackgroundHandler.post(new Runnable() {
             @Override
             public void run()
             {
@@ -111,7 +116,7 @@ public class AeBracketModule extends PictureModuleMTK
                 switch (picFormat) {
                     case KEYS.JPEG:
                         //savejpeg
-                        saveBytesToFile(data, holdFile);
+                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         try {
                             DeviceSwitcher().delete();
                         } catch (Exception ex) {
@@ -120,15 +125,14 @@ public class AeBracketModule extends PictureModuleMTK
                         break;
                     case DNG:
                         //savejpeg
-                        saveBytesToFile(data, holdFile);
+                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         CreateDNG_DeleteRaw();
                         break;
                     case BAYER:
                         //savejpeg
-                        saveBytesToFile(data, holdFile);
+                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         break;
                 }
-                scanAndFinishFile(holdFile);
                 cameraHolder.StartPreview();
                 if (hdrCount == 3)//handel normal capture
                 {
