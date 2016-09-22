@@ -31,7 +31,7 @@ import freed.dng.DngProfile;
 /**
  * Created by troop on 01.06.2016.
  */
-public class HTC_One_A9 extends BaseQcomDevice {
+public class HTC_One_A9 extends HTC_M8 {
 
     public HTC_One_A9(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
