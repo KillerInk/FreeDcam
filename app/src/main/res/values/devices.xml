@@ -183,12 +183,32 @@
     <string-array name="zteadv">
         <item>NX503A</item>
         <item>NX503J</item>
-        <item>NX403A</item>
         <item>NX501</item>
         <item>Z5s</item>
-        <item>Z5</item>
         <item>NX601J</item>
     </string-array>
+
+    <string-array name="ZTE_Z5SMni">
+    <item>NX403A</item>
+    </string-array>
+
+    <string-array name="ZTE_Z11">
+        <item>NX523J</item>
+        <item>NX523J_V0</item>
+        <item>NX523J_V1</item>
+        <item>NX523J_V2</item>
+        <item>NX523J_V3</item>
+        <item>NX5222</item>
+    </string-array>
+
+    <string-array name="ZTE_MyPrague">
+        <item>NX403A</item>
+    </string-array>
+
+    <string-array name="ZTE_Z5">
+        <item>Z5</item>
+    </string-array>
+
 
     <string-array name="zteadvIMX214">
         <item>NX505J</item>
