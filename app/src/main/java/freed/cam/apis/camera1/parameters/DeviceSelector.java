@@ -95,6 +95,8 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.YU.Yu_Yureka;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ADV;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ADV_IMX214;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ADV_IMX234;
+import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_Z11;
+import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_Z5SMINI;
 import freed.utils.Logger;
 
 /**
@@ -332,6 +334,10 @@ public class DeviceSelector {
                 
             case ZTEADV234:
                return new ZTE_ADV_IMX234(cameraParameters,cameraUiWrapper);
+            case ZTE_Z11:
+                return new ZTE_Z11(cameraParameters,cameraUiWrapper);
+            case ZTE_Z5SMINI:
+                return new ZTE_Z5SMINI(cameraParameters,cameraUiWrapper);
             case Zoppo_8speed:
                 return new Zoppo_8speed(cameraParameters,cameraUiWrapper);
             default:
