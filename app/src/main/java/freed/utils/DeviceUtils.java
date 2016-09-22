@@ -120,6 +120,10 @@ public class DeviceUtils
         ZTE_ADV,
         ZTEADVIMX214,
         ZTEADV234,
+        ZTE_Z11,
+        ZTE_Z9,
+        ZTE_Z5SMINI,
+        ZTE_MyPrague,
         Zoppo_8speed,
     }
 
@@ -314,6 +318,10 @@ public class DeviceUtils
             return Devices.MyPhone_Infinity2S;
         else if(isDevice(res.getStringArray(array.Sony_Z5C)))
             return Devices.Sony_Z5C;
+        else if(isDevice(res.getStringArray(array.ZTE_Z11)))
+            return Devices.ZTE_Z11;
+        else if(isDevice(res.getStringArray(array.ZTE_Z5SMni)))
+            return Devices.ZTE_Z5SMINI;
         else
             return Devices.UNKNOWN;
 
