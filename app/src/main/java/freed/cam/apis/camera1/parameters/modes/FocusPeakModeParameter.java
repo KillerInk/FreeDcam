@@ -23,6 +23,7 @@ import android.os.Build.VERSION;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 
 
@@ -53,6 +54,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
         }
         else
             focusPeakProcessorAp1.Enable(false);
+        ((Camera1Fragment)cameraUiWrapper).onModuleChanged("");
     }
 
     @Override
