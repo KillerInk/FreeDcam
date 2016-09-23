@@ -369,13 +369,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void closeActivity()
     {
-        if (cameraFragment.GetModuleHandler() != null) {
-            if (cameraFragment.GetModuleHandler().GetCurrentModule() != null) {
-                if (cameraFragment.GetModuleHandler().GetCurrentModule().IsWorking()) {
-                    return;
-                }
-            }
-        }
         finish();//moveTaskToBack(true);
     }
 

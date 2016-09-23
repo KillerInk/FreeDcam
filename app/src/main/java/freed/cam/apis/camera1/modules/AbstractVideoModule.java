@@ -93,7 +93,6 @@ public abstract class AbstractVideoModule extends ModuleAbstract
         if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
             cameraUiWrapper.GetCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         prepareRecorder();
-        changeCaptureState(CaptureStates.video_recording_start);
 
     }
 
@@ -133,7 +132,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract
                 Logger.d(TAG, "Recorder Prepared, Starting Recording");
                 recorder.start();
                 Logger.d(TAG, "Recording started");
-                cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
+                sendStartToUi();
 
             } catch (Exception e)
             {
@@ -141,12 +140,11 @@ public abstract class AbstractVideoModule extends ModuleAbstract
                 cameraUiWrapper.GetCameraHolder().SendUIMessage("Start Recording failed");
                 Logger.exception(e);
                 recorder.reset();
-                cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
                 isWorking = false;
                 ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
                 recorder.release();
                 isWorking = false;
-                changeCaptureState(CaptureStates.video_recording_stop);
+                sendStopToUi();
             }
         }
         catch (NullPointerException ex)
@@ -154,13 +152,25 @@ public abstract class AbstractVideoModule extends ModuleAbstract
             Logger.exception(ex);
             cameraUiWrapper.GetCameraHolder().SendUIMessage("Start Recording failed");
             recorder.reset();
-            cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             isWorking = false;
             ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
             recorder.release();
             isWorking = false;
-            changeCaptureState(CaptureStates.video_recording_stop);
+            sendStopToUi();
+
         }
+    }
+
+    private void sendStopToUi()
+    {
+        changeCaptureState(CaptureStates.video_recording_stop);
+        cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+    }
+
+    private void sendStartToUi()
+    {
+        cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
+        changeCaptureState(CaptureStates.video_recording_start);
     }
 
     protected abstract MediaRecorder initRecorder();
@@ -194,10 +204,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract
             }
             File file = new File(mediaSavePath);
             cameraUiWrapper.getActivityInterface().getImageSaver().scanFile(file);
-            cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
-
+            sendStopToUi();
         }
-        changeCaptureState(CaptureStates.video_recording_stop);
     }
 
     protected void setRecorderOutPutFile(String s)

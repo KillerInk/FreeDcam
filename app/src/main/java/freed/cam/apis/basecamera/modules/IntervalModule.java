@@ -81,12 +81,19 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
 
     @Override
     public void InitModule() {
+        picModule.InitModule();
+        picModule.SetCaptureStateChangedListner(this);
+    }
+
+    @Override
+    public void SetCaptureStateChangedListner(CaptureStateChanged captureStateChangedListner) {
+        super.SetCaptureStateChangedListner(captureStateChangedListner);
         picModule.SetCaptureStateChangedListner(this);
     }
 
     @Override
     public void DestroyModule() {
-
+        picModule.DestroyModule();
     }
 
     @Override
@@ -96,20 +103,27 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
         switch (captureStates)
         {
             case image_capture_stop:
-                Logger.d(TAG, "Work Finished");
                 if (isWorking)
                 {
-                    intervalHandler.DoNextInterval();
+                    Logger.d(TAG, "image_capture_stop Work Finished, Start nex Capture");
                     changeCaptureState(CaptureStates.continouse_capture_work_stop);
+                    intervalHandler.DoNextInterval();
+
                 }
                 else
                 {
-                    Logger.d(TAG, "changework to "+ CaptureStates.continouse_capture_stop);
-                    if (picModule.isWorking)
-                        changeCaptureState(CaptureStates.continouse_capture_stop);
-                    else
+                    if (picModule.isWorking) {
+                        Logger.d(TAG, "changework to "+ CaptureStates.continouse_capture_work_stop + " picmodule is working"+picModule.isWorking);
+                        changeCaptureState(CaptureStates.continouse_capture_work_stop);
+                    }
+                    else {
                         changeCaptureState(CaptureStates.cont_capture_stop_while_notworking);
+                        Logger.d(TAG, "changework to "+ CaptureStates.cont_capture_stop_while_notworking + " picmodule is working"+picModule.isWorking);
+                    }
                 }
+                break;
+            case image_capture_start:
+                changeCaptureState(CaptureStates.continouse_capture_work_start);
                 break;
 
         }

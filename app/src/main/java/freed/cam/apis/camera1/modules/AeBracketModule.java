@@ -58,23 +58,19 @@ public class AeBracketModule extends PictureModuleMTK
     @Override
     public boolean DoWork()
     {
-        if (!isWorking)
-        {
-            mBackgroundHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    hdrCount = 0;
-                    setExposureToCamera();
-                    try {
-                        Thread.sleep(800);
-                    } catch (InterruptedException e) {
-                        Logger.exception(e);
-                    }
-                    AeBracketModule.super.DoWork();
+        mBackgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                hdrCount = 0;
+                setExposureToCamera();
+                try {
+                    Thread.sleep(800);
+                } catch (InterruptedException e) {
+                    Logger.exception(e);
                 }
-            });
-
-        }
+                AeBracketModule.super.DoWork();
+            }
+        });
         return true;
     }
 
