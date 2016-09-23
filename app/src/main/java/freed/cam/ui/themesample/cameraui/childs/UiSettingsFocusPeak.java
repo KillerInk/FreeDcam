@@ -60,34 +60,21 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
         if (parameter == null)
             return;
         if (parameter.GetValue().equals(KEYS.ON)) {
-            try {
-                ClampRes(true);
-                parameter.SetValue(KEYS.OFF, false);
-            }
-            catch (Exception ex)
-            {
-                Logger.d("Freedcam", ex.getMessage());
-            }
+            parameter.SetValue(KEYS.OFF, false);
         }
         else{
-            ClampRes(false);
             parameter.SetValue(KEYS.ON,false);}
 
     }
 
-    private void ClampRes(boolean doClamp)
-    {
-        if(doClamp)
-            onParameterValueChanged("CLAMP");
-        else
-            onParameterValueChanged("RELEASE");
-    }
-
-
     @Override
     public void onModuleChanged(String module)
     {
-        if ((module.equals(KEYS.MODULE_PICTURE) || module.equals(KEYS.MODULE_HDR)|| module.equals(KEYS.MODULE_INTERVAL)) && parameter != null && parameter.IsSupported())
+        if ((module.equals(KEYS.MODULE_PICTURE)
+                || module.equals(KEYS.MODULE_HDR)
+                || module.equals(KEYS.MODULE_INTERVAL)
+        || module.equals(KEYS.MODULE_AFBRACKET))
+                && parameter != null && parameter.IsSupported())
             setVisibility(View.VISIBLE);
         else
             setVisibility(View.GONE);
