@@ -45,7 +45,7 @@ public class CompassDrawer extends View
     private float allitemsWidth;
     private final float TEXTSHADOWMARGINE = 3;
 
-    private String[] directionValue = { "N", "NE", "E","SE", "S", "SW", "W", "NW"};
+    private String[] directionValue = { "NW", "N", "NE", "E","SE", "S", "SW", "W"};
 
     /**
      * Simple constructor to use when creating a view from code.
@@ -96,7 +96,7 @@ public class CompassDrawer extends View
 
     public void SetPosition(final float pos)
     {
-        Logger.d(TAG, "SetPositon:" + pos);
+        //Logger.d(TAG, "SetPositon:" + pos);
         this.post(new Runnable() {
             @Override
             public void run() {
@@ -134,12 +134,12 @@ public class CompassDrawer extends View
 
     private float getItemCenter(float posTodraw)
     {
-        return posTodraw + itemwidth/2;
+        return posTodraw+ itemwidth;
     }
 
     private float getItemCenterMargine(float posTodraw)
     {
-        return posTodraw + itemwidth/2 +TEXTSHADOWMARGINE;
+        return posTodraw+ itemwidth +TEXTSHADOWMARGINE;
     }
 
     @Override
