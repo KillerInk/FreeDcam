@@ -118,45 +118,43 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public boolean DoWork()
     {
-        if (!isWorking)
-        {
-            Logger.d(TAG, "DoWork: start new progress");
-            TakePicture();
-        }
-        else
-            Logger.d(TAG, "DoWork: work is in progress");
+
+        Logger.d(TAG, "DoWork: start new progress");
+        mBackgroundHandler.post(TakePicture);
         return true;
     }
 
-    private void TakePicture()
+    private Runnable TakePicture = new Runnable()
     {
-        isWorking = true;
-        Logger.d(TAG, appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
-        Logger.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
-        // This is the CaptureRequest.Builder that we use to take a picture.
-        try {
-            captureBuilder = cameraHolder.createCaptureRequestStillCapture();
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
+        @Override
+        public void run() {
+            isWorking = true;
+            Logger.d(TAG, appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+            Logger.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
+            // This is the CaptureRequest.Builder that we use to take a picture.
+            try {
+                captureBuilder = cameraHolder.createCaptureRequestStillCapture();
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+            captureBuilder.addTarget(mImageReader.getSurface());
+
+            mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,mBackgroundHandler);
+
+            if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.TRUE) && cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
+                mState = STATE_WAIT_FOR_PRECAPTURE;
+                Logger.d(TAG,"Start AE Precapture");
+                startTimerLocked();
+                cameraHolder.StartAePrecapture(aecallback);
+            }
+            else
+            {
+                Logger.d(TAG, "captureStillPicture");
+                captureStillPicture();
+            }
         }
-        captureBuilder.addTarget(mImageReader.getSurface());
 
-        mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,mBackgroundHandler);
-
-        if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.TRUE) && cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
-            mState = STATE_WAIT_FOR_PRECAPTURE;
-            Logger.d(TAG,"Start AE Precapture");
-            startTimerLocked();
-            cameraHolder.StartAePrecapture(aecallback);
-        }
-        else
-        {
-            Logger.d(TAG, "captureStillPicture");
-            captureStillPicture();
-        }
-
-
-    }
+    };
 
     /**
      * Capture a still picture. This method should be called when we get a response in
