@@ -119,7 +119,7 @@ public class CompassDrawer extends View
         for(int i = 0; i < directionValue.length; i++)
         {
             float postodraw = itemwidth * i + width/2 + (int)positionRelativeToNorth * degreePerPixel;
-            if (postodraw + width/2 > allitemsWidth)
+            if (postodraw + width/2 > allitemsWidth + itemwidth)
                 postodraw -= allitemsWidth;
             paint.setColor(Color.BLACK);
             canvas.drawText(directionValue[i], getItemCenterMargine(postodraw), height/2 +TEXTSHADOWMARGINE, paint);
