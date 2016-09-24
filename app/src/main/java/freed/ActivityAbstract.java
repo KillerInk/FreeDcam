@@ -565,4 +565,9 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     public int getOrientation() {
         return 0;
     }
+
+    @Override
+    public void SetNightOverlay() {
+
+    }
 }

@@ -172,6 +172,7 @@ public class AppSettingsManager {
 
     public static final String SETTING_AFBRACKETMAX = "afbracketmax";
     public static final String SETTING_AFBRACKETMIN = "afbracketmin";
+    public static final String SETTINGS_NIGHTOVERLAY = "nighoverlay";
 
     private HashMap<String, String> appsettingsList;
 

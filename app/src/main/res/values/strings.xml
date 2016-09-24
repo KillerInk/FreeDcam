@@ -52,6 +52,8 @@
     <string name="setting_horizont_header">Image Level: </string>
     <string name="setting_focuspeak_description">Enables FocusPeak on the Preview</string>
     <string name="setting_focuspeak_header">Focuspeak: </string>
+    <string name="setting_nightoverlay_description">shows a red Overlay</string>
+    <string name="setting_nightoverlay_header">NightOverlay: </string>
     <string name="setting_orientation_header">Orientation Correction: </string>
     <string name="setting_orientation_description">Rotates the Camera 180° if ON</string>
     <string name="setting_sdcard_header">Storage Location: </string>

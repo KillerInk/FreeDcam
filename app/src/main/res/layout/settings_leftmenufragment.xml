@@ -395,6 +395,18 @@
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp" />
 
+                <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MenuItemNightOverlay"
+                    app:Description="@string/setting_nightoverlay_description"
+                    app:HeaderText="@string/setting_nightoverlay_header"
+                    app:ValueText="OFF"
+                    android:layout_marginBottom="1dp"
+                    android:visibility="gone"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp" />
+
                 <freed.cam.ui.themesample.settings.childs.SettingsChildMenuOrientationHack
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

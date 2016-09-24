@@ -42,19 +42,21 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/themeFragmentholder"
 
-        android:layout_alignParentLeft="true">
-    </LinearLayout>
 
     <freed.cam.ui.themesample.PagingView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/viewPager_fragmentHolder" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/nightoverlay"
 
+        android:layout_alignParentLeft="true"
+        android:background="#7fff0000"
+        android:visibility="gone">
+    </LinearLayout>
 </RelativeLayout>
