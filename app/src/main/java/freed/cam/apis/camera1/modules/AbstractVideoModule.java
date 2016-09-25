@@ -34,6 +34,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
@@ -110,6 +111,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {
                     Logger.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
+                    cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+                    changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
                 }
             });
 

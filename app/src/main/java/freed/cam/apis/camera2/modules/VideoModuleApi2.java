@@ -164,12 +164,28 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         recordingFile = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".mp4"));
         mediaRecorder = new MediaRecorder();
         mediaRecorder.reset();
+        mediaRecorder.setMaxFileSize(3037822976L); //~2.8 gigabyte
+        mediaRecorder.setMaxDuration(7200000); //2hours
         mediaRecorder.setOnErrorListener(new OnErrorListener() {
             @Override
             public void onError(MediaRecorder mr, int what, int extra) {
                 Logger.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
                 cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
                 changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+            }
+        });
+
+        mediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
+            @Override
+            public void onInfo(MediaRecorder mr, int what, int extra) {
+                if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED)
+                {
+                    recordnextFile(mr);
+                }
+                else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED)
+                {
+                    recordnextFile(mr);
+                }
             }
         });
 
@@ -183,27 +199,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         mediaRecorder.setVideoSource(VideoSource.SURFACE);
 
         mediaRecorder.setOutputFormat(OutputFormat.MPEG_4);
-        if (!appSettingsManager.GetWriteExternal()) {
-            mediaRecorder.setOutputFile(recordingFile.getAbsolutePath());
-        }
-        else
-        {
-            Uri uri = Uri.parse(appSettingsManager.GetBaseFolder());
-            DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
-            DocumentFile wr = df.createFile("*/*", recordingFile.getName());
-            ParcelFileDescriptor fileDescriptor = null;
-            try {
-                fileDescriptor = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-                mediaRecorder.setOutputFile(fileDescriptor.getFileDescriptor());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                try {
-                    fileDescriptor.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
+        setRecorderFilePath();
 
         mediaRecorder.setVideoEncodingBitRate(currentVideoProfile.videoBitRate);
         mediaRecorder.setVideoFrameRate(currentVideoProfile.videoFrameRate);
@@ -227,6 +223,41 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         cameraHolder.CaptureSessionH.AddSurface(recorderSurface,true);
 
         cameraHolder.CaptureSessionH.CreateCaptureSession(previewrdy);
+    }
+
+    private void setRecorderFilePath() {
+        if (!appSettingsManager.GetWriteExternal()) {
+            mediaRecorder.setOutputFile(recordingFile.getAbsolutePath());
+        }
+        else
+        {
+            Uri uri = Uri.parse(appSettingsManager.GetBaseFolder());
+            DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
+            DocumentFile wr = df.createFile("*/*", recordingFile.getName());
+            ParcelFileDescriptor fileDescriptor = null;
+            try {
+                fileDescriptor = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                mediaRecorder.setOutputFile(fileDescriptor.getFileDescriptor());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                try {
+                    fileDescriptor.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void recordnextFile(MediaRecorder mr) {
+        mr.stop();
+        setRecorderFilePath();
+        try {
+            mr.prepare();
+            mr.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private final StateCallback previewrdy = new StateCallback()
