@@ -97,11 +97,6 @@ public class VideoModuleG3 extends AbstractVideoModule
                     recorder.setCaptureRate(frame);
                     break;
             }
-            if (appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD")) {
-
-                recorder.setMaxFileSize(3037822976L);
-                recorder.setMaxDuration(7200000);
-            }
         }
         catch (IllegalStateException ex)
         {

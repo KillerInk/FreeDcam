@@ -42,7 +42,7 @@ import freed.utils.Logger;
 /**
  * Created by troop on 06.01.2016.
  */
-public abstract class AbstractVideoModule extends ModuleAbstract
+public abstract class AbstractVideoModule extends ModuleAbstract implements MediaRecorder.OnInfoListener
 {
     protected MediaRecorder recorder;
     protected String mediaSavePath;
@@ -104,6 +104,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract
             isWorking = true;
             ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().unlock();
             recorder = initRecorder();
+            recorder.setMaxFileSize(3037822976L); //~2.8 gigabyte
+            recorder.setMaxDuration(7200000); //2hours
             recorder.setOnErrorListener(new OnErrorListener() {
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {
@@ -114,6 +116,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract
             mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".mp4");
 
             setRecorderOutPutFile(mediaSavePath);
+            recorder.setOnInfoListener(this);
 
             if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
                 recorder.setOrientationHint(180);
@@ -231,5 +234,29 @@ public abstract class AbstractVideoModule extends ModuleAbstract
             }
         }
 
+    }
+
+    @Override
+    public void onInfo(MediaRecorder mr, int what, int extra) {
+        if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED)
+        {
+            recordnextFile(mr);
+        }
+        else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED)
+        {
+            recordnextFile(mr);
+        }
+    }
+
+    private void recordnextFile(MediaRecorder mr) {
+        mr.stop();
+        mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".mp4");
+        setRecorderOutPutFile(mediaSavePath);
+        try {
+            mr.prepare();
+            mr.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
