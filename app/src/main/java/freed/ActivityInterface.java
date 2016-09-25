@@ -83,6 +83,8 @@ public interface ActivityInterface extends I_WorkEvent
     LocationHandler getLocationHandler();
 
     int getOrientation();
+
+    void SetNightOverlay();
 }
 
 

@@ -49,22 +49,26 @@ public class PictureModuleMTK extends PictureModule
     @Override
     public boolean DoWork()
     {
-        if (!isWorking)
-        {
-            if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
-                cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
+        mBackgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                    cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
 
-            cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
-            Logger.d(TAG, "Start Take Picture");
-            waitForPicture = true;
-            if (cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(FileEnding.BAYER) || cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(FileEnding.DNG)) {
-                String timestamp = String.valueOf(System.currentTimeMillis());
-                cameraUiWrapper.GetParameterHandler().getDevice().Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
+                cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+                Logger.d(TAG, "Start Take Picture");
+                waitForPicture = true;
+                if (cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(FileEnding.BAYER) || cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(FileEnding.DNG)) {
+                    String timestamp = String.valueOf(System.currentTimeMillis());
+                    cameraUiWrapper.GetParameterHandler().getDevice().Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
+                }
+                isWorking = true;
+                changeCaptureState(CaptureStates.image_capture_start);
+                cameraHolder.TakePicture(PictureModuleMTK.this);
             }
-            isWorking = true;
-            changeCaptureState(CaptureStates.image_capture_start);
-            cameraHolder.TakePicture(this);
-        }
+        });
+
+
         return true;
     }
 

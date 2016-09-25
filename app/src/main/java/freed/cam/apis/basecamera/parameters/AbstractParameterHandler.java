@@ -33,6 +33,7 @@ import freed.cam.apis.basecamera.parameters.modes.IntervalDurationParameter;
 import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.cam.apis.camera1.parameters.device.I_Device;
 import freed.utils.AppSettingsManager;
@@ -145,6 +146,7 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface Focuspeak;
     public ModeParameterInterface Module;
     public ModeParameterInterface ZoomSetting;
+    public ModeParameterInterface NightOverlay;
     //public AbstractModeParameter PreviewZoom;
     public boolean isExposureAndWBLocked;
     private boolean isDngActive;
@@ -197,6 +199,7 @@ public abstract class AbstractParameterHandler
         IntervalShutterSleep = new IntervalShutterSleepParameter(cameraUiWrapper);
         Horizont = new Horizont();
         SdSaveLocation = new SDModeParameter(appSettingsManager);
+        NightOverlay = new NightOverlayParameter(cameraUiWrapper);
 
     }
 
@@ -264,6 +267,7 @@ public abstract class AbstractParameterHandler
         setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
         setMode(matrixChooser, AppSettingsManager.SETTTING_CUSTOMMATRIX);
         setMode(imageStackMode,AppSettingsManager.SETTING_STACKMODE);
+        setMode(NightOverlay,AppSettingsManager.SETTINGS_NIGHTOVERLAY);
 
         //setMode(PreviewZoom, AppSettingsManager.SETTINGS_PREVIEWZOOM);
 

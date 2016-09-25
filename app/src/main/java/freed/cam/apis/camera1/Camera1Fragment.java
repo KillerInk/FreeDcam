@@ -297,7 +297,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
-                if(val.equals("CLAMP")) {
+                if(val.equals(KEYS.ON)) {
                      size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
                 }
                 else {
@@ -441,7 +441,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     @Override
     public void onModuleChanged(String module)
     {
-        onPreviewSizeShouldChange.onParameterValueChanged("");
+        onPreviewSizeShouldChange.onParameterValueChanged(parametersHandler.Focuspeak.GetValue());
     }
 
     @Override

@@ -31,6 +31,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
@@ -99,6 +100,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     private SecureCamera mSecureCamera = new SecureCamera(this);
 
+    private LinearLayout nightoverlay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +117,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //load the camera ui
         mPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-
+        nightoverlay = (LinearLayout) findViewById(id.nightoverlay);
         createHandlers();
     }
 
@@ -198,6 +201,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             //check if DEBUG folder exist for log to file
             checkSaveLogToFile();
             LoadFreeDcamDCIMDirsFiles();
+
         }
         //listen to phone orientation changes
         orientationHandler = new OrientationHandler(this, this);
@@ -369,13 +373,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void closeActivity()
     {
-        if (cameraFragment.GetModuleHandler() != null) {
-            if (cameraFragment.GetModuleHandler().GetCurrentModule() != null) {
-                if (cameraFragment.GetModuleHandler().GetCurrentModule().IsWorking()) {
-                    return;
-                }
-            }
-        }
         finish();//moveTaskToBack(true);
     }
 
@@ -559,5 +556,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             else
                 ((SonyCameraFragment)cameraFragment).startWifiScanning();
         }
+    }
+
+    @Override
+    public void SetNightOverlay() {
+        if (getAppSettings().getBoolean(AppSettingsManager.SETTINGS_NIGHTOVERLAY, false))
+            nightoverlay.setVisibility(View.VISIBLE);
+        else
+            nightoverlay.setVisibility(View.GONE);
     }
 }

@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.TabHost;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
@@ -45,6 +46,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.utils.AppSettingsManager;
+import freed.utils.Logger;
 
 /**
  * Created by Ar4eR on 15.01.16.
@@ -56,21 +58,22 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     private ImageView lineImage;
     private ImageView upImage;
     private ImageView downImage;
-    private float RotateDegree;
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private Sensor magnetometer;
     private float[] mGravity;
     private float[] mGeomagnetic;
-    private float roll;
-    private float pitch;
     private float rolldegree;
     private float pitchdegree;
-    private final float rad2deg = (float)(180.0f/Math.PI);
     private final Handler handler = new Handler();
     private Handler sensorHandler;
     private final MySensorListener msl =new MySensorListener();
     private CompassDrawer compassDrawer;
+    private String TAG = HorizontLineFragment.class.getSimpleName();
+    float[] orientation = new float[3];
+    float yaw;
+    float[] R = new float[9];
+    float[] I = new float[9];
 
 
 
@@ -139,8 +142,8 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     private void startSensorListing()
     {
         if (fragment_activityInterface.getAppSettings().getString(AppSettingsManager.SETTING_HORIZONT).equals("On")) {
-            sensorManager.registerListener(msl, accelerometer, 1000000, sensorHandler);
-            sensorManager.registerListener(msl, magnetometer, 1000000, sensorHandler);
+            sensorManager.registerListener(msl, accelerometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
+            sensorManager.registerListener(msl, magnetometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
         }
     }
 
@@ -173,7 +176,6 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
 
             for ( int i=0; i<input.length; i++ ) {
                 output[i] = input[i] * ALPHA + output[i] * (1.0f - ALPHA);
-                //output[i] = output[i] + ALPHA * (input[i] - output[i]);
             }
             return output;
         }
@@ -182,58 +184,50 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
 
         public void onSensorChanged(final SensorEvent event) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-                mGravity = lowPass(event.values.clone(), mGravity);
-            if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
-                mGeomagnetic = event.values.clone();
+                mGravity =lowPass( event.values.clone(), mGravity);
+            else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+                mGeomagnetic = lowPass(event.values.clone(), mGeomagnetic);
             if (mGravity != null && mGeomagnetic != null) {
-                //hltheard.run();
-                float[] R = new float[9];
-                float[] I = new float[9];
                 boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
                 if (success) {
-                    //SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_X, SensorManager.AXIS_Z, R);
-                    float[] orientation = new float[3];
-                    SensorManager.getOrientation(R, orientation);
-                    roll = orientation[1];
-                    pitch = orientation[2];
-                    rolldegree = roll * rad2deg;
-                    pitchdegree = pitch * rad2deg;
-                    float or = ((float)Math.toDegrees(orientation[0])+360 +90)%360;
-                    compassDrawer.SetPosition(or);
-                   // Logger.d("Sometag", String.valueOf(pitchdegree));
+                    SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_X, SensorManager.AXIS_MINUS_Y, I);
+                    SensorManager.getOrientation(I, orientation);
+                    rolldegree = get360Degrees(orientation[1]);
+                    pitchdegree = (float) Math.toDegrees(orientation[2]);
+                    yaw = get360Degrees(orientation[0]);
+                    updateUi(pitchdegree, rolldegree, -yaw);
                 }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        lineImage.setRotation(((float)Math.toDegrees(roll)+360)%360);
-                        /*if (RotateDegree != rolldegree) {
-
-                            RotateAnimation rotateAnimation = new RotateAnimation(RotateDegree, rolldegree, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                            //rotateAnimation.setInterpolator(lineImage.getContext(), android.R.interpolator.accelerate_decelerate);
-                            rotateAnimation.setFillAfter(true);
-                            lineImage.startAnimation(rotateAnimation);
-
-                            RotateDegree = rolldegree;
-                        }*/
-                        if (pitchdegree > -89) {
-                            if(upImage.getVisibility() != View.VISIBLE)
-                                upImage.setVisibility(View.VISIBLE);
-                            downImage.setVisibility(View.GONE);
-                        }
-                        else if (pitchdegree < -91) {
-                            upImage.setVisibility(View.GONE);
-                            if(downImage.getVisibility() != View.VISIBLE)
-                                downImage.setVisibility(View.VISIBLE);
-                        }
-                        else if (pitchdegree >= -91 && pitchdegree <= -89) {
-                            upImage.setVisibility(View.GONE);
-                            downImage.setVisibility(View.GONE);
-                        }
-                    }
-                });
-
-
             }
         }
+    }
+
+    private float get360Degrees(float input)
+    {
+        return ((float) Math.toDegrees(input) +360) %360;
+    }
+
+    private void updateUi(final float pitch,final  float roll,final float yaw)
+    {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                    compassDrawer.SetPosition(yaw);
+                    lineImage.setRotation(roll);
+                if (pitchdegree > -89) {
+                    if(upImage.getVisibility() != View.VISIBLE)
+                        upImage.setVisibility(View.VISIBLE);
+                    downImage.setVisibility(View.GONE);
+                }
+                else if (pitchdegree < -91) {
+                    upImage.setVisibility(View.GONE);
+                    if(downImage.getVisibility() != View.VISIBLE)
+                        downImage.setVisibility(View.VISIBLE);
+                }
+                else if (pitchdegree >= -91 && pitchdegree <= -89) {
+                    upImage.setVisibility(View.GONE);
+                    downImage.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 }

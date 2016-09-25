@@ -65,6 +65,8 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
     private int currentframe = 0;
     //handler to call the animaiont frames
     private Handler animationHandler = new Handler();
+
+    private Handler drawingLock = new Handler();
     //size to calculate the shutter_open_step for Transparent shutter_open_radius aka shutteropen
     private int size;
     //the step wich the shutter_open_radius gets increased/decrased
@@ -138,7 +140,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
         if (currentShow != showstate) {
             currentShow = showstate;
             Logger.d(TAG, "switchBackground:" +currentShow);
-            startAnimation();
+            drawingLock.post(startAnimation);
         }
     }
 
@@ -219,17 +221,19 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
 
 
 
-    private void startAnimation()
-    {
-        //animationHandler.removeCallbacks(animationRunnable);
-        size = (getWidth()-100) /2;
-        shutter_open_step = (size) / MAXFRAMES;
-        recordingSize = getWidth()/4;
-        recordingRadiusCircle = recordingSize;
-        recordingRadiusRectangle = recordingSize;
-        currentframe = 0;
-        animationHandler.post(animationRunnable);
-    }
+    private Runnable startAnimation = new Runnable() {
+        @Override
+        public void run() {
+            //animationHandler.removeCallbacks(animationRunnable);
+            size = (getWidth()-100) /2;
+            shutter_open_step = (size) / MAXFRAMES;
+            recordingSize = getWidth()/4;
+            recordingRadiusCircle = recordingSize;
+            recordingRadiusRectangle = recordingSize;
+            currentframe = 0;
+            animationHandler.post(animationRunnable);
+        }
+    };
 
     private Runnable animationRunnable = new Runnable() {
         @Override

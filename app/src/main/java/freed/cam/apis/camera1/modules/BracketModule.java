@@ -60,38 +60,40 @@ public class BracketModule extends PictureModule
     @Override
     public boolean DoWork()
     {
-        if (!isWorking)
-        {
-            if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
-                cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
-            files = new File[3];
-            hdrCount = 0;
-            String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
-            if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
-            {
-                if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported()
-                        && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on")
-                        && ((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
-                    cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
-            }
-            changeCaptureState(CaptureStates.image_capture_start);
-            waitForPicture = true;
-            loade_ae_bracket();
-            if (aeBrackethdr && cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(KEYS.JPEG))
-            {
-                cameraHolder.TakePicture(aeBracketCallback);
-            }
-            else
-            {
-                setExposureToCamera();
-                try {
-                    Thread.sleep(800);
-                } catch (InterruptedException e) {
-                    Logger.exception(e);
+        mBackgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                    cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
+                files = new File[3];
+                hdrCount = 0;
+                String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
+                if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
+                {
+                    if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported()
+                            && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on")
+                            && ((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
+                        cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
                 }
-                cameraHolder.TakePicture(this);
+                changeCaptureState(CaptureStates.image_capture_start);
+                waitForPicture = true;
+                loade_ae_bracket();
+                if (aeBrackethdr && cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(KEYS.JPEG))
+                {
+                    cameraHolder.TakePicture(aeBracketCallback);
+                }
+                else
+                {
+                    setExposureToCamera();
+                    try {
+                        Thread.sleep(800);
+                    } catch (InterruptedException e) {
+                        Logger.exception(e);
+                    }
+                    cameraHolder.TakePicture(BracketModule.this);
+                }
             }
-        }
+        });
         return true;
     }
 

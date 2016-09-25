@@ -35,9 +35,6 @@ import freed.utils.DeviceUtils.Devices;
 import freed.utils.Logger;
 import freed.utils.StringUtils.FileEnding;
 
-
-
-
 /**
  * Created by troop on 15.08.2014.
  */
@@ -77,38 +74,33 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     public boolean DoWork()
     {
         Logger.d(this.TAG, "DoWork:isWorking:"+ isWorking);
-        if (!isWorking)
-        {
-            mBackgroundHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    isWorking = true;
-                    String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
-                    Logger.d(TAG,"DoWork:picformat:" + picformat);
-                    if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
+        mBackgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                isWorking = true;
+                String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
+                Logger.d(TAG,"DoWork:picformat:" + picformat);
+                if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
+                {
+                    if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported()
+                            && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on") && ((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
                     {
-                        if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported()
-                                && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on") && ((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
-                        {
-                            Logger.d(TAG,"ZSL is on turning it off");
-                            cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
-                            Logger.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.GetParameterHandler().ZSL.GetValue());
-                        }
+                        Logger.d(TAG,"ZSL is on turning it off");
+                        cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
+                        Logger.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.GetParameterHandler().ZSL.GetValue());
                     }
-                    cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
-                    changeCaptureState(CaptureStates.image_capture_start);
-                    waitForPicture = true;
-                    burstcount = 0;
-                    if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
-                        cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
-                    cameraHolder.TakePicture(PictureModule.this);
-                    Logger.d(TAG,"TakePicture");
                 }
-            });
-
-        }
+                cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+                changeCaptureState(CaptureStates.image_capture_start);
+                waitForPicture = true;
+                burstcount = 0;
+                if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                    cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
+                cameraHolder.TakePicture(PictureModule.this);
+                Logger.d(TAG,"TakePicture");
+            }
+        });
         return true;
-
     }
 
     @Override

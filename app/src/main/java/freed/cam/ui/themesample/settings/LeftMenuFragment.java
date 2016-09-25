@@ -31,6 +31,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.camera1.Camera1Fragment;
+import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
@@ -95,6 +96,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     private SettingsChildMenu matrixChooser;
 
     private SettingsChildMenu imageStackMode;
+    private SettingsChildMenu nightoverlay;
 
     private SettingsChildClick onMenuItemClick;
 
@@ -156,6 +158,8 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         matrixChooser = (SettingsChildMenu)view.findViewById(id.MenuItemMatrixChooser);
 
         imageStackMode = (SettingsChildMenu)view.findViewById(id.MenuItemImageStack);
+
+        nightoverlay = (SettingsChildMenu)view.findViewById(id.MenuItemNightOverlay);
         setCameraUiWrapperToUi();
         return view;
     }
@@ -242,7 +246,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             timeLapseFrames.SetStuff(fragment_activityInterface.getAppSettings());
             videoProfileEditor.setVisibility(View.VISIBLE);
         }
-        else if (cameraUiWrapper instanceof Camera1Fragment)
+        else if (cameraUiWrapper instanceof Camera2Fragment)
         {
             timeLapseFrames.setVisibility(View.GONE);
             videoProfileEditor.setVisibility(View.VISIBLE);
@@ -310,6 +314,10 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         imageStackMode.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_STACKMODE);
         imageStackMode.SetParameter(cameraUiWrapper.GetParameterHandler().imageStackMode);
         imageStackMode.SetUiItemClickListner(this);
+
+        nightoverlay.SetUiItemClickListner(this);
+        nightoverlay.SetStuff(fragment_activityInterface, AppSettingsManager.SETTINGS_NIGHTOVERLAY);
+        nightoverlay.SetParameter(cameraUiWrapper.GetParameterHandler().NightOverlay);
     }
 
     public void SetMenuItemClickListner(SettingsChildClick menuItemClick)
