@@ -22,6 +22,7 @@ package freed.viewer.dngconvert;
 import android.R.layout;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build.VERSION;
@@ -88,7 +89,7 @@ public class DngConvertingFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
-        appSettingsManager = new AppSettingsManager(getContext());
+        appSettingsManager = new AppSettingsManager(getActivity().getPreferences(Context.MODE_PRIVATE));
         if (appSettingsManager.getDevice() == null)
             appSettingsManager.SetDevice(new DeviceUtils().getDevice(getResources()));
         handler = new Handler();

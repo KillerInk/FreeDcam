@@ -267,7 +267,7 @@ public abstract class AbstractParameterHandler
         setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
         setMode(matrixChooser, AppSettingsManager.SETTTING_CUSTOMMATRIX);
         setMode(imageStackMode,AppSettingsManager.SETTING_STACKMODE);
-        setMode(NightOverlay,AppSettingsManager.SETTINGS_NIGHTOVERLAY);
+        //setMode(NightOverlay,AppSettingsManager.SETTINGS_NIGHTOVERLAY);
 
         //setMode(PreviewZoom, AppSettingsManager.SETTINGS_PREVIEWZOOM);
 

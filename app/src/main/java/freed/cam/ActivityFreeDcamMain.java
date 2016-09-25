@@ -149,6 +149,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             screenSlideFragment.NotifyDATAhasChanged();
         if (getAppSettings().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON) && hasLocationPermission())
             locationHandler.startLocationListing();
+        SetNightOverlay();
     }
 
     @Override

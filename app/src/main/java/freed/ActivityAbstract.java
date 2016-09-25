@@ -99,7 +99,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Logger.d(TAG, "createHandlers()");
-        appSettingsManager = new AppSettingsManager(getApplicationContext());
+        appSettingsManager = new AppSettingsManager(getPreferences(MODE_PRIVATE));
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         fileListners =  new ArrayList<>();
         storageHandler = new StorageFileHandler(this);
@@ -120,13 +120,6 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     protected void onPause()
     {
         super.onPause();
-        try {
-            appSettingsManager.SaveAppSettings();
-        }
-        catch (NullPointerException ex)
-        {
-            ex.printStackTrace();
-        }
     }
 
     private void HIDENAVBAR()
