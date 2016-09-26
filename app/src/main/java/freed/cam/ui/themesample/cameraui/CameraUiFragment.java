@@ -151,8 +151,12 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         horizontLineFragment.setCameraUiWrapper(cameraUiWrapper);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         shutterButton.setVisibility(View.VISIBLE);
+        //restore view state for the manuals
         if(manualsettingsIsOpen)
             manualModes_holder.setVisibility(View.VISIBLE);
+        //remove the values fragment from ui when a new api gets loaded and it was open.
+        if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
+            removeHorizontalFragment();
     }
 
     @Override
@@ -279,7 +283,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onResume() {
         super.onResume();
-        //setCameraUiWrapperToUi();
         infoOverlayHandler.StartUpdating();
     }
 
