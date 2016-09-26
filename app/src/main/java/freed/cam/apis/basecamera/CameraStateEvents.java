@@ -24,7 +24,7 @@ import freed.cam.apis.basecamera.modules.ModuleInterface;
 /**
  * Created by troop on 17.12.2014.
  */
-public interface CameraWrapperEvent
+public interface CameraStateEvents
 {
     /**
      * gets thrown when camera starts open

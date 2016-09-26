@@ -111,7 +111,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
 
         if (Build.VERSION.SDK_INT >= 18) {
             focusPeakProcessorAp1 = new FocusPeakProcessorAp1(preview,this, getContext(), renderScriptHandler);
-            SetCameraChangedListner(focusPeakProcessorAp1);
+            SetCameraStateChangedListner(focusPeakProcessorAp1);
         }
         else
             preview.setVisibility(View.GONE);
@@ -121,6 +121,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(this);
         super.onViewCreated(view, savedInstanceState);
     }
+
+
 
     private boolean hasLGFramework()
     {
