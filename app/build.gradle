@@ -9,8 +9,8 @@ android {
             storePassword 'freedcam'
         }
     }
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion '24.0.2'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
