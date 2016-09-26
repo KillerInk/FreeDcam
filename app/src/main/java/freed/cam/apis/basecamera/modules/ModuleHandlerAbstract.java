@@ -80,7 +80,6 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();
         moduleChangedListner = new ArrayList<>();
-//        WorkFinishedListners = new ArrayList<>();
         RecorderStateListners = new ArrayList<>();
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
         onCaptureStateChangedListners = new ArrayList<>();

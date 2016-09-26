@@ -95,7 +95,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     }
 
     /**
-     * this gets called when the module gets loaded. set here specific paramerters that are needed by the module
+     * this gets called when the module gets loaded. set here specific parameters that are needed by the module
      */
     @Override
     public void InitModule()

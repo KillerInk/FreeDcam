@@ -40,7 +40,6 @@ public class ValuesMenuFragment extends Fragment implements ListView.OnItemClick
 {
     private String[] item;
     private ListView listView;
-    View view;
     private CloseChildClick _closeChildClick;
 
     @Override
