@@ -23,6 +23,7 @@ import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnErrorListener;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 
@@ -50,8 +51,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     private final String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
 
-    public AbstractVideoModule(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public AbstractVideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_VIDEO;
     }
 

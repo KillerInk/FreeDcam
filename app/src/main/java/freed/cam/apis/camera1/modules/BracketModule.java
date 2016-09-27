@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
+import android.os.Handler;
 
 import java.io.File;
 
@@ -46,8 +47,8 @@ public class BracketModule extends PictureModule
     boolean isManualExpo;
     int ogExpoValue;
 
-    public BracketModule(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public BracketModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_HDR;
     }
 

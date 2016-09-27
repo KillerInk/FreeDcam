@@ -24,6 +24,7 @@ import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioSource;
 import android.media.MediaRecorder.OutputFormat;
 import android.media.MediaRecorder.VideoSource;
+import android.os.Handler;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -43,8 +44,8 @@ public class VideoModule extends AbstractVideoModule
     private final String TAG = VideoModule.class.getSimpleName();
     private VideoMediaProfile currentProfile;
 
-    public VideoModule(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public VideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
     }
 
 

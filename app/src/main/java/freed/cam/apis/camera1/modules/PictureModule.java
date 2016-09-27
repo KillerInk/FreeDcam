@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
+import android.os.Handler;
 
 import java.io.File;
 
@@ -47,9 +48,9 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     protected boolean waitForPicture;
 
 
-    public PictureModule(CameraWrapperInterface cameraUiWrapper)
+    public PictureModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler)
     {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_PICTURE;
         this.cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
     }

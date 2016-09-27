@@ -21,6 +21,7 @@ package freed.cam.apis.sonyremote.modules;
 
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
+import android.os.Handler;
 import android.support.v4.provider.DocumentFile;
 
 import java.io.BufferedInputStream;
@@ -47,8 +48,8 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     private final String TAG = PictureModuleSony.class.getSimpleName();
     private final CameraHolderSony cameraHolder;
 
-    public PictureModuleSony(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public PictureModuleSony(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_PICTURE;
         cameraHolder = (CameraHolderSony)cameraUiWrapper.GetCameraHolder();
 

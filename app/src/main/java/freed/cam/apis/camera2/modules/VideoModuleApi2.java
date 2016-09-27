@@ -31,6 +31,7 @@ import android.media.MediaRecorder.OutputFormat;
 import android.media.MediaRecorder.VideoSource;
 import android.net.Uri;
 import android.os.Build.VERSION_CODES;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 import android.util.Size;
@@ -65,8 +66,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     private MediaRecorder mediaRecorder;
 
-    public VideoModuleApi2( CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public VideoModuleApi2( CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_VIDEO;
     }
 

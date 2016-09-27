@@ -23,6 +23,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.os.Handler;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.Type.Builder;
@@ -49,8 +50,8 @@ public class StackingModule extends PictureModule {
     private String SessionFolder="";
     private List<File> capturedPics;
 
-    public StackingModule(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public StackingModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_STACKING;
     }
 

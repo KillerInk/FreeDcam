@@ -46,14 +46,14 @@ public abstract class ModuleAbstract implements ModuleInterface
     protected AppSettingsManager appSettingsManager;
     protected CaptureStates currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;
-    private HandlerThread mBackgroundThread;
     protected Handler mBackgroundHandler;
 
 
-    public ModuleAbstract(CameraWrapperInterface cameraUiWrapper)
+    public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
+        this.mBackgroundHandler = mBackgroundHandler;
 
     }
 
@@ -101,7 +101,6 @@ public abstract class ModuleAbstract implements ModuleInterface
     public void InitModule()
     {
         isWorking = false;
-        startBackgroundThread();
     }
 
     /**
@@ -110,7 +109,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public  void DestroyModule()
     {
-        stopBackgroundThread();
+
     }
 
     @Override
@@ -119,34 +118,6 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public abstract String ShortName();
 
-    /**
-     * Starts a background thread and its {@link Handler}.
-     */
-    private void startBackgroundThread() {
-        mBackgroundThread = new HandlerThread("CameraBackground");
-        mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-    }
 
-    /**
-     * Stops the background thread and its {@link Handler}.
-     */
-    private void stopBackgroundThread()
-    {
-        if(mBackgroundThread == null)
-            return;
-        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR2) {
-            mBackgroundThread.quitSafely();
-        }
-        else
-            mBackgroundThread.quit();
-        try {
-            mBackgroundThread.join();
-            mBackgroundThread = null;
-            mBackgroundHandler = null;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
 }

@@ -57,46 +57,46 @@ public class ModuleHandler extends ModuleHandlerAbstract
         if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
         {
             Logger.d(TAG, "load mtk picmodule");
-            PictureModuleMTK thl5000 = new PictureModuleMTK(cameraUiWrapper);
+            PictureModuleMTK thl5000 = new PictureModuleMTK(cameraUiWrapper,mBackgroundHandler);
             moduleList.put(thl5000.ModuleName(), thl5000);
-            IntervalModule intervalModule = new IntervalModule(thl5000, cameraUiWrapper);
+            IntervalModule intervalModule = new IntervalModule(thl5000, cameraUiWrapper,mBackgroundHandler);
             moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
         else//else //use default pictureModule
         {
             Logger.d(TAG, "load default picmodule");
-            PictureModule pictureModule = new PictureModule(cameraUiWrapper);
+            PictureModule pictureModule = new PictureModule(cameraUiWrapper,mBackgroundHandler);
             moduleList.put(pictureModule.ModuleName(), pictureModule);
-            IntervalModule intervalModule = new IntervalModule(pictureModule, cameraUiWrapper);
+            IntervalModule intervalModule = new IntervalModule(pictureModule, cameraUiWrapper,mBackgroundHandler);
             moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
 
         if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.LG)
         {
             Logger.d(TAG, "load lg videomodule");
-            VideoModuleG3 videoModuleG3 = new VideoModuleG3(cameraUiWrapper);
+            VideoModuleG3 videoModuleG3 = new VideoModuleG3(cameraUiWrapper,mBackgroundHandler);
             moduleList.put(videoModuleG3.ModuleName(), videoModuleG3);
         }
         else
         {
             Logger.d(TAG, "load default videomodule");
-            VideoModule videoModule = new VideoModule(cameraUiWrapper);
+            VideoModule videoModule = new VideoModule(cameraUiWrapper,mBackgroundHandler);
             moduleList.put(videoModule.ModuleName(), videoModule);
         }
 
         Logger.d(TAG, "load hdr module");
         if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
         {
-            AeBracketModule bracketModule = new AeBracketModule(cameraUiWrapper);
+            AeBracketModule bracketModule = new AeBracketModule(cameraUiWrapper,mBackgroundHandler);
             moduleList.put(bracketModule.ModuleName(), bracketModule);
         }
         else {
-            BracketModule bracketModule = new BracketModule(cameraUiWrapper);
+            BracketModule bracketModule = new BracketModule(cameraUiWrapper,mBackgroundHandler);
             moduleList.put(bracketModule.ModuleName(), bracketModule);
         }
 
         if (VERSION.SDK_INT >= VERSION_CODES.KITKAT && cameraUiWrapper.getRenderScriptHandler().isSucessfullLoaded()) {
-            StackingModule sTax = new StackingModule(cameraUiWrapper);
+            StackingModule sTax = new StackingModule(cameraUiWrapper,mBackgroundHandler);
             moduleList.put(sTax.ModuleName(), sTax);
         }
 

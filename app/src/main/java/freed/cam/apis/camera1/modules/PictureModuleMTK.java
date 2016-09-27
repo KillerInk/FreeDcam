@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
+import android.os.Handler;
 
 import java.io.File;
 import java.io.FileReader;
@@ -41,9 +42,9 @@ public class PictureModuleMTK extends PictureModule
 {
     private final String TAG = PictureModuleMTK.class.getSimpleName();
     private File holdFile;
-    public PictureModuleMTK(CameraWrapperInterface cameraUiWrapper)
+    public PictureModuleMTK(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler)
     {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper, mBackgroundHandler);
     }
 
     @Override

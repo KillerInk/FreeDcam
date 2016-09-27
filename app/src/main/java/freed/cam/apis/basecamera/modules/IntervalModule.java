@@ -19,6 +19,8 @@
 
 package freed.cam.apis.basecamera.modules;
 
+import android.os.Handler;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
@@ -34,8 +36,8 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
     private final IntervalHandler intervalHandler;
     private  final String TAG  = IntervalModule.class.getSimpleName();
 
-    public IntervalModule(ModuleAbstract picModule, CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public IntervalModule(ModuleAbstract picModule, CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper, mBackgroundHandler);
         this.picModule = picModule;
 
         intervalHandler = new IntervalHandler(picModule, appSettingsManager);

@@ -24,6 +24,7 @@ import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioSource;
 import android.media.MediaRecorder.OutputFormat;
 import android.media.MediaRecorder.VideoSource;
+import android.os.Handler;
 
 import com.lge.media.MediaRecorderEx;
 
@@ -46,8 +47,8 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     private final String TAG = VideoModuleG3.class.getSimpleName();
 
-    public VideoModuleG3(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public VideoModuleG3(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
     }
 
     protected MediaRecorder initRecorder()
