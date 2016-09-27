@@ -322,9 +322,17 @@ public class AppSettingsManager {
 
     public void saveMediaProfiles(HashMap<String,VideoMediaProfile> mediaProfileHashMap)
     {
-        HashSet<String> set = new HashSet<>();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove(getApiSettingString(SETTING_MEDIAPROFILES));
+        editor.commit();
+        Set<String> set =  new HashSet<String>();
         for (VideoMediaProfile profile : mediaProfileHashMap.values())
             set.add(profile.GetString());
-        settings.edit().putStringSet(SETTING_MEDIAPROFILES, set).commit();
+        editor.putStringSet(getApiSettingString(SETTING_MEDIAPROFILES), set);
+        if (!settings.getBoolean("tmp", false))
+            editor.putBoolean("tmp", true);
+        else
+            editor.putBoolean("tmp",false);
+        editor.commit();
     }
 }
