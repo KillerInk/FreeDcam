@@ -251,14 +251,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     }
 
     private void recordnextFile(MediaRecorder mr) {
-        mr.stop();
-        setRecorderFilePath();
-        try {
-            mr.prepare();
-            mr.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        stopRecording();
+        startRecording();
     }
 
     private final StateCallback previewrdy = new StateCallback()

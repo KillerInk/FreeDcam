@@ -253,14 +253,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     }
 
     private void recordnextFile(MediaRecorder mr) {
-        mr.stop();
-        mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".mp4");
-        setRecorderOutPutFile(mediaSavePath);
-        try {
-            mr.prepare();
-            mr.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        stopRecording();
+        startRecording();
     }
 }
