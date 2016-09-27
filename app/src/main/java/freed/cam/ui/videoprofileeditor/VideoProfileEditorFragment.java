@@ -23,6 +23,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -97,7 +98,8 @@ public class VideoProfileEditorFragment extends Fragment
         button_delete.setOnClickListener(ondeleteButtonClick);
         videoMediaProfiles = new HashMap<>();
 
-        appSettingsManager = new AppSettingsManager(getActivity().getPreferences(Context.MODE_PRIVATE));
+        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()));
+        appSettingsManager.getCamApi();
         videoMediaProfiles = appSettingsManager.getMediaProfiles();
         try {
             setMediaProfile(videoMediaProfiles.get(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)));

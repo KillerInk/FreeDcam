@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -99,7 +100,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Logger.d(TAG, "createHandlers()");
-        appSettingsManager = new AppSettingsManager(getPreferences(MODE_PRIVATE));
+        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()));
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         fileListners =  new ArrayList<>();
         storageHandler = new StorageFileHandler(this);
