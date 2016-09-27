@@ -195,8 +195,17 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             if (location != null)
                 mediaRecorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
         }
+        switch (currentVideoProfile.Mode)
+        {
 
-        mediaRecorder.setAudioSource(AudioSource.CAMCORDER);
+            case Normal:
+            case Highspeed:
+                if (currentVideoProfile.isAudioActive)
+                    mediaRecorder.setAudioSource(AudioSource.CAMCORDER);
+                break;
+            case Timelapse:
+                break;
+        }
         mediaRecorder.setVideoSource(VideoSource.SURFACE);
 
         mediaRecorder.setOutputFormat(OutputFormat.MPEG_4);
@@ -207,10 +216,29 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         mediaRecorder.setVideoSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         mediaRecorder.setVideoEncoder(currentVideoProfile.videoCodec);
 
-        mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
-        mediaRecorder.setAudioChannels(currentVideoProfile.audioChannels);
-        mediaRecorder.setAudioEncodingBitRate(currentVideoProfile.audioBitRate);
-        mediaRecorder.setAudioSamplingRate(currentVideoProfile.audioSampleRate);
+        switch (currentVideoProfile.Mode)
+        {
+            case Normal:
+            case Highspeed:
+                if (currentVideoProfile.isAudioActive)
+                {
+                    mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
+                    mediaRecorder.setAudioChannels(currentVideoProfile.audioChannels);
+                    mediaRecorder.setAudioEncodingBitRate(currentVideoProfile.audioBitRate);
+                    mediaRecorder.setAudioSamplingRate(currentVideoProfile.audioSampleRate);
+                }
+                break;
+            case Timelapse:
+                float frame = 30;
+                if (!appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
+                    frame = Float.parseFloat(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+                else
+                    appSettingsManager.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, "" + frame);
+                mediaRecorder.setCaptureRate(frame);
+                break;
+        }
+
+
 
         try {
             mediaRecorder.prepare();

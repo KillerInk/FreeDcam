@@ -87,8 +87,10 @@ public class VideoProfilesApi2 extends BaseModeApi2
             if (cameraUiWrapper.GetAppSettingsManager().getMediaProfiles().size() == 0)
             {
                 lookupDefaultProfiles(supportedProfiles);
-                if (has2160pSize())
-                    supportedProfiles.put("4kUHD",new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 4kUHD Normal true"));
+                if (has2160pSize()) {
+                    supportedProfiles.put("4kUHD", new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 4kUHD Normal true"));
+                    supportedProfiles.put("4kUHD_Timelapse",new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 4kUHDTimeLapse Timelapse true"));
+                }
                 cameraUiWrapper.GetAppSettingsManager().saveMediaProfiles(supportedProfiles);
             }
             else

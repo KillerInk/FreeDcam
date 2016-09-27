@@ -258,7 +258,8 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         }
         else if (cameraUiWrapper instanceof Camera2Fragment)
         {
-            timeLapseFrames.setVisibility(View.GONE);
+            timeLapseFrames.setVisibility(View.VISIBLE);
+            timeLapseFrames.SetStuff(fragment_activityInterface.getAppSettings());
             videoProfileEditor.setVisibility(View.VISIBLE);
 
             AEB1.setVisibility(View.GONE);
