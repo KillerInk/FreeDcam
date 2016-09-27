@@ -145,7 +145,7 @@ public class VideoModule extends AbstractVideoModule
         }
         else
         {
-            if (currentProfile.ProfileName.contains(VideoProfilesParameter._4kUHD) ||currentProfile.ProfileName.contains(VideoProfilesParameter._4kDCI))
+            if (currentProfile.ProfileName.contains(VideoProfilesParameter._2160p) ||currentProfile.ProfileName.contains(VideoProfilesParameter._2160pDCI))
             {
 
                 if (cameraUiWrapper.GetParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.IsSupported())

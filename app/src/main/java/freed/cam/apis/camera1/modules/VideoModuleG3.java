@@ -131,7 +131,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     {
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
-        if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("4kUHD"))
+        if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("2160p"))
         {
             cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable",false);
             cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", false);

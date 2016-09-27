@@ -45,8 +45,8 @@ public class VideoProfilesParameter extends BaseModeParameter
     private final CameraHolder cameraHolder;
     private String profile;
     private static final String _720phfr = "720HFR";
-    public static final String _4kUHD = "4kUHD";
-    public static final String _4kDCI = "4kDCI";
+    public static final String _2160p = "2160p";
+    public static final String _2160pDCI = "2160pDCI";
 
     public VideoProfilesParameter(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
@@ -119,10 +119,10 @@ public class VideoProfilesParameter extends BaseModeParameter
 
     private void lookupDefaultProfiles(HashMap<String, VideoMediaProfile> supportedProfiles)
     {
-        int CAMCORDER_QUALITY_4kUHD = 12;
-        int CAMCORDER_QUALITY_4kDCI = 13;
-        int CAMCORDER_QUALITY_TIME_LAPSE_4kUHD = 1012;
-        int CAMCORDER_QUALITY_TIME_LAPSE_4kDCI = 1013;
+        int CAMCORDER_QUALITY_2160p = 12;
+        int CAMCORDER_QUALITY_2160pDCI = 13;
+        int CAMCORDER_QUALITY_TIME_LAPSE_2160p = 1012;
+        int CAMCORDER_QUALITY_TIME_LAPSE_2160pDCI = 1013;
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_480P)) {
                 supportedProfiles.put("480p", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_480P), "480p", VideoMode.Normal, true));
@@ -174,42 +174,42 @@ public class VideoProfilesParameter extends BaseModeParameter
         }
 
         try {
-            if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI)) //<--that will kill it when profile is not supported
+            if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160pDCI)) //<--that will kill it when profile is not supported
             {
 
-                CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI);
+                CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160pDCI);
 
-                supportedProfiles.put("4kDCI",new VideoMediaProfile(fourk, "4kDCI", VideoMode.Normal,true));
-                Logger.d(TAG, "found 4kDCI");
+                supportedProfiles.put("2160pDCI",new VideoMediaProfile(fourk, "2160pDCI", VideoMode.Normal,true));
+                Logger.d(TAG, "found 2160pDCI");
             }
         } catch (Exception e) {
             Logger.exception(e);
         }
         try {
-            if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD))
+            if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160p))
             {
-                CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD);
+                CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160p);
 
-                supportedProfiles.put("4kUHD",new VideoMediaProfile(fourk, "4kUHD", VideoMode.Normal,true));
-                Logger.d(TAG, "found 4kUHD");
+                supportedProfiles.put("2160p",new VideoMediaProfile(fourk, "2160p", VideoMode.Normal,true));
+                Logger.d(TAG, "found 2160p");
             }
         } catch (Exception e) {
             Logger.exception(e);
         }
 
         try {
-            if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kUHD)) {
-                supportedProfiles.put("4k_UHD_TimeLapse", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kUHD), "Timelapse4kUHD", VideoMode.Timelapse, false));
-                Logger.d(TAG, "found Timelapse4kUHD");
+            if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160p)) {
+                supportedProfiles.put("2160p_TimeLapse", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160p), "Timelapse2160p", VideoMode.Timelapse, false));
+                Logger.d(TAG, "found Timelapse2160p");
             }
         } catch (Exception e) {
             Logger.exception(e);
         }
 
         try {
-            if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kDCI)) {
-                supportedProfiles.put("4k_DCI_TimeLapse", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kDCI), "Timelapse4kUHD", VideoMode.Timelapse, false));
-                Logger.d(TAG, "found Timelapse4kUHD");
+            if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160pDCI)) {
+                supportedProfiles.put("2160p_DCI_TimeLapse", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160pDCI), "Timelapse2160pDCI", VideoMode.Timelapse, false));
+                Logger.d(TAG, "found Timelapse2160pDCI");
             }
         } catch (Exception e) {
             Logger.exception(e);
@@ -260,7 +260,7 @@ public class VideoProfilesParameter extends BaseModeParameter
             supportedProfiles.put("720pHFR",t);
         }
 
-        if (supportedProfiles.get(_4kUHD) == null && parameters.get("video-size-values") !=null&& parameters.get("video-size-values").contains("3840x2160"))
+        if (supportedProfiles.get(_2160p) == null && parameters.get("video-size-values") !=null&& parameters.get("video-size-values").contains("3840x2160"))
         {
             if (supportedProfiles.containsKey("1080p"))
             {
@@ -269,9 +269,9 @@ public class VideoProfilesParameter extends BaseModeParameter
                 uhd.videoFrameHeight = 2160;
                 uhd.videoBitRate = 30000000;
                 uhd.Mode = VideoMode.Normal;
-                uhd.ProfileName = _4kUHD;
-                supportedProfiles.put(_4kUHD, uhd);
-                Logger.d(TAG, "added custom 4kuhd");
+                uhd.ProfileName = _2160p;
+                supportedProfiles.put(_2160p, uhd);
+                Logger.d(TAG, "added custom 2160p");
             }
         }
 

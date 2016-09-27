@@ -88,8 +88,8 @@ public class VideoProfilesApi2 extends BaseModeApi2
             {
                 lookupDefaultProfiles(supportedProfiles);
                 if (has2160pSize()) {
-                    supportedProfiles.put("4kUHD", new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 4kUHD Normal true"));
-                    supportedProfiles.put("4kUHD_Timelapse",new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 4kUHDTimeLapse Timelapse true"));
+                    supportedProfiles.put("2160p", new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 2160p Normal true"));
+                    supportedProfiles.put("2160p_Timelapse",new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 2160p_TimeLapse Timelapse true"));
                 }
                 cameraUiWrapper.GetAppSettingsManager().saveMediaProfiles(supportedProfiles);
             }
@@ -108,13 +108,13 @@ public class VideoProfilesApi2 extends BaseModeApi2
         return false;
     }
 
-    //156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 4kUHD Normal true
+    //156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 2160p Normal true
     private void lookupDefaultProfiles(HashMap<String, VideoMediaProfile> supportedProfiles)
     {
-        int CAMCORDER_QUALITY_4kUHD = 12;
-        int CAMCORDER_QUALITY_4kDCI = 13;
-        int CAMCORDER_QUALITY_TIME_LAPSE_4kUHD = 1012;
-        int CAMCORDER_QUALITY_TIME_LAPSE_4kDCI = 1013;
+        int CAMCORDER_QUALITY_2160p = 12;
+        int CAMCORDER_QUALITY_2160pDCI = 13;
+        int CAMCORDER_QUALITY_TIME_LAPSE_2160p = 1012;
+        int CAMCORDER_QUALITY_TIME_LAPSE_2160pDCI = 1013;
 
         try {
             if (CamcorderProfile.hasProfile(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CamcorderProfile.QUALITY_2160P))
@@ -159,20 +159,21 @@ public class VideoProfilesApi2 extends BaseModeApi2
                 supportedProfiles.put("Timelapse1080p", new VideoMediaProfile(CamcorderProfile.get(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CamcorderProfile.QUALITY_TIME_LAPSE_1080P),"Timelapse1080p", VideoMode.Timelapse,false));
         } catch (Exception e) {
             Logger.exception(e);
+
         }
         try {
-            if (CamcorderProfile.hasProfile(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CAMCORDER_QUALITY_4kUHD))
+            if (CamcorderProfile.hasProfile(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CAMCORDER_QUALITY_2160p))
             {
-                CamcorderProfile fourk = CamcorderProfile.get(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CAMCORDER_QUALITY_4kUHD);
+                CamcorderProfile fourk = CamcorderProfile.get(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CAMCORDER_QUALITY_2160p);
 
-                supportedProfiles.put("4kUHD",new VideoMediaProfile(fourk, "4kUHD", VideoMode.Normal,true));
+                supportedProfiles.put("2160p",new VideoMediaProfile(fourk, "2160p", VideoMode.Normal,true));
             }
         } catch (Exception e) {
             Logger.exception(e);
         }
         try {
-            if (CamcorderProfile.hasProfile(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kUHD))
-                supportedProfiles.put("Timelapse4kUHD", new VideoMediaProfile(CamcorderProfile.get(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kUHD),"Timelapse4kUHD", VideoMode.Timelapse,false));
+            if (CamcorderProfile.hasProfile(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160p))
+                supportedProfiles.put("Timelapse2160p", new VideoMediaProfile(CamcorderProfile.get(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160p),"Timelapse2160p", VideoMode.Timelapse,false));
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -185,7 +186,7 @@ public class VideoProfilesApi2 extends BaseModeApi2
         }
         try {
             if (CamcorderProfile.hasProfile(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_2160P))
-                supportedProfiles.put("2016pHFR", new VideoMediaProfile(CamcorderProfile.get(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_2160P),"2016HFR", VideoMode.Highspeed,true));
+                supportedProfiles.put("2016pHFR", new VideoMediaProfile(CamcorderProfile.get(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_2160P),"2160pHFR", VideoMode.Highspeed,true));
         } catch (Exception e) {
             Logger.exception(e);
         }
