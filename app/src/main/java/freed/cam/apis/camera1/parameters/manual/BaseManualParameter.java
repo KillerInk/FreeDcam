@@ -98,7 +98,7 @@ public class BaseManualParameter extends AbstractManualParameter
                 Logger.d(TAG, "parameters contains all 3 parameters " + key_value +" " + key_min_value +" " + key_max_value);
                 if (!parameters.get(key_min_value).equals("") && !parameters.get(key_max_value).equals(""))
                 {
-                    Logger.d(TAG, "parameters get min/max success");
+                    Logger.d(TAG, "parameters get "+key_min_value +"/" +key_max_value+" success");
                     stringvalues = createStringArray(Integer.parseInt(parameters.get(key_min_value)), Integer.parseInt(parameters.get(key_max_value)), step);
                     currentString = parameters.get(this.key_value);
                     if (parameters.get(key_min_value).contains("-"))
@@ -131,7 +131,7 @@ public class BaseManualParameter extends AbstractManualParameter
                 Logger.d(TAG, "parameters does not contain value, key_max_value or key_min_value");
         }
         else
-            Logger.d(TAG, "failed to lookup value, key_max_value or key_min_value are empty");
+            Logger.d(TAG, "failed to lookup values, "+ key_max_value + " or "+ key_min_value + " are empty");
     }
 
     @Override

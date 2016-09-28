@@ -36,11 +36,14 @@ import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManual_ExposureTi
 import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.dng.DngProfile;
+import freed.utils.Logger;
 
 /**
  * Created by troop on 02.06.2016.
  */
-public class BaseQcomDevice extends AbstractDevice {
+public class BaseQcomDevice extends AbstractDevice
+{
+    final String TAG = BaseQcomDevice.class.getName();
     public BaseQcomDevice(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
@@ -106,10 +109,14 @@ public class BaseQcomDevice extends AbstractDevice {
         else if (arrayContainsString(parametersHandler.WhiteBalanceMode.GetValues(), KEYS.WB_MODE_MANUAL_CCT))
             wbModeval = KEYS.WB_MODE_MANUAL_CCT;
 
-        if (!wbcur.equals("") && !wbmax.equals("") && !wbmin.equals("") && !wbModeval.equals(""))
-            return new BaseCCTManual(parameters,wbcur,wbmax,wbmin, cameraUiWrapper,100,wbModeval);
-        else
+        if (!wbcur.equals("") && !wbmax.equals("") && !wbmin.equals("") && !wbModeval.equals("")) {
+            Logger.d(TAG, "Found all wbct values:" + wbcur + " " +wbmax + " " + wbmin + " " +wbModeval);
+            return new BaseCCTManual(parameters, wbcur, wbmax, wbmin, cameraUiWrapper, 100, wbModeval);
+        }
+        else {
+            Logger.d(TAG, "Failed to lookup wbct:" + wbcur + " " +wbmax + " " + wbmin + " " +wbModeval);
             return null;
+        }
     }
 
     @Override
