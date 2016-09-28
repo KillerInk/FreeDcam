@@ -106,7 +106,7 @@ public class BaseQcomDevice extends AbstractDevice {
         else if (arrayContainsString(parametersHandler.WhiteBalanceMode.GetValues(), KEYS.WB_MODE_MANUAL_CCT))
             wbModeval = KEYS.WB_MODE_MANUAL_CCT;
 
-        if (!wbcur.equals("") && !wbmax.equals("") && !wbmin.equals("") && wbModeval.equals(""))
+        if (!wbcur.equals("") && !wbmax.equals("") && !wbmin.equals("") && !wbModeval.equals(""))
             return new BaseCCTManual(parameters,wbcur,wbmax,wbmin, cameraUiWrapper,100,wbModeval);
         else
             return null;
