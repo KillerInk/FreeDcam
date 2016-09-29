@@ -106,6 +106,7 @@ public class DeviceUtils
         THL5000_MTK,
         Umi_Rome_X,
         Vivo_Xplay3s,
+        Wiko_Stairway,
         Wileyfox_Swift,
         Mi_Max,
         XiaomiMI3W,
@@ -322,6 +323,8 @@ public class DeviceUtils
             return Devices.ZTE_Z11;
         else if(isDevice(res.getStringArray(array.ZTE_Z5SMni)))
             return Devices.ZTE_Z5SMINI;
+        else if (isDevice(res.getStringArray(array.wiko_stairway)))
+            return Devices.Wiko_Stairway;
         else
             return Devices.UNKNOWN;
 

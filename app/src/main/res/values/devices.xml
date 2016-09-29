@@ -585,4 +585,6 @@
     <string-array name="myphone_ininity2s">
         <item>INFINITY_II_S</item>
     </string-array>
+
+    <string-array name="wiko_stairway">STAIRWAY</string-array>
 </resources>

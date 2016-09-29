@@ -85,6 +85,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.SONY.Sony_M4;
 import freed.cam.apis.camera1.parameters.device.qualcomm.SONY.Sony_XperiaL;
 import freed.cam.apis.camera1.parameters.device.qualcomm.SONY.Sony_Z5C;
 import freed.cam.apis.camera1.parameters.device.qualcomm.VIVO.Vivo_Xplay3s;
+import freed.cam.apis.camera1.parameters.device.qualcomm.WIKO.Wikio_Stairway;
 import freed.cam.apis.camera1.parameters.device.qualcomm.WileyFox_Swift;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi3_4;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi_Note_Pro;
@@ -241,6 +242,8 @@ public class DeviceSelector {
                 return new MyPhoneInfinity2S(cameraParameters,cameraUiWrapper);
             case Nexus4:
                 return getDefault(cameraUiWrapper,cameraParameters);
+            case Nexus6:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case Nexus5x:
             case Nexus6p:
                 return new Nexus6p_5x(cameraParameters,cameraUiWrapper);
@@ -298,6 +301,8 @@ public class DeviceSelector {
             case Vivo_Xplay3s:
                return new Vivo_Xplay3s(cameraParameters,cameraUiWrapper);
 
+            case Wiko_Stairway:
+                return new Wikio_Stairway(cameraParameters,cameraUiWrapper);
             case Wileyfox_Swift:
                 return new WileyFox_Swift(cameraParameters,cameraUiWrapper);
             case Mi_Max:
@@ -336,8 +341,12 @@ public class DeviceSelector {
                return new ZTE_ADV_IMX234(cameraParameters,cameraUiWrapper);
             case ZTE_Z11:
                 return new ZTE_Z11(cameraParameters,cameraUiWrapper);
+            case ZTE_Z9:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case ZTE_Z5SMINI:
                 return new ZTE_Z5SMINI(cameraParameters,cameraUiWrapper);
+            case ZTE_MyPrague:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case Zoppo_8speed:
                 return new Zoppo_8speed(cameraParameters,cameraUiWrapper);
             default:
