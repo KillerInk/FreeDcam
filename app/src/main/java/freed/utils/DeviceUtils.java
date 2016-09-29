@@ -58,6 +58,7 @@ public class DeviceUtils
         Huawei_HONOR5x,
         huawei_honor6,
         I_Mobile_I_StyleQ6,
+        InFocus_M808,
         Jiayu_S3,
         LenovoK910,
         LenovoK920,
@@ -325,6 +326,8 @@ public class DeviceUtils
             return Devices.ZTE_Z5SMINI;
         else if (isDevice(res.getStringArray(array.wiko_stairway)))
             return Devices.Wiko_Stairway;
+        else if (isDevice(res.getStringArray(array.infocus_M808)))
+            return Devices.InFocus_M808;
         else
             return Devices.UNKNOWN;
 

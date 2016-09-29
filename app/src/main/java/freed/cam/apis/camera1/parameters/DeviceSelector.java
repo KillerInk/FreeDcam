@@ -32,6 +32,7 @@ import freed.cam.apis.camera1.parameters.device.mediatek.ALCATEL.Alcatel_985n;
 import freed.cam.apis.camera1.parameters.device.mediatek.ELEPHONE.Elephone_P9000;
 import freed.cam.apis.camera1.parameters.device.mediatek.ForwardArt_MTK;
 import freed.cam.apis.camera1.parameters.device.mediatek.I_Mobile_IStyleQ6;
+import freed.cam.apis.camera1.parameters.device.mediatek.InFocusM808;
 import freed.cam.apis.camera1.parameters.device.mediatek.JIAYU.Jiayu_S3;
 import freed.cam.apis.camera1.parameters.device.mediatek.LENOVO.Lenovo_K4Note_MTK;
 import freed.cam.apis.camera1.parameters.device.mediatek.LENOVO.Lenovo_K50_MTK;
@@ -181,7 +182,9 @@ public class DeviceSelector {
                 return getDefault(cameraUiWrapper,cameraParameters);
             case I_Mobile_I_StyleQ6:
                return new I_Mobile_IStyleQ6(cameraParameters,cameraUiWrapper);
-                
+
+            case InFocus_M808:
+                return new InFocusM808(cameraParameters,cameraUiWrapper);
             case Jiayu_S3:
                return new Jiayu_S3(cameraParameters,cameraUiWrapper);
                 
