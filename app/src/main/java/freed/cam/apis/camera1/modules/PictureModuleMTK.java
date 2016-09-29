@@ -80,40 +80,34 @@ public class PictureModuleMTK extends PictureModule
             return;
         waitForPicture =false;
         Logger.d(TAG, "Take Picture CallBack");
-        mBackgroundHandler.post(new Runnable() {
-            @Override
-            public void run()
-            {
-                String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
-                // must always be jpg ending. dng gets created based on that
-                holdFile = getFile(".jpg");
-                Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
-                switch (picformat) {
-                    case KEYS.JPEG:
-                        //savejpeg
-                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
-                        try {
-                            DeviceSwitcher().delete();
-                        } catch (Exception ex) {
-                            Logger.exception(ex);
-                        }
-                        break;
-                    case FileEnding.DNG:
-                        //savejpeg
-                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
-                        CreateDNG_DeleteRaw();
-                        break;
-                    case FileEnding.BAYER:
-                        //savejpeg
-                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
-                        break;
+        String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
+        // must always be jpg ending. dng gets created based on that
+        holdFile = getFile(".jpg");
+        Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
+        switch (picformat) {
+            case KEYS.JPEG:
+                //savejpeg
+                cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
+                try {
+                    DeviceSwitcher().delete();
+                } catch (Exception ex) {
+                    Logger.exception(ex);
                 }
-                waitForPicture = false;
-                cameraHolder.StartPreview();
-                isWorking = false;
-                changeCaptureState(CaptureStates.image_capture_stop);
-            }
-        });
+                break;
+            case FileEnding.DNG:
+                //savejpeg
+                cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
+                CreateDNG_DeleteRaw();
+                break;
+            case FileEnding.BAYER:
+                //savejpeg
+                cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
+                break;
+        }
+        waitForPicture = false;
+        cameraHolder.StartPreview();
+        isWorking = false;
+        changeCaptureState(CaptureStates.image_capture_stop);
     }
 
     private int loopBreaker;

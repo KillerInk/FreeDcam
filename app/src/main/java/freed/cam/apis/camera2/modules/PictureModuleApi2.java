@@ -387,11 +387,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     {
                         Logger.d(TAG,"Wait For nonprecapture");
                         setCaptureState(STATE_WAIT_FOR_NONPRECAPTURE);
-                        /*if (hitTimeoutLocked())
+                        if (hitTimeoutLocked())
                         {
                             mState = STATE_PICTURE_TAKEN;
                             captureStillPicture();
-                        }*/
+                        }
                     }
                     else if (aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
                     {

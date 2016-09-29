@@ -275,37 +275,31 @@ public class BracketModule extends PictureModule
     @Override
     public void onPictureTaken(final byte[] data, Camera camera)
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run()
-            {
-                if (!waitForPicture)
-                {
-                    isWorking = false;
-                    return;
-                }
-                hdrCount++;
-                String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
-                saveImage(data,picFormat);
-                cameraHolder.StartPreview();
-                if (hdrCount == 3)//handel normal capture
-                {
-                    waitForPicture = false;
-                    isWorking = false;
-                    changeCaptureState(CaptureStates.image_capture_stop);
-                }
-                else
-                {
-                    setExposureToCamera();
-                    try {
-                        Thread.sleep(800);
-                    } catch (InterruptedException e) {
-                        Logger.exception(e);
-                    }
-                    cameraHolder.TakePicture(BracketModule.this);
-                }
+        if (!waitForPicture)
+        {
+            isWorking = false;
+            return;
+        }
+        hdrCount++;
+        String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
+        saveImage(data,picFormat);
+        cameraHolder.StartPreview();
+        if (hdrCount == 3)//handel normal capture
+        {
+            waitForPicture = false;
+            isWorking = false;
+            changeCaptureState(CaptureStates.image_capture_stop);
+        }
+        else
+        {
+            setExposureToCamera();
+            try {
+                Thread.sleep(800);
+            } catch (InterruptedException e) {
+                Logger.exception(e);
             }
-        });
+            cameraHolder.TakePicture(BracketModule.this);
+        }
     }
 
     @Override
