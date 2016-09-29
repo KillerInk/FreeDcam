@@ -81,6 +81,8 @@ public class BaseQcomDevice extends AbstractDevice
     @Override
     public ManualParameterInterface getCCTParameter()
     {
+        // looks like wb-current-cct is loaded when the preview is up. this could be also for the other parameters
+        //TODO find a workaround to load cct when preview is up
         String wbModeval ="", wbcur ="", wbmax = "",wbmin = "";
         if (parameters.get(KEYS.WB_CURRENT_CCT)!=null)
             wbcur = KEYS.WB_CURRENT_CCT;
