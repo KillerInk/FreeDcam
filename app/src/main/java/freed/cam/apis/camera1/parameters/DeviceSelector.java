@@ -92,6 +92,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi3_4;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi_Note_Pro;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi2;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi3;
+import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi3s;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi_Note;
 import freed.cam.apis.camera1.parameters.device.qualcomm.YU.Yu_Yureka;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ADV;
@@ -329,6 +330,8 @@ public class DeviceSelector {
 
             case Xiaomi_Redmi3:
                 return new Xiaomi_Redmi3(cameraParameters,cameraUiWrapper);
+            case Xiaomi_Redmi3S:
+                return new Xiaomi_Redmi3s(cameraParameters,cameraUiWrapper);
             case Xolo_Omega5:
                 return new Xolo_Omega5(cameraParameters,cameraUiWrapper);
             case Yu_Yureka:

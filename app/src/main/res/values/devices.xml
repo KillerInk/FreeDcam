@@ -588,4 +588,5 @@
 
     <string-array name="wiko_stairway">STAIRWAY</string-array>
     <string-array name="infocus_M808">InFocus M808</string-array>
+    <string-array name="xiaomi_redmi3s">Redmi 3S</string-array>
 </resources>
