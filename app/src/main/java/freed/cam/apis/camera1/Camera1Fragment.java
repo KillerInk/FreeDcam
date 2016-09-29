@@ -256,9 +256,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     {
         cameraRdy = true;
         super.onCameraOpen(message);
-        ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
         cameraHolder.SetSurface(extendedSurfaceView.getHolder());
         cameraHolder.StartPreview();
+        ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
         this.onCameraOpenFinish("");
     }
 
