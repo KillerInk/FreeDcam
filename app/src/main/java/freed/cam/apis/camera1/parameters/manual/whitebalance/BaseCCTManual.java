@@ -76,9 +76,18 @@ public class BaseCCTManual extends BaseManualParameter
 
     protected void set_manual()
     {
-        if (!cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
+        if (cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.GetValues().toString().contains("manual")&& parameters.get("manual-wb-modes")!=null)
+        {
             cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
-        parameters.set(key_value, stringvalues[currentInt]);
+            parameters.set(KEYS.MANUAL_WB_TYPE,0);
+            parameters.set(KEYS.MANUAL_WB_VALUE,stringvalues[currentInt]);
+
+        }
+        else {
+            if (!cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
+                cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
+            parameters.set(key_value, stringvalues[currentInt]);
+        }
         Logger.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
 
     }
