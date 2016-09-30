@@ -19,6 +19,8 @@
 
 package freed.cam.apis.sonyremote.modules;
 
+import android.os.Handler;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
@@ -33,8 +35,8 @@ public class VideoModuleSony extends ModuleAbstract implements I_CameraStatusCha
     private final String TAG = VideoModuleSony.class.getSimpleName();
     private final CameraHolderSony cameraHolder;
 
-    public VideoModuleSony(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public VideoModuleSony(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_VIDEO;
         cameraHolder = (CameraHolderSony)cameraUiWrapper.GetCameraHolder();
 

@@ -122,25 +122,25 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     private void lookupDefaultProfiles(HashMap<String, VideoMediaProfile> supportedProfiles)
     {
 
-        int CAMCORDER_QUALITY_4kUHD = 12;
-        int CAMCORDER_QUALITY_4kDCI = 13;
-        int CAMCORDER_QUALITY_TIME_LAPSE_4kUHD = 1012;
-        int CAMCORDER_QUALITY_TIME_LAPSE_4kDCI = 1013;
+        int CAMCORDER_QUALITY_2160p = 12;
+        int CAMCORDER_QUALITY_2160pDCI = 13;
+        int CAMCORDER_QUALITY_TIME_LAPSE_2160p = 1012;
+        int CAMCORDER_QUALITY_TIME_LAPSE_2160pDCI = 1013;
         int CAMCORDER_QUALITY_TIME_LAPSE_HFR1080P = 1016;
         int CAMCORDER_QUALITY_1080p_HFR = 16;
         int CAMCORDER_QUALITY_720p_HFR = 17;
         //g3 new with lolipop
         int QUALITY_HEVC1080P = 15;
-        int QUALITY_HEVC4kDCI = 17;
-        int QUALITY_HEVC4kUHD = 16;
+        int QUALITY_HEVC2160pDCI = 17;
+        int QUALITY_HEVC2160p = 16;
         int QUALITY_HEVC720P = 14;
         int QUALITY_HFR720P = 2003;
         int QUALITY_HIGH_SPEED_1080P = 2004;
         int QUALITY_HIGH_SPEED_480P = 2002;
         int QUALITY_HIGH_SPEED_720P = 2003;
         int QUALITY_HIGH_SPEED_HIGH = 2001;
-        int QUALITY_4kDCI = 13;
-        int QUALITY_4kUHD = 8;
+        int QUALITY_2160pDCI = 13;
+        int QUALITY_2160p = 8;
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_480P))
                 supportedProfiles.put("480p", new VideoMediaProfileLG(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_480P), "480p", VideoMode.Normal,true));
@@ -184,25 +184,25 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
             Logger.exception(e);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI))
-                supportedProfiles.put("4kDCI", new VideoMediaProfileLG(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI),"4kDCI", VideoMode.Normal,true));
+            if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160pDCI))
+                supportedProfiles.put("2160pDCI", new VideoMediaProfileLG(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160pDCI),"2160pDCI", VideoMode.Normal,true));
         } catch (Exception e) {
             Logger.exception(e);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD))
+            if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160p))
             {
-                CamcorderProfileEx fourk = CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD);
-                supportedProfiles.put("4kUHD", new VideoMediaProfileLG(fourk,"4kUHD", VideoMode.Normal,true));
+                CamcorderProfileEx fourk = CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160p);
+                supportedProfiles.put("2160p", new VideoMediaProfileLG(fourk,"2160p", VideoMode.Normal,true));
             }
         } catch (Exception e) {
             Logger.exception(e);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, QUALITY_4kUHD))
+            if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, QUALITY_2160p))
             {
-                CamcorderProfileEx fourk = CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_4kUHD);
-                supportedProfiles.put("4kUHD", new VideoMediaProfileLG(fourk,"4kUHD", VideoMode.Normal,true));
+                CamcorderProfileEx fourk = CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_2160p);
+                supportedProfiles.put("2160p", new VideoMediaProfileLG(fourk,"2160p", VideoMode.Normal,true));
             }
         } catch (Exception e) {
             Logger.exception(e);

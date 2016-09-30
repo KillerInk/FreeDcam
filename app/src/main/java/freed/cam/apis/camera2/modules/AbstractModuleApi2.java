@@ -23,6 +23,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Build.VERSION_CODES;
+import android.os.Handler;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -44,9 +45,9 @@ public abstract class AbstractModuleApi2 extends ModuleAbstract implements I_Pre
     protected Point displaySize;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-    public AbstractModuleApi2(CameraWrapperInterface cameraUiWrapper)
+    public AbstractModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler)
     {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,mBackgroundHandler);
         parameterHandler = (ParameterHandlerApi2) cameraUiWrapper.GetParameterHandler();
         Display display = ((WindowManager)cameraUiWrapper.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();

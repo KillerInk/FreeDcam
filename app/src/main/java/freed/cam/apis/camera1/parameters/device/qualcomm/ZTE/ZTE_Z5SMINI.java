@@ -53,7 +53,7 @@ public class ZTE_Z5SMINI extends BaseQcomDevice {
     public DngProfile getDngProfile(int filesize) {
 
         // case 20500480:
-        return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
+        return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
 
         // return null;
     }

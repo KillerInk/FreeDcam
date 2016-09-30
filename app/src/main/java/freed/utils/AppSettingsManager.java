@@ -20,6 +20,7 @@
 package freed.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import java.io.BufferedReader;
@@ -29,7 +30,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
@@ -41,7 +44,6 @@ import freed.utils.DeviceUtils.Devices;
  */
 public class AppSettingsManager {
     private final String TAG = AppSettingsManager.class.getSimpleName();
-    private final String appsettingspath;
     private int currentcamera;
     private String camApiString = AppSettingsManager.API_1;
     private Devices device;
@@ -174,71 +176,71 @@ public class AppSettingsManager {
     public static final String SETTING_AFBRACKETMIN = "afbracketmin";
     public static final String SETTINGS_NIGHTOVERLAY = "nighoverlay";
 
-    private HashMap<String, String> appsettingsList;
 
-    public AppSettingsManager(Context context) {
-        appsettingsList = new HashMap<>();
-        appsettingspath = context.getFilesDir().getPath() + File.separator + "setting.txt";
-        loadAppSettings();
+    private SharedPreferences settings;
+
+    public AppSettingsManager(SharedPreferences sharedPreferences)
+    {
+        settings = sharedPreferences;
+    }
+
+    private void putString(String settingsval, String toSet)
+    {
+        settings.edit().putString(settingsval,toSet).commit();
     }
 
     public void setCamApi(String api) {
         camApiString = api;
-        appsettingsList.put(SETTING_API, api);
+        putString(SETTING_API, api);
     }
 
     public String getCamApi() {
-        camApiString = appsettingsList.get(SETTING_API);
+        camApiString = settings.getString(SETTING_API, API_1);
         return camApiString;
     }
 
     public void SetDevice(Devices device) {
         this.device = device;
         String t = device.name();
-        appsettingsList.put("DEVICE", t);
+        putString("DEVICE", t);
     }
 
     public Devices getDevice() {
-        String t = appsettingsList.get("DEVICE");
+        String t = settings.getString("DEVICE", null);
         return TextUtils.isEmpty(t) ? null : Devices.valueOf(t);
     }
 
     public void setshowHelpOverlay(boolean value) {
-        appsettingsList.put("showhelpoverlay", Boolean.toString(value));
+        settings.edit().putBoolean("showhelpoverlay", value).commit();
     }
 
     public boolean getShowHelpOverlay() {
-        String tmp = appsettingsList.get("showhelpoverlay");
-        return TextUtils.isEmpty(tmp) || Boolean.valueOf(tmp);
+        return settings.getBoolean("showhelpoverlay", true);
     }
 
     public void SetBaseFolder(String uri) {
-        appsettingsList.put(SETTING_BASE_FOLDER, uri);
+        putString(SETTING_BASE_FOLDER, uri);
     }
 
     public String GetBaseFolder() {
-        return appsettingsList.get(SETTING_BASE_FOLDER);
+        return settings.getString(SETTING_BASE_FOLDER, null);
     }
 
     public void SetCurrentCamera(int currentcamera) {
         this.currentcamera = currentcamera;
-        appsettingsList.put(SETTING_CURRENTCAMERA, currentcamera + "");
+        settings.edit().putInt(SETTING_CURRENTCAMERA , currentcamera).commit();
     }
 
     public int GetCurrentCamera() {
-        String cam = appsettingsList.get(SETTING_CURRENTCAMERA);
-        return TextUtils.isEmpty(cam) ? 0 : Integer.parseInt(cam);
+        return settings.getInt(SETTING_CURRENTCAMERA, 0);
     }
 
     public void SetCurrentModule(String modulename) {
-        appsettingsList.put(getApiSettingString(SETTING_CURRENTMODULE), modulename);
+        putString(getApiSettingString(SETTING_CURRENTMODULE), modulename);
     }
 
     public String GetCurrentModule() {
-        String mod = appsettingsList.get(getApiSettingString(SETTING_CURRENTMODULE));
-        if (mod != null && !mod.equals(""))
-            return mod;
-        return KEYS.MODULE_PICTURE;
+        return settings.getString(getApiSettingString(SETTING_CURRENTMODULE), KEYS.MODULE_PICTURE);
     }
 
     /**
@@ -272,118 +274,65 @@ public class AppSettingsManager {
     }
 
     public void SetCamera2FullSupported(String value) {
-        appsettingsList.put(CAMERA2FULLSUPPORTED, value);
+        putString(CAMERA2FULLSUPPORTED, value);
     }
 
     public String IsCamera2FullSupported() {
-        String t = appsettingsList.get(CAMERA2FULLSUPPORTED);
+        String t = settings.getString(CAMERA2FULLSUPPORTED, "");
         return TextUtils.isEmpty(t) ? "" : t;
     }
 
-    private void loadAppSettings() {
-        File appsettings = new File(appsettingspath);
-        if (appsettings.exists()) {
-            BufferedReader br = null;
-
-            try {
-                br = new BufferedReader(new FileReader(appsettings));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    String[] split = line.split("=");
-                    appsettingsList.put(split[0], split[1]);
-                }
-            } catch (IOException | ArrayIndexOutOfBoundsException e) {
-                appsettingsList = new HashMap<>();
-                e.printStackTrace();
-            } finally {
-                if (br != null) {
-                    try {
-                        br.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-        String t = appsettingsList.get("DEVICE");
-        if (!TextUtils.isEmpty(t))
-            device = Devices.valueOf(t);
-    }
-
-    public void SaveAppSettings() {
-        File mprof = new File(appsettingspath);
-
-        if (!mprof.exists()) {
-            try {
-                mprof.createNewFile();
-            } catch (IOException e) {
-                Logger.exception(e);
-            }
-        }
-
-        BufferedWriter br = null;
-        try {
-            br = new BufferedWriter(new FileWriter(mprof));
-
-            for (Entry<String, String> entry : appsettingsList.entrySet()) {
-                br.write(entry.getKey() + "=" + entry.getValue() + "\n");
-            }
-        } catch (IOException e) {
-            Logger.exception(e);
-        } finally {
-            try {
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException e) {
-                Logger.exception(e);
-            }
-        }
-    }
-
     public String getString(String valueToGet, String defaultValue) {
-        String ret = appsettingsList.get(getApiSettingString(valueToGet));
-        return TextUtils.isEmpty(ret) ? defaultValue : appsettingsList.get(ret);
+        return settings.getString(getApiSettingString(valueToGet), defaultValue);
     }
 
     public String getString(String valueToGet) {
-        String ret = appsettingsList.get(getApiSettingString(valueToGet));
-        return TextUtils.isEmpty(ret) ? "" : ret;
+        return settings.getString(getApiSettingString(valueToGet),"");
     }
 
     public void setString(String settingsName, String Value) {
-        appsettingsList.put(getApiSettingString(settingsName), Value);
+        putString(getApiSettingString(settingsName), Value);
     }
 
-    public boolean getBoolean(String valueToGet, boolean defaultValue) {
-        String tmp = appsettingsList.get(getApiSettingString(valueToGet));
-        return TextUtils.isEmpty(tmp) ? defaultValue : Boolean.parseBoolean(tmp);
+    public boolean getBoolean(String settings_key, boolean defaultValue)
+    {
+        boolean ret = settings.getBoolean(getApiSettingString(settings_key), defaultValue);
+        return ret;
     }
 
-    public void setBoolean(String valueToSet, boolean defaultValue) {
-        setString(valueToSet, defaultValue + "");
+    public void setBoolean(String settings_key, boolean valuetoSet) {
+
+        settings.edit().putBoolean(getApiSettingString(settings_key), valuetoSet).commit();
     }
 
     public HashMap<String,VideoMediaProfile> getMediaProfiles()
     {
-        String tmp = appsettingsList.get(getApiSettingString(SETTING_MEDIAPROFILES));
-        String[] split = null;
+        Set<String> tmp = settings.getStringSet(getApiSettingString(SETTING_MEDIAPROFILES),new HashSet<String>());
+        /*String tmp = appsettingsList.get();*/
+        String[] split = new String[tmp.size()];
+        tmp.toArray(split);
         HashMap<String,VideoMediaProfile>  hashMap = new HashMap<>();
-        if (tmp != null) {
-            split = tmp.split(",");
-            for (int i = 0; i < split.length; i++) {
-                VideoMediaProfile mp = new VideoMediaProfile(split[i]);
-                hashMap.put(mp.ProfileName, mp);
-            }
+        for (int i = 0; i < split.length; i++) {
+            VideoMediaProfile mp = new VideoMediaProfile(split[i]);
+            hashMap.put(mp.ProfileName, mp);
         }
+
         return hashMap;
     }
 
     public void saveMediaProfiles(HashMap<String,VideoMediaProfile> mediaProfileHashMap)
     {
-        String tmp = "";
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove(getApiSettingString(SETTING_MEDIAPROFILES));
+        editor.commit();
+        Set<String> set =  new HashSet<String>();
         for (VideoMediaProfile profile : mediaProfileHashMap.values())
-            tmp += profile.GetString() +",";
-        setString(SETTING_MEDIAPROFILES,tmp);
+            set.add(profile.GetString());
+        editor.putStringSet(getApiSettingString(SETTING_MEDIAPROFILES), set);
+        if (!settings.getBoolean("tmp", false))
+            editor.putBoolean("tmp", true);
+        else
+            editor.putBoolean("tmp",false);
+        editor.commit();
     }
 }

@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
+import android.os.Handler;
 
 import java.io.File;
 
@@ -47,9 +48,9 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     protected boolean waitForPicture;
 
 
-    public PictureModule(CameraWrapperInterface cameraUiWrapper)
+    public PictureModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler)
     {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_PICTURE;
         this.cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
     }
@@ -129,14 +130,8 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             return;
         }
         burstcount++;
-        mBackgroundHandler.post(new Runnable() {
-            @Override
-            public void run()
-            {
-                String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
-                saveImage(data,picFormat);
-            }
-        });
+        String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
+        saveImage(data,picFormat);
         //Handel Burst capture
         if (cameraUiWrapper.GetParameterHandler().Burst != null && cameraUiWrapper.GetParameterHandler().Burst.IsSupported() && cameraUiWrapper.GetParameterHandler().Burst.GetValue() > 1)
         {
@@ -209,6 +204,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             Logger.d(this.TAG,"Set Manual WhiteBalance:"+ wb);
         }
         DngProfile dngProfile = cameraUiWrapper.GetParameterHandler().getDevice().getDngProfile(data.length);
+        Logger.d(TAG, "found dngProfile:" + (dngProfile != null));
         int orientation = cameraUiWrapper.getActivityInterface().getOrientation();
         cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile);
 

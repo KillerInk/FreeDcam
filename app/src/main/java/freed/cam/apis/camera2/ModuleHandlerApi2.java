@@ -48,17 +48,17 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract
 
     public void initModules()
     {
-        PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraUiWrapper);
+        PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraUiWrapper,mBackgroundHandler);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);
-        IntervalModule intervalModule = new IntervalApi2(pictureModuleApi2, cameraUiWrapper);
+        IntervalModule intervalModule = new IntervalApi2(pictureModuleApi2, cameraUiWrapper,mBackgroundHandler);
         moduleList.put(intervalModule.ModuleName(), intervalModule);
-        VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraUiWrapper);
+        VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraUiWrapper,mBackgroundHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
-        StackingModuleApi2 stackingModuleApi2 = new StackingModuleApi2(cameraUiWrapper, renderScriptHandler);
+        StackingModuleApi2 stackingModuleApi2 = new StackingModuleApi2(cameraUiWrapper, renderScriptHandler,mBackgroundHandler);
         moduleList.put(stackingModuleApi2.ModuleName(), stackingModuleApi2);
-        AeBracketApi2 aeBracketApi2 = new AeBracketApi2(cameraUiWrapper);
+        AeBracketApi2 aeBracketApi2 = new AeBracketApi2(cameraUiWrapper,mBackgroundHandler);
         moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
-        AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper);
+        AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper,mBackgroundHandler);
         moduleList.put(afBracketApi2.ModuleName(), afBracketApi2);
 
     }

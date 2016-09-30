@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
+import android.os.Handler;
 
 import java.io.File;
 
@@ -40,8 +41,8 @@ public class AeBracketModule extends PictureModuleMTK
     private int hdrCount = 0;
     private final String TAG = AeBracketModule.class.getSimpleName();
 
-    public AeBracketModule(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public AeBracketModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_HDR;
     }
 

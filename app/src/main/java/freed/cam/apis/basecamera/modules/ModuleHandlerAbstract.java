@@ -19,7 +19,9 @@
 
 package freed.cam.apis.basecamera.modules;
 
+import android.os.Build;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 
@@ -70,6 +72,8 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     //holds all listner for recorstatechanged
     private final ArrayList<I_RecorderStateChanged> RecorderStateListners;
     private Handler uihandler;
+    private HandlerThread mBackgroundThread;
+    protected Handler mBackgroundHandler;
 
 
 
@@ -80,11 +84,11 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();
         moduleChangedListner = new ArrayList<>();
-//        WorkFinishedListners = new ArrayList<>();
         RecorderStateListners = new ArrayList<>();
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
         onCaptureStateChangedListners = new ArrayList<>();
         uihandler = new Handler(Looper.getMainLooper());
+        startBackgroundThread();
 
         workerListner = new CaptureStateChanged() {
             @Override
@@ -224,6 +228,38 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     {
         moduleChangedListner.clear();
         RecorderStateListners.clear();
+        stopBackgroundThread();
+    }
+
+    /**
+     * Starts a background thread and its {@link Handler}.
+     */
+    private void startBackgroundThread() {
+        mBackgroundThread = new HandlerThread("CameraBackground");
+        mBackgroundThread.start();
+        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+    }
+
+    /**
+     * Stops the background thread and its {@link Handler}.
+     */
+    private void stopBackgroundThread()
+    {
+        Logger.d(TAG,"stopBackgroundThread");
+        if(mBackgroundThread == null)
+            return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            mBackgroundThread.quitSafely();
+        }
+        else
+            mBackgroundThread.quit();
+        try {
+            mBackgroundThread.join();
+            mBackgroundThread = null;
+            mBackgroundHandler = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

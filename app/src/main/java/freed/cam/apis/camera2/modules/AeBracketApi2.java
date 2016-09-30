@@ -24,6 +24,7 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Builder;
 import android.os.Build;
+import android.os.Handler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +51,8 @@ public class AeBracketApi2 extends PictureModuleApi2
     long exposureTimeStep = 0;
 
 
-    public AeBracketApi2(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public AeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_HDR;
     }
 

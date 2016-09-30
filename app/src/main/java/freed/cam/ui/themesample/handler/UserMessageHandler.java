@@ -26,7 +26,7 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R.id;
 
-import freed.cam.apis.basecamera.CameraWrapperEvent;
+import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 
@@ -34,7 +34,7 @@ import freed.cam.apis.basecamera.modules.ModuleInterface;
 /**
  * Created by troop on 04.10.2015.
  */
-public class UserMessageHandler implements CameraWrapperEvent
+public class UserMessageHandler implements CameraStateEvents
 {
     private final LinearLayout messageHolder;
     private final TextView messageTextView;
@@ -53,7 +53,7 @@ public class UserMessageHandler implements CameraWrapperEvent
     public void SetCameraUiWrapper(CameraWrapperInterface wrapper)
     {
         cameraUiWrapper =wrapper;
-        cameraUiWrapper.SetCameraChangedListner(this);
+        cameraUiWrapper.SetCameraStateChangedListner(this);
     }
 
     private void SetUserMessage(String msg)

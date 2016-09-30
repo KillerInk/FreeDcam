@@ -20,8 +20,10 @@
 package freed.cam.ui.videoprofileeditor;
 
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -96,7 +98,8 @@ public class VideoProfileEditorFragment extends Fragment
         button_delete.setOnClickListener(ondeleteButtonClick);
         videoMediaProfiles = new HashMap<>();
 
-        appSettingsManager = new AppSettingsManager(getContext());
+        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()));
+        appSettingsManager.getCamApi();
         videoMediaProfiles = appSettingsManager.getMediaProfiles();
         try {
             setMediaProfile(videoMediaProfiles.get(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)));
@@ -169,7 +172,6 @@ public class VideoProfileEditorFragment extends Fragment
                     videoMediaProfiles.remove(currentProfile.ProfileName);
                     currentProfile = null;
                     appSettingsManager.saveMediaProfiles(videoMediaProfiles);
-                    appSettingsManager.SaveAppSettings();
                     clearProfileItems();
                     break;
 
@@ -234,7 +236,6 @@ public class VideoProfileEditorFragment extends Fragment
                 videoMediaProfiles.put(p.ProfileName, p);
             }
             appSettingsManager.saveMediaProfiles(videoMediaProfiles);
-            appSettingsManager.SaveAppSettings();
             videoMediaProfiles.clear();
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }

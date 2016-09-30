@@ -66,7 +66,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     /**
      * holds the listners that get informed when the camera state change
      */
-    private final List<CameraWrapperEvent> cameraChangedListners;
+    private final List<CameraStateEvents> cameraChangedListners;
 
     /**
      * holds handler to invoke stuff in ui thread
@@ -85,6 +85,15 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     {
         cameraChangedListners = new CopyOnWriteArrayList<>();
         uiHandler = new Handler(Looper.getMainLooper());
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        moduleHandler.CLEAR();
+        moduleHandler.CLEARWORKERLISTNER();
+        super.onDestroyView();
+
     }
 
     public void SetRenderScriptHandler(RenderScriptHandler renderScriptHandler)
@@ -130,7 +139,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
      * adds a new listner for camera state changes
      * @param cameraChangedListner to add
      */
-    public void SetCameraChangedListner(CameraWrapperEvent cameraChangedListner)
+    public void SetCameraStateChangedListner(CameraStateEvents cameraChangedListner)
     {
         cameraChangedListners.add(cameraChangedListner);
     }
@@ -170,7 +179,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     @Override
     public void onCameraOpen(final String message)
     {
-        for (final CameraWrapperEvent cameraChangedListner : cameraChangedListners)
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -183,7 +192,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     @Override
     public void onCameraError(final String error) {
-        for (final CameraWrapperEvent cameraChangedListner : cameraChangedListners)
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -195,7 +204,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     @Override
     public void onCameraStatusChanged(final String status)
     {
-        for (final CameraWrapperEvent cameraChangedListner : cameraChangedListners)
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -209,7 +218,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     @Override
     public void onCameraClose(final String message)
     {
-        for (final CameraWrapperEvent cameraChangedListner : cameraChangedListners)
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -221,7 +230,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     @Override
     public void onPreviewOpen(final String message)
     {
-        for (final CameraWrapperEvent cameraChangedListner : cameraChangedListners)
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -232,7 +241,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     @Override
     public void onPreviewClose(final String message) {
-        for (final CameraWrapperEvent cameraChangedListner : cameraChangedListners)
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -243,7 +252,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     @Override
     public void onModuleChanged(final ModuleInterface module) {
-        for (final CameraWrapperEvent cameraChangedListner : cameraChangedListners)
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -256,7 +265,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     @Override
     public void onCameraOpenFinish(final String message)
     {
-        for (final CameraWrapperEvent cameraChangedListner : cameraChangedListners)
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {

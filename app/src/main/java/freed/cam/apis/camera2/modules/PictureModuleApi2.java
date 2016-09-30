@@ -55,9 +55,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
@@ -67,6 +71,7 @@ import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
+import freed.utils.DeviceUtils;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.Logger;
 
@@ -77,8 +82,39 @@ import freed.utils.Logger;
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class PictureModuleApi2 extends AbstractModuleApi2
 {
+
+    private class ImageHolder
+    {
+        private CaptureResult captureResult;
+        private Image image;
+        public void SetCaptureResult(CaptureResult captureResult)
+        {
+            this.captureResult = captureResult;
+        }
+
+        public void SetImage(Image image)
+        {
+            this.image = image;
+        }
+
+        public boolean rdyToGetSaved()
+        {
+            return image != null && captureResult != null;
+        }
+
+        public Image getImage()
+        {
+            return image;
+        }
+
+        public CaptureResult getCaptureResult()
+        {
+            return captureResult;
+        }
+    }
+
     private final String TAG = PictureModuleApi2.class.getSimpleName();
-    private TotalCaptureResult mDngResult;
+    //private TotalCaptureResult mDngResult;
     private Size largestImageSize;
     private String picFormat;
     private String picSize;
@@ -97,9 +133,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private int mState = STATE_PICTURE_TAKEN;
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
+    //private Image currentImage;
 
-    public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    /**
+     * A counter for tracking corresponding {@link CaptureRequest}s and {@link CaptureResult}s
+     * across the {@link CameraCaptureSession} capture callbacks.
+     */
+    private final AtomicInteger mRequestCounter = new AtomicInteger();
+
+    private final TreeMap<Integer, ImageHolder> resultQueue = new TreeMap<>();
+
+    public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_PICTURE;
         handler = new Handler(Looper.getMainLooper());
 
@@ -137,12 +182,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
+            captureBuilder.setTag(mRequestCounter.getAndIncrement());
             captureBuilder.addTarget(mImageReader.getSurface());
 
             mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,mBackgroundHandler);
 
+            ImageHolder imageHolder = new ImageHolder();
+            resultQueue.put((int)captureBuilder.build().getTag(), imageHolder);
+
             if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.TRUE) && cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
-                mState = STATE_WAIT_FOR_PRECAPTURE;
+                PictureModuleApi2.this.setCaptureState(STATE_WAIT_FOR_PRECAPTURE);
                 Logger.d(TAG,"Start AE Precapture");
                 startTimerLocked();
                 cameraHolder.StartAePrecapture(aecallback);
@@ -250,7 +299,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
             prepareCaptureBuilder(captureBuilder);
             imagecount = 0;
-            mDngResult = null;
+            //mDngResult = null;
             if (parameterHandler.Burst != null && parameterHandler.Burst.GetValue() > 0) {
                 initBurstCapture(captureBuilder, CaptureCallback);
             }
@@ -281,27 +330,63 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback,mBackgroundHandler);
     }
 
+    private String getAeStateString(int ae)
+    {
+        switch (ae)
+        {
+            case CaptureResult.CONTROL_AE_STATE_INACTIVE:
+                return "CONTROL_AE_STATE_INACTIVE";
+            case CaptureResult.CONTROL_AE_STATE_SEARCHING:
+                return "CONTROL_AE_STATE_SEARCHING";
+            case CaptureResult.CONTROL_AE_STATE_CONVERGED:
+                return "CONTROL_AE_STATE_CONVERGED";
+            case CaptureResult.CONTROL_AE_STATE_LOCKED:
+                return "CONTROL_AE_STATE_LOCKED";
+            case CaptureResult.CONTROL_AE_STATE_FLASH_REQUIRED:
+                return "CONTROL_AE_STATE_FLASH_REQUIRED";
+            case CaptureResult.CONTROL_AE_STATE_PRECAPTURE:
+                return "CONTROL_AE_STATE_PRECAPTURE";
+            default:
+                return "";
+        }
+    }
+
+    private String getCaptureState(int state)
+    {
+        switch (state)
+        {
+            case STATE_WAIT_FOR_PRECAPTURE:
+                return "STATE_WAIT_FOR_PRECAPTURE";
+            case STATE_PICTURE_TAKEN:
+                return "STATE_PICTURE_TAKEN";
+            case STATE_WAIT_FOR_NONPRECAPTURE:
+                return "STATE_WAIT_FOR_NONPRECAPTURE";
+            default:
+                return "";
+        }
+    }
+
     private CaptureCallback aecallback = new CaptureCallback()
     {
 
         private void processResult(CaptureResult partialResult)
         {
             Integer aeState = partialResult.get(CaptureResult.CONTROL_AE_STATE);
-            Logger.d(TAG, "CurrentCaptureState:" + mState + " AE_STATE:" + aeState);
+            Logger.d(TAG, "CurrentCaptureState:" + getCaptureState(mState) + " AE_STATE:" + getAeStateString(aeState));
             switch (mState)
             {
                 case STATE_WAIT_FOR_PRECAPTURE:
                     Logger.d(TAG,"STATE_WAIT_FOR_PRECAPTURE  AESTATE:" + aeState);
                     if (aeState == null)
                     {
-                        mState = STATE_PICTURE_TAKEN;
+                        setCaptureState(STATE_PICTURE_TAKEN);
                         captureStillPicture();
                     }
                     else if (aeState == CaptureResult.CONTROL_AE_STATE_PRECAPTURE ||
                             aeState == CaptureRequest.CONTROL_AE_STATE_FLASH_REQUIRED)
                     {
                         Logger.d(TAG,"Wait For nonprecapture");
-                        mState = STATE_WAIT_FOR_NONPRECAPTURE;
+                        setCaptureState(STATE_WAIT_FOR_NONPRECAPTURE);
                         if (hitTimeoutLocked())
                         {
                             mState = STATE_PICTURE_TAKEN;
@@ -311,7 +396,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     else if (aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
                     {
                         Logger.d(TAG,"CONTROL_AE_STATE_CONVERGED captureStillPicture");
-                        mState = STATE_PICTURE_TAKEN;
+                        setCaptureState(STATE_PICTURE_TAKEN);
                         captureStillPicture();
                     }
                     break;
@@ -320,7 +405,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     /*if (aeState == null || aeState != CaptureResult.CONTROL_AE_STATE_PRECAPTURE)
                     {*/
                         //cameraHolder.SetParameter(CaptureRequest.CONTROL_AE_LOCK, true);
-                        mState = STATE_PICTURE_TAKEN;
+                        setCaptureState(STATE_PICTURE_TAKEN);
                         captureStillPicture();
                     //}
                     break;
@@ -340,6 +425,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
     };
 
+    private void setCaptureState(int state)
+    {
+        mState = state;
+        Logger.d(TAG, "mState:" + getCaptureState(state));
+    }
+
     private void startTimerLocked() {
         mCaptureTimer = SystemClock.elapsedRealtime();
     }
@@ -357,55 +448,63 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request,
                                        TotalCaptureResult result)
         {
-            mDngResult = result;
+            int requestId = (int) request.getTag();
+            ImageHolder imageHolder = resultQueue.get(requestId);
+            imageHolder.SetCaptureResult(result);
+
+            if (imageHolder.rdyToGetSaved())
+            {
+                resultQueue.remove(requestId);
+                saveImage(imageHolder);
+            }
+            //mDngResult = result;
             try {
                 Logger.d(TAG, "CaptureResult Recieved");
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "ColorCorrectionGains" + mDngResult.get(CaptureResult.COLOR_CORRECTION_GAINS));
+                Logger.d(TAG, "ColorCorrectionGains" + result.get(CaptureResult.COLOR_CORRECTION_GAINS));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "ColorCorrectionTransform" + mDngResult.get(CaptureResult.COLOR_CORRECTION_TRANSFORM));
+                Logger.d(TAG, "ColorCorrectionTransform" + result.get(CaptureResult.COLOR_CORRECTION_TRANSFORM));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "ToneMapCurve" + mDngResult.get(CaptureResult.TONEMAP_CURVE));
+                Logger.d(TAG, "ToneMapCurve" + result.get(CaptureResult.TONEMAP_CURVE));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "Sensor Sensitivity" + mDngResult.get(CaptureResult.SENSOR_SENSITIVITY));
+                Logger.d(TAG, "Sensor Sensitivity" + result.get(CaptureResult.SENSOR_SENSITIVITY));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "Sensor ExposureTime" + mDngResult.get(CaptureResult.SENSOR_EXPOSURE_TIME));
+                Logger.d(TAG, "Sensor ExposureTime" + result.get(CaptureResult.SENSOR_EXPOSURE_TIME));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "Sensor FrameDuration" + mDngResult.get(CaptureResult.SENSOR_FRAME_DURATION));
+                Logger.d(TAG, "Sensor FrameDuration" + result.get(CaptureResult.SENSOR_FRAME_DURATION));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "Sensor GreenSplit" + mDngResult.get(CaptureResult.SENSOR_GREEN_SPLIT));
+                Logger.d(TAG, "Sensor GreenSplit" + result.get(CaptureResult.SENSOR_GREEN_SPLIT));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "Sensor NoiseProfile" + Arrays.toString(mDngResult.get(CaptureResult.SENSOR_NOISE_PROFILE)));
+                Logger.d(TAG, "Sensor NoiseProfile" + Arrays.toString(result.get(CaptureResult.SENSOR_NOISE_PROFILE)));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "Sensor NeutralColorPoint" + Arrays.toString(mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT)));
+                Logger.d(TAG, "Sensor NeutralColorPoint" + Arrays.toString(result.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT)));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "Orientation" + mDngResult.get(CaptureResult.JPEG_ORIENTATION));
+                Logger.d(TAG, "Orientation" + result.get(CaptureResult.JPEG_ORIENTATION));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "FOCUS POS: " + mDngResult.get(CaptureResult.LENS_FOCUS_DISTANCE));
+                Logger.d(TAG, "FOCUS POS: " + result.get(CaptureResult.LENS_FOCUS_DISTANCE));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
-
 
         }
     };
@@ -431,125 +530,122 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void onImageAvailable(final ImageReader reader)
         {
-            while (mDngResult == null)
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    Logger.exception(e);
-                }
-            int burstcount = parameterHandler.Burst.GetValue()+1;
-            String f;
-            if (burstcount > 1)
-                f = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount);
-            else
-                f =cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(),"");
-            File file = null;
-            imagecount++;
-            switch (reader.getImageFormat())
+            Map.Entry<Integer, ImageHolder> entry =
+                    resultQueue.firstEntry();
+            ImageHolder imageHolder = entry.getValue();
+            imageHolder.SetImage(reader.acquireNextImage());
+            if (imageHolder.rdyToGetSaved())
             {
-                case ImageFormat.JPEG:
-                    file = new File(f+".jpg");
-                    process_jpeg(reader, file);
-                    break;
-                case ImageFormat.RAW10:
-                    file = new File(f+".dng");
-                    process_rawWithDngConverter(reader, DngProfile.Mipi,file);
-                    break;
-                case ImageFormat.RAW12:
-                    file = new File(f+".dng");
-                    process_rawWithDngConverter(reader,DngProfile.Mipi12,file);
-                    break;
-                case ImageFormat.RAW_SENSOR:
-                    file = new File(f+".dng");
-                    if(appSettingsManager.getDevice() == Devices.Moto_X2k14 || appSettingsManager.getDevice() == Devices.OnePlusTwo)
-                        process_rawWithDngConverter(reader,DngProfile.Mipi16,file);
-                    else
-                        process_rawSensor(reader,file);
-                    break;
-            }
-
-            isWorking = false;
-            changeCaptureState(CaptureStates.image_capture_stop);
-            if (burstcount == imagecount) {
-                finishCapture(captureBuilder);
+                resultQueue.remove(0);
+                saveImage(imageHolder);
             }
         }
-
     };
 
+    private void saveImage(ImageHolder image) {
+        int burstcount = parameterHandler.Burst.GetValue()+1;
+        String f;
+        if (burstcount > 1)
+            f = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount);
+        else
+            f =cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(),"");
+        File file = null;
+        imagecount++;
+        switch (image.getImage().getFormat())
+        {
+            case ImageFormat.JPEG:
+                file = new File(f+".jpg");
+                process_jpeg(image.getImage(), file);
+                break;
+            case ImageFormat.RAW10:
+                file = new File(f+".dng");
+                process_rawWithDngConverter(image, DngProfile.Mipi,file);
+                break;
+            case ImageFormat.RAW12:
+                file = new File(f+".dng");
+                process_rawWithDngConverter(image,DngProfile.Mipi12,file);
+                break;
+            case ImageFormat.RAW_SENSOR:
+                file = new File(f+".dng");
+                if(appSettingsManager.getDevice() == Devices.Moto_X2k14 || appSettingsManager.getDevice() == Devices.OnePlusTwo)
+                    process_rawWithDngConverter(image,DngProfile.Mipi16,file);
+                else
+                    process_rawSensor(image,file);
+                break;
+        }
+
+        isWorking = false;
+        changeCaptureState(CaptureStates.image_capture_stop);
+        if (burstcount == imagecount) {
+            finishCapture(captureBuilder);
+        }
+    }
+
     @NonNull
-    private void process_jpeg(ImageReader reader, File file) {
+    private void process_jpeg(Image image, File file) {
 
         Logger.d(TAG, "Create JPEG");
-        Image image = reader.acquireNextImage();
-        while (image == null) {
-            image = reader.acquireNextImage();
-
-        }
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
         cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(file, bytes);
         image.close();
+        image =null;
         
     }
 
     @NonNull
-    private void process_rawSensor(ImageReader reader,File file) {
+    private void process_rawSensor(ImageHolder image,File file) {
         Logger.d(TAG, "Create DNG");
-        Image image = reader.acquireNextImage();
-        while (image == null) {
-            image = reader.acquireNextImage();
-        }
-        DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
+
+        DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, image.getCaptureResult());
         dngCreator.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
         if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
             dngCreator.setLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         try
         {
             if (!appSettingsManager.GetWriteExternal())
-                dngCreator.writeImage(new FileOutputStream(file), image);
+                dngCreator.writeImage(new FileOutputStream(file), image.getImage());
             else
             {
                 DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
                 DocumentFile wr = df.createFile("image/*", file.getName());
-                dngCreator.writeImage(cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri()), image);
+                dngCreator.writeImage(cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri()), image.getImage());
             }
         } catch (IOException e) {
             Logger.exception(e);
         }
-        image.close();
+        image.getImage().close();
+        image = null;
     }
 
     @NonNull
-    private void process_rawWithDngConverter(ImageReader reader, int rawFormat,File file) {
+    private void process_rawWithDngConverter(ImageHolder image, int rawFormat,File file) {
         Logger.d(TAG, "Create DNG VIA RAw2DNG");
-        Image image = reader.acquireNextImage();
-        while (image == null) {
-            image = reader.acquireNextImage();
-        }
+
         RawToDng dngConverter = RawToDng.GetInstance();
-        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+        ByteBuffer buffer = image.getImage().getPlanes()[0].getBuffer();
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
         float fnum, focal = 0;
-        fnum = mDngResult.get(CaptureResult.LENS_APERTURE);
-        focal = mDngResult.get(CaptureResult.LENS_FOCAL_LENGTH);
+        fnum = image.getCaptureResult().get(CaptureResult.LENS_APERTURE);
+        focal = image.getCaptureResult().get(CaptureResult.LENS_FOCAL_LENGTH);
         Logger.d("Freedcam RawCM2",String.valueOf(bytes.length));
 
-        int mISO = mDngResult.get(CaptureResult.SENSOR_SENSITIVITY).intValue();
-        double mExposuretime = mDngResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
-        int mFlash = mDngResult.get(CaptureResult.FLASH_STATE).intValue();
-        double exposurecompensation= mDngResult.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
+        int mISO = image.getCaptureResult().get(CaptureResult.SENSOR_SENSITIVITY).intValue();
+        double mExposuretime = image.getCaptureResult().get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
+        int mFlash = image.getCaptureResult().get(CaptureResult.FLASH_STATE).intValue();
+        double exposurecompensation= image.getCaptureResult().get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
         DngProfile prof = getDngProfile(rawFormat, image);
         cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, cameraUiWrapper.getActivityInterface().getOrientation()
         ,null,prof);
-        image.close();
+        image.getImage().close();
         bytes = null;
+        image = null;
     }
 
     @NonNull
-    private DngProfile getDngProfile(int rawFormat, Image image) {
+    private DngProfile getDngProfile(int rawFormat, ImageHolder image) {
         int black  = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
         int c= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
         String colorpattern;
@@ -609,7 +705,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         {
             color1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
             color2 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
-            Rational[] n = mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
+            Rational[] n = image.getCaptureResult().get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
             neutral[0] = n[0].floatValue();
             neutral[1] = n[1].floatValue();
             neutral[2] = n[2].floatValue();
@@ -619,7 +715,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             reduction1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1));
             reduction2 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2));
             //noise
-            Pair[] p = mDngResult.get(CaptureResult.SENSOR_NOISE_PROFILE);
+            Pair[] p = image.getCaptureResult().get(CaptureResult.SENSOR_NOISE_PROFILE);
             double[] noiseys = new double[p.length*2];
             int i = 0;
             for (int h = 0; h < p.length; h++)
@@ -639,7 +735,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             //noise end
         }
 
-        return DngProfile.getProfile(black,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
+        return DngProfile.getProfile(black,image.getImage().getWidth(), image.getImage().getHeight(),rawFormat, colorpattern, 0,
                 color1,
                 color2,
                 neutral,

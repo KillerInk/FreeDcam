@@ -64,8 +64,8 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     private final RenderScriptHandler renderScriptHandler;
 
 
-    public StackingModuleApi2(CameraWrapperInterface cameraUiWrapper, RenderScriptHandler renderScriptHandler) {
-        super(cameraUiWrapper);
+    public StackingModuleApi2(CameraWrapperInterface cameraUiWrapper, RenderScriptHandler renderScriptHandler, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_STACKING;
         this.renderScriptHandler =renderScriptHandler;
     }

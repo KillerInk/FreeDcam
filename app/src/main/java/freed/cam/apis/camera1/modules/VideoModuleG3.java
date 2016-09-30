@@ -24,6 +24,7 @@ import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioSource;
 import android.media.MediaRecorder.OutputFormat;
 import android.media.MediaRecorder.VideoSource;
+import android.os.Handler;
 
 import com.lge.media.MediaRecorderEx;
 
@@ -46,8 +47,8 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     private final String TAG = VideoModuleG3.class.getSimpleName();
 
-    public VideoModuleG3(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public VideoModuleG3(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
     }
 
     protected MediaRecorder initRecorder()
@@ -97,11 +98,6 @@ public class VideoModuleG3 extends AbstractVideoModule
                     recorder.setCaptureRate(frame);
                     break;
             }
-            if (appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD")) {
-
-                recorder.setMaxFileSize(3037822976L);
-                recorder.setMaxDuration(7200000);
-            }
         }
         catch (IllegalStateException ex)
         {
@@ -135,7 +131,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     {
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
-        if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("4kUHD"))
+        if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("2160p"))
         {
             cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable",false);
             cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", false);

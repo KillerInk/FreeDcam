@@ -32,6 +32,7 @@ import freed.cam.apis.camera1.parameters.device.mediatek.ALCATEL.Alcatel_985n;
 import freed.cam.apis.camera1.parameters.device.mediatek.ELEPHONE.Elephone_P9000;
 import freed.cam.apis.camera1.parameters.device.mediatek.ForwardArt_MTK;
 import freed.cam.apis.camera1.parameters.device.mediatek.I_Mobile_IStyleQ6;
+import freed.cam.apis.camera1.parameters.device.mediatek.InFocusM808;
 import freed.cam.apis.camera1.parameters.device.mediatek.JIAYU.Jiayu_S3;
 import freed.cam.apis.camera1.parameters.device.mediatek.LENOVO.Lenovo_K4Note_MTK;
 import freed.cam.apis.camera1.parameters.device.mediatek.LENOVO.Lenovo_K50_MTK;
@@ -85,11 +86,13 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.SONY.Sony_M4;
 import freed.cam.apis.camera1.parameters.device.qualcomm.SONY.Sony_XperiaL;
 import freed.cam.apis.camera1.parameters.device.qualcomm.SONY.Sony_Z5C;
 import freed.cam.apis.camera1.parameters.device.qualcomm.VIVO.Vivo_Xplay3s;
+import freed.cam.apis.camera1.parameters.device.qualcomm.WIKO.Wikio_Stairway;
 import freed.cam.apis.camera1.parameters.device.qualcomm.WileyFox_Swift;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi3_4;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi_Note_Pro;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi2;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi3;
+import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi3s;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi_Note;
 import freed.cam.apis.camera1.parameters.device.qualcomm.YU.Yu_Yureka;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ADV;
@@ -180,7 +183,9 @@ public class DeviceSelector {
                 return getDefault(cameraUiWrapper,cameraParameters);
             case I_Mobile_I_StyleQ6:
                return new I_Mobile_IStyleQ6(cameraParameters,cameraUiWrapper);
-                
+
+            case InFocus_M808:
+                return new InFocusM808(cameraParameters,cameraUiWrapper);
             case Jiayu_S3:
                return new Jiayu_S3(cameraParameters,cameraUiWrapper);
                 
@@ -241,6 +246,8 @@ public class DeviceSelector {
                 return new MyPhoneInfinity2S(cameraParameters,cameraUiWrapper);
             case Nexus4:
                 return getDefault(cameraUiWrapper,cameraParameters);
+            case Nexus6:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case Nexus5x:
             case Nexus6p:
                 return new Nexus6p_5x(cameraParameters,cameraUiWrapper);
@@ -298,6 +305,8 @@ public class DeviceSelector {
             case Vivo_Xplay3s:
                return new Vivo_Xplay3s(cameraParameters,cameraUiWrapper);
 
+            case Wiko_Stairway:
+                return new Wikio_Stairway(cameraParameters,cameraUiWrapper);
             case Wileyfox_Swift:
                 return new WileyFox_Swift(cameraParameters,cameraUiWrapper);
             case Mi_Max:
@@ -321,6 +330,8 @@ public class DeviceSelector {
 
             case Xiaomi_Redmi3:
                 return new Xiaomi_Redmi3(cameraParameters,cameraUiWrapper);
+            case Xiaomi_Redmi3S:
+                return new Xiaomi_Redmi3s(cameraParameters,cameraUiWrapper);
             case Xolo_Omega5:
                 return new Xolo_Omega5(cameraParameters,cameraUiWrapper);
             case Yu_Yureka:
@@ -336,8 +347,12 @@ public class DeviceSelector {
                return new ZTE_ADV_IMX234(cameraParameters,cameraUiWrapper);
             case ZTE_Z11:
                 return new ZTE_Z11(cameraParameters,cameraUiWrapper);
+            case ZTE_Z9:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case ZTE_Z5SMINI:
                 return new ZTE_Z5SMINI(cameraParameters,cameraUiWrapper);
+            case ZTE_MyPrague:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case Zoppo_8speed:
                 return new Zoppo_8speed(cameraParameters,cameraUiWrapper);
             default:

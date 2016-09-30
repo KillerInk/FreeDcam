@@ -245,16 +245,35 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             timeLapseFrames.setVisibility(View.VISIBLE);
             timeLapseFrames.SetStuff(fragment_activityInterface.getAppSettings());
             videoProfileEditor.setVisibility(View.VISIBLE);
+
+            AEB1.setVisibility(View.VISIBLE);
+            AEB1.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB1);
+            AEB1.SetCameraUIWrapper(cameraUiWrapper);
+            AEB2.setVisibility(View.VISIBLE);
+            AEB2.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB2);
+            AEB2.SetCameraUIWrapper(cameraUiWrapper);
+            AEB3.setVisibility(View.VISIBLE);
+            AEB3.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB3);
+            AEB3.SetCameraUIWrapper(cameraUiWrapper);
         }
         else if (cameraUiWrapper instanceof Camera2Fragment)
         {
-            timeLapseFrames.setVisibility(View.GONE);
+            timeLapseFrames.setVisibility(View.VISIBLE);
+            timeLapseFrames.SetStuff(fragment_activityInterface.getAppSettings());
             videoProfileEditor.setVisibility(View.VISIBLE);
+
+            AEB1.setVisibility(View.GONE);
+            AEB2.setVisibility(View.GONE);
+            AEB3.setVisibility(View.GONE);
         }
         else
         {
             timeLapseFrames.setVisibility(View.GONE);
             videoProfileEditor.setVisibility(View.GONE);
+
+            AEB1.setVisibility(View.GONE);
+            AEB2.setVisibility(View.GONE);
+            AEB3.setVisibility(View.GONE);
         }
 
 
@@ -280,25 +299,6 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         horizont.SetParameter(cameraUiWrapper.GetParameterHandler().Horizont);
         horizont.SetUiItemClickListner(this);
 
-        if(cameraUiWrapper instanceof Camera1Fragment)
-        {
-            AEB1.setVisibility(View.VISIBLE);
-            AEB1.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB1);
-            AEB1.SetCameraUIWrapper(cameraUiWrapper);
-            AEB2.setVisibility(View.VISIBLE);
-            AEB2.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB2);
-            AEB2.SetCameraUIWrapper(cameraUiWrapper);
-            AEB3.setVisibility(View.VISIBLE);
-            AEB3.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB3);
-            AEB3.SetCameraUIWrapper(cameraUiWrapper);
-        }
-        else
-        {
-            AEB1.setVisibility(View.GONE);
-            AEB2.setVisibility(View.GONE);
-            AEB3.setVisibility(View.GONE);
-        }
-
         opcode.SetStuff(fragment_activityInterface, "");
         opcode.SetParameter(cameraUiWrapper.GetParameterHandler().opcode);
         opcode.SetUiItemClickListner(this);
@@ -316,7 +316,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         imageStackMode.SetUiItemClickListner(this);
 
         nightoverlay.SetUiItemClickListner(this);
-        nightoverlay.SetStuff(fragment_activityInterface, AppSettingsManager.SETTINGS_NIGHTOVERLAY);
+        //nightoverlay.SetStuff(fragment_activityInterface,"");
         nightoverlay.SetParameter(cameraUiWrapper.GetParameterHandler().NightOverlay);
     }
 

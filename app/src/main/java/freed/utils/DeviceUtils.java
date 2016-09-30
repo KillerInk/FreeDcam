@@ -24,6 +24,8 @@ import android.os.Build;
 
 import com.troop.freedcam.R.array;
 
+import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi3s;
+
 
 /**
  * Created by troop on 22.12.13.
@@ -58,6 +60,7 @@ public class DeviceUtils
         Huawei_HONOR5x,
         huawei_honor6,
         I_Mobile_I_StyleQ6,
+        InFocus_M808,
         Jiayu_S3,
         LenovoK910,
         LenovoK920,
@@ -106,6 +109,7 @@ public class DeviceUtils
         THL5000_MTK,
         Umi_Rome_X,
         Vivo_Xplay3s,
+        Wiko_Stairway,
         Wileyfox_Swift,
         Mi_Max,
         XiaomiMI3W,
@@ -115,6 +119,7 @@ public class DeviceUtils
         XiaomiMI_Note_Pro,
         Xiaomi_Redmi_Note3,
         Xiaomi_Redmi3,
+        Xiaomi_Redmi3S,
         Xolo_Omega5,
         Yu_Yureka,
         ZTE_ADV,
@@ -322,6 +327,12 @@ public class DeviceUtils
             return Devices.ZTE_Z11;
         else if(isDevice(res.getStringArray(array.ZTE_Z5SMni)))
             return Devices.ZTE_Z5SMINI;
+        else if (isDevice(res.getStringArray(array.wiko_stairway)))
+            return Devices.Wiko_Stairway;
+        else if (isDevice(res.getStringArray(array.infocus_M808)))
+            return Devices.InFocus_M808;
+        else if (isDevice(res.getStringArray(array.xiaomi_redmi3s)))
+            return Devices.Xiaomi_Redmi3S;
         else
             return Devices.UNKNOWN;
 

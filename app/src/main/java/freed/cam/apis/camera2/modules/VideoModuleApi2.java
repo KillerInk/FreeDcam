@@ -31,6 +31,7 @@ import android.media.MediaRecorder.OutputFormat;
 import android.media.MediaRecorder.VideoSource;
 import android.net.Uri;
 import android.os.Build.VERSION_CODES;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 import android.util.Size;
@@ -65,8 +66,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     private MediaRecorder mediaRecorder;
 
-    public VideoModuleApi2( CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public VideoModuleApi2( CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_VIDEO;
     }
 
@@ -164,6 +165,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         recordingFile = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".mp4"));
         mediaRecorder = new MediaRecorder();
         mediaRecorder.reset();
+        mediaRecorder.setMaxFileSize(3037822976L); //~2.8 gigabyte
+        mediaRecorder.setMaxDuration(7200000); //2hours
         mediaRecorder.setOnErrorListener(new OnErrorListener() {
             @Override
             public void onError(MediaRecorder mr, int what, int extra) {
@@ -173,16 +176,85 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             }
         });
 
+        mediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
+            @Override
+            public void onInfo(MediaRecorder mr, int what, int extra) {
+                if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED)
+                {
+                    recordnextFile(mr);
+                }
+                else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED)
+                {
+                    recordnextFile(mr);
+                }
+            }
+        });
+
         if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON)){
             Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
             if (location != null)
                 mediaRecorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
         }
+        switch (currentVideoProfile.Mode)
+        {
 
-        mediaRecorder.setAudioSource(AudioSource.CAMCORDER);
+            case Normal:
+            case Highspeed:
+                if (currentVideoProfile.isAudioActive)
+                    mediaRecorder.setAudioSource(AudioSource.CAMCORDER);
+                break;
+            case Timelapse:
+                break;
+        }
         mediaRecorder.setVideoSource(VideoSource.SURFACE);
 
         mediaRecorder.setOutputFormat(OutputFormat.MPEG_4);
+        setRecorderFilePath();
+
+        mediaRecorder.setVideoEncodingBitRate(currentVideoProfile.videoBitRate);
+        mediaRecorder.setVideoFrameRate(currentVideoProfile.videoFrameRate);
+        mediaRecorder.setVideoSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+        mediaRecorder.setVideoEncoder(currentVideoProfile.videoCodec);
+
+        switch (currentVideoProfile.Mode)
+        {
+            case Normal:
+            case Highspeed:
+                if (currentVideoProfile.isAudioActive)
+                {
+                    mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
+                    mediaRecorder.setAudioChannels(currentVideoProfile.audioChannels);
+                    mediaRecorder.setAudioEncodingBitRate(currentVideoProfile.audioBitRate);
+                    mediaRecorder.setAudioSamplingRate(currentVideoProfile.audioSampleRate);
+                }
+                break;
+            case Timelapse:
+                float frame = 30;
+                if (!appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
+                    frame = Float.parseFloat(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+                else
+                    appSettingsManager.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, "" + frame);
+                mediaRecorder.setCaptureRate(frame);
+                break;
+        }
+
+
+
+        try {
+            mediaRecorder.prepare();
+        } catch (IOException e) {
+            Logger.exception(e);
+            cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+            changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+            return;
+        }
+        recorderSurface = mediaRecorder.getSurface();
+        cameraHolder.CaptureSessionH.AddSurface(recorderSurface,true);
+
+        cameraHolder.CaptureSessionH.CreateCaptureSession(previewrdy);
+    }
+
+    private void setRecorderFilePath() {
         if (!appSettingsManager.GetWriteExternal()) {
             mediaRecorder.setOutputFile(recordingFile.getAbsolutePath());
         }
@@ -204,29 +276,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2
                 }
             }
         }
+    }
 
-        mediaRecorder.setVideoEncodingBitRate(currentVideoProfile.videoBitRate);
-        mediaRecorder.setVideoFrameRate(currentVideoProfile.videoFrameRate);
-        mediaRecorder.setVideoSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
-        mediaRecorder.setVideoEncoder(currentVideoProfile.videoCodec);
-
-        mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
-        mediaRecorder.setAudioChannels(currentVideoProfile.audioChannels);
-        mediaRecorder.setAudioEncodingBitRate(currentVideoProfile.audioBitRate);
-        mediaRecorder.setAudioSamplingRate(currentVideoProfile.audioSampleRate);
-
-        try {
-            mediaRecorder.prepare();
-        } catch (IOException e) {
-            Logger.exception(e);
-            cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
-            changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
-            return;
-        }
-        recorderSurface = mediaRecorder.getSurface();
-        cameraHolder.CaptureSessionH.AddSurface(recorderSurface,true);
-
-        cameraHolder.CaptureSessionH.CreateCaptureSession(previewrdy);
+    private void recordnextFile(MediaRecorder mr) {
+        stopRecording();
+        startRecording();
     }
 
     private final StateCallback previewrdy = new StateCallback()

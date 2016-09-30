@@ -40,7 +40,6 @@ public class ValuesMenuFragment extends Fragment implements ListView.OnItemClick
 {
     private String[] item;
     private ListView listView;
-    View view;
     private CloseChildClick _closeChildClick;
 
     @Override
@@ -70,6 +69,7 @@ public class ValuesMenuFragment extends Fragment implements ListView.OnItemClick
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        listView.setOnItemClickListener(null);
         String value = (String) listView.getItemAtPosition(position);
         _closeChildClick.onCloseClicked(value);
     }

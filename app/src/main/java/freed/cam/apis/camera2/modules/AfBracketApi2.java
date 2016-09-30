@@ -24,6 +24,7 @@ import android.hardware.camera2.CameraCaptureSession.CaptureCallback;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Builder;
 import android.os.Build;
+import android.os.Handler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,8 @@ import freed.utils.AppSettingsManager;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class AfBracketApi2 extends PictureModuleApi2
 {
-    public AfBracketApi2(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public AfBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_AFBRACKET;
     }
 

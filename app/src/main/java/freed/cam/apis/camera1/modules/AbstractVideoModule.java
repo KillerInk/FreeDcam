@@ -23,6 +23,7 @@ import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnErrorListener;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 
@@ -34,6 +35,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
@@ -42,15 +44,15 @@ import freed.utils.Logger;
 /**
  * Created by troop on 06.01.2016.
  */
-public abstract class AbstractVideoModule extends ModuleAbstract
+public abstract class AbstractVideoModule extends ModuleAbstract implements MediaRecorder.OnInfoListener
 {
     protected MediaRecorder recorder;
     protected String mediaSavePath;
     private final String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
 
-    public AbstractVideoModule(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+    public AbstractVideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
+        super(cameraUiWrapper,mBackgroundHandler);
         name = KEYS.MODULE_VIDEO;
     }
 
@@ -104,16 +106,21 @@ public abstract class AbstractVideoModule extends ModuleAbstract
             isWorking = true;
             ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().unlock();
             recorder = initRecorder();
+            recorder.setMaxFileSize(3037822976L); //~2.8 gigabyte
+            recorder.setMaxDuration(7200000); //2hours
             recorder.setOnErrorListener(new OnErrorListener() {
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {
                     Logger.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
+                    cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+                    changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
                 }
             });
 
             mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".mp4");
 
             setRecorderOutPutFile(mediaSavePath);
+            recorder.setOnInfoListener(this);
 
             if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
                 recorder.setOrientationHint(180);
@@ -231,5 +238,22 @@ public abstract class AbstractVideoModule extends ModuleAbstract
             }
         }
 
+    }
+
+    @Override
+    public void onInfo(MediaRecorder mr, int what, int extra) {
+        if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED)
+        {
+            recordnextFile(mr);
+        }
+        else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED)
+        {
+            recordnextFile(mr);
+        }
+    }
+
+    private void recordnextFile(MediaRecorder mr) {
+        stopRecording();
+        startRecording();
     }
 }

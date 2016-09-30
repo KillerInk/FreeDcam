@@ -105,7 +105,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         cameraHolder = new CameraHolderSony(getContext(), surfaceView, this);
         moduleHandler.initModules();
 
-        SetCameraChangedListner(this);
+        SetCameraStateChangedListner(this);
         ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(this);
 
         return view;
@@ -326,7 +326,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
             {
                 Logger.d(TAG, "StartScanning For networks after onCameraError" );
                 try {
-                    SetCameraChangedListner(SonyCameraFragment.this);
+                    SetCameraStateChangedListner(SonyCameraFragment.this);
                     ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(null);
                     if(hasLocationPermission)
                         startWifiScanning();
