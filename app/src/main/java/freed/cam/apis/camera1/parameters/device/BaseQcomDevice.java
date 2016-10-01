@@ -82,18 +82,7 @@ public class BaseQcomDevice extends AbstractDevice
     public ManualParameterInterface getCCTParameter()
     {
         // looks like wb-current-cct is loaded when the preview is up. this could be also for the other parameters
-        //TODO find a workaround to load cct when preview is up
-        String wbModeval ="", wbcur ="", wbmax = "",wbmin = "";
-        if (parameters.get(KEYS.WB_CURRENT_CCT)!=null)
-            wbcur = KEYS.WB_CURRENT_CCT;
-        else if (parameters.get(KEYS.WB_CCT) != null)
-            wbcur = KEYS.WB_CCT;
-        else if (parameters.get(KEYS.WB_CT) != null)
-            wbcur = KEYS.WB_CT;
-        else if (parameters.get(KEYS.WB_MANUAL_CCT) != null)
-            wbcur = KEYS.WB_MANUAL_CCT;
-        else if (parameters.get(KEYS.MANUAL_WB_VALUE) != null)
-            wbcur = KEYS.MANUAL_WB_VALUE;
+        String wbModeval ="", wbmax = "",wbmin = "";
 
         if (parameters.get(KEYS.MAX_WB_CCT) != null) {
             wbmax = KEYS.MAX_WB_CCT;
@@ -111,12 +100,12 @@ public class BaseQcomDevice extends AbstractDevice
         else if (arrayContainsString(parametersHandler.WhiteBalanceMode.GetValues(), KEYS.WB_MODE_MANUAL_CCT))
             wbModeval = KEYS.WB_MODE_MANUAL_CCT;
 
-        if (!wbcur.equals("") && !wbmax.equals("") && !wbmin.equals("") && !wbModeval.equals("")) {
-            Logger.d(TAG, "Found all wbct values:" + wbcur + " " +wbmax + " " + wbmin + " " +wbModeval);
-            return new BaseCCTManual(parameters, wbcur, wbmax, wbmin, cameraUiWrapper, 100, wbModeval);
+        if (!wbmax.equals("") && !wbmin.equals("") && !wbModeval.equals("")) {
+            Logger.d(TAG, "Found all wbct values:" +wbmax + " " + wbmin + " " +wbModeval);
+            return new BaseCCTManual(parameters, wbmax, wbmin, cameraUiWrapper, 100, wbModeval);
         }
         else {
-            Logger.d(TAG, "Failed to lookup wbct:" + wbcur + " " +wbmax + " " + wbmin + " " +wbModeval);
+            Logger.d(TAG, "Failed to lookup wbct:" + " " +wbmax + " " + wbmin + " " +wbModeval);
             return null;
         }
     }

@@ -20,6 +20,9 @@
 package freed.cam.apis.camera1.parameters.manual.whitebalance;
 
 import android.hardware.Camera.Parameters;
+import android.os.Handler;
+
+import com.drew.lang.StringUtil;
 
 import java.util.ArrayList;
 
@@ -28,6 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.utils.Logger;
+import freed.utils.StringUtils;
 
 /**
  * Created by Ingo on 06.03.2016.
@@ -50,6 +54,42 @@ public class BaseCCTManual extends BaseManualParameter
                          String wbmode) {
         super(parameters, value, maxValue, MinValue, cameraUiWrapper, step);
         manual_WbMode = wbmode;
+    }
+
+    public BaseCCTManual(final Parameters parameters, String maxValue, String MinValue
+            , CameraWrapperInterface cameraUiWrapper, float step,
+                         String wbmode) {
+        super(parameters, "", maxValue, MinValue, cameraUiWrapper, step);
+        isSupported = false;
+        isVisible = false;
+        int min = Integer.parseInt(parameters.get(key_min_value));
+        int max = Integer.parseInt(parameters.get(key_max_value));
+        stringvalues = createStringArray(min,max,step);
+        manual_WbMode = wbmode;
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String wbcur = "";
+                if (parameters.get(KEYS.WB_CURRENT_CCT)!=null)
+                    wbcur = KEYS.WB_CURRENT_CCT;
+                else if (parameters.get(KEYS.WB_CCT) != null)
+                    wbcur = KEYS.WB_CCT;
+                else if (parameters.get(KEYS.WB_CT) != null)
+                    wbcur = KEYS.WB_CT;
+                else if (parameters.get(KEYS.WB_MANUAL_CCT) != null)
+                    wbcur = KEYS.WB_MANUAL_CCT;
+                else if (parameters.get(KEYS.MANUAL_WB_VALUE) != null)
+                    wbcur = KEYS.MANUAL_WB_VALUE;
+                if (wbcur != "")
+                {
+                    isSupported = true;
+                    isVisible = true;
+                    key_value = wbcur;
+                    BaseCCTManual.this.ThrowBackgroundIsSupportedChanged(true);
+                }
+            }
+        }, 800);
     }
 
     public BaseCCTManual(Parameters parameters, String value, int max, int min
