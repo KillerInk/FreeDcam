@@ -18,59 +18,21 @@ android {
         versionName '3.3.143'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 18
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
     lintOptions { checkReleaseBuilds false }
-    sourceSets
-            {
-                main {
 
-                    jni.srcDirs = []
-                    jniLibs.srcDir 'libs'
-
-                }
-
-
-                Properties properties = new Properties()
-                properties.load(project.rootProject.file('local.properties').newDataInputStream())
-                def ndkDir = properties.getProperty('ndk.dir')
-                task ndkBuild(type: Exec) {
-                    commandLine "$ndkDir/ndk-build.cmd", "--directory", "$projectDir/src/main/jni/", '-j', Runtime.runtime.availableProcessors(),
-                            "APP_PLATFORM=android-19",
-                            "APP_BUILD_SCRIPT=$projectDir/src/main/jni/Android.mk",
-                            "NDK_OUT=$buildDir/jni/obj",
-                            "NDK_APP_DST_DIR=$projectDir/libs/\$(TARGET_ARCH_ABI)"
-                }
-
-                task nativeLibsToJar(type: Jar, description: 'create a jar with native libs') {
-                    destinationDir file("$buildDir/jni/libs")
-                    baseName 'jni'
-                    from fileTree(dir: "$buildDir/jni/libs", include: '**/*.so')
-                    into 'lib/'
-                }
-
-                tasks.withType(JavaCompile) {
-                    compileTask -> compileTask.dependsOn nativeLibsToJar
-                }
-
-                nativeLibsToJar.dependsOn 'ndkBuild'
-
-            }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
-        debug {
-            signingConfig signingConfigs.config
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
         }
-    }
-    productFlavors {
-    }
-    testOptions {
-        unitTests.returnDefaultValues = true
     }
 }
 
