@@ -19,6 +19,7 @@
 
 package freed.cam.apis.camera1.parameters.manual.whitebalance;
 
+import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
 
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.utils.Logger;
@@ -57,7 +59,7 @@ public class BaseCCTManual extends BaseManualParameter
     }
 
     public BaseCCTManual(final Parameters parameters, String maxValue, String MinValue
-            , CameraWrapperInterface cameraUiWrapper, float step,
+            , final CameraWrapperInterface cameraUiWrapper, float step,
                          String wbmode) {
         super(parameters, "", maxValue, MinValue, cameraUiWrapper, step);
         isSupported = false;
@@ -67,22 +69,28 @@ public class BaseCCTManual extends BaseManualParameter
         stringvalues = createStringArray(min,max,step);
         manual_WbMode = wbmode;
 
+        //wait 800ms to give awb a chance to set the ct value to the parameters
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                //get fresh parameters from camera
+                Camera.Parameters parameters1 = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
                 String wbcur = "";
-                if (parameters.get(KEYS.WB_CURRENT_CCT)!=null)
+                //lookup if ct value is avail
+                if (parameters1.get(KEYS.WB_CURRENT_CCT)!=null)
                     wbcur = KEYS.WB_CURRENT_CCT;
-                else if (parameters.get(KEYS.WB_CCT) != null)
+                else if (parameters1.get(KEYS.WB_CCT) != null)
                     wbcur = KEYS.WB_CCT;
-                else if (parameters.get(KEYS.WB_CT) != null)
+                else if (parameters1.get(KEYS.WB_CT) != null)
                     wbcur = KEYS.WB_CT;
-                else if (parameters.get(KEYS.WB_MANUAL_CCT) != null)
+                else if (parameters1.get(KEYS.WB_MANUAL_CCT) != null)
                     wbcur = KEYS.WB_MANUAL_CCT;
-                else if (parameters.get(KEYS.MANUAL_WB_VALUE) != null)
+                else if (parameters1.get(KEYS.MANUAL_WB_VALUE) != null)
                     wbcur = KEYS.MANUAL_WB_VALUE;
                 if (wbcur != "")
                 {
+                    //update our stored parameters with ct
+                    parameters.set(wbcur, parameters1.get(wbcur));
                     isSupported = true;
                     isVisible = true;
                     key_value = wbcur;
