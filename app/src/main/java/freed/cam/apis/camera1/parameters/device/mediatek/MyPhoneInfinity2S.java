@@ -43,7 +43,7 @@ public class MyPhoneInfinity2S extends BaseMTKDevice {
     public DngProfile getDngProfile(int filesize) {
         switch (filesize) {
             case 15980544:
-                return new DngProfile(64, 3264, 2448, DngProfile.Plain, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 3264, 2448, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
     }
