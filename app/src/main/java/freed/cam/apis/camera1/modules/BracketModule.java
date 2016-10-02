@@ -249,7 +249,7 @@ public class BracketModule extends PictureModule
             {
                 waitForPicture = false;
                 changeCaptureState(CaptureStates.image_capture_stop);
-                cameraHolder.StartPreview();
+                startPreview();
 
             }
         }
@@ -283,7 +283,7 @@ public class BracketModule extends PictureModule
         hdrCount++;
         String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
         saveImage(data,picFormat);
-        cameraHolder.StartPreview();
+        startPreview();
         if (hdrCount == 3)//handel normal capture
         {
             waitForPicture = false;

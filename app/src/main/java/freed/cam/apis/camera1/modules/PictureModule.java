@@ -126,7 +126,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             Logger.d(this.TAG, "Got pic data but did not wait for pic");
             waitForPicture = false;
             changeCaptureState(CaptureStates.image_capture_stop);
-            cameraHolder.StartPreview();
+            startPreview();
             return;
         }
         burstcount++;
@@ -141,7 +141,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
                 Logger.d(this.TAG, "BurstCapture done");
                 waitForPicture = false;
                 isWorking = false;
-                cameraHolder.StartPreview();
+                startPreview();
                 changeCaptureState(CaptureStates.image_capture_stop);
             }
         }
@@ -149,10 +149,22 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         {
             isWorking = false;
             waitForPicture = false;
-            cameraHolder.StartPreview();
+
+            startPreview();
             changeCaptureState(CaptureStates.image_capture_stop);
         }
+    }
 
+    protected void startPreview()
+    {
+        //workaround to keep ae locked
+        if (cameraHolder.GetCameraParameters().getAutoExposureLock() == true)
+        {
+            cameraUiWrapper.GetParameterHandler().ExposureLock.SetValue(KEYS.FALSE,true);
+            cameraUiWrapper.GetParameterHandler().ExposureLock.SetValue(KEYS.TRUE,true);
+            //cameraHolder.GetCameraParameters().setAutoExposureLock(true);
+        }
+        cameraHolder.StartPreview();
 
     }
 

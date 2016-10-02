@@ -222,15 +222,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
 
         @Override
-        public void OnAreaLongClick(int x, int y)
-        {
-            if (wrapper.GetParameterHandler().ExposureLock != null && wrapper.GetParameterHandler().ExposureLock.IsSupported())
-            {
-                wrapper.GetParameterHandler().ExposureLock.SetValue("true",true);
-                Vibrator v = (Vibrator) focusImageView.getContext().getSystemService(Context.VIBRATOR_SERVICE);
-                if (v.hasVibrator())
-                    v.vibrate(50);}
-
+        public void OnAreaLongClick(int x, int y) {
+            
         }
 
         /**

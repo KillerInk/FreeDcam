@@ -105,7 +105,7 @@ public class PictureModuleMTK extends PictureModule
                 break;
         }
         waitForPicture = false;
-        cameraHolder.StartPreview();
+        startPreview();
         isWorking = false;
         changeCaptureState(CaptureStates.image_capture_stop);
     }

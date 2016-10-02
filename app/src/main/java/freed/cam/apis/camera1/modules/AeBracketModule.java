@@ -130,7 +130,7 @@ public class AeBracketModule extends PictureModuleMTK
                         cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         break;
                 }
-                cameraHolder.StartPreview();
+                startPreview();
                 if (hdrCount == 3)//handel normal capture
                 {
                     waitForPicture = false;
