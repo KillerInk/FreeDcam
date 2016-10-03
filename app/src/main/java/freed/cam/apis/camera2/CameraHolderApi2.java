@@ -559,6 +559,9 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 aeCompensationListner.onAeCompensationChanged(result.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION));
                 //Logger.d(TAG,"ExpoCompensation:" + );
             }
+
+            if (cameraUiWrapper.GetParameterHandler().ExposureLock != null)
+                cameraUiWrapper.GetParameterHandler().ExposureLock.BackgroundValueHasChanged(result.get(CaptureResult.CONTROL_AE_LOCK).toString());
         }
 
         @Override

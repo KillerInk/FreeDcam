@@ -515,8 +515,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             Logger.d(TAG, "CaptureDone");
             if (captureBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
                 cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
-            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true);
-            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,false);
+            if (cameraHolder.get(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+                    || cameraHolder.get(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO)
+            {
+                cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
+                        CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
+                cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
+                        CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+            }
+            /*cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true);
+            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,false);*/
         }
         catch (NullPointerException ex) {
             Logger.exception(ex);

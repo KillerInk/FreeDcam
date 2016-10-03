@@ -41,6 +41,7 @@ import freed.cam.apis.camera2.parameters.manual.BurstApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.camera2.parameters.manual.ZoomApi2;
+import freed.cam.apis.camera2.parameters.modes.AeLockModeApi2;
 import freed.cam.apis.camera2.parameters.modes.AntibandingApi2;
 import freed.cam.apis.camera2.parameters.modes.ColorModeApi2;
 import freed.cam.apis.camera2.parameters.modes.ControlModesApi2;
@@ -119,6 +120,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ToneMapMode.addEventListner(manualToneMapCurveApi2);
 
         PictureFormat = new PictureFormatParameterApi2(cameraUiWrapper);
+
+        ExposureLock = new AeLockModeApi2(cameraUiWrapper);
 
         FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
         ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
