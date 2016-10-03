@@ -51,6 +51,7 @@ import freed.cam.apis.camera2.parameters.modes.FocusModeApi2;
 import freed.cam.apis.camera2.parameters.modes.FocusPeakModeApi2;
 import freed.cam.apis.camera2.parameters.modes.HotPixelModeApi2;
 import freed.cam.apis.camera2.parameters.modes.ImageStabApi2;
+import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.OisModeApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
@@ -89,6 +90,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         FlashMode = new FlashModeApi2(cameraUiWrapper);
         SceneMode = new SceneModeApi2(cameraUiWrapper);
         ColorMode = new ColorModeApi2(cameraUiWrapper);
+        JpegQuality = new JpegQualityModeApi2(cameraUiWrapper);
 
         WbHandler wbHandler = new WbHandler(cameraUiWrapper);
         //AE mode start
