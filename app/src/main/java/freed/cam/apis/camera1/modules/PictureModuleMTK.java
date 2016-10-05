@@ -131,6 +131,7 @@ public class PictureModuleMTK extends PictureModule
             }
             rawfile = DeviceSwitcher();
             data = RawToDng.readFile(rawfile);
+            rawfile.delete();
             Logger.d(TAG, "Found Raw: Filesize: " + data.length + " File:" + rawfile.getAbsolutePath());
 
         } catch (InterruptedException | IOException e) {
@@ -139,7 +140,7 @@ public class PictureModuleMTK extends PictureModule
         File dng = new File(holdFile.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
         saveDng(data,dng);
         data = null;
-        rawfile.delete();
+
     }
 
 
