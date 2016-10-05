@@ -96,7 +96,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private LocationHandler locationHandler;
 
     private boolean activityIsResumed= false;
-    private int currentorientation;
+    private int currentorientation = 0;
 
     private SecureCamera mSecureCamera = new SecureCamera(this);
 
@@ -354,6 +354,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void OrientationChanged(int orientation) {
         if (orientation != currentorientation)
         {
+            Logger.d(TAG,"orientation changed to :" +orientation);
             currentorientation = orientation;
         }
     }
