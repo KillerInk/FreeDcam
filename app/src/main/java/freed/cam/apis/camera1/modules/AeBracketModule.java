@@ -80,11 +80,31 @@ public class AeBracketModule extends PictureModuleMTK
         int value = 0;
 
         if (hdrCount == 0) {
-            value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB1));
-        } else if (hdrCount == 1)
+            try {
+                value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB1));
+            }
+            catch (NumberFormatException ex)
+            {
+                value = -3;
+            }
+        } else if (hdrCount == 1) {
+            try {
             value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB2));
-        else if (hdrCount == 2)
-            value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB3));
+            }
+            catch (NumberFormatException ex)
+            {
+                value = 0;
+            }
+        }
+        else if (hdrCount == 2) {
+            try {
+                value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB3));
+            }
+            catch (NumberFormatException ex)
+            {
+                value = 3;
+            }
+        }
         cameraUiWrapper.GetParameterHandler().ManualExposure.SetValue(value);
     }
 
