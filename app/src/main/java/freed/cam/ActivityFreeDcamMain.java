@@ -556,7 +556,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             if (!(cameraFragment instanceof SonyCameraFragment))
                 locationHandler.startLocationListing();
             else
-                ((SonyCameraFragment)cameraFragment).startWifiScanning();
+                ((SonyCameraFragment)cameraFragment).StartLookUp();
         }
     }
 
