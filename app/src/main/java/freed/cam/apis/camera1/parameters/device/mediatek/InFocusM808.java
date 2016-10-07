@@ -26,7 +26,7 @@ public class InFocusM808 extends BaseMTKDevice {
         switch (filesize)
         {
             case 26023936:
-                return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.BGGR, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.LumingonOV));
+                return new DngProfile(16, 4192, 3104, DngProfile.Plain, DngProfile.BGGR, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.LumingonOV));
 
         }
         return null;
