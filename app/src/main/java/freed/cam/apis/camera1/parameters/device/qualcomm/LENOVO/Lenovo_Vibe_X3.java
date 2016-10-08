@@ -44,7 +44,7 @@ public class Lenovo_Vibe_X3 extends BaseQcomNew {
         switch (filesize)
         {
             case 26935296:
-                return new DngProfile(64,5344,4016,DngProfile.Mipi16,DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX230));
+                return new DngProfile(64,5344,4017,DngProfile.Mipi,DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX230));
         }
         return null;
     }
