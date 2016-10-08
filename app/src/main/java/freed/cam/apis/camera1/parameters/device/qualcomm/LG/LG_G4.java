@@ -71,7 +71,7 @@ public class LG_G4 extends LG_G2
         switch (filesize)
         {
             case 19976192: //g4 bayer mipi camera1
-                return new DngProfile(64, 5312,2988,DngProfile.Mipi16, DngProfile.BGGR,0,
+                return new DngProfile(64, 5312,2988,DngProfile.Mipi, DngProfile.BGGR,0,
                         matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
         }
         return null;

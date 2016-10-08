@@ -581,29 +581,30 @@ void processTight(TIFF *tif,DngWriter *writer)
 	LOGD("Mem Released");
 }
 
-void process10tight(TIFF *tif,DngWriter *writer)
-{
-    unsigned char* ar = writer->bayerBytes;
-    unsigned char* tmp = new unsigned char[5];
+void process10tight(TIFF *tif,DngWriter *writer) {
+    unsigned char *ar = writer->bayerBytes;
     int bytesToSkip = 0;
-    LOGD("writer-RowSize: %d  rawheight:%d ,rawwidht: %d",  writer->rawSize,writer->rawheight, writer->rawwidht);
-    int realrowsize = writer->rawSize/writer->rawheight;
-    int shouldberowsize = writer->rawwidht*10/8;
-    LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
-    if (realrowsize != shouldberowsize)
+    LOGD("writer-RowSize: %d  rawheight:%d ,rawwidht: %d", writer->rawSize, writer->rawheight,
+         writer->rawwidht);
+    int realrowsize = writer->rawSize / writer->rawheight;
+    int shouldberowsize = realrowsize;
+    if (realrowsize % 5 > 0)
+    {
+        shouldberowsize = writer->rawwidht*10/8;
         bytesToSkip = realrowsize - shouldberowsize;
+
+    }
+    LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
     LOGD("bytesToSkip: %i", bytesToSkip);
     int row = shouldberowsize;
     unsigned char* out = new unsigned char[(int)shouldberowsize*writer->rawheight];
     int m = 0;
     for(int i =0; i< writer->rawSize; i+=5)
     {
-        //LOGD("Process i: %d  filesize: %d", i, writer->rawSize);
         if(i == row)
         {
-            row += shouldberowsize +bytesToSkip;
+            row += shouldberowsize + bytesToSkip;
             i+=bytesToSkip;
-            //LOGD("new row: %i", row/shouldberowsize);
         }
 
         out[m++] = (ar[i]); // 00110001
