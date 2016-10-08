@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -45,6 +46,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.array;
 import com.troop.freedcam.R.id;
@@ -59,6 +61,7 @@ import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.dng.DngProfile;
 import freed.dng.DngSupportedDevices;
 import freed.jni.RawToDng;
+import freed.jni.RawUtils;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
 import freed.utils.Logger;
@@ -85,6 +88,7 @@ public class DngConvertingFragment extends Fragment
     private Button closeButton;
     private AppSettingsManager appSettingsManager;
     private MatrixChooserParameter matrixChooserParameter;
+    private TouchImageView imageView;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
@@ -132,6 +136,7 @@ public class DngConvertingFragment extends Fragment
             }
         });
         matrixChooserParameter = new MatrixChooserParameter(getResources());
+        imageView = (TouchImageView)view.findViewById(id.dngconvert_imageview);
         return view;
     }
 
@@ -317,6 +322,17 @@ public class DngConvertingFragment extends Fragment
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         intent.setData(Uri.fromFile(file));
         getActivity().sendBroadcast(intent);
+        if (filesToConvert.length == 1)
+        {
+
+            final Bitmap map = new RawUtils().UnPackRAW(out);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    imageView.setImageBitmap(map);
+                }
+            });
+        }
     }
 
 
