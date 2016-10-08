@@ -25,8 +25,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -66,16 +64,13 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     private SimpleStreamSurfaceView surfaceView;
     private WifiUtils wifiUtils;
     private WifiScanReceiver wifiReciever;
-    private WifiConnectedReceiver wifiConnectedReceiver;
     private SimpleSsdpClient mSsdpClient;
     private ServerDevice serverDevice;
 
     private TextView textView_wifi;
-    private final int IDEL = 0;
-    private final int WAITING_FOR_SCANRESULT = 1;
-    private final int WAITING_FOR_DEVICECONNECTION = 2;
-    private final int DEVICE_CONNECTED = 3;
-    private int STATE = IDEL;
+    private final int STATE_IDEL = 0;
+    private final int STATE_DEVICE_CONNECTED = 3;
+    private int STATE = STATE_IDEL;
 
     private String[] configuredNetworks;
     private String deviceNetworkToConnect;
@@ -94,7 +89,6 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
 
         textView_wifi =(TextView) view.findViewById(id.textView_wificonnect);
         wifiReciever = new WifiScanReceiver();
-        wifiConnectedReceiver = new WifiConnectedReceiver();
         wifiUtils = new WifiUtils(view.getContext());
         mSsdpClient = new SimpleSsdpClient();
 
@@ -109,6 +103,29 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(this);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(getActivityInterface().hasLocationPermission() == true) {
+            getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+            isWifiListnerRegistered = true;
+            StartLookUp();
+            //startWifiScanning();
+        }
+        else
+            setTextFromWifi("Location Permission is needed to find the camera!");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        StopCamera();
+        if (isWifiListnerRegistered) {
+            getActivity().unregisterReceiver(wifiReciever);
+            isWifiListnerRegistered = false;
+        }
     }
 
 
@@ -137,36 +154,115 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     }
 
 
-
-
-    //WIFI STUFF START
-
-
-    private void searchSsdpClient()
+    public void StartLookUp()
     {
-        if(STATE == DEVICE_CONNECTED)
-        {
-            Log.d(TAG,"already connected");
+        Logger.d(TAG,"StartLookup");
+        if (STATE == STATE_DEVICE_CONNECTED)
             return;
-        }
-        setTextFromWifi("Search SSDP Client...");
-        while (!wifiUtils.getWifiConnected())
+        //check if Wifi is on and LocationService too, to lookup wifinetworks
+        if (wifiUtils.isWifiEnabled() && wifiUtils.isLocationServiceEnabled())
         {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                Logger.exception(e);
+            setTextFromWifi("Lookup Connected Network");
+
+            //check if we are already connected to a DIRECT network
+            String connectedWifi = wifiUtils.getConnectedNetworkSSID();
+            if (connectedWifi.contains("DIRECT"))
+            {
+                if (!wifiUtils.isWifiConnected())
+                {
+                   postDelayed(500);
+                    return;
+                }
+                if (serverDevice != null)
+                {
+                    Logger.d(TAG,"Have ServerDevice already, StartCamera");
+                    StartCamera();
+                }
+                else {
+                    Logger.d(TAG, "ServerDevice is empty, searchSSDPClient");
+                    searchSSDPClient();
+                }
+                return;
+            }
+            else {
+                //we are not connected. look up configured networks
+                Logger.d(TAG, "Lookup configured Networks for Remote Camera");
+                String[] configuredNetworks = wifiUtils.getConfiguredNetworkSSIDs();
+                String cameraRemoteNetworkToConnect = findConfiguredCameraRemoteNetwork(configuredNetworks);
+                if (cameraRemoteNetworkToConnect == null) {
+                    setTextFromWifi("No Camera Remote Configured");
+                    return;
+                } else
+                {
+                    //lookup avail wifi networks
+                    Logger.d(TAG, "lookup availNetworks if Remote Camera Network is present");
+                    setTextFromWifi("Look for Camera Remote Network");
+                    String[] foundNetWorks = wifiUtils.getNetworkSSIDs();
+                    if (foundNetWorks != null || foundNetWorks.length > 0)
+                    {
+                        String foundnet = "";
+                        for (String s : foundNetWorks) {
+                            if (cameraRemoteNetworkToConnect.equals(s)) {
+                                //we found the network that we want to connect
+                                foundnet = s;
+                                break;
+                            }
+                        }
+                        if (foundnet.equals(""))
+                        {
+                            Logger.d(TAG,"Not networkfound,Start Scan");
+                            setTextFromWifi("No Network found, Start Scan");
+                            wifiUtils.StartScan();
+                            return;
+                        }
+                        else //connect to direct network
+                        {
+                            Logger.d(TAG,"Connect to " + foundnet);
+                            setTextFromWifi("Connect to: " +foundnet);
+                            //getActivity().registerReceiver(wifiConnectedReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+                            wifiUtils.ConnectToSSID(foundnet);
+                            postDelayed(1000);
+                            return;
+                        }
+                    }
+                    else {
+                        Logger.d(TAG,"Not networkfound,Start Scan");
+                        setTextFromWifi("No Network found, Start Scan");
+                        wifiUtils.StartScan();
+                    }
+                }
             }
         }
+        else
+        {
+            if (!wifiUtils.isWifiEnabled())
+                setTextFromWifi("Pls enable Wifi");
+            if (!wifiUtils.isLocationServiceEnabled())
+                setTextFromWifi("Pls enable LocationService");
+        }
+    }
+
+    private void postDelayed(int ms)
+    {
+        uiHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                StartLookUp();
+            }
+        },ms);
+    }
+
+    private void searchSSDPClient()
+    {
         mSsdpClient.search(new SearchResultHandler()
         {
             @Override
             public void onDeviceFound(ServerDevice device)
             {
-                if(STATE == DEVICE_CONNECTED)
+                if(STATE == STATE_DEVICE_CONNECTED)
                     return;
                 setTextFromWifi("Found SSDP Client... Connecting");
-                STATE = DEVICE_CONNECTED;
+                STATE = STATE_DEVICE_CONNECTED;
                 serverDevice = device;
                 StartCamera();
                 hideTextViewWifi(true);
@@ -183,116 +279,28 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
             public void onErrorFinished()
             {
                 if (serverDevice == null)
-                    setTextFromWifi("Error happend while searching for sony remote device \n pls restart remote");
-                //startWifiScanning();
+                    setTextFromWifi("Error happend while searching for sony remote device");
+                StartLookUp();
             }
         });
     }
 
-    public void startWifiScanning()
+    private String findConfiguredCameraRemoteNetwork(String[] configuredCameraRemoteNetworks)
     {
-        hasLocationPermission = true;
-        STATE = IDEL;
-        if (getActivity() != null) {
-            getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-            isWifiListnerRegistered = true;
-            getConfiguredNetworks();
-            lookupAvailNetworks();
-        }
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(hasLocationPermission = getActivityInterface().hasLocationPermission() == true)
-            startWifiScanning();
-        else
-            setTextFromWifi("Location Permission is needed to find the camera!");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        StopCamera();
-        if (isWifiListnerRegistered) {
-            getActivity().unregisterReceiver(wifiReciever);
-            isWifiListnerRegistered = false;
-        }
-    }
-
-    private void getConfiguredNetworks()
-    {
-        if(STATE == DEVICE_CONNECTED)
-            return;
-        setTextFromWifi("Looking up Configured Wifi Networks");
-        try {
-            configuredNetworks = wifiUtils.getConfiguredNetworkSSIDs();
-        }
-        catch (Exception ex) {
-            setTextFromWifi("Wifi disabled");
-        }
-        if (configuredNetworks == null)
-        {
-            setTextFromWifi("Wifi disabled");
-            return;
-        }
-        deviceNetworkToConnect = "";
-        for (String s : configuredNetworks)
+        for (String s : configuredCameraRemoteNetworks)
         {
             if (s.contains("DIRECT"))
             {
-                deviceNetworkToConnect = s;
-                Logger.d("Wifi", "Device to Connect:" + deviceNetworkToConnect);
-                setTextFromWifi("Device to Connect:" + deviceNetworkToConnect);
-                break;
+                return s;
             }
         }
-        if (deviceNetworkToConnect.equals("")) {
-            setTextFromWifi("No Sony Camera Device Configured in WifiSettings");
-        }
+        return null;
     }
 
-    private void lookupAvailNetworks()
-    {
-        Logger.d("Wifi", "Lookup networks:");
-        String wifis = null;
-        try {
-            setTextFromWifi("Looking up WifiNetworks");
-            hideTextViewWifi(false);
-            wifis = wifiUtils.getConnectedNetworkSSID();
-            if (wifis == null || wifis.equals("")) {
-                setTextFromWifi("Wifi disabled");
-                return;
-            }
-
-        }
-        catch (Exception ex) {
-            setTextFromWifi("Wifi disabled");
-            return;
-        }
-        if (!wifis.contains("DIRECT"))
-        {
-            STATE = WAITING_FOR_SCANRESULT;
-            Logger.d("Wifi", "No DIRECT network found start scan:");
-            wifiUtils.StartScan();
-        }
-        else {
-            Logger.d("Wifi", "Connect to:" + deviceNetworkToConnect);
-            STATE = IDEL;
-            if (serverDevice == null)
-                searchSsdpClient();
-            else
-            {
-                setTextFromWifi("");
-                StartCamera();
-            }
-        }
-    }
 
     @Override
     public void onCameraOpen(String message) {
-
+        STATE = STATE_DEVICE_CONNECTED;
     }
 
     @Override
@@ -318,26 +326,14 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     @Override
     public void onCameraError(String error)
     {
-        STATE = IDEL;
+        hideTextViewWifi(false);
+        serverDevice = null;
+        STATE = STATE_IDEL;
         Logger.d(TAG, "Camera error:" +error );
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run()
-            {
-                Logger.d(TAG, "StartScanning For networks after onCameraError" );
-                try {
-                    SetCameraStateChangedListner(SonyCameraFragment.this);
-                    ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(null);
-                    if(hasLocationPermission)
-                        startWifiScanning();
-                }
-                catch (NullPointerException ex)
-                {
-                    Logger.exception(ex);
-                }
-
-            }
-        }, 5000);
+        surfaceView.stop();
+        SetCameraStateChangedListner(SonyCameraFragment.this);
+        ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(SonyCameraFragment.this);
+        postDelayed(5000);
 
     }
 
@@ -355,64 +351,10 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     {
         public void onReceive(Context c, Intent intent)
         {
-            Logger.d("Wifi", "WifiScanReceiver");
-            if (STATE == WAITING_FOR_SCANRESULT)
-            {
-                STATE = IDEL;
-                if (deviceNetworkToConnect == null || deviceNetworkToConnect.equals(""))
-                    return;
-                String[] foundNetWorks = wifiUtils.getNetworkSSIDs();
-                String foundnet = "";
-                for (String s : foundNetWorks) {
-                    if (deviceNetworkToConnect.equals(s)) {
-                        foundnet = s;
-                        break;
-                    }
-                }
-                if (foundnet.equals("")) {
-                    setTextFromWifi("Cant find Sony Camera WifiNetwork, Camera turned On?");
-                    Logger.d("Wifi", "WifiScanReceiver no device to connect found lookupnetworks");
-                    lookupAvailNetworks();
-                }
-                else {
-                    STATE = WAITING_FOR_DEVICECONNECTION;
-                    Logger.d("Wifi", "WifiScanReceiver found device connect to it");
-                    if (!wifiUtils.ConnectToSSID(foundnet))
-                    {
-                        Logger.d("Wifi", "Connect to device failed");
-                        STATE = WAITING_FOR_SCANRESULT;
-                        wifiUtils.StartScan();
-                    }
-                    else
-                    {
-                        STATE = IDEL;
-                        searchSsdpClient();
-                    }
-                }
-            }
-            else if (STATE == IDEL && wifiUtils.getWifiConnected())
-            {
-                STATE = IDEL;
-                searchSsdpClient();
-            }
+            Logger.d(TAG, "WifiScanReceiver.onRecieve()");
+            StartLookUp();
         }
     }
-
-    class WifiConnectedReceiver extends BroadcastReceiver
-    {
-        public void onReceive(Context c, Intent intent)
-        {
-            if (STATE == WAITING_FOR_DEVICECONNECTION && wifiUtils.getWifiConnected())
-            {
-                STATE = IDEL;
-                if (serverDevice == null)
-                    searchSsdpClient();
-                else
-                    StartCamera();
-            }
-        }
-    }
-
 
     @Override
     public String CameraApiName() {
@@ -423,7 +365,13 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     @Override
     public void StartCamera()
     {
-        STATE = DEVICE_CONNECTED;
+        if (serverDevice == null)
+        {
+            StartLookUp();
+            return;
+        }
+        Logger.d(TAG,"StartCamera");
+
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
@@ -437,7 +385,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     public void StopCamera()
     {
         cameraHolder.CloseCamera();
-        STATE = IDEL;
+        STATE = STATE_IDEL;
     }
 
 

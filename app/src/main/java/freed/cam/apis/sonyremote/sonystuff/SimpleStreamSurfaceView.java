@@ -338,6 +338,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      * Request to stop retrieving and drawing liveview data.
      */
     public void stop() {
+        Logger.d(TAG, "stop");
         this.mWhileFetching = false;
 
     }

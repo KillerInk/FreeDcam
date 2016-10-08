@@ -87,8 +87,8 @@ public class ModuleHandler extends ModuleHandlerAbstract
         Logger.d(TAG, "load hdr module");
         if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
         {
-            AeBracketModule bracketModule = new AeBracketModule(cameraUiWrapper,mBackgroundHandler);
-            moduleList.put(bracketModule.ModuleName(), bracketModule);
+           /* AeBracketModule bracketModule = new AeBracketModule(cameraUiWrapper,mBackgroundHandler);
+            moduleList.put(bracketModule.ModuleName(), bracketModule);*/
         }
         else {
             BracketModule bracketModule = new BracketModule(cameraUiWrapper,mBackgroundHandler);

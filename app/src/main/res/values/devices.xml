@@ -551,6 +551,7 @@
     <string-array name="mi_max">
         <item>MI MAX</item>
     </string-array>
+    
     <string-array name="wilexfox_swift">
         <item>Wileyfox Swift</item>
     </string-array>
@@ -587,7 +588,15 @@
         <item>INFINITY_II_S</item>
     </string-array>
 
-    <string-array name="wiko_stairway">STAIRWAY</string-array>
-    <string-array name="infocus_M808">InFocus M808</string-array>
-    <string-array name="xiaomi_redmi3s">Redmi 3S</string-array>
+    <string-array name="wiko_stairway">
+        <item>STAIRWAY</item>
+    </string-array>
+
+    <string-array name="infocus_M808">
+        <item>InFocus M808</item>
+    </string-array>
+
+    <string-array name="xiaomi_redmi3s">
+        <item>Redmi 3S</item>
+    </string-array>
 </resources>

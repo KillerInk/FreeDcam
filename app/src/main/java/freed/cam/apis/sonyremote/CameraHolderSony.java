@@ -106,6 +106,8 @@ public class CameraHolderSony extends CameraHolderAbstract
         @Override
         public void onTimout() {
             cameraUiWrapper.onCameraError("Camera connection timed out");
+            mEventObserver.stop();
+            mEventObserver.clearEventChangeListener();
         }
 
         @Override
@@ -331,9 +333,17 @@ public class CameraHolderSony extends CameraHolderAbstract
 
     public void OpenCamera(ServerDevice serverDevice)
     {
+        if (serverDevice == null)
+            return;
+
+        Logger.d(TAG, "OpenCamera:" +serverDevice.getModelName());
         if (this.serverDevice == null)
         {
             this.serverDevice = serverDevice;
+
+        }
+        if (mRemoteApi == null)
+        {
             mRemoteApi = new SimpleRemoteApi(serverDevice);
             ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).SetRemoteApi(mRemoteApi);
             mEventObserver = new SimpleCameraEventObserver(context, mRemoteApi);
@@ -381,10 +391,10 @@ public class CameraHolderSony extends CameraHolderAbstract
 
     private void startLiveview()
     {
-        if (mLiveviewSurface == null || mEventObserver.getLiveviewStatus()) {
+        /*if (mLiveviewSurface == null || mEventObserver.getLiveviewStatus()) {
             Logger.d(TAG, "startLiveview mLiveviewSurface is null or already started.");
             return;
-        }
+        }*/
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
@@ -410,6 +420,8 @@ public class CameraHolderSony extends CameraHolderAbstract
                                     });
                         }
                     }
+                    else
+                        Logger.d(TAG, "Error : " + replyJson);
                 } catch (IOException e) {
                     Logger.w(TAG, "startLiveview IOException: " + e.getMessage());
                 } catch (JSONException e) {

@@ -31,6 +31,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.camera1.Camera1Fragment;
+import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
@@ -240,21 +241,23 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        if (cameraUiWrapper instanceof Camera1Fragment) {
+        if (cameraUiWrapper instanceof Camera1Fragment ) {
 
             timeLapseFrames.setVisibility(View.VISIBLE);
             timeLapseFrames.SetStuff(fragment_activityInterface.getAppSettings());
             videoProfileEditor.setVisibility(View.VISIBLE);
 
-            AEB1.setVisibility(View.VISIBLE);
-            AEB1.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB1);
-            AEB1.SetCameraUIWrapper(cameraUiWrapper);
-            AEB2.setVisibility(View.VISIBLE);
-            AEB2.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB2);
-            AEB2.SetCameraUIWrapper(cameraUiWrapper);
-            AEB3.setVisibility(View.VISIBLE);
-            AEB3.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB3);
-            AEB3.SetCameraUIWrapper(cameraUiWrapper);
+            if (!(cameraUiWrapper.GetCameraHolder() instanceof CameraHolderMTK)) {
+                AEB1.setVisibility(View.VISIBLE);
+                AEB1.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB1);
+                AEB1.SetCameraUIWrapper(cameraUiWrapper);
+                AEB2.setVisibility(View.VISIBLE);
+                AEB2.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB2);
+                AEB2.SetCameraUIWrapper(cameraUiWrapper);
+                AEB3.setVisibility(View.VISIBLE);
+                AEB3.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB3);
+                AEB3.SetCameraUIWrapper(cameraUiWrapper);
+            }
         }
         else if (cameraUiWrapper instanceof Camera2Fragment)
         {

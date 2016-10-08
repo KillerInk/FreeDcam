@@ -195,7 +195,7 @@ public class Logger
 
         }
 
-        public synchronized void WriteLogDebug(String TAG, String msg)
+        public void WriteLogDebug(String TAG, String msg)
         {
             if (writer == null)
                 return;
@@ -211,7 +211,7 @@ public class Logger
             }
         }
 
-        public synchronized void WriteLogErrorDebug(String TAG, String msg)
+        public void WriteLogErrorDebug(String TAG, String msg)
         {
             if (writer == null)
                 return;
@@ -227,7 +227,7 @@ public class Logger
             }
         }
 
-        public synchronized void WriteEx(Throwable ex)
+        public void WriteEx(Throwable ex)
         {
             StringWriter errors = new StringWriter();
             ex.printStackTrace();

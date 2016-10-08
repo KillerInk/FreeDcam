@@ -607,7 +607,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         Logger.d(TAG, "Create DNG");
 
         DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, image.getCaptureResult());
-        dngCreator.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+        dngCreator.setOrientation(image.captureResult.get(CaptureResult.JPEG_ORIENTATION));
         if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
             dngCreator.setLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         try
@@ -620,6 +620,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 DocumentFile wr = df.createFile("image/*", file.getName());
                 dngCreator.writeImage(cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri()), image.getImage());
             }
+            cameraUiWrapper.getActivityInterface().getImageSaver().scanFile(file);
         } catch (IOException e) {
             Logger.exception(e);
         }
@@ -645,8 +646,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         int mFlash = image.getCaptureResult().get(CaptureResult.FLASH_STATE).intValue();
         double exposurecompensation= image.getCaptureResult().get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
         DngProfile prof = getDngProfile(rawFormat, image);
-        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, cameraUiWrapper.getActivityInterface().getOrientation()
-        ,null,prof);
+        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
         image.getImage().close();
         bytes = null;
         image = null;
@@ -853,12 +853,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             mImageHeight = largestImageSize.getHeight();
         }
 
-
-        //OrientationHACK
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
-            cameraHolder.SetParameter(CaptureRequest.JPEG_ORIENTATION, 180);
-        else
-            cameraHolder.SetParameter(CaptureRequest.JPEG_ORIENTATION, 0);
+        int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+        int orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation)%360;
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+            orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation+180)%360;
+        cameraHolder.SetParameter(CaptureRequest.JPEG_ORIENTATION, orientationToSet);
 
         // Here, we create a CameraCaptureSession for camera preview
         if (parameterHandler.Burst == null)
@@ -884,8 +883,22 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             {
                 cameraUiWrapper.getFocusPeakProcessor().kill();
             }
-
-            cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(),0,180,false);
+            int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+            int orientation = 0;
+            switch (sensorOrientation)
+            {
+                case 90:
+                    orientation = 0;
+                    break;
+                case 180:
+                    orientation =90;
+                    break;
+                case 270: orientation = 180;
+                    break;
+                case 0: orientation = 270;
+                    break;
+            }
+            cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(),orientation,orientation+180,false);
             SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);

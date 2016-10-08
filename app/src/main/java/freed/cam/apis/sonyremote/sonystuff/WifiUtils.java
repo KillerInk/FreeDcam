@@ -20,6 +20,7 @@
 package freed.cam.apis.sonyremote.sonystuff;
 
 import android.content.Context;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
@@ -36,12 +37,15 @@ public class WifiUtils
 {
     private final Context context;
     private final WifiManager wifiManager;
-    private final ConnectivityManager connManager;
+    private LocationManager locationManager;
+
+    private ConnectivityManager connManager;
 
     public WifiUtils(Context context)
     {
         this.context = context;
         wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
         connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
@@ -94,9 +98,19 @@ public class WifiUtils
         return false;
     }
 
-    public boolean getWifiConnected()
+    public boolean isWifiConnected()
     {
         NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         return networkInfo.isConnected();
+    }
+
+    public boolean isWifiEnabled()
+    {
+        return wifiManager.isWifiEnabled();
+    }
+
+    public boolean isLocationServiceEnabled()
+    {
+        return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 }
