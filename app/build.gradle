@@ -18,7 +18,11 @@ android {
         versionName '3.3.143'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 18
-
+        externalNativeBuild {
+            ndkBuild {
+                abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            }
+        }
     }
     lintOptions { checkReleaseBuilds false }
 
