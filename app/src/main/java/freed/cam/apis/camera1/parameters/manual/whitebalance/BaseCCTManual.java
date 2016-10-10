@@ -119,7 +119,14 @@ public class BaseCCTManual extends BaseManualParameter
         {
             set_manual();
         }
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        try {
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        }
+        catch (RuntimeException ex)
+        {
+            ThrowBackgroundIsSupportedChanged(false);
+        }
+
     }
 
     protected void set_manual()

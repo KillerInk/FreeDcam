@@ -320,9 +320,10 @@ public class CameraHolder extends CameraHolderAbstract
         if(!isRdy)
             return;
 
-        if (mCamera != null) {
+        if (mCamera != null && loc != null) {
             Parameters paras = mCamera.getParameters();
-            paras.setGpsAltitude(loc.getAltitude());
+            if (loc.hasAltitude())
+                paras.setGpsAltitude(loc.getAltitude());
             paras.setGpsLatitude(loc.getLatitude());
             paras.setGpsLongitude(loc.getLongitude());
             paras.setGpsProcessingMethod(loc.getProvider());

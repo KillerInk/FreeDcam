@@ -116,9 +116,15 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     {
         if (cameraUiWrapper == null)
             return;
-        scene.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_SCENEMODE);
-        scene.SetParameter(cameraUiWrapper.GetParameterHandler().SceneMode);
-        scene.SetUiItemClickListner(this);
+        try {
+            scene.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_SCENEMODE);
+            scene.SetParameter(cameraUiWrapper.GetParameterHandler().SceneMode);
+            scene.SetUiItemClickListner(this);
+        }
+        catch (NullPointerException ex)
+        {
+            scene.setVisibility(View.GONE);
+        }
 
         color.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_COLORMODE);
         color.SetParameter(cameraUiWrapper.GetParameterHandler().ColorMode);

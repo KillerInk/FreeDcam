@@ -607,7 +607,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         Logger.d(TAG, "Create DNG");
 
         DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, image.getCaptureResult());
-        dngCreator.setOrientation(image.captureResult.get(CaptureResult.JPEG_ORIENTATION));
+        //Orientation 90 is not a valid EXIF orientation value, fuck off that its valid!
+        try {
+            dngCreator.setOrientation(image.captureResult.get(CaptureResult.JPEG_ORIENTATION));
+        }
+        catch (IllegalArgumentException ex)
+        {
+            Logger.exception(ex);
+        }
+
         if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
             dngCreator.setLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         try

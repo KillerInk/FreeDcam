@@ -238,8 +238,15 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     public void surfaceDestroyed(SurfaceHolder holder)
     {
         PreviewSurfaceRdy =false;
-        if(moduleHandler.GetCurrentModule().ModuleName().equals(KEYS.MODULE_VIDEO) && moduleHandler.GetCurrentModule().IsWorking())
-            moduleHandler.GetCurrentModule().DoWork();
+        try {
+            if(moduleHandler.GetCurrentModule().ModuleName().equals(KEYS.MODULE_VIDEO) && moduleHandler.GetCurrentModule().IsWorking())
+                moduleHandler.GetCurrentModule().DoWork();
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.exception(ex);
+        }
+
         StopCamera();
     }
 
