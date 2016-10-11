@@ -48,7 +48,6 @@ public class RawToDng
     private native void SetModelAndMake(ByteBuffer nativeHandler,String model, String make);
     private native void SetBayerData(ByteBuffer nativeHandler,byte[] fileBytes, String fileout);
     private native void SetBayerDataFD(ByteBuffer nativeHandler,byte[] fileBytes, int fileout, String filename);
-    private native void SetLensData(ByteBuffer nativeHandler,byte[] fileBytes, String hasLensData);
     private native void SetBayerInfo(ByteBuffer nativeHandler,
                                      float[] colorMatrix1,
                                      float[] colorMatrix2,

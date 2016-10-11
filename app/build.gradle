@@ -14,8 +14,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 99
-        versionName '3.3.143'
+        versionCode 100
+        versionName '3.3.144'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 18
         externalNativeBuild {
@@ -25,7 +25,6 @@ android {
         }
     }
     lintOptions { checkReleaseBuilds false }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -37,6 +36,8 @@ android {
         ndkBuild {
             path 'src/main/jni/Android.mk'
         }
+    }
+    productFlavors {
     }
 }
 
