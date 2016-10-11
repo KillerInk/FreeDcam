@@ -357,9 +357,9 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
     LOGD("width");
     assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, writer->rawheight) != 0);
     LOGD("height");
-    if(writer->rawType > 0)
+/*    if(writer->rawType > 0)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
-    else if (writer->rawType < 0)
+    else*/ if (writer->rawType < 0)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 12) != 0);
     else
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 10) != 0);
@@ -693,6 +693,7 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 {
     int j, row, col;
     unsigned short pixel[writer->rawwidht];
+    unsigned short low, high;
     j=0;
     for (row=0; row < writer->rawheight; row ++)
     {
@@ -700,8 +701,8 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
         { // iterate over pixel columns
             for (int k = 0; k < 4; ++k)
             {
-                unsigned short low = writer->bayerBytes[j++];
-                unsigned short high =   writer->bayerBytes[j++];
+                low = writer->bayerBytes[j++];
+                high =   writer->bayerBytes[j++];
                 pixel[col+k] =  high << 8 |low;
                 if(col < 4 && row < 4)
                     LOGD("Pixel : %i, high: %i low: %i ", pixel[col+k], high, low);
@@ -715,6 +716,53 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
+}
+
+void process16to10(TIFF *tif,DngWriter *writer)
+{
+    long j;
+    int rowsizeInBytes= writer->rawwidht*10/8;
+    long finalsize = rowsizeInBytes * writer->rawheight;
+    unsigned char* byts= writer->bayerBytes;
+    unsigned char* pixel = new unsigned char[finalsize];
+    unsigned char B_ar[2];
+    unsigned char G1_ar[2];
+    unsigned char G2_ar[2];
+    unsigned char R_ar[2];
+    j=0;
+    for (long i = 0; i < finalsize; i +=5)
+    {
+
+        B_ar[0] = byts[j];
+        B_ar[1] = byts[j+1];
+
+        G1_ar[0] = byts[j+2];
+        G1_ar[1] = byts[j+3];
+
+        G2_ar[0] = byts[j+4];
+        G2_ar[1] = byts[j+5];
+
+        R_ar[0] = byts[j+6];
+        R_ar[1] = byts[j+7];
+        j+=8;
+
+        //00000011 1111111      H11 111111
+        //00000011 1111111      11 H11 1111
+        //00000011 1111111      1111 H11 11
+        //00000011 1111111      111111 H11
+        //00000011 1111111      11111111
+        pixel[i] = (B_ar[1] & 0b00000011) << 6 | (B_ar[0] & 0b11111100) >> 2;//H11 111111
+        pixel[i+1] =  (B_ar[0] & 0b00000011 ) << 6 | (G1_ar[1] & 0b00000011) << 4 | (G1_ar[0] & 0b11110000) >> 4;//11 H22 2222
+        pixel[i+2] =  (G1_ar[0] & 0b00001111 ) << 4 | (G2_ar[1] & 0b00000011) << 2 | (G2_ar[0] & 0b11000000) >> 6; //2222 H33 33
+        pixel[i+3] = (G2_ar[0] & 0b00111111 ) << 2 | (R_ar[1] & 0b00000011);//333333 H44
+        pixel[i+4] = R_ar[0]; //44444444
+    }
+    TIFFWriteRawStrip(tif, 0, pixel, writer->rawheight*rowsizeInBytes);
+    TIFFRewriteDirectory(tif);
+    LOGD("Finalizng DNG");
+    TIFFClose(tif);
+    LOGD("Free Memory");
+    delete[] pixel;
 }
 
 void writeRawStuff(TIFF *tif, DngWriter *writer)
@@ -764,7 +812,7 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
         LOGD("Done loose RAW data...");
     }
     else if (writer->rawType == 2)
-        processSXXX16(tif,writer);
+        process16to10(tif,writer);
     else if (writer->rawType == 3)
         processTight(tif, writer);
     else if (writer->rawType == 4)
