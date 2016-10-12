@@ -23,6 +23,7 @@ import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
 import freed.dng.DngProfile;
 
@@ -46,6 +47,11 @@ public class Lenovo_Vibe_X3 extends BaseQcomNew {
             case 26935296:
                 return new DngProfile(64,5344,4017,DngProfile.Mipi,DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX230));
         }
+        return null;
+    }
+
+    @Override
+    public ModeParameterInterface getDigitalImageStabilisation() {
         return null;
     }
 }

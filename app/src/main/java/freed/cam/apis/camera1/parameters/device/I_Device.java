@@ -48,6 +48,7 @@ public interface I_Device
     ModeParameterInterface getDenoiseParameter();
     ModeParameterInterface getLensFilter();
     ModeParameterInterface getNightMode();
+    ModeParameterInterface getDigitalImageStabilisation();
 
     float GetFnumber();
     float GetFocal();

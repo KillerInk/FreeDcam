@@ -30,8 +30,10 @@ import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.dng.DngProfile;
+import freed.utils.Logger;
 
 /**
  * Created by troop on 31.05.2016.
@@ -182,6 +184,19 @@ public abstract class AbstractDevice implements I_Device {
     @Override
     public ModeParameterInterface getNightMode()
     {
+        return null;
+    }
+
+    @Override
+    public ModeParameterInterface getDigitalImageStabilisation() {
+        try {
+            if(parameters.get(KEYS.SONY_VS)!=null)
+                 return new BaseModeParameter(parameters, cameraUiWrapper,KEYS.SONY_VS,KEYS.SONY_VS_VALUES);
+            else if (parameters.get(KEYS.DIGITALIMAGESTABILIZATION)!=null)
+                return new BaseModeParameter(parameters, cameraUiWrapper,KEYS.DIGITALIMAGESTABILIZATION,KEYS.DIGITALIMAGESTABILIZATION_VALUES);
+        } catch (Exception e) {
+            Logger.exception(e);
+        }
         return null;
     }
 

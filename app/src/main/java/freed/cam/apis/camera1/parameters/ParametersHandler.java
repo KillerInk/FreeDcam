@@ -271,14 +271,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
 
-        try {
-            if(cameraParameters.get(KEYS.SONY_VS)!=null)
-                DigitalImageStabilization = new BaseModeParameter(cameraParameters, cameraUiWrapper,KEYS.SONY_VS,KEYS.SONY_VS_VALUES);
-            else if (cameraParameters.get(KEYS.DIGITALIMAGESTABILIZATION)!=null)
-                DigitalImageStabilization = new BaseModeParameter(cameraParameters, cameraUiWrapper,KEYS.DIGITALIMAGESTABILIZATION,KEYS.DIGITALIMAGESTABILIZATION_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
+
 
         try {
             MemoryColorEnhancement = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.MEMORYCOLORENHANCEMENT, KEYS.MEMORYCOLORENHANCEMENT_VALUES);
@@ -401,6 +394,7 @@ public class ParametersHandler extends AbstractParameterHandler
         ManualSharpness = Device.getManualSharpness();
         ManualBrightness = Device.getManualBrightness();
         ManualContrast = Device.getManualContrast();
+        DigitalImageStabilization = Device.getDigitalImageStabilisation();
 
         Module = new ModuleParameters(cameraUiWrapper, appSettingsManager);
 
