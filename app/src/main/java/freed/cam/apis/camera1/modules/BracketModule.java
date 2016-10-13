@@ -275,6 +275,8 @@ public class BracketModule extends PictureModule
     @Override
     public void onPictureTaken(final byte[] data, Camera camera)
     {
+        if(data == null)
+            return;
         if (!waitForPicture)
         {
             isWorking = false;

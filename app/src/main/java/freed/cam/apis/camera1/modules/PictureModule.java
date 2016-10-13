@@ -120,6 +120,8 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     @Override
     public void onPictureTaken(final byte[] data, Camera camera)
     {
+        if(data == null)
+            return;
         Logger.d(this.TAG, "onPictureTaken():"+data.length);
         if (!waitForPicture)
         {

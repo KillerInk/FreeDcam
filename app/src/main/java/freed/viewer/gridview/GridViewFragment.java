@@ -380,7 +380,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                         case rawToDng:
                             lastFormat = formatsToShow;
                             formatsToShow = FormatTypes.raw;
-                            viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(0).getParent(),formatsToShow);
+                            viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
                             deleteButton.setVisibility(View.GONE);
                             stackButton.setVisibility(View.GONE);
                             rawToDngButton.setVisibility(View.VISIBLE);
@@ -389,7 +389,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                         case stack:
                             lastFormat = formatsToShow;
                             formatsToShow = FormatTypes.jpg;
-                            viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(0).getParent(),formatsToShow);
+                            viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
                             deleteButton.setVisibility(View.GONE);
                             rawToDngButton.setVisibility(View.GONE);
                             stackButton.setVisibility(View.VISIBLE);
