@@ -257,14 +257,6 @@ public class RawToDng
         }
     }
 
-    public void SetLensData(byte[] fileBytes, String hasLensData) throws NullPointerException
-    {
-        if (fileBytes == null) {
-            throw new NullPointerException();
-        }
-        if (nativeHandler != null)
-            SetLensData(nativeHandler, fileBytes, hasLensData);
-    }
 
     private void SetBayerInfo(float[] colorMatrix1,
                               float[] colorMatrix2,

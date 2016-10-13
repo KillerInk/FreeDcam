@@ -36,7 +36,7 @@
 typedef unsigned long long uint64;
 typedef unsigned short UINT16;
 typedef unsigned char uint8;
-#include <omp.h>
+
 
 extern "C"
 {
@@ -303,7 +303,10 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
 
-    writer->blacklevel = new float[4] {blacklevel, blacklevel, blacklevel,blacklevel};
+    writer->blacklevel = new float[4];
+    for (int i = 0; i < 4; ++i) {
+        writer->blacklevel[i] = blacklevel;
+    }
     writer->rawType = tight;
     writer->rowSize =rowSize;
     writer->colorMatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);
@@ -357,9 +360,9 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
     LOGD("width");
     assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, writer->rawheight) != 0);
     LOGD("height");
-/*    if(writer->rawType > 0)
+    if(writer->rawType == 1 || writer->rawType == 3)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
-    else*/ if (writer->rawType < 0)
+    else if (writer->rawType == 4)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 12) != 0);
     else
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 10) != 0);
