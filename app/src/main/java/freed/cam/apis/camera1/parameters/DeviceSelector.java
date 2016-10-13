@@ -85,6 +85,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.OPPO.OnePlusTwo;
 import freed.cam.apis.camera1.parameters.device.qualcomm.SONY.Sony_M4;
 import freed.cam.apis.camera1.parameters.device.qualcomm.SONY.Sony_XperiaL;
 import freed.cam.apis.camera1.parameters.device.qualcomm.SONY.Sony_Z5C;
+import freed.cam.apis.camera1.parameters.device.qualcomm.VIVO.Vivo_V3;
 import freed.cam.apis.camera1.parameters.device.qualcomm.VIVO.Vivo_Xplay3s;
 import freed.cam.apis.camera1.parameters.device.qualcomm.WIKO.Wikio_Stairway;
 import freed.cam.apis.camera1.parameters.device.qualcomm.WileyFox_Swift;
@@ -305,6 +306,8 @@ public class DeviceSelector {
             case Vivo_Xplay3s:
                return new Vivo_Xplay3s(cameraParameters,cameraUiWrapper);
 
+            case Vivo_V3:
+                return new Vivo_V3(cameraParameters,cameraUiWrapper);
             case Wiko_Stairway:
                 return new Wikio_Stairway(cameraParameters,cameraUiWrapper);
             case Wileyfox_Swift:

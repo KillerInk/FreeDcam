@@ -599,4 +599,8 @@
     <string-array name="xiaomi_redmi3s">
         <item>Redmi 3S</item>
     </string-array>
+
+    <string-array name="vivo_v3">
+        <item>vivo V3</item>
+    </string-array>
 </resources>
