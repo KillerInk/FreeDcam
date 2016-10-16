@@ -625,6 +625,21 @@ public class ParametersHandler extends AbstractParameterHandler
     public void SetZTE_AE()
     {
         cameraParameters.set("slow_shutter", "-1");
+        //cameraParameters.set("slow_shutter_addition", "0");
         SetParametersToCamera(cameraParameters);
+
+
+    }
+
+    public void SetZTE_RESET_AE_SETSHUTTER(String Shutter)
+    {
+        SetZTE_AE();
+        cameraUiWrapper.StopPreview();
+        cameraUiWrapper.StartPreview();
+        cameraParameters.set("slow_shutter",Shutter);
+        cameraParameters.set("slow_shutter_addition", "1");
+        SetParametersToCamera(cameraParameters);
+
+
     }
 }
