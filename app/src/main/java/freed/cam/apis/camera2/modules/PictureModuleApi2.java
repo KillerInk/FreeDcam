@@ -114,7 +114,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     private final String TAG = PictureModuleApi2.class.getSimpleName();
-    //private TotalCaptureResult mDngResult;
     private Size largestImageSize;
     private String picFormat;
     private String picSize;
@@ -133,8 +132,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private int mState = STATE_PICTURE_TAKEN;
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
-    private int imagesRecieved = 0;
-    //private Image currentImage;
 
     /**
      * A counter for tracking corresponding {@link CaptureRequest}s and {@link CaptureResult}s
@@ -322,12 +319,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     protected void initBurstCapture(Builder captureBuilder, CaptureCallback captureCallback)
     {
         List<CaptureRequest> captureList = new ArrayList<>();
-        imagesRecieved = 0;
         for (int i = 0; i < parameterHandler.Burst.GetValue()+1; i++) {
             int pos = mRequestCounter.getAndIncrement();
             captureBuilder.setTag(pos);
             captureBuilder.addTarget(mImageReader.getSurface());
-            setupBurstCaptureBuilder(captureBuilder,pos);
+            setupBurstCaptureBuilder(captureBuilder,i);
             captureList.add(captureBuilder.build());
             ImageHolder imageHolder = new ImageHolder();
             resultQueue.put(pos, imageHolder);
@@ -527,8 +523,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         try
         {
             Logger.d(TAG, "CaptureDone");
-            if (captureBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
-                cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
+            cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
             if (cameraHolder.get(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
                     || cameraHolder.get(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO)
             {

@@ -466,6 +466,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                             }
                             try {
                                 int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
+                                mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, iso);
                                 cameraUiWrapper.GetParameterHandler().ManualIso.ThrowCurrentValueStringCHanged("" + iso);
                             }
                             catch (NullPointerException ex) {

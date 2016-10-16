@@ -77,22 +77,21 @@ public class AeBracketApi2 extends PictureModuleApi2
     {
         currentExposureTime = cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
         exposureTimeStep = currentExposureTime/2;
-        List<CaptureRequest> captureList = new ArrayList<>();
-        captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.off.ordinal());
-        captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY));
-        for (int i = 0; i < parameterHandler.Burst.GetValue()+1; i++)
-        {
-            if (0 == i)
-                captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, currentExposureTime - exposureTimeStep);
-            else if (1== i)
-                captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, currentExposureTime);
-            else if (2 == i)
-                captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME,currentExposureTime + exposureTimeStep);
-            captureList.add(captureBuilder.build());
-        }
-        cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
-        cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback,mBackgroundHandler);
+
+        super.initBurstCapture(captureBuilder,captureCallback);
     }
 
+    @Override
+    protected void setupBurstCaptureBuilder(Builder captureBuilder, int captureNum)
+    {
+        captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.off.ordinal());
+        captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY));
+        if (0 == captureNum)
+            captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, currentExposureTime - exposureTimeStep);
+        else if (1== captureNum)
+            captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, currentExposureTime);
+        else if (2 == captureNum)
+            captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME,currentExposureTime + exposureTimeStep);
+        super.setupBurstCaptureBuilder(captureBuilder, captureNum);
+    }
 }
