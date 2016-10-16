@@ -269,6 +269,8 @@ public class AeHandler
                     else
                         millimax = 45000000;
                     break;
+                case Htc_M10:
+                    millimax = 1800000000;
                 case OnePlusTwo:
                     millimax = 32000000;
                     break;
