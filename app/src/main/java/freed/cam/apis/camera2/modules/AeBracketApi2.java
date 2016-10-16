@@ -26,12 +26,8 @@ import android.hardware.camera2.CaptureRequest.Builder;
 import android.os.Build;
 import android.os.Handler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera2.parameters.AeHandler;
 
 /**

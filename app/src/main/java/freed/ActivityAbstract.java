@@ -39,7 +39,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.WindowManager.LayoutParams;
-import android.widget.Toast;
 
 import com.troop.freedcam.R;
 

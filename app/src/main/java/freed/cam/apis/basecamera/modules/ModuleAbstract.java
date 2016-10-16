@@ -20,10 +20,7 @@
 package freed.cam.apis.basecamera.modules;
 
 
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Looper;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;

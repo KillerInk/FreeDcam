@@ -61,7 +61,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
@@ -71,7 +70,6 @@ import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.Logger;
 

@@ -27,9 +27,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
-import freed.utils.Logger;
-import freed.utils.StringUtils;
-
 /**
  * Created by troop on 20.09.2016.
  */

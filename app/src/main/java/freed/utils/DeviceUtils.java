@@ -24,8 +24,6 @@ import android.os.Build;
 
 import com.troop.freedcam.R.array;
 
-import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi3s;
-
 
 /**
  * Created by troop on 22.12.13.

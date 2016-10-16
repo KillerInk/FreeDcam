@@ -17,7 +17,6 @@ import freed.cam.apis.camera1.parameters.manual.qcom.SkintoneManualPrameter;
 import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.cam.apis.camera1.parameters.manual.zte.ShutterManualZTE;
 import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
-import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
 import freed.dng.DngProfile;
 

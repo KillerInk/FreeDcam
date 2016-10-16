@@ -29,7 +29,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
-import freed.utils.FreeDPool;
 import freed.utils.Logger;
 
 

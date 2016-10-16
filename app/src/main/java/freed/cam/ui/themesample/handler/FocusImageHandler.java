@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build.VERSION;
-import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,8 +42,6 @@ import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraFragment;
-import freed.cam.ui.themesample.cameraui.ExposureSelector;
-import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 
 
