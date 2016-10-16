@@ -260,6 +260,24 @@ public class VideoProfilesParameter extends BaseModeParameter
             supportedProfiles.put("720pHFR",t);
         }
 
+        if (parameters.get("video-size-values")!=null && parameters.get("video-size-values").contains("3840x2160")
+                && parameters.get("video-hfr-values")!=null&& parameters.get("video-hfr-values").contains("60")) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
+        {
+            if (supportedProfiles.containsKey("1080p"))
+            {
+                VideoMediaProfile uhdHFR = supportedProfiles.get("1080p").clone();
+                uhdHFR.videoFrameWidth = 3840;
+                uhdHFR.videoFrameHeight = 2160;
+                uhdHFR.videoBitRate = 30000000;
+                uhdHFR.Mode = VideoMode.Highspeed;
+                uhdHFR.ProfileName = "UHD_2160p_60FPS";
+                supportedProfiles.put("UHD_2160p_60FPS", uhdHFR);
+                Logger.d(TAG, "added custom 2160pHFR");
+            }
+
+
+        }
+
         if (supportedProfiles.get(_2160p) == null && parameters.get("video-size-values") !=null&& parameters.get("video-size-values").contains("3840x2160"))
         {
             if (supportedProfiles.containsKey("1080p"))
