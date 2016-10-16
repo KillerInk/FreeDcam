@@ -170,8 +170,17 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
 
     }
 
+    private void ShutterResetLogic()
+    {
+        System.out.println("BANKAI "+cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue());
+        if(!cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue().contains("/"))
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetZTE_RESET_AE_SETSHUTTER(cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue());
+    }
+
     protected void saveImage(byte[]data, String picFormat)
     {
+
+
         File toSave = getFile(getFileEnding(picFormat));
         Logger.d(this.TAG, "saveImage:"+toSave.getName() + " Filesize: "+data.length);
         if (picFormat.equals(FileEnding.DNG))
@@ -179,6 +188,8 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         else {
             cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(toSave,data);
         }
+        if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 || appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
+            ShutterResetLogic();
     }
 
     private String getFileEnding(String picFormat)

@@ -102,7 +102,8 @@ public class ShutterManualZTE extends AbstractManualShutter
                     cameraUiWrapper.StartPreview();
                 }
             };
-            handler.postDelayed(r, 1);
+            //handler.postDelayed(r, 1);
+            handler.post(r);
         }
         catch (Exception ex)
         {
@@ -123,7 +124,7 @@ public class ShutterManualZTE extends AbstractManualShutter
                     parameters.set("slow_shutter_addition", "1");
                     ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
-                    if(Double.parseDouble(shutterstring) <= 0.5 && Double.parseDouble(shutterstring) >= 0.0005 ){
+                    if(Double.parseDouble(shutterstring) < 1.0 ){
                         cameraUiWrapper.StopPreview();
                         cameraUiWrapper.StartPreview();
                     }
