@@ -133,7 +133,9 @@
     <string name="shutter_58" translatable="false">58</string>
     <string name="shutter_59" translatable="false">59</string>
     <string name="shutter_60" translatable="false">60</string>
+    <string name="shutter_90" translatable="false">90</string>
     <string name="shutter_120" translatable="false">120</string>
+    <string name="shutter_180" translatable="false">180</string>
     <string name="shutter_240" translatable="false">240</string>
 
     <string-array name="shutter_values_autocreate" translatable="false">
@@ -247,7 +249,9 @@
         <item>@string/shutter_58</item>
         <item>@string/shutter_59</item>
         <item>@string/shutter_60</item>
+        <item>@string/shutter_90</item>
         <item>@string/shutter_120</item>
+        <item>@string/shutter_180</item>
         <item>@string/shutter_240</item>
     </string-array>
 
