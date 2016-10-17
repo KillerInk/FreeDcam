@@ -300,7 +300,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 //cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
                 captureBuilder.setTag(mRequestCounter.getAndIncrement());
                 captureBuilder.addTarget(mImageReader.getSurface());
-                if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
+                if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) != null && cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
                     cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
                 ImageHolder imageHolder = new ImageHolder();
                 resultQueue.put((int)captureBuilder.build().getTag(), imageHolder);
@@ -659,7 +659,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         double mExposuretime = image.getCaptureResult().get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
         int mFlash = image.getCaptureResult().get(CaptureResult.FLASH_STATE).intValue();
         double exposurecompensation= image.getCaptureResult().get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
-        DngProfile prof = getDngProfile(rawFormat, image);
+        final DngProfile prof = getDngProfile(rawFormat, image);
         cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
         image.getImage().close();
         bytes = null;
