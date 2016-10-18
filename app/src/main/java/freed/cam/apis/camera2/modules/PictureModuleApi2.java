@@ -706,11 +706,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         float[] color2;
         float[] color1;
         float[] neutral = new float[3];
-        float[] forward2;
-        float[] forward1;
-        float[] reduction1;
-        float[] reduction2;
-        float[]finalnoise;
+        float[] forward2 = null;
+        float[] forward1 = null;
+        float[] reduction1 = null;
+        float[] reduction2 = null;
+        float[]finalnoise = null;
         String cmat = appSettingsManager.getString(AppSettingsManager.SETTTING_CUSTOMMATRIX);
         if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
             CustomMatrix mat  = ((MatrixChooserParameter) parameterHandler.matrixChooser).GetCustomMatrix(cmat);

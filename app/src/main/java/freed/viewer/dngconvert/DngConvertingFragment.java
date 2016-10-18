@@ -293,7 +293,7 @@ public class DngConvertingFragment extends Fragment
         String intsd = StringUtils.GetInternalSDCARD();
         if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
                 || file.getAbsolutePath().contains(intsd))
-            dng.SetBayerData(data, out);
+            dng.setBayerData(data, out);
         else
         {
             DocumentFile df = ((ActivityInterface)getActivity()).getFreeDcamDocumentFolder();

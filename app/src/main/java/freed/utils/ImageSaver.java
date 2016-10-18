@@ -136,7 +136,7 @@ public class ImageSaver
             {
                 Logger.d(TAG, "Write To internal or kitkat<");
                 checkFileExists(fileName);
-                dngConverter.SetBayerData(bytes, fileName.getAbsolutePath());
+                dngConverter.setBayerData(bytes, fileName.getAbsolutePath());
                 dngConverter.WriteDngWithProfile(dngProfile);
                 dngConverter.RELEASE();
             }
