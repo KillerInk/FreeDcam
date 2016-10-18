@@ -717,11 +717,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             color1 = mat.ColorMatrix1;
             color2 = mat.ColorMatrix2;
             neutral = mat.NeutralMatrix;
-            forward1 = mat.ForwardMatrix1;
-            forward2 = mat.ForwardMatrix2;
-            reduction1 = mat.ReductionMatrix1;
-            reduction2 = mat.ReductionMatrix2;
-            finalnoise = mat.NoiseReductionMatrix;
+            if (mat.ForwardMatrix1.length >0)
+                forward1 = mat.ForwardMatrix1;
+            if (mat.ForwardMatrix2.length >0)
+                forward2 = mat.ForwardMatrix2;
+            if (mat.ReductionMatrix1.length >0)
+                reduction1 = mat.ReductionMatrix1;
+            if (mat.ReductionMatrix2.length >0)
+                reduction2 = mat.ReductionMatrix2;
+            if (mat.NoiseReductionMatrix.length >0)
+                finalnoise = mat.NoiseReductionMatrix;
         }
         else
         {
