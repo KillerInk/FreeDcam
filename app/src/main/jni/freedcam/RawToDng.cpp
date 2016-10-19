@@ -226,7 +226,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_Release(JNIEnv *env, jobject thiz
     {
         free(writer->bayerBytes);
         writer->bayerBytes = NULL;
-    }
+    }*/
     if(writer->opcode2Size >0)
     {
         free(writer->opcode2);
@@ -236,7 +236,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_Release(JNIEnv *env, jobject thiz
     {
         free(writer->opcode3);
         writer->opcode3 = NULL;
-    }*/
+    }
     /*if(writer->_thumbData != NULL)
         free(writer->_thumbData);*/
     /*if (writer != NULL)
