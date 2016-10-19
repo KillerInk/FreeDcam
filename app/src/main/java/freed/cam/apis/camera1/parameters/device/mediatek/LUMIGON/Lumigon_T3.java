@@ -29,7 +29,7 @@ public class Lumigon_T3 extends BaseMTKDevice {
 
     @Override
     public DngProfile getDngProfile(int filesize) {
-        return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.GBRG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.LumingonOV));
+        return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.LumingonOV));
     }
 
 }
