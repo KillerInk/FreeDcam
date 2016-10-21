@@ -58,6 +58,7 @@ import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
+import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.dngconvert.DngConvertingActivity;
 import freed.viewer.dngconvert.DngConvertingFragment;
@@ -77,10 +78,9 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
 
     private final String TAG = GridViewFragment.class.getSimpleName();
 
-    private Button deleteButton;
     private Button filetypeButton;
-    private Button rawToDngButton;
-    private Button stackButton;
+    private Button optionsButton;
+    private Button doActionButton;
     /**
      * the files that get shown by the gridview
      */
@@ -150,9 +150,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         this.mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
         viewerActivityInterface = (ActivityInterface) getActivity();
         executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-1);
-        deleteButton = (Button) view.findViewById(id.button_deltePics);
-        deleteButton.setVisibility(View.GONE);
-        deleteButton.setOnClickListener(onDeltedButtonClick);
 
         ImageButton gobackButton = (ImageButton) view.findViewById(id.button_goback);
         gobackButton.setOnClickListener(onGobBackClick);
@@ -167,51 +164,48 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
 
         filesSelected = (TextView) view.findViewById(id.textView_filesSelected);
 
-        rawToDngButton = (Button) view.findViewById(id.button_rawToDng);
-        rawToDngButton.setVisibility(View.GONE);
-        rawToDngButton.setOnClickListener(onRawToDngClick);
+        optionsButton = (Button)view.findViewById(id.button_options);
+        optionsButton.setOnClickListener(new OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 PopupMenu popup = new PopupMenu(getContext(), v);
 
-        stackButton = (Button)view.findViewById(id.button_stack);
-        stackButton.setVisibility(View.GONE);
-        stackButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (requestMode == RequestModes.none)
-                {
-                    requestMode = RequestModes.stack;
-                    setViewMode(ViewStates.selection);
-                }
-                else if (requestMode == RequestModes.stack)
-                {
-                    ArrayList<String> ar = new ArrayList<>();
-                    for (FileHolder f : viewerActivityInterface.getFiles()) {
-                        if (f.IsSelected() && f.getFile().getName().toLowerCase().endsWith(FileEnding.JPG))
-                        {
-                            ar.add(f.getFile().getAbsolutePath());
-                        }
+                 popup.getMenu().add(0,0,0, "Delete File");
+                 if (!isRootDir && VERSION.SDK_INT > VERSION_CODES.JELLY_BEAN_MR2)
+                    popup.getMenu().add(0,1,1, "StackJpeg");
+                 if (!isRootDir)
+                    popup.getMenu().add(0,2,2, "Raw to Dng");
+                 popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+                     @Override
+                     public boolean onMenuItemClick(MenuItem item)
+                     {
+                         switch (item.getItemId())
+                         {
+                             case 0:
+                                 onDeltedButtonClick.onClick(null);
+                                 break;
+                             case 1:
+                                 onStackClick.onClick(null);
+                                 break;
+                             case 2:
+                                 onRawToDngClick.onClick(null);
+                                 break;
+                         }
+                         return false;
+                     }
+                 });
+                 popup.show();
+             }
+         });
 
-                    }
-                    for (FileHolder f : viewerActivityInterface.getFiles()) {
-                        f.SetSelected(false);
-                    }
-                    setViewMode(ViewStates.normal);
-                    Intent i = new Intent(getActivity(), StackActivity.class);
-                    String[] t = new String[ar.size()];
-                    ar.toArray(t);
-                    i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
-                    getActivity().startActivityForResult(i, STACK_REQUEST);
-                }
-                else
-                {
-                    requestMode = RequestModes.none;
-                    setViewMode(ViewStates.normal);
-                }
-            }
-        });
+        doActionButton = (Button)view.findViewById(id.button_DoAction);
+        doActionButton.setVisibility(View.GONE);
         firstload();
 
         return view;
     }
+
+
 
     @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
@@ -331,14 +325,10 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     {
         currentViewState = viewState;
         mPagerAdapter.SetViewState(currentViewState);
-        //mPagerAdapter.notifyDataSetChanged();
         if (isRootDir)
         {
-            deleteButton.setVisibility(View.VISIBLE);
-            rawToDngButton.setVisibility(View.GONE);
             filetypeButton.setVisibility(View.GONE);
             filesSelected.setVisibility(View.GONE);
-            stackButton.setVisibility(View.GONE);
         }
         else
         {
@@ -350,14 +340,10 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                         viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
                     }
                     requestMode = RequestModes.none;
-                    deleteButton.setVisibility(View.VISIBLE);
-                    rawToDngButton.setVisibility(View.VISIBLE);
                     filetypeButton.setVisibility(View.VISIBLE);
-                    if (VERSION.SDK_INT > VERSION_CODES.JELLY_BEAN_MR2)
-                        stackButton.setVisibility(View.VISIBLE);
-                    else
-                        stackButton.setVisibility(View.GONE);
                     filesSelected.setVisibility(View.GONE);
+                    optionsButton.setVisibility(View.VISIBLE);
+                    doActionButton.setVisibility(View.GONE);
                     break;
                 case selection:
                     filesSelectedCount = 0;
@@ -365,35 +351,38 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     updateFilesSelected();
                     switch (requestMode) {
                         case none:
-                            deleteButton.setVisibility(View.VISIBLE);
-                            rawToDngButton.setVisibility(View.VISIBLE);
                             filetypeButton.setVisibility(View.VISIBLE);
-                            if (VERSION.SDK_INT > VERSION_CODES.JELLY_BEAN_MR2)
-                                stackButton.setVisibility(View.VISIBLE);
+                            optionsButton.setVisibility(View.VISIBLE);
+                            doActionButton.setVisibility(View.GONE);
+                            doActionButton.setOnClickListener(null);
                             break;
                         case delete:
-                            deleteButton.setVisibility(View.VISIBLE);
-                            rawToDngButton.setVisibility(View.GONE);
                             filetypeButton.setVisibility(View.GONE);
-                            stackButton.setVisibility(View.GONE);
+                            optionsButton.setVisibility(View.GONE);
+                            doActionButton.setText("Delete");
+                            doActionButton.setOnClickListener(onDeltedButtonClick);
+                            doActionButton.setVisibility(View.VISIBLE);
                             break;
                         case rawToDng:
                             lastFormat = formatsToShow;
                             formatsToShow = FormatTypes.raw;
                             viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
-                            deleteButton.setVisibility(View.GONE);
-                            stackButton.setVisibility(View.GONE);
-                            rawToDngButton.setVisibility(View.VISIBLE);
+                            optionsButton.setVisibility(View.GONE);
+                            optionsButton.setVisibility(View.GONE);
                             filetypeButton.setVisibility(View.GONE);
+                            doActionButton.setText("RawToDng");
+                            doActionButton.setOnClickListener(onRawToDngClick);
+                            doActionButton.setVisibility(View.VISIBLE);
                             break;
                         case stack:
                             lastFormat = formatsToShow;
                             formatsToShow = FormatTypes.jpg;
                             viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
-                            deleteButton.setVisibility(View.GONE);
-                            rawToDngButton.setVisibility(View.GONE);
-                            stackButton.setVisibility(View.VISIBLE);
+                            optionsButton.setVisibility(View.GONE);
                             filetypeButton.setVisibility(View.GONE);
+                            doActionButton.setText("Stack");
+                            doActionButton.setOnClickListener(onStackClick);
+                            doActionButton.setVisibility(View.VISIBLE);
                     }
                     break;
             }
@@ -499,6 +488,42 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
 
     }
+
+    private final OnClickListener onStackClick = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (requestMode == RequestModes.none)
+            {
+                requestMode = RequestModes.stack;
+                setViewMode(ViewStates.selection);
+            }
+            else if (requestMode == RequestModes.stack)
+            {
+                ArrayList<String> ar = new ArrayList<>();
+                for (FileHolder f : viewerActivityInterface.getFiles()) {
+                    if (f.IsSelected() && f.getFile().getName().toLowerCase().endsWith(FileEnding.JPG))
+                    {
+                        ar.add(f.getFile().getAbsolutePath());
+                    }
+
+                }
+                for (FileHolder f : viewerActivityInterface.getFiles()) {
+                    f.SetSelected(false);
+                }
+                setViewMode(ViewStates.normal);
+                Intent i = new Intent(getActivity(), StackActivity.class);
+                String[] t = new String[ar.size()];
+                ar.toArray(t);
+                i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
+                getActivity().startActivityForResult(i, STACK_REQUEST);
+            }
+            else
+            {
+                requestMode = RequestModes.none;
+                setViewMode(ViewStates.normal);
+            }
+        }
+    };
 
     private final OnClickListener onRawToDngClick = new OnClickListener() {
         @Override
