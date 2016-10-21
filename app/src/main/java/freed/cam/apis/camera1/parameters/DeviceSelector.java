@@ -90,6 +90,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.VIVO.Vivo_Xplay3s;
 import freed.cam.apis.camera1.parameters.device.qualcomm.WIKO.Wikio_Stairway;
 import freed.cam.apis.camera1.parameters.device.qualcomm.WileyFox_Swift;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi3_4;
+import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi5;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi_Note_Pro;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi2;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi3;
@@ -324,7 +325,7 @@ public class DeviceSelector {
             case XiaomiMI4C:
                 return new Xiaomi_Mi3_4(cameraParameters,cameraUiWrapper);
             case XiaomiMI5:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return new Xiaomi_Mi5(cameraParameters,cameraUiWrapper);
             case XiaomiMI_Note_Pro:
                return new Xiaomi_Mi_Note_Pro(cameraParameters,cameraUiWrapper);
                 
