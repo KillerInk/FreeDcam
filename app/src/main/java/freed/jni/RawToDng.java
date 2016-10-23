@@ -29,18 +29,11 @@ public class RawToDng
     private byte[] opcode2;
     private byte[] opcode3;
 
-    private static int Calculate_rowSize(int fileSize, int height)
-    {
-        return fileSize/height;
-    }
-
-
     private native long GetRawBytesSize();
     private native int GetRawHeight();
     private native void SetGPSData(double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
     private native void SetThumbData(byte[] mThumb, int widht, int height);
     private native void WriteDNG();
-    private native void Release();
     private native void SetOpCode3(byte[] opcode);
     private native void SetOpCode2(byte[] opcode);
     private native void SetRawHeight(int height);
@@ -60,8 +53,6 @@ public class RawToDng
                                      int rowSize,
                                      String devicename,
                                      int rawType,int width,int height);
-
-    private native void Create();
     private native void SetExifData(int iso,
                                            double expo,
                                            int flash,
@@ -70,7 +61,6 @@ public class RawToDng
                                            String imagedescription,
                                            String orientation,
                                            double exposureIndex);
-   // public static native String getFilePath();
 
     public static RawToDng GetInstance()
     {
@@ -96,7 +86,6 @@ public class RawToDng
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        Create();
     }
 
     public void SetWBCT(String wbct)
@@ -263,10 +252,6 @@ public class RawToDng
 
     }
 
-    public void RELEASE()
-    {
-        Release();
-    }
 
     private void setRawHeight(int height)
     {
@@ -283,7 +268,6 @@ public class RawToDng
                 profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
                 profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.BayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
         WriteDNG();
-        RELEASE();
     }
 
     public static byte[] readFile(File file) throws IOException {

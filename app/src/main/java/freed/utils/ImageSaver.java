@@ -138,7 +138,6 @@ public class ImageSaver
                 checkFileExists(fileName);
                 dngConverter.setBayerData(bytes, fileName.getAbsolutePath());
                 dngConverter.WriteDngWithProfile(dngProfile);
-                dngConverter.RELEASE();
             }
             else
             {
@@ -156,7 +155,6 @@ public class ImageSaver
                 {
                     dngConverter.SetBayerDataFD(bytes, pfd, fileName.getName());
                     dngConverter.WriteDngWithProfile(dngProfile);
-                    dngConverter.RELEASE();
                     try {
                         pfd.close();
                     } catch (IOException e) {

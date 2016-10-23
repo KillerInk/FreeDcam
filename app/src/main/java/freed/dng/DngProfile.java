@@ -31,8 +31,8 @@ public class DngProfile
     public static final int Mipi16 = 3;
     public static final int Mipi12 = 4;
 
-    public static String BGGR = "bggr";
-    public static String RGGB = "rggb";
+    public static final String BGGR = "bggr";
+    public static final String RGGB = "rggb";
     public static final String GRBG = "grbg";
     public static final String GBRG =  "gbrg";
 
