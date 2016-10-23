@@ -3,12 +3,7 @@
 //
 
 #include "DngWriter.h"
-#include <../tiff/libtiff/tiffio.h>
-#include <android/log.h>
-#include <../tiff/libtiff/tif_dir.h>
-#include <assert.h>
-#include <jni.h>
-#include <stdlib.h>
+
 
 #define  LOG_TAG    "freedcam.DngWriter"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)

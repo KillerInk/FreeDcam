@@ -18,26 +18,11 @@
  */
 
 #include <jni.h>
-#include <../tiff/libtiff/tiffio.h>
-#include <stdio.h>
-#include <assert.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <time.h>
-#include <math.h>
 #include <android/log.h>
-#include <../tiff/libtiff/tif_dir.h>
 #include <DngWriter.h>
 #define  LOG_TAG    "freedcam.RawToDngNative"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
-
-
-
-typedef unsigned long long uint64;
-typedef unsigned short UINT16;
-typedef unsigned char uint8;
-
 
 extern "C"
 {

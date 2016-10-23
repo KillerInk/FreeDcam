@@ -58,7 +58,6 @@ import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
-import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.dngconvert.DngConvertingActivity;
 import freed.viewer.dngconvert.DngConvertingFragment;

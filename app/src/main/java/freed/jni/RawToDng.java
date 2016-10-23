@@ -7,7 +7,6 @@ import android.os.ParcelFileDescriptor;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
 
 import freed.dng.DngProfile;
 import freed.utils.Logger;
