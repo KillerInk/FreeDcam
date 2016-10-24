@@ -710,13 +710,13 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
 
         @TargetApi(VERSION_CODES.M)
-        public void CreateHighSpeedCaptureSession()
+        public void CreateHighSpeedCaptureSession(StateCallback customCallback)
         {
             if(mCameraDevice == null)
                 return;
             Logger.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
             try {
-                mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, previewStateCallBackRestart, null);
+                mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, null);
             } catch (CameraAccessException | SecurityException e) {
                 Logger.exception(e);
             }

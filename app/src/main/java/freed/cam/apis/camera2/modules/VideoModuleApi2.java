@@ -35,6 +35,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
+import android.util.Range;
 import android.util.Size;
 import android.view.Surface;
 
@@ -267,7 +268,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         recorderSurface = mediaRecorder.getSurface();
         cameraHolder.CaptureSessionH.AddSurface(recorderSurface,true);
 
-        cameraHolder.CaptureSessionH.CreateCaptureSession(previewrdy);
+        if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
+            cameraHolder.CaptureSessionH.CreateCaptureSession(previewrdy);
+        else
+            cameraHolder.CaptureSessionH.CreateHighSpeedCaptureSession(previewrdy);
     }
 
     private void setRecorderFilePath() {
@@ -305,8 +309,15 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         @Override
         public void onConfigured(CameraCaptureSession cameraCaptureSession)
         {
-            cameraHolder.CaptureSessionH.SetCaptureSession(cameraCaptureSession);
-            cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
+            if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
+                cameraHolder.CaptureSessionH.SetCaptureSession(cameraCaptureSession);
+                cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
+            }
+            else
+            {
+                cameraHolder.CaptureSessionH.SetHighSpeedCaptureSession(cameraCaptureSession);
+                cameraHolder.CaptureSessionH.StartHighspeedCaptureSession();
+            }
             mediaRecorder.start();
             isRecording = true;
             cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
