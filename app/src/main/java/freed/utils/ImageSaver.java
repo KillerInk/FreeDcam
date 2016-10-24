@@ -126,7 +126,7 @@ public class ImageSaver
                     Longitude = location.getLongitude();
                     Provider = location.getProvider();
                     gpsTime = location.getTime();
-                    dngConverter.SetGPSData(Altitude, Latitude, Longitude, Provider, gpsTime);
+                    dngConverter.SetGpsData(Altitude, Latitude, Longitude, Provider, gpsTime);
                 }
             }
             dngConverter.setExifData(iso, exposuretime, 0, fnumber, focal, "0", orientation + "", 0);

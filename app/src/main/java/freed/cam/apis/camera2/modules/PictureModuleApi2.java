@@ -710,7 +710,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         float[] forward1 = null;
         float[] reduction1 = null;
         float[] reduction2 = null;
-        float[]finalnoise = null;
+        double[]finalnoise = null;
         String cmat = appSettingsManager.getString(AppSettingsManager.SETTTING_CUSTOMMATRIX);
         if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
             CustomMatrix mat  = ((MatrixChooserParameter) parameterHandler.matrixChooser).GetCustomMatrix(cmat);
@@ -753,7 +753,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             double[] noise = new double[6];
             int[] cfaPlaneColor = {0, 1, 2};
             generateNoiseProfile(noiseys,cfaOut, cfaPlaneColor,3,noise);
-            finalnoise = new float[6];
+            finalnoise = new double[6];
             for (i = 0; i < noise.length; i++)
                 if (noise[i] > 2 || noise[i] < -2)
                     finalnoise[i] = 0;

@@ -61,7 +61,7 @@ public:
     float *fowardMatrix2;
     float *reductionMatrix1;
     float *reductionMatrix2;
-    float *noiseMatrix;
+    double *noiseMatrix;
     char* bayerformat;
     int rawType;
     long rawSize;

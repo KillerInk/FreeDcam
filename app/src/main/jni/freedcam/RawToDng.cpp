@@ -57,7 +57,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
                                                             jfloatArray fowardMatrix2,
                                                             jfloatArray reductionMatrix1,
                                                             jfloatArray reductionMatrix2,
-                                                            jfloatArray noiseMatrix,
+                                                            jdoubleArray noiseMatrix,
                                                             jint blacklevel,
                                                             jstring bayerformat,
                                                             jint rowSize,
@@ -111,7 +111,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject 
     writer._exposureIndex = exposureIndex;
 }
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetGPSData(JNIEnv *env, jobject thiz,jobject handler, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime)
 {
     writer.Altitude = (double)Altitude;
     writer.Latitude =  env->GetFloatArrayElements(Latitude,NULL);
@@ -177,7 +177,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
                                                             jfloatArray fowardMatrix2,
                                                             jfloatArray reductionMatrix1,
                                                             jfloatArray reductionMatrix2,
-                                                            jfloatArray noiseMatrix,
+                                                            jdoubleArray noiseMatrix,
                                                             jint blacklevel,
                                                             jstring bayerformat,
                                                             jint rowSize,
@@ -205,7 +205,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
     if(reductionMatrix2 != NULL)
         writer.reductionMatrix2 =env->GetFloatArrayElements(reductionMatrix2, 0);
     if(noiseMatrix != NULL)
-        writer.noiseMatrix =env->GetFloatArrayElements(noiseMatrix, 0);
+        writer.noiseMatrix = env->GetDoubleArrayElements(noiseMatrix, 0);
 
     writer.bayerformat = (char*)  env->GetStringUTFChars(bayerformat,0);
     writer.rawheight = height;

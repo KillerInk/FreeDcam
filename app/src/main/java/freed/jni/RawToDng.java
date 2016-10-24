@@ -46,7 +46,7 @@ public class RawToDng
                                      float[] fowardMatrix2,
                                      float[] reductionMatrix1,
                                      float[] reductionMatrix2,
-                                     float[] noiseMatrix,
+                                     double[] noiseMatrix,
                                      int blacklevel,
                                      String bayerformat,
                                      int rowSize,
@@ -164,7 +164,7 @@ public class RawToDng
         return GetRawBytesSize();
     }
 
-    public void SetGPSData(double Altitude,double Latitude,double Longitude, String Provider, long gpsTime)
+    public void SetGpsData(double Altitude,double Latitude,double Longitude, String Provider, long gpsTime)
     {
         Logger.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
         SetGPSData(Altitude, parseGpsvalue(Latitude), parseGpsvalue(Longitude), Provider, gpsTime);
@@ -238,7 +238,7 @@ public class RawToDng
                               float[] fowardMatrix2,
                               float[] reductionMatrix1,
                               float[] reductionMatrix2,
-                              float[] noise,
+                              double[] noise,
                               int blacklevel,
                               String bayerformat,
                               int rowSize,
