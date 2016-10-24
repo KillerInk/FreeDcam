@@ -140,9 +140,9 @@ void DngWriter::writeExifIfd(TIFF *tif) {
     /////////////////////////////////// EXIF IFD //////////////////////////////
     LOGD("EXIF IFD DATA");
     //write exif stuff direct into ifd0
-    /*if (TIFFCreateEXIFDirectory(tif) != 0) {
+    if (TIFFCreateEXIFDirectory(tif) != 0) {
         LOGD("TIFFCreateEXIFDirectory() failed" );
-    }*/
+    }
     short iso[] = {_iso};
     LOGD("EXIF dir created");
     if (!TIFFSetField( tif, EXIFTAG_ISOSPEEDRATINGS,1, iso)) {
@@ -494,6 +494,7 @@ void DngWriter::writeRawStuff(TIFF *tif) {
 
 void DngWriter::WriteDNG() {
     uint64 gps_offset = 0;
+    uint64 exif_offset = 0;
     TIFF *tif;
     LOGD("has file description: %b", hasFileDes);
     if(hasFileDes == true)
@@ -504,12 +505,19 @@ void DngWriter::WriteDNG() {
         tif = openfTIFF(fileSavePath);
 
     writeIfd0(tif);
-    const TIFFFieldArray *exif_fields = _TIFFGetExifFields();
-    _TIFFMergeFields(tif, exif_fields->fields, exif_fields->count);
+    TIFFCheckpointDirectory(tif);
+    /*const TIFFFieldArray *exif_fields = _TIFFGetExifFields();
+    _TIFFMergeFields(tif, exif_fields->fields, exif_fields->count);*/
     writeExifIfd(tif);
+    TIFFCheckpointDirectory(tif);
+    TIFFWriteCustomDirectory(tif, &exif_offset);
+    TIFFSetDirectory(tif, 0);
+    TIFFSetField (tif, TIFFTAG_EXIFIFD, exif_offset);
+    TIFFCheckpointDirectory(tif);
+    TIFFSetDirectory(tif, 0);
     LOGD("set exif");
     //CheckPOINT to KEEP IFD0 in MEMory
-    TIFFCheckpointDirectory(tif);
+    //TIFFCheckpointDirectory(tif);
 
     if(gps == true)
     {
