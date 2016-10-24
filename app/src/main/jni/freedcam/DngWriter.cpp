@@ -45,7 +45,6 @@ void DngWriter::writeIfd0(TIFF *tif) {
     LOGD("bitspersample");
     assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA) != 0);
     LOGD("PhotometricCFA");
-    //assert(TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, 480/2) != 0);
     assert(TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE) != 0);
     LOGD("Compression");
     TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
@@ -72,7 +71,6 @@ void DngWriter::writeIfd0(TIFF *tif) {
     }
     assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
     LOGD("planarconfig");
-    //assert(TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 3) != 0);
     TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam by Troop");
     LOGD("software");
     TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
@@ -139,7 +137,6 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
 void DngWriter::writeExifIfd(TIFF *tif) {
     /////////////////////////////////// EXIF IFD //////////////////////////////
     LOGD("EXIF IFD DATA");
-    //write exif stuff direct into ifd0
     if (TIFFCreateEXIFDirectory(tif) != 0) {
         LOGD("TIFFCreateEXIFDirectory() failed" );
     }
@@ -173,9 +170,6 @@ void DngWriter::writeExifIfd(TIFF *tif) {
         LOGD("Can't write FNum" );
     }
     LOGD("fnumber");
-
-
-    //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
 }
 
 //process mipi10bit to 16bit 10bit values stored
@@ -216,12 +210,6 @@ void DngWriter::processTight(TIFF *tif) {
         }
     }
     LOGD("Write done");
-    LOGD("write checkpoint");
-    //TIFFRewriteDirectory (tif);
-    LOGD("Finalizng DNG");
-    //TIFFClose(tif);
-    LOGD("Free Memory");
-
     if(buffer != NULL)
     {
         LOGD("Free Buffer");
@@ -267,11 +255,7 @@ void DngWriter::process10tight(TIFF *tif) {
         out[m++] = (ar[i+3]& 0b00111111)<<2 | (ar[i+4]& 0b11000000)>>6;//110100 00
     }
     TIFFWriteRawStrip(tif, 0, out, rawheight*shouldberowsize);
-
-    //TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
-    //TIFFClose(tif);
-
     delete[] out;
 }
 
@@ -300,11 +284,7 @@ void DngWriter::process12tight(TIFF *tif) {
         out[m++] = (ar[i+1]& 0b00001111 )<< 4 | (ar[i+2] & 0b00001111 ) >>4 ;// 10 01 0011
     }
     TIFFWriteRawStrip(tif, 0, out, rawheight*shouldberowsize);
-
-    //TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
-    //TIFFClose(tif);
-
     delete[] out;
 }
 
@@ -350,9 +330,6 @@ void DngWriter::processLoose(TIFF *tif) {
             LOGD("Error writing TIFF scanline.");
         }
     }
-    //TIFFRewriteDirectory(tif);
-    LOGD("Finalizng DNG");
-    //TIFFClose(tif);
     LOGD("Free Memory");
     if(buffer != NULL)
     {
@@ -387,9 +364,7 @@ void DngWriter::processSXXX16(TIFF *tif) {
             LOGD("Error writing TIFF scanline.");
         }
     }
-    //TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
-    //TIFFClose(tif);
     LOGD("Free Memory");
 }
 
@@ -432,7 +407,6 @@ void DngWriter::process16to10(TIFF *tif) {
         pixel[i+4] = R_ar[0]; //44444444
     }
     TIFFWriteRawStrip(tif, 0, pixel, rawheight*rowsizeInBytes);
-    //TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
 
     LOGD("Free Memory");
@@ -506,8 +480,7 @@ void DngWriter::WriteDNG() {
 
     writeIfd0(tif);
     TIFFCheckpointDirectory(tif);
-    /*const TIFFFieldArray *exif_fields = _TIFFGetExifFields();
-    _TIFFMergeFields(tif, exif_fields->fields, exif_fields->count);*/
+
     writeExifIfd(tif);
     TIFFCheckpointDirectory(tif);
     TIFFWriteCustomDirectory(tif, &exif_offset);
@@ -516,8 +489,6 @@ void DngWriter::WriteDNG() {
     TIFFCheckpointDirectory(tif);
     TIFFSetDirectory(tif, 0);
     LOGD("set exif");
-    //CheckPOINT to KEEP IFD0 in MEMory
-    //TIFFCheckpointDirectory(tif);
 
     if(gps == true)
     {
@@ -531,11 +502,6 @@ void DngWriter::WriteDNG() {
     }
 
     writeRawStuff(tif);
-
-
-    //TIFFCheckpointDirectory(tif);
-
-
 
     TIFFRewriteDirectory(tif);
     TIFFClose(tif);
