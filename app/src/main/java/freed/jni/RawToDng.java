@@ -7,9 +7,11 @@ import android.os.ParcelFileDescriptor;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Date;
 
 import freed.dng.DngProfile;
 import freed.utils.Logger;
+import freed.utils.StorageFileHandler;
 import freed.utils.StringUtils;
 
 /**
@@ -60,6 +62,8 @@ public class RawToDng
                                            String imagedescription,
                                            String orientation,
                                            double exposureIndex);
+
+    private native void SetDateTime(String datetime);
 
     public static RawToDng GetInstance()
     {
@@ -179,7 +183,8 @@ public class RawToDng
                             String orientation,
                             double exposureIndex)
     {
-            SetExifData(iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
+        SetExifData(iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
+        SetDateTime(StorageFileHandler.getStringDatePAttern().format(new Date()));
     }
 
     private float[] parseGpsvalue(double val)

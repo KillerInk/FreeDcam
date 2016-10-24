@@ -65,6 +65,8 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
                                                             jint tight,
                                                             jint width,
                                                             jint height);
+
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetDateTime(JNIEnv *env, jobject thiz, jstring datetime);
 }
 
 
@@ -89,6 +91,11 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetModelAndMake(JNIEnv *env, jobj
 {
     writer._make = (char*) env->GetStringUTFChars(make,NULL);
     writer._model = (char*) env->GetStringUTFChars(model,NULL);
+}
+
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetDateTime(JNIEnv *env, jobject thiz, jstring datetime)
+{
+    writer._dateTime = (char*) env->GetStringUTFChars(datetime,NULL);
 }
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject thiz,

@@ -37,6 +37,7 @@ public:
     char* _make;
     char*_model;
     char* _imagedescription;
+    char* _dateTime;
     char* _orientation;
     float _fnumber, _focallength;
     double _exposureIndex;
