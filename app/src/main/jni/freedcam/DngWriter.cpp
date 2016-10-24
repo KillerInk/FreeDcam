@@ -217,9 +217,9 @@ void DngWriter::processTight(TIFF *tif) {
     }
     LOGD("Write done");
     LOGD("write checkpoint");
-    TIFFRewriteDirectory (tif);
+    //TIFFRewriteDirectory (tif);
     LOGD("Finalizng DNG");
-    TIFFClose(tif);
+    //TIFFClose(tif);
     LOGD("Free Memory");
 
     if(buffer != NULL)
@@ -268,9 +268,9 @@ void DngWriter::process10tight(TIFF *tif) {
     }
     TIFFWriteRawStrip(tif, 0, out, rawheight*shouldberowsize);
 
-    TIFFRewriteDirectory(tif);
+    //TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
-    TIFFClose(tif);
+    //TIFFClose(tif);
 
     delete[] out;
 }
@@ -301,9 +301,9 @@ void DngWriter::process12tight(TIFF *tif) {
     }
     TIFFWriteRawStrip(tif, 0, out, rawheight*shouldberowsize);
 
-    TIFFRewriteDirectory(tif);
+    //TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
-    TIFFClose(tif);
+    //TIFFClose(tif);
 
     delete[] out;
 }
@@ -350,9 +350,9 @@ void DngWriter::processLoose(TIFF *tif) {
             LOGD("Error writing TIFF scanline.");
         }
     }
-    TIFFRewriteDirectory(tif);
+    //TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
-    TIFFClose(tif);
+    //TIFFClose(tif);
     LOGD("Free Memory");
     if(buffer != NULL)
     {
@@ -387,9 +387,9 @@ void DngWriter::processSXXX16(TIFF *tif) {
             LOGD("Error writing TIFF scanline.");
         }
     }
-    TIFFRewriteDirectory(tif);
+    //TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
-    TIFFClose(tif);
+    //TIFFClose(tif);
     LOGD("Free Memory");
 }
 
@@ -432,9 +432,9 @@ void DngWriter::process16to10(TIFF *tif) {
         pixel[i+4] = R_ar[0]; //44444444
     }
     TIFFWriteRawStrip(tif, 0, pixel, rawheight*rowsizeInBytes);
-    TIFFRewriteDirectory(tif);
+    //TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
-    TIFFClose(tif);
+
     LOGD("Free Memory");
     delete[] pixel;
 }
@@ -519,10 +519,18 @@ void DngWriter::WriteDNG() {
         TIFFSetDirectory(tif, 0);
         TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);
         TIFFCheckpointDirectory(tif);
+        TIFFSetDirectory(tif, 0);
     }
 
     writeRawStuff(tif);
 
+
+    //TIFFCheckpointDirectory(tif);
+
+
+
+    TIFFRewriteDirectory(tif);
+    TIFFClose(tif);
     if(opcode2Size >0)
     {
         free(opcode2);

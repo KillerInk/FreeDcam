@@ -41,6 +41,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -85,9 +86,15 @@ public class DngConvertingFragment extends Fragment
     private DngProfile dngprofile;
     private Handler handler;
     private Button closeButton;
+    private CheckBox fakeGPS;
     private AppSettingsManager appSettingsManager;
     private MatrixChooserParameter matrixChooserParameter;
     private TouchImageView imageView;
+    private final double Altitude =561.0;
+    private final double Latitude = 48.2503155;
+    private final double Longitude = 11.65918818;
+    private final String Provider = "gps";
+    private final long gpsTime = 1477324747000l;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
@@ -136,6 +143,7 @@ public class DngConvertingFragment extends Fragment
         });
         matrixChooserParameter = new MatrixChooserParameter(getResources());
         imageView = (TouchImageView)view.findViewById(id.dngconvert_imageview);
+        fakeGPS = (CheckBox)view.findViewById(id.checkBox_fakeGPS);
         return view;
     }
 
@@ -316,6 +324,8 @@ public class DngConvertingFragment extends Fragment
             }
         }
         dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
+        if (fakeGPS.isChecked())
+            dng.SetGpsData(Altitude, Latitude, Longitude,Provider, gpsTime);
         dng.WriteDngWithProfile(dngprofile);
         data = null;
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
