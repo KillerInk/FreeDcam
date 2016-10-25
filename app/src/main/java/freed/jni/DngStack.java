@@ -1,0 +1,32 @@
+package freed.jni;
+
+import java.io.File;
+
+/**
+ * Created by troop on 25.10.2016.
+ */
+
+public class DngStack
+{
+    static
+    {
+        System.loadLibrary("freedcam");
+    }
+
+    private static native void startStack(String[] filesToStack,String outputFile);
+
+    private final String[] dngToStack;
+
+    public DngStack(String[] dngs_to_stack)
+    {
+        this.dngToStack = dngs_to_stack;
+    }
+
+    public void StartStack()
+    {
+        File file = new File(dngToStack[0]);
+        File out = file.getParentFile();
+        out = new File(out.getAbsolutePath() + "/" + file.getName() + "_Stack.dng");
+        startStack(dngToStack,out.getAbsolutePath());
+    }
+}

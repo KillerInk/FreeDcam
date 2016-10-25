@@ -63,6 +63,7 @@ import freed.viewer.dngconvert.DngConvertingActivity;
 import freed.viewer.dngconvert.DngConvertingFragment;
 import freed.viewer.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
+import freed.viewer.stack.DngStackActivity;
 import freed.viewer.stack.StackActivity;
 
 /**
@@ -130,6 +131,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         delete,
         rawToDng,
         stack,
+        dngstack,
     }
 
     public void SetOnGridItemClick(ScreenSlideFragment.I_ThumbClick onGridItemClick)
@@ -174,6 +176,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     popup.getMenu().add(0,1,1, "StackJpeg");
                  if (!isRootDir)
                     popup.getMenu().add(0,2,2, "Raw to Dng");
+                 if (!isRootDir)
+                     popup.getMenu().add(0,3,3, "DngStack");
                  popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
                      @Override
                      public boolean onMenuItemClick(MenuItem item)
@@ -189,6 +193,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                              case 2:
                                  onRawToDngClick.onClick(null);
                                  break;
+                             case 3:
+                                 onDngStackClick.onClick(null);
                          }
                          return false;
                      }
@@ -382,6 +388,17 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                             doActionButton.setText("Stack");
                             doActionButton.setOnClickListener(onStackClick);
                             doActionButton.setVisibility(View.VISIBLE);
+                            break;
+                        case dngstack:
+                            lastFormat = formatsToShow;
+                            formatsToShow = FormatTypes.dng;
+                            viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
+                            optionsButton.setVisibility(View.GONE);
+                            filetypeButton.setVisibility(View.GONE);
+                            doActionButton.setText("DngStack");
+                            doActionButton.setOnClickListener(onDngStackClick);
+                            doActionButton.setVisibility(View.VISIBLE);
+                            break;
                     }
                     break;
             }
@@ -511,6 +528,42 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 }
                 setViewMode(ViewStates.normal);
                 Intent i = new Intent(getActivity(), StackActivity.class);
+                String[] t = new String[ar.size()];
+                ar.toArray(t);
+                i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
+                getActivity().startActivityForResult(i, STACK_REQUEST);
+            }
+            else
+            {
+                requestMode = RequestModes.none;
+                setViewMode(ViewStates.normal);
+            }
+        }
+    };
+
+    private final OnClickListener onDngStackClick = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (requestMode == RequestModes.none)
+            {
+                requestMode = RequestModes.dngstack;
+                setViewMode(ViewStates.selection);
+            }
+            else if (requestMode == RequestModes.dngstack)
+            {
+                ArrayList<String> ar = new ArrayList<>();
+                for (FileHolder f : viewerActivityInterface.getFiles()) {
+                    if (f.IsSelected() && f.getFile().getName().toLowerCase().endsWith(FileEnding.DNG))
+                    {
+                        ar.add(f.getFile().getAbsolutePath());
+                    }
+
+                }
+                for (FileHolder f : viewerActivityInterface.getFiles()) {
+                    f.SetSelected(false);
+                }
+                setViewMode(ViewStates.normal);
+                Intent i = new Intent(getActivity(), DngStackActivity.class);
                 String[] t = new String[ar.size()];
                 ar.toArray(t);
                 i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
