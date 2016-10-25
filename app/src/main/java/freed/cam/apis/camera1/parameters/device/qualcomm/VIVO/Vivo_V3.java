@@ -3,6 +3,7 @@ package freed.cam.apis.camera1.parameters.device.qualcomm.VIVO;
 import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.dng.DngProfile;
@@ -34,12 +35,17 @@ public class Vivo_V3 extends BaseQcomDevice {
     }
 
     @Override
-    public int getCurrentIso() {
-        return Integer.parseInt(parameters.get("snap_iso_value"));
+    public ManualParameterInterface getExposureTimeParameter() {
+        return null;
     }
 
     @Override
-    public float getCurrentExposuretime() {
-        return Float.parseFloat(parameters.get("snap_exp_time"));
+    public ManualParameterInterface getManualFocusParameter() {
+        return null;
+    }
+
+    @Override
+    public ManualParameterInterface getIsoParameter() {
+        return null;
     }
 }
