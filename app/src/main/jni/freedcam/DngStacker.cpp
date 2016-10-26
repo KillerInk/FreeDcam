@@ -37,12 +37,19 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     TIFF *tif=TIFFOpen(files[0], "rw");
     TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &width);
     TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &height);
+    //wrong matrix
     TIFFGetField(tif, TIFFTAG_COLORMATRIX1, &cmat1);
+    //wrong matrix
     TIFFGetField(tif, TIFFTAG_COLORMATRIX2, &cmat2);
+    //wrong matrix
     TIFFGetField(tif, TIFFTAG_ASSHOTNEUTRAL, &neutMat);
+    //wrong matrix
     TIFFGetField(tif, TIFFTAG_FOWARDMATRIX1, &fmat1);
+    //wrong matrix
     TIFFGetField(tif, TIFFTAG_FOWARDMATRIX2, &fmat2);
+    //wrong matrix
     TIFFGetField(tif, TIFFTAG_FOWARDMATRIX2, &noisemat);
+    //wrong pattern
     TIFFGetField(tif, TIFFTAG_CFAPATTERN, &cfa);
 
     data10bit_length = width*height/10*8;
@@ -51,6 +58,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     TIFFReadRawStrip(tif,0, inputData, data10bit_length);
 
     outputcount = 0;
+    //seems to work and read full input data
     for (int i = 0; i < data10bit_length; i+=5) {
         tmpPixel = inputData[i] << 2 | (inputData[i+1] & 0b11000000) >> 6; //11111111 11
         rawOutputData[outputcount++] = tmpPixel << 6;
@@ -63,6 +71,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     }
     TIFFClose(tif);
 
+    //read left dngs and merge them 
     for (int i = 1; i < stringCount; ++i) {
         TIFF *tif=TIFFOpen(files[i], "rw");
         TIFFReadRawStrip(tif,0, inputData, data10bit_length);
@@ -85,6 +94,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
         TIFFClose(tif);
     }
 
+    //create stacked dng
     tif=TIFFOpen(outfile, "w");
 
     TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
@@ -127,6 +137,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     LOGD("wrote blacklevel");
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
     TIFFCheckpointDirectory(tif);
+    //write out data to dng
     unsigned char * buf = new unsigned char[width*8];
     int c = 0;
     for (int i = 0; i < height; ++i)
