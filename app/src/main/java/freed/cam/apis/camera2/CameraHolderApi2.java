@@ -466,6 +466,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                             }
                             try {
                                 int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
+                                mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, iso);
                                 cameraUiWrapper.GetParameterHandler().ManualIso.ThrowCurrentValueStringCHanged("" + iso);
                             }
                             catch (NullPointerException ex) {
@@ -559,6 +560,9 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 aeCompensationListner.onAeCompensationChanged(result.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION));
                 //Logger.d(TAG,"ExpoCompensation:" + );
             }
+
+            if (cameraUiWrapper.GetParameterHandler().ExposureLock != null)
+                cameraUiWrapper.GetParameterHandler().ExposureLock.BackgroundValueHasChanged(result.get(CaptureResult.CONTROL_AE_LOCK).toString());
         }
 
         @Override
@@ -706,13 +710,13 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
 
         @TargetApi(VERSION_CODES.M)
-        public void CreateHighSpeedCaptureSession()
+        public void CreateHighSpeedCaptureSession(StateCallback customCallback)
         {
             if(mCameraDevice == null)
                 return;
             Logger.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
             try {
-                mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, previewStateCallBackRestart, null);
+                mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, null);
             } catch (CameraAccessException | SecurityException e) {
                 Logger.exception(e);
             }

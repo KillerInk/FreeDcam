@@ -23,7 +23,7 @@ import android.annotation.TargetApi;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.StateCallback;
-import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CameraCharacteristics;
 import android.location.Location;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioSource;
@@ -147,7 +147,22 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     public void startPreview()
     {
         previewSize = new Size(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
-        cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(), 270,90,true);
+        int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+        int orientation = 0;
+        switch (sensorOrientation)
+        {
+            case 90:
+                orientation = 270;
+                break;
+            case 180:
+                orientation =0;
+                break;
+            case 270: orientation = 90;
+                break;
+            case 0: orientation = 180;
+                break;
+        }
+        cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(), orientation,orientation+180,true);
         SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
         texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         previewsurface = new Surface(texture);
@@ -256,7 +271,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         recorderSurface = mediaRecorder.getSurface();
         cameraHolder.CaptureSessionH.AddSurface(recorderSurface,true);
 
-        cameraHolder.CaptureSessionH.CreateCaptureSession(previewrdy);
+        if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
+            cameraHolder.CaptureSessionH.CreateCaptureSession(previewrdy);
+        else
+            cameraHolder.CaptureSessionH.CreateHighSpeedCaptureSession(previewrdy);
     }
 
     private void setRecorderFilePath() {
@@ -294,8 +312,15 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         @Override
         public void onConfigured(CameraCaptureSession cameraCaptureSession)
         {
-            cameraHolder.CaptureSessionH.SetCaptureSession(cameraCaptureSession);
-            cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
+            if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
+                cameraHolder.CaptureSessionH.SetCaptureSession(cameraCaptureSession);
+                cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
+            }
+            else
+            {
+                cameraHolder.CaptureSessionH.SetHighSpeedCaptureSession(cameraCaptureSession);
+                cameraHolder.CaptureSessionH.StartHighspeedCaptureSession();
+            }
             mediaRecorder.start();
             isRecording = true;
             cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);

@@ -238,8 +238,15 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     public void surfaceDestroyed(SurfaceHolder holder)
     {
         PreviewSurfaceRdy =false;
-        if(moduleHandler.GetCurrentModule().ModuleName().equals(KEYS.MODULE_VIDEO) && moduleHandler.GetCurrentModule().IsWorking())
-            moduleHandler.GetCurrentModule().DoWork();
+        try {
+            if(moduleHandler.GetCurrentModule().ModuleName().equals(KEYS.MODULE_VIDEO) && moduleHandler.GetCurrentModule().IsWorking())
+                moduleHandler.GetCurrentModule().DoWork();
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.exception(ex);
+        }
+
         StopCamera();
     }
 
@@ -256,9 +263,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     {
         cameraRdy = true;
         super.onCameraOpen(message);
+        ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
         cameraHolder.SetSurface(extendedSurfaceView.getHolder());
         cameraHolder.StartPreview();
-        ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
         this.onCameraOpenFinish("");
     }
 

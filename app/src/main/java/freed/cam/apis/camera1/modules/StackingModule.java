@@ -147,7 +147,7 @@ public class StackingModule extends PictureModule {
 
     private void processData(byte[] data, File file)
     {
-        cameraHolder.StartPreview();
+        startPreview();
         Logger.d(TAG, "start preview");
         Logger.d(TAG,"The Data Is " + data.length + " bytes Long" + " and the path is " + file.getAbsolutePath());
         //create file to save

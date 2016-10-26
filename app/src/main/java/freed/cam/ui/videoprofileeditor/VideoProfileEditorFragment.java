@@ -20,7 +20,6 @@
 package freed.cam.ui.videoprofileeditor;
 
 import android.app.AlertDialog.Builder;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;

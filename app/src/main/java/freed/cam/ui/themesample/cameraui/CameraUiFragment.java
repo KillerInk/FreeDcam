@@ -97,6 +97,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private SharedPreferences sharedPref;
     private I_ThumbClick thumbClick;
 
+    private UiSettingsChild aelock;
+
     private UserMessageHandler messageHandler;
 
     private HorizontLineFragment horizontLineFragment;
@@ -151,6 +153,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         horizontLineFragment.setCameraUiWrapper(cameraUiWrapper);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         shutterButton.setVisibility(View.VISIBLE);
+        aelock.SetParameter(cameraUiWrapper.GetParameterHandler().ExposureLock);
         //restore view state for the manuals
         if(manualsettingsIsOpen)
             manualModes_holder.setVisibility(View.VISIBLE);
@@ -243,6 +246,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         hdr_switch = (UiSettingsChild) view.findViewById(id.hdr_toggle);
         hdr_switch.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_HDRMODE);
         hdr_switch.SetMenuItemClickListner(this,true);
+
+        aelock = (UiSettingsChild)view.findViewById(id.ae_lock);
+        aelock.SetUiItemClickListner(this);
+        aelock.SetStuff(fragment_activityInterface, "");
 
         hideUiItems();
 

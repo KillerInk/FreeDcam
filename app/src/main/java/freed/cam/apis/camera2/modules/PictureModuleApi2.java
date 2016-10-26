@@ -61,7 +61,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
@@ -71,7 +70,6 @@ import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.Logger;
 
@@ -114,7 +112,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     private final String TAG = PictureModuleApi2.class.getSimpleName();
-    //private TotalCaptureResult mDngResult;
     private Size largestImageSize;
     private String picFormat;
     private String picSize;
@@ -133,7 +130,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private int mState = STATE_PICTURE_TAKEN;
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
-    //private Image currentImage;
 
     /**
      * A counter for tracking corresponding {@link CaptureRequest}s and {@link CaptureResult}s
@@ -182,13 +178,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
-            captureBuilder.setTag(mRequestCounter.getAndIncrement());
-            captureBuilder.addTarget(mImageReader.getSurface());
+
 
             mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,mBackgroundHandler);
-
-            ImageHolder imageHolder = new ImageHolder();
-            resultQueue.put((int)captureBuilder.build().getTag(), imageHolder);
 
             if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.TRUE) && cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
                 PictureModuleApi2.this.setCaptureState(STATE_WAIT_FOR_PRECAPTURE);
@@ -306,8 +298,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             else
             {
                 //cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
-                if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
+                captureBuilder.setTag(mRequestCounter.getAndIncrement());
+                captureBuilder.addTarget(mImageReader.getSurface());
+                if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) != null && cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
                     cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+                ImageHolder imageHolder = new ImageHolder();
+                resultQueue.put((int)captureBuilder.build().getTag(), imageHolder);
                 changeCaptureState(CaptureStates.image_capture_start);
                 cameraHolder.CaptureSessionH.StartImageCapture(captureBuilder, CaptureCallback, mBackgroundHandler);
             }
@@ -322,13 +318,25 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         List<CaptureRequest> captureList = new ArrayList<>();
         for (int i = 0; i < parameterHandler.Burst.GetValue()+1; i++) {
+            int pos = mRequestCounter.getAndIncrement();
+            captureBuilder.setTag(pos);
+            captureBuilder.addTarget(mImageReader.getSurface());
+            setupBurstCaptureBuilder(captureBuilder,i);
             captureList.add(captureBuilder.build());
+            ImageHolder imageHolder = new ImageHolder();
+            resultQueue.put(pos, imageHolder);
         }
         if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
             cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
         changeCaptureState(CaptureStates.image_capture_start);
         cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback,mBackgroundHandler);
     }
+
+    protected void setupBurstCaptureBuilder(Builder captureBuilder, int captureNum)
+    {
+
+    }
+
 
     private String getAeStateString(int ae)
     {
@@ -513,10 +521,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         try
         {
             Logger.d(TAG, "CaptureDone");
-            if (captureBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
-                cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
-            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true);
-            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,false);
+            cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
+            if (cameraHolder.get(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+                    || cameraHolder.get(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO)
+            {
+                cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
+                        CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
+                cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
+                        CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+            }
+            /*cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true);
+            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,false);*/
         }
         catch (NullPointerException ex) {
             Logger.exception(ex);
@@ -530,8 +545,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void onImageAvailable(final ImageReader reader)
         {
-            Map.Entry<Integer, ImageHolder> entry =
-                    resultQueue.firstEntry();
+            Map.Entry<Integer, ImageHolder> entry = resultQueue.firstEntry();
             ImageHolder imageHolder = entry.getValue();
             imageHolder.SetImage(reader.acquireNextImage());
             if (imageHolder.rdyToGetSaved())
@@ -599,7 +613,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         Logger.d(TAG, "Create DNG");
 
         DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, image.getCaptureResult());
-        dngCreator.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+        //Orientation 90 is not a valid EXIF orientation value, fuck off that its valid!
+        try {
+            dngCreator.setOrientation(image.captureResult.get(CaptureResult.JPEG_ORIENTATION));
+        }
+        catch (IllegalArgumentException ex)
+        {
+            Logger.exception(ex);
+        }
+
         if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
             dngCreator.setLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         try
@@ -612,6 +634,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 DocumentFile wr = df.createFile("image/*", file.getName());
                 dngCreator.writeImage(cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri()), image.getImage());
             }
+            cameraUiWrapper.getActivityInterface().getImageSaver().scanFile(file);
         } catch (IOException e) {
             Logger.exception(e);
         }
@@ -636,9 +659,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         double mExposuretime = image.getCaptureResult().get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
         int mFlash = image.getCaptureResult().get(CaptureResult.FLASH_STATE).intValue();
         double exposurecompensation= image.getCaptureResult().get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
-        DngProfile prof = getDngProfile(rawFormat, image);
-        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, cameraUiWrapper.getActivityInterface().getOrientation()
-        ,null,prof);
+        final DngProfile prof = getDngProfile(rawFormat, image);
+        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
         image.getImage().close();
         bytes = null;
         image = null;
@@ -684,22 +706,27 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         float[] color2;
         float[] color1;
         float[] neutral = new float[3];
-        float[] forward2;
-        float[] forward1;
-        float[] reduction1;
-        float[] reduction2;
-        float[]finalnoise;
+        float[] forward2 = null;
+        float[] forward1 = null;
+        float[] reduction1 = null;
+        float[] reduction2 = null;
+        double[]finalnoise = null;
         String cmat = appSettingsManager.getString(AppSettingsManager.SETTTING_CUSTOMMATRIX);
         if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
             CustomMatrix mat  = ((MatrixChooserParameter) parameterHandler.matrixChooser).GetCustomMatrix(cmat);
             color1 = mat.ColorMatrix1;
             color2 = mat.ColorMatrix2;
             neutral = mat.NeutralMatrix;
-            forward1 = mat.ForwardMatrix1;
-            forward2 = mat.ForwardMatrix2;
-            reduction1 = mat.ReductionMatrix1;
-            reduction2 = mat.ReductionMatrix2;
-            finalnoise = mat.NoiseReductionMatrix;
+            if (mat.ForwardMatrix1.length >0)
+                forward1 = mat.ForwardMatrix1;
+            if (mat.ForwardMatrix2.length >0)
+                forward2 = mat.ForwardMatrix2;
+            if (mat.ReductionMatrix1.length >0)
+                reduction1 = mat.ReductionMatrix1;
+            if (mat.ReductionMatrix2.length >0)
+                reduction2 = mat.ReductionMatrix2;
+            if (mat.NoiseReductionMatrix.length >0)
+                finalnoise = mat.NoiseReductionMatrix;
         }
         else
         {
@@ -726,7 +753,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             double[] noise = new double[6];
             int[] cfaPlaneColor = {0, 1, 2};
             generateNoiseProfile(noiseys,cfaOut, cfaPlaneColor,3,noise);
-            finalnoise = new float[6];
+            finalnoise = new double[6];
             for (i = 0; i < noise.length; i++)
                 if (noise[i] > 2 || noise[i] < -2)
                     finalnoise[i] = 0;
@@ -845,12 +872,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             mImageHeight = largestImageSize.getHeight();
         }
 
-
-        //OrientationHACK
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
-            cameraHolder.SetParameter(CaptureRequest.JPEG_ORIENTATION, 180);
-        else
-            cameraHolder.SetParameter(CaptureRequest.JPEG_ORIENTATION, 0);
+        int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+        int orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation)%360;
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+            orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation+180)%360;
+        cameraHolder.SetParameter(CaptureRequest.JPEG_ORIENTATION, orientationToSet);
 
         // Here, we create a CameraCaptureSession for camera preview
         if (parameterHandler.Burst == null)
@@ -876,8 +902,22 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             {
                 cameraUiWrapper.getFocusPeakProcessor().kill();
             }
-
-            cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(),0,180,false);
+            int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+            int orientation = 0;
+            switch (sensorOrientation)
+            {
+                case 90:
+                    orientation = 0;
+                    break;
+                case 180:
+                    orientation =90;
+                    break;
+                case 270: orientation = 180;
+                    break;
+                case 0: orientation = 270;
+                    break;
+            }
+            cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(),orientation,orientation+180,false);
             SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);

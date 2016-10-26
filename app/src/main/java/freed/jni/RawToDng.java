@@ -7,10 +7,11 @@ import android.os.ParcelFileDescriptor;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
+import java.util.Date;
 
 import freed.dng.DngProfile;
 import freed.utils.Logger;
+import freed.utils.StorageFileHandler;
 import freed.utils.StringUtils;
 
 /**
@@ -29,44 +30,31 @@ public class RawToDng
     private byte[] opcode2;
     private byte[] opcode3;
 
-    private static int Calculate_rowSize(int fileSize, int height)
-    {
-        return fileSize/height;
-    }
-
-
-    private ByteBuffer nativeHandler;
-    private native long GetRawBytesSize(ByteBuffer nativeHandler);
-    private native int GetRawHeight(ByteBuffer nativeHandler);
-    private native void SetGPSData(ByteBuffer nativeHandler,double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
-    private native void SetThumbData(ByteBuffer nativeHandler,byte[] mThumb, int widht, int height);
-    private native void WriteDNG(ByteBuffer nativeHandler);
-    private native void Release(ByteBuffer nativeHandler);
-    private native void SetOpCode3(ByteBuffer nativeHandler, byte[] opcode);
-    private native void SetOpCode2(ByteBuffer nativeHandler, byte[] opcode);
-    private native void SetRawHeight(ByteBuffer nativeHandler,int height);
-    private native void SetModelAndMake(ByteBuffer nativeHandler,String model, String make);
-    private native void SetBayerData(ByteBuffer nativeHandler,byte[] fileBytes, String fileout);
-    private native void SetBayerDataFD(ByteBuffer nativeHandler,byte[] fileBytes, int fileout, String filename);
-    private native void SetLensData(ByteBuffer nativeHandler,byte[] fileBytes, String hasLensData);
-    private native void SetBayerInfo(ByteBuffer nativeHandler,
-                                     float[] colorMatrix1,
+    private native long GetRawBytesSize();
+    private native int GetRawHeight();
+    private native void SetGPSData(double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
+    private native void SetThumbData(byte[] mThumb, int widht, int height);
+    private native void WriteDNG();
+    private native void SetOpCode3(byte[] opcode);
+    private native void SetOpCode2(byte[] opcode);
+    private native void SetRawHeight(int height);
+    private native void SetModelAndMake(String model, String make);
+    private native void SetBayerData(byte[] fileBytes, String fileout);
+    private native void SetBayerDataFD(byte[] fileBytes, int fileout, String filename);
+    private native void SetBayerInfo(float[] colorMatrix1,
                                      float[] colorMatrix2,
                                      float[] neutralColor,
-                                            float[] fowardMatrix1,
-                                            float[] fowardMatrix2,
-                                            float[] reductionMatrix1,
-                                            float[] reductionMatrix2,
-                                            float[] noiseMatrix,
+                                     float[] fowardMatrix1,
+                                     float[] fowardMatrix2,
+                                     float[] reductionMatrix1,
+                                     float[] reductionMatrix2,
+                                     double[] noiseMatrix,
                                      int blacklevel,
                                      String bayerformat,
                                      int rowSize,
                                      String devicename,
                                      int rawType,int width,int height);
-
-    private native ByteBuffer Create();
-    private native void SetExifData(ByteBuffer nativeHandler,
-                                           int iso,
+    private native void SetExifData(int iso,
                                            double expo,
                                            int flash,
                                            float fNum,
@@ -74,7 +62,8 @@ public class RawToDng
                                            String imagedescription,
                                            String orientation,
                                            double exposureIndex);
-   // public static native String getFilePath();
+
+    private native void SetDateTime(String datetime);
 
     public static RawToDng GetInstance()
     {
@@ -83,10 +72,6 @@ public class RawToDng
 
     private RawToDng()
     {
-        if (nativeHandler != null) {
-            Release(nativeHandler);
-            nativeHandler = null;
-        }
         wbct = "";
         File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
         if (op2.exists())
@@ -104,7 +89,6 @@ public class RawToDng
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        nativeHandler = Create();
     }
 
     public void SetWBCT(String wbct)
@@ -181,14 +165,13 @@ public class RawToDng
 
     private long GetRawSize()
     {
-        return GetRawBytesSize(nativeHandler);
+        return GetRawBytesSize();
     }
 
-    public void SetGPSData(double Altitude,double Latitude,double Longitude, String Provider, long gpsTime)
+    public void SetGpsData(double Altitude,double Latitude,double Longitude, String Provider, long gpsTime)
     {
         Logger.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
-        if (nativeHandler != null)
-            SetGPSData(nativeHandler, Altitude, parseGpsvalue(Latitude), parseGpsvalue(Longitude), Provider, gpsTime);
+        SetGPSData(Altitude, parseGpsvalue(Latitude), parseGpsvalue(Longitude), Provider, gpsTime);
     }
 
     public void setExifData(int iso,
@@ -200,8 +183,8 @@ public class RawToDng
                             String orientation,
                             double exposureIndex)
     {
-        if (nativeHandler != null)
-            SetExifData(nativeHandler, iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
+        SetExifData(iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
+        SetDateTime(StorageFileHandler.getStringDatePAttern().format(new Date()));
     }
 
     private float[] parseGpsvalue(double val)
@@ -216,32 +199,27 @@ public class RawToDng
         return new float[]{ (float)dd ,(float)dm,(float)ds};
     }
 
-    public void SetThumbData(byte[] mThumb, int widht, int height)
+    public void setThumbData(byte[] mThumb, int widht, int height)
     {
-        if (nativeHandler != null)
-        {
-            SetThumbData(nativeHandler,mThumb, widht,height);
-        }
+        SetThumbData(mThumb, widht,height);
     }
 
     private void SetModelAndMake(String make)
     {
-        if (nativeHandler !=null)
-            SetModelAndMake(nativeHandler, Build.MODEL, Build.MANUFACTURER);
+        SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
     }
 
-    public void SetBayerData(byte[] fileBytes, String fileout) throws NullPointerException
+    public void setBayerData(byte[] fileBytes, String fileout) throws NullPointerException
     {
         if (fileBytes == null) {
             throw new NullPointerException();
         }
-        if (nativeHandler != null) {
-            SetBayerData(nativeHandler, fileBytes, fileout);
-            if (opcode2 != null)
-                SetOpCode2(nativeHandler, opcode2);
-            if (opcode3 != null)
-                SetOpCode3(nativeHandler, opcode3);
-        }
+        SetBayerData(fileBytes, fileout);
+        if (opcode2 != null)
+            SetOpCode2(opcode2);
+        if (opcode3 != null)
+            SetOpCode3(opcode3);
+
     }
 
     public void SetBayerDataFD(byte[] fileBytes, ParcelFileDescriptor fileout, String filename) throws NullPointerException
@@ -249,23 +227,14 @@ public class RawToDng
         if (fileBytes == null) {
             throw new NullPointerException();
         }
-        if (nativeHandler != null) {
-            SetBayerDataFD(nativeHandler, fileBytes, fileout.getFd(), filename);
-            if (opcode2 != null)
-                SetOpCode2(nativeHandler, opcode2);
-            if (opcode3 != null)
-                SetOpCode3(nativeHandler, opcode3);
-        }
+
+        SetBayerDataFD(fileBytes, fileout.getFd(), filename);
+        if (opcode2 != null)
+            SetOpCode2(opcode2);
+        if (opcode3 != null)
+            SetOpCode3(opcode3);
     }
 
-    public void SetLensData(byte[] fileBytes, String hasLensData) throws NullPointerException
-    {
-        if (fileBytes == null) {
-            throw new NullPointerException();
-        }
-        if (nativeHandler != null)
-            SetLensData(nativeHandler, fileBytes, hasLensData);
-    }
 
     private void SetBayerInfo(float[] colorMatrix1,
                               float[] colorMatrix2,
@@ -274,32 +243,23 @@ public class RawToDng
                               float[] fowardMatrix2,
                               float[] reductionMatrix1,
                               float[] reductionMatrix2,
-                              float[] noise,
+                              double[] noise,
                               int blacklevel,
                               String bayerformat,
                               int rowSize,
                               int tight, int width, int height)
     {
-        if (nativeHandler != null && wbct.equals(""))
-            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
+        if (wbct.equals(""))
+            SetBayerInfo(colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
         else if (!wbct.equals(""))
-            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
+            SetBayerInfo(colorMatrix1, colorMatrix2, getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
 
     }
 
-    public void RELEASE()
-    {
-        if (nativeHandler !=null)
-        {
-            Release(nativeHandler);
-            nativeHandler = null;
-        }
-    }
 
     private void setRawHeight(int height)
     {
-        if (nativeHandler != null)
-            SetRawHeight(nativeHandler, height);
+        SetRawHeight(height);
     }
 
 
@@ -311,8 +271,7 @@ public class RawToDng
         SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,
                 profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
                 profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.BayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
-        WriteDNG(nativeHandler);
-        RELEASE();
+        WriteDNG();
     }
 
     public static byte[] readFile(File file) throws IOException {

@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.parameters.device.qualcomm.ALCATEL;
 
 import android.hardware.Camera.Parameters;
+import android.os.Build;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
@@ -49,7 +50,10 @@ public class Alcatel_Idol3 extends BaseQcomNew
         switch (filesize)
         {
             case 16424960:
-                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+                    return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                else
+                    return new DngProfile(0, 4208, 3120, DngProfile.Mipi, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 17522688:
                 return new DngProfile(64, 4208, 3120, DngProfile.Qcom, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }

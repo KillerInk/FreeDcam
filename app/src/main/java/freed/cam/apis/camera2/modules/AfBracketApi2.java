@@ -26,13 +26,8 @@ import android.hardware.camera2.CaptureRequest.Builder;
 import android.os.Build;
 import android.os.Handler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.camera2.parameters.modes.FocusModeApi2;
 import freed.utils.AppSettingsManager;
 
 /**
@@ -51,6 +46,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     private int focusStep;
     private int currentFocusPos;
     private int focuslength;
+    private int min;
 
     @Override
     public String ShortName() {
@@ -76,7 +72,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     protected void initBurstCapture(Builder captureBuilder, CaptureCallback captureCallback)
     {
-        int min = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AFBRACKETMIN));
+        min = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AFBRACKETMIN));
         int max = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AFBRACKETMAX));
         if (min == 0 && max == 0)
         {
@@ -90,7 +86,8 @@ public class AfBracketApi2 extends PictureModuleApi2
             focusStep = focuslength /PICSTOTAKE;
             currentFocusPos = min;
         }
-        List<CaptureRequest> captureList = new ArrayList<>();
+        super.initBurstCapture(captureBuilder,captureCallback);
+        /*List<CaptureRequest> captureList = new ArrayList<>();
         captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, FocusModeApi2.FocusModes.off.ordinal());
         for (int i = 0; i < parameterHandler.Burst.GetValue()+1; i++)
         {
@@ -103,6 +100,14 @@ public class AfBracketApi2 extends PictureModuleApi2
         if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
             cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
-        cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback, mBackgroundHandler);
+        cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback, mBackgroundHandler);*/
+    }
+
+    @Override
+    protected void setupBurstCaptureBuilder(Builder captureBuilder, int captureNum) {
+        captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float) currentFocusPos / 10);
+        currentFocusPos +=focusStep;
+        if (currentFocusPos > focuslength+min)
+            currentFocusPos = focuslength+min;
     }
 }

@@ -31,8 +31,8 @@ public class DngProfile
     public static final int Mipi16 = 3;
     public static final int Mipi12 = 4;
 
-    public static String BGGR = "bggr";
-    public static String RGGB = "rggb";
+    public static final String BGGR = "bggr";
+    public static final String RGGB = "rggb";
     public static final String GRBG = "grbg";
     public static final String GBRG =  "gbrg";
 
@@ -61,7 +61,7 @@ public class DngProfile
         this.matrixes = matrixes;
     }
 
-    public static DngProfile getProfile(int blacklevel, int widht, int height,int rawFormat, String bayerPattern, int rowsize, float[] matrix1, float[] matrix2, float[] neutral, float[] fmatrix1, float[] fmatrix2, float[] rmatrix1, float[] rmatrix2, float[] noise)
+    public static DngProfile getProfile(int blacklevel, int widht, int height,int rawFormat, String bayerPattern, int rowsize, float[] matrix1, float[] matrix2, float[] neutral, float[] fmatrix1, float[] fmatrix2, float[] rmatrix1, float[] rmatrix2, double[] noise)
     {
         return new DngProfile(blacklevel,widht,height, rawFormat,bayerPattern, 0,new CustomMatrix(matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise));
     }

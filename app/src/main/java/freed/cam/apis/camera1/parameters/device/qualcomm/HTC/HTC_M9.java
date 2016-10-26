@@ -44,7 +44,7 @@ public class HTC_M9 extends HTC_M8 {
         switch (filesize)
         {
             case 25677824://m9 mipi
-                return new DngProfile(64, 5388, 3752, DngProfile.Mipi16, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 5388, 3752, DngProfile.Mipi, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 27127808: //HTC M9 QCom
                 return new DngProfile(64, 5388, 3752, DngProfile.Qcom, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }

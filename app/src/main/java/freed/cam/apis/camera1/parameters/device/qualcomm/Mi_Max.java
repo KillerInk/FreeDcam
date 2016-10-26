@@ -44,7 +44,7 @@ public class Mi_Max extends BaseQcomNew {
         switch (filesize)
         {
             case 20557824:
-                return new DngProfile(64, 4672,3504, DngProfile.Mipi16, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4672,3505, DngProfile.Mipi, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
     }

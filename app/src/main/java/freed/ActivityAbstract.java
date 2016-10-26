@@ -22,6 +22,7 @@ package freed;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -161,9 +162,15 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     @Override
     public void ChooseSDCard(I_OnActivityResultCallback callback)
     {
-        resultCallback = callback;
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        startActivityForResult(intent, READ_REQUEST_CODE);
+        try {
+            resultCallback = callback;
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+            startActivityForResult(intent, READ_REQUEST_CODE);
+        }
+        catch(ActivityNotFoundException activityNotFoundException)
+        {
+            Logger.exception(activityNotFoundException);
+        }
     }
 
     private final int READ_REQUEST_CODE = 42;

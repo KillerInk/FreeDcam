@@ -126,7 +126,7 @@ public class ImageSaver
                     Longitude = location.getLongitude();
                     Provider = location.getProvider();
                     gpsTime = location.getTime();
-                    dngConverter.SetGPSData(Altitude, Latitude, Longitude, Provider, gpsTime);
+                    dngConverter.SetGpsData(Altitude, Latitude, Longitude, Provider, gpsTime);
                 }
             }
             dngConverter.setExifData(iso, exposuretime, 0, fnumber, focal, "0", orientation + "", 0);
@@ -136,9 +136,8 @@ public class ImageSaver
             {
                 Logger.d(TAG, "Write To internal or kitkat<");
                 checkFileExists(fileName);
-                dngConverter.SetBayerData(bytes, fileName.getAbsolutePath());
+                dngConverter.setBayerData(bytes, fileName.getAbsolutePath());
                 dngConverter.WriteDngWithProfile(dngProfile);
-                dngConverter.RELEASE();
             }
             else
             {
@@ -156,7 +155,6 @@ public class ImageSaver
                 {
                     dngConverter.SetBayerDataFD(bytes, pfd, fileName.getName());
                     dngConverter.WriteDngWithProfile(dngProfile);
-                    dngConverter.RELEASE();
                     try {
                         pfd.close();
                     } catch (IOException e) {

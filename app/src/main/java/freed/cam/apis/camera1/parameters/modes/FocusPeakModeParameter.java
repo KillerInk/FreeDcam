@@ -60,6 +60,10 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     @Override
     public String GetValue()
     {
+        if (focusPeakProcessorAp1 == null) {
+            BackgroundIsSupportedChanged(false);
+            return KEYS.OFF;
+        }
         if (focusPeakProcessorAp1.isEnable())
             return KEYS.ON;
         else

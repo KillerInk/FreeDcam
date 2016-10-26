@@ -168,7 +168,7 @@ public class StorageFileHandler
         return getStringDatePAttern().format(new Date())+fileending;
     }
 
-    private SimpleDateFormat getStringDatePAttern()
+    public static SimpleDateFormat getStringDatePAttern()
     {
         return new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
     }

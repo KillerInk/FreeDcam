@@ -10,53 +10,21 @@ android {
         }
     }
     compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    buildToolsVersion '24.0.3'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 23
-        versionCode 99
-        versionName '3.3.143'
+        targetSdkVersion 24
+        versionCode 102
+        versionName '3.3.146'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 18
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        externalNativeBuild {
+            ndkBuild {
+                abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            }
+        }
     }
     lintOptions { checkReleaseBuilds false }
-    sourceSets
-            {
-                main {
-
-                    jni.srcDirs = []
-                    jniLibs.srcDir 'libs'
-
-                }
-
-
-                Properties properties = new Properties()
-                properties.load(project.rootProject.file('local.properties').newDataInputStream())
-                def ndkDir = properties.getProperty('ndk.dir')
-                task ndkBuild(type: Exec) {
-                    commandLine "$ndkDir/ndk-build.cmd", "--directory", "$projectDir/src/main/jni/", '-j', Runtime.runtime.availableProcessors(),
-                            "APP_PLATFORM=android-19",
-                            "APP_BUILD_SCRIPT=$projectDir/src/main/jni/Android.mk",
-                            "NDK_OUT=$buildDir/jni/obj",
-                            "NDK_APP_DST_DIR=$projectDir/libs/\$(TARGET_ARCH_ABI)"
-                }
-
-                task nativeLibsToJar(type: Jar, description: 'create a jar with native libs') {
-                    destinationDir file("$buildDir/jni/libs")
-                    baseName 'jni'
-                    from fileTree(dir: "$buildDir/jni/libs", include: '**/*.so')
-                    into 'lib/'
-                }
-
-                tasks.withType(JavaCompile) {
-                    compileTask -> compileTask.dependsOn nativeLibsToJar
-                }
-
-                nativeLibsToJar.dependsOn 'ndkBuild'
-
-            }
     buildTypes {
         release {
             minifyEnabled false
@@ -64,13 +32,15 @@ android {
             signingConfig signingConfigs.config
         }
         debug {
-            signingConfig signingConfigs.config
+            jniDebuggable true
+        }
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
         }
     }
     productFlavors {
-    }
-    testOptions {
-        unitTests.returnDefaultValues = true
     }
 }
 
@@ -79,6 +49,6 @@ dependencies {
     compile files('libs/xmpcore-5.1.2.jar')
     compile files('libs/metadata-extractor-2.7.0.jar')
     provided files('libs/real3d.jar')
-    compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.android.support:support-v4:25.0.0'
 }
 

@@ -13,7 +13,7 @@ FreeDcam
 
 ##Build
 To build use latest [Android Studio](http://developer.android.com/sdk/installing/studio.html)  
-
+Use NDK 12b!
 
 All needed libs are included
 

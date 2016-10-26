@@ -81,8 +81,8 @@ public class Xiaomi_Mi3_4 extends BaseQcomDevice {
                 return new DngProfile(0, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 16424960:
                 return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 16510976://mi 4c
-                return new DngProfile(64, 4208, 3120, DngProfile.Mipi16, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+            case 16510976://mi 4c // 10bit 4211 width correct aligned image but strange colors
+                return new DngProfile(64, 4208, 3136, DngProfile.Mipi, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 2969600:
                 return new DngProfile(64,1976,1200,DngProfile.Mipi16,DngProfile.RGGB,0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 3170304://Xiaomi_mi3 front Qcom

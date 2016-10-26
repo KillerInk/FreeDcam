@@ -189,11 +189,11 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
             //Single","Continuous","Spd Priority Cont.
             Logger.d(ShutterButton.this.TAG, "contshot:" + val);
             if (ShutterButton.this.cameraUiWrapper.GetParameterHandler().ContShootMode.GetValue().contains("Single")) {
-                ShutterButton.this.switchBackground(CaptureStates.image_capture_start, false);
+                ShutterButton.this.switchBackground(CaptureStates.image_capture_stop, false);
                 ShutterButton.this.contshot = false;
             }
             else {
-                ShutterButton.this.switchBackground(CaptureStates.continouse_capture_start, false);
+                ShutterButton.this.switchBackground(CaptureStates.continouse_capture_stop, false);
                 ShutterButton.this.contshot = true;
             }
         }

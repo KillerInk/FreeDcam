@@ -26,7 +26,6 @@ import android.view.View;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
-import freed.utils.Logger;
 
 /**
  * Created by troop on 09.09.2015.

@@ -24,8 +24,6 @@ import android.os.Build;
 
 import com.troop.freedcam.R.array;
 
-import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi3s;
-
 
 /**
  * Created by troop on 22.12.13.
@@ -109,6 +107,7 @@ public class DeviceUtils
         THL5000_MTK,
         Umi_Rome_X,
         Vivo_Xplay3s,
+        Vivo_V3,
         Wiko_Stairway,
         Wileyfox_Swift,
         Mi_Max,
@@ -333,6 +332,8 @@ public class DeviceUtils
             return Devices.InFocus_M808;
         else if (isDevice(res.getStringArray(array.xiaomi_redmi3s)))
             return Devices.Xiaomi_Redmi3S;
+        else if(isDevice(res.getStringArray(array.vivo_v3)))
+            return Devices.Vivo_V3;
         else
             return Devices.UNKNOWN;
 

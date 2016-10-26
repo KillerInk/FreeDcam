@@ -28,6 +28,7 @@ import android.hardware.Camera.PreviewCallback;
 import android.os.Build.VERSION_CODES;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
+import android.renderscript.RSInvalidStateException;
 import android.renderscript.RSRuntimeException;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
@@ -356,13 +357,20 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
             mHeight = height;
             Logger.d(TAG, "SurfaceSizeAvail");
             mSurface = new Surface(surface);
-            if (renderScriptHandler.GetOut() != null && renderScriptHandler.GetOut().getUsage() == Allocation.USAGE_IO_OUTPUT)
-                renderScriptHandler.GetOut().setSurface(mSurface);
-            else {
-                Logger.d(TAG, "Allocout null or not USAGE_IO_OUTPUT");
-                Size size = new Size(cameraUiWrapper.GetParameterHandler().PreviewSize.GetValue());
-                reset(size.width, size.height);
+            try {
+                if (renderScriptHandler.GetOut() != null && renderScriptHandler.GetOut().getUsage() == Allocation.USAGE_IO_OUTPUT)
+                    renderScriptHandler.GetOut().setSurface(mSurface);
+                else {
+                    Logger.d(TAG, "Allocout null or not USAGE_IO_OUTPUT");
+                    Size size = new Size(cameraUiWrapper.GetParameterHandler().PreviewSize.GetValue());
+                    reset(size.width, size.height);
+                }
             }
+            catch (NullPointerException ex)
+            {
+                Logger.exception(ex);
+            }
+
             clear_preview("onSurfaceTextureAvailable");
         }
 
@@ -370,11 +378,17 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
             Logger.d(TAG, "SurfaceSizeChanged");
             mSurface = new Surface(surface);
-            if (renderScriptHandler.GetOut()  != null)
-                renderScriptHandler.GetOut().setSurface(mSurface);
-            else {
-                Logger.d(TAG, "Allocout null");
+            try {
+                if (renderScriptHandler.GetOut()  != null)
+                    renderScriptHandler.GetOut().setSurface(mSurface);
+                else {
+                    Logger.d(TAG, "Allocout null");
 
+                }
+            }
+            catch(RSInvalidStateException ex)
+            {
+                Logger.exception(ex);
             }
         }
 

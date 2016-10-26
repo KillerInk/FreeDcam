@@ -22,3 +22,4 @@ app/manifest-merger-release-report.txt
 .gitignore
 */build/*
 app/libs/arm64-v8a/libfreedcam.so
+app/.externalNativeBuild/*

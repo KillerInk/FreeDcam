@@ -102,7 +102,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
             case 26023936://xiaomi redmi note3 mtk
                 return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.GBRG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 20389888: //xiaomi redmi note3 / pro
-                return new DngProfile(64, 4632, 3480, DngProfile.Mipi16, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4632, 3520, DngProfile.Mipi, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
     }

@@ -39,7 +39,7 @@ public class CustomMatrix
     public float[] ForwardMatrix2;
     public float[] ReductionMatrix1;
     public float[] ReductionMatrix2;
-    public float[] NoiseReductionMatrix;
+    public double[] NoiseReductionMatrix;
 
 
     public static final String MEDIAPROFILESPATH = StringUtils.GetFreeDcamConfigFolder+"matrix/";
@@ -47,7 +47,7 @@ public class CustomMatrix
 
     private CustomMatrix(){}
 
-    public CustomMatrix(float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
+    public CustomMatrix(float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,double[]noise)
     {
         ColorMatrix1 = matrix1;
         ColorMatrix2 = matrix2;
@@ -88,7 +88,7 @@ public class CustomMatrix
                     matrix.ReductionMatrix2 = getMatrixFromString(ar[i]);
                     break;
                 case 7:
-                    matrix.NoiseReductionMatrix = getMatrixFromString(ar[i]);
+                    matrix.NoiseReductionMatrix =getDoubleMatrixFromString(ar[i]);
                     break;
             }
         }
@@ -112,6 +112,26 @@ public class CustomMatrix
             }
             else
                 ar[i] = Float.parseFloat(split[i]);
+        }
+        return ar;
+    }
+
+    public static double[] getDoubleMatrixFromString(String m)
+    {
+        String[] split = m.split(",");
+        double[] ar = new double[split.length];
+        for (int i = 0; i< split.length; i++)
+        {
+            //when we was to lazy for the math and it looks like 46/128
+            if (split[i].contains("/"))
+            {
+                String[] s = split[i].split("/");
+                int left = Integer.parseInt(s[0].replace(" ",""));
+                int right = Integer.parseInt(s[1].replace(" ",""));
+                ar[i] = (double)left/right;
+            }
+            else
+                ar[i] = Double.parseDouble(split[i]);
         }
         return ar;
     }
@@ -155,7 +175,7 @@ public class CustomMatrix
                             matrix.ReductionMatrix2 = getMatrixFromString(line);
                             break;
                         case 7:
-                            matrix.NoiseReductionMatrix = getMatrixFromString(line);
+                            matrix.NoiseReductionMatrix = getDoubleMatrixFromString(line);
                             break;
                     }
                     count++;

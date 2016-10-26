@@ -19,12 +19,15 @@
 
 package freed.cam.apis.camera1.parameters.manual.whitebalance;
 
+import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.os.Handler;
 
 import java.util.ArrayList;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.utils.Logger;
@@ -52,6 +55,48 @@ public class BaseCCTManual extends BaseManualParameter
         manual_WbMode = wbmode;
     }
 
+    public BaseCCTManual(final Parameters parameters, String maxValue, String MinValue
+            , final CameraWrapperInterface cameraUiWrapper, float step,
+                         String wbmode) {
+        super(parameters, "", maxValue, MinValue, cameraUiWrapper, step);
+        isSupported = false;
+        isVisible = false;
+        int min = Integer.parseInt(parameters.get(key_min_value));
+        int max = Integer.parseInt(parameters.get(key_max_value));
+        stringvalues = createStringArray(min,max,step);
+        manual_WbMode = wbmode;
+
+        //wait 800ms to give awb a chance to set the ct value to the parameters
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //get fresh parameters from camera
+                Camera.Parameters parameters1 = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
+                String wbcur = "";
+                //lookup if ct value is avail
+                if (parameters1.get(KEYS.WB_CURRENT_CCT)!=null)
+                    wbcur = KEYS.WB_CURRENT_CCT;
+                else if (parameters1.get(KEYS.WB_CCT) != null)
+                    wbcur = KEYS.WB_CCT;
+                else if (parameters1.get(KEYS.WB_CT) != null)
+                    wbcur = KEYS.WB_CT;
+                else if (parameters1.get(KEYS.WB_MANUAL_CCT) != null)
+                    wbcur = KEYS.WB_MANUAL_CCT;
+                else if (parameters1.get(KEYS.MANUAL_WB_VALUE) != null)
+                    wbcur = KEYS.MANUAL_WB_VALUE;
+                if (wbcur != "")
+                {
+                    //update our stored parameters with ct
+                    parameters.set(wbcur, parameters1.get(wbcur));
+                    isSupported = true;
+                    isVisible = true;
+                    key_value = wbcur;
+                    BaseCCTManual.this.ThrowBackgroundIsSupportedChanged(true);
+                }
+            }
+        }, 800);
+    }
+
     public BaseCCTManual(Parameters parameters, String value, int max, int min
             , CameraWrapperInterface cameraUiWrapper, float step, String wbmode) {
         super(parameters, value, "", "", cameraUiWrapper, step);
@@ -71,7 +116,14 @@ public class BaseCCTManual extends BaseManualParameter
         {
             set_manual();
         }
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        try {
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        }
+        catch (RuntimeException ex)
+        {
+            ThrowBackgroundIsSupportedChanged(false);
+        }
+
     }
 
     protected void set_manual()

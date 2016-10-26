@@ -41,6 +41,7 @@ import freed.cam.apis.camera2.parameters.manual.BurstApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.camera2.parameters.manual.ZoomApi2;
+import freed.cam.apis.camera2.parameters.modes.AeLockModeApi2;
 import freed.cam.apis.camera2.parameters.modes.AntibandingApi2;
 import freed.cam.apis.camera2.parameters.modes.ColorModeApi2;
 import freed.cam.apis.camera2.parameters.modes.ControlModesApi2;
@@ -51,6 +52,7 @@ import freed.cam.apis.camera2.parameters.modes.FocusModeApi2;
 import freed.cam.apis.camera2.parameters.modes.FocusPeakModeApi2;
 import freed.cam.apis.camera2.parameters.modes.HotPixelModeApi2;
 import freed.cam.apis.camera2.parameters.modes.ImageStabApi2;
+import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.OisModeApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
@@ -89,6 +91,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         FlashMode = new FlashModeApi2(cameraUiWrapper);
         SceneMode = new SceneModeApi2(cameraUiWrapper);
         ColorMode = new ColorModeApi2(cameraUiWrapper);
+        JpegQuality = new JpegQualityModeApi2(cameraUiWrapper);
 
         WbHandler wbHandler = new WbHandler(cameraUiWrapper);
         //AE mode start
@@ -117,6 +120,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ToneMapMode.addEventListner(manualToneMapCurveApi2);
 
         PictureFormat = new PictureFormatParameterApi2(cameraUiWrapper);
+
+        ExposureLock = new AeLockModeApi2(cameraUiWrapper);
 
         FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
         ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
