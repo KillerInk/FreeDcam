@@ -161,9 +161,17 @@ public class AppSettingsManager {
     public static final String SETTING_CAPTUREBURSTEXPOSURES = "captureburstexposures";
     public static final String SETTING_MORPHOHDR = "morphohdr";
     public static final String SETTING_MORPHOHHT = "morphohht";
+
     public static final String SETTING_AEB1 = "aeb1";
     public static final String SETTING_AEB2 = "aeb2";
     public static final String SETTING_AEB3 = "aeb3";
+
+    public static final String SETTING_AEB4 = "aeb4";
+
+    public static final String SETTING_AEB5 = "aeb5";
+    public static final String SETTING_AEB6 = "aeb6";
+    public static final String SETTING_AEB7 = "aeb7";
+
     public static final String SETTING_STACKMODE = "stackmode";
 
     public static final String SETTINGS_PREVIEWZOOM = "previewzoom";

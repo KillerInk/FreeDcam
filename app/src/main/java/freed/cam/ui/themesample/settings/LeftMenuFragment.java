@@ -92,6 +92,10 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     private SettingsChildMenuAEB AEB1;
     private SettingsChildMenuAEB AEB2;
     private SettingsChildMenuAEB AEB3;
+    private SettingsChildMenuAEB AEB4;
+    private SettingsChildMenuAEB AEB5;
+    private SettingsChildMenuAEB AEB6;
+    private SettingsChildMenuAEB AEB7;
 
     private SettingsChildMenu matrixChooser;
 
@@ -150,6 +154,11 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         AEB1 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB1);
         AEB2 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB2);
         AEB3 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB3);
+
+        AEB4 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB4);
+        AEB5 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB5);
+        AEB6 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB6);
+        AEB7 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB7);
 
         bayerFormatItem = (SettingsChildMenu)view.findViewById(id.MenuItemBayerFormat);
 
@@ -252,9 +261,26 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             AEB2.setVisibility(View.VISIBLE);
             AEB2.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB2);
             AEB2.SetCameraUIWrapper(cameraUiWrapper);
+
             AEB3.setVisibility(View.VISIBLE);
             AEB3.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB3);
             AEB3.SetCameraUIWrapper(cameraUiWrapper);
+
+            AEB4.setVisibility(View.VISIBLE);
+            AEB4.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB4);
+            AEB4.SetCameraUIWrapper(cameraUiWrapper);
+
+            AEB5.setVisibility(View.VISIBLE);
+            AEB5.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB5);
+            AEB5.SetCameraUIWrapper(cameraUiWrapper);
+
+            AEB6.setVisibility(View.VISIBLE);
+            AEB6.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB6);
+            AEB6.SetCameraUIWrapper(cameraUiWrapper);
+
+            AEB7.setVisibility(View.VISIBLE);
+            AEB7.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB7);
+            AEB7.SetCameraUIWrapper(cameraUiWrapper);
         }
         else if (cameraUiWrapper instanceof Camera2Fragment)
         {
@@ -265,6 +291,11 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             AEB1.setVisibility(View.GONE);
             AEB2.setVisibility(View.GONE);
             AEB3.setVisibility(View.GONE);
+
+            AEB6.setVisibility(View.GONE);
+            AEB5.setVisibility(View.GONE);
+            AEB6.setVisibility(View.GONE);
+            AEB7.setVisibility(View.GONE);
         }
         else
         {
@@ -274,6 +305,10 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             AEB1.setVisibility(View.GONE);
             AEB2.setVisibility(View.GONE);
             AEB3.setVisibility(View.GONE);
+            AEB6.setVisibility(View.GONE);
+            AEB5.setVisibility(View.GONE);
+            AEB6.setVisibility(View.GONE);
+            AEB7.setVisibility(View.GONE);
         }
 
 
