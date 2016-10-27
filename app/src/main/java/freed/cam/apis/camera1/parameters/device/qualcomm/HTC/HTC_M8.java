@@ -84,9 +84,9 @@ public class HTC_M8 extends AbstractDevice {
     @Override
     public DngProfile getDngProfile(int filesize) {
         if (filesize < 6000000 && filesize > 5382641) //qcom
-            return new DngProfile(0, 2688, 1520, DngProfile.Qcom, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
+            return new DngProfile(0, 2688, 1520, DngProfile.Qcom, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OV4688));
         else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
-            return new DngProfile(0, 2688, 1520, DngProfile.Mipi16, DngProfile.GRBG, DngProfile.HTCM8_rowSize, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
+            return new DngProfile(0, 2688, 1520, DngProfile.Mipi16, DngProfile.GRBG, DngProfile.HTCM8_rowSize, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OV4688));
         return null;
     }
 
