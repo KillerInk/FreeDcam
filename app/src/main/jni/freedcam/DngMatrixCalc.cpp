@@ -14,6 +14,7 @@ typedef struct {
     int32_t denominator;
 } cam_rational_type_t;
 
+
 #define FLOAT_TO_Q(exp, f) \
     ((int32_t)((f*(1<<(exp))) + ((f<0) ? -0.5 : 0.5)))
 
@@ -75,11 +76,15 @@ static float D65_to_ref_A[3][3] = {
   {-0.0239469, 0.0358984,  0.3147529}
 };
 
+float FLOATDENOM(int32_t i,int32_t j)
+{
+    return ((float)(i/j) );
+}
+
 void sensor_generate_A_matrix()
 {
-  float cc_mat[3][3], wb_mat[3][3], out_mat[3][3];
-
- cam_rational_type_t forward_mat[3][3],color_mat[3][3];
+    float cc_mat[3][3], wb_mat[3][3], out_mat[3][3], FOWARD_MATRIX[3][3],COLOR_CORRECTION_MATRIX[3][3];
+    cam_rational_type_t forward_mat[3][3],color_mat[3][3];
 
   float *ptr1, *ptr2;
   float tmp[3][3], tmp1[3][3], tmp2[3][3];
@@ -102,10 +107,18 @@ void sensor_generate_A_matrix()
   MATRIX_MULT(sRGB2XYZ, cc_mat, out_mat, 3, 3, 3);
   FLOAT_TO_RATIONAL(out_mat, forward_mat, 3, 3);
 
-  //CM = Invert (H * W * CC' * G) 1510
+   ////////////////////////////////////////////////////////////////////////////////////
+    for (int i = 0; i<3; i++)
+    {
+      for(int j=0; j<3; j++)
+      {
+          LOGD("A FM = [%i][%i]: %i/%i\n",i,j,forward_mat[i][j].numerator,forward_mat[i][j].denominator);
+      }
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
 
-    MATRIX_MULT(D65_to_ref_A, XYZ2RGB, tmp, 3, 3, 3);
-    MATRIX_MULT(tmp, cc_mat, tmp1, 3, 3, 3);
+   MATRIX_MULT(D65_to_ref_A, XYZ2RGB, tmp, 3, 3, 3);
+   MATRIX_MULT(tmp, cc_mat, tmp1, 3, 3, 3);
 
   MATRIX_MULT(tmp1, wb_mat, tmp2, 3, 3, 3);
 
@@ -114,13 +127,21 @@ void sensor_generate_A_matrix()
   MATRIX_INVERSE_3x3(ptr1, ptr2);
 
   FLOAT_TO_RATIONAL(out_mat, color_mat, 3, 3);
+
+    for (int i = 0; i<3; i++)
+    {
+      for(int j=0; j<3; j++)
+      {
+          LOGD("A CCM = [%i][%i]: %i/%i\n",i,j,color_mat[i][j].numerator,color_mat[i][j].denominator);
+      }
+    }
+
 }
 
 void sensor_generate_D65_matrix()
 {
-  float cc_mat[3][3], wb_mat[3][3], out_mat[3][3];
-
-   cam_rational_type_t forward_mat[3][3],color_mat[3][3];
+      float cc_mat[3][3], wb_mat[3][3], out_mat[3][3], FOWARD_MATRIX[3][3],COLOR_CORRECTION_MATRIX[3][3];
+      cam_rational_type_t forward_mat[3][3],color_mat[3][3];
 
   float *ptr1, *ptr2;
   float tmp[3][3], tmp1[3][3], tmp2[3][3];
@@ -142,22 +163,17 @@ void sensor_generate_D65_matrix()
   /* Forward Transform: sRGB2XYZ * CC */
   MATRIX_MULT(sRGB2XYZ, cc_mat, out_mat, 3, 3, 3);
   FLOAT_TO_RATIONAL(out_mat, forward_mat, 3, 3);
-
-  for(int i = 0; i<2;i++)
+  ////////////////////////////////////////////////////////////////////////////////////
+  for (int i = 0; i<3; i++)
   {
-  LOGD("FM:%f\n",forward_mat[0][i]);
-
-  }
-  for(int i = 0; i<2;i++)
+    for(int j=0; j<3; j++)
     {
-    LOGD("FM:%f\n",forward_mat[1][i]);
-
+        LOGD("D65 FM = [%i][%i]: %i/%i\n",i,j,forward_mat[i][j].numerator,forward_mat[i][j].denominator);
     }
-    for(int i = 0; i<2;i++)
-      {
-      LOGD("FM:%f\n",forward_mat[2][i]);
+  }
+  /////////////////////////////////////////////////////////////////////////////////////
 
-      }
+
 
   //CM = Invert (H * W * CC' * G) 1510
 
@@ -170,21 +186,17 @@ void sensor_generate_D65_matrix()
   MATRIX_INVERSE_3x3(ptr1, ptr2);
 
   FLOAT_TO_RATIONAL(out_mat, color_mat, 3, 3);
-   for(int i = 0; i<2;i++)
+
+ ////////////////////////////////////////////////////////////////////////////////////
+  for (int i = 0; i<3; i++)
+  {
+    for(int j=0; j<3; j++)
     {
-    LOGD("FM:%f\n",color_mat[0][i]);
-
+        LOGD("D65 CCM = [%i][%i]: %i/%i\n",i,j,color_mat[i][j].numerator,color_mat[i][j].denominator);
     }
-    for(int i = 0; i<2;i++)
-      {
-      LOGD("FM:%f\n",color_mat[1][i]);
+  }
+  /////////////////////////////////////////////////////////////////////////////////////
 
-      }
-      for(int i = 0; i<2;i++)
-        {
-        LOGD("FM:%f\n",color_mat[2][i]);
-
-        }
 }
 
 void sensor_generate_calib_trans(cam_rational_type_t matrix[3][3],
@@ -211,8 +223,9 @@ void sensor_generate_unit_matrix(cam_rational_type_t matrix[3][3])
 }
 
 JNIEXPORT void JNICALL Java_freed_jni_DngMatrixCalc_calc(JNIEnv *env, jobject thiz)
-{
+{sensor_generate_A_matrix();
     sensor_generate_D65_matrix();
+
 }
 
 
