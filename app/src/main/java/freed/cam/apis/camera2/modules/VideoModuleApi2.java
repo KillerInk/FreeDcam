@@ -24,6 +24,7 @@ import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.StateCallback;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CaptureRequest;
 import android.location.Location;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioSource;
