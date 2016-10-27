@@ -175,8 +175,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     }
 
     @Override
-    protected void setCameraUiWrapperToUi()
-    {
+    protected void setCameraUiWrapperToUi() {
         if (cameraUiWrapper == null)
             return;
         pictureSize.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_PICTURESIZE);
@@ -240,8 +239,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             VideoSize.SetParameter(cameraUiWrapper.GetParameterHandler().VideoSize);
             VideoSize.SetUiItemClickListner(this);
             VideoSize.setVisibility(View.VISIBLE);
-        }
-        else
+        } else
             VideoSize.setVisibility(View.GONE);
 
         videoStabilization.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_VIDEOSTABILIZATION);
@@ -250,7 +248,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        if (cameraUiWrapper instanceof Camera1Fragment ) {
+        if (cameraUiWrapper instanceof Camera1Fragment) {
 
             timeLapseFrames.setVisibility(View.VISIBLE);
             timeLapseFrames.SetStuff(fragment_activityInterface.getAppSettings());
@@ -268,93 +266,88 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 AEB3.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB3);
                 AEB3.SetCameraUIWrapper(cameraUiWrapper);
 
-            AEB4.setVisibility(View.VISIBLE);
-            AEB4.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB4);
-            AEB4.SetCameraUIWrapper(cameraUiWrapper);
+                AEB4.setVisibility(View.VISIBLE);
+                AEB4.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB4);
+                AEB4.SetCameraUIWrapper(cameraUiWrapper);
 
-            AEB5.setVisibility(View.VISIBLE);
-            AEB5.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB5);
-            AEB5.SetCameraUIWrapper(cameraUiWrapper);
+                AEB5.setVisibility(View.VISIBLE);
+                AEB5.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB5);
+                AEB5.SetCameraUIWrapper(cameraUiWrapper);
 
-            AEB6.setVisibility(View.VISIBLE);
-            AEB6.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB6);
-            AEB6.SetCameraUIWrapper(cameraUiWrapper);
+                AEB6.setVisibility(View.VISIBLE);
+                AEB6.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB6);
+                AEB6.SetCameraUIWrapper(cameraUiWrapper);
 
-            AEB7.setVisibility(View.VISIBLE);
-            AEB7.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB7);
-            AEB7.SetCameraUIWrapper(cameraUiWrapper);
+                AEB7.setVisibility(View.VISIBLE);
+                AEB7.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB7);
+                AEB7.SetCameraUIWrapper(cameraUiWrapper);
+            } else if (cameraUiWrapper instanceof Camera2Fragment) {
+                timeLapseFrames.setVisibility(View.VISIBLE);
+                timeLapseFrames.SetStuff(fragment_activityInterface.getAppSettings());
+                videoProfileEditor.setVisibility(View.VISIBLE);
+
+                AEB1.setVisibility(View.GONE);
+                AEB2.setVisibility(View.GONE);
+                AEB3.setVisibility(View.GONE);
+
+                AEB6.setVisibility(View.GONE);
+                AEB5.setVisibility(View.GONE);
+                AEB6.setVisibility(View.GONE);
+                AEB7.setVisibility(View.GONE);
+            } else {
+                timeLapseFrames.setVisibility(View.GONE);
+                videoProfileEditor.setVisibility(View.GONE);
+
+                AEB1.setVisibility(View.GONE);
+                AEB2.setVisibility(View.GONE);
+                AEB3.setVisibility(View.GONE);
+                AEB6.setVisibility(View.GONE);
+                AEB5.setVisibility(View.GONE);
+                AEB6.setVisibility(View.GONE);
+                AEB7.setVisibility(View.GONE);
+            }
+
+
+            saveCamParams.setCameraUiWrapper(cameraUiWrapper);
+
+            if (DEBUG) {
+                PreviewFormat.SetStuff(fragment_activityInterface, null);
+                PreviewFormat.SetParameter(cameraUiWrapper.GetParameterHandler().PreviewFormat);
+                PreviewFormat.SetUiItemClickListner(this);
+                PreviewFormat.setVisibility(View.VISIBLE);
+                PreviewSize.SetStuff(fragment_activityInterface, null);
+                PreviewSize.SetParameter(cameraUiWrapper.GetParameterHandler().PreviewSize);
+                PreviewSize.SetUiItemClickListner(this);
+                PreviewSize.setVisibility(View.VISIBLE);
+            } else {
+                PreviewFormat.setVisibility(View.GONE);
+                PreviewSize.setVisibility(View.GONE);
+            }
+
+            horizont.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_HORIZONT);
+            horizont.SetParameter(cameraUiWrapper.GetParameterHandler().Horizont);
+            horizont.SetUiItemClickListner(this);
+
+            opcode.SetStuff(fragment_activityInterface, "");
+            opcode.SetParameter(cameraUiWrapper.GetParameterHandler().opcode);
+            opcode.SetUiItemClickListner(this);
+
+            bayerFormatItem.SetStuff(fragment_activityInterface, AppSettingsManager.SETTTING_BAYERFORMAT);
+            bayerFormatItem.SetParameter(cameraUiWrapper.GetParameterHandler().bayerformat);
+            bayerFormatItem.SetUiItemClickListner(this);
+
+            matrixChooser.SetStuff(fragment_activityInterface, AppSettingsManager.SETTTING_CUSTOMMATRIX);
+            matrixChooser.SetParameter(cameraUiWrapper.GetParameterHandler().matrixChooser);
+            matrixChooser.SetUiItemClickListner(this);
+
+            imageStackMode.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_STACKMODE);
+            imageStackMode.SetParameter(cameraUiWrapper.GetParameterHandler().imageStackMode);
+            imageStackMode.SetUiItemClickListner(this);
+
+            nightoverlay.SetUiItemClickListner(this);
+            //nightoverlay.SetStuff(fragment_activityInterface,"");
+            nightoverlay.SetParameter(cameraUiWrapper.GetParameterHandler().NightOverlay);
         }
-        else if (cameraUiWrapper instanceof Camera2Fragment)
-        {
-            timeLapseFrames.setVisibility(View.VISIBLE);
-            timeLapseFrames.SetStuff(fragment_activityInterface.getAppSettings());
-            videoProfileEditor.setVisibility(View.VISIBLE);
-
-            AEB1.setVisibility(View.GONE);
-            AEB2.setVisibility(View.GONE);
-            AEB3.setVisibility(View.GONE);
-
-            AEB6.setVisibility(View.GONE);
-            AEB5.setVisibility(View.GONE);
-            AEB6.setVisibility(View.GONE);
-            AEB7.setVisibility(View.GONE);
-        }
-        else
-        {
-            timeLapseFrames.setVisibility(View.GONE);
-            videoProfileEditor.setVisibility(View.GONE);
-
-            AEB1.setVisibility(View.GONE);
-            AEB2.setVisibility(View.GONE);
-            AEB3.setVisibility(View.GONE);
-            AEB6.setVisibility(View.GONE);
-            AEB5.setVisibility(View.GONE);
-            AEB6.setVisibility(View.GONE);
-            AEB7.setVisibility(View.GONE);
-        }
-
-
-        saveCamParams.setCameraUiWrapper(cameraUiWrapper);
-
-        if (DEBUG)
-        {
-            PreviewFormat.SetStuff(fragment_activityInterface, null);
-            PreviewFormat.SetParameter(cameraUiWrapper.GetParameterHandler().PreviewFormat);
-            PreviewFormat.SetUiItemClickListner(this);
-            PreviewFormat.setVisibility(View.VISIBLE);
-            PreviewSize.SetStuff(fragment_activityInterface, null);
-            PreviewSize.SetParameter(cameraUiWrapper.GetParameterHandler().PreviewSize);
-            PreviewSize.SetUiItemClickListner(this);
-            PreviewSize.setVisibility(View.VISIBLE);
-        }
-        else {
-            PreviewFormat.setVisibility(View.GONE);
-            PreviewSize.setVisibility(View.GONE);
-        }
-
-        horizont.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_HORIZONT);
-        horizont.SetParameter(cameraUiWrapper.GetParameterHandler().Horizont);
-        horizont.SetUiItemClickListner(this);
-
-        opcode.SetStuff(fragment_activityInterface, "");
-        opcode.SetParameter(cameraUiWrapper.GetParameterHandler().opcode);
-        opcode.SetUiItemClickListner(this);
-
-        bayerFormatItem.SetStuff(fragment_activityInterface, AppSettingsManager.SETTTING_BAYERFORMAT);
-        bayerFormatItem.SetParameter(cameraUiWrapper.GetParameterHandler().bayerformat);
-        bayerFormatItem.SetUiItemClickListner(this);
-
-        matrixChooser.SetStuff(fragment_activityInterface, AppSettingsManager.SETTTING_CUSTOMMATRIX);
-        matrixChooser.SetParameter(cameraUiWrapper.GetParameterHandler().matrixChooser);
-        matrixChooser.SetUiItemClickListner(this);
-
-        imageStackMode.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_STACKMODE);
-        imageStackMode.SetParameter(cameraUiWrapper.GetParameterHandler().imageStackMode);
-        imageStackMode.SetUiItemClickListner(this);
-
-        nightoverlay.SetUiItemClickListner(this);
-        //nightoverlay.SetStuff(fragment_activityInterface,"");
-        nightoverlay.SetParameter(cameraUiWrapper.GetParameterHandler().NightOverlay);
     }
 
     public void SetMenuItemClickListner(SettingsChildClick menuItemClick)
