@@ -4,7 +4,7 @@ LOCAL_ARM_MODE := arm
 
 include $(CLEAR_VARS)
 LOCAL_MODULE    := libfreedcam
-LOCAL_SRC_FILES := RawToDng.cpp librawutils.cpp DngWriter.cpp DngStacker.cpp
+LOCAL_SRC_FILES := RawToDng.cpp librawutils.cpp DngWriter.cpp DngStacker.cpp DngMatrixCalc.cpp
 LOCAL_CPPFLAGS := -fexceptions -fopenmp
 LOCAL_CFLAGS += -fopenmp
 LOCAL_LDFLAGS += -fopenmp
