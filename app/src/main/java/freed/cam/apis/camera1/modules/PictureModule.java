@@ -173,7 +173,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     private void ShutterResetLogic()
     {
         System.out.println("BANKAI "+cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue());
-        if(!cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue().contains("/"))
+        if(!cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue().contains("/")&&!cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue().contains("auto"))
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetZTE_RESET_AE_SETSHUTTER(cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue());
     }
 
