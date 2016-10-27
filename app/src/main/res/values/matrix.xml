@@ -42,8 +42,8 @@
     <string name="sonyimx135_neutral">0.5391,1.0000,0.6641</string>
     <string name="sonyimx135_fmA">120/128, -3/128, 7/128, 51/128, 112/128, -35/128, -2/128, -44/128, 151/128</string>
     <string name="sonyimx135_fmD65">102/128, 3/128, 18/128, 47/128, 93/128, -11/128, 16/128, -61/128, 150/128</string>
-    <string name="sonyimx135_rm1">1, -1, -1, -1, 1, 1, -1, 1, 1</string>
-    <string name="sonyimx135_rm2">1, -1, -1,-1, 1, 1,-1, 1, 1</string>
+    <string name="sonyimx135_rm1">128/128, 0/128, 0/128, 0/128, 128/128, 0/128, 0/128, 0/128, 128/128</string>
+    <string name="sonyimx135_rm2">128/128, 0/128, 0/128, 0/128, 128/128, 0/128, 0/128, 0/128, 128/128</string>
     <string name="sonyimx135_nm">0.00051471478, 0, 0.00051471478, 0, 0.00051471478, 0</string>
 
     <string-array name="matrix_nexus6">
@@ -174,6 +174,25 @@
         <item>@string/reductionmatrix2_nexus6</item>
         <!-- Noise  -->
         <item>@string/noisematrix_ov5648</item>
+    </string-array>
+
+    <string-array name="IMX135_MATRIX_F2_2">
+        <!-- Colormatrix 1  -->
+        <item>@string/sonyimx135_ccmA</item>
+        <!-- Colormatrix 2  -->
+        <item>@string/sonyimx135_ccmD65</item>
+        <!-- Neutralmatrix  -->
+        <item>@string/sonyimx135_neutral</item>
+        <!-- Fowardmatrix 1  -->
+        <item>@string/sonyimx135_fmA</item>
+        <!-- Fowardmatrix 2  -->
+        <item>@string/sonyimx135_fmD65</item>
+        <!-- Reduction 1  -->
+        <item>@string/sonyimx135_rm1</item>
+        <!-- Reduction 2  -->
+        <item>@string/sonyimx135_rm2</item>
+        <!-- Noise  -->
+        <item>@string/sonyimx135_nm</item>
     </string-array>
 
     <string-array name="matrix_neutral">
