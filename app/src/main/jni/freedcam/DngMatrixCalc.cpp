@@ -89,11 +89,11 @@ void sensor_generate_A_matrix()
   float *ptr1, *ptr2;
   float tmp[3][3], tmp1[3][3], tmp2[3][3];
 
-  cc_mat[0][0] = 2.30214; cc_mat[0][1] = -1.33554; cc_mat[0][2] = 0.0334;
-  cc_mat[1][0] = -0.1544; cc_mat[1][1] = 1.6976; cc_mat[1][2] = -0.5432;
-  cc_mat[2][0] = -0.0438; cc_mat[2][1] = -0.6834; cc_mat[2][2] = 1.7272;
+  cc_mat[0][0] = 1.1437; cc_mat[0][1] = 0.1931; cc_mat[0][2] = -0.3369;
+  cc_mat[1][0] = -0.2855; cc_mat[1][1] = 1.3066; cc_mat[1][2] = -0.0211;
+  cc_mat[2][0] = -0.0537; cc_mat[2][1] = -0.9231; cc_mat[2][2] = 1.9768;
 
-  wb_mat[0][0] = 1.182000;
+  wb_mat[0][0] = 1.246200;
   wb_mat[0][1] = 0;
   wb_mat[0][2] = 0;
   wb_mat[1][0] = 0;
@@ -101,7 +101,7 @@ void sensor_generate_A_matrix()
   wb_mat[1][2] = 0;
   wb_mat[2][0] = 0;
   wb_mat[2][1] = 0;
-  wb_mat[2][2] = 2.661000;
+  wb_mat[2][2] = 2.133700;
 
   /* Forward Transform: sRGB2XYZ * CC */
   MATRIX_MULT(sRGB2XYZ, cc_mat, out_mat, 3, 3, 3);
@@ -146,11 +146,11 @@ void sensor_generate_D65_matrix()
   float *ptr1, *ptr2;
   float tmp[3][3], tmp1[3][3], tmp2[3][3];
 
-  cc_mat[0][0] = 1.8543; cc_mat[0][1] = -0.8709; cc_mat[0][2] = 0.0167;
-  cc_mat[1][0] = -0.0772; cc_mat[1][1] = 1.3487; cc_mat[1][2] = -0.2716;
-  cc_mat[2][0] = 0.1526; cc_mat[2][1] = -0.8302; cc_mat[2][2] = 1.6776;
+  cc_mat[0][0] = 1.5410; cc_mat[0][1] = -0.5564; cc_mat[0][2] = 0.0154;
+  cc_mat[1][0] = -0.1612; cc_mat[1][1] = 1.2585; cc_mat[1][2] = -0.0973;
+  cc_mat[2][0] = 0.0765; cc_mat[2][1] = -0.5877; cc_mat[2][2] = 1.5112;
 
-  wb_mat[0][0] = 2.109000;
+  wb_mat[0][0] = 2.212400;
   wb_mat[0][1] = 0;
   wb_mat[0][2] = 0;
   wb_mat[1][0] = 0;
@@ -158,7 +158,7 @@ void sensor_generate_D65_matrix()
   wb_mat[1][2] = 0;
   wb_mat[2][0] = 0;
   wb_mat[2][1] = 0;
-  wb_mat[2][2] = 1.390000;
+  wb_mat[2][2] = 1.333200;
 
   /* Forward Transform: sRGB2XYZ * CC */
   MATRIX_MULT(sRGB2XYZ, cc_mat, out_mat, 3, 3, 3);
