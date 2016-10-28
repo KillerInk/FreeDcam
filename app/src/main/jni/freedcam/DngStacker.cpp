@@ -14,6 +14,13 @@ extern "C"
     JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject thiz, jobjectArray filesToStack, jstring outputfile);
 }
 
+//move in pointer values to different mem region that it not get cleared on TIFFClose(tif);
+void moveToMem(float * in, float *out, int count)
+{
+    for (int i = 0; i < count; ++i) {
+        out[i] = in[i];
+    }
+}
 
 
 JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject thiz, jobjectArray filesToStack, jstring outputfile)
@@ -26,32 +33,40 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     unsigned short * rawOutputData;
     int mergepixel;
     unsigned char* inputData;
-    char cfa[4];
-    float cmat1[9],cmat2[9],neutMat[3], fmat1[9],fmat2[9];
-    double noisemat[6];
+    char * cfa;
+    float* cmat1 = new float[9];
+    float * cmat2 = new float[9];
+    float * neutMat = new float[3];
+    float * fmat1= new float[9];
+    float * fmat2= new float[9];
+    double *noisemat  = new double[6];
+    float * tmpmat;
+    double * tmpdouble;
     for (int i=0; i<stringCount; i++) {
         jstring string = (jstring) (*env).GetObjectArrayElement(filesToStack, i);
         files[i] = (*env).GetStringUTFChars( string, NULL);
     }
 
     TIFF *tif=TIFFOpen(files[0], "rw");
+    //read needed dng tags
     TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &width);
     TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &height);
-    //wrong matrix
-    TIFFGetField(tif, TIFFTAG_COLORMATRIX1, &cmat1);
-    //wrong matrix
-    TIFFGetField(tif, TIFFTAG_COLORMATRIX2, &cmat2);
-    //wrong matrix
-    TIFFGetField(tif, TIFFTAG_ASSHOTNEUTRAL, &neutMat);
-    //wrong matrix
-    TIFFGetField(tif, TIFFTAG_FOWARDMATRIX1, &fmat1);
-    //wrong matrix
-    TIFFGetField(tif, TIFFTAG_FOWARDMATRIX2, &fmat2);
-    //wrong matrix
-    TIFFGetField(tif, TIFFTAG_FOWARDMATRIX2, &noisemat);
-    //wrong pattern
+    TIFFGetField(tif, TIFFTAG_COLORMATRIX1, &tmpmat);
+    moveToMem(tmpmat, cmat1,9);
+    TIFFGetField(tif, TIFFTAG_COLORMATRIX2, &tmpmat);
+    moveToMem(tmpmat, cmat2,9);
+    TIFFGetField(tif, TIFFTAG_ASSHOTNEUTRAL, &tmpmat);
+    moveToMem(tmpmat, neutMat,3);
+    TIFFGetField(tif, TIFFTAG_FOWARDMATRIX1, &tmpmat);
+    moveToMem(tmpmat, fmat1,9);
+    TIFFGetField(tif, TIFFTAG_FOWARDMATRIX2, &tmpmat);
+    moveToMem(tmpmat, fmat2,9);
+    TIFFGetField(tif, TIFFTAG_NOISEPROFILE, &tmpdouble);
+    for (int i = 0; i < 6; ++i) {
+        noisemat[i] = tmpdouble[i];
+    }
     TIFFGetField(tif, TIFFTAG_CFAPATTERN, &cfa);
-
+    
     data10bit_length = width*height/10*8;
     rawOutputData = new unsigned short[width*height*4];
     inputData = new unsigned char[data10bit_length];
@@ -71,7 +86,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     }
     TIFFClose(tif);
 
-    //read left dngs and merge them 
+    //read left dngs and merge them
     for (int i = 1; i < stringCount; ++i) {
         TIFF *tif=TIFFOpen(files[i], "rw");
         TIFFReadRawStrip(tif,0, inputData, data10bit_length);
@@ -109,19 +124,20 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
     TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, cmat1);
     LOGD("colormatrix1");
+    TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, cmat2);
     TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutMat);
     LOGD("neutralMatrix");
-    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
-    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
-    TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
-
-    TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, cmat2);
     if(fmat1 != NULL)
         TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  fmat1);
     if(fmat2 != NULL)
         TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  fmat2);
     if(noisemat != NULL)
         TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  noisemat);
+    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
+    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
+    TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+
+
     TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");
     long white=0x3ff;
     TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
@@ -138,12 +154,12 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
     TIFFCheckpointDirectory(tif);
     //write out data to dng
-    unsigned char * buf = new unsigned char[width*8];
+    unsigned char * buf = new unsigned char[width*2];
     int c = 0;
     for (int i = 0; i < height; ++i)
     {
         c=0;
-        for (int t = 0; t < width*4; ++t) {
+        for (int t = 0; t < width; ++t) {
             buf[c++] = rawOutputData[t*i] >>8;
             buf[c++] = rawOutputData[t*i] & 0xff;
         }
