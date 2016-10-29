@@ -42,6 +42,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     double *noisemat  = new double[6];
     float * tmpmat;
     double * tmpdouble;
+    unsigned char * inbuf;
     for (int i=0; i<stringCount; i++) {
         jstring string = (jstring) (*env).GetObjectArrayElement(filesToStack, i);
         files[i] = (*env).GetStringUTFChars( string, NULL);
@@ -66,11 +67,28 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
         noisemat[i] = tmpdouble[i];
     }
     TIFFGetField(tif, TIFFTAG_CFAPATTERN, &cfa);
-    
+
     data10bit_length = width*height/10*8;
     rawOutputData = new unsigned short[width*height*4];
     inputData = new unsigned char[data10bit_length];
-    TIFFReadRawStrip(tif,0, inputData, data10bit_length);
+
+    int scanlinesize = TIFFStripSize(tif);
+    inbuf = (unsigned char*)_TIFFmalloc(scanlinesize);
+    int inputPos = 0;
+
+    for (int row = 0; row < height; row++)
+    {
+        TIFFReadRawStrip(tif,row, inbuf, scanlinesize);
+        for (int i = 0; i < scanlinesize; ++i) {
+            inputData[row*scanlinesize + i] = inbuf[i];
+        }
+    }
+    free(inbuf);
+
+/*    char * dumpfile = (char*) outfile;
+    FILE *fp =fopen(strcat(dumpfile , ".dump"), "w+");
+    fwrite(inputData, sizeof(unsigned char), scanlinesize*height, fp);
+    fclose(fp);*/
 
     outputcount = 0;
     //seems to work and read full input data
@@ -86,7 +104,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     }
     TIFFClose(tif);
 
-    //read left dngs and merge them
+   /* //read left dngs and merge them
     for (int i = 1; i < stringCount; ++i) {
         TIFF *tif=TIFFOpen(files[i], "rw");
         TIFFReadRawStrip(tif,0, inputData, data10bit_length);
@@ -107,7 +125,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
             rawOutputData[outputcount++] = mergepixel;
         }
         TIFFClose(tif);
-    }
+    }*/
 
     //create stacked dng
     tif=TIFFOpen(outfile, "w");
@@ -154,7 +172,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
     TIFFCheckpointDirectory(tif);
     //write out data to dng
-    unsigned char * buf = new unsigned char[width*2];
+    /*unsigned char * buf = new unsigned char[width*2];
     int c = 0;
     for (int i = 0; i < height; ++i)
     {
@@ -164,7 +182,9 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
             buf[c++] = rawOutputData[t*i] & 0xff;
         }
         TIFFWriteScanline (tif, buf, i, 0);
-    }
+    }*/
+    TIFFWriteRawStrip(tif, 0, inputData, width*height*10/8);
+
     TIFFRewriteDirectory(tif);
 
     //TIFFWriteRawStrip(tif, 0, rawOutputData, width*height);
