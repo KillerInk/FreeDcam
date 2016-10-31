@@ -135,8 +135,8 @@ public class ImageSaver
                 dngConverter.SetWBCT(wb);
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !activityInterface.getAppSettings().GetWriteExternal())
             {
-                DngMatrixCalc dngMatrixCalc = new DngMatrixCalc();
-                dngMatrixCalc.CalcualteD65();
+                //DngMatrixCalc dngMatrixCalc = new DngMatrixCalc();
+               // dngMatrixCalc.CalcualteD65();
 
                 Logger.d(TAG, "Write To internal or kitkat<");
                 checkFileExists(fileName);
