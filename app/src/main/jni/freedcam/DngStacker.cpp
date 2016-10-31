@@ -117,7 +117,14 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     //read left dngs and merge them
     for (int i = 1; i < stringCount; ++i) {
         TIFF *tif=TIFFOpen(files[i], "rw");
-        TIFFReadRawStrip(tif,0, inputData, data10bit_length);
+        for (int row = 0; row < height; row++)
+        {
+            TIFFReadRawStrip(tif,row, inbuf, scanlinesize);
+            for (int i = 0; i < scanlinesize; ++i) {
+                inputData[row*scanlinesize + i] = inbuf[i];
+            }
+        }
+        free(inbuf);
         outputcount = 0;
 
         for (int i = 0; i < width*height*5; i+=5) {
