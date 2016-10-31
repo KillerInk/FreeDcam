@@ -68,8 +68,8 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     }
     TIFFGetField(tif, TIFFTAG_CFAPATTERN, &cfa);
 
-    data10bit_length = width*height/10*8;
-    rawOutputData = new unsigned char[width*height*16/8];
+    data10bit_length = width*height*5;
+    rawOutputData = new unsigned char[width*height*8];
     inputData = new unsigned char[data10bit_length];
 
     int scanlinesize = TIFFStripSize(tif);
@@ -114,7 +114,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     }*/
 
     //somethings wrong here
-    for (int i = 0; i < data10bit_length * sizeof(unsigned char); i+=5) {
+    for (int i = 0; i < width*height*5; i+=5) {
         tmpPixel = (inputData[i] << 2 | (inputData[i+1] & 0b11000000) >> 6)/* <<6*/; //11111111 11
         rawOutputData[outputcount++] = tmpPixel & 0xff;
         rawOutputData[outputcount++] = tmpPixel >>8;
@@ -123,7 +123,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
         rawOutputData[outputcount++] = tmpPixel & 0xff;
         rawOutputData[outputcount++] = tmpPixel >>8;
 
-        tmpPixel = ((inputData[i+2]& 0b00001111 ) << 6 | (inputData[i+2] & 0b11111100) >> 2) /*<< 6*/; // 3333 333333
+        tmpPixel = ((inputData[i+2]& 0b00001111 ) << 6 | (inputData[i+3] & 0b11111100) >> 2) /*<< 6*/; // 3333 333333
         rawOutputData[outputcount++] = tmpPixel & 0xff;
         rawOutputData[outputcount++] = tmpPixel >>8;
 
@@ -215,7 +215,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
         TIFFWriteRawStrip(tif, 0, buf, width*2);
     }*/
 
-    TIFFWriteRawStrip(tif, 0, rawOutputData, width*height* 16/8);
+    TIFFWriteRawStrip(tif, 0, rawOutputData, width*height*8);
 
     TIFFRewriteDirectory(tif);
 
