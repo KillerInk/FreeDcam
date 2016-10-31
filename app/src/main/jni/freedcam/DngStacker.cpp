@@ -30,7 +30,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     const char * files[stringCount];
     const char * outfile =(*env).GetStringUTFChars( outputfile, NULL);
     unsigned short tmpPixel;
-    unsigned short * rawOutputData;
+    unsigned char * rawOutputData;
     int mergepixel;
     unsigned char* inputData;
     char * cfa;
@@ -69,7 +69,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     TIFFGetField(tif, TIFFTAG_CFAPATTERN, &cfa);
 
     data10bit_length = width*height/10*8;
-    rawOutputData = new unsigned short[width*height*4];
+    rawOutputData = new unsigned char[width*height*16/8];
     inputData = new unsigned char[data10bit_length];
 
     int scanlinesize = TIFFStripSize(tif);
@@ -92,16 +92,46 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
 
     outputcount = 0;
     //seems to work and read full input data
-    for (int i = 0; i < data10bit_length; i+=5) {
-        tmpPixel = inputData[i] << 2 | (inputData[i+1] & 0b11000000) >> 6; //11111111 11
-        rawOutputData[outputcount++] = tmpPixel << 6;
-        tmpPixel = (inputData[i+1]& 0b00111111 ) << 4 | (inputData[i+2] & 0b11110000) >> 4; // 222222 2222
-        rawOutputData[outputcount++] = tmpPixel << 6;
-        tmpPixel = (inputData[i+2]& 0b00001111 ) << 6 | (inputData[i+2] & 0b11111100) >> 2; // 3333 333333
-        rawOutputData[outputcount++] = tmpPixel << 6;
-        tmpPixel = (inputData[i+3]& 0b00000011 ) << 8 | inputData[i+4]; // 44 44444444
-        rawOutputData[outputcount++] = tmpPixel << 6;
+    /*for (int x = 0; x < height; x++) {
+        for (int y = 0; y < width; y++) {
+            int i = x * y;
+            tmpPixel = (inputData[i] << 2 | (inputData[i+1] & 0b11000000) >> 6) *//*<< 6*//*; //11111111 11
+            rawOutputData[outputcount++] = tmpPixel & 0xff;
+            rawOutputData[outputcount++] = tmpPixel >>8;
+
+            tmpPixel = ((inputData[i+1]& 0b00111111 ) << 4 | (inputData[i+2] & 0b11110000) >> 4) *//*<< 6*//*; // 222222 2222
+            rawOutputData[outputcount++] = tmpPixel & 0xff;
+            rawOutputData[outputcount++] = tmpPixel >>8;
+
+            tmpPixel = ((inputData[i+2]& 0b00001111 ) << 6 | (inputData[i+2] & 0b11111100) >> 2) *//*<< 6*//*; // 3333 333333
+            rawOutputData[outputcount++] = tmpPixel & 0xff;
+            rawOutputData[outputcount++] = tmpPixel >>8;
+
+            tmpPixel = ((inputData[i+3]& 0b00000011 ) << 8 | inputData[i+4]) *//*<< 6*//*; // 44 44444444
+            rawOutputData[outputcount++] = tmpPixel & 0xff;
+            rawOutputData[outputcount++] = tmpPixel >>8;
+        }
+    }*/
+
+    //somethings wrong here
+    for (int i = 0; i < data10bit_length * sizeof(unsigned char); i+=5) {
+        tmpPixel = (inputData[i] << 2 | (inputData[i+1] & 0b11000000) >> 6)/* <<6*/; //11111111 11
+        rawOutputData[outputcount++] = tmpPixel & 0xff;
+        rawOutputData[outputcount++] = tmpPixel >>8;
+
+        tmpPixel = ((inputData[i+1] & 0b00111111 ) << 4 | (inputData[i+2] & 0b11110000) >> 4) /*<< 6*/; // 222222 2222
+        rawOutputData[outputcount++] = tmpPixel & 0xff;
+        rawOutputData[outputcount++] = tmpPixel >>8;
+
+        tmpPixel = ((inputData[i+2]& 0b00001111 ) << 6 | (inputData[i+2] & 0b11111100) >> 2) /*<< 6*/; // 3333 333333
+        rawOutputData[outputcount++] = tmpPixel & 0xff;
+        rawOutputData[outputcount++] = tmpPixel >>8;
+
+        tmpPixel = ((inputData[i+3]& 0b00000011 ) << 8 | inputData[i+4]) /*<< 6*/; // 44 44444444
+        rawOutputData[outputcount++] = tmpPixel & 0xff;
+        rawOutputData[outputcount++] = tmpPixel >>8;
     }
+    LOGD("rawOutputData written %i expected size %i 10bitdatasize %i", outputcount, width*height*16/8, data10bit_length);
     TIFFClose(tif);
 
    /* //read left dngs and merge them
@@ -181,9 +211,11 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
             buf[c++] = rawOutputData[t*i] >>8;
             buf[c++] = rawOutputData[t*i] & 0xff;
         }
-        TIFFWriteScanline (tif, buf, i, 0);
+        //TIFFWriteScanline(tif, buf, i, 0);
+        TIFFWriteRawStrip(tif, 0, buf, width*2);
     }*/
-    TIFFWriteRawStrip(tif, 0, inputData, width*height*10/8);
+
+    TIFFWriteRawStrip(tif, 0, rawOutputData, width*height* 16/8);
 
     TIFFRewriteDirectory(tif);
 
