@@ -92,11 +92,6 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     }
     free(inbuf);
 
-/*    char * dumpfile = (char*) outfile;
-    FILE *fp =fopen(strcat(dumpfile , ".dump"), "w+");
-    fwrite(inputData, sizeof(unsigned char), scanlinesize*height, fp);
-    fclose(fp);*/
-
     outputcount = 0;
 
     for (int i = 0; i < width*height*5; i+=5) {
@@ -119,28 +114,32 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     LOGD("rawOutputData written %i expected size %i 10bitdatasize %i", outputcount, width*height*16/8, data10bit_length);
     TIFFClose(tif);
 
-   /* //read left dngs and merge them
+    //read left dngs and merge them
     for (int i = 1; i < stringCount; ++i) {
         TIFF *tif=TIFFOpen(files[i], "rw");
         TIFFReadRawStrip(tif,0, inputData, data10bit_length);
         outputcount = 0;
-        for (int i = 0; i < data10bit_length; i+=5)
-        {
-            tmpPixel = inputData[i] << 2 | (inputData[i+1] & 0b11000000) >> 6; //11111111 11
-            mergepixel = (rawOutputData[outputcount] + (tmpPixel << 6))/2;
-            rawOutputData[outputcount++] = mergepixel;
-            tmpPixel = (inputData[i+1]& 0b00111111 ) << 4 | (inputData[i+2] & 0b11110000) >> 4; // 222222 2222
-            mergepixel = (rawOutputData[outputcount] + (tmpPixel << 6))/2;
-            rawOutputData[outputcount++] = mergepixel;
-            tmpPixel = (inputData[i+2]& 0b00001111 ) << 6 | (inputData[i+2] & 0b11111100) >> 2; // 3333 333333
-            mergepixel = (rawOutputData[outputcount] + (tmpPixel << 6))/2;
-            rawOutputData[outputcount++] = mergepixel;
-            tmpPixel = (inputData[i+3]& 0b00000011 ) << 8 | inputData[i+4]; // 44 44444444
-            mergepixel = (rawOutputData[outputcount] + (tmpPixel << 6))/2;
-            rawOutputData[outputcount++] = mergepixel;
+
+        for (int i = 0; i < width*height*5; i+=5) {
+            tmpPixel = (((inputData[i] << 2 | (inputData[i+1] & 0b11000000) >> 6) <<6) + (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2; //11111111 11
+            rawOutputData[outputcount++] = tmpPixel & 0xff;
+            rawOutputData[outputcount++] = tmpPixel >>8;
+
+            tmpPixel = ((((inputData[i+1] & 0b00111111 ) << 4 | (inputData[i+2] & 0b11110000) >> 4) << 6) + (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2; // 222222 2222
+            rawOutputData[outputcount++] = tmpPixel & 0xff;
+            rawOutputData[outputcount++] = tmpPixel >>8;
+
+            tmpPixel = ((((inputData[i+2]& 0b00001111 ) << 6 | (inputData[i+3] & 0b11111100) >> 2) << 6) + (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2; // 3333 333333
+            rawOutputData[outputcount++] = tmpPixel & 0xff;
+            rawOutputData[outputcount++] = tmpPixel >>8;
+
+            tmpPixel = ((((inputData[i+3]& 0b00000011 ) << 8 | inputData[i+4]) << 6) + (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2; // 44 44444444
+            rawOutputData[outputcount++] = tmpPixel & 0xff;
+            rawOutputData[outputcount++] = tmpPixel >>8;
         }
+
         TIFFClose(tif);
-    }*/
+    }
 
     //create stacked dng
     tif=TIFFOpen(outfile, "w");
