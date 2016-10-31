@@ -40,8 +40,12 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     float * fmat1= new float[9];
     float * fmat2= new float[9];
     double *noisemat  = new double[6];
+    float *blackleveltmp;
+    short blacklevel;
     float * tmpmat;
     double * tmpdouble;
+    short * whitelvltmp;
+    short whitelvl;
     unsigned char * inbuf;
     for (int i=0; i<stringCount; i++) {
         jstring string = (jstring) (*env).GetObjectArrayElement(filesToStack, i);
@@ -67,7 +71,10 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
         noisemat[i] = tmpdouble[i];
     }
     TIFFGetField(tif, TIFFTAG_CFAPATTERN, &cfa);
-
+    TIFFGetField(tif, TIFFTAG_WHITELEVEL, &whitelvltmp);
+    TIFFGetField(tif, TIFFTAG_BLACKLEVEL, &blackleveltmp);
+    blacklevel = blackleveltmp[0];
+    whitelvl = whitelvltmp[0];
     data10bit_length = width*height*5;
     rawOutputData = new unsigned char[width*height*8];
     inputData = new unsigned char[data10bit_length];
@@ -91,43 +98,21 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     fclose(fp);*/
 
     outputcount = 0;
-    //seems to work and read full input data
-    /*for (int x = 0; x < height; x++) {
-        for (int y = 0; y < width; y++) {
-            int i = x * y;
-            tmpPixel = (inputData[i] << 2 | (inputData[i+1] & 0b11000000) >> 6) *//*<< 6*//*; //11111111 11
-            rawOutputData[outputcount++] = tmpPixel & 0xff;
-            rawOutputData[outputcount++] = tmpPixel >>8;
 
-            tmpPixel = ((inputData[i+1]& 0b00111111 ) << 4 | (inputData[i+2] & 0b11110000) >> 4) *//*<< 6*//*; // 222222 2222
-            rawOutputData[outputcount++] = tmpPixel & 0xff;
-            rawOutputData[outputcount++] = tmpPixel >>8;
-
-            tmpPixel = ((inputData[i+2]& 0b00001111 ) << 6 | (inputData[i+2] & 0b11111100) >> 2) *//*<< 6*//*; // 3333 333333
-            rawOutputData[outputcount++] = tmpPixel & 0xff;
-            rawOutputData[outputcount++] = tmpPixel >>8;
-
-            tmpPixel = ((inputData[i+3]& 0b00000011 ) << 8 | inputData[i+4]) *//*<< 6*//*; // 44 44444444
-            rawOutputData[outputcount++] = tmpPixel & 0xff;
-            rawOutputData[outputcount++] = tmpPixel >>8;
-        }
-    }*/
-
-    //somethings wrong here
     for (int i = 0; i < width*height*5; i+=5) {
-        tmpPixel = (inputData[i] << 2 | (inputData[i+1] & 0b11000000) >> 6)/* <<6*/; //11111111 11
+        tmpPixel = (inputData[i] << 2 | (inputData[i+1] & 0b11000000) >> 6) <<6; //11111111 11
         rawOutputData[outputcount++] = tmpPixel & 0xff;
         rawOutputData[outputcount++] = tmpPixel >>8;
 
-        tmpPixel = ((inputData[i+1] & 0b00111111 ) << 4 | (inputData[i+2] & 0b11110000) >> 4) /*<< 6*/; // 222222 2222
+        tmpPixel = ((inputData[i+1] & 0b00111111 ) << 4 | (inputData[i+2] & 0b11110000) >> 4) << 6; // 222222 2222
         rawOutputData[outputcount++] = tmpPixel & 0xff;
         rawOutputData[outputcount++] = tmpPixel >>8;
 
-        tmpPixel = ((inputData[i+2]& 0b00001111 ) << 6 | (inputData[i+3] & 0b11111100) >> 2) /*<< 6*/; // 3333 333333
+        tmpPixel = ((inputData[i+2]& 0b00001111 ) << 6 | (inputData[i+3] & 0b11111100) >> 2) << 6; // 3333 333333
         rawOutputData[outputcount++] = tmpPixel & 0xff;
         rawOutputData[outputcount++] = tmpPixel >>8;
 
-        tmpPixel = ((inputData[i+3]& 0b00000011 ) << 8 | inputData[i+4]) /*<< 6*/; // 44 44444444
+        tmpPixel = ((inputData[i+3]& 0b00000011 ) << 8 | inputData[i+4]) << 6; // 44 44444444
         rawOutputData[outputcount++] = tmpPixel & 0xff;
         rawOutputData[outputcount++] = tmpPixel >>8;
     }
@@ -187,35 +172,22 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
 
 
     TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");
-    long white=0x3ff;
+    long white=whitelvl <<6;
     TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
 
     short CFARepeatPatternDim[] = { 2,2 };
     TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
-
-    float *blacklevel = new float[4];
+    int bl = blacklevel<<6;
+    float *blacklevelar = new float[4];
     for (int i = 0; i < 4; ++i) {
-        blacklevel[i] = 64;
+        blacklevelar[i] = bl;
     }
-    TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, blacklevel);
+    TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, blacklevelar);
     LOGD("wrote blacklevel");
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
     TIFFCheckpointDirectory(tif);
-    //write out data to dng
-    /*unsigned char * buf = new unsigned char[width*2];
-    int c = 0;
-    for (int i = 0; i < height; ++i)
-    {
-        c=0;
-        for (int t = 0; t < width; ++t) {
-            buf[c++] = rawOutputData[t*i] >>8;
-            buf[c++] = rawOutputData[t*i] & 0xff;
-        }
-        //TIFFWriteScanline(tif, buf, i, 0);
-        TIFFWriteRawStrip(tif, 0, buf, width*2);
-    }*/
 
-    TIFFWriteRawStrip(tif, 0, rawOutputData, width*height*8);
+    TIFFWriteRawStrip(tif, 0, rawOutputData, width*height*2);
 
     TIFFRewriteDirectory(tif);
 
