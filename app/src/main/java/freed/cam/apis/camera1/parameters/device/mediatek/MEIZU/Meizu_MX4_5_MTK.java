@@ -54,7 +54,7 @@ public class Meizu_MX4_5_MTK extends BaseMTKDevice {
         switch (filesize)
         {
             case 41312256: // Meizu MX4/5
-                return new DngProfile(64, 5248, 3936, DngProfile.Plain, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 5248, 3936, DngProfile.Plain, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX220));
         }
         return null;
     }

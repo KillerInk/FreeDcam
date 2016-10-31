@@ -26,6 +26,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
+import android.renderscript.ScriptIntrinsicConvolve3x3;
 import android.renderscript.Type.Builder;
 
 import java.io.File;
@@ -39,6 +40,7 @@ import freed.cam.apis.camera1.parameters.modes.StackModeParameter;
 import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 import freed.utils.ScriptField_MinMaxPixel;
+import pete.android.study.ConvolutionMatrix;
 
 /**
  * Created by GeorgeKiarie on 13/04/2016.
@@ -124,8 +126,9 @@ public class StackingModule extends PictureModule {
     private void initRsStuff()
     {
         RenderScriptHandler rsh = cameraUiWrapper.getRenderScriptHandler();
-        int mWidth = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[0]);
-        int mHeight = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[1]);
+        int mWidth = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[0])*2;
+        int mHeight = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[1])*2;
+
         Builder tbIn2 = new Builder(rsh.GetRS(), Element.RGBA_8888(rsh.GetRS()));
         tbIn2.setX(mWidth);
         tbIn2.setY(mHeight);
@@ -182,9 +185,13 @@ public class StackingModule extends PictureModule {
                 stackImage(s);
             }
             changeCaptureState(CaptureStates.continouse_capture_work_stop);
-            int mWidth = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[0]);
-            int mHeight = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[1]);
+            int mWidth = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[0])*2;
+            int mHeight = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[1])*2;
+
             Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Config.ARGB_8888);
+
+
+
             cameraUiWrapper.getRenderScriptHandler().GetOut().copyTo(outputBitmap);
             File stackedImg = new File(SessionFolder + cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFileDatedName("_Stack.jpg"));
             cameraUiWrapper.getActivityInterface().getImageSaver().SaveBitmapToFile(outputBitmap,stackedImg);
@@ -193,10 +200,36 @@ public class StackingModule extends PictureModule {
         }
     }
 
+    private Bitmap sharpen(Bitmap src,double weight)
+    {
+        double[][] SharpConfig = new double[][]
+                {{0,-2,0},
+                 {-2,weight,-2},
+                 {0,2,0}
+                };
+        ConvolutionMatrix convolutionMatrix = new ConvolutionMatrix(3);
+        convolutionMatrix.applyConfig(SharpConfig);
+        convolutionMatrix.Factor = weight-8;
+        return ConvolutionMatrix.computeConvolution3x3(src,convolutionMatrix);
+
+    }
+
     private void stackImage(File file)
     {
         RenderScriptHandler rsh = cameraUiWrapper.getRenderScriptHandler();
-        rsh.GetIn().copyFrom(BitmapFactory.decodeFile(file.getAbsolutePath()));
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inDither = false;
+        options.inScaled = false;
+
+        Bitmap source = sharpen(BitmapFactory.decodeFile(file.getAbsolutePath()),11);
+
+
+        int mWidth = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[0])*2;
+        int mHeight = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[1])*2;
+
+
+        rsh.GetIn().copyFrom(Bitmap.createScaledBitmap(source,mWidth,mHeight,false));
         Logger.d(TAG, "Copied data to inputalloc");
 
         Logger.d(TAG, "setted inputalloc to RS");

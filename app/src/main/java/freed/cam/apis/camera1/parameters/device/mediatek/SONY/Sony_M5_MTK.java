@@ -49,7 +49,7 @@ public class Sony_M5_MTK extends BaseMTKDevice {
         switch (filesize)
         {
             case 42923008:
-                return new DngProfile(64, 5344, 4016, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 5344, 4016, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX230_QC));
         }
         return null;
     }
