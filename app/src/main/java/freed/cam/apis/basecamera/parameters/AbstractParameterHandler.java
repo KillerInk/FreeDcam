@@ -177,8 +177,6 @@ public abstract class AbstractParameterHandler
 
     public ModeParameterInterface captureBurstExposures;
 
-    public ModeParameterInterface morphoHDR;
-    public ModeParameterInterface morphoHHT;
 
     public ModeParameterInterface opcode;
     public ModeParameterInterface bayerformat;
@@ -263,8 +261,6 @@ public abstract class AbstractParameterHandler
         setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
         //setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
 
-        setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
-        setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
         setMode(matrixChooser, AppSettingsManager.SETTTING_CUSTOMMATRIX);
         setMode(imageStackMode,AppSettingsManager.SETTING_STACKMODE);
         //setMode(NightOverlay,AppSettingsManager.SETTINGS_NIGHTOVERLAY);

@@ -104,7 +104,7 @@ public class HDRModeParameter extends BaseModeParameter
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Xiaomi_RedmiNote)
         {
             if (valueToSet.equals(KEYS.ON)) {
-                cameraUiWrapper.GetParameterHandler().morphoHHT.SetValue(KEYS.FALSE, true);
+                parameters.set(KEYS.MORPHO_HHT, KEYS.FALSE);
                 cameraUiWrapper.GetParameterHandler().NightMode.BackgroundValueHasChanged(KEYS.OFF);
                 cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET, true);
                 parameters.set(KEYS.MORPHO_HDR, KEYS.TRUE);

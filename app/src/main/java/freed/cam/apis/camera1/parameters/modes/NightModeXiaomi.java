@@ -56,9 +56,9 @@ public class NightModeXiaomi extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         if (valueToSet.equals(KEYS.ON)) {
-            cameraUiWrapper.GetParameterHandler().morphoHDR.SetValue(KEYS.FALSE, true);
+            parameters.set(KEYS.MORPHO_HDR, KEYS.FALSE);
             cameraUiWrapper.GetParameterHandler().HDRMode.BackgroundValueHasChanged(KEYS.OFF);
-            cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_HDR, true);
+            parameters.set(KEYS.AE_BRACKET_HDR, KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET);
             parameters.set(KEYS.MORPHO_HHT, KEYS.TRUE);
         } else {
             parameters.set(KEYS.AE_BRACKET_HDR, KEYS.AE_BRACKET_HDR_VALUES_OFF);
