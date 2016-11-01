@@ -50,6 +50,7 @@ public interface I_Device
     ModeParameterInterface getNightMode();
     ModeParameterInterface getDigitalImageStabilisation();
     ModeParameterInterface getHDRMode();
+    ModeParameterInterface getVideoStabilisation();
 
     float GetFnumber();
     float GetFocal();

@@ -256,11 +256,6 @@ public class ParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        try {
-            VideoStabilization = new VideoStabilizationParameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
 
         createZeroShutterLag();
 
@@ -391,6 +386,7 @@ public class ParametersHandler extends AbstractParameterHandler
         ManualContrast = Device.getManualContrast();
         DigitalImageStabilization = Device.getDigitalImageStabilisation();
         HDRMode = Device.getHDRMode();
+        VideoStabilization = Device.getVideoStabilisation();
 
         Module = new ModuleParameters(cameraUiWrapper, appSettingsManager);
 
