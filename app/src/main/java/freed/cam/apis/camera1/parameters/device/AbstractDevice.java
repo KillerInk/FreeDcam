@@ -31,6 +31,7 @@ import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
+import freed.cam.apis.camera1.parameters.modes.HDRModeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.dng.DngProfile;
 import freed.utils.Logger;
@@ -198,6 +199,11 @@ public abstract class AbstractDevice implements I_Device {
             Logger.exception(e);
         }
         return null;
+    }
+
+    @Override
+    public ModeParameterInterface getHDRMode() {
+        return new HDRModeParameter(parameters, cameraUiWrapper);
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
 import freed.dng.DngProfile;
 
@@ -28,6 +29,11 @@ public class Xiaomi_Mi5 extends BaseQcomNew {
             case 20500480:
                 return new DngProfile(64, 4652, 3520, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
+        return null;
+    }
+
+    @Override
+    public ModeParameterInterface getHDRMode() {
         return null;
     }
 }

@@ -361,11 +361,6 @@ public class ParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        try {
-            HDRMode = new HDRModeParameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
 
         imageStackMode = new StackModeParameter();
 
@@ -395,6 +390,7 @@ public class ParametersHandler extends AbstractParameterHandler
         ManualBrightness = Device.getManualBrightness();
         ManualContrast = Device.getManualContrast();
         DigitalImageStabilization = Device.getDigitalImageStabilisation();
+        HDRMode = Device.getHDRMode();
 
         Module = new ModuleParameters(cameraUiWrapper, appSettingsManager);
 
