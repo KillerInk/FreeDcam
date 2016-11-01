@@ -237,6 +237,42 @@
                     android:layout_marginRight="0dp"
                     android:visibility="visible" />
 
+                <freed.cam.ui.themesample.settings.childs.SettingsChildMenuAEB
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MenuItemAEB4"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:visibility="visible" />
+
+                <freed.cam.ui.themesample.settings.childs.SettingsChildMenuAEB
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MenuItemAEB5"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:visibility="visible" />
+
+                <freed.cam.ui.themesample.settings.childs.SettingsChildMenuAEB
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MenuItemAEB6"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:visibility="visible" />
+
+                <freed.cam.ui.themesample.settings.childs.SettingsChildMenuAEB
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MenuItemAEB7"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:visibility="visible" />
+
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

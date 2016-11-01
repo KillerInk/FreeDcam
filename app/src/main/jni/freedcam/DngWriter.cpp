@@ -71,14 +71,14 @@ void DngWriter::writeIfd0(TIFF *tif) {
     }
     assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
     LOGD("planarconfig");
-    TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam by Troop");
+    TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam 2016");
     if(_dateTime != NULL)
         TIFFSetField(tif,TIFFTAG_DATETIME, _dateTime);
     LOGD("software");
     TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
     TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
     LOGD("dngversion");
-    TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "SonyIMX");
+    TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "FREEDCAM");
     LOGD("CameraModel");
     TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, _imagedescription);
     LOGD("imagedescription");
@@ -86,14 +86,22 @@ void DngWriter::writeIfd0(TIFF *tif) {
     LOGD("colormatrix1");
     TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, neutralColorMatrix);
     LOGD("neutralMatrix");
-    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
-    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
+    //STANDARD A = FIIRST 17
+    //D65 21 Second According to DNG SPEC 1.4 this is the correct order
+    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
+    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
 
     TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, colorMatrix2);
     if(fowardMatrix1 != NULL)
         TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  fowardMatrix1);
     if(fowardMatrix2 != NULL)
         TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  fowardMatrix2);
+
+    if(reductionMatrix1 != NULL)
+            TIFFSetField(tif, TIFFTAG_CAMERACALIBRATION1, 9,  reductionMatrix1);
+        if(reductionMatrix2 != NULL)
+            TIFFSetField(tif, TIFFTAG_CAMERACALIBRATION2, 9,  reductionMatrix2);
+
     if(noiseMatrix != NULL)
         TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  noiseMatrix);
     LOGD("colormatrix2");

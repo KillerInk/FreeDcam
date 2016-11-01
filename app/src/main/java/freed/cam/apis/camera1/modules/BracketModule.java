@@ -171,6 +171,14 @@ public class BracketModule extends PictureModule
                 value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB2));
             else if (hdrCount == 2)
                 value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB3));
+            else if (hdrCount == 3)
+                value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB4));
+            else if (hdrCount == 4)
+                value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB5));
+            else if (hdrCount == 5)
+                value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB6));
+            else if (hdrCount == 6)
+                value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB7));
 
             Logger.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
            // cameraUiWrapper.GetParameterHandler().ManualExposure.SetValue(key_value);
@@ -244,7 +252,7 @@ public class BracketModule extends PictureModule
             hdrCount++;
             String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
             saveImage(data,picFormat);
-            if (hdrCount == 3)//handel normal capture
+            if (hdrCount == 7)//handel normal capture
             {
                 waitForPicture = false;
                 changeCaptureState(CaptureStates.image_capture_stop);
@@ -285,7 +293,7 @@ public class BracketModule extends PictureModule
         String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
         saveImage(data,picFormat);
         startPreview();
-        if (hdrCount == 3)//handel normal capture
+        if (hdrCount == 7)//handel normal capture
         {
             waitForPicture = false;
             isWorking = false;

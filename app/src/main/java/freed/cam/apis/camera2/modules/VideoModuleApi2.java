@@ -24,6 +24,7 @@ import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.StateCallback;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CaptureRequest;
 import android.location.Location;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioSource;
@@ -229,6 +230,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         setRecorderFilePath();
 
         mediaRecorder.setVideoEncodingBitRate(currentVideoProfile.videoBitRate);
+
+        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE,new Range<>(currentVideoProfile.videoFrameRate,currentVideoProfile.videoFrameRate));
+
         mediaRecorder.setVideoFrameRate(currentVideoProfile.videoFrameRate);
         mediaRecorder.setVideoSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         mediaRecorder.setVideoEncoder(currentVideoProfile.videoCodec);

@@ -42,8 +42,8 @@ public class SettingsChildMenuAEB extends LinearLayout {
     private EditText editText;
     private Context context;
 
-    private int min = -10;
-    private int max = 10;
+    private int min = -12;
+    private int max = 12;
     private final int step = 1;
     private int current;
     private CameraWrapperInterface cameraUiWrapper;

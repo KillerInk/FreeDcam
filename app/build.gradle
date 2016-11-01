@@ -9,11 +9,11 @@ android {
             storePassword 'freedcam'
         }
     }
-    compileSdkVersion 24
-    buildToolsVersion '24.0.3'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.3'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 23
         versionCode 102
         versionName '3.3.146'
         applicationId "troop.com.freedcam"
@@ -49,6 +49,6 @@ dependencies {
     compile files('libs/xmpcore-5.1.2.jar')
     compile files('libs/metadata-extractor-2.7.0.jar')
     provided files('libs/real3d.jar')
-    compile 'com.android.support:support-v4:25.0.0'
+    compile 'com.android.support:support-v4:23.0.0'
 }
 
