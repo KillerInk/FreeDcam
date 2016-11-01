@@ -31,7 +31,6 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     const char * outfile =(*env).GetStringUTFChars( outputfile, NULL);
     unsigned short tmpPixel;
     unsigned char * rawOutputData;
-    int mergepixel;
     unsigned char* inputData;
     char * cfa;
     float* cmat1 = new float[9];
@@ -47,6 +46,9 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     short * whitelvltmp;
     short whitelvl;
     unsigned char * inbuf;
+    unsigned char * opcodetmp;
+    unsigned char * opcode2;
+    unsigned char * opcode3;
     for (int i=0; i<stringCount; i++) {
         jstring string = (jstring) (*env).GetObjectArrayElement(filesToStack, i);
         files[i] = (*env).GetStringUTFChars( string, NULL);
@@ -73,6 +75,10 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     TIFFGetField(tif, TIFFTAG_CFAPATTERN, &cfa);
     TIFFGetField(tif, TIFFTAG_WHITELEVEL, &whitelvltmp);
     TIFFGetField(tif, TIFFTAG_BLACKLEVEL, &blackleveltmp);
+    TIFFGetField(tif, TIFFTAG_OPC2, &opcodetmp);
+    opcode2 = opcodetmp;
+    TIFFGetField(tif, TIFFTAG_OPC3, &opcodetmp);
+    opcode3 = opcodetmp;
     blacklevel = blackleveltmp[0];
     whitelvl = whitelvltmp[0];
     data10bit_length = width*height*5;
@@ -191,6 +197,10 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, blacklevelar);
     LOGD("wrote blacklevel");
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
+    if(sizeof(opcode2)>0)
+        TIFFSetField(tif,TIFFTAG_OPC2, sizeof(opcode2), opcode2);
+    if(sizeof(opcode3)>0)
+        TIFFSetField(tif,TIFFTAG_OPC3, sizeof(opcode3), opcode3);
     TIFFCheckpointDirectory(tif);
 
     TIFFWriteRawStrip(tif, 0, rawOutputData, width*height*2);
