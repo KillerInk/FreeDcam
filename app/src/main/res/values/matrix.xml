@@ -263,7 +263,6 @@
         <item>@string/sonyimx230_nm</item>
     </string-array>
 
-    </string-array>
 
     <string-array name="IMX298_MATRIX_F2_0">
         <!-- Colormatrix 1  -->
@@ -282,6 +281,7 @@
         <item>@string/sonyimx298_rm2</item>
         <!-- Noise  -->
         <item>@string/sonyimx298_nm</item>
+    </string-array>
     <string-array name="OV4688_F_2">
         <!-- Colormatrix 1  -->
         <item>@string/ov4688_ccmA</item>
