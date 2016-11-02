@@ -45,6 +45,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
     public static final String LumingonOV = "LumingonOV";
     public static final String Neutral = "Neutral";
     public static final String IMX135 = "IMX135";
+    public static final String IMX298 = "IMX298";
     public static final String OV4688 = "OV4688";
     private final HashMap<String, CustomMatrix> custommatrixes;
     private String currentval = "off";
@@ -90,6 +91,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
         map.put(LumingonOV,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_ovlumingon)));
 
         map.put(IMX135,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.IMX135_MATRIX_F2_2)));
+        map.put(IMX298,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.IMX298_MATRIX_F2_0)));
         map.put(OV4688,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.OV4688_F_2)));
     }
 
