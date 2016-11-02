@@ -52,13 +52,22 @@ Special Thanks @ [Dave Coffin](https://www.cybercom.net/~dcoffin/dcraw/) for dcr
 
 Q&A
 ===
-**Q:**  I'm able to choose camera2 api, but many things are missing. Why?﻿  
+* **Q:**  I'm able to choose camera2 api, but many things are missing. Why?﻿  
 **A:** because its not fully supported by your device. such devices are called legacy devices. they support just basic image capture and recording features.﻿
 
-**Q** Why can't i open raw/bayer files?  
+* **Q** Why can't i open raw/bayer files?  
 **A** Because its the pure data. the decoder cant read it because it does not know how to open it.  
-To tell the decoder how the data is stored, the dng container is needed.
+To tell the decoder how the data is stored, the dng container is needed.  
 In that case send us the raw/bayer file and it will work soon.
+
+* **Q** Why my Device dont show an highspeed video profile, i know it support it  
+**A** Its because the Oem's did not add it as MediaProfile and freedcam support it only for most snapdragon socs
+-In that case open the VideoProfileEditor inside FreeDcamSetting.
+-As sample for 720p highspeed select first the 720p profile.
+-Rename it to 720Hfr or what ever you want.
+-Change Framerate to 120
+-Select Highspeed
+-Save the Profile and close the VideoProfileEditor.
 
 
 Camera Ui Icons
