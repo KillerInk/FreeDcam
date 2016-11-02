@@ -31,6 +31,22 @@
         }
     }
 
+    uchar4 __attribute__((kernel))getucharRgb(uint32_t x, uint32_t y)
+    {
+        uchar4 curPixel;
+        if(yuvinput)
+        {
+            curPixel.r = rsGetElementAtYuv_uchar_Y(gCurrentFrame, x, y);
+            curPixel.g = rsGetElementAtYuv_uchar_U(gCurrentFrame, x, y);
+            curPixel.b = rsGetElementAtYuv_uchar_V(gCurrentFrame, x, y);
+            return rsYuvToRGBA_uchar4(curPixel.r,curPixel.g,curPixel.b);
+        }
+        else
+        {
+            return rsGetElementAt_uchar4(gCurrentFrame, x, y);
+        }
+    }
+
     uchar4 __attribute__((kernel))getRgb_uchar4(uint32_t x, uint32_t y)
         {
             uchar4 curPixel;
@@ -207,16 +223,16 @@
 
     uchar4 __attribute__((kernel)) stackimage_lightenV(uint32_t x, uint32_t y)
         {
-            float4 curPixel, lastPixel;
+            uchar4 curPixel, lastPixel;
             uchar4 rgb;
-            curPixel = getRgb(x, y);
-            int V1 = 0.299 *curPixel.x +  0.587 * curPixel.y + 0.114 +curPixel.z;
-            lastPixel = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y));
-            int V2 = 0.299 *lastPixel.x +  0.587 * lastPixel.y + 0.114 +lastPixel.z;
+            curPixel = getucharRgb(x, y);
+            int V1 = ((curPixel.r<<1)+(curPixel.g<<2)+curPixel.b)>>3;
+            lastPixel = rsGetElementAt_uchar4(gLastFrame, x, y);
+            int V2 =((lastPixel.r<<1)+(lastPixel.g<<2)+lastPixel.b)>>3;
             if(V1 > V2)
-                rgb = rsPackColorTo8888(curPixel);
+                rgb = curPixel;
             else
-                rgb = rsPackColorTo8888(lastPixel);
+                rgb = lastPixel;
             if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
             if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
             if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
