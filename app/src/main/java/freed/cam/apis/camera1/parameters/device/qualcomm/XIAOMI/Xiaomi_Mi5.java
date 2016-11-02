@@ -27,7 +27,7 @@ public class Xiaomi_Mi5 extends BaseQcomNew {
         switch (filesize)
         {
             case 20500480:
-                return new DngProfile(64, 4652, 3520, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4652, 3520, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX298));
         }
         return null;
     }

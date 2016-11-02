@@ -67,7 +67,7 @@ public class ZTE_Z11 extends BaseQcomDevice {
         switch (filesize)
         {
            case 20500480:
-                return new DngProfile(64, 4656, 3456,DngProfile.Mipi16,DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
+                return new DngProfile(64, 4656, 3456,DngProfile.Mipi16,DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX298));
         }
         return null;
     }
