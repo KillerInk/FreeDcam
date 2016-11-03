@@ -98,6 +98,8 @@ public class CustomMatrix
 
     public static float[] getMatrixFromString(String m)
     {
+        if (m.equals("NULL"))
+            return null;
         String[] split = m.split(",");
         float[] ar = new float[split.length];
         for (int i = 0; i< split.length; i++)

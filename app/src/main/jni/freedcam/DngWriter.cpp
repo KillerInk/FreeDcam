@@ -98,9 +98,9 @@ void DngWriter::writeIfd0(TIFF *tif) {
         TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  fowardMatrix2);
 
     if(reductionMatrix1 != NULL)
-            TIFFSetField(tif, TIFFTAG_CAMERACALIBRATION1, 9,  reductionMatrix1);
-        if(reductionMatrix2 != NULL)
-            TIFFSetField(tif, TIFFTAG_CAMERACALIBRATION2, 9,  reductionMatrix2);
+        TIFFSetField(tif, TIFFTAG_CAMERACALIBRATION1, 9,  reductionMatrix1);
+    if(reductionMatrix2 != NULL)
+        TIFFSetField(tif, TIFFTAG_CAMERACALIBRATION2, 9,  reductionMatrix2);
 
     if(noiseMatrix != NULL)
         TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  noiseMatrix);
