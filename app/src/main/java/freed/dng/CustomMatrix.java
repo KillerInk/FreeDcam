@@ -152,34 +152,36 @@ public class CustomMatrix
             int count = 0;
             while ((line = br.readLine()) != null)
             {
-                if (!line.startsWith("#")) {
-                    switch (count)
-                    {
-                        case 0:
-                            matrix.ColorMatrix1 = getMatrixFromString(line);
-                            break;
-                        case 1:
-                            matrix.ColorMatrix2 = getMatrixFromString(line);
-                            break;
-                        case 2:
-                            matrix.NeutralMatrix = getMatrixFromString(line);
-                            break;
-                        case 3:
-                            matrix.ForwardMatrix1 = getMatrixFromString(line);
-                            break;
-                        case 4:
-                            matrix.ForwardMatrix2 = getMatrixFromString(line);
-                            break;
-                        case 5:
-                            matrix.ReductionMatrix1 = getMatrixFromString(line);
-                            break;
-                        case 6:
-                            matrix.ReductionMatrix2 = getMatrixFromString(line);
-                            break;
-                        case 7:
-                            matrix.NoiseReductionMatrix = getDoubleMatrixFromString(line);
-                            break;
-                    }
+                if (!line.startsWith("#"))
+                {
+                    if (!line.equals("NULL"))
+                        switch (count)
+                        {
+                            case 0:
+                                matrix.ColorMatrix1 = getMatrixFromString(line);
+                                break;
+                            case 1:
+                                matrix.ColorMatrix2 = getMatrixFromString(line);
+                                break;
+                            case 2:
+                                matrix.NeutralMatrix = getMatrixFromString(line);
+                                break;
+                            case 3:
+                                matrix.ForwardMatrix1 = getMatrixFromString(line);
+                                break;
+                            case 4:
+                                matrix.ForwardMatrix2 = getMatrixFromString(line);
+                                break;
+                            case 5:
+                                matrix.ReductionMatrix1 = getMatrixFromString(line);
+                                break;
+                            case 6:
+                                matrix.ReductionMatrix2 = getMatrixFromString(line);
+                                break;
+                            case 7:
+                                matrix.NoiseReductionMatrix = getDoubleMatrixFromString(line);
+                                break;
+                        }
                     count++;
                 }
             }

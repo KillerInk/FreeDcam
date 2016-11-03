@@ -20,6 +20,16 @@
 
 <resources>
 
+    <!-- set matrixes in that order when a matrix is empty and other matrix follows ups set it to NULL:
+     1. colormatrix1
+     2. colormatrix2
+     3. neutral
+     4. forward1
+     5. foward2
+     6. reduction1
+     7. reduction2
+     8. noise
+     -->
     <string name="colormatrix1_nexus6">1.140700,-0.402200,-0.234000,-0.431400,1.404000,0.014600,-0.043900,0.204700,0.570400</string>
     <string name="colormatrix2_nexus6">0.722800,-0.089300,-0.097500,-0.479200,1.348100,0.138100,-0.113700,0.268000,0.560400</string>
     <string name="neutralmatrix_nexus6">0.5391,1.0000,0.6641</string>

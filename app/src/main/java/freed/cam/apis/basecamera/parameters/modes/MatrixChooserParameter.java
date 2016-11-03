@@ -140,9 +140,5 @@ public class MatrixChooserParameter extends AbstractModeParameter
     {
             return custommatrixes.get(key);
     }
-    private final float[]  OVLUMING_matrix1 =
-            {
-                    0.044400f, 0.099100f, 0.670600f, -0.085700f, 0.819900f, 0.318500f, 0.850600f, -0.346200f, -0.017600f
-            };
 
  }
