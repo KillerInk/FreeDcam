@@ -305,9 +305,9 @@ Open the saved Dng now into exiftools or a simliar tool, wich can read metadata,
 0.581421,1,0.565397                                               neutral matrix is needed
 0.6328,0.0469,0.2813,0.1641,0.7578,0.0781,-0.0469,-0.6406,1.5078  forwardmatrix1 is optional
 0.7578,0.0859,0.1172,0.2734,0.8281,-0.1016,0.0156,-0.2813,1.0859  forwardmatrix2 is optional
-                                                                  reductionmatrix1 is optional
-                                                                  reductionmatrix2 is optional
-                                                                  noise reduction is optional
+NULL                                                              reductionmatrix1 is optional
+NULL                                                              reductionmatrix2 is optional
+NULL                                                              noise reduction is optional
 ```
                                                                                                                                 
 
