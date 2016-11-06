@@ -60,6 +60,7 @@ public class DeviceUtils
         I_Mobile_I_StyleQ6,
         InFocus_M808,
         Jiayu_S3,
+        LeEco_Cool1,
         LenovoK910,
         LenovoK920,
         Lenovo_K4Note_MTK,
@@ -337,6 +338,8 @@ public class DeviceUtils
             return Devices.Vivo_V3;
         else if (isDevice(res.getStringArray(array.yu_yuphoria)))
             return Devices.Yu_Yuphoria;
+        else if (isDevice(res.getStringArray(array.le_eco_cool1)))
+            return Devices.LeEco_Cool1;
         else
             return Devices.UNKNOWN;
 

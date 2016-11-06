@@ -66,6 +66,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.HTC.HTC_One_SV;
 import freed.cam.apis.camera1.parameters.device.qualcomm.HTC.HTC_One_XL;
 import freed.cam.apis.camera1.parameters.device.qualcomm.HUAWEI.Huawei_GX8;
 import freed.cam.apis.camera1.parameters.device.qualcomm.HUAWEI.Huawei_Honor5x;
+import freed.cam.apis.camera1.parameters.device.qualcomm.LEECO.LeEco_Cool1;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_K910;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_K920;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_VibeP1;
@@ -191,7 +192,10 @@ public class DeviceSelector {
                 return new InFocusM808(cameraParameters,cameraUiWrapper);
             case Jiayu_S3:
                return new Jiayu_S3(cameraParameters,cameraUiWrapper);
-                
+
+            case LeEco_Cool1:
+                return new LeEco_Cool1(cameraParameters,cameraUiWrapper);
+
             case LenovoK910:
                return new Lenovo_K910(cameraParameters,cameraUiWrapper);
                 
@@ -209,8 +213,10 @@ public class DeviceSelector {
 
             case Lenovo_VibeShot_Z90:
                 return new Lenovo_VibeShot_Z90(cameraParameters,cameraUiWrapper);
+
             case Lenovo_Vibe_X3:
                 return new Lenovo_Vibe_X3(cameraParameters,cameraUiWrapper);
+
             case LG_G2:
                return new LG_G2(cameraParameters,cameraUiWrapper);
 
@@ -221,11 +227,13 @@ public class DeviceSelector {
                 
             case LG_G4:
                return new LG_G4(cameraParameters,cameraUiWrapper);
+
             case Lumigon_T3:
                 return new Lumigon_T3(cameraParameters,cameraUiWrapper);
 
             case MeizuM1Metal_MTK:
                 return new MeizuM1Metal(cameraParameters,cameraUiWrapper);
+
             case MeizuMX4_MTK:
             case MeizuMX5_MTK:
                return new Meizu_MX4_5_MTK(cameraParameters,cameraUiWrapper);
@@ -238,22 +246,29 @@ public class DeviceSelector {
 
             case Moto_X2k14:
                 return new Moto_X2k14(cameraParameters,cameraUiWrapper);
+
             case Moto_X_Style_Pure_Play:
                return new Moto_X_Style_Pure_Play(cameraParameters,cameraUiWrapper);
 
             case MotoG3:
                 return getDefault(cameraUiWrapper,cameraParameters);
+
             case MotoG_Turbo:
                 return getDefault(cameraUiWrapper,cameraParameters);
+
             case MyPhone_Infinity2S:
                 return new MyPhoneInfinity2S(cameraParameters,cameraUiWrapper);
+
             case Nexus4:
                 return getDefault(cameraUiWrapper,cameraParameters);
+
             case Nexus6:
                 return getDefault(cameraUiWrapper,cameraParameters);
+
             case Nexus5x:
             case Nexus6p:
                 return new Nexus6p_5x(cameraParameters,cameraUiWrapper);
+
             case OnePlusOne:
                return new OnePlusOne(cameraParameters,cameraUiWrapper);
                 
@@ -262,15 +277,19 @@ public class DeviceSelector {
 
             case p8:
                 return getDefault(cameraUiWrapper,cameraParameters);
+
             case p8lite:
                 return getDefault(cameraUiWrapper,cameraParameters);
+
             case Prestigio_Multipad_Color:
                 return new Prestigio_Multipad_Color(cameraParameters,cameraUiWrapper);
+
             case Xiaomi_RedmiNote:
                return new Xiaomi_Redmi_Note(cameraParameters,cameraUiWrapper);
 
             case Xiaomi_Redmi2:
                 return new Xiaomi_Redmi2(cameraParameters,cameraUiWrapper);
+
             case Xiaomi_RedmiNote2_MTK:
                return new Xiaomi_Redmi_Note2_MTK(cameraParameters,cameraUiWrapper);
                 
@@ -279,10 +298,13 @@ public class DeviceSelector {
 
             case Samsung_S6_edge:
                 return getDefault(cameraUiWrapper,cameraParameters);
+
             case Samsung_S6_edge_plus:
                 return getDefault(cameraUiWrapper,cameraParameters);
+
             case SonyADV:
                 return getDefault(cameraUiWrapper,cameraParameters);
+
             case SonyM5_MTK:
                return new Sony_M5_MTK(cameraParameters,cameraUiWrapper);
                 
@@ -291,8 +313,10 @@ public class DeviceSelector {
 
             case SonyC4_MTK:
                return new Sony_C4(cameraParameters,cameraUiWrapper);
+
             case SonyC5_MTK:
                return new Sony_C5(cameraParameters,cameraUiWrapper);
+
             case Sony_Z5C:
                 return new Sony_Z5C(cameraParameters,cameraUiWrapper);
                 
@@ -310,10 +334,13 @@ public class DeviceSelector {
 
             case Vivo_V3:
                 return new Vivo_V3(cameraParameters,cameraUiWrapper);
+
             case Wiko_Stairway:
                 return new Wikio_Stairway(cameraParameters,cameraUiWrapper);
+
             case Wileyfox_Swift:
                 return new WileyFox_Swift(cameraParameters,cameraUiWrapper);
+
             case Mi_Max:
                 return new Mi_Max(cameraParameters,cameraUiWrapper);
 
@@ -325,8 +352,10 @@ public class DeviceSelector {
                 
             case XiaomiMI4C:
                 return new Xiaomi_Mi3_4(cameraParameters,cameraUiWrapper);
+
             case XiaomiMI5:
                 return new Xiaomi_Mi5(cameraParameters,cameraUiWrapper);
+
             case XiaomiMI_Note_Pro:
                return new Xiaomi_Mi_Note_Pro(cameraParameters,cameraUiWrapper);
                 
@@ -335,12 +364,16 @@ public class DeviceSelector {
 
             case Xiaomi_Redmi3:
                 return new Xiaomi_Redmi3(cameraParameters,cameraUiWrapper);
+
             case Xiaomi_Redmi3S:
                 return new Xiaomi_Redmi3s(cameraParameters,cameraUiWrapper);
+
             case Xolo_Omega5:
                 return new Xolo_Omega5(cameraParameters,cameraUiWrapper);
+
             case Yu_Yuphoria:
                 return new Yu_Yuphoria(cameraParameters,cameraUiWrapper);
+
             case Yu_Yureka:
                return new Yu_Yureka(cameraParameters,cameraUiWrapper);
                 
@@ -352,16 +385,22 @@ public class DeviceSelector {
                 
             case ZTEADV234:
                return new ZTE_ADV_IMX234(cameraParameters,cameraUiWrapper);
+
             case ZTE_Z11:
                 return new ZTE_Z11(cameraParameters,cameraUiWrapper);
+
             case ZTE_Z9:
                 return getDefault(cameraUiWrapper,cameraParameters);
+
             case ZTE_Z5SMINI:
                 return new ZTE_Z5SMINI(cameraParameters,cameraUiWrapper);
+
             case ZTE_MyPrague:
                 return getDefault(cameraUiWrapper,cameraParameters);
+
             case Zoppo_8speed:
                 return new Zoppo_8speed(cameraParameters,cameraUiWrapper);
+
             default:
                 return getDefault(cameraUiWrapper,cameraParameters);
         }
