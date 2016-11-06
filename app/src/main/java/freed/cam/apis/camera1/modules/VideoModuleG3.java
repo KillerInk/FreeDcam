@@ -33,6 +33,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesG3Parameter;
 import freed.utils.AppSettingsManager;
 
@@ -131,6 +132,10 @@ public class VideoModuleG3 extends AbstractVideoModule
     {
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        if (((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range") != null) {
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("preview-fps-range", "30000,30000");
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters());
+        }
         if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("2160p"))
         {
             cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable",false);

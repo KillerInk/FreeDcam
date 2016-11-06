@@ -31,6 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
@@ -188,6 +189,11 @@ public class VideoModule extends AbstractVideoModule
         //full camera2 devices dont use hardware preview format so set it only for legacy devices
         if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.FALSE))
             cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus", false);
+        cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue("30", false);
+        if (((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range") != null) {
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("preview-fps-range", "30000,30000");
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters());
+        }
         //set the profile defined frames per seconds
         if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
             cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", false);
