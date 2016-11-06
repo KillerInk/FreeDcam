@@ -33,6 +33,7 @@ android {
         }
         debug {
             jniDebuggable true
+            signingConfig signingConfigs.config
         }
     }
     externalNativeBuild {
