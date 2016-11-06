@@ -611,5 +611,8 @@
     <string-array name="le_eco_cool1">
         <item>C106</item>
     </string-array>
+    <string-array name="asus_zenfone_go">
+        <item>ASUS_X014D</item>
+    </string-array>
 
 </resources>

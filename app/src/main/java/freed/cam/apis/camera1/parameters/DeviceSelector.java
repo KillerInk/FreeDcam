@@ -56,6 +56,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.ALCATEL.Alcatel_Idol3;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ALCATEL.Alcatel_Idol3_small;
 import freed.cam.apis.camera1.parameters.device.qualcomm.AQUARIS.Aquaris_E5;
 import freed.cam.apis.camera1.parameters.device.qualcomm.AQUARIS.Aquaris_M5;
+import freed.cam.apis.camera1.parameters.device.qualcomm.ASUS.Asus_Zenfone_Go;
 import freed.cam.apis.camera1.parameters.device.qualcomm.GIONEE.GioneE7;
 import freed.cam.apis.camera1.parameters.device.qualcomm.HTC.HTC_Desire500;
 import freed.cam.apis.camera1.parameters.device.qualcomm.HTC.HTC_M8;
@@ -127,6 +128,8 @@ public class DeviceSelector {
             case Alcatel_985n:
                 return new Alcatel_985n(cameraParameters, cameraUiWrapper);
 
+            case Asus_Zenfone_Go:
+                return new Asus_Zenfone_Go(cameraParameters,cameraUiWrapper);
             case Blackberry_Priv:
                 return new Blackberry_Priv(cameraParameters,cameraUiWrapper);
             case Aquaris_E5:

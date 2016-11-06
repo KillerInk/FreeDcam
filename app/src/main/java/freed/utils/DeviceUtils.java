@@ -36,6 +36,7 @@ public class DeviceUtils
     {
         UNKNOWN,
         Alcatel_985n,
+        Asus_Zenfone_Go,
         Blackberry_Priv,
         Aquaris_E5,
         Aquaris_M5,
@@ -340,6 +341,8 @@ public class DeviceUtils
             return Devices.Yu_Yuphoria;
         else if (isDevice(res.getStringArray(array.le_eco_cool1)))
             return Devices.LeEco_Cool1;
+        else if (isDevice(res.getStringArray(array.asus_zenfone_go)))
+            return Devices.Asus_Zenfone_Go;
         else
             return Devices.UNKNOWN;
 
