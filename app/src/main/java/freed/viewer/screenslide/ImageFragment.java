@@ -24,7 +24,12 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicHistogram;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,6 +47,7 @@ import java.lang.ref.WeakReference;
 
 import freed.ActivityInterface;
 import freed.utils.Logger;
+import freed.utils.RenderScriptHandler;
 import freed.viewer.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment.FragmentClickClistner;
 
@@ -181,8 +187,16 @@ public class ImageFragment extends Fragment
                     waitForWorkFinish = null;
                 }
             }
-            else
+            else {
                 histogramData = null;
+                progressBar.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+
+            }
             isWorking = false;
         }
     }
@@ -204,6 +218,15 @@ public class ImageFragment extends Fragment
 
     private void createHistogramm(Bitmap bitmap)
     {
+        /*histogramData = new int [ 256*4];
+        RenderScript mRS = RenderScript.create(getContext());
+        ScriptIntrinsicHistogram histogram = ScriptIntrinsicHistogram.create(mRS,Element.U8_4(mRS));
+        Allocation mHistogramAllocation = Allocation.createSized(mRS, Element.I32_3(mRS), 256);
+        Allocation in = Allocation.createFromBitmap(mRS, bitmap);
+        histogram.setOutput(mHistogramAllocation);
+        histogram.forEach(in);
+        mHistogramAllocation.copyTo(histogramData);*/
+        Log.d(TAG, "Histodata");
         if(bitmap == null || bitmap.isRecycled())
             return;
         int [] histo = new int [ 256 * 3 ];
