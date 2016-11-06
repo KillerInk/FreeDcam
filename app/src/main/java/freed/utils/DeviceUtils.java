@@ -120,6 +120,7 @@ public class DeviceUtils
         Xiaomi_Redmi3,
         Xiaomi_Redmi3S,
         Xolo_Omega5,
+        Yu_Yuphoria,
         Yu_Yureka,
         ZTE_ADV,
         ZTEADVIMX214,
@@ -334,6 +335,8 @@ public class DeviceUtils
             return Devices.Xiaomi_Redmi3S;
         else if(isDevice(res.getStringArray(array.vivo_v3)))
             return Devices.Vivo_V3;
+        else if (isDevice(res.getStringArray(array.yu_yuphoria)))
+            return Devices.Yu_Yuphoria;
         else
             return Devices.UNKNOWN;
 

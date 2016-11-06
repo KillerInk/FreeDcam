@@ -603,4 +603,10 @@
     <string-array name="vivo_v3">
         <item>vivo V3</item>
     </string-array>
+
+    <string-array name="yu_yuphoria">
+        <item>YU5010</item>
+    </string-array>
+
+
 </resources>
