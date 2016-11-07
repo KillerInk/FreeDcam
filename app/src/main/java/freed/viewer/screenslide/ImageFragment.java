@@ -181,15 +181,16 @@ public class ImageFragment extends Fragment
                             imageView.setImageBitmap(response);
                         }
                     });
-                    createHistogramm(response);
+                    /*createHistogramm(response);
                     if (waitForWorkFinish != null && position >-1)
                         waitForWorkFinish.HistograRdyToSet(histogramData, position);
-                    waitForWorkFinish = null;
-                    if (isDetached())
-                        histogramData = null;
+                    waitForWorkFinish = null;*/
+
                 }
             }
             else {
+                if (response != null)
+                    response.recycle();
                 histogramData = null;
                 progressBar.post(new Runnable() {
                     @Override
@@ -199,6 +200,8 @@ public class ImageFragment extends Fragment
                 });
 
             }
+            if (isDetached())
+                histogramData = null;
             isWorking = false;
         }
     }
@@ -214,6 +217,7 @@ public class ImageFragment extends Fragment
         catch (IllegalArgumentException | NullPointerException ex)
         {
             Logger.exception(ex);
+            response = null;
         }
         return response;
     }

@@ -650,6 +650,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         ByteBuffer buffer = image.getImage().getPlanes()[0].getBuffer();
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
+
         float fnum, focal = 0;
         fnum = image.getCaptureResult().get(CaptureResult.LENS_APERTURE);
         focal = image.getCaptureResult().get(CaptureResult.LENS_FOCAL_LENGTH);
@@ -660,9 +661,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         int mFlash = image.getCaptureResult().get(CaptureResult.FLASH_STATE).intValue();
         double exposurecompensation= image.getCaptureResult().get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
         final DngProfile prof = getDngProfile(rawFormat, image);
-        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
+        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file, bytes.clone(), fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
         image.getImage().close();
         bytes = null;
+        buffer = null;
         image = null;
     }
 

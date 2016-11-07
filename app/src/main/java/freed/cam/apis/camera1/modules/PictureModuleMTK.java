@@ -74,7 +74,7 @@ public class PictureModuleMTK extends PictureModule
     }
 
     @Override
-    public void onPictureTaken(final byte[] data, Camera camera)
+    public void onPictureTaken(byte[] data, Camera camera)
     {
         if (!waitForPicture)
             return;
@@ -87,7 +87,7 @@ public class PictureModuleMTK extends PictureModule
         switch (picformat) {
             case KEYS.JPEG:
                 //savejpeg
-                cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
+                cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data.clone());
                 try {
                     DeviceSwitcher().delete();
                 } catch (Exception ex) {
@@ -96,15 +96,16 @@ public class PictureModuleMTK extends PictureModule
                 break;
             case FileEnding.DNG:
                 //savejpeg
-                cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
+                cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data.clone());
                 CreateDNG_DeleteRaw();
                 break;
             case FileEnding.BAYER:
                 //savejpeg
-                cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
+                cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data.clone());
                 break;
         }
         waitForPicture = false;
+        data = null;
         startPreview();
         isWorking = false;
         changeCaptureState(CaptureStates.image_capture_stop);

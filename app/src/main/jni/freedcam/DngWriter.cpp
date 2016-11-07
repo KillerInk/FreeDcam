@@ -527,6 +527,6 @@ void DngWriter::WriteDNG() {
     }
     if (bayerBytes == NULL)
         return;
-    delete[] bayerBytes;
+    free(bayerBytes);
     bayerBytes = NULL;
 }

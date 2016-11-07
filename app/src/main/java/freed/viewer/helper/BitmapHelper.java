@@ -140,8 +140,12 @@ public class BitmapHelper
                 CACHE.addBitmapToCache(file.getName(), response);
                 Bitmap thumbbitmap = ThumbnailUtils.extractThumbnail(response, mImageThumbSizeW, mImageThumbSizeW);
                 CACHE.addBitmapToCache(file.getName() + "_thumb", thumbbitmap);
-                if (thumb)
+                if (thumb) {
+                    response.recycle();
                     response = thumbbitmap;
+                }
+                else
+                    thumbbitmap.recycle();
 
             }
         }

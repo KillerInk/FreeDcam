@@ -118,7 +118,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     }
 
     @Override
-    public void onPictureTaken(final byte[] data, Camera camera)
+    public void onPictureTaken(byte[] data, Camera camera)
     {
         if(data == null)
             return;
@@ -133,7 +133,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         }
         burstcount++;
         String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
-        saveImage(data,picFormat);
+        saveImage(data.clone(),picFormat);
         //Handel Burst capture
         if (cameraUiWrapper.GetParameterHandler().Burst != null && cameraUiWrapper.GetParameterHandler().Burst.IsSupported() && cameraUiWrapper.GetParameterHandler().Burst.GetValue() > 1)
         {
@@ -155,6 +155,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             startPreview();
             changeCaptureState(CaptureStates.image_capture_stop);
         }
+        data = null;
     }
 
     protected void startPreview()
@@ -179,8 +180,6 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
 
     protected void saveImage(byte[]data, String picFormat)
     {
-
-
         File toSave = getFile(getFileEnding(picFormat));
         Logger.d(this.TAG, "saveImage:"+toSave.getName() + " Filesize: "+data.length);
         if (picFormat.equals(FileEnding.DNG))
@@ -232,6 +231,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         Logger.d(TAG, "found dngProfile:" + (dngProfile != null));
         int orientation = cameraUiWrapper.getActivityInterface().getOrientation();
         cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile);
+        data = null;
 
     }
 }

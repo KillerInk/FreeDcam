@@ -251,7 +251,7 @@ public class BracketModule extends PictureModule
                 return;
             hdrCount++;
             String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
-            saveImage(data,picFormat);
+            saveImage(data.clone(),picFormat);
             if (hdrCount == 7)//handel normal capture
             {
                 waitForPicture = false;
@@ -259,6 +259,7 @@ public class BracketModule extends PictureModule
                 startPreview();
 
             }
+            data = null;
         }
     };
 
@@ -280,7 +281,7 @@ public class BracketModule extends PictureModule
     }
 
     @Override
-    public void onPictureTaken(final byte[] data, Camera camera)
+    public void onPictureTaken(byte[] data, Camera camera)
     {
         if(data == null)
             return;
@@ -291,7 +292,7 @@ public class BracketModule extends PictureModule
         }
         hdrCount++;
         String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
-        saveImage(data,picFormat);
+        saveImage(data.clone(),picFormat);
         startPreview();
         if (hdrCount == 7)//handel normal capture
         {
@@ -309,6 +310,7 @@ public class BracketModule extends PictureModule
             }
             cameraHolder.TakePicture(BracketModule.this);
         }
+        data = null;
     }
 
     @Override

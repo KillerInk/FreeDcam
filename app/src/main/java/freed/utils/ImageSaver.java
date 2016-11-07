@@ -82,7 +82,7 @@ public class ImageSaver
     private class DngSaver implements Runnable
     {
         final File fileName;
-        final byte[] bytes;
+        byte[] bytes;
         final float fnumber;
         final float focal;
         final float exposuretime;
@@ -168,7 +168,9 @@ public class ImageSaver
                 }
             }
             scanFile(fileName);
+            bytes = null;
         }
+
     }
 
     public void SaveBitmapToFile(Bitmap bitmap, File file)
@@ -179,8 +181,8 @@ public class ImageSaver
 
     private class BitmapSaver implements Runnable
     {
-        private final  File file;
-        private final Bitmap bitmap;
+        private  File file;
+        private Bitmap bitmap;
         public BitmapSaver(File file, Bitmap bitmap)
         {
             this.file = file;
@@ -221,6 +223,8 @@ public class ImageSaver
                 }
             }
             scanFile(file);
+            bitmap = null;
+            file = null;
         }
     }
 
@@ -232,8 +236,8 @@ public class ImageSaver
 
     private class JpegSaver implements Runnable {
 
-        private final  File file;
-        private final byte[] bytes;
+        private File file;
+        private byte[] bytes;
         public JpegSaver(File file, byte[] bytes)
         {
             this.file = file;
@@ -272,6 +276,8 @@ public class ImageSaver
             }
             scanFile(file);
             Logger.d(TAG, "End Saving Bytes");
+            bytes = null;
+            file = null;
         }
     }
 }
