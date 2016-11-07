@@ -185,6 +185,8 @@ public class ImageFragment extends Fragment
                     if (waitForWorkFinish != null && position >-1)
                         waitForWorkFinish.HistograRdyToSet(histogramData, position);
                     waitForWorkFinish = null;
+                    if (isDetached())
+                        histogramData = null;
                 }
             }
             else {
