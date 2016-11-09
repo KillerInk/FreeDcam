@@ -79,6 +79,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.LG.LG_G2;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LG.LG_G2pro;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LG.LG_G3;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LG.LG_G4;
+import freed.cam.apis.camera1.parameters.device.qualcomm.LG.LG_L5;
 import freed.cam.apis.camera1.parameters.device.qualcomm.Mi_Max;
 import freed.cam.apis.camera1.parameters.device.qualcomm.NEXUS.Nexus6p_5x;
 import freed.cam.apis.camera1.parameters.device.qualcomm.OPPO.OnePlusOne;
@@ -231,6 +232,8 @@ public class DeviceSelector {
             case LG_G4:
                return new LG_G4(cameraParameters,cameraUiWrapper);
 
+            case LG_L5:
+                return new LG_L5(cameraParameters,cameraUiWrapper);
             case Lumigon_T3:
                 return new Lumigon_T3(cameraParameters,cameraUiWrapper);
 

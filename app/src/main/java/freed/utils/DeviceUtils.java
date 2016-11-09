@@ -73,6 +73,7 @@ public class DeviceUtils
         LG_G2pro,
         LG_G3,
         LG_G4,
+        LG_L5,
         Lumigon_T3,
         MeizuM1Metal_MTK,
         MeizuMX4_MTK,
@@ -343,6 +344,8 @@ public class DeviceUtils
             return Devices.LeEco_Cool1;
         else if (isDevice(res.getStringArray(array.asus_zenfone_go)))
             return Devices.Asus_Zenfone_Go;
+        else if (isDevice(res.getStringArray(array.lg_l5)))
+            return Devices.LG_L5;
         else
             return Devices.UNKNOWN;
 

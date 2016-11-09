@@ -615,5 +615,8 @@
     <string-array name="asus_zenfone_go">
         <item>ASUS_X014D</item>
     </string-array>
+    <string-array name="lg_l5">
+        <item>LG-E615</item>
+    </string-array>
 
 </resources>
