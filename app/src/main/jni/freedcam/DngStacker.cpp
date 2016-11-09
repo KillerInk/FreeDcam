@@ -113,8 +113,6 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
             rawOutputData[outputcount++] = tmpPixel >>8;
         }
     }
-    //free(inbuf);
-
     TIFFClose(tif);
 
     //read left dngs and merge them
@@ -142,11 +140,9 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
                 rawOutputData[outputcount++] = tmpPixel >>8;
             }
         }
-        free(inbuf);
-
         TIFFClose(tif);
     }
-
+    free(inbuf);
     //create stacked dng
     tif=TIFFOpen(outfile, "w");
 
