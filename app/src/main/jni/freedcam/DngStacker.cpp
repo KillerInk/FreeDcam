@@ -26,7 +26,7 @@ void moveToMem(float * in, float *out, int count)
 JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject thiz, jobjectArray filesToStack, jstring outputfile)
 {
     int stringCount = (*env).GetArrayLength(filesToStack);
-    int width,height, data10bit_length, outputcount;
+    int width,height, outputcount;
     const char * files[stringCount];
     const char * outfile =(*env).GetStringUTFChars( outputfile, NULL);
     unsigned short tmpPixel;
@@ -87,8 +87,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     opcode3 = opcodetmp;
     blacklevel = blackleveltmp[0];
     whitelvl = whitelvltmp[0];
-    data10bit_length = width*height*5;
-    rawOutputData = new unsigned char[width*height*8];
+    rawOutputData = new unsigned char[((width*height)*16)/8];
 
     int scanlinesize = TIFFStripSize(tif);
     inbuf = (unsigned char*)_TIFFmalloc(scanlinesize);
@@ -114,9 +113,8 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
             rawOutputData[outputcount++] = tmpPixel >>8;
         }
     }
-    free(inbuf);
+    //free(inbuf);
 
-    LOGD("rawOutputData written %i expected size %i 10bitdatasize %i", outputcount, width*height*16/8, data10bit_length);
     TIFFClose(tif);
 
     //read left dngs and merge them
@@ -205,13 +203,12 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
         TIFFSetField(tif,TIFFTAG_OPC3, sizeof(opcode3), opcode3);*/
     TIFFCheckpointDirectory(tif);
 
-    TIFFWriteRawStrip(tif, 0, rawOutputData, width*height*2);
+    TIFFWriteRawStrip(tif, 0, rawOutputData, ((width*height)*16)/8);
 
     TIFFRewriteDirectory(tif);
 
     //TIFFWriteRawStrip(tif, 0, rawOutputData, width*height);
 
     TIFFClose(tif);
-    delete[] inputData;
     delete[] rawOutputData;
 }
