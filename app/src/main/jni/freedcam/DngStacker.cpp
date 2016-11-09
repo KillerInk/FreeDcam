@@ -178,7 +178,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
 
 
     TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");
-    long white=whitelvl <<6;
+    long white=65535;
     TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
 
     short CFARepeatPatternDim[] = { 2,2 };
