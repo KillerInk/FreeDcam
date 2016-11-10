@@ -29,9 +29,8 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     int width,height, outputcount;
     const char * files[stringCount];
     const char * outfile =(*env).GetStringUTFChars( outputfile, NULL);
-    unsigned short tmpPixel;
+    unsigned short tmpPixel, bitdeep,bitdeeptemp;
     unsigned char * rawOutputData;
-    unsigned char* inputData;
     char * cfa;
     float* cmat1 = new float[9];
     float * cmat2 = new float[9];
@@ -45,12 +44,12 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     short blacklevel;
     float * tmpmat;
     double * tmpdouble;
-    short * whitelvltmp;
-    short whitelvl;
+    //short * whitelvltmp;
+    //short whitelvl;
     unsigned char * inbuf;
-    unsigned char * opcodetmp;
+    /*unsigned char * opcodetmp;
     unsigned char * opcode2;
-    unsigned char * opcode3;
+    unsigned char * opcode3;*/
     for (int i=0; i<stringCount; i++) {
         jstring string = (jstring) (*env).GetObjectArrayElement(filesToStack, i);
         files[i] = (*env).GetStringUTFChars( string, NULL);
@@ -60,6 +59,8 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     //read needed dng tags
     TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &width);
     TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &height);
+    TIFFGetField(tif, TIFFTAG_BITSPERSAMPLE, &bitdeeptemp);
+    bitdeep = bitdeeptemp;
     TIFFGetField(tif, TIFFTAG_COLORMATRIX1, &tmpmat);
     moveToMem(tmpmat, cmat1,9);
     TIFFGetField(tif, TIFFTAG_COLORMATRIX2, &tmpmat);
@@ -79,14 +80,15 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
         noisemat[i] = tmpdouble[i];
     }
     TIFFGetField(tif, TIFFTAG_CFAPATTERN, &cfa);
-    TIFFGetField(tif, TIFFTAG_WHITELEVEL, &whitelvltmp);
+    //TIFFGetField(tif, TIFFTAG_WHITELEVEL, &whitelvltmp);
+    //whitelvl = whitelvltmp[0];
     TIFFGetField(tif, TIFFTAG_BLACKLEVEL, &blackleveltmp);
-    TIFFGetField(tif, TIFFTAG_OPC2, &opcodetmp);
+    /*TIFFGetField(tif, TIFFTAG_OPC2, &opcodetmp);
     opcode2 = opcodetmp;
     TIFFGetField(tif, TIFFTAG_OPC3, &opcodetmp);
-    opcode3 = opcodetmp;
+    opcode3 = opcodetmp;*/
     blacklevel = blackleveltmp[0];
-    whitelvl = whitelvltmp[0];
+
     rawOutputData = new unsigned char[((width*height)*16)/8];
 
     int scanlinesize = TIFFStripSize(tif);
@@ -95,22 +97,45 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     for (int row = 0; row < height; row++)
     {
         TIFFReadRawStrip(tif,row, inbuf, scanlinesize);
-        for (int i = 0; i < scanlinesize; i+=5) {
-            tmpPixel = (inbuf[i] << 2 | (inbuf[i+1] & 0b11000000) >> 6) <<6; //11111111 11
-            rawOutputData[outputcount++] = tmpPixel & 0xff;
-            rawOutputData[outputcount++] = tmpPixel >>8;
+        if(bitdeep == 10)
+        {
+            for (int i = 0; i < scanlinesize; i+=5) {
+                tmpPixel = (inbuf[i] << 2 | (inbuf[i+1] & 0b11000000) >> 6) <<6; //11111111 11
+                rawOutputData[outputcount++] = tmpPixel & 0xff;
+                rawOutputData[outputcount++] = tmpPixel >>8;
 
-            tmpPixel = ((inbuf[i+1] & 0b00111111 ) << 4 | (inbuf[i+2] & 0b11110000) >> 4) << 6; // 222222 2222
-            rawOutputData[outputcount++] = tmpPixel & 0xff;
-            rawOutputData[outputcount++] = tmpPixel >>8;
+                tmpPixel = ((inbuf[i+1] & 0b00111111 ) << 4 | (inbuf[i+2] & 0b11110000) >> 4) << 6; // 222222 2222
+                rawOutputData[outputcount++] = tmpPixel & 0xff;
+                rawOutputData[outputcount++] = tmpPixel >>8;
 
-            tmpPixel = ((inbuf[i+2]& 0b00001111 ) << 6 | (inbuf[i+3] & 0b11111100) >> 2) << 6; // 3333 333333
-            rawOutputData[outputcount++] = tmpPixel & 0xff;
-            rawOutputData[outputcount++] = tmpPixel >>8;
+                tmpPixel = ((inbuf[i+2]& 0b00001111 ) << 6 | (inbuf[i+3] & 0b11111100) >> 2) << 6; // 3333 333333
+                rawOutputData[outputcount++] = tmpPixel & 0xff;
+                rawOutputData[outputcount++] = tmpPixel >>8;
 
-            tmpPixel = ((inbuf[i+3]& 0b00000011 ) << 8 | inbuf[i+4]) << 6; // 44 44444444
-            rawOutputData[outputcount++] = tmpPixel & 0xff;
-            rawOutputData[outputcount++] = tmpPixel >>8;
+                tmpPixel = ((inbuf[i+3]& 0b00000011 ) << 8 | inbuf[i+4]) << 6; // 44 44444444
+                rawOutputData[outputcount++] = tmpPixel & 0xff;
+                rawOutputData[outputcount++] = tmpPixel >>8;
+            }
+        }
+        else if(bitdeep == 16)
+        {
+            for (int i = 0; i < scanlinesize; i+=8) {
+                tmpPixel = (inbuf[i] | inbuf[i+1]<<8) <<6;
+                rawOutputData[outputcount++] = tmpPixel & 0xff;
+                rawOutputData[outputcount++] = tmpPixel >>8;
+
+                tmpPixel = (inbuf[i+2] | inbuf[i+3]<<8) <<6;
+                rawOutputData[outputcount++] = tmpPixel & 0xff;
+                rawOutputData[outputcount++] = tmpPixel >>8;
+
+                tmpPixel = (inbuf[i+4] | inbuf[i+5]<<8) <<6;
+                rawOutputData[outputcount++] = tmpPixel & 0xff;
+                rawOutputData[outputcount++] = tmpPixel >>8;
+
+                tmpPixel = (inbuf[i+6] | inbuf[i+7]<<8) <<6;
+                rawOutputData[outputcount++] = tmpPixel & 0xff;
+                rawOutputData[outputcount++] = tmpPixel >>8;
+            }
         }
     }
     TIFFClose(tif);
@@ -118,26 +143,51 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     //read left dngs and merge them
     for (int i = 1; i < stringCount; ++i) {
         TIFF *tif=TIFFOpen(files[i], "rw");
+        TIFFGetField(tif, TIFFTAG_BITSPERSAMPLE, &bitdeeptemp);
+        bitdeep = bitdeeptemp;
         outputcount = 0;
         for (int row = 0; row < height; row++)
         {
             TIFFReadRawStrip(tif,row, inbuf, scanlinesize);
-            for (int i = 0; i < scanlinesize; i+=5) {
-                tmpPixel = (((inbuf[i] << 2 | (inbuf[i+1] & 0b11000000) >> 6) <<6) + (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2; //11111111 11
-                rawOutputData[outputcount++] = tmpPixel & 0xff;
-                rawOutputData[outputcount++] = tmpPixel >>8;
+            if(bitdeep == 10)
+            {
+                for (int i = 0; i < scanlinesize; i+=5) {
+                    tmpPixel = (((inbuf[i] << 2 | (inbuf[i+1] & 0b11000000) >> 6) <<6) + (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2; //11111111 11
+                    rawOutputData[outputcount++] = tmpPixel & 0xff;
+                    rawOutputData[outputcount++] = tmpPixel >>8;
 
-                tmpPixel = ((((inbuf[i+1] & 0b00111111 ) << 4 | (inbuf[i+2] & 0b11110000) >> 4) << 6) + (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2; // 222222 2222
-                rawOutputData[outputcount++] = tmpPixel & 0xff;
-                rawOutputData[outputcount++] = tmpPixel >>8;
+                    tmpPixel = ((((inbuf[i+1] & 0b00111111 ) << 4 | (inbuf[i+2] & 0b11110000) >> 4) << 6) + (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2; // 222222 2222
+                    rawOutputData[outputcount++] = tmpPixel & 0xff;
+                    rawOutputData[outputcount++] = tmpPixel >>8;
 
-                tmpPixel = ((((inbuf[i+2]& 0b00001111 ) << 6 | (inbuf[i+3] & 0b11111100) >> 2) << 6) + (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2; // 3333 333333
-                rawOutputData[outputcount++] = tmpPixel & 0xff;
-                rawOutputData[outputcount++] = tmpPixel >>8;
+                    tmpPixel = ((((inbuf[i+2]& 0b00001111 ) << 6 | (inbuf[i+3] & 0b11111100) >> 2) << 6) + (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2; // 3333 333333
+                    rawOutputData[outputcount++] = tmpPixel & 0xff;
+                    rawOutputData[outputcount++] = tmpPixel >>8;
 
-                tmpPixel = ((((inbuf[i+3]& 0b00000011 ) << 8 | inbuf[i+4]) << 6) + (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2; // 44 44444444
-                rawOutputData[outputcount++] = tmpPixel & 0xff;
-                rawOutputData[outputcount++] = tmpPixel >>8;
+                    tmpPixel = ((((inbuf[i+3]& 0b00000011 ) << 8 | inbuf[i+4]) << 6) + (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2; // 44 44444444
+                    rawOutputData[outputcount++] = tmpPixel & 0xff;
+                    rawOutputData[outputcount++] = tmpPixel >>8;
+                }
+            }
+            else if(bitdeep == 16)
+            {
+                for (int i = 0; i < scanlinesize; i+=8) {
+                    tmpPixel = (((inbuf[i] | inbuf[i+1]<<8) <<6)+ (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2;
+                    rawOutputData[outputcount++] = tmpPixel & 0xff;
+                    rawOutputData[outputcount++] = tmpPixel >>8;
+
+                    tmpPixel = (((inbuf[i+2] | inbuf[i+3]<<8) <<6)+ (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2;
+                    rawOutputData[outputcount++] = tmpPixel & 0xff;
+                    rawOutputData[outputcount++] = tmpPixel >>8;
+
+                    tmpPixel = (((inbuf[i+4] | inbuf[i+5]<<8) <<6)+ (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2;
+                    rawOutputData[outputcount++] = tmpPixel & 0xff;
+                    rawOutputData[outputcount++] = tmpPixel >>8;
+
+                    tmpPixel = (((inbuf[i+6] | inbuf[i+7]<<8) <<6)+ (rawOutputData[outputcount] | rawOutputData[outputcount+1]<<8))/2;
+                    rawOutputData[outputcount++] = tmpPixel & 0xff;
+                    rawOutputData[outputcount++] = tmpPixel >>8;
+                }
             }
         }
         TIFFClose(tif);
