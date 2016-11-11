@@ -48,7 +48,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 
     @Override
     public String[] GetValues() {
-        return new String[] {"off","on"};
+        return new String[] {parameters.get("ae-bracket-hdr-values")};
     }
 
 
@@ -61,21 +61,22 @@ public class CupBurstExpModeParameter extends BaseModeParameter
         } catch (Exception ex) {
             Logger.exception(ex);
         }
-        String[] newvalue = "0,0,0".split(",");
-        newvalue[0] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB1);
-        if(newvalue[0] == null || newvalue[0].equals(""))
-            newvalue[0] = "5";
-        newvalue[1] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB2);
-        if(newvalue[1] == null || newvalue[1].equals(""))
-            newvalue[1] = "0";
-        newvalue[2] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB3);
-        if(newvalue[2] == null || newvalue[2].equals(""))
-            newvalue[2] = "-5";
 
-        parameters.set("capture-burst-exposures",newvalue[0]+","+newvalue[1]+","+newvalue[2]);
+
+
+
+        parameters.set("capture-burst-exposures",
+                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB1)+","+
+                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB2)+","+
+                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB3)+","+
+                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB4)+","+
+                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB5)+","+
+                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB6)+","+
+                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB7)
+                );
         try {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-            //super.BackgroundValueHasChanged(newvalue[0]+","+newvalue[1]+","+newvalue[2]);
+
         } catch (Exception e) {
             Logger.exception(e);
         }

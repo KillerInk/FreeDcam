@@ -28,6 +28,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
 
@@ -77,9 +78,10 @@ public class BracketModule extends PictureModule
                 }
                 changeCaptureState(CaptureStates.image_capture_start);
                 waitForPicture = true;
-                loade_ae_bracket();
+
                 if (aeBrackethdr && cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(KEYS.JPEG))
                 {
+                    loade_ae_bracket();
                     cameraHolder.TakePicture(aeBracketCallback);
                 }
                 else
@@ -251,18 +253,23 @@ public class BracketModule extends PictureModule
         public void onPictureTaken(byte[] data, Camera camera) {
             if (!waitForPicture)
                 return;
-            hdrCount++;
+
+
             String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
             saveImage(data,picFormat);
-            if (hdrCount == 7)//handel normal capture
+
+            if (hdrCount == 6)//handel normal capture
             {
                 waitForPicture = false;
                 changeCaptureState(CaptureStates.image_capture_stop);
                 startPreview();
 
-            }
+            } else if (hdrCount < 6)
+                hdrCount++;
+
             data = null;
         }
+
     };
 
     private void loade_ae_bracket()
@@ -271,7 +278,18 @@ public class BracketModule extends PictureModule
         {
             if (cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(KEYS.JPEG)) {
                 aeBrackethdr = true;
+
+                ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("capture-burst-exposures",
+                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB1)+","+
+                                appSettingsManager.getString(AppSettingsManager.SETTING_AEB2)+","+
+                                appSettingsManager.getString(AppSettingsManager.SETTING_AEB3)+","+
+                                appSettingsManager.getString(AppSettingsManager.SETTING_AEB4)+","+
+                                appSettingsManager.getString(AppSettingsManager.SETTING_AEB5)+","+
+                                appSettingsManager.getString(AppSettingsManager.SETTING_AEB6)+","+
+                                appSettingsManager.getString(AppSettingsManager.SETTING_AEB7)
+                );
                 cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue("AE-Bracket", true);
+
             }
             else {
                 aeBrackethdr = false;
