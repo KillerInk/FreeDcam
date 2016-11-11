@@ -61,6 +61,7 @@ public class VideoMediaProfile
         Normal,
         Highspeed,
         Timelapse,
+        SlowMO,
     }
 
     public VideoMediaProfile(CamcorderProfile ex,String ProfileName, VideoMode mode, boolean isAudioActive)

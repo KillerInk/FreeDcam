@@ -233,7 +233,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
         cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE,new Range<>(currentVideoProfile.videoFrameRate,currentVideoProfile.videoFrameRate));
 
+      //  if(currentVideoProfile.Mode == VideoMediaProfile.VideoMode.SlowMO)
+       //     int SlowFactor = currentVideoProfile.videoFrameRate /30;
+
         mediaRecorder.setVideoFrameRate(currentVideoProfile.videoFrameRate);
+
+        mediaRecorder.setCaptureRate((double)currentVideoProfile.videoFrameRate);
         mediaRecorder.setVideoSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         mediaRecorder.setVideoEncoder(currentVideoProfile.videoCodec);
 
