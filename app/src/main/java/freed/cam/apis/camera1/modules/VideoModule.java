@@ -189,10 +189,25 @@ public class VideoModule extends AbstractVideoModule
         //full camera2 devices dont use hardware preview format so set it only for legacy devices
         if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.FALSE))
             cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus", false);
-        cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue("30", false);
+
+        if (((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-frame-rate-values") != null) {
+            for (String fpz:((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-frame-rate-values").split(","))
+            {
+                if (Integer.parseInt(fpz)==currentProfile.videoFrameRate){
+                    cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate+"", false);
+                }
+
+            }
+
+        }
+
+
         if (((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range") != null) {
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("preview-fps-range", "30000,30000");
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters());
+
+          if (currentProfile.videoFrameRate < 30) {
+              ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("preview-fps-range", String.valueOf(currentProfile.videoFrameRate*1000)+","+String.valueOf(currentProfile.videoFrameRate*1000));
+              ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters());
+          }
         }
         //set the profile defined frames per seconds
         if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
