@@ -3,6 +3,7 @@ package freed.viewer.stack;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
@@ -33,10 +34,14 @@ public class DngStackActivity extends ActivityAbstract
             public void onClick(View v) {
                 DngStack stack = new DngStack(filesToStack);
                 stack.StartStack();
+                stackButton.setBackgroundResource(R.drawable.stack_done);
+                stackButton.setClickable(false);
             }
         });
         imageView = (TouchImageView)findViewById(R.id.imageview_dngstack);
         filesToStack = getIntent().getStringArrayExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT);
+        ((TextView)findViewById(R.id.rawList)).setText(filesToStack.length+"");
+
     }
 
     @Override
