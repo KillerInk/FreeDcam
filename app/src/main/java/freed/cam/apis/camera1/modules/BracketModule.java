@@ -65,7 +65,7 @@ public class BracketModule extends PictureModule
             public void run() {
                 if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
-                files = new File[3];
+                files = new File[7];
                 hdrCount = 0;
                 String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
                 if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
@@ -179,6 +179,8 @@ public class BracketModule extends PictureModule
                 value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB6));
             else if (hdrCount == 6)
                 value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB7));
+            else if (hdrCount == 7)
+                value = 0;
 
             Logger.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
            // cameraUiWrapper.GetParameterHandler().ManualExposure.SetValue(key_value);
@@ -299,6 +301,7 @@ public class BracketModule extends PictureModule
             waitForPicture = false;
             isWorking = false;
             changeCaptureState(CaptureStates.image_capture_stop);
+            setExposureToCamera();
         }
         else
         {
