@@ -106,6 +106,7 @@ public class HDRModeParameter extends BaseModeParameter
             if (valueToSet.equals(KEYS.ON)) {
                 parameters.set(KEYS.MORPHO_HHT, KEYS.FALSE);
                 cameraUiWrapper.GetParameterHandler().NightMode.BackgroundValueHasChanged(KEYS.OFF);
+                parameters.set("capture-burst-exposures","-10,0,10");
                 cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET, true);
                 parameters.set(KEYS.MORPHO_HDR, KEYS.TRUE);
             } else {

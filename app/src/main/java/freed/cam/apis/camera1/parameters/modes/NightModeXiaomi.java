@@ -58,6 +58,7 @@ public class NightModeXiaomi extends BaseModeParameter
         if (valueToSet.equals(KEYS.ON)) {
             parameters.set(KEYS.MORPHO_HDR, KEYS.FALSE);
             cameraUiWrapper.GetParameterHandler().HDRMode.BackgroundValueHasChanged(KEYS.OFF);
+            parameters.set("capture-burst-exposures","-10,0,10");
             parameters.set(KEYS.AE_BRACKET_HDR, KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET);
             parameters.set(KEYS.MORPHO_HHT, KEYS.TRUE);
         } else {
