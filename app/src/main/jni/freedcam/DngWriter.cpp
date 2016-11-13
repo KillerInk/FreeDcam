@@ -266,7 +266,7 @@ void DngWriter::process10tight(TIFF *tif) {
     }
     TIFFWriteRawStrip(tif, 0, out, rawheight*shouldberowsize);
     LOGD("Finalizng DNG");
-    delete[] out;
+    free(out);
 }
 
 void DngWriter::process12tight(TIFF *tif) {
@@ -295,7 +295,7 @@ void DngWriter::process12tight(TIFF *tif) {
     }
     TIFFWriteRawStrip(tif, 0, out, rawheight*shouldberowsize);
     LOGD("Finalizng DNG");
-    delete[] out;
+    free(out);
 }
 
 void DngWriter::processLoose(TIFF *tif) {
@@ -376,6 +376,7 @@ void DngWriter::processSXXX16(TIFF *tif) {
     }
     LOGD("Finalizng DNG");
     LOGD("Free Memory");
+    free(pixel);
 }
 
 void DngWriter::process16to10(TIFF *tif) {
@@ -420,7 +421,7 @@ void DngWriter::process16to10(TIFF *tif) {
     LOGD("Finalizng DNG");
 
     LOGD("Free Memory");
-    delete[] pixel;
+    free(pixel);
 }
 
 void DngWriter::writeRawStuff(TIFF *tif) {

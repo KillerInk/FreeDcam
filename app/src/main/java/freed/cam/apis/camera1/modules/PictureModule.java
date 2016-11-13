@@ -133,7 +133,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         }
         burstcount++;
         String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
-        saveImage(data.clone(),picFormat);
+        saveImage(data,picFormat);
         //Handel Burst capture
         if (cameraUiWrapper.GetParameterHandler().Burst != null && cameraUiWrapper.GetParameterHandler().Burst.IsSupported() && cameraUiWrapper.GetParameterHandler().Burst.GetValue() > 1)
         {
@@ -230,7 +230,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         DngProfile dngProfile = cameraUiWrapper.GetParameterHandler().getDevice().getDngProfile(data.length);
         Logger.d(TAG, "found dngProfile:" + (dngProfile != null));
         int orientation = cameraUiWrapper.getActivityInterface().getOrientation();
-        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile);
+        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDngAsync(file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile);
         data = null;
 
     }

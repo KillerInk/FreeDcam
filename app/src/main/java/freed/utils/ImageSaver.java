@@ -73,13 +73,18 @@ public class ImageSaver
         activityInterface.WorkHasFinished(new FileHolder(file, activityInterface.getAppSettings().GetWriteExternal()));
     }
 
-    public void SaveDngWithRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile)
+    public void SaveDngWithRawToDngAsync(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile)
     {
-        final  DngSaver dngSaver = new DngSaver(fileName,bytes,fnumber,focal,exposuretime,iso,orientation,wb,dngProfile);
+        DngSaver dngSaver = new DngSaver(fileName,bytes,fnumber,focal,exposuretime,iso,orientation,wb,dngProfile);
         AsyncTask.THREAD_POOL_EXECUTOR.execute(dngSaver);
     }
+    public void SaveDngWithRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile)
+    {
+        DngSaver dngSaver = new DngSaver(fileName,bytes,fnumber,focal,exposuretime,iso,orientation,wb,dngProfile);
+        dngSaver.run();
+    }
 
-    private class DngSaver implements Runnable
+    public class DngSaver implements Runnable
     {
         final File fileName;
         byte[] bytes;
@@ -175,7 +180,7 @@ public class ImageSaver
 
     public void SaveBitmapToFile(Bitmap bitmap, File file)
     {
-        final BitmapSaver bitmapSaver = new BitmapSaver(file,bitmap);
+        BitmapSaver bitmapSaver = new BitmapSaver(file,bitmap);
         AsyncTask.THREAD_POOL_EXECUTOR.execute(bitmapSaver);
     }
 
@@ -230,7 +235,7 @@ public class ImageSaver
 
     public void SaveJpegByteArray(File file, byte[]bytes)
     {
-        final JpegSaver jpegSaver = new JpegSaver(file, bytes);
+        JpegSaver jpegSaver = new JpegSaver(file, bytes);
         AsyncTask.THREAD_POOL_EXECUTOR.execute(jpegSaver);
     }
 

@@ -128,7 +128,7 @@ public class ImageFragment extends Fragment
         imageView.setOnClickListener(onImageClick);
         progressBar.setVisibility(View.VISIBLE);
         if (file != null) {
-            AsyncTask.execute(new ImageLoader(imageView,file.getFile()));
+            new ImageLoaderTask().execute(file.getFile());
         }
 
         return view;
@@ -149,77 +149,32 @@ public class ImageFragment extends Fragment
         }
     };
 
-
-    private class ImageLoader implements Runnable
+    private class ImageLoaderTask extends AsyncTask<File, Void, Bitmap>
     {
-        private final WeakReference<ImageView> imageViewReference;
-        private final File file;
 
-        public ImageLoader(ImageView imageView, File file)
-        {
-            this.imageViewReference = new WeakReference<ImageView>(imageView);
-            this.file = file;
-        }
-        /**
-         * Starts executing the active part of the class' code. This method is
-         * called when a thread is started that has been created with a class which
-         * implements {@code Runnable}.
-         */
         @Override
-        public void run() {
-            Logger.d(TAG,"loadImage()"+ file.getName());
-            isWorking = true;
-            final Bitmap response = getBitmap();
-            if (imageViewReference != null && response != null) {
-                final ImageView imageView = imageViewReference.get();
-                if (imageView != null) {
-                    imageView.post(new Runnable() {
-                        @Override
-                        public void run()
-                        {
-                            progressBar.setVisibility(View.GONE);
-                            imageView.setImageBitmap(response);
-                        }
-                    });
-                    /*createHistogramm(response);
-                    if (waitForWorkFinish != null && position >-1)
-                        waitForWorkFinish.HistograRdyToSet(histogramData, position);
-                    waitForWorkFinish = null;*/
-
-                }
-            }
-            else {
-                if (response != null)
-                    response.recycle();
-                histogramData = null;
-                progressBar.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.setVisibility(View.GONE);
-                    }
-                });
-
-            }
-            if (isDetached())
-                histogramData = null;
-            isWorking = false;
-        }
-    }
-
-
-    private Bitmap getBitmap()
-    {
-        Bitmap response =null;
-        try {
-            response = ((ActivityInterface)getActivity()).getBitmapHelper().getBitmap(file,false);
-
-        }
-        catch (IllegalArgumentException | NullPointerException ex)
+        protected Bitmap doInBackground(File... params)
         {
-            Logger.exception(ex);
-            response = null;
+            if (getActivity() == null)
+                return null;
+            Bitmap response = ((ActivityInterface)getActivity()).getBitmapHelper().getBitmap(file,false);
+            createHistogramm(response);
+            if (waitForWorkFinish != null && position >-1)
+                waitForWorkFinish.HistograRdyToSet(histogramData, position);
+            waitForWorkFinish = null;
+            return response;
         }
-        return response;
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            if (imageView != null && isAdded())
+            {
+                progressBar.setVisibility(View.GONE);
+                imageView.setImageBitmap(bitmap);
+            }
+            else if (bitmap != null)
+                bitmap.recycle();
+        }
     }
 
     private void createHistogramm(Bitmap bitmap)

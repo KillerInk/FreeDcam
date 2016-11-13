@@ -71,6 +71,7 @@ import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
+import freed.utils.ImageSaver;
 import freed.utils.Logger;
 
 
@@ -604,6 +605,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         buffer.get(bytes);
         cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(file, bytes);
         image.close();
+        buffer.clear();
         image =null;
         
     }
@@ -661,7 +663,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         int mFlash = image.getCaptureResult().get(CaptureResult.FLASH_STATE).intValue();
         double exposurecompensation= image.getCaptureResult().get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
         final DngProfile prof = getDngProfile(rawFormat, image);
-        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file, bytes.clone(), fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
+        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
         image.getImage().close();
         bytes = null;
         buffer = null;
