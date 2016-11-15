@@ -9,11 +9,11 @@ android {
             storePassword 'freedcam'
         }
     }
-    compileSdkVersion 23
-    buildToolsVersion '24.0.3'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 102
         versionName '3.3.146'
         applicationId "troop.com.freedcam"
