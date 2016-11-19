@@ -23,7 +23,6 @@ package freed.cam.apis.basecamera.modules;
 import android.content.Intent;
 import android.os.Handler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
 
@@ -38,7 +37,7 @@ public abstract class ModuleAbstract implements ModuleInterface
 
     private final String TAG = ModuleAbstract.class.getSimpleName();
     protected AppSettingsManager appSettingsManager;
-    protected CaptureStates currentWorkState;
+    protected int currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;
     protected Handler mBackgroundHandler;
 
@@ -54,12 +53,12 @@ public abstract class ModuleAbstract implements ModuleInterface
     /**
      * throw this when camera starts working to notify ui
      */
-    protected void changeCaptureState(final CaptureStates captureStates)
+    protected void changeCaptureState(final int captureStates)
     {
         Logger.d(TAG, "work started");
         currentWorkState = captureStates;
         Intent intent = new Intent("troop.com.freedcam.capturestateIntent");
-        intent.putExtra("CaptureState", currentWorkState.ordinal());
+        intent.putExtra("CaptureState", currentWorkState);
         cameraUiWrapper.getActivityInterface().getContext().sendBroadcast(intent);
     }
 

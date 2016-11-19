@@ -61,7 +61,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.apis.basecamera.modules.CaptureStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
@@ -305,7 +305,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
                 ImageHolder imageHolder = new ImageHolder();
                 resultQueue.put((int)captureBuilder.build().getTag(), imageHolder);
-                changeCaptureState(CaptureStates.image_capture_start);
+                changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
                 cameraHolder.CaptureSessionH.StartImageCapture(captureBuilder, CaptureCallback, mBackgroundHandler);
             }
     }
@@ -329,7 +329,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
         if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
             cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
-        changeCaptureState(CaptureStates.image_capture_start);
+        changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
         cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback,mBackgroundHandler);
     }
 
@@ -590,7 +590,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
 
         isWorking = false;
-        changeCaptureState(CaptureStates.image_capture_stop);
+        changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
         if (burstcount == imagecount) {
             finishCapture(captureBuilder);
         }

@@ -39,9 +39,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.apis.basecamera.modules.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.utils.Logger;
@@ -54,7 +52,7 @@ public class ShutterButton extends Button
     private CameraWrapperInterface cameraUiWrapper;
     private AnimationDrawable shutterOpenAnimation;
     private final String TAG = ShutterButton.class.getSimpleName();
-    private CaptureStates currentShow = CaptureStates.image_capture_stop;
+    private int currentShow = CaptureStates.IMAGE_CAPTURE_STOP;
     private boolean contshot;
     private final Drawable shutterImage;
     private final Paint transparent;
@@ -146,8 +144,7 @@ public class ShutterButton extends Button
         public void onReceive(Context context, Intent intent)
         {
             int state = intent.getIntExtra(getResources().getString(R.string.INTENT_CAPTURESTATE),2);
-            CaptureStates show = CaptureStates.values()[state];
-            switchBackground(show,true);
+            switchBackground(state,true);
         }
     }
 
@@ -164,17 +161,17 @@ public class ShutterButton extends Button
             }
             if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
             {
-                switchBackground(CaptureStates.video_recording_stop, true);
+                switchBackground(CaptureStates.RECORDING_STOP, true);
             }
             else  if((cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_PICTURE)
                     || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_HDR)
                     || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET))
                     && !contshot) {
-                switchBackground(CaptureStates.image_capture_stop,true);
+                switchBackground(CaptureStates.RECORDING_STOP,true);
             }
             else if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL)
                     || contshot || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_STACKING))
-                switchBackground(CaptureStates.continouse_capture_stop,false);
+                switchBackground(CaptureStates.CONTINOUSE_CAPTURE_STOP,false);
         }
     }
 
@@ -189,7 +186,7 @@ public class ShutterButton extends Button
         Logger.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
     }
 
-    private void switchBackground(final CaptureStates showstate, final boolean animate)
+    private void switchBackground(final int showstate, final boolean animate)
     {
         if (currentShow != showstate) {
             currentShow = showstate;
@@ -206,11 +203,11 @@ public class ShutterButton extends Button
             //Single","Continuous","Spd Priority Cont.
             Logger.d(ShutterButton.this.TAG, "contshot:" + val);
             if (ShutterButton.this.cameraUiWrapper.GetParameterHandler().ContShootMode.GetValue().contains("Single")) {
-                ShutterButton.this.switchBackground(CaptureStates.image_capture_stop, false);
+                ShutterButton.this.switchBackground(CaptureStates.IMAGE_CAPTURE_STOP, false);
                 ShutterButton.this.contshot = false;
             }
             else {
-                ShutterButton.this.switchBackground(CaptureStates.continouse_capture_stop, false);
+                ShutterButton.this.switchBackground(CaptureStates.CONTINOUSE_CAPTURE_STOP, false);
                 ShutterButton.this.contshot = true;
             }
         }
@@ -265,56 +262,56 @@ public class ShutterButton extends Button
     private void draw()
     {
         switch (currentShow) {
-            case video_recording_stop:
+            case CaptureStates.RECORDING_STOP:
                 shutter_open_radius = 0;
                 recordingRadiusCircle +=currentframe;
                 recordingRadiusRectangle -= currentframe;
                 drawRecordingImage = true;
                 break;
-            case video_recording_start:
+            case CaptureStates.RECORDING_START:
                 shutter_open_radius = 0;
                 recordingRadiusCircle -=currentframe;
                 recordingRadiusRectangle += currentframe;
                 drawRecordingImage = true;
                 break;
-            case image_capture_stop:
+            case CaptureStates.IMAGE_CAPTURE_STOP:
                 drawRecordingImage = false;
                 shutter_open_radius -= shutter_open_step;
                 break;
-            case image_capture_start:
+            case CaptureStates.IMAGE_CAPTURE_START:
                 drawRecordingImage = false;
                 shutter_open_radius += shutter_open_step;
                 break;
-            case continouse_capture_start:
+            case CaptureStates.CONTINOUSE_CAPTURE_START:
                 drawRecordingImage = true;
                 if (shutter_open_radius <size)
                     shutter_open_radius += shutter_open_step;
                 recordingRadiusCircle -=currentframe;
                 recordingRadiusRectangle += currentframe;
                 break;
-            case cont_capture_stop_while_working:
+            case CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_WORKING:
                 drawRecordingImage = true;
                 //shutter_open_radius += shutter_open_step;
                 recordingRadiusCircle +=currentframe;
                 recordingRadiusRectangle -= currentframe;
                 break;
-            case cont_capture_stop_while_notworking:
+            case CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING:
                 shutter_open_radius = 0;
                 recordingRadiusCircle +=currentframe;
                 recordingRadiusRectangle -= currentframe;
                 drawRecordingImage = true;
                 break;
-            case continouse_capture_stop:
+            case CaptureStates.CONTINOUSE_CAPTURE_STOP:
                 recordingRadiusCircle +=currentframe;
                 recordingRadiusRectangle -= currentframe;
                 drawRecordingImage = true;
                 break;
-            case continouse_capture_work_start:
+            case CaptureStates.CONTINOUSE_CAPTURE_WORK_START:
                 drawRecordingImage = true;
                 if (shutter_open_radius < size)
                     shutter_open_radius += shutter_open_step;
                 break;
-            case continouse_capture_work_stop:
+            case CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP:
                 drawRecordingImage = true;
                 shutter_open_radius -= shutter_open_step;
                 break;

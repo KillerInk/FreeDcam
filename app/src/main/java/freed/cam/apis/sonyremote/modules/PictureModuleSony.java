@@ -34,8 +34,8 @@ import java.net.URL;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.CaptureStates;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.utils.Logger;
@@ -68,17 +68,17 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             String shootmode = ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).ContShootMode.GetValue();
             if (!isWorking && shootmode.equals("Single"))
             {
-                changeCaptureState(CaptureStates.image_capture_start);
+                changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
                 takePicture();
             }
             else if (!isWorking)
             {
-                changeCaptureState(CaptureStates.continouse_capture_start);
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_START);
                 cameraHolder.startContShoot(this);
                 return true;
             } else
             {
-                changeCaptureState(CaptureStates.cont_capture_stop_while_working);
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_WORKING);
                 cameraHolder.stopContShoot(this);
                 return false;
             }
@@ -86,7 +86,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         else
             if (!isWorking)
             {
-                changeCaptureState(CaptureStates.image_capture_start);
+                changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
                 takePicture();
             }
         return true;
@@ -181,17 +181,17 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         if (status.equals("IDLE") && isWorking)
         {
             isWorking = false;
-            if (currentWorkState == CaptureStates.image_capture_start)
-                changeCaptureState(CaptureStates.image_capture_stop);
-            else if (currentWorkState == CaptureStates.continouse_capture_work_start || currentWorkState == CaptureStates.continouse_capture_start)
-                changeCaptureState(CaptureStates.continouse_capture_work_stop);
+            if (currentWorkState == CaptureStates.IMAGE_CAPTURE_START)
+                changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
+            else if (currentWorkState == CaptureStates.CONTINOUSE_CAPTURE_WORK_START || currentWorkState == CaptureStates.CONTINOUSE_CAPTURE_START)
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
         }
         else if ((status.equals("StillCapturing") || status.equals("StillSaving")) && !isWorking) {
             isWorking = true;
-            if (currentWorkState == CaptureStates.image_capture_stop)
-                changeCaptureState(CaptureStates.image_capture_start);
-            else if (currentWorkState == CaptureStates.continouse_capture_work_stop || currentWorkState == CaptureStates.continouse_capture_stop)
-                changeCaptureState(CaptureStates.continouse_capture_work_start);
+            if (currentWorkState == CaptureStates.IMAGE_CAPTURE_STOP)
+                changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
+            else if (currentWorkState == CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP || currentWorkState == CaptureStates.CONTINOUSE_CAPTURE_STOP)
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_START);
         }
 
     }

@@ -33,10 +33,9 @@ import java.io.IOException;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.RecordingStates;
+import freed.cam.apis.basecamera.modules.CaptureStates;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
@@ -112,8 +111,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {
                     Logger.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
-                    cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(RecordingStates.STATUS_RECORDING_STOP);
-                    changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+                    cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(CaptureStates.RECORDING_STOP);
+                    changeCaptureState(CaptureStates.RECORDING_START);
                 }
             });
 
@@ -170,14 +169,14 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     private void sendStopToUi()
     {
-        changeCaptureState(CaptureStates.video_recording_stop);
-        cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(RecordingStates.STATUS_RECORDING_STOP);
+        changeCaptureState(CaptureStates.RECORDING_STOP);
+        cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(CaptureStates.RECORDING_STOP);
     }
 
     private void sendStartToUi()
     {
-        cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(RecordingStates.STATUS_RECORDING_START);
-        changeCaptureState(CaptureStates.video_recording_start);
+        cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(CaptureStates.RECORDING_START);
+        changeCaptureState(CaptureStates.RECORDING_START);
     }
 
     protected abstract MediaRecorder initRecorder();

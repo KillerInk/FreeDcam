@@ -27,7 +27,6 @@ import android.os.Handler;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.Logger;
 
 /**
@@ -66,7 +65,7 @@ public class IntervalModule extends ModuleAbstract
             Logger.d(TAG, "StartInterval");
             isWorking = true;
             intervalHandler.StartInterval();
-            changeCaptureState(CaptureStates.continouse_capture_start);
+            changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_START);
             return true;
         } else {
             Logger.d(TAG, "Stop Interval");
@@ -75,11 +74,11 @@ public class IntervalModule extends ModuleAbstract
             if (picModule.isWorking)
             {
                 Logger.d(TAG, "changeWorkstate to cont_capture_stop_while_working");
-                changeCaptureState(CaptureStates.cont_capture_stop_while_working);
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_WORKING);
             }
             else {
                 Logger.d(TAG, "changeWorkstate to cont_capture_stop_while_notworking");
-                changeCaptureState(CaptureStates.cont_capture_stop_while_notworking);
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING);
             }
             return false;
         }
@@ -106,8 +105,7 @@ public class IntervalModule extends ModuleAbstract
         public void onReceive(Context context, Intent intent)
         {
             int state = intent.getIntExtra("CaptureState",2);
-            CaptureStates show = CaptureStates.values()[state];
-            onCaptureStateChanged(show);
+            onCaptureStateChanged(state);
         }
     }
 
@@ -117,33 +115,33 @@ public class IntervalModule extends ModuleAbstract
         picModule.DestroyModule();
     }
 
-    public void onCaptureStateChanged(CaptureStates captureStates)
+    public void onCaptureStateChanged(int captureStates)
     {
         Logger.d(TAG, "onCaptureStateChanged from picModule " + captureStates);
         switch (captureStates)
         {
-            case image_capture_stop:
+            case CaptureStates.IMAGE_CAPTURE_STOP:
                 if (isWorking)
                 {
                     Logger.d(TAG, "image_capture_stop Work Finished, Start nex Capture");
-                    changeCaptureState(CaptureStates.continouse_capture_work_stop);
+                    changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
                     intervalHandler.DoNextInterval();
 
                 }
                 else
                 {
                     if (picModule.isWorking) {
-                        Logger.d(TAG, "changework to "+ CaptureStates.continouse_capture_work_stop + " picmodule is working"+picModule.isWorking);
-                        changeCaptureState(CaptureStates.continouse_capture_work_stop);
+                        Logger.d(TAG, "changework to "+ CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP + " picmodule is working"+picModule.isWorking);
+                        changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
                     }
                     else {
-                        changeCaptureState(CaptureStates.cont_capture_stop_while_notworking);
-                        Logger.d(TAG, "changework to "+ CaptureStates.cont_capture_stop_while_notworking + " picmodule is working"+picModule.isWorking);
+                        changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING);
+                        Logger.d(TAG, "changework to "+ CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING + " picmodule is working"+picModule.isWorking);
                     }
                 }
                 break;
-            case image_capture_start:
-                changeCaptureState(CaptureStates.continouse_capture_work_start);
+            case CaptureStates.IMAGE_CAPTURE_START:
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_START);
                 break;
 
         }
