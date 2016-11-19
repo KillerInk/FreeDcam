@@ -19,6 +19,10 @@
 
 package freed.cam.apis.camera1.parameters.modes;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Camera.Parameters;
 
 import java.util.ArrayList;
@@ -28,6 +32,7 @@ import java.util.List;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.Logger;
 
@@ -84,7 +89,7 @@ public class HDRModeParameter extends BaseModeParameter
                 isSupported = false;
         }
         if (isSupported) {
-            cameraUiWrapper.GetModuleHandler().addListner(this);
+            cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
             cameraUiWrapper.GetParameterHandler().PictureFormat.addEventListner(this);
         }
 
@@ -216,34 +221,38 @@ public class HDRModeParameter extends BaseModeParameter
         return hdrVals.toArray(new String[hdrVals.size()]);
     }
 
-    @Override
-    public void onModuleChanged(String module)
+    private class ModuleChangedReciever extends BroadcastReceiver
     {
-        if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G2
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G3
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
-                || supportauto
-                || supporton) {
-            curmodule = module;
-            switch (module)
-            {
-                case KEYS.MODULE_VIDEO:
-                case KEYS.MODULE_HDR:
-                    Hide();
-                    SetValue(KEYS.OFF,true);
-                    break;
-                default:
-                    if (format.contains(KEYS.JPEG)) {
-                        Show();
-                        BackgroundIsSupportedChanged(true);
-                    }
-                    else
-                    {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
+            if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G2
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G3
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
+                    || supportauto
+                    || supporton) {
+                curmodule = module;
+                switch (module)
+                {
+                    case KEYS.MODULE_VIDEO:
+                    case KEYS.MODULE_HDR:
                         Hide();
                         SetValue(KEYS.OFF,true);
-                    }
+                        break;
+                    default:
+                        if (format.contains(KEYS.JPEG)) {
+                            Show();
+                            BackgroundIsSupportedChanged(true);
+                        }
+                        else
+                        {
+                            Hide();
+                            SetValue(KEYS.OFF,true);
+                        }
+                }
             }
         }
     }

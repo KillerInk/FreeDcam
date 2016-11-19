@@ -20,7 +20,10 @@
 package freed.cam.apis.camera1.renderscript;
 
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -55,7 +58,7 @@ import freed.utils.RenderScriptHandler;
  * Created by troop on 24.08.2015.
  */
 @TargetApi(VERSION_CODES.KITKAT)
-public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents,ModuleChangedEvent, FocuspeakProcessor
+public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents, FocuspeakProcessor
 {
     private final String TAG = FocusPeakProcessorAp1.class.getSimpleName();
     private final I_AspectRatio output;
@@ -72,6 +75,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     private final RenderScriptHandler renderScriptHandler;
     private int expectedByteSize;
     private final BlockingQueue<byte[]> frameQueue = new ArrayBlockingQueue<>(2);
+    private ModuleChangedReciever moduleChangedReciever;
 
     public FocusPeakProcessorAp1(I_AspectRatio output, CameraWrapperInterface cameraUiWrapper, Context context, RenderScriptHandler renderScriptHandler)
     {
@@ -80,7 +84,8 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         this.cameraUiWrapper = cameraUiWrapper;
         this.context = context;
         this.renderScriptHandler = renderScriptHandler;
-        this.cameraUiWrapper.GetModuleHandler().addListner(this);
+        moduleChangedReciever = new ModuleChangedReciever();
+        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(moduleChangedReciever, new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
         output.setSurfaceTextureListener(previewSurfaceListner);
         clear_preview("Ctor");
     }
@@ -105,6 +110,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         {
             Size size = new Size(cameraUiWrapper.GetParameterHandler().PreviewSize.GetValue());
             reset(size.width, size.height);
+            doWork = true;
             startPeak();
             Logger.d(TAG, "Set PreviewCallback");
             Logger.d(TAG, "enable focuspeak");
@@ -328,21 +334,25 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     public void onModuleChanged(ModuleInterface module) {
     }
 
-    @Override
-    public void onModuleChanged(String module)
+    private class ModuleChangedReciever extends BroadcastReceiver
     {
-        Logger.d(TAG, "onModuleChanged(String):" + module + " enabled:" + enable);
-        if (module.equals(KEYS.MODULE_PICTURE)
-                ||module.equals(KEYS.MODULE_HDR)
-                ||module.equals(KEYS.MODULE_INTERVAL))
-        {
-            setDoWork(true);
-            setEnable(enable);
 
-        }
-        else {
-            setDoWork(false);
-            setEnable(enable);
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
+            Logger.d(TAG, "onModuleChanged(String):" + module + " enabled:" + enable);
+            if (module.equals(KEYS.MODULE_PICTURE)
+                    ||module.equals(KEYS.MODULE_HDR)
+                    ||module.equals(KEYS.MODULE_INTERVAL))
+            {
+                setDoWork(true);
+                setEnable(enable);
+
+            }
+            else {
+                setDoWork(false);
+                setEnable(enable);
+            }
         }
     }
 
@@ -397,6 +407,8 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
             Logger.d(TAG, "SurfaceDestroyed");
             clear_preview("onSurfaceTextureDestroyed");
             mSurface = null;
+            if (cameraUiWrapper != null)
+                cameraUiWrapper.getActivityInterface().getContext().unregisterReceiver(moduleChangedReciever);
 
 
             return false;

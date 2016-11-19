@@ -19,16 +19,21 @@
 
 package freed.cam.ui.themesample.cameraui.childs;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.AttributeSet;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.ui.handler.TimerHandler;
 
 /**
  * Created by troop on 13.06.2015.
  */
 public class UiSettingsChildModuleSwitch extends UiSettingsChild {
     private CameraWrapperInterface cameraUiWrapper;
+    private ModuleChangedReciever moduleChangedReciever;
 
     public UiSettingsChildModuleSwitch(Context context) {
         super(context);
@@ -38,11 +43,24 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         super(context, attrs);
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        moduleChangedReciever = new ModuleChangedReciever();
+        getContext().registerReceiver(moduleChangedReciever, new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
+    }
+
+    @Override
+    protected void onDetachedFromWindow()
+    {
+        super.onDetachedFromWindow();
+        getContext().unregisterReceiver(moduleChangedReciever);
+    }
+
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if(cameraUiWrapper.GetModuleHandler() != null)
-            cameraUiWrapper.GetModuleHandler().addListner(this);
             cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(this);
         SetParameter(cameraUiWrapper.GetParameterHandler().Module);
         if (cameraUiWrapper.GetModuleHandler() == null)
@@ -60,15 +78,16 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
             onParameterValueChanged(cameraUiWrapper.GetModuleHandler().GetCurrentModule().ShortName());
     }
 
-    @Override
-    public void onModuleChanged(String module)
+    private class ModuleChangedReciever extends BroadcastReceiver
     {
-        valueText.post(new Runnable() {
-            @Override
-            public void run() {
-                if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null)
-                    valueText.setText(cameraUiWrapper.GetModuleHandler().GetCurrentModule().ShortName());
-            }
-        });
+
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            if (cameraUiWrapper == null)
+                return;
+            if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null)
+                valueText.setText(cameraUiWrapper.GetModuleHandler().GetCurrentModule().ShortName());
+        }
     }
 }

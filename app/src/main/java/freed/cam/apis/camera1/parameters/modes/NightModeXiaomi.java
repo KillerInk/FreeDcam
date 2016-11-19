@@ -19,11 +19,16 @@
 
 package freed.cam.apis.camera1.parameters.modes;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Camera;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
 
 /**
  * Created by troop on 10.06.2016.
@@ -41,7 +46,7 @@ public class NightModeXiaomi extends BaseModeParameter
         if(parameters.get(KEYS.MORPHO_HHT) != null && parameters.get(KEYS.AE_BRACKET_HDR) != null) {
             isSupported = true;
             isVisible = true;
-            cameraUiWrapper.GetModuleHandler().addListner(this);
+            cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
             cameraUiWrapper.GetParameterHandler().PictureFormat.addEventListner(this);
         }
     }
@@ -85,21 +90,26 @@ public class NightModeXiaomi extends BaseModeParameter
         return new String[] {KEYS.OFF,KEYS.ON};
     }
 
-    @Override
-    public void onModuleChanged(String module)
+
+    private class ModuleChangedReciever extends BroadcastReceiver
     {
-        curmodule = module;
-        switch (module)
-        {
-            case KEYS.MODULE_VIDEO:
-            case KEYS.MODULE_HDR:
-                Hide();
-                break;
-            default:
-                if (format.contains(KEYS.JPEG)) {
-                    Show();
-                    BackgroundIsSupportedChanged(true);
-                }
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
+            curmodule = module;
+            switch (module)
+            {
+                case KEYS.MODULE_VIDEO:
+                case KEYS.MODULE_HDR:
+                    Hide();
+                    break;
+                default:
+                    if (format.contains(KEYS.JPEG)) {
+                        Show();
+                        BackgroundIsSupportedChanged(true);
+                    }
+            }
         }
     }
 

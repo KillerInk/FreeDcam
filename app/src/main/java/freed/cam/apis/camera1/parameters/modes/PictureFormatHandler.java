@@ -19,6 +19,10 @@
 
 package freed.cam.apis.camera1.parameters.modes;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 
@@ -60,6 +64,8 @@ public class PictureFormatHandler extends BaseModeParameter
         KEYS.DNG
     };
 
+
+
     /***
      * @param parameters   Hold the Camera Parameters
      * @param cameraUiWrapper Hold the camera object
@@ -67,6 +73,7 @@ public class PictureFormatHandler extends BaseModeParameter
     public PictureFormatHandler(Parameters parameters, CameraWrapperInterface cameraUiWrapper, ParametersHandler parametersHandler)
     {
         super(parameters, cameraUiWrapper);
+        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
         this.parametersHandler = parametersHandler;
         if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
         {
@@ -191,19 +198,25 @@ public class PictureFormatHandler extends BaseModeParameter
             return new String[]{CaptureMode[JPEG]};
     }
 
-    @Override
-    public void onModuleChanged(String module)
+
+    private class ModuleChangedReciever extends BroadcastReceiver
     {
-        switch (module)
-        {
-            case KEYS.MODULE_PICTURE:
-            case KEYS.MODULE_INTERVAL:
-            case KEYS.MODULE_HDR:
-                BackgroundIsSupportedChanged(true);
-                break;
-            case KEYS.MODULE_VIDEO:
-                BackgroundIsSupportedChanged(false);
-                break;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
+            switch (module)
+            {
+                case KEYS.MODULE_PICTURE:
+                case KEYS.MODULE_INTERVAL:
+                case KEYS.MODULE_HDR:
+                    BackgroundIsSupportedChanged(true);
+                    break;
+                case KEYS.MODULE_VIDEO:
+                    BackgroundIsSupportedChanged(false);
+                    break;
+            }
         }
     }
 

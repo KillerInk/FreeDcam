@@ -23,6 +23,10 @@ package freed.cam.apis.camera1.parameters.manual.qcom;
  * Created by George on 1/21/2015.
  */
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 
@@ -33,6 +37,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.cam.apis.camera1.parameters.manual.zte.FXManualParameter;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.Logger;
 
@@ -75,6 +80,7 @@ public class BurstManualParam extends BaseManualParameter
                 max =  6;
             stringvalues = createStringArray(2,max,1);
             currentInt = 0;
+            cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
         }
     }
 
@@ -144,24 +150,22 @@ public class BurstManualParam extends BaseManualParameter
         return stringvalues[currentInt];
     }
 
-    @Override
-    public ModuleChangedEvent GetModuleListner() {
-        return moduleListner;
-    }
 
-    private final ModuleChangedEvent moduleListner =new ModuleChangedEvent() {
+    private class ModuleChangedReciever extends BroadcastReceiver
+    {
         @Override
-        public void onModuleChanged(String module)
-        {
+        public void onReceive(Context context, Intent intent) {
+
+            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
             if ((module.equals(KEYS.MODULE_VIDEO) || module.equals(KEYS.MODULE_HDR)) && isSupported)
                 ThrowBackgroundIsSupportedChanged(false);
             else if ((module.equals(KEYS.MODULE_PICTURE)
                     || module.equals(KEYS.MODULE_INTERVAL)
-                    )&& isSupported)
+            )&& isSupported)
             {
                 ThrowBackgroundIsSupportedChanged(true);
             }
         }
-    };
+    }
 
 }

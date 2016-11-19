@@ -37,7 +37,7 @@ import freed.utils.Logger;
  * if one of the key is empty the parameters is set as unsupported
  * when extending that class make sure you set isSupported and isVisible
  */
-public class BaseModeParameter extends AbstractModeParameter implements ModuleChangedEvent, I_ModeParameterEvent
+public class BaseModeParameter extends AbstractModeParameter implements I_ModeParameterEvent
 {
     /*
     The Key to set/get a value from the parameters
@@ -148,10 +148,6 @@ public class BaseModeParameter extends AbstractModeParameter implements ModuleCh
         return valuesArray;
     }
 
-    @Override
-    public void onModuleChanged(String module) {
-
-    }
 
     @Override
     public void onParameterValueChanged(String val) {

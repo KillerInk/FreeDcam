@@ -61,10 +61,11 @@ public class Xiaomi_Mi3_4 extends BaseQcomDevice {
 
     @Override
     public ManualParameterInterface getSkintoneParameter() {
-        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters, cameraUiWrapper);
+        /*AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters, cameraUiWrapper);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
         cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Skintone).GetModuleListner());
-        return Skintone;
+        return Skintone;*/
+        return null;
     }
 
     @Override

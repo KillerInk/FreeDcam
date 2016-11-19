@@ -19,6 +19,9 @@
 
 package freed.cam.apis.camera1.parameters.manual;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.KEYS;
@@ -201,26 +204,6 @@ public class BaseManualParameter extends AbstractManualParameter
         @Override
         public void onVisibilityChanged(boolean visible) {
 
-        }
-    };
-
-    public ModuleChangedEvent GetModuleListner()
-    {
-        return moduleListner;
-    }
-
-    private final ModuleChangedEvent moduleListner =new ModuleChangedEvent() {
-        @Override
-        public void onModuleChanged(String module)
-        {
-            if (module.equals(KEYS.MODULE_VIDEO) && isSupported)
-                ThrowBackgroundIsSupportedChanged(true);
-            else if (module.equals(KEYS.MODULE_PICTURE)
-                    || module.equals(KEYS.MODULE_INTERVAL)
-                    || module.equals(KEYS.MODULE_HDR))
-            {
-                ThrowBackgroundIsSupportedChanged(isVisible);
-            }
         }
     };
 }

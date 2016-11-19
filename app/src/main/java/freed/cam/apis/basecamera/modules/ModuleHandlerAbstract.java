@@ -19,6 +19,7 @@
 
 package freed.cam.apis.basecamera.modules;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -60,7 +61,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     protected CameraWrapperInterface cameraUiWrapper;
 
     //holds all listner for the modulechanged event
-    private final ArrayList<ModuleChangedEvent> moduleChangedListner;
+    //private final ArrayList<ModuleChangedEvent> moduleChangedListner;
     //holds all listner for recorstatechanged
     private final ArrayList<I_RecorderStateChanged> RecorderStateListners;
     private Handler uihandler;
@@ -75,7 +76,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     {
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();
-        moduleChangedListner = new ArrayList<>();
+        //moduleChangedListner = new ArrayList<>();
         RecorderStateListners = new ArrayList<>();
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
         uihandler = new Handler(Looper.getMainLooper());
@@ -124,15 +125,15 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     }
 
 
-    /**
+  /*  *//**
      * Add a listner for Moudlechanged events
      * @param listner the listner for the event
-     */
+     *//*
     public  void addListner(ModuleChangedEvent listner)
     {
         if (!moduleChangedListner.contains(listner))
             moduleChangedListner.add(listner);
-    }
+    }*/
 
     /**
      * Gets thrown when the module has changed
@@ -140,7 +141,10 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
      */
     public void ModuleHasChanged(final String module)
     {
-        if (moduleChangedListner.size() == 0)
+        Intent intent = new Intent("troop.com.freedcam.MODULE_CHANGED");
+        intent.putExtra("INTENT_EXTRA_MODULENAME", module);
+        cameraUiWrapper.getActivityInterface().getContext().sendBroadcast(intent);
+        /*if (moduleChangedListner.size() == 0)
             return;
         for (int i = 0; i < moduleChangedListner.size(); i++)
         {
@@ -159,7 +163,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
                 });
 
             }
-        }
+        }*/
     }
 
 
@@ -177,7 +181,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     //clears all listner this happens when the camera gets destroyed
     public void CLEAR()
     {
-        moduleChangedListner.clear();
+        //moduleChangedListner.clear();
         RecorderStateListners.clear();
         stopBackgroundThread();
     }

@@ -49,7 +49,7 @@ import freed.utils.Logger;
 /**
  * Created by troop on 20.06.2015.
  */
-public class ShutterButton extends Button implements ModuleChangedEvent
+public class ShutterButton extends Button
 {
     private CameraWrapperInterface cameraUiWrapper;
     private AnimationDrawable shutterOpenAnimation;
@@ -148,16 +148,41 @@ public class ShutterButton extends Button implements ModuleChangedEvent
         }
     }
 
+    private class ModuleChangedReciever extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
+            if (cameraUiWrapper.GetParameterHandler().ContShootMode != null && cameraUiWrapper.GetParameterHandler().ContShootMode.IsSupported())
+            {
+                contshotListner.onParameterValueChanged(cameraUiWrapper.GetParameterHandler().ContShootMode.GetValue());
+
+            }
+            if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+            {
+                switchBackground(CaptureStates.video_recording_stop, true);
+            }
+            else  if((cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_PICTURE)
+                    || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_HDR)
+                    || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET))
+                    && !contshot) {
+                switchBackground(CaptureStates.image_capture_stop,true);
+            }
+            else if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL)
+                    || contshot || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_STACKING))
+                switchBackground(CaptureStates.continouse_capture_stop,false);
+        }
+    }
+
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper, UserMessageHandler messageHandler)
     {
         if (cameraUiWrapper.GetModuleHandler() == null)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.GetModuleHandler().addListner(this);
         if (cameraUiWrapper.GetParameterHandler().ContShootMode != null)
             cameraUiWrapper.GetParameterHandler().ContShootMode.addEventListner(this.contshotListner);
 
-        this.onModuleChanged("");
         Logger.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
     }
 
@@ -170,35 +195,6 @@ public class ShutterButton extends Button implements ModuleChangedEvent
         }
     }
 
-    @Override
-    public void onModuleChanged(String module) {
-
-        Logger.d(this.TAG, "Module Changed");
-        if (this.cameraUiWrapper.GetParameterHandler().ContShootMode != null && this.cameraUiWrapper.GetParameterHandler().ContShootMode.IsSupported())
-        {
-            this.contshotListner.onParameterValueChanged(this.cameraUiWrapper.GetParameterHandler().ContShootMode.GetValue());
-
-        }
-        post(new Runnable() {
-            @Override
-            public void run() {
-                if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
-                {
-                    switchBackground(CaptureStates.video_recording_stop, true);
-                }
-                else  if((cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_PICTURE)
-                        || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_HDR)
-                        || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET))
-                        && !contshot) {
-                    switchBackground(CaptureStates.image_capture_stop,true);
-                }
-                else if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL)
-                        || contshot || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_STACKING))
-                    switchBackground(CaptureStates.continouse_capture_stop,false);
-
-            }
-        });
-    }
 
     private final AbstractModeParameter.I_ModeParameterEvent contshotListner = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override

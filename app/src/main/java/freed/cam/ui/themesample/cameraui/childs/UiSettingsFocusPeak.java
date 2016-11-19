@@ -19,7 +19,10 @@
 
 package freed.cam.ui.themesample.cameraui.childs;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -30,7 +33,10 @@ import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 /**
  * Created by troop on 09.09.2015.
  */
-public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChildClick {
+public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChildClick
+{
+    private ModuleChangedReciever moduleChangedReciever;
+
     public UiSettingsFocusPeak(Context context) {
         super(context);
     }
@@ -39,6 +45,18 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
         super(context, attrs);
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        moduleChangedReciever = new ModuleChangedReciever();
+        getContext().registerReceiver(moduleChangedReciever, new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        getContext().unregisterReceiver(moduleChangedReciever);
+    }
 
     public void SetUiItemClickListner(SettingsChildClick menuItemClick) {
         SetMenuItemClickListner(this,false);
@@ -46,9 +64,6 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
 
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-
-        cameraUiWrapper.GetModuleHandler().addListner(this);
-
         onModuleChanged(cameraUiWrapper.GetModuleHandler().GetCurrentModuleName());
 
     }
@@ -66,16 +81,20 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
 
     }
 
-    @Override
-    public void onModuleChanged(String module)
+
+    private class ModuleChangedReciever extends BroadcastReceiver
     {
-        if ((module.equals(KEYS.MODULE_PICTURE)
-                || module.equals(KEYS.MODULE_HDR)
-                || module.equals(KEYS.MODULE_INTERVAL)
-        || module.equals(KEYS.MODULE_AFBRACKET))
-                && parameter != null && parameter.IsSupported())
-            setVisibility(View.VISIBLE);
-        else
-            setVisibility(View.GONE);
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
+            if ((module.equals(KEYS.MODULE_PICTURE)
+                    || module.equals(KEYS.MODULE_HDR)
+                    || module.equals(KEYS.MODULE_INTERVAL)
+                    || module.equals(KEYS.MODULE_AFBRACKET))
+                    && parameter != null && parameter.IsSupported())
+                setVisibility(View.VISIBLE);
+            else
+                setVisibility(View.GONE);
+        }
     }
 }

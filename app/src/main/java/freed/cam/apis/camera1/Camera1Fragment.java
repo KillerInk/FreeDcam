@@ -19,6 +19,10 @@
 
 package freed.cam.apis.camera1;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -62,13 +66,14 @@ import freed.utils.RenderScriptHandler;
 /**
  * Created by troop on 06.06.2015.
  */
-public class Camera1Fragment extends CameraFragmentAbstract implements I_ParametersLoaded, ModuleChangedEvent, SurfaceHolder.Callback
+public class Camera1Fragment extends CameraFragmentAbstract implements I_ParametersLoaded, SurfaceHolder.Callback
 {
     protected ExtendedSurfaceView extendedSurfaceView;
     protected TextureViewRatio preview;
     private final String TAG = Camera1Fragment.class.getSimpleName();
     public FocusPeakProcessorAp1 focusPeakProcessorAp1;
     boolean cameraRdy;
+    private ModuleChangedReciever moduleChangedReciever;
 
     @Override
     public String CameraApiName() {
@@ -93,7 +98,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         parametersHandler.AddParametersLoadedListner(this);
         this.extendedSurfaceView.ParametersHandler = parametersHandler;
         moduleHandler = new ModuleHandler(this);
-        moduleHandler.addListner(this);
+
+        moduleChangedReciever = new ModuleChangedReciever();
+        getActivityInterface().getContext().registerReceiver(moduleChangedReciever,new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
 
         Focus = new FocusHandler(this);
 
@@ -122,7 +129,12 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         super.onViewCreated(view, savedInstanceState);
     }
 
-
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        getActivityInterface().getContext().unregisterReceiver(moduleChangedReciever);
+    }
 
     private boolean hasLGFramework()
     {
@@ -254,7 +266,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     public void ParametersLoaded(CameraWrapperInterface cameraWrapper)
     {
         parametersHandler.PictureSize.addEventListner(onPreviewSizeShouldChange);
-        //parametersHandler.VideoSize.addEventListner(onPreviewSizeShouldChange);
     }
 
     //this gets called when the cameraholder has open the camera
@@ -289,7 +300,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     }
 
 
-    AbstractModeParameter.I_ModeParameterEvent onPreviewSizeShouldChange = new AbstractModeParameter.I_ModeParameterEvent() {
+    public AbstractModeParameter.I_ModeParameterEvent onPreviewSizeShouldChange = new AbstractModeParameter.I_ModeParameterEvent() {
 
         @Override
         public void onParameterValueChanged(String val)
@@ -447,10 +458,13 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         return optimalSize;
     }
 
-    @Override
-    public void onModuleChanged(String module)
+    private class ModuleChangedReciever extends BroadcastReceiver
     {
-        onPreviewSizeShouldChange.onParameterValueChanged(parametersHandler.Focuspeak.GetValue());
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            onPreviewSizeShouldChange.onParameterValueChanged(parametersHandler.Focuspeak.GetValue());
+        }
     }
 
     @Override
