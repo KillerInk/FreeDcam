@@ -22,10 +22,7 @@ package freed.cam.apis.basecamera.modules;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Looper;
-
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;

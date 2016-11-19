@@ -91,7 +91,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     public void onDestroyView()
     {
         moduleHandler.CLEAR();
-        moduleHandler.CLEARWORKERLISTNER();
         super.onDestroyView();
 
     }

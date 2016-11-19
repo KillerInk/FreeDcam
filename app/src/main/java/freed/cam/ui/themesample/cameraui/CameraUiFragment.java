@@ -64,7 +64,7 @@ import freed.viewer.screenslide.ScreenSlideFragment.I_ThumbClick;
 /**
  * Created by troop on 14.06.2015.
  */
-public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener, ModuleHandlerAbstract.CaptureStateChanged
+public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
     private UiSettingsChild flash;
@@ -124,7 +124,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             Logger.d(TAG, "failed to set cameraUiWrapper");
             return;
         }
-        cameraUiWrapper.GetModuleHandler().SetWorkListner(this);
         flash.SetParameter(cameraUiWrapper.GetParameterHandler().FlashMode);
         iso.SetParameter(cameraUiWrapper.GetParameterHandler().IsoMode);
         autoexposure.SetParameter(cameraUiWrapper.GetParameterHandler().ExposureMode);
@@ -442,43 +441,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     //On Settings Menu Click
     @Override
     public void onClick(View v) {
-
-    }
-
-    @Override
-    public void onCaptureStateChanged(ModuleHandlerAbstract.CaptureStates captureStates)
-    {
-       /* switch (captureStates)
-        {
-            case video_recording_start:
-                hideVIdItems();
-                break;
-            case video_recording_stop:
-                showVIdItems();
-                break;
-        }*/
-        /*switch (captureStates)
-        {
-            case image_capture_stop:
-                enableUiItems();
-                break;
-            case image_capture_start:
-                disableUiItems();
-                break;
-            case continouse_capture_start:
-                break;
-            case continouse_capture_stop:
-                break;
-            case continouse_capture_work_start:
-                break;
-            case continouse_capture_work_stop:
-                break;
-            case cont_capture_stop_while_working:
-                break;
-            case cont_capture_stop_while_notworking:
-                break;
-        }
-*/
 
     }
 
