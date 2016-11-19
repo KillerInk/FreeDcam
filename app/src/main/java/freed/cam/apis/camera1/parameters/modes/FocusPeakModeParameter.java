@@ -25,6 +25,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build.VERSION;
 
+import com.troop.freedcam.R;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
@@ -43,7 +45,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
         super(null, cameraUiWrapper);
         this.focusPeakProcessorAp1 = focusPeakProcessorAp1;
         moduleChangedReciever = new ModuleChangedReciever();
-        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(moduleChangedReciever, new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
+        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(moduleChangedReciever, new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_MODULECHANGED)));
 
     }
 
@@ -122,7 +124,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
+            String module = intent.getStringExtra(cameraUiWrapper.getContext().getString(R.string.INTENT_EXTRA_MODULECHANGED));
             if ((module.equals(KEYS.MODULE_PICTURE)
                     || module.equals(KEYS.MODULE_HDR)
                     || module.equals(KEYS.MODULE_INTERVAL)

@@ -25,6 +25,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.hardware.Camera.Parameters;
 
+import com.troop.freedcam.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -89,7 +91,7 @@ public class HDRModeParameter extends BaseModeParameter
                 isSupported = false;
         }
         if (isSupported) {
-            cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
+            cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_MODULECHANGED)));
             cameraUiWrapper.GetParameterHandler().PictureFormat.addEventListner(this);
         }
 
@@ -226,7 +228,7 @@ public class HDRModeParameter extends BaseModeParameter
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
+            String module = intent.getStringExtra(cameraUiWrapper.getContext().getString(R.string.INTENT_EXTRA_MODULECHANGED));
             if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
                     || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
                     || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G2

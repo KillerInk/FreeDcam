@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="INTENT_MODULECHANGED">troop.com.freedcam.MODULE_CHANGED</string>
+    <string name="INTENT_EXTRA_MODULECHANGED">INTENT_EXTRA_MODULENAME</string>
+
+    <string name="INTENT_RECORDSTATECHANGED">troop.com.freedcam.RECORDSTATECHANGED</string>
+    <string name="INTENT_EXTRA_RECORDSTATECHANGED">INTENT_EXTRA_RECORDSTATE</string>
+
+    <string name="INTENT_CAPTURESTATE">troop.com.freedcam.CAPTURESTATE</string>
+    <string name="INTENT_EXTRA_CAPTURESTATE">INTENT_EXTRA_CAPTURESTATE</string>
+</resources>

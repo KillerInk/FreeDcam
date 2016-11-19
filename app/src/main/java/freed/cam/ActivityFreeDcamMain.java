@@ -285,9 +285,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (settingsMenuFragment != null)
             settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
         Logger.d(TAG, "add events");
-        //register timer to to moduleevent handler that it get shown/hidden when its video or not
-        //and start/stop working when recording starts/stops
-        cameraUiWrapper.GetModuleHandler().AddRecoderChangedListner(timerHandler);
     }
 
     /**
