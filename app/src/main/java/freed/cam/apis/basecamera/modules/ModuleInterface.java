@@ -24,7 +24,6 @@ package freed.cam.apis.basecamera.modules;
  */
 public interface ModuleInterface
 {
-    void SetCaptureStateChangedListner(ModuleHandlerAbstract.CaptureStateChanged captureStateChangedListner);
     /**
      * holds the modulename
      * @return the name of the module

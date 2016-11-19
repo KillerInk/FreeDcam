@@ -47,14 +47,4 @@ public class IntervalApi2 extends IntervalModule implements I_PreviewWrapper
         picModule.stopPreview();
     }
 
-    @Override
-    public void InitModule()
-    {
-        picModule.InitModule();
-    }
-
-    @Override
-    public void DestroyModule() {
-        picModule.DestroyModule();
-    }
 }

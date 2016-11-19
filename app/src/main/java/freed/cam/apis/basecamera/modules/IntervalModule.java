@@ -19,6 +19,10 @@
 
 package freed.cam.apis.basecamera.modules;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 
 import freed.cam.apis.KEYS;
@@ -35,6 +39,7 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
     private final ModuleAbstract picModule;
     private final IntervalHandler intervalHandler;
     private  final String TAG  = IntervalModule.class.getSimpleName();
+    protected CaptureStateReciever captureStateReciever = new CaptureStateReciever();
 
     public IntervalModule(ModuleAbstract picModule, CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
         super(cameraUiWrapper, mBackgroundHandler);
@@ -83,18 +88,33 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
 
     @Override
     public void InitModule() {
+        IntentFilter intentFilter = new IntentFilter(
+                "troop.com.freedcam.capturestateIntent");
+        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(captureStateReciever,intentFilter);
         picModule.InitModule();
-        picModule.SetCaptureStateChangedListner(this);
+
     }
 
-    @Override
+   /* @Override
     public void SetCaptureStateChangedListner(CaptureStateChanged captureStateChangedListner) {
         super.SetCaptureStateChangedListner(captureStateChangedListner);
         picModule.SetCaptureStateChangedListner(this);
+    }*/
+
+    class CaptureStateReciever extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            int state = intent.getIntExtra("CaptureState",2);
+            CaptureStates show = CaptureStates.values()[state];
+            onCaptureStateChanged(show);
+        }
     }
 
     @Override
     public void DestroyModule() {
+        cameraUiWrapper.getActivityInterface().getContext().unregisterReceiver(captureStateReciever);
         picModule.DestroyModule();
     }
 
