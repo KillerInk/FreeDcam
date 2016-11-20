@@ -123,10 +123,6 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
     }
 
     @Override
-    public void onModuleChanged(String module) {
-    }
-
-    @Override
     public void ParametersLoaded(CameraWrapperInterface cameraWrapper)
     {
     }

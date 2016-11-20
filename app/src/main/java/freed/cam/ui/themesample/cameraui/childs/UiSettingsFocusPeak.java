@@ -26,6 +26,8 @@ import android.content.IntentFilter;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.troop.freedcam.R;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
@@ -49,7 +51,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         moduleChangedReciever = new ModuleChangedReciever();
-        getContext().registerReceiver(moduleChangedReciever, new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
+        getContext().registerReceiver(moduleChangedReciever, new IntentFilter(getResources().getString(R.string.INTENT_MODULECHANGED)));
     }
 
     @Override
@@ -64,7 +66,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
 
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        onModuleChanged(cameraUiWrapper.GetModuleHandler().GetCurrentModuleName());
+        //onModuleChanged(cameraUiWrapper.GetModuleHandler().GetCurrentModuleName());
 
     }
 
@@ -86,7 +88,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
+            String module = intent.getStringExtra(getResources().getString(R.string.INTENT_EXTRA_MODULECHANGED));
             if ((module.equals(KEYS.MODULE_PICTURE)
                     || module.equals(KEYS.MODULE_HDR)
                     || module.equals(KEYS.MODULE_INTERVAL)

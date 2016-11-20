@@ -45,8 +45,6 @@ import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
-import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.I_AspectRatio;
 import freed.utils.FreeDPool;
@@ -330,9 +328,6 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     public void onCameraStatusChanged(String status) {
     }
 
-    @Override
-    public void onModuleChanged(ModuleInterface module) {
-    }
 
     private class ModuleChangedReciever extends BroadcastReceiver
     {

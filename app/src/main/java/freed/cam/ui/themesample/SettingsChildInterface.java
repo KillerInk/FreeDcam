@@ -22,7 +22,6 @@ package freed.cam.ui.themesample;
 import android.view.View;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
@@ -30,7 +29,7 @@ import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 /**
  * Created by troop on 16.06.2016.
  */
-public interface SettingsChildInterface extends ModuleChangedEvent, AbstractModeParameter.I_ModeParameterEvent,I_ParametersLoaded,View.OnClickListener
+public interface SettingsChildInterface extends AbstractModeParameter.I_ModeParameterEvent,I_ParametersLoaded,View.OnClickListener
 {
     /**
      * Set stuff that is needed to work

@@ -71,7 +71,6 @@ import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
-import freed.utils.ImageSaver;
 import freed.utils.Logger;
 
 

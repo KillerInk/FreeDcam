@@ -43,7 +43,6 @@ import com.troop.freedcam.R.layout;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
 import freed.cam.ui.guide.GuideHandler;

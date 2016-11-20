@@ -37,10 +37,8 @@ import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import freed.cam.apis.sonyremote.SonyCameraFragment;
-import freed.cam.ui.handler.TimerHandler;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;

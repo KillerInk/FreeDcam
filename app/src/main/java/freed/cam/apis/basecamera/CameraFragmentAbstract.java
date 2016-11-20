@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.utils.AppSettingsManager;
 import freed.utils.RenderScriptHandler;
@@ -249,17 +248,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
             });
     }
 
-    @Override
-    public void onModuleChanged(final ModuleInterface module) {
-        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-            uiHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    cameraChangedListner.onModuleChanged(module);
-                }
-            });
-
-    }
 
     @Override
     public void onCameraOpenFinish(final String message)

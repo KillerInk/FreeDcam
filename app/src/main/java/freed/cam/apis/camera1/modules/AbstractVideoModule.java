@@ -35,7 +35,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.CaptureStates;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;

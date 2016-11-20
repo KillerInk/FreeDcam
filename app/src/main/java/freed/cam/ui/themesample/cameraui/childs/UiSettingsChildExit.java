@@ -61,7 +61,4 @@ public class UiSettingsChildExit extends UiSettingsChild
 
     }
 
-    @Override
-    public void onModuleChanged(String module) {
-    }
 }

@@ -26,7 +26,6 @@ import android.content.IntentFilter;
 import android.util.AttributeSet;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.ui.handler.TimerHandler;
 
 /**
  * Created by troop on 13.06.2015.
