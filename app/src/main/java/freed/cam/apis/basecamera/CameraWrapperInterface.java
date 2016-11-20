@@ -70,13 +70,6 @@ public interface CameraWrapperInterface extends CameraStateEvents
     AbstractFocusHandler getFocusHandler();
 
     /**
-     * set the listner that get notifyed when camera state has changed
-     * @param cameraChangedListner to notify
-     */
-    void SetCameraStateChangedListner(CameraStateEvents cameraChangedListner);
-
-
-    /**
      * get the left margine between display and preview
      * @return
      */
@@ -111,5 +104,41 @@ public interface CameraWrapperInterface extends CameraStateEvents
     RenderScriptHandler getRenderScriptHandler();
 
     ActivityInterface getActivityInterface();
+
+    /* *//**
+ * gets thrown when camera starts open
+ * @param message
+ */
+    void onCameraOpen(String message);
+    /**
+ * gets thrown when camera open has finish
+ * @param message
+ */
+    void onCameraOpenFinish(String message);
+    /**
+ * gets thrown when camera is closed
+ * @param message
+ */
+    void onCameraClose(String message);
+    /**
+ * gets thrown when preview is running
+ * @param message
+ */
+    void onPreviewOpen(String message);
+    /**
+ * gets thrown when preview gets closed
+ * @param message
+ */
+    void onPreviewClose(String message);
+    /**
+ * gets thrown when camera has a problem
+ * @param error to send
+ */
+    void onCameraError(String error);
+    /**
+ * gets thrown when camera status changed
+ * @param status that has changed
+ */
+    void onCameraStatusChanged(String status);
 
 }

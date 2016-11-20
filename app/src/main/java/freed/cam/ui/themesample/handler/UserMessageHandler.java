@@ -19,11 +19,16 @@
 
 package freed.cam.ui.themesample.handler;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 
 import freed.cam.apis.basecamera.CameraStateEvents;
@@ -39,20 +44,28 @@ public class UserMessageHandler implements CameraStateEvents
     private final TextView messageTextView;
     private CameraWrapperInterface cameraUiWrapper;
     private final Handler handler;
+    private Context context;
+    private CameraStatusReciever cameraStatusReciever;
 
     public UserMessageHandler(View view)
     {
         messageHolder = (LinearLayout)view.findViewById(id.userMessageHolder);
         messageTextView = (TextView)view.findViewById(id.textView_usermessage);
-
+        context = view.getContext();
         handler = new Handler();
+        cameraStatusReciever = new CameraStatusReciever();
+        context.registerReceiver(cameraStatusReciever,new IntentFilter(context.getString(R.string.INTENT_EXTRA_CAMERAESTATE)));
 
+    }
+
+    public void Destroy()
+    {
+        context.unregisterReceiver(cameraStatusReciever);
     }
 
     public void SetCameraUiWrapper(CameraWrapperInterface wrapper)
     {
         cameraUiWrapper =wrapper;
-        cameraUiWrapper.SetCameraStateChangedListner(this);
     }
 
     private void SetUserMessage(String msg)
@@ -72,44 +85,17 @@ public class UserMessageHandler implements CameraStateEvents
         }
     };
 
-    @Override
-    public void onCameraOpen(String message) {
-
-    }
-
-    @Override
-    public void onCameraOpenFinish(String message) {
-
-    }
-
-    @Override
-    public void onCameraClose(String message) {
-
-    }
-
-    @Override
-    public void onPreviewOpen(String message) {
-
-    }
-
-    @Override
-    public void onPreviewClose(String message) {
-
-    }
-
-    @Override
-    public void onCameraError(final String error)
+    private class CameraStatusReciever extends BroadcastReceiver
     {
-        messageTextView.post(new Runnable() {
-            @Override
-            public void run() {
-                SetUserMessage(error);
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int status = intent.getIntExtra(context.getString(R.string.INTENT_EXTRA_CAMERAESTATE),CAMERA_CLOSE);
+            if (status == CAMERA_ERROR)
+            {
+                String msg = intent.getStringExtra(context.getString(R.string.INTENT_EXTRA_CAMERAESTATEMSG));
+                SetUserMessage(msg);
             }
-        });
+        }
     }
 
-    @Override
-    public void onCameraStatusChanged(String status) {
-
-    }
 }

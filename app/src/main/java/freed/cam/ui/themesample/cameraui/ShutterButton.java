@@ -143,7 +143,7 @@ public class ShutterButton extends Button
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            int state = intent.getIntExtra(getResources().getString(R.string.INTENT_CAPTURESTATE),2);
+            int state = intent.getIntExtra(getResources().getString(R.string.INTENT_EXTRA_CAPTURESTATE),2);
             switchBackground(state,true);
         }
     }
@@ -153,6 +153,8 @@ public class ShutterButton extends Button
         @Override
         public void onReceive(Context context, Intent intent)
         {
+            if (cameraUiWrapper == null)
+                return;
             String module = intent.getStringExtra(getResources().getString(R.string.INTENT_EXTRA_MODULECHANGED));
             if (cameraUiWrapper.GetParameterHandler().ContShootMode != null && cameraUiWrapper.GetParameterHandler().ContShootMode.IsSupported())
             {
@@ -167,7 +169,7 @@ public class ShutterButton extends Button
                     || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_HDR)
                     || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET))
                     && !contshot) {
-                switchBackground(CaptureStates.RECORDING_STOP,true);
+                switchBackground(CaptureStates.IMAGE_CAPTURE_STOP,true);
             }
             else if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL)
                     || contshot || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_STACKING))

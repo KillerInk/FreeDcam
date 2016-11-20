@@ -37,6 +37,8 @@ import android.renderscript.Type.Builder;
 import android.view.Surface;
 import android.view.TextureView.SurfaceTextureListener;
 
+import com.troop.freedcam.R;
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -74,6 +76,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     private int expectedByteSize;
     private final BlockingQueue<byte[]> frameQueue = new ArrayBlockingQueue<>(2);
     private ModuleChangedReciever moduleChangedReciever;
+    private CameraStateReciever cameraStateReciever;
 
     public FocusPeakProcessorAp1(I_AspectRatio output, CameraWrapperInterface cameraUiWrapper, Context context, RenderScriptHandler renderScriptHandler)
     {
@@ -83,7 +86,9 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         this.context = context;
         this.renderScriptHandler = renderScriptHandler;
         moduleChangedReciever = new ModuleChangedReciever();
-        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(moduleChangedReciever, new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
+        cameraStateReciever = new CameraStateReciever();
+        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(moduleChangedReciever, new IntentFilter(context.getString(R.string.INTENT_MODULECHANGED)));
+        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(cameraStateReciever, new IntentFilter(context.getString(R.string.INTENT_CAMERASTATE)));
         output.setSurfaceTextureListener(previewSurfaceListner);
         clear_preview("Ctor");
     }
@@ -220,7 +225,6 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         }
         catch (RSRuntimeException ex)
         {
-            onCameraError("RenderScript Failed");
             clear_preview("reset()");
         }
     }
@@ -291,43 +295,15 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
 
     }
 
-    @Override
-    public void onCameraOpen(String message)
+    private class CameraStateReciever extends BroadcastReceiver
     {
-
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int state = intent.getIntExtra(context.getString(R.string.INTENT_EXTRA_CAMERAESTATE),0);
+            if (state == PREVIEW_OPEN)
+                clear_preview("onPreviewOpen");
+        }
     }
-
-    @Override
-    public void onCameraOpenFinish(String message) {
-
-    }
-
-    @Override
-    public void onCameraClose(String message) {
-
-    }
-
-    @Override
-    public void onPreviewOpen(String message)
-    {
-        Logger.d(TAG, "onPreviewOpen enable:" + enable);
-        clear_preview("onPreviewOpen");
-        //setEnable(enable);
-    }
-
-    @Override
-    public void onPreviewClose(String message)
-    {
-    }
-
-    @Override
-    public void onCameraError(String error) {
-    }
-
-    @Override
-    public void onCameraStatusChanged(String status) {
-    }
-
 
     private class ModuleChangedReciever extends BroadcastReceiver
     {
@@ -402,8 +378,10 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
             Logger.d(TAG, "SurfaceDestroyed");
             clear_preview("onSurfaceTextureDestroyed");
             mSurface = null;
-            if (cameraUiWrapper != null)
+            if (cameraUiWrapper != null) {
                 cameraUiWrapper.getActivityInterface().getContext().unregisterReceiver(moduleChangedReciever);
+                cameraUiWrapper.getActivityInterface().getContext().unregisterReceiver(cameraStateReciever);
+            }
 
 
             return false;

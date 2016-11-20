@@ -286,6 +286,12 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        messageHandler.Destroy();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         infoOverlayHandler.StartUpdating();

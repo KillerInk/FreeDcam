@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -75,6 +76,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     private String deviceNetworkToConnect;
     private boolean isWifiListnerRegistered = false;
     private boolean hasLocationPermission =false;
+    private CameraStateReciever cameraStateReciever;
     //private boolean connected;
     //private CameraHolderSony cameraHolder;
 
@@ -97,11 +99,18 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         Focus = new FocusHandler(this);
         cameraHolder = new CameraHolderSony(getContext(), surfaceView, this);
         moduleHandler.initModules();
+        cameraStateReciever = new CameraStateReciever();
 
-        SetCameraStateChangedListner(this);
+
         ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(this);
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(cameraStateReciever);
     }
 
     @Override
@@ -115,6 +124,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         }
         else
             setTextFromWifi("Location Permission is needed to find the camera!");
+
     }
 
     @Override
@@ -296,44 +306,26 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         return null;
     }
 
-
-    @Override
-    public void onCameraOpen(String message) {
-        STATE = STATE_DEVICE_CONNECTED;
-    }
-
-    @Override
-    public void onCameraOpenFinish(String message) {
-
-    }
-
-    @Override
-    public void onCameraClose(String message) {
-
-    }
-
-    @Override
-    public void onPreviewOpen(String message) {
-
-    }
-
-    @Override
-    public void onPreviewClose(String message) {
-
-    }
-
-    @Override
-    public void onCameraError(String error)
+    private class CameraStateReciever extends BroadcastReceiver
     {
-        hideTextViewWifi(false);
-        serverDevice = null;
-        STATE = STATE_IDEL;
-        Logger.d(TAG, "Camera error:" +error );
-        surfaceView.stop();
-        SetCameraStateChangedListner(SonyCameraFragment.this);
-        ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(SonyCameraFragment.this);
-        postDelayed(5000);
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int state = intent.getIntExtra(context.getString(R.string.INTENT_EXTRA_CAMERAESTATE),0);
+            if (state == CAMERA_ERROR)
+            {
+                String msg = intent.getStringExtra(context.getString(R.string.INTENT_EXTRA_CAMERAESTATEMSG));
+                hideTextViewWifi(false);
+                serverDevice = null;
+                STATE = STATE_IDEL;
+                Logger.d(TAG, "Camera error:" +msg);
+                surfaceView.stop();
+                ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(SonyCameraFragment.this);
+                postDelayed(5000);
+            }
+            else if (state == CAMERA_OPEN)
+                STATE = STATE_DEVICE_CONNECTED;
 
+        }
     }
 
     @Override

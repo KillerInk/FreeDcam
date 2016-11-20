@@ -19,51 +19,52 @@
 
 package freed.cam.apis.basecamera;
 
-import freed.cam.apis.basecamera.modules.ModuleInterface;
-
 /**
  * Created by troop on 17.12.2014.
  */
 public interface CameraStateEvents
 {
-    /**
+
+    int CAMERA_OPEN = 0;
+    int CAMERA_OPEN_FINISH = 1;
+    int CAMERA_CLOSE = 2;
+    int PREVIEW_OPEN = 3;
+    int PREVIEW_CLOSE = 4;
+    int CAMERA_ERROR = 5;
+    int CAMERA_STATUS_CHANGED = 6;
+   /* *//**
      * gets thrown when camera starts open
      * @param message
-     */
+     *//*
     void onCameraOpen(String message);
-    /**
+    *//**
      * gets thrown when camera open has finish
      * @param message
-     */
+     *//*
     void onCameraOpenFinish(String message);
-    /**
+    *//**
      * gets thrown when camera is closed
      * @param message
-     */
+     *//*
     void onCameraClose(String message);
-    /**
+    *//**
      * gets thrown when preview is running
      * @param message
-     */
+     *//*
     void onPreviewOpen(String message);
-    /**
+    *//**
      * gets thrown when preview gets closed
      * @param message
-     */
+     *//*
     void onPreviewClose(String message);
-    /**
+    *//**
      * gets thrown when camera has a problem
      * @param error to send
-     */
+     *//*
     void onCameraError(String error);
-    /**
+    *//**
      * gets thrown when camera status changed
      * @param status that has changed
-     */
-    void onCameraStatusChanged(String status);
-    /**
-     * gets thrown when current module has changed
-     * @param module
-     */
-    void onModuleChanged(ModuleInterface module);
+     *//*
+    void onCameraStatusChanged(String status);*/
 }
