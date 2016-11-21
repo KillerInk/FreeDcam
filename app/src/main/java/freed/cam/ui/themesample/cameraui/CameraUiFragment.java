@@ -135,7 +135,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
 
         messageHandler.SetCameraUiWrapper(cameraUiWrapper);
-        shutterButton.SetCameraUIWrapper(cameraUiWrapper, messageHandler);
         format.SetParameter(cameraUiWrapper.GetParameterHandler().PictureFormat);
         contShot.SetParameter(cameraUiWrapper.GetParameterHandler().ContShootMode);
         if (manualModesFragment != null)

@@ -12,4 +12,6 @@
     <string name="INTENT_CAMERASTATE">troop.com.freedcam.CAMERASTATE</string>
     <string name="INTENT_EXTRA_CAMERAESTATE">INTENT_EXTRA_CAMERASTATE</string>
     <string name="INTENT_EXTRA_CAMERAESTATEMSG">INTENT_EXTRA_CAMERASTATEMESSAGE</string>
+
+    <string name="INTENT_CAMERADOWORK">troop.com.freedcam.CAMERADOWORK</string>
 </resources>
