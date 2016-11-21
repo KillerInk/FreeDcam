@@ -19,18 +19,15 @@ import freed.cam.apis.basecamera.modules.CaptureStates;
  */
 public class TimerHandler
 {
-    private final TextView timerText;
-
-    private final ActivityFreeDcamMain activityFreeDcamMain;
-    private final MyTimer timer;
+    private TextView timerText;
+    private MyTimer timer;
 
     public TimerHandler(ActivityFreeDcamMain activityFreeDcamMain)
     {
-        this.activityFreeDcamMain = activityFreeDcamMain;
         timerText = (TextView) activityFreeDcamMain.findViewById(id.textView_RecCounter);
         timer = new MyTimer(timerText);
         activityFreeDcamMain.getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter(activityFreeDcamMain.getResources().getString(R.string.INTENT_MODULECHANGED)));
-        activityFreeDcamMain.getContext().registerReceiver(new RecordingStateReciever(), new IntentFilter(activityFreeDcamMain.getResources().getString(R.string.INTENT_RECORDSTATECHANGED)));
+        activityFreeDcamMain.getContext().registerReceiver(new CaptureStateChangedReceiver(), new IntentFilter(activityFreeDcamMain.getResources().getString(R.string.INTENT_CAPTURESTATE)));
         timerText.setVisibility(View.GONE);
     }
 
@@ -39,7 +36,9 @@ public class TimerHandler
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String module = intent.getStringExtra(activityFreeDcamMain.getResources().getString(R.string.INTENT_EXTRA_MODULECHANGED));
+            if(timerText == null)
+                return;
+            String module = intent.getStringExtra(timerText.getResources().getString(R.string.INTENT_EXTRA_MODULECHANGED));
             if (module.equals(KEYS.MODULE_VIDEO))
                 timerText.setVisibility(View.VISIBLE);
             else
@@ -47,21 +46,26 @@ public class TimerHandler
         }
     }
 
-    private class RecordingStateReciever extends BroadcastReceiver
+    private class CaptureStateChangedReceiver extends BroadcastReceiver
     {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            int status = intent.getIntExtra(activityFreeDcamMain.getString(R.string.INTENT_EXTRA_RECORDSTATECHANGED), CaptureStates.RECORDING_STOP);
+            if (timerText == null)
+                return;
+            int status = intent.getIntExtra(timerText.getContext().getString(R.string.INTENT_EXTRA_CAPTURESTATE),2);
             switch (status) {
                 case CaptureStates.RECORDING_STOP:
                     timer.Stop();
+                    timerText.setVisibility(View.GONE);
                     break;
                 case CaptureStates.RECORDING_START:
+                    timerText.setVisibility(View.VISIBLE);
                     timer.Start();
                     break;
                 default:
                     timer.Stop();
+                    timerText.setVisibility(View.GONE);
                     break;
             }
         }

@@ -136,7 +136,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         recorderSurface = null;
         isRecording = false;
 
-        cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(CaptureStates.RECORDING_STOP);
         changeCaptureState(CaptureStates.RECORDING_STOP);
         cameraHolder.CaptureSessionH.CreateCaptureSession();
         cameraUiWrapper.getActivityInterface().getImageSaver().scanFile(recordingFile);
@@ -188,7 +187,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             @Override
             public void onError(MediaRecorder mr, int what, int extra) {
                 Logger.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
-                cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(CaptureStates.RECORDING_STOP);
                 changeCaptureState(CaptureStates.RECORDING_STOP);
             }
         });
@@ -269,7 +267,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             mediaRecorder.prepare();
         } catch (IOException e) {
             Logger.exception(e);
-            cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(CaptureStates.RECORDING_STOP);
             changeCaptureState(CaptureStates.RECORDING_STOP);
             return;
         }
@@ -328,7 +325,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             }
             mediaRecorder.start();
             isRecording = true;
-            cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(CaptureStates.RECORDING_START);
+            changeCaptureState(CaptureStates.RECORDING_START);
         }
 
         @Override
