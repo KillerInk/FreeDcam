@@ -80,11 +80,11 @@ public class VideoModuleSony extends ModuleAbstract implements I_CameraStatusCha
         if (status.equals("IDLE") && isWorking)
         {
             isWorking = false;
-            changeCaptureState(CaptureStates.RECORDING_STOP);
+            sendCaptureStateChangedBroadCast(CaptureStates.RECORDING_STOP);
         }
         else if (status.equals("MovieWaitRecStart") && !isWorking) {
             isWorking = true;
-            changeCaptureState(CaptureStates.RECORDING_START);
+            sendCaptureStateChangedBroadCast(CaptureStates.RECORDING_START);
         }
 
     }

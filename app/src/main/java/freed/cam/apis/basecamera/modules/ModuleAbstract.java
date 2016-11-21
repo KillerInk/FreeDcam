@@ -54,19 +54,19 @@ public abstract class ModuleAbstract implements ModuleInterface
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
         this.mBackgroundHandler = mBackgroundHandler;
-        doWorkReceiver = new DoWorkReceiver();
+
     }
 
     /**
      * throw this when camera starts working to notify ui
      */
-    protected void changeCaptureState(final int captureStates)
+    protected void sendCaptureStateChangedBroadCast(int captureStates)
     {
         Logger.d(TAG, "work started");
         currentWorkState = captureStates;
         Intent intent = new Intent(cameraUiWrapper.getContext().getResources().getString(R.string.INTENT_CAPTURESTATE));
         intent.putExtra(cameraUiWrapper.getContext().getResources().getString(R.string.INTENT_EXTRA_CAPTURESTATE), currentWorkState);
-        cameraUiWrapper.getActivityInterface().getContext().sendBroadcast(intent);
+        cameraUiWrapper.getActivityInterface().SendLocalBroadCast(intent);
     }
 
     @Override
@@ -75,10 +75,6 @@ public abstract class ModuleAbstract implements ModuleInterface
     }
 
 
-    @Override
-    public boolean DoWork() {
-        return false;
-    }
 
     @Override
     public boolean IsWorking() {
@@ -92,7 +88,8 @@ public abstract class ModuleAbstract implements ModuleInterface
     public void InitModule()
     {
         isWorking = false;
-        cameraUiWrapper.getContext().registerReceiver(doWorkReceiver,new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_CAMERADOWORK)));
+        doWorkReceiver = new DoWorkReceiver();
+        cameraUiWrapper.getActivityInterface().RegisterLocalReciever(doWorkReceiver,new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_CAMERADOWORK)));
     }
 
     /**
@@ -101,7 +98,9 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public  void DestroyModule()
     {
-        cameraUiWrapper.getContext().unregisterReceiver(doWorkReceiver);
+        if (doWorkReceiver != null && cameraUiWrapper != null)
+            cameraUiWrapper.getActivityInterface().UnregisterLocalReciever(doWorkReceiver);
+        doWorkReceiver = null;
     }
 
     @Override

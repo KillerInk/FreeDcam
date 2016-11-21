@@ -26,6 +26,8 @@ import android.content.IntentFilter;
 import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 
+import com.troop.freedcam.R;
+
 import java.util.ArrayList;
 
 import freed.cam.apis.KEYS;
@@ -73,7 +75,7 @@ public class PictureFormatHandler extends BaseModeParameter
     public PictureFormatHandler(Parameters parameters, CameraWrapperInterface cameraUiWrapper, ParametersHandler parametersHandler)
     {
         super(parameters, cameraUiWrapper);
-        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
+        cameraUiWrapper.getActivityInterface().RegisterLocalReciever(new ModuleChangedReciever(), new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
         this.parametersHandler = parametersHandler;
         if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
         {
@@ -205,7 +207,7 @@ public class PictureFormatHandler extends BaseModeParameter
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
+            String module = intent.getStringExtra(context.getString(R.string.INTENT_EXTRA_MODULECHANGED));
             switch (module)
             {
                 case KEYS.MODULE_PICTURE:

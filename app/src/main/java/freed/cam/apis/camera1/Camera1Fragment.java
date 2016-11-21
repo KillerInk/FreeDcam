@@ -101,7 +101,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         moduleHandler = new ModuleHandler(this);
 
         moduleChangedReciever = new ModuleChangedReciever();
-        getActivityInterface().getContext().registerReceiver(moduleChangedReciever,new IntentFilter(getString(R.string.INTENT_MODULECHANGED)));
+        getActivityInterface().RegisterLocalReciever(moduleChangedReciever,new IntentFilter(getString(R.string.INTENT_MODULECHANGED)));
 
         Focus = new FocusHandler(this);
 
@@ -133,7 +133,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     public void onDestroyView()
     {
         super.onDestroyView();
-        getActivityInterface().getContext().unregisterReceiver(moduleChangedReciever);
+        focusPeakProcessorAp1.kill();
+        getActivityInterface().UnregisterLocalReciever(moduleChangedReciever);
     }
 
     private boolean hasLGFramework()

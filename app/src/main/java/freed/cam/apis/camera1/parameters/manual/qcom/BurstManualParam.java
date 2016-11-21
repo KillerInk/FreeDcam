@@ -30,6 +30,8 @@ import android.content.IntentFilter;
 import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 
+import com.troop.freedcam.R;
+
 import java.util.ArrayList;
 
 import freed.cam.apis.KEYS;
@@ -78,7 +80,7 @@ public class BurstManualParam extends BaseManualParameter
                 max =  6;
             stringvalues = createStringArray(2,max,1);
             currentInt = 0;
-            cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
+            cameraUiWrapper.getActivityInterface().RegisterLocalReciever(new ModuleChangedReciever(),new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_MODULECHANGED)));
         }
     }
 
@@ -154,7 +156,7 @@ public class BurstManualParam extends BaseManualParameter
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
+            String module = intent.getStringExtra(context.getString(R.string.INTENT_EXTRA_MODULECHANGED));
             if ((module.equals(KEYS.MODULE_VIDEO) || module.equals(KEYS.MODULE_HDR)) && isSupported)
                 ThrowBackgroundIsSupportedChanged(false);
             else if ((module.equals(KEYS.MODULE_PICTURE)

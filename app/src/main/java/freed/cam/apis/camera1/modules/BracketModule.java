@@ -76,7 +76,7 @@ public class BracketModule extends PictureModule
                             && ((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
                         cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
                 }
-                changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
+                sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_START);
                 waitForPicture = true;
 
                 if (aeBrackethdr && cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(KEYS.JPEG))
@@ -261,7 +261,7 @@ public class BracketModule extends PictureModule
             if (hdrCount == 6)//handel normal capture
             {
                 waitForPicture = false;
-                changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
+                sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_STOP);
                 startPreview();
 
             } else if (hdrCount < 6)
@@ -318,7 +318,7 @@ public class BracketModule extends PictureModule
         {
             waitForPicture = false;
             isWorking = false;
-            changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
+            sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_STOP);
             setExposureToCamera();
         }
         else

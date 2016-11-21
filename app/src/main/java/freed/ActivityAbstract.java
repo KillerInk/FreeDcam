@@ -23,8 +23,10 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build.VERSION;
@@ -34,6 +36,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 import android.view.View;
@@ -570,5 +573,25 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     @Override
     public void SetNightOverlay() {
 
+    }
+
+    @Override
+    public void RegisterLocalReciever(BroadcastReceiver receiver, IntentFilter filter) {
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
+    }
+
+    @Override
+    public void UnregisterLocalReciever(BroadcastReceiver receiver) {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+    }
+
+    @Override
+    public void SendLocalBroadCast(Intent intent) {
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+    @Override
+    public String GetResString(int stringid) {
+        return getString(stringid);
     }
 }

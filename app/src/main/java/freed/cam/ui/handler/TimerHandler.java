@@ -26,14 +26,13 @@ public class TimerHandler
     {
         timerText = (TextView) activityFreeDcamMain.findViewById(id.textView_RecCounter);
         timer = new MyTimer(timerText);
-        activityFreeDcamMain.getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter(activityFreeDcamMain.getResources().getString(R.string.INTENT_MODULECHANGED)));
-        activityFreeDcamMain.getContext().registerReceiver(new CaptureStateChangedReceiver(), new IntentFilter(activityFreeDcamMain.getResources().getString(R.string.INTENT_CAPTURESTATE)));
+        activityFreeDcamMain.RegisterLocalReciever(new ModuleChangedReciever(), new IntentFilter(activityFreeDcamMain.getString(R.string.INTENT_MODULECHANGED)));
+        activityFreeDcamMain.RegisterLocalReciever(new CaptureStateChangedReceiver(), new IntentFilter(activityFreeDcamMain.getString(R.string.INTENT_CAPTURESTATE)));
         timerText.setVisibility(View.GONE);
     }
 
     private class ModuleChangedReciever extends BroadcastReceiver
     {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             if(timerText == null)

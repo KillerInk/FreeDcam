@@ -64,7 +64,7 @@ public class PictureModuleMTK extends PictureModule
                     cameraUiWrapper.GetParameterHandler().getDevice().Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
                 }
                 isWorking = true;
-                changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
+                sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_START);
                 cameraHolder.TakePicture(PictureModuleMTK.this);
             }
         });
@@ -108,7 +108,7 @@ public class PictureModuleMTK extends PictureModule
         data = null;
         startPreview();
         isWorking = false;
-        changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
+        sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_STOP);
     }
 
     private int loopBreaker;

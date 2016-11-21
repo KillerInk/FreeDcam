@@ -110,7 +110,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {
                     Logger.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
-                    changeCaptureState(CaptureStates.RECORDING_STOP);
+                    sendCaptureStateChangedBroadCast(CaptureStates.RECORDING_STOP);
                 }
             });
 
@@ -167,12 +167,12 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     private void sendStopToUi()
     {
-        changeCaptureState(CaptureStates.RECORDING_STOP);
+        sendCaptureStateChangedBroadCast(CaptureStates.RECORDING_STOP);
     }
 
     private void sendStartToUi()
     {
-        changeCaptureState(CaptureStates.RECORDING_START);
+        sendCaptureStateChangedBroadCast(CaptureStates.RECORDING_START);
     }
 
     protected abstract MediaRecorder initRecorder();

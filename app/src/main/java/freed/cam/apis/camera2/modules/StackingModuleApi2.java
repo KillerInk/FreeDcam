@@ -144,13 +144,13 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     public boolean DoWork()
     {
         if (!keepstacking && !isWorking) {
-            changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_START);
+            sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_START);
             keepstacking = true;
             return true;
         }
         else
         {
-            changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_WORKING);
+            sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_WORKING);
             stopPreview();
             saveImageToFile();
             afterFilesave = true;
@@ -160,12 +160,12 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     }
 
     private void saveImageToFile() {
-        changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
+        sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
         final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Config.ARGB_8888);
         renderScriptHandler.GetOut().copyTo(outputBitmap);
         File stackedImg = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
         cameraUiWrapper.getActivityInterface().getImageSaver().SaveBitmapToFile(outputBitmap,stackedImg);
-        changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING);
+        sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING);
         isWorking = false;
         keepstacking =false;
     }

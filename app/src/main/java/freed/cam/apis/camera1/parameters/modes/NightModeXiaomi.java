@@ -47,7 +47,7 @@ public class NightModeXiaomi extends BaseModeParameter
         if(parameters.get(KEYS.MORPHO_HHT) != null && parameters.get(KEYS.AE_BRACKET_HDR) != null) {
             isSupported = true;
             isVisible = true;
-            cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_MODULECHANGED)));
+            cameraUiWrapper.getActivityInterface().RegisterLocalReciever(new ModuleChangedReciever(), new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_MODULECHANGED)));
             cameraUiWrapper.GetParameterHandler().PictureFormat.addEventListner(this);
         }
     }
