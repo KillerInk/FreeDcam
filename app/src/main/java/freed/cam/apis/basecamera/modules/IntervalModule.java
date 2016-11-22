@@ -27,13 +27,14 @@ import android.os.Handler;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.Logger;
 
 /**
  * Created by troop on 08.01.2016.
  */
-public class IntervalModule extends ModuleAbstract
+public class IntervalModule extends ModuleAbstract implements CaptureStateChanged
 {
     private final ModuleAbstract picModule;
     private final IntervalHandler intervalHandler;
@@ -117,6 +118,7 @@ public class IntervalModule extends ModuleAbstract
         picModule.DestroyModule();
     }
 
+    @Override
     public void onCaptureStateChanged(CaptureStates captureStates)
     {
         Logger.d(TAG, "onCaptureStateChanged from picModule " + captureStates);

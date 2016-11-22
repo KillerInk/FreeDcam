@@ -53,11 +53,19 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         cont_capture_stop_while_notworking,
     }
 
+    public interface CaptureStateChanged
+    {
+        void onCaptureStateChanged(CaptureStates captureStates);
+    }
+
+    private final ArrayList<CaptureStateChanged> onCaptureStateChangedListners;
 
     private final String TAG = ModuleHandlerAbstract.class.getSimpleName();
     public AbstractMap<String, ModuleInterface> moduleList;
     protected ModuleInterface currentModule;
     protected CameraWrapperInterface cameraUiWrapper;
+
+    protected CaptureStateChanged workerListner;
 
     //holds all listner for the modulechanged event
     private final ArrayList<ModuleChangedEvent> moduleChangedListner;
@@ -78,9 +86,35 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         moduleChangedListner = new ArrayList<>();
         RecorderStateListners = new ArrayList<>();
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
+        onCaptureStateChangedListners = new ArrayList<>();
         uihandler = new Handler(Looper.getMainLooper());
         startBackgroundThread();
 
+        workerListner = new CaptureStateChanged() {
+            @Override
+            public void onCaptureStateChanged(final CaptureStates captureStates)
+            {
+                for (int i = 0; i < onCaptureStateChangedListners.size(); i++)
+                {
+
+                    if (onCaptureStateChangedListners.get(i) == null) {
+                        onCaptureStateChangedListners.remove(i);
+                        i--;
+                    }
+                    else
+                    {
+                        final int pos = i;
+                        uihandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                onCaptureStateChangedListners.get(pos).onCaptureStateChanged(captureStates);
+                            }
+                        });
+
+                    }
+                }
+            }
+        };
     }
 
     /**
@@ -123,6 +157,19 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             return false;
     }
 
+    @Override
+    public void SetWorkListner(CaptureStateChanged workerListner)
+    {
+        if (!onCaptureStateChangedListners.contains(workerListner))
+            onCaptureStateChangedListners.add(workerListner);
+    }
+
+
+    public void CLEARWORKERLISTNER()
+    {
+        if (onCaptureStateChangedListners != null)
+            onCaptureStateChangedListners.clear();
+    }
 
     /**
      * Add a listner for Moudlechanged events
