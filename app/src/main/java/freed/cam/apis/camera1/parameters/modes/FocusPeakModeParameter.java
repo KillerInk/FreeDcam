@@ -45,7 +45,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
         super(null, cameraUiWrapper);
         this.focusPeakProcessorAp1 = focusPeakProcessorAp1;
         moduleChangedReciever = new ModuleChangedReciever();
-        cameraUiWrapper.getActivityInterface().RegisterLocalReciever(moduleChangedReciever, new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_MODULECHANGED)));
+        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(moduleChangedReciever, new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_MODULECHANGED)));
 
     }
 
@@ -124,7 +124,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String module = intent.getStringExtra(context.getString(R.string.INTENT_EXTRA_MODULECHANGED));
+            String module = intent.getStringExtra(cameraUiWrapper.getContext().getString(R.string.INTENT_EXTRA_MODULECHANGED));
             if ((module.equals(KEYS.MODULE_PICTURE)
                     || module.equals(KEYS.MODULE_HDR)
                     || module.equals(KEYS.MODULE_INTERVAL)

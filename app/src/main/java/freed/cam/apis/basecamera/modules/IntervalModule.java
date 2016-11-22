@@ -65,7 +65,7 @@ public class IntervalModule extends ModuleAbstract
             Logger.d(TAG, "StartInterval");
             isWorking = true;
             intervalHandler.StartInterval();
-            sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_START);
+            changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_START);
             return true;
         } else {
             Logger.d(TAG, "Stop Interval");
@@ -74,11 +74,11 @@ public class IntervalModule extends ModuleAbstract
             if (picModule.isWorking)
             {
                 Logger.d(TAG, "changeWorkstate to cont_capture_stop_while_working");
-                sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_WORKING);
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_WORKING);
             }
             else {
                 Logger.d(TAG, "changeWorkstate to cont_capture_stop_while_notworking");
-                sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING);
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING);
             }
             return false;
         }
@@ -88,7 +88,7 @@ public class IntervalModule extends ModuleAbstract
     public void InitModule() {
         IntentFilter intentFilter = new IntentFilter(
                 "troop.com.freedcam.capturestateIntent");
-        cameraUiWrapper.getActivityInterface().RegisterLocalReciever(captureStateReciever,intentFilter);
+        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(captureStateReciever,intentFilter);
         picModule.InitModule();
 
     }
@@ -111,8 +111,7 @@ public class IntervalModule extends ModuleAbstract
 
     @Override
     public void DestroyModule() {
-        super.DestroyModule();
-        cameraUiWrapper.getActivityInterface().UnregisterLocalReciever(captureStateReciever);
+        cameraUiWrapper.getActivityInterface().getContext().unregisterReceiver(captureStateReciever);
         picModule.DestroyModule();
     }
 
@@ -125,7 +124,7 @@ public class IntervalModule extends ModuleAbstract
                 if (isWorking)
                 {
                     Logger.d(TAG, "image_capture_stop Work Finished, Start nex Capture");
-                    sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
+                    changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
                     intervalHandler.DoNextInterval();
 
                 }
@@ -133,16 +132,16 @@ public class IntervalModule extends ModuleAbstract
                 {
                     if (picModule.isWorking) {
                         Logger.d(TAG, "changework to "+ CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP + " picmodule is working"+picModule.isWorking);
-                        sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
+                        changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
                     }
                     else {
-                        sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING);
+                        changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING);
                         Logger.d(TAG, "changework to "+ CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING + " picmodule is working"+picModule.isWorking);
                     }
                 }
                 break;
             case CaptureStates.IMAGE_CAPTURE_START:
-                sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_WORK_START);
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_START);
                 break;
 
         }

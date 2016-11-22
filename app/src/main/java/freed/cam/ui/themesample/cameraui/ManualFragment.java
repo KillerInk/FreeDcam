@@ -32,7 +32,6 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -163,13 +162,13 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         afBracketSettingsView = (AfBracketSettingsView)view.findViewById(id.manualFragment_afbsettings);
 
         moduleChangedReciever = new ModuleChangedReciever();
-        ((ActivityInterface) getActivity()).RegisterLocalReciever(moduleChangedReciever, new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
+        ((ActivityInterface) getActivity()).getContext().registerReceiver(moduleChangedReciever, new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ((ActivityInterface) getActivity()).UnregisterLocalReciever(moduleChangedReciever);
+        ((ActivityInterface) getActivity()).getContext().unregisterReceiver(moduleChangedReciever);
     }
 
     @Override
@@ -319,7 +318,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String module = intent.getStringExtra(context.getString(R.string.INTENT_EXTRA_MODULECHANGED));
+            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
             if (module.equals(KEYS.MODULE_AFBRACKET) && seekbar.getVisibility() == View.VISIBLE)
                 afBracketSettingsView.setVisibility(View.VISIBLE);
             else

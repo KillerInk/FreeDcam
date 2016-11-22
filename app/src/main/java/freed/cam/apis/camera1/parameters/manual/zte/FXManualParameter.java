@@ -25,8 +25,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.hardware.Camera.Parameters;
 
-import com.troop.freedcam.R;
-
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -67,7 +65,7 @@ public class FXManualParameter extends BaseManualParameter {
             isSupported = true;
             isVisible = true;
             stringvalues = createStringArray(0,38,1);
-            cameraUiWrapper.getActivityInterface().RegisterLocalReciever(new ModuleChangedReciever(), new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_MODULECHANGED)));
+            cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
         }
         else
             isSupported = false;

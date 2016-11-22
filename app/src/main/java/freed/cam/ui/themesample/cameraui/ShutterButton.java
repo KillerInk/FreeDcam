@@ -34,8 +34,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import com.troop.freedcam.R;
-
-import freed.ActivityInterface;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.modules.CaptureStates;
 import freed.utils.Logger;
@@ -75,7 +73,6 @@ public class ShutterButton extends Button
 
     private CaptureStateReciever captureStateReciever = new CaptureStateReciever();
     private ModuleChangedReciever moduleChangedReciever = new ModuleChangedReciever();
-    private ActivityInterface activityInterface;
 
     public ShutterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -103,7 +100,6 @@ public class ShutterButton extends Button
 
     private void init()
     {
-        activityInterface = (ActivityInterface)getContext();
         red = new Paint();
         red.setColor(Color.RED);
         red.setStyle(Paint.Style.FILL);
@@ -121,16 +117,16 @@ public class ShutterButton extends Button
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         IntentFilter intentFilter = new IntentFilter(getResources().getString(R.string.INTENT_CAPTURESTATE));
-        activityInterface.RegisterLocalReciever(captureStateReciever,intentFilter);
+        getContext().registerReceiver(captureStateReciever,intentFilter);
         intentFilter = new IntentFilter(getResources().getString(R.string.INTENT_MODULECHANGED));
-        activityInterface.RegisterLocalReciever(moduleChangedReciever,intentFilter);
+        getContext().registerReceiver(moduleChangedReciever,intentFilter);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        activityInterface.UnregisterLocalReciever(captureStateReciever);
-        activityInterface.UnregisterLocalReciever(moduleChangedReciever);
+        getContext().unregisterReceiver(captureStateReciever);
+        getContext().unregisterReceiver(moduleChangedReciever);
     }
 
     private class CaptureStateReciever extends BroadcastReceiver
@@ -146,7 +142,7 @@ public class ShutterButton extends Button
     private void sendBroadcastDoWork()
     {
         Intent intent = new Intent(getResources().getString(R.string.INTENT_CAMERADOWORK));
-        activityInterface.SendLocalBroadCast(intent);
+        getContext().sendBroadcast(intent);
     }
 
     private class ModuleChangedReciever extends BroadcastReceiver

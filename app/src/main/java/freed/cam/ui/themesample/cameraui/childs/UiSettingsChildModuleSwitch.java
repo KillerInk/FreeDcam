@@ -23,10 +23,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
-
-import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 
@@ -49,14 +46,14 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         moduleChangedReciever = new ModuleChangedReciever();
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(moduleChangedReciever, new IntentFilter(getResources().getString(R.string.INTENT_MODULECHANGED)));
+        getContext().registerReceiver(moduleChangedReciever, new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
     }
 
     @Override
     protected void onDetachedFromWindow()
     {
         super.onDetachedFromWindow();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(moduleChangedReciever);
+        getContext().unregisterReceiver(moduleChangedReciever);
     }
 
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)

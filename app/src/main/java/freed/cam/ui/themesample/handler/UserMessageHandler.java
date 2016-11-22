@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,6 +42,7 @@ public class UserMessageHandler implements CameraStateEvents
 {
     private final LinearLayout messageHolder;
     private final TextView messageTextView;
+    private CameraWrapperInterface cameraUiWrapper;
     private final Handler handler;
     private Context context;
     private CameraStatusReciever cameraStatusReciever;
@@ -54,15 +54,19 @@ public class UserMessageHandler implements CameraStateEvents
         context = view.getContext();
         handler = new Handler();
         cameraStatusReciever = new CameraStatusReciever();
-        LocalBroadcastManager.getInstance(context).registerReceiver(cameraStatusReciever,new IntentFilter(context.getString(R.string.INTENT_EXTRA_CAMERAESTATE)));
+        context.registerReceiver(cameraStatusReciever,new IntentFilter(context.getString(R.string.INTENT_EXTRA_CAMERAESTATE)));
 
     }
 
     public void Destroy()
     {
-        LocalBroadcastManager.getInstance(context).unregisterReceiver(cameraStatusReciever);
+        context.unregisterReceiver(cameraStatusReciever);
     }
 
+    public void SetCameraUiWrapper(CameraWrapperInterface wrapper)
+    {
+        cameraUiWrapper =wrapper;
+    }
 
     private void SetUserMessage(String msg)
     {

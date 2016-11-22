@@ -139,8 +139,6 @@ public class CameraHolder extends CameraHolderAbstract
 
     public void SetCameraParameters(Parameters parameters)
     {
-        if (mCamera == null)
-            return;
         mCamera.setParameters(parameters);
     }
 

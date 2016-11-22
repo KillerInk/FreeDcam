@@ -87,8 +87,8 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         this.renderScriptHandler = renderScriptHandler;
         moduleChangedReciever = new ModuleChangedReciever();
         cameraStateReciever = new CameraStateReciever();
-        cameraUiWrapper.getActivityInterface().RegisterLocalReciever(moduleChangedReciever, new IntentFilter(context.getString(R.string.INTENT_MODULECHANGED)));
-        cameraUiWrapper.getActivityInterface().RegisterLocalReciever(cameraStateReciever, new IntentFilter(context.getString(R.string.INTENT_CAMERASTATE)));
+        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(moduleChangedReciever, new IntentFilter(context.getString(R.string.INTENT_MODULECHANGED)));
+        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(cameraStateReciever, new IntentFilter(context.getString(R.string.INTENT_CAMERASTATE)));
         output.setSurfaceTextureListener(previewSurfaceListner);
         clear_preview("Ctor");
     }
@@ -254,10 +254,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
 
     @Override
     public void kill() {
-        if (cameraUiWrapper != null) {
-            cameraUiWrapper.getActivityInterface().UnregisterLocalReciever(moduleChangedReciever);
-            cameraUiWrapper.getActivityInterface().UnregisterLocalReciever(cameraStateReciever);
-        }
+
     }
 
 
@@ -381,7 +378,10 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
             Logger.d(TAG, "SurfaceDestroyed");
             clear_preview("onSurfaceTextureDestroyed");
             mSurface = null;
-
+            if (cameraUiWrapper != null) {
+                cameraUiWrapper.getActivityInterface().getContext().unregisterReceiver(moduleChangedReciever);
+                cameraUiWrapper.getActivityInterface().getContext().unregisterReceiver(cameraStateReciever);
+            }
 
 
             return false;

@@ -68,17 +68,17 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             String shootmode = ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).ContShootMode.GetValue();
             if (!isWorking && shootmode.equals("Single"))
             {
-                sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_START);
+                changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
                 takePicture();
             }
             else if (!isWorking)
             {
-                sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_START);
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_START);
                 cameraHolder.startContShoot(this);
                 return true;
             } else
             {
-                sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_WORKING);
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_WORKING);
                 cameraHolder.stopContShoot(this);
                 return false;
             }
@@ -86,7 +86,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         else
             if (!isWorking)
             {
-                sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_START);
+                changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
                 takePicture();
             }
         return true;
@@ -182,16 +182,16 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         {
             isWorking = false;
             if (currentWorkState == CaptureStates.IMAGE_CAPTURE_START)
-                sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_STOP);
+                changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
             else if (currentWorkState == CaptureStates.CONTINOUSE_CAPTURE_WORK_START || currentWorkState == CaptureStates.CONTINOUSE_CAPTURE_START)
-                sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
         }
         else if ((status.equals("StillCapturing") || status.equals("StillSaving")) && !isWorking) {
             isWorking = true;
             if (currentWorkState == CaptureStates.IMAGE_CAPTURE_STOP)
-                sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_START);
+                changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
             else if (currentWorkState == CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP || currentWorkState == CaptureStates.CONTINOUSE_CAPTURE_STOP)
-                sendCaptureStateChangedBroadCast(CaptureStates.CONTINOUSE_CAPTURE_WORK_START);
+                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_START);
         }
 
     }

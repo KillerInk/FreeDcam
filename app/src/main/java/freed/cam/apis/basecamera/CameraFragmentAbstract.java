@@ -199,7 +199,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
             intent.putExtra(getString(R.string.INTENT_EXTRA_CAMERAESTATE), status);
             if (msg != null)
                 intent.putExtra(getString(R.string.INTENT_EXTRA_CAMERAESTATEMSG), msg);
-            getActivityInterface().SendLocalBroadCast(intent);
+            getContext().getApplicationContext().sendBroadcast(intent);
         }
     }
 

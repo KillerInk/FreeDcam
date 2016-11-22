@@ -90,7 +90,7 @@ public class HDRModeParameter extends BaseModeParameter
                 isSupported = false;
         }
         if (isSupported) {
-            cameraUiWrapper.getActivityInterface().RegisterLocalReciever(new ModuleChangedReciever(), new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_MODULECHANGED)));
+            cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_MODULECHANGED)));
             cameraUiWrapper.GetParameterHandler().PictureFormat.addEventListner(this);
         }
 

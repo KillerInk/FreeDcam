@@ -103,14 +103,13 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     {
         Intent intent = new Intent(cameraUiWrapper.getActivityInterface().getContext().getResources().getString(R.string.INTENT_MODULECHANGED));
         intent.putExtra(cameraUiWrapper.getActivityInterface().getContext().getResources().getString(R.string.INTENT_EXTRA_MODULECHANGED), module);
-        cameraUiWrapper.getActivityInterface().SendLocalBroadCast(intent);
+        cameraUiWrapper.getActivityInterface().getContext().sendBroadcast(intent);
     }
 
 
     //clears all listner this happens when the camera gets destroyed
     public void CLEAR()
     {
-        currentModule.DestroyModule();
         stopBackgroundThread();
     }
 

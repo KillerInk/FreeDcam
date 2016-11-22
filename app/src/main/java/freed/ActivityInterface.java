@@ -19,10 +19,7 @@
 
 package freed;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.v4.provider.DocumentFile;
 
@@ -88,12 +85,6 @@ public interface ActivityInterface extends I_WorkEvent
     int getOrientation();
 
     void SetNightOverlay();
-
-    void RegisterLocalReciever(BroadcastReceiver receiver,IntentFilter filter);
-    void UnregisterLocalReciever(BroadcastReceiver receiver);
-    void SendLocalBroadCast(Intent intent);
-
-    String GetResString(int stringid);
 }
 
 

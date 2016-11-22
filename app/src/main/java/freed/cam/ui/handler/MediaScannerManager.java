@@ -6,8 +6,6 @@ import android.net.Uri;
 
 import java.io.File;
 
-import freed.ActivityInterface;
-
 /**
  * Created by troop on 25.08.13.
  */

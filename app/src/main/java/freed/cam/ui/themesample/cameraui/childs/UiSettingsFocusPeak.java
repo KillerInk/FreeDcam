@@ -23,7 +23,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -52,13 +51,13 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         moduleChangedReciever = new ModuleChangedReciever();
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(moduleChangedReciever, new IntentFilter(getResources().getString(R.string.INTENT_MODULECHANGED)));
+        getContext().registerReceiver(moduleChangedReciever, new IntentFilter(getResources().getString(R.string.INTENT_MODULECHANGED)));
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(moduleChangedReciever);
+        getContext().unregisterReceiver(moduleChangedReciever);
     }
 
     public void SetUiItemClickListner(SettingsChildClick menuItemClick) {

@@ -304,7 +304,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
                 ImageHolder imageHolder = new ImageHolder();
                 resultQueue.put((int)captureBuilder.build().getTag(), imageHolder);
-                sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_START);
+                changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
                 cameraHolder.CaptureSessionH.StartImageCapture(captureBuilder, CaptureCallback, mBackgroundHandler);
             }
     }
@@ -328,7 +328,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
         if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
             cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
-        sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_START);
+        changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
         cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback,mBackgroundHandler);
     }
 
@@ -589,7 +589,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
 
         isWorking = false;
-        sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_STOP);
+        changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
         if (burstcount == imagecount) {
             finishCapture(captureBuilder);
         }
@@ -961,10 +961,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void DestroyModule()
     {
-        super.DestroyModule();
         Logger.d(TAG, "DestroyModule");
         cameraHolder.CaptureSessionH.CloseCaptureSession();
         cameraUiWrapper.getFocusPeakProcessor().kill();
-
+        super.DestroyModule();
     }
 }

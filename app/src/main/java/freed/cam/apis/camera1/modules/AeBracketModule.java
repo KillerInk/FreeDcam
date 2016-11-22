@@ -155,7 +155,7 @@ public class AeBracketModule extends PictureModuleMTK
                 {
                     waitForPicture = false;
                     isWorking = false;
-                    sendCaptureStateChangedBroadCast(CaptureStates.IMAGE_CAPTURE_STOP);
+                    changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
                 }
                 else
                 {
