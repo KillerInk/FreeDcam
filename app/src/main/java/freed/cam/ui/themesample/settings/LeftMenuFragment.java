@@ -256,6 +256,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 AEB1.setVisibility(View.VISIBLE);
                 AEB1.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB1);
                 AEB1.SetCameraUIWrapper(cameraUiWrapper);
+
                 AEB2.setVisibility(View.VISIBLE);
                 AEB2.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB2);
                 AEB2.SetCameraUIWrapper(cameraUiWrapper);
@@ -290,7 +291,6 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             AEB2.setVisibility(View.GONE);
             AEB3.setVisibility(View.GONE);
             AEB4.setVisibility(View.GONE);
-            AEB6.setVisibility(View.GONE);
             AEB5.setVisibility(View.GONE);
             AEB6.setVisibility(View.GONE);
             AEB7.setVisibility(View.GONE);
@@ -302,7 +302,6 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             AEB2.setVisibility(View.GONE);
             AEB3.setVisibility(View.GONE);
             AEB4.setVisibility(View.GONE);
-            AEB6.setVisibility(View.GONE);
             AEB5.setVisibility(View.GONE);
             AEB6.setVisibility(View.GONE);
             AEB7.setVisibility(View.GONE);
