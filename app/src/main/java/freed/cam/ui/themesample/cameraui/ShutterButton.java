@@ -83,7 +83,6 @@ public class ShutterButton extends Button
     private int recordingRadiusRectangle;
 
     private CaptureStateReciever captureStateReciever = new CaptureStateReciever();
-    private ModuleChangedReciever moduleChangedReciever = new ModuleChangedReciever();
 
     public ShutterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -127,17 +126,15 @@ public class ShutterButton extends Button
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        IntentFilter intentFilter = new IntentFilter(getResources().getString(R.string.INTENT_CAPTURESTATE));
+        IntentFilter intentFilter = new IntentFilter(
+                "troop.com.freedcam.capturestateIntent");
         getContext().registerReceiver(captureStateReciever,intentFilter);
-        intentFilter = new IntentFilter(getResources().getString(R.string.INTENT_MODULECHANGED));
-        getContext().registerReceiver(moduleChangedReciever,intentFilter);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         getContext().unregisterReceiver(captureStateReciever);
-        getContext().unregisterReceiver(moduleChangedReciever);
     }
 
     private class CaptureStateReciever extends BroadcastReceiver
@@ -145,7 +142,7 @@ public class ShutterButton extends Button
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            int state = intent.getIntExtra(getResources().getString(R.string.INTENT_CAPTURESTATE),2);
+            int state = intent.getIntExtra("CaptureState",2);
             CaptureStates show = CaptureStates.values()[state];
             switchBackground(show,true);
         }
@@ -156,7 +153,7 @@ public class ShutterButton extends Button
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            String module = intent.getStringExtra(getResources().getString(R.string.INTENT_EXTRA_MODULECHANGED));
+            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
             if (cameraUiWrapper.GetParameterHandler().ContShootMode != null && cameraUiWrapper.GetParameterHandler().ContShootMode.IsSupported())
             {
                 contshotListner.onParameterValueChanged(cameraUiWrapper.GetParameterHandler().ContShootMode.GetValue());

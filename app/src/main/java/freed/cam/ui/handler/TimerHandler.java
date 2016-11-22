@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.view.View;
 import android.widget.TextView;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 
 import freed.cam.ActivityFreeDcamMain;
@@ -18,7 +17,7 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 /**
  * Created by troop on 26.11.2014.
  */
-public class TimerHandler
+public class TimerHandler implements I_RecorderStateChanged
 {
     private final TextView timerText;
 
@@ -30,8 +29,7 @@ public class TimerHandler
         this.activityFreeDcamMain = activityFreeDcamMain;
         timerText = (TextView) activityFreeDcamMain.findViewById(id.textView_RecCounter);
         timer = new MyTimer(timerText);
-        activityFreeDcamMain.getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter(activityFreeDcamMain.getResources().getString(R.string.INTENT_MODULECHANGED)));
-        activityFreeDcamMain.getContext().registerReceiver(new RecordingStateReciever(), new IntentFilter(activityFreeDcamMain.getResources().getString(R.string.INTENT_RECORDSTATECHANGED)));
+        activityFreeDcamMain.getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
         timerText.setVisibility(View.GONE);
     }
 
@@ -40,7 +38,7 @@ public class TimerHandler
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String module = intent.getStringExtra(activityFreeDcamMain.getResources().getString(R.string.INTENT_EXTRA_MODULECHANGED));
+            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
             if (module.equals(KEYS.MODULE_VIDEO))
                 timerText.setVisibility(View.VISIBLE);
             else
@@ -48,23 +46,21 @@ public class TimerHandler
         }
     }
 
-    private class RecordingStateReciever extends BroadcastReceiver
-    {
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            int status = intent.getIntExtra(activityFreeDcamMain.getString(R.string.INTENT_EXTRA_RECORDSTATECHANGED),I_RecorderStateChanged.STATUS_RECORDING_STOP);
-            switch (status) {
-                case I_RecorderStateChanged.STATUS_RECORDING_STOP:
-                    timer.Stop();
-                    break;
-                case I_RecorderStateChanged.STATUS_RECORDING_START :
-                    timer.Start();
-                    break;
-                default:
-                    timer.Stop();
-                    break;
-            }
+    @Override
+    public void RecordingStateChanged(int status)
+    {
+        switch (status) {
+            case I_RecorderStateChanged.STATUS_RECORDING_STOP:
+                timer.Stop();
+                break;
+            case I_RecorderStateChanged.STATUS_RECORDING_START :
+                timer.Start();
+                break;
+            default:
+                timer.Stop();
+                break;
         }
+
     }
 }

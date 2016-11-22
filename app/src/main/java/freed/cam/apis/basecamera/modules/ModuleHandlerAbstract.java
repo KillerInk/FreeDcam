@@ -26,8 +26,6 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 
-import com.troop.freedcam.R;
-
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,8 +60,15 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     protected ModuleInterface currentModule;
     protected CameraWrapperInterface cameraUiWrapper;
 
+    //holds all listner for the modulechanged event
+    //private final ArrayList<ModuleChangedEvent> moduleChangedListner;
+    //holds all listner for recorstatechanged
+    private final ArrayList<I_RecorderStateChanged> RecorderStateListners;
+    private Handler uihandler;
     private HandlerThread mBackgroundThread;
     protected Handler mBackgroundHandler;
+
+
 
     protected AppSettingsManager appSettingsManager;
 
@@ -71,7 +76,10 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     {
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();
+        //moduleChangedListner = new ArrayList<>();
+        RecorderStateListners = new ArrayList<>();
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
+        uihandler = new Handler(Looper.getMainLooper());
         startBackgroundThread();
 
     }
@@ -116,27 +124,65 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             return false;
     }
 
+
+  /*  *//**
+     * Add a listner for Moudlechanged events
+     * @param listner the listner for the event
+     *//*
+    public  void addListner(ModuleChangedEvent listner)
+    {
+        if (!moduleChangedListner.contains(listner))
+            moduleChangedListner.add(listner);
+    }*/
+
     /**
      * Gets thrown when the module has changed
      * @param module the new module that gets loaded
      */
     public void ModuleHasChanged(final String module)
     {
-        Intent intent = new Intent(cameraUiWrapper.getActivityInterface().getContext().getResources().getString(R.string.INTENT_MODULECHANGED));
-        intent.putExtra(cameraUiWrapper.getActivityInterface().getContext().getResources().getString(R.string.INTENT_EXTRA_MODULECHANGED), module);
+        Intent intent = new Intent("troop.com.freedcam.MODULE_CHANGED");
+        intent.putExtra("INTENT_EXTRA_MODULENAME", module);
         cameraUiWrapper.getActivityInterface().getContext().sendBroadcast(intent);
+        /*if (moduleChangedListner.size() == 0)
+            return;
+        for (int i = 0; i < moduleChangedListner.size(); i++)
+        {
+            if (moduleChangedListner.get(i) == null) {
+                moduleChangedListner.remove(i);
+                i--;
+            }
+            else
+            {
+                final int toget = i;
+                uihandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        moduleChangedListner.get(toget).onModuleChanged(module);
+                    }
+                });
+
+            }
+        }*/
+    }
+
+
+    public void AddRecoderChangedListner(I_RecorderStateChanged recorderStateChanged)
+    {
+        RecorderStateListners.add(recorderStateChanged);
     }
 
     public void onRecorderstateChanged(int state)
     {
-        Intent intent = new Intent(cameraUiWrapper.getActivityInterface().getContext().getResources().getString(R.string.INTENT_RECORDSTATECHANGED));
-        intent.putExtra(cameraUiWrapper.getActivityInterface().getContext().getResources().getString(R.string.INTENT_EXTRA_RECORDSTATECHANGED), state);
-        cameraUiWrapper.getActivityInterface().getContext().sendBroadcast(intent);
+        for (I_RecorderStateChanged lisn : RecorderStateListners)
+            lisn.RecordingStateChanged(state);
     }
 
     //clears all listner this happens when the camera gets destroyed
     public void CLEAR()
     {
+        //moduleChangedListner.clear();
+        RecorderStateListners.clear();
         stopBackgroundThread();
     }
 

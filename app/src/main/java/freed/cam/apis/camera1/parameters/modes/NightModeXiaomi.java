@@ -25,8 +25,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.hardware.Camera;
 
-import com.troop.freedcam.R;
-
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -48,7 +46,7 @@ public class NightModeXiaomi extends BaseModeParameter
         if(parameters.get(KEYS.MORPHO_HHT) != null && parameters.get(KEYS.AE_BRACKET_HDR) != null) {
             isSupported = true;
             isVisible = true;
-            cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_MODULECHANGED)));
+            cameraUiWrapper.getActivityInterface().getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
             cameraUiWrapper.GetParameterHandler().PictureFormat.addEventListner(this);
         }
     }
@@ -98,7 +96,7 @@ public class NightModeXiaomi extends BaseModeParameter
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            String module = intent.getStringExtra(cameraUiWrapper.getContext().getString(R.string.INTENT_EXTRA_MODULECHANGED));
+            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
             curmodule = module;
             switch (module)
             {
