@@ -12,7 +12,8 @@ import com.troop.freedcam.R.id;
 
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.modules.RecordingStates;
+import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
+import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 
 /**
  * Created by troop on 26.11.2014.
@@ -52,12 +53,12 @@ public class TimerHandler
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            int status = intent.getIntExtra(activityFreeDcamMain.getString(R.string.INTENT_EXTRA_RECORDSTATECHANGED), RecordingStates.STATUS_RECORDING_STOP);
+            int status = intent.getIntExtra(activityFreeDcamMain.getString(R.string.INTENT_EXTRA_RECORDSTATECHANGED),I_RecorderStateChanged.STATUS_RECORDING_STOP);
             switch (status) {
-                case RecordingStates.STATUS_RECORDING_STOP:
+                case I_RecorderStateChanged.STATUS_RECORDING_STOP:
                     timer.Stop();
                     break;
-                case RecordingStates.STATUS_RECORDING_START :
+                case I_RecorderStateChanged.STATUS_RECORDING_START :
                     timer.Start();
                     break;
                 default:

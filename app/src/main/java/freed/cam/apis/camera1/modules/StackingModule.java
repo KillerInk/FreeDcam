@@ -40,6 +40,7 @@ import freed.cam.apis.camera1.parameters.modes.StackModeParameter;
 import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 import freed.utils.ScriptField_MinMaxPixel;
+import pete.android.study.ConvolutionMatrix;
 
 /**
  * Created by GeorgeKiarie on 13/04/2016.
@@ -199,6 +200,19 @@ public class StackingModule extends PictureModule {
         }
     }
 
+    private Bitmap sharpen(Bitmap src,double weight)
+    {
+        double[][] SharpConfig = new double[][]
+                {{0,-2,0},
+                 {-2,weight,-2},
+                 {0,2,0}
+                };
+        ConvolutionMatrix convolutionMatrix = new ConvolutionMatrix(3);
+        convolutionMatrix.applyConfig(SharpConfig);
+        convolutionMatrix.Factor = weight-8;
+        return ConvolutionMatrix.computeConvolution3x3(src,convolutionMatrix);
+
+    }
 
     private void stackImage(File file)
     {
@@ -208,7 +222,7 @@ public class StackingModule extends PictureModule {
         options.inDither = false;
         options.inScaled = false;
 
-        Bitmap source = BitmapFactory.decodeFile(file.getAbsolutePath());
+        Bitmap source = sharpen(BitmapFactory.decodeFile(file.getAbsolutePath()),11);
 
 
         int mWidth = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[0])*2;
