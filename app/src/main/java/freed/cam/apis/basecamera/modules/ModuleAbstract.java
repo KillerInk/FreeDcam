@@ -20,10 +20,7 @@
 package freed.cam.apis.basecamera.modules;
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Handler;
 
 import com.troop.freedcam.R;
@@ -46,7 +43,6 @@ public abstract class ModuleAbstract implements ModuleInterface
     protected int currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;
     protected Handler mBackgroundHandler;
-    private DoWorkReceiver doWorkReceiver;
 
 
     public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler)
@@ -54,7 +50,7 @@ public abstract class ModuleAbstract implements ModuleInterface
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
         this.mBackgroundHandler = mBackgroundHandler;
-        doWorkReceiver = new DoWorkReceiver();
+
     }
 
     /**
@@ -92,7 +88,6 @@ public abstract class ModuleAbstract implements ModuleInterface
     public void InitModule()
     {
         isWorking = false;
-        cameraUiWrapper.getContext().registerReceiver(doWorkReceiver,new IntentFilter(cameraUiWrapper.getContext().getString(R.string.INTENT_CAMERADOWORK)));
     }
 
     /**
@@ -101,7 +96,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public  void DestroyModule()
     {
-        cameraUiWrapper.getContext().unregisterReceiver(doWorkReceiver);
+
     }
 
     @Override
@@ -109,14 +104,6 @@ public abstract class ModuleAbstract implements ModuleInterface
 
     @Override
     public abstract String ShortName();
-
-    private class DoWorkReceiver extends BroadcastReceiver
-    {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            DoWork();
-        }
-    }
 
 
 

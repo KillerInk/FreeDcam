@@ -28,14 +28,20 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
+
 import com.troop.freedcam.R;
+
 import freed.cam.apis.KEYS;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.CaptureStates;
+import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.utils.Logger;
 
 /**
@@ -43,8 +49,11 @@ import freed.utils.Logger;
  */
 public class ShutterButton extends Button
 {
+    private CameraWrapperInterface cameraUiWrapper;
+    private AnimationDrawable shutterOpenAnimation;
     private final String TAG = ShutterButton.class.getSimpleName();
     private int currentShow = CaptureStates.IMAGE_CAPTURE_STOP;
+    private boolean contshot;
     private final Drawable shutterImage;
     private final Paint transparent;
     private Paint red;
@@ -108,7 +117,7 @@ public class ShutterButton extends Button
         this.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               sendBroadcastDoWork();
+                cameraUiWrapper.GetModuleHandler().GetCurrentModule().DoWork();
             }
         });
     }
@@ -139,31 +148,44 @@ public class ShutterButton extends Button
         }
     }
 
-    private void sendBroadcastDoWork()
-    {
-        Intent intent = new Intent(getResources().getString(R.string.INTENT_CAMERADOWORK));
-        getContext().sendBroadcast(intent);
-    }
-
     private class ModuleChangedReciever extends BroadcastReceiver
     {
         @Override
         public void onReceive(Context context, Intent intent)
         {
+            if (cameraUiWrapper == null)
+                return;
             String module = intent.getStringExtra(getResources().getString(R.string.INTENT_EXTRA_MODULECHANGED));
-            if (module.equals(KEYS.MODULE_VIDEO))
+            if (cameraUiWrapper.GetParameterHandler().ContShootMode != null && cameraUiWrapper.GetParameterHandler().ContShootMode.IsSupported())
+            {
+                contshotListner.onParameterValueChanged(cameraUiWrapper.GetParameterHandler().ContShootMode.GetValue());
+
+            }
+            if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
             {
                 switchBackground(CaptureStates.RECORDING_STOP, true);
             }
-            else  if((module.equals(KEYS.MODULE_PICTURE)
-                    || module.equals(KEYS.MODULE_HDR)
-                    || module.equals(KEYS.MODULE_AFBRACKET))) {
+            else  if((cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_PICTURE)
+                    || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_HDR)
+                    || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET))
+                    && !contshot) {
                 switchBackground(CaptureStates.IMAGE_CAPTURE_STOP,true);
             }
-            else if (module.equals(KEYS.MODULE_INTERVAL)
-                    || module.equals(KEYS.MODULE_STACKING))
+            else if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL)
+                    || contshot || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_STACKING))
                 switchBackground(CaptureStates.CONTINOUSE_CAPTURE_STOP,false);
         }
+    }
+
+    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper, UserMessageHandler messageHandler)
+    {
+        if (cameraUiWrapper.GetModuleHandler() == null)
+            return;
+        this.cameraUiWrapper = cameraUiWrapper;
+        if (cameraUiWrapper.GetParameterHandler().ContShootMode != null)
+            cameraUiWrapper.GetParameterHandler().ContShootMode.addEventListner(this.contshotListner);
+
+        Logger.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
     }
 
     private void switchBackground(final int showstate, final boolean animate)
@@ -174,6 +196,46 @@ public class ShutterButton extends Button
             drawingLock.post(startAnimation);
         }
     }
+
+
+    private final AbstractModeParameter.I_ModeParameterEvent contshotListner = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onParameterValueChanged(String val)
+        {
+            //Single","Continuous","Spd Priority Cont.
+            Logger.d(ShutterButton.this.TAG, "contshot:" + val);
+            if (ShutterButton.this.cameraUiWrapper.GetParameterHandler().ContShootMode.GetValue().contains("Single")) {
+                ShutterButton.this.switchBackground(CaptureStates.IMAGE_CAPTURE_STOP, false);
+                ShutterButton.this.contshot = false;
+            }
+            else {
+                ShutterButton.this.switchBackground(CaptureStates.CONTINOUSE_CAPTURE_STOP, false);
+                ShutterButton.this.contshot = true;
+            }
+        }
+
+        @Override
+        public void onParameterIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onParameterIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onParameterValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
+    };
+
+
 
     private Runnable startAnimation = new Runnable() {
         @Override
