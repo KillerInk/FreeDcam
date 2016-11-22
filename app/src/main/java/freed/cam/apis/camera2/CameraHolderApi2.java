@@ -859,7 +859,9 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
             if (video)
             {
-                matrix.setRectToRect(bufferRect, viewRect, ScaleToFit.FILL);
+               // if(bufferRect.width() <= viewRect.width())
+                    matrix.setRectToRect(bufferRect, viewRect, ScaleToFit.FILL);
+
                 if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
                     matrix.preRotate(orientationWithHack, centerX, centerY);
                 else
@@ -875,7 +877,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
 
             textureView.setTransform(matrix);
-            textureView.setAspectRatio(w, h);
+            textureView.setAspectRatio((int)viewRect.width(), (int)viewRect.height());
         }
 
 
