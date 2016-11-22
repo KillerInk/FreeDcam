@@ -31,7 +31,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -48,6 +47,7 @@ import freed.cam.apis.basecamera.CameraHolderInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
+import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
@@ -100,7 +100,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         moduleHandler = new ModuleHandler(this);
 
         moduleChangedReciever = new ModuleChangedReciever();
-        getActivityInterface().getContext().registerReceiver(moduleChangedReciever,new IntentFilter(getString(R.string.INTENT_MODULECHANGED)));
+        getActivityInterface().getContext().registerReceiver(moduleChangedReciever,new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
 
         Focus = new FocusHandler(this);
 

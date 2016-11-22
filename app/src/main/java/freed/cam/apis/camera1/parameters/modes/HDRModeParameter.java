@@ -34,6 +34,7 @@ import java.util.List;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.Logger;
 

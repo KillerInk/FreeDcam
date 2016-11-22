@@ -23,11 +23,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 
 import com.troop.freedcam.R;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import freed.cam.apis.KEYS;

@@ -36,6 +36,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.KEYS;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.dng.DngProfile;
+import freed.jni.DngMatrixCalc;
 import freed.jni.RawToDng;
 import freed.viewer.holder.FileHolder;
 

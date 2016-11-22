@@ -26,6 +26,8 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
+import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.cam.apis.camera1.parameters.manual.qcom.SkintoneManualPrameter;
 import freed.dng.DngProfile;
 
 /**

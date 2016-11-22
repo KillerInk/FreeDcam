@@ -26,6 +26,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
+import android.renderscript.ScriptIntrinsicConvolve3x3;
 import android.renderscript.Type.Builder;
 
 import java.io.File;

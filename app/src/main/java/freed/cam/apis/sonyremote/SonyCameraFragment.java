@@ -42,6 +42,7 @@ import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraHolderInterface;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
@@ -338,6 +339,11 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
 
     @Override
     public void onCameraStatusChanged(String status) {
+
+    }
+
+    @Override
+    public void onModuleChanged(ModuleInterface module) {
 
     }
 
