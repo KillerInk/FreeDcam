@@ -19,15 +19,11 @@
 
 package freed.cam.apis.basecamera;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.SurfaceView;
 import android.view.View;
-
-import com.drew.lang.StringUtil;
-import com.troop.freedcam.R;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -36,7 +32,6 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.utils.AppSettingsManager;
 import freed.utils.RenderScriptHandler;
-import freed.utils.StringUtils;
 
 /**
  * Created by troop on 06.06.2015.
@@ -68,6 +63,11 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     protected boolean PreviewSurfaceRdy;
 
     /**
+     * holds the listners that get informed when the camera state change
+     */
+    private final List<CameraStateEvents> cameraChangedListners;
+
+    /**
      * holds handler to invoke stuff in ui thread
      */
     protected Handler uiHandler;
@@ -82,6 +82,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     public CameraFragmentAbstract()
     {
+        cameraChangedListners = new CopyOnWriteArrayList<>();
         uiHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -132,6 +133,15 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     }
 
 
+    /**
+     * adds a new listner for camera state changes
+     * @param cameraChangedListner to add
+     */
+    public void SetCameraStateChangedListner(CameraStateEvents cameraChangedListner)
+    {
+        cameraChangedListners.add(cameraChangedListner);
+    }
+
     @Override
     public void StartCamera()
     {
@@ -164,43 +174,92 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     }
 
 
-    public void onCameraOpen(final String message) {
-        sendCameraStatusIntent(CAMERA_OPEN, message);
+    @Override
+    public void onCameraOpen(final String message)
+    {
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraOpen(message);
+                }
+            });
+
+
     }
 
+    @Override
     public void onCameraError(final String error) {
-        sendCameraStatusIntent(CAMERA_ERROR,error);
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraError(error);
+                }
+            });
     }
 
-    public void onCameraStatusChanged(final String status) {
-        sendCameraStatusIntent(CAMERA_STATUS_CHANGED,status);
+    @Override
+    public void onCameraStatusChanged(final String status)
+    {
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraStatusChanged(status);
+                }
+            });
+
+
     }
 
-    public void onCameraClose(final String message) {
-        sendCameraStatusIntent(CAMERA_CLOSE,message);
+    @Override
+    public void onCameraClose(final String message)
+    {
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraClose(message);
+                }
+            });
     }
 
-    public void onPreviewOpen(final String message) {
-        sendCameraStatusIntent(PREVIEW_OPEN,message);
+    @Override
+    public void onPreviewOpen(final String message)
+    {
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onPreviewOpen(message);
+                }
+            });
     }
 
+    @Override
     public void onPreviewClose(final String message) {
-        sendCameraStatusIntent(PREVIEW_CLOSE,message);
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onPreviewClose(message);
+                }
+            });
     }
 
+
+    @Override
     public void onCameraOpenFinish(final String message)
     {
-        sendCameraStatusIntent(CAMERA_OPEN_FINISH,message);
-    }
+        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraOpenFinish(message);
+                }
+            });
 
-    private void sendCameraStatusIntent(int status, String msg) {
-        if (isAdded()) {
-            Intent intent = new Intent(getString(R.string.INTENT_CAMERASTATE));
-            intent.putExtra(getString(R.string.INTENT_EXTRA_CAMERAESTATE), status);
-            if (msg != null)
-                intent.putExtra(getString(R.string.INTENT_EXTRA_CAMERAESTATEMSG), msg);
-            getContext().getApplicationContext().sendBroadcast(intent);
-        }
     }
 
     public abstract int getMargineLeft();

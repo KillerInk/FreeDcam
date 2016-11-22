@@ -45,7 +45,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraHolderInterface;
-import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
@@ -119,6 +118,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
 
         if (Build.VERSION.SDK_INT >= 18) {
             focusPeakProcessorAp1 = new FocusPeakProcessorAp1(preview,this, getContext(), renderScriptHandler);
+            SetCameraStateChangedListner(focusPeakProcessorAp1);
         }
         else
             preview.setVisibility(View.GONE);
@@ -521,6 +521,5 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     public AbstractFocusHandler getFocusHandler() {
         return Focus;
     }
-
 
 }
