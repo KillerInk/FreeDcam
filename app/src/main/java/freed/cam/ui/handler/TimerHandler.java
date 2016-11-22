@@ -1,9 +1,5 @@
 package freed.cam.ui.handler;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,7 +13,7 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 /**
  * Created by troop on 26.11.2014.
  */
-public class TimerHandler implements I_RecorderStateChanged
+public class TimerHandler implements ModuleChangedEvent, I_RecorderStateChanged
 {
     private final TextView timerText;
 
@@ -29,21 +25,21 @@ public class TimerHandler implements I_RecorderStateChanged
         this.activityFreeDcamMain = activityFreeDcamMain;
         timerText = (TextView) activityFreeDcamMain.findViewById(id.textView_RecCounter);
         timer = new MyTimer(timerText);
-        activityFreeDcamMain.getContext().registerReceiver(new ModuleChangedReciever(), new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
         timerText.setVisibility(View.GONE);
     }
 
-    private class ModuleChangedReciever extends BroadcastReceiver
+    @Override
+    public void onModuleChanged(final String module)
     {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
-            if (module.equals(KEYS.MODULE_VIDEO))
-                timerText.setVisibility(View.VISIBLE);
-            else
-                timerText.setVisibility(View.GONE);
-        }
+        activityFreeDcamMain.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (module.equals(KEYS.MODULE_VIDEO))
+                    timerText.setVisibility(View.VISIBLE);
+                else
+                    timerText.setVisibility(View.GONE);
+            }
+        });
     }
 
 

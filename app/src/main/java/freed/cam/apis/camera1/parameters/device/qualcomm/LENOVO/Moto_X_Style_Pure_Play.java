@@ -56,11 +56,10 @@ public class Moto_X_Style_Pure_Play extends Alcatel_Idol3 {
 
     @Override
     public AbstractManualParameter getSkintoneParameter() {
-       /* AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters, cameraUiWrapper);
+        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters, cameraUiWrapper);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
         cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Skintone).GetModuleListner());
-        return Skintone;*/
-        return null;
+        return Skintone;
     }
 
     @Override

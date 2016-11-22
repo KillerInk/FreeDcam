@@ -40,6 +40,7 @@ public class NightModeZTE extends BaseModeParameter
         super(parameters, cameraUiWrapper);
         isSupported = true;
         isVisible =true;
+        cameraUiWrapper.GetModuleHandler().addListner(this);
         cameraUiWrapper.GetParameterHandler().PictureFormat.addEventListner(this);
     }
 

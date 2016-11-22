@@ -44,7 +44,7 @@ import freed.utils.Logger;
 /**
  * Created by troop on 14.06.2015.
  */
-public abstract class AbstractInfoOverlayHandler
+public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
 {
     private final Handler handler;
     protected CameraWrapperInterface cameraUiWrapper;
@@ -75,8 +75,13 @@ public abstract class AbstractInfoOverlayHandler
     public void setCameraUIWrapper(CameraWrapperInterface cameraUIWrapper)
     {
         cameraUiWrapper = cameraUIWrapper;
+        if (cameraUIWrapper != null && cameraUIWrapper.GetModuleHandler() != null)
+            cameraUIWrapper.GetModuleHandler().addListner(this);
     }
 
+    @Override
+    public void onModuleChanged(String module) {
+    }
 
     private void startLooperThread()
     {

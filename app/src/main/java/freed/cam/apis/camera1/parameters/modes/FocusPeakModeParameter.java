@@ -19,10 +19,6 @@
 
 package freed.cam.apis.camera1.parameters.modes;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build.VERSION;
 
 import freed.cam.apis.KEYS;
@@ -37,14 +33,10 @@ import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 public class FocusPeakModeParameter extends BaseModeParameter {
 
     private final FocusPeakProcessorAp1 focusPeakProcessorAp1;
-    private ModuleChangedReciever moduleChangedReciever;
     public FocusPeakModeParameter(CameraWrapperInterface cameraUiWrapper, FocusPeakProcessorAp1 focusPeakProcessorAp1)
     {
         super(null, cameraUiWrapper);
         this.focusPeakProcessorAp1 = focusPeakProcessorAp1;
-        moduleChangedReciever = new ModuleChangedReciever();
-        cameraUiWrapper.getActivityInterface().getContext().registerReceiver(moduleChangedReciever, new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
-
     }
 
     @Override
@@ -62,7 +54,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
         }
         else
             focusPeakProcessorAp1.Enable(false);
-        ((Camera1Fragment)cameraUiWrapper).onPreviewSizeShouldChange.onParameterValueChanged(cameraUiWrapper.GetParameterHandler().Focuspeak.GetValue());
+        ((Camera1Fragment)cameraUiWrapper).onModuleChanged("");
     }
 
     @Override
@@ -109,28 +101,12 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     }
 
     @Override
-    public void BackgroundIsSupportedChanged(boolean value)
-    {
+    public void BackgroundIsSupportedChanged(boolean value) {
+
     }
 
     @Override
     public void BackgroundSetIsSupportedHasChanged(boolean value) {
 
-    }
-
-    private class ModuleChangedReciever extends BroadcastReceiver
-    {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
-            if ((module.equals(KEYS.MODULE_PICTURE)
-                    || module.equals(KEYS.MODULE_HDR)
-                    || module.equals(KEYS.MODULE_INTERVAL)
-                    || module.equals(KEYS.MODULE_AFBRACKET))
-                    && IsSupported())
-                BackgroundIsSupportedChanged(true);
-            else
-                BackgroundIsSupportedChanged(false);
-        }
     }
 }

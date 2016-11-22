@@ -19,10 +19,6 @@
 
 package freed.cam.ui.themesample.cameraui;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -40,7 +36,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import freed.cam.apis.sonyremote.SonyCameraFragment;
-import freed.cam.ui.handler.TimerHandler;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
@@ -48,7 +43,7 @@ import freed.utils.Logger;
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualFragment extends AbstractFragment implements OnSeekBarChangeListener, I_ManualParameterEvent
+public class ManualFragment extends AbstractFragment implements OnSeekBarChangeListener, I_ManualParameterEvent, ModuleChangedEvent
 {
     private int currentValuePos;
 
@@ -78,7 +73,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
 
     private final String TAG = ManualFragment.class.getSimpleName();
-    private ModuleChangedReciever moduleChangedReciever;
 
 
 
@@ -162,20 +156,12 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         previewZoom = (ManualButton)view.findViewById(id.manual_zoom_preview);
         previewZoom.setOnClickListener(manualButtonClickListner);
         afBracketSettingsView = (AfBracketSettingsView)view.findViewById(id.manualFragment_afbsettings);
-
-        moduleChangedReciever = new ModuleChangedReciever();
-        ((ActivityInterface) getActivity()).getContext().registerReceiver(moduleChangedReciever, new IntentFilter("troop.com.freedcam.MODULE_CHANGED"));
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ((ActivityInterface) getActivity()).getContext().unregisterReceiver(moduleChangedReciever);
     }
 
     @Override
     protected void setCameraUiWrapperToUi()
     {
+        cameraUiWrapper.GetModuleHandler().addListner(this);
         contrast.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualContrast);
         burst.SetManualParameter(cameraUiWrapper.GetParameterHandler().Burst);
         brightness.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualBrightness);
@@ -316,16 +302,18 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     }
 
-    private class ModuleChangedReciever extends BroadcastReceiver
+    /**
+     * Gets called when the module has changed
+     *
+     * @param module
+     */
+    @Override
+    public void onModuleChanged(String module)
     {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String module = intent.getStringExtra("INTENT_EXTRA_MODULENAME");
-            if (module.equals(KEYS.MODULE_AFBRACKET) && seekbar.getVisibility() == View.VISIBLE)
-                afBracketSettingsView.setVisibility(View.VISIBLE);
-            else
-                afBracketSettingsView.setVisibility(View.GONE);
-        }
+        if (module.equals(KEYS.MODULE_AFBRACKET) && seekbar.getVisibility() == View.VISIBLE)
+            afBracketSettingsView.setVisibility(View.VISIBLE);
+        else
+            afBracketSettingsView.setVisibility(View.GONE);
     }
 
 }
