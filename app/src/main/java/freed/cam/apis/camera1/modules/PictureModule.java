@@ -26,8 +26,8 @@ import java.io.File;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.CaptureStates;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.dng.DngProfile;
@@ -92,7 +92,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
                     }
                 }
                 cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
-                changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
+                changeCaptureState(CaptureStates.image_capture_start);
                 waitForPicture = true;
                 burstcount = 0;
                 if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
@@ -127,7 +127,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         {
             Logger.d(this.TAG, "Got pic data but did not wait for pic");
             waitForPicture = false;
-            changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
+            changeCaptureState(CaptureStates.image_capture_stop);
             startPreview();
             return;
         }
@@ -144,7 +144,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
                 waitForPicture = false;
                 isWorking = false;
                 startPreview();
-                changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
+                changeCaptureState(CaptureStates.image_capture_stop);
             }
         }
         else //handel normal capture
@@ -153,7 +153,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             waitForPicture = false;
 
             startPreview();
-            changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
+            changeCaptureState(CaptureStates.image_capture_stop);
         }
         data = null;
     }

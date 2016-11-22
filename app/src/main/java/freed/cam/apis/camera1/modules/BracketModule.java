@@ -26,7 +26,7 @@ import java.io.File;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.CaptureStates;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
@@ -76,7 +76,7 @@ public class BracketModule extends PictureModule
                             && ((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
                         cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
                 }
-                changeCaptureState(CaptureStates.IMAGE_CAPTURE_START);
+                changeCaptureState(CaptureStates.image_capture_start);
                 waitForPicture = true;
 
                 if (aeBrackethdr && cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(KEYS.JPEG))
@@ -261,7 +261,7 @@ public class BracketModule extends PictureModule
             if (hdrCount == 6)//handel normal capture
             {
                 waitForPicture = false;
-                changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
+                changeCaptureState(CaptureStates.image_capture_stop);
                 startPreview();
 
             } else if (hdrCount < 6)
@@ -318,7 +318,7 @@ public class BracketModule extends PictureModule
         {
             waitForPicture = false;
             isWorking = false;
-            changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
+            changeCaptureState(CaptureStates.image_capture_stop);
             setExposureToCamera();
         }
         else

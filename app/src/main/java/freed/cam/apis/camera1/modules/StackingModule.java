@@ -35,7 +35,7 @@ import java.util.List;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.CaptureStates;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.parameters.modes.StackModeParameter;
 import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
@@ -72,7 +72,7 @@ public class StackingModule extends PictureModule {
             KeepStacking = true;
             capturedPics = new ArrayList<>();
             initRsStuff();
-            changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_START);
+            changeCaptureState(CaptureStates.continouse_capture_start);
             cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
             String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
             if (!picFormat.equals(KEYS.JPEG))
@@ -86,9 +86,9 @@ public class StackingModule extends PictureModule {
             Logger.d(TAG, "Stop Stacking");
             KeepStacking = false;
             if (isWorking)
-                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_WORKING);
+                changeCaptureState(CaptureStates.cont_capture_stop_while_working);
             else
-                changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING);
+                changeCaptureState(CaptureStates.cont_capture_stop_while_notworking);
             return false;
         }
         return false;
@@ -161,12 +161,12 @@ public class StackingModule extends PictureModule {
 
         isWorking = false;
         //notice ui/shutterbutton about the current workstate
-        changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
+        changeCaptureState(CaptureStates.continouse_capture_work_stop);
         cameraHolder.SendUIMessage("Captured Picture: " + FrameCount++);
         //Take next picture for later stacking aslong keepstacking is true
         if (KeepStacking)
         {
-            changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_START);
+            changeCaptureState(CaptureStates.continouse_capture_work_start);
             Logger.d(TAG, "keepstacking take next pic");
             isWorking = true;
             cameraHolder.TakePicture(this);
@@ -176,14 +176,14 @@ public class StackingModule extends PictureModule {
             Logger.d(TAG, "End of Stacking create bitmap and compress");
             FrameCount = 0;
             isWorking = true;
-            changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_START);
+            changeCaptureState(CaptureStates.continouse_capture_work_start);
 
             for (File s : capturedPics)
             {
                 cameraHolder.SendUIMessage("Stacked: " + FrameCount++ + "/"+ capturedPics.size());
                 stackImage(s);
             }
-            changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_WORK_STOP);
+            changeCaptureState(CaptureStates.continouse_capture_work_stop);
             int mWidth = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[0])*2;
             int mHeight = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[1])*2;
 
@@ -195,7 +195,7 @@ public class StackingModule extends PictureModule {
             File stackedImg = new File(SessionFolder + cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFileDatedName("_Stack.jpg"));
             cameraUiWrapper.getActivityInterface().getImageSaver().SaveBitmapToFile(outputBitmap,stackedImg);
             isWorking = false;
-            changeCaptureState(CaptureStates.CONTINOUSE_CAPTURE_START);
+            changeCaptureState(CaptureStates.continouse_capture_stop);
         }
     }
 

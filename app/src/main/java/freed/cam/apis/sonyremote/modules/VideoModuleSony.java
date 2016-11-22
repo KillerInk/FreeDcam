@@ -23,8 +23,8 @@ import android.os.Handler;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.CaptureStates;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 
 /**
@@ -80,11 +80,11 @@ public class VideoModuleSony extends ModuleAbstract implements I_CameraStatusCha
         if (status.equals("IDLE") && isWorking)
         {
             isWorking = false;
-            changeCaptureState(CaptureStates.RECORDING_STOP);
+            changeCaptureState(CaptureStates.video_recording_stop);
         }
         else if (status.equals("MovieWaitRecStart") && !isWorking) {
             isWorking = true;
-            changeCaptureState(CaptureStates.RECORDING_START);
+            changeCaptureState(CaptureStates.video_recording_start);
         }
 
     }

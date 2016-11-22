@@ -26,7 +26,6 @@ import java.io.File;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.CaptureStates;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
@@ -156,7 +155,7 @@ public class AeBracketModule extends PictureModuleMTK
                 {
                     waitForPicture = false;
                     isWorking = false;
-                    changeCaptureState(CaptureStates.IMAGE_CAPTURE_STOP);
+                    changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
                 }
                 else
                 {

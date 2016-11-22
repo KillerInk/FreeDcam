@@ -22,16 +22,8 @@ package freed.cam.apis.basecamera.modules;
 /**
  * Created by troop on 26.11.2014.
  */
-public interface CaptureStates
+public interface RecordingStates
 {
-    final int RECORDING_STOP = 0;
-    final int RECORDING_START = 1;
-    final int IMAGE_CAPTURE_START=2;
-    final int IMAGE_CAPTURE_STOP = 3;
-    final int CONTINOUSE_CAPTURE_START = 4;
-    final int CONTINOUSE_CAPTURE_STOP = 5;
-    final int CONTINOUSE_CAPTURE_WORK_START =6;
-    final int CONTINOUSE_CAPTURE_WORK_STOP =7;
-    final int CONTINOUSE_CAPTURE_STOP_WHILE_WORKING = 8;
-    final int CONTINOUSE_CAPTURE_STOP_WHILE_NOTWORKING = 9;
+    int STATUS_RECORDING_START = 1;
+    int STATUS_RECORDING_STOP = 0;
 }
