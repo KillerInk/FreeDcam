@@ -147,20 +147,22 @@ public class VideoModule extends AbstractVideoModule
         }
         else
         {
-            if (((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-frame-rate-values") != null) {
-                for (String fpz : ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-frame-rate-values").split(",")) {
-                    if (Integer.parseInt(fpz) == currentProfile.videoFrameRate) {
-                        cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate + "", false);
+            if (currentProfile.videoFrameRate <=24) {
+                if (((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-frame-rate-values") != null) {
+                    for (String fpz : ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-frame-rate-values").split(",")) {
+                        if (Integer.parseInt(fpz) == currentProfile.videoFrameRate) {
+                            cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate + "", false);
+                        }
+
                     }
 
                 }
-
             }
 
 
             if (((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range") != null) {
 
-                if (currentProfile.videoFrameRate < 30) {
+                if (currentProfile.videoFrameRate <= 30) {
                     ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("preview-fps-range", String.valueOf(currentProfile.videoFrameRate * 1000) + "," + String.valueOf(currentProfile.videoFrameRate * 1000));
                     ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters());
                 }
@@ -236,7 +238,7 @@ public class VideoModule extends AbstractVideoModule
         }
         if (((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range") != null) {
 
-            if (((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range").contains(String.valueOf(currentProfile.videoFrameRate * 1000))) {
+            if (((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range").split(",")[1].equals(String.valueOf(currentProfile.videoFrameRate * 1000))) {
                 MaXFPS = currentProfile.videoFrameRate;
             }
         }
