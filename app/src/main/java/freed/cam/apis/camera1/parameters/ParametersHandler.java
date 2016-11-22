@@ -52,7 +52,6 @@ import freed.cam.apis.camera1.parameters.modes.PictureSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewFormatParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
-import freed.cam.apis.camera1.parameters.modes.StackModeParameter;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.Logger;
@@ -353,9 +352,6 @@ public class ParametersHandler extends AbstractParameterHandler
         {
             Logger.exception(e);
         }
-
-
-        imageStackMode = new StackModeParameter();
 
         //load device specific stuff
         Device = new DeviceSelector().getDevice(cameraUiWrapper, cameraParameters);

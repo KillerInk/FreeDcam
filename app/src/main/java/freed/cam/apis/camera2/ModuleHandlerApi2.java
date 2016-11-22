@@ -26,7 +26,6 @@ import freed.cam.apis.camera2.modules.AeBracketApi2;
 import freed.cam.apis.camera2.modules.AfBracketApi2;
 import freed.cam.apis.camera2.modules.IntervalApi2;
 import freed.cam.apis.camera2.modules.PictureModuleApi2;
-import freed.cam.apis.camera2.modules.StackingModuleApi2;
 import freed.cam.apis.camera2.modules.VideoModuleApi2;
 import freed.utils.RenderScriptHandler;
 
@@ -54,8 +53,6 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract
         moduleList.put(intervalModule.ModuleName(), intervalModule);
         VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraUiWrapper,mBackgroundHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
-        StackingModuleApi2 stackingModuleApi2 = new StackingModuleApi2(cameraUiWrapper, renderScriptHandler,mBackgroundHandler);
-        moduleList.put(stackingModuleApi2.ModuleName(), stackingModuleApi2);
         AeBracketApi2 aeBracketApi2 = new AeBracketApi2(cameraUiWrapper,mBackgroundHandler);
         moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
         AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper,mBackgroundHandler);

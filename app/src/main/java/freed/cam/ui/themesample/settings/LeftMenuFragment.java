@@ -100,7 +100,6 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
     private SettingsChildMenu matrixChooser;
 
-    private SettingsChildMenu imageStackMode;
     private SettingsChildMenu nightoverlay;
 
     private SettingsChildClick onMenuItemClick;
@@ -167,7 +166,6 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
         matrixChooser = (SettingsChildMenu)view.findViewById(id.MenuItemMatrixChooser);
 
-        imageStackMode = (SettingsChildMenu)view.findViewById(id.MenuItemImageStack);
 
         nightoverlay = (SettingsChildMenu)view.findViewById(id.MenuItemNightOverlay);
         setCameraUiWrapperToUi();
@@ -342,10 +340,6 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         matrixChooser.SetStuff(fragment_activityInterface, AppSettingsManager.SETTTING_CUSTOMMATRIX);
         matrixChooser.SetParameter(cameraUiWrapper.GetParameterHandler().matrixChooser);
         matrixChooser.SetUiItemClickListner(this);
-
-        imageStackMode.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_STACKMODE);
-        imageStackMode.SetParameter(cameraUiWrapper.GetParameterHandler().imageStackMode);
-        imageStackMode.SetUiItemClickListner(this);
 
         nightoverlay.SetUiItemClickListner(this);
         //nightoverlay.SetStuff(fragment_activityInterface,"");

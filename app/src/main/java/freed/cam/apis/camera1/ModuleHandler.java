@@ -20,9 +20,6 @@
 package freed.cam.apis.camera1;
 
 
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
-
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalModule;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
@@ -30,7 +27,6 @@ import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.modules.BracketModule;
 import freed.cam.apis.camera1.modules.PictureModule;
 import freed.cam.apis.camera1.modules.PictureModuleMTK;
-import freed.cam.apis.camera1.modules.StackingModule;
 import freed.cam.apis.camera1.modules.VideoModule;
 import freed.cam.apis.camera1.modules.VideoModuleG3;
 import freed.utils.Logger;
@@ -84,24 +80,11 @@ public class ModuleHandler extends ModuleHandlerAbstract
         }
 
         Logger.d(TAG, "load hdr module");
-        if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
+        if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != Frameworks.MTK)
         {
-           /* AeBracketModule bracketModule = new AeBracketModule(cameraUiWrapper,mBackgroundHandler);
-            moduleList.put(bracketModule.ModuleName(), bracketModule);*/
-        }
-        else {
             BracketModule bracketModule = new BracketModule(cameraUiWrapper,mBackgroundHandler);
             moduleList.put(bracketModule.ModuleName(), bracketModule);
         }
-
-        if (VERSION.SDK_INT >= VERSION_CODES.KITKAT && cameraUiWrapper.getRenderScriptHandler().isSucessfullLoaded()) {
-            StackingModule sTax = new StackingModule(cameraUiWrapper,mBackgroundHandler);
-            moduleList.put(sTax.ModuleName(), sTax);
-        }
-
-        //BurstModule burstModule = new BurstModule(this.cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
-        //moduleList.put(burstModule.ModuleName(), burstModule);
-
     }
 
 }
