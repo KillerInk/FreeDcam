@@ -71,7 +71,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         }
         currentModule = moduleList.get(name);
         currentModule.InitModule();
-        sendBroadCastModuleChanged(currentModule.ModuleName());
+        ModuleHasChanged(currentModule.ModuleName());
         Logger.d(TAG, "Set Module to " + name);
     }
 
@@ -99,13 +99,23 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             return false;
     }
 
-    protected void sendBroadCastModuleChanged(String module)
+    /**
+     * Gets thrown when the module has changed
+     * @param module the new module that gets loaded
+     */
+    public void ModuleHasChanged(final String module)
     {
         Intent intent = new Intent(cameraUiWrapper.getActivityInterface().getContext().getResources().getString(R.string.INTENT_MODULECHANGED));
         intent.putExtra(cameraUiWrapper.getActivityInterface().getContext().getResources().getString(R.string.INTENT_EXTRA_MODULECHANGED), module);
         cameraUiWrapper.getActivityInterface().getContext().sendBroadcast(intent);
     }
 
+    public void onRecorderstateChanged(int state)
+    {
+        Intent intent = new Intent(cameraUiWrapper.getActivityInterface().getContext().getResources().getString(R.string.INTENT_RECORDSTATECHANGED));
+        intent.putExtra(cameraUiWrapper.getActivityInterface().getContext().getResources().getString(R.string.INTENT_EXTRA_RECORDSTATECHANGED), state);
+        cameraUiWrapper.getActivityInterface().getContext().sendBroadcast(intent);
+    }
 
     //clears all listner this happens when the camera gets destroyed
     public void CLEAR()
