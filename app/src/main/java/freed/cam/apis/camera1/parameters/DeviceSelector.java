@@ -49,6 +49,7 @@ import freed.cam.apis.camera1.parameters.device.mediatek.Rome_X;
 import freed.cam.apis.camera1.parameters.device.mediatek.SONY.Sony_C4;
 import freed.cam.apis.camera1.parameters.device.mediatek.SONY.Sony_C5;
 import freed.cam.apis.camera1.parameters.device.mediatek.SONY.Sony_M5_MTK;
+import freed.cam.apis.camera1.parameters.device.mediatek.VERNEE.VERNEE_APOLLO_Lite;
 import freed.cam.apis.camera1.parameters.device.mediatek.XIAOMI.Xiaomi_Redmi_Note2_MTK;
 import freed.cam.apis.camera1.parameters.device.mediatek.XOLO.Xolo_Omega5;
 import freed.cam.apis.camera1.parameters.device.mediatek.ZOPPO.Zoppo_8speed;
@@ -73,6 +74,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_K920;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_VibeP1;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_VibeShot_Z90;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_Vibe_X3;
+import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.MotoG3;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Moto_X2k14;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Moto_X_Style_Pure_Play;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LG.LG_G2;
@@ -257,7 +259,7 @@ public class DeviceSelector {
                return new Moto_X_Style_Pure_Play(cameraParameters,cameraUiWrapper);
 
             case MotoG3:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return new MotoG3(cameraParameters,cameraUiWrapper);
 
             case MotoG_Turbo:
                 return getDefault(cameraUiWrapper,cameraParameters);
@@ -382,6 +384,9 @@ public class DeviceSelector {
 
             case Yu_Yureka:
                return new Yu_Yureka(cameraParameters,cameraUiWrapper);
+
+            case VERNEE_APOLLO_Lite:
+                return new VERNEE_APOLLO_Lite(cameraParameters,cameraUiWrapper);
                 
             case ZTE_ADV:
                return new ZTE_ADV(cameraParameters,cameraUiWrapper);

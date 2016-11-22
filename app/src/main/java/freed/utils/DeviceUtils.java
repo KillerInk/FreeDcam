@@ -35,6 +35,7 @@ public class DeviceUtils
     public enum Devices
     {
         UNKNOWN,
+        VERNEE_APOLLO_Lite,
         Alcatel_985n,
         Asus_Zenfone_Go,
         Blackberry_Priv,
@@ -346,6 +347,8 @@ public class DeviceUtils
             return Devices.Asus_Zenfone_Go;
         else if (isDevice(res.getStringArray(array.lg_l5)))
             return Devices.LG_L5;
+        else if (isDevice(res.getStringArray(array.VERNEE_APOLLO_Lite)))
+            return Devices.VERNEE_APOLLO_Lite;
         else
             return Devices.UNKNOWN;
 

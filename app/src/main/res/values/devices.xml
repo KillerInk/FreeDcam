@@ -282,7 +282,7 @@
     </string-array>
 
     <string-array name="MotoG_Turbo">
-        <item>MotoG3-TE</item>
+        <item>MotoG3-TE0</item>
     </string-array>
 
     <string-array name="Moto_G3">
@@ -602,6 +602,10 @@
 
     <string-array name="vivo_v3">
         <item>vivo V3</item>
+    </string-array>
+
+    <string-array name="VERNEE_APOLLO_Lite">
+        <item>Apollo Lite</item>
     </string-array>
 
     <string-array name="yu_yuphoria">

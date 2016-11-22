@@ -184,6 +184,7 @@ public final class KEYS {
     public static final String BAYER_MIPI_10BGGR = "bayer-mipi-10bggr";
     public static final String BAYER_MIPI_10RGGB ="bayer-mipi-10rggb";
     public static final String BAYER_QCOM_10GRBG = "bayer-qcom-10grbg";
+    public static final String BAYER_QCOM_10RGGB = "bayer-qcom-10rggb";
 
     //Burst
     public static final String NUM_SNAPS_PER_SHUTTER = "num-snaps-per-shutter";

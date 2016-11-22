@@ -84,12 +84,18 @@ public class PictureFormatHandler extends BaseModeParameter
                 rawSupported = true;
                 rawFormat = KEYS.BAYER_MIPI_10BGGR;
             }
-            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.HTC_OneA9)
+            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.HTC_OneA9 )
             {
                 isSupported = true;
                 rawSupported = true;
                 rawFormat = KEYS.BAYER_MIPI_10RGGB;
+            }else if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.MotoG3)
+            {
+                isSupported = true;
+                rawSupported = true;
+                rawFormat = KEYS.BAYER_QCOM_10RGGB;
             }
+
             else if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Htc_M8 && VERSION.SDK_INT >= 21)
             {
                 isSupported = true;
