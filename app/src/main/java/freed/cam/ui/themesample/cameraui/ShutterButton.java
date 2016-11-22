@@ -19,10 +19,7 @@
 
 package freed.cam.ui.themesample.cameraui;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -49,7 +46,7 @@ import freed.utils.Logger;
 /**
  * Created by troop on 20.06.2015.
  */
-public class ShutterButton extends Button implements ModuleChangedEvent
+public class ShutterButton extends Button implements ModuleChangedEvent, ModuleHandlerAbstract.CaptureStateChanged
 {
     private CameraWrapperInterface cameraUiWrapper;
     private AnimationDrawable shutterOpenAnimation;
@@ -81,8 +78,6 @@ public class ShutterButton extends Button implements ModuleChangedEvent
 
     private int recordingRadiusCircle;
     private int recordingRadiusRectangle;
-
-    private CaptureStateReciever captureStateReciever = new CaptureStateReciever();
 
     public ShutterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -118,41 +113,20 @@ public class ShutterButton extends Button implements ModuleChangedEvent
         this.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 cameraUiWrapper.GetModuleHandler().GetCurrentModule().DoWork();
             }
         });
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        IntentFilter intentFilter = new IntentFilter(
-                "troop.com.freedcam.capturestateIntent");
-        getContext().registerReceiver(captureStateReciever,intentFilter);
-    }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        getContext().unregisterReceiver(captureStateReciever);
-    }
-
-    private class CaptureStateReciever extends BroadcastReceiver
-    {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            int state = intent.getIntExtra("CaptureState",2);
-            CaptureStates show = CaptureStates.values()[state];
-            switchBackground(show,true);
-        }
-    }
 
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper, UserMessageHandler messageHandler)
     {
         if (cameraUiWrapper.GetModuleHandler() == null)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
+        cameraUiWrapper.GetModuleHandler().SetWorkListner(this);
         cameraUiWrapper.GetModuleHandler().addListner(this);
         if (cameraUiWrapper.GetParameterHandler().ContShootMode != null)
             cameraUiWrapper.GetParameterHandler().ContShootMode.addEventListner(this.contshotListner);
@@ -198,6 +172,14 @@ public class ShutterButton extends Button implements ModuleChangedEvent
 
             }
         });
+    }
+
+    @Override
+    public void onCaptureStateChanged(CaptureStates mode)
+    {
+        Logger.d(this.TAG, "onCaptureStateChanged CurrentShow:" + this.currentShow);
+        this.switchBackground(mode,true);
+
     }
 
     private final AbstractModeParameter.I_ModeParameterEvent contshotListner = new AbstractModeParameter.I_ModeParameterEvent() {

@@ -20,7 +20,6 @@
 package freed.cam.apis.basecamera.modules;
 
 
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -39,6 +38,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     protected boolean isWorking;
     public String name;
 
+    protected CaptureStateChanged captureStateChangedListner;
     private final String TAG = ModuleAbstract.class.getSimpleName();
     protected AppSettingsManager appSettingsManager;
     protected CaptureStates currentWorkState;
@@ -54,6 +54,11 @@ public abstract class ModuleAbstract implements ModuleInterface
 
     }
 
+    public void SetCaptureStateChangedListner(CaptureStateChanged captureStateChangedListner)
+    {
+        this.captureStateChangedListner = captureStateChangedListner;
+    }
+
     /**
      * throw this when camera starts working to notify ui
      */
@@ -61,9 +66,13 @@ public abstract class ModuleAbstract implements ModuleInterface
     {
         Logger.d(TAG, "work started");
         currentWorkState = captureStates;
-        Intent intent = new Intent("troop.com.freedcam.capturestateIntent");
-        intent.putExtra("CaptureState", currentWorkState.ordinal());
-        cameraUiWrapper.getActivityInterface().getContext().sendBroadcast(intent);
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if (captureStateChangedListner != null)
+                    captureStateChangedListner.onCaptureStateChanged(captureStates);
+            }
+        });
     }
 
     @Override

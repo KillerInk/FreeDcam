@@ -125,11 +125,13 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     public void SetModule(String name) {
         if (currentModule !=null) {
             currentModule.DestroyModule();
+            currentModule.SetCaptureStateChangedListner(null);
             currentModule = null;
         }
         currentModule = moduleList.get(name);
         currentModule.InitModule();
         ModuleHasChanged(currentModule.ModuleName());
+        currentModule.SetCaptureStateChangedListner(workerListner);
         Logger.d(TAG, "Set Module to " + name);
     }
 
