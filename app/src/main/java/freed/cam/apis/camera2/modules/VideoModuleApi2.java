@@ -263,9 +263,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2
                 mediaRecorder.setCaptureRate(frame);
                 break;
         }
-
-
-
         try {
             mediaRecorder.prepare();
         } catch (IOException e) {

@@ -410,12 +410,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     break;
                 case STATE_WAIT_FOR_NONPRECAPTURE:
                     Logger.d(TAG,"STATE_WAIT_FOR_NONPRECAPTURE");
-                    /*if (aeState == null || aeState != CaptureResult.CONTROL_AE_STATE_PRECAPTURE)
-                    {*/
-                        //cameraHolder.SetParameter(CaptureRequest.CONTROL_AE_LOCK, true);
-                        setCaptureState(STATE_PICTURE_TAKEN);
-                        captureStillPicture();
-                    //}
+                    setCaptureState(STATE_PICTURE_TAKEN);
+                    captureStillPicture();
                     break;
             }
 
@@ -465,7 +461,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 resultQueue.remove(requestId);
                 saveImage(imageHolder);
             }
-            //mDngResult = result;
             try {
                 Logger.d(TAG, "CaptureResult Recieved");
             }
@@ -530,8 +525,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
                         CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
             }
-            /*cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true);
-            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,false);*/
         }
         catch (NullPointerException ex) {
             Logger.exception(ex);
@@ -614,7 +607,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         Logger.d(TAG, "Create DNG");
 
         DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, image.getCaptureResult());
-        //Orientation 90 is not a valid EXIF orientation value, fuck off that its valid!
+        //Orientation 90 is not a valid EXIF orientation value, fuck off that is valid!
         try {
             dngCreator.setOrientation(image.captureResult.get(CaptureResult.JPEG_ORIENTATION));
         }
@@ -646,8 +639,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @NonNull
     private void process_rawWithDngConverter(ImageHolder image, int rawFormat,File file) {
         Logger.d(TAG, "Create DNG VIA RAw2DNG");
-
-        RawToDng dngConverter = RawToDng.GetInstance();
         ByteBuffer buffer = image.getImage().getPlanes()[0].getBuffer();
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
@@ -659,8 +650,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         int mISO = image.getCaptureResult().get(CaptureResult.SENSOR_SENSITIVITY).intValue();
         double mExposuretime = image.getCaptureResult().get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
-        int mFlash = image.getCaptureResult().get(CaptureResult.FLASH_STATE).intValue();
-        double exposurecompensation= image.getCaptureResult().get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
+//        int mFlash = image.getCaptureResult().get(CaptureResult.FLASH_STATE).intValue();
+//        double exposurecompensation= image.getCaptureResult().get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
         final DngProfile prof = getDngProfile(rawFormat, image);
         cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
         image.getImage().close();
