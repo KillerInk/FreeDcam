@@ -543,16 +543,6 @@ public class ParametersHandler extends AbstractParameterHandler
     }
 
     @Override
-    public void SetEVBracket(String ev)
-    {
-        if (cameraParameters.get("lg-ev-ctrl")!= null)
-            cameraParameters.set("lg-ev-ctrl",ev);
-        else
-            cameraParameters.set("exposure-compensation",ev);
-        SetParametersToCamera(cameraParameters);
-    }
-
-    @Override
     public void SetPictureOrientation(int orientation)
     {
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))

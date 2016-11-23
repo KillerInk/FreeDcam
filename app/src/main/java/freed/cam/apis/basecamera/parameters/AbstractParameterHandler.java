@@ -209,8 +209,6 @@ public abstract class AbstractParameterHandler
 
     public abstract void SetPictureOrientation(int or);
 
-    public void SetEVBracket(String ev){}
-
     public void SetAppSettingsToParameters()
     {
         setMode(locationParameter, AppSettingsManager.SETTING_LOCATION);
@@ -357,11 +355,5 @@ public abstract class AbstractParameterHandler
 
             }
         }
-    }
-
-    public void CLEAR()
-    {
-
-        parametersLoadedListner.clear();
     }
 }
