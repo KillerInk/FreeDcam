@@ -167,7 +167,28 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             cameraUiWrapper.GetParameterHandler().ExposureLock.SetValue(KEYS.TRUE,true);
             //cameraHolder.GetCameraParameters().setAutoExposureLock(true);
         }
-        cameraHolder.StartPreview();
+        if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.MotoG3 ||cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.MotoG_Turbo)
+        {
+
+            if(cameraUiWrapper.GetAppSettingsManager().GetCurrentCamera() == 0) {
+                cameraUiWrapper.GetAppSettingsManager().SetCurrentCamera(1);
+                cameraUiWrapper.StopCamera();
+                cameraUiWrapper.StartCamera();
+
+                cameraUiWrapper.GetAppSettingsManager().SetCurrentCamera(0);
+                cameraUiWrapper.StopCamera();
+                cameraUiWrapper.StartCamera();
+            }else {
+                cameraUiWrapper.GetAppSettingsManager().SetCurrentCamera(0);
+                cameraUiWrapper.StopCamera();
+                cameraUiWrapper.StartCamera();
+
+                cameraUiWrapper.GetAppSettingsManager().SetCurrentCamera(1);
+                cameraUiWrapper.StopCamera();
+                cameraUiWrapper.StartCamera();
+            }
+        }else
+            cameraHolder.StartPreview();
 
     }
 
