@@ -282,12 +282,11 @@
     </string-array>
 
     <string-array name="MotoG_Turbo">
-        <item>MotoG3-TE0</item>
+        <item>MotoG3-TE</item>
     </string-array>
 
     <string-array name="Moto_G3">
         <item>MotoG3</item>
-        <item>MotoG3-TE</item>
     </string-array>
 
     <string-array name="HTC_One_E8">
