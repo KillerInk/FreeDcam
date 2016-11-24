@@ -75,6 +75,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_VibeP1;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_VibeShot_Z90;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_Vibe_X3;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.MotoG3;
+import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.MotoG_Turbo;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Moto_X2k14;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Moto_X_Style_Pure_Play;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LG.LG_G2;
@@ -262,7 +263,7 @@ public class DeviceSelector {
                 return new MotoG3(cameraParameters,cameraUiWrapper);
 
             case MotoG_Turbo:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return new MotoG_Turbo(cameraParameters,cameraUiWrapper);
 
             case MyPhone_Infinity2S:
                 return new MyPhoneInfinity2S(cameraParameters,cameraUiWrapper);
