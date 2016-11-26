@@ -21,6 +21,7 @@ package freed.cam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Builder;
 import android.os.Build;
@@ -29,6 +30,7 @@ import android.os.Handler;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.parameters.AeHandler;
+import freed.utils.Logger;
 
 /**
  * Created by troop on 17.08.2016.
@@ -81,13 +83,21 @@ public class AeBracketApi2 extends PictureModuleApi2
     protected void setupBurstCaptureBuilder(Builder captureBuilder, int captureNum)
     {
         captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.off.ordinal());
-        captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY));
+        int maxiso = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
+        int curIso = cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY);
+        if (curIso >= maxiso)
+            curIso = maxiso;
+        Logger.d(TAG, "set iso to :" + curIso);
+        long expotimeToSet = currentExposureTime;
+        captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, curIso);
         if (0 == captureNum)
-            captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, currentExposureTime - exposureTimeStep);
+            expotimeToSet = currentExposureTime - exposureTimeStep;
         else if (1== captureNum)
-            captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, currentExposureTime);
+            expotimeToSet = currentExposureTime;
         else if (2 == captureNum)
-            captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME,currentExposureTime + exposureTimeStep);
+             expotimeToSet = currentExposureTime + exposureTimeStep;
+        Logger.d(TAG,"Set shutter to:" + expotimeToSet);
+        captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME,expotimeToSet);
         super.setupBurstCaptureBuilder(captureBuilder, captureNum);
     }
 }

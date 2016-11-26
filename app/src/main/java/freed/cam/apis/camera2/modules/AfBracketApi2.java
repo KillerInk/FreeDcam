@@ -72,8 +72,17 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     protected void initBurstCapture(Builder captureBuilder, CaptureCallback captureCallback)
     {
-        min = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AFBRACKETMIN));
-        int max = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AFBRACKETMAX));
+        int max  = 0;
+        try {
+            min = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AFBRACKETMIN));
+            max = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AFBRACKETMAX));
+        }
+        catch (NumberFormatException ex)
+        {
+            min = 0;
+            max = 0;
+        }
+
         if (min == 0 && max == 0)
         {
             focuslength = parameterHandler.ManualFocus.getStringValues().length -1;
