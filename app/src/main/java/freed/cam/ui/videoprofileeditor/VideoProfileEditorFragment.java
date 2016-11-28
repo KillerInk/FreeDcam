@@ -50,9 +50,27 @@ import freed.utils.Logger;
 /**
  * Created by troop on 15.02.2016.
  */
-public class VideoProfileEditorFragment extends Fragment
-{
+public class VideoProfileEditorFragment extends Fragment {
     final String TAG = VideoProfileEditorFragment.class.getSimpleName();
+
+    enum VideoCodecs {
+        H263(1),
+        H264(2),
+        MPEG_4_SP(3),
+        VP8(4),
+        HEVC(5);
+
+        private VideoCodecs(int value)
+        {
+            this.value = value;
+        }
+        private int value;
+        public int GetInt()
+        {
+            return value;
+        }
+    }
+
     private Button button_profile;
     private EditText editText_profilename;
     private EditText editText_audiobitrate;
@@ -61,12 +79,12 @@ public class VideoProfileEditorFragment extends Fragment
     private EditText editText_videoframerate;
     private EditText editText_maxrecordtime;
     private Button button_recordMode;
+    private Button button_videoCodec;
     private Button button_save;
     private Button button_delete;
     private VideoMediaProfile currentProfile;
     private Switch switch_Audio;
     private AppSettingsManager appSettingsManager;
-
 
     private HashMap<String, VideoMediaProfile> videoMediaProfiles;
     @Nullable
@@ -91,6 +109,8 @@ public class VideoProfileEditorFragment extends Fragment
         switch_Audio = (Switch)view.findViewById(id.switchAudio);
         button_recordMode = (Button)view.findViewById(id.button_recordMode);
         button_recordMode.setOnClickListener(recordModeClickListner);
+        button_videoCodec =(Button)view.findViewById(id.button_videoCodec);
+        button_videoCodec.setOnClickListener(onVideoCodecClickListner);
 
         button_save.setOnClickListener(onSavebuttonClick);
         button_delete = (Button)view.findViewById(id.button_delete_profile);
@@ -142,6 +162,29 @@ public class VideoProfileEditorFragment extends Fragment
             menu.getMenu().add(VideoMode.Highspeed.toString());
             menu.getMenu().add(VideoMode.Timelapse.toString());
             menu.show();
+        }
+    };
+
+    private OnClickListener onVideoCodecClickListner = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            PopupMenu menu = new PopupMenu(getContext(), view);
+            menu.setOnMenuItemClickListener(videoCodecMenuitemListner);
+            menu.getMenu().add(VideoCodecs.H263.toString());
+            menu.getMenu().add(VideoCodecs.H264.toString());
+            menu.getMenu().add(VideoCodecs.MPEG_4_SP.toString());
+            menu.getMenu().add(VideoCodecs.VP8.toString());
+            menu.getMenu().add(VideoCodecs.HEVC.toString());
+            menu.show();
+        }
+    };
+
+    private final OnMenuItemClickListener videoCodecMenuitemListner = new OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item)
+        {
+            button_videoCodec.setText(item.toString());
+            return false;
         }
     };
 
@@ -204,6 +247,21 @@ public class VideoProfileEditorFragment extends Fragment
         editText_videoframerate.setText(profile.videoFrameRate+"");
         editText_maxrecordtime.setText(profile.duration+"");
         switch_Audio.setChecked(profile.isAudioActive);
+        int videocodec = profile.videoCodec;
+        switch (videocodec)
+        {
+            case 1:
+
+                button_videoCodec.setText(VideoCodecs.H263.toString());
+            case 2:
+                button_videoCodec.setText(VideoCodecs.H264.toString());
+            case 3:
+                button_videoCodec.setText(VideoCodecs.MPEG_4_SP.toString());
+            case 4:
+                button_videoCodec.setText(VideoCodecs.VP8.toString());
+            case 5:
+                button_videoCodec.setText(VideoCodecs.HEVC.toString());
+        }
         button_recordMode.setText(profile.Mode.toString());
     }
 
@@ -223,6 +281,10 @@ public class VideoProfileEditorFragment extends Fragment
             currentProfile.duration = Integer.parseInt(editText_maxrecordtime.getText().toString());
             currentProfile.isAudioActive = switch_Audio.isChecked();
             currentProfile.Mode = VideoMode.valueOf((String) button_recordMode.getText());
+
+            VideoCodecs videoCodec = VideoCodecs.valueOf((String)button_videoCodec.getText());
+            currentProfile.videoCodec = videoCodec.GetInt();
+
             //if currentprofile has no new name the the profile in videomediaprofiles gets updated
             if (videoMediaProfiles.containsKey(editText_profilename.getText().toString()))
             {
