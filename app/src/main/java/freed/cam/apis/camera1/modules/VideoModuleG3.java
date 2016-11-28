@@ -78,7 +78,7 @@ public class VideoModuleG3 extends AbstractVideoModule
             }
 
             recorder.setOutputFormat(OutputFormat.MPEG_4);
-            recorder.setVideoFrameRate(30);
+            recorder.setVideoFrameRate(currentProfile.videoFrameRate);
             recorder.setVideoSize(currentProfile.videoFrameWidth, currentProfile.videoFrameHeight);
             recorder.setVideoEncodingBitRate(currentProfile.videoBitRate);
             recorder.setVideoEncoder(currentProfile.videoCodec);
@@ -158,7 +158,7 @@ public class VideoModuleG3 extends AbstractVideoModule
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
         cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,false);
         cameraUiWrapper.GetParameterHandler().VideoSize.SetValue(size,true);
-        cameraUiWrapper.StopPreview();
-        cameraUiWrapper.StartPreview();
+        /*cameraUiWrapper.StopPreview();
+        cameraUiWrapper.StartPreview();*/
     }
 }
