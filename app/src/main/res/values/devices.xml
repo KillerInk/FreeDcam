@@ -202,7 +202,7 @@
     </string-array>
 
     <string-array name="ZTE_MyPrague">
-        <item>NX403A</item>
+        <item>NX403oA</item>
     </string-array>
 
     <string-array name="ZTE_Z5">
@@ -279,6 +279,13 @@
     </string-array>
     <string-array name="meizu_mx4">
         <item>MX4</item>
+    </string-array>
+
+    <string-array name="Moto_ZPlay">
+        <item>XT1635-02</item>
+        <item>XT1635-01</item>
+        <item>XT1635-00</item>
+        <item>XT1635</item>
     </string-array>
 
     <string-array name="MotoG_Turbo">

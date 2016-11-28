@@ -85,6 +85,7 @@ public class DeviceUtils
         Moto_X_Style_Pure_Play,
         MotoG3,
         MotoG_Turbo,
+        Moto_ZPlay,
         MyPhone_Infinity2S,
         Nexus4,
         Nexus6,
@@ -213,6 +214,8 @@ public class DeviceUtils
             return Devices.Moto_X2k14;
         else if (isDevice(res.getStringArray(array.Moto_X_Style_Pure_Play)))
             return Devices.Moto_X_Style_Pure_Play;
+        else if (isDevice(res.getStringArray(array.Moto_ZPlay)))
+            return Devices.Moto_ZPlay;
         else if (isDevice(res.getStringArray(array.Nexus4)))
             return Devices.Nexus4;
         else if(isDevice(res.getStringArray(array.Nexus6p)))
