@@ -240,7 +240,14 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
         mediaRecorder.setCaptureRate((double)currentVideoProfile.videoFrameRate);
         mediaRecorder.setVideoSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
-        mediaRecorder.setVideoEncoder(currentVideoProfile.videoCodec);
+        try {
+            mediaRecorder.setVideoEncoder(currentVideoProfile.videoCodec);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            mediaRecorder.reset();
+            cameraUiWrapper.GetCameraHolder().SendUIMessage("VideoCodec not Supported");
+        }
 
         switch (currentVideoProfile.Mode)
         {
@@ -248,7 +255,14 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             case Highspeed:
                 if (currentVideoProfile.isAudioActive)
                 {
-                    mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
+                    try {
+                        mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
+                    }
+                    catch (IllegalArgumentException ex)
+                    {
+                        mediaRecorder.reset();
+                        cameraUiWrapper.GetCameraHolder().SendUIMessage("AudioCodec not Supported");
+                    }
                     mediaRecorder.setAudioChannels(currentVideoProfile.audioChannels);
                     mediaRecorder.setAudioEncodingBitRate(currentVideoProfile.audioBitRate);
                     mediaRecorder.setAudioSamplingRate(currentVideoProfile.audioSampleRate);

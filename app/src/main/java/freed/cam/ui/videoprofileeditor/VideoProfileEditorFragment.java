@@ -71,6 +71,26 @@ public class VideoProfileEditorFragment extends Fragment {
         }
     }
 
+    enum AudioCodecs {
+        AMR_NB(1),
+        AMR_WB(2),
+        AAC(3),
+        HE_AAC(4),
+        AAC_ELD(5),
+        VORBIS(6);
+
+
+        private AudioCodecs(int value)
+        {
+            this.value = value;
+        }
+        private int value;
+        public int GetInt()
+        {
+            return value;
+        }
+    }
+
     private Button button_profile;
     private EditText editText_profilename;
     private EditText editText_audiobitrate;
@@ -80,6 +100,7 @@ public class VideoProfileEditorFragment extends Fragment {
     private EditText editText_maxrecordtime;
     private Button button_recordMode;
     private Button button_videoCodec;
+    private Button button_audioCodec;
     private Button button_save;
     private Button button_delete;
     private VideoMediaProfile currentProfile;
@@ -111,6 +132,8 @@ public class VideoProfileEditorFragment extends Fragment {
         button_recordMode.setOnClickListener(recordModeClickListner);
         button_videoCodec =(Button)view.findViewById(id.button_videoCodec);
         button_videoCodec.setOnClickListener(onVideoCodecClickListner);
+        button_audioCodec =(Button)view.findViewById(id.button_audioCodec);
+        button_audioCodec.setOnClickListener(onAudioCodecClickListner);
 
         button_save.setOnClickListener(onSavebuttonClick);
         button_delete = (Button)view.findViewById(id.button_delete_profile);
@@ -188,6 +211,26 @@ public class VideoProfileEditorFragment extends Fragment {
         }
     };
 
+    private OnClickListener onAudioCodecClickListner = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            PopupMenu menu = new PopupMenu(getContext(), view);
+            menu.setOnMenuItemClickListener(audioCodecMenuitemListner);
+            for (AudioCodecs codecs : AudioCodecs.values())
+                menu.getMenu().add(codecs.toString());
+            menu.show();
+        }
+    };
+
+    private final OnMenuItemClickListener audioCodecMenuitemListner = new OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item)
+        {
+            button_audioCodec.setText(item.toString());
+            return false;
+        }
+    };
+
     private final OnMenuItemClickListener recordModeMenuitemListner = new OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item)
@@ -251,17 +294,28 @@ public class VideoProfileEditorFragment extends Fragment {
         switch (videocodec)
         {
             case 1:
-
                 button_videoCodec.setText(VideoCodecs.H263.toString());
+                break;
             case 2:
                 button_videoCodec.setText(VideoCodecs.H264.toString());
+                break;
             case 3:
                 button_videoCodec.setText(VideoCodecs.MPEG_4_SP.toString());
+                break;
             case 4:
                 button_videoCodec.setText(VideoCodecs.VP8.toString());
+                break;
             case 5:
                 button_videoCodec.setText(VideoCodecs.HEVC.toString());
+                break;
         }
+
+        for (AudioCodecs audio : AudioCodecs.values())
+        {
+            if (audio.GetInt() == profile.audioCodec)
+                button_audioCodec.setText(audio.toString());
+        }
+
         button_recordMode.setText(profile.Mode.toString());
     }
 
@@ -284,6 +338,9 @@ public class VideoProfileEditorFragment extends Fragment {
 
             VideoCodecs videoCodec = VideoCodecs.valueOf((String)button_videoCodec.getText());
             currentProfile.videoCodec = videoCodec.GetInt();
+
+            AudioCodecs audioCodec = AudioCodecs.valueOf((String)button_audioCodec.getText());
+            currentProfile.audioCodec = audioCodec.GetInt();
 
             //if currentprofile has no new name the the profile in videomediaprofiles gets updated
             if (videoMediaProfiles.containsKey(editText_profilename.getText().toString()))

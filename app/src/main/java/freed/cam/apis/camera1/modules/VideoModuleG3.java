@@ -54,7 +54,6 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     protected MediaRecorder initRecorder()
     {
-
         try {
             recorder = new MediaRecorderEx();
             recorder.reset();
@@ -81,7 +80,15 @@ public class VideoModuleG3 extends AbstractVideoModule
             recorder.setVideoFrameRate(currentProfile.videoFrameRate);
             recorder.setVideoSize(currentProfile.videoFrameWidth, currentProfile.videoFrameHeight);
             recorder.setVideoEncodingBitRate(currentProfile.videoBitRate);
-            recorder.setVideoEncoder(currentProfile.videoCodec);
+            try {
+                recorder.setVideoEncoder(currentProfile.videoCodec);
+            }
+            catch (IllegalArgumentException ex)
+            {
+                recorder.reset();
+                cameraUiWrapper.GetCameraHolder().SendUIMessage("VideoCodec not Supported");
+            }
+
 
             switch (currentProfile.Mode)
             {
@@ -111,7 +118,15 @@ public class VideoModuleG3 extends AbstractVideoModule
         recorder.setAudioSamplingRate(prof.audioSampleRate);
         recorder.setAudioEncodingBitRate(prof.audioBitRate);
         recorder.setAudioChannels(prof.audioChannels);
-        recorder.setAudioEncoder(prof.audioCodec);
+        try {
+            recorder.setAudioEncoder(prof.audioCodec);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            recorder.reset();
+            cameraUiWrapper.GetCameraHolder().SendUIMessage("AudioCodec not Supported");
+        }
+
     }
 
     @Override

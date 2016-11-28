@@ -79,7 +79,14 @@ public class VideoModule extends AbstractVideoModule
         recorder.setVideoFrameRate(MaXFPS);
         recorder.setVideoSize(currentProfile.videoFrameWidth, currentProfile.videoFrameHeight);
         recorder.setVideoEncodingBitRate(currentProfile.videoBitRate);
-        recorder.setVideoEncoder(currentProfile.videoCodec);
+        try {
+            recorder.setVideoEncoder(currentProfile.videoCodec);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            recorder.reset();
+            cameraUiWrapper.GetCameraHolder().SendUIMessage("VideoCodec not Supported");
+        }
 
         switch (currentProfile.Mode)
         {
@@ -90,7 +97,14 @@ public class VideoModule extends AbstractVideoModule
                     recorder.setAudioSamplingRate(currentProfile.audioSampleRate);
                     recorder.setAudioEncodingBitRate(currentProfile.audioBitRate);
                     recorder.setAudioChannels(currentProfile.audioChannels);
-                    recorder.setAudioEncoder(currentProfile.audioCodec);
+                    try {
+                        recorder.setAudioEncoder(currentProfile.audioCodec);
+                    }
+                    catch (IllegalArgumentException ex)
+                    {
+                        recorder.reset();
+                        cameraUiWrapper.GetCameraHolder().SendUIMessage("AudioCodec not Supported");
+                    }
                 }
                 break;
             case Timelapse:
