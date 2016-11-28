@@ -389,10 +389,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             tbOut.setX(this.mPreviousWidth * SCALEFACTOR);
             tbOut.setY(this.mPreviousHeight * SCALEFACTOR);
             renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
-            renderScriptHandler.interpolateimage2x.set_height(mPreviousHeight);
-            renderScriptHandler.interpolateimage2x.set_width(mPreviousWidth);
-            renderScriptHandler.interpolateimage2x.set_inputFrame(mAllocationIn);
-            renderScriptHandler.interpolateimage2x.set_scaledFrame(renderScriptHandler.GetIn());
+            renderScriptHandler.freedcamScript.set_Height(mPreviousHeight);
+            renderScriptHandler.freedcamScript.set_Width(mPreviousWidth);
+            renderScriptHandler.freedcamScript.set_gCurrentFrame(mAllocationIn);
+            renderScriptHandler.freedcamScript.set_gLastFrame(renderScriptHandler.GetIn());
             renderScriptHandler.convolve3x3.setInput(renderScriptHandler.GetIn());
             renderScriptHandler.convolve3x3.setCoefficients(SHARPMATRIX);
         }
@@ -404,14 +404,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
         }
 
-
-        renderScriptHandler.imagestack.set_gLastFrame(renderScriptHandler.GetOut());
-        renderScriptHandler.imagestack.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.freedcamScript.set_gLastFrame(renderScriptHandler.GetOut());
+        renderScriptHandler.freedcamScript.set_gCurrentFrame(renderScriptHandler.GetIn());
         renderScriptHandler.blurRS.setInput(renderScriptHandler.GetIn());
-        renderScriptHandler.starfinderRS.set_gCurrentFrame(renderScriptHandler.GetIn());
-        renderScriptHandler.focuspeak_argb.set_gCurrentFrame(renderScriptHandler.GetIn());
-        renderScriptHandler.contrastRS.set_gCurrentFrame(renderScriptHandler.GetIn());
-        renderScriptHandler.brightnessRS.set_gCurrentFrame(renderScriptHandler.GetIn());
 
 
 
@@ -443,8 +438,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
                 if (scalePreview) {
                     mAllocationIn.copyFrom(frame);
-                    renderScriptHandler.interpolateimage2x.forEach_clear(renderScriptHandler.GetIn());
-                    renderScriptHandler.interpolateimage2x.forEach_fillPixelInterpolate(mAllocationIn);
+                    renderScriptHandler.freedcamScript.forEach_clear(renderScriptHandler.GetIn());
+                    renderScriptHandler.freedcamScript.forEach_fillPixelInterpolate(mAllocationIn);
                     renderScriptHandler.blurRS.setRadius(1.5f);
                     renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
                     renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
@@ -480,7 +475,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                             return;
                     }
                     if (focuspeak) {
-                        renderScriptHandler.focuspeak_argb.forEach_peak(renderScriptHandler.GetOut());
+                        renderScriptHandler.freedcamScript.forEach_focuspeaksony(renderScriptHandler.GetOut());
 
                     }
                 }
@@ -519,7 +514,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         renderScriptHandler.blurRS.setRadius(1.5f);
         renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
         renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
-        renderScriptHandler.starfinderRS.forEach_processBrightness(renderScriptHandler.GetOut());
+        renderScriptHandler.freedcamScript.forEach_grayscale(renderScriptHandler.GetOut());
         renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
     }
 
@@ -595,7 +590,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             Log.d(TAG,"Stackcount reset");
         }
         currentImageStackCount++;
-        renderScriptHandler.imagestack.forEach_stackimage_exposure(renderScriptHandler.GetOut());
+        renderScriptHandler.freedcamScript.forEach_stackimage_exposure(renderScriptHandler.GetOut());
         renderScriptHandler.GetOut().copyTo(drawBitmap);
         if (currentImageStackCount == 6)
             draw = true;
@@ -608,7 +603,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
         renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
         renderScriptHandler.GetOut().copyFrom(drawBitmap);
-        renderScriptHandler.imagestack.forEach_stackimage_avarage(renderScriptHandler.GetOut());
+        renderScriptHandler.freedcamScript.forEach_stackimage_avarage(renderScriptHandler.GetOut());
         renderScriptHandler.GetOut().copyTo(this.drawBitmap);
 
         if (this.currentImageStackCount < 3)
@@ -620,12 +615,12 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         else
         {
             renderScriptHandler.GetIn().copyFrom(this.drawBitmap);
-            renderScriptHandler.brightnessRS.set_brightness(100 / 255.0f);
-            renderScriptHandler.brightnessRS.forEach_processBrightness(renderScriptHandler.GetOut());
+            renderScriptHandler.freedcamScript.set_brightness(100 / 255.0f);
+            renderScriptHandler.freedcamScript.forEach_processBrightness(renderScriptHandler.GetOut());
             renderScriptHandler.GetOut().copyTo(this.drawBitmap);
             renderScriptHandler.GetIn().copyFrom(this.drawBitmap);
-            renderScriptHandler.contrastRS.invoke_setBright(200f);
-            renderScriptHandler.contrastRS.forEach_processContrast(renderScriptHandler.GetOut());
+            renderScriptHandler.freedcamScript.invoke_setContrast(200f);
+            renderScriptHandler.freedcamScript.forEach_processContrast(renderScriptHandler.GetOut());
             renderScriptHandler.GetOut().copyTo(this.drawBitmap);
             return true;
         }

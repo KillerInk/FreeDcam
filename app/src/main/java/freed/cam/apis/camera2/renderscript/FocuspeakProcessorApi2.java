@@ -95,7 +95,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
         rgbTypeBuilder.setX(width);
         rgbTypeBuilder.setY(height);
         renderScriptHandler.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder, Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT,  Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
-        renderScriptHandler.ScriptFocusPeakApi2.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.freedcamScript.set_gCurrentFrame(renderScriptHandler.GetIn());
         renderScriptHandler.yuvToRgbIntrinsic.setInput(renderScriptHandler.GetIn());
 
         if (mProcessingTask != null) {
@@ -189,7 +189,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
             if (peak) {
 
                 // Run processing pass
-                renderScriptHandler.ScriptFocusPeakApi2.forEach_peak(renderScriptHandler.GetOut());
+                renderScriptHandler.freedcamScript.forEach_focuspeakcam2(renderScriptHandler.GetOut());
             }
             else
             {

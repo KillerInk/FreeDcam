@@ -137,15 +137,15 @@ public class StackActivity extends ActivityAbstract
 
         final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
 
-        renderScriptHandler.imagestack.set_Width(mWidth);
-        renderScriptHandler.imagestack.set_Height(mHeight);
-        renderScriptHandler.imagestack.set_yuvinput(false);
-        renderScriptHandler.imagestack.set_gCurrentFrame(renderScriptHandler.GetIn());
-        renderScriptHandler.imagestack.set_gLastFrame(renderScriptHandler.GetOut());
+        renderScriptHandler.freedcamScript.set_Width(mWidth);
+        renderScriptHandler.freedcamScript.set_Height(mHeight);
+        renderScriptHandler.freedcamScript.set_yuvinput(false);
+        renderScriptHandler.freedcamScript.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.freedcamScript.set_gLastFrame(renderScriptHandler.GetOut());
         if (stackMode ==  6)
         {
             ScriptField_MinMaxPixel medianMinMax = new ScriptField_MinMaxPixel(renderScriptHandler.GetRS(), mWidth * mHeight);
-            renderScriptHandler.imagestack.bind_medianMinMaxPixel(medianMinMax);
+            renderScriptHandler.freedcamScript.bind_medianMinMaxPixel(medianMinMax);
         }
         FreeDPool.Execute(new Runnable()
         {
@@ -163,28 +163,28 @@ public class StackActivity extends ActivityAbstract
                     switch (stackMode)
                     {
                         case 0: //AVARAGE
-                            renderScriptHandler.imagestack.forEach_stackimage_avarage(renderScriptHandler.GetOut());
+                            renderScriptHandler.freedcamScript.forEach_stackimage_avarage(renderScriptHandler.GetOut());
                             break;
                         case 1: //AVARAGE1x2
-                            renderScriptHandler.imagestack.forEach_stackimage_avarage1x2(renderScriptHandler.GetOut());
+                            renderScriptHandler.freedcamScript.forEach_stackimage_avarage1x2(renderScriptHandler.GetOut());
                             break;
                         case 2: //AVARAGE1x3
-                            renderScriptHandler.imagestack.forEach_stackimage_avarage1x3(renderScriptHandler.GetOut());
+                            renderScriptHandler.freedcamScript.forEach_stackimage_avarage1x3(renderScriptHandler.GetOut());
                             break;
                         case 3: // AVARAGE3x3
-                            renderScriptHandler.imagestack.forEach_stackimage_avarage3x3(renderScriptHandler.GetOut());
+                            renderScriptHandler.freedcamScript.forEach_stackimage_avarage3x3(renderScriptHandler.GetOut());
                             break;
                         case 4: // LIGHTEN
-                            renderScriptHandler.imagestack.forEach_stackimage_lighten(renderScriptHandler.GetOut());
+                            renderScriptHandler.freedcamScript.forEach_stackimage_lighten(renderScriptHandler.GetOut());
                             break;
                         case 5: // LIGHTEN_V
-                            renderScriptHandler.imagestack.forEach_stackimage_lightenV(renderScriptHandler.GetOut());
+                            renderScriptHandler.freedcamScript.forEach_stackimage_lightenV(renderScriptHandler.GetOut());
                             break;
                         case 6: //MEDIAN
-                            renderScriptHandler.imagestack.forEach_stackimage_median(renderScriptHandler.GetOut());
+                            renderScriptHandler.freedcamScript.forEach_stackimage_median(renderScriptHandler.GetOut());
                             break;
                         case 7:
-                            renderScriptHandler.imagestack.forEach_stackimage_exposure(renderScriptHandler.GetOut());
+                            renderScriptHandler.freedcamScript.forEach_stackimage_exposure(renderScriptHandler.GetOut());
                             break;
                     }
                     renderScriptHandler.GetOut().copyTo(outputBitmap);

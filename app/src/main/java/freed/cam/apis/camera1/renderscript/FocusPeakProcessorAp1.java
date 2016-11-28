@@ -150,7 +150,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                         tmp = frameQueue.take();
                         renderScriptHandler.GetIn().copyFrom(tmp);
 
-                        renderScriptHandler.ScriptFocusPeakApi1.forEach_peak(renderScriptHandler.GetOut());
+                        renderScriptHandler.freedcamScript.forEach_focuspeakcam1(renderScriptHandler.GetOut());
                         renderScriptHandler.GetOut().ioSend();
                         //pass frame back to camera that it get reused
                         ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().addCallbackBuffer(tmp);
@@ -210,7 +210,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                 renderScriptHandler.GetOut().setSurface(mSurface);
             else
                 Logger.d(TAG, "surfaceNull");
-            renderScriptHandler.ScriptFocusPeakApi1.set_gCurrentFrame(renderScriptHandler.GetIn());
+            renderScriptHandler.freedcamScript.set_gCurrentFrame(renderScriptHandler.GetIn());
             Logger.d(TAG, "script done enabled: " + enable);
             ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetPreviewCallback(this);
         }
