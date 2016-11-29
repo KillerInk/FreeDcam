@@ -44,7 +44,7 @@ public class ManualFocus extends AbstractManualParameter
         super(cameraUiWrapper);
         try {
             float m = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
-            if (cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.LG_G4)
+            if (cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.LG_G4 || cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.LG_G4)
                 m = 14;
             Log.d(TAG,"MINIMUM Focus DISTANCE :" + m);
             int max = (int)(m*10);

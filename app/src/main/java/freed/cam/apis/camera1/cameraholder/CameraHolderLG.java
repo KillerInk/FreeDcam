@@ -40,7 +40,7 @@ public class CameraHolderLG extends CameraHolder
     {
 
         try {
-            if (appSettingsManager.getDevice() == Devices.LG_G4)
+            if (appSettingsManager.getDevice() == Devices.LG_G4 || appSettingsManager.getDevice() == Devices.LG_V20)
                 lgCamera = new LGCamera(camera, 256);
             else
                 lgCamera = new LGCamera(camera);

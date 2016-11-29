@@ -72,6 +72,10 @@
         <item>VS986</item>
     </string-array>
 
+    <string-array name="LG_V20">
+        <item>LG-H918</item>
+    </string-array>
+
     <string-array name="htc_evo3d">
         <item>HTC EVO 3D X515m"</item>
         <item>HTC X515d</item>

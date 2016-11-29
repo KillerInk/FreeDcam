@@ -52,6 +52,7 @@ public class BurstManualParam extends BaseManualParameter
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
                 || cameraUiWrapper.GetAppSettingsManager().getDevice()== Devices.LG_G4
+                || cameraUiWrapper.GetAppSettingsManager().getDevice()== Devices.LG_V20
                 || parameters.get(KEYS.NUM_SNAPS_PER_SHUTTER) != null
                 || parameters.get(KEYS.SNAPSHOT_BURST_NUM) != null
                 || parameters.get(KEYS.BURST_NUM)!= null)
@@ -71,7 +72,7 @@ public class BurstManualParam extends BaseManualParameter
                     max =  6;
                 else
                     max =  10;
-            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G4)
+            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G4 || cameraUiWrapper.GetAppSettingsManager().getDevice()== Devices.LG_V20)
                 max =  6;
             stringvalues = createStringArray(2,max,1);
             currentInt = 0;
