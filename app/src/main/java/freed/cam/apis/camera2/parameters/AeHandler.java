@@ -364,11 +364,21 @@ public class AeHandler
             currentInt = 0;
             ArrayList<String> ar = new ArrayList<>();
             try {
-                for (int i = 0; i <= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper(); i += 50) {
+                int maxiso =cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
+                for (int i = 0; i <= maxiso; i += 50) {
                     if (i == 0)
                         ar.add("auto");
-                    else
+                    else {
+                        //double isostep when its bigger then 3200
+                        if(i > 3200)
+                        {
+                            int next = (i-50) *2;
+                            if (next > maxiso)
+                                next = maxiso;
+                            i =next;
+                        }
                         ar.add(i + "");
+                    }
                 }
                 stringvalues = new String[ar.size()];
                 ar.toArray(stringvalues);
