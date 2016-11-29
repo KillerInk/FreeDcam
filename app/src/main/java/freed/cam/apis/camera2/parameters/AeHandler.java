@@ -270,6 +270,9 @@ public class AeHandler
                     else
                         millimax = 45000000;
                     break;
+                case LG_V20:
+                    millimax = 90000000;
+
                 case Htc_M10:
                     millimax = 1800000000;
 
@@ -289,7 +292,11 @@ public class AeHandler
                     break;
             }
             int millimin = (int)cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().longValue() / 1000;
-            stringvalues = getSupportedShutterValues(millimin, millimax,false);
+
+            if(cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.LG_V20 || cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.Htc_M10)
+                stringvalues = getDebuggingShutterValues();
+            else
+                stringvalues = getSupportedShutterValues(millimin, millimax,false);
         }
 
         @Override
