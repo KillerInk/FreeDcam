@@ -45,8 +45,11 @@ public class AeBracketApi2 extends PictureModuleApi2
     private final int WAIT_FOR_EXPO_SET = 2;
     private final int WAIT_NOTHING = 3;
     private int WAIT_EXPOSURE_STATE = WAIT_NOTHING;
-    long currentExposureTime = 0;
-    long exposureTimeStep = 0;
+    private long currentExposureTime = 0;
+    private long exposureTimeStep = 0;
+    private boolean aeWasOn = false;
+    private int maxiso;
+    private int currentiso;
 
 
     public AeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
@@ -68,6 +71,13 @@ public class AeBracketApi2 extends PictureModuleApi2
     public void InitModule() {
         super.InitModule();
         cameraUiWrapper.GetParameterHandler().Burst.SetValue(2);
+        maxiso = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
+    }
+
+    @Override
+    public void DestroyModule() {
+        cameraUiWrapper.GetParameterHandler().Burst.SetValue(0);
+        super.DestroyModule();
     }
 
     @Override
@@ -75,6 +85,17 @@ public class AeBracketApi2 extends PictureModuleApi2
     {
         currentExposureTime = cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
         exposureTimeStep = currentExposureTime/2;
+        if (cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != AeHandler.AEModes.off.ordinal()) {
+            aeWasOn = true;
+            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.off.ordinal());
+            currentiso = cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY);
+            if (currentiso >= maxiso)
+                currentiso = maxiso;
+            cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, currentiso);
+            captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME,currentExposureTime);
+        }
+        else
+            aeWasOn = false;
 
         super.initBurstCapture(captureBuilder,captureCallback);
     }
@@ -83,7 +104,6 @@ public class AeBracketApi2 extends PictureModuleApi2
     protected void setupBurstCaptureBuilder(Builder captureBuilder, int captureNum)
     {
         captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.off.ordinal());
-        int maxiso = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
         int curIso = cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY);
         if (curIso >= maxiso)
             curIso = maxiso;
@@ -99,5 +119,12 @@ public class AeBracketApi2 extends PictureModuleApi2
         Logger.d(TAG,"Set shutter to:" + expotimeToSet);
         captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME,expotimeToSet);
         super.setupBurstCaptureBuilder(captureBuilder, captureNum);
+    }
+
+    @Override
+    protected void finishCapture(Builder captureBuilder) {
+        super.finishCapture(captureBuilder);
+        if (aeWasOn)
+            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.on.ordinal());
     }
 }

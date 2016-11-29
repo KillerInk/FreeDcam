@@ -68,6 +68,11 @@ public class AfBracketApi2 extends PictureModuleApi2
 
     }
 
+    @Override
+    public void DestroyModule() {
+        super.DestroyModule();
+        cameraUiWrapper.GetParameterHandler().Burst.SetValue(0);
+    }
 
     @Override
     protected void initBurstCapture(Builder captureBuilder, CaptureCallback captureCallback)
