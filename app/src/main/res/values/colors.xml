@@ -6,4 +6,9 @@
     <color name="uiSettingsTextColor">#FFFFFFFF</color>
     <color name="uiSettingsBackground">#bd000000</color>
     <color name="menu_header_color">#ffffffff</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#11303f9f</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

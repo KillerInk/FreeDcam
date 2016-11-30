@@ -28,7 +28,7 @@
         android:icon="@drawable/launcher_freedcam"
         android:label="FreeDCam"
         android:supportsRtl="false"
-        android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
+        android:theme="@style/AppTheme"
         android:hardwareAccelerated="true"
         android:largeHeap="true">
 
