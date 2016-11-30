@@ -83,7 +83,8 @@ public class DngSupportedDevices
                 return new DngProfile(0, 3282, 2448, DngProfile.Qcom, DngProfile.GRBG, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 10788864: //xperia L
                 return new DngProfile(64, 3282, 2448, DngProfile.Qcom, DngProfile.BGGR, DngProfile.XperiaL_rowSize,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-
+            case 15980544:
+                return new DngProfile(65, 3264, 2448, DngProfile.Plain, DngProfile.BGGR, 0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.IMX214));
             case 16224256://MIPI g2
                 switch (device) {
                     case LG_G2:
