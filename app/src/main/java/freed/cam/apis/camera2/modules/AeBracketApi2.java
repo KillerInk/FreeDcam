@@ -59,12 +59,12 @@ public class AeBracketApi2 extends PictureModuleApi2
 
     @Override
     public String ShortName() {
-        return "Bracket";
+        return "AeBracket";
     }
 
     @Override
     public String LongName() {
-        return "Bracketing";
+        return "Ae-Bracket";
     }
 
     @Override
@@ -76,7 +76,6 @@ public class AeBracketApi2 extends PictureModuleApi2
 
     @Override
     public void DestroyModule() {
-        cameraUiWrapper.GetParameterHandler().Burst.SetValue(0);
         super.DestroyModule();
     }
 
@@ -87,12 +86,13 @@ public class AeBracketApi2 extends PictureModuleApi2
         exposureTimeStep = currentExposureTime/2;
         if (cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != AeHandler.AEModes.off.ordinal()) {
             aeWasOn = true;
-            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.off.ordinal());
             currentiso = cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY);
+
             if (currentiso >= maxiso)
                 currentiso = maxiso;
             cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, currentiso);
-            captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME,currentExposureTime);
+            cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME,currentExposureTime);
+            //cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.off.ordinal());
         }
         else
             aeWasOn = false;

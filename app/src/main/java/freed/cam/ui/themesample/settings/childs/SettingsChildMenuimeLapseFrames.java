@@ -44,10 +44,10 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
     private EditText editText;
     private Context context;
 
-    private final float min = 0.1f;
+    private final float min = 0.01f;
     private final float max = 30;
     private float current;
-    private final float mover = 0.1f;
+    private final float mover = (float)1/60;
     private final float bigmover = 1;
     private String settingsname;
     private AppSettingsManager appSettingsManager;
@@ -90,7 +90,7 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
         plus.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (current >= 1 && current + bigmover <= max)
+                if (current +mover > 1 && current + bigmover <= max)
                     current += bigmover;
                 else if (current + mover <= 1) {
                     current += mover;
@@ -99,12 +99,15 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
 
             }
         });
-        editText.setText(current + " fps");
+        if (current >= 2)
+            editText.setText(current + " fps");
+        else
+            editText.setText(current * 60 + " fpm");
     }
 
     private void setCurrent(float current)
     {
-        String form = String.format("%.1f", current).replace(",", ".");
+        String form = String.format("%.4f", current).replace(",", ".");
         try {
 
             current = Float.parseFloat(form);
@@ -114,9 +117,11 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
             Logger.exception(ex);
         }
         appSettingsManager.setString(settingsname, current + "");
-        editText.setText(current + " fps");
+        if (current >= 1)
+            editText.setText(current + " fps");
+        else
+            editText.setText(current * 60 + " fpm");
     }
-
 
     public void SetStuff(AppSettingsManager appSettingsManager) {
         settingsname = AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME;
@@ -124,8 +129,12 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
         String fps = appSettingsManager.getString(settingsname);
         if (fps == null || fps.equals(""))
             fps = "30";
-        editText.setText(fps + " fps");
+
         Logger.d(TAG, "set to " + fps);
         current = Float.parseFloat(fps);
+        if (current >= 1)
+            editText.setText(current + " fps");
+        else
+            editText.setText(current * 60 + " fpm");
     }
 }

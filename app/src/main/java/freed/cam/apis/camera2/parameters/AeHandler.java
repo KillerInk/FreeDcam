@@ -27,6 +27,7 @@ import android.os.Build.VERSION_CODES;
 
 import java.util.ArrayList;
 
+import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
@@ -323,7 +324,7 @@ public class AeHandler
             if (valueToSet > 0) {
                 long val = (long) (AbstractManualShutter.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
                 Logger.d(TAG, "ExposureTimeToSet:" + val);
-                if (val > 800000000 &&!cameraUiWrapper.GetParameterHandler().Module.GetValue().equals("Stack")) {
+                if (val > 800000000 &&!cameraUiWrapper.GetAppSettingsManager().GetCurrentModule().equals(KEYS.MODULE_VIDEO)) {
                     Logger.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                     val = 800000000;
                 }

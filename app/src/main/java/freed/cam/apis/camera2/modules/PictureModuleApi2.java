@@ -946,7 +946,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         super.InitModule();
         Logger.d(TAG, "InitModule");
-        startPreview();
+        cameraUiWrapper.GetParameterHandler().Burst.SetValue(0);
+        //startPreview();
     }
 
     @Override
