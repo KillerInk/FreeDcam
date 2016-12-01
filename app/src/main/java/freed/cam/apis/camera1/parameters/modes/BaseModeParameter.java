@@ -28,7 +28,7 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 17.08.2014.
@@ -104,7 +104,7 @@ public class BaseModeParameter extends AbstractModeParameter implements ModuleCh
         else
             isSupported =false;
         isVisible = isSupported;
-        Logger.d(TAG, key_value + ":" + isSupported);
+        Log.d(TAG, key_value + ":" + isSupported);
     }
 
     @Override
@@ -124,14 +124,14 @@ public class BaseModeParameter extends AbstractModeParameter implements ModuleCh
         if (valueToSet == null)
             return;
         parameters.set(key_value, valueToSet);
-        Logger.d(TAG, "set " + key_value + " to " + valueToSet);
+        Log.d(TAG, "set " + key_value + " to " + valueToSet);
         BackgroundValueHasChanged(valueToSet);
         if (setToCam) {
             try {
                 ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
             } catch (Exception ex) {
-                Logger.exception(ex);
+                ex.printStackTrace();
             }
         }
     }

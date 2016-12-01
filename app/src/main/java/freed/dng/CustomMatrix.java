@@ -19,12 +19,12 @@
 
 package freed.dng;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
-import freed.utils.Logger;
 import freed.utils.StringUtils;
 
 /**
@@ -143,7 +143,7 @@ public class CustomMatrix
         CustomMatrix matrix = new CustomMatrix();
         try
         {
-            Logger.d(TAG, "CustomMediaProfile exists loading....");
+            Log.d(TAG, "CustomMediaProfile exists loading....");
             BufferedReader br = null;
 
             br = new BufferedReader(new FileReader(customMAtrix));

@@ -54,7 +54,7 @@ import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
-import freed.utils.Logger;
+import android.util.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
@@ -78,7 +78,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
     public void SetParametersToCamera(Parameters params)
     {
-        Logger.d(TAG, "SetParametersToCam");
+        Log.d(TAG, "SetParametersToCam");
         ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraParameters(params);
     }
 
@@ -90,14 +90,14 @@ public class ParametersHandler extends AbstractParameterHandler
 
     private void logParameters(Parameters parameters)
     {
-        Logger.d(TAG, "Manufactur:" + Build.MANUFACTURER);
-        Logger.d(TAG, "Model:" + Build.MODEL);
-        Logger.d(TAG, "Product:" + Build.PRODUCT);
-        Logger.d(TAG, "OS:" + System.getProperty("os.version"));
+        Log.d(TAG, "Manufactur:" + Build.MANUFACTURER);
+        Log.d(TAG, "Model:" + Build.MODEL);
+        Log.d(TAG, "Product:" + Build.PRODUCT);
+        Log.d(TAG, "OS:" + System.getProperty("os.version"));
         String[] split = parameters.flatten().split(";");
         for(String e : split)
         {
-            Logger.d(TAG,e);
+            Log.d(TAG,e);
         }
     }
 
@@ -116,29 +116,29 @@ public class ParametersHandler extends AbstractParameterHandler
         try {
             PictureFormat = new PictureFormatHandler(cameraParameters, cameraUiWrapper, this);
             cameraUiWrapper.GetModuleHandler().addListner((ModuleChangedEvent) PictureFormat);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             PictureSize = new PictureSizeParameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             FocusMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,KEYS.FOCUS_MODE,KEYS.FOCUS_MODE_VALUES);
             FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         locationParameter = new LocationParameter(cameraUiWrapper);
 
         try {
             ManualConvergence = new BaseManualParameter(cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, cameraUiWrapper,1);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         createManualExposure();
@@ -150,107 +150,107 @@ public class ParametersHandler extends AbstractParameterHandler
 
         try {
             WhiteBalanceMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.WHITEBALANCE, KEYS.WHITEBALANCE_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             FX = new FXManualParameter(cameraParameters, cameraUiWrapper);
             PictureFormat.addEventListner(((BaseManualParameter) FX).GetPicFormatListner());
             cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) FX).GetModuleListner());
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             Burst = new BurstManualParam(cameraParameters, cameraUiWrapper);
             cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Burst).GetModuleListner());
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
 
         try {
             Zoom = new ZoomManualParameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             ColorMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.COLOR_EFFECT, KEYS.COLOR_EFFECT_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         createExposureMode();
 
         try {
             FlashMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,KEYS.FLASH_MODE,KEYS.FLASH_MODE_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         createIsoMode();
 
         try {
             AntiBandingMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.ANTIBANDING, KEYS.ANTIBANDING_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             JpegQuality = new JpegQualityParameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             AE_Bracket = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.AE_BRACKET_HDR, KEYS.AE_BRACKET_HDR_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try
         {
             ImagePostProcessing = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.IMAGEPOSTPROCESSING, KEYS.IMAGEPOSTPROCESSING_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             PreviewSize = new PreviewSizeParameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             PreviewFPS = new PreviewFpsParameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             PreviewFormat = new PreviewFormatParameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             SceneMode =  new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.SCENE_MODE,KEYS.SCENE_MODE_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             RedEye = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.REDEYE_REDUCTION, KEYS.REDEYE_REDUCTION_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             LensShade = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.LENSSHADE, KEYS.LENSSHADE_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
 
@@ -258,8 +258,8 @@ public class ParametersHandler extends AbstractParameterHandler
 
         try {
             SceneDetect = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.SCENE_DETECT, KEYS.SCENE_DETECT_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
 
@@ -267,32 +267,32 @@ public class ParametersHandler extends AbstractParameterHandler
 
         try {
             MemoryColorEnhancement = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.MEMORYCOLORENHANCEMENT, KEYS.MEMORYCOLORENHANCEMENT_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             SkinToneEnhancment = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.SKINETONEENHANCEMENT, KEYS.SKINETONEENHANCEMENT_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             CameraMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "camera-mode", "camera-mode-values");
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             ExposureLock = new ExposureLockParameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             VideoSize = new BaseModeParameter(cameraParameters, cameraUiWrapper,"video-size","video-size-values");
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         createVideoHDR();
@@ -300,40 +300,40 @@ public class ParametersHandler extends AbstractParameterHandler
 
         try {
             CDS_Mode = new CDS_Mode_Parameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
 
         try {
             RdiMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "rdi-mode", "rdi-mode-values");
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             SecureMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "secure-mode", "secure-mode-values");
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
 
         try {
             TnrMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "tnr-mode", "tnr-mode-values");
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             oismode = new OisParameter(cameraParameters, cameraUiWrapper, "");
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             Focuspeak = new FocusPeakModeParameter(cameraUiWrapper,((Camera1Fragment) cameraUiWrapper).focusPeakProcessorAp1);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         createHighFrameRate();
@@ -341,16 +341,16 @@ public class ParametersHandler extends AbstractParameterHandler
         try {
             SetCameraRotation();
             SetPictureOrientation(0);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             captureBurstExposures = new CupBurstExpModeParameter(cameraParameters, cameraUiWrapper, appSettingsManager);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            Logger.exception(e);
+            ex.printStackTrace();
         }
 
         //load device specific stuff
@@ -358,7 +358,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
         if (Device == null)
         {
-            Logger.d(TAG,"################# DEVICES IS NULL! FAIL!");
+            Log.d(TAG,"################# DEVICES IS NULL! FAIL!");
             throw new NullPointerException("DEVICE IS NULL");
         }
 
@@ -390,8 +390,8 @@ public class ParametersHandler extends AbstractParameterHandler
             //set last used settings
             SetAppSettingsToParameters();
             SetParametersToCamera(cameraParameters);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
 
@@ -414,8 +414,8 @@ public class ParametersHandler extends AbstractParameterHandler
                 ExposureMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,"exposure-meter","exposure-meter-values");
             if (ExposureMode != null)
                 ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -431,8 +431,8 @@ public class ParametersHandler extends AbstractParameterHandler
                 IsoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,"sony-iso","sony-iso-values");
             else if (cameraParameters.get("lg-iso-values")!= null)
                 IsoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,"iso","lg-iso-values");
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -461,8 +461,8 @@ public class ParametersHandler extends AbstractParameterHandler
                 VideoHighFramerateVideo = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-hfr", "video-hfr-values");
             }
 
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -472,8 +472,8 @@ public class ParametersHandler extends AbstractParameterHandler
                 VideoHDR = new BaseModeParameter(cameraParameters, cameraUiWrapper,"video-hdr", "video-hdr-values");
             else if (cameraParameters.get("sony-video-hdr")!= null)
                 VideoHDR = new BaseModeParameter(cameraParameters, cameraUiWrapper,"sony-video-hdr","sony-video-hdr-values");
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -485,8 +485,8 @@ public class ParametersHandler extends AbstractParameterHandler
                 ZSL = new BaseModeParameter(cameraParameters, cameraUiWrapper,"mode","mode-values");
             else if (cameraParameters.get("zsd-mode")!= null)
                 ZSL =new BaseModeParameter(cameraParameters, cameraUiWrapper,"zsd-mode", "zsd-mode-values");
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -494,8 +494,8 @@ public class ParametersHandler extends AbstractParameterHandler
         try
         {
             ManualExposure = new ExposureManualParameter(cameraParameters, cameraUiWrapper,1);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -512,9 +512,9 @@ public class ParametersHandler extends AbstractParameterHandler
                 cameraParameters.set("touch-index-aec", meteringAreas.x + "," + meteringAreas.y);
                 SetParametersToCamera(cameraParameters);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Logger.exception(e);
+                ex.printStackTrace();
             }
         }
     }
@@ -557,9 +557,9 @@ public class ParametersHandler extends AbstractParameterHandler
             cameraParameters.setRotation(orientation);
             SetParametersToCamera(cameraParameters);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            Logger.exception(e);
+            ex.printStackTrace();
         }
     }
 
@@ -586,7 +586,7 @@ public class ParametersHandler extends AbstractParameterHandler
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
-            Logger.e(TAG,e.getMessage());
+            Log.e(TAG,e.getMessage());
         }
     }
 

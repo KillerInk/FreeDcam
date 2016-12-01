@@ -21,6 +21,7 @@ package freed.cam.apis.basecamera.parameters;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,6 @@ import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.cam.apis.camera1.parameters.device.I_Device;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
 
 /**
  * Created by troop on 09.12.2014.
@@ -284,17 +284,17 @@ public abstract class AbstractParameterHandler
     {
         if (parameter != null && parameter.IsSupported() && settings_key != null && !settings_key.equals(""))
         {
-            Logger.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
+            Log.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
             if (appSettingsManager.getString(settings_key).equals("") || appSettingsManager.getString(settings_key) == null)
             {
                 String tmp = parameter.GetValue();
-                Logger.d(TAG, settings_key + " is empty, set default from camera : " +tmp);
+                Log.d(TAG, settings_key + " is empty, set default from camera : " +tmp);
                 appSettingsManager.setString(settings_key, tmp);
             }
             else
             {
                 String tmp = appSettingsManager.getString(settings_key);
-                Logger.d(TAG, "Found AppSetting: "+settings_key+" set to: " + tmp);
+                Log.d(TAG, "Found AppSetting: "+settings_key+" set to: " + tmp);
                 parameter.SetValue(tmp, false);
             }
         }
@@ -304,23 +304,23 @@ public abstract class AbstractParameterHandler
     {
         if (parameter != null && parameter.IsSupported() && settings_key != null && !settings_key.equals(""))
         {
-            Logger.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
+            Log.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
             if (appSettingsManager.getString(settings_key).equals("") || appSettingsManager.getString(settings_key).equals(null))
             {
                 String tmp = parameter.GetValue()+"";
-                Logger.d(TAG, settings_key + " is empty, set default from camera : " +tmp);
+                Log.d(TAG, settings_key + " is empty, set default from camera : " +tmp);
                 appSettingsManager.setString(settings_key, tmp);
             }
             else
             {
                 try {
                     int tmp = Integer.parseInt(appSettingsManager.getString(settings_key));
-                    Logger.d(TAG, "Found AppSetting: "+settings_key+" set to: " + tmp);
+                    Log.d(TAG, "Found AppSetting: "+settings_key+" set to: " + tmp);
                     parameter.SetValue(tmp);
                 }
                 catch (NumberFormatException ex)
                 {
-                    Logger.exception(ex);
+                    ex.printStackTrace();
                 }
 
             }

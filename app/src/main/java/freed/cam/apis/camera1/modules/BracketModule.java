@@ -28,9 +28,8 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 
 
 /**
@@ -122,10 +121,10 @@ public class BracketModule extends PictureModule
         else if (hdrCount == 7)
             value = 0;
 
-        Logger.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
+        Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
         int toset = value + cameraUiWrapper.GetParameterHandler().ManualExposure.getStringValues().length/2;
         cameraUiWrapper.GetParameterHandler().ManualExposure.SetValue(toset);
-        Logger.d(TAG, "HDR Exposure SET");
+        Log.d(TAG, "HDR Exposure SET");
     }
 
     @Override
@@ -168,8 +167,8 @@ public class BracketModule extends PictureModule
     {
         try {
             Thread.sleep(time);
-        } catch (InterruptedException e) {
-            Logger.exception(e);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
         }
     }
 

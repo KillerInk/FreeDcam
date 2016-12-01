@@ -36,7 +36,7 @@ import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ManualParameterAEHandlerInterface;
 import freed.dng.DngProfile;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 16.06.2016.
@@ -97,7 +97,7 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
                 if (shutter.IsSupported() && iso.IsSupported() && cameraWrapper.GetAppSettingsManager().GetCurrentCamera() == 0)
                 {
                     if (automode) {
-                        Logger.d(TAG, "AutomodeActive");
+                        Log.d(TAG, "AutomodeActive");
                         auto = automode;
                         parameters.set("force-aec-enable",0);
                         ((ParametersHandler)cameraWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
@@ -116,7 +116,7 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
 
                     } else {
                         if (auto) {
-                            Logger.d(TAG, "Automode Deactivated, set last values");
+                            Log.d(TAG, "Automode Deactivated, set last values");
                             auto = false;
                             parameters.set("force-aec-enable",1);
                             ((ParametersHandler)cameraWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
@@ -133,7 +133,7 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
                             //startReadingMeta();
                         } else {
                             //readMetaData = false;
-                            Logger.d(TAG, "Automode Deactivated, set UserValues");
+                            Log.d(TAG, "Automode Deactivated, set UserValues");
                             if (parameters.get("force-aec-enable").equals("0"))
                             {
                                 parameters.set("force-aec-enable",1);

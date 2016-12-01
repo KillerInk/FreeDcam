@@ -28,7 +28,7 @@ import java.io.IOException;
 import freed.cam.apis.sonyremote.parameters.manual.WbCTManualSony;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 
 public class WhiteBalanceModeSony extends BaseModeParameterSony
 {
@@ -51,8 +51,8 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
                         jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         values = processValuesToReturn();
                         BackgroundValuesHasChanged(values);
-                    } catch (IOException e) {
-                        Logger.exception(e);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                 }
             });
@@ -84,8 +84,8 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
                 wb.setValueInternal(cur);
             }
 
-        } catch (JSONException e) {
-            Logger.exception(e);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
         return ret;
     }
@@ -108,8 +108,8 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
         {
             JSONArray array = new JSONArray().put(valueToSet).put(false).put(-1) ;
             JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-        } catch (IOException e) {
-            Logger.exception(e);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -119,8 +119,8 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
         try {
             array = jsonObject.getJSONArray("result");
             ret = array.getJSONObject(0).getString("whiteBalanceMode");
-        } catch (JSONException e) {
-            Logger.exception(e);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
         return ret;
     }

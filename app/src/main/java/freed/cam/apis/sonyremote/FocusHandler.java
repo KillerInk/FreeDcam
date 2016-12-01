@@ -25,7 +25,7 @@ import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.FocusRect;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 31.01.2015.
@@ -53,11 +53,11 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         if (this.isFocusing)
         {
             this.cameraUiWrapper.GetCameraHolder().CancelFocus();
-            Logger.d(this.TAG, "Canceld Focus");
+            Log.d(this.TAG, "Canceld Focus");
             try {
                 Thread.sleep(100);
-            } catch (InterruptedException e) {
-                Logger.exception(e);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
             }
         }
 
@@ -65,7 +65,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         double y = rect.top + (rect.bottom - rect.top )  /2;
         double xproz = x / (double)width * 100;
         double yproz = y / (double)height *100;
-        Logger.d(this.TAG, "set focus to: x: " + xproz + " y: " +yproz);
+        Log.d(this.TAG, "set focus to: x: " + xproz + " y: " +yproz);
         ((CameraHolderSony) this.cameraUiWrapper.GetCameraHolder()).StartFocus(this);
         ((CameraHolderSony) this.cameraUiWrapper.GetCameraHolder()).SetTouchFocus(xproz, yproz);
         this.isFocusing = true;

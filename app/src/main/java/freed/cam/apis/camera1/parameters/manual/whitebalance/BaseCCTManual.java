@@ -30,7 +30,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by Ingo on 06.03.2016.
@@ -140,14 +140,14 @@ public class BaseCCTManual extends BaseManualParameter
                 cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
             parameters.set(key_value, stringvalues[currentInt]);
         }
-        Logger.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
+        Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
 
     }
 
     protected void set_to_auto()
     {
         cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.SetValue("auto", true);
-        Logger.d(TAG, "Set  to : auto");
+        Log.d(TAG, "Set  to : auto");
     }
 
     @Override

@@ -32,7 +32,7 @@ import android.renderscript.Type.Builder;
 import android.view.Surface;
 
 import freed.cam.apis.basecamera.FocuspeakProcessor;
-import freed.utils.Logger;
+import android.util.Log;
 import freed.utils.RenderScriptHandler;
 
 /**
@@ -54,7 +54,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     public FocuspeakProcessorApi2(RenderScriptHandler renderScriptHandler)
     {
-        Logger.d(TAG, "Ctor");
+        Log.d(TAG, "Ctor");
         this.renderScriptHandler = renderScriptHandler;
         mProcessingThread = new HandlerThread("ViewfinderProcessor");
         mProcessingThread.start();
@@ -85,7 +85,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     @Override
     public void Reset(int width, int height)
     {
-        Logger.d(TAG,"Reset:"+width +"x"+height);
+        Log.d(TAG,"Reset:"+width +"x"+height);
         Builder yuvTypeBuilder = new Builder(renderScriptHandler.GetRS(), Element.YUV(renderScriptHandler.GetRS()));
         yuvTypeBuilder.setX(width);
         yuvTypeBuilder.setY(height);
@@ -103,8 +103,8 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
             while (mProcessingTask.working) {
                 try {
                     Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    Logger.exception(e);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
                 }
             }
             mProcessingTask = null;
@@ -118,7 +118,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     public void setOutputSurface(Surface output)
     {
         renderScriptHandler.SetSurfaceToOutputAllocation(output);
-        Logger.d(TAG,"setOutputSurface");
+        Log.d(TAG,"setOutputSurface");
     }
 
     @Override
@@ -129,8 +129,8 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
             while (mProcessingTask.working) {
                 try {
                     Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    Logger.exception(e);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
                 }
             }
             mProcessingTask = null;
@@ -143,7 +143,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                 //mOutputAllocation = null;
             }
         }
-        Logger.d(TAG,"kill()");
+        Log.d(TAG,"kill()");
     }
 
     public float getmFps() {

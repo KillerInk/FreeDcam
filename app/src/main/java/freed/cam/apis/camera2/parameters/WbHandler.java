@@ -31,7 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 18.05.2016.
@@ -165,7 +165,7 @@ public class WbHandler
                 }
                 catch (NullPointerException ex)
                 {
-                    Logger.exception(ex);
+                    ex.printStackTrace();
                     return "AUTO";
                 }
 
@@ -246,7 +246,7 @@ public class WbHandler
             int[] rgb = cctLookup.get(valueToSet+"");
             if (rgb == null)
             {
-                Logger.d(TAG, "get cct from lookup failed:" + valueToSet);
+                Log.d(TAG, "get cct from lookup failed:" + valueToSet);
                 return;
             }
             float rf,gf,bf = 0;
@@ -258,8 +258,8 @@ public class WbHandler
             bf = bf/gf;
             gf = 1;
 
-            Logger.d(TAG, "r:" +rgb[0] +" g:"+rgb[1] +" b:"+rgb[2]);
-            Logger.d(TAG, "ColorTemp=" + valueToSet + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
+            Log.d(TAG, "r:" +rgb[0] +" g:"+rgb[1] +" b:"+rgb[2]);
+            Log.d(TAG, "ColorTemp=" + valueToSet + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
             wbChannelVector =  new RggbChannelVector(rf,gf,gf,bf);
             ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector);
 
@@ -347,7 +347,7 @@ public class WbHandler
             }
             catch (NullPointerException ex)
             {
-                Logger.exception(ex);
+                ex.printStackTrace();
             }
             return "";
 

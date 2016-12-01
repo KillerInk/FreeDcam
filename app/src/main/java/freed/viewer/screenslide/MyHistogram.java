@@ -28,9 +28,8 @@ import android.graphics.Path;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
-
-import freed.utils.Logger;
 
 public class MyHistogram extends View {
 
@@ -140,7 +139,7 @@ public class MyHistogram extends View {
         }
         catch (RuntimeException ex)
         {
-            Logger.d("histogram","bitmap got released");
+            Log.d("histogram","bitmap got released");
         }
     }
 

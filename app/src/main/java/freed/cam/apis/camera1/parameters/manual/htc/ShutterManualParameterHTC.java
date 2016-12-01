@@ -27,7 +27,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 17.08.2014.
@@ -72,14 +72,14 @@ public class ShutterManualParameterHTC extends BaseManualParameter
             }
             catch (Exception ex)
             {
-                Logger.d("Freedcam", "Shutter Set FAil");
+                Log.d("Freedcam", "Shutter Set FAil");
             }
         }
         else
         {
             setShutterToAuto();
         }
-        Logger.e(TAG, shutterstring);
+        Log.e(TAG, shutterstring);
     }
 
     private void setShutterToAuto() {

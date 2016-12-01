@@ -25,7 +25,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by Ar4eR on 05.02.16.
@@ -59,7 +59,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
         try {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         } catch (Exception ex) {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
 
 
@@ -77,8 +77,8 @@ public class CupBurstExpModeParameter extends BaseModeParameter
         try {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

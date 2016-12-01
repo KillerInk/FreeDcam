@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ import java.util.HashMap;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
 
 /**
  * Created by troop on 09.12.2014.
@@ -132,7 +132,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         currentModule.InitModule();
         ModuleHasChanged(currentModule.ModuleName());
         currentModule.SetCaptureStateChangedListner(workerListner);
-        Logger.d(TAG, "Set Module to " + name);
+        Log.d(TAG, "Set Module to " + name);
     }
 
     @Override
@@ -245,7 +245,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
      */
     private void stopBackgroundThread()
     {
-        Logger.d(TAG,"stopBackgroundThread");
+        Log.d(TAG,"stopBackgroundThread");
         if(mBackgroundThread == null)
             return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {

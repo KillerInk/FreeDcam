@@ -24,7 +24,7 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by GeorgeKiarie on 02/04/2016.
@@ -54,7 +54,7 @@ public class FocusManualHuawei extends BaseFocusManual
             parameters.set(KEYS.HW_HWCAMERA_FLAG,KEYS.ON);
             parameters.set(KEYS.HW_MANUAL_FOCUS_MODE,KEYS.ON);
             parameters.set(key_value, stringvalues[currentInt]);
-            Logger.d(TAG, "Set " + key_value + " to : " + stringvalues[currentInt]);
+            Log.d(TAG, "Set " + key_value + " to : " + stringvalues[currentInt]);
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
     }

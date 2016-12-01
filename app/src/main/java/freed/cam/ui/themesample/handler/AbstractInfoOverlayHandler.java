@@ -39,7 +39,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.sonyremote.SonyCameraFragment;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
 
 /**
  * Created by troop on 14.06.2015.
@@ -103,10 +102,9 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         try {
             context.unregisterReceiver(batteryBroadCastListner);
         }
-        catch (IllegalArgumentException ex)
-        {
-            Logger.exception(ex );}
-
+        catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+        }
     }
 
     class BatteryBroadCastListner extends BroadcastReceiver

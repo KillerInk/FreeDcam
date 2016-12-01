@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice.ApiService;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Simple Camera Remote API cameraUiWrapper class. (JSON based API <--> Java API)
@@ -76,7 +76,7 @@ public class SimpleRemoteApi {
     // Output a log line.
     private void log(String msg) {
         if (FULL_LOG) {
-            Logger.d(TAG, msg);
+            Log.d(TAG, msg);
         }
     }
 

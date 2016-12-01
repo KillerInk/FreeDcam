@@ -35,7 +35,7 @@ import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.modules.VideoMediaProfileLG;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 13.11.2014.
@@ -144,14 +144,14 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_480P))
                 supportedProfiles.put("480p", new VideoMediaProfileLG(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_480P), "480p", VideoMode.Normal,true));
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_720P))
                 supportedProfiles.put("720p", new VideoMediaProfileLG(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_720P),"720p", VideoMode.Normal,true));
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_1080P)) {
@@ -162,32 +162,32 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                 supportedProfiles.put("1080p@60", p108060fps);
             }
 
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_480P))
                 supportedProfiles.put("Timelapse480p", new VideoMediaProfileLG(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_480P), "Timelapse480p", VideoMode.Timelapse,false));
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_720P))
                 supportedProfiles.put("Timelapse720p", new VideoMediaProfileLG(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_720P),"Timelapse720p", VideoMode.Timelapse,false));
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_1080P))
                 supportedProfiles.put("Timelapse1080p", new VideoMediaProfileLG(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_1080P),"Timelapse1080p", VideoMode.Timelapse,false));
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160pDCI))
                 supportedProfiles.put("2160pDCI", new VideoMediaProfileLG(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160pDCI),"2160pDCI", VideoMode.Normal,true));
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160p))
@@ -195,8 +195,8 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                 CamcorderProfileEx fourk = CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160p);
                 supportedProfiles.put("2160p", new VideoMediaProfileLG(fourk,"2160p", VideoMode.Normal,true));
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, QUALITY_2160p))
@@ -204,27 +204,27 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                 CamcorderProfileEx fourk = CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_2160p);
                 supportedProfiles.put("2160p", new VideoMediaProfileLG(fourk,"2160p", VideoMode.Normal,true));
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_720p_HFR))
                 supportedProfiles.put("720pHFR", new VideoMediaProfileLG(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_720p_HFR),"720pHFR", VideoMode.Highspeed,true));
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, QUALITY_HFR720P))
                 supportedProfiles.put("720pHFR", new VideoMediaProfileLG(CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_HFR720P),"720pHFR", VideoMode.Highspeed,true));
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, QUALITY_HIGH_SPEED_1080P))
                 supportedProfiles.put("1080pHFR", new VideoMediaProfileLG(CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_HIGH_SPEED_1080P), "1080pHFR", VideoMode.Highspeed,true));
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

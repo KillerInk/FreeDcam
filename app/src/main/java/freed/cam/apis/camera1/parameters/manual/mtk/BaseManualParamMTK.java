@@ -25,7 +25,7 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by GeorgeKiarie on 6/3/2016.
@@ -61,7 +61,7 @@ public class BaseManualParamMTK extends BaseManualParameter
     public void SetValue(int valueToset)
     {
         currentInt = valueToset;
-        Logger.d(TAG, "set " + key_value + " to " + valueToset);
+        Log.d(TAG, "set " + key_value + " to " + valueToset);
         if(stringvalues == null || stringvalues.length == 0)
             return;
         parameters.set(key_value, stringvalues[valueToset]);
@@ -73,7 +73,7 @@ public class BaseManualParamMTK extends BaseManualParameter
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
     }
 

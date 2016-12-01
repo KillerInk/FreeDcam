@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 17.08.2014.
@@ -38,7 +38,7 @@ public class ExposureManualParameter extends BaseManualParameter
         stringvalues = createStringArray(parameters.getMinExposureCompensation(),parameters.getMaxExposureCompensation(),parameters.getExposureCompensationStep());
         isSupported = true;
         isVisible = true;
-        Logger.d(TAG, "Is Supported:" + isSupported);
+        Log.d(TAG, "Is Supported:" + isSupported);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ExposureManualParameter extends BaseManualParameter
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
         ThrowCurrentValueChanged(currentInt);
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);

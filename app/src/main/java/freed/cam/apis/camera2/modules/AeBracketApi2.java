@@ -30,7 +30,7 @@ import android.os.Handler;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.parameters.AeHandler;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 17.08.2016.
@@ -107,7 +107,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         int curIso = cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY);
         if (curIso >= maxiso)
             curIso = maxiso;
-        Logger.d(TAG, "set iso to :" + curIso);
+        Log.d(TAG, "set iso to :" + curIso);
         long expotimeToSet = currentExposureTime;
         captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, curIso);
         if (0 == captureNum)
@@ -116,7 +116,7 @@ public class AeBracketApi2 extends PictureModuleApi2
             expotimeToSet = currentExposureTime;
         else if (2 == captureNum)
              expotimeToSet = currentExposureTime + exposureTimeStep;
-        Logger.d(TAG,"Set shutter to:" + expotimeToSet);
+        Log.d(TAG,"Set shutter to:" + expotimeToSet);
         captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME,expotimeToSet);
         super.setupBurstCaptureBuilder(captureBuilder, captureNum);
     }

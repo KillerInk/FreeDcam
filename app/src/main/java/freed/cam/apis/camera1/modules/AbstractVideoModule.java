@@ -39,7 +39,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 06.01.2016.
@@ -102,7 +102,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     {
         try
         {
-            Logger.d(TAG, "InitMediaRecorder");
+            Log.d(TAG, "InitMediaRecorder");
             isWorking = true;
             ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().unlock();
             recorder = initRecorder();
@@ -111,7 +111,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             recorder.setOnErrorListener(new OnErrorListener() {
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {
-                    Logger.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
+                    Log.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
                     cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
                     changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
                 }
@@ -134,18 +134,18 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             // cameraHolder.StartPreview();
 
             try {
-                Logger.d(TAG,"Preparing Recorder");
+                Log.d(TAG,"Preparing Recorder");
                 recorder.prepare();
-                Logger.d(TAG, "Recorder Prepared, Starting Recording");
+                Log.d(TAG, "Recorder Prepared, Starting Recording");
                 recorder.start();
-                Logger.d(TAG, "Recording started");
+                Log.d(TAG, "Recording started");
                 sendStartToUi();
 
-            } catch (Exception e)
+            } catch (Exception ex)
             {
-                Logger.e(TAG,"Recording failed");
+                Log.e(TAG,"Recording failed");
                 cameraUiWrapper.GetCameraHolder().SendUIMessage("Start Recording failed");
-                Logger.exception(e);
+                ex.printStackTrace();
                 recorder.reset();
                 isWorking = false;
                 ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
@@ -156,7 +156,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         }
         catch (NullPointerException ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
             cameraUiWrapper.GetCameraHolder().SendUIMessage("Start Recording failed");
             recorder.reset();
             isWorking = false;
@@ -186,13 +186,13 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     {
         try {
             recorder.stop();
-            Logger.e(TAG, "Stop Recording");
+            Log.e(TAG, "Stop Recording");
         }
         catch (Exception ex)
         {
-            Logger.e(TAG, "Stop Recording failed, was called bevor start");
+            Log.e(TAG, "Stop Recording failed, was called bevor start");
             cameraUiWrapper.GetCameraHolder().SendUIMessage("Stop Recording failed, was called bevor start");
-            Logger.e(TAG,ex.getMessage());
+            Log.e(TAG,ex.getMessage());
             isWorking = false;
         }
         finally
@@ -228,12 +228,12 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             try {
                 fileDescriptor = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
                 recorder.setOutputFile(fileDescriptor.getFileDescriptor());
-            } catch (FileNotFoundException e) {
-                Logger.exception(e);
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
                 try {
                     fileDescriptor.close();
-                } catch (IOException e1) {
-                    Logger.exception(e1);
+                } catch (IOException ex1) {
+                    ex1.printStackTrace();
                 }
             }
         }

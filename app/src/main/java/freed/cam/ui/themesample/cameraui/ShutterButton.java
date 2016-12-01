@@ -41,7 +41,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 20.06.2015.
@@ -132,14 +132,14 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
             cameraUiWrapper.GetParameterHandler().ContShootMode.addEventListner(this.contshotListner);
 
         this.onModuleChanged("");
-        Logger.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
+        Log.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
     }
 
     private void switchBackground(final CaptureStates showstate, final boolean animate)
     {
         if (currentShow != showstate) {
             currentShow = showstate;
-            Logger.d(TAG, "switchBackground:" +currentShow);
+            Log.d(TAG, "switchBackground:" +currentShow);
             drawingLock.post(startAnimation);
         }
     }
@@ -147,7 +147,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
     @Override
     public void onModuleChanged(String module) {
 
-        Logger.d(this.TAG, "Module Changed");
+        Log.d(this.TAG, "Module Changed");
         if (this.cameraUiWrapper.GetParameterHandler().ContShootMode != null && this.cameraUiWrapper.GetParameterHandler().ContShootMode.IsSupported())
         {
             this.contshotListner.onParameterValueChanged(this.cameraUiWrapper.GetParameterHandler().ContShootMode.GetValue());
@@ -177,7 +177,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
     @Override
     public void onCaptureStateChanged(CaptureStates mode)
     {
-        Logger.d(this.TAG, "onCaptureStateChanged CurrentShow:" + this.currentShow);
+        Log.d(this.TAG, "onCaptureStateChanged CurrentShow:" + this.currentShow);
         this.switchBackground(mode,true);
 
     }
@@ -187,7 +187,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
         public void onParameterValueChanged(String val)
         {
             //Single","Continuous","Spd Priority Cont.
-            Logger.d(ShutterButton.this.TAG, "contshot:" + val);
+            Log.d(ShutterButton.this.TAG, "contshot:" + val);
             if (ShutterButton.this.cameraUiWrapper.GetParameterHandler().ContShootMode.GetValue().contains("Single")) {
                 ShutterButton.this.switchBackground(CaptureStates.image_capture_stop, false);
                 ShutterButton.this.contshot = false;
@@ -302,7 +302,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
                 shutter_open_radius -= shutter_open_step;
                 break;
         }
-        //Logger.d(TAG,"shutter_open:" + shutter_open_radius + " recCircle:" + recordingRadiusCircle + " recRect:" + recordingRadiusRectangle +  " captureState:" + currentShow);
+        //Log.d(TAG,"shutter_open:" + shutter_open_radius + " recCircle:" + recordingRadiusCircle + " recRect:" + recordingRadiusRectangle +  " captureState:" + currentShow);
         invalidate();
     }
 

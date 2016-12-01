@@ -24,7 +24,7 @@ import android.os.Handler;
 import java.util.Date;
 
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by Ingo on 04.10.2015.
@@ -54,7 +54,7 @@ class IntervalHandler
 
     public void StartInterval()
     {
-        Logger.d(TAG, "Start Interval");
+        Log.d(TAG, "Start Interval");
         working = true;
         startTime = new Date().getTime();
         String interval = picmodule.cameraUiWrapper.GetParameterHandler().IntervalShutterSleep.GetValue().replace(" sec", "");
@@ -67,7 +67,7 @@ class IntervalHandler
 
     public void CancelInterval()
     {
-        Logger.d(TAG, "Cancel Interval");
+        Log.d(TAG, "Cancel Interval");
         handler.removeCallbacks(intervalDelayRunner);
         handler.removeCallbacks(shutterDelayRunner);
         shuttercounter = 0;
@@ -95,13 +95,13 @@ class IntervalHandler
         double min = (double)(dif /1000) / 60;
         if (min >= intervalToEndDuration)
         {
-            Logger.d(TAG, "Finished Interval");
+            Log.d(TAG, "Finished Interval");
             picmodule.cameraUiWrapper.GetParameterHandler().IntervalCaptureFocusSet = false;
             picmodule.cameraUiWrapper.GetParameterHandler().IntervalCapture = false;
             working = false;
             return;
         }
-        Logger.d(TAG, "Start StartNext Interval in" + intervalDuration + " " + min + " " + intervalToEndDuration);
+        Log.d(TAG, "Start StartNext Interval in" + intervalDuration + " " + min + " " + intervalToEndDuration);
         intervalDelayCounter = 0;
         handler.post(intervalDelayRunner);
     }
@@ -141,7 +141,7 @@ class IntervalHandler
     private int shutterWaitCounter;
     private void startShutterDelay()
     {
-        Logger.d(TAG, "Start ShutterDelay in " + shutterDelay);
+        Log.d(TAG, "Start ShutterDelay in " + shutterDelay);
         if (shutterWaitCounter < shutterDelay / 1000)
         {
             handler.postDelayed(shutterDelayRunner, 1000);
@@ -169,7 +169,7 @@ class IntervalHandler
         }
         catch (Exception ex)
         {
-            Logger.d("Freedcam",ex.getMessage());
+            Log.d("Freedcam",ex.getMessage());
         }
     }
 

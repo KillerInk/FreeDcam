@@ -46,7 +46,6 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 
 
@@ -204,13 +203,13 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         mErrorListener = listener;
 
         if (streamUrl == null) {
-            Logger.e(TAG, "start() streamUrl is null.");
+            Log.e(TAG, "start() streamUrl is null.");
             mWhileFetching = false;
             mErrorListener.onError(StreamErrorReason.OPEN_ERROR);
             return;
         }
         if (this.mWhileFetching) {
-            Logger.d(SimpleStreamSurfaceView.TAG, "start() already starting.");
+            Log.d(SimpleStreamSurfaceView.TAG, "start() already starting.");
             return;
         }
 
@@ -220,7 +219,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                Logger.d(SimpleStreamSurfaceView.TAG, "Starting retrieving streaming data from server.");
+                Log.d(SimpleStreamSurfaceView.TAG, "Starting retrieving streaming data from server.");
                 SimpleLiveviewSlicer slicer = null;
 
                 try {
@@ -234,7 +233,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         fetchPayLoad(slicer);
                     }
                 } catch (IOException e) {
-                    Logger.d(TAG, "IOException while fetching: " + e.getMessage());
+                    Log.d(TAG, "IOException while fetching: " + e.getMessage());
                     mErrorListener.onError(StreamErrorReason.IO_EXCEPTION);
                 } finally {
                     if (slicer != null) {
@@ -260,7 +259,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             @Override
             public void run() {
                 IS_DRAWING = true;
-                Logger.d(SimpleStreamSurfaceView.TAG, "Starting drawing stream frame.");
+                Log.d(SimpleStreamSurfaceView.TAG, "Starting drawing stream frame.");
                 Bitmap frameBitmap = null;
 
                 BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
@@ -289,7 +288,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         }
                         continue;
                     } catch (InterruptedException e) {
-                        Logger.e(SimpleStreamSurfaceView.TAG, "Drawer thread is Interrupted.");
+                        Log.e(SimpleStreamSurfaceView.TAG, "Drawer thread is Interrupted.");
                         break;
                     }
                     frameBitmap = BitmapFactory.decodeByteArray(dataExtractor.jpegData, 0, dataExtractor.jpegData.length, factoryOptions);
@@ -338,7 +337,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      * Request to stop retrieving and drawing liveview data.
      */
     public void stop() {
-        Logger.d(TAG, "stop");
+        Log.d(TAG, "stop");
         this.mWhileFetching = false;
 
     }
@@ -506,7 +505,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             this.getHolder().unlockCanvasAndPost(canvas);
         }
         catch(IllegalStateException ex)
-        {Logger.exception(ex);}
+        {ex.printStackTrace();}
     }
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
@@ -536,9 +535,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 int dif = frameleft * -1;
                 frameleft +=dif;
                 frameright +=dif;
-                Logger.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
+                Log.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
                 this.zoomPreviewMagineLeft +=dif;
-                Logger.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
+                Log.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
                 Log.d(SimpleStreamSurfaceView.TAG, "frameleft < 0");
             }
             if (frameright > frameWidth)
@@ -546,9 +545,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 int dif = frameright - frameWidth;
                 frameright -=dif;
                 frameleft -=dif;
-                Logger.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
+                Log.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
                 this.zoomPreviewMagineLeft -=dif;
-                Logger.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
+                Log.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
                 Log.d(SimpleStreamSurfaceView.TAG, "frameright > w");
             }
             if (frametop < 0)
@@ -556,9 +555,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 int dif = frametop * -1;
                 frametop +=dif;
                 framebottom +=dif;
-                Logger.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
+                Log.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
                 this.zoomPreviewMargineTop +=dif;
-                Logger.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
+                Log.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
                 Log.d(SimpleStreamSurfaceView.TAG, "framebottom < 0");
             }
             if (framebottom > frameHeight)
@@ -566,9 +565,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 int dif = framebottom -frameHeight;
                 framebottom -=dif;
                 frametop -= dif;
-                Logger.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
+                Log.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
                 this.zoomPreviewMargineTop -=dif;
-                Logger.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
+                Log.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
                 Log.d(SimpleStreamSurfaceView.TAG, "framebottom > h");
             }
 
@@ -670,7 +669,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      * @param height
      */
     private void onDetectedFrameSizeChanged(int width, int height) {
-        Logger.d(SimpleStreamSurfaceView.TAG, "Change of aspect ratio detected");
+        Log.d(SimpleStreamSurfaceView.TAG, "Change of aspect ratio detected");
         this.mPreviousWidth = width;
         this.mPreviousHeight = height;
         this.initRenderScript();

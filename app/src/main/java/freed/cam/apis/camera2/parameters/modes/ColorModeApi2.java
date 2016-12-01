@@ -26,7 +26,7 @@ import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.CameraHolderApi2;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 16.12.2014.
@@ -91,7 +91,7 @@ public class ColorModeApi2 extends BaseModeApi2
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
 
         ColorModes sceneModes = ColorModes.values()[i];

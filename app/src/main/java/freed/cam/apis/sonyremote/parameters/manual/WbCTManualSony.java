@@ -29,7 +29,7 @@ import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 19.04.2015.
@@ -73,11 +73,11 @@ public class WbCTManualSony extends BaseManualParameterSony
                         }
 
                         ThrowCurrentValueChanged(currentInt / step);
-                    } catch (JSONException e) {
-                        Logger.exception(e);
+                    } catch (JSONException ex) {
+                        ex.printStackTrace();
                     }
-                } catch (IOException e) {
-                    Logger.exception(e);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
 
                 }
             }
@@ -100,12 +100,12 @@ public class WbCTManualSony extends BaseManualParameterSony
             public void run() {
                 try
                 {
-                    Logger.d("WBCT", values[set]);
+                    Log.d("WBCT", values[set]);
 
                     JSONArray array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(t[set])) ;
                     JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);
-                } catch (IOException e) {
-                    Logger.exception(e);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -172,19 +172,19 @@ public class WbCTManualSony extends BaseManualParameterSony
                             JSONObject ob = subarray.getJSONObject(i);
                             SetMinMAx(ob);
                         }
-                    } catch (JSONException e) {
-                        Logger.exception(e);
+                    } catch (JSONException ex) {
+                        ex.printStackTrace();
                     }
-                } catch (IOException e) {
-                    Logger.exception(e);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
         while (values == null)
             try {
                 Thread.sleep(10);
-            } catch (InterruptedException e) {
-                Logger.exception(e);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
             }
     }
 

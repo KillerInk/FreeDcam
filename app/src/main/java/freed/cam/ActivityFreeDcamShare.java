@@ -33,7 +33,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
-import freed.utils.Logger;
+import android.util.Log;
 import freed.viewer.holder.FileHolder;
 
 /**
@@ -48,11 +48,11 @@ public class ActivityFreeDcamShare extends ActivityFreeDcamMain implements I_Wor
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent callerIntent = getIntent();
-        Logger.d(TAG, callerIntent.getAction());
+        Log.d(TAG, callerIntent.getAction());
         if (callerIntent.getAction().equals(MediaStore.ACTION_IMAGE_CAPTURE)) {
             Uri imageUri = callerIntent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
             toreturnFile = new File(imageUri.getPath());
-            Logger.d(TAG, imageUri.getPath());
+            Log.d(TAG, imageUri.getPath());
         }
 
     }

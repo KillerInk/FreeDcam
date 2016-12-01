@@ -31,7 +31,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 29.08.2015.
@@ -114,7 +114,7 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
         appSettingsManager.setString(settingsname, current + "");
         if (current >= 1)
@@ -130,7 +130,7 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
         if (fps == null || fps.equals(""))
             fps = "30";
 
-        Logger.d(TAG, "set to " + fps);
+        Log.d(TAG, "set to " + fps);
         current = Float.parseFloat(fps);
         if (current >= 1)
             editText.setText(current + " fps");

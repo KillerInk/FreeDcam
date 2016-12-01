@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -58,7 +59,6 @@ import freed.cam.ui.themesample.handler.FocusImageHandler;
 import freed.cam.ui.themesample.handler.SampleInfoOverlayHandler;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
 import freed.viewer.screenslide.ScreenSlideFragment.I_ThumbClick;
 
 /**
@@ -121,7 +121,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     protected void setCameraUiWrapperToUi() {
         if (cameraUiWrapper == null || cameraUiWrapper.GetParameterHandler() == null)
         {
-            Logger.d(TAG, "failed to set cameraUiWrapper");
+            Log.d(TAG, "failed to set cameraUiWrapper");
             return;
         }
         cameraUiWrapper.GetModuleHandler().SetWorkListner(this);
@@ -166,7 +166,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
-        Logger.d(TAG, "####################ONCREATEDVIEW####################");
+        Log.d(TAG, "####################ONCREATEDVIEW####################");
 
         fragment_activityInterface = (ActivityInterface)getActivity();
         touchHandler = new SwipeMenuListner(this);
@@ -308,14 +308,14 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private void hide_ManualSettings()
     {
         manualsettingsIsOpen = false;
-        Logger.d(TAG, "HideSettings");
+        Log.d(TAG, "HideSettings");
         manualModes_holder.animate().translationY(manualModes_holder.getHeight()).setDuration(300);
         //manualModes_holder.setVisibility(View.GONE);
     }
 
     private void showManualSettings()
     {
-        Logger.d(TAG, "ShowSettings");
+        Log.d(TAG, "ShowSettings");
         manualsettingsIsOpen = true;
         manualModes_holder.animate().translationY(0).setDuration(300);
         manualModes_holder.setVisibility(View.VISIBLE);

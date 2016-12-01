@@ -23,7 +23,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.TextureView;
 
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 27.08.2015.
@@ -53,7 +53,7 @@ public class TextureViewRatio extends TextureView implements I_AspectRatio
         }
         mRatioWidth = width;
         mRatioHeight = height;
-        Logger.d(this.TAG, "new size: " + width + "x" + height);
+        Log.d(this.TAG, "new size: " + width + "x" + height);
         requestLayout();
     }
 

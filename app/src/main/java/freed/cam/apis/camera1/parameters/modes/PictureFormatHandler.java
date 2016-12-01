@@ -30,7 +30,7 @@ import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.DeviceUtils.Devices;
-import freed.utils.Logger;
+import android.util.Log;
 
 import static freed.cam.apis.KEYS.BAYER;
 
@@ -70,13 +70,13 @@ public class PictureFormatHandler extends BaseModeParameter
         this.parametersHandler = parametersHandler;
         if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
         {
-            Logger.d(TAG,"mtk");
+            Log.d(TAG,"mtk");
             isSupported = true;
             rawSupported = true;
         }
         else
         {
-            Logger.d(TAG,"default");
+            Log.d(TAG,"default");
             isSupported = true;
             if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G2)
             {
@@ -137,13 +137,13 @@ public class PictureFormatHandler extends BaseModeParameter
                 }
             }
         }
-        Logger.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+ isSupported);
+        Log.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+ isSupported);
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        Logger.d(TAG, "SetValue:" + valueToSet);
+        Log.d(TAG, "SetValue:" + valueToSet);
         captureMode = valueToSet;
         if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != Frameworks.MTK)
         {
@@ -167,7 +167,7 @@ public class PictureFormatHandler extends BaseModeParameter
 
     private void setString(String val, boolean setTocam)
     {
-        Logger.d(TAG, "setString:" +val);
+        Log.d(TAG, "setString:" +val);
         parameters.set(KEYS.PICTURE_FORMAT, val);
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
@@ -175,7 +175,7 @@ public class PictureFormatHandler extends BaseModeParameter
     @Override
     public boolean IsSupported()
     {
-        Logger.d(TAG,"IsSupported:"+ isSupported);
+        Log.d(TAG,"IsSupported:"+ isSupported);
         return isSupported;
     }
 

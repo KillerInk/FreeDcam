@@ -35,7 +35,7 @@ import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.CloseChildClick;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 14.06.2015.
@@ -60,7 +60,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     public void SetCameraUIWrapper(CameraWrapperInterface wrapper)
     {
         super.SetCameraUIWrapper(wrapper);
-        Logger.d(TAG, "SetCameraUiWrapper");
+        Log.d(TAG, "SetCameraUiWrapper");
     }
 
     @Override
@@ -87,7 +87,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     @Override
     protected void setCameraUiWrapperToUi()
     {
-        Logger.d(TAG, "set CameraWrapper");
+        Log.d(TAG, "set CameraWrapper");
         if (value_menu_status != VALUE_MENU_CLOSED)
             closeValueMenu();
         if (rightMenuFragment != null)
@@ -110,7 +110,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
             transaction.commit();
         }catch (NullPointerException | IllegalStateException ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
     }
     private void loadRightFragment()
@@ -128,7 +128,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
         }
         catch (NullPointerException | IllegalStateException ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
     }
 

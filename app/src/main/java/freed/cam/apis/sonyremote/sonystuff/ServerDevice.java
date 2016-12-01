@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * A server device description class.
@@ -236,9 +236,9 @@ public final class ServerDevice {
         String ddXml = "";
         try {
             ddXml = SimpleHttpClient.httpGet(ddUrl);
-            Logger.d(TAG, "fetch () httpGet done.");
+            Log.d(TAG, "fetch () httpGet done.");
         } catch (IOException e) {
-            Logger.e(TAG, "fetch: IOException.");
+            Log.e(TAG, "fetch: IOException.");
             return null;
         }
 
@@ -281,7 +281,7 @@ public final class ServerDevice {
                 device.addApiService(serviceName, actionUrl);
             }
         }
-        Logger.d(TAG, "fetch () parsing XML done.");
+        Log.d(TAG, "fetch () parsing XML done.");
         return device;
     }
 

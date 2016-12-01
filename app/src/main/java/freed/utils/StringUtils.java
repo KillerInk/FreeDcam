@@ -20,6 +20,7 @@
 package freed.utils;
 
 import android.os.Environment;
+import android.util.Log;
 
 /**
  * Created by Ingo on 04.10.2014.
@@ -75,7 +76,7 @@ public class StringUtils
 
         long l2 = (i + AB >> 3) / 1000;
         // long l3 = Environment.getExternalStorageDirectory().getUsableSpace() / l2;
-        Logger.d("VideoCamera Remaing", getTimeString(Environment.getExternalStorageDirectory().getUsableSpace() / l2)) ;
+        Log.d("VideoCamera Remaing", getTimeString(Environment.getExternalStorageDirectory().getUsableSpace() / l2)) ;
 
     }
 

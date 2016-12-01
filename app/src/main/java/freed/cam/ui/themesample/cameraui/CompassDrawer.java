@@ -93,7 +93,7 @@ public class CompassDrawer extends View
 
     public void SetPosition(final float pos)
     {
-        //Logger.d(TAG, "SetPositon:" + pos);
+        //Log.d(TAG, "SetPositon:" + pos);
         this.post(new Runnable() {
             @Override
             public void run() {

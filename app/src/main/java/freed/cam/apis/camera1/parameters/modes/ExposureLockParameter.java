@@ -24,7 +24,7 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by Ingo on 25.12.2014.
@@ -52,7 +52,7 @@ public class ExposureLockParameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
             BackgroundValueHasChanged(KEYS.FALSE);
         }
 

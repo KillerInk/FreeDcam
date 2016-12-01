@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * A parser class for Liveview data Packet defined by Camera Remote API
@@ -60,7 +60,7 @@ class SimpleLiveviewSlicer {
                 mInputStream = null;
             }
         } catch (IOException e) {
-            Logger.d(TAG, "Close() IOException.");
+            Log.d(TAG, "Close() IOException.");
         }
 
         if (mHttpConn != null) {

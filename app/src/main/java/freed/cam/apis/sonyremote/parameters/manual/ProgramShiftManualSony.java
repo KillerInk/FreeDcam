@@ -31,7 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by Ingo on 19.04.2015.
@@ -92,7 +92,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                 {
                     try
                     {
-                        Logger.d(TAG, "Trying to get String Values from: " + VALUES_TO_GET);
+                        Log.d(TAG, "Trying to get String Values from: " + VALUES_TO_GET);
                         JSONObject object =  ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(0);
@@ -126,9 +126,9 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                         onCurrentValueChanged(currentInt);
 
 
-                    } catch (IOException | JSONException e) {
-                        Logger.exception(e);
-                        Logger.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
+                    } catch (IOException | JSONException ex) {
+                        ex.printStackTrace();
+                        Log.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
                         stringvalues = new String[0];
                     }
                 }
@@ -136,8 +136,8 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
             while (stringvalues == null)
                 try {
                     Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    Logger.exception(e);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
                 }
         }
     }
@@ -155,8 +155,8 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     array = new JSONArray().put(0, Integer.parseInt(stringvalues[currentInt]));
                     JSONObject object = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
-                } catch (JSONException | IOException e) {
-                    Logger.exception(e);
+                } catch (JSONException | IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         });

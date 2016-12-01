@@ -35,7 +35,7 @@ import freed.cam.apis.camera1.parameters.modes.HDRModeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoStabilizationParameter;
 import freed.dng.DngProfile;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 31.05.2016.
@@ -196,8 +196,8 @@ public abstract class AbstractDevice implements I_Device {
                  return new BaseModeParameter(parameters, cameraUiWrapper,KEYS.SONY_VS,KEYS.SONY_VS_VALUES);
             else if (parameters.get(KEYS.DIGITALIMAGESTABILIZATION)!=null)
                 return new BaseModeParameter(parameters, cameraUiWrapper,KEYS.DIGITALIMAGESTABILIZATION,KEYS.DIGITALIMAGESTABILIZATION_VALUES);
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return null;
     }

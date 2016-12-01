@@ -28,7 +28,7 @@ import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.utils.DeviceUtils.Devices;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 02.09.2014.
@@ -191,11 +191,11 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                 if (this.isFocusing)
                 {
                     this.cameraUiWrapper.GetCameraHolder().CancelFocus();
-                    Logger.d(this.TAG, "Canceld Focus");
+                    Log.d(this.TAG, "Canceld Focus");
                     try {
                         Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        Logger.exception(e);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
                     }
                 }
 

@@ -27,7 +27,7 @@ import freed.cam.apis.basecamera.CameraHolderInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by GeorgeKiarie on 6/3/2016.
@@ -79,14 +79,14 @@ public class ShutterManualG2pro extends BaseManualParameter
             }
             catch (Exception ex)
             {
-                Logger.d("Freedcam", "Shutter Set FAil");
+                Log.d("Freedcam", "Shutter Set FAil");
             }
         }
         else
         {
             shutterstring = setExposureTimeToParameter("0");
         }
-        Logger.e(TAG, shutterstring);
+        Log.e(TAG, shutterstring);
     }
 
 
@@ -107,7 +107,7 @@ public class ShutterManualG2pro extends BaseManualParameter
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
         return shutterstring;
     }

@@ -27,7 +27,7 @@ import java.io.IOException;
 
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 26.01.2015.
@@ -46,8 +46,8 @@ public class ContShootModeParameterSony extends BaseModeParameterSony
             JSONObject ob = array.optJSONObject(0);
             JSONArray subarray = ob.getJSONArray("candidate");
             ret = JsonUtils.ConvertJSONArrayToStringArray(subarray);
-        } catch (JSONException e) {
-            Logger.exception(e);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
         return ret;
     }
@@ -60,13 +60,13 @@ public class ContShootModeParameterSony extends BaseModeParameterSony
                 JSONObject contshot = new JSONObject().put("contShootingMode", valueToSet);
                 JSONArray array = new JSONArray().put(0, contshot);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-            } catch (JSONException e) {
-                Logger.exception(e);
+            } catch (JSONException ex) {
+                ex.printStackTrace();
             }
 
 
-        } catch (IOException e) {
-            Logger.exception(e);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -76,8 +76,8 @@ public class ContShootModeParameterSony extends BaseModeParameterSony
         try {
             array = jsonObject.getJSONArray("result");
             ret = array.getJSONObject(0).getString("contShootingMode");
-        } catch (JSONException e) {
-            Logger.exception(e);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
         return ret;
     }

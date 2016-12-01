@@ -29,7 +29,7 @@ import freed.cam.apis.camera1.modules.PictureModule;
 import freed.cam.apis.camera1.modules.PictureModuleMTK;
 import freed.cam.apis.camera1.modules.VideoModule;
 import freed.cam.apis.camera1.modules.VideoModuleG3;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 16.08.2014.
@@ -51,7 +51,7 @@ public class ModuleHandler extends ModuleHandlerAbstract
         //splitting modules make the code foreach device cleaner
         if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
         {
-            Logger.d(TAG, "load mtk picmodule");
+            Log.d(TAG, "load mtk picmodule");
             PictureModuleMTK thl5000 = new PictureModuleMTK(cameraUiWrapper,mBackgroundHandler);
             moduleList.put(thl5000.ModuleName(), thl5000);
             IntervalModule intervalModule = new IntervalModule(thl5000, cameraUiWrapper,mBackgroundHandler);
@@ -59,7 +59,7 @@ public class ModuleHandler extends ModuleHandlerAbstract
         }
         else//else //use default pictureModule
         {
-            Logger.d(TAG, "load default picmodule");
+            Log.d(TAG, "load default picmodule");
             PictureModule pictureModule = new PictureModule(cameraUiWrapper,mBackgroundHandler);
             moduleList.put(pictureModule.ModuleName(), pictureModule);
             IntervalModule intervalModule = new IntervalModule(pictureModule, cameraUiWrapper,mBackgroundHandler);
@@ -68,18 +68,18 @@ public class ModuleHandler extends ModuleHandlerAbstract
 
         if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.LG)
         {
-            Logger.d(TAG, "load lg videomodule");
+            Log.d(TAG, "load lg videomodule");
             VideoModuleG3 videoModuleG3 = new VideoModuleG3(cameraUiWrapper,mBackgroundHandler);
             moduleList.put(videoModuleG3.ModuleName(), videoModuleG3);
         }
         else
         {
-            Logger.d(TAG, "load default videomodule");
+            Log.d(TAG, "load default videomodule");
             VideoModule videoModule = new VideoModule(cameraUiWrapper,mBackgroundHandler);
             moduleList.put(videoModule.ModuleName(), videoModule);
         }
 
-        Logger.d(TAG, "load hdr module");
+        Log.d(TAG, "load hdr module");
         if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != Frameworks.MTK)
         {
             BracketModule bracketModule = new BracketModule(cameraUiWrapper,mBackgroundHandler);

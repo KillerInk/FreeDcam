@@ -38,7 +38,7 @@ import com.troop.freedcam.R.layout;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.ExecutorService;
 
-import freed.utils.Logger;
+import android.util.Log;
 import freed.viewer.gridview.BaseGridViewFragment.ViewStates;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.BaseHolder;
@@ -184,7 +184,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     {
         this.fileHolder = fileHolder;
         this.mImageThumbSize = mImageThumbSize;
-        Logger.d(TAG, "load file:" + fileHolder.getFile().getName());
+        Log.d(TAG, "load file:" + fileHolder.getFile().getName());
         imageView.setImageBitmap(null);
         if (!fileHolder.getFile().isDirectory())
         {
@@ -228,13 +228,13 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         @Override
         public void run()
         {
-            Logger.d(TAG, "load file:" + fileHolder.getFile().getName());
+            Log.d(TAG, "load file:" + fileHolder.getFile().getName());
             final Bitmap bitmap = bitmapHelper.getBitmap(fileHolder, true);
             if (imageviewRef != null && bitmap != null) {
                 final GridImageView imageView = imageviewRef.get();
                 if (imageView != null && imageView.getFileHolder() == fileHolder)
                 {
-                    Logger.d(TAG, "set bitmap to imageview");
+                    Log.d(TAG, "set bitmap to imageview");
                     imageView.post(new Runnable() {
                         @Override
                         public void run() {
@@ -245,10 +245,10 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 
                 }
                 else
-                    Logger.d(TAG, "Imageview has new file already, skipping it");
+                    Log.d(TAG, "Imageview has new file already, skipping it");
             }
             else {
-                Logger.d(TAG, "Imageview or bitmap null");
+                Log.d(TAG, "Imageview or bitmap null");
                 imageView.post(new Runnable() {
                     @Override
                     public void run() {

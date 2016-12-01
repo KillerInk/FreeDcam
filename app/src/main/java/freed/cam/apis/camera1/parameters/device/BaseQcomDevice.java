@@ -36,7 +36,7 @@ import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManual_ExposureTi
 import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.dng.DngProfile;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 02.06.2016.
@@ -101,11 +101,11 @@ public class BaseQcomDevice extends AbstractDevice
             wbModeval = KEYS.WB_MODE_MANUAL_CCT;
 
         if (!wbmax.equals("") && !wbmin.equals("") && !wbModeval.equals("")) {
-            Logger.d(TAG, "Found all wbct values:" +wbmax + " " + wbmin + " " +wbModeval);
+            Log.d(TAG, "Found all wbct values:" +wbmax + " " + wbmin + " " +wbModeval);
             return new BaseCCTManual(parameters, wbmax, wbmin, cameraUiWrapper, 100, wbModeval);
         }
         else {
-            Logger.d(TAG, "Failed to lookup wbct:" + " " +wbmax + " " + wbmin + " " +wbModeval);
+            Log.d(TAG, "Failed to lookup wbct:" + " " +wbmax + " " + wbmin + " " +wbModeval);
             return null;
         }
     }

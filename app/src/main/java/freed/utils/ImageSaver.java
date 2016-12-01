@@ -25,6 +25,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -62,7 +63,7 @@ public class ImageSaver
             try {
                 fileName.createNewFile();
             } catch (IOException e) {
-                Logger.exception(e);
+                e.printStackTrace();
             }
     }
 
@@ -114,7 +115,7 @@ public class ImageSaver
         @Override
         public void run() {
             RawToDng dngConverter = RawToDng.GetInstance();
-            Logger.d(TAG,"saveDng");
+            Log.d(TAG,"saveDng");
             double Altitude = 0;
             double Latitude = 0;
             double Longitude = 0;
@@ -125,7 +126,7 @@ public class ImageSaver
                 if (activityInterface.getLocationHandler().getCurrentLocation() != null)
                 {
                     Location location = activityInterface.getLocationHandler().getCurrentLocation();
-                    Logger.d(TAG, "location:" + location.toString());
+                    Log.d(TAG, "location:" + location.toString());
                     Altitude = location.getAltitude();
                     Latitude = location.getLatitude();
                     Longitude = location.getLongitude();
@@ -142,7 +143,7 @@ public class ImageSaver
                 //DngMatrixCalc dngMatrixCalc = new DngMatrixCalc();
                // dngMatrixCalc.CalcualteD65();
 
-                Logger.d(TAG, "Write To internal or kitkat<");
+                Log.d(TAG, "Write To internal or kitkat<");
                 checkFileExists(fileName);
                 dngConverter.setBayerData(bytes, fileName.getAbsolutePath());
                 dngConverter.WriteDngWithProfile(dngProfile);
@@ -150,14 +151,14 @@ public class ImageSaver
             else
             {
                 DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
-                Logger.d(TAG,"Filepath: " + df.getUri());
+                Log.d(TAG,"Filepath: " + df.getUri());
                 DocumentFile wr = df.createFile("image/dng", fileName.getName().replace(".jpg", ".dng"));
-                Logger.d(TAG,"Filepath: " + wr.getUri());
+                Log.d(TAG,"Filepath: " + wr.getUri());
                 ParcelFileDescriptor pfd = null;
                 try {
                     pfd = activityInterface.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
                 } catch (FileNotFoundException | IllegalArgumentException e) {
-                    Logger.exception(e);
+                    e.printStackTrace();
                 }
                 if (pfd != null)
                 {
@@ -166,7 +167,7 @@ public class ImageSaver
                     try {
                         pfd.close();
                     } catch (IOException e) {
-                        Logger.exception(e);
+                        e.printStackTrace();
                     }
                     pfd = null;
                 }
@@ -201,7 +202,7 @@ public class ImageSaver
         public void run() {
             OutputStream outStream = null;
             boolean writetoExternalSD = activityInterface.getAppSettings().GetWriteExternal();
-            Logger.d(TAG, "Write External " + writetoExternalSD);
+            Log.d(TAG, "Write External " + writetoExternalSD);
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || !writetoExternalSD && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             {
                 try {
@@ -215,9 +216,9 @@ public class ImageSaver
             else
             {
                 DocumentFile df =  activityInterface.getFreeDcamDocumentFolder();
-                Logger.d(TAG,"Filepath: " + df.getUri());
+                Log.d(TAG,"Filepath: " + df.getUri());
                 DocumentFile wr = df.createFile("image/*", file.getName());
-                Logger.d(TAG,"Filepath: " + wr.getUri());
+                Log.d(TAG,"Filepath: " + wr.getUri());
                 try {
                     outStream = activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri());
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
@@ -254,7 +255,7 @@ public class ImageSaver
          */
         @Override
         public void run() {
-            Logger.d(TAG, "Start Saving Bytes");
+            Log.d(TAG, "Start Saving Bytes");
             OutputStream outStream = null;
             try {
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !activityInterface.getAppSettings().GetWriteExternal())
@@ -265,9 +266,9 @@ public class ImageSaver
                 else
                 {
                     DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
-                    Logger.d(TAG,"Filepath: " + df.getUri());
+                    Log.d(TAG,"Filepath: " + df.getUri());
                     DocumentFile wr = df.createFile("image/*", file.getName());
-                    Logger.d(TAG,"Filepath: " + wr.getUri());
+                    Log.d(TAG,"Filepath: " + wr.getUri());
                     outStream = activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri());
                 }
                 outStream.write(bytes);
@@ -276,10 +277,10 @@ public class ImageSaver
 
 
             } catch (IOException e) {
-                Logger.exception(e);
+                e.printStackTrace();
             }
             scanFile(file);
-            Logger.d(TAG, "End Saving Bytes");
+            Log.d(TAG, "End Saving Bytes");
             bytes = null;
             file = null;
         }

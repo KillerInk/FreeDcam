@@ -59,7 +59,7 @@ import freed.cam.apis.camera2.parameters.modes.SceneModeApi2;
 import freed.cam.apis.camera2.parameters.modes.ToneMapModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 12.12.2014.
@@ -84,7 +84,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         List<Key<?>> keys = cameraHolder.characteristics.getAvailableCaptureRequestKeys();
         for (int i = 0; i< keys.size(); i++)
         {
-            Logger.d(TAG, keys.get(i).getName());
+            Log.d(TAG, keys.get(i).getName());
         }
         Module = new ModuleParameters(cameraUiWrapper, appSettingsManager);
         FlashMode = new FlashModeApi2(cameraUiWrapper);
@@ -146,7 +146,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
                 }
                 catch (NullPointerException ex)
                 {
-                    Logger.exception(ex);
+                    ex.printStackTrace();
                 }
             }
         });
@@ -184,12 +184,12 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             return;
         try
         {
-            Logger.d(TAG, "Set Orientation to:" + orientation);
+            Log.d(TAG, "Set Orientation to:" + orientation);
             cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, orientation);
         }
-        catch (NullPointerException e)
+        catch (NullPointerException ex)
         {
-            Logger.exception(e);
+            ex.printStackTrace();
         }
     }
 

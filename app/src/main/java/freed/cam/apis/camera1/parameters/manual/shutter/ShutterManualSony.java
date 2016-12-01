@@ -24,7 +24,7 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 21.02.2016.
@@ -51,7 +51,7 @@ public class ShutterManualSony extends AbstractManualShutter
                     stringvalues = getSupportedShutterValues(min, max,true);
                     isSupported = true;
                 } catch (NumberFormatException ex) {
-                    Logger.exception(ex);
+                    ex.printStackTrace();
                     isSupported = false;
                 }
             }

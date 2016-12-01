@@ -50,7 +50,7 @@ import freed.cam.apis.sonyremote.parameters.modes.WhiteBalanceModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.ZoomSettingSony;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 13.12.2014.
@@ -77,7 +77,7 @@ public class ParameterHandler extends AbstractParameterHandler
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
 
-        Logger.d(TAG, "Throw parametersChanged");
+        Log.d(TAG, "Throw parametersChanged");
         throwSonyApiChanged(mAvailableCameraApiSet);
 
     }
@@ -167,7 +167,7 @@ public class ParameterHandler extends AbstractParameterHandler
             @Override
             public void run()
             {
-                    Logger.d(TAG, "Throw ParametersHasLoaded");
+                    Log.d(TAG, "Throw ParametersHasLoaded");
                 ParametersHasLoaded();
                 }
 

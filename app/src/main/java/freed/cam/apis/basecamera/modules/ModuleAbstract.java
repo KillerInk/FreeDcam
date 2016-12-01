@@ -27,7 +27,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 15.08.2014.
@@ -64,7 +64,7 @@ public abstract class ModuleAbstract implements ModuleInterface
      */
     protected void changeCaptureState(final CaptureStates captureStates)
     {
-        Logger.d(TAG, "work started");
+        Log.d(TAG, "work started");
         currentWorkState = captureStates;
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override

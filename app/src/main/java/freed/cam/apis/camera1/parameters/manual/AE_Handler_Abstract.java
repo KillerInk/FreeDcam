@@ -28,7 +28,7 @@ import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 13.06.2016.
@@ -93,7 +93,7 @@ public abstract class AE_Handler_Abstract implements I_ParametersLoaded
             if (shutter.IsSupported() && iso.IsSupported() && cameraWrapper.GetAppSettingsManager().GetCurrentCamera() == 0)
             {
                 if (automode) {
-                    Logger.d(TAG, "AutomodeActive");
+                    Log.d(TAG, "AutomodeActive");
                     auto = automode;
 
 
@@ -113,7 +113,7 @@ public abstract class AE_Handler_Abstract implements I_ParametersLoaded
 
                 } else {
                     if (auto) {
-                        Logger.d(TAG, "Automode Deactivated, set last values");
+                        Log.d(TAG, "Automode Deactivated, set last values");
                         auto = false;
                         switch (fromManual) {
                             case shutter:
@@ -128,7 +128,7 @@ public abstract class AE_Handler_Abstract implements I_ParametersLoaded
                         startReadingMeta();
                     } else {
                         readMetaData = false;
-                        Logger.d(TAG, "Automode Deactivated, set UserValues");
+                        Log.d(TAG, "Automode Deactivated, set UserValues");
                         switch (fromManual) {
                             case shutter:
                                 shutter.setValue(value);

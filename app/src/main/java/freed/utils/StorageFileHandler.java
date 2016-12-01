@@ -21,6 +21,7 @@ package freed.utils;
 
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -71,10 +72,10 @@ public class StorageFileHandler
             readSubFolders(subDcimFolders,extDcim,true);
         }
         sortFileHolder(subDcimFolders);
-        Logger.d(TAG,"#############Found DCIM Folders:");
+        Log.d(TAG,"#############Found DCIM Folders:");
         for (FileHolder fileHolder : subDcimFolders)
-            Logger.d(TAG,fileHolder.getFile().getAbsolutePath());
-        Logger.d(TAG,"#############END DCIM Folders:");
+            Log.d(TAG,fileHolder.getFile().getAbsolutePath());
+        Log.d(TAG,"#############END DCIM Folders:");
 
         return subDcimFolders;
     }
@@ -196,7 +197,7 @@ public class StorageFileHandler
             }
             catch (Exception ex)
             {
-                Logger.d(TAG, "No Ext SD!");
+                Log.d(TAG, "No Ext SD!");
             }
         }
         else

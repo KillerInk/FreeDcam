@@ -27,7 +27,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 05.03.2016.
@@ -96,7 +96,7 @@ public class BaseFocusManual extends BaseManualParameter
         if (valueToSet == 0)
         {
             cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(KEYS.AUTO, true);
-            Logger.d(TAG, "Set Focus to : auto");
+            Log.d(TAG, "Set Focus to : auto");
         }
         else
         {
@@ -105,7 +105,7 @@ public class BaseFocusManual extends BaseManualParameter
             parameters.set(KEYS.KEY_MANUAL_FOCUS_TYPE, manualFocusType +"");
 
             parameters.set(key_value, stringvalues[currentInt]);
-            Logger.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
+            Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
     }

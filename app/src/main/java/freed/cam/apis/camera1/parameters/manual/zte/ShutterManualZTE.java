@@ -29,7 +29,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.DeviceUtils.Devices;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 25.11.2015.
@@ -80,14 +80,14 @@ public class ShutterManualZTE extends AbstractManualShutter
             }
             catch (Exception ex)
             {
-                Logger.d("Freedcam", "Shutter Set FAil");
+                Log.d("Freedcam", "Shutter Set FAil");
             }
         }
         else
         {
             setShutterToAuto();
         }
-        Logger.e(TAG, shutterstring);
+        Log.e(TAG, shutterstring);
     }
 
     private void setShutterToAuto()
@@ -107,7 +107,7 @@ public class ShutterManualZTE extends AbstractManualShutter
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
 
     }
@@ -134,7 +134,7 @@ public class ShutterManualZTE extends AbstractManualShutter
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
         return shutterstring;
     }

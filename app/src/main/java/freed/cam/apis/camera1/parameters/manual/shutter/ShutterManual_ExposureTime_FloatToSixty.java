@@ -25,7 +25,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 21.02.2016.
@@ -49,14 +49,14 @@ public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_Expos
         if(!stringvalues[currentInt].equals(KEYS.AUTO))
         {
             String shutterstring = FormatShutterStringToDouble(stringvalues[currentInt]);
-            Logger.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
+            Log.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
             shutterstring = FLOATtoSixty4(shutterstring);
             parameters.set("exposure-time", shutterstring);
         }
         else
         {
             parameters.set("exposure-time", "0");
-            Logger.d(TAG, "set exposure time to auto");
+            Log.d(TAG, "set exposure time to auto");
         }
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }

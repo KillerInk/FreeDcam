@@ -109,7 +109,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ADV_IMX214;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ADV_IMX234;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_Z11;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_Z5SMINI;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by GeorgeKiarie on 6/2/2016.
@@ -124,7 +124,7 @@ public class DeviceSelector {
 
     public AbstractDevice getDevice(CameraWrapperInterface cameraUiWrapper, Parameters cameraParameters)
     {
-        Logger.d(DeviceSelector.class.getSimpleName(), "getDevice " + cameraUiWrapper.GetAppSettingsManager().getDevice());
+        Log.d(DeviceSelector.class.getSimpleName(), "getDevice " + cameraUiWrapper.GetAppSettingsManager().getDevice());
         switch (cameraUiWrapper.GetAppSettingsManager().getDevice())
         {
            case UNKNOWN:
@@ -422,11 +422,11 @@ public class DeviceSelector {
     {
         if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
         {
-            Logger.d(DeviceSelector.class.getSimpleName(), "USE DEFAULT MTK DEVICE");
+            Log.d(DeviceSelector.class.getSimpleName(), "USE DEFAULT MTK DEVICE");
             return new BaseMTKDevice(parameters, cameraUiWrapper);
         }
         else {
-            Logger.d(DeviceSelector.class.getSimpleName(), "USE DEFAULT QCOM DEVICE");
+            Log.d(DeviceSelector.class.getSimpleName(), "USE DEFAULT QCOM DEVICE");
             return new BaseQcomDevice(parameters, cameraUiWrapper);
         }
     }

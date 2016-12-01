@@ -27,6 +27,7 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.v4.provider.DocumentFile;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -57,7 +58,6 @@ import freed.ActivityAbstract.FormatTypes;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.dngconvert.DngConvertingActivity;
 import freed.viewer.dngconvert.DngConvertingFragment;
@@ -736,7 +736,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 imageView = (GridImageView) convertView;
                 imageView.SetThreadPoolAndBitmapHelper(executor, viewerActivityInterface.getBitmapHelper());
             }
-            Logger.d(TAG, "filessize:" + viewerActivityInterface.getFiles().size() + " position:"+position);
+            Log.d(TAG, "filessize:" + viewerActivityInterface.getFiles().size() + " position:"+position);
             if (viewerActivityInterface.getFiles().size() <= position)
                 position = viewerActivityInterface.getFiles().size() -1;
             if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(viewerActivityInterface.getFiles().get(position)) /*||imageView.viewstate != currentViewState*/)

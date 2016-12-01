@@ -25,7 +25,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.DeviceUtils.Devices;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by Ingo on 12.04.2015.
@@ -46,7 +46,7 @@ public class CDS_Mode_Parameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
         if (!isSupported)
         {
@@ -88,7 +88,7 @@ public class CDS_Mode_Parameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
     }
 }

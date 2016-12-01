@@ -29,6 +29,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -59,7 +60,6 @@ import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import freed.utils.AppSettingsManager;
 import freed.utils.LocationHandler;
-import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 import freed.utils.StringUtils;
 import freed.viewer.holder.FileHolder;
@@ -124,22 +124,20 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (savelogtofile) {
-            Logger.StopLogging();
-        }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Logger.d(TAG, "onResume()");
+        Log.d(TAG, "onResume()");
         // forward to secure camera to handle resume bug
         mSecureCamera.onResume();
     }
 
     @Override
     public void onResumeTasks() {
-        Logger.d(TAG, "onResumeTasks()");
+        Log.d(TAG, "onResumeTasks()");
         if (!hasCameraPermission()) {
             return;
         }
@@ -156,14 +154,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     protected void onPause()
     {
         super.onPause();
-        Logger.d(TAG, "onPause()");
+        Log.d(TAG, "onPause()");
         // forward to secure camera to handle resume bug
         mSecureCamera.onPause();
     }
 
     @Override
     public void onPauseTasks() {
-        Logger.d(TAG, "onPauseTasks()");
+        Log.d(TAG, "onPauseTasks()");
         if(orientationHandler != null)
             orientationHandler.Stop();
         if (locationHandler != null)
@@ -174,33 +172,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     //that finaly create all stuff needed
     private void createHandlers() {
         if (hasExternalSDPermission()) {
-            Logger.d(TAG, "createHandlers()");
-            //Get default handler for uncaught exceptions. to let fc app as it should
-            defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
-            //set up own ex handler to have a change to catch the fc bevor app dies
-            Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-                @Override
-                public void uncaughtException(Thread thread,final Throwable e)
-                {
-                    //yeahaw app crash print ex to logger
-                    if (thread != Looper.getMainLooper().getThread())
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run()
-                            {
-                                Logger.LogUncaughtEX(e);
-                            }
-                        });
-                    else
-                        Logger.LogUncaughtEX(e);
-
-                    //set back default exhandler and let app die
-                    defaultEXhandler.uncaughtException(thread,e);
-                }
-            });
-
-            //check if DEBUG folder exist for log to file
-            checkSaveLogToFile();
+            Log.d(TAG, "createHandlers()");
             LoadFreeDcamDCIMDirsFiles();
 
         }
@@ -222,15 +194,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //check if camera is camera2 full device
     }
 
-    //if a DEBUG folder is inside /DCIM/FreeDcam/ logging to file gets started
-    private void checkSaveLogToFile() {
-        File debugfile = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder +"DEBUG");
-        if (debugfile.exists()) {
-            savelogtofile = true;
-            Logger.StartLogging();
-        }
-    }
-
     /**
      * gets called from ApiHandler when apidetection has finished
      * thats loads the CameraFragment
@@ -249,7 +212,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     load the camerafragment to ui
      */
     private void loadCameraFragment() {
-        Logger.d(TAG, "loading cameraWrapper");
+        Log.d(TAG, "loading cameraWrapper");
 
         if (cameraFragment == null) {
             //get new cameraFragment
@@ -262,7 +225,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
             transaction.replace(id.cameraFragmentHolder, cameraFragment, "CameraFragment");
             transaction.commit();
-            Logger.d(TAG, "loaded cameraWrapper");
+            Log.d(TAG, "loaded cameraWrapper");
         }
         else { //resuse fragments
             cameraFragment.StartCamera();
@@ -284,7 +247,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         }
         if (settingsMenuFragment != null)
             settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
-        Logger.d(TAG, "add events");
+        Log.d(TAG, "add events");
         //register timer to to moduleevent handler that it get shown/hidden when its video or not
         //and start/stop working when recording starts/stops
         cameraUiWrapper.GetModuleHandler().AddRecoderChangedListner(timerHandler);
@@ -295,7 +258,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      * Unload the current active camerafragment
      */
     private void unloadCameraFragment() {
-        Logger.d(TAG, "destroying cameraWrapper");
+        Log.d(TAG, "destroying cameraWrapper");
         if(orientationHandler != null)
             orientationHandler.Stop();
 
@@ -311,13 +274,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             transaction.commit();
             cameraFragment = null;
         }
-        Logger.d(TAG, "destroyed cameraWrapper");
+        Log.d(TAG, "destroyed cameraWrapper");
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (activityIsResumed) {
-            Logger.d(TAG, "KeyCode Pressed:" + keyCode);
+            Log.d(TAG, "KeyCode Pressed:" + keyCode);
             int appSettingsKeyShutter = 0;
 
             if (getAppSettings().getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
@@ -354,7 +317,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void OrientationChanged(int orientation) {
         if (orientation != currentorientation)
         {
-            Logger.d(TAG,"orientation changed to :" +orientation);
+            Log.d(TAG,"orientation changed to :" +orientation);
             currentorientation = orientation;
         }
     }
@@ -459,13 +422,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public void WorkHasFinished(final FileHolder fileHolder) {
-        Logger.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
+        Log.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
         /*final Bitmap b = getBitmapHelper().getBitmap(fileHolder, true);
         if (b == null) {
             return;
         }
         else {*/
-        Logger.d(TAG,"WorkHasFinished:"+ fileHolder.getFile().getName());
+        Log.d(TAG,"WorkHasFinished:"+ fileHolder.getFile().getName());
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -484,7 +447,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Logger.d(TAG,"Cached Image Rdy:"+ fileHolder.getFile().getName());
+                    Log.d(TAG,"Cached Image Rdy:"+ fileHolder.getFile().getName());
                     if (screenSlideFragment != null && activityIsResumed)
                         screenSlideFragment.NotifyDATAhasChanged();
                 }
@@ -529,7 +492,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     protected void cameraPermsissionGranted(boolean granted) {
-        Logger.d(TAG, "cameraPermission Granted:" + granted);
+        Log.d(TAG, "cameraPermission Granted:" + granted);
         if (granted) {
             initApiHandler();
         }
@@ -540,9 +503,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     protected void externalSDPermissionGranted(boolean granted) {
-        Logger.d(TAG, "externalSdPermission Granted:" + granted);
+        Log.d(TAG, "externalSdPermission Granted:" + granted);
         if (granted) {
-            checkSaveLogToFile();
             LoadFreeDcamDCIMDirsFiles();
         }
         else {

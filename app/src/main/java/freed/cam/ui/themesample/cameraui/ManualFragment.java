@@ -38,7 +38,7 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_Man
 import freed.cam.apis.sonyremote.SonyCameraFragment;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 08.12.2015.
@@ -223,13 +223,13 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 if (vals == null || vals.length == 0) {
                     currentButton.SetActive(false);
                     seekbar.setVisibility(View.GONE);
-                    Logger.e(TAG, "Values returned from currentButton are NULL!");
+                    Log.e(TAG, "Values returned from currentButton are NULL!");
                     return;
                 }
                 seekbar.SetStringValues(vals);
                 seekbar.setProgress(currentButton.getCurrentItem(),false);
                 currentValuePos = currentButton.getCurrentItem();
-                Logger.d(TAG, "CurrentvaluePos " + currentValuePos);
+                Log.d(TAG, "CurrentvaluePos " + currentValuePos);
             }
 
         }
@@ -241,7 +241,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
     {
-        Logger.d(TAG, "onProgressChanged:" + progress);
+        Log.d(TAG, "onProgressChanged:" + progress);
         currentValuePos = progress;
         if (!(cameraUiWrapper instanceof SonyCameraFragment)) {
             currentButton.setValueToParameters(progress);

@@ -26,7 +26,7 @@ import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.CameraHolderApi2;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 17.03.2015.
@@ -67,7 +67,7 @@ public class ControlModesApi2 extends BaseModeApi2
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
 
         }
 

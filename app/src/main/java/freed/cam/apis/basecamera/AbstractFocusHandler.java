@@ -22,7 +22,7 @@ package freed.cam.apis.basecamera;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 09.12.2014.
@@ -47,11 +47,11 @@ public abstract class AbstractFocusHandler
 
     protected void logFocusRect(FocusRect rect)
     {
-        Logger.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
+        Log.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
     }
 
     protected void logRect(Rect rect)
     {
-        Logger.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
+        Log.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
     }
 }

@@ -33,7 +33,7 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 18.05.2016.
@@ -259,8 +259,8 @@ public class AeHandler
         private void findMinMaxValue()
         {
 
-            Logger.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
-            Logger.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
+            Log.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
+            Log.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
             //866 975 130 = 0,8sec
             switch(cameraUiWrapper.GetAppSettingsManager().getDevice())
             {
@@ -323,9 +323,9 @@ public class AeHandler
             currentInt = valueToSet;
             if (valueToSet > 0) {
                 long val = (long) (AbstractManualShutter.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
-                Logger.d(TAG, "ExposureTimeToSet:" + val);
+                Log.d(TAG, "ExposureTimeToSet:" + val);
                 if (val > 800000000 &&!cameraUiWrapper.GetAppSettingsManager().GetCurrentModule().equals(KEYS.MODULE_VIDEO)) {
-                    Logger.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
+                    Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                     val = 800000000;
                 }
                 //check if calced value is not bigger then max returned from cam
@@ -405,7 +405,7 @@ public class AeHandler
         public void SetValue(int valueToSet)
         {
             //workaround when value was -1 to avoid outofarray ex
-            Logger.d(TAG, "set Manual Iso: " +valueToSet);
+            Log.d(TAG, "set Manual Iso: " +valueToSet);
             if (valueToSet == -1)
                 valueToSet = 0;
             //////////////////////

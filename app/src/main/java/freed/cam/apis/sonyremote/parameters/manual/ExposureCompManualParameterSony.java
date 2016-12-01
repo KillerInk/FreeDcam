@@ -28,7 +28,7 @@ import java.io.IOException;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 03.01.2015.
@@ -57,7 +57,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 }
                 try {
                     int toset;
-                    Logger.d(TAG, "SetValue " + valueToSet);
+                    Log.d(TAG, "SetValue " + valueToSet);
                     if (valueToSet > stringvalues.length)
                         toset = stringvalues.length -1;
                     else
@@ -66,13 +66,13 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     JSONObject object =  ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
 
                         //ThrowCurrentValueChanged(valueToSet);
-                } catch (JSONException e) {
-                    Logger.exception(e);
-                    Logger.e(TAG, "Error SetValue " + valueToSet);
-                } catch (IOException e)
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                    Log.e(TAG, "Error SetValue " + valueToSet);
+                } catch (IOException ex)
                 {
-                    Logger.e(TAG, "Error SetValue " + valueToSet);
-                    Logger.exception(e);
+                    Log.e(TAG, "Error SetValue " + valueToSet);
+                    ex.printStackTrace();
                 }
             }
         });
@@ -88,17 +88,17 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 public void run()
                 {
                     try {
-                        Logger.d(TAG, "try get min max values ");
+                        Log.d(TAG, "try get min max values ");
                         JSONObject object =  ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         int min = array.getInt(2);
                         int max = array.getInt(1);
                         stringvalues = createStringArray(min,max,1);
-                    } catch (IOException | JSONException e)
+                    } catch (IOException | JSONException ex)
                     {
 
-                        Logger.e(TAG, "Error getMinMaxValues ");
-                        Logger.exception(e);
+                        Log.e(TAG, "Error getMinMaxValues ");
+                        ex.printStackTrace();
 
                     }
                 }
@@ -118,9 +118,9 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                         JSONArray array = object.getJSONArray("result");
                         currentInt = array.getInt(0);
                         //onCurrentValueChanged(val);
-                    } catch (IOException | JSONException e) {
-                        Logger.exception(e);
-                        Logger.e(TAG, "Error GetValue() ");
+                    } catch (IOException | JSONException ex) {
+                        ex.printStackTrace();
+                        Log.e(TAG, "Error GetValue() ");
 
                     }
                 }

@@ -66,7 +66,7 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
             tappversion.setText(appSettingsManager.context.getPackageManager()
                     .getPackageInfo(appSettingsManager.context.getPackageName(), 0).versionName);
         } catch (PackageManager.NameNotFoundException e) {
-            Logger.exception(e);
+            Log.exception(e);
         }*/
     }
 

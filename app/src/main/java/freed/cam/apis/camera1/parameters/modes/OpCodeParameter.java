@@ -41,7 +41,7 @@ import javax.net.ssl.X509TrustManager;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.utils.AppSettingsManager;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 import freed.utils.StringUtils;
 
 
@@ -83,8 +83,8 @@ public class OpCodeParameter extends AbstractModeParameter
                 public void run() {
                     try {
                         httpsGet(urlopc2, "opc2.bin");
-                    } catch (IOException e) {
-                        Logger.exception(e);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                 }
             });
@@ -93,8 +93,8 @@ public class OpCodeParameter extends AbstractModeParameter
                 public void run() {
                     try {
                         httpsGet(urlopc3, "opc3.bin");
-                    } catch (IOException e) {
-                        Logger.exception(e);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                 }
             });
@@ -142,17 +142,17 @@ public class OpCodeParameter extends AbstractModeParameter
                 inputStream = httpConn.getInputStream();
             }
             if (inputStream == null) {
-                Logger.w(TAG, "httpGet: Response Code Error: " + responseCode + ": " + url);
+                Log.w(TAG, "httpGet: Response Code Error: " + responseCode + ": " + url);
                 throw new IOException("Response Error:" + responseCode);
             }
         } catch (SocketTimeoutException e) {
-            Logger.w(TAG, "httpGet: Timeout: " + url);
+            Log.w(TAG, "httpGet: Timeout: " + url);
             throw new IOException();
         } catch (MalformedURLException e) {
-            Logger.w(TAG, "httpGet: MalformedUrlException: " + url);
+            Log.w(TAG, "httpGet: MalformedUrlException: " + url);
             throw new IOException();
         } catch (IOException e) {
-            Logger.w(TAG, "httpGet: " + e.getMessage());
+            Log.w(TAG, "httpGet: " + e.getMessage());
             if (httpConn != null) {
                 httpConn.disconnect();
             }
@@ -172,7 +172,7 @@ public class OpCodeParameter extends AbstractModeParameter
             }
             responseBuf.flush();
         } catch (IOException e) {
-            Logger.w(TAG, "httpGet: read error: " + e.getMessage());
+            Log.w(TAG, "httpGet: read error: " + e.getMessage());
             file.delete();
             throw e;
         } finally {
@@ -180,14 +180,14 @@ public class OpCodeParameter extends AbstractModeParameter
                 if (responseBuf != null)
                     responseBuf.close();
             } catch (IOException e) {
-                Logger.w(TAG, "IOException while closing BufferedReader");
+                Log.w(TAG, "IOException while closing BufferedReader");
             }
             try {
                 if (inputStream != null) {
                     inputStream.close();
                 }
             } catch (IOException e) {
-                Logger.w(TAG, "IOException while closing InputStream");
+                Log.w(TAG, "IOException while closing InputStream");
             }
             BackgroundValueHasChanged("true");
         }

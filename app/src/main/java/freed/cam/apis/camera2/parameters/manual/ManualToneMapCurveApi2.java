@@ -29,7 +29,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera2.CameraHolderApi2;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 05.05.2015.
@@ -118,22 +118,22 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
         @Override
         public void SetValue(int valueToSet)
         {
-            Logger.d(TAG, "Contrast value to set:" + valueToSet);
+            Log.d(TAG, "Contrast value to set:" + valueToSet);
             if (valueToSet == -1)
             {
-                Logger.d(TAG, "Current TonemapMode:" + cameraUiWrapper.GetParameterHandler().ToneMapMode.GetValue());
+                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.GetParameterHandler().ToneMapMode.GetValue());
                 if (cameraUiWrapper.GetParameterHandler().ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
                 {
                     cameraUiWrapper.GetParameterHandler().ToneMapMode.SetValue("FAST", true);
-                    Logger.d(TAG, "Disabled Contrast Curve");
+                    Log.d(TAG, "Disabled Contrast Curve");
                 }
             }
             else {
-                Logger.d(TAG, "Current TonemapMode:" + cameraUiWrapper.GetParameterHandler().ToneMapMode.GetValue());
+                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.GetParameterHandler().ToneMapMode.GetValue());
                 if (!cameraUiWrapper.GetParameterHandler().ToneMapMode.GetValue().equals("CONTRAST_CURVE") && !firststart)
                 {
                     cameraUiWrapper.GetParameterHandler().ToneMapMode.SetValue("CONTRAST_CURVE", true);
-                    Logger.d(TAG, "Enabled Contrast Curve");
+                    Log.d(TAG, "Enabled Contrast Curve");
                 }
                 valueToSet = valueToSet * 3;
                 currentInt = valueToSet;
@@ -159,7 +159,7 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
                     shadows[1] = 0.25f - toset;
                 }
 
-                Logger.d(TAG, "toset:" + toset + " val:" + valueToSet + " hx:" + highlights[0] + " hy:" + highlights[1] + " sx:" + shadows[0] + " sy:" + shadows[1]);
+                Log.d(TAG, "toset:" + toset + " val:" + valueToSet + " hx:" + highlights[0] + " hy:" + highlights[1] + " sx:" + shadows[0] + " sy:" + shadows[1]);
 
                 float[] tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
                 TonemapCurve tonemapCurve = new TonemapCurve(tonemap, tonemap, tonemap);
@@ -229,7 +229,7 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
                 midtones[1] = 0.5f - toset;
             }
 
-            Logger.d(TAG, "toset:" + toset + " val:" + valueToSet+ " x:" + midtones[0] + " y:"+ midtones[1]);
+            Log.d(TAG, "toset:" + toset + " val:" + valueToSet+ " x:" + midtones[0] + " y:"+ midtones[1]);
 
             float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
             TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);

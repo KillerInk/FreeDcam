@@ -10,7 +10,7 @@ import java.io.RandomAccessFile;
 import java.util.Date;
 
 import freed.dng.DngProfile;
-import freed.utils.Logger;
+import android.util.Log;
 import freed.utils.StorageFileHandler;
 import freed.utils.StringUtils;
 
@@ -77,7 +77,7 @@ public class RawToDng
         if (op2.exists())
             try {
                 opcode2 = readFile(op2);
-                Logger.d(TAG, "opcode2 size" + opcode2.length);
+                Log.d(TAG, "opcode2 size" + opcode2.length);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -85,7 +85,7 @@ public class RawToDng
         if (op3.exists())
             try {
                 opcode3 = readFile(op3);
-                Logger.d(TAG, "opcode3 size" + opcode3.length);
+                Log.d(TAG, "opcode3 size" + opcode3.length);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -126,17 +126,17 @@ public class RawToDng
             g = 288.1221695283 * Math.pow(g, -0.0755148492);
             b = 255;
         }
-        Logger.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" + r + " g:" + g + " b:" + b);
+        Log.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" + r + " g:" + g + " b:" + b);
         float rf,gf,bf = 0;
 
         rf = (float) getRGBToDouble(checkminmax((int)r))/2;
         gf = (float) getRGBToDouble(checkminmax((int)g));
         bf = (float) getRGBToDouble(checkminmax((int)b))/2;
-        Logger.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
+        Log.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
             rf = rf / gf;
             bf = bf / gf;
             gf = 1;
-        Logger.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
+        Log.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
         return new float[]{rf, gf,bf};
     }
 
@@ -170,7 +170,7 @@ public class RawToDng
 
     public void SetGpsData(double Altitude,double Latitude,double Longitude, String Provider, long gpsTime)
     {
-        Logger.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
+        Log.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
         SetGPSData(Altitude, parseGpsvalue(Latitude), parseGpsvalue(Longitude), Provider, gpsTime);
     }
 

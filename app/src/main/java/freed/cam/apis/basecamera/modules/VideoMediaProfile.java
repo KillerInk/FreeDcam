@@ -20,8 +20,8 @@
 package freed.cam.apis.basecamera.modules;
 
 import android.media.CamcorderProfile;
+import android.util.Log;
 
-import freed.utils.Logger;
 import freed.utils.StringUtils;
 
 /**
@@ -81,9 +81,9 @@ public class VideoMediaProfile
         this.ProfileName = ProfileName;
         Mode = mode;
         this.isAudioActive = isAudioActive;
-        Logger.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+ duration +"FileFormat:"+ fileFormat +"Quality:"+ quality);
-        Logger.d(TAG, "ABR:"+ audioBitRate +"AChannels:"+ audioChannels +"Acodec:"+ audioCodec +"AsampleRate"+ audioSampleRate +"audio_active:" + isAudioActive);
-        Logger.d(TAG,"VBitrate:"+ videoBitRate +"VCodec:"+ videoCodec +"VFrameRate:"+ videoFrameRate +"VWidth:"+ videoFrameWidth +"Vheight:"+ videoFrameHeight);
+        Log.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+ duration +"FileFormat:"+ fileFormat +"Quality:"+ quality);
+        Log.d(TAG, "ABR:"+ audioBitRate +"AChannels:"+ audioChannels +"Acodec:"+ audioCodec +"AsampleRate"+ audioSampleRate +"audio_active:" + isAudioActive);
+        Log.d(TAG,"VBitrate:"+ videoBitRate +"VCodec:"+ videoCodec +"VFrameRate:"+ videoFrameRate +"VWidth:"+ videoFrameWidth +"Vheight:"+ videoFrameHeight);
     }
 
     protected VideoMediaProfile(int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12, String ProfileName, VideoMode mode, boolean isAudioActive)
@@ -103,9 +103,9 @@ public class VideoMediaProfile
         this.ProfileName = ProfileName;
         Mode = mode;
         this.isAudioActive = isAudioActive;
-        Logger.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+ duration +"FileFormat:"+ fileFormat +"Quality:"+ quality);
-        Logger.d(TAG, "ABR:"+ audioBitRate +"AChannels:"+ audioChannels +"Acodec:"+ audioCodec +"AsampleRate"+ audioSampleRate +"audio_active:" + isAudioActive);
-        Logger.d(TAG,"VBitrate:"+ videoBitRate +"VCodec:"+ videoCodec +"VFrameRate:"+ videoFrameRate +"VWidth:"+ videoFrameWidth +"Vheight:"+ videoFrameHeight);
+        Log.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+ duration +"FileFormat:"+ fileFormat +"Quality:"+ quality);
+        Log.d(TAG, "ABR:"+ audioBitRate +"AChannels:"+ audioChannels +"Acodec:"+ audioCodec +"AsampleRate"+ audioSampleRate +"audio_active:" + isAudioActive);
+        Log.d(TAG,"VBitrate:"+ videoBitRate +"VCodec:"+ videoCodec +"VFrameRate:"+ videoFrameRate +"VWidth:"+ videoFrameWidth +"Vheight:"+ videoFrameHeight);
     }
 
     public VideoMediaProfile(String t) {
@@ -126,9 +126,9 @@ public class VideoMediaProfile
         Mode = VideoMode.valueOf(ar[13]);
         isAudioActive = ar.length == 14 || Boolean.parseBoolean(ar[14]);
 
-        Logger.d(TAG, "ProfileName:" + ProfileName + "Duration:" + duration + "FileFormat:" + fileFormat + "Quality:" + quality);
-        Logger.d(TAG, "ABR:" + audioBitRate + "AChannels:" + audioChannels + "Acodec:" + audioCodec + "AsampleRate" + audioSampleRate + "audio_active:" + isAudioActive);
-        Logger.d(TAG, "VBitrate:" + videoBitRate + "VCodec:" + videoCodec + "VFrameRate:" + videoFrameRate + "VWidth:" + videoFrameWidth + "Vheight:" + videoFrameHeight);
+        Log.d(TAG, "ProfileName:" + ProfileName + "Duration:" + duration + "FileFormat:" + fileFormat + "Quality:" + quality);
+        Log.d(TAG, "ABR:" + audioBitRate + "AChannels:" + audioChannels + "Acodec:" + audioCodec + "AsampleRate" + audioSampleRate + "audio_active:" + isAudioActive);
+        Log.d(TAG, "VBitrate:" + videoBitRate + "VCodec:" + videoCodec + "VFrameRate:" + videoFrameRate + "VWidth:" + videoFrameWidth + "Vheight:" + videoFrameHeight);
     }
 
     public String GetString()
@@ -164,7 +164,7 @@ public class VideoMediaProfile
         File mprof = new File(MEDIAPROFILESPATH);
         if(mprof.exists())
         {
-            Logger.d(TAG, "CustomMediaProfile exists loading....");
+            Log.d(TAG, "CustomMediaProfile exists loading....");
             BufferedReader br = new BufferedReader(new FileReader(mprof));
             String line;
 
@@ -178,7 +178,7 @@ public class VideoMediaProfile
             br.close();
         }
         else
-            Logger.d(TAG, "No CustomMediaProfiles found");
+            Log.d(TAG, "No CustomMediaProfiles found");
 
     }
 
@@ -189,9 +189,9 @@ public class VideoMediaProfile
             if (!mprof.getParentFile().exists())
                 mprof.getParentFile().mkdirs();
             mprof.createNewFile();
-            Logger.d(TAG,"wrote MediaProfiles to txt");
+            Log.d(TAG,"wrote MediaProfiles to txt");
         } catch (IOException e) {
-            Logger.exception(e);
+            Log.exception(e);
         }
         if(mprof.exists()) {
             try
@@ -203,7 +203,7 @@ public class VideoMediaProfile
                 br.close();
             } catch (IOException e)
             {
-                Logger.exception(e);
+                Log.exception(e);
             }
         }
     }*/

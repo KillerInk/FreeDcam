@@ -26,7 +26,7 @@ import java.lang.reflect.Method;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 08.06.2016.
@@ -63,16 +63,16 @@ public class CameraHolderLegacy extends CameraHolder
             return (Camera)method.invoke(null, arrobject);
         }
         catch (NoSuchMethodException e) {
-            Logger.e(TAG, e.getMessage());
+            Log.e(TAG, e.getMessage());
             return Camera.open(n);}
         catch (ClassNotFoundException e) {
-            Logger.e(TAG, e.getMessage());
+            Log.e(TAG, e.getMessage());
             return Camera.open(n);}
         catch (IllegalAccessException e) {
-            Logger.e(TAG, e.getMessage());
+            Log.e(TAG, e.getMessage());
             return Camera.open(n);}
         catch (InvocationTargetException e) {
-            Logger.e(TAG, e.getMessage());
+            Log.e(TAG, e.getMessage());
             return Camera.open(n);}
     }
 }

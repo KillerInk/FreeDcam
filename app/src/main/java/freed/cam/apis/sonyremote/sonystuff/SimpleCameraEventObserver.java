@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * A simple observer class for some status values in Camera. This class supports
@@ -33,7 +33,7 @@ public class SimpleCameraEventObserver {
     private void sendLog(String msg)
     {
         if (this.LOGGING)
-            Logger.d(SimpleCameraEventObserver.TAG, msg);
+            Log.d(SimpleCameraEventObserver.TAG, msg);
     }
 
     /**
@@ -630,8 +630,8 @@ public class SimpleCameraEventObserver {
                     }
                 }
             }
-        } catch (JSONException e) {
-            Logger.exception(e);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -658,8 +658,8 @@ public class SimpleCameraEventObserver {
                 this.fireImageListener(values.toArray(new String[values.size()]));
             }
         }
-        } catch (JSONException e) {
-            Logger.exception(e);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -966,7 +966,7 @@ public class SimpleCameraEventObserver {
                 if (mListener != null) {
                     mListener.onShootModeChanged(shootMode);
                 }
-                else Logger.d(TAG, "onShootModeChanged listner NULL!");
+                else Log.d(TAG, "onShootModeChanged listner NULL!");
             }
         });
     }

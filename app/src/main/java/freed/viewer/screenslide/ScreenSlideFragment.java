@@ -35,6 +35,7 @@ import android.support.v4.provider.DocumentFile;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +63,6 @@ import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.holder.FileHolder;
 import freed.viewer.screenslide.ImageFragment.I_WaitForWorkFinish;
@@ -419,7 +419,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
                 } catch (NullPointerException | JpegProcessingException | IOException ex)
                 {
-                    Logger.d(TAG, "Failed to read Exif");
+                    Log.d(TAG, "Failed to read Exif");
                 }
             }
         });

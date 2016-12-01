@@ -24,6 +24,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import freed.ActivityInterface;
@@ -53,17 +54,17 @@ public class LocationHandler implements LocationListener
 
     public void stopLocationListining()
     {
-        Logger.d(TAG, "stop location");
+        Log.d(TAG, "stop location");
         locationManager.removeUpdates(this);
 
     }
 
     public void startLocationListing()
     {
-        Logger.d(TAG, "start location");
+        Log.d(TAG, "start location");
         boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        Logger.d(TAG, "Gps:"+gps + "Network:"+network);
+        Log.d(TAG, "Gps:"+gps + "Network:"+network);
         if (gps || network)
         {
 
@@ -93,7 +94,7 @@ public class LocationHandler implements LocationListener
         else
         {
             Toast.makeText(activityInterface.getContext(), "Gps and Network are deactivated", Toast.LENGTH_LONG).show();
-            Logger.d("Location", "Gps and Network are deactivated");
+            Log.d("Location", "Gps and Network are deactivated");
         }
     }
 

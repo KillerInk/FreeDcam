@@ -27,7 +27,7 @@ import java.io.IOException;
 
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 15.12.2014.
@@ -52,8 +52,8 @@ public class PictureSizeSony extends BaseModeParameterSony
                     jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                     values = processValuesToReturn();
                     BackgroundValuesHasChanged(values);
-                } catch (IOException e) {
-                    Logger.exception(e);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -71,13 +71,13 @@ public class PictureSizeSony extends BaseModeParameterSony
             try {
                 JSONArray array = new JSONArray().put(0, split[0]).put(1, split[1]);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-            } catch (JSONException e) {
-                Logger.exception(e);
+            } catch (JSONException ex) {
+                ex.printStackTrace();
             }
 
 
-        } catch (IOException e) {
-            Logger.exception(e);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -93,8 +93,8 @@ public class PictureSizeSony extends BaseModeParameterSony
                 JSONObject size = subarray.getJSONObject(i);
                 ret[i] = size.getString("aspect") + "x" +size.getString("size");
             }
-        } catch (JSONException e) {
-            Logger.exception(e);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
         return ret;
     }
@@ -103,17 +103,17 @@ public class PictureSizeSony extends BaseModeParameterSony
         JSONArray array = null;
         try {
             array = jsonObject.getJSONArray("result");
-        } catch (JSONException e) {
-            Logger.exception(e);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
         String ret ="";
         try
         {
             JSONObject size = array.getJSONObject(0);
             ret = size.getString("aspect") + "+" +size.getString("size");
-        } catch (JSONException | NullPointerException e)
+        } catch (JSONException | NullPointerException ex)
         {
-            Logger.exception(e);
+            ex.printStackTrace();
         }
         return ret;
     }

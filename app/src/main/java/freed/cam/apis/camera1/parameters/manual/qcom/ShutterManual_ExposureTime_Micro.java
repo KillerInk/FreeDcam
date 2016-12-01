@@ -25,7 +25,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 21.02.2016.
@@ -77,23 +77,23 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
         key_min_value = minval;
         try {
 
-            Logger.d(TAG, "minexpo = "+parameters.get(key_min_value) + " maxexpo = " + parameters.get(key_max_value));
+            Log.d(TAG, "minexpo = "+parameters.get(key_min_value) + " maxexpo = " + parameters.get(key_max_value));
             int min,max;
             if (!parameters.get(key_min_value).contains("."))
             {
-                Logger.d(TAG, "Micro does not contain . load int");
+                Log.d(TAG, "Micro does not contain . load int");
                 min = Integer.parseInt(parameters.get(key_min_value));
                 max = Integer.parseInt(parameters.get(key_max_value));
-                Logger.d(TAG, "min converterd = "+min + " max converterd = " + max);
+                Log.d(TAG, "min converterd = "+min + " max converterd = " + max);
             }
             else
             {
-                Logger.d(TAG, "Micro contain .  *1000");
+                Log.d(TAG, "Micro contain .  *1000");
                 double tmpMin = Double.parseDouble(parameters.get(key_min_value))*1000;
                 double tmpMax = Double.parseDouble(parameters.get(key_max_value))*1000;
                 min = (int)tmpMin;
                 max = (int)tmpMax;
-                Logger.d(TAG, "min converterd = "+min + " max converterd = " + max);
+                Log.d(TAG, "min converterd = "+min + " max converterd = " + max);
 
             }
             stringvalues = getSupportedShutterValues(min, max, withauto);
@@ -102,10 +102,10 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
             isSupported = true;
 
         } catch (NumberFormatException ex) {
-            Logger.exception(ex);
+            ex.printStackTrace();
             isSupported = false;
         }
-        Logger.d(TAG, "isSupported:" + isSupported);
+        Log.d(TAG, "isSupported:" + isSupported);
     }
 
     @Override
@@ -120,15 +120,15 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
         if(!stringvalues[currentInt].equals(KEYS.AUTO))
         {
             String shutterstring = FormatShutterStringToDouble(stringvalues[currentInt]);
-            Logger.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
+            Log.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
             shutterstring = getMicroSecFromMilliseconds(shutterstring);
-            Logger.d(TAG, " StringUtils.getMicroSecFromMilliseconds"+ shutterstring);
+            Log.d(TAG, " StringUtils.getMicroSecFromMilliseconds"+ shutterstring);
             parameters.set(key_value, shutterstring);
         }
         else
         {
             parameters.set(key_value, "0");
-            Logger.d(TAG, "set exposure time to auto");
+            Log.d(TAG, "set exposure time to auto");
         }
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }

@@ -34,7 +34,7 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.utils.DeviceUtils.Devices;
-import freed.utils.Logger;
+import android.util.Log;
 
 public class BurstManualParam extends BaseManualParameter
 {
@@ -115,7 +115,7 @@ public class BurstManualParam extends BaseManualParameter
                 parameters.set(KEYS.NUM_SNAPS_PER_SHUTTER, 1+"");
             else
                 parameters.set(KEYS.NUM_SNAPS_PER_SHUTTER, stringvalues[currentInt]);
-            Logger.d(TAG, KEYS.NUM_SNAPS_PER_SHUTTER+ stringvalues[currentInt]);
+            Log.d(TAG, KEYS.NUM_SNAPS_PER_SHUTTER+ stringvalues[currentInt]);
 
         }
         if (parameters.get(KEYS.BURST_NUM)!=null)
@@ -124,7 +124,7 @@ public class BurstManualParam extends BaseManualParameter
                 parameters.set(KEYS.SNAPSHOT_BURST_NUM, String.valueOf(0));
             else
                 parameters.set(KEYS.SNAPSHOT_BURST_NUM, stringvalues[currentInt]);
-            Logger.d(TAG, KEYS.SNAPSHOT_BURST_NUM+ stringvalues[currentInt]);
+            Log.d(TAG, KEYS.SNAPSHOT_BURST_NUM+ stringvalues[currentInt]);
         }
         else if(parameters.get(KEYS.BURST_NUM) != null)
         {
@@ -132,7 +132,7 @@ public class BurstManualParam extends BaseManualParameter
                 parameters.set(KEYS.BURST_NUM, String.valueOf(0));
             else
                 parameters.set(KEYS.BURST_NUM, stringvalues[currentInt]);
-            Logger.d(TAG, KEYS.BURST_NUM+ stringvalues[currentInt]);
+            Log.d(TAG, KEYS.BURST_NUM+ stringvalues[currentInt]);
         }
 
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);

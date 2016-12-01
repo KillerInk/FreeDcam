@@ -15,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Simple HTTP Client for sample application.
@@ -60,17 +60,17 @@ final class SimpleHttpClient {
                 inputStream = httpConn.getInputStream();
             }
             if (inputStream == null) {
-                Logger.w(TAG, "httpGet: Response Code Error: " + responseCode + ": " + url);
+                Log.w(TAG, "httpGet: Response Code Error: " + responseCode + ": " + url);
                 throw new IOException("Response Error:" + responseCode);
             }
         } catch (SocketTimeoutException e) {
-            Logger.w(TAG, "httpGet: Timeout: " + url);
+            Log.w(TAG, "httpGet: Timeout: " + url);
             throw new IOException();
         } catch (MalformedURLException e) {
-            Logger.w(TAG, "httpGet: MalformedUrlException: " + url);
+            Log.w(TAG, "httpGet: MalformedUrlException: " + url);
             throw new IOException();
         } catch (IOException e) {
-            Logger.w(TAG, "httpGet: " + e.getMessage());
+            Log.w(TAG, "httpGet: " + e.getMessage());
             if (httpConn != null) {
                 httpConn.disconnect();
             }
@@ -88,7 +88,7 @@ final class SimpleHttpClient {
             }
             return responseBuf.toString();
         } catch (IOException e) {
-            Logger.w(TAG, "httpGet: read error: " + e.getMessage());
+            Log.w(TAG, "httpGet: read error: " + e.getMessage());
             throw e;
         } finally {
             try {
@@ -96,14 +96,14 @@ final class SimpleHttpClient {
                     reader.close();
                 }
             } catch (IOException e) {
-                Logger.w(TAG, "IOException while closing BufferedReader");
+                Log.w(TAG, "IOException while closing BufferedReader");
             }
             try {
                 if (inputStream != null) {
                     inputStream.close();
                 }
             } catch (IOException e) {
-                Logger.w(TAG, "IOException while closing InputStream");
+                Log.w(TAG, "IOException while closing InputStream");
             }
         }
     }
@@ -159,22 +159,22 @@ final class SimpleHttpClient {
             outputStream = null;
 
             int responseCode = httpConn.getResponseCode();
-            //Logger.d(TAG, "httpPost: Response Code: " + responseCode + ": " + url);
+            //Log.d(TAG, "httpPost: Response Code: " + responseCode + ": " + url);
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 inputStream = httpConn.getInputStream();
             }
             if (inputStream == null) {
-                Logger.w(TAG, "httpPost: Response Code Error: " + responseCode + ": " + url);
+                Log.w(TAG, "httpPost: Response Code Error: " + responseCode + ": " + url);
                 throw new IOException("Response Error:" + responseCode);
             }
         } catch (SocketTimeoutException e) {
-            Logger.w(TAG, "httpPost: Timeout: " + url);
+            Log.w(TAG, "httpPost: Timeout: " + url);
             throw new IOException();
         } catch (MalformedURLException e) {
-            Logger.w(TAG, "httpPost: MalformedUrlException: " + url);
+            Log.w(TAG, "httpPost: MalformedUrlException: " + url);
             throw new IOException();
         } catch (IOException e) {
-            Logger.w(TAG, "httpPost: IOException: " + e.getMessage());
+            Log.w(TAG, "httpPost: IOException: " + e.getMessage());
             if (httpConn != null) {
                 httpConn.disconnect();
             }
@@ -185,14 +185,14 @@ final class SimpleHttpClient {
                     writer.close();
                 }
             } catch (IOException e) {
-                Logger.w(TAG, "IOException while closing OutputStreamWriter");
+                Log.w(TAG, "IOException while closing OutputStreamWriter");
             }
             try {
                 if (outputStream != null) {
                     outputStream.close();
                 }
             } catch (IOException e) {
-                Logger.w(TAG, "IOException while closing OutputStream");
+                Log.w(TAG, "IOException while closing OutputStream");
             }
         }
 
@@ -208,7 +208,7 @@ final class SimpleHttpClient {
             }
             return responseBuf.toString();
         } catch (IOException e) {
-            Logger.w(TAG, "httpPost: read error: " + e.getMessage());
+            Log.w(TAG, "httpPost: read error: " + e.getMessage());
             throw e;
         } finally {
             try {
@@ -216,7 +216,7 @@ final class SimpleHttpClient {
                     reader.close();
                 }
             } catch (IOException e) {
-                Logger.w(TAG, "IOException while closing BufferedReader");
+                Log.w(TAG, "IOException while closing BufferedReader");
             }
         }
     }

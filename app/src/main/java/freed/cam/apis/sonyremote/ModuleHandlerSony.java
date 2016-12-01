@@ -25,7 +25,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.CameraHolderSony.I_CameraShotMode;
 import freed.cam.apis.sonyremote.modules.PictureModuleSony;
 import freed.cam.apis.sonyremote.modules.VideoModuleSony;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 13.12.2014.
@@ -65,7 +65,7 @@ public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_Camera
     @Override
     public void onShootModeChanged(String mode)
     {
-        Logger.d(TAG, "ShotmodeChanged:" + mode);
+        Log.d(TAG, "ShotmodeChanged:" + mode);
         if (currentModule !=null) {
             currentModule.SetCaptureStateChangedListner(null);
         }

@@ -51,7 +51,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 26.11.2015.
@@ -92,7 +92,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void InitModule()
     {
-        Logger.d(TAG, "InitModule");
+        Log.d(TAG, "InitModule");
         super.InitModule();
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.VideoProfiles;
         currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
@@ -105,7 +105,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     {
         if (isRecording)
             stopRecording();
-        Logger.d(TAG, "DestroyModule");
+        Log.d(TAG, "DestroyModule");
         cameraHolder.CaptureSessionH.CloseCaptureSession();
         previewsurface = null;
         super.DestroyModule();
@@ -124,13 +124,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     private void startRecording()
     {
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_start);
-        Logger.d(TAG, "startRecording");
+        Log.d(TAG, "startRecording");
         startPreviewVideo();
     }
 
     private void stopRecording()
     {
-        Logger.d(TAG, "stopRecording");
+        Log.d(TAG, "stopRecording");
         mediaRecorder.stop();
         mediaRecorder.reset();
         cameraHolder.CaptureSessionH.RemoveSurface(recorderSurface);
@@ -188,7 +188,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         mediaRecorder.setOnErrorListener(new OnErrorListener() {
             @Override
             public void onError(MediaRecorder mr, int what, int extra) {
-                Logger.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
+                Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
                 cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
                 changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
             }
@@ -279,8 +279,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         }
         try {
             mediaRecorder.prepare();
-        } catch (IOException e) {
-            Logger.exception(e);
+        } catch (IOException ex) {
+            ex.printStackTrace();
             cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
             return;
@@ -346,7 +346,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         @Override
         public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
         {
-            Logger.d(TAG, "Failed to Config CaptureSession");
+            Log.d(TAG, "Failed to Config CaptureSession");
         }
     };
 }

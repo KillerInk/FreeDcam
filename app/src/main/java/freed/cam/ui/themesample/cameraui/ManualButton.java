@@ -44,7 +44,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 08.12.2015.
@@ -170,7 +170,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
             @Override
             public void run() {
                 String txt = headerTextView.getText().toString();
-                Logger.d(txt, "isSupported:" + value);
+                Log.d(txt, "isSupported:" + value);
                 if (value) {
                     setVisibility(View.VISIBLE);
                     animate().setListener(null).scaleX(1f).setDuration(300);
@@ -228,7 +228,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
 
         pos = current;
 
-        Logger.d(TAG, "onCurrentValueChanged current:"+current +" pos:" + pos);
+        Log.d(TAG, "onCurrentValueChanged current:"+current +" pos:" + pos);
         setTextValue(current);
     }
 
@@ -257,7 +257,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
                     valueTextView.setText(txt);
                 else
                     valueTextView.setText(current+"");
-                Logger.d(TAG, "setTextValue:" + valueTextView.getText());
+                Log.d(TAG, "setTextValue:" + valueTextView.getText());
             }
         });
 
@@ -295,7 +295,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     {
         if (valueQueue.size() == 3)
             valueQueue.remove();
-        Logger.d(TAG, "add to queue:" + value);
+        Log.d(TAG, "add to queue:" + value);
         valueQueue.add(value);
 
         handler.post(new Runnable() {
@@ -321,7 +321,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
             runValue = valueQueue.take();
 
         } catch (InterruptedException e) {
-            Logger.exception(e);
+            e.printStackTrace();
             currentlysettingsparameter = false;
         }
         pos = runValue;

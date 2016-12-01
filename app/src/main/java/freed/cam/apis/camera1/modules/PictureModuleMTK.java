@@ -31,7 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
@@ -57,7 +57,7 @@ public class PictureModuleMTK extends PictureModule
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
 
                 cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
-                Logger.d(TAG, "Start Take Picture");
+                Log.d(TAG, "Start Take Picture");
                 waitForPicture = true;
                 if (cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(FileEnding.BAYER) || cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(FileEnding.DNG)) {
                     String timestamp = String.valueOf(System.currentTimeMillis());
@@ -79,11 +79,11 @@ public class PictureModuleMTK extends PictureModule
         if (!waitForPicture)
             return;
         waitForPicture =false;
-        Logger.d(TAG, "Take Picture CallBack");
+        Log.d(TAG, "Take Picture CallBack");
         String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
         // must always be jpg ending. dng gets created based on that
         holdFile = getFile(".jpg");
-        Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
+        Log.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
         switch (picformat) {
             case KEYS.JPEG:
                 //savejpeg
@@ -91,7 +91,7 @@ public class PictureModuleMTK extends PictureModule
                 try {
                     DeviceSwitcher().delete();
                 } catch (Exception ex) {
-                    Logger.exception(ex);
+                    ex.printStackTrace();
                 }
                 break;
             case FileEnding.DNG:
@@ -119,13 +119,13 @@ public class PictureModuleMTK extends PictureModule
         try {
             while (!checkFileCanRead(DeviceSwitcher()))
             {
-                Logger.d(TAG,"try to read raw");
+                Log.d(TAG,"try to read raw");
                 if (loopBreaker < 20) {
                     Thread.sleep(100);
                     loopBreaker++;
                 }
                 else {
-                    Logger.d(TAG,"############ Failed to read Raw #########" );
+                    Log.d(TAG,"############ Failed to read Raw #########" );
                     cameraUiWrapper.GetCameraHolder().SendUIMessage("Timout:Failed to read Raw");
                     return;
                 }
@@ -137,13 +137,13 @@ public class PictureModuleMTK extends PictureModule
             }
             catch (NullPointerException ex)
             {
-                Logger.d(TAG, "Rawfile delete failed");
+                Log.d(TAG, "Rawfile delete failed");
             }
 
-            Logger.d(TAG, "Found Raw: Filesize: " + data.length + " File:" + rawfile.getAbsolutePath());
+            Log.d(TAG, "Found Raw: Filesize: " + data.length + " File:" + rawfile.getAbsolutePath());
 
-        } catch (InterruptedException | IOException e) {
-            Logger.exception(e);
+        } catch (InterruptedException | IOException ex) {
+            ex.printStackTrace();
         }
         File dng = new File(holdFile.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
         saveDng(data,dng);

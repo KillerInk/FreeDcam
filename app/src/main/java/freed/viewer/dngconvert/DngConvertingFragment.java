@@ -64,7 +64,7 @@ import freed.jni.RawToDng;
 import freed.jni.RawUtils;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
-import freed.utils.Logger;
+import android.util.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
@@ -287,10 +287,10 @@ public class DngConvertingFragment extends Fragment
         byte[] data = null;
         try {
             data = RawToDng.readFile(file);
-            Logger.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
+            Log.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
 
-        } catch (IOException e) {
-            Logger.exception(e);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         String out =null;
         if (file.getName().endsWith(FileEnding.RAW))
@@ -310,8 +310,8 @@ public class DngConvertingFragment extends Fragment
             try {
 
                 pfd = getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-            } catch (FileNotFoundException | IllegalArgumentException e) {
-                Logger.exception(e);
+            } catch (FileNotFoundException | IllegalArgumentException ex) {
+                ex.printStackTrace();
             }
             if (pfd != null) {
                 dng.SetBayerDataFD(data, pfd, file.getName());

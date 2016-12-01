@@ -28,7 +28,6 @@ import java.io.File;
 import java.util.HashMap;
 
 import freed.dng.CustomMatrix;
-import freed.utils.Logger;
 import freed.utils.StringUtils;
 
 /**
@@ -73,7 +72,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
             }
             catch (NullPointerException ex)
             {
-                Logger.exception(ex);
+                ex.printStackTrace();
             }
 
         }

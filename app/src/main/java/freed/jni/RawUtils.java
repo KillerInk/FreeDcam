@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
-import freed.utils.Logger;
+import android.util.Log;
 
 public class RawUtils {
 
@@ -76,9 +76,9 @@ public class RawUtils {
 
             byteArray = bos.toByteArray();
         }
-        catch (IOException e)
+        catch (IOException ex)
         {
-            Logger.exception(e);
+            ex.printStackTrace();
         }
         return byteArray;
     }
@@ -194,16 +194,16 @@ public class RawUtils {
             result = bitmap.compress(CompressFormat.JPEG, DEFAULT_JPG_QUALITY, outputStream);
             outputStream.flush();
 
-        } catch (IOException e) {
-            Logger.exception(e);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         finally {
             try {
                 if (outputStream != null) {
                     outputStream.close();
                 }
-            } catch (IOException e) {
-                Logger.exception(e);  //To change body of catch statement use File | Settings | File Templates.
+            } catch (IOException ex) {
+                ex.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
         return result;

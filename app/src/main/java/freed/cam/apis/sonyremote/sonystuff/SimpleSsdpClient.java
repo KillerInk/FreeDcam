@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * A SSDP client class for this sample application. This implementation keeps
@@ -70,13 +70,13 @@ public class SimpleSsdpClient {
      */
     public synchronized boolean search(final SearchResultHandler handler) {
         if (mSearching) {
-            Logger.d(TAG, "search() already searching.");
+            Log.d(TAG, "search() already searching.");
             return false;
         }
         if (handler == null) {
             throw new NullPointerException("handler is null.");
         }
-        Logger.d(TAG, "search() Start.");
+        Log.d(TAG, "search() Start.");
 
         String ssdpRequest =
                 "M-SEARCH * HTTP/1.1\r\n" + String.format("HOST: %s:%d\r\n", SSDP_ADDR, SSDP_PORT)
@@ -96,21 +96,21 @@ public class SimpleSsdpClient {
                     InetSocketAddress iAddress = new InetSocketAddress(SSDP_ADDR, SSDP_PORT);
                     packet = new DatagramPacket(sendData, sendData.length, iAddress);
                     // send 3 times
-                    Logger.d(TAG, "search() Send Datagram packet 3 times.");
+                    Log.d(TAG, "search() Send Datagram packet 3 times.");
                     socket.send(packet);
                     Thread.sleep(100);
                     socket.send(packet);
                     Thread.sleep(100);
                     socket.send(packet);
                 } catch (SocketException e) {
-                    Logger.e(TAG, "search() DatagramSocket error:");
+                    Log.e(TAG, "search() DatagramSocket error:");
                     if (socket != null && !socket.isClosed()) {
                         socket.close();
                     }
                     handler.onErrorFinished();
                     return;
                 } catch (IOException e) {
-                    Logger.e(TAG, "search() IOException :");
+                    Log.e(TAG, "search() IOException :");
                     if (socket != null && !socket.isClosed()) {
                         socket.close();
                     }
@@ -118,7 +118,7 @@ public class SimpleSsdpClient {
                     return;
                 } catch (InterruptedException e) {
                     // do nothing.
-                    Logger.d(TAG, "search() InterruptedException :");
+                    Log.d(TAG, "search() InterruptedException :");
                 }
 
                 // Receive reply packets
@@ -159,7 +159,7 @@ public class SimpleSsdpClient {
                     }
 
                 } catch (InterruptedIOException e) {
-                    Logger.d(TAG, "search() Timeout.");
+                    Log.d(TAG, "search() Timeout.");
 
                     if (device == null) {
                         mSearching = false;
@@ -167,12 +167,12 @@ public class SimpleSsdpClient {
                         return;
                     }
                 } catch (IOException e) {
-                    Logger.d(TAG, "search() IOException2. : " + e);
+                    Log.d(TAG, "search() IOException2. : " + e);
                     mSearching = false;
                     handler.onErrorFinished();
                     return;
                 } finally {
-                    Logger.d(TAG, "search() Finish ");
+                    Log.d(TAG, "search() Finish ");
                     mSearching = false;
                     if (socket != null && !socket.isClosed()) {
                         socket.close();

@@ -37,7 +37,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.utils.Logger;
+import android.util.Log;
 import freed.utils.StringUtils;
 
 /**
@@ -78,7 +78,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
             Toast.makeText(context, "Saved CameraParameters", Toast.LENGTH_LONG).show();
         }
         catch (Exception ex) {
-            Logger.d("Freedcam", ex.getMessage());
+            Log.d("Freedcam", ex.getMessage());
         }
     }
 
@@ -159,7 +159,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
             //file.mkdirs();
             file.createNewFile();
         } catch (IOException e) {
-            Logger.exception(e);
+            e.printStackTrace();
         }
 
         try {
@@ -173,7 +173,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
 
             outputStream.close();
         } catch (Exception e) {
-            Logger.exception(e);
+            e.printStackTrace();
         }
     }
 }

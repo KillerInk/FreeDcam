@@ -14,7 +14,7 @@ import com.troop.freedcam.R.layout;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by George on 1/19/2015.
@@ -60,7 +60,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
     {
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.GetParameterHandler().GuideList.addEventListner(this);
-        Logger.d(TAG, "setCameraUiWrapper SetViewG()");
+        Log.d(TAG, "setCameraUiWrapper SetViewG()");
         if (img != null)
             SetViewG(cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_GUIDE));
     }
@@ -214,7 +214,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
     private final I_ModeParameterEvent previewSizeChanged = new I_ModeParameterEvent() {
         @Override
         public void onParameterValueChanged(String val) {
-            Logger.d(TAG, "I_ModeParameterEvent SetViewG()");
+            Log.d(TAG, "I_ModeParameterEvent SetViewG()");
             String img = appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE);
             if (val != null && !val.equals("")&& img != null && !img.equals("") && !img.equals("None")) {
                 String[] size = val.split("x");

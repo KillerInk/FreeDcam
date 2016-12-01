@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 08.06.2016.
@@ -76,13 +76,13 @@ public class CameraHolderMTK extends CameraHolder
                 throw new  NoSuchMethodException();
             app.invoke(null, "client.appmode", "MtkEng");
         } catch (ClassNotFoundException e) {
-            Logger.e(TAG,e.getMessage());
+            Log.e(TAG,e.getMessage());
         } catch (InvocationTargetException e) {
-            Logger.e(TAG,e.getMessage());
+            Log.e(TAG,e.getMessage());
         } catch (NoSuchMethodException e) {
-            Logger.e(TAG,e.getMessage());
+            Log.e(TAG,e.getMessage());
         } catch (IllegalAccessException e) {
-            Logger.e(TAG,e.getMessage());
+            Log.e(TAG,e.getMessage());
         }
     }
 }

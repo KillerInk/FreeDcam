@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 14.12.2014.
@@ -47,7 +47,7 @@ public class JsonUtils
                     mSupportedApiSet.add(resultArrayJson.getJSONArray(i).getString(0));
                 }
             } catch (JSONException e) {
-                Logger.w(TAG, "loadSupportedApiList: JSON format error.");
+                Log.w(TAG, "loadSupportedApiList: JSON format error.");
             }
         }
     }
@@ -60,7 +60,7 @@ public class JsonUtils
                     mSupportedApiSet.add(resultArrayJson.getString(i));
                 }
             } catch (JSONException e) {
-                Logger.w(TAG, "loadSupportedApiList: JSON format error.");
+                Log.w(TAG, "loadSupportedApiList: JSON format error.");
             }
         }
     }
@@ -110,7 +110,7 @@ public class JsonUtils
                     mAvailableCameraApiSet.add(apiListJson.getString(i));
                 }
             } catch (JSONException e) {
-                Logger.w(TAG, "loadAvailableCameraApiList: JSON format error.");
+                Log.w(TAG, "loadAvailableCameraApiList: JSON format error.");
             }
         }
     }
@@ -122,8 +122,8 @@ public class JsonUtils
         {
             try {
                 ret[i] = array.get(i).toString();
-            } catch (JSONException e) {
-                Logger.exception(e);
+            } catch (JSONException ex) {
+                ex.printStackTrace();
             }
         }
         return ret;
@@ -139,7 +139,7 @@ public class JsonUtils
             if ("exposureCompensation".equals(type)) {
                 ret = intInformationObj.getInt(subtype);
             } else {
-                Logger.w(TAG, "Event reply: Illegal Index " + "exposureCompensation" + " "+ subtype  + " " +type);
+                Log.w(TAG, "Event reply: Illegal Index " + "exposureCompensation" + " "+ subtype  + " " +type);
             }
         }
         return ret;
@@ -155,7 +155,7 @@ public class JsonUtils
             if (typeS.equals(type)) {
                 ret = intInformationObj.getBoolean(subtype);
             } else {
-                Logger.w(TAG, "Event reply: Illegal Index " + typeS+ " "+ subtype  + " " +type);
+                Log.w(TAG, "Event reply: Illegal Index " + typeS+ " "+ subtype  + " " +type);
             }
         }
         return ret;
@@ -173,7 +173,7 @@ public class JsonUtils
             if (typeS.equals(type)) {
                 value = InformationObj.getString(subtype);
             } else {
-                Logger.w(TAG, "Event reply: Illegal Index " + indexpos + subtype + type);
+                Log.w(TAG, "Event reply: Illegal Index " + indexpos + subtype + type);
             }
         }
         return value;
@@ -233,7 +233,7 @@ public class JsonUtils
                     availableApis.add(apiArray.getString(i));
                 }
             } else {
-                Logger.w(TAG, "Event reply: Illegal Index (0: AvailableApiList) " + type);
+                Log.w(TAG, "Event reply: Illegal Index (0: AvailableApiList) " + type);
             }
         }
         return availableApis;
@@ -257,7 +257,7 @@ public class JsonUtils
             if ("cameraStatus".equals(type)) {
                 cameraStatus = cameraStatusObj.getString("cameraStatus");
             } else {
-                Logger.w(TAG, "Event reply: Illegal Index (1: CameraStatus) " + type);
+                Log.w(TAG, "Event reply: Illegal Index (1: CameraStatus) " + type);
             }
         }
         return cameraStatus;
@@ -281,7 +281,7 @@ public class JsonUtils
             if ("liveviewStatus".equals(type)) {
                 liveviewStatus = liveviewStatusObj.getBoolean("liveviewStatus");
             } else {
-                Logger.w(TAG, "Event reply: Illegal Index (3: LiveviewStatus) " + type);
+                Log.w(TAG, "Event reply: Illegal Index (3: LiveviewStatus) " + type);
             }
         }
         return liveviewStatus;
@@ -305,7 +305,7 @@ public class JsonUtils
             if ("shootMode".equals(type)) {
                 shootMode = shootModeObj.getString("currentShootMode");
             } else {
-                Logger.w(TAG, "Event reply: Illegal Index (21: ShootMode) " + type);
+                Log.w(TAG, "Event reply: Illegal Index (21: ShootMode) " + type);
             }
         }
         return shootMode;
@@ -329,7 +329,7 @@ public class JsonUtils
             if ("zoomInformation".equals(type)) {
                 zoomPosition = zoomInformationObj.getInt("zoomPosition");
             } else {
-                Logger.w(TAG, "Event reply: Illegal Index (2: zoomInformation) " + type);
+                Log.w(TAG, "Event reply: Illegal Index (2: zoomInformation) " + type);
             }
         }
         return zoomPosition;
@@ -359,7 +359,7 @@ public class JsonUtils
                 if ("storageInformation".equals(type)) {
                     storageId = storageInformationObj.getString("storageID");
                 } else {
-                    Logger.w(TAG, "Event reply: Illegal Index (11: storageInformation) " + type);
+                    Log.w(TAG, "Event reply: Illegal Index (11: storageInformation) " + type);
                 }
             }
         }

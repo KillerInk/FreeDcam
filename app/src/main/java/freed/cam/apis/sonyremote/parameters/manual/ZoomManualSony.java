@@ -28,7 +28,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 15.12.2014.
@@ -80,7 +80,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                         String zoompos = zoom.getString("zoomPosition");
                         currentInt = Integer.parseInt(zoompos);
                     } catch (IOException | JSONException e) {
-                        Logger.exception(e);
+                        Log.exception(e);
                         currentInt = 0;
                     }
                 }
@@ -89,7 +89,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
-                    Logger.exception(e);
+                    Log.exception(e);
                 }
             }
         }*/
@@ -117,8 +117,8 @@ public class ZoomManualSony extends BaseManualParameterSony
                     try {
                         JSONObject object = mRemoteApi.actZoom(finaldirection, movement);
                         isZooming = false;
-                    } catch (IOException e) {
-                        Logger.exception(e);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                 }
             });

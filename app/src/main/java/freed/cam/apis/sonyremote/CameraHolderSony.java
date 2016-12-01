@@ -51,7 +51,7 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 11.12.2014.
@@ -98,7 +98,7 @@ public class CameraHolderSony extends CameraHolderAbstract
             //if (cameraStatus.equals(status))
             //    return;
             cameraStatus = status;
-            Logger.d(TAG, "Camerastatus:" + cameraStatus);
+            Log.d(TAG, "Camerastatus:" + cameraStatus);
             if (CameraStatusListner != null)
                 CameraStatusListner.onCameraStatusChanged(status);
         }
@@ -179,7 +179,7 @@ public class CameraHolderSony extends CameraHolderAbstract
         @Override
         public void onFlashChanged(String flash)
         {
-            Logger.d(TAG, "Fire ONFLashCHanged");
+            Log.d(TAG, "Fire ONFLashCHanged");
             cameraUiWrapper.GetParameterHandler().FlashMode.BackgroundValueHasChanged(flash);
         }
 
@@ -211,8 +211,8 @@ public class CameraHolderSony extends CameraHolderAbstract
                             PictureModuleSony pictureModuleSony = (PictureModuleSony) cameraUiWrapper.GetModuleHandler().GetCurrentModule();
                             try {
                                 pictureModuleSony.onPictureTaken(new URL(s));
-                            }catch (MalformedURLException e) {
-                                Logger.exception(e);
+                            }catch (MalformedURLException ex) {
+                                ex.printStackTrace();
                             }
                         }
                     }
@@ -336,7 +336,7 @@ public class CameraHolderSony extends CameraHolderAbstract
         if (serverDevice == null)
             return;
 
-        Logger.d(TAG, "OpenCamera:" +serverDevice.getModelName());
+        Log.d(TAG, "OpenCamera:" +serverDevice.getModelName());
         if (this.serverDevice == null)
         {
             this.serverDevice = serverDevice;
@@ -392,7 +392,7 @@ public class CameraHolderSony extends CameraHolderAbstract
     private void startLiveview()
     {
         /*if (mLiveviewSurface == null || mEventObserver.getLiveviewStatus()) {
-            Logger.d(TAG, "startLiveview mLiveviewSurface is null or already started.");
+            Log.d(TAG, "startLiveview mLiveviewSurface is null or already started.");
             return;
         }*/
         FreeDPool.Execute(new Runnable() {
@@ -407,25 +407,25 @@ public class CameraHolderSony extends CameraHolderAbstract
                         if (1 <= resultsObj.length()) {
                             // Obtain liveview URL from the result.
                             String liveviewUrl = resultsObj.getString(0);
-                            Logger.d(TAG,"startLiveview");
+                            Log.d(TAG,"startLiveview");
                             mLiveviewSurface.start(liveviewUrl, //
                                     new StreamErrorListener() {
 
                                         @Override
                                         public void onError(StreamErrorReason reason)
                                         {
-                                            Logger.e(TAG, "Error StartingLiveView");
+                                            Log.e(TAG, "Error StartingLiveView");
                                             stopLiveview();
                                         }
                                     });
                         }
                     }
                     else
-                        Logger.d(TAG, "Error : " + replyJson);
+                        Log.d(TAG, "Error : " + replyJson);
                 } catch (IOException e) {
-                    Logger.w(TAG, "startLiveview IOException: " + e.getMessage());
+                    Log.w(TAG, "startLiveview IOException: " + e.getMessage());
                 } catch (JSONException e) {
-                    Logger.w(TAG, "startLiveview JSONException: " + e.getMessage());
+                    Log.w(TAG, "startLiveview JSONException: " + e.getMessage());
                 }
             }
         });
@@ -441,7 +441,7 @@ public class CameraHolderSony extends CameraHolderAbstract
                         mRemoteApi.stopLiveview();
 
                 } catch (IOException e) {
-                    Logger.w(TAG, "stopLiveview IOException: " + e.getMessage());
+                    Log.w(TAG, "stopLiveview IOException: " + e.getMessage());
 
                 }
             }
@@ -450,13 +450,13 @@ public class CameraHolderSony extends CameraHolderAbstract
 // guide"results" -> "[["getServiceProtocols",[],["string","string*"],"1.0"],["getMethodTypes",["string"],["string","string*","string*","string"],"1.0"],["getVersions",[],["string*"],"1.0"]]"
     //{"results":[["setCurrentTime",["{\"dateTime\":\"string\", \"timeZoneOffsetMinute\":\"int\", \"dstOffsetMinute\":\"int\"}"],[],"1.0"],["getMethodTypes",["string"],["string","string*","string*","string"],"1.0"],["getVersions",[],["string*"],"1.0"]],"id":1}
     private void prepareOpenConnection() {
-        Logger.d(TAG, "prepareToOpenConection() exec");
+        Log.d(TAG, "prepareToOpenConection() exec");
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
                     // Get supported API list (Camera API)
-                    Logger.d(TAG, "get event longpool false");
+                    Log.d(TAG, "get event longpool false");
                     /*JSONObject replyJsonsystemMeth = mRemoteApi.getMethodTypes(SimpleRemoteApi.SYSTEM);
                     JSONObject replyJsonguideMeth = mRemoteApi.getMethodTypes(SimpleRemoteApi.GUIDE);*/
                     if (mEventObserver.isStarted())
@@ -470,17 +470,17 @@ public class CameraHolderSony extends CameraHolderAbstract
 
                         // this device does not support setCameraFunction.
                         // No need to check camera status.
-                        Logger.d(TAG, "prepareOpenConnection->openconnection, no setCameraFunciton");
+                        Log.d(TAG, "prepareOpenConnection->openconnection, no setCameraFunciton");
                         openConnection();
 
                     } else {
 
                         // this device supports setCameraFunction.
                         // after confirmation of camera state, open connection.
-                        Logger.d(TAG, "this device support set camera function");
+                        Log.d(TAG, "this device support set camera function");
 
                         if (!JsonUtils.isApiSupported("getEvent", mAvailableCameraApiSet)) {
-                            Logger.e(TAG, "this device is not support getEvent");
+                            Log.e(TAG, "this device is not support getEvent");
                             openConnection();
                             return;
                         }
@@ -494,7 +494,7 @@ public class CameraHolderSony extends CameraHolderAbstract
                         if ("cameraStatus".equals(type)) {
                             cameraStatus = cameraStatusObj.getString("cameraStatus");
                             if (cameraUiWrapper != null) {
-                                Logger.d(TAG,"prepareOpenConnection camerastatusChanged" + cameraStatus );
+                                Log.d(TAG,"prepareOpenConnection camerastatusChanged" + cameraStatus );
                                 cameraUiWrapper.onCameraStatusChanged(cameraStatus);
                             }
                         } else {
@@ -502,18 +502,18 @@ public class CameraHolderSony extends CameraHolderAbstract
                         }
 
                         if (SonyUtils.isShootingStatus(cameraStatus)) {
-                            Logger.d(TAG, "camera function is Remote Shooting.");
+                            Log.d(TAG, "camera function is Remote Shooting.");
                             openConnection();
                         } else {
                             // set Listener
-                            Logger.d(TAG,"Change function to remote shooting");
+                            Log.d(TAG,"Change function to remote shooting");
                             mEventObserver.setEventChangeListener(mEventListener);
                             if (!mEventObserver.isStarted())
                                 mEventObserver.start();
                             try {
                                 mEventObserver.processEvents(FullUiSetup);
-                            } catch (JSONException e) {
-                                Logger.exception(e);
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
                             }
 
                             // set Camera function to Remote Shooting
@@ -521,10 +521,10 @@ public class CameraHolderSony extends CameraHolderAbstract
                         }
                     }
                 } catch (IOException e) {
-                    Logger.w(TAG, "prepareToStartContentsListMode: IOException: " + e.getMessage());
+                    Log.w(TAG, "prepareToStartContentsListMode: IOException: " + e.getMessage());
 
                 } catch (JSONException e) {
-                    Logger.w(TAG, "prepareToStartContentsListMode: JSONException: " + e.getMessage());
+                    Log.w(TAG, "prepareToStartContentsListMode: JSONException: " + e.getMessage());
 
                 }
             }
@@ -538,14 +538,14 @@ public class CameraHolderSony extends CameraHolderAbstract
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                Logger.d(TAG, "openConnection(): exec.");
+                Log.d(TAG, "openConnection(): exec.");
 
                 try {
                     JSONObject replyJson = null;
                     // startRecMode if necessary.
-                    Logger.d(TAG, "openConnection(): startRecMode");
+                    Log.d(TAG, "openConnection(): startRecMode");
                     if (JsonUtils.isCameraApiAvailable("startRecMode", mAvailableCameraApiSet)) {
-                        Logger.d(TAG, "openConnection(): startRecMode()");
+                        Log.d(TAG, "openConnection(): startRecMode()");
                         replyJson = mRemoteApi.startRecMode();
 
                         // Call again.
@@ -554,21 +554,21 @@ public class CameraHolderSony extends CameraHolderAbstract
                     }
 
                     // getEvent start
-                    Logger.d(TAG, "openConnection(): getEvent");
+                    Log.d(TAG, "openConnection(): getEvent");
                     if (JsonUtils.isCameraApiAvailable("getEvent", mAvailableCameraApiSet)) {
-                        Logger.d(TAG, "openConnection(): EventObserver.start()");
+                        Log.d(TAG, "openConnection(): EventObserver.start()");
                         if (!mEventObserver.isStarted())
                             mEventObserver.start();
 
                     }
 
                     // Liveview start
-                    Logger.d(TAG, "openConnection(): startLiveView");
+                    Log.d(TAG, "openConnection(): startLiveView");
                     if (JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet) && cameraStatus.equals("IDLE")) {
-                        Logger.d(TAG, "openConnection(): LiveviewSurface.start()");
+                        Log.d(TAG, "openConnection(): LiveviewSurface.start()");
                         startLiveview();
                     }
-                    Logger.d(TAG, "openConnection(): setLiveViewFrameInfo");
+                    Log.d(TAG, "openConnection(): setLiveViewFrameInfo");
                     if((serverDevice.getFriendlyName().contains("ILCE-QX1")
                             || serverDevice.getFriendlyName().contains("ILCE-QX30"))
                             && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet)
@@ -580,9 +580,9 @@ public class CameraHolderSony extends CameraHolderAbstract
                             SetLiveViewFrameInfo(false);
                     }
 
-                    Logger.d(TAG, "openConnection(): completed.");
+                    Log.d(TAG, "openConnection(): completed.");
                 } catch (IOException e) {
-                    Logger.w(TAG, "openConnection : IOException: " + e.getMessage());
+                    Log.w(TAG, "openConnection : IOException: " + e.getMessage());
 
                 }
             }
@@ -596,13 +596,13 @@ public class CameraHolderSony extends CameraHolderAbstract
 
         // getEvent stop
 
-        Logger.d(TAG, "closeConnection(): EventObserver.release()");
+        Log.d(TAG, "closeConnection(): EventObserver.release()");
         if(mEventObserver != null)
             mEventObserver.release();
 
-        Logger.d(TAG, "closeConnection(): exec.");
+        Log.d(TAG, "closeConnection(): exec.");
         // Liveview stop
-        Logger.d(TAG, "closeConnection(): LiveviewSurface.stop()");
+        Log.d(TAG, "closeConnection(): LiveviewSurface.stop()");
         if (mLiveviewSurface != null)
         {
             if(serverDevice != null &&( serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30")) && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
@@ -621,17 +621,17 @@ public class CameraHolderSony extends CameraHolderAbstract
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
-                    Logger.d(TAG, "closeConnection(): stopRecMode()");
+                    Log.d(TAG, "closeConnection(): stopRecMode()");
                     try {
                         mRemoteApi.stopRecMode();
                     } catch (IOException e) {
-                        Logger.w(TAG, "closeConnection: IOException: " + e.getMessage());
+                        Log.w(TAG, "closeConnection: IOException: " + e.getMessage());
                     }
                 }
             });
         }
 
-        Logger.d(TAG, "closeConnection(): completed.");
+        Log.d(TAG, "closeConnection(): completed.");
     }
 
 
@@ -650,10 +650,10 @@ public class CameraHolderSony extends CameraHolderAbstract
                     JSONArray resultsObj = replyJson.getJSONArray("result");
 
                 } catch (IOException e) {
-                    Logger.w(TAG, "IOException while closing slicer: " + e.getMessage());
+                    Log.w(TAG, "IOException while closing slicer: " + e.getMessage());
 
                 } catch (JSONException e) {
-                    Logger.w(TAG, "JSONException while closing slicer");
+                    Log.w(TAG, "JSONException while closing slicer");
 
                 }
             }
@@ -670,10 +670,10 @@ public class CameraHolderSony extends CameraHolderAbstract
                     JSONArray resultsObj = replyJson.getJSONArray("result");
 
                 } catch (IOException e) {
-                    Logger.w(TAG, "IOException while closing slicer: " + e.getMessage());
+                    Log.w(TAG, "IOException while closing slicer: " + e.getMessage());
 
                 } catch (JSONException e) {
-                    Logger.w(TAG, "JSONException while closing slicer");
+                    Log.w(TAG, "JSONException while closing slicer");
 
                 }
             }
@@ -686,19 +686,19 @@ public class CameraHolderSony extends CameraHolderAbstract
             @Override
             public void run() {
                 try {
-                    Logger.d(TAG, "####################### ACT TAKE PICTURE");
+                    Log.d(TAG, "####################### ACT TAKE PICTURE");
                     JSONObject replyJson = mRemoteApi.actTakePicture();
-                    Logger.d(TAG, "####################### ACT TAKE PICTURE REPLY RECIEVED");
-                    Logger.d(TAG, replyJson.toString());
+                    Log.d(TAG, "####################### ACT TAKE PICTURE REPLY RECIEVED");
+                    Log.d(TAG, replyJson.toString());
                     JSONArray resultsObj = replyJson.getJSONArray("result");
-                    Logger.d(TAG, "####################### ACT TAKE PICTURE PARSED RESULT");
+                    Log.d(TAG, "####################### ACT TAKE PICTURE PARSED RESULT");
                     JSONArray imageUrlsObj = resultsObj.getJSONArray(0);
                     String postImageUrl = null;
                     if (1 <= imageUrlsObj.length()) {
                         postImageUrl = imageUrlsObj.getString(0);
                     }
                     if (postImageUrl == null) {
-                        Logger.w(TAG, "takeAndFetchPicture: post image URL is null.");
+                        Log.w(TAG, "takeAndFetchPicture: post image URL is null.");
 
                         return;
                     }
@@ -710,13 +710,13 @@ public class CameraHolderSony extends CameraHolderAbstract
                     //InputStream istream = new BufferedInputStream(url.openStream());
 
 
-                } catch (IOException e)
+                } catch (IOException ex)
                 {
-                    Logger.exception(e);
-                    Logger.w(TAG, "IOException while closing slicer: " + e.getMessage());
+                    ex.printStackTrace();
+                    Log.w(TAG, "IOException while closing slicer: " + ex.getMessage());
                     awaitTakePicture(pictureCallback);
                 } catch (JSONException e) {
-                    Logger.w(TAG, "JSONException while closing slicer");
+                    Log.w(TAG, "JSONException while closing slicer");
                     //awaitTakePicture(pictureCallback);
                 }
             }
@@ -726,17 +726,17 @@ public class CameraHolderSony extends CameraHolderAbstract
 
     private void awaitTakePicture(I_PictureCallback pictureCallback)
     {
-        Logger.d(TAG, "Camerastatus:" + cameraStatus);
+        Log.d(TAG, "Camerastatus:" + cameraStatus);
         if (cameraStatus.equals("StillCapturing")) {
             try {
-                Logger.d(TAG, "####################### AWAIT TAKE");
+                Log.d(TAG, "####################### AWAIT TAKE");
                 JSONObject replyJson = mRemoteApi.awaitTakePicture();
-                Logger.d(TAG, "####################### AWAIT TAKE PICTURE RECIEVED RESULT");
+                Log.d(TAG, "####################### AWAIT TAKE PICTURE RECIEVED RESULT");
                 JSONArray resultsObj = replyJson.getJSONArray("result");
-                Logger.d(TAG, "####################### AWAIT TAKE PICTURE PARSED RESULT");
+                Log.d(TAG, "####################### AWAIT TAKE PICTURE PARSED RESULT");
                 if (!resultsObj.isNull(0))
                 {
-                    Logger.d(TAG, resultsObj.toString());
+                    Log.d(TAG, resultsObj.toString());
                     JSONArray imageUrlsObj = resultsObj.getJSONArray(0);
                     URL url = new URL(imageUrlsObj.getString(0));
                     pictureCallback.onPictureTaken(url);
@@ -763,18 +763,18 @@ public class CameraHolderSony extends CameraHolderAbstract
                     int resultCode = resultsObj.getInt(0);
                     if (resultCode == 0) {
                         // Success, but no refresh UI at the point.
-                        Logger.v(TAG, "setShootMode: success.");
+                        Log.v(TAG, "setShootMode: success.");
                     } else {
-                        Logger.w(TAG, "setShootMode: error: " + resultCode);
+                        Log.w(TAG, "setShootMode: error: " + resultCode);
 
                     }
                 } catch (IOException e) {
-                    Logger.w(TAG, "setShootMode: IOException: " + e.getMessage());
+                    Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
                 } catch (JSONException e) {
-                    Logger.w(TAG, "setShootMode: JSON format error.");
+                    Log.w(TAG, "setShootMode: JSON format error.");
                 }
                 catch (NullPointerException e) {
-                    Logger.w(TAG, "remote api null");
+                    Log.w(TAG, "remote api null");
                 }
             }
         });
@@ -792,15 +792,15 @@ public class CameraHolderSony extends CameraHolderAbstract
                     int resultCode = resultsObj.getInt(0);
                     if (resultCode == 0) {
                         // Success, but no refresh UI at the point.
-                        Logger.v(TAG, "startRecording: success.");
+                        Log.v(TAG, "startRecording: success.");
                     } else {
-                        Logger.w(TAG, "startRecording: error: " + resultCode);
+                        Log.w(TAG, "startRecording: error: " + resultCode);
 
                     }
                 } catch (IOException e) {
-                    Logger.w(TAG, "startRecording: IOException: " + e.getMessage());
+                    Log.w(TAG, "startRecording: IOException: " + e.getMessage());
                 } catch (JSONException e) {
-                    Logger.w(TAG, "startRecording: JSON format error.");
+                    Log.w(TAG, "startRecording: JSON format error.");
                 }
             }
         });
@@ -817,15 +817,15 @@ public class CameraHolderSony extends CameraHolderAbstract
                     int resultCode = resultsObj.getInt(0);
                     if (resultCode == 0) {
                         // Success, but no refresh UI at the point.
-                        Logger.v(TAG, "StopRecording: success.");
+                        Log.v(TAG, "StopRecording: success.");
                     } else {
-                        Logger.w(TAG, "StopRecording: error: " + resultCode);
+                        Log.w(TAG, "StopRecording: error: " + resultCode);
 
                     }
                 } catch (IOException e) {
-                    Logger.w(TAG, "StopRecording: IOException: " + e.getMessage());
+                    Log.w(TAG, "StopRecording: IOException: " + e.getMessage());
                 } catch (JSONException e) {
-                    Logger.w(TAG, "StopRecording: JSON format error.");
+                    Log.w(TAG, "StopRecording: JSON format error.");
                 }
             }
         });
@@ -836,7 +836,7 @@ public class CameraHolderSony extends CameraHolderAbstract
     {
         if (mAvailableCameraApiSet.contains("cancelTouchAFPosition"))
         {
-            Logger.d(TAG, "Cancel Focus");
+            Log.d(TAG, "Cancel Focus");
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run()
@@ -844,9 +844,9 @@ public class CameraHolderSony extends CameraHolderAbstract
                     try
                     {
                         JSONObject ob = mRemoteApi.setParameterToCamera("cancelTouchAFPosition", new JSONArray());
-                    } catch (IOException e) {
-                        Logger.exception(e);
-                        Logger.d(TAG, "Cancel Focus failed");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                        Log.d(TAG, "Cancel Focus failed");
                     }
                 }
             });
@@ -854,7 +854,7 @@ public class CameraHolderSony extends CameraHolderAbstract
         }
         else if (mAvailableCameraApiSet.contains("cancelTrackingFocus"))
         {
-            Logger.d(TAG, "Cancel Focus");
+            Log.d(TAG, "Cancel Focus");
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run()
@@ -862,9 +862,9 @@ public class CameraHolderSony extends CameraHolderAbstract
                     try
                     {
                         JSONObject ob = mRemoteApi.setParameterToCamera("cancelTrackingFocus", new JSONArray());
-                    } catch (IOException e) {
-                        Logger.exception(e);
-                        Logger.d(TAG, "Cancel Focus failed");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                        Log.d(TAG, "Cancel Focus failed");
                     }
                 }
             });
@@ -890,12 +890,12 @@ public class CameraHolderSony extends CameraHolderAbstract
     {
         if (mAvailableCameraApiSet.contains("cancelTouchAFPosition") || mAvailableCameraApiSet.contains("cancelTrackingFocus"))
         {
-            Logger.d(TAG, "Throw Focus LOCKED true");
+            Log.d(TAG, "Throw Focus LOCKED true");
             return true;
         }
         else
         {
-            Logger.d(TAG, "Throw Focus LOCKED false");
+            Log.d(TAG, "Throw Focus LOCKED false");
             return false;
         }
     }
@@ -923,12 +923,12 @@ public class CameraHolderSony extends CameraHolderAbstract
                     JSONObject replyJson = mRemoteApi.actObjectTracking(x, y);
                     JSONArray resultsObj = replyJson.getJSONArray("result");
                 } catch (IOException e) {
-                    Logger.w(TAG, "setShootMode: IOException: " + e.getMessage());
+                    Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
                 } catch (JSONException e) {
-                    Logger.w(TAG, "setShootMode: JSON format error.");
+                    Log.w(TAG, "setShootMode: JSON format error.");
                 }
                 catch (NullPointerException e) {
-                    Logger.w(TAG, "remote api is null");
+                    Log.w(TAG, "remote api is null");
                 }
             }
         });
@@ -956,9 +956,9 @@ public class CameraHolderSony extends CameraHolderAbstract
 
                     }
                 } catch (IOException e) {
-                    Logger.w(TAG, "setShootMode: IOException: " + e.getMessage());
+                    Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
                 } catch (JSONException e) {
-                    Logger.w(TAG, "setShootMode: JSON format error.");
+                    Log.w(TAG, "setShootMode: JSON format error.");
                 }
             }
         });
@@ -971,8 +971,8 @@ public class CameraHolderSony extends CameraHolderAbstract
             public void run() {
                 try {
                     mRemoteApi.setLiveviewFrameInfo(val);
-                } catch (IOException e) {
-                    Logger.exception(e);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         });

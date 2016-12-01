@@ -40,7 +40,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.Size;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 15.08.2014.
@@ -96,7 +96,7 @@ public class CameraHolder extends CameraHolderAbstract
 
         } catch (Exception ex) {
             isRdy = false;
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
         return isRdy;
     }
@@ -104,7 +104,7 @@ public class CameraHolder extends CameraHolderAbstract
     @Override
     public void CloseCamera()
     {
-        Logger.d(TAG, "Try to close Camera");
+        Log.d(TAG, "Try to close Camera");
         if (mCamera != null)
         {
             try
@@ -113,12 +113,12 @@ public class CameraHolder extends CameraHolderAbstract
             }
             catch (Exception ex)
             {
-                Logger.exception(ex);
+                ex.printStackTrace();
             }
             finally {
                 mCamera = null;
                 isRdy = false;
-                Logger.d(TAG, "Camera closed");
+                Log.d(TAG, "Camera closed");
             }
         }
         isRdy = false;
@@ -153,12 +153,12 @@ public class CameraHolder extends CameraHolderAbstract
                 return true;
             }
         } catch (IOException ex) {
-            Logger.exception(ex);
+            ex.printStackTrace();
             return false;
         }
         catch (NullPointerException ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
             return false;
         }
         return false;
@@ -181,11 +181,11 @@ public class CameraHolder extends CameraHolderAbstract
         try
         {
             mCamera.startPreview();
-            Logger.d(TAG, "PreviewStarted");
+            Log.d(TAG, "PreviewStarted");
             cameraUiWrapper.onPreviewOpen("");
 
         } catch (Exception ex) {
-            Logger.exception(ex);
+            ex.printStackTrace();
             SendUIMessage("Failed to Start Preview");
         }
     }
@@ -198,14 +198,14 @@ public class CameraHolder extends CameraHolderAbstract
         try {
             mCamera.setPreviewCallback(null);
             mCamera.stopPreview();
-            Logger.d(TAG, "Preview Stopped");
+            Log.d(TAG, "Preview Stopped");
             cameraUiWrapper.onPreviewClose("");
 
         } catch (Exception ex)
         {
             cameraUiWrapper.onPreviewClose("");
-            Logger.d(TAG, "Camera was released");
-            Logger.exception(ex);
+            Log.d(TAG, "Camera was released");
+            ex.printStackTrace();
         }
     }
 
@@ -222,7 +222,7 @@ public class CameraHolder extends CameraHolderAbstract
         catch (RuntimeException ex)
         {
             SendUIMessage("Picture Taking failed, What a Terrible Failure!!");
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -242,7 +242,7 @@ public class CameraHolder extends CameraHolderAbstract
         }
         catch (NullPointerException ex)
         {
-            Logger.e(TAG,ex.getMessage());
+            Log.e(TAG,ex.getMessage());
         }
 
     }
@@ -254,7 +254,7 @@ public class CameraHolder extends CameraHolderAbstract
         }
         catch (NullPointerException ex)
         {
-            Logger.e(TAG,ex.getMessage());
+            Log.e(TAG,ex.getMessage());
         }
 
     }
@@ -277,7 +277,7 @@ public class CameraHolder extends CameraHolderAbstract
             });
         } catch (Exception ex)
         {
-            Logger.e(TAG,ex.getMessage());
+            Log.e(TAG,ex.getMessage());
             autoFocusCallback.onFocusEvent(false);
         }
     }
@@ -301,16 +301,16 @@ public class CameraHolder extends CameraHolderAbstract
                 p.setMeteringAreas(meteringList);
 
             try {
-                Logger.d(TAG, "try Set Metering");
+                Log.d(TAG, "try Set Metering");
                 mCamera.setParameters(p);
-                Logger.d(TAG, "Setted Metering");
+                Log.d(TAG, "Setted Metering");
             } catch (Exception ex) {
-                Logger.d(TAG, "Set Metering FAILED!");
+                Log.d(TAG, "Set Metering FAILED!");
             }
         }
         catch (Exception ex)
         {
-            Logger.e(TAG,ex.getMessage());
+            Log.e(TAG,ex.getMessage());
         }
     }
 

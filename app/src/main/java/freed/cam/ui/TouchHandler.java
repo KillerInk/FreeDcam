@@ -23,7 +23,7 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.view.MotionEvent;
 
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 02.09.2014.
@@ -37,7 +37,7 @@ public class TouchHandler
     private void L(String log)
     {
         if (DEBUG)
-            Logger.d(TAG, log);
+            Log.d(TAG, log);
     }
 
     private int startX;
@@ -116,7 +116,7 @@ public class TouchHandler
         {
             //its a swipeDetected
             swipeDetected = true;
-            Logger.d("TouchHAndler", "currentX:" + currentX + " X:" + startX);
+            Log.d("TouchHAndler", "currentX:" + currentX + " X:" + startX);
             if (x >= y)
             {
                 if (currentX > startX)

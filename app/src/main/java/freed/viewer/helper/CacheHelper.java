@@ -24,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -32,7 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import freed.utils.Logger;
+
 import freed.viewer.helper.DiskLruCache.Editor;
 import freed.viewer.helper.DiskLruCache.Snapshot;
 
@@ -81,7 +82,7 @@ public class CacheHelper
                 try {
                     mDiskLruCache = DiskLruCache.open(cacheDir, 1, DISK_CACHE_SIZE);
                 } catch (IOException e) {
-                    Logger.exception(e);
+                    e.printStackTrace();
                 }
                 mDiskCacheStarting = false; // Finished initialization
                 mDiskCacheLock.notifyAll(); // Wake any waiting threads
@@ -122,13 +123,13 @@ public class CacheHelper
                         snapshot.getInputStream(0).close();
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "addBitmapToCache - " + e);
+                    Log.e(TAG, "addBitmapToCache - " + e);
                 } finally {
                     try {
                         if (out != null) {
                             out.close();
                         }
-                    } catch (IOException e) { Logger.exception(e);}
+                    } catch (IOException e) { e.printStackTrace();}
                 }
             }
         }
@@ -146,7 +147,7 @@ public class CacheHelper
             while (mDiskCacheStarting) {
                 try {
                     mDiskCacheLock.wait();
-                } catch (InterruptedException e) {Logger.exception(e);}
+                } catch (InterruptedException e) {e.printStackTrace();}
             }
             if (mDiskLruCache != null) {
                 InputStream inputStream = null;
@@ -164,13 +165,13 @@ public class CacheHelper
                         }
                     }
                 } catch (IOException e) {
-                    Logger.exception(e);
+                    e.printStackTrace();
                 } finally {
                     try {
                         if (inputStream != null) {
                             inputStream.close();
                         }
-                    } catch (IOException e) {Logger.exception(e);}
+                    } catch (IOException e) {e.printStackTrace();}
                 }
             }
             return bitmap;
@@ -187,7 +188,7 @@ public class CacheHelper
             try {
                 mDiskLruCache.remove(file);
             } catch (IOException e) {
-                Logger.exception(e);
+                e.printStackTrace();
             }
         }
     }

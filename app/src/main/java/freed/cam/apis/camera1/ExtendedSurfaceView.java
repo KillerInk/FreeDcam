@@ -33,7 +33,7 @@ import com.lge.real3d.Real3DInfo;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 21.08.2014.
@@ -93,7 +93,7 @@ public class ExtendedSurfaceView extends SurfaceView
                     SwitchViewMode();
                 }
             } catch (NoSuchMethodError noSuchMethodError) {
-                Logger.d("Not", " 3D Device");
+                Log.d("Not", " 3D Device");
             }
         }
         else
@@ -122,13 +122,13 @@ public class ExtendedSurfaceView extends SurfaceView
     {
         try {
             Class c = Class.forName("com.htc.view.DisplaySetting");
-            Logger.d(TAG, "Found class com.htc.view.DisplaySetting");
+            Log.d(TAG, "Found class com.htc.view.DisplaySetting");
             hasOpenSense = true;
 
         } catch (ClassNotFoundException e) {
 
             hasOpenSense = false;
-            Logger.d(TAG, "didnt find class com.htc.view.DisplaySetting, NO 3D!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Log.d(TAG, "didnt find class com.htc.view.DisplaySetting, NO 3D!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
 
     }
@@ -141,13 +141,13 @@ public class ExtendedSurfaceView extends SurfaceView
             {
                 is3D = true;
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
-                Logger.d(this.TAG, "Set 3d");
+                Log.d(this.TAG, "Set 3d");
             }
             else
             {
                 is3D = false;
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
-                Logger.d(this.TAG, "Set 2d");
+                Log.d(this.TAG, "Set 2d");
             }
         }
     }
@@ -166,7 +166,7 @@ public class ExtendedSurfaceView extends SurfaceView
             mRatioWidth = width;
             mRatioHeight = height;
         }
-        Logger.d(TAG, "new size: " + width + "x" + height);
+        Log.d(TAG, "new size: " + width + "x" + height);
         requestLayout();
     }
 

@@ -28,7 +28,6 @@ import android.widget.TextView;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
-import freed.utils.Logger;
 
 /**
  * Created by troop on 16.06.2016.
@@ -119,7 +118,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
             }
             catch (NullPointerException ex)
             {
-                Logger.exception(ex);
+                ex.printStackTrace();
             }
             onParameterValueChanged(value);
         }

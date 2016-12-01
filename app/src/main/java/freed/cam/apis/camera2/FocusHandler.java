@@ -33,7 +33,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 12.12.2014.
@@ -99,7 +99,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
     public void StartTouchToFocus(FocusRect rect, int width, int height)
     {
         logFocusRect(rect);
-        Logger.d(TAG, "Width:" + width + "Height" + height);
+        Log.d(TAG, "Width:" + width + "Height" + height);
         if (!focusenabled)
             return;
         focusRect = rect;

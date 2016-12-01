@@ -35,7 +35,7 @@ import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 15.12.2014.
@@ -117,8 +117,8 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                         stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
                         ThrowBackgroundValuesChanged(stringvalues);
 
-                    } catch (IOException | JSONException e) {
-                        Logger.exception(e);
+                    } catch (IOException | JSONException ex) {
+                        ex.printStackTrace();
                         sendLog( "Error Trying to get String Values from: " + VALUES_TO_GET);
                         stringvalues = new String[0];
                     }
@@ -149,8 +149,8 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                     array = new JSONArray().put(0, val);
                     JSONObject object = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
-                } catch (JSONException | IOException e) {
-                    Logger.exception(e);
+                } catch (JSONException | IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -219,6 +219,6 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     protected void sendLog(String log)
     {
         if (logging)
-            Logger.d(TAG, VALUE_TO_SET + ":" + log);
+            Log.d(TAG, VALUE_TO_SET + ":" + log);
     }
 }

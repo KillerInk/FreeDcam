@@ -25,6 +25,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build.VERSION;
@@ -36,6 +37,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.WindowManager.LayoutParams;
@@ -53,7 +55,6 @@ import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
 import freed.utils.ImageSaver;
-import freed.utils.Logger;
 import freed.utils.StorageFileHandler;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
@@ -100,7 +101,8 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.d(TAG, "createHandlers()");
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        Log.d(TAG, "createHandlers()");
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()));
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         fileListners =  new ArrayList<>();
@@ -169,7 +171,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
         }
         catch(ActivityNotFoundException activityNotFoundException)
         {
-            Logger.exception(activityNotFoundException);
+            activityNotFoundException.printStackTrace();
         }
     }
 
@@ -412,7 +414,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
             }
             boolean d = false;
             d = !(tmpdir != null && tmpdir.exists()) || tmpdir.delete();
-            Logger.d("delteDocumentFile", "file delted:" + d);
+            Log.d("delteDocumentFile", "file delted:" + d);
             return d;
         }
         return true;
@@ -465,7 +467,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
                     != PackageManager.PERMISSION_GRANTED)
             {
                 RequestPermission = true;
-                Logger.d(TAG, "Request cameraPermission");
+                Log.d(TAG, "Request cameraPermission");
                 requestPermissions(new String[]{
                         Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO},1);
                 return false;
@@ -483,7 +485,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
                     != PackageManager.PERMISSION_GRANTED)
             {
                 RequestPermission = true;
-                Logger.d(TAG, "Request externalSdPermission");
+                Log.d(TAG, "Request externalSdPermission");
                 requestPermissions(new String[]{
                         Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
                 return false;
@@ -501,7 +503,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
                     != PackageManager.PERMISSION_GRANTED)
             {
                 RequestPermission = true;
-                Logger.d(TAG, "Request wifiPermission");
+                Log.d(TAG, "Request wifiPermission");
                 requestPermissions(new String[]{
                         Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE},1);
                 return false;
@@ -519,7 +521,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
                     != PackageManager.PERMISSION_GRANTED)
             {
                 RequestPermission = true;
-                Logger.d(TAG, "Request LocationPermission");
+                Log.d(TAG, "Request LocationPermission");
                 requestPermissions(new String[]{
                         Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},1);
                 return false;

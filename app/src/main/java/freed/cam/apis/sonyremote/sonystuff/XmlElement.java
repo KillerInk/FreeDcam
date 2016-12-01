@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * A simple XML parser and Data structure class for sample application.
@@ -241,10 +241,10 @@ public class XmlElement {
                 }
             }
         } catch (XmlPullParserException e) {
-            Logger.e(TAG, "parseXml: XmlPullParserException.");
+            Log.e(TAG, "parseXml: XmlPullParserException.");
             rootElement = XmlElement.NULL_ELEMENT;
         } catch (IOException e) {
-            Logger.e(TAG, "parseXml: IOException.");
+            Log.e(TAG, "parseXml: IOException.");
             rootElement = XmlElement.NULL_ELEMENT;
         }
         return rootElement;
@@ -265,7 +265,7 @@ public class XmlElement {
             xmlPullParser.setInput(new StringReader(xmlStr));
             return parse(xmlPullParser);
         } catch (XmlPullParserException e) {
-            Logger.e(TAG, "parseXml: XmlPullParserException occured.");
+            Log.e(TAG, "parseXml: XmlPullParserException occured.");
             return XmlElement.NULL_ELEMENT;
         }
     }

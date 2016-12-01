@@ -30,7 +30,7 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 15.12.2014.
@@ -80,7 +80,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
         if (mAvailableCameraApiSet != null)
         {
             boolean sup = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
-            Logger.d(TAG, VALUE_TO_GET + " is supported: " + sup);
+            Log.d(TAG, VALUE_TO_GET + " is supported: " + sup);
             BackgroundIsSupportedChanged(sup);
             return sup;
         }else
@@ -107,13 +107,13 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             try {
                 JSONArray array = new JSONArray().put(0, valueToSet);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-            } catch (JSONException e) {
-                Logger.exception(e);
+            } catch (JSONException ex) {
+                ex.printStackTrace();
             }
 
 
-        } catch (IOException e) {
-            Logger.exception(e);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -132,7 +132,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
                         key_value = processGetString();
                         BackgroundValueHasChanged(key_value);
                     } catch (IOException e) {
-                        Logger.exception(e);
+                        Log.exception(e);
                     }
                 }
             }).start();
@@ -147,8 +147,8 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
         try {
             array = jsonObject.getJSONArray("result");
             ret = array.getString(0);
-        } catch (JSONException e) {
-            Logger.exception(e);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
         return ret;
     }
@@ -164,7 +164,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
                 try {
                     jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                 } catch (IOException e) {
-                    Logger.exception(e);
+                    Log.exception(e);
                 }
             }
         }).start();
@@ -173,7 +173,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
-                Logger.exception(e);
+                Log.exception(e);
             }
         }
         String[] ret = processValuesToReturn();*/
@@ -187,8 +187,8 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             JSONArray array = jsonObject.getJSONArray("result");
             JSONArray subarray = array.getJSONArray(1);
             ret = JsonUtils.ConvertJSONArrayToStringArray(subarray);
-        } catch (JSONException e) {
-            Logger.exception(e);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
         return ret;
     }

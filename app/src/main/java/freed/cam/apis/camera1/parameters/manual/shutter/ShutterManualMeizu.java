@@ -27,7 +27,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by GeorgeKiarie on 6/3/2016.
@@ -76,14 +76,14 @@ public class ShutterManualMeizu extends AbstractManualShutter
             }
             catch (Exception ex)
             {
-                Logger.d("Freedcam", "Shutter Set FAil");
+                Log.d("Freedcam", "Shutter Set FAil");
             }
         }
         else
         {
             shutterstring = setExposureTimeToParameter("0");
         }
-        Logger.e(TAG, shutterstring);
+        Log.e(TAG, shutterstring);
     }
 
 

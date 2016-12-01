@@ -33,7 +33,7 @@ import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.DeviceUtils.Devices;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 13.11.2014.
@@ -103,13 +103,13 @@ public class VideoProfilesParameter extends BaseModeParameter
     {
         if (supportedProfiles == null)
         {
-            Logger.d(TAG, "Load supportedProfiles");
+            Log.d(TAG, "Load supportedProfiles");
             supportedProfiles = new HashMap<>();
             if (cameraUiWrapper.GetAppSettingsManager().getMediaProfiles().size() == 0)
             {
-                Logger.d(TAG, "new file,lookupDefaultProfiles");
+                Log.d(TAG, "new file,lookupDefaultProfiles");
                 lookupDefaultProfiles(supportedProfiles);
-                Logger.d(TAG,"Save found Profiles");
+                Log.d(TAG,"Save found Profiles");
                 cameraUiWrapper.GetAppSettingsManager().saveMediaProfiles(supportedProfiles);
             }
             else
@@ -126,51 +126,51 @@ public class VideoProfilesParameter extends BaseModeParameter
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_480P)) {
                 supportedProfiles.put("480p", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_480P), "480p", VideoMode.Normal, true));
-                Logger.d(TAG,"found 480p");
+                Log.d(TAG,"found 480p");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_720P))
             {
                 supportedProfiles.put("720p", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_720P), "720p", VideoMode.Normal,true));
-                Logger.d(TAG, "found 720p");
+                Log.d(TAG, "found 720p");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_1080P)) {
                 supportedProfiles.put("1080p", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_1080P), "1080p", VideoMode.Normal, true));
-                Logger.d(TAG,"found 1080p");
+                Log.d(TAG,"found 1080p");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_TIME_LAPSE_480P)) {
                 supportedProfiles.put("Timelapse480p", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_TIME_LAPSE_480P), "Timelapse480p", VideoMode.Timelapse, false));
-                Logger.d(TAG, "found Timnelapse480p");
+                Log.d(TAG, "found Timnelapse480p");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_TIME_LAPSE_720P)) {
                 supportedProfiles.put("Timelapse720p", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_TIME_LAPSE_720P), "Timelapse720p", VideoMode.Timelapse, false));
-                Logger.d(TAG, "found Timelapse720p");
+                Log.d(TAG, "found Timelapse720p");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_TIME_LAPSE_1080P)) {
                 supportedProfiles.put("Timelapse1080p", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_TIME_LAPSE_1080P), "Timelapse1080p", VideoMode.Timelapse, false));
-                Logger.d(TAG, "found Timelapse1080p");
+                Log.d(TAG, "found Timelapse1080p");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
@@ -180,10 +180,10 @@ public class VideoProfilesParameter extends BaseModeParameter
                 CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160pDCI);
 
                 supportedProfiles.put("2160pDCI",new VideoMediaProfile(fourk, "2160pDCI", VideoMode.Normal,true));
-                Logger.d(TAG, "found 2160pDCI");
+                Log.d(TAG, "found 2160pDCI");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160p))
@@ -191,28 +191,28 @@ public class VideoProfilesParameter extends BaseModeParameter
                 CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_2160p);
 
                 supportedProfiles.put("2160p",new VideoMediaProfile(fourk, "2160p", VideoMode.Normal,true));
-                Logger.d(TAG, "found 2160p");
+                Log.d(TAG, "found 2160p");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160p)) {
                 supportedProfiles.put("2160p_TimeLapse", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160p), "Timelapse2160p", VideoMode.Timelapse, false));
-                Logger.d(TAG, "found Timelapse2160p");
+                Log.d(TAG, "found Timelapse2160p");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160pDCI)) {
                 supportedProfiles.put("2160p_DCI_TimeLapse", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160pDCI), "Timelapse2160pDCI", VideoMode.Timelapse, false));
-                Logger.d(TAG, "found Timelapse2160pDCI");
+                Log.d(TAG, "found Timelapse2160pDCI");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
 
@@ -220,39 +220,39 @@ public class VideoProfilesParameter extends BaseModeParameter
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_1080P))
             {
                 supportedProfiles.put("1080pHFR", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_1080P), "1080pHFR", VideoMode.Highspeed, true));
-                Logger.d(TAG, "found 1080pHFR");
+                Log.d(TAG, "found 1080pHFR");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_2160P)) {
                 supportedProfiles.put("2016pHFR", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_2160P), "2016HFR", VideoMode.Highspeed, true));
-                Logger.d(TAG, "found 2016pHFR");
+                Log.d(TAG, "found 2016pHFR");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_720P)) {
                 supportedProfiles.put("720pHFR", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_720P), "720pHFR", VideoMode.Highspeed, true));
-                Logger.d(TAG, "found 720pHFR");
+                Log.d(TAG, "found 720pHFR");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_480P)) {
                 supportedProfiles.put("480pHFR", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_480P), "480pHFR", VideoMode.Highspeed, true));
-                Logger.d(TAG, "found 480pHFR");
+                Log.d(TAG, "found 480pHFR");
             }
-        } catch (Exception e) {
-            Logger.exception(e);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         if (supportedProfiles.get(_720phfr) == null && parameters.get("video-hfr-values")!=null && parameters.get("video-hfr-values").contains("120"))
         {
-            Logger.d(TAG, "no 720phfr profile found, but hfr supported, try to add custom 720phfr");
+            Log.d(TAG, "no 720phfr profile found, but hfr supported, try to add custom 720phfr");
             VideoMediaProfile t = supportedProfiles.get("720p").clone();
             t.videoFrameRate = 120;
             t.Mode = VideoMode.Highspeed;
@@ -272,7 +272,7 @@ public class VideoProfilesParameter extends BaseModeParameter
                 uhdHFR.Mode = VideoMode.Highspeed;
                 uhdHFR.ProfileName = "UHD_2160p_60FPS";
                 supportedProfiles.put("UHD_2160p_60FPS", uhdHFR);
-                Logger.d(TAG, "added custom 2160pHFR");
+                Log.d(TAG, "added custom 2160pHFR");
             }
 
 
@@ -289,7 +289,7 @@ public class VideoProfilesParameter extends BaseModeParameter
                 uhd.Mode = VideoMode.Normal;
                 uhd.ProfileName = _2160p;
                 supportedProfiles.put(_2160p, uhd);
-                Logger.d(TAG, "added custom 2160p");
+                Log.d(TAG, "added custom 2160p");
             }
         }
 
@@ -302,7 +302,7 @@ public class VideoProfilesParameter extends BaseModeParameter
                 t.Mode = VideoMode.Highspeed;
                 t.ProfileName = "1080pHFR";
                 supportedProfiles.put("1080pHFR", t);
-                Logger.d(TAG, "added custom 1080pHFR");
+                Log.d(TAG, "added custom 1080pHFR");
             }
 
         }

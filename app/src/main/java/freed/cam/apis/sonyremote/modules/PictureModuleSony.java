@@ -38,7 +38,7 @@ import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
-import freed.utils.Logger;
+import android.util.Log;
 
 /**
  * Created by troop on 22.12.2014.
@@ -95,7 +95,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     @Override
     public void InitModule()
     {
-        Logger.d(TAG, "InitModule");
+        Log.d(TAG, "InitModule");
         cameraHolder.CameraStatusListner = this;
         onCameraStatusChanged(cameraHolder.GetCameraStatus());
     }
@@ -119,7 +119,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     private void takePicture()
     {
         cameraHolder.TakePicture(this);
-        Logger.d(TAG, "Start Take Picture");
+        Log.d(TAG, "Start Take Picture");
     }
 
     @Override
@@ -128,8 +128,8 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         File file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
         try {
             file.createNewFile();
-        } catch (IOException e) {
-            Logger.exception(e);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         InputStream inputStream = null;
         OutputStream output = null;
@@ -149,8 +149,8 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             while ((len = inputStream.read(buffer)) != -1) {
                 output.write(buffer, 0, len);
             }
-        } catch (IOException e) {
-            Logger.exception(e);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         finally
         {
@@ -158,15 +158,15 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             {
                 if (inputStream != null)
                     inputStream.close();
-            } catch (IOException e) {
-                Logger.exception(e);
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
 
             try {
                 if (output != null)
                     output.close();
-            } catch (IOException e) {
-                Logger.exception(e);
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         }
 
@@ -177,7 +177,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     @Override
     public void onCameraStatusChanged(String status)
     {
-        Logger.d(TAG, "Status:"+status);
+        Log.d(TAG, "Status:"+status);
         if (status.equals("IDLE") && isWorking)
         {
             isWorking = false;

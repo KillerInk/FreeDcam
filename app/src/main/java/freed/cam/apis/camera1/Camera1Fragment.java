@@ -56,7 +56,7 @@ import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
-import freed.utils.Logger;
+import android.util.Log;
 import freed.utils.RenderScriptHandler;
 
 /**
@@ -115,7 +115,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         }
         else
             preview.setVisibility(View.GONE);
-        Logger.d(TAG, "Ctor done");
+        Log.d(TAG, "Ctor done");
 
         extendedSurfaceView.getHolder().addCallback(this);
         ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(this);
@@ -128,14 +128,14 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     {
         try {
             Class c = Class.forName("com.lge.hardware.LGCamera");
-            Logger.d(TAG, "Has Lg Framework");
+            Log.d(TAG, "Has Lg Framework");
             c = Class.forName("com.lge.media.CamcorderProfileEx");
-            Logger.d(TAG, "Has Lg Framework");
+            Log.d(TAG, "Has Lg Framework");
             return true;
 
         } catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e) {
 
-            Logger.d(TAG, "No LG Framework");
+            Log.d(TAG, "No LG Framework");
             return false;
         }
     }
@@ -144,13 +144,13 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     {
         try {
             Class c = Class.forName("com.motorola.android.camera.CameraMotExt");
-            Logger.d(TAG, "Has Moto Framework");
+            Log.d(TAG, "Has Moto Framework");
             c = Class.forName("com.motorola.android.media.MediaRecorderExt");
-            Logger.d(TAG, "Has Moto Framework");
+            Log.d(TAG, "Has Moto Framework");
             return true;
 
         } catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e) {
-            Logger.d(TAG, "No Moto Framework");
+            Log.d(TAG, "No Moto Framework");
             return false;
         }
 
@@ -169,16 +169,16 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
                     app = m;
             }
             if (app != null) {
-                Logger.d(TAG,"MTK Framework found");
+                Log.d(TAG,"MTK Framework found");
                 return true;
             }
-            Logger.d(TAG, "MTK Framework not found");
+            Log.d(TAG, "MTK Framework not found");
             return false;
         }
         catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e)
         {
-            Logger.exception(e);
-            Logger.d(TAG, "MTK Framework not found");
+            e.printStackTrace();
+            Log.d(TAG, "MTK Framework not found");
             return false;
         }
     }
@@ -186,12 +186,12 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     @Override
     public void StartCamera() {
         cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
-        Logger.d(TAG, "opencamera");
+        Log.d(TAG, "opencamera");
     }
 
     @Override
     public void StopCamera() {
-        Logger.d(TAG, "Stop Camera");
+        Log.d(TAG, "Stop Camera");
         cameraHolder.CloseCamera();
     }
 
@@ -202,7 +202,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
 
     @Override
     public void StopPreview() {
-        Logger.d(TAG, "Stop Preview");
+        Log.d(TAG, "Stop Preview");
         cameraHolder.StopPreview();
     }
 
@@ -224,7 +224,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
-        Logger.d(TAG, "surface created");
+        Log.d(TAG, "surface created");
         PreviewSurfaceRdy = true;
         StartCamera();
     }
@@ -244,7 +244,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         }
         catch (NullPointerException ex)
         {
-            Logger.exception(ex);
+            ex.printStackTrace();
         }
 
         StopCamera();
@@ -312,7 +312,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
                 else {
                       size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, false);
                 }
-                Logger.d(TAG, "set size to " + size.width + "x" + size.height);
+                Log.d(TAG, "set size to " + size.width + "x" + size.height);
 
                 parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 uiHandler.post(new Runnable() {
@@ -337,7 +337,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
                 }
                 final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height,false);
 
-                Logger.d(TAG, "set size to " + size.width + "x" + size.height);
+                Log.d(TAG, "set size to " + size.width + "x" + size.height);
                 if (appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("4k") &&parametersHandler.PreviewSize.GetValues().toString().contains("3840x"))
                 {
                     parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
@@ -443,7 +443,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
                 }
             }
         }
-        Logger.d(TAG, "Optimal preview size " + optimalSize.width + "x" + optimalSize.height);
+        Log.d(TAG, "Optimal preview size " + optimalSize.width + "x" + optimalSize.height);
         return optimalSize;
     }
 

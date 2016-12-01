@@ -42,7 +42,7 @@ import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.apis.camera2.renderscript.FocuspeakProcessorApi2;
 import freed.utils.AppSettingsManager;
-import freed.utils.Logger;
+import android.util.Log;
 import freed.utils.RenderScriptHandler;
 
 
@@ -74,7 +74,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         Focus = new FocusHandler(this);
         cameraHolder = new CameraHolderApi2(this);
         mProcessor = new FocuspeakProcessorApi2(renderScriptHandler);
-        Logger.d(TAG, "Constructor done");
+        Log.d(TAG, "Constructor done");
         ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(this);
 
         return view;
@@ -83,19 +83,19 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void StartCamera() {
         cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
-        Logger.d(TAG, "opencamera");
+        Log.d(TAG, "opencamera");
     }
 
     @Override
     public void StopCamera() {
-        Logger.d(TAG, "Stop Camera");
+        Log.d(TAG, "Stop Camera");
 
         cameraHolder.CloseCamera();
     }
 
     @Override
     public void StartPreview() {
-        Logger.d(TAG, "Start Preview");
+        Log.d(TAG, "Start Preview");
         I_PreviewWrapper mi = ((I_PreviewWrapper) moduleHandler.GetCurrentModule());
         if (mi != null) {
             mi.startPreview();
@@ -105,7 +105,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void StopPreview()
     {
-        Logger.d(TAG, "Stop Preview");
+        Log.d(TAG, "Stop Preview");
         I_PreviewWrapper mi = ((I_PreviewWrapper) moduleHandler.GetCurrentModule());
         if (mi != null) {
             mi.stopPreview();
@@ -133,7 +133,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         ((ParameterHandlerApi2)parametersHandler).Init();
         cameraHolder.SetSurface(textureView);
 
-        Logger.d(TAG, "Camera Opened and Preview Started");
+        Log.d(TAG, "Camera Opened and Preview Started");
         super.onCameraOpen(message);
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
     }
@@ -158,7 +158,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
     {
-        Logger.d(TAG, "SurfaceTextureAvailable");
+        Log.d(TAG, "SurfaceTextureAvailable");
         if (!PreviewSurfaceRdy) {
             PreviewSurfaceRdy = true;
             StartCamera();
@@ -173,7 +173,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
     {
-        Logger.d(TAG, "Surface destroyed");
+        Log.d(TAG, "Surface destroyed");
         PreviewSurfaceRdy = false;
         StopPreview();
         StopCamera();
