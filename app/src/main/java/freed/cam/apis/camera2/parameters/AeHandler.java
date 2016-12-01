@@ -33,7 +33,11 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
+import freed.utils.DeviceUtils;
+
 import android.util.Log;
+
+import com.troop.freedcam.R;
 
 /**
  * Created by troop on 18.05.2016.
@@ -294,7 +298,7 @@ public class AeHandler
             int millimin = (int)cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().longValue() / 1000;
 
             if(cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.LG_V20 || cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.Htc_M10)
-                stringvalues = getDebuggingShutterValues();
+                stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_autocreate);
             else
                 stringvalues = getSupportedShutterValues(millimin, millimax,false);
         }
