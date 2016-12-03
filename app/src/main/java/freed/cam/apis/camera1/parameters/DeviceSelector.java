@@ -89,6 +89,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.Mi_Max;
 import freed.cam.apis.camera1.parameters.device.qualcomm.NEXUS.Nexus6p_5x;
 import freed.cam.apis.camera1.parameters.device.qualcomm.OPPO.OnePlusOne;
 import freed.cam.apis.camera1.parameters.device.qualcomm.OPPO.OnePlusTwo;
+import freed.cam.apis.camera1.parameters.device.qualcomm.OPPO.OnePlusX;
 import freed.cam.apis.camera1.parameters.device.qualcomm.RIM.Blackberry_Priv;
 import freed.cam.apis.camera1.parameters.device.qualcomm.SONY.Sony_M4;
 import freed.cam.apis.camera1.parameters.device.qualcomm.SONY.Sony_XperiaL;
@@ -289,6 +290,9 @@ public class DeviceSelector {
                 
             case OnePlusTwo:
                return new OnePlusTwo(cameraParameters,cameraUiWrapper);
+
+            case OnePlusX:
+                return new OnePlusX(cameraParameters,cameraUiWrapper);
 
             case p8:
                 return getDefault(cameraUiWrapper,cameraParameters);

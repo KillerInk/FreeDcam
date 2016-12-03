@@ -412,6 +412,12 @@
         <item>One</item>
     </string-array>
 
+    <string-array name="OnePlusX">
+        <item>ONE E1003</item>
+        <item>ONE E1002</item>
+        <item>ONE E1001</item>
+    </string-array>
+
     <string-array name="OnePlusTwo">
         <item>ONE A2001</item>
         <item>ONE A2003</item>

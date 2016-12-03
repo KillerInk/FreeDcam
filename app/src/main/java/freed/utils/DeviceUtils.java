@@ -96,6 +96,7 @@ public class DeviceUtils
         Nexus5x,
         OnePlusOne,
         OnePlusTwo,
+        OnePlusX,
         p8,
         p8lite,
         Prestigio_Multipad_Color,
@@ -231,6 +232,8 @@ public class DeviceUtils
             return Devices.OnePlusOne;
         else if (isDevice(res.getStringArray(array.OnePlusTwo)))
             return Devices.OnePlusTwo;
+        else if (isDevice(res.getStringArray(array.OnePlusX)))
+            return Devices.OnePlusX;
         else if (isDevice(res.getStringArray(array.Xiaomi_RedmiNote)))
             return Devices.Xiaomi_RedmiNote;
         else if(isDevice(res.getStringArray(array.Xiaomi_Redmi2)))
