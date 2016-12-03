@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="menuBackgColor">#46ffffff</color>
-    <color name="menuTextColor">#000000</color>
+    <color name="menuTextColor">#FFFFFFFF</color>
     <color name="settingsmenuBackColor" >#32ffffff</color>
     <color name="uiSettingsTextColor">#FFFFFFFF</color>
     <color name="uiSettingsBackground">#bd000000</color>
     <color name="menu_header_color">#ffffffff</color>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#11303f9f</color>
     <color name="colorAccent">#FF4081</color>
 

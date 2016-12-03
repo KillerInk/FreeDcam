@@ -15,4 +15,9 @@
     <declare-styleable name="MyGallery">
         <attr name="android:galleryItemBackground" />
     </declare-styleable>
+
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
+    </declare-styleable>
 </resources>
