@@ -9,7 +9,10 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/freedviewer_topbar_height"
-        android:background="#50000000">
+        android:background="#50000000"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageButton
             android:layout_width="@dimen/app_icon_size"
@@ -23,7 +26,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="false">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -32,7 +36,8 @@
                 android:text="@string/files_selected"
                 android:id="@+id/textView_filesSelected"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine" />
+                android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
+                android:textColor="@color/abc_background_cache_hint_selector_material_light" />
 
             <Button
             android:layout_width="50dp"
@@ -43,7 +48,8 @@
             android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
             android:background="#00000000"
             android:textStyle="bold"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+                android:textColor="@color/button_material_light" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -55,7 +61,8 @@
                 android:background="#00000000"
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textColor="@color/button_material_light" />
 
             <Button
                 android:layout_width="50dp"
@@ -67,7 +74,8 @@
                 android:background="#00000000"
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textColor="@color/button_material_light" />
 
         </LinearLayout>
 

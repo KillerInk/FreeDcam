@@ -21,67 +21,36 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/freedviewer_topbar_height"
-        android:layout_below="@+id/imageView_PicView"
-        android:id="@+id/top_bar"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="#82ffffff">
-
-        <Button
-            android:layout_width="@dimen/freedviewer_topbar_height"
-            android:layout_height="@dimen/freedviewer_topbar_height"
-            android:id="@+id/button_closeView"
-            android:textSize="10dp"
-            android:layout_alignParentTop="false"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentEnd="false"
-            android:background="@drawable/go_back"
-            android:layout_alignParentLeft="false"
-            android:layout_marginLeft="@dimen/freedviewer_screenslide_topBarItemMargine" />
-
-        <Button
-            android:layout_width="@dimen/freedviewer_topbar_height"
-            android:layout_height="@dimen/freedviewer_topbar_height"
-            android:id="@+id/button_play"
-            android:layout_alignParentBottom="false"
-            android:textSize="10dp"
-            android:layout_alignParentLeft="false"
-            android:background="@drawable/ic_play"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="50dp" />
-
-        <Button
-            android:layout_width="@dimen/freedviewer_topbar_height"
-            android:layout_height="@dimen/freedviewer_topbar_height"
-            android:id="@+id/button_delete"
-            android:layout_alignParentBottom="false"
-            android:textSize="10dp"
-            android:layout_alignParentLeft="false"
-            android:background="@drawable/delete"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine" />
-    </RelativeLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/freedviewer_screenslide_bottomBarHeight"
+        android:layout_height="@dimen/freedviewer_screenslide_histogram_height"
         android:background="#71000001"
         android:id="@+id/bottom_bar"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="false"
-        android:layout_centerHorizontal="true">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/screenslide_histogram"
+        android:layout_toEndOf="@+id/screenslide_histogram">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/freedviewer_screenslide_exifInfoHeight"
+            android:textAppearance="@android:style/TextAppearance.Holo.Small"
+            android:text="Large Text"
+            android:id="@+id/textView_filename"
+            android:textColor="#FFFFFFFF"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentTop="true"
+            android:autoText="true" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/freedviewer_screenslide_exifInfoHeight"
+            android:layout_height="@dimen/freedviewer_screenslide_histogram_height"
             android:id="@+id/exif_info"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -96,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="S:"
+                android:text="Exposure Time:"
                 android:id="@+id/textView_shutter"
                 android:layout_marginLeft="@dimen/freedviewer_screenslide_exifInfoItemMargine"
                 android:textColor="#FFFFFFFF" />
@@ -105,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="A:"
+                android:text="Focal Length:"
                 android:id="@+id/textView_focal"
                 android:layout_marginLeft="@dimen/freedviewer_screenslide_exifInfoItemMargine"
                 android:textColor="#FFFFFFFF" />
@@ -114,31 +83,61 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="F:"
+                android:text="Aperture:"
                 android:id="@+id/textView_fnumber"
                 android:layout_marginLeft="@dimen/freedviewer_screenslide_exifInfoItemMargine"
                 android:textColor="#FFFFFFFF" />
+
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/freedviewer_screenslide_exifInfoHeight"
-            android:textAppearance="@android:style/TextAppearance.Holo.Small"
-            android:text="Large Text"
-            android:id="@+id/textView_filename"
-            android:textColor="#FFFFFFFF"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center_horizontal"
-            android:autoText="true" />
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="50dp"
+        android:layout_height="fill_parent"
+        android:id="@+id/top_bar"
+        android:layout_below="@+id/bottom_bar"
+        android:layout_alignRight="@+id/bottom_bar"
+        android:layout_alignEnd="@+id/bottom_bar">
+
+        <Button
+            android:layout_width="@dimen/freedviewer_topbar_height"
+            android:layout_height="@dimen/freedviewer_topbar_height"
+            android:id="@+id/button_closeView"
+            android:textSize="10dp"
+            android:background="@drawable/go_back"
+            android:layout_below="@+id/button_delete"
+            android:layout_alignLeft="@+id/button_delete"
+            android:layout_alignStart="@+id/button_delete"
+            android:layout_marginTop="135dp" />
+
+        <Button
+            android:layout_width="@dimen/freedviewer_topbar_height"
+            android:layout_height="@dimen/freedviewer_topbar_height"
+            android:id="@+id/button_play"
+            android:textSize="10dp"
+            android:background="@drawable/ic_play"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/button_delete"
+            android:layout_alignStart="@+id/button_delete" />
+
+        <Button
+            android:layout_width="@dimen/freedviewer_topbar_height"
+            android:layout_height="@dimen/freedviewer_topbar_height"
+            android:id="@+id/button_delete"
+            android:textSize="10dp"
+            android:background="@drawable/delete"
+            android:layout_below="@+id/button_play"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="124dp" />
+    </RelativeLayout>
 
     <freed.viewer.screenslide.MyHistogram
         android:layout_width="@dimen/freedviewer_screenslide_histogram_width"
         android:layout_height="@dimen/freedviewer_screenslide_histogram_height"
         android:id="@+id/screenslide_histogram"
-        android:layout_above="@+id/bottom_bar"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
