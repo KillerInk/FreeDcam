@@ -141,6 +141,21 @@ public class VideoProfilesApi2 extends BaseModeApi2
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+        try {
+           // if (CamcorderProfile.hasProfile(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CamcorderProfile.QUALITY_1080P))
+                //supportedProfiles.put("1080p60", new VideoMediaProfile(CamcorderProfile.get(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CamcorderProfile.QUALITY_1080P), "1080p60", VideoMode.Highspeed,true));
+            VideoMediaProfile t = supportedProfiles.get("1080p").clone();
+            t.videoFrameRate = 120;
+            t.Mode = VideoMode.Highspeed;
+            t.ProfileName = "1080pHS";
+            supportedProfiles.put("1080pHS",t);
+
+
+        } catch (Exception e) {
+            Logger.exception(e);
+        }
+
         try {
             if (CamcorderProfile.hasProfile(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CamcorderProfile.QUALITY_TIME_LAPSE_480P))
                 supportedProfiles.put("Timelapse480p", new VideoMediaProfile(CamcorderProfile.get(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).CurrentCamera, CamcorderProfile.QUALITY_TIME_LAPSE_480P), "Timelapse480p", VideoMode.Timelapse,false));

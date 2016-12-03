@@ -231,12 +231,15 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
         mediaRecorder.setVideoEncodingBitRate(currentVideoProfile.videoBitRate);
 
-        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE,new Range<>(currentVideoProfile.videoFrameRate,currentVideoProfile.videoFrameRate));
+
 
       //  if(currentVideoProfile.Mode == VideoMediaProfile.VideoMode.SlowMO)
        //     int SlowFactor = currentVideoProfile.videoFrameRate /30;
 
-        mediaRecorder.setVideoFrameRate(currentVideoProfile.videoFrameRate);
+        if(currentVideoProfile.videoFrameRate == 120 && currentVideoProfile.videoFrameWidth == 1920)
+            mediaRecorder.setVideoFrameRate(60);
+        else
+            mediaRecorder.setVideoFrameRate(currentVideoProfile.videoFrameRate);
 
         /*setCaptureRate
 
@@ -349,6 +352,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             mediaRecorder.start();
             isRecording = true;
             cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
+            try {
+                cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate));
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
 
         @Override
