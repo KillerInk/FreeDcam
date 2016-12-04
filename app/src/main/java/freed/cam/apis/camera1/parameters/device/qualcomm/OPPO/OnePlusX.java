@@ -25,6 +25,8 @@ public class OnePlusX extends OnePlusOne {
     {
         switch (filesize)
         {
+            case 9990144:
+                return new DngProfile(16, 3264, 2448, DngProfile.Mipi16, DngProfile.BGGR, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
             case 10653696:
                 return new DngProfile(0, 3264, 2448, DngProfile.Qcom, DngProfile.BGGR, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
 
