@@ -38,6 +38,7 @@ public class LoggerActivity extends FragmentActivity
     private Thread.UncaughtExceptionHandler defaultEXhandler;
 
     private final String EX_MESSAGE = "exmsg";
+    private final String TAG = LoggerActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class LoggerActivity extends FragmentActivity
             TextView msg_txtview = (TextView)findViewById(R.id.textview_crashlog);
             msg_txtview.setMovementMethod(new ScrollingMovementMethod());
             msg_txtview.setText(msg);
+            Log.e(TAG, msg);
             Button button_restartfreedcam = (Button)findViewById(R.id.button_restart);
             button_restartfreedcam.setOnClickListener(new View.OnClickListener() {
                 @Override
