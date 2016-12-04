@@ -40,13 +40,11 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraHolderInterface;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLG;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
@@ -62,7 +60,7 @@ import freed.utils.RenderScriptHandler;
 /**
  * Created by troop on 06.06.2015.
  */
-public class Camera1Fragment extends CameraFragmentAbstract implements I_ParametersLoaded, ModuleChangedEvent, SurfaceHolder.Callback
+public class Camera1Fragment extends CameraFragmentAbstract implements ModuleChangedEvent, SurfaceHolder.Callback
 {
     protected ExtendedSurfaceView extendedSurfaceView;
     protected TextureViewRatio preview;
@@ -90,7 +88,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         preview = (TextureViewRatio) view.findViewById(id.textureView_preview);
 
         parametersHandler = new ParametersHandler(this);
-        parametersHandler.AddParametersLoadedListner(this);
         this.extendedSurfaceView.ParametersHandler = parametersHandler;
         moduleHandler = new ModuleHandler(this);
         moduleHandler.addListner(this);
@@ -118,7 +115,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         Log.d(TAG, "Ctor done");
 
         extendedSurfaceView.getHolder().addCallback(this);
-        ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(this);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -255,12 +251,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
 
     }
 
-    @Override
-    public void ParametersLoaded(CameraWrapperInterface cameraWrapper)
-    {
-        parametersHandler.PictureSize.addEventListner(onPreviewSizeShouldChange);
-        //parametersHandler.VideoSize.addEventListner(onPreviewSizeShouldChange);
-    }
 
     //this gets called when the cameraholder has open the camera
     @Override
@@ -269,6 +259,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         cameraRdy = true;
         super.onCameraOpen(message);
         ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
+        parametersHandler.PictureSize.addEventListner(onPreviewSizeShouldChange);
         cameraHolder.SetSurface(extendedSurfaceView.getHolder());
         cameraHolder.StartPreview();
         this.onCameraOpenFinish("");

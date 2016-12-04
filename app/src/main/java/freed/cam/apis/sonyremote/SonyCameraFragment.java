@@ -100,7 +100,6 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         moduleHandler.initModules();
 
         SetCameraStateChangedListner(this);
-        ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(this);
 
         return view;
     }
@@ -301,6 +300,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     @Override
     public void onCameraOpen(String message) {
         STATE = STATE_DEVICE_CONNECTED;
+        this.onCameraOpenFinish("");
     }
 
     @Override
@@ -332,7 +332,6 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         Log.d(TAG, "Camera error:" +error );
         surfaceView.stop();
         SetCameraStateChangedListner(SonyCameraFragment.this);
-        ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(SonyCameraFragment.this);
         postDelayed(5000);
 
     }

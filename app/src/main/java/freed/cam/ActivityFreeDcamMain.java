@@ -46,10 +46,9 @@ import freed.cam.apis.ApiHandler;
 import freed.cam.apis.ApiHandler.ApiEvent;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.CameraFragmentAbstract.CamerUiWrapperRdy;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
-import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
+import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.sonyremote.SonyCameraFragment;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.handler.I_orientation;
@@ -69,8 +68,8 @@ import freed.viewer.screenslide.ScreenSlideFragment;
  * Created by troop on 18.08.2014.
  */
 public class ActivityFreeDcamMain extends ActivityAbstract
-        implements I_orientation, CamerUiWrapperRdy, ApiEvent, I_ParametersLoaded,
-            SecureCamera.SecureCameraActivity
+        implements I_orientation, ApiEvent,
+            SecureCamera.SecureCameraActivity, CameraStateEvents
 {
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
@@ -217,7 +216,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (cameraFragment == null) {
             //get new cameraFragment
             cameraFragment = apiHandler.getCameraFragment();
-            cameraFragment.Init(this);
+            cameraFragment.SetCameraStateChangedListner(this);
             //load the cameraFragment to ui
             //that starts the camera represent by that fragment when the surface/textureviews
             //are created and calls then onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
@@ -231,27 +230,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             cameraFragment.StartCamera();
 
         }
-    }
-
-    /**
-     * gets thrown when the cameraFragment is created sucessfull and all items are up like modulehandler
-     * and rdy to register listners
-     * @param cameraUiWrapper the cameraWrapper to register the listners
-     */
-    @Override
-    public void onCameraUiWrapperRdy(CameraWrapperInterface cameraUiWrapper) {
-        //note the ui that cameraFragment is loaded
-        cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(this);
-        if (cameraUiFragment != null) {
-            cameraUiFragment.SetCameraUIWrapper(cameraUiWrapper);
-        }
-        if (settingsMenuFragment != null)
-            settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
-        Log.d(TAG, "add events");
-        //register timer to to moduleevent handler that it get shown/hidden when its video or not
-        //and start/stop working when recording starts/stops
-        cameraUiWrapper.GetModuleHandler().AddRecoderChangedListner(timerHandler);
-        cameraUiWrapper.GetModuleHandler().addListner(timerHandler);
     }
 
     /**
@@ -410,17 +388,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
 
     @Override
-    public void ParametersLoaded(CameraWrapperInterface cameraWrapper) {
-        if (cameraUiFragment != null) {
-            cameraUiFragment.SetCameraUIWrapper(cameraWrapper);
-        }
-        if (settingsMenuFragment != null)
-            settingsMenuFragment.SetCameraUIWrapper(cameraWrapper);
-        /*if (screenSlideFragment != null)
-            screenSlideFragment.LoadFiles();*/
-    }
-
-    @Override
     public void WorkHasFinished(final FileHolder fileHolder) {
         Log.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
         /*final Bitmap b = getBitmapHelper().getBitmap(fileHolder, true);
@@ -454,6 +421,57 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             });
         }
     };
+
+    @Override
+    public void onCameraOpen(String message) {
+
+    }
+
+    @Override
+    public void onCameraOpenFinish(String message) {
+        //note the ui that cameraFragment is loaded
+        if (cameraUiFragment != null) {
+            cameraUiFragment.SetCameraUIWrapper(cameraFragment);
+        }
+        if (settingsMenuFragment != null)
+            settingsMenuFragment.SetCameraUIWrapper(cameraFragment);
+        Log.d(TAG, "add events");
+        //register timer to to moduleevent handler that it get shown/hidden when its video or not
+        //and start/stop working when recording starts/stops
+        cameraFragment.GetModuleHandler().AddRecoderChangedListner(timerHandler);
+        cameraFragment.GetModuleHandler().addListner(timerHandler);
+    }
+
+    @Override
+    public void onCameraClose(String message)
+    {
+
+    }
+
+    @Override
+    public void onPreviewOpen(String message) {
+
+    }
+
+    @Override
+    public void onPreviewClose(String message) {
+
+    }
+
+    @Override
+    public void onCameraError(String error) {
+
+    }
+
+    @Override
+    public void onCameraStatusChanged(String status) {
+
+    }
+
+    @Override
+    public void onModuleChanged(ModuleInterface module) {
+
+    }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {

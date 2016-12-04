@@ -79,8 +79,6 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         cameraHolder = new CameraHolderApi2(this);
         mProcessor = new FocuspeakProcessorApi2(renderScriptHandler);
         Log.d(TAG, "Constructor done");
-        ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(this);
-
         return view;
     }
 
@@ -158,6 +156,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         Log.d(TAG, "Camera Opened and Preview Started");
         super.onCameraOpen(message);
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
+        this.onCameraOpenFinish("");
     }
 
     @Override

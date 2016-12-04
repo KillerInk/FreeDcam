@@ -144,7 +144,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             manualModesFragment.SetCameraUIWrapper(cameraUiWrapper);
         if (cameraUiWrapper.GetParameterHandler().Focuspeak != null) {
             focuspeak.SetParameter(cameraUiWrapper.GetParameterHandler().Focuspeak);
-            cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(focuspeak);
         }
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
         focuspeak.SetCameraUiWrapper(cameraUiWrapper);

@@ -394,10 +394,6 @@ public class ParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
 
-
-        //parameters are setup notfiy ui that its rdy to use
-        ParametersHasLoaded();
-
         cameraUiWrapper.GetModuleHandler().SetModule(appSettingsManager.GetCurrentModule());
     }
 

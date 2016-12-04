@@ -56,12 +56,6 @@ public abstract class AbstractParameterHandler
      */
     protected Handler uiHandler;
 
-    /**
-     * a list of listners that wait for ParametersHasLoaded() event
-     * when that get thrown the parameters are fully created and rdy to use
-     */
-    private final ArrayList<I_ParametersLoaded> parametersLoadedListner;
-
     protected AppSettingsManager appSettingsManager;
 
     protected CameraWrapperInterface cameraUiWrapper;
@@ -188,8 +182,6 @@ public abstract class AbstractParameterHandler
         this.cameraUiWrapper = cameraUiWrapper;
         uiHandler = new Handler(Looper.getMainLooper());
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
-        parametersLoadedListner = new ArrayList<>();
-        parametersLoadedListner.clear();
 
         GuideList = new GuideList();
         locationParameter = new LocationParameter(cameraUiWrapper);
@@ -322,36 +314,6 @@ public abstract class AbstractParameterHandler
                 {
                     ex.printStackTrace();
                 }
-
-            }
-        }
-    }
-
-    public void AddParametersLoadedListner(I_ParametersLoaded parametersLoaded)
-    {
-        parametersLoadedListner.add(parametersLoaded);
-    }
-
-    public void ParametersHasLoaded()
-    {
-        if (parametersLoadedListner == null)
-            return;
-        for(int i = 0; i< parametersLoadedListner.size(); i++)
-        {
-
-            if (parametersLoadedListner.get(i) == null) {
-                parametersLoadedListner.remove(i);
-                i--;
-            }
-            else {
-                final int t = i;
-                uiHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (parametersLoadedListner.size()> 0 && t < parametersLoadedListner.size())
-                            parametersLoadedListner.get(t).ParametersLoaded(cameraUiWrapper);
-                    }
-                });
 
             }
         }

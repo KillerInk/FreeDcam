@@ -227,18 +227,6 @@ public class UiSettingsChild extends SettingsChildAbstract
     }
 
     @Override
-    public void ParametersLoaded(CameraWrapperInterface cameraWrapper)
-    {
-        sendLog("Parameters Loaded");
-        if (parameter != null && parameter.IsSupported()) {
-            setTextToTextBox(parameter);
-            onParameterIsSupportedChanged(true);
-        }
-        else
-            onParameterIsSupportedChanged(false);
-    }
-
-    @Override
     public void onClick(View v) {
         if (onItemClick != null)
             onItemClick.onSettingsChildClick(this, fromleft);

@@ -163,16 +163,6 @@ public class ParameterHandler extends AbstractParameterHandler
 
         scalePreview = new ScalePreviewModeSony(surfaceView);
 
-        uiHandler.post(new Runnable() {
-            @Override
-            public void run()
-            {
-                    Log.d(TAG, "Throw ParametersHasLoaded");
-                ParametersHasLoaded();
-                }
-
-        });
-
     }
 
     public void SetRemoteApi(SimpleRemoteApi api)

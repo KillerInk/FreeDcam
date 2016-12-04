@@ -31,7 +31,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
-import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import android.util.Log;
 
@@ -39,7 +38,7 @@ import android.util.Log;
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class FocusHandler extends AbstractFocusHandler implements I_ParametersLoaded
+public class FocusHandler extends AbstractFocusHandler
 {
     private int mState;
     private FocusRect focusRect;
@@ -192,16 +191,4 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
 
     }
 
-    @Override
-    public void ParametersLoaded(CameraWrapperInterface cameraWrapper)
-    {
-        if (focusEvent == null
-                || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE) == null
-                || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AWB) == null)
-            return;
-        if (((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE)>0)
-            focusEvent.AEMeteringSupported(true);
-        else
-            focusEvent.AEMeteringSupported(false);
-    }
 }

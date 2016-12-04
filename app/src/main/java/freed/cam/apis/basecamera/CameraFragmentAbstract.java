@@ -42,8 +42,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     private final String TAG = CameraFragmentAbstract.class.getSimpleName();
 
     protected View view;
-    //the event listner when the camerauiwrapper is rdy to get attached to ui
-    protected CameraFragmentAbstract.CamerUiWrapperRdy onrdy;
     //holds the appsettings
     protected RenderScriptHandler renderScriptHandler;
 
@@ -113,25 +111,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     public CameraWrapperInterface GetCameraUiWrapper()
     {
         return this;
-    }
-
-    /**
-     *
-     * @param rdy the listner that gets thrown when the cameraUIwrapper
-     *            has loaded all stuff and is rdy to get attached to ui.
-     */
-    public void Init(CameraFragmentAbstract.CamerUiWrapperRdy rdy)
-    {
-        onrdy = rdy;
-    }
-
-
-    /**
-     * inteface for event listning when the camerauiwrapper is rdy
-     */
-    public interface CamerUiWrapperRdy
-    {
-        void onCameraUiWrapperRdy(CameraWrapperInterface cameraUiWrapper);
     }
 
 

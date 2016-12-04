@@ -124,7 +124,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
         ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
-        ((FocusHandler) cameraUiWrapper.getFocusHandler()).ParametersLoaded(cameraUiWrapper);
 
         ControlMode = new ControlModesApi2(cameraUiWrapper);
 
@@ -135,21 +134,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         oismode = new OisModeApi2(cameraUiWrapper);
         matrixChooser = new MatrixChooserParameter(((Fragment)cameraUiWrapper).getResources());
         Zoom = new ZoomApi2(cameraUiWrapper);
-
-
-        uiHandler.post(new Runnable() {
-            @Override
-            public void run()
-            {
-                try {
-                    ParametersHasLoaded();
-                }
-                catch (NullPointerException ex)
-                {
-                    ex.printStackTrace();
-                }
-            }
-        });
         SetAppSettingsToParameters();
     }
 

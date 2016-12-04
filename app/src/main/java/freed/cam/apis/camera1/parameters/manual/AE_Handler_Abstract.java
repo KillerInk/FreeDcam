@@ -23,7 +23,6 @@ import android.hardware.Camera;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -38,7 +37,7 @@ import android.util.Log;
  * if its auto set shutter isSetSupported to false to disable it in ui
  * if its manual enable the shutter button.
  */
-public abstract class AE_Handler_Abstract implements I_ParametersLoaded
+public abstract class AE_Handler_Abstract
 {
     public interface AeManualEvent
     {
@@ -68,7 +67,6 @@ public abstract class AE_Handler_Abstract implements I_ParametersLoaded
     {
         this.parameters = parameters;
         this.cameraWrapper = cameraUiWrapper;
-        cameraWrapper.GetParameterHandler().AddParametersLoadedListner(this);
     }
 
     public ManualParameterInterface getManualIso()
@@ -81,11 +79,6 @@ public abstract class AE_Handler_Abstract implements I_ParametersLoaded
         return shutter;
     }
 
-    @Override
-    public void ParametersLoaded(CameraWrapperInterface cameraWrapper)
-    {
-        aeevent.onManualChanged(AeManual.iso,true,0);
-    }
 
     protected final AeManualEvent aeevent =  new AeManualEvent() {
         @Override
