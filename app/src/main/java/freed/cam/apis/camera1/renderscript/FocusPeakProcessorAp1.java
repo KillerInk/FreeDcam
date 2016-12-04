@@ -325,10 +325,6 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     }
 
     @Override
-    public void onModuleChanged(ModuleInterface module) {
-    }
-
-    @Override
     public void onModuleChanged(String module)
     {
         Log.d(TAG, "onModuleChanged(String):" + module + " enabled:" + enable);

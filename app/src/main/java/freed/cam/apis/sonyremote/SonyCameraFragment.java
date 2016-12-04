@@ -341,11 +341,6 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
 
     }
 
-    @Override
-    public void onModuleChanged(ModuleInterface module) {
-
-    }
-
     class WifiScanReceiver extends BroadcastReceiver
     {
         public void onReceive(Context c, Intent intent)

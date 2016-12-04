@@ -230,18 +230,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     }
 
     @Override
-    public void onModuleChanged(final ModuleInterface module) {
-        for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-            uiHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    cameraChangedListner.onModuleChanged(module);
-                }
-            });
-
-    }
-
-    @Override
     public void onCameraOpenFinish(final String message)
     {
         for (final CameraStateEvents cameraChangedListner : cameraChangedListners)

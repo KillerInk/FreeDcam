@@ -468,10 +468,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     }
 
-    @Override
-    public void onModuleChanged(ModuleInterface module) {
-
-    }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {

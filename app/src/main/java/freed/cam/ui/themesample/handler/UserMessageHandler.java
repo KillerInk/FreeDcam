@@ -113,9 +113,4 @@ public class UserMessageHandler implements CameraStateEvents
     public void onCameraStatusChanged(String status) {
 
     }
-
-    @Override
-    public void onModuleChanged(ModuleInterface module) {
-
-    }
 }

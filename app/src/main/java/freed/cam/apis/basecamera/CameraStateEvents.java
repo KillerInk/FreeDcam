@@ -61,9 +61,4 @@ public interface CameraStateEvents
      * @param status that has changed
      */
     void onCameraStatusChanged(String status);
-    /**
-     * gets thrown when current module has changed
-     * @param module
-     */
-    void onModuleChanged(ModuleInterface module);
 }
