@@ -19,7 +19,9 @@
 
 package freed.cam.apis.camera2;
 
+import android.annotation.TargetApi;
 import android.graphics.SurfaceTexture;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
@@ -49,12 +51,14 @@ import freed.utils.RenderScriptHandler;
 /**
  * Created by troop on 06.06.2015.
  */
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class Camera2Fragment extends CameraFragmentAbstract implements TextureView.SurfaceTextureListener
 {
     public CameraHolderApi2 cameraHolder;
     private AutoFitTextureView textureView;
     private final String TAG = Camera2Fragment.class.getSimpleName();
     private FocuspeakProcessorApi2 mProcessor;
+    private boolean cameraIsOpen = false;
 
     public String CameraApiName() {
         return AppSettingsManager.API_2;
@@ -80,9 +84,26 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         return view;
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (textureView.isAttachedToWindow())
+            StartCamera();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        PreviewSurfaceRdy = false;
+        StopPreview();
+        StopCamera();
+    }
+
     @Override
     public void StartCamera() {
-        cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
+        if (!cameraIsOpen)
+            cameraIsOpen = cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
         Log.d(TAG, "opencamera");
     }
 
@@ -91,6 +112,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         Log.d(TAG, "Stop Camera");
 
         cameraHolder.CloseCamera();
+        cameraIsOpen = false;
     }
 
     @Override
@@ -161,7 +183,8 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         Log.d(TAG, "SurfaceTextureAvailable");
         if (!PreviewSurfaceRdy) {
             PreviewSurfaceRdy = true;
-            StartCamera();
+            if (!cameraIsOpen)
+                StartCamera();
         }
     }
 
@@ -174,9 +197,6 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
     {
         Log.d(TAG, "Surface destroyed");
-        PreviewSurfaceRdy = false;
-        StopPreview();
-        StopCamera();
         return false;
     }
 
