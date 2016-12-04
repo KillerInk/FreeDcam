@@ -236,7 +236,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     {
         Log.d(TAG, "surface created");
         PreviewSurfaceRdy = true;
-        StartCamera();
+        if (isResumed() && !cameraRdy)
+            StartCamera();
     }
 
     @Override

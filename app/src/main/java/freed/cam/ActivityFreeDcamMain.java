@@ -117,6 +117,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         mPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         nightoverlay = (LinearLayout) findViewById(id.nightoverlay);
+        settingsMenuFragment = new SettingsMenuFragment();
+        screenSlideFragment = new ScreenSlideFragment();
+        cameraUiFragment = new CameraUiFragment();
+        cameraUiFragment.thumbClick = onThumbClick;
+        mPager.setOffscreenPageLimit(2);
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(1);
         createHandlers();
     }
 
@@ -200,9 +207,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void apiDetectionDone()
     {
-        mPager.setOffscreenPageLimit(2);
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(1);
+        Log.d(TAG, "apiDetectionDone");
+
         loadCameraFragment();
         orientationHandler.Start();
     }
@@ -477,22 +483,21 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                if (settingsMenuFragment == null) {
-                    settingsMenuFragment = new SettingsMenuFragment();
+                /*if (settingsMenuFragment != null) {
                     settingsMenuFragment.SetCameraUIWrapper(cameraFragment);
-                }
+                }*/
                 return settingsMenuFragment;
             }
             else if (position == 2) {
-                if (screenSlideFragment == null) {
-                    screenSlideFragment = new ScreenSlideFragment();
+                /*if (screenSlideFragment != null) {
+
                     screenSlideFragment.SetOnThumbClick(onThumbBackClick);
-                }
+                }*/
                 return screenSlideFragment;
             }
             else {
-                if (cameraUiFragment == null)
-                    cameraUiFragment = CameraUiFragment.GetInstance(onThumbClick,cameraFragment);
+                /*if (cameraUiFragment != null)
+                    cameraUiFragment.SetCameraUIWrapper(cameraFragment);*/
                 return cameraUiFragment;
             }
         }

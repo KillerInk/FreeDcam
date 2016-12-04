@@ -95,7 +95,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private GuideHandler guideHandler;
     private final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
     private SharedPreferences sharedPref;
-    private I_ThumbClick thumbClick;
+    public I_ThumbClick thumbClick;
 
     private UiSettingsChild aelock;
 
@@ -104,14 +104,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private HorizontLineFragment horizontLineFragment;
     private View camerauiValuesFragmentHolder;
 
-    public static CameraUiFragment GetInstance(I_ThumbClick thumbClick,CameraWrapperInterface cameraUiWrapper)
-    {
-        CameraUiFragment cameraUiFragment = new CameraUiFragment();
-        cameraUiFragment.thumbClick = thumbClick;
-        cameraUiFragment.cameraUiWrapper = cameraUiWrapper;
-        return cameraUiFragment;
-    }
-
     public CameraUiFragment()
     {
 
@@ -119,7 +111,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     @Override
     protected void setCameraUiWrapperToUi() {
-        if (cameraUiWrapper == null || cameraUiWrapper.GetParameterHandler() == null)
+        if (cameraUiWrapper == null || cameraUiWrapper.GetParameterHandler() == null && !isAdded())
         {
             Log.d(TAG, "failed to set cameraUiWrapper");
             return;
@@ -284,6 +276,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             transaction.addToBackStack(null);
             transaction.commit();
         }
+        if (cameraUiWrapper != null)
+            setCameraUiWrapperToUi();
     }
 
     @Override
