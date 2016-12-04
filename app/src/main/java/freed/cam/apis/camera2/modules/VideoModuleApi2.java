@@ -238,7 +238,15 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
         mediaRecorder.setVideoFrameRate(currentVideoProfile.videoFrameRate);
 
-        mediaRecorder.setCaptureRate((double)currentVideoProfile.videoFrameRate);
+        /*setCaptureRate
+
+        Added in API level 11
+        void setCaptureRate (double fps)
+        Set video frame capture rate. This can be used to set a different video frame capture rate than the recorded video's playback rate.
+        !!!!!! This method also sets the recording mode to time lapse.!!!!!
+        In time lapse video recording, only video is recorded.
+        Audio related parameters are ignored when a time lapse recording session starts, if an application sets them.*/
+        //mediaRecorder.setCaptureRate((double)currentVideoProfile.videoFrameRate);
         mediaRecorder.setVideoSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         try {
             mediaRecorder.setVideoEncoder(currentVideoProfile.videoCodec);
