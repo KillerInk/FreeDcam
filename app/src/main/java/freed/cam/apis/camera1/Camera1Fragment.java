@@ -123,6 +123,20 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     }
 
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            if(moduleHandler.GetCurrentModule().ModuleName().equals(KEYS.MODULE_VIDEO) && moduleHandler.GetCurrentModule().IsWorking())
+                moduleHandler.GetCurrentModule().DoWork();
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        StopCamera();
+    }
 
     private boolean hasLGFramework()
     {
@@ -238,16 +252,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     public void surfaceDestroyed(SurfaceHolder holder)
     {
         PreviewSurfaceRdy =false;
-        try {
-            if(moduleHandler.GetCurrentModule().ModuleName().equals(KEYS.MODULE_VIDEO) && moduleHandler.GetCurrentModule().IsWorking())
-                moduleHandler.GetCurrentModule().DoWork();
-        }
-        catch (NullPointerException ex)
-        {
-            ex.printStackTrace();
-        }
 
-        StopCamera();
     }
 
     @Override
