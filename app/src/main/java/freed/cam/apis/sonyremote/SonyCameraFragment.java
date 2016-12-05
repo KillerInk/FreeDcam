@@ -303,10 +303,6 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         this.onCameraOpenFinish("");
     }
 
-    @Override
-    public void onCameraOpenFinish(String message) {
-
-    }
 
     @Override
     public void onCameraClose(String message) {
