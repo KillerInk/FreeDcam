@@ -114,7 +114,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     public int defitem = -1;
     public FormatTypes filestoshow = ActivityAbstract.FormatTypes.all;
     private I_ThumbClick thumbclick;
-    private RelativeLayout topbar;
+    private LinearLayout topbar;
     //hold the showed folder_to_show
     private FileHolder folder_to_show;
 
@@ -132,7 +132,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) view.findViewById(id.pager);
-        topbar =(RelativeLayout)view.findViewById(id.top_bar);
+        topbar =(LinearLayout)view.findViewById(id.top_bar);
         histogram = (MyHistogram)view.findViewById(id.screenslide_histogram);
 
         closeButton = (Button)view.findViewById(id.button_closeView);
