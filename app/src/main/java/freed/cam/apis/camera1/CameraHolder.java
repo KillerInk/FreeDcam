@@ -105,21 +105,19 @@ public class CameraHolder extends CameraHolderAbstract
     public void CloseCamera()
     {
         Log.d(TAG, "Try to close Camera");
-        if (mCamera != null)
+        try
         {
-            try
-            {
-                mCamera.release();
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
-            finally {
-                mCamera = null;
-                isRdy = false;
-                Log.d(TAG, "Camera closed");
-            }
+            mCamera.release();
+            Log.d(TAG, "Camera Released");
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        finally {
+            mCamera = null;
+            isRdy = false;
+            Log.d(TAG, "Camera closed");
         }
         isRdy = false;
         cameraUiWrapper.onCameraClose("");

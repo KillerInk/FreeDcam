@@ -168,6 +168,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void onPauseTasks() {
         Log.d(TAG, "onPauseTasks()");
+        unloadCameraFragment();
         if(orientationHandler != null)
             orientationHandler.Stop();
         if (locationHandler != null)
@@ -250,8 +251,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             //kill the cam befor the fragment gets removed to make sure when
             //new cameraFragment gets created and its texture view is created the cam get started
             //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
-            if (cameraFragment.GetCameraUiWrapper() != null)
-                cameraFragment.GetCameraUiWrapper().StopCamera();
+            cameraFragment.StopCamera();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
             transaction.remove(cameraFragment);

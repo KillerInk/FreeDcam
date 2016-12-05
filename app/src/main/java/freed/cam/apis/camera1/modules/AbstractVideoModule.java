@@ -114,6 +114,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                     Log.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
                     cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
                     changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+                    ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
                 }
             });
 

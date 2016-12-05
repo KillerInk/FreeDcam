@@ -111,7 +111,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     @Override
     protected void setCameraUiWrapperToUi() {
-        if (cameraUiWrapper == null || cameraUiWrapper.GetParameterHandler() == null && !isAdded())
+        if (cameraUiWrapper == null || cameraUiWrapper.GetParameterHandler() == null || !isAdded())
         {
             Log.d(TAG, "failed to set cameraUiWrapper");
             return;

@@ -130,8 +130,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         {
             ex.printStackTrace();
         }
-
-        StopCamera();
     }
 
     private boolean hasLGFramework()
@@ -236,8 +234,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     {
         Log.d(TAG, "surface created");
         PreviewSurfaceRdy = true;
-        if (isResumed() && !cameraRdy)
-            StartCamera();
+        StartCamera();
     }
 
     @Override

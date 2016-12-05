@@ -740,8 +740,9 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             if (mCaptureSession != null)
             try {
                 mCaptureSession.stopRepeating();
-            } catch (CameraAccessException ex) {
+            } catch (CameraAccessException | java.lang.SecurityException ex) {
                 ex.printStackTrace();
+                mCaptureSession = null;
             }
             catch (IllegalStateException ex)
             {
