@@ -99,7 +99,8 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         cameraHolder = new CameraHolderSony(getContext(), surfaceView, this);
         moduleHandler.initModules();
 
-        SetCameraStateChangedListner(this);
+//        RemoveCameraStateChangedListner(this);
+//        SetCameraStateChangedListner(this);
 
         return view;
     }
@@ -110,6 +111,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         if(getActivityInterface().hasLocationPermission() == true) {
             getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
             isWifiListnerRegistered = true;
+            Log.d(TAG, "onResume.StartLookup");
             StartLookUp();
             //startWifiScanning();
         }
@@ -120,6 +122,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(TAG, "onPause.StopCamera");
         StopCamera();
         if (isWifiListnerRegistered) {
             getActivity().unregisterReceiver(wifiReciever);
@@ -176,6 +179,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
                 {
                     Log.d(TAG,"Have ServerDevice already, StartCamera");
                     StartCamera();
+                    return;
                 }
                 else {
                     Log.d(TAG, "ServerDevice is empty, searchSSDPClient");
@@ -253,16 +257,20 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
 
     private void searchSSDPClient()
     {
+        Log.d(TAG, "searchSSDPClient");
         mSsdpClient.search(new SearchResultHandler()
         {
             @Override
             public void onDeviceFound(ServerDevice device)
             {
-                if(STATE == STATE_DEVICE_CONNECTED)
+                if(STATE == STATE_DEVICE_CONNECTED) {
+                    mSsdpClient.cancelSearching();
                     return;
+                }
                 setTextFromWifi("Found SSDP Client... Connecting");
                 STATE = STATE_DEVICE_CONNECTED;
                 serverDevice = device;
+                Log.d(TAG, "searchSSDPClient.onDeviceFound.StartCamera");
                 StartCamera();
                 hideTextViewWifi(true);
             }
@@ -279,6 +287,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
             {
                 if (serverDevice == null)
                     setTextFromWifi("Error happend while searching for sony remote device");
+                Log.d(TAG,"searchSSDPClient.onErrorFinishied.StartLookUP");
                 StartLookUp();
             }
         });
@@ -298,7 +307,9 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
 
 
     @Override
-    public void onCameraOpen(String message) {
+    public void onCameraOpen(String message)
+    {
+        Log.d(TAG, "onCameraOpen State:" + STATE);
         STATE = STATE_DEVICE_CONNECTED;
         this.onCameraOpenFinish("");
     }
@@ -327,7 +338,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         STATE = STATE_IDEL;
         Log.d(TAG, "Camera error:" +error );
         surfaceView.stop();
-        SetCameraStateChangedListner(SonyCameraFragment.this);
+        //SetCameraStateChangedListner(SonyCameraFragment.this);
         postDelayed(5000);
 
     }
@@ -341,7 +352,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     {
         public void onReceive(Context c, Intent intent)
         {
-            Log.d(TAG, "WifiScanReceiver.onRecieve()");
+            Log.d(TAG, "WifiScanReceiver.onRecieve().StartLookup");
             StartLookUp();
         }
     }
