@@ -102,6 +102,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
 //        RemoveCameraStateChangedListner(this);
 //        SetCameraStateChangedListner(this);
 
+        this.onCameraOpenFinish("");
         return view;
     }
 
@@ -309,9 +310,8 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     @Override
     public void onCameraOpen(String message)
     {
-        Log.d(TAG, "onCameraOpen State:" + STATE);
-        STATE = STATE_DEVICE_CONNECTED;
-        this.onCameraOpenFinish("");
+
+        //this.onCameraOpenFinish("");
     }
 
 
@@ -377,7 +377,8 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
             @Override
             public void run() {
                 ((CameraHolderSony) cameraHolder).OpenCamera(serverDevice);
-                onCameraOpen("");
+                Log.d(TAG, "onCameraOpen State:" + STATE);
+                STATE = STATE_DEVICE_CONNECTED;
             }
         });
     }

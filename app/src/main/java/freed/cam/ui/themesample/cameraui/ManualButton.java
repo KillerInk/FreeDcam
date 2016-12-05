@@ -26,6 +26,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,7 +133,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         parameter.addEventListner(t);
     }
 
-    public void SetManualParameter(ManualParameterInterface parameter)
+    public void SetManualParameter(@Nullable ManualParameterInterface parameter)
     {
         this.parameter = parameter;
         if (parameter != null) {

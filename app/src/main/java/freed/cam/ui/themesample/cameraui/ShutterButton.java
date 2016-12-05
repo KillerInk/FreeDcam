@@ -113,7 +113,8 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
         this.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (cameraUiWrapper == null || cameraUiWrapper.GetModuleHandler() == null || cameraUiWrapper.GetModuleHandler().GetCurrentModule() == null)
+                    return;
                 cameraUiWrapper.GetModuleHandler().GetCurrentModule().DoWork();
             }
         });

@@ -161,6 +161,8 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     @Override
     protected void setCameraUiWrapperToUi()
     {
+        if (cameraUiWrapper == null || cameraUiWrapper.GetParameterHandler() == null || !isAdded())
+            return;
         cameraUiWrapper.GetModuleHandler().addListner(this);
         contrast.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualContrast);
         burst.SetManualParameter(cameraUiWrapper.GetParameterHandler().Burst);
