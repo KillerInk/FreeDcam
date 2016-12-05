@@ -153,7 +153,7 @@ public class VideoProfilesApi2 extends BaseModeApi2
 
 
         } catch (Exception e) {
-            Logger.exception(e);
+            e.printStackTrace();
         }
 
         try {
