@@ -144,31 +144,10 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     {
         if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
         {
-            format = "AVC ";
-            if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("4k"))
-            {
-                size = "4K";
-            }
-            else if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("1080"))
-            {
-                size = "FHD";
-            }
-            else if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("720"))
-            {
-                size = "HD";
-            }
-            else if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("1080")&&appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HFR"))
-            {
-                size = "FHD 60p";
-            }
-            else if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("720")&&appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HFR"))
-            {
-                size = "HD 60p";
-            }
+            if (cameraUiWrapper.GetParameterHandler().VideoProfiles != null)
+                size = cameraUiWrapper.GetParameterHandler().VideoProfiles.GetValue();
             else
-            {
-                size = "SD";
-            }
+                size = "";
         }
         else
         {
@@ -177,14 +156,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
             else
                 format = "";
 
-            if (cameraUiWrapper.GetParameterHandler().PictureSize != null && !(cameraUiWrapper instanceof SonyCameraFragment)) {
-                int calcRES = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[0])*Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[1]);
-                float qucik = calcRES/1000000;
-
-                size = String.valueOf(Math.round(qucik))+"MP";
-                //size = cameraUiWrapper.GetParameterHandler().PictureSize.GetValue();
-            }
-            else if (cameraUiWrapper.GetParameterHandler().PictureSize != null)
+            if (cameraUiWrapper.GetParameterHandler().PictureSize != null)
                 size = cameraUiWrapper.GetParameterHandler().PictureSize.GetValue();
             else
                 size = "";

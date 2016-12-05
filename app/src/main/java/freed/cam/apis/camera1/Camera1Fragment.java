@@ -200,6 +200,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public void StopCamera() {
         Log.d(TAG, "Stop Camera");
+        focusPeakProcessorAp1.kill();
         cameraHolder.CloseCamera();
     }
 

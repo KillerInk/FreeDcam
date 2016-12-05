@@ -112,25 +112,29 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
         bitmapHelper.SetWorkDoneListner(cacheImageRdy);
         locationHandler = new LocationHandler(this);
-
-        //load the camera ui
         mPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        nightoverlay = (LinearLayout) findViewById(id.nightoverlay);
-        settingsMenuFragment = new SettingsMenuFragment();
-        screenSlideFragment = new ScreenSlideFragment();
-        cameraUiFragment = new CameraUiFragment();
-        cameraUiFragment.thumbClick = onThumbClick;
         mPager.setOffscreenPageLimit(2);
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(1);
-        createHandlers();
+
+        nightoverlay = (LinearLayout) findViewById(id.nightoverlay);
+        if (hasExternalSDPermission()) {
+            Log.d(TAG, "createHandlers()");
+            LoadFreeDcamDCIMDirsFiles();
+
+        }
+        //listen to phone orientation changes
+        orientationHandler = new OrientationHandler(this, this);
+        orientationHandler.Start();
+        //used for videorecording timer
+        //TODO move that into camerauifragment
+        timerHandler = new TimerHandler(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
     }
 
     @Override
@@ -147,6 +151,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (!hasCameraPermission()) {
             return;
         }
+
+        //setup apihandler and register listner for apiDetectionDone
+        //api handler itself checks first if its a camera2 full device
+        //and if yes loads camera2fragment else load camera1fragment
+        apiHandler = new ApiHandler(getApplicationContext(), this, getAppSettings(), renderScriptHandler);
         apiHandler.CheckApi();
         activityIsResumed = true;
         if (screenSlideFragment != null)
@@ -176,30 +185,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = false;
     }
 
-    //that finaly create all stuff needed
-    private void createHandlers() {
-        if (hasExternalSDPermission()) {
-            Log.d(TAG, "createHandlers()");
-            LoadFreeDcamDCIMDirsFiles();
-
-        }
-        //listen to phone orientation changes
-        orientationHandler = new OrientationHandler(this, this);
-        orientationHandler.Start();
-        //used for videorecording timer
-        //TODO move that into camerauifragment
-        timerHandler = new TimerHandler(this);
-
-        initApiHandler();
-    }
-
-    //setup apihandler and register listner for apiDetectionDone
-    //api handler itself checks first if its a camera2 full device
-    //and if yes loads camera2fragment else load camera1fragment
-    private void initApiHandler() {
-        apiHandler = new ApiHandler(getApplicationContext(), this, getAppSettings(), renderScriptHandler);
-        //check if camera is camera2 full device
-    }
 
     /**
      * gets called from ApiHandler when apidetection has finished
@@ -483,21 +468,29 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                /*if (settingsMenuFragment != null) {
+                if (settingsMenuFragment == null)
+                    settingsMenuFragment = new SettingsMenuFragment();
+                if (settingsMenuFragment != null) {
                     settingsMenuFragment.SetCameraUIWrapper(cameraFragment);
-                }*/
+                }
                 return settingsMenuFragment;
             }
             else if (position == 2) {
-                /*if (screenSlideFragment != null) {
+                if (screenSlideFragment == null)
+                    screenSlideFragment = new ScreenSlideFragment();
+                if (screenSlideFragment != null) {
 
                     screenSlideFragment.SetOnThumbClick(onThumbBackClick);
-                }*/
+                }
                 return screenSlideFragment;
             }
             else {
-                /*if (cameraUiFragment != null)
-                    cameraUiFragment.SetCameraUIWrapper(cameraFragment);*/
+                if (cameraUiFragment == null) {
+                    cameraUiFragment = new CameraUiFragment();
+                    cameraUiFragment.thumbClick = onThumbClick;
+                }
+                if (cameraUiFragment != null)
+                    cameraUiFragment.SetCameraUIWrapper(cameraFragment);
                 return cameraUiFragment;
             }
         }
@@ -513,7 +506,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     protected void cameraPermsissionGranted(boolean granted) {
         Log.d(TAG, "cameraPermission Granted:" + granted);
         if (granted) {
-            initApiHandler();
+            onResumeTasks();
         }
         else {
             finish();
