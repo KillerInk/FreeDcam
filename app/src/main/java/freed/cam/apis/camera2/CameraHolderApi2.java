@@ -267,9 +267,9 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         float ar[] = new float[3];
         if (focusRanges != null)
         {
-            ar[0] = focusRanges.first.floatValue();
-            ar[2] = focusRanges.second.floatValue();
-            ar[1] = focus_distance;
+            ar[0] = 1/focusRanges.first.floatValue();
+            ar[2] = 1/focusRanges.second.floatValue();
+            ar[1] = 1/focus_distance;
         }
         return ar;
     }

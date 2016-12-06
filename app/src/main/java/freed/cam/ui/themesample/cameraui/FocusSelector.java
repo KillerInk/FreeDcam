@@ -58,25 +58,30 @@ public class FocusSelector extends ImageView
 	{
 		float n, far, h, opt;
 		n = f[Camera.Parameters.FOCUS_DISTANCE_NEAR_INDEX];
-		far = f[Camera.Parameters.FOCUS_DISTANCE_FAR_INDEX];
+		far =  f[Camera.Parameters.FOCUS_DISTANCE_FAR_INDEX];
 		//h = far-n;
 		opt = f[Camera.Parameters.FOCUS_DISTANCE_OPTIMAL_INDEX];
-		if(n == Float.POSITIVE_INFINITY)
-			nearF = "\u221E";
-		else
-			nearF = String.valueOf(n);
-		
-		if(far == Float.POSITIVE_INFINITY)
-			farF = "\u221E";
-		else
-			farF = String.valueOf(far);
-	
-		if(opt == Float.POSITIVE_INFINITY)
-			hypF = "\u221E";
-		else
-			hypF = String.valueOf(opt);
+		nearF = getMeterString(n);
+		farF = getMeterString(far);
+		hypF = getMeterString(opt);
 		invalidate();
 		
+	}
+
+	private String getMeterString(float f)
+	{
+		String ret = "";
+		f= f*100;
+		int t = (int)f;
+		if (t > 100) {
+			int meter = t / 100;
+			int cm = t - meter*100;
+			ret = meter + "m " + cm +"cm";
+		}
+		else
+			ret = t +"cm";
+
+		return ret;
 	}
 	
 	public boolean getFocusCheck()
