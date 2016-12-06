@@ -36,6 +36,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.provider.DocumentFile;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -62,7 +63,7 @@ import freed.viewer.holder.FileHolder;
 /**
  * Created by troop on 28.03.2016.
  */
-public abstract class ActivityAbstract extends FragmentActivity implements ActivityInterface, I_WorkEvent {
+public abstract class ActivityAbstract extends AppCompatActivity implements ActivityInterface, I_WorkEvent {
 
     public enum FormatTypes
     {
