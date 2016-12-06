@@ -16,11 +16,10 @@
         android:layout_height="fill_parent"
         android:id="@+id/horHolder"></LinearLayout>
 
-    <ImageView
+    <freed.cam.ui.themesample.cameraui.FocusSelector
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:id="@+id/imageView_Crosshair"
-        android:background="@drawable/crosshair_circle_normal"
         android:visibility="gone" />
 
     <ImageView

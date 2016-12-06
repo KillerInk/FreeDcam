@@ -559,6 +559,13 @@ public class ParametersHandler extends AbstractParameterHandler
         }
     }
 
+    @Override
+    public float[] getFocusDistances() {
+        float focusdistance[] = new float[3];
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCameraParameters().getFocusDistances(focusdistance);
+        return focusdistance;
+    }
+
     public void SetCameraRotation()
     {
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))

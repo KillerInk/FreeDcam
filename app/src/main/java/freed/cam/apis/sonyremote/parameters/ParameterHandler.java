@@ -191,4 +191,9 @@ public class ParameterHandler extends AbstractParameterHandler
 
     }
 
+    @Override
+    public float[] getFocusDistances() {
+        return new float[0];
+    }
+
 }

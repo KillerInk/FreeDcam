@@ -22,6 +22,7 @@ package freed.cam.apis.camera2.parameters;
 import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
+import android.hardware.camera2.CaptureResult;
 import android.os.Build.VERSION_CODES;
 import android.support.v4.app.Fragment;
 
@@ -60,6 +61,7 @@ import freed.cam.apis.camera2.parameters.modes.ToneMapModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
 import android.util.Log;
+import android.util.Pair;
 
 /**
  * Created by troop on 12.12.2014.
@@ -69,6 +71,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 {
     private final String TAG = ParameterHandlerApi2.class.getSimpleName();
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
+
 
     private CameraHolderApi2 cameraHolder;
 
@@ -175,6 +178,12 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public float[] getFocusDistances()
+    {
+        return cameraHolder.GetFocusRange();
     }
 
     @Override

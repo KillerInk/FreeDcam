@@ -201,6 +201,8 @@ public abstract class AbstractParameterHandler
 
     public abstract void SetPictureOrientation(int or);
 
+    public abstract float[] getFocusDistances();
+
     public void SetAppSettingsToParameters()
     {
         setMode(locationParameter, AppSettingsManager.SETTING_LOCATION);

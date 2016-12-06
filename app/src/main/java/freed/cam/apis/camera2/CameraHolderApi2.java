@@ -52,6 +52,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Pair;
 import android.util.Size;
 import android.view.Display;
 import android.view.Surface;
@@ -106,6 +107,9 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     public boolean flashRequired = false;
     int afState;
     int aeState;
+
+    private Pair<Float,Float> focusRanges;
+    private float focus_distance;
 
     boolean errorRecieved;
 
@@ -256,6 +260,18 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     public void SetSurface(TextureView surfaceHolder)
     {
         textureView = (AutoFitTextureView) surfaceHolder;
+    }
+
+    public float[] GetFocusRange()
+    {
+        float ar[] = new float[3];
+        if (focusRanges != null)
+        {
+            ar[0] = focusRanges.first.floatValue();
+            ar[2] = focusRanges.second.floatValue();
+            ar[1] = focus_distance;
+        }
+        return ar;
     }
 
     @Override
@@ -475,8 +491,8 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                                 ex.printStackTrace();
                             }
                             try {
-                                float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                                cameraUiWrapper.GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString4Places(mf + ""));
+                                focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
+                                cameraUiWrapper.GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString4Places(focus_distance + ""));
                             }
                             catch (NullPointerException ex) {ex.printStackTrace();}
                         }
@@ -488,6 +504,8 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 }
             }
 
+            if (result.get(CaptureResult.LENS_FOCUS_RANGE) != null)
+                focusRanges = result.get(CaptureResult.LENS_FOCUS_RANGE);
             if (result.get(CaptureResult.CONTROL_AF_STATE) != null && afState != result.get(CaptureResult.CONTROL_AF_STATE))
             {
                 afState =  result.get(CaptureResult.CONTROL_AF_STATE);

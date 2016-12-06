@@ -42,6 +42,7 @@ import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraFragment;
+import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 
 
@@ -52,7 +53,7 @@ import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListner
 public class FocusImageHandler extends AbstractFocusImageHandler
 {
     private CameraWrapperInterface wrapper;
-    private final ImageView focusImageView;
+    private final FocusSelector focusImageView;
     private int disHeight;
     private int disWidth;
     private int marginLeft;
@@ -66,7 +67,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     public FocusImageHandler(View view, ActivityAbstract fragment)
     {
         super(view, fragment);
-        focusImageView = (ImageView)view.findViewById(R.id.imageView_Crosshair);
+        focusImageView = (FocusSelector) view.findViewById(R.id.imageView_Crosshair);
 
         cancelFocus = (ImageView)view.findViewById(R.id.imageViewFocusClose);
         meteringArea = (ImageView)view.findViewById(R.id.imageView_meteringarea);
@@ -132,7 +133,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 @Override
                 public void run() {
                     focusImageView.setLayoutParams(mParams);
-                    focusImageView.setBackgroundResource(R.drawable.crosshair_circle_normal);
+                    //focusImageView.setBackgroundResource(R.drawable.crosshair_circle_normal);
+                    focusImageView.setFocusCheck(false);
                     focusImageView.setVisibility(View.VISIBLE);
                     Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
                     focusImageView.startAnimation(anim);
@@ -149,10 +151,12 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             focusImageView.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (success)
+                    focusImageView.setFocusCheck(success);
+                    focusImageView.getFocus(wrapper.GetParameterHandler().getFocusDistances());
+                    /*if (success)
                         focusImageView.setBackgroundResource(R.drawable.crosshair_circle_success);
                     else
-                        focusImageView.setBackgroundResource(R.drawable.crosshair_circle_failed);
+                        focusImageView.setBackgroundResource(R.drawable.crosshair_circle_failed);*/
 
                     focusImageView.setAnimation(null);
                 }
