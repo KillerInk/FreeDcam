@@ -169,27 +169,33 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         }
         if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.MotoG3 ||cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.MotoG_Turbo)
         {
+            MotoPreviewResetLogic();
 
-            if(cameraUiWrapper.GetAppSettingsManager().GetCurrentCamera() == 0) {
-                cameraUiWrapper.GetAppSettingsManager().SetCurrentCamera(1);
-                cameraUiWrapper.StopCamera();
-                cameraUiWrapper.StartCamera();
-
-                cameraUiWrapper.GetAppSettingsManager().SetCurrentCamera(0);
-                cameraUiWrapper.StopCamera();
-                cameraUiWrapper.StartCamera();
-            }else {
-                cameraUiWrapper.GetAppSettingsManager().SetCurrentCamera(0);
-                cameraUiWrapper.StopCamera();
-                cameraUiWrapper.StartCamera();
-
-                cameraUiWrapper.GetAppSettingsManager().SetCurrentCamera(1);
-                cameraUiWrapper.StopCamera();
-                cameraUiWrapper.StartCamera();
-            }
         }else
             cameraHolder.StartPreview();
 
+    }
+
+    public void MotoPreviewResetLogic()
+    {
+
+        if(cameraUiWrapper.GetAppSettingsManager().GetCurrentCamera() == 0) {
+            cameraUiWrapper.GetAppSettingsManager().SetCurrentCamera(1);
+            cameraUiWrapper.StopCamera();
+            cameraUiWrapper.StartCamera();
+
+            cameraUiWrapper.GetAppSettingsManager().SetCurrentCamera(0);
+            cameraUiWrapper.StopCamera();
+            cameraUiWrapper.StartCamera();
+        }else {
+            cameraUiWrapper.GetAppSettingsManager().SetCurrentCamera(0);
+            cameraUiWrapper.StopCamera();
+            cameraUiWrapper.StartCamera();
+
+            cameraUiWrapper.GetAppSettingsManager().SetCurrentCamera(1);
+            cameraUiWrapper.StopCamera();
+            cameraUiWrapper.StartCamera();
+        }
     }
 
     private void ShutterResetLogic()

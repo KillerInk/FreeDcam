@@ -25,6 +25,8 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.utils.DeviceUtils;
+
 import android.util.Log;
 
 /**
@@ -81,10 +83,10 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
             int min,max;
             if(cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.OnePlusX)
             {
-                Logger.d(TAG, "Micro does not contain . load int");
+                Log.d(TAG, "Micro does not contain . load int");
                 min = Integer.parseInt(parameters.get(key_min_value))*1000;
                 max = Integer.parseInt(parameters.get(key_max_value))*1000;
-                Logger.d(TAG, "min converterd = "+min + " max converterd = " + max);
+                Log.d(TAG, "min converterd = "+min + " max converterd = " + max);
             }
             else if (!parameters.get(key_min_value).contains("."))
             {
