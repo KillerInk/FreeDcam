@@ -35,8 +35,4 @@ public class MotoG_Turbo extends BaseQcomNew {
         return null;
     }
 
-    @Override
-    public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
 }

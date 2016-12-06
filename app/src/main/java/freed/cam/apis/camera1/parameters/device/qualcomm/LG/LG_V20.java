@@ -6,6 +6,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
+import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4;
@@ -67,5 +68,10 @@ public class LG_V20 extends LG_G2
     @Override
     public int getCurrentIso() {
         return Integer.parseInt(cameraHolder.GetParamsDirect(KEYS.CUR_ISO));
+    }
+
+    @Override
+    public AbstractModeParameter getOpCodeParameter() {
+        return null;
     }
 }

@@ -39,7 +39,7 @@ public class MotoG3 extends BaseQcomNew {
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
+        return null;
     }
 
     @Override
