@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.ImageView;
 
 public class FocusSelector extends ImageView
@@ -15,10 +16,25 @@ public class FocusSelector extends ImageView
 	private Paint bracPaint, nfPaint, hypPaint;
 	private String hypF = "x", nearF = "x", farF = "x";
 	private boolean isfocused;
-	private int Bx, By, Bw, Bh;
+
+	private int textsize = 20;
+	private final float txtdpi = 6;
+
+	public FocusSelector(Context c)
+	{
+		super(c);
+		init();
+	}
+
 	public FocusSelector(Context c, AttributeSet attr)
 	{
 		super(c, attr);
+		init();
+	}
+
+	private void init() {
+
+		textsize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, txtdpi, getResources().getDisplayMetrics());
 		bracPaint = new Paint();
 		nfPaint = new Paint();
 		hypPaint = new Paint();
@@ -27,23 +43,17 @@ public class FocusSelector extends ImageView
 		bracPaint.setStyle(Paint.Style.STROKE);
 		bracPaint.setStrokeWidth(4f);
 		nfPaint.setARGB(255,45,156,255);
-		nfPaint.setTextSize(18);
+		nfPaint.setTextSize(textsize);
 		nfPaint.setAntiAlias(true);
 		nfPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		hypPaint.setColor(Color.YELLOW);
-		hypPaint.setTextSize(18);
+		hypPaint.setTextSize(textsize);
 		hypPaint.setAntiAlias(true);
 		hypPaint.setTypeface(Typeface.DEFAULT_BOLD);
-		this.setMinimumHeight(120);
-		this.setMinimumWidth(120);
-		//this.setMaxHeight(120);
-		//this.setMaxWidth(120);
 		requestLayout();
-		
 	}
-	
-	
-	
+
+
 	public void getFocus(float[] f)
 	{
 		float n, far, h, opt;
@@ -89,28 +99,25 @@ public class FocusSelector extends ImageView
 			hypF = "x";
 		}
 	}
-	
+
+
 	public void onDraw(Canvas c)
 	{
-		Bx = this.getLeft();
-		By = this.getTop();
-		Bw = this.getWidth();
-		Bh = this.getHeight();
-	
+		// startX, startY, stopX, stopY
 		//Left Side
-		c.drawLine(20,0,0,20,bracPaint);
-		c.drawLine(0,20,0,90,bracPaint);
-		c.drawLine(0,90,20,110,bracPaint);
+		c.drawLine(20,0,1,20,bracPaint);
+		c.drawLine(1,20,1,getHeight()-20,bracPaint);
+		c.drawLine(1,getHeight()-20,20,getHeight(),bracPaint);
 		
 		//Right Side
-		c.drawLine(100,0,120,20,bracPaint);
-		c.drawLine(120,20,120,90,bracPaint);
-		c.drawLine(120,90,100,110,bracPaint);
+		c.drawLine(getWidth()-1-20,0,getWidth()-1,20,bracPaint);
+		c.drawLine(getWidth()-1,20,getWidth()-1,getHeight()-20,bracPaint);
+		c.drawLine(getWidth()-1,getHeight()-20,getWidth()-1-20,getHeight(),bracPaint);
 		
 		//Center Focus Info
-		c.drawText("NEAR: " + nearF, 15,40, nfPaint);
-		c.drawText("OPT: " +  hypF, 15, 60, hypPaint);
-		c.drawText("FAR: " + farF, 15,80, nfPaint);
+		c.drawText("NEAR: " + nearF, 15,getHeight()/2 - (textsize+5), nfPaint);
+		c.drawText("OPT: " +  hypF, 15,getHeight()/2 , hypPaint);
+		c.drawText("FAR: " + farF, 15,getHeight()/2 +(textsize+5), nfPaint);
 		invalidate();
 	}
 
