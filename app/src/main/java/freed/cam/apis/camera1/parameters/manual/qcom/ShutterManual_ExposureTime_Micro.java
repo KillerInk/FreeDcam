@@ -79,7 +79,14 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
 
             Log.d(TAG, "minexpo = "+parameters.get(key_min_value) + " maxexpo = " + parameters.get(key_max_value));
             int min,max;
-            if (!parameters.get(key_min_value).contains("."))
+            if(cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.OnePlusX)
+            {
+                Logger.d(TAG, "Micro does not contain . load int");
+                min = Integer.parseInt(parameters.get(key_min_value))*1000;
+                max = Integer.parseInt(parameters.get(key_max_value))*1000;
+                Logger.d(TAG, "min converterd = "+min + " max converterd = " + max);
+            }
+            else if (!parameters.get(key_min_value).contains("."))
             {
                 Log.d(TAG, "Micro does not contain . load int");
                 min = Integer.parseInt(parameters.get(key_min_value));

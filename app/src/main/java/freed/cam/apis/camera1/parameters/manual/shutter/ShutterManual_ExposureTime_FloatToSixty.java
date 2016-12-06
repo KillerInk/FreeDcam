@@ -50,8 +50,24 @@ public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_Expos
         {
             String shutterstring = FormatShutterStringToDouble(stringvalues[currentInt]);
             Log.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
-            shutterstring = FLOATtoSixty4(shutterstring);
+            System.out.println("Exposure Time #1"+shutterstring);
+
+
+            if(cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.OnePlusX)
+            {
+                shutterstring = OnePlus(shutterstring);
+                System.out.println("Exposure Time #2"+shutterstring);
+            }else {
+                shutterstring = FLOATtoSixty4(shutterstring);
+            }
+
+
+
+        try {
+
             parameters.set("exposure-time", shutterstring);
+
+            }catch (Exception e){e.printStackTrace();}
         }
         else
         {

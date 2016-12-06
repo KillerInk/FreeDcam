@@ -105,6 +105,14 @@ public abstract class AbstractManualShutter extends AbstractManualParameter
         return String.valueOf(d);
     }
 
+    public String OnePlus(String a)
+    {
+        float b =  Float.parseFloat(a);
+        float c = b * 1000;
+        int d = Math.round(c);
+        return String.valueOf(d);
+    }
+
     public static long getMilliSecondStringFromShutterString(String shuttervalue)
     {
         float a;
