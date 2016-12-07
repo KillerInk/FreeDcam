@@ -230,7 +230,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
             shutter_open_step = (size) / MAXFRAMES;
             recordingSize = getWidth()/4;
             recordingRadiusCircle = recordingSize;
-            recordingRadiusRectangle = recordingSize;
+            recordingRadiusRectangle = recordingSize-7;
             currentframe = 0;
             animationHandler.post(animationRunnable);
         }
