@@ -62,7 +62,6 @@ public class VideoProfilesParameter extends BaseModeParameter
         profile = valueToSet;
         if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
             cameraUiWrapper.GetModuleHandler().GetCurrentModule().InitModule();
-
     }
 
     @Override
@@ -196,7 +195,6 @@ public class VideoProfilesParameter extends BaseModeParameter
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160p)) {
                 supportedProfiles.put("2160p_TimeLapse", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160p), "Timelapse2160p", VideoMode.Timelapse, false));
@@ -205,7 +203,6 @@ public class VideoProfilesParameter extends BaseModeParameter
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160pDCI)) {
                 supportedProfiles.put("2160p_DCI_TimeLapse", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_2160pDCI), "Timelapse2160pDCI", VideoMode.Timelapse, false));
@@ -214,8 +211,6 @@ public class VideoProfilesParameter extends BaseModeParameter
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_1080P))
             {
@@ -249,7 +244,6 @@ public class VideoProfilesParameter extends BaseModeParameter
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         if (supportedProfiles.get(_720phfr) == null && parameters.get("video-hfr-values")!=null && parameters.get("video-hfr-values").contains("120"))
         {
             Log.d(TAG, "no 720phfr profile found, but hfr supported, try to add custom 720phfr");
@@ -259,7 +253,6 @@ public class VideoProfilesParameter extends BaseModeParameter
             t.ProfileName = "720pHFR";
             supportedProfiles.put("720pHFR",t);
         }
-
         if (parameters.get("video-size-values")!=null && parameters.get("video-size-values").contains("3840x2160")
                 && parameters.get("video-hfr-values")!=null&& parameters.get("video-hfr-values").contains("60")) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
         {
@@ -274,10 +267,7 @@ public class VideoProfilesParameter extends BaseModeParameter
                 supportedProfiles.put("UHD_2160p_60FPS", uhdHFR);
                 Log.d(TAG, "added custom 2160pHFR");
             }
-
-
         }
-
         if (supportedProfiles.get(_2160p) == null && parameters.get("video-size-values") !=null&& parameters.get("video-size-values").contains("3840x2160"))
         {
             if (supportedProfiles.containsKey("1080p"))
@@ -306,18 +296,5 @@ public class VideoProfilesParameter extends BaseModeParameter
             }
 
         }
-    }
-
-    private boolean isKnownHFR_Qcom()
-    {
-        return cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADV234
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Nexus6p
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Nexus5x
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.OnePlusTwo
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI5
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W;
     }
 }
