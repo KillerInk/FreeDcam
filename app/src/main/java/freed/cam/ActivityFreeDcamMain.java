@@ -79,11 +79,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private TimerHandler timerHandler;
     //holds the current api camerafragment
     private CameraFragmentAbstract cameraFragment;
-    //hold the state if logging to file is true when folder /sdcard/DCIM/DEBUG/ is created
-    private boolean savelogtofile;
-    //holds the default UncaughtExecptionHandler from activity wich get replaced with own to have a change to save
-    //fc to file and pass it back when done and let app crash as it should
-    private UncaughtExceptionHandler defaultEXhandler;
     //private SampleThemeFragment sampleThemeFragment;
     private RenderScriptHandler renderScriptHandler;
 
@@ -381,12 +376,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void WorkHasFinished(final FileHolder fileHolder) {
         Log.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
-        /*final Bitmap b = getBitmapHelper().getBitmap(fileHolder, true);
-        if (b == null) {
-            return;
-        }
-        else {*/
-        Log.d(TAG,"WorkHasFinished:"+ fileHolder.getFile().getName());
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

@@ -33,21 +33,13 @@
         android:largeHeap="true">
 
         <activity
-            android:name="freed.LoggerActivity"
+            android:name="freed.cam.ActivityFreeDcamMain"
             android:label="FreeDCam"
             android:icon="@drawable/launcher_freedcam"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
             android:screenOrientation="landscape">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="freed.cam.ActivityFreeDcamMain"
-            android:label="GridView">
-            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>

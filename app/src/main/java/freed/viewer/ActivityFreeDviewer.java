@@ -61,7 +61,6 @@ public class ActivityFreeDviewer extends ActivityAbstract
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         if (hasExternalSDPermission())
             init();
     }
