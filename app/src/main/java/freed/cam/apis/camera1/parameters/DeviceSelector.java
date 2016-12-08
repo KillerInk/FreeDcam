@@ -29,6 +29,7 @@ import freed.cam.apis.camera1.parameters.device.BaseMTKDevice;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.cam.apis.camera1.parameters.device.Xiaomi_Redmi_Note3_QC_MTK;
 import freed.cam.apis.camera1.parameters.device.mediatek.ALCATEL.Alcatel_985n;
+import freed.cam.apis.camera1.parameters.device.mediatek.ALCATEL.THL100s;
 import freed.cam.apis.camera1.parameters.device.mediatek.ALCATEL.THL5000_MTK;
 import freed.cam.apis.camera1.parameters.device.mediatek.ELEPHONE.Elephone_P9000;
 import freed.cam.apis.camera1.parameters.device.mediatek.ForwardArt_MTK;
@@ -240,6 +241,10 @@ public class DeviceSelector {
             case LG_V20:
                 return new LG_V20(cameraParameters,cameraUiWrapper);
 
+            case LG_G4Beat:
+                return getDefault(cameraUiWrapper,cameraParameters);
+            case LG_G4Stylus:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case LG_L5:
                 return new LG_L5(cameraParameters,cameraUiWrapper);
             case Lumigon_T3:
@@ -341,7 +346,10 @@ public class DeviceSelector {
                 
             case Sony_XperiaL:
                return new Sony_XperiaL(cameraParameters,cameraUiWrapper);
-                
+
+            case THL100s_MTK:
+                return new THL100s(cameraParameters,cameraUiWrapper);
+
             case THL5000_MTK:
                return new THL5000_MTK(cameraParameters,cameraUiWrapper);
 

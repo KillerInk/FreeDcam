@@ -113,6 +113,7 @@ public class DeviceUtils
         SonyC5_MTK,
         Sony_XperiaL,
         Sony_Z5C,
+        THL100s_MTK,
         THL5000_MTK,
         Umi_Rome_X,
         Vivo_Xplay3s,
@@ -360,6 +361,8 @@ public class DeviceUtils
             return Devices.LG_L5;
         else if (isDevice(res.getStringArray(array.VERNEE_APOLLO_Lite)))
             return Devices.VERNEE_APOLLO_Lite;
+        else if(isDevice(res.getStringArray(array.thl100s)))
+            return Devices.THL100s_MTK;
         else
             return Devices.UNKNOWN;
 

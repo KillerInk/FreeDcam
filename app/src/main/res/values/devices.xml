@@ -639,4 +639,10 @@
         <item>LG-E615</item>
     </string-array>
 
+    <string-array name="thl100s">
+        <item>S5008</item>
+    </string-array>
+
+
+
 </resources>
