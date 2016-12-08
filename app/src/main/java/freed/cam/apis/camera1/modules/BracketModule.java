@@ -151,7 +151,7 @@ public class BracketModule extends PictureModule
         else
         {
             setExposureToCamera();
-            sleep(400);
+            sleep(600);
             cameraHolder.TakePicture(BracketModule.this);
         }
         data = null;
