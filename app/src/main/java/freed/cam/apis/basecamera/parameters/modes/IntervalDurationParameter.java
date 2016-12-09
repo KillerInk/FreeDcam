@@ -19,6 +19,10 @@
 
 package freed.cam.apis.basecamera.parameters.modes;
 
+import com.troop.freedcam.R;
+
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+
 /**
  * Created by troop on 08.01.2016.
  */
@@ -26,8 +30,11 @@ public class IntervalDurationParameter extends AbstractModeParameter
 {
 
     private String current = "1 min";
+    private CameraWrapperInterface cameraUiWrapper;
 
-    public IntervalDurationParameter() {
+    public IntervalDurationParameter(CameraWrapperInterface cameraUiWrapper)
+    {
+        this.cameraUiWrapper = cameraUiWrapper;
     }
 
     @Override
@@ -47,7 +54,6 @@ public class IntervalDurationParameter extends AbstractModeParameter
 
     @Override
     public String[] GetValues() {
-        return new String[] {"1 min", "2 min", "5 min","10 min","15 min","20 min","25 min","30 min","60 min","120 min","180 min","240 min","300 min",
-                "360 min","420 min","480 min","540 min","600min","660 min", "720 min","1440 min","2880 min"/*,"Bulb"*/};
+        return cameraUiWrapper.getContext().getResources().getStringArray(R.array.interval_duration);
     }
 }

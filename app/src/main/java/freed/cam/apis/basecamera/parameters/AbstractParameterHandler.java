@@ -185,7 +185,7 @@ public abstract class AbstractParameterHandler
 
         GuideList = new GuideList();
         locationParameter = new LocationParameter(cameraUiWrapper);
-        IntervalDuration = new IntervalDurationParameter();
+        IntervalDuration = new IntervalDurationParameter(cameraUiWrapper);
         IntervalShutterSleep = new IntervalShutterSleepParameter(cameraUiWrapper);
         Horizont = new Horizont();
         SdSaveLocation = new SDModeParameter(appSettingsManager);

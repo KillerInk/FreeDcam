@@ -69,10 +69,39 @@
         <item>28 sec</item>
         <item>29 sec</item>
         <item>30 sec</item>
-        <item>60 sec</item>
-        <item>120 sec</item>
-        <item>240 sec</item>
+        <item>1 min</item>
+        <item>2 min</item>
+        <item>4 min</item>
+        <item>5 min</item>
+        <item>10 min</item>
     </string-array>
+
+    <string-array name="interval_duration" translatable="false">
+        <item>1 min</item>
+        <item>2 min</item>
+        <item>3 min</item>
+        <item>4 min</item>
+        <item>5 min</item>
+        <item>10 min</item>
+        <item>15 min</item>
+        <item>20 min</item>
+        <item>25 min</item>
+        <item>30 min</item>
+        <item>1 h</item>
+        <item>2 h</item>
+        <item>3 h</item>
+        <item>4 h</item>
+        <item>5 h</item>
+        <item>6 h</item>
+        <item>7 h</item>
+        <item>8 h</item>
+        <item>9 h</item>
+        <item>10 h</item>
+        <item>11 h</item>
+        <item>12 h</item>
+        <item>24 h</item>
+        <item>48 h</item>
+        </string-array>
 
     <string name="Off" translatable="false">Off</string >
 
