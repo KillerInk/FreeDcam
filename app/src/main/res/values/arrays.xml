@@ -38,6 +38,7 @@
         <item>Mipi16bit</item>
     </string-array>
     <string-array name="interval_shutter_sleep" translatable="false">
+        <item>0 sec</item>
         <item>1 sec</item>
         <item>2 sec</item>
         <item>3 sec</item>
