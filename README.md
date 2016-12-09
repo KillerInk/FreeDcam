@@ -309,8 +309,17 @@ NULL                                                              reductionmatri
 NULL                                                              reductionmatrix2 is optional
 NULL                                                              noise reduction is optional
 ```
-                                                                                                                                
-
+  Thats how the final file should look like fill not used Matrixes with NULL
+```
+1.1407,-0.4022,-0.234,-0.4314,1.404,0.0146,-0.0439,0.2047,0.5704
+0.7228,-0.0893,-0.0975,-0.4792,1.3481,0.1381,-0.1137,0.268,0.5604
+0.5391,1,0.6641
+0.6328,0.0469,0.2813,0.1641,0.7578 0.0781,-0.0469,-0.6406,1.5078
+0.7578,0.0859,0.1172,0.2734,0.8281,-0.1016,0.0156,-0.2813,1.0859
+NULL
+NULL
+0.00051471478,0,0.00051471478,0,0.00051471478,0
+```
 
 Copy that file now on your phones internalSD/DCIM/FreeDcam/config/matrix and you can select it inside Freedcam.  
 Its gets then applied to each new dng
