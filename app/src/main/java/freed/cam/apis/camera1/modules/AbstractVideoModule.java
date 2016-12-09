@@ -211,7 +211,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 e1.printStackTrace();
             }
             File file = new File(mediaSavePath);
-            cameraUiWrapper.getActivityInterface().getImageSaver().scanFile(file);
+            cameraUiWrapper.getActivityInterface().ScanFile(file);
+            fireOnWorkFinish(file);
             sendStopToUi();
         }
     }

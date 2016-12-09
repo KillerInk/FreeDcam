@@ -23,11 +23,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.v4.provider.DocumentFile;
 
+import java.io.File;
 import java.util.List;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.utils.AppSettingsManager;
-import freed.utils.ImageSaver;
 import freed.utils.LocationHandler;
 import freed.utils.StorageFileHandler;
 import freed.viewer.helper.BitmapHelper;
@@ -46,8 +46,6 @@ public interface ActivityInterface extends I_WorkEvent
         void onActivityResultCallback(Uri uri);
     }
 
-    ImageSaver getImageSaver();
-
     BitmapHelper getBitmapHelper();
 
     Context getContext();
@@ -60,8 +58,6 @@ public interface ActivityInterface extends I_WorkEvent
     void DeleteFiles(List<FileHolder> files);
 
     void AddFile(FileHolder file);
-
-    void AddFileListner(ActivityAbstract.FileEvent event);
 
     List<FileHolder> getFiles();
 
@@ -85,6 +81,8 @@ public interface ActivityInterface extends I_WorkEvent
     int getOrientation();
 
     void SetNightOverlay();
+
+    void ScanFile(File file);
 }
 
 

@@ -32,6 +32,8 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.parameters.AeHandler;
 import android.util.Log;
 
+import java.io.File;
+
 /**
  * Created by troop on 17.08.2016.
  */
@@ -50,6 +52,8 @@ public class AeBracketApi2 extends PictureModuleApi2
     private boolean aeWasOn = false;
     private int maxiso;
     private int currentiso;
+    private File[] savedFiles;
+    private int currentFileCount;
 
 
     public AeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
@@ -82,6 +86,8 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     protected void initBurstCapture(Builder captureBuilder, CameraCaptureSession.CaptureCallback captureCallback)
     {
+        savedFiles = new File[3];
+        currentFileCount = 0;
         currentExposureTime = cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
         exposureTimeStep = currentExposureTime/2;
         if (cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != AeHandler.AEModes.off.ordinal()) {
@@ -121,10 +127,19 @@ public class AeBracketApi2 extends PictureModuleApi2
         super.setupBurstCaptureBuilder(captureBuilder, captureNum);
     }
 
+
+
     @Override
     protected void finishCapture(Builder captureBuilder) {
         super.finishCapture(captureBuilder);
         if (aeWasOn)
             cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.on.ordinal());
+        fireOnWorkFinish(savedFiles);
+    }
+
+    @Override
+    protected void internalFireOnWorkDone(File file)
+    {
+        savedFiles[currentFileCount++] = file;
     }
 }

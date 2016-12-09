@@ -26,6 +26,7 @@ import java.io.File;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.BasePictureModule;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
@@ -39,7 +40,7 @@ import freed.utils.StringUtils.FileEnding;
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends ModuleAbstract implements Camera.PictureCallback
+public class PictureModule extends BasePictureModule implements Camera.PictureCallback
 {
 
     private final String TAG = PictureModule.class.getSimpleName();
@@ -212,12 +213,19 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         if (picFormat.equals(FileEnding.DNG))
             saveDng(data,toSave);
         else {
-            cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(toSave,data);
+
+            saveJpeg(toSave,data);
         }
         if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 || appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
             ShutterResetLogic();
+
+        fireInternalOnWorkFinish(toSave);
     }
 
+    protected void fireInternalOnWorkFinish(File tosave)
+    {
+        fireOnWorkFinish(tosave);
+    }
     private String getFileEnding(String picFormat)
     {
         if (picFormat.equals(KEYS.JPEG))
@@ -257,7 +265,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         DngProfile dngProfile = cameraUiWrapper.GetParameterHandler().getDevice().getDngProfile(data.length);
         Log.d(TAG, "found dngProfile:" + (dngProfile != null));
         int orientation = cameraUiWrapper.getActivityInterface().getOrientation();
-        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDngAsync(file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile);
+        saveRawToDng(file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile);
         data = null;
 
     }

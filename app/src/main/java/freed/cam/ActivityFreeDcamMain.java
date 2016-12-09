@@ -105,7 +105,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
         if (VERSION.SDK_INT >= VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
-        bitmapHelper.SetWorkDoneListner(cacheImageRdy);
+        //bitmapHelper.SetWorkDoneListner(cacheImageRdy);
         locationHandler = new LocationHandler(this);
         mPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -388,7 +388,20 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //}
     }
 
-    private I_WorkEvent cacheImageRdy = new I_WorkEvent() {
+    @Override
+    public void WorkHasFinished(final FileHolder[] fileHolder) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                AddFiles(fileHolder);
+                if (screenSlideFragment != null && activityIsResumed)
+                    screenSlideFragment.NotifyDATAhasChanged();
+            }
+        });
+    }
+
+    /*private I_WorkEvent cacheImageRdy = new I_WorkEvent() {
         @Override
         public void WorkHasFinished(final FileHolder fileHolder) {
             runOnUiThread(new Runnable() {
@@ -400,7 +413,20 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 }
             });
         }
-    };
+
+        @Override
+        public void WorkHasFinished(final FileHolder[] fileHolder) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    AddFiles(fileHolder);
+                    if (screenSlideFragment != null && activityIsResumed)
+                        screenSlideFragment.NotifyDATAhasChanged();
+                }
+            });
+        }
+    };*/
 
     @Override
     public void onCameraOpen(String message) {

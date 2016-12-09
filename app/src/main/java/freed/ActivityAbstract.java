@@ -25,7 +25,6 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build.VERSION;
@@ -34,7 +33,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -55,7 +53,6 @@ import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
-import freed.utils.ImageSaver;
 import freed.utils.StorageFileHandler;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
@@ -75,19 +72,11 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         mp4,
     }
 
-    public interface FileEvent
-    {
-        void onFileDeleted(File file);
-        void onFileAdded(File file);
-    }
-
     private final String TAG = ActivityAbstract.class.getSimpleName();
     private AppSettingsManager appSettingsManager;
     protected BitmapHelper bitmapHelper;
     protected  List<FileHolder> files;
-    private  List<FileEvent> fileListners;
     protected StorageFileHandler storageHandler;
-    private ImageSaver imageSaver;
 
     protected boolean RequestPermission = false;
 
@@ -105,11 +94,9 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         Log.d(TAG, "createHandlers()");
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()));
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
-        fileListners =  new ArrayList<>();
         storageHandler = new StorageFileHandler(this);
         if (appSettingsManager.getDevice() == null)
             appSettingsManager.SetDevice(new DeviceUtils().getDevice(getResources()));
-        imageSaver = new ImageSaver(this);
         HIDENAVBAR();
     }
 
@@ -206,11 +193,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     @Override
-    public ImageSaver getImageSaver() {
-        return this.imageSaver;
-    }
-
-    @Override
     public BitmapHelper getBitmapHelper() {
         return bitmapHelper;
     }
@@ -255,7 +237,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         {
             if (files != null)
                 files.remove(file);
-            throwOnFileDeleted(file.getFile());
         }
         MediaScannerManager.ScanMedia(getContext(), file.getFile());
         return del;
@@ -269,18 +250,16 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
             files.add(file);
             SortFileHolder(files);
         }
-        throwOnFileAdded(file.getFile());
     }
 
-    public void AddFileListner(FileEvent event)
+    public void AddFiles(FileHolder[] fil)
     {
-        if (fileListners == null)
+        if (files == null)
             return;
-        else
-        {
-            if (!fileListners.contains(event))
-                fileListners.add(event);
-            return;
+        synchronized (files) {
+            for (FileHolder f : fil)
+                files.add(f);
+            SortFileHolder(files);
         }
     }
 
@@ -420,38 +399,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         return true;
     }
 
-    private void throwOnFileDeleted(File file)
-    {
-        if (fileListners == null)
-            return;
-        for (int i = 0; i< fileListners.size(); i++)
-        {
-            if (fileListners.get(i) !=null)
-                fileListners.get(i).onFileDeleted(file);
-            else
-            {
-                fileListners.remove(i);
-                i--;
-            }
-        }
-    }
-
-    private void throwOnFileAdded(File file)
-    {
-        if (fileListners == null)
-            return;
-        for (int i = 0; i< fileListners.size(); i++)
-        {
-            if (fileListners.get(i) !=null)
-                fileListners.get(i).onFileAdded(file);
-            else
-            {
-                fileListners.remove(i);
-                i--;
-            }
-        }
-    }
-
     @Override
     public void DisablePagerTouch(boolean disable)
     {
@@ -572,5 +519,10 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     public void SetNightOverlay() {
 
+    }
+
+    @Override
+    public void ScanFile(File file) {
+        MediaScannerManager.ScanMedia(getContext(),file);
     }
 }

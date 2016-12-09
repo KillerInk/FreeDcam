@@ -579,12 +579,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     process_rawSensor(image,file);
                 break;
         }
-
+        internalFireOnWorkDone(file);
         isWorking = false;
         changeCaptureState(CaptureStates.image_capture_stop);
         if (burstcount == imagecount) {
             finishCapture(captureBuilder);
         }
+    }
+
+    protected void internalFireOnWorkDone(File file)
+    {
+        fireOnWorkFinish(file);
     }
 
     @NonNull
@@ -594,7 +599,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
-        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(file, bytes);
+        saveJpeg(file, bytes);
         image.close();
         buffer.clear();
         image =null;
@@ -627,7 +632,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 DocumentFile wr = df.createFile("image/*", file.getName());
                 dngCreator.writeImage(cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri()), image.getImage());
             }
-            cameraUiWrapper.getActivityInterface().getImageSaver().scanFile(file);
+            cameraUiWrapper.getActivityInterface().ScanFile(file);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -652,7 +657,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 //        int mFlash = image.getCaptureResult().get(CaptureResult.FLASH_STATE).intValue();
 //        double exposurecompensation= image.getCaptureResult().get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
         final DngProfile prof = getDngProfile(rawFormat, image);
-        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
+        saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
         image.getImage().close();
         bytes = null;
         buffer = null;

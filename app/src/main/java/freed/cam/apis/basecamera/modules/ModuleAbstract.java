@@ -27,7 +27,14 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.AppSettingsManager;
+import freed.viewer.holder.FileHolder;
+
 import android.util.Log;
+
+import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by troop on 15.08.2014.
@@ -115,6 +122,19 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public abstract String ShortName();
 
+    @Override
+    public void fireOnWorkFinish(File file) {
+        cameraUiWrapper.getActivityInterface().WorkHasFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
+    }
 
-
+    @Override
+    public void fireOnWorkFinish(File files[])
+    {
+        FileHolder[] fileHolders = new FileHolder[files.length];
+        int i= 0;
+        for (File f : files) {
+            fileHolders[i++] = new FileHolder(f, appSettingsManager.GetWriteExternal());
+        }
+        cameraUiWrapper.getActivityInterface().WorkHasFinished(fileHolders);
+    }
 }

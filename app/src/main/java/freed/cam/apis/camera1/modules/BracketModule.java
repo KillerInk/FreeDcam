@@ -147,6 +147,7 @@ public class BracketModule extends PictureModule
             isWorking = false;
             changeCaptureState(CaptureStates.image_capture_stop);
             setExposureToCamera();
+            fireOnWorkFinish(files);
         }
         else
         {
@@ -172,4 +173,8 @@ public class BracketModule extends PictureModule
         }
     }
 
+    @Override
+    protected void fireInternalOnWorkFinish(File tosave) {
+        files[hdrCount-1] = tosave;
+    }
 }

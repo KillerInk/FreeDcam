@@ -29,4 +29,5 @@ import freed.viewer.holder.FileHolder;
 public interface I_WorkEvent
 {
     void WorkHasFinished(FileHolder fileHolder);
+    void WorkHasFinished(FileHolder fileHolder[]);
 }

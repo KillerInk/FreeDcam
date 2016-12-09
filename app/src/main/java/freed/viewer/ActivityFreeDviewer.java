@@ -368,6 +368,11 @@ public class ActivityFreeDviewer extends ActivityAbstract
     }
 
     @Override
+    public void WorkHasFinished(FileHolder[] fileHolder) {
+
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         //super.onActivityResult(requestCode, resultCode, data);

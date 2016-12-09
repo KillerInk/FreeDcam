@@ -26,6 +26,8 @@ import android.hardware.camera2.CaptureRequest.Builder;
 import android.os.Build;
 import android.os.Handler;
 
+import java.io.File;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.AppSettingsManager;
@@ -47,6 +49,8 @@ public class AfBracketApi2 extends PictureModuleApi2
     private int currentFocusPos;
     private int focuslength;
     private int min;
+    private File[] savedFiles;
+    private int currentFileCount;
 
     @Override
     public String ShortName() {
@@ -76,6 +80,8 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     protected void initBurstCapture(Builder captureBuilder, CaptureCallback captureCallback)
     {
+        savedFiles = new File[PICSTOTAKE];
+        currentFileCount = 0;
         int max  = 0;
         try {
             min = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AFBRACKETMIN));
@@ -122,5 +128,17 @@ public class AfBracketApi2 extends PictureModuleApi2
         currentFocusPos +=focusStep;
         if (currentFocusPos > focuslength+min)
             currentFocusPos = focuslength+min;
+    }
+
+    @Override
+    protected void finishCapture(Builder captureBuilder) {
+        super.finishCapture(captureBuilder);
+        fireOnWorkFinish(savedFiles);
+    }
+
+    @Override
+    protected void internalFireOnWorkDone(File file)
+    {
+        savedFiles[currentFileCount++] = file;
     }
 }
