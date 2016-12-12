@@ -17,11 +17,9 @@ import java.io.OutputStream;
 import freed.ActivityInterface;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
-import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 09.12.2016.

@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.parameters.manual;
 
 import android.hardware.Camera;
+import android.util.Log;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -27,7 +28,6 @@ import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.FreeDPool;
-import android.util.Log;
 
 /**
  * Created by troop on 13.06.2016.

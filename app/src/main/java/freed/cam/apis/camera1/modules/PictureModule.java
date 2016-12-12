@@ -21,20 +21,19 @@ package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
 import android.os.Handler;
+import android.util.Log;
 
 import java.io.File;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.BasePictureModule;
-import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.dng.DngProfile;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
-import android.util.Log;
 import freed.utils.StringUtils.FileEnding;
 
 /**
@@ -73,7 +72,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
     }
 
     @Override
-    public boolean DoWork()
+    public void DoWork()
     {
         Log.d(this.TAG, "DoWork:isWorking:"+ isWorking);
         mBackgroundHandler.post(new Runnable() {
@@ -102,7 +101,6 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
                 Log.d(TAG,"TakePicture");
             }
         });
-        return true;
     }
 
     @Override

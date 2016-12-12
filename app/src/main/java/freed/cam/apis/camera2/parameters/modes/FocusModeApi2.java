@@ -60,7 +60,7 @@ public class FocusModeApi2 extends BaseModeApi2
             return;
         FocusModes sceneModes = Enum.valueOf(FocusModes.class, valueToSet);
         ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AF_MODE, sceneModes.ordinal());
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
 

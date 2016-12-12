@@ -42,7 +42,7 @@ public class VideoSizeModeApi2 extends BaseModeApi2 {
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
         ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).VideoSize = valueToSet;
         if (setToCamera)
         {

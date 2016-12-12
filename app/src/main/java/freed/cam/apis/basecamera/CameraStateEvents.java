@@ -19,8 +19,6 @@
 
 package freed.cam.apis.basecamera;
 
-import freed.cam.apis.basecamera.modules.ModuleInterface;
-
 /**
  * Created by troop on 17.12.2014.
  */

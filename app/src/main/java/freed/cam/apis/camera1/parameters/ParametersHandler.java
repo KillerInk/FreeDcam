@@ -22,6 +22,7 @@ package freed.cam.apis.camera1.parameters;
 import android.graphics.Rect;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
+import android.util.Log;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -54,7 +55,6 @@ import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
-import android.util.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 

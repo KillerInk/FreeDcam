@@ -28,7 +28,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.utils.FreeDPool;
-import android.util.Log;
 
 /**
  * Created by troop on 15.12.2014.

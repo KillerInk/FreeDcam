@@ -59,7 +59,7 @@ public class AntibandingApi2 extends BaseModeApi2
             return;
         AntibandingModes sceneModes = Enum.valueOf(AntibandingModes.class, valueToSet);
         ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_ANTIBANDING_MODE, sceneModes.ordinal());
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
 

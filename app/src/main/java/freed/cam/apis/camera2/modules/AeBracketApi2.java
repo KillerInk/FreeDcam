@@ -26,13 +26,13 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Builder;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
+
+import java.io.File;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.parameters.AeHandler;
-import android.util.Log;
-
-import java.io.File;
 
 /**
  * Created by troop on 17.08.2016.

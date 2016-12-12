@@ -26,7 +26,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.utils.DeviceUtils.Devices;
-import android.util.Log;
 
 public class FXManualParameter extends BaseManualParameter {
 

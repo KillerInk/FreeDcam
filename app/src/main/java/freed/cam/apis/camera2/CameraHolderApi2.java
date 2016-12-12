@@ -52,6 +52,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.util.Pair;
 import android.util.Size;
 import android.view.Display;
@@ -71,7 +72,6 @@ import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.utils.AppSettingsManager;
-import android.util.Log;
 import freed.utils.StringUtils;
 
 /**
@@ -582,7 +582,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
 
             if (cameraUiWrapper.GetParameterHandler().ExposureLock != null)
-                cameraUiWrapper.GetParameterHandler().ExposureLock.BackgroundValueHasChanged(result.get(CaptureResult.CONTROL_AE_LOCK).toString());
+                cameraUiWrapper.GetParameterHandler().ExposureLock.onValueHasChanged(result.get(CaptureResult.CONTROL_AE_LOCK).toString());
         }
 
         @Override

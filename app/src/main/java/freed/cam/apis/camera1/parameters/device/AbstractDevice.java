@@ -35,7 +35,6 @@ import freed.cam.apis.camera1.parameters.modes.HDRModeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoStabilizationParameter;
 import freed.dng.DngProfile;
-import android.util.Log;
 
 /**
  * Created by troop on 31.05.2016.

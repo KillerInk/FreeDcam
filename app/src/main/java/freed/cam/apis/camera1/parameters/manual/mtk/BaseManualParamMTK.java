@@ -21,11 +21,11 @@
 package freed.cam.apis.camera1.parameters.manual.mtk;
 
 import android.hardware.Camera.Parameters;
+import android.util.Log;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import android.util.Log;
 
 /**
  * Created by GeorgeKiarie on 6/3/2016.

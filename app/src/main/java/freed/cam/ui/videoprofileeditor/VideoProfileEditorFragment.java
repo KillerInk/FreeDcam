@@ -45,7 +45,6 @@ import java.util.HashMap;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.utils.AppSettingsManager;
-import android.util.Log;
 
 /**
  * Created by troop on 15.02.2016.

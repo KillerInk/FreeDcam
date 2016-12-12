@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.parameters;
 
 import android.hardware.Camera.Parameters;
+import android.util.Log;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
@@ -113,7 +114,6 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ADV_IMX214;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ADV_IMX234;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_Z11;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_Z5SMINI;
-import android.util.Log;
 
 /**
  * Created by GeorgeKiarie on 6/2/2016.

@@ -23,6 +23,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsoluteLayout;
@@ -38,7 +39,6 @@ import com.troop.freedcam.R.layout;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.ExecutorService;
 
-import android.util.Log;
 import freed.viewer.gridview.BaseGridViewFragment.ViewStates;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.BaseHolder;

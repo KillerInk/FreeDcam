@@ -27,7 +27,6 @@ import java.io.IOException;
 
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
-import android.util.Log;
 
 /**
  * Created by troop on 15.12.2014.
@@ -51,7 +50,7 @@ public class PictureSizeSony extends BaseModeParameterSony
                 try {
                     jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                     values = processValuesToReturn();
-                    BackgroundValuesHasChanged(values);
+                    onValuesHasChanged(values);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }

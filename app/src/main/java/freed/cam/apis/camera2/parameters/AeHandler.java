@@ -24,6 +24,9 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
+import android.util.Log;
+
+import com.troop.freedcam.R;
 
 import java.util.ArrayList;
 
@@ -34,10 +37,6 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 import freed.utils.DeviceUtils;
-
-import android.util.Log;
-
-import com.troop.freedcam.R;
 
 /**
  * Created by troop on 18.05.2016.
@@ -93,7 +92,7 @@ public class AeHandler
             //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
             cameraHolder.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
             //hide flash ui item its not supported in manual mode
-            cameraUiWrapper.GetParameterHandler().FlashMode.BackgroundIsSupportedChanged(false);
+            cameraUiWrapper.GetParameterHandler().FlashMode.onIsSupportedChanged(false);
             //enable manualiso item in ui
             manualISoApi2.ThrowBackgroundIsSetSupportedChanged(true);
             //enable manual exposuretime in ui
@@ -106,7 +105,7 @@ public class AeHandler
             //set flash back to its old state
             cameraUiWrapper.GetParameterHandler().FlashMode.SetValue(cameraUiWrapper.GetParameterHandler().FlashMode.GetValue(),true);
             //show flashmode ui item
-            cameraUiWrapper.GetParameterHandler().FlashMode.BackgroundIsSupportedChanged(true);
+            cameraUiWrapper.GetParameterHandler().FlashMode.onIsSupportedChanged(true);
             //set exposure ui item to enable
             manualExposureApi2.ThrowBackgroundIsSupportedChanged(true);
             manualExposureApi2.ThrowBackgroundIsSetSupportedChanged(true);
@@ -123,7 +122,7 @@ public class AeHandler
     {
         activeAeMode = aeMode;
         cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE, activeAeMode.ordinal());
-        aeModeApi2.BackgroundValueHasChanged(activeAeMode.toString());
+        aeModeApi2.onValueHasChanged(activeAeMode.toString());
         setManualItemsSetSupport(activeAeMode);
     }
 

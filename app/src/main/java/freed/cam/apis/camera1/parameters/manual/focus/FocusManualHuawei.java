@@ -20,11 +20,11 @@
 package freed.cam.apis.camera1.parameters.manual.focus;
 
 import android.hardware.Camera.Parameters;
+import android.util.Log;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import android.util.Log;
 
 /**
  * Created by GeorgeKiarie on 02/04/2016.

@@ -29,10 +29,10 @@ import android.renderscript.Allocation.OnBufferAvailableListener;
 import android.renderscript.Element;
 import android.renderscript.RenderScript.RSErrorHandler;
 import android.renderscript.Type.Builder;
+import android.util.Log;
 import android.view.Surface;
 
 import freed.cam.apis.basecamera.FocuspeakProcessor;
-import android.util.Log;
 import freed.utils.RenderScriptHandler;
 
 /**

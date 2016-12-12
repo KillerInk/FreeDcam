@@ -25,6 +25,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build.VERSION_CODES;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import freed.cam.apis.KEYS;
@@ -32,7 +33,6 @@ import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
-import android.util.Log;
 
 /**
  * Created by troop on 12.12.2014.
@@ -81,11 +81,6 @@ public class FocusHandler extends AbstractFocusHandler
 
         @Override
         public void onParameterValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onVisibilityChanged(boolean visible) {
 
         }
     };
@@ -154,11 +149,6 @@ public class FocusHandler extends AbstractFocusHandler
 
         @Override
         public void onParameterValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onVisibilityChanged(boolean visible) {
 
         }
     };

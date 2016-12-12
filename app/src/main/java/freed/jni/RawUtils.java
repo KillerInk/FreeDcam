@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
-import android.util.Log;
-
 public class RawUtils {
 
     static final String TAG = RawUtils.class.getSimpleName();

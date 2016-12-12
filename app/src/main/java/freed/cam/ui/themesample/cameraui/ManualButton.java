@@ -28,6 +28,7 @@ import android.graphics.PorterDuff.Mode;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,7 +46,6 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
-import android.util.Log;
 
 /**
  * Created by troop on 08.12.2015.

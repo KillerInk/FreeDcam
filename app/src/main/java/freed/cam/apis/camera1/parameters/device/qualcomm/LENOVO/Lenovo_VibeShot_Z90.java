@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO;
 
 import android.hardware.Camera;
+import android.util.Log;
 
 import com.troop.freedcam.R;
 
@@ -36,7 +37,6 @@ import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ManualParameterAEHandlerInterface;
 import freed.dng.DngProfile;
-import android.util.Log;
 
 /**
  * Created by troop on 16.06.2016.

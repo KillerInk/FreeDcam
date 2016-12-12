@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,6 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import android.util.Log;
 
 /**
  * Created by troop on 17.08.2014.
@@ -125,7 +125,7 @@ public class BaseModeParameter extends AbstractModeParameter implements ModuleCh
             return;
         parameters.set(key_value, valueToSet);
         Log.d(TAG, "set " + key_value + " to " + valueToSet);
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
         if (setToCam) {
             try {
                 ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
@@ -170,11 +170,6 @@ public class BaseModeParameter extends AbstractModeParameter implements ModuleCh
 
     @Override
     public void onParameterValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onVisibilityChanged(boolean visible) {
 
     }
 }

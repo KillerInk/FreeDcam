@@ -136,8 +136,4 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
         setValueToView();
     }
 
-    @Override
-    public void onVisibilityChanged(boolean visible) {
-
-    }
 }

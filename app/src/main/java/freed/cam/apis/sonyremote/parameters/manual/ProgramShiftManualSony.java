@@ -19,6 +19,8 @@
 
 package freed.cam.apis.sonyremote.parameters.manual;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +33,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.utils.FreeDPool;
-import android.util.Log;
 
 /**
  * Created by Ingo on 19.04.2015.

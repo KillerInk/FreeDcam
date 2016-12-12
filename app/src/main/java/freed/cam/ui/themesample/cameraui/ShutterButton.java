@@ -29,6 +29,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -41,7 +42,6 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import android.util.Log;
 
 /**
  * Created by troop on 20.06.2015.
@@ -211,11 +211,6 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
 
         @Override
         public void onParameterValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onVisibilityChanged(boolean visible) {
 
         }
     };

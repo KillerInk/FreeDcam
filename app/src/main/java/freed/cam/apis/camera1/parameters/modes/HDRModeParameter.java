@@ -29,7 +29,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.DeviceUtils.Devices;
-import android.util.Log;
 
 /**
  * Created by Ar4eR on 02.02.16.
@@ -105,7 +104,7 @@ public class HDRModeParameter extends BaseModeParameter
         {
             if (valueToSet.equals(KEYS.ON)) {
                 parameters.set(KEYS.MORPHO_HHT, KEYS.FALSE);
-                cameraUiWrapper.GetParameterHandler().NightMode.BackgroundValueHasChanged(KEYS.OFF);
+                cameraUiWrapper.GetParameterHandler().NightMode.onValueHasChanged(KEYS.OFF);
                 parameters.set("capture-burst-exposures","-10,0,10");
                 cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET, true);
                 parameters.set(KEYS.MORPHO_HDR, KEYS.TRUE);
@@ -147,7 +146,7 @@ public class HDRModeParameter extends BaseModeParameter
         }
         try {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-            BackgroundValueHasChanged(valueToSet);
+            onValueHasChanged(valueToSet);
         }
         catch (Exception ex)
         {
@@ -237,7 +236,7 @@ public class HDRModeParameter extends BaseModeParameter
                 default:
                     if (format.contains(KEYS.JPEG)) {
                         Show();
-                        BackgroundIsSupportedChanged(true);
+                        onIsSupportedChanged(true);
                     }
                     else
                     {
@@ -265,15 +264,15 @@ public class HDRModeParameter extends BaseModeParameter
         state = GetValue();
         visible = false;
         SetValue(KEYS.OFF,true);
-        BackgroundValueHasChanged(KEYS.OFF);
-        BackgroundIsSupportedChanged(visible);
+        onValueHasChanged(KEYS.OFF);
+        onIsSupportedChanged(visible);
     }
     private void Show()
     {
         visible = true;
         SetValue(state,true);
-        BackgroundValueHasChanged(state);
-        BackgroundIsSupportedChanged(visible);
+        onValueHasChanged(state);
+        onIsSupportedChanged(visible);
     }
 
 

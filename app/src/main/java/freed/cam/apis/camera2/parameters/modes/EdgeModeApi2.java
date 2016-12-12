@@ -58,7 +58,7 @@ public class EdgeModeApi2 extends BaseModeApi2 {
             return;
         EdgeModes sceneModes = Enum.valueOf(EdgeModes.class, valueToSet);
         ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.EDGE_MODE, sceneModes.ordinal());
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
 

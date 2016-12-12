@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +34,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
-import android.util.Log;
 import freed.viewer.holder.FileHolder;
 
 /**

@@ -107,7 +107,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         currentval = valueToSet;
-        BackgroundValueHasChanged(currentval);
+        onValueHasChanged(currentval);
     }
 
     @Override

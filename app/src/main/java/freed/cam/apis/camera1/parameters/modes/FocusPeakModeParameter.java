@@ -61,7 +61,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     public String GetValue()
     {
         if (focusPeakProcessorAp1 == null) {
-            BackgroundIsSupportedChanged(false);
+            onIsSupportedChanged(false);
             return KEYS.OFF;
         }
         if (focusPeakProcessorAp1.isEnable())
@@ -87,26 +87,26 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     }
 
     @Override
-    public void BackgroundValueHasChanged(String value)
+    public void onValueHasChanged(String value)
     {
         if (value.equals(KEYS.TRUE))
-            super.BackgroundValueHasChanged(KEYS.ON);
+            super.onValueHasChanged(KEYS.ON);
         else if (value.equals(KEYS.FALSE))
-            super.BackgroundValueHasChanged(KEYS.OFF);
+            super.onValueHasChanged(KEYS.OFF);
     }
 
     @Override
-    public void BackgroundValuesHasChanged(String[] value) {
-
-    }
-
-    @Override
-    public void BackgroundIsSupportedChanged(boolean value) {
+    public void onValuesHasChanged(String[] value) {
 
     }
 
     @Override
-    public void BackgroundSetIsSupportedHasChanged(boolean value) {
+    public void onIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onSetIsSupportedHasChanged(boolean value) {
 
     }
 }

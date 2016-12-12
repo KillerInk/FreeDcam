@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.FrameLayout.LayoutParams;
@@ -33,7 +34,6 @@ import com.lge.real3d.Real3DInfo;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.utils.AppSettingsManager;
-import android.util.Log;
 
 /**
  * Created by troop on 21.08.2014.

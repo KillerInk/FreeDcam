@@ -21,6 +21,7 @@ package freed.cam.apis.camera1.parameters.manual.zte;
 
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
+import android.util.Log;
 
 import com.troop.freedcam.R;
 
@@ -29,7 +30,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.DeviceUtils.Devices;
-import android.util.Log;
 
 /**
  * Created by troop on 25.11.2015.

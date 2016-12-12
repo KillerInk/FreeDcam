@@ -56,7 +56,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
             return;
         ToneMapModes sceneModes = Enum.valueOf(ToneMapModes.class, valueToSet);
         ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.TONEMAP_MODE, sceneModes.ordinal());
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
     }
 
 

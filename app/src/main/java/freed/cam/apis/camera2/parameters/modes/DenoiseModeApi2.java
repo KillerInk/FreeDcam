@@ -59,7 +59,7 @@ public class DenoiseModeApi2 extends BaseModeApi2
             return;
         DeNoiseModes sceneModes = Enum.valueOf(DeNoiseModes.class, valueToSet);
         ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.NOISE_REDUCTION_MODE, sceneModes.ordinal());
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
     }
 
 

@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.parameters.manual.htc;
 
 import android.hardware.Camera.Parameters;
+import android.util.Log;
 
 import java.text.DecimalFormat;
 
@@ -27,7 +28,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import android.util.Log;
 
 /**
  * Created by troop on 17.08.2014.

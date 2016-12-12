@@ -21,6 +21,7 @@ package freed.cam.ui.themesample.cameraui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,7 +39,6 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_Man
 import freed.cam.apis.sonyremote.SonyCameraFragment;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.utils.AppSettingsManager;
-import android.util.Log;
 
 /**
  * Created by troop on 08.12.2015.

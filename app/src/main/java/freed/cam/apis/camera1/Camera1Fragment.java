@@ -21,6 +21,7 @@ package freed.cam.apis.camera1;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -35,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.ActivityInterface;
-import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
@@ -54,7 +54,6 @@ import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
-import android.util.Log;
 import freed.utils.RenderScriptHandler;
 
 /**
@@ -374,11 +373,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
         @Override
         public void onParameterValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onVisibilityChanged(boolean visible) {
 
         }
     };

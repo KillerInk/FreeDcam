@@ -35,7 +35,6 @@ import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.modules.VideoMediaProfileLG;
-import android.util.Log;
 
 /**
  * Created by troop on 13.11.2014.
@@ -58,7 +57,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         profile = valueToSet;
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
         if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
             cameraUiWrapper.GetModuleHandler().GetCurrentModule().InitModule();
 

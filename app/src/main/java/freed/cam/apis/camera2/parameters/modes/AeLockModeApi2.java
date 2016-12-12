@@ -42,6 +42,6 @@ public class AeLockModeApi2 extends BaseModeApi2 {
             ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true);
         else
             ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,false);
-        //BackgroundValueHasChanged(valueToSet);
+        //onValueHasChanged(valueToSet);
     }
 }

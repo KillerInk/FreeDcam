@@ -21,6 +21,7 @@ package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
 import android.os.Handler;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileReader;
@@ -31,7 +32,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
-import android.util.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
@@ -48,7 +48,7 @@ public class PictureModuleMTK extends PictureModule
     }
 
     @Override
-    public boolean DoWork()
+    public void DoWork()
     {
         mBackgroundHandler.post(new Runnable() {
             @Override
@@ -70,7 +70,6 @@ public class PictureModuleMTK extends PictureModule
         });
 
 
-        return true;
     }
 
     @Override

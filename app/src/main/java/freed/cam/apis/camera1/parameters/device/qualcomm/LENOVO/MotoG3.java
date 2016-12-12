@@ -8,7 +8,6 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
-import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.dng.DngProfile;
 
 /**

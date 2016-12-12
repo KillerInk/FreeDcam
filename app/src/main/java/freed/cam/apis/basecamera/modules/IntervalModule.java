@@ -20,12 +20,12 @@
 package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
+import android.util.Log;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import android.util.Log;
 
 /**
  * Created by troop on 08.01.2016.
@@ -55,7 +55,7 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
     }
 
     @Override
-    public boolean DoWork()
+    public void DoWork()
     {
         if (!intervalHandler.IsWorking())
         {
@@ -63,7 +63,7 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
             isWorking = true;
             intervalHandler.StartInterval();
             changeCaptureState(CaptureStates.continouse_capture_start);
-            return true;
+            return;
         } else {
             Log.d(TAG, "Stop Interval");
             isWorking = false;
@@ -77,7 +77,7 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
                 Log.d(TAG, "changeWorkstate to cont_capture_stop_while_notworking");
                 changeCaptureState(CaptureStates.cont_capture_stop_while_notworking);
             }
-            return false;
+            return;
         }
     }
 

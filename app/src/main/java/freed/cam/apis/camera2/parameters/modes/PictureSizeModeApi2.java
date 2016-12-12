@@ -45,7 +45,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
         size = valueToSet;
         if (setToCamera)
         {

@@ -19,13 +19,13 @@
 
 package freed.cam.apis.sonyremote;
 
+import android.util.Log;
 import android.view.MotionEvent;
 
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.FocusRect;
-import android.util.Log;
 
 /**
  * Created by troop on 31.01.2015.

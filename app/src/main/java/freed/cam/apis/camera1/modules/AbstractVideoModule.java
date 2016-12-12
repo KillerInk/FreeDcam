@@ -26,6 +26,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,7 +40,6 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
-import android.util.Log;
 
 /**
  * Created by troop on 06.01.2016.
@@ -73,13 +73,12 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     }
 
     @Override
-    public boolean DoWork()
+    public void DoWork()
     {
         if (!isWorking)
             startRecording();
         else
             stopRecording();
-        return true;
 
     }
 

@@ -32,7 +32,6 @@ import java.io.File;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
-import android.util.Log;
 import freed.utils.StringUtils;
 
 /**

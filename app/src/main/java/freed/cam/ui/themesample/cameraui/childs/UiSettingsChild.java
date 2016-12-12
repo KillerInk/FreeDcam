@@ -26,6 +26,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -37,10 +38,8 @@ import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.string;
 import com.troop.freedcam.R.styleable;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
-import android.util.Log;
 
 /**
  * Created by troop on 11.06.2015.
@@ -214,11 +213,6 @@ public class UiSettingsChild extends SettingsChildAbstract
 
     @Override
     public void onParameterValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onVisibilityChanged(boolean visible) {
 
     }
 

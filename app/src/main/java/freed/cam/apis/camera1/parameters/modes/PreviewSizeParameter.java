@@ -23,7 +23,6 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import android.util.Log;
 
 /**
  * Created by troop on 21.08.2014.
@@ -43,7 +42,7 @@ public class PreviewSizeParameter extends BaseModeParameter
         if (setToCam)
             cameraUiWrapper.StopPreview();
         parameters.set(key_value, valueToSet);
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
         try {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }

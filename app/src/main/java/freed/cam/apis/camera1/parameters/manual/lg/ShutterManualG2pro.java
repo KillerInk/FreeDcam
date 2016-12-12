@@ -21,13 +21,13 @@ package freed.cam.apis.camera1.parameters.manual.lg;
 
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
+import android.util.Log;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraHolderInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import android.util.Log;
 
 /**
  * Created by GeorgeKiarie on 6/3/2016.

@@ -82,7 +82,7 @@ public class WifiUtils
         return wifiInfo.getSSID();
     }
 
-    public boolean ConnectToSSID(String SSID)
+    public void ConnectToSSID(String SSID)
     {
         List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
         for( WifiConfiguration i : list ) {
@@ -90,12 +90,11 @@ public class WifiUtils
             {
                 wifiManager.disconnect();
                 wifiManager.enableNetwork(i.networkId, true);
-                return wifiManager.reconnect();
+                wifiManager.reconnect();
 
 
             }
         }
-        return false;
     }
 
     public boolean isWifiConnected()

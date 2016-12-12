@@ -4,6 +4,8 @@
 
 package freed.cam.apis.sonyremote.sonystuff;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +14,6 @@ import java.io.IOException;
 import java.util.List;
 
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice.ApiService;
-import android.util.Log;
 
 /**
  * Simple Camera Remote API cameraUiWrapper class. (JSON based API <--> Java API)

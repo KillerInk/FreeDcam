@@ -31,6 +31,7 @@ import android.renderscript.Element;
 import android.renderscript.RSInvalidStateException;
 import android.renderscript.RSRuntimeException;
 import android.renderscript.Type.Builder;
+import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView.SurfaceTextureListener;
 
@@ -43,11 +44,9 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.I_AspectRatio;
 import freed.utils.FreeDPool;
-import android.util.Log;
 import freed.utils.RenderScriptHandler;
 
 
@@ -118,7 +117,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
 
         }
         if(cameraUiWrapper.GetParameterHandler().Focuspeak != null && cameraUiWrapper.GetParameterHandler().Focuspeak.IsSupported())
-            cameraUiWrapper.GetParameterHandler().Focuspeak.BackgroundValueHasChanged(enabled +"");
+            cameraUiWrapper.GetParameterHandler().Focuspeak.onValueHasChanged(enabled +"");
     }
 
     private void clear_preview(String from)

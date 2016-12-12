@@ -23,7 +23,6 @@ package freed.cam;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -38,17 +37,12 @@ import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import java.io.File;
-import java.lang.Thread.UncaughtExceptionHandler;
-
 import freed.ActivityAbstract;
 import freed.cam.apis.ApiHandler;
 import freed.cam.apis.ApiHandler.ApiEvent;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraStateEvents;
-import freed.cam.apis.basecamera.modules.I_WorkEvent;
-import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.sonyremote.SonyCameraFragment;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.handler.I_orientation;

@@ -72,8 +72,6 @@ public class AbstractModeParameter implements ModeParameterInterface
          * @param values the string array with new values
          */
         void onParameterValuesChanged(String[] values);
-
-        void onVisibilityChanged(boolean visible);
     }
 
     private final List<I_ModeParameterEvent> events;
@@ -127,7 +125,7 @@ public class AbstractModeParameter implements ModeParameterInterface
      * Throws the event to all registerd listners that the key_value has changed
      * @param value the new String key_value that should get applied to the listners
      */
-    public void BackgroundValueHasChanged(final String value)
+    public void onValueHasChanged(final String value)
     {
         if (events == null || events.size() == 0 || value.equals(""))
             return;
@@ -155,7 +153,7 @@ public class AbstractModeParameter implements ModeParameterInterface
 
 
     }
-    public void BackgroundValuesHasChanged(final String[] value)
+    public void onValuesHasChanged(final String[] value)
     {
         for (int i = 0; i< events.size(); i ++)
         {
@@ -183,7 +181,7 @@ public class AbstractModeParameter implements ModeParameterInterface
      *
      * @param value if true set parameter is supported, else not
      */
-    public void BackgroundIsSupportedChanged(final boolean value)
+    public void onIsSupportedChanged(final boolean value)
     {
         for (int i = 0; i< events.size(); i ++)
         {
@@ -213,7 +211,7 @@ public class AbstractModeParameter implements ModeParameterInterface
      * @param value if true the key_value can set to the camera, if false the key_value is read only
      * this affects only sonyapi and camera2
      */
-    public void BackgroundSetIsSupportedHasChanged(final boolean value)
+    public void onSetIsSupportedHasChanged(final boolean value)
     {
         for (int i = 0; i< events.size(); i ++)
         {
@@ -234,32 +232,6 @@ public class AbstractModeParameter implements ModeParameterInterface
                 });
             }
 
-        }
-
-
-    }
-
-    public void BackgroundVisibilityChanged(final boolean value)
-    {
-        for (int i = 0; i< events.size(); i ++)
-        {
-            if (events.get(i) == null)
-            {
-                events.remove(i);
-                i--;
-
-            }
-            else
-            {
-                final int t = i;
-                uihandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Log.d(TAG, "BackgroundSetSupportedCHanged:" + key_value);
-                        events.get(t).onVisibilityChanged(value);
-                    }
-                });
-            }
         }
 
 

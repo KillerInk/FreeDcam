@@ -25,6 +25,7 @@ package freed.cam.apis.camera1.parameters.manual.qcom;
 
 import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,6 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.utils.DeviceUtils.Devices;
-import android.util.Log;
 
 public class BurstManualParam extends BaseManualParameter
 {

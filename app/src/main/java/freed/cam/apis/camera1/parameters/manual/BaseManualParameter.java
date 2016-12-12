@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.parameters.manual;
 
 import android.hardware.Camera.Parameters;
+import android.util.Log;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -28,7 +29,6 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.modes.PictureFormatHandler;
-import android.util.Log;
 
 /**
  * Created by troop on 17.08.2014.
@@ -198,10 +198,6 @@ public class BaseManualParameter extends AbstractManualParameter
 
         }
 
-        @Override
-        public void onVisibilityChanged(boolean visible) {
-
-        }
     };
 
     public ModuleChangedEvent GetModuleListner()

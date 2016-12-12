@@ -64,7 +64,7 @@ public class PreviewZoomSony extends AbstractModeParameter
     }
 
     @Override
-    public void BackgroundValueHasChanged(String value) {
+    public void onValueHasChanged(String value) {
 
     }
 
@@ -74,22 +74,17 @@ public class PreviewZoomSony extends AbstractModeParameter
     }
 
     @Override
-    public void BackgroundValuesHasChanged(String[] value) {
+    public void onValuesHasChanged(String[] value) {
 
     }
 
     @Override
-    public void BackgroundIsSupportedChanged(boolean value) {
+    public void onIsSupportedChanged(boolean value) {
 
     }
 
     @Override
-    public void BackgroundSetIsSupportedHasChanged(boolean value) {
-
-    }
-
-    @Override
-    public void BackgroundVisibilityChanged(boolean value) {
+    public void onSetIsSupportedHasChanged(boolean value) {
 
     }
 }

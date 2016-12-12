@@ -22,6 +22,7 @@ package freed.cam.apis.camera1.parameters.manual.whitebalance;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import android.util.Log;
 
 /**
  * Created by Ingo on 06.03.2016.

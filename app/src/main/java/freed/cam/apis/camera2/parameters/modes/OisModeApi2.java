@@ -57,7 +57,7 @@ public class OisModeApi2 extends BaseModeApi2
             return;
         OISModes sceneModes = Enum.valueOf(OISModes.class, valueToSet);
         ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, sceneModes.ordinal());
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
 

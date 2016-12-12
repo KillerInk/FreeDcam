@@ -22,6 +22,7 @@ package freed.cam.apis.camera1.parameters.device;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,6 @@ import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManual_ExposureTi
 import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.dng.DngProfile;
-import android.util.Log;
 
 /**
  * Created by troop on 02.06.2016.

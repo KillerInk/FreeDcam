@@ -23,6 +23,7 @@ import android.annotation.TargetApi;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.TextureView;
@@ -33,7 +34,6 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
-import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraHolderInterface;
@@ -44,7 +44,6 @@ import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.apis.camera2.renderscript.FocuspeakProcessorApi2;
 import freed.utils.AppSettingsManager;
-import android.util.Log;
 import freed.utils.RenderScriptHandler;
 
 

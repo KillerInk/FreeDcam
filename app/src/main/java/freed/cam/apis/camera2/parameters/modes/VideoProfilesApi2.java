@@ -32,7 +32,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.cam.apis.camera2.CameraHolderApi2;
-import android.util.Log;
 
 /**
  * Created by troop on 24.02.2016.

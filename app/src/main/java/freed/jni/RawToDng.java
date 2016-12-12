@@ -3,6 +3,7 @@ package freed.jni;
 import android.location.Location;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +11,6 @@ import java.io.RandomAccessFile;
 import java.util.Date;
 
 import freed.dng.DngProfile;
-import android.util.Log;
 import freed.utils.StorageFileHandler;
 import freed.utils.StringUtils;
 

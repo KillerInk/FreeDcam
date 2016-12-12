@@ -21,6 +21,7 @@ package freed.cam.apis.sonyremote;
 
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +52,6 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.utils.FreeDPool;
-import android.util.Log;
 
 /**
  * Created by troop on 11.12.2014.
@@ -180,7 +180,7 @@ public class CameraHolderSony extends CameraHolderAbstract
         public void onFlashChanged(String flash)
         {
             Log.d(TAG, "Fire ONFLashCHanged");
-            cameraUiWrapper.GetParameterHandler().FlashMode.BackgroundValueHasChanged(flash);
+            cameraUiWrapper.GetParameterHandler().FlashMode.onValueHasChanged(flash);
         }
 
         @Override
@@ -191,7 +191,7 @@ public class CameraHolderSony extends CameraHolderAbstract
         @Override
         public void onWhiteBalanceValueChanged(String wb)
         {
-            cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.BackgroundValueHasChanged(wb);
+            cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.onValueHasChanged(wb);
             if (cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.GetValue().equals("Color Temperature") && cameraUiWrapper.GetParameterHandler().CCT != null)
                 cameraUiWrapper.GetParameterHandler().CCT.ThrowBackgroundIsSupportedChanged(true);
             else
@@ -237,82 +237,82 @@ public class CameraHolderSony extends CameraHolderAbstract
         @Override
         public void onExposureModesChanged(String[] expomode)
         {
-            cameraUiWrapper.GetParameterHandler().ExposureMode.BackgroundValuesHasChanged(expomode);
+            cameraUiWrapper.GetParameterHandler().ExposureMode.onValuesHasChanged(expomode);
         }
 
         @Override
         public void onImageFormatChanged(String imagesize) {
-            cameraUiWrapper.GetParameterHandler().PictureFormat.BackgroundValueHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().PictureFormat.onValueHasChanged(imagesize);
         }
 
         @Override
         public void onImageFormatsChanged(String[] imagesize) {
-            cameraUiWrapper.GetParameterHandler().PictureFormat.BackgroundValuesHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().PictureFormat.onValuesHasChanged(imagesize);
         }
 
         @Override
         public void onImageSizeChanged(String imagesize) {
-            cameraUiWrapper.GetParameterHandler().PictureSize.BackgroundValueHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().PictureSize.onValueHasChanged(imagesize);
         }
 
         @Override
         public void onContshotModeChanged(String imagesize) {
-            cameraUiWrapper.GetParameterHandler().ContShootMode.BackgroundValueHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().ContShootMode.onValueHasChanged(imagesize);
         }
 
         @Override
         public void onContshotModesChanged(String[] imagesize) {
-            cameraUiWrapper.GetParameterHandler().ContShootMode.BackgroundValuesHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().ContShootMode.onValuesHasChanged(imagesize);
         }
 
         @Override
         public void onFocusModeChanged(String imagesize) {
-            cameraUiWrapper.GetParameterHandler().FocusMode.BackgroundValueHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().FocusMode.onValueHasChanged(imagesize);
         }
 
         @Override
         public void onFocusModesChanged(String[] imagesize) {
-            cameraUiWrapper.GetParameterHandler().FocusMode.BackgroundValuesHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().FocusMode.onValuesHasChanged(imagesize);
         }
 
         @Override
         public void onPostviewModeChanged(String imagesize) {
-            cameraUiWrapper.GetParameterHandler().PostViewSize.BackgroundValueHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().PostViewSize.onValueHasChanged(imagesize);
         }
 
         @Override
         public void onPostviewModesChanged(String[] imagesize) {
-            cameraUiWrapper.GetParameterHandler().PostViewSize.BackgroundValuesHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().PostViewSize.onValuesHasChanged(imagesize);
         }
 
         @Override
         public void onTrackingFocusModeChanged(String imagesize) {
-            cameraUiWrapper.GetParameterHandler().ObjectTracking.BackgroundValueHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().ObjectTracking.onValueHasChanged(imagesize);
         }
 
         @Override
         public void onTrackingFocusModesChanged(String[] imagesize) {
-            cameraUiWrapper.GetParameterHandler().ObjectTracking.BackgroundValuesHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().ObjectTracking.onValuesHasChanged(imagesize);
         }
 
         @Override
         public void onZoomSettingValueCHanged(String value) {
-            cameraUiWrapper.GetParameterHandler().ZoomSetting.BackgroundValueHasChanged(value);
+            cameraUiWrapper.GetParameterHandler().ZoomSetting.onValueHasChanged(value);
         }
 
         @Override
         public void onZoomSettingsValuesCHanged(String[] values) {
-            cameraUiWrapper.GetParameterHandler().ZoomSetting.BackgroundValuesHasChanged(values);
+            cameraUiWrapper.GetParameterHandler().ZoomSetting.onValuesHasChanged(values);
         }
 
         @Override
         public void onExposureModeChanged(String expomode) {
             if (!cameraUiWrapper.GetParameterHandler().ExposureMode.GetValue().equals(expomode))
-                cameraUiWrapper.GetParameterHandler().ExposureMode.BackgroundValueHasChanged(expomode);
+                cameraUiWrapper.GetParameterHandler().ExposureMode.onValueHasChanged(expomode);
             if (expomode.equals("Intelligent Auto")|| expomode.equals("Superior Auto"))
-                cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.BackgroundIsSupportedChanged(false);
+                cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.onIsSupportedChanged(false);
             else
-                cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.BackgroundIsSupportedChanged(true);
+                cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.onIsSupportedChanged(true);
         }
     };
 

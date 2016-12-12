@@ -4,6 +4,8 @@
 
 package freed.cam.apis.sonyremote.sonystuff;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.DatagramPacket;
@@ -14,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.utils.FreeDPool;
-import android.util.Log;
 
 /**
  * A SSDP client class for this sample application. This implementation keeps

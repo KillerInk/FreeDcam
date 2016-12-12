@@ -36,6 +36,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
+import android.util.Log;
 import android.util.Range;
 import android.util.Size;
 import android.view.Surface;
@@ -51,7 +52,6 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
-import android.util.Log;
 
 /**
  * Created by troop on 26.11.2015.
@@ -80,13 +80,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     }
 
     @Override
-    public boolean DoWork()
+    public void DoWork()
     {
         if (isRecording)
             stopRecording();
         else
             startRecording();
-        return true;
     }
 
     @Override

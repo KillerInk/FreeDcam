@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.utils.AppSettingsManager;
 import freed.utils.RenderScriptHandler;

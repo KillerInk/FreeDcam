@@ -25,13 +25,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore.Video.Thumbnails;
-import android.util.Log;
 
 import java.io.File;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.jni.RawUtils;
-
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.holder.FileHolder;
 

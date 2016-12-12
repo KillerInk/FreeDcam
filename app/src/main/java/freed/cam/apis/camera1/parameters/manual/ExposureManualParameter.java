@@ -20,12 +20,12 @@
 package freed.cam.apis.camera1.parameters.manual;
 
 import android.hardware.Camera.Parameters;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import android.util.Log;
 
 /**
  * Created by troop on 17.08.2014.

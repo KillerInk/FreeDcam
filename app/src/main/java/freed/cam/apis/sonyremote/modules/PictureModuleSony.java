@@ -23,6 +23,7 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.support.v4.provider.DocumentFile;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -38,7 +39,6 @@ import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
-import android.util.Log;
 
 /**
  * Created by troop on 22.12.2014.
@@ -62,7 +62,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     }
 
     @Override
-    public boolean DoWork()
+    public void DoWork()
     {
         if (cameraUiWrapper.GetParameterHandler().ContShootMode != null && cameraUiWrapper.GetParameterHandler().ContShootMode.IsSupported()) {
             String shootmode = ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).ContShootMode.GetValue();
@@ -75,12 +75,12 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             {
                 changeCaptureState(CaptureStates.continouse_capture_start);
                 cameraHolder.startContShoot(this);
-                return true;
+                return;
             } else
             {
                 changeCaptureState(CaptureStates.cont_capture_stop_while_working);
                 cameraHolder.stopContShoot(this);
-                return false;
+                return;
             }
         }
         else
@@ -89,7 +89,6 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
                 changeCaptureState(CaptureStates.image_capture_start);
                 takePicture();
             }
-        return true;
     }
 
     @Override

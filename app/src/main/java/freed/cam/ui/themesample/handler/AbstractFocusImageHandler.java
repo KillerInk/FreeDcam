@@ -19,9 +19,6 @@
 
 package freed.cam.ui.themesample.handler;
 
-import android.view.View;
-import android.widget.ImageView;
-
 import freed.ActivityAbstract;
 import freed.cam.apis.basecamera.FocusHandlerInterface;
 
@@ -30,7 +27,6 @@ import freed.cam.apis.basecamera.FocusHandlerInterface;
  */
 public abstract class AbstractFocusImageHandler implements FocusHandlerInterface
 {
-    protected ImageView focusImageView;
     /**
      * Holds toplayerd fragment that has created this
      */
@@ -41,7 +37,7 @@ public abstract class AbstractFocusImageHandler implements FocusHandlerInterface
      * @param view the view that contains the focus imageviews
      * @param fragment the toplayerd fragment wich create this
      */
-    protected AbstractFocusImageHandler(View view, ActivityAbstract fragment)
+    protected AbstractFocusImageHandler(ActivityAbstract fragment)
     {
         this.fragment = fragment;
     }

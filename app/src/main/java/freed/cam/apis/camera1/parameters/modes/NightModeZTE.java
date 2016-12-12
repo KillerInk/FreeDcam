@@ -24,7 +24,6 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import android.util.Log;
 
 /**
  * Created by troop on 26.09.2014.
@@ -56,7 +55,7 @@ public class NightModeZTE extends BaseModeParameter
         parameters.set(KEYS.NIGHT_KEY, valueToSet);
         try {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-            BackgroundValueHasChanged(valueToSet);
+            onValueHasChanged(valueToSet);
         }
         catch (Exception ex)
         {

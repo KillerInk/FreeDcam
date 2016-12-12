@@ -19,6 +19,8 @@
 
 package freed.cam.apis.sonyremote.parameters.modes;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,7 +32,6 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
-import android.util.Log;
 
 /**
  * Created by troop on 15.12.2014.
@@ -67,8 +68,8 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
         if (isSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
         {
             isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
-            BackgroundIsSupportedChanged(isSupported);
-            BackgroundValueHasChanged(GetValue());
+            onIsSupportedChanged(isSupported);
+            onValueHasChanged(GetValue());
         }
 
     }
@@ -81,7 +82,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
         {
             boolean sup = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
             Log.d(TAG, VALUE_TO_GET + " is supported: " + sup);
-            BackgroundIsSupportedChanged(sup);
+            onIsSupportedChanged(sup);
             return sup;
         }else
             return false;
@@ -95,7 +96,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             @Override
             public void run() {
                 processValuesToSet(valueToSet);
-                BackgroundValueHasChanged(valueToSet);
+                onValueHasChanged(valueToSet);
             }
         });
     }
@@ -130,7 +131,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
                     try {
                         jsonObject = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
                         key_value = processGetString();
-                        BackgroundValueHasChanged(key_value);
+                        onValueHasChanged(key_value);
                     } catch (IOException e) {
                         Log.exception(e);
                     }
@@ -194,17 +195,17 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     }
 
     @Override
-    public void BackgroundValueHasChanged(String value)
+    public void onValueHasChanged(String value)
     {
         this.value = value;
-        super.BackgroundValueHasChanged(value);
+        super.onValueHasChanged(value);
 
     }
 
     @Override
-    public void BackgroundValuesHasChanged(String[] value)
+    public void onValuesHasChanged(String[] value)
     {
         values = value;
-        super.BackgroundValuesHasChanged(value);
+        super.onValuesHasChanged(value);
     }
 }

@@ -122,10 +122,6 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
 
     }
 
-    @Override
-    public void onVisibilityChanged(boolean visible) {
-
-    }
 
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {

@@ -55,7 +55,7 @@ public class ImageStabApi2 extends BaseModeApi2
             return;
         ImageStabsValues sceneModes = Enum.valueOf(ImageStabsValues.class, valueToSet);
         ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, sceneModes.ordinal());
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
     }
 
 

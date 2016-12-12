@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.DateFormat;
@@ -17,7 +16,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.drew.lang.StringUtil;
 import com.troop.freedcam.R;
 
 import java.io.File;
@@ -26,8 +24,6 @@ import java.util.Date;
 
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.ui.handler.MediaScannerManager;
-
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * Created by troop on 01.12.2016.

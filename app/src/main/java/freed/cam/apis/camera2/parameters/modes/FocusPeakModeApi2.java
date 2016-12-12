@@ -53,11 +53,11 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
         if (valueToSet.equals(KEYS.ON))
         {
             cameraUiWrapper.getFocusPeakProcessor().Enable(true);
-            BackgroundValueHasChanged("true");
+            onValueHasChanged("true");
         }
         else {
             cameraUiWrapper.getFocusPeakProcessor().Enable(false);
-            BackgroundValueHasChanged("false");
+            onValueHasChanged("false");
         }
 
     }
@@ -77,26 +77,26 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
 
 
     @Override
-    public void BackgroundValueHasChanged(String value)
+    public void onValueHasChanged(String value)
     {
         if (value.equals("true"))
-            super.BackgroundValueHasChanged(KEYS.ON);
+            super.onValueHasChanged(KEYS.ON);
         else if (value.equals("false"))
-            super.BackgroundValueHasChanged(KEYS.OFF);
+            super.onValueHasChanged(KEYS.OFF);
     }
 
     @Override
-    public void BackgroundValuesHasChanged(String[] value) {
-
-    }
-
-    @Override
-    public void BackgroundIsSupportedChanged(boolean value) {
+    public void onValuesHasChanged(String[] value) {
 
     }
 
     @Override
-    public void BackgroundSetIsSupportedHasChanged(boolean value) {
+    public void onIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onSetIsSupportedHasChanged(boolean value) {
 
     }
 }

@@ -25,7 +25,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
-import android.util.Log;
 
 /**
  * Created by Ar4eR on 05.02.16.

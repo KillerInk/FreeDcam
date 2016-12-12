@@ -5,12 +5,12 @@
 package freed.cam.apis.sonyremote.sonystuff;
 
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import android.util.Log;
 
 /**
  * A server device description class.

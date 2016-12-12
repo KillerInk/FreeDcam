@@ -26,7 +26,6 @@ import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.CameraHolderApi2;
-import android.util.Log;
 
 /**
  * Created by troop on 17.03.2015.

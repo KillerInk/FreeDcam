@@ -22,19 +22,15 @@ package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+
+import java.io.File;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.AppSettingsManager;
 import freed.viewer.holder.FileHolder;
-
-import android.util.Log;
-
-import java.io.File;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by troop on 15.08.2014.
@@ -89,8 +85,7 @@ public abstract class ModuleAbstract implements ModuleInterface
 
 
     @Override
-    public boolean DoWork() {
-        return false;
+    public void DoWork() {
     }
 
     @Override

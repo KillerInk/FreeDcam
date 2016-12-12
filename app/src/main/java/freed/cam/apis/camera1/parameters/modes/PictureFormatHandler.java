@@ -21,6 +21,7 @@ package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,6 @@ import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.DeviceUtils.Devices;
-import android.util.Log;
 
 import static freed.cam.apis.KEYS.BAYER;
 
@@ -162,7 +162,7 @@ public class PictureFormatHandler extends BaseModeParameter
                     break;
             }
         }
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
     }
 
     private void setString(String val, boolean setTocam)
@@ -203,10 +203,10 @@ public class PictureFormatHandler extends BaseModeParameter
             case KEYS.MODULE_PICTURE:
             case KEYS.MODULE_INTERVAL:
             case KEYS.MODULE_HDR:
-                BackgroundIsSupportedChanged(true);
+                onIsSupportedChanged(true);
                 break;
             case KEYS.MODULE_VIDEO:
-                BackgroundIsSupportedChanged(false);
+                onIsSupportedChanged(false);
                 break;
         }
     }

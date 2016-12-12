@@ -44,7 +44,7 @@ public class GuideList extends AbstractModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         value = valueToSet;
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
 
         //appSettingsManager.setString(AppSettingsManager.SETTING_GUIDE, valueToSet);
        // ImageView imageView1 = (ImageView)context.findViewById(R.id.GuideView);

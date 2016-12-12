@@ -20,11 +20,11 @@
 package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
+import android.util.Log;
 
 import java.util.Date;
 
 import freed.utils.AppSettingsManager;
-import android.util.Log;
 
 /**
  * Created by Ingo on 04.10.2015.

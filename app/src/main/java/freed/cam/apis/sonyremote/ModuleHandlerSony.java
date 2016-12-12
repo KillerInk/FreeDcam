@@ -19,13 +19,14 @@
 
 package freed.cam.apis.sonyremote;
 
+import android.util.Log;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.CameraHolderSony.I_CameraShotMode;
 import freed.cam.apis.sonyremote.modules.PictureModuleSony;
 import freed.cam.apis.sonyremote.modules.VideoModuleSony;
-import android.util.Log;
 
 /**
  * Created by troop on 13.12.2014.

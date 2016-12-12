@@ -36,7 +36,7 @@ public interface ModuleInterface
     /**
      * Let the Module start its work
      */
-    boolean DoWork();
+    void DoWork();
 
     /**
      * The workstate of the module

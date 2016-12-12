@@ -24,6 +24,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.RggbChannelVector;
 import android.os.Build.VERSION_CODES;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -31,7 +32,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
-import android.util.Log;
 
 /**
  * Created by troop on 18.05.2016.
@@ -150,7 +150,7 @@ public class WbHandler
                 setWbMode(sceneModes);
                 ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AWB_MODE, sceneModes.ordinal());
             }
-            BackgroundValueHasChanged(valueToSet);
+            onValueHasChanged(valueToSet);
         }
 
         @Override
@@ -328,7 +328,7 @@ public class WbHandler
             if (valueToSet.contains("unknown Scene"))
                 return;
             setValue(Enum.valueOf(ColorCorrectionModes.class, valueToSet));
-            BackgroundValueHasChanged(valueToSet);
+            onValueHasChanged(valueToSet);
         }
 
         private void setValue(ColorCorrectionModes modes)

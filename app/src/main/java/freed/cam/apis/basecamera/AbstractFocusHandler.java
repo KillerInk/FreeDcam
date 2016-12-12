@@ -20,9 +20,8 @@
 package freed.cam.apis.basecamera;
 
 import android.graphics.Rect;
-import android.view.MotionEvent;
-
 import android.util.Log;
+import android.view.MotionEvent;
 
 /**
  * Created by troop on 09.12.2014.

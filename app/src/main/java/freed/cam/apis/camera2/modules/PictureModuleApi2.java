@@ -42,6 +42,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
+import android.util.Log;
 import android.util.Pair;
 import android.util.Rational;
 import android.util.Size;
@@ -70,7 +71,6 @@ import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
-import android.util.Log;
 
 
 /**
@@ -156,12 +156,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     @Override
-    public boolean DoWork()
+    public void DoWork()
     {
 
         Log.d(TAG, "DoWork: start new progress");
         mBackgroundHandler.post(TakePicture);
-        return true;
     }
 
     private Runnable TakePicture = new Runnable()
@@ -834,7 +833,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         if (picFormat.equals("")) {
             picFormat = KEYS.JPEG;
             appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, KEYS.JPEG);
-            parameterHandler.PictureFormat.BackgroundValueHasChanged(KEYS.JPEG);
+            parameterHandler.PictureFormat.onValueHasChanged(KEYS.JPEG);
 
         }
 

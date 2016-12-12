@@ -19,6 +19,8 @@
 
 package freed.cam.apis.camera1.parameters.modes;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,7 +43,6 @@ import javax.net.ssl.X509TrustManager;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.utils.AppSettingsManager;
 import freed.utils.FreeDPool;
-import android.util.Log;
 import freed.utils.StringUtils;
 
 
@@ -189,7 +190,7 @@ public class OpCodeParameter extends AbstractModeParameter
             } catch (IOException e) {
                 Log.w(TAG, "IOException while closing InputStream");
             }
-            BackgroundValueHasChanged("true");
+            onValueHasChanged("true");
         }
     }
 

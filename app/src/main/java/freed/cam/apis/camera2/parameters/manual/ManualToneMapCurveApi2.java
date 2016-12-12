@@ -24,12 +24,12 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build.VERSION_CODES;
+import android.util.Log;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera2.CameraHolderApi2;
-import android.util.Log;
 
 /**
  * Created by troop on 05.05.2015.
@@ -92,12 +92,6 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
     public void onParameterValuesChanged(String[] values) {
 
     }
-
-    @Override
-    public void onVisibilityChanged(boolean visible) {
-
-    }
-
 
     public class Contrast extends AbstractManualParameter
     {

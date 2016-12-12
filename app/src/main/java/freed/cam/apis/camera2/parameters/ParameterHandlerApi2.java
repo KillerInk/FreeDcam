@@ -22,9 +22,9 @@ package freed.cam.apis.camera2.parameters;
 import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
-import android.hardware.camera2.CaptureResult;
 import android.os.Build.VERSION_CODES;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import java.util.List;
 
@@ -60,8 +60,6 @@ import freed.cam.apis.camera2.parameters.modes.SceneModeApi2;
 import freed.cam.apis.camera2.parameters.modes.ToneMapModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
-import android.util.Log;
-import android.util.Pair;
 
 /**
  * Created by troop on 12.12.2014.

@@ -27,7 +27,6 @@ import java.io.IOException;
 
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import android.util.Log;
 
 /**
  * Created by troop on 09.04.2016.

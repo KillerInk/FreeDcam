@@ -19,6 +19,7 @@
 
 package freed.cam.apis.camera1;
 
+import android.util.Log;
 import android.view.MotionEvent;
 
 import freed.cam.apis.basecamera.AbstractFocusHandler;
@@ -28,7 +29,6 @@ import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.utils.DeviceUtils.Devices;
-import android.util.Log;
 
 /**
  * Created by troop on 02.09.2014.
@@ -81,11 +81,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         public void onParameterValuesChanged(String[] values) {
 
         }
-
-        @Override
-        public void onVisibilityChanged(boolean visible) {
-
-        }
     };
     public I_ModeParameterEvent aeModeListner = new I_ModeParameterEvent() {
         @Override
@@ -127,11 +122,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 
         @Override
         public void onParameterValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onVisibilityChanged(boolean visible) {
 
         }
     };

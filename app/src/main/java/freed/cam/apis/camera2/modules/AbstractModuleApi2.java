@@ -29,7 +29,6 @@ import android.view.WindowManager;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.BasePictureModule;
-import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 
@@ -62,8 +61,7 @@ public abstract class AbstractModuleApi2 extends BasePictureModule implements I_
     }
 
     @Override
-    public boolean DoWork() {
-        return true;
+    public void DoWork() {
     }
 
     @Override

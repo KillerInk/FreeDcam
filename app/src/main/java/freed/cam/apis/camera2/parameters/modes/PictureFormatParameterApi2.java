@@ -50,7 +50,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
         format = valueToSet;
         if (setToCamera)
         {

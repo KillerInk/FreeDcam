@@ -28,7 +28,6 @@ import java.io.IOException;
 import freed.cam.apis.sonyremote.parameters.manual.WbCTManualSony;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
-import android.util.Log;
 
 public class WhiteBalanceModeSony extends BaseModeParameterSony
 {
@@ -50,7 +49,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
                     try {
                         jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         values = processValuesToReturn();
-                        BackgroundValuesHasChanged(values);
+                        onValuesHasChanged(values);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }

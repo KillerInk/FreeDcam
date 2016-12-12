@@ -84,8 +84,8 @@ public class SDModeParameter extends AbstractModeParameter
     }
 
     @Override
-    public void BackgroundValueHasChanged(String value) {
-        super.BackgroundValueHasChanged(value);
+    public void onValueHasChanged(String value) {
+        super.onValueHasChanged(value);
     }
 
 }

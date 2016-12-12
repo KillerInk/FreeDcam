@@ -21,9 +21,8 @@ package freed.cam.ui;
 
 import android.content.res.Resources;
 import android.os.Handler;
-import android.view.MotionEvent;
-
 import android.util.Log;
+import android.view.MotionEvent;
 
 /**
  * Created by troop on 02.09.2014.

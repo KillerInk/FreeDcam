@@ -24,7 +24,6 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import android.util.Log;
 
 /**
  * Created by Ingo on 25.12.2014.
@@ -48,12 +47,12 @@ public class ExposureLockParameter extends BaseModeParameter
             parameters.setAutoExposureLock(Boolean.parseBoolean(valueToSet));
         try {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-            BackgroundValueHasChanged(valueToSet);
+            onValueHasChanged(valueToSet);
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
-            BackgroundValueHasChanged(KEYS.FALSE);
+            onValueHasChanged(KEYS.FALSE);
         }
 
     }
@@ -71,7 +70,7 @@ public class ExposureLockParameter extends BaseModeParameter
     }
 
     @Override
-    public void BackgroundValueHasChanged(String value) {
-            super.BackgroundValueHasChanged(value);
+    public void onValueHasChanged(String value) {
+            super.onValueHasChanged(value);
     }
 }

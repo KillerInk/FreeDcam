@@ -28,7 +28,6 @@ import com.troop.freedcam.R.id;
 
 import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleInterface;
 
 
 /**

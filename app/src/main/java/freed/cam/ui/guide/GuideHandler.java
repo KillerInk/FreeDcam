@@ -2,6 +2,7 @@ package freed.cam.ui.guide;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import com.troop.freedcam.R.layout;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.utils.AppSettingsManager;
-import android.util.Log;
 
 /**
  * Created by George on 1/19/2015.
@@ -206,11 +206,6 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
 
     }
 
-    @Override
-    public void onVisibilityChanged(boolean visible) {
-
-    }
-
     private final I_ModeParameterEvent previewSizeChanged = new I_ModeParameterEvent() {
         @Override
         public void onParameterValueChanged(String val) {
@@ -238,10 +233,6 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
 
         }
 
-        @Override
-        public void onVisibilityChanged(boolean visible) {
-
-        }
     };
 
 }

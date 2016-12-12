@@ -23,8 +23,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import java.util.ArrayList;
-
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
@@ -61,8 +59,6 @@ public abstract class AbstractParameterHandler
     protected CameraWrapperInterface cameraUiWrapper;
 
     public ManualParameterInterface ManualBrightness;
-    public ManualParameterInterface ManualEdge;
-    public ManualParameterInterface ManualHue;
     public ManualParameterInterface ManualSharpness;
     public ManualParameterInterface ManualContrast;
     public ManualParameterInterface ManualSaturation;

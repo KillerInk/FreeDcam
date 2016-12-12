@@ -66,7 +66,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
     public FocusImageHandler(View view, ActivityAbstract fragment)
     {
-        super(view, fragment);
+        super(fragment);
         focusImageView = (FocusSelector) view.findViewById(R.id.imageView_Crosshair);
 
         cancelFocus = (ImageView)view.findViewById(R.id.imageViewFocusClose);

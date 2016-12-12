@@ -20,6 +20,7 @@
 package freed.cam.apis.sonyremote.parameters;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,6 @@ import freed.cam.apis.sonyremote.parameters.modes.WhiteBalanceModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.ZoomSettingSony;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
-import android.util.Log;
 
 /**
  * Created by troop on 13.12.2014.

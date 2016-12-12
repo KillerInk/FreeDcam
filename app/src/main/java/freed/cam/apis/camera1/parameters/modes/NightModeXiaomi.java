@@ -57,7 +57,7 @@ public class NightModeXiaomi extends BaseModeParameter
     {
         if (valueToSet.equals(KEYS.ON)) {
             parameters.set(KEYS.MORPHO_HDR, KEYS.FALSE);
-            cameraUiWrapper.GetParameterHandler().HDRMode.BackgroundValueHasChanged(KEYS.OFF);
+            cameraUiWrapper.GetParameterHandler().HDRMode.onValueHasChanged(KEYS.OFF);
             parameters.set("capture-burst-exposures","-10,0,10");
             parameters.set(KEYS.AE_BRACKET_HDR, KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET);
             parameters.set(KEYS.MORPHO_HHT, KEYS.TRUE);
@@ -66,7 +66,7 @@ public class NightModeXiaomi extends BaseModeParameter
             parameters.set(KEYS.MORPHO_HHT, KEYS.FALSE);
         }
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-        BackgroundValueHasChanged(valueToSet);
+        onValueHasChanged(valueToSet);
 
     }
 
@@ -98,7 +98,7 @@ public class NightModeXiaomi extends BaseModeParameter
             default:
                 if (format.contains(KEYS.JPEG)) {
                     Show();
-                    BackgroundIsSupportedChanged(true);
+                    onIsSupportedChanged(true);
                 }
         }
     }
@@ -120,15 +120,15 @@ public class NightModeXiaomi extends BaseModeParameter
         state = GetValue();
         visible = false;
         SetValue(KEYS.OFF,true);
-        BackgroundValueHasChanged(KEYS.OFF);
-        BackgroundIsSupportedChanged(visible);
+        onValueHasChanged(KEYS.OFF);
+        onIsSupportedChanged(visible);
     }
 
     private void Show()
     {
         visible = true;
         SetValue(state,true);
-        BackgroundValueHasChanged(state);
-        BackgroundIsSupportedChanged(visible);
+        onValueHasChanged(state);
+        onIsSupportedChanged(visible);
     }
 }

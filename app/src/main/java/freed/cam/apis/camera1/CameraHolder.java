@@ -28,6 +28,7 @@ import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.PreviewCallback;
 import android.location.Location;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
@@ -40,7 +41,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.Size;
-import android.util.Log;
 
 /**
  * Created by troop on 15.08.2014.

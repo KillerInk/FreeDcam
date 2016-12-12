@@ -4,6 +4,7 @@
 
 package freed.cam.apis.sonyremote.sonystuff;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -16,8 +17,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import android.util.Log;
 
 /**
  * A simple XML parser and Data structure class for sample application.
