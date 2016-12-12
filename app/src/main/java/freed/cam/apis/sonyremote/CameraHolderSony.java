@@ -347,7 +347,6 @@ public class CameraHolderSony extends CameraHolderAbstract
             mRemoteApi = new SimpleRemoteApi(serverDevice);
             ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).SetRemoteApi(mRemoteApi);
             mEventObserver = new SimpleCameraEventObserver(context, mRemoteApi);
-            cameraUiWrapper.onCameraOpenFinish("");
         }
         if (!mEventObserver.isActive())
             mEventObserver.activate();
@@ -520,6 +519,7 @@ public class CameraHolderSony extends CameraHolderAbstract
                             // set Camera function to Remote Shooting
                             replyJson = mRemoteApi.setCameraFunction();
                         }
+                        cameraUiWrapper.onCameraOpenFinish("");
                     }
                 } catch (IOException e) {
                     Log.w(TAG, "prepareToStartContentsListMode: IOException: " + e.getMessage());

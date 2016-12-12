@@ -16,6 +16,8 @@
         android:layout_height="fill_parent"
         android:id="@+id/horHolder"></LinearLayout>
 
+
+
     <freed.cam.ui.themesample.cameraui.FocusSelector
         android:layout_width="70dp"
         android:id="@+id/imageView_Crosshair"
@@ -411,6 +413,19 @@
         android:layout_alignParentTop="false"
         android:layout_centerVertical="true"></FrameLayout>
 
+    <view
+        android:layout_width="@dimen/image_thumbnail_size"
+        android:layout_height="@dimen/image_thumbnail_size"
+        class="freed.cam.apis.sonyremote.parameters.JoyPad"
+        android:id="@+id/joypad"
+        android:focusable="true"
+        android:layout_marginLeft="@dimen/manualModesHolderLeftMargine"
+        android:layout_centerInParent="false"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/manualSettingsHeight"
+        android:clickable="true"
+        android:focusableInTouchMode="true" />
+
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -420,5 +435,6 @@
         android:layout_alignParentStart="true">
 
     </FrameLayout>
+
 
 </RelativeLayout>

@@ -36,6 +36,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
@@ -44,6 +45,9 @@ import com.troop.freedcam.R.layout;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.sonyremote.SonyCameraFragment;
+import freed.cam.apis.sonyremote.parameters.JoyPad;
+import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
 import freed.cam.ui.guide.GuideHandler;
@@ -103,6 +107,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private HorizontLineFragment horizontLineFragment;
     private View camerauiValuesFragmentHolder;
 
+    private JoyPad joyPad;
+
     public CameraUiFragment()
     {
 
@@ -152,6 +158,16 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         //remove the values fragment from ui when a new api gets loaded and it was open.
         if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
             removeHorizontalFragment();
+
+        if (cameraUiWrapper instanceof SonyCameraFragment)
+        {
+            joyPad.setVisibility(View.GONE);
+            if (cameraUiWrapper.GetParameterHandler().PreviewZoom != null)
+                cameraUiWrapper.GetParameterHandler().PreviewZoom.addEventListner(joyPad);
+            joyPad.setNavigationClickListner((SimpleStreamSurfaceView)cameraUiWrapper.getSurfaceView());
+        }
+        else
+            joyPad.setVisibility(View.GONE);
     }
 
     @Override
@@ -253,6 +269,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
         manualModes_holder.setVisibility(View.GONE);
         camerauiValuesFragmentHolder =  view.findViewById(id.cameraui_values_fragment_holder);
+        joyPad = (JoyPad) view.findViewById(id.joypad);
+        joyPad.setVisibility(View.GONE);
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(id.guideHolder, guideHandler, "Guide");
@@ -268,6 +286,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         transaction.replace(id.horHolder, horizontLineFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+
+
 
         boolean showhelp = fragment_activityInterface.getAppSettings().getShowHelpOverlay();
         if (showhelp) {

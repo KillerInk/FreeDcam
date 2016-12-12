@@ -44,6 +44,7 @@ import java.util.concurrent.BlockingQueue;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
 import freed.utils.FreeDPool;
 import freed.utils.RenderScriptHandler;
@@ -52,7 +53,7 @@ import freed.utils.RenderScriptHandler;
 /**
  * A SurfaceView based class to draw liveview frames serially.
  */
-public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback, AbstractModeParameter.I_ModeParameterEvent {
+public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback, AbstractModeParameter.I_ModeParameterEvent, JoyPad.NavigationClick {
 
     private static final String TAG = SimpleStreamSurfaceView.class.getSimpleName();
 
@@ -91,6 +92,13 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private final float[] SHARPMATRIX = {-0f, -1f, -0f,
                                          -1f,  5f, -1f,
                                          -0f, -1f, -0f };
+
+    @Override
+    public void onMove(int x, int y) {
+
+        zoomPreviewMagineLeft += (x);
+        zoomPreviewMargineTop += (y);
+    }
 
     public enum NightPreviewModes
     {
@@ -727,7 +735,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         void onError(StreamErrorReason reason);
     }
 
-    private int startX;
+    /*private int startX;
     private int startY;
     private int currentX;
     private int currentY;
@@ -755,14 +763,14 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 currentY = (int) event.getY();
                 if (startX < currentX)
                 {
-                    zoomPreviewMagineLeft -= (startX - currentX)/ PreviewZOOMFactor;
+                    zoomPreviewMagineLeft += (startX - currentX)/ PreviewZOOMFactor;
                 }
                 else
-                    zoomPreviewMagineLeft += (currentX - startX)/ PreviewZOOMFactor;
+                    zoomPreviewMagineLeft -= (currentX - startX)/ PreviewZOOMFactor;
                 if (startY < currentY)
-                    zoomPreviewMargineTop -= (startY - currentY)/ PreviewZOOMFactor;
+                    zoomPreviewMargineTop += (startY - currentY)/ PreviewZOOMFactor;
                 else
-                    zoomPreviewMargineTop += (currentY - startY)/ PreviewZOOMFactor;
+                    zoomPreviewMargineTop -= (currentY - startY)/ PreviewZOOMFactor;
                 startX = currentX;
                 startY = currentY;
                 break;
@@ -773,5 +781,5 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 break;
         }
         return  super.onTouchEvent(event);
-    }
+    }*/
 }
