@@ -55,6 +55,8 @@ public class JoyPad extends View implements AbstractManualParameter.I_ManualPara
     public interface NavigationClick
     {
         void onMove(int x,int y);
+        void onDown();
+        void onUp();
     }
 
     public JoyPad(Context context) {
@@ -113,6 +115,8 @@ public class JoyPad extends View implements AbstractManualParameter.I_ManualPara
             case MotionEvent.ACTION_DOWN:
                 joypad_posX = getWidth()/2;
                 joypad_posY = getHeight()/2;
+                if (navigationClickListner != null)
+                    navigationClickListner.onDown();
                 break;
             case MotionEvent.ACTION_MOVE:
                 joypad_posX = (int)event.getX();
@@ -152,6 +156,8 @@ public class JoyPad extends View implements AbstractManualParameter.I_ManualPara
                 joypad_posX = getWidth()/2;
                 joypad_posY = getHeight()/2;
                 invalidate();
+                if (navigationClickListner != null)
+                    navigationClickListner.onUp();
                 break;
         }
         return true;

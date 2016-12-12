@@ -100,6 +100,16 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         zoomPreviewMargineTop += (y);
     }
 
+    @Override
+    public void onDown() {
+        activityInterface.DisablePagerTouch(true);
+    }
+
+    @Override
+    public void onUp() {
+        activityInterface.DisablePagerTouch(false);
+    }
+
     public enum NightPreviewModes
     {
         on,
@@ -409,11 +419,13 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             tbOut.setY(this.mPreviousHeight);
             this.drawBitmap = Bitmap.createBitmap(this.mPreviousWidth, this.mPreviousHeight, Bitmap.Config.ARGB_8888);
             renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
+            renderScriptHandler.freedcamScript.set_gLastFrame(renderScriptHandler.GetOut());
+            renderScriptHandler.freedcamScript.set_gCurrentFrame(renderScriptHandler.GetIn());
         }
-
-        renderScriptHandler.freedcamScript.set_gLastFrame(renderScriptHandler.GetOut());
-        renderScriptHandler.freedcamScript.set_gCurrentFrame(renderScriptHandler.GetIn());
         renderScriptHandler.blurRS.setInput(renderScriptHandler.GetIn());
+
+
+
 
 
 
