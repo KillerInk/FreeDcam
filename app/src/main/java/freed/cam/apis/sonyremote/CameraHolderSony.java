@@ -347,6 +347,7 @@ public class CameraHolderSony extends CameraHolderAbstract
             mRemoteApi = new SimpleRemoteApi(serverDevice);
             ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).SetRemoteApi(mRemoteApi);
             mEventObserver = new SimpleCameraEventObserver(context, mRemoteApi);
+            cameraUiWrapper.onCameraOpenFinish("");
         }
         if (!mEventObserver.isActive())
             mEventObserver.activate();
