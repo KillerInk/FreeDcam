@@ -113,6 +113,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         if (cameraUiWrapper == null || cameraUiWrapper.GetParameterHandler() == null || !isAdded())
         {
             Log.d(TAG, "failed to set cameraUiWrapper");
+            if (isAdded())
+                hide_ManualSettings();
             return;
         }
         cameraUiWrapper.GetModuleHandler().SetWorkListner(this);
@@ -146,7 +148,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         aelock.SetParameter(cameraUiWrapper.GetParameterHandler().ExposureLock);
         //restore view state for the manuals
         if(manualsettingsIsOpen)
-            manualModes_holder.setVisibility(View.VISIBLE);
+            showManualSettings();
         //remove the values fragment from ui when a new api gets loaded and it was open.
         if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
             removeHorizontalFragment();
