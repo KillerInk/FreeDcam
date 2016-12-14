@@ -61,11 +61,15 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     private TextView headerTextView;
     private TextView valueTextView;
     private ImageView imageView;
+    private ImageView activeHold;
     private Handler handler;
-    private final int backgroundColorActive = Color.parseColor("#46FFFFFF");
+    private final int backgroundColorActive = Color.parseColor("#46FFFFFF"); ///#FF2AA2D4
     private final int backgroundColor = Color.parseColor("#00000000");
     private final int stringColor = Color.parseColor("#FFFFFFFF");
     private final int stringColorActive = Color.parseColor("#FF000000");
+
+    private final int solidActiveColor = Color.parseColor("#FF2AA2D4");
+
     private boolean imageusing;
     private int pos;
     protected ActivityInterface fragment_activityInterface;
@@ -128,6 +132,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         valueTextView = (TextView) findViewById(id.manualbutton_valuetext);
         valueTextView.setSelected(true);
         imageView = (ImageView) findViewById(id.imageView_ManualButton);
+        activeHold = (ImageView) findViewById(id.active);
     }
 
     public void RemoveParameterListner( I_ManualParameterEvent t)
@@ -349,8 +354,10 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     {
         if (!imageusing) {
             if (active) {
-                setBackgroundColor(backgroundColorActive);
+               // setBackgroundColor(backgroundColorActive);
                 headerTextView.setTextColor(stringColorActive);
+
+                valueTextView.setBackgroundColor(solidActiveColor);
                 valueTextView.setTextColor(stringColorActive);
             } else {
                 setBackgroundColor(backgroundColor);
@@ -361,9 +368,12 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         else
         {
             if (active) {
-                setBackgroundColor(backgroundColorActive);
+               // setBackgroundColor(solidActiveColor);
+               // valueTextView.setBackgroundColor(Color.RED);
+                activeHold.setVisibility(VISIBLE);
             } else {
-                setBackgroundColor(backgroundColor);
+                //setBackgroundColor(backgroundColor);
+                activeHold.setVisibility(INVISIBLE);
             }
         }
     }

@@ -29,6 +29,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,6 +50,7 @@ public class UiSettingsChild extends SettingsChildAbstract
     protected Context context;
     private String headerText;
     private LinearLayout laybg;
+    private ImageView activeHold;
 
 
 
@@ -112,6 +114,7 @@ public class UiSettingsChild extends SettingsChildAbstract
 
         valueText = (TextView) findViewById(id.textView2);
         valueText.setSelected(true);
+        activeHold = (ImageView) findViewById(id.activeUICHILD);
         setOnClickListener(this);
 
     }
@@ -126,11 +129,25 @@ public class UiSettingsChild extends SettingsChildAbstract
     {
         onItemClick = menuItemClick;
         this.fromleft = fromleft;
+try {
+    if(activeHold != null) {
+        if (activeHold.getVisibility() == INVISIBLE)
+            activeHold.setVisibility(VISIBLE);
+        else
+            activeHold.setVisibility(INVISIBLE);
+    }
+}catch (Exception e){e.printStackTrace();}
+
+
     }
 
     public void SetUiItemClickListner(SettingsChildClick menuItemClick)
     {
         onItemClick = menuItemClick;
+
+
+
+
     }
 
     @Override

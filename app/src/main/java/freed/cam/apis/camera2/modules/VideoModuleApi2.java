@@ -231,7 +231,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         mediaRecorder.setVideoEncodingBitRate(currentVideoProfile.videoBitRate);
 
         try {
-            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate));
+            if(currentVideoProfile.videoFrameRate == 120 && currentVideoProfile.videoFrameWidth == 1920)
+                cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, new Range<>(30, currentVideoProfile.videoFrameRate));
+            else
+                cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate));
         }catch (Exception e)
         {
             e.printStackTrace();

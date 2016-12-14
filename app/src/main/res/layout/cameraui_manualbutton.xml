@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#00000000"
@@ -62,6 +63,13 @@
                 android:layout_marginLeft="2dp"
                 android:text="1234565" />
         </FrameLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/active"
+            android:id="@+id/active"
+            android:visibility="invisible" />
     </LinearLayout>
 
 </AbsoluteLayout>

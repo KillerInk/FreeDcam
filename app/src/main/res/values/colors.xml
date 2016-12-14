@@ -8,7 +8,7 @@
     <color name="menu_header_color">#ffffffff</color>
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#11303f9f</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ff4081</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>
