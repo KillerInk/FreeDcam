@@ -24,6 +24,7 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -44,11 +45,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.drew.imaging.jpeg.JpegMetadataReader;
-import com.drew.imaging.jpeg.JpegProcessingException;
-import com.drew.metadata.Directory;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -353,7 +349,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
             filename.setText(file.getFile().getName());
             deleteButton.setVisibility(View.VISIBLE);
             if (file.getFile().getName().endsWith(FileEnding.JPG) || file.getFile().getName().endsWith(FileEnding.JPS)) {
-                processJpeg(file.getFile());
+                processExif(file.getFile());
                 exifinfo.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
@@ -362,7 +358,8 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getFile().getName().endsWith(FileEnding.DNG)) {
-                exifinfo.setVisibility(View.GONE);
+                processExif(file.getFile());
+                exifinfo.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getFile().getName().endsWith(FileEnding.RAW) || file.getFile().getName().endsWith(FileEnding.BAYER)) {
@@ -381,42 +378,41 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         }
     }
 
-    private void processJpeg(final File file)
+    private void processExif(final File file)
     {
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Metadata metadata = JpegMetadataReader.readMetadata(file);
-                    final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
+                    final ExifInterface exifInterface = new ExifInterface(file.getAbsolutePath());
                     iso.post(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                shutter.setText("S:" +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
+                                shutter.setText("S:" +exifInterface.getAttribute(ExifInterface.TAG_EXPOSURE_TIME));
                             }catch (NullPointerException e){
                                 shutter.setVisibility(View.GONE);
                             }
                             try
                             {
-                                fnumber.setText("f~:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
+                                fnumber.setText("f~:" + exifInterface.getAttribute(ExifInterface.TAG_F_NUMBER));
                             }catch (NullPointerException e){
                                 fnumber.setVisibility(View.GONE);
                             }
                             try {
-                                focal.setText("A:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
+                                focal.setText("A:" + exifInterface.getAttribute(ExifInterface.TAG_APERTURE_VALUE));
                             }catch (NullPointerException e){
                                 focal.setVisibility(View.GONE);
                             }
                             try {
-                                iso.setText("ISO:" +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
+                                iso.setText("ISO:" + exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS));
                             }catch (NullPointerException e){
                                 iso.setVisibility(View.GONE);
                             }
                         }
                     });
 
-                } catch (NullPointerException | JpegProcessingException | IOException ex)
+                } catch (NullPointerException  | IOException ex)
                 {
                     Log.d(TAG, "Failed to read Exif");
                 }
