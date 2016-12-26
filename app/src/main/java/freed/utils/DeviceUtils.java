@@ -88,6 +88,7 @@ public class DeviceUtils
         Moto_X_Style_Pure_Play,
         MotoG3,
         MotoG_Turbo,
+        MOTOG_2k14,
         Moto_ZPlay,
         MyPhone_Infinity2S,
         Nexus4,
@@ -99,6 +100,7 @@ public class DeviceUtils
         OnePlusX,
         p8,
         p8lite,
+        Google_Pixel,
         Prestigio_Multipad_Color,
         Xiaomi_RedmiNote,
         Xiaomi_Redmi2,
@@ -125,6 +127,7 @@ public class DeviceUtils
         XiaomiMI4W,
         XiaomiMI4C,
         XiaomiMI5,
+        XiaomiMI5s,
         XiaomiMI_Note_Pro,
         Xiaomi_Redmi_Note3,
         Xiaomi_Redmi3,
@@ -139,6 +142,8 @@ public class DeviceUtils
         ZTE_Z9,
         ZTE_Z5SMINI,
         ZTE_MyPrague,
+        ZTE_AXXON_7,
+        ZTE_ZMAX_PRO,
         Zoppo_8speed,
     }
 
@@ -277,6 +282,10 @@ public class DeviceUtils
             return Devices.XiaomiMI4C;
         else if(isDevice(res.getStringArray(array.Xiaomi_MI5)))
             return Devices.XiaomiMI5;
+
+        else if(isDevice(res.getStringArray(array.XAIOMI_MI5S)))
+            return Devices.XiaomiMI5s;
+
         else if (isDevice(res.getStringArray(array.Xiaomi_Mi_Note_Pro)))
             return Devices.XiaomiMI_Note_Pro;
         else if (isDevice(res.getStringArray(array.Xiaomi_Mi_Note3_Pro)))
@@ -293,6 +302,8 @@ public class DeviceUtils
             return Devices.ZTEADVIMX214;
         else if (isDevice(res.getStringArray(array.zteadvIMX234)))
             return Devices.ZTEADV234;
+        else if (isDevice(res.getStringArray(array.ZTE_ZMAX_PRO)))
+            return Devices.ZTE_ZMAX_PRO;
         else if(isDevice(res.getStringArray(array.HTC_OneA9)))
             return Devices.HTC_OneA9;
         else if(isDevice(res.getStringArray(array.Lenovo_K50)))
@@ -323,6 +334,8 @@ public class DeviceUtils
             return Devices.MotoG3;
         else if(isDevice(res.getStringArray(array.MotoG_Turbo)))
             return Devices.MotoG_Turbo;
+        else if(isDevice(res.getStringArray(array.Moto_G_2014)))
+            return Devices.MOTOG_2k14;
         else if(isDevice(res.getStringArray(array.HTC_Desire500)))
             return Devices.HTC_Desire500;
         else if(isDevice(res.getStringArray(array.Blackberry_Priv)))
@@ -363,6 +376,8 @@ public class DeviceUtils
             return Devices.VERNEE_APOLLO_Lite;
         else if(isDevice(res.getStringArray(array.thl100s)))
             return Devices.THL100s_MTK;
+        else if(isDevice(res.getStringArray(array.Google_Pixel)))
+            return Devices.Google_Pixel;
         else
             return Devices.UNKNOWN;
 

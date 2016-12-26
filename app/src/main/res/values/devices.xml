@@ -76,6 +76,12 @@
         <item>LG-H918</item>
     </string-array>
 
+    <string-array name="Google_Pixel">
+        <item>Pixel</item>
+        <item>Pixel XL</item>
+    </string-array>
+
+
     <string-array name="htc_evo3d">
         <item>HTC EVO 3D X515m"</item>
         <item>HTC X515d</item>
@@ -642,6 +648,18 @@
 
     <string-array name="thl100s">
         <item>S5008</item>
+    </string-array>
+
+    <string-array name="ZTE_ZMAX_PRO">
+        <item>Z981</item>
+    </string-array>
+
+    <string-array name="XAIOMI_MI5S">
+        <item>MI 5s</item>
+    </string-array>
+
+    <string-array name="Moto_G_2014">
+        <item>Moto G 2014</item>
     </string-array>
 
 

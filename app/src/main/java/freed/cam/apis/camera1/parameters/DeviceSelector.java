@@ -77,6 +77,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_VibeP1;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_VibeShot_Z90;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Lenovo_Vibe_X3;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.MotoG3;
+import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.MotoG_2k14;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.MotoG_Turbo;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Moto_X2k14;
 import freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO.Moto_X_Style_Pure_Play;
@@ -102,6 +103,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.WIKO.Wikio_Stairway;
 import freed.cam.apis.camera1.parameters.device.qualcomm.WileyFox_Swift;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi3_4;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi5;
+import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi5s;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Mi_Note_Pro;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi2;
 import freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI.Xiaomi_Redmi3;
@@ -114,6 +116,8 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ADV_IMX214;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ADV_IMX234;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_Z11;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_Z5SMINI;
+import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ZMAX_ZPRO;
+
 
 /**
  * Created by GeorgeKiarie on 6/2/2016.
@@ -265,6 +269,8 @@ public class DeviceSelector {
 
             case Moto_X2k14:
                 return new Moto_X2k14(cameraParameters,cameraUiWrapper);
+            case MOTOG_2k14:
+                return new MotoG_2k14(cameraParameters,cameraUiWrapper);
 
             case Moto_X_Style_Pure_Play:
                return new Moto_X_Style_Pure_Play(cameraParameters,cameraUiWrapper);
@@ -383,6 +389,9 @@ public class DeviceSelector {
             case XiaomiMI5:
                 return new Xiaomi_Mi5(cameraParameters,cameraUiWrapper);
 
+            case XiaomiMI5s:
+                return new Xiaomi_Mi5s(cameraParameters,cameraUiWrapper);
+
             case XiaomiMI_Note_Pro:
                return new Xiaomi_Mi_Note_Pro(cameraParameters,cameraUiWrapper);
                 
@@ -427,6 +436,9 @@ public class DeviceSelector {
 
             case ZTE_MyPrague:
                 return getDefault(cameraUiWrapper,cameraParameters);
+
+            case ZTE_ZMAX_PRO:
+                return new ZTE_ZMAX_ZPRO(cameraParameters,cameraUiWrapper);
 
             case Zoppo_8speed:
                 return new Zoppo_8speed(cameraParameters,cameraUiWrapper);
