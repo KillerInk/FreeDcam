@@ -391,6 +391,8 @@ public class AppSettingsManager {
         return settings.getBoolean(getApiSettingString(FRONTCAMERA), false);
     }
 
+    //pictureformat
+
     public static final String PICTUREFORMATSUPPORTED = "pictureformatsupported";
     public boolean isPictureFormatSupported()
     {
@@ -446,14 +448,16 @@ public class AppSettingsManager {
                     KEYS.DNG
             };
 
+    //picturesize
+
     public final static String PICTURESIZEVALUES = "picturesizevalues";
     public void setPictureSizeValues(String[] values)
     {
-        setStringArray(getApiSettingString(PICTURESIZEVALUES), values);
+        setStringArray(PICTURESIZEVALUES, values);
     }
     public String[] getPictureSizeValues()
     {
-        return getStringArray(getApiSettingString(PICTURESIZEVALUES));
+        return getStringArray(PICTURESIZEVALUES);
     }
 
     public String getPictureSize()
@@ -466,14 +470,27 @@ public class AppSettingsManager {
         setApiString(PICTURESIZE,rawPictureFormat);
     }
 
-    public final static String FOCUSMODEVALUES = "picturesizevalues";
+    public final static String PICTURESIZESUPPORTED = "picturesizesupported";
+    public boolean isPictureSizeSupported()
+    {
+        return getBoolean(PICTURESIZESUPPORTED,false);
+    }
+
+    public void setIsPictureSizeSupported(boolean supported)
+    {
+        setBoolean(PICTURESIZESUPPORTED,supported);
+    }
+
+    //focusmode
+
+    public final static String FOCUSMODEVALUES = "focusmodevalues";
     public void setFocusModeValues(String[] values)
     {
-        setStringArray(getApiSettingString(FOCUSMODEVALUES), values);
+        setStringArray(FOCUSMODEVALUES, values);
     }
     public String[] getFocusModeValues()
     {
-        return getStringArray(getApiSettingString(FOCUSMODEVALUES));
+        return getStringArray(FOCUSMODEVALUES);
     }
 
     public String getFocusmode()
@@ -484,5 +501,207 @@ public class AppSettingsManager {
     public void setFocusmode(String rawPictureFormat)
     {
         setApiString(FOCUSMODE,rawPictureFormat);
+    }
+
+    public final static String FOCUSMODESUPPORTED = "focusmodesupported";
+    public boolean isFocusModeSupported()
+    {
+        return getBoolean(FOCUSMODESUPPORTED,false);
+    }
+
+    public void setIsFocusModeSupported(boolean supported)
+    {
+        setBoolean(FOCUSMODESUPPORTED, supported);
+    }
+    //exposuremode
+
+    public final static String EXPOSUREMODEVALUES = "exposuremodevalues";
+    public void setExposureModeValues(String[] values)
+    {
+        setStringArray(EXPOSUREMODEVALUES, values);
+    }
+    public String[] getExposureModeValues()
+    {
+        return getStringArray(EXPOSUREMODEVALUES);
+    }
+
+    public String getExposuremode()
+    {
+        return getApiString(EXPOSUREMODE);
+    }
+
+    public void setExposuremode(String rawPictureFormat)
+    {
+        setApiString(EXPOSUREMODE,rawPictureFormat);
+    }
+
+    public final static String EXPOSUREMODE_KEY = "exposuremode_key";
+    public String getExposuremode_KEY()
+    {
+        return getApiString(EXPOSUREMODE_KEY);
+    }
+
+
+    public void setExposuremode_KEY(String rawPictureFormat)
+    {
+        setApiString(EXPOSUREMODE_KEY,rawPictureFormat);
+    }
+
+    public final static String EXPOSUREMODESUPPORTED = "exposuremodesupported";
+    public boolean isExposureModeSupported()
+    {
+        return getBoolean(EXPOSUREMODESUPPORTED,false);
+    }
+
+    public void setIsExposureModeSupported(boolean supported)
+    {
+        setBoolean(EXPOSUREMODESUPPORTED, supported);
+    }
+
+
+    //Whitebalance
+
+    public final static String WHITEBALANCEMODEVALUES = "whitebalancemodevalues";
+    public void setWhiteBalanceModeValues(String[] values)
+    {
+        setStringArray(WHITEBALANCEMODEVALUES, values);
+    }
+    public String[] getWhiteBalanceModeValues()
+    {
+        return getStringArray(WHITEBALANCEMODEVALUES);
+    }
+
+    public String getWhitebalancemode()
+    {
+        return getApiString(WHITEBALANCEMODE);
+    }
+
+    public void setWhitebalancemode(String rawPictureFormat)
+    {
+        setApiString(WHITEBALANCEMODE,rawPictureFormat);
+    }
+
+    public final static String WHITEBALANCEMODESUPPORTED = "whitebalancemodesupported";
+    public boolean isWhiteBalanceModeSupported()
+    {
+        return getBoolean(WHITEBALANCEMODESUPPORTED,false);
+    }
+
+    public void setIsWhiteBalanceModeSupported(boolean supported)
+    {
+        setBoolean(WHITEBALANCEMODESUPPORTED, supported);
+    }
+
+    // colormode
+
+    public final static String COLORMODEVALUES = "colormodevalues";
+    public void setColorModeValues(String[] values)
+    {
+        setStringArray(COLORMODEVALUES, values);
+    }
+    public String[] getColorModeValues()
+    {
+        return getStringArray(COLORMODEVALUES);
+    }
+
+    public String getColormode()
+    {
+        return getApiString(COLORMODE);
+    }
+
+    public void setColormode(String rawPictureFormat)
+    {
+        setApiString(COLORMODE,rawPictureFormat);
+    }
+
+    public final static String COLORMODESUPPORTED = "colormodesupported";
+    public boolean isColorModeSupported()
+    {
+        return getBoolean(COLORMODESUPPORTED,false);
+    }
+
+    public void setIsColorModeSupported(boolean supported)
+    {
+        setBoolean(COLORMODESUPPORTED, supported);
+    }
+
+
+    // flashmode
+
+    public final static String FLASHMODEVALUES = "flashmodevalues";
+    public void setFlashModeValues(String[] values)
+    {
+        setStringArray(FLASHMODEVALUES, values);
+    }
+    public String[] getFlashModeValues()
+    {
+        return getStringArray(FLASHMODEVALUES);
+    }
+
+    public String getFlashmode()
+    {
+        return getApiString(FLASHMODE);
+    }
+
+    public void setFlashmode(String rawPictureFormat)
+    {
+        setApiString(FLASHMODE,rawPictureFormat);
+    }
+
+    public final static String FLASHMODESUPPORTED = "flashmodesupported";
+    public boolean isFlashModeSupported()
+    {
+        return getBoolean(FLASHMODESUPPORTED,false);
+    }
+
+    public void setIsFlashModeSupported(boolean supported)
+    {
+        setBoolean(FLASHMODESUPPORTED, supported);
+    }
+
+
+    //isomode
+
+    public final static String ISOMODEVALUES = "isomodevalues";
+    public void setIsoModeValues(String[] values)
+    {
+        setStringArray(ISOMODEVALUES, values);
+    }
+    public String[] getIsoModeValues()
+    {
+        return getStringArray(ISOMODEVALUES);
+    }
+
+    public String getIsomode()
+    {
+        return getApiString(ISOMODE);
+    }
+
+    public void setIsomode(String rawPictureFormat)
+    {
+        setApiString(ISOMODE,rawPictureFormat);
+    }
+
+    public final static String ISOMODE_KEY = "isomode_key";
+    public String getIsomode_KEY()
+    {
+        return getApiString(ISOMODE_KEY);
+    }
+
+
+    public void setIsomode_KEY(String rawPictureFormat)
+    {
+        setApiString(ISOMODE_KEY,rawPictureFormat);
+    }
+
+    public final static String ISOMODESUPPORTED = "isomodesupported";
+    public boolean isIsoModeSupported()
+    {
+        return getBoolean(ISOMODESUPPORTED,false);
+    }
+
+    public void setIsIsoModeSupported(boolean supported)
+    {
+        setBoolean(ISOMODESUPPORTED, supported);
     }
 }

@@ -119,13 +119,61 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                     publishProgress(" RawFormat:" + getAppSettings().getRawPictureFormat());
 
                     detectPictureSizes(parameters);
-                    publishProgress("PictureSizes:" + getStringFromArray(getAppSettings().getPictureSizeValues()));
-                    publishProgress("PictureSize:" + getAppSettings().getPictureSize());
+                    if (getAppSettings().isPictureSizeSupported()) {
+                        publishProgress("PictureSizes:" + getStringFromArray(getAppSettings().getPictureSizeValues()));
+                        publishProgress("PictureSize:" + getAppSettings().getPictureSize());
+                    }
+                    else
+                        publishProgress("PictureSize not supported");
 
                     detectFocusModes(parameters);
-                    publishProgress("FocusModes:" + getStringFromArray(getAppSettings().getFocusModeValues()));
-                    publishProgress("FocusMode:" + getAppSettings().getFocusmode());
+                    if (getAppSettings().isFocusModeSupported()) {
+                        publishProgress("FocusModes:" + getStringFromArray(getAppSettings().getFocusModeValues()));
+                        publishProgress("FocusMode:" + getAppSettings().getFocusmode());
+                    }
+                    else
+                        publishProgress("Focusmode not supported");
 
+                    detectWhiteBalanceModes(parameters);
+                    if (getAppSettings().isWhiteBalanceModeSupported()) {
+                        publishProgress("WhiteBalanceModes:" + getStringFromArray(getAppSettings().getWhiteBalanceModeValues()));
+                        publishProgress("WhiteBalanceMode:" + getAppSettings().getWhitebalancemode());
+                    }
+                    else
+                        publishProgress("Whitebalance not supported");
+
+                    detectExposureModes(parameters);
+                    if (getAppSettings().isExposureModeSupported()) {
+                        publishProgress("ExposureModes:" + getStringFromArray(getAppSettings().getExposureModeValues()));
+                        publishProgress("ExposureMode:" + getAppSettings().getExposuremode());
+                    }
+                    else
+                        publishProgress("ExposureMode not supported");
+
+                    detectColorModes(parameters);
+                    if (getAppSettings().isColorModeSupported()) {
+                        publishProgress("ColorModes:" + getStringFromArray(getAppSettings().getColorModeValues()));
+                        publishProgress("ColorMode:" + getAppSettings().getColormode());
+                    }
+                    else
+                        publishProgress("ColorMode not supported");
+
+                    detectFlashModes(parameters);
+                    if (getAppSettings().isFlashModeSupported()) {
+                        publishProgress("FlashModes:" + getStringFromArray(getAppSettings().getFlashModeValues()));
+                        publishProgress("FlashMode:" + getAppSettings().getFlashmode());
+                    }
+                    else
+                        publishProgress("FlashMode not supported");
+
+
+                    detectIsoModes(parameters);
+                    if (getAppSettings().isIsoModeSupported()) {
+                        publishProgress("IsoModes:" + getStringFromArray(getAppSettings().getIsoModeValues()));
+                        publishProgress("IsoMode:" + getAppSettings().getIsomode());
+                    }
+                    else
+                        publishProgress("IsoMode not supported");
 
                     //publishProgress("\n");
                 }
@@ -284,7 +332,6 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
             }
         }
 
-
         private void detectedPictureFormats(Camera.Parameters parameters, I_Device device)
         {
             //drop raw for front camera
@@ -382,12 +429,121 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
             String[] sizes = parameters.get(KEYS.PICTURE_SIZE_VALUES).split(",");
             getAppSettings().setPictureSizeValues(sizes);
             getAppSettings().setPictureSize(parameters.get(KEYS.PICTURE_SIZE));
+            if (sizes.length > 0)
+                getAppSettings().setIsPictureSizeSupported(true);
+            else
+                getAppSettings().setIsPictureSizeSupported(false);
         }
 
         private void detectFocusModes(Camera.Parameters parameters)
         {
             getAppSettings().setFocusModeValues(parameters.get(KEYS.FOCUS_MODE_VALUES).split(","));
             getAppSettings().setFocusmode(parameters.get(KEYS.FOCUS_MODE));
+            if (getAppSettings().getFocusModeValues().length >0)
+                getAppSettings().setIsFocusModeSupported(true);
+            else
+                getAppSettings().setIsFocusModeSupported(false);
+        }
+
+        private void detectWhiteBalanceModes(Camera.Parameters parameters)
+        {
+            getAppSettings().setWhiteBalanceModeValues(parameters.get(KEYS.WHITEBALANCE_VALUES).split(","));
+            getAppSettings().setWhitebalancemode(parameters.get(KEYS.WHITEBALANCE));
+            if (getAppSettings().getWhiteBalanceModeValues().length >0)
+                getAppSettings().setIsWhiteBalanceModeSupported(true);
+            else
+                getAppSettings().setIsWhiteBalanceModeSupported(false);
+        }
+
+        private void detectExposureModes(Camera.Parameters parameters)
+        {
+            if (parameters.get("exposure-mode-values")!= null) {
+                getAppSettings().setExposuremode_KEY("exposure");
+                getAppSettings().setExposuremode(parameters.get("exposure"));
+                getAppSettings().setExposureModeValues(parameters.get("exposure-mode-values").split(","));
+            }
+            else if (parameters.get("auto-exposure-values")!= null) {
+                getAppSettings().setExposuremode_KEY("auto-exposure");
+                getAppSettings().setExposuremode(parameters.get("auto-exposure"));
+                getAppSettings().setExposureModeValues(parameters.get("auto-exposure-values").split(","));
+            }
+            else if(parameters.get("sony-metering-mode-values")!= null) {
+                getAppSettings().setExposuremode_KEY("sony-metering-mode");
+                getAppSettings().setExposuremode(parameters.get("sony-metering-mode"));
+                getAppSettings().setExposureModeValues(parameters.get("sony-metering-mode-values").split(","));
+            }
+            else if(parameters.get("exposure-meter-values")!= null) {
+                getAppSettings().setExposuremode_KEY("exposure-meter");
+                getAppSettings().setExposuremode(parameters.get("exposure-meter"));
+                getAppSettings().setExposureModeValues(parameters.get("exposure-meter-values").split(","));
+            }
+            if (!getAppSettings().getExposuremode_KEY().equals(""))
+                getAppSettings().setIsExposureModeSupported(true);
+            else
+                getAppSettings().setIsExposureModeSupported(false);
+        }
+
+        private void detectColorModes(Camera.Parameters parameters)
+        {
+            if (parameters.get(KEYS.COLOR_EFFECT_VALUES) == null)
+            {
+                getAppSettings().setIsColorModeSupported(false);
+                return;
+            }
+            getAppSettings().setColorModeValues(parameters.get(KEYS.COLOR_EFFECT_VALUES).split(","));
+            getAppSettings().setColormode(parameters.get(KEYS.COLOR_EFFECT));
+            if (getAppSettings().getColorModeValues().length >0)
+                getAppSettings().setIsColorModeSupported(true);
+            else
+                getAppSettings().setIsColorModeSupported(false);
+        }
+
+        private void detectFlashModes(Camera.Parameters parameters)
+        {
+            if (parameters.get(KEYS.FLASH_MODE_VALUES) == null)
+            {
+                getAppSettings().setIsFlashModeSupported(false);
+                return;
+            }
+            getAppSettings().setFlashModeValues(parameters.get(KEYS.FLASH_MODE_VALUES).split(","));
+            getAppSettings().setFlashmode(parameters.get(KEYS.FLASH_MODE));
+            if (getAppSettings().getFlashModeValues().length >0)
+                getAppSettings().setIsFlashModeSupported(true);
+            else
+                getAppSettings().setIsFlashModeSupported(false);
+        }
+
+        private void detectIsoModes(Camera.Parameters parameters)
+        {
+            if (parameters.get("iso-mode-values")!= null){
+                getAppSettings().setIsomode_KEY("iso");
+                getAppSettings().setIsoModeValues(parameters.get("iso-mode-values").split(","));
+                getAppSettings().setIsomode(parameters.get("iso"));
+            }
+            else if (parameters.get("iso-values")!= null) {
+                getAppSettings().setIsomode_KEY("iso");
+                getAppSettings().setIsoModeValues(parameters.get("iso-values").split(","));
+                getAppSettings().setIsomode(parameters.get("iso"));
+            }
+            else if (parameters.get("iso-speed-values")!= null) {
+                getAppSettings().setIsomode_KEY("iso-speed");
+                getAppSettings().setIsoModeValues(parameters.get("iso-speed-values").split(","));
+                getAppSettings().setIsomode(parameters.get("iso-speed"));
+            }
+            else if (parameters.get("sony-iso-values")!= null) {
+                getAppSettings().setIsomode_KEY("sony-iso");
+                getAppSettings().setIsoModeValues(parameters.get("sony-iso-values").split(","));
+                getAppSettings().setIsomode(parameters.get("sony-iso"));
+            }
+            else if (parameters.get("lg-iso-values")!= null) {
+                getAppSettings().setIsomode_KEY("iso");
+                getAppSettings().setIsoModeValues(parameters.get("lg-iso-values").split(","));
+                getAppSettings().setIsomode(parameters.get("iso"));
+            }
+            if (getAppSettings().getIsoModeValues().length >1)
+                getAppSettings().setIsIsoModeSupported(true);
+            else
+                getAppSettings().setIsIsoModeSupported(false);
         }
     }
 

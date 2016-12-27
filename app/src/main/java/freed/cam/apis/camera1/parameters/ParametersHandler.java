@@ -115,12 +115,27 @@ public class ParametersHandler extends AbstractParameterHandler
         // register their listners there if its postprocessing parameter
         PictureFormat = new PictureFormatHandler(cameraParameters, cameraUiWrapper, this);
         cameraUiWrapper.GetModuleHandler().addListner((ModuleChangedEvent) PictureFormat);
+        if (cameraUiWrapper.GetAppSettingsManager().isPictureSizeSupported())
+            PictureSize = new PictureSizeParameter(cameraParameters, cameraUiWrapper);
+        if (cameraUiWrapper.GetAppSettingsManager().isFocusModeSupported()) {
+            FocusMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.FOCUS_MODE, cameraUiWrapper.GetAppSettingsManager().getFocusModeValues());
+            FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
+        }
 
-        PictureSize = new PictureSizeParameter(cameraParameters, cameraUiWrapper);
+        if (cameraUiWrapper.GetAppSettingsManager().isWhiteBalanceModeSupported())
+            WhiteBalanceMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.WHITEBALANCE, cameraUiWrapper.GetAppSettingsManager().getWhiteBalanceModeValues());
 
-        FocusMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,KEYS.FOCUS_MODE,cameraUiWrapper.GetAppSettingsManager().getFocusModeValues());
-        FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
+        if (cameraUiWrapper.GetAppSettingsManager().isExposureModeSupported())
+            ExposureMode = new BaseModeParameter(cameraParameters,cameraUiWrapper, cameraUiWrapper.GetAppSettingsManager().getExposuremode_KEY(), cameraUiWrapper.GetAppSettingsManager().getExposureModeValues());
 
+        if (cameraUiWrapper.GetAppSettingsManager().isColorModeSupported())
+            ColorMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,KEYS.COLOR_EFFECT, cameraUiWrapper.GetAppSettingsManager().getColorModeValues());
+
+        if (cameraUiWrapper.GetAppSettingsManager().isFlashModeSupported())
+            ColorMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,KEYS.FLASH_MODE, cameraUiWrapper.GetAppSettingsManager().getFlashModeValues());
+
+        if (cameraUiWrapper.GetAppSettingsManager().isIsoModeSupported())
+            IsoMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().getIsomode_KEY(), cameraUiWrapper.GetAppSettingsManager().getIsoModeValues());
 
         locationParameter = new LocationParameter(cameraUiWrapper);
 
@@ -135,15 +150,6 @@ public class ParametersHandler extends AbstractParameterHandler
 
 
         //createManualSaturation();
-
-
-
-        try {
-            WhiteBalanceMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.WHITEBALANCE, KEYS.WHITEBALANCE_VALUES);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            WhiteBalanceMode = null;
-        }
 
         try {
             FX = new FXManualParameter(cameraParameters, cameraUiWrapper);
@@ -169,24 +175,6 @@ public class ParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
             Zoom = null;
         }
-
-        try {
-            ColorMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.COLOR_EFFECT, KEYS.COLOR_EFFECT_VALUES);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            ColorMode = null;
-        }
-
-        createExposureMode();
-
-        try {
-            FlashMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,KEYS.FLASH_MODE,KEYS.FLASH_MODE_VALUES);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            FlashMode = null;
-        }
-
-        createIsoMode();
 
         try {
             AntiBandingMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.ANTIBANDING, KEYS.ANTIBANDING_VALUES);
@@ -416,44 +404,6 @@ public class ParametersHandler extends AbstractParameterHandler
 
         cameraUiWrapper.GetModuleHandler().SetModule(appSettingsManager.GetCurrentModule());
     }
-
-    private void createExposureMode() {
-        try
-        {
-            if (cameraParameters.get("exposure-mode-values")!= null)
-                ExposureMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,"exposure","exposure-mode-values");
-            else if (cameraParameters.get("auto-exposure-values")!= null)
-                ExposureMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,"auto-exposure","auto-exposure-values");
-            else if(cameraParameters.get("sony-metering-mode-values")!= null)
-                ExposureMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,"sony-metering-mode","sony-metering-mode-values");
-            else if(cameraParameters.get("exposure-meter-values")!= null)
-                ExposureMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,"exposure-meter","exposure-meter-values");
-            if (ExposureMode != null)
-                ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            ExposureMode = null;
-        }
-    }
-
-    private void createIsoMode() {
-        try {
-            if (cameraParameters.get("iso-mode-values")!= null)
-                IsoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,"iso","iso-mode-values");
-            else if (cameraParameters.get("iso-values")!= null)
-                IsoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,"iso","iso-values");
-            else if (cameraParameters.get("iso-speed-values")!= null)
-                IsoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,"iso-speed","iso-speed-values");
-            else if (cameraParameters.get("sony-iso-values")!= null)
-                IsoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,"sony-iso","sony-iso-values");
-            else if (cameraParameters.get("lg-iso-values")!= null)
-                IsoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,"iso","lg-iso-values");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            IsoMode = null;
-        }
-    }
-
 
     private void createHighFrameRate() {
         try {
