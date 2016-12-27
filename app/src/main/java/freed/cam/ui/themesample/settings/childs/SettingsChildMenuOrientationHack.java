@@ -46,9 +46,9 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (fragment_activityInterface.getAppSettings().getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
-            fragment_activityInterface.getAppSettings().setString(AppSettingsManager.SETTING_OrientationHack, KEYS.OFF);
-        if (fragment_activityInterface.getAppSettings().getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+        if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(""))
+            fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_OrientationHack, KEYS.OFF);
+        if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
             onParameterValueChanged(KEYS.ON);
         else
             onParameterValueChanged(KEYS.OFF);
@@ -62,7 +62,7 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        fragment_activityInterface.getAppSettings().setString(AppSettingsManager.SETTING_OrientationHack, value);
+        fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_OrientationHack, value);
         if (cameraUiWrapper instanceof Camera1Fragment) {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetCameraRotation();
             cameraUiWrapper.GetParameterHandler().SetPictureOrientation(0);

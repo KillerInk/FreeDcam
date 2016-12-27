@@ -65,13 +65,13 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 
 
         parameters.set("capture-burst-exposures",
-                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB1)+","+
-                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB2)+","+
-                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB3)+","+
-                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB4)+","+
-                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB5)+","+
-                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB6)+","+
-                        appSettingsManager.getString(AppSettingsManager.SETTING_AEB7)
+                        appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB1)+","+
+                        appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB2)+","+
+                        appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB3)+","+
+                        appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB4)+","+
+                        appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB5)+","+
+                        appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB6)+","+
+                        appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB7)
                 );
         try {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);

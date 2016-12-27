@@ -29,6 +29,7 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.modes.PictureFormatHandler;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 17.08.2014.
@@ -171,7 +172,7 @@ public class BaseManualParameter extends AbstractManualParameter
         @Override
         public void onParameterValueChanged(String val)
         {
-           if (val.equals(PictureFormatHandler.CaptureMode[PictureFormatHandler.JPEG]) && isSupported)
+           if (val.equals(AppSettingsManager.CaptureMode[AppSettingsManager.JPEG]) && isSupported)
            {
                isVisible = true;
                ThrowBackgroundIsSupportedChanged(true);

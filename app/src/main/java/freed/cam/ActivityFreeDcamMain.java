@@ -149,7 +149,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = true;
         if (screenSlideFragment != null)
             screenSlideFragment.NotifyDATAhasChanged();
-        if (getAppSettings().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON) && hasLocationPermission())
+        if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON) && hasLocationPermission())
             locationHandler.startLocationListing();
         SetNightOverlay();
     }
@@ -241,11 +241,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             Log.d(TAG, "KeyCode Pressed:" + keyCode);
             int appSettingsKeyShutter = 0;
 
-            if (getAppSettings().getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
+            if (getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
-            else if (getAppSettings().getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
+            else if (getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-            else if (getAppSettings().getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || getAppSettings().getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
+            else if (getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
 
             if (keyCode == KeyEvent.KEYCODE_3D_MODE

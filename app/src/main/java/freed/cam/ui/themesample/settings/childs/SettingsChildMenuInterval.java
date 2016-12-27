@@ -57,7 +57,7 @@ public class SettingsChildMenuInterval extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        fragment_activityInterface.getAppSettings().setString(AppSettingsManager.SETTING_INTERVAL,  value);
+        fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_INTERVAL,  value);
         onParameterValueChanged(value);
         parameter.SetValue(value,true);
     }

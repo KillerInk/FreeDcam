@@ -94,7 +94,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
 
     @Override
     public void onParameterValueChanged(String val) {
-        if(fragment_activityInterface.getAppSettings().getString(AppSettingsManager.SETTING_HORIZONT).equals("On"))
+        if(fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("On"))
         {
             startSensorListing();
             view.setVisibility(View.VISIBLE);
@@ -130,7 +130,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     }
     private void startSensorListing()
     {
-        if (fragment_activityInterface.getAppSettings().getString(AppSettingsManager.SETTING_HORIZONT).equals("On")) {
+        if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("On")) {
             sensorManager.registerListener(msl, accelerometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
             sensorManager.registerListener(msl, magnetometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
         }
@@ -150,7 +150,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     @Override
     public void onResume(){
         super.onResume();
-        if (fragment_activityInterface.getAppSettings().getString(AppSettingsManager.SETTING_HORIZONT).equals("Off") || fragment_activityInterface.getAppSettings().getString(AppSettingsManager.SETTING_HORIZONT).equals(""))
+        if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("Off") || fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT).equals(""))
             view.setVisibility(View.GONE);
         else
             startSensorListing();

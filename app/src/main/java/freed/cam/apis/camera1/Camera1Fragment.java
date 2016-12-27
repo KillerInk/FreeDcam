@@ -351,7 +351,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height,false);
 
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
-                if (appSettingsManager.getString(AppSettingsManager.VIDEOPROFILE).contains("4k") &&parametersHandler.PreviewSize.GetValues().toString().contains("3840x"))
+                if (appSettingsManager.getApiString(AppSettingsManager.VIDEOPROFILE).contains("4k") &&parametersHandler.PreviewSize.GetValues().toString().contains("3840x"))
                 {
                     parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                     uiHandler.post(new Runnable() {

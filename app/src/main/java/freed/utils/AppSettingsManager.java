@@ -30,6 +30,8 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.utils.DeviceUtils.Devices;
 
+import static freed.cam.apis.KEYS.BAYER;
+
 
 /**
  * Created by troop on 19.08.2014.
@@ -283,15 +285,15 @@ public class AppSettingsManager {
         return TextUtils.isEmpty(t) ? "" : t;
     }
 
-    public String getString(String valueToGet, String defaultValue) {
+    public String getApiString(String valueToGet, String defaultValue) {
         return settings.getString(getApiSettingString(valueToGet), defaultValue);
     }
 
-    public String getString(String valueToGet) {
+    public String getApiString(String valueToGet) {
         return settings.getString(getApiSettingString(valueToGet),"");
     }
 
-    public void setString(String settingsName, String Value) {
+    public void setApiString(String settingsName, String Value) {
         putString(getApiSettingString(settingsName), Value);
     }
 
@@ -304,7 +306,7 @@ public class AppSettingsManager {
 
     public String[] getStringArray(String settingsname)
     {
-        return getString(settingsname).split(",");
+        return getApiString(settingsname).split(",");
     }
 
     public boolean getBoolean(String settings_key, boolean defaultValue)
@@ -370,7 +372,7 @@ public class AppSettingsManager {
     public static final String CANOPENLEGACY ="canopenlegacy";
     public void setCanOpenLegacy(boolean canopen)
     {
-        settings.edit().putBoolean(CANOPENLEGACY, canopen);
+        settings.edit().putBoolean(CANOPENLEGACY, canopen).commit();
     }
 
     public boolean getCanOpenLegacy()
@@ -381,7 +383,7 @@ public class AppSettingsManager {
     public static final String FRONTCAMERA ="frontcamera";
     public void setIsFrontCamera(boolean isFront)
     {
-        settings.edit().putBoolean(getApiSettingString(FRONTCAMERA), isFront);
+        settings.edit().putBoolean(getApiSettingString(FRONTCAMERA), isFront).commit();
     }
 
     public boolean getIsFrontCamera()
@@ -399,5 +401,88 @@ public class AppSettingsManager {
     public boolean isRawPictureFormatSupported()
     {
         return settings.getBoolean(getApiSettingString(RAWPICTUREFORMATSUPPORTED), false);
+    }
+
+    public final static String RAWPICTUREFORMAT = "rawpictureformat";
+    public String getRawPictureFormat()
+    {
+        return getApiString(RAWPICTUREFORMAT);
+    }
+
+    public void setRawPictureFormat(String rawPictureFormat)
+    {
+        setApiString(RAWPICTUREFORMAT,rawPictureFormat);
+    }
+
+    public final static String RAWPICTUREFORMATVALUES = "rawpictureformatvalues";
+    public void setRawPictureFormatValues(String[] values)
+    {
+        setStringArray(getApiSettingString(RAWPICTUREFORMATVALUES), values);
+    }
+    public String[] getRawPictureFormatValues()
+    {
+        return getStringArray(getApiSettingString(RAWPICTUREFORMATVALUES));
+    }
+
+    public final static String PICTUREFORMATVALUES = "pictureformatvalues";
+    public void setPictureFormatValues(String[] values)
+    {
+        setStringArray(getApiSettingString(PICTUREFORMATVALUES), values);
+    }
+    public String[] getPictureFormatValues()
+    {
+        return getStringArray(getApiSettingString(PICTUREFORMATVALUES));
+    }
+
+
+    public static final int JPEG= 0;
+    public static final int RAW = 1;
+    public static final int DNG = 2;
+
+    public static final String[] CaptureMode =
+            {
+                    KEYS.JPEG,
+                    BAYER,
+                    KEYS.DNG
+            };
+
+    public final static String PICTURESIZEVALUES = "picturesizevalues";
+    public void setPictureSizeValues(String[] values)
+    {
+        setStringArray(getApiSettingString(PICTURESIZEVALUES), values);
+    }
+    public String[] getPictureSizeValues()
+    {
+        return getStringArray(getApiSettingString(PICTURESIZEVALUES));
+    }
+
+    public String getPictureSize()
+    {
+        return getApiString(PICTURESIZE);
+    }
+
+    public void setPictureSize(String rawPictureFormat)
+    {
+        setApiString(PICTURESIZE,rawPictureFormat);
+    }
+
+    public final static String FOCUSMODEVALUES = "picturesizevalues";
+    public void setFocusModeValues(String[] values)
+    {
+        setStringArray(getApiSettingString(FOCUSMODEVALUES), values);
+    }
+    public String[] getFocusModeValues()
+    {
+        return getStringArray(getApiSettingString(FOCUSMODEVALUES));
+    }
+
+    public String getFocusmode()
+    {
+        return getApiString(FOCUSMODE);
+    }
+
+    public void setFocusmode(String rawPictureFormat)
+    {
+        setApiString(FOCUSMODE,rawPictureFormat);
     }
 }

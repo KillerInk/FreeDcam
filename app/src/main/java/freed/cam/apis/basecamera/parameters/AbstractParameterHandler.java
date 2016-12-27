@@ -275,15 +275,15 @@ public abstract class AbstractParameterHandler
         if (parameter != null && parameter.IsSupported() && settings_key != null && !settings_key.equals(""))
         {
             Log.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
-            if (appSettingsManager.getString(settings_key).equals("") || appSettingsManager.getString(settings_key) == null)
+            if (appSettingsManager.getApiString(settings_key).equals("") || appSettingsManager.getApiString(settings_key) == null)
             {
                 String tmp = parameter.GetValue();
                 Log.d(TAG, settings_key + " is empty, set default from camera : " +tmp);
-                appSettingsManager.setString(settings_key, tmp);
+                appSettingsManager.setApiString(settings_key, tmp);
             }
             else
             {
-                String tmp = appSettingsManager.getString(settings_key);
+                String tmp = appSettingsManager.getApiString(settings_key);
                 Log.d(TAG, "Found AppSetting: "+settings_key+" set to: " + tmp);
                 parameter.SetValue(tmp, false);
             }
@@ -295,16 +295,16 @@ public abstract class AbstractParameterHandler
         if (parameter != null && parameter.IsSupported() && settings_key != null && !settings_key.equals(""))
         {
             Log.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
-            if (appSettingsManager.getString(settings_key).equals("") || appSettingsManager.getString(settings_key).equals(null))
+            if (appSettingsManager.getApiString(settings_key).equals("") || appSettingsManager.getApiString(settings_key).equals(null))
             {
                 String tmp = parameter.GetValue()+"";
                 Log.d(TAG, settings_key + " is empty, set default from camera : " +tmp);
-                appSettingsManager.setString(settings_key, tmp);
+                appSettingsManager.setApiString(settings_key, tmp);
             }
             else
             {
                 try {
-                    int tmp = Integer.parseInt(appSettingsManager.getString(settings_key));
+                    int tmp = Integer.parseInt(appSettingsManager.getApiString(settings_key));
                     Log.d(TAG, "Found AppSetting: "+settings_key+" set to: " + tmp);
                     parameter.SetValue(tmp);
                 }

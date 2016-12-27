@@ -143,7 +143,7 @@ public class VideoProfileEditorFragment extends Fragment {
         appSettingsManager.getCamApi();
         videoMediaProfiles = appSettingsManager.getMediaProfiles();
         try {
-            setMediaProfile(videoMediaProfiles.get(appSettingsManager.getString(AppSettingsManager.VIDEOPROFILE)));
+            setMediaProfile(videoMediaProfiles.get(appSettingsManager.getApiString(AppSettingsManager.VIDEOPROFILE)));
         }
         catch (NullPointerException ex)
         {

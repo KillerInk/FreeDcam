@@ -78,7 +78,7 @@ public class BasePictureModule extends ModuleAbstract {
         double Longitude = 0;
         String Provider = "ASCII";
         long gpsTime = 0;
-        if (activityInterface.getAppSettings().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+        if (activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
         {
             if (activityInterface.getLocationHandler().getCurrentLocation() != null)
             {

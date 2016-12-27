@@ -57,7 +57,7 @@ public class VideoModule extends AbstractVideoModule
         recorder = new MediaRecorder();
         recorder.reset();
         recorder.setCamera(((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera());
-        if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON)){
+        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON)){
             Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
             if (location != null)
                 recorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
@@ -109,10 +109,10 @@ public class VideoModule extends AbstractVideoModule
                 break;
             case Timelapse:
                 float frame = 60;
-                if(!appSettingsManager.getString(AppSettingsManager.TIMELAPSEFRAME).equals(""))
-                    frame = Float.parseFloat(appSettingsManager.getString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
+                if(!appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME).equals(""))
+                    frame = Float.parseFloat(appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
                 else
-                    appSettingsManager.setString(AppSettingsManager.TIMELAPSEFRAME, ""+frame);
+                    appSettingsManager.setApiString(AppSettingsManager.TIMELAPSEFRAME, ""+frame);
                 recorder.setCaptureRate(frame);
                 break;
         }
@@ -126,7 +126,7 @@ public class VideoModule extends AbstractVideoModule
     {
         super.InitModule();
         if (cameraUiWrapper.GetParameterHandler().VideoHDR != null)
-            if(appSettingsManager.getString(AppSettingsManager.VIDEOHDR).equals("on") && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported())
+            if(appSettingsManager.getApiString(AppSettingsManager.VIDEOHDR).equals("on") && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported())
                 cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("on", true);
         loadProfileSpecificParameters();
     }
@@ -144,7 +144,7 @@ public class VideoModule extends AbstractVideoModule
     {
 
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
-        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.VIDEOPROFILE));
+        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getApiString(AppSettingsManager.VIDEOPROFILE));
         if (currentProfile.Mode == VideoMode.Highspeed)
         {
             if(appSettingsManager.getDevice() == Devices.Htc_M8 ||appSettingsManager.getDevice() == Devices.Htc_M9||appSettingsManager.getDevice() == Devices.HTC_OneA9||appSettingsManager.getDevice() == Devices.HTC_OneE8 ) {

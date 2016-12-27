@@ -47,6 +47,9 @@ public final class KEYS {
 
     public static final String JPEG_QUALITY = "jpeg-quality";
 
+    public static final String PICTURE_SIZE = "picture-size";
+    public static final String PICTURE_SIZE_VALUES = "picture-size-values";
+
     public static final String ISO100 = "ISO100";
     public static final String ISO_MANUAL = "manual";
     public static final String CUR_ISO  = "cur-iso";

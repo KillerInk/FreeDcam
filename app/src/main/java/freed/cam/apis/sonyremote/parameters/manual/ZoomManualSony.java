@@ -76,7 +76,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                         JSONObject object = mRemoteApi.getEvent(false, "1.0");
                         JSONArray array = object.getJSONArray("result");
                         JSONObject zoom = array.getJSONObject(2);
-                        String zoompos = zoom.getString("zoomPosition");
+                        String zoompos = zoom.getApiString("zoomPosition");
                         currentInt = Integer.parseInt(zoompos);
                     } catch (IOException | JSONException e) {
                         Log.exception(e);

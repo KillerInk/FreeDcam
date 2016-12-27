@@ -117,6 +117,7 @@ import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ADV_IMX234;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_Z11;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_Z5SMINI;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ZTE.ZTE_ZMAX_ZPRO;
+import freed.utils.AppSettingsManager;
 
 
 /**
@@ -130,10 +131,10 @@ public class DeviceSelector {
     }
 
 
-    public AbstractDevice getDevice(CameraWrapperInterface cameraUiWrapper, Parameters cameraParameters)
+    public AbstractDevice getDevice(CameraWrapperInterface cameraUiWrapper, Parameters cameraParameters, AppSettingsManager appSettingsManager)
     {
-        Log.d(DeviceSelector.class.getSimpleName(), "getDevice " + cameraUiWrapper.GetAppSettingsManager().getDevice());
-        switch (cameraUiWrapper.GetAppSettingsManager().getDevice())
+        Log.d(DeviceSelector.class.getSimpleName(), "getDevice " + appSettingsManager.getDevice());
+        switch (appSettingsManager.getDevice())
         {
            case UNKNOWN:
                return getDefault(cameraUiWrapper,cameraParameters);

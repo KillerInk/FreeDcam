@@ -116,7 +116,7 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
         {
             ex.printStackTrace();
         }
-        appSettingsManager.setString(settingsname, current + "");
+        appSettingsManager.setApiString(settingsname, current + "");
         if (current >= 1)
             editText.setText(current + " fps");
         else
@@ -126,7 +126,7 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
     public void SetStuff(AppSettingsManager appSettingsManager) {
         settingsname = AppSettingsManager.TIMELAPSEFRAME;
         this.appSettingsManager = appSettingsManager;
-        String fps = appSettingsManager.getString(settingsname);
+        String fps = appSettingsManager.getApiString(settingsname);
         if (fps == null || fps.equals(""))
             fps = "30";
 

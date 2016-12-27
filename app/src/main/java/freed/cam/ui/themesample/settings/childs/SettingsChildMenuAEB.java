@@ -115,7 +115,7 @@ public class SettingsChildMenuAEB extends LinearLayout {
 
     private void setCurrent(int current) {
         String tempcurrent = String.valueOf(current);
-        appSettingsManager.setString(settingsname, tempcurrent);
+        appSettingsManager.setApiString(settingsname, tempcurrent);
         if (cameraUiWrapper != null && cameraUiWrapper.GetParameterHandler() != null && cameraUiWrapper.GetParameterHandler().captureBurstExposures != null) {
             if (cameraUiWrapper.GetParameterHandler().captureBurstExposures.IsSupported()) {
                 cameraUiWrapper.GetParameterHandler().captureBurstExposures.SetValue("on", true);
@@ -134,7 +134,7 @@ public class SettingsChildMenuAEB extends LinearLayout {
         this.appSettingsManager = appSettingsManager;
         String exp="";
         if (appSettingsManager != null)
-        exp = appSettingsManager.getString(settingsname);
+        exp = appSettingsManager.getApiString(settingsname);
         if (exp == null || exp.equals("")) {
             exp = "0";
             current = Integer.parseInt(exp);

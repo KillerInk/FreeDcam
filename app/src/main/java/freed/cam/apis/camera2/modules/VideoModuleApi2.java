@@ -94,7 +94,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         Log.d(TAG, "InitModule");
         super.InitModule();
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.VideoProfiles;
-        currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.VIDEOPROFILE));
+        currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.getApiString(AppSettingsManager.VIDEOPROFILE));
         startPreview();
     }
 
@@ -207,7 +207,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             }
         });
 
-        if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON)){
+        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON)){
             Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
             if (location != null)
                 mediaRecorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
@@ -285,10 +285,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
                 break;
             case Timelapse:
                 float frame = 30;
-                if (!appSettingsManager.getString(AppSettingsManager.TIMELAPSEFRAME).equals(""))
-                    frame = Float.parseFloat(appSettingsManager.getString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
+                if (!appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME).equals(""))
+                    frame = Float.parseFloat(appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
                 else
-                    appSettingsManager.setString(AppSettingsManager.TIMELAPSEFRAME, "" + frame);
+                    appSettingsManager.setApiString(AppSettingsManager.TIMELAPSEFRAME, "" + frame);
                 mediaRecorder.setCaptureRate(frame);
                 break;
         }

@@ -883,7 +883,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                // if(bufferRect.width() <= viewRect.width())
                     matrix.setRectToRect(bufferRect, viewRect, ScaleToFit.FILL);
 
-                if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+                if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
                     matrix.preRotate(orientationWithHack, centerX, centerY);
                 else
                     matrix.preRotate(orientation, centerX, centerY);
@@ -891,7 +891,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             else
             {
                 matrix.setRectToRect(viewRect, viewRect, ScaleToFit.FILL);
-                if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+                if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
                     matrix.postRotate(orientationWithHack, centerX, centerY);
                 else
                     matrix.postRotate(orientation, centerX, centerY);

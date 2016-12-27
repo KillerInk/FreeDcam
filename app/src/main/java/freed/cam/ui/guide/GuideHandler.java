@@ -62,7 +62,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
         cameraUiWrapper.GetParameterHandler().GuideList.addEventListner(this);
         Log.d(TAG, "setCameraUiWrapper SetViewG()");
         if (img != null)
-            SetViewG(cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.GUIDE));
+            SetViewG(cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.GUIDE));
     }
 
     private void SetViewG(final String str)
@@ -210,7 +210,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
         @Override
         public void onParameterValueChanged(String val) {
             Log.d(TAG, "I_ModeParameterEvent SetViewG()");
-            String img = appSettingsManager.getString(AppSettingsManager.GUIDE);
+            String img = appSettingsManager.getApiString(AppSettingsManager.GUIDE);
             if (val != null && !val.equals("")&& img != null && !img.equals("") && !img.equals("None")) {
                 String[] size = val.split("x");
                 quckRationMath = Float.valueOf(size[0]) / Float.valueOf(size[1]);

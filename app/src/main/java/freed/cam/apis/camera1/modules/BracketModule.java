@@ -60,7 +60,7 @@ public class BracketModule extends PictureModule
         mBackgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
                 files = new File[7];
                 hdrCount = 0;
@@ -104,19 +104,19 @@ public class BracketModule extends PictureModule
     {
         int value = 0;
         if (hdrCount == 0) {
-            value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB1));
+            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB1));
         } else if (hdrCount == 1)
-            value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB2));
+            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB2));
         else if (hdrCount == 2)
-            value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB3));
+            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB3));
         else if (hdrCount == 3)
-            value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB4));
+            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB4));
         else if (hdrCount == 4)
-            value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB5));
+            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB5));
         else if (hdrCount == 5)
-            value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB6));
+            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB6));
         else if (hdrCount == 6)
-            value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB7));
+            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB7));
         else if (hdrCount == 7)
             value = 0;
 

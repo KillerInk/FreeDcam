@@ -168,7 +168,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void run() {
             isWorking = true;
-            Log.d(TAG, appSettingsManager.getString(AppSettingsManager.PICTUREFORMAT));
+            Log.d(TAG, appSettingsManager.getApiString(AppSettingsManager.PICTUREFORMAT));
             Log.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
             // This is the CaptureRequest.Builder that we use to take a picture.
             try {
@@ -281,7 +281,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             catch (NullPointerException ex)
             {ex.printStackTrace();}
             try {
-                if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                if (appSettingsManager.getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
                 captureBuilder.set(CaptureRequest.JPEG_GPS_LOCATION, cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
             }
             catch (NullPointerException ex)
@@ -619,7 +619,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             ex.printStackTrace();
         }
 
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
             dngCreator.setLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         try
         {
@@ -708,7 +708,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         float[] reduction1 = null;
         float[] reduction2 = null;
         double[]finalnoise = null;
-        String cmat = appSettingsManager.getString(AppSettingsManager.CUSTOMMATRIX);
+        String cmat = appSettingsManager.getApiString(AppSettingsManager.CUSTOMMATRIX);
         if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
             CustomMatrix mat  = ((MatrixChooserParameter) parameterHandler.matrixChooser).GetCustomMatrix(cmat);
             color1 = mat.ColorMatrix1;
@@ -824,15 +824,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview() {
 
-        picSize = appSettingsManager.getString(AppSettingsManager.PICTURESIZE);
+        picSize = appSettingsManager.getApiString(AppSettingsManager.PICTURESIZE);
         Log.d(TAG, "Start Preview");
         largestImageSize = Collections.max(
                 Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new CompareSizesByArea());
-        picFormat = appSettingsManager.getString(AppSettingsManager.PICTUREFORMAT);
+        picFormat = appSettingsManager.getApiString(AppSettingsManager.PICTUREFORMAT);
         if (picFormat.equals("")) {
             picFormat = KEYS.JPEG;
-            appSettingsManager.setString(AppSettingsManager.PICTUREFORMAT, KEYS.JPEG);
+            appSettingsManager.setApiString(AppSettingsManager.PICTUREFORMAT, KEYS.JPEG);
             parameterHandler.PictureFormat.onValueHasChanged(KEYS.JPEG);
 
         }
@@ -871,7 +871,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         int orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation)%360;
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
             orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation+180)%360;
         cameraHolder.SetParameter(CaptureRequest.JPEG_ORIENTATION, orientationToSet);
 

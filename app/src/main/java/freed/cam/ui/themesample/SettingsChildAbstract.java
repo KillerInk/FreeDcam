@@ -112,7 +112,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         if (parameter != null && parameter.IsSupported())
         {
             if (key_appsettings != null && !key_appsettings.equals(""))
-                fragment_activityInterface.getAppSettings().setString(key_appsettings, value);
+                fragment_activityInterface.getAppSettings().setApiString(key_appsettings, value);
             try {
                 parameter.SetValue(value, true);
             }

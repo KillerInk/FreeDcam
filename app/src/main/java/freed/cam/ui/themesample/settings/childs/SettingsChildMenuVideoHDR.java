@@ -50,7 +50,7 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
         if (parameter != null && parameter.IsSupported() &&  cameraWrapperInterface.GetModuleHandler().GetCurrentModule() != null)
         {
             if (key_appsettings != null && !key_appsettings.equals(""))
-                fragment_activityInterface.getAppSettings().setString(key_appsettings, value);
+                fragment_activityInterface.getAppSettings().setApiString(key_appsettings, value);
             if (cameraWrapperInterface.GetModuleHandler().GetCurrentModule().ModuleName().equals(KEYS.MODULE_VIDEO))
                 parameter.SetValue(value, true);
             onParameterValueChanged(value);

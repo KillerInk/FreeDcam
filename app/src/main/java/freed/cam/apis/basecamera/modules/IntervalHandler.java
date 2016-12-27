@@ -164,7 +164,7 @@ class IntervalHandler
 
     public void StartShutterTime()
     {
-        String shutterdelay = appSettingsManager.getString(AppSettingsManager.SETTING_TIMER);
+        String shutterdelay = appSettingsManager.getApiString(AppSettingsManager.SETTING_TIMER);
         try {
             if (shutterdelay.equals(""))
                 shutterdelay = "0 sec";

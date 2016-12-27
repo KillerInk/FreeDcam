@@ -49,7 +49,7 @@ public class SettingsChildMenuTimer extends SettingsChildMenu
     @Override
     public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue) {
         super.SetStuff(fragment_activityInterface, settingvalue);
-        //onParameterValueChanged(appSettingsManager.getString(AppSettingsManager.SETTING_TIMER));
+        //onParameterValueChanged(appSettingsManager.getApiString(AppSettingsManager.SETTING_TIMER));
     }
 
     @Override
@@ -61,7 +61,7 @@ public class SettingsChildMenuTimer extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        fragment_activityInterface.getAppSettings().setString(AppSettingsManager.SETTING_TIMER, value);
+        fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_TIMER, value);
         onParameterValueChanged(value);
     }
 }

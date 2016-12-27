@@ -113,28 +113,14 @@ public class ParametersHandler extends AbstractParameterHandler
 
         //setup first Pictureformat its needed for manual parameters to
         // register their listners there if its postprocessing parameter
-        try {
-            PictureFormat = new PictureFormatHandler(cameraParameters, cameraUiWrapper, this);
-            cameraUiWrapper.GetModuleHandler().addListner((ModuleChangedEvent) PictureFormat);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            PictureFormat = null;
-        }
+        PictureFormat = new PictureFormatHandler(cameraParameters, cameraUiWrapper, this);
+        cameraUiWrapper.GetModuleHandler().addListner((ModuleChangedEvent) PictureFormat);
 
-        try {
-            PictureSize = new PictureSizeParameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            PictureSize = null;
-        }
+        PictureSize = new PictureSizeParameter(cameraParameters, cameraUiWrapper);
 
-        try {
-            FocusMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,KEYS.FOCUS_MODE,KEYS.FOCUS_MODE_VALUES);
-            FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            FocusMode = null;
-        }
+        FocusMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,KEYS.FOCUS_MODE,cameraUiWrapper.GetAppSettingsManager().getFocusModeValues());
+        FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
+
 
         locationParameter = new LocationParameter(cameraUiWrapper);
 
@@ -388,7 +374,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         //load device specific stuff
-        Device = new DeviceSelector().getDevice(cameraUiWrapper, cameraParameters);
+        Device = new DeviceSelector().getDevice(cameraUiWrapper, cameraParameters, appSettingsManager);
 
         if (Device == null)
         {
@@ -583,7 +569,7 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
         {
             int or = orientation +180;
             if (or >360)
@@ -610,11 +596,11 @@ public class ParametersHandler extends AbstractParameterHandler
 
     public void SetCameraRotation()
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
+        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(""))
         {
-            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack , KEYS.OFF);
+            appSettingsManager.setApiString(AppSettingsManager.SETTING_OrientationHack , KEYS.OFF);
         }
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.OFF))
+        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.OFF))
             ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraRotation(0);
         else
             ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraRotation(180);

@@ -45,15 +45,15 @@ public class ParameterExternalShutter extends AbstractModeParameter
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        appSettingsManager.setString(AppSettingsManager.SETTING_EXTERNALSHUTTER, valueToSet);
+        appSettingsManager.setApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER, valueToSet);
     }
 
     public String GetValue()
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
+        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
             return "Hook";
         else
-            return appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER);
+            return appSettingsManager.getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER);
     }
 
     public String[] GetValues() {

@@ -50,6 +50,8 @@ public class LG_G2 extends AbstractDevice
 
     public LG_G2(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
+        if (cameraHolder == null)
+            return;
         if (cameraHolder.DeviceFrameWork == Frameworks.LG)
             parameters.set("lge-camera","1");
     }

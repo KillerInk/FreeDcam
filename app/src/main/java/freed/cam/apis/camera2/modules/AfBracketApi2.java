@@ -84,8 +84,8 @@ public class AfBracketApi2 extends PictureModuleApi2
         currentFileCount = 0;
         int max  = 0;
         try {
-            min = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AFBRACKETMIN));
-            max = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AFBRACKETMAX));
+            min = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AFBRACKETMIN));
+            max = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AFBRACKETMAX));
         }
         catch (NumberFormatException ex)
         {

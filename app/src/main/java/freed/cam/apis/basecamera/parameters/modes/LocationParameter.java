@@ -48,9 +48,9 @@ public class LocationParameter extends AbstractModeParameter
     {
         if (cameraUiWrapper == null ||cameraUiWrapper.GetAppSettingsManager() == null)
             return KEYS.OFF;
-        if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(""))
-            cameraUiWrapper.GetAppSettingsManager().setString(AppSettingsManager.SETTING_LOCATION, KEYS.OFF);
-        return cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION);
+        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(""))
+            cameraUiWrapper.GetAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, KEYS.OFF);
+        return cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class LocationParameter extends AbstractModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        cameraUiWrapper.GetAppSettingsManager().setString(AppSettingsManager.SETTING_LOCATION, valueToSet);
+        cameraUiWrapper.GetAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, valueToSet);
         if (valueToSet.equals(KEYS.OFF))
             cameraUiWrapper.getActivityInterface().getLocationHandler().stopLocationListining();
         if (valueToSet.equals(KEYS.ON) && cameraUiWrapper.getActivityInterface().hasLocationPermission())

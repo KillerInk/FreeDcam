@@ -95,7 +95,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
                 changeCaptureState(CaptureStates.image_capture_start);
                 waitForPicture = true;
                 burstcount = 0;
-                if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
                 cameraHolder.TakePicture(PictureModule.this);
                 Log.d(TAG,"TakePicture");

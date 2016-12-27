@@ -330,7 +330,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
             return;
         parameter.SetValue(runValue);
         if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
-            fragment_activityInterface.getAppSettings().setString(settingsname, runValue + "");
+            fragment_activityInterface.getAppSettings().setApiString(settingsname, runValue + "");
         }
         currentlysettingsparameter = false;
     }

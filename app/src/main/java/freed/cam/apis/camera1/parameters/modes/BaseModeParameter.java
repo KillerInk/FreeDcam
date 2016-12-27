@@ -67,6 +67,14 @@ public class BaseModeParameter extends AbstractModeParameter implements ModuleCh
         this.cameraUiWrapper = cameraUiWrapper;
     }
 
+    public BaseModeParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, String key_value, String[] valuesArray)
+    {
+        this(parameters,cameraUiWrapper);
+        this.key_value = key_value;
+        this.valuesArray = valuesArray;
+        isSupported = true;
+    }
+
     /***
      *
      * @param parameters

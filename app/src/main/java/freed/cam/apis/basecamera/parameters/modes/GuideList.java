@@ -46,7 +46,7 @@ public class GuideList extends AbstractModeParameter
         value = valueToSet;
         onValueHasChanged(valueToSet);
 
-        //appSettingsManager.setString(AppSettingsManager.GUIDE, valueToSet);
+        //appSettingsManager.setApiString(AppSettingsManager.GUIDE, valueToSet);
        // ImageView imageView1 = (ImageView)context.findViewById(R.id.GuideView);
        // imageView1.setImageResource(R.drawable.ic_guide_golden_spiral);
     }

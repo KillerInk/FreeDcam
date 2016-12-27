@@ -58,7 +58,7 @@ public class VideoModuleG3 extends AbstractVideoModule
             recorder = new MediaRecorderEx();
             recorder.reset();
             recorder.setCamera(((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera());
-            if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON)){
+            if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON)){
                 Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
                 if (location != null)
                     recorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
@@ -99,10 +99,10 @@ public class VideoModuleG3 extends AbstractVideoModule
                     break;
                 case Timelapse:
                     float frame = 30;
-                    if (!appSettingsManager.getString(AppSettingsManager.TIMELAPSEFRAME).equals(""))
-                        frame = Float.parseFloat(appSettingsManager.getString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
+                    if (!appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME).equals(""))
+                        frame = Float.parseFloat(appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
                     else
-                        appSettingsManager.setString(AppSettingsManager.TIMELAPSEFRAME, "" + frame);
+                        appSettingsManager.setApiString(AppSettingsManager.TIMELAPSEFRAME, "" + frame);
                     recorder.setCaptureRate(frame);
                     break;
             }
@@ -146,7 +146,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     private void loadProfileSpecificParameters()
     {
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
-        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.VIDEOPROFILE));
+        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getApiString(AppSettingsManager.VIDEOPROFILE));
         if (((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range") != null) {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("preview-fps-range", "30000,30000");
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters());

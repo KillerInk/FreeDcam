@@ -91,7 +91,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     protected void startRecording()
     {
-        if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
             cameraUiWrapper.GetCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         prepareRecorder();
 
@@ -122,7 +122,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             setRecorderOutPutFile(mediaSavePath);
             recorder.setOnInfoListener(this);
 
-            if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
+            if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
                 recorder.setOrientationHint(180);
             else
                 recorder.setOrientationHint(0);

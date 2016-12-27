@@ -49,13 +49,14 @@ public abstract class AbstractDevice implements I_Device {
     public AbstractDevice(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {
         this.parameters = parameters;
-        this.cameraUiWrapper = cameraUiWrapper;
-        cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
-        parametersHandler = (ParametersHandler) cameraUiWrapper.GetParameterHandler();
-        if (IsDngSupported())
-        {
-            matrixChooserParameter = new MatrixChooserParameter(((Activity)cameraUiWrapper.getActivityInterface()).getResources());
-            parametersHandler.matrixChooser = matrixChooserParameter;
+        if (cameraUiWrapper !=  null) {
+            this.cameraUiWrapper = cameraUiWrapper;
+            cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
+            parametersHandler = (ParametersHandler) cameraUiWrapper.GetParameterHandler();
+            if (IsDngSupported()) {
+                matrixChooserParameter = new MatrixChooserParameter(((Activity) cameraUiWrapper.getActivityInterface()).getResources());
+                parametersHandler.matrixChooser = matrixChooserParameter;
+            }
         }
     }
 

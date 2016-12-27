@@ -80,7 +80,7 @@ public class AfBracketSettingsView extends LinearLayout
         @Override
         public void onClick(View v) {
             int max = cameraWrapperInterface.GetParameterHandler().ManualFocus.GetValue();
-            cameraWrapperInterface.GetAppSettingsManager().setString(AppSettingsManager.SETTING_AFBRACKETMAX, max+"");
+            cameraWrapperInterface.GetAppSettingsManager().setApiString(AppSettingsManager.SETTING_AFBRACKETMAX, max+"");
             textView_max.setText(max+"");
         }
     };
@@ -89,7 +89,7 @@ public class AfBracketSettingsView extends LinearLayout
         @Override
         public void onClick(View v) {
             int min = cameraWrapperInterface.GetParameterHandler().ManualFocus.GetValue();
-            cameraWrapperInterface.GetAppSettingsManager().setString(AppSettingsManager.SETTING_AFBRACKETMIN, min+"");
+            cameraWrapperInterface.GetAppSettingsManager().setApiString(AppSettingsManager.SETTING_AFBRACKETMIN, min+"");
             textView_min.setText(min+"");
         }
     };
