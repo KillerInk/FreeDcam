@@ -99,7 +99,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
             cameraHolder = new CameraHolderMotoX(this, CameraHolder.Frameworks.MotoX);
         else if (isMTKDevice())
             cameraHolder = new CameraHolderMTK(this, CameraHolder.Frameworks.MTK);
-        else if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.TRUE) && appSettingsManager.getDevice() != DeviceUtils.Devices.OnePlusOne)
+        else if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.TRUE) && appSettingsManager.getDevice() != DeviceUtils.Devices.OnePlusOne && canOpenLegacy())
             cameraHolder = new CameraHolderLegacy(this, CameraHolder.Frameworks.Normal);
         else
             cameraHolder = new CameraHolder(this, CameraHolder.Frameworks.Normal);
@@ -160,7 +160,26 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
             Log.d(TAG, "No Moto Framework");
             return false;
         }
+    }
 
+    private boolean canOpenLegacy()
+    {
+        try {
+            Class[] arrclass = {Integer.TYPE, Integer.TYPE};
+            Method method = Class.forName("android.hardware.Camera").getDeclaredMethod("openLegacy", arrclass);
+            if (method != null)
+                return true;
+            else
+                return false;
+        }
+        catch
+        (NoSuchMethodException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private boolean isMTKDevice()
@@ -332,7 +351,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height,false);
 
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
-                if (appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("4k") &&parametersHandler.PreviewSize.GetValues().toString().contains("3840x"))
+                if (appSettingsManager.getString(AppSettingsManager.VIDEOPROFILE).contains("4k") &&parametersHandler.PreviewSize.GetValues().toString().contains("3840x"))
                 {
                     parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                     uiHandler.post(new Runnable() {

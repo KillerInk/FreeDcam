@@ -197,9 +197,9 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     }
     private double Calc()
     {
-        String[] res = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
+        String[] res = appSettingsManager.getString(AppSettingsManager.PICTURESIZE).split("x");
 
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains(KEYS.BAYER))
+        if(appSettingsManager.getString(AppSettingsManager.PICTUREFORMAT).contains(KEYS.BAYER))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;

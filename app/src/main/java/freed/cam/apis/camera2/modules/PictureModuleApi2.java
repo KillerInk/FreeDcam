@@ -168,7 +168,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void run() {
             isWorking = true;
-            Log.d(TAG, appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+            Log.d(TAG, appSettingsManager.getString(AppSettingsManager.PICTUREFORMAT));
             Log.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
             // This is the CaptureRequest.Builder that we use to take a picture.
             try {
@@ -708,7 +708,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         float[] reduction1 = null;
         float[] reduction2 = null;
         double[]finalnoise = null;
-        String cmat = appSettingsManager.getString(AppSettingsManager.SETTTING_CUSTOMMATRIX);
+        String cmat = appSettingsManager.getString(AppSettingsManager.CUSTOMMATRIX);
         if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
             CustomMatrix mat  = ((MatrixChooserParameter) parameterHandler.matrixChooser).GetCustomMatrix(cmat);
             color1 = mat.ColorMatrix1;
@@ -824,15 +824,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview() {
 
-        picSize = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE);
+        picSize = appSettingsManager.getString(AppSettingsManager.PICTURESIZE);
         Log.d(TAG, "Start Preview");
         largestImageSize = Collections.max(
                 Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new CompareSizesByArea());
-        picFormat = appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
+        picFormat = appSettingsManager.getString(AppSettingsManager.PICTUREFORMAT);
         if (picFormat.equals("")) {
             picFormat = KEYS.JPEG;
-            appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, KEYS.JPEG);
+            appSettingsManager.setString(AppSettingsManager.PICTUREFORMAT, KEYS.JPEG);
             parameterHandler.PictureFormat.onValueHasChanged(KEYS.JPEG);
 
         }

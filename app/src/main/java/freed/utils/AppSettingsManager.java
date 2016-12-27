@@ -41,60 +41,60 @@ public class AppSettingsManager {
     private Devices device;
 
 
-    public static final String SETTING_CURRENTCAMERA = "currentcamera";
-    public static final String SETTING_ANTIBANDINGMODE = "antibandingmode";
-    public static final String SETTING_COLORMODE = "colormode";
-    public static final String SETTING_ISOMODE = "isomode";
-    public static final String SETTING_EXPOSUREMODE = "exposuremode";
-    public static final String SETTING_WHITEBALANCEMODE = "whitebalancemode";
-    public static final String SETTING_IMAGEPOSTPROCESSINGMODE = "ippmode";
-    public static final String SETTING_PICTURESIZE = "picturesize";
-    public static final String SETTING_PICTUREFORMAT = "pictureformat";
-    public static final String SETTING_JPEGQUALITY = "jpegquality";
+    public static final String CURRENTCAMERA = "currentcamera";
+    public static final String ANTIBANDINGMODE = "antibandingmode";
+    public static final String COLORMODE = "colormode";
+    public static final String ISOMODE = "isomode";
+    public static final String EXPOSUREMODE = "exposuremode";
+    public static final String WHITEBALANCEMODE = "whitebalancemode";
+    public static final String IMAGEPOSTPROCESSINGMODE = "ippmode";
+    public static final String PICTURESIZE = "picturesize";
+    public static final String PICTUREFORMAT = "pictureformat";
+    public static final String JPEGQUALITY = "jpegquality";
     //defcomg was here
     //1-29-2016 6:15
-    public static final String SETTING_HDRMODE = "hdrmode";
+    public static final String HDRMODE = "hdrmode";
     // 1-29-2016 11:49
-    public static final String SETTING_VideoBitrate = "videobitrate";
-    public static final String SETTING_HELP = "help";
+    public static final String VIDEOBITRATE = "videobitrate";
+    public static final String HELP = "help";
     //
-    public static final String SETTING_GUIDE = "guide";
+    public static final String GUIDE = "guide";
     //done
-    public static final String SETTING_CURRENTMODULE = "currentmodule";
-    public static final String SETTING_PREVIEWSIZE = "previewsize";
-    public static final String SETTING_PREVIEWFPS = "previewfps";
-    public static final String SETTING_PREVIEWFORMAT = "previewformat";
-    public static final String SETTING_FLASHMODE = "flashmode";
-    public static final String SETTING_SCENEMODE = "scenemode";
-    public static final String SETTING_FOCUSMODE = "focusmode";
-    public static final String SETTING_REDEYE_MODE = "redeyemode";
-    public static final String SETTING_LENSSHADE_MODE = "lenshademode";
-    public static final String SETTING_ZEROSHUTTERLAG_MODE = "zslmode";
-    public static final String SETTING_SCENEDETECT_MODE = "scenedetectmode";
-    public static final String SETTING_DENOISE_MODE = "denoisetmode";
-    public static final String SETTING_DIS_MODE = "digitalimagestabmode";
-    public static final String SETTING_MCE_MODE = "memorycolorenhancementmode";
-    public static final String SETTING_SKINTONE_MODE = "skintonemode";
-    public static final String SETTING_NIGHTEMODE = "nightmode";
-    public static final String SETTING_NONZSLMANUALMODE = "nonzslmanualmode";
-    public static final String SETTING_AEBRACKET = "aebrackethdr";
-    public static final String SETTING_EXPOSURELONGTIME = "expolongtime";
-    public static final String SETTING_HISTOGRAM = "histogram";
-    public static final String SETTING_VIDEOSIZE = "videosize";
-    public static final String SETTING_VIDEPROFILE = "videoprofile";
-    public static final String SETTING_VIDEOHDR = "videohdr";
-    public static final String SETTING_HighFramerateVideo = "highframeratevideo";
-    public static final String SETTING_HighSpeedVideo = "highspeedvideo";
-    public static final String SETTING_VIDEOSTABILIZATION = "videostabilization";
+    public static final String CURRENTMODULE = "currentmodule";
+    public static final String PREVIEWSIZE = "previewsize";
+    public static final String PREVIEWFPS = "previewfps";
+    public static final String PREVIEWFORMAT = "previewformat";
+    public static final String FLASHMODE = "flashmode";
+    public static final String SCENEMODE = "scenemode";
+    public static final String FOCUSMODE = "focusmode";
+    public static final String REDEYEMODE = "redeyemode";
+    public static final String LENSHADEMODE = "lenshademode";
+    public static final String ZSLMODE = "zslmode";
+    public static final String SCENEDETECTMODE = "scenedetectmode";
+    public static final String DENOISETMODE = "denoisetmode";
+    public static final String DIGITALIMAGESTABMODE = "digitalimagestabmode";
+    public static final String MEMORYCOLORENHANCEMENTMODE = "memorycolorenhancementmode";
+    public static final String SKINTONEMODE = "skintonemode";
+    public static final String NIGHTMODE = "nightmode";
+    public static final String NONZSLMANUALMODE = "nonzslmanualmode";
+    public static final String AEBRACKETHDR = "aebrackethdr";
+    public static final String EXPOLONGTIME = "expolongtime";
+    public static final String HISTOGRAM = "histogram";
+    public static final String VIDEOSIZE = "videosize";
+    public static final String VIDEOPROFILE = "videoprofile";
+    public static final String VIDEOHDR = "videohdr";
+    public static final String HIGHFRAMERATEVIDEO = "highframeratevideo";
+    public static final String HIGHSPEEDVIDEO = "highspeedvideo";
+    public static final String VIDEOSTABILIZATION = "videostabilization";
     ///                  Video Override
-    // public static String SETTING_VIDEOHDR = "videohfr";
-    // public static String SETTING_VIDEOHDR = "videohsr";
+    // public static String VIDEOHDR = "videohfr";
+    // public static String VIDEOHDR = "videohsr";
 
-    public static final String SETTTING_BAYERFORMAT = "bayerformat";
-    public static final String SETTTING_AE_PRIORITY = "aepriority";
-    public static final String SETTTING_CUSTOMMATRIX = "custommatrix";
+    public static final String BAYERFORMAT = "bayerformat";
+    public static final String AEPRIORITY = "aepriority";
+    public static final String CUSTOMMATRIX = "custommatrix";
     ////////// overide end
-    public static final String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
+    public static final String TIMELAPSEFRAME = "timelapseframe";
     public static final String SETTING_API = "sonyapi";
     public static final String SETTING_DNG = "dng";
     public static final String SETTING_AEBRACKETACTIVE = "aebracketactive";
@@ -228,19 +228,19 @@ public class AppSettingsManager {
 
     public void SetCurrentCamera(int currentcamera) {
         this.currentcamera = currentcamera;
-        settings.edit().putInt(SETTING_CURRENTCAMERA , currentcamera).commit();
+        settings.edit().putInt(CURRENTCAMERA, currentcamera).commit();
     }
 
     public int GetCurrentCamera() {
-        return settings.getInt(SETTING_CURRENTCAMERA, 0);
+        return settings.getInt(CURRENTCAMERA, 0);
     }
 
     public void SetCurrentModule(String modulename) {
-        putString(getApiSettingString(SETTING_CURRENTMODULE), modulename);
+        putString(getApiSettingString(CURRENTMODULE), modulename);
     }
 
     public String GetCurrentModule() {
-        return settings.getString(getApiSettingString(SETTING_CURRENTMODULE), KEYS.MODULE_PICTURE);
+        return settings.getString(getApiSettingString(CURRENTMODULE), KEYS.MODULE_PICTURE);
     }
 
     /**
@@ -264,6 +264,7 @@ public class AppSettingsManager {
             newstring.append(API_2).append(settingsName).append(currentcamera);
         return newstring.toString();
     }
+
 
     public boolean GetWriteExternal() {
         return getBoolean(SETTING_EXTERNALSD, false);
@@ -292,6 +293,18 @@ public class AppSettingsManager {
 
     public void setString(String settingsName, String Value) {
         putString(getApiSettingString(settingsName), Value);
+    }
+
+    public void setStringArray(String settingsName, String[] Value) {
+        String tmp ="";
+        for (int i= 0; i<Value.length;i++)
+            tmp += Value[i]+",";
+        putString(getApiSettingString(settingsName), tmp);
+    }
+
+    public String[] getStringArray(String settingsname)
+    {
+        return getString(settingsname).split(",");
     }
 
     public boolean getBoolean(String settings_key, boolean defaultValue)
@@ -334,5 +347,57 @@ public class AppSettingsManager {
         else
             editor.putBoolean("tmp",false);
         editor.commit();
+    }
+
+
+    public static final int FRAMEWORK_NORMAL = 0;
+    public static final int FRAMEWORK_LG = 1;
+    public static final int FRAMEWORK_MTK = 2;
+    public static final int FRAMEWORK_MOTO_EXT = 3;
+    public static final String FRAMEWORK = "framework";
+
+    public void setFramework(int frameWork)
+    {
+        settings.edit().putInt(FRAMEWORK, frameWork).commit();
+    }
+
+    public int getFrameWork()
+    {
+        return settings.getInt(FRAMEWORK,0);
+    }
+
+
+    public static final String CANOPENLEGACY ="canopenlegacy";
+    public void setCanOpenLegacy(boolean canopen)
+    {
+        settings.edit().putBoolean(CANOPENLEGACY, canopen);
+    }
+
+    public boolean getCanOpenLegacy()
+    {
+        return settings.getBoolean(CANOPENLEGACY, false);
+    }
+
+    public static final String FRONTCAMERA ="frontcamera";
+    public void setIsFrontCamera(boolean isFront)
+    {
+        settings.edit().putBoolean(getApiSettingString(FRONTCAMERA), isFront);
+    }
+
+    public boolean getIsFrontCamera()
+    {
+        return settings.getBoolean(getApiSettingString(FRONTCAMERA), false);
+    }
+
+    public static final String PICTUREFORMATSUPPORTED = "pictureformatsupported";
+    public boolean isPictureFormatSupported()
+    {
+        return settings.getBoolean(getApiSettingString(PICTUREFORMATSUPPORTED), false);
+    }
+
+    public static final String RAWPICTUREFORMATSUPPORTED = "pictureformatsupported";
+    public boolean isRawPictureFormatSupported()
+    {
+        return settings.getBoolean(getApiSettingString(RAWPICTUREFORMATSUPPORTED), false);
     }
 }

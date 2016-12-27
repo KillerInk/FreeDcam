@@ -109,10 +109,10 @@ public class VideoModule extends AbstractVideoModule
                 break;
             case Timelapse:
                 float frame = 60;
-                if(!appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
-                    frame = Float.parseFloat(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+                if(!appSettingsManager.getString(AppSettingsManager.TIMELAPSEFRAME).equals(""))
+                    frame = Float.parseFloat(appSettingsManager.getString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
                 else
-                    appSettingsManager.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
+                    appSettingsManager.setString(AppSettingsManager.TIMELAPSEFRAME, ""+frame);
                 recorder.setCaptureRate(frame);
                 break;
         }
@@ -126,7 +126,7 @@ public class VideoModule extends AbstractVideoModule
     {
         super.InitModule();
         if (cameraUiWrapper.GetParameterHandler().VideoHDR != null)
-            if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOHDR).equals("on") && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported())
+            if(appSettingsManager.getString(AppSettingsManager.VIDEOHDR).equals("on") && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported())
                 cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("on", true);
         loadProfileSpecificParameters();
     }
@@ -144,7 +144,7 @@ public class VideoModule extends AbstractVideoModule
     {
 
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
-        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.VIDEOPROFILE));
         if (currentProfile.Mode == VideoMode.Highspeed)
         {
             if(appSettingsManager.getDevice() == Devices.Htc_M8 ||appSettingsManager.getDevice() == Devices.Htc_M9||appSettingsManager.getDevice() == Devices.HTC_OneA9||appSettingsManager.getDevice() == Devices.HTC_OneE8 ) {

@@ -94,7 +94,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         Log.d(TAG, "InitModule");
         super.InitModule();
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.VideoProfiles;
-        currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.VIDEOPROFILE));
         startPreview();
     }
 
@@ -285,10 +285,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
                 break;
             case Timelapse:
                 float frame = 30;
-                if (!appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
-                    frame = Float.parseFloat(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+                if (!appSettingsManager.getString(AppSettingsManager.TIMELAPSEFRAME).equals(""))
+                    frame = Float.parseFloat(appSettingsManager.getString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
                 else
-                    appSettingsManager.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, "" + frame);
+                    appSettingsManager.setString(AppSettingsManager.TIMELAPSEFRAME, "" + frame);
                 mediaRecorder.setCaptureRate(frame);
                 break;
         }

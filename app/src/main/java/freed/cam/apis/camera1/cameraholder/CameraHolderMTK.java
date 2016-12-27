@@ -33,7 +33,7 @@ import freed.cam.apis.camera1.parameters.ParametersHandler;
  */
 public class CameraHolderMTK extends CameraHolder
 {
-    private final String TAG = CameraHolderMTK.class.getSimpleName();
+    private final static String TAG = CameraHolderMTK.class.getSimpleName();
     public CameraHolderMTK(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper,frameworks);
     }
@@ -62,7 +62,7 @@ public class CameraHolderMTK extends CameraHolder
         super.StartPreview();
     }
 
-    private void setMtkAppMode()
+    public static void setMtkAppMode()
     {
         try {
             Class camera = Class.forName("android.hardware.Camera");

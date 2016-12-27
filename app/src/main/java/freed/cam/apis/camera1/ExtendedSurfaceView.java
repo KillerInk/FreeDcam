@@ -137,7 +137,7 @@ public class ExtendedSurfaceView extends SurfaceView
     {
         if (hasReal3d)
         {
-            if (preferences.getInt(AppSettingsManager.SETTING_CURRENTCAMERA, 0) == 2)
+            if (preferences.getInt(AppSettingsManager.CURRENTCAMERA, 0) == 2)
             {
                 is3D = true;
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));

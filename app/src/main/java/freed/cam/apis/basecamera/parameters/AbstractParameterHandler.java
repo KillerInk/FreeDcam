@@ -202,40 +202,40 @@ public abstract class AbstractParameterHandler
     public void SetAppSettingsToParameters()
     {
         setMode(locationParameter, AppSettingsManager.SETTING_LOCATION);
-        setMode(ColorMode, AppSettingsManager.SETTING_COLORMODE);
-        setMode(ExposureMode, AppSettingsManager.SETTING_EXPOSUREMODE);
-        setMode(FlashMode, AppSettingsManager.SETTING_FLASHMODE);
-        setMode(IsoMode, AppSettingsManager.SETTING_ISOMODE);
-        setMode(AntiBandingMode, AppSettingsManager.SETTING_ANTIBANDINGMODE);
-        setMode(WhiteBalanceMode, AppSettingsManager.SETTING_WHITEBALANCEMODE);
-        setMode(PictureSize, AppSettingsManager.SETTING_PICTURESIZE);
-        setMode(PictureFormat, AppSettingsManager.SETTING_PICTUREFORMAT);
-        setMode(bayerformat,AppSettingsManager.SETTTING_BAYERFORMAT);
+        setMode(ColorMode, AppSettingsManager.COLORMODE);
+        setMode(ExposureMode, AppSettingsManager.EXPOSUREMODE);
+        setMode(FlashMode, AppSettingsManager.FLASHMODE);
+        setMode(IsoMode, AppSettingsManager.ISOMODE);
+        setMode(AntiBandingMode, AppSettingsManager.ANTIBANDINGMODE);
+        setMode(WhiteBalanceMode, AppSettingsManager.WHITEBALANCEMODE);
+        setMode(PictureSize, AppSettingsManager.PICTURESIZE);
+        setMode(PictureFormat, AppSettingsManager.PICTUREFORMAT);
+        setMode(bayerformat,AppSettingsManager.BAYERFORMAT);
         setMode(oismode, AppSettingsManager.SETTING_OIS);
 
-        setMode(JpegQuality, AppSettingsManager.SETTING_JPEGQUALITY);
-        setMode(GuideList, AppSettingsManager.SETTING_GUIDE);
-        setMode(ImagePostProcessing, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
-        setMode(SceneMode, AppSettingsManager.SETTING_SCENEMODE);
-        setMode(FocusMode, AppSettingsManager.SETTING_FOCUSMODE);
-        setMode(RedEye,AppSettingsManager.SETTING_REDEYE_MODE);
-        setMode(LensShade,AppSettingsManager.SETTING_LENSSHADE_MODE);
-        setMode(ZSL, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE);
-        setMode(SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE);
-        setMode(Denoise, AppSettingsManager.SETTING_DENOISE_MODE);
-        setMode(DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE);
-        setMode(MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE);
-        setMode(NightMode, AppSettingsManager.SETTING_NIGHTEMODE);
-        setMode(NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE);
+        setMode(JpegQuality, AppSettingsManager.JPEGQUALITY);
+        setMode(GuideList, AppSettingsManager.GUIDE);
+        setMode(ImagePostProcessing, AppSettingsManager.IMAGEPOSTPROCESSINGMODE);
+        setMode(SceneMode, AppSettingsManager.SCENEMODE);
+        setMode(FocusMode, AppSettingsManager.FOCUSMODE);
+        setMode(RedEye,AppSettingsManager.REDEYEMODE);
+        setMode(LensShade,AppSettingsManager.LENSHADEMODE);
+        setMode(ZSL, AppSettingsManager.ZSLMODE);
+        setMode(SceneDetect, AppSettingsManager.SCENEDETECTMODE);
+        setMode(Denoise, AppSettingsManager.DENOISETMODE);
+        setMode(DigitalImageStabilization, AppSettingsManager.DIGITALIMAGESTABMODE);
+        setMode(MemoryColorEnhancement, AppSettingsManager.MEMORYCOLORENHANCEMENTMODE);
+        setMode(NightMode, AppSettingsManager.NIGHTMODE);
+        setMode(NonZslManualMode, AppSettingsManager.NONZSLMANUALMODE);
 
-        setMode(Histogram, AppSettingsManager.SETTING_HISTOGRAM);
-        setMode(VideoProfiles, AppSettingsManager.SETTING_VIDEPROFILE);
-        setMode(VideoHDR, AppSettingsManager.SETTING_VIDEOHDR);
-        setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);
-        setMode(VideoStabilization,AppSettingsManager.SETTING_VIDEOSTABILIZATION);
-        setMode(VideoHighFramerateVideo,AppSettingsManager.SETTING_HighFramerateVideo);
-        setMode(WhiteBalanceMode,AppSettingsManager.SETTING_WHITEBALANCEMODE);
-        setMode(ImagePostProcessing,AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
+        setMode(Histogram, AppSettingsManager.HISTOGRAM);
+        setMode(VideoProfiles, AppSettingsManager.VIDEOPROFILE);
+        setMode(VideoHDR, AppSettingsManager.VIDEOHDR);
+        setMode(VideoSize, AppSettingsManager.VIDEOSIZE);
+        setMode(VideoStabilization,AppSettingsManager.VIDEOSTABILIZATION);
+        setMode(VideoHighFramerateVideo,AppSettingsManager.HIGHFRAMERATEVIDEO);
+        setMode(WhiteBalanceMode,AppSettingsManager.WHITEBALANCEMODE);
+        setMode(ImagePostProcessing,AppSettingsManager.IMAGEPOSTPROCESSINGMODE);
         setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);
         setMode(EdgeMode, AppSettingsManager.SETTING_EDGE);
         setMode(HotPixelMode, AppSettingsManager.SETTING_HOTPIXEL);
@@ -245,11 +245,11 @@ public abstract class AbstractParameterHandler
         setMode(IntervalShutterSleep, AppSettingsManager.SETTING_INTERVAL);
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
 
-        setMode(HDRMode, AppSettingsManager.SETTING_HDRMODE);
+        setMode(HDRMode, AppSettingsManager.HDRMODE);
         setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
-        //setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
+        //setMode(AE_Bracket, AppSettingsManager.AEBRACKETHDR);
 
-        setMode(matrixChooser, AppSettingsManager.SETTTING_CUSTOMMATRIX);
+        setMode(matrixChooser, AppSettingsManager.CUSTOMMATRIX);
         setMode(imageStackMode,AppSettingsManager.SETTING_STACKMODE);
         //setMode(NightOverlay,AppSettingsManager.SETTINGS_NIGHTOVERLAY);
 

@@ -36,7 +36,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
@@ -190,28 +189,28 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         manualModes_holder = (FrameLayout) view.findViewById(id.manualModesHolder);
         messageHandler = new UserMessageHandler(view);
         flash = (UiSettingsChild) view.findViewById(id.Flash);
-        flash.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_FLASHMODE);
+        flash.SetStuff(fragment_activityInterface, AppSettingsManager.FLASHMODE);
         flash.SetMenuItemClickListner(this, true);
 
         iso = (UiSettingsChild) view.findViewById(id.ui_settings_iso);
-        iso.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_ISOMODE);
+        iso.SetStuff(fragment_activityInterface, AppSettingsManager.ISOMODE);
         iso.SetMenuItemClickListner(this,true);
 
         autoexposure =(UiSettingsChild) view.findViewById(id.Ae);
-        autoexposure.SetStuff(fragment_activityInterface,AppSettingsManager.SETTING_EXPOSUREMODE);
+        autoexposure.SetStuff(fragment_activityInterface,AppSettingsManager.EXPOSUREMODE);
         autoexposure.SetMenuItemClickListner(this,true);
 
         aepriority = (UiSettingsChild) view.findViewById(id.AePriority);
-        aepriority.SetStuff(fragment_activityInterface,AppSettingsManager.SETTTING_AE_PRIORITY);
+        aepriority.SetStuff(fragment_activityInterface,AppSettingsManager.AEPRIORITY);
         aepriority.SetMenuItemClickListner(this,true);
 
 
         whitebalance = (UiSettingsChild) view.findViewById(id.wb);
-        whitebalance.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_WHITEBALANCEMODE);
+        whitebalance.SetStuff(fragment_activityInterface, AppSettingsManager.WHITEBALANCEMODE);
         whitebalance.SetMenuItemClickListner(this,true);
 
         focus = (UiSettingsChild) view.findViewById(id.focus_uisetting);
-        focus.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_FOCUSMODE);
+        focus.SetStuff(fragment_activityInterface, AppSettingsManager.FOCUSMODE);
         focus.SetMenuItemClickListner(this,true);
 
         contShot = (UiSettingsChild) view.findViewById(id.continousShot);
@@ -219,22 +218,22 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         contShot.SetMenuItemClickListner(this,true);
 
         night = (UiSettingsChild) view.findViewById(id.night);
-        night.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_NIGHTEMODE);
+        night.SetStuff(fragment_activityInterface, AppSettingsManager.NIGHTMODE);
         night.SetMenuItemClickListner(this,true);
 
         format = (UiSettingsChild) view.findViewById(id.format);
-        format.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_PICTUREFORMAT);
+        format.SetStuff(fragment_activityInterface, AppSettingsManager.PICTUREFORMAT);
         format.SetMenuItemClickListner(this,true);
 
         modeSwitch = (UiSettingsChildModuleSwitch) view.findViewById(id.mode_switch);
-        modeSwitch.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_CURRENTMODULE);
+        modeSwitch.SetStuff(fragment_activityInterface, AppSettingsManager.CURRENTMODULE);
         modeSwitch.SetMenuItemClickListner(this,false);
 
         exit = (UiSettingsChildExit) view.findViewById(id.exit);
         exit.SetStuff(fragment_activityInterface, "");
 
         cameraSwitch = (UiSettingsChildCameraSwitch) view.findViewById(id.camera_switch);
-        cameraSwitch.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_CURRENTCAMERA);
+        cameraSwitch.SetStuff(fragment_activityInterface, AppSettingsManager.CURRENTCAMERA);
 
         infoOverlayHandler = new SampleInfoOverlayHandler(view, fragment_activityInterface.getAppSettings());
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
@@ -252,7 +251,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         focuspeak.setVisibility(View.GONE);
 
         hdr_switch = (UiSettingsChild) view.findViewById(id.hdr_toggle);
-        hdr_switch.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_HDRMODE);
+        hdr_switch.SetStuff(fragment_activityInterface, AppSettingsManager.HDRMODE);
         hdr_switch.SetMenuItemClickListner(this,true);
 
         aelock = (UiSettingsChild)view.findViewById(id.ae_lock);

@@ -99,10 +99,10 @@ public class VideoModuleG3 extends AbstractVideoModule
                     break;
                 case Timelapse:
                     float frame = 30;
-                    if (!appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
-                        frame = Float.parseFloat(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+                    if (!appSettingsManager.getString(AppSettingsManager.TIMELAPSEFRAME).equals(""))
+                        frame = Float.parseFloat(appSettingsManager.getString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
                     else
-                        appSettingsManager.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, "" + frame);
+                        appSettingsManager.setString(AppSettingsManager.TIMELAPSEFRAME, "" + frame);
                     recorder.setCaptureRate(frame);
                     break;
             }
@@ -146,7 +146,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     private void loadProfileSpecificParameters()
     {
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
-        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.VIDEOPROFILE));
         if (((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range") != null) {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("preview-fps-range", "30000,30000");
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters());

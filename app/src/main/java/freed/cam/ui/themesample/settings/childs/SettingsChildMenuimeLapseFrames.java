@@ -124,7 +124,7 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
     }
 
     public void SetStuff(AppSettingsManager appSettingsManager) {
-        settingsname = AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME;
+        settingsname = AppSettingsManager.TIMELAPSEFRAME;
         this.appSettingsManager = appSettingsManager;
         String fps = appSettingsManager.getString(settingsname);
         if (fps == null || fps.equals(""))

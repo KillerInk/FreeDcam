@@ -176,7 +176,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     protected void setCameraUiWrapperToUi() {
         if (cameraUiWrapper == null)
             return;
-        pictureSize.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_PICTURESIZE);
+        pictureSize.SetStuff(fragment_activityInterface, AppSettingsManager.PICTURESIZE);
         pictureSize.SetParameter(cameraUiWrapper.GetParameterHandler().PictureSize);
         pictureSize.SetUiItemClickListner(this);
 
@@ -200,7 +200,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         menuItemGPS.SetCameraUIWrapper(cameraUiWrapper);
         menuItemGPS.SetUiItemClickListner(this);
 
-        guide.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_GUIDE);
+        guide.SetStuff(fragment_activityInterface, AppSettingsManager.GUIDE);
         guide.SetParameter(cameraUiWrapper.GetParameterHandler().GuideList);
         guide.SetUiItemClickListner(this);
 
@@ -216,23 +216,23 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         orientationHack.SetCameraUIWrapper(cameraUiWrapper);
         orientationHack.SetUiItemClickListner(this);
 
-        jpegQuality.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_JPEGQUALITY);
+        jpegQuality.SetStuff(fragment_activityInterface, AppSettingsManager.JPEGQUALITY);
         jpegQuality.SetParameter(cameraUiWrapper.GetParameterHandler().JpegQuality);
         jpegQuality.SetUiItemClickListner(this);
 
-        videoProfile.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_VIDEPROFILE);
+        videoProfile.SetStuff(fragment_activityInterface, AppSettingsManager.VIDEOPROFILE);
 
         if (cameraUiWrapper.GetParameterHandler().VideoProfiles != null)
             videoProfile.SetParameter(cameraUiWrapper.GetParameterHandler().VideoProfiles);
         videoProfile.SetUiItemClickListner(this);
 
-        videoHDR.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_VIDEOHDR);
+        videoHDR.SetStuff(fragment_activityInterface, AppSettingsManager.VIDEOHDR);
         videoHDR.SetParameter(cameraUiWrapper.GetParameterHandler().VideoHDR);
         videoHDR.SetCameraInterface(cameraUiWrapper);
         videoHDR.SetUiItemClickListner(this);
         ///////////////////////////   Highspeed Recording //////////////////////////////////////////
 
-        VideoSize.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_VIDEOSIZE);
+        VideoSize.SetStuff(fragment_activityInterface, AppSettingsManager.VIDEOSIZE);
         if (!(cameraUiWrapper instanceof Camera1Fragment) && cameraUiWrapper.GetParameterHandler().VideoSize != null && cameraUiWrapper.GetParameterHandler().VideoSize.IsSupported()) {
             VideoSize.SetParameter(cameraUiWrapper.GetParameterHandler().VideoSize);
             VideoSize.SetUiItemClickListner(this);
@@ -240,7 +240,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         } else
             VideoSize.setVisibility(View.GONE);
 
-        videoStabilization.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_VIDEOSTABILIZATION);
+        videoStabilization.SetStuff(fragment_activityInterface, AppSettingsManager.VIDEOSTABILIZATION);
         videoStabilization.SetParameter(cameraUiWrapper.GetParameterHandler().VideoStabilization);
         videoStabilization.SetUiItemClickListner(this);
 
@@ -332,11 +332,11 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         opcode.SetParameter(cameraUiWrapper.GetParameterHandler().opcode);
         opcode.SetUiItemClickListner(this);
 
-        bayerFormatItem.SetStuff(fragment_activityInterface, AppSettingsManager.SETTTING_BAYERFORMAT);
+        bayerFormatItem.SetStuff(fragment_activityInterface, AppSettingsManager.BAYERFORMAT);
         bayerFormatItem.SetParameter(cameraUiWrapper.GetParameterHandler().bayerformat);
         bayerFormatItem.SetUiItemClickListner(this);
 
-        matrixChooser.SetStuff(fragment_activityInterface, AppSettingsManager.SETTTING_CUSTOMMATRIX);
+        matrixChooser.SetStuff(fragment_activityInterface, AppSettingsManager.CUSTOMMATRIX);
         matrixChooser.SetParameter(cameraUiWrapper.GetParameterHandler().matrixChooser);
         matrixChooser.SetUiItemClickListner(this);
 

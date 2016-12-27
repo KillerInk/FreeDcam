@@ -39,7 +39,7 @@ public class SettingsChildMenuVideoProfile extends SettingsChildMenu
 
     @Override
     public void SetValue(String value) {
-        fragment_activityInterface.getAppSettings().setString(AppSettingsManager.SETTING_VIDEPROFILE, value);
+        fragment_activityInterface.getAppSettings().setString(AppSettingsManager.VIDEOPROFILE, value);
         onParameterValueChanged(value);
         parameter.SetValue(value, true);
     }
