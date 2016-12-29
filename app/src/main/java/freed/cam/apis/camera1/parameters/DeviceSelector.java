@@ -137,7 +137,7 @@ public class DeviceSelector {
         switch (appSettingsManager.getDevice())
         {
            case UNKNOWN:
-               return getDefault(cameraUiWrapper,cameraParameters);
+               return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
             case Alcatel_985n:
                 return new Alcatel_985n(cameraParameters, cameraUiWrapper);
 
@@ -158,7 +158,7 @@ public class DeviceSelector {
                return new Alcatel_Idol3_small(cameraParameters,cameraUiWrapper);
 
             case Asus_Zenfon2:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
             case Elephone_P9000:
                 return new Elephone_P9000(cameraParameters,cameraUiWrapper);
 
@@ -169,7 +169,7 @@ public class DeviceSelector {
                return new ForwardArt_MTK(cameraParameters,cameraUiWrapper);
 
             case Htc_Evo3d:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
             case Htc_M8:
                return new HTC_M8(cameraParameters,cameraUiWrapper);
                 
@@ -177,7 +177,7 @@ public class DeviceSelector {
                return new HTC_M9(cameraParameters,cameraUiWrapper);
 
             case Htc_M10:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
             case Htc_One_Sv:
                return new HTC_One_SV(cameraParameters,cameraUiWrapper);
                 
@@ -200,7 +200,7 @@ public class DeviceSelector {
                return new Huawei_Honor5x(cameraParameters,cameraUiWrapper);
 
             case huawei_honor6:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
             case I_Mobile_I_StyleQ6:
                return new I_Mobile_IStyleQ6(cameraParameters,cameraUiWrapper);
 
@@ -247,9 +247,9 @@ public class DeviceSelector {
                 return new LG_V20(cameraParameters,cameraUiWrapper);
 
             case LG_G4Beat:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
             case LG_G4Stylus:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
             case LG_L5:
                 return new LG_L5(cameraParameters,cameraUiWrapper);
             case Lumigon_T3:
@@ -288,10 +288,10 @@ public class DeviceSelector {
                 return new MyPhoneInfinity2S(cameraParameters,cameraUiWrapper);
 
             case Nexus4:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
 
             case Nexus6:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
 
             case Nexus5x:
             case Nexus6p:
@@ -307,10 +307,10 @@ public class DeviceSelector {
                 return new OnePlusX(cameraParameters,cameraUiWrapper);
 
             case p8:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
 
             case p8lite:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
 
             case Prestigio_Multipad_Color:
                 return new Prestigio_Multipad_Color(cameraParameters,cameraUiWrapper);
@@ -328,13 +328,13 @@ public class DeviceSelector {
                return new Retro_MTK(cameraParameters,cameraUiWrapper);
 
             case Samsung_S6_edge:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
 
             case Samsung_S6_edge_plus:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
 
             case SonyADV:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
 
             case SonyM5_MTK:
                return new Sony_M5_MTK(cameraParameters,cameraUiWrapper);
@@ -430,13 +430,13 @@ public class DeviceSelector {
                 return new ZTE_Z11(cameraParameters,cameraUiWrapper);
 
             case ZTE_Z9:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
 
             case ZTE_Z5SMINI:
                 return new ZTE_Z5SMINI(cameraParameters,cameraUiWrapper);
 
             case ZTE_MyPrague:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
 
             case ZTE_ZMAX_PRO:
                 return new ZTE_ZMAX_ZPRO(cameraParameters,cameraUiWrapper);
@@ -445,13 +445,13 @@ public class DeviceSelector {
                 return new Zoppo_8speed(cameraParameters,cameraUiWrapper);
 
             default:
-                return getDefault(cameraUiWrapper,cameraParameters);
+                return getDefault(cameraUiWrapper,cameraParameters,appSettingsManager);
         }
     }
 
-    private AbstractDevice getDefault(CameraWrapperInterface cameraUiWrapper, Parameters parameters)
+    private AbstractDevice getDefault(CameraWrapperInterface cameraUiWrapper, Parameters parameters, AppSettingsManager appSettingsManager)
     {
-        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
             Log.d(DeviceSelector.class.getSimpleName(), "USE DEFAULT MTK DEVICE");
             return new BaseMTKDevice(parameters, cameraUiWrapper);

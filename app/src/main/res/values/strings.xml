@@ -180,4 +180,40 @@
     <string name="files_selected">Files selected:</string>
     <string name="setting_imagestack">ImageStack</string>
 
+
+
+    <!-- sceneModes -->
+    <string name="scene_disable">Disable</string>
+    <string name="scene_face">Face</string>
+    <string name="scene_action">Action</string>
+    <string name="scene_portrait">Portrait</string>
+    <string name="scene_landscape">Landscape</string>
+    <string name="scene_night">Night</string>
+    <string name="scene_night_portrait">Night Portrait</string>
+    <string name="scene_theatre">Theatre</string>
+    <string name="scene_beach">Beach</string>
+    <string name="scene_snow">Snow</string>
+    <string name="scene_sunset">Sunset</string>
+    <string name="scene_steadyphoto">Steadyphoto</string>
+    <string name="scene_fireworks">Fireworks</string>
+    <string name="scene_sport">Sport</string>
+    <string name="scene_party">Party</string>
+    <string name="scene_candlelight">Candlelight</string>
+    <string name="scene_barcode">Barcode</string>
+    <string name="scene_highspeedvideo">Highspeed Video</string>
+    <string name="scene_hdr">HDR</string>
+
+    <!-- flashmodes -->
+    <string name="flash_off">Off</string>
+    <string name="flash_singel">Singel</string>
+    <string name="flash_torch">Torch</string>
+
+    <!-- antibanding -->
+    <string name="antibanding_off">Off</string>
+    <string name="antibanding_50hz">50HZ</string>
+    <string name="antibanding_60hz">60HZ</string>
+    <string name="antibanding_auto">Auto</string>
+
+
+
 </resources>

@@ -42,12 +42,11 @@ import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.camera2.parameters.manual.ZoomApi2;
 import freed.cam.apis.camera2.parameters.modes.AeLockModeApi2;
-import freed.cam.apis.camera2.parameters.modes.AntibandingApi2;
+import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 import freed.cam.apis.camera2.parameters.modes.ColorModeApi2;
 import freed.cam.apis.camera2.parameters.modes.ControlModesApi2;
 import freed.cam.apis.camera2.parameters.modes.DenoiseModeApi2;
 import freed.cam.apis.camera2.parameters.modes.EdgeModeApi2;
-import freed.cam.apis.camera2.parameters.modes.FlashModeApi2;
 import freed.cam.apis.camera2.parameters.modes.FocusModeApi2;
 import freed.cam.apis.camera2.parameters.modes.FocusPeakModeApi2;
 import freed.cam.apis.camera2.parameters.modes.HotPixelModeApi2;
@@ -56,7 +55,6 @@ import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.OisModeApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
-import freed.cam.apis.camera2.parameters.modes.SceneModeApi2;
 import freed.cam.apis.camera2.parameters.modes.ToneMapModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
@@ -88,8 +86,12 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             Log.d(TAG, keys.get(i).getName());
         }
         Module = new ModuleParameters(cameraUiWrapper, appSettingsManager);
-        FlashMode = new FlashModeApi2(cameraUiWrapper);
-        SceneMode = new SceneModeApi2(cameraUiWrapper);
+        if (appSettingsManager.flashMode.isSupported())
+            FlashMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.flashMode,CaptureRequest.FLASH_MODE);
+        if (appSettingsManager.sceneMode.isSupported())
+            SceneMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.sceneMode,CaptureRequest.CONTROL_SCENE_MODE);
+        if (appSettingsManager.antiBandingMode.isSupported())
+            AntiBandingMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.antiBandingMode, CaptureRequest.CONTROL_AE_ANTIBANDING_MODE);
         ColorMode = new ColorModeApi2(cameraUiWrapper);
         JpegQuality = new JpegQualityModeApi2(cameraUiWrapper);
 
@@ -97,7 +99,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //AE mode start
         AeHandler aeHandler = new AeHandler(cameraUiWrapper);
         //ae mode end
-        AntiBandingMode = new AntibandingApi2(cameraUiWrapper);
         PictureSize = new PictureSizeModeApi2(cameraUiWrapper);
 
         FocusMode = new FocusModeApi2(cameraUiWrapper);
@@ -218,7 +219,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         setMode(HotPixelMode, AppSettingsManager.SETTING_HOTPIXEL);
         setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
         setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
-        setMode(imageStackMode, AppSettingsManager.SETTING_STACKMODE);
         //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
 
         //setManualMode(ManualBrightness, AppSettingsManager.MWB);

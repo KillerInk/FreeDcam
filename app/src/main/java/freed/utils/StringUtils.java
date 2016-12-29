@@ -19,8 +19,14 @@
 
 package freed.utils;
 
+import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Ingo on 04.10.2014.
@@ -104,6 +110,31 @@ public class StringUtils
             str3 = str4 + ":" + str3;
         }
         return str3;
+    }
+
+
+    public static String[] HashmapToStringArray(HashMap<String, Integer> hashMap)
+    {
+        String[] t = new String[hashMap.entrySet().size()];
+        int i = 0;
+        for (Map.Entry set:hashMap.entrySet())
+        {
+            t[i++] = set.getKey()+";"+set.getValue();
+        }
+        return t;
+    }
+
+    public static HashMap<String, Integer> StringArrayToHashmap(String[] t)
+    {
+        HashMap<String, Integer> out = new HashMap<>();
+        for (String e : t)
+        {
+            if (!e.equals("")) {
+                String[] en = e.split(";");
+                out.put(en[0], Integer.parseInt(en[1]));
+            }
+        }
+        return out;
     }
 
 }

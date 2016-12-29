@@ -20,25 +20,48 @@
 package freed.cam.apis.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
+import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
+import android.support.annotation.NonNull;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.utils.AppSettingsManager;
+import freed.utils.StringUtils;
 
 /**
  * Created by troop on 12.12.2014.
  */
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class BaseModeApi2 extends AbstractModeParameter
 {
     private final String TAG = BaseModeApi2.class.getSimpleName();
     protected CameraWrapperInterface cameraUiWrapper;
+    protected HashMap<String, Integer> parameterValues;
+    protected AppSettingsManager.SettingMode settingMode;
+    protected Key<Integer> parameterKey;
     boolean isSupported;
 
     public BaseModeApi2(CameraWrapperInterface cameraUiWrapper)
     {
-        this.cameraUiWrapper = cameraUiWrapper;
+        this.cameraUiWrapper =cameraUiWrapper;
+    }
+
+    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, Key<Integer> parameterKey)
+    {
+        this(cameraUiWrapper);
+        this.settingMode = settingMode;
+        this.parameterKey = parameterKey;
+        isSupported = settingMode.isSupported();
+        if (isSupported)
+            parameterValues = StringUtils.StringArrayToHashmap(settingMode.getValues());
+        else settingMode = null;
     }
 
     @Override
@@ -51,17 +74,23 @@ public class BaseModeApi2 extends AbstractModeParameter
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         super.SetValue(valueToSet,setToCamera);
+        int toset = parameterValues.get(valueToSet);
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(parameterKey, toset);
     }
 
     @Override
     public String GetValue()
     {
-        return null;
+        int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(parameterKey);
+        for (Map.Entry s : parameterValues.entrySet())
+            if (s.getValue().equals(i))
+                return s.getKey().toString();
+        return "";
     }
 
     @Override
     public String[] GetValues() {
-        return new String[0];
+        return parameterValues.keySet().toArray(new String[parameterValues.size()]);
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)

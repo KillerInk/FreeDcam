@@ -204,15 +204,15 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         guide.SetParameter(cameraUiWrapper.GetParameterHandler().GuideList);
         guide.SetUiItemClickListner(this);
 
-        api.SetStuff(fragment_activityInterface, null);
+        api.SetStuff(fragment_activityInterface, "");
         api.SetParameter(new ApiParameter(fragment_activityInterface));
         api.SetUiItemClickListner(this);
 
-        externalShutter.SetStuff(fragment_activityInterface, null);
+        externalShutter.SetStuff(fragment_activityInterface, "");
         externalShutter.SetParameter(new ParameterExternalShutter(fragment_activityInterface.getAppSettings()));
         externalShutter.SetUiItemClickListner(this);
 
-        orientationHack.SetStuff(fragment_activityInterface, null);
+        orientationHack.SetStuff(fragment_activityInterface, "");
         orientationHack.SetCameraUIWrapper(cameraUiWrapper);
         orientationHack.SetUiItemClickListner(this);
 
@@ -311,11 +311,11 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         saveCamParams.setCameraUiWrapper(cameraUiWrapper);
 
         if (DEBUG) {
-            PreviewFormat.SetStuff(fragment_activityInterface, null);
+            PreviewFormat.SetStuff(fragment_activityInterface, "");
             PreviewFormat.SetParameter(cameraUiWrapper.GetParameterHandler().PreviewFormat);
             PreviewFormat.SetUiItemClickListner(this);
             PreviewFormat.setVisibility(View.VISIBLE);
-            PreviewSize.SetStuff(fragment_activityInterface, null);
+            PreviewSize.SetStuff(fragment_activityInterface, "");
             PreviewSize.SetParameter(cameraUiWrapper.GetParameterHandler().PreviewSize);
             PreviewSize.SetUiItemClickListner(this);
             PreviewSize.setVisibility(View.VISIBLE);

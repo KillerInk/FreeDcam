@@ -38,11 +38,12 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityAbstract;
-import freed.cam.apis.ApiHandler;
-import freed.cam.apis.ApiHandler.ApiEvent;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraStateEvents;
+import freed.cam.apis.camera1.Camera1Fragment;
+import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraFragment;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.handler.I_orientation;
@@ -62,14 +63,12 @@ import freed.viewer.screenslide.ScreenSlideFragment;
  * Created by troop on 18.08.2014.
  */
 public class ActivityFreeDcamMain extends ActivityAbstract
-        implements I_orientation, ApiEvent,
+        implements I_orientation,
             SecureCamera.SecureCameraActivity, CameraStateEvents
 {
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
     private OrientationHandler orientationHandler;
-    //handels/load the api camerafragments
-    private ApiHandler apiHandler;
     private TimerHandler timerHandler;
     //holds the current api camerafragment
     private CameraFragmentAbstract cameraFragment;
@@ -144,8 +143,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //setup apihandler and register listner for apiDetectionDone
         //api handler itself checks first if its a camera2 full device
         //and if yes loads camera2fragment else load camera1fragment
-        apiHandler = new ApiHandler(getApplicationContext(), this, getAppSettings(), renderScriptHandler);
-        apiHandler.CheckApi();
+        loadCameraFragment();
         activityIsResumed = true;
         if (screenSlideFragment != null)
             screenSlideFragment.NotifyDATAhasChanged();
@@ -174,29 +172,34 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = false;
     }
 
-
-    /**
-     * gets called from ApiHandler when apidetection has finished
-     * thats loads the CameraFragment
-     */
-    @Override
-    public void apiDetectionDone()
-    {
-        Log.d(TAG, "apiDetectionDone");
-
-        loadCameraFragment();
-        orientationHandler.Start();
-    }
-
     /*
     load the camerafragment to ui
      */
     private void loadCameraFragment() {
         Log.d(TAG, "loading cameraWrapper");
+        orientationHandler.Start();
 
         if (cameraFragment == null) {
             //get new cameraFragment
-            cameraFragment = apiHandler.getCameraFragment();
+            if (getAppSettings().getCamApi().equals(AppSettingsManager.API_SONY))
+            {
+                cameraFragment = new SonyCameraFragment();
+                cameraFragment.SetRenderScriptHandler(renderScriptHandler);
+
+            }
+            //create Camera2Fragment
+            else if (getAppSettings().getCamApi().equals(AppSettingsManager.API_2))
+            {
+                cameraFragment = new Camera2Fragment();
+                cameraFragment.SetRenderScriptHandler(renderScriptHandler);
+            }
+            else //default is Camera1Fragment is supported by all devices
+            {
+                cameraFragment = new Camera1Fragment();
+                cameraFragment.SetRenderScriptHandler(renderScriptHandler);
+            }
+            cameraFragment.SetAppSettingsManager(getAppSettings());
+
             cameraFragment.SetCameraStateChangedListner(this);
             //load the cameraFragment to ui
             //that starts the camera represent by that fragment when the surface/textureviews

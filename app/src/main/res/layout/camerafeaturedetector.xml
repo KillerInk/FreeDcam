@@ -11,6 +11,6 @@
         android:singleLine="false"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@color/uiSettingsTextColor"
-        android:scrollbars="horizontal"
+        android:scrollbars="vertical"
         android:maxLines="300" />
 </LinearLayout>

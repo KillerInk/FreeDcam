@@ -189,7 +189,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         manualModes_holder = (FrameLayout) view.findViewById(id.manualModesHolder);
         messageHandler = new UserMessageHandler(view);
         flash = (UiSettingsChild) view.findViewById(id.Flash);
-        flash.SetStuff(fragment_activityInterface, AppSettingsManager.FLASHMODE);
+        flash.SetStuff(fragment_activityInterface.getAppSettings().flashMode);
+        //flash.SetStuff(fragment_activityInterface, AppSettingsManager.FLASHMODE);
         flash.SetMenuItemClickListner(this, true);
 
         iso = (UiSettingsChild) view.findViewById(id.ui_settings_iso);
@@ -214,7 +215,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         focus.SetMenuItemClickListner(this,true);
 
         contShot = (UiSettingsChild) view.findViewById(id.continousShot);
-        contShot.SetStuff(fragment_activityInterface, null);
+        contShot.SetStuff(fragment_activityInterface, "");
         contShot.SetMenuItemClickListner(this,true);
 
         night = (UiSettingsChild) view.findViewById(id.night);

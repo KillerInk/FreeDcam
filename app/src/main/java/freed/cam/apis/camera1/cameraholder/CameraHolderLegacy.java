@@ -44,11 +44,15 @@ public class CameraHolderLegacy extends CameraHolder
         try {
             mCamera = openWrapper(camera);
             isRdy = true;
-        }
-        catch (RuntimeException ex)
+        } catch (NullPointerException ex)
+        {
+            mCamera = Camera.open(camera);
+            isRdy = true;
+        } catch (RuntimeException ex)
         {
             cameraUiWrapper.onCameraError("Fail to connect to camera service");
             isRdy = false;
+            mCamera = Camera.open(camera);
         }
 
         cameraUiWrapper.onCameraOpen("");

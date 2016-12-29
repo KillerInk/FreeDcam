@@ -25,6 +25,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 16.06.2016.
@@ -37,6 +38,8 @@ public interface SettingsChildInterface extends ModuleChangedEvent, AbstractMode
      * @param key_settingvalue from AppSettingsManager.KEY
      */
     void SetStuff(ActivityInterface fragment_activityInterface, String key_settingvalue);
+
+    void SetStuff(AppSettingsManager.SettingMode settingMode);
 
     /**
      * Set the parameter to work with

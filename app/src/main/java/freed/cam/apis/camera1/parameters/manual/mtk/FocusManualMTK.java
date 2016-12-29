@@ -40,7 +40,13 @@ public class FocusManualMTK extends BaseFocusManual {
         isSupported = true;
         isVisible = true;
         manualFocusModeString = KEYS.KEY_FOCUS_MODE_MANUAL;
-        stringvalues = createStringArray(0, 1023, (float) 10);
+
+        if (cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues().length == 0) {
+            stringvalues = createStringArray(0, 1023, (float) 10);
+            cameraUiWrapper.GetAppSettingsManager().manualFocus.setValues(stringvalues);
+        }
+        else
+            stringvalues = cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues();
     }
 
     @Override

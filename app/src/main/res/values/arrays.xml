@@ -135,6 +135,41 @@
         <item>100 0 0 0 100 0 0 0 40 -60 -60 -60</item>
     </string-array>
 
+    <string-array name="sceneModes"  translatable="false">
+        <item>@string/scene_disable</item>
+        <item>@string/scene_face</item>
+        <item>@string/scene_action</item>
+        <item>@string/scene_portrait</item>
+        <item>@string/scene_landscape</item>
+        <item>@string/scene_night</item>
+        <item>@string/scene_night_portrait</item>
+        <item>@string/scene_theatre</item>
+        <item>@string/scene_beach</item>
+        <item>@string/scene_snow</item>
+        <item>@string/scene_sunset</item>
+        <item>@string/scene_steadyphoto</item>
+        <item>@string/scene_fireworks</item>
+        <item>@string/scene_sport</item>
+        <item>@string/scene_party</item>
+        <item>@string/scene_candlelight</item>
+        <item>@string/scene_barcode</item>
+        <item>@string/scene_highspeedvideo</item>
+        <item>@string/scene_hdr</item>
+        </string-array>
+
+    <string-array name="flashModes"  translatable="false">
+        <item>@string/flash_off</item>
+        <item>@string/flash_singel</item>
+        <item>@string/flash_torch</item>
+        </string-array>
+
+    <string-array name="antibandingmodes"  translatable="false">
+        <item>@string/antibanding_off</item>
+        <item>@string/antibanding_50hz</item>
+        <item>@string/antibanding_60hz</item>
+        <item>@string/antibanding_auto</item>
+    </string-array>
+
 
     <!-- DO NOT TRANSLATE END -->
 </resources>

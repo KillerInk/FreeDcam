@@ -28,6 +28,7 @@ import android.widget.TextView;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 16.06.2016.
@@ -47,6 +48,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
 
     protected ModeParameterInterface parameter;
     protected ActivityInterface fragment_activityInterface;
+    protected AppSettingsManager.SettingMode settingMode;
     protected String key_appsettings;
     protected TextView valueText;
 
@@ -55,6 +57,11 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     {
         this.fragment_activityInterface = fragment_activityInterface;
         key_appsettings = settingvalue;
+    }
+
+    @Override
+    public void SetStuff(AppSettingsManager.SettingMode settingMode) {
+        this.settingMode = settingMode;
     }
 
     public SettingsChildAbstract(Context context) {
@@ -113,6 +120,8 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         {
             if (key_appsettings != null && !key_appsettings.equals(""))
                 fragment_activityInterface.getAppSettings().setApiString(key_appsettings, value);
+            if (settingMode != null)
+                settingMode.set(value);
             try {
                 parameter.SetValue(value, true);
             }

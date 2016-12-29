@@ -62,11 +62,11 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         super(parameters, cameraUiWrapper);
         this.parametersHandler = parametersHandler;
-        isSupported = cameraUiWrapper.GetAppSettingsManager().isPictureFormatSupported();
-        rawSupported = cameraUiWrapper.GetAppSettingsManager().isRawPictureFormatSupported();
+        isSupported = cameraUiWrapper.GetAppSettingsManager().pictureFormat.isSupported();
+        rawSupported = cameraUiWrapper.GetAppSettingsManager().rawPictureFormat.isSupported();
         if (rawSupported) {
-            rawFormat = cameraUiWrapper.GetAppSettingsManager().getRawPictureFormat();
-            rawFormats = cameraUiWrapper.GetAppSettingsManager().getRawPictureFormatValues();
+            rawFormat = cameraUiWrapper.GetAppSettingsManager().rawPictureFormat.get();
+            rawFormats = cameraUiWrapper.GetAppSettingsManager().rawPictureFormat.getValues();
         }
         Log.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+ isSupported);
     }
@@ -118,7 +118,7 @@ public class PictureFormatHandler extends BaseModeParameter
     @Override
     public String[] GetValues()
     {
-        return cameraUiWrapper.GetAppSettingsManager().getPictureFormatValues();
+        return cameraUiWrapper.GetAppSettingsManager().pictureFormat.getValues();
     }
 
     @Override

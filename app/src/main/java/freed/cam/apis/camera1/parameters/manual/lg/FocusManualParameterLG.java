@@ -47,7 +47,12 @@ public class FocusManualParameterLG extends BaseManualParameter
                 max = 60;
             else
                 max = 79;
-            stringvalues = createStringArray(0,max, step);
+            if (cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues().length == 0) {
+                stringvalues = createStringArray(0, max, step);
+                cameraUiWrapper.GetAppSettingsManager().manualFocus.setValues(stringvalues);
+            }
+            else
+                stringvalues = cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues();
         }
 
     }

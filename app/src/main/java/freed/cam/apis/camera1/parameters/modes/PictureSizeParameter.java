@@ -54,11 +54,11 @@ public class PictureSizeParameter extends BaseModeParameter
 
     @Override
     public String GetValue() {
-        return cameraUiWrapper.GetAppSettingsManager().getPictureSize();
+        return cameraUiWrapper.GetAppSettingsManager().pictureSize.get();
     }
 
     @Override
     public String[] GetValues() {
-        return cameraUiWrapper.GetAppSettingsManager().getPictureSizeValues();
+        return cameraUiWrapper.GetAppSettingsManager().pictureSize.getValues();
     }
 }

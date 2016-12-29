@@ -194,7 +194,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         nonZSLmanualMode.SetParameter(cameraUiWrapper.GetParameterHandler().NonZslManualMode);
         nonZSLmanualMode.SetUiItemClickListner(this);
 
-        correlatedDoubleSampling.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_CDS);
+        correlatedDoubleSampling.SetStuff(fragment_activityInterface, AppSettingsManager.CORRELATEDDOUBLESAMPLING);
         correlatedDoubleSampling.SetParameter(cameraUiWrapper.GetParameterHandler().CDS_Mode);
         correlatedDoubleSampling.SetUiItemClickListner(this);
 
@@ -214,11 +214,11 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         opticalImageStabilization.SetParameter(cameraUiWrapper.GetParameterHandler().oismode);
         opticalImageStabilization.SetUiItemClickListner(this);
 
-        zoomSetting.SetStuff(fragment_activityInterface, null);
+        zoomSetting.SetStuff(fragment_activityInterface, "");
         zoomSetting.SetParameter(cameraUiWrapper.GetParameterHandler().ZoomSetting);
         zoomSetting.SetUiItemClickListner(this);
 
-        scalePreview.SetStuff(fragment_activityInterface, null);
+        scalePreview.SetStuff(fragment_activityInterface, "");
         scalePreview.SetParameter(cameraUiWrapper.GetParameterHandler().scalePreview);
         scalePreview.SetUiItemClickListner(this);
     }

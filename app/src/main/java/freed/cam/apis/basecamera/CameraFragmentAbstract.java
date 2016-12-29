@@ -72,7 +72,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     /**
      * holds the appsettings for the current camera
      */
-    public AppSettingsManager appSettingsManager;
+    private AppSettingsManager appSettingsManager;
 
 
     public abstract String CameraApiName();

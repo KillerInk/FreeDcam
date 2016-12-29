@@ -34,6 +34,10 @@ public class PreviewFpsParameter extends  BaseModeParameter
         super(parameters, holder, KEYS.PREVIEW_FRAME_RATE, KEYS.PREVIEW_FRAME_RATE_VALUES);
     }
 
+    public PreviewFpsParameter(Parameters parameters,CameraWrapperInterface holder, String key, String[] values) {
+        super(parameters, holder, key, values);
+    }
+
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {

@@ -250,7 +250,6 @@ public abstract class AbstractParameterHandler
         //setMode(AE_Bracket, AppSettingsManager.AEBRACKETHDR);
 
         setMode(matrixChooser, AppSettingsManager.CUSTOMMATRIX);
-        setMode(imageStackMode,AppSettingsManager.SETTING_STACKMODE);
         //setMode(NightOverlay,AppSettingsManager.SETTINGS_NIGHTOVERLAY);
 
         //setMode(PreviewZoom, AppSettingsManager.SETTINGS_PREVIEWZOOM);

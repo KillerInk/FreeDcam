@@ -67,10 +67,16 @@ public class BaseFocusManual extends BaseManualParameter
      */
     public BaseFocusManual(Parameters parameters, String value, int min, int max, String manualFocusModeString, CameraWrapperInterface cameraUiWrapper, float step, int manualFocusType) {
         super(parameters, value, "", "", cameraUiWrapper, step);
+
         isSupported = true;
         isVisible = true;
         this.manualFocusModeString = manualFocusModeString;
-        stringvalues = createStringArray(min,max,step);
+        if (cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues().length == 0) {
+            stringvalues = createStringArray(min, max, step);
+            cameraUiWrapper.GetAppSettingsManager().manualFocus.setValues(stringvalues);
+        }
+        else
+            stringvalues = cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues();
         this.manualFocusType = manualFocusType;
     }
 

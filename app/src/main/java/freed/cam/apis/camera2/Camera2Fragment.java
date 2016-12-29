@@ -101,7 +101,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public void StartCamera()
     {
         if (!cameraIsOpen)
-            cameraIsOpen = cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
+            cameraIsOpen = cameraHolder.OpenCamera(GetAppSettingsManager().GetCurrentCamera());
     }
 
     @Override
@@ -154,7 +154,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
 
         Log.d(TAG, "Camera Opened and Preview Started");
         super.onCameraOpen(message);
-        moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
+        moduleHandler.SetModule(GetAppSettingsManager().GetCurrentModule());
         this.onCameraOpenFinish("");
     }
 

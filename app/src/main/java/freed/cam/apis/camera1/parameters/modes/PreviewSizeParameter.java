@@ -36,6 +36,11 @@ public class PreviewSizeParameter extends BaseModeParameter
         super(parameters, parameterChanged, "preview-size", "preview-size-values");
     }
 
+    public PreviewSizeParameter(Parameters parameters, CameraWrapperInterface cameraWrapperInterface, String t, String[] s)
+    {
+        super(parameters,cameraWrapperInterface,t,s);
+    }
+
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
@@ -56,6 +61,6 @@ public class PreviewSizeParameter extends BaseModeParameter
 
     @Override
     public String[] GetValues() {
-        return parameters.get(key_values).split(",");
+        return cameraUiWrapper.GetAppSettingsManager().previewSize.getValues();
     }
 }
