@@ -70,8 +70,8 @@ public class AppSettingsManager {
     //done
     public static final String CURRENTMODULE = "currentmodule";
 
-    public static final String DENOISETMODE = "denoisetmode";
-    public static final String DIGITALIMAGESTABMODE = "digitalimagestabmode";
+
+
     public static final String SKINTONEMODE = "skintonemode";
     public static final String NIGHTMODE = "nightmode";
     public static final String NONZSLMANUALMODE = "nonzslmanualmode";
@@ -111,11 +111,10 @@ public class AppSettingsManager {
     public static final String SETTING_SECUREMODE = "securemode";
     public static final String SETTING_TNR = "tnr";
     public static final String SETTING_RDI = "rdi";
-    public static final String SETTING_EDGE = "edge";
     public static final String SETTING_COLORCORRECTION = "colorcorrection";
-    public static final String SETTING_HOTPIXEL = "hotpixel";
+
     public static final String SETTING_TONEMAP = "tonemap";
-    public static final String SETTING_CONTROLMODE = "controlmode";
+
     public static final String SETTING_FOCUSPEAK = "focuspeak";
 
     public static final String SETTING_EXTERNALSD = "extSD";
@@ -325,6 +324,32 @@ public class AppSettingsManager {
     public final TypeSettingsMode manualFocus;
 
 
+    public static final String DENOISETMODE = "denoisemode";
+    public static final String DENOISEMODE_VALUES = "denoisetmodevalues";
+    public static final String DENOISEMODE_SUPPORTED = "denoisetmodesupported";
+    public final SettingMode denoiseMode;
+
+    public static final String CONTROLMODE = "controlmode";
+    public static final String CONTROLMODE_VALUES = "controlmodevalues";
+    public static final String CONTROLMODE_SUPPORTED = "controlmodesupported";
+    public final SettingMode controlMode;
+
+    public static final String EDGEMODE = "edgemode";
+    public static final String EDGEMODE_VALUES = "edgemodevalues";
+    public static final String EDGEMODE_SUPPORTED = "edgemodesupported";
+    public final SettingMode edgeMode;
+
+    public static final String DIGITALIMAGESTABMODE = "digitalimagestabmode";
+    public static final String DIGITALIMAGESTABMODE_VALUES = "digitalimagestabmodevalues";
+    public static final String DIGITALIMAGESTABMODE_SUPPORTED = "digitalimagestabmodesupported";
+    public final SettingMode digitalImageStabilisationMode;
+
+    public static final String HOTPIXELMODE = "hotpixel";
+    public static final String HOTPIXELMODE_VALUES = "hotpixelvalues";
+    public static final String HOTPIXELMODE_SUPPORTED = "hotpixelsupported";
+    public final SettingMode hotpixelMode;
+
+
     private SharedPreferences settings;
 
     public AppSettingsManager(SharedPreferences sharedPreferences)
@@ -358,6 +383,11 @@ public class AppSettingsManager {
         opticalImageStabilisation = new SettingMode(SETTING_OIS,SETTING_OIS_VALUES,SETTING_OIS_SUPPORTED, SETTING_OIS_KEY);
         videoHDR = new SettingMode(VIDEOHDR,VIDEOHDR_VALUES,VIDEOHDR_SUPPORTED,VIDEOHDR_KEY);
         videoHFR = new SettingMode(VIDEOHFR,VIDEOHFR_VALUES,VIDEOHFR_SUPPORTED,VIDEOHFR_KEY);
+        controlMode = new SettingMode(CONTROLMODE,CONTROLMODE_VALUES,CONTROLMODE_SUPPORTED);
+        denoiseMode = new SettingMode(DENOISETMODE,DENOISEMODE_VALUES,DENOISEMODE_SUPPORTED);
+        edgeMode = new SettingMode(EDGEMODE,EDGEMODE_VALUES,EDGEMODE_SUPPORTED);
+        digitalImageStabilisationMode = new SettingMode(DIGITALIMAGESTABMODE, DIGITALIMAGESTABMODE_VALUES, DIGITALIMAGESTABMODE_SUPPORTED);
+        hotpixelMode = new SettingMode(HOTPIXELMODE,HOTPIXELMODE_VALUES,HOTPIXELMODE_SUPPORTED);
 
         manualFocus = new TypeSettingsMode(MANUAL_FOCUS,MANUAL_FOCUS_VALUES,MANUAL_FOCUS_SUPPORTED,MANUAL_FOCUS_KEY,MANUAL_FOCUS_TYP);
     }

@@ -237,10 +237,10 @@ public abstract class AbstractParameterHandler
         setMode(WhiteBalanceMode,AppSettingsManager.WHITEBALANCEMODE);
         setMode(ImagePostProcessing,AppSettingsManager.IMAGEPOSTPROCESSINGMODE);
         setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);
-        setMode(EdgeMode, AppSettingsManager.SETTING_EDGE);
-        setMode(HotPixelMode, AppSettingsManager.SETTING_HOTPIXEL);
+        setMode(EdgeMode, AppSettingsManager.EDGEMODE);
+        setMode(HotPixelMode, AppSettingsManager.HOTPIXELMODE);
         setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
-        setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
+        setMode(ControlMode, AppSettingsManager.CONTROLMODE);
         setMode(IntervalDuration,AppSettingsManager.SETTING_INTERVAL_DURATION);
         setMode(IntervalShutterSleep, AppSettingsManager.SETTING_INTERVAL);
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);

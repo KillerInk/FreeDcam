@@ -146,7 +146,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         postViewSize.SetParameter(cameraUiWrapper.GetParameterHandler().PostViewSize);
         postViewSize.SetUiItemClickListner(this);
 
-        controleMode.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_CONTROLMODE);
+        controleMode.SetStuff(fragment_activityInterface, AppSettingsManager.CONTROLMODE);
         controleMode.SetParameter(cameraUiWrapper.GetParameterHandler().ControlMode);
         controleMode.SetUiItemClickListner(this);
 
@@ -202,11 +202,11 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         temporalDenoise.SetParameter(cameraUiWrapper.GetParameterHandler().TnrMode);
         temporalDenoise.SetUiItemClickListner(this);
 
-        edgeMode.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_EDGE);
+        edgeMode.SetStuff(fragment_activityInterface, AppSettingsManager.EDGEMODE);
         edgeMode.SetParameter(cameraUiWrapper.GetParameterHandler().EdgeMode);
         edgeMode.SetUiItemClickListner(this);
 
-        hotPixelMode.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_HOTPIXEL);
+        hotPixelMode.SetStuff(fragment_activityInterface, AppSettingsManager.HOTPIXELMODE);
         hotPixelMode.SetParameter(cameraUiWrapper.GetParameterHandler().HotPixelMode);
         hotPixelMode.SetUiItemClickListner(this);
 

@@ -2,12 +2,15 @@ package freed.cam;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.camera1.parameters.DeviceSelector;
 import freed.cam.apis.camera1.parameters.device.I_Device;
+import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
 import freed.utils.LocationHandler;
@@ -32,6 +36,7 @@ import freed.viewer.holder.FileHolder;
 
 import static freed.cam.apis.KEYS.AE_BRACKET_HDR_VALUES;
 import static freed.cam.apis.KEYS.BAYER;
+import static freed.cam.apis.KEYS.JPEG;
 
 /**
  * Created by troop on 27.12.2016.
@@ -935,6 +940,27 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
                         detectMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES,getAppSettings().antiBandingMode,R.array.antibandingmodes);
                         sendProgress(getAppSettings().antiBandingMode, "Antibanding");
+
+                        detectMode(characteristics,CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, getAppSettings().colorMode,R.array.colormodes);
+                        sendProgress(getAppSettings().colorMode, "Color");
+
+                        detectControlMode(characteristics);
+                        sendProgress(getAppSettings().controlMode, "ControlMode");
+
+                        detectMode(characteristics,CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, getAppSettings().edgeMode,R.array.edgeModes);
+                        sendProgress(getAppSettings().edgeMode, "EdgeMode");
+
+                        detectMode(characteristics,CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, getAppSettings().opticalImageStabilisation,R.array.digitalImageStabModes);
+                        sendProgress(getAppSettings().opticalImageStabilisation, "OpticalImageStabilisationMode");
+
+                        detectMode(characteristics,CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES,getAppSettings().focusMode,R.array.focusModes);
+                        sendProgress(getAppSettings().focusMode, "FocusMode");
+
+                        detectMode(characteristics,CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES,getAppSettings().hotpixelMode,R.array.hotpixelmodes);
+                        sendProgress(getAppSettings().hotpixelMode, "HotPixelMode");
+
+                        detectPictureFormats(characteristics);
+                        sendProgress(getAppSettings().pictureFormat,"PictureFormat");
                     }
                 }
             }
@@ -961,6 +987,57 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                     getAppSettings().flashMode.setValues(lookupar);
                 }
             }
+        }
+
+        private void detectControlMode(CameraCharacteristics characteristics) {
+            if (getAppSettings().IsCamera2FullSupported().equals("true")) {
+                //flash mode
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                {
+                    detectMode(characteristics,CameraCharacteristics.CONTROL_AVAILABLE_MODES,getAppSettings().controlMode,R.array.controlModes);
+                    return;
+                }
+                else {
+                    int device = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+                    String[] lookupar = getResources().getStringArray(R.array.controlModes);
+                    int[] full = null;
+                    if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL) {
+                        full = new int[] {0,1,2,3};
+                    }
+                    else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED)
+                    {
+                        full = new int[] {0,1,2,};
+                    }
+                    else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
+                        full = new int[] {1,2,};
+                    getAppSettings().controlMode.setIsSupported(true);
+                    if (getAppSettings().controlMode.isSupported()) {
+                        HashMap<String, Integer> map = new HashMap<>();
+                        for (int i = 0; i < full.length; i++) {
+                            map.put(lookupar[i], full[i]);
+                        }
+                        lookupar = StringUtils.HashmapToStringArray(map);
+                        getAppSettings().controlMode.setValues(lookupar);
+                    }
+                }
+            }
+        }
+
+        private void detectPictureFormats(CameraCharacteristics characteristics)
+        {
+            StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+            HashMap<String, Integer> hmap = new HashMap<>();
+            if (smap.isOutputSupportedFor(ImageFormat.RAW10))
+                hmap.put("10bitDNG", ImageFormat.RAW10);
+            if (smap.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
+                hmap.put("16bitDNG", ImageFormat.RAW_SENSOR);
+            if (smap.isOutputSupportedFor(ImageFormat.RAW12))
+                hmap.put("12bitDNG", ImageFormat.RAW12);
+            if (smap.isOutputSupportedFor(ImageFormat.JPEG))
+                hmap.put(JPEG, ImageFormat.JPEG);
+            getAppSettings().pictureFormat.setIsSupported(true);
+            getAppSettings().pictureFormat.set(JPEG);
+            getAppSettings().pictureFormat.setValues(StringUtils.HashmapToStringArray(hmap));
         }
 
         private void detectMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)

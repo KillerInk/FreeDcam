@@ -35,7 +35,6 @@ import freed.cam.apis.camera2.CameraHolderApi2;
  */
 public class PictureFormatParameterApi2 extends BaseModeApi2
 {
-    boolean firststart = true;
     private String format = KEYS.JPEG;
     public PictureFormatParameterApi2(CameraWrapperInterface cameraUiWrapper)
     {
@@ -57,8 +56,6 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
             cameraUiWrapper.StopPreview();
             cameraUiWrapper.StartPreview();
         }
-
-
     }
 
     @Override
