@@ -45,6 +45,8 @@ public class AppSettingsManager {
     private String camApiString = AppSettingsManager.API_1;
     private Devices device;
 
+    private final String FEATUREDETECTED = "featuredetected";
+
     public static final int JPEG= 0;
     public static final int RAW = 1;
     public static final int DNG = 2;
@@ -284,7 +286,7 @@ public class AppSettingsManager {
 
     public static final String MEMORYCOLORENHANCEMENTMODE = "memorycolorenhancementmode";
     public static final String MEMORYCOLORENHANCEMENTMODE_VALUES = "memorycolorenhancementmode_values";
-    public static final String MEMORYCOLORENHANCEMENTMODE_SUPPORTED = "memorycolorenhancementmode_values";
+    public static final String MEMORYCOLORENHANCEMENTMODE_SUPPORTED = "memorycolorenhancementmode_supported";
     public final SettingMode memoryColorEnhancement;
 
     public static final String VIDEOSIZE = "videosize";
@@ -392,6 +394,15 @@ public class AppSettingsManager {
         manualFocus = new TypeSettingsMode(MANUAL_FOCUS,MANUAL_FOCUS_VALUES,MANUAL_FOCUS_SUPPORTED,MANUAL_FOCUS_KEY,MANUAL_FOCUS_TYP);
     }
 
+    public boolean areFeaturesDetected()
+    {
+        return settings.getBoolean(FEATUREDETECTED,false);
+    }
+
+    public void setAreFeaturesDetected(boolean detected)
+    {
+        settings.edit().putBoolean(FEATUREDETECTED,detected).commit();
+    }
 
     private void putString(String settingsval, String toSet)
     {

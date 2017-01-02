@@ -108,6 +108,8 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
     {
         super.InitModule();
         Log.d(TAG,"InitModule");
+        if (cameraUiWrapper.GetParameterHandler() == null)
+            return;
         cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp",true);
         if (cameraUiWrapper.GetParameterHandler().VideoHDR != null && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported() && !cameraUiWrapper.GetParameterHandler().VideoHDR.GetValue().equals("off"))
             cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("off", true);

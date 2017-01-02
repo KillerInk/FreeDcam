@@ -28,6 +28,8 @@ import android.os.Build.VERSION_CODES;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.troop.freedcam.R;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -55,7 +57,7 @@ public class FocusHandler extends AbstractFocusHandler
         @Override
         public void onParameterValueChanged(String val)
         {
-            if (val.contains("continous")|| val.equals(KEYS.OFF))
+            if (val.contains("Continous")|| val.equals(cameraUiWrapper.getContext().getString(R.string.off)))
             {
                 focusenabled = false;
                 if (focusEvent != null)

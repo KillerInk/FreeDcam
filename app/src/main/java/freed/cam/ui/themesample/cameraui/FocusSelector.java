@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
+import freed.utils.StringUtils;
+
 public class FocusSelector extends ImageView
 {
 
@@ -61,28 +63,14 @@ public class FocusSelector extends ImageView
 		far =  f[Camera.Parameters.FOCUS_DISTANCE_FAR_INDEX];
 		//h = far-n;
 		opt = f[Camera.Parameters.FOCUS_DISTANCE_OPTIMAL_INDEX];
-		nearF = getMeterString(n);
-		farF = getMeterString(far);
-		hypF = getMeterString(opt);
+		nearF = StringUtils.getMeterString(n);
+		farF = StringUtils.getMeterString(far);
+		hypF = StringUtils.getMeterString(opt);
 		invalidate();
 		
 	}
 
-	private String getMeterString(float f)
-	{
-		String ret = "";
-		f= f*100;
-		int t = (int)f;
-		if (t > 100) {
-			int meter = t / 100;
-			int cm = t - meter*100;
-			ret = meter + "m " + cm +"cm";
-		}
-		else
-			ret = t +"cm";
 
-		return ret;
-	}
 	
 	public boolean getFocusCheck()
 	{

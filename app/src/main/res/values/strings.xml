@@ -180,6 +180,14 @@
     <string name="files_selected">Files selected:</string>
     <string name="setting_imagestack">ImageStack</string>
 
+    <string name="off">Off</string>
+    <string name="on">On</string>
+    <string name="fast">Fast</string>
+    <string name="highquality">High Quality</string>
+    <string name="auto">Auto</string>
+
+
+
 
 
     <!-- sceneModes -->
@@ -204,15 +212,33 @@
     <string name="scene_hdr">HDR</string>
 
     <!-- flashmodes -->
-    <string name="flash_off">Off</string>
     <string name="flash_singel">Singel</string>
     <string name="flash_torch">Torch</string>
 
     <!-- antibanding -->
-    <string name="antibanding_off">Off</string>
     <string name="antibanding_50hz">50HZ</string>
     <string name="antibanding_60hz">60HZ</string>
-    <string name="antibanding_auto">Auto</string>
+
+    <!-- colormode -->
+    <string name="color_mono">Mono</string>
+    <string name="color_negativ">Negativ</string>
+    <string name="color_solarize">Solarize</string>
+    <string name="color_sepia">Sepia</string>
+    <string name="color_posterize">Posterize</string>
+    <string name="color_whiteboard">Whiteboard</string>
+    <string name="color_blackboard">Blackboard</string>
+    <string name="color_aqua">Aqua</string>
+
+    <string name="controlmode_Scene">Scene</string>
+    <string name="controlmode_off_keep_state">Off Keep State</string>
+
+    <string name="denoise_minimal">Minimal</string>
+    <string name="denoise_zsl">ZeroShutterLag</string>
+
+    <string name="focus_mode_macro">Macro</string>
+    <string name="focus_mode_continousevideo">Continouse Video</string>
+    <string name="focus_mode_continousepicture">Continouse Picture</string>
+    <string name="focus_mode_edof">Extended Deep of Field</string>
 
 
 

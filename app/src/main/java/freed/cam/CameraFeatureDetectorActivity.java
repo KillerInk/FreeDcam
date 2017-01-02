@@ -2,6 +2,7 @@ package freed.cam;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraCharacteristics;
@@ -10,7 +11,6 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
@@ -27,10 +27,10 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.camera1.parameters.DeviceSelector;
 import freed.cam.apis.camera1.parameters.device.I_Device;
-import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
 import freed.utils.LocationHandler;
+import freed.utils.StringFloatArray;
 import freed.utils.StringUtils;
 import freed.viewer.holder.FileHolder;
 
@@ -53,7 +53,11 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
         setContentView(R.layout.camerafeaturedetector);
         loggerview = (TextView)findViewById(R.id.textview_log);
         loggerview.setMovementMethod(new ScrollingMovementMethod());
-        new Camera1AsyncTask().execute("");
+        if (hasCameraPermission()) {
+            new Camera1AsyncTask().execute("");
+        }
+        else
+            finish();
     }
 
     @Override
@@ -102,6 +106,14 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
         return t;
     }
 
+    private void startFreedcam()
+    {
+        getAppSettings().setAreFeaturesDetected(true);
+        Intent intent = new Intent(this, ActivityFreeDcamMain.class);
+        startActivity(intent);
+        this.finish();
+    }
+
     private class Camera1AsyncTask extends AsyncTask<String,String, String>
     {
 
@@ -122,8 +134,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
             //can open legcay
             getAppSettings().setCanOpenLegacy(canOpenLegacy());
             publishProgress("CanOpenLegacy:"+getAppSettings().getCanOpenLegacy());
-            if (hasCameraPermission())
-            {
+
                 Camera camera = null;
                 int cameraCounts = Camera.getNumberOfCameras();
                 AppSettingsManager appS = getAppSettings();
@@ -219,14 +230,16 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                     detectVideoHFR(parameters);
                     sendProgress(appS.videoHFR,"VideoHFR");
                 }
-            }
+
             return null;
         }
 
         private void sendProgress(AppSettingsManager.SettingMode settingMode, String name)
         {
             if (settingMode.isSupported()) {
-                publishProgress(name+" Values:" + getStringFromArray(settingMode.getValues()));
+                String[]ar = settingMode.getValues();
+                String t = getStringFromArray(ar);
+                publishProgress(name+" Values:" +t);
                 publishProgress(name+":" + settingMode.get());
             }
             else
@@ -236,6 +249,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
         @Override
         protected void onProgressUpdate(String... values) {
             sendLog(values[0]);
+            Log.d(TAG, values[0]);
         }
 
         private void detectFrontCamera(int i) {
@@ -756,7 +770,8 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                 getAppSettings().memoryColorEnhancement.setIsSupported(false);
                 return;
             }
-            getAppSettings().memoryColorEnhancement.setValues(parameters.get(KEYS.MEMORYCOLORENHANCEMENT_VALUES).split(","));
+            String mce = parameters.get(KEYS.MEMORYCOLORENHANCEMENT_VALUES);
+            getAppSettings().memoryColorEnhancement.setValues(mce.split(","));
             getAppSettings().memoryColorEnhancement.set(parameters.get(KEYS.MEMORYCOLORENHANCEMENT));
             if (getAppSettings().memoryColorEnhancement.getValues().length >0)
                 getAppSettings().memoryColorEnhancement.setIsSupported(true);
@@ -893,8 +908,10 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
             if (Build.VERSION.SDK_INT >= 21) {
                 new Camera2AsyncTask().execute("");
             }
-            else
+            else {
                 sendLog("No camera2");
+                startFreedcam();
+            }
         }
     }
 
@@ -961,6 +978,9 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
                         detectPictureFormats(characteristics);
                         sendProgress(getAppSettings().pictureFormat,"PictureFormat");
+
+                        detectManualFocus(characteristics);
+                        sendProgress(getAppSettings().manualFocus,"Manual Focus");
                     }
                 }
             }
@@ -969,6 +989,12 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                 getAppSettings().SetCamera2FullSupported("false");
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            //startFreedcam();
         }
 
         private void detectFlash(CameraCharacteristics characteristics) {
@@ -983,7 +1009,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                     {
                         map.put(lookupar[i], i);
                     }
-                    lookupar = StringUtils.HashmapToStringArray(map);
+                    lookupar = StringUtils.IntHashmapToStringArray(map);
                     getAppSettings().flashMode.setValues(lookupar);
                 }
             }
@@ -1016,7 +1042,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                         for (int i = 0; i < full.length; i++) {
                             map.put(lookupar[i], full[i]);
                         }
-                        lookupar = StringUtils.HashmapToStringArray(map);
+                        lookupar = StringUtils.IntHashmapToStringArray(map);
                         getAppSettings().controlMode.setValues(lookupar);
                     }
                 }
@@ -1037,7 +1063,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                 hmap.put(JPEG, ImageFormat.JPEG);
             getAppSettings().pictureFormat.setIsSupported(true);
             getAppSettings().pictureFormat.set(JPEG);
-            getAppSettings().pictureFormat.setValues(StringUtils.HashmapToStringArray(hmap));
+            getAppSettings().pictureFormat.setValues(StringUtils.IntHashmapToStringArray(hmap));
         }
 
         private void detectMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
@@ -1055,14 +1081,39 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                 {
                     map.put(lookupar[i], i);
                 }
-                lookupar = StringUtils.HashmapToStringArray(map);
+                lookupar = StringUtils.IntHashmapToStringArray(map);
                 settingMode.setValues(lookupar);
             }
+        }
+
+
+        private void detectManualFocus(CameraCharacteristics cameraCharacteristics)
+        {
+            AppSettingsManager.SettingMode mf = getAppSettings().manualFocus;
+            float maxfocusrange = cameraCharacteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
+            if (maxfocusrange == 0)
+            {
+                mf.setIsSupported(false);
+                return;
+            }
+            float step = 0.2f;
+            int count = (int)(maxfocusrange/step)+1;
+            StringFloatArray focusranges = new StringFloatArray(count);
+            focusranges.add(0,getString(R.string.auto),0f);
+            int t = 1;
+            for (float i = step; i < maxfocusrange; i += step)
+            {
+                focusranges.add(t++,StringUtils.getMeterString(1/i),i);
+            }
+            mf.setIsSupported(true);
+
+            mf.setValues(focusranges.getStringArray());
         }
 
         @Override
         protected void onProgressUpdate(String... values) {
             sendLog(values[0]);
+            Log.d(TAG, values[0]);
         }
 
         private void sendProgress(AppSettingsManager.SettingMode settingMode, String name)

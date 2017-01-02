@@ -113,7 +113,7 @@ public class StringUtils
     }
 
 
-    public static String[] HashmapToStringArray(HashMap<String, Integer> hashMap)
+    public static String[] IntHashmapToStringArray(HashMap<String, Integer> hashMap)
     {
         String[] t = new String[hashMap.entrySet().size()];
         int i = 0;
@@ -124,7 +124,7 @@ public class StringUtils
         return t;
     }
 
-    public static HashMap<String, Integer> StringArrayToHashmap(String[] t)
+    public static HashMap<String, Integer> StringArrayToIntHashmap(String[] t)
     {
         HashMap<String, Integer> out = new HashMap<>();
         for (String e : t)
@@ -135,6 +135,25 @@ public class StringUtils
             }
         }
         return out;
+    }
+
+    public static String getMeterString(float f)
+    {
+        String ret = "";
+        f= f*1000;
+        int t = (int)f;
+        if (t > 1000) {
+            int meter = t / 1000;
+            int cm = t - meter*1000;
+            ret = meter + "." + cm +"m";
+        }
+        else {
+            int cm = t /10;
+            int mm = t -cm*10;
+            ret = cm + "." + mm+ "cm";
+        }
+
+        return ret;
     }
 
 }

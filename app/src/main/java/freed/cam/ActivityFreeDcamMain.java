@@ -20,6 +20,7 @@
 package freed.cam;
 
 
+import android.content.Intent;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -92,6 +93,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!getAppSettings().areFeaturesDetected())
+        {
+            Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
+            startActivity(intent);
+            this.finish();
+        }
+
         setContentView(layout.freedcam_main_activity);
 
         mSecureCamera.onCreate();

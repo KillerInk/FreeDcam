@@ -20,14 +20,11 @@
 package freed.cam.apis.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
-import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
-import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
@@ -60,7 +57,7 @@ public class BaseModeApi2 extends AbstractModeParameter
         this.parameterKey = parameterKey;
         isSupported = settingMode.isSupported();
         if (isSupported)
-            parameterValues = StringUtils.StringArrayToHashmap(settingMode.getValues());
+            parameterValues = StringUtils.StringArrayToIntHashmap(settingMode.getValues());
         else settingMode = null;
     }
 
@@ -73,9 +70,10 @@ public class BaseModeApi2 extends AbstractModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        super.SetValue(valueToSet,setToCamera);
         int toset = parameterValues.get(valueToSet);
         ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(parameterKey, toset);
+        onValueHasChanged(valueToSet);
+
     }
 
     @Override

@@ -158,18 +158,70 @@
         </string-array>
 
     <string-array name="flashModes"  translatable="false">
-        <item>@string/flash_off</item>
+        <item>@string/off</item>
         <item>@string/flash_singel</item>
         <item>@string/flash_torch</item>
         </string-array>
 
     <string-array name="antibandingmodes"  translatable="false">
-        <item>@string/antibanding_off</item>
+        <item>@string/off</item>
         <item>@string/antibanding_50hz</item>
         <item>@string/antibanding_60hz</item>
-        <item>@string/antibanding_auto</item>
+        <item>@string/auto</item>
     </string-array>
 
+    <string-array name="colormodes"  translatable="false">
+        <item>@string/off</item>
+        <item>@string/color_mono</item>
+        <item>@string/color_negativ</item>
+        <item>@string/color_solarize</item>
+        <item>@string/color_sepia</item>
+        <item>@string/color_posterize</item>
+        <item>@string/color_whiteboard</item>
+        <item>@string/color_blackboard</item>
+        <item>@string/color_aqua</item>
+    </string-array>
+
+    <string-array name="controlModes"  translatable="false">
+        <item>@string/off</item>
+        <item>@string/auto</item>
+        <item>@string/controlmode_Scene</item>
+        <item>@string/controlmode_off_keep_state</item>
+    </string-array>
+
+    <string-array name="denoiseModes"  translatable="false">
+        <item>@string/off</item>
+        <item>@string/fast</item>
+        <item>@string/highquality</item>
+        <item>@string/denoise_minimal</item>
+        <item>@string/denoise_zsl</item>
+    </string-array>
+
+    <string-array name="edgeModes"  translatable="false">
+        <item>@string/off</item>
+        <item>@string/fast</item>
+        <item>@string/highquality</item>
+    </string-array>
+
+    <string-array name="digitalImageStabModes"  translatable="false">
+        <item>@string/off</item>
+        <item>@string/on</item>
+    </string-array>
+
+    <string-array name="focusModes"  translatable="false">
+        <item>@string/off</item>
+        <item>@string/auto</item>
+        <item>@string/focus_mode_macro</item>
+        <item>@string/focus_mode_continousevideo</item>
+        <item>@string/focus_mode_continousepicture</item>
+        <item>@string/focus_mode_edof</item>
+    </string-array>
+
+    <string-array name="hotpixelmodes"  translatable="false">
+        <item>@string/off</item>
+        <item>@string/fast</item>
+        <item>@string/highquality</item>
+    </string-array>
 
     <!-- DO NOT TRANSLATE END -->
 </resources>
