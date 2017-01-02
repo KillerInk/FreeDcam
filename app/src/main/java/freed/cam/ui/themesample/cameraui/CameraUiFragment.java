@@ -207,7 +207,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
 
         whitebalance = (UiSettingsChild) view.findViewById(id.wb);
-        whitebalance.SetStuff(fragment_activityInterface, AppSettingsManager.WHITEBALANCEMODE);
+        whitebalance.SetStuff(fragment_activityInterface.getAppSettings().whiteBalanceMode);
+        //whitebalance.SetStuff(fragment_activityInterface, AppSettingsManager.WHITEBALANCEMODE);
         whitebalance.SetMenuItemClickListner(this,true);
 
         focus = (UiSettingsChild) view.findViewById(id.focus_uisetting);

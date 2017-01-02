@@ -105,7 +105,6 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface DigitalImageStabilization;
     public ModeParameterInterface VideoStabilization;
     public ModeParameterInterface MemoryColorEnhancement;
-    public ModeParameterInterface SkinToneEnhancment;
     public ModeParameterInterface NightMode;
     public ModeParameterInterface NonZslManualMode;
     public ModeParameterInterface AE_Bracket;
@@ -120,13 +119,10 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface VideoHDR;
     public ModeParameterInterface VideoHighFramerateVideo;
     public ModeParameterInterface LensFilter;
-    public ModeParameterInterface CameraMode;
     public ModeParameterInterface Horizont;
 
     //yet only seen on m9
-    public ModeParameterInterface RdiMode;
     public ModeParameterInterface TnrMode;
-    public ModeParameterInterface SecureMode;
 
     //SonyApi
     public ModeParameterInterface ContShootMode;
@@ -137,8 +133,6 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface Module;
     public ModeParameterInterface ZoomSetting;
     public ModeParameterInterface NightOverlay;
-    //public AbstractModeParameter PreviewZoom;
-    public boolean isExposureAndWBLocked;
     private boolean isDngActive;
     public boolean IsDngActive(){ return isDngActive; }
     public void SetDngActive(boolean active) {
@@ -165,13 +159,9 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface IntervalDuration;
     public ModeParameterInterface IntervalShutterSleep;
 
-    public ModeParameterInterface captureBurstExposures;
-
-
     public ModeParameterInterface opcode;
     public ModeParameterInterface bayerformat;
     public ModeParameterInterface matrixChooser;
-    public ModeParameterInterface imageStackMode;
     public ModeParameterInterface scalePreview;
 
     public AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
@@ -202,42 +192,65 @@ public abstract class AbstractParameterHandler
     public void SetAppSettingsToParameters()
     {
         setMode(locationParameter, AppSettingsManager.SETTING_LOCATION);
-        setMode(ColorMode, AppSettingsManager.COLORMODE);
-        setMode(ExposureMode, AppSettingsManager.EXPOSUREMODE);
-        setMode(FlashMode, AppSettingsManager.FLASHMODE);
-        setMode(IsoMode, AppSettingsManager.ISOMODE);
-        setMode(AntiBandingMode, AppSettingsManager.ANTIBANDINGMODE);
-        setMode(WhiteBalanceMode, AppSettingsManager.WHITEBALANCEMODE);
-        setMode(PictureSize, AppSettingsManager.PICTURESIZE);
-        setMode(PictureFormat, AppSettingsManager.PICTUREFORMAT);
-        setMode(bayerformat,AppSettingsManager.BAYERFORMAT);
-        setMode(oismode, AppSettingsManager.SETTING_OIS);
+        setAppSettingsToCamera(ColorMode,appSettingsManager.colorMode);
+        //setMode(ColorMode, AppSettingsManager.COLORMODE);
+        setAppSettingsToCamera(ExposureMode,appSettingsManager.exposureMode);
+        //setMode(ExposureMode, AppSettingsManager.EXPOSUREMODE);
+        setAppSettingsToCamera(FlashMode,appSettingsManager.flashMode);
+        //setMode(FlashMode, AppSettingsManager.FLASHMODE);
+        setAppSettingsToCamera(IsoMode,appSettingsManager.isoMode);
+        //setMode(IsoMode, AppSettingsManager.ISOMODE);
 
-        setMode(JpegQuality, AppSettingsManager.JPEGQUALITY);
+        setAppSettingsToCamera(AntiBandingMode,appSettingsManager.antiBandingMode);
+        //setMode(AntiBandingMode, AppSettingsManager.ANTIBANDINGMODE);
+        setAppSettingsToCamera(WhiteBalanceMode,appSettingsManager.whiteBalanceMode);
+        //setMode(WhiteBalanceMode, AppSettingsManager.WHITEBALANCEMODE);
+        setAppSettingsToCamera(PictureSize,appSettingsManager.pictureSize);
+        //setMode(PictureSize, AppSettingsManager.PICTURESIZE);
+        setAppSettingsToCamera(PictureFormat,appSettingsManager.pictureFormat);
+        //setMode(PictureFormat, AppSettingsManager.PICTUREFORMAT);
+        setAppSettingsToCamera(bayerformat,appSettingsManager.rawPictureFormat);
+        //setMode(bayerformat,AppSettingsManager.BAYERFORMAT);
+        setAppSettingsToCamera(oismode,appSettingsManager.opticalImageStabilisation);
+        //setMode(oismode, AppSettingsManager.SETTING_OIS);
+
+        //setMode(JpegQuality, AppSettingsManager.JPEGQUALITY);
+        setAppSettingsToCamera(JpegQuality,appSettingsManager.jpegQuality);
         setMode(GuideList, AppSettingsManager.GUIDE);
-        setMode(ImagePostProcessing, AppSettingsManager.IMAGEPOSTPROCESSINGMODE);
-        setMode(SceneMode, AppSettingsManager.SCENEMODE);
-        setMode(FocusMode, AppSettingsManager.FOCUSMODE);
-        setMode(RedEye,AppSettingsManager.REDEYEMODE);
-        setMode(LensShade,AppSettingsManager.LENSHADEMODE);
-        setMode(ZSL, AppSettingsManager.ZSLMODE);
-        setMode(SceneDetect, AppSettingsManager.SCENEDETECTMODE);
-        setMode(Denoise, AppSettingsManager.DENOISETMODE);
-        setMode(DigitalImageStabilization, AppSettingsManager.DIGITALIMAGESTABMODE);
-        setMode(MemoryColorEnhancement, AppSettingsManager.MEMORYCOLORENHANCEMENTMODE);
+        setAppSettingsToCamera(ImagePostProcessing,appSettingsManager.imagePostProcessing);
+        //setMode(ImagePostProcessing, AppSettingsManager.IMAGEPOSTPROCESSINGMODE);
+        setAppSettingsToCamera(SceneMode,appSettingsManager.sceneMode);
+        //setMode(SceneMode, AppSettingsManager.SCENEMODE);
+        setAppSettingsToCamera(FocusMode,appSettingsManager.focusMode);
+        //setMode(FocusMode, AppSettingsManager.FOCUSMODE);
+        setAppSettingsToCamera(RedEye,appSettingsManager.redEyeMode);
+        //setMode(RedEye,AppSettingsManager.REDEYEMODE);
+        setAppSettingsToCamera(LensShade,appSettingsManager.lenshade);
+        //setMode(LensShade,AppSettingsManager.LENSHADEMODE);
+        setAppSettingsToCamera(ZSL,appSettingsManager.zeroshutterlag);
+        //setMode(ZSL, AppSettingsManager.ZSLMODE);
+        //setMode(SceneDetect, AppSettingsManager.SCENEDETECTMODE);
+        setAppSettingsToCamera(SceneDetect,appSettingsManager.sceneDetectMode);
+        setAppSettingsToCamera(Denoise,appSettingsManager.denoiseMode);
+        //setMode(Denoise, AppSettingsManager.DENOISETMODE);
+        //setMode(DigitalImageStabilization, AppSettingsManager.DIGITALIMAGESTABMODE);
+        setAppSettingsToCamera(DigitalImageStabilization,appSettingsManager.digitalImageStabilisationMode);
+        //setMode(MemoryColorEnhancement, AppSettingsManager.MEMORYCOLORENHANCEMENTMODE);
+        setAppSettingsToCamera(MemoryColorEnhancement,appSettingsManager.memoryColorEnhancement);
         setMode(NightMode, AppSettingsManager.NIGHTMODE);
         setMode(NonZslManualMode, AppSettingsManager.NONZSLMANUALMODE);
 
-        setMode(Histogram, AppSettingsManager.HISTOGRAM);
+        //setMode(Histogram, AppSettingsManager.HISTOGRAM);
         setMode(VideoProfiles, AppSettingsManager.VIDEOPROFILE);
         setMode(VideoHDR, AppSettingsManager.VIDEOHDR);
         setMode(VideoSize, AppSettingsManager.VIDEOSIZE);
         setMode(VideoStabilization,AppSettingsManager.VIDEOSTABILIZATION);
         setMode(VideoHighFramerateVideo,AppSettingsManager.HIGHFRAMERATEVIDEO);
-        setMode(WhiteBalanceMode,AppSettingsManager.WHITEBALANCEMODE);
-        setMode(ImagePostProcessing,AppSettingsManager.IMAGEPOSTPROCESSINGMODE);
+        //setMode(WhiteBalanceMode,AppSettingsManager.WHITEBALANCEMODE);
+        setAppSettingsToCamera(WhiteBalanceMode,appSettingsManager.whiteBalanceMode);
         setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);
         setMode(EdgeMode, AppSettingsManager.EDGEMODE);
+        setAppSettingsToCamera(EdgeMode,appSettingsManager.edgeMode);
         setMode(HotPixelMode, AppSettingsManager.HOTPIXELMODE);
         setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
         setMode(ControlMode, AppSettingsManager.CONTROLMODE);
@@ -246,28 +259,25 @@ public abstract class AbstractParameterHandler
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
 
         setMode(HDRMode, AppSettingsManager.HDRMODE);
-        setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
-        //setMode(AE_Bracket, AppSettingsManager.AEBRACKETHDR);
 
         setMode(matrixChooser, AppSettingsManager.CUSTOMMATRIX);
-        //setMode(NightOverlay,AppSettingsManager.SETTINGS_NIGHTOVERLAY);
 
-        //setMode(PreviewZoom, AppSettingsManager.SETTINGS_PREVIEWZOOM);
-
-
-        setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
-        setManualMode(ManualConvergence,AppSettingsManager.MCONVERGENCE);
-        setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
+        //setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
+        //setManualMode(ManualConvergence,AppSettingsManager.MCONVERGENCE);
+        //setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
         //setManualMode(ManualFocus, AppSettingsManager.MF);
-        setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
-        setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
-        setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
+        //setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
+        //setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
+        //setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
         //setManualMode(ManualIso, AppSettingsManager.MISO);
-        setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
+        //setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
         //setManualMode(CCT,AppSettingsManager.MWB);
 
 
     }
+
+    protected void SetParameters()
+    {}
 
     protected void setMode(ModeParameterInterface parameter, String settings_key)
     {
@@ -286,6 +296,17 @@ public abstract class AbstractParameterHandler
                 Log.d(TAG, "Found AppSetting: "+settings_key+" set to: " + tmp);
                 parameter.SetValue(tmp, false);
             }
+        }
+    }
+
+    protected void setAppSettingsToCamera(ModeParameterInterface parameter, AppSettingsManager.SettingMode settingMode)
+    {
+        if (settingMode.isSupported() && parameter != null && parameter.GetValues() != null)
+        {
+            if (settingMode.get().equals("") || settingMode.get().equals("none"))
+                settingMode.set(parameter.GetValue());
+            else
+                parameter.SetValue(settingMode.get(),true);
         }
     }
 

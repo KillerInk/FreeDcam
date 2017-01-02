@@ -184,55 +184,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         return cameraHolder.GetFocusRange();
     }
 
-    @Override
-    public void SetAppSettingsToParameters()
-    {
-        setMode(ColorMode, AppSettingsManager.COLORMODE);
-        setMode(ExposureMode, AppSettingsManager.EXPOSUREMODE);
-        setMode(FlashMode, AppSettingsManager.FLASHMODE);
-        setMode(IsoMode, AppSettingsManager.ISOMODE);
-        setMode(AntiBandingMode, AppSettingsManager.ANTIBANDINGMODE);
-        setMode(WhiteBalanceMode, AppSettingsManager.WHITEBALANCEMODE);
-        setMode(PictureSize, AppSettingsManager.PICTURESIZE);
-        setMode(PictureFormat, AppSettingsManager.PICTUREFORMAT);
-        setMode(oismode, AppSettingsManager.SETTING_OIS);
 
-        setMode(JpegQuality, AppSettingsManager.JPEGQUALITY);
-        setMode(GuideList, AppSettingsManager.GUIDE);
-        setMode(ImagePostProcessing, AppSettingsManager.IMAGEPOSTPROCESSINGMODE);
-        setMode(SceneMode, AppSettingsManager.SCENEMODE);
-        setMode(FocusMode, AppSettingsManager.FOCUSMODE);
-        setMode(RedEye,AppSettingsManager.REDEYEMODE);
-        setMode(LensShade,AppSettingsManager.LENSHADEMODE);
-        setMode(Denoise, AppSettingsManager.DENOISETMODE);
-        setMode(DigitalImageStabilization, AppSettingsManager.DIGITALIMAGESTABMODE);
-        //setMode(SkinToneEnhancment, AppSettingsManager.SKINTONEMODE);
-        setMode(NightMode, AppSettingsManager.NIGHTMODE);
-        setMode(VideoProfiles, AppSettingsManager.VIDEOPROFILE);
-        setMode(VideoHDR, AppSettingsManager.VIDEOHDR);
-        setMode(VideoSize, AppSettingsManager.VIDEOSIZE);
-        setMode(WhiteBalanceMode,AppSettingsManager.WHITEBALANCEMODE);
-        setMode(ImagePostProcessing,AppSettingsManager.IMAGEPOSTPROCESSINGMODE);
-        setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);
-        setMode(EdgeMode, AppSettingsManager.EDGEMODE);
-        setMode(HotPixelMode, AppSettingsManager.HOTPIXELMODE);
-        setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
-        setMode(ControlMode, AppSettingsManager.CONTROLMODE);
-        //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
-
-        //setManualMode(ManualBrightness, AppSettingsManager.MWB);
-        //setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
-        setManualMode(ManualConvergence, AppSettingsManager.MCONVERGENCE);
-        setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
-        //setManualMode(ManualFocus, AppSettingsManager.MF);
-        setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
-        setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
-        setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
-        //setManualMode(ManualIso, AppSettingsManager.MISO);
-        setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
-        setManualMode(CCT,AppSettingsManager.MCCT);
-
-    }
 
 
 }

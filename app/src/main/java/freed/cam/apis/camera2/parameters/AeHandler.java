@@ -245,7 +245,7 @@ public class AeHandler
     public class ManualExposureTimeApi2 extends AbstractManualShutter
     {
         final String TAG = ManualExposureTimeApi2.class.getSimpleName();
-        private int millimax;
+        private long millimax;
         public ManualExposureTimeApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
             isSupported = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
@@ -289,7 +289,7 @@ public class AeHandler
                     millimax = 10000000;
                     break;
                 default:
-                    millimax = (int)cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper().longValue() / 1000;
+                    millimax = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper() / 1000;
                     if (millimax == 0)
                         millimax = 800000;
                     break;

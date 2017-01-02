@@ -56,8 +56,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
         if (hasCameraPermission()) {
             new Camera1AsyncTask().execute("");
         }
-        else
-            finish();
+
     }
 
     @Override
@@ -994,7 +993,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            //startFreedcam();
+            startFreedcam();
         }
 
         private void detectFlash(CameraCharacteristics characteristics) {

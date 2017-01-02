@@ -33,7 +33,6 @@ import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.FocusHandler;
 import freed.cam.apis.camera1.parameters.device.I_Device;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -42,7 +41,6 @@ import freed.cam.apis.camera1.parameters.manual.ZoomManualParameter;
 import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
 import freed.cam.apis.camera1.parameters.manual.zte.FXManualParameter;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
-import freed.cam.apis.camera1.parameters.modes.CupBurstExpModeParameter;
 import freed.cam.apis.camera1.parameters.modes.ExposureLockParameter;
 import freed.cam.apis.camera1.parameters.modes.FocusPeakModeParameter;
 import freed.cam.apis.camera1.parameters.modes.PictureFormatHandler;
@@ -76,6 +74,11 @@ public class ParametersHandler extends AbstractParameterHandler
     {
         Log.d(TAG, "SetParametersToCam");
         ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraParameters(params);
+    }
+
+    @Override
+    protected void SetParameters() {
+        ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraParameters(cameraParameters);
     }
 
     public void LoadParametersFromCamera()
@@ -295,14 +298,6 @@ public class ParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
 
-        try {
-            captureBurstExposures = new CupBurstExpModeParameter(cameraParameters, cameraUiWrapper, appSettingsManager);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-            captureBurstExposures = null;
-        }
 
         //load device specific stuff
         Device = new DeviceSelector().getDevice(cameraUiWrapper, cameraParameters, appSettingsManager);
@@ -336,14 +331,9 @@ public class ParametersHandler extends AbstractParameterHandler
         Module = new ModuleParameters(cameraUiWrapper, appSettingsManager);
 
 
-        try
-        {
-            //set last used settings
-            SetAppSettingsToParameters();
-            SetParametersToCamera(cameraParameters);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        //set last used settings
+        SetAppSettingsToParameters();
+        /*SetParametersToCamera(cameraParameters);*/
 
         cameraUiWrapper.GetModuleHandler().SetModule(appSettingsManager.GetCurrentModule());
     }

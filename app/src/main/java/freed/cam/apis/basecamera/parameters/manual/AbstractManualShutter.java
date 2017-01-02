@@ -35,7 +35,7 @@ public abstract class AbstractManualShutter extends AbstractManualParameter
         super(cameraUiWrapper);
     }
 
-    public String[] getSupportedShutterValues(int minMillisec, int maxMiliisec, boolean withautomode)
+    public String[] getSupportedShutterValues(int minMillisec, long maxMiliisec, boolean withautomode)
     {
         String[] allvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_autocreate);
         boolean foundmin = false;

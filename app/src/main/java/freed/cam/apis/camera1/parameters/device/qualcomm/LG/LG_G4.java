@@ -79,7 +79,7 @@ public class LG_G4 extends LG_G2
 
     @Override
     public AbstractManualParameter getManualSaturation() {
-        return new BaseManualParameter(parameters, KEYS.LG_COLOR_ADJUST,KEYS.LG_COLOR_ADJUST_MAX,KEYS.LG_COLOR_ADJUST_MIN, cameraUiWrapper,1);
+        return null; //new BaseManualParameter(parameters, KEYS.LG_COLOR_ADJUST,KEYS.LG_COLOR_ADJUST_MAX,KEYS.LG_COLOR_ADJUST_MIN, cameraUiWrapper,1);
     }
 
     @Override
@@ -90,5 +90,10 @@ public class LG_G4 extends LG_G2
     @Override
     public int getCurrentIso() {
         return Integer.parseInt(cameraHolder.GetParamsDirect(KEYS.CUR_ISO));
+    }
+
+    @Override
+    public ManualParameterInterface getManualContrast() {
+        return null;
     }
 }

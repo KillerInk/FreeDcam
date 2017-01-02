@@ -63,7 +63,7 @@ public class HDRModeParameter extends BaseModeParameter
             if (parameters.get(KEYS.AUTO_HDR_SUPPORTED)!=null)
                 isSupported = false;
             String autohdr = parameters.get(KEYS.AUTO_HDR_SUPPORTED);
-            if (autohdr != null && !autohdr.equals("") && autohdr.equals(KEYS.TRUE)) {
+            if (autohdr != null && !autohdr.equals("") && autohdr.equals(KEYS.TRUE) && parameters.get(KEYS.AUTO_HDR_ENABLE) != null) {
                 try {
                     List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(KEYS.SCENE_MODE_VALUES).split(",")));
                     if (Scenes.contains(KEYS.SCENE_MODE_VALUES_HDR)) {

@@ -135,12 +135,8 @@ public class BaseModeParameter extends AbstractModeParameter implements ModuleCh
         Log.d(TAG, "set " + key_value + " to " + valueToSet);
         onValueHasChanged(valueToSet);
         if (setToCam) {
-            try {
-                ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 
