@@ -45,16 +45,9 @@ public class ExposureLockParameter extends BaseModeParameter
     {
         if (parameters.isAutoExposureLockSupported())
             parameters.setAutoExposureLock(Boolean.parseBoolean(valueToSet));
-        try {
+
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
             onValueHasChanged(valueToSet);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-            onValueHasChanged(KEYS.FALSE);
-        }
-
     }
 
     @Override

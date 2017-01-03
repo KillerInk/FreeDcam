@@ -276,7 +276,7 @@ public class AppSettingsManager {
     public static final String ZSLMODE = "zslmode";
     public static final String ZSLMODE_VALUES = "zslmodevalues";
     public static final String ZSLMODE_SUPPORTED = "zslmodesupported";
-    public static final String ZSLMODE_KEY = "zslmode";
+    public static final String ZSLMODE_KEY = "zslmodekey";
     public final SettingMode zeroshutterlag;
 
     public static final String SCENEDETECTMODE = "scenedetectmode";

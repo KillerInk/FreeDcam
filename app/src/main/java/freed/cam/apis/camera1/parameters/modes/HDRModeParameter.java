@@ -64,20 +64,17 @@ public class HDRModeParameter extends BaseModeParameter
                 isSupported = false;
             String autohdr = parameters.get(KEYS.AUTO_HDR_SUPPORTED);
             if (autohdr != null && !autohdr.equals("") && autohdr.equals(KEYS.TRUE) && parameters.get(KEYS.AUTO_HDR_ENABLE) != null) {
-                try {
-                    List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(KEYS.SCENE_MODE_VALUES).split(",")));
-                    if (Scenes.contains(KEYS.SCENE_MODE_VALUES_HDR)) {
-                        supporton = true;
-                        isSupported = true;
-                    }
-                    if (Scenes.contains(KEYS.SCENE_MODE_VALUES_ASD)) {
-                        supportauto = true;
-                        isSupported = true;
-                    }
 
-                } catch (Exception ex) {
-                    isSupported = false;
+                List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(KEYS.SCENE_MODE_VALUES).split(",")));
+                if (Scenes.contains(KEYS.SCENE_MODE_VALUES_HDR)) {
+                    supporton = true;
+                    isSupported = true;
                 }
+                if (Scenes.contains(KEYS.SCENE_MODE_VALUES_ASD)) {
+                    supportauto = true;
+                    isSupported = true;
+                }
+
             }
             else
                 isSupported = false;
@@ -144,14 +141,8 @@ public class HDRModeParameter extends BaseModeParameter
                     break;
             }
         }
-        try {
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-            onValueHasChanged(valueToSet);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        onValueHasChanged(valueToSet);
     }
 
     @Override

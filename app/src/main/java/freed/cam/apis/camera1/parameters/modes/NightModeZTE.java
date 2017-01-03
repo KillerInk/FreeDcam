@@ -53,14 +53,9 @@ public class NightModeZTE extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         parameters.set(KEYS.NIGHT_KEY, valueToSet);
-        try {
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-            onValueHasChanged(valueToSet);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        onValueHasChanged(valueToSet);
+
     }
 
     @Override

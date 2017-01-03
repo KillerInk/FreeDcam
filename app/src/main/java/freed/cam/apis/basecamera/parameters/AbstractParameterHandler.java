@@ -303,10 +303,12 @@ public abstract class AbstractParameterHandler
     {
         if (settingMode.isSupported() && parameter != null && parameter.GetValues() != null)
         {
-            if (settingMode.get().equals("") || settingMode.get().equals("none"))
+            String toset = settingMode.get();
+            Log.d(TAG,"set to :" + toset);
+            if (toset.equals("") || toset.equals("none"))
                 settingMode.set(parameter.GetValue());
             else
-                parameter.SetValue(settingMode.get(),true);
+                parameter.SetValue(toset,true);
         }
     }
 

@@ -195,42 +195,27 @@ public class ParametersHandler extends AbstractParameterHandler
 
         locationParameter = new LocationParameter(cameraUiWrapper);
 
-        try {
             ManualConvergence = new BaseManualParameter(cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, cameraUiWrapper,1);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            ManualConvergence = null;
-        }
+
 
         createManualExposure();
 
 
         //createManualSaturation();
 
-        try {
+
             FX = new FXManualParameter(cameraParameters, cameraUiWrapper);
             PictureFormat.addEventListner(((BaseManualParameter) FX).GetPicFormatListner());
             cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) FX).GetModuleListner());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            FX = null;
-        }
 
-        try {
+
             Burst = new BurstManualParam(cameraParameters, cameraUiWrapper);
             cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Burst).GetModuleListner());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Burst = null;
-        }
 
 
-        try {
+
             Zoom = new ZoomManualParameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Zoom = null;
-        }
+
 
 
 
@@ -252,12 +237,8 @@ public class ParametersHandler extends AbstractParameterHandler
             CameraMode = null;
         }*/
 
-        try {
             ExposureLock = new ExposureLockParameter(cameraParameters, cameraUiWrapper);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            ExposureLock = null;
-        }
+
 
 
 
@@ -284,19 +265,12 @@ public class ParametersHandler extends AbstractParameterHandler
         }*/
 
 
-        try {
             Focuspeak = new FocusPeakModeParameter(cameraUiWrapper,((Camera1Fragment) cameraUiWrapper).focusPeakProcessorAp1);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Focuspeak = null;
-        }
 
-        try {
+
             SetCameraRotation();
             SetPictureOrientation(0);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
 
 
         //load device specific stuff
@@ -340,13 +314,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
 
     private void createManualExposure() {
-        try
-        {
-            ManualExposure = new ExposureManualParameter(cameraParameters, cameraUiWrapper,1);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            ManualExposure = null;
-        }
+        ManualExposure = new ExposureManualParameter(cameraParameters, cameraUiWrapper,1);
     }
 
     @Override
@@ -354,18 +322,11 @@ public class ParametersHandler extends AbstractParameterHandler
     {
         if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 || appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
         {
-            try
-            {
-                cameraParameters.set("touch-aec","on");
-                cameraParameters.set("selectable-zone-af","spot-metering");
-                cameraParameters.set("raw-size","4208x3120");
-                cameraParameters.set("touch-index-aec", meteringAreas.x + "," + meteringAreas.y);
-                SetParametersToCamera(cameraParameters);
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
+            cameraParameters.set("touch-aec","on");
+            cameraParameters.set("selectable-zone-af","spot-metering");
+            cameraParameters.set("raw-size","4208x3120");
+            cameraParameters.set("touch-index-aec", meteringAreas.x + "," + meteringAreas.y);
+            SetParametersToCamera(cameraParameters);
         }
     }
 
@@ -402,15 +363,10 @@ public class ParametersHandler extends AbstractParameterHandler
                 or = or - 360;
             orientation = or;
         }
-        try
-        {
-            cameraParameters.setRotation(orientation);
-            SetParametersToCamera(cameraParameters);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
+
+        cameraParameters.setRotation(orientation);
+        SetParametersToCamera(cameraParameters);
+
     }
 
     @Override
