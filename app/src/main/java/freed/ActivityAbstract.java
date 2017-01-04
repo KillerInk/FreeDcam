@@ -91,7 +91,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "createHandlers()");
-        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()));
+        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()),getBaseContext().getResources());
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         storageHandler = new StorageFileHandler(this);
         if (appSettingsManager.getDevice() == null)

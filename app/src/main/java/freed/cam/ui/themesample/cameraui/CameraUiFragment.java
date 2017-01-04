@@ -194,11 +194,12 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         flash.SetMenuItemClickListner(this, true);
 
         iso = (UiSettingsChild) view.findViewById(id.ui_settings_iso);
-        iso.SetStuff(fragment_activityInterface, AppSettingsManager.ISOMODE);
+        //iso.SetStuff(fragment_activityInterface, AppSettingsManager.ISOMODE);
+        iso.SetStuff(fragment_activityInterface.getAppSettings().isoMode);
         iso.SetMenuItemClickListner(this,true);
 
         autoexposure =(UiSettingsChild) view.findViewById(id.Ae);
-        autoexposure.SetStuff(fragment_activityInterface,AppSettingsManager.EXPOSUREMODE);
+        autoexposure.SetStuff(fragment_activityInterface.getAppSettings().exposureMode);
         autoexposure.SetMenuItemClickListner(this,true);
 
         aepriority = (UiSettingsChild) view.findViewById(id.AePriority);
@@ -212,7 +213,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         whitebalance.SetMenuItemClickListner(this,true);
 
         focus = (UiSettingsChild) view.findViewById(id.focus_uisetting);
-        focus.SetStuff(fragment_activityInterface, AppSettingsManager.FOCUSMODE);
+        focus.SetStuff(fragment_activityInterface.getAppSettings().focusMode);
         focus.SetMenuItemClickListner(this,true);
 
         contShot = (UiSettingsChild) view.findViewById(id.continousShot);
@@ -224,7 +225,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         night.SetMenuItemClickListner(this,true);
 
         format = (UiSettingsChild) view.findViewById(id.format);
-        format.SetStuff(fragment_activityInterface, AppSettingsManager.PICTUREFORMAT);
+        format.SetStuff(fragment_activityInterface.getAppSettings().pictureFormat);
         format.SetMenuItemClickListner(this,true);
 
         modeSwitch = (UiSettingsChildModuleSwitch) view.findViewById(id.mode_switch);

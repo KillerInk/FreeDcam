@@ -46,6 +46,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 08.12.2015.
@@ -68,6 +69,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     private boolean imageusing;
     private int pos;
     protected ActivityInterface fragment_activityInterface;
+    private AppSettingsManager.SettingMode settingMode;
 
     private final BlockingQueue<Integer> valueQueue = new ArrayBlockingQueue<>(3);
 
@@ -75,6 +77,11 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     {
         settingsname = settingsName;
         this.fragment_activityInterface = fragment_activityInterface;
+    }
+
+    public void SetStuff(AppSettingsManager.SettingMode settingMode)
+    {
+        this.settingMode = settingMode;
     }
 
     public ManualButton(Context context) {
@@ -296,7 +303,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     {
         if (valueQueue.size() == 3)
             valueQueue.remove();
-        Log.d(TAG, "add to queue:" + value);
+        //Log.d(TAG, "add to queue:" + value);
         valueQueue.add(value);
 
         handler.post(new Runnable() {
@@ -329,8 +336,11 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         if (runValue < 0 || runValue > parameterValues.length -1)
             return;
         parameter.SetValue(runValue);
-        if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
-            fragment_activityInterface.getAppSettings().setApiString(settingsname, runValue + "");
+        if (!(parameter instanceof BaseManualParameterSony)) {
+            if (settingsname != null)
+                fragment_activityInterface.getAppSettings().setApiString(settingsname, runValue + "");
+            else if (settingMode != null)
+                settingMode.set(String.valueOf(runValue));
         }
         currentlysettingsparameter = false;
     }

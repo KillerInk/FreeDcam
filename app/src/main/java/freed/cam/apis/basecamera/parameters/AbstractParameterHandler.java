@@ -242,18 +242,18 @@ public abstract class AbstractParameterHandler
 
         //setMode(Histogram, AppSettingsManager.HISTOGRAM);
         setMode(VideoProfiles, AppSettingsManager.VIDEOPROFILE);
-        setMode(VideoHDR, AppSettingsManager.VIDEOHDR);
-        setMode(VideoSize, AppSettingsManager.VIDEOSIZE);
+        setAppSettingsToCamera(VideoHDR, appSettingsManager.videoHDR);
+        setAppSettingsToCamera(VideoSize, appSettingsManager.videoSize);
         setMode(VideoStabilization,AppSettingsManager.VIDEOSTABILIZATION);
         setMode(VideoHighFramerateVideo,AppSettingsManager.HIGHFRAMERATEVIDEO);
         //setMode(WhiteBalanceMode,AppSettingsManager.WHITEBALANCEMODE);
         setAppSettingsToCamera(WhiteBalanceMode,appSettingsManager.whiteBalanceMode);
         setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);
-        setMode(EdgeMode, AppSettingsManager.EDGEMODE);
+        setAppSettingsToCamera(EdgeMode, appSettingsManager.edgeMode);
         setAppSettingsToCamera(EdgeMode,appSettingsManager.edgeMode);
-        setMode(HotPixelMode, AppSettingsManager.HOTPIXELMODE);
+        setAppSettingsToCamera(HotPixelMode, appSettingsManager.hotpixelMode);
         setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
-        setMode(ControlMode, AppSettingsManager.CONTROLMODE);
+        setAppSettingsToCamera(ControlMode, appSettingsManager.controlMode);
         setMode(IntervalDuration,AppSettingsManager.SETTING_INTERVAL_DURATION);
         setMode(IntervalShutterSleep, AppSettingsManager.SETTING_INTERVAL);
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);

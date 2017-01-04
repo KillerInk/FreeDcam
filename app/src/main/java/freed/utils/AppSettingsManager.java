@@ -20,7 +20,10 @@
 package freed.utils;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.text.TextUtils;
+
+import com.troop.freedcam.R;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,6 +36,7 @@ import freed.utils.DeviceUtils.Devices;
 
 import static freed.cam.apis.KEYS.BAYER;
 import static freed.cam.apis.KEYS.JPEG_QUALITY;
+import static freed.cam.apis.KEYS.PICTURE_FORMAT;
 
 
 /**
@@ -162,6 +166,11 @@ public class AppSettingsManager {
     public static final String SETTING_AEB6 = "aeb6";
     public static final String SETTING_AEB7 = "aeb7";
 
+    private static final String VALUES = "values";
+    private static final String SUPPORTED = "supported";
+    private static final String KEY = "key";
+    private static final String TYPE = "type";
+
 
     public static final String SETTINGS_PREVIEWZOOM = "previewzoom";
 
@@ -173,225 +182,124 @@ public class AppSettingsManager {
     public static final String SETTING_AFBRACKETMIN = "afbracketmin";
     public static final String SETTINGS_NIGHTOVERLAY = "nighoverlay";
 
-    public static final String PICTUREFORMAT = "pictureformat";
-    public final static String PICTURE_FORMAT_VALUES = "pictureformatvalues";
-    public static final String PICTURE_FORMAT_SUPPORTED = "pictureformatsupported";
     public final SettingMode pictureFormat;
 
-    public final static String RAWPICTUREFORMAT = "rawpictureformat";
-    public final static String RAW_PICTURE_FORMAT_VALUES = "rawpictureformatvalues";
-    public static final String RAW_PICTURE_FORMAT_SUPPORTED = "rawpictureformatsupported";
     public final SettingMode rawPictureFormat;
 
-    public static final String PICTURESIZE = "picturesize";
-    public final static String PICTURE_SIZE_VALUES = "picturesizevalues";
-    public final static String PICTURE_SIZE_SUPPORTED = "picturesizesupported";
     public final SettingMode pictureSize;
 
-    public static final String FOCUSMODE = "focusmode";
-    public final static String FOCUS_VALUES = "focusvalues";
-    public final static String FOCUS_SUPPORTED = "focusmodesupported";
     public final SettingMode focusMode;
 
-    public static final String EXPOSUREMODE = "exposuremode";
-    public final static String EXPOSURE_VALUES = "exposurevalues";
-    public final static String EXPOSURE_SUPPORTED = "exposuremodesupported";
-    public final static String EXPOSUREMODE_KEY = "exposuremode_key";
     public final SettingMode exposureMode;
 
-    public static final String WHITEBALANCEMODE = "whitebalancemode";
-    public final static String WHITEBALANCEMODEVALUES = "whitebalancemodevalues";
-    public final static String WHITEBALANCEMODESUPPORTED = "whitebalancemodesupported";
     public final SettingMode whiteBalanceMode;
 
-    public static final String COLORMODE = "colormode";
-    public final static String COLORMODEVALUES = "colormodevalues";
-    public final static String COLORMODESUPPORTED = "colormodesupported";
     public final SettingMode colorMode;
 
-    public static final String FLASHMODE = "flashmode";
-    public final static String FLASHMODEVALUES = "flashmodevalues";
-    public final static String FLASHMODESUPPORTED = "flashmodesupported";
     public final SettingMode flashMode;
 
 
-    public static final String ISOMODE = "isomode";
-    public final static String ISOMODEVALUES = "isomodevalues";
-    public final static String ISOMODESUPPORTED = "isomodesupported";
-    public final static String ISOMODE_KEY = "isomode_key";
     public final SettingMode isoMode;
 
 
-    public static final String ANTIBANDINGMODE = "antibandingmode";
-    public final static String ANTIBANDINGMODEVALUES = "antibandingmodevalues";
-    public final static String ANTIBANDINGMODESUPPORTED = "antibandingmodesupported";
     public final SettingMode antiBandingMode;
 
-    public static final String IMAGEPOSTPROCESSINGMODE = "ippmode";
-    public final static String IMAGEPOSTPROCESSINGMODEVALUES = "imagepostprocessingmodevalues";
-    public final static String IMAGEPOSTPROCESSINGGMODESUPPORTED = "imagepostprocessingmodesupported";
     public final SettingMode imagePostProcessing;
 
-    public static final String PREVIEWSIZE = "previewsize";
-    public final static String PREVIEWSIZEMODEVALUES = "previewsizemodevalues";
-    public final static String PREVIEWSIZEMODESUPPORTED = "previewsizemodesupported";
     public final SettingMode previewSize;
 
 
-    public static final String JPEGQUALITY = "jpegquality";
-    public final static String JPEG_QUALITY_VALUES = "jpegqualityvalues";
-    public final static String JPEG_QUALITY_SUPPORTED = "jpegqualitysupported";
     public final SettingMode jpegQuality;
 
-    public static final String AEBRACKETHDR = "aebrackethdr";
-    public final static String AE_BRACKET_VALUES = "aebracketvalues";
-    public final static String AE_BRACKET_SUPPORTED = "aebracketsupported";
     public final SettingMode aeBracket;
 
-    public static final String PREVIEWFPS = "previewfps";
-    public final static String PREVIEW_FPS_VALUES = "previewfpsvalues";
-    public final static String PREVIEW_FPS_SUPPORTED = "previewfpssupported";
     public final SettingMode previewFps;
 
-    public static final String PREVIEWFORMAT = "previewformat";
-    public final static String PREVIEW_FORMAT_VALUES = "previewformatvalues";
-    public final static String PREVIEW_FORMAT_SUPPORTED = "previewformatsupported";
     public final SettingMode previewFormat;
 
-    public static final String SCENEMODE = "scenemode";
-    public final static String SCENE_VALUES = "scenevalues";
-    public final static String SCENE_SUPPORTED = "scenesupported";
     public final SettingMode sceneMode;
 
-    public static final String REDEYEMODE = "redeyemode";
-    public final static String REDEYE_VALUES = "redeyevalues";
-    public final static String REDEYE_SUPPORTED = "redeyesupported";
     public final SettingMode redEyeMode;
 
-    public static final String LENSHADEMODE = "lenshademode";
-    public static final String LENSHADEMODE_VALUES = "lenshademodevalues";
-    public static final String LENSHADEMODE_SUPPORTED = "lenshademodesupported";
     public final SettingMode lenshade;
 
-    public static final String ZSLMODE = "zslmode";
-    public static final String ZSLMODE_VALUES = "zslmodevalues";
-    public static final String ZSLMODE_SUPPORTED = "zslmodesupported";
-    public static final String ZSLMODE_KEY = "zslmodekey";
     public final SettingMode zeroshutterlag;
 
-    public static final String SCENEDETECTMODE = "scenedetectmode";
-    public static final String SCENEDETECTMODE_VALUES = "scenedetectmodevalues";
-    public static final String SCENEDETECTMODE_SUPPORTED = "scenedetectmodesupported";
     public final SettingMode sceneDetectMode;
 
-    public static final String MEMORYCOLORENHANCEMENTMODE = "memorycolorenhancementmode";
-    public static final String MEMORYCOLORENHANCEMENTMODE_VALUES = "memorycolorenhancementmode_values";
-    public static final String MEMORYCOLORENHANCEMENTMODE_SUPPORTED = "memorycolorenhancementmode_supported";
     public final SettingMode memoryColorEnhancement;
 
-    public static final String VIDEOSIZE = "videosize";
-    public static final String VIDEOSIZE_VALUES = "videosizevalues";
-    public static final String VIDEOSIZE_SUPPORTED = "videosizesupported";
     public final SettingMode videoSize;
 
-    public static final String CORRELATEDDOUBLESAMPLING = "cds";
-    public static final String CORRELATEDDOUBLESAMPLING_VALUES = "cdsvalues";
-    public static final String CORRELATEDDOUBLESAMPLING_SUPPORTED = "cdssupported";
     public final SettingMode correlatedDoubleSampling;
 
 
-    public static final String SETTING_OIS = "ois";
-    public static final String SETTING_OIS_VALUES = "oisvalues";
-    public static final String SETTING_OIS_SUPPORTED = "oissupported";
-    public static final String SETTING_OIS_KEY= "oiskey";
     public final SettingMode opticalImageStabilisation;
 
-    public static final String VIDEOHDR = "videohdr";
-    public static final String VIDEOHDR_VALUES = "videohdrvalues";
-    public static final String VIDEOHDR_SUPPORTED = "videohdrsupported";
-    public static final String VIDEOHDR_KEY= "videohdrkey";
     public final SettingMode videoHDR;
 
-    public static final String VIDEOHFR = "videohfr";
-    public static final String VIDEOHFR_VALUES = "videohfrvalues";
-    public static final String VIDEOHFR_SUPPORTED = "videohfrsupported";
-    public static final String VIDEOHFR_KEY = "videohfrkey";
     public final SettingMode videoHFR;
 
-    public static final String MANUAL_FOCUS = "mf";
-    public static final String MANUAL_FOCUS_KEY = "mfkey";
-    public static final String MANUAL_FOCUS_SUPPORTED = "mfsupported";
-    public static final String MANUAL_FOCUS_VALUES = "mfvalues";
-    public static final String MANUAL_FOCUS_TYP = "mftype";
     public final TypeSettingsMode manualFocus;
 
 
-    public static final String DENOISETMODE = "denoisemode";
-    public static final String DENOISEMODE_VALUES = "denoisetmodevalues";
-    public static final String DENOISEMODE_SUPPORTED = "denoisetmodesupported";
     public final SettingMode denoiseMode;
 
-    public static final String CONTROLMODE = "controlmode";
-    public static final String CONTROLMODE_VALUES = "controlmodevalues";
-    public static final String CONTROLMODE_SUPPORTED = "controlmodesupported";
     public final SettingMode controlMode;
 
-    public static final String EDGEMODE = "edgemode";
-    public static final String EDGEMODE_VALUES = "edgemodevalues";
-    public static final String EDGEMODE_SUPPORTED = "edgemodesupported";
     public final SettingMode edgeMode;
 
-    public static final String DIGITALIMAGESTABMODE = "digitalimagestabmode";
-    public static final String DIGITALIMAGESTABMODE_VALUES = "digitalimagestabmodevalues";
-    public static final String DIGITALIMAGESTABMODE_SUPPORTED = "digitalimagestabmodesupported";
     public final SettingMode digitalImageStabilisationMode;
 
-    public static final String HOTPIXELMODE = "hotpixel";
-    public static final String HOTPIXELMODE_VALUES = "hotpixelvalues";
-    public static final String HOTPIXELMODE_SUPPORTED = "hotpixelsupported";
     public final SettingMode hotpixelMode;
 
 
     private SharedPreferences settings;
+    private Resources resources;
 
-    public AppSettingsManager(SharedPreferences sharedPreferences)
+    public AppSettingsManager(SharedPreferences sharedPreferences, Resources resources)
     {
         settings = sharedPreferences;
+        this.resources = resources;
+        pictureFormat = new SettingMode(getString(R.string.aps_pictureformat));
+        rawPictureFormat = new SettingMode(getString(R.string.aps_rawpictureformat));
+        pictureSize = new SettingMode(getString(R.string.aps_picturesize));
+        focusMode = new SettingMode(getString(R.string.aps_focusmode));
+        exposureMode = new SettingMode(getString(R.string.aps_exposuremode));
+        whiteBalanceMode = new SettingMode(getString(R.string.aps_whitebalancemode));
+        colorMode = new SettingMode(getString(R.string.aps_colormode));
+        flashMode = new SettingMode(getString(R.string.aps_flashmode));
+        isoMode = new SettingMode(getString(R.string.aps_isomode));
+        antiBandingMode = new SettingMode(getString(R.string.aps_antibandingmode));
+        imagePostProcessing = new SettingMode(getString(R.string.aps_ippmode));
+        previewSize = new SettingMode(getString(R.string.aps_previewsize));
+        jpegQuality = new SettingMode(getString(R.string.aps_jpegquality));
+        aeBracket = new SettingMode(getString(R.string.aps_aebrackethdr));
+        previewFps = new SettingMode(getString(R.string.aps_previewfps));
+        previewFormat = new SettingMode(getString(R.string.aps_previewformat));
+        sceneMode = new SettingMode(getString(R.string.aps_scenemode));
+        redEyeMode = new SettingMode(getString(R.string.aps_redeyemode));
+        lenshade = new SettingMode(getString(R.string.aps_lenshademode));
+        zeroshutterlag = new SettingMode(getString(R.string.aps_zslmode));
+        sceneDetectMode = new SettingMode(getString(R.string.aps_scenedetectmode));
+        memoryColorEnhancement = new SettingMode(getString(R.string.aps_memorycolorenhancementmode));
+        videoSize = new SettingMode(getString(R.string.aps_videosize));
+        correlatedDoubleSampling = new SettingMode(getString(R.string.aps_cds));
+        opticalImageStabilisation = new SettingMode(getString(R.string.aps_ois));
+        videoHDR = new SettingMode(getString(R.string.aps_videohdr));
+        videoHFR = new SettingMode(getString(R.string.aps_videohfr));
+        controlMode = new SettingMode(getString(R.string.aps_controlmode));
+        denoiseMode = new SettingMode(getString(R.string.aps_denoisemode));
+        edgeMode = new SettingMode(getString(R.string.aps_edgemode));
+        digitalImageStabilisationMode = new SettingMode(getString(R.string.aps_digitalimagestabmode));
+        hotpixelMode = new SettingMode(getString(R.string.aps_hotpixel));
 
-        pictureFormat = new SettingMode(PICTUREFORMAT, PICTURE_FORMAT_VALUES,PICTURE_FORMAT_SUPPORTED);
-        rawPictureFormat = new SettingMode(RAWPICTUREFORMAT, RAW_PICTURE_FORMAT_VALUES,RAW_PICTURE_FORMAT_SUPPORTED);
-        pictureSize = new SettingMode(PICTURESIZE, PICTURE_SIZE_VALUES, PICTURE_SIZE_SUPPORTED);
-        focusMode = new SettingMode(FOCUSMODE,FOCUS_VALUES, FOCUS_SUPPORTED);
-        exposureMode = new SettingMode(EXPOSUREMODE,EXPOSURE_VALUES, EXPOSURE_SUPPORTED,EXPOSUREMODE_KEY);
-        whiteBalanceMode = new SettingMode(WHITEBALANCEMODE,WHITEBALANCEMODEVALUES,WHITEBALANCEMODESUPPORTED);
-        colorMode = new SettingMode(COLORMODE, COLORMODEVALUES,COLORMODESUPPORTED);
-        flashMode = new SettingMode(FLASHMODE,FLASHMODEVALUES,FLASHMODESUPPORTED);
-        isoMode = new SettingMode(ISOMODE,ISOMODEVALUES,ISOMODESUPPORTED, ISOMODE_KEY);
-        antiBandingMode = new SettingMode(ANTIBANDINGMODE,ANTIBANDINGMODEVALUES,ANTIBANDINGMODESUPPORTED);
-        imagePostProcessing = new SettingMode(IMAGEPOSTPROCESSINGMODE,IMAGEPOSTPROCESSINGMODEVALUES,IMAGEPOSTPROCESSINGGMODESUPPORTED);
-        previewSize = new SettingMode(PREVIEWSIZE, PREVIEWSIZEMODEVALUES, PREVIEWSIZEMODESUPPORTED);
-        jpegQuality = new SettingMode(JPEG_QUALITY,JPEG_QUALITY_VALUES,JPEG_QUALITY_SUPPORTED);
-        aeBracket = new SettingMode(AEBRACKETHDR, AE_BRACKET_VALUES,AE_BRACKET_SUPPORTED);
-        previewFps = new SettingMode(PREVIEWFPS,PREVIEW_FPS_VALUES,PREVIEW_FPS_SUPPORTED);
-        previewFormat = new SettingMode(PREVIEWFORMAT,PREVIEW_FORMAT_VALUES,PREVIEW_FORMAT_SUPPORTED);
-        sceneMode = new SettingMode(SCENEMODE,SCENE_VALUES,SCENE_SUPPORTED);
-        redEyeMode = new SettingMode(REDEYEMODE,REDEYE_VALUES,REDEYE_SUPPORTED);
-        lenshade = new SettingMode(LENSHADEMODE,LENSHADEMODE_VALUES,LENSHADEMODE_SUPPORTED);
-        zeroshutterlag = new SettingMode(ZSLMODE,ZSLMODE_VALUES,ZSLMODE_SUPPORTED,ZSLMODE_KEY);
-        sceneDetectMode = new SettingMode(SCENEDETECTMODE,SCENEDETECTMODE_VALUES,SCENEDETECTMODE_SUPPORTED);
-        memoryColorEnhancement = new SettingMode(MEMORYCOLORENHANCEMENTMODE, MEMORYCOLORENHANCEMENTMODE_VALUES, MEMORYCOLORENHANCEMENTMODE_SUPPORTED);
-        videoSize = new SettingMode(VIDEOSIZE,VIDEOSIZE_VALUES,VIDEOSIZE_SUPPORTED);
-        correlatedDoubleSampling = new SettingMode(CORRELATEDDOUBLESAMPLING,CORRELATEDDOUBLESAMPLING_VALUES,CORRELATEDDOUBLESAMPLING_SUPPORTED);
-        opticalImageStabilisation = new SettingMode(SETTING_OIS,SETTING_OIS_VALUES,SETTING_OIS_SUPPORTED, SETTING_OIS_KEY);
-        videoHDR = new SettingMode(VIDEOHDR,VIDEOHDR_VALUES,VIDEOHDR_SUPPORTED,VIDEOHDR_KEY);
-        videoHFR = new SettingMode(VIDEOHFR,VIDEOHFR_VALUES,VIDEOHFR_SUPPORTED,VIDEOHFR_KEY);
-        controlMode = new SettingMode(CONTROLMODE,CONTROLMODE_VALUES,CONTROLMODE_SUPPORTED);
-        denoiseMode = new SettingMode(DENOISETMODE,DENOISEMODE_VALUES,DENOISEMODE_SUPPORTED);
-        edgeMode = new SettingMode(EDGEMODE,EDGEMODE_VALUES,EDGEMODE_SUPPORTED);
-        digitalImageStabilisationMode = new SettingMode(DIGITALIMAGESTABMODE, DIGITALIMAGESTABMODE_VALUES, DIGITALIMAGESTABMODE_SUPPORTED);
-        hotpixelMode = new SettingMode(HOTPIXELMODE,HOTPIXELMODE_VALUES,HOTPIXELMODE_SUPPORTED);
+        manualFocus = new TypeSettingsMode(getString(R.string.aps_manualfocus));
+    }
 
-        manualFocus = new TypeSettingsMode(MANUAL_FOCUS,MANUAL_FOCUS_VALUES,MANUAL_FOCUS_SUPPORTED,MANUAL_FOCUS_KEY,MANUAL_FOCUS_TYP);
+    private String getString(int id)
+    {
+        return resources.getString(id);
     }
 
     public boolean areFeaturesDetected()
@@ -628,16 +536,12 @@ public class AppSettingsManager {
         //String to get the value from the cameraparameters
         private String KEY_value;
 
-        public SettingMode(String value_key,String values_key, String supported_key)
+        public SettingMode(String value_key)
         {
             this.value_key = value_key;
-            this.values_key = values_key;
-            this.supported_key= supported_key;
-        }
-
-        public SettingMode(String value_key,String values_key, String supported_key, String KEY_value) {
-            this(value_key, values_key, supported_key);
-            this.KEY_value = KEY_value;
+            this.values_key = value_key + getString(R.string.aps_values);
+            this.supported_key= value_key + getString(R.string.aps_supported);
+            this.KEY_value = value_key + getString(R.string.aps_key);
         }
 
         public void setValues(String[] ar)
@@ -686,9 +590,9 @@ public class AppSettingsManager {
     {
         private String type;
 
-        public TypeSettingsMode(String value_key,String values_key, String supported_key, String KEY_value, String type) {
-            super(value_key, values_key, supported_key, KEY_value);
-            this.type = type;
+        public TypeSettingsMode(String value_key) {
+            super(value_key);
+            this.type = value_key + getString(R.string.aps_type);
         }
 
         public int getType()

@@ -195,10 +195,9 @@ public class ParametersHandler extends AbstractParameterHandler
 
         locationParameter = new LocationParameter(cameraUiWrapper);
 
-            ManualConvergence = new BaseManualParameter(cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, cameraUiWrapper,1);
+        ManualConvergence = new BaseManualParameter(cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, cameraUiWrapper,1);
 
-
-        createManualExposure();
+        ManualExposure = new ExposureManualParameter(cameraParameters, cameraUiWrapper,1);
 
 
         //createManualSaturation();
@@ -310,11 +309,6 @@ public class ParametersHandler extends AbstractParameterHandler
         /*SetParametersToCamera(cameraParameters);*/
 
         cameraUiWrapper.GetModuleHandler().SetModule(appSettingsManager.GetCurrentModule());
-    }
-
-
-    private void createManualExposure() {
-        ManualExposure = new ExposureManualParameter(cameraParameters, cameraUiWrapper,1);
     }
 
     @Override

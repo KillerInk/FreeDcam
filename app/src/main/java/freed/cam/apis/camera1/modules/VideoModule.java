@@ -125,8 +125,8 @@ public class VideoModule extends AbstractVideoModule
     public void InitModule()
     {
         super.InitModule();
-        if (cameraUiWrapper.GetParameterHandler().VideoHDR != null)
-            if(appSettingsManager.getApiString(AppSettingsManager.VIDEOHDR).equals("on") && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported())
+        if (appSettingsManager.videoHDR.isSupported())
+            if(appSettingsManager.videoHDR.equals("on"))
                 cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("on", true);
         loadProfileSpecificParameters();
     }
@@ -203,18 +203,21 @@ public class VideoModule extends AbstractVideoModule
 
 
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
-        cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,false);
-        //video size applies the parameters to the camera
-        cameraUiWrapper.GetParameterHandler().VideoSize.SetValue(size, true);
         cameraUiWrapper.StopPreview();
+        if (appSettingsManager.previewSize.isSupported())
+            cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,false);
+        //video size applies the parameters to the camera
+        if (appSettingsManager.videoSize.isSupported())
+            cameraUiWrapper.GetParameterHandler().VideoSize.SetValue(size, true);
+
         cameraUiWrapper.StartPreview();
     }
 
     private void loadDefaultHighspeed() {
         //turn off all blocking/postprocessing parameters wich avoid highframes
-        if (cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement != null && cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.IsSupported())
+        if (appSettingsManager.memoryColorEnhancement.isSupported())
             cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable", false);
-        if (cameraUiWrapper.GetParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.IsSupported())
+        if (appSettingsManager.digitalImageStabilisationMode.isSupported())
             cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", false);
         if (cameraUiWrapper.GetParameterHandler().VideoStabilization != null && cameraUiWrapper.GetParameterHandler().VideoStabilization.IsSupported())
             cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", false);

@@ -100,7 +100,7 @@ public class DngConvertingFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
-        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()));
+        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()),getResources());
         if (appSettingsManager.getDevice() == null)
             appSettingsManager.SetDevice(new DeviceUtils().getDevice(getResources()));
         handler = new Handler();

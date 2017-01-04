@@ -61,6 +61,9 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
 
     protected String storageSpace;
     protected AppSettingsManager appSettingsManager;
+    private DecimalFormat decimalFormat;
+
+    private final String[] units = { "B", "KB", "MB", "GB", "TB" };
 
     public AbstractInfoOverlayHandler(Context context, AppSettingsManager appSettingsManager)
     {
@@ -68,6 +71,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         this.appSettingsManager =appSettingsManager;
         handler = new Handler();
         batteryBroadCastListner = new BatteryBroadCastListner();
+        decimalFormat = new DecimalFormat("#,##0.#");
     }
 
     public void setCameraUIWrapper(CameraWrapperInterface cameraUIWrapper)
@@ -182,9 +186,9 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
 
     private String readableFileSize(long size) {
         if(size <= 0) return "0";
-        String[] units = { "B", "KB", "MB", "GB", "TB" };
+
         int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
-        return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+        return decimalFormat.format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
     private  String Avail4PIC()
@@ -197,9 +201,9 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     }
     private double Calc()
     {
-        String[] res = appSettingsManager.getApiString(AppSettingsManager.PICTURESIZE).split("x");
+        String[] res = appSettingsManager.pictureSize.get().split("x");
 
-        if(appSettingsManager.getApiString(AppSettingsManager.PICTUREFORMAT).contains(KEYS.BAYER))
+        if(appSettingsManager.pictureFormat.get().contains(KEYS.BAYER))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;

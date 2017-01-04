@@ -168,7 +168,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void run() {
             isWorking = true;
-            Log.d(TAG, appSettingsManager.getApiString(AppSettingsManager.PICTUREFORMAT));
+            Log.d(TAG, appSettingsManager.pictureFormat.get());
             Log.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
             // This is the CaptureRequest.Builder that we use to take a picture.
             try {
@@ -824,15 +824,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview() {
 
-        picSize = appSettingsManager.getApiString(AppSettingsManager.PICTURESIZE);
+        picSize = appSettingsManager.pictureSize.get();
         Log.d(TAG, "Start Preview");
         largestImageSize = Collections.max(
                 Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new CompareSizesByArea());
-        picFormat = appSettingsManager.getApiString(AppSettingsManager.PICTUREFORMAT);
+        picFormat = appSettingsManager.pictureFormat.get();
         if (picFormat.equals("")) {
             picFormat = KEYS.JPEG;
-            appSettingsManager.setApiString(AppSettingsManager.PICTUREFORMAT, KEYS.JPEG);
+            appSettingsManager.pictureFormat.set(KEYS.JPEG);
             parameterHandler.PictureFormat.onValueHasChanged(KEYS.JPEG);
 
         }

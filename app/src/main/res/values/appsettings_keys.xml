@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="aps_values" translatable="false">values</string>
+    <string name="aps_key" translatable="false">key</string>
+    <string name="aps_supported" translatable="false">supported</string>
+    <string name="aps_type" translatable="false">type</string>
+
+    <string name="aps_picturesize" translatable="false">picturesize</string>
+    <string name="aps_pictureformat" translatable="false">pictureformat</string>
+    <string name="aps_rawpictureformat" translatable="false">rawpictureformat</string>
+    <string name="aps_focusmode" translatable="false">focusmode</string>
+    <string name="aps_exposuremode" translatable="false">exposuremode</string>
+    <string name="aps_whitebalancemode" translatable="false">whitebalancemode</string>
+    <string name="aps_colormode" translatable="false">colormode</string>
+    <string name="aps_flashmode" translatable="false">flashmode</string>
+    <string name="aps_isomode" translatable="false">isomode</string>
+    <string name="aps_antibandingmode" translatable="false">antibandingmode</string>
+    <string name="aps_ippmode" translatable="false">ippmode</string>
+    <string name="aps_previewsize" translatable="false">previewsize</string>
+    <string name="aps_jpegquality" translatable="false">jpegquality</string>
+    <string name="aps_aebrackethdr" translatable="false">aebrackethdr</string>
+    <string name="aps_previewfps" translatable="false">previewfps</string>
+    <string name="aps_previewformat" translatable="false">previewformat</string>
+    <string name="aps_scenemode" translatable="false">scenemode</string>
+    <string name="aps_redeyemode" translatable="false">redeyemode</string>
+    <string name="aps_lenshademode" translatable="false">lenshademode</string>
+    <string name="aps_zslmode" translatable="false">zslmode</string>
+    <string name="aps_scenedetectmode" translatable="false">scenedetectmode</string>
+    <string name="aps_memorycolorenhancementmode" translatable="false">memorycolorenhancementmode</string>
+    <string name="aps_videosize" translatable="false">videosize</string>
+    <string name="aps_cds" translatable="false">cds</string>
+    <string name="aps_ois" translatable="false">ois</string>
+    <string name="aps_videohdr" translatable="false">videohdr</string>
+    <string name="aps_videohfr" translatable="false">videohfr</string>
+    <string name="aps_denoisemode" translatable="false">denoisemode</string>
+    <string name="aps_controlmode" translatable="false">controlmode</string>
+    <string name="aps_edgemode" translatable="false">edgemode</string>
+    <string name="aps_digitalimagestabmode" translatable="false">digitalimagestabmode</string>
+    <string name="aps_hotpixel" translatable="false">hotpixel</string>
+
+
+
+    <string name="aps_manualfocus" translatable="false">mf</string>
+
+</resources>

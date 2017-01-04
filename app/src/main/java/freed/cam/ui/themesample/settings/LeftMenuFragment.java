@@ -176,7 +176,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     protected void setCameraUiWrapperToUi() {
         if (cameraUiWrapper == null)
             return;
-        pictureSize.SetStuff(fragment_activityInterface, AppSettingsManager.PICTURESIZE);
+        pictureSize.SetStuff(fragment_activityInterface.getAppSettings().pictureSize);
         pictureSize.SetParameter(cameraUiWrapper.GetParameterHandler().PictureSize);
         pictureSize.SetUiItemClickListner(this);
 
@@ -216,7 +216,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         orientationHack.SetCameraUIWrapper(cameraUiWrapper);
         orientationHack.SetUiItemClickListner(this);
 
-        jpegQuality.SetStuff(fragment_activityInterface, AppSettingsManager.JPEGQUALITY);
+        jpegQuality.SetStuff(fragment_activityInterface.getAppSettings().jpegQuality);
         jpegQuality.SetParameter(cameraUiWrapper.GetParameterHandler().JpegQuality);
         jpegQuality.SetUiItemClickListner(this);
 
@@ -226,13 +226,13 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             videoProfile.SetParameter(cameraUiWrapper.GetParameterHandler().VideoProfiles);
         videoProfile.SetUiItemClickListner(this);
 
-        videoHDR.SetStuff(fragment_activityInterface, AppSettingsManager.VIDEOHDR);
+        videoHDR.SetStuff(fragment_activityInterface.getAppSettings().videoHDR);
         videoHDR.SetParameter(cameraUiWrapper.GetParameterHandler().VideoHDR);
         videoHDR.SetCameraInterface(cameraUiWrapper);
         videoHDR.SetUiItemClickListner(this);
         ///////////////////////////   Highspeed Recording //////////////////////////////////////////
 
-        VideoSize.SetStuff(fragment_activityInterface, AppSettingsManager.VIDEOSIZE);
+        VideoSize.SetStuff(fragment_activityInterface.getAppSettings().videoSize);
         if (!(cameraUiWrapper instanceof Camera1Fragment) && cameraUiWrapper.GetParameterHandler().VideoSize != null && cameraUiWrapper.GetParameterHandler().VideoSize.IsSupported()) {
             VideoSize.SetParameter(cameraUiWrapper.GetParameterHandler().VideoSize);
             VideoSize.SetUiItemClickListner(this);

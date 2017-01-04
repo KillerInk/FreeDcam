@@ -400,8 +400,8 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
             else {
 
                 if (getAppSettings().getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
-                    getAppSettings().setBoolean(AppSettingsManager.PICTURE_FORMAT_SUPPORTED, true);
-                    getAppSettings().setBoolean(AppSettingsManager.RAW_PICTURE_FORMAT_SUPPORTED, true);
+                    getAppSettings().pictureFormat.setIsSupported(true);
+                    getAppSettings().rawPictureFormat.setIsSupported(true);
                 } else {
                     if (getAppSettings().getDevice() == DeviceUtils.Devices.LG_G2)
                     {

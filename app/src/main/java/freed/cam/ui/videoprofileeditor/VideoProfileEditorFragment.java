@@ -139,7 +139,7 @@ public class VideoProfileEditorFragment extends Fragment {
         button_delete.setOnClickListener(ondeleteButtonClick);
         videoMediaProfiles = new HashMap<>();
 
-        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()));
+        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()),getResources());
         appSettingsManager.getCamApi();
         videoMediaProfiles = appSettingsManager.getMediaProfiles();
         try {

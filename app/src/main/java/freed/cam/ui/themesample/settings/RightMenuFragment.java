@@ -116,17 +116,11 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     {
         if (cameraUiWrapper == null)
             return;
-        try {
-            scene.SetStuff(fragment_activityInterface, AppSettingsManager.SCENEMODE);
+            scene.SetStuff(fragment_activityInterface.getAppSettings().sceneMode);
             scene.SetParameter(cameraUiWrapper.GetParameterHandler().SceneMode);
             scene.SetUiItemClickListner(this);
-        }
-        catch (NullPointerException ex)
-        {
-            scene.setVisibility(View.GONE);
-        }
 
-        color.SetStuff(fragment_activityInterface, AppSettingsManager.COLORMODE);
+        color.SetStuff(fragment_activityInterface.getAppSettings().colorMode);
         color.SetParameter(cameraUiWrapper.GetParameterHandler().ColorMode);
         color.SetUiItemClickListner(this);
 
@@ -146,31 +140,31 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         postViewSize.SetParameter(cameraUiWrapper.GetParameterHandler().PostViewSize);
         postViewSize.SetUiItemClickListner(this);
 
-        controleMode.SetStuff(fragment_activityInterface, AppSettingsManager.CONTROLMODE);
+        controleMode.SetStuff(fragment_activityInterface.getAppSettings().controlMode);
         controleMode.SetParameter(cameraUiWrapper.GetParameterHandler().ControlMode);
         controleMode.SetUiItemClickListner(this);
 
-        redeyeflash.SetStuff(fragment_activityInterface, AppSettingsManager.REDEYEMODE);
+        redeyeflash.SetStuff(fragment_activityInterface.getAppSettings().redEyeMode);
         redeyeflash.SetParameter(cameraUiWrapper.GetParameterHandler().RedEye);
         redeyeflash.SetUiItemClickListner(this);
 
-        antiBanding.SetStuff(fragment_activityInterface, AppSettingsManager.ANTIBANDINGMODE);
+        antiBanding.SetStuff(fragment_activityInterface.getAppSettings().antiBandingMode);
         antiBanding.SetParameter(cameraUiWrapper.GetParameterHandler().AntiBandingMode);
         antiBanding.SetUiItemClickListner(this);
 
-        ipp.SetStuff(fragment_activityInterface, AppSettingsManager.IMAGEPOSTPROCESSINGMODE);
+        ipp.SetStuff(fragment_activityInterface.getAppSettings().imagePostProcessing);
         ipp.SetParameter(cameraUiWrapper.GetParameterHandler().ImagePostProcessing);
         ipp.SetUiItemClickListner(this);
 
-        lensShade.SetStuff(fragment_activityInterface, AppSettingsManager.LENSHADEMODE);
+        lensShade.SetStuff(fragment_activityInterface.getAppSettings().lenshade);
         lensShade.SetParameter(cameraUiWrapper.GetParameterHandler().LensShade);
         lensShade.SetUiItemClickListner(this);
 
-        sceneDetectMode.SetStuff(fragment_activityInterface, AppSettingsManager.SCENEDETECTMODE);
+        sceneDetectMode.SetStuff(fragment_activityInterface.getAppSettings().sceneDetectMode);
         sceneDetectMode.SetParameter(cameraUiWrapper.GetParameterHandler().SceneDetect);
         sceneDetectMode.SetUiItemClickListner(this);
 
-        waveletdenoiseMode.SetStuff(fragment_activityInterface, AppSettingsManager.DENOISETMODE);
+        waveletdenoiseMode.SetStuff(fragment_activityInterface.getAppSettings().sceneDetectMode);
         waveletdenoiseMode.SetParameter(cameraUiWrapper.GetParameterHandler().Denoise);
         waveletdenoiseMode.SetUiItemClickListner(this);
 
@@ -178,15 +172,15 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         LensFilter.SetParameter(cameraUiWrapper.GetParameterHandler().LensFilter);
         LensFilter.SetUiItemClickListner(this);
 
-        digitalImageStabilization.SetStuff(fragment_activityInterface, AppSettingsManager.DIGITALIMAGESTABMODE);
+        digitalImageStabilization.SetStuff(fragment_activityInterface.getAppSettings().digitalImageStabilisationMode);
         digitalImageStabilization.SetParameter(cameraUiWrapper.GetParameterHandler().DigitalImageStabilization);
         digitalImageStabilization.SetUiItemClickListner(this);
 
-        memoryColorEnhancement.SetStuff(fragment_activityInterface, AppSettingsManager.MEMORYCOLORENHANCEMENTMODE);
+        memoryColorEnhancement.SetStuff(fragment_activityInterface.getAppSettings().memoryColorEnhancement);
         memoryColorEnhancement.SetParameter(cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement);
         memoryColorEnhancement.SetUiItemClickListner(this);
 
-        ZeroShutterLag.SetStuff(fragment_activityInterface, AppSettingsManager.ZSLMODE);
+        ZeroShutterLag.SetStuff(fragment_activityInterface.getAppSettings().zeroshutterlag);
         ZeroShutterLag.SetParameter(cameraUiWrapper.GetParameterHandler().ZSL);
         ZeroShutterLag.SetUiItemClickListner(this);
 
@@ -194,7 +188,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         nonZSLmanualMode.SetParameter(cameraUiWrapper.GetParameterHandler().NonZslManualMode);
         nonZSLmanualMode.SetUiItemClickListner(this);
 
-        correlatedDoubleSampling.SetStuff(fragment_activityInterface, AppSettingsManager.CORRELATEDDOUBLESAMPLING);
+        correlatedDoubleSampling.SetStuff(fragment_activityInterface.getAppSettings().correlatedDoubleSampling);
         correlatedDoubleSampling.SetParameter(cameraUiWrapper.GetParameterHandler().CDS_Mode);
         correlatedDoubleSampling.SetUiItemClickListner(this);
 
@@ -202,15 +196,15 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         temporalDenoise.SetParameter(cameraUiWrapper.GetParameterHandler().TnrMode);
         temporalDenoise.SetUiItemClickListner(this);
 
-        edgeMode.SetStuff(fragment_activityInterface, AppSettingsManager.EDGEMODE);
+        edgeMode.SetStuff(fragment_activityInterface.getAppSettings().edgeMode);
         edgeMode.SetParameter(cameraUiWrapper.GetParameterHandler().EdgeMode);
         edgeMode.SetUiItemClickListner(this);
 
-        hotPixelMode.SetStuff(fragment_activityInterface, AppSettingsManager.HOTPIXELMODE);
+        hotPixelMode.SetStuff(fragment_activityInterface.getAppSettings().hotpixelMode);
         hotPixelMode.SetParameter(cameraUiWrapper.GetParameterHandler().HotPixelMode);
         hotPixelMode.SetUiItemClickListner(this);
 
-        opticalImageStabilization.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_OIS);
+        opticalImageStabilization.SetStuff(fragment_activityInterface.getAppSettings().opticalImageStabilisation);
         opticalImageStabilization.SetParameter(cameraUiWrapper.GetParameterHandler().oismode);
         opticalImageStabilization.SetUiItemClickListner(this);
 

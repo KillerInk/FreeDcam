@@ -90,7 +90,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         seekbar.setVisibility(View.GONE);
 
         mf = (ManualButton)view.findViewById(id.manual_mf);
-        mf.SetStuff(fragment_activityInterface,AppSettingsManager.MANUAL_FOCUS);
+        mf.SetStuff(fragment_activityInterface.getAppSettings().manualFocus);
         mf.setOnClickListener(manualButtonClickListner);
 
         iso = (ManualButton)view.findViewById(id.manual_iso);
