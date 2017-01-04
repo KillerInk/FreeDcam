@@ -27,13 +27,20 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.troop.freedcam.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -53,9 +60,12 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
     private final String TAG = ShutterButton.class.getSimpleName();
     private CaptureStates currentShow = CaptureStates.image_capture_stop;
     private boolean contshot;
-    private final Drawable shutterImage;
-    private final Paint transparent;
+    private Drawable shutterImage;
+    private Paint transparent;
     private Paint red;
+    private boolean shutteractive = false;
+    private String shutteropentime = "";
+    private Paint shutteropentimePaint;
 
     //shutter_open_radius for the Transparent Radius to draw to simulate shutter open
     private float shutter_open_radius = 0.0f;
@@ -81,30 +91,31 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
 
     public ShutterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setBackgroundResource(R.drawable.shutter5);
-        shutterImage = getBackground();
-        transparent = new Paint();
-        transparent.setColor(Color.TRANSPARENT);
-        transparent.setStyle(Paint.Style.FILL);
-        transparent.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
-        transparent.setAntiAlias(true);
         this.init();
     }
 
     public ShutterButton(Context context) {
         super(context);
-        setBackgroundResource(R.drawable.shutter5);
-        shutterImage = getBackground();
-        setBackgroundDrawable(null);
-        transparent = new Paint(Color.TRANSPARENT);
-        transparent.setStyle(Paint.Style.FILL);
-        transparent.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        transparent.setAntiAlias(true);
         this.init();
     }
 
     private void init()
     {
+        shutteropentimePaint =new Paint();
+        shutteropentimePaint.setColor(Color.RED);
+        shutteropentimePaint.setTextSize(getResources().getDimension(R.dimen.infoOverlayTextSize));
+        shutteropentimePaint.setStyle(Paint.Style.FILL);
+        shutteropentimePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+        shutteropentimePaint.setAntiAlias(true);
+
+        setBackgroundResource(R.drawable.shutter5);
+        shutterImage = getBackground();
+        transparent = new Paint();
+        transparent.setColor(Color.TRANSPARENT);
+        transparent.setStyle(Paint.Style.FILL);
+        transparent.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        transparent.setAntiAlias(true);
+
         red = new Paint();
         red.setColor(Color.RED);
         red.setStyle(Paint.Style.FILL);
@@ -180,6 +191,36 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
     {
         Log.d(this.TAG, "onCaptureStateChanged CurrentShow:" + this.currentShow);
         this.switchBackground(mode,true);
+
+        switch (mode)
+        {
+            case video_recording_stop:
+                break;
+            case video_recording_start:
+                break;
+            case image_capture_stop:
+                shutteractive = false;
+                break;
+            case image_capture_start:
+                shutteractive = true;
+                new TimerAsyncTask().execute(new Date().getTime());
+                break;
+            case continouse_capture_start:
+                break;
+            case continouse_capture_stop:
+                break;
+            case continouse_capture_work_start:
+                shutteractive = true;
+                new TimerAsyncTask().execute(new Date().getTime());
+                break;
+            case continouse_capture_work_stop:
+                shutteractive = false;
+                break;
+            case cont_capture_stop_while_working:
+                break;
+            case cont_capture_stop_while_notworking:
+                break;
+        }
 
     }
 
@@ -309,6 +350,8 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
         int halfSize = canvas.getWidth()/2;
         shutterImage.draw(canvas);
         canvas.drawCircle(halfSize,halfSize, shutter_open_radius, transparent);
+        if (shutteractive && !TextUtils.isEmpty(shutteropentime))
+            canvas.drawText(shutteropentime,halfSize - shutteropentimePaint.measureText(shutteropentime)/2,halfSize,shutteropentimePaint);
         if (drawRecordingImage)
         {
             canvas.drawCircle(halfSize,halfSize,recordingRadiusCircle/2, red);
@@ -317,6 +360,46 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
             int left = halfSize - recordingRadiusRectangle/2;
             int right = halfSize + recordingRadiusRectangle/2;
             canvas.drawRect(left,top,right,bottom,red);
+
         }
     }
+
+    private class TimerAsyncTask extends AsyncTask<Long, String, String>
+    {
+        private final SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
+        @Override
+        protected String doInBackground(Long... params) {
+            long startime = params[0];
+            while (shutteractive)
+            {
+                publishProgress(dateFormat.format(new Date(new Date().getTime()-startime)));
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            shutteropentime = values[0];
+            ShutterButton.this.invalidate();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    shutteropentime = "";
+                    ShutterButton.this.invalidate();
+                }
+            },1000);
+
+        }
+    }
+
 }
