@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import java.io.File;
+import java.util.Date;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -77,6 +78,7 @@ public class BracketModule extends PictureModule
 
                 setExposureToCamera();
                 sleep(400);
+                startcapturetime =new Date().getTime();
                 cameraHolder.TakePicture(BracketModule.this);
 
             }
@@ -152,6 +154,7 @@ public class BracketModule extends PictureModule
         {
             setExposureToCamera();
             sleep(600);
+            startcapturetime =new Date().getTime();
             cameraHolder.TakePicture(BracketModule.this);
         }
         data = null;

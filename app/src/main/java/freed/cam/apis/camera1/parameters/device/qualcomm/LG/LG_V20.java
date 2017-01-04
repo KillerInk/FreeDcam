@@ -59,16 +59,7 @@ public class LG_V20 extends LG_G2
     public AbstractManualParameter getManualSaturation() {
         return new BaseManualParameter(parameters, KEYS.LG_COLOR_ADJUST,KEYS.LG_COLOR_ADJUST_MAX,KEYS.LG_COLOR_ADJUST_MIN, cameraUiWrapper,1);
     }
-
-    @Override
-    public float getCurrentExposuretime() {
-        return Float.parseFloat(cameraHolder.GetParamsDirect(KEYS.CUR_EXPOSURE_TIME));
-    }
-
-    @Override
-    public int getCurrentIso() {
-        return Integer.parseInt(cameraHolder.GetParamsDirect(KEYS.CUR_ISO));
-    }
+    
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {

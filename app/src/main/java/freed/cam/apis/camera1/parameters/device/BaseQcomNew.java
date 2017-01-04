@@ -77,9 +77,9 @@ public class BaseQcomNew extends BaseQcomDevice
     }
 
     @Override
-    public float getCurrentExposuretime()
+    public long getCurrentExposuretime()
     {
-        return Float.parseFloat(cameraHolder.GetParamsDirect("cur-exposure-time"));
+        return (long)Float.parseFloat(cameraHolder.GetParamsDirect("cur-exposure-time"))*1000000;
     }
 
     @Override

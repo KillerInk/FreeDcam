@@ -83,16 +83,6 @@ public class LG_G4 extends LG_G2
     }
 
     @Override
-    public float getCurrentExposuretime() {
-        return Float.parseFloat(cameraHolder.GetParamsDirect(KEYS.CUR_EXPOSURE_TIME));
-    }
-
-    @Override
-    public int getCurrentIso() {
-        return Integer.parseInt(cameraHolder.GetParamsDirect(KEYS.CUR_ISO));
-    }
-
-    @Override
     public ManualParameterInterface getManualContrast() {
         return null;
     }

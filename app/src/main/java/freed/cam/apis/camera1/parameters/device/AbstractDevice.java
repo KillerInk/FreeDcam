@@ -233,7 +233,7 @@ public abstract class AbstractDevice implements I_Device {
             return 0;
     }
     @Override
-    public float getCurrentExposuretime()
+    public long getCurrentExposuretime()
     {
         return 0;
     }

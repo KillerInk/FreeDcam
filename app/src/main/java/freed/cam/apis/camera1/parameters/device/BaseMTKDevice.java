@@ -132,22 +132,22 @@ public class BaseMTKDevice extends AbstractDevice
     }
 
     @Override
-    public float getCurrentExposuretime() {
+    public long getCurrentExposuretime() {
         if(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK)!= null) {
-            if (Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK)) == 0) {
-                return 0.0f;
+            if (Long.parseLong(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK)) == 0) {
+                return 0;
             } else
-                return Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK)) / 1000000;
+                return Long.parseLong(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK));
         }
         else if(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1)!= null)
         {
-            if (Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1)) == 0) {
-                return 0.0f;
+            if (Long.parseLong(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1)) == 0) {
+                return 0;
             } else
-                return Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1)) / 1000000;
+                return Long.parseLong(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1));
         }
         else
-            return 0.0f;
+            return 0;
     }
 
     @Override

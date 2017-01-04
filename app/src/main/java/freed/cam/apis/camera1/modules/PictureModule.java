@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import java.io.File;
+import java.util.Date;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -46,6 +47,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
     private int burstcount;
     protected CameraHolder cameraHolder;
     protected boolean waitForPicture;
+    protected long startcapturetime;
 
 
     public PictureModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler)
@@ -90,6 +92,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
                         cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
                         Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.GetParameterHandler().ZSL.GetValue());
                     }
+
                 }
                 cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
                 changeCaptureState(CaptureStates.image_capture_start);
@@ -97,6 +100,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
                 burstcount = 0;
                 if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
+                startcapturetime =new Date().getTime();
                 cameraHolder.TakePicture(PictureModule.this);
                 Log.d(TAG,"TakePicture");
             }
@@ -252,7 +256,11 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
 
         float fnum = cameraUiWrapper.GetParameterHandler().getDevice().GetFnumber();
         float focal = cameraUiWrapper.GetParameterHandler().getDevice().GetFocal();
-        float exposuretime = cameraUiWrapper.GetParameterHandler().getDevice().getCurrentExposuretime();
+        long exposuretime = cameraUiWrapper.GetParameterHandler().getDevice().getCurrentExposuretime();
+        if (exposuretime == 0 && startcapturetime != 0)
+        {
+            exposuretime = new Date().getTime() - startcapturetime;
+        }
         int iso = cameraUiWrapper.GetParameterHandler().getDevice().getCurrentIso();
         String wb = null;
         if (cameraUiWrapper.GetParameterHandler().CCT != null && cameraUiWrapper.GetParameterHandler().CCT.IsSupported())
