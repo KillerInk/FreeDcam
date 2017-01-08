@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.util.Size;
 import android.widget.TextView;
 
 import com.lge.hardware.LGCamera;
@@ -918,7 +919,6 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
     private class Camera2AsyncTask extends AsyncTask<String,String,String>
     {
 
-
         @Override
         protected String doInBackground(String... params)
         {
@@ -975,11 +975,17 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                         detectMode(characteristics,CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES,getAppSettings().hotpixelMode,R.array.hotpixelmodes);
                         sendProgress(getAppSettings().hotpixelMode, "HotPixelMode");
 
+                        detectMode(characteristics,CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES,getAppSettings().denoiseMode,R.array.denoiseModes);
+                        sendProgress(getAppSettings().denoiseMode, "Denoise");
+
                         detectPictureFormats(characteristics);
                         sendProgress(getAppSettings().pictureFormat,"PictureFormat");
 
                         detectManualFocus(characteristics);
                         sendProgress(getAppSettings().manualFocus,"Manual Focus");
+
+                        detectPictureSizes(characteristics);
+                        sendProgress(getAppSettings().pictureSize,"PictureSizes:");
                     }
                 }
             }
@@ -1063,6 +1069,22 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
             getAppSettings().pictureFormat.setIsSupported(true);
             getAppSettings().pictureFormat.set(JPEG);
             getAppSettings().pictureFormat.setValues(StringUtils.IntHashmapToStringArray(hmap));
+        }
+
+        private void detectPictureSizes(CameraCharacteristics characteristics)
+        {
+            StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+            Size[] size = smap.getOutputSizes(ImageFormat.JPEG);
+            String[] ar = new String[size.length];
+            int i = 0;
+            for (Size s : size)
+            {
+                ar[i++] = s.getWidth()+"x"+s.getHeight();
+            }
+
+            getAppSettings().pictureSize.setIsSupported(true);
+            getAppSettings().pictureSize.set(ar[0]);
+            getAppSettings().pictureSize.setValues(ar);
         }
 
         private void detectMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
