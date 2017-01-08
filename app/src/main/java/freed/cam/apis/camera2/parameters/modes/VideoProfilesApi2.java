@@ -31,62 +31,23 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
+import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 24.02.2016.
  */
-public class VideoProfilesApi2 extends BaseModeApi2
+public class VideoProfilesApi2 extends VideoProfilesParameter
 {
     final String TAG = VideoProfilesApi2.class.getSimpleName();
-    private HashMap<String, VideoMediaProfile> supportedProfiles;
-    private String profile;
+    protected CameraWrapperInterface cameraUiWrapper;
 
     public VideoProfilesApi2(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
-        loadProfiles();
-        isSupported = true;
     }
 
-    @Override
-    public boolean IsSupported() {
-        return isSupported;
-    }
-
-    @Override
-    public String GetValue()
-    {
-        if (profile == null && supportedProfiles != null)
-        {
-            List<String> keys = new ArrayList<>(supportedProfiles.keySet());
-            profile = keys.get(0);
-        }
-        return profile;
-    }
-
-    @Override
-    public String[] GetValues()
-    {
-        List<String> keys = new ArrayList<>(supportedProfiles.keySet());
-        Collections.sort(keys);
-        return keys.toArray(new String[keys.size()]);
-    }
-
-    private void loadProfiles()
-    {
-        supportedProfiles = cameraUiWrapper.GetAppSettingsManager().getMediaProfiles();
-    }
-
-    public VideoMediaProfile GetCameraProfile(String profile)
-    {
-        if (profile == null || profile.equals(""))
-        {
-            String[] t = supportedProfiles.keySet().toArray(new String[supportedProfiles.keySet().size()]);
-            return supportedProfiles.get(t[0]);
-        }
-        return supportedProfiles.get(profile);
-    }
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
@@ -96,7 +57,6 @@ public class VideoProfilesApi2 extends BaseModeApi2
             cameraUiWrapper.GetModuleHandler().GetCurrentModule().DestroyModule();
             cameraUiWrapper.GetModuleHandler().GetCurrentModule().InitModule();
         }
-
     }
 
 

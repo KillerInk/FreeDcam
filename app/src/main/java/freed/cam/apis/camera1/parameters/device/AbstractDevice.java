@@ -160,7 +160,7 @@ public abstract class AbstractDevice implements I_Device {
     @Override
     public ModeParameterInterface getVideoProfileMode()
     {
-        return new VideoProfilesParameter(parameters, cameraUiWrapper);
+        return new VideoProfilesParameter(cameraUiWrapper);
     }
     @Override
     public ModeParameterInterface getNonZslManualMode()

@@ -31,14 +31,12 @@ import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.AbstractDevice;
 import freed.cam.apis.camera1.parameters.manual.lg.FocusManualParameterLG;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
-import freed.cam.apis.camera1.parameters.modes.VideoProfilesG3Parameter;
 import freed.dng.DngProfile;
 
 /**
@@ -98,16 +96,6 @@ public class LG_G2 extends AbstractDevice
         return null;
     }
 
-
-
-    @Override
-    public ModeParameterInterface getVideoProfileMode()
-    {
-        if (cameraHolder.DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
-            return new VideoProfilesG3Parameter(parameters, cameraUiWrapper);
-        else
-            return super.getVideoProfileMode();
-    }
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {

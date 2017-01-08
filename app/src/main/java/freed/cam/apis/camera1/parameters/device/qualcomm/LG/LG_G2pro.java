@@ -33,7 +33,6 @@ import freed.cam.apis.camera1.parameters.device.AbstractDevice;
 import freed.cam.apis.camera1.parameters.manual.lg.FocusManualParameterLG;
 import freed.cam.apis.camera1.parameters.manual.lg.ShutterManualG2pro;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
-import freed.cam.apis.camera1.parameters.modes.VideoProfilesG3Parameter;
 import freed.dng.DngProfile;
 
 /**
@@ -91,16 +90,6 @@ public class LG_G2pro extends AbstractDevice
         return null;
     }
 
-
-
-    @Override
-    public ModeParameterInterface getVideoProfileMode()
-    {
-        if (cameraHolder.DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
-            return new VideoProfilesG3Parameter(parameters, cameraUiWrapper);
-        else
-            return super.getVideoProfileMode();
-    }
 
     @Override
     public ModeParameterInterface getDenoiseParameter() {

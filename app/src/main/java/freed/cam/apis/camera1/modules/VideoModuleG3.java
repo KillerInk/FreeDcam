@@ -34,7 +34,7 @@ import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.apis.camera1.parameters.modes.VideoProfilesG3Parameter;
+import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.utils.AppSettingsManager;
 
 
@@ -145,7 +145,7 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     private void loadProfileSpecificParameters()
     {
-        VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
+        VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getApiString(AppSettingsManager.VIDEOPROFILE));
         if (((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range") != null) {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("preview-fps-range", "30000,30000");

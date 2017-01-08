@@ -32,27 +32,29 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
+import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.CameraHolder;
 
 /**
  * Created by troop on 13.11.2014.
  */
-public class VideoProfilesParameter extends BaseModeParameter
+public class VideoProfilesParameter extends AbstractModeParameter
 {
     private final String TAG = VideoProfilesParameter.class.getSimpleName();
-    private HashMap<String, VideoMediaProfile> supportedProfiles;
-    private final CameraHolder cameraHolder;
-    private String profile;
+    protected HashMap<String, VideoMediaProfile> supportedProfiles;
+    protected String profile;
     private static final String _720phfr = "720HFR";
     public static final String _2160p = "2160p";
     public static final String _2160pDCI = "2160pDCI";
+    protected CameraWrapperInterface cameraUiWrapper;
+    protected boolean isSupported;
 
-    public VideoProfilesParameter(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, cameraUiWrapper);
-        cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
+
+    public VideoProfilesParameter(CameraWrapperInterface cameraUiWrapper) {
+        super();
         this.cameraUiWrapper = cameraUiWrapper;
         isSupported =true;
-        loadProfiles();
+        supportedProfiles = cameraUiWrapper.GetAppSettingsManager().getMediaProfiles();
     }
 
     @Override
@@ -95,12 +97,6 @@ public class VideoProfilesParameter extends BaseModeParameter
             return supportedProfiles.get(t[0]);
         }
         return supportedProfiles.get(profile);
-    }
-
-    private void loadProfiles()
-    {
-        supportedProfiles = cameraUiWrapper.GetAppSettingsManager().getMediaProfiles();
-
     }
 
 }
