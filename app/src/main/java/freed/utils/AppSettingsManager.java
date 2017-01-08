@@ -554,6 +554,17 @@ public class AppSettingsManager {
             return getStringArray(values_key);
         }
 
+        public boolean contains(String value)
+        {
+            String[] values = getValues();
+            for (String v : values)
+            {
+                if (v.equals(value))
+                    return true;
+            }
+            return false;
+        }
+
         public boolean isSupported()
         {
             return getBoolean(supported_key,false);
