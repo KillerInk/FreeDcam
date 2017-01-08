@@ -64,13 +64,6 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        Size[] sizes = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).map.getOutputSizes(ImageFormat.JPEG);
-        String[] ret = new String[sizes.length];
-        for(int i = 0; i < sizes.length; i++)
-        {
-            ret[i] = sizes[i].getWidth()+ "x" + sizes[i].getHeight();
-        }
-
-        return ret;
+        return cameraUiWrapper.GetAppSettingsManager().pictureSize.getValues();
     }
 }
