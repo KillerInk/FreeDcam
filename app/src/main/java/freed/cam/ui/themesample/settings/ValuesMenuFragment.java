@@ -55,7 +55,7 @@ public class ValuesMenuFragment extends Fragment implements ListView.OnItemClick
         if(item == null)
             return;
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
-                layout.listviewlayout, id.listviewlayout_textview, item);
+                layout.settings_menuvalues_listviewlayout, id.listviewlayout_textview, item);
         //attach adapter to the listview and fill
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
