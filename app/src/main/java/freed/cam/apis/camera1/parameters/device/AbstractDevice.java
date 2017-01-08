@@ -190,15 +190,10 @@ public abstract class AbstractDevice implements I_Device {
     }
 
     @Override
-    public ModeParameterInterface getDigitalImageStabilisation() {
-        try {
-            if(parameters.get(KEYS.SONY_VS)!=null)
-                 return new BaseModeParameter(parameters, cameraUiWrapper,KEYS.SONY_VS,KEYS.SONY_VS_VALUES);
-            else if (parameters.get(KEYS.DIGITALIMAGESTABILIZATION)!=null)
-                return new BaseModeParameter(parameters, cameraUiWrapper,KEYS.DIGITALIMAGESTABILIZATION,KEYS.DIGITALIMAGESTABILIZATION_VALUES);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    public ModeParameterInterface getDigitalImageStabilisation()
+    {
+        if (cameraUiWrapper.GetAppSettingsManager().digitalImageStabilisationMode.isSupported())
+            return new BaseModeParameter(parameters,cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().digitalImageStabilisationMode.getKEY(),cameraUiWrapper.GetAppSettingsManager().digitalImageStabilisationMode.getValues());
         return null;
     }
 

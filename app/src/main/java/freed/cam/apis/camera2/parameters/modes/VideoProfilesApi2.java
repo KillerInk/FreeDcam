@@ -52,7 +52,7 @@ public class VideoProfilesApi2 extends VideoProfilesParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         profile = valueToSet;
-        if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+        if (cameraUiWrapper !=null && cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
         {
             cameraUiWrapper.GetModuleHandler().GetCurrentModule().DestroyModule();
             cameraUiWrapper.GetModuleHandler().GetCurrentModule().InitModule();

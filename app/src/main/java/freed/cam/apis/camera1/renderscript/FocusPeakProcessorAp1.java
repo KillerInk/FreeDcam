@@ -357,7 +357,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                     renderScriptHandler.GetOut().setSurface(mSurface);
                 else {
                     Log.d(TAG, "Allocout null or not USAGE_IO_OUTPUT");
-                    Size size = new Size(cameraUiWrapper.GetParameterHandler().PreviewSize.GetValue());
+                    Size size = new Size(cameraUiWrapper.GetAppSettingsManager().previewSize.get());
                     reset(size.width, size.height);
                 }
             }
