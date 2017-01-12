@@ -182,20 +182,8 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         moduleHandler.DoWork();
     }
 
-    @Override
-    public CameraHolderInterface GetCameraHolder() {
-        return cameraHolder;
-    }
 
-    @Override
-    public AbstractParameterHandler GetParameterHandler() {
-        return parametersHandler;
-    }
 
-    @Override
-    public ModuleHandlerAbstract GetModuleHandler() {
-        return moduleHandler;
-    }
 
 
     @Override

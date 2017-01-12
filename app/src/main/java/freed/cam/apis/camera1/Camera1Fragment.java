@@ -131,37 +131,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         }
     }
 
-    private boolean hasLGFramework()
-    {
-        try {
-            Class c = Class.forName("com.lge.hardware.LGCamera");
-            Log.d(TAG, "Has Lg Framework");
-            c = Class.forName("com.lge.media.CamcorderProfileEx");
-            Log.d(TAG, "Has Lg Framework");
-            return true;
-
-        } catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e) {
-
-            Log.d(TAG, "No LG Framework");
-            return false;
-        }
-    }
-
-    private boolean isMotoExt()
-    {
-        try {
-            Class c = Class.forName("com.motorola.android.camera.CameraMotExt");
-            Log.d(TAG, "Has Moto Framework");
-            c = Class.forName("com.motorola.android.media.MediaRecorderExt");
-            Log.d(TAG, "Has Moto Framework");
-            return true;
-
-        } catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e) {
-            Log.d(TAG, "No Moto Framework");
-            return false;
-        }
-    }
-
     private boolean canOpenLegacy()
     {
         try {
@@ -178,33 +147,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
             return false;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            return false;
-        }
-    }
-
-    private boolean isMTKDevice()
-    {
-        try
-        {
-            Class camera = Class.forName("android.hardware.Camera");
-            Method[] meths = camera.getMethods();
-            Method app = null;
-            for (Method m : meths)
-            {
-                if (m.getName().equals("setProperty"))
-                    app = m;
-            }
-            if (app != null) {
-                Log.d(TAG,"MTK Framework found");
-                return true;
-            }
-            Log.d(TAG, "MTK Framework not found");
-            return false;
-        }
-        catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e)
-        {
-            e.printStackTrace();
-            Log.d(TAG, "MTK Framework not found");
             return false;
         }
     }
@@ -234,21 +176,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     }
 
     @Override
-    public CameraHolderInterface GetCameraHolder() {
-        return cameraHolder;
-    }
-
-    @Override
-    public AbstractParameterHandler GetParameterHandler() {
-        return parametersHandler;
-    }
-
-    @Override
-    public ModuleHandlerAbstract GetModuleHandler() {
-        return moduleHandler;
-    }
-
-    @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
         Log.d(TAG, "surface created");
@@ -265,7 +192,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     public void surfaceDestroyed(SurfaceHolder holder)
     {
         PreviewSurfaceRdy =false;
-
     }
 
 
@@ -487,23 +413,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     }
 
     @Override
-    public boolean isAeMeteringSupported() {
-        return Focus.isAeMeteringSupported();
-    }
-
-    @Override
     public FocuspeakProcessor getFocusPeakProcessor() {
         return focusPeakProcessorAp1;
-    }
-
-    @Override
-    public RenderScriptHandler getRenderScriptHandler() {
-        return renderScriptHandler;
-    }
-
-    @Override
-    public ActivityInterface getActivityInterface() {
-        return (ActivityInterface)getActivity();
     }
 
     @Override
@@ -511,9 +422,5 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         return extendedSurfaceView;
     }
 
-    @Override
-    public AbstractFocusHandler getFocusHandler() {
-        return Focus;
-    }
 
 }

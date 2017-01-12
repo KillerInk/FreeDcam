@@ -281,4 +281,18 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
         return Focus;
     }
 
+    @Override
+    public CameraHolderInterface GetCameraHolder() {
+        return cameraHolder;
+    }
+
+    @Override
+    public AbstractParameterHandler GetParameterHandler() {
+        return parametersHandler;
+    }
+
+    @Override
+    public ModuleHandlerAbstract GetModuleHandler() {
+        return moduleHandler;
+    }
 }

@@ -53,7 +53,6 @@ import freed.utils.RenderScriptHandler;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class Camera2Fragment extends CameraFragmentAbstract implements TextureView.SurfaceTextureListener
 {
-    public CameraHolderApi2 cameraHolder;
     private AutoFitTextureView textureView;
     private final String TAG = Camera2Fragment.class.getSimpleName();
     private FocuspeakProcessorApi2 mProcessor;
@@ -132,25 +131,10 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     }
 
     @Override
-    public CameraHolderInterface GetCameraHolder() {
-        return cameraHolder;
-    }
-
-    @Override
-    public AbstractParameterHandler GetParameterHandler() {
-        return parametersHandler;
-    }
-
-    @Override
-    public ModuleHandlerAbstract GetModuleHandler() {
-        return moduleHandler;
-    }
-
-    @Override
     public void onCameraOpen(String message)
     {
         ((ParameterHandlerApi2)parametersHandler).Init();
-        cameraHolder.SetSurface(textureView);
+        ((CameraHolderApi2)cameraHolder).SetSurface(textureView);
 
         Log.d(TAG, "Camera Opened and Preview Started");
         super.onCameraOpen(message);
@@ -229,23 +213,8 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     }
 
     @Override
-    public boolean isAeMeteringSupported() {
-        return Focus.isAeMeteringSupported();
-    }
-
-    @Override
     public FocuspeakProcessor getFocusPeakProcessor() {
         return mProcessor;
-    }
-
-    @Override
-    public RenderScriptHandler getRenderScriptHandler() {
-        return renderScriptHandler;
-    }
-
-    @Override
-    public ActivityInterface getActivityInterface() {
-        return (ActivityInterface) getActivity();
     }
 
     @Override
@@ -253,10 +222,6 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         return null;
     }
 
-    @Override
-    public AbstractFocusHandler getFocusHandler() {
-        return Focus;
-    }
 
 
 }
