@@ -277,8 +277,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         return super.onKeyDown(keyCode,event);
     }
 
-
-
     /**
      * Set the orientaion to the current camerafragment
      * @param orientation the new phone orientation
@@ -382,16 +380,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void WorkHasFinished(final FileHolder fileHolder) {
         Log.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    AddFile(fileHolder);
-                    if (screenSlideFragment != null && activityIsResumed)
-                        screenSlideFragment.NotifyDATAhasChanged();
-                }
-            });
-        //}
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AddFile(fileHolder);
+                if (screenSlideFragment != null && activityIsResumed)
+                    screenSlideFragment.NotifyDATAhasChanged();
+            }
+        });
     }
 
     @Override
@@ -406,33 +402,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             }
         });
     }
-
-    /*private I_WorkEvent cacheImageRdy = new I_WorkEvent() {
-        @Override
-        public void WorkHasFinished(final FileHolder fileHolder) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d(TAG,"Cached Image Rdy:"+ fileHolder.getFile().getName());
-                    if (screenSlideFragment != null && activityIsResumed)
-                        screenSlideFragment.NotifyDATAhasChanged();
-                }
-            });
-        }
-
-        @Override
-        public void WorkHasFinished(final FileHolder[] fileHolder) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    AddFiles(fileHolder);
-                    if (screenSlideFragment != null && activityIsResumed)
-                        screenSlideFragment.NotifyDATAhasChanged();
-                }
-            });
-        }
-    };*/
 
     @Override
     public void onCameraOpen(String message) {
@@ -551,7 +520,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             if (!(cameraFragment instanceof SonyCameraFragment))
                 locationHandler.startLocationListing();
             else
-                ((SonyCameraFragment)cameraFragment).StartLookUp();
+                cameraFragment.StartCamera();
         }
     }
 

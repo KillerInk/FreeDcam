@@ -28,6 +28,7 @@ import android.view.View;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.utils.AppSettingsManager;
@@ -253,6 +254,31 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     @Override
     public AppSettingsManager GetAppSettingsManager() {
         return appSettingsManager;
+    }
+
+    @Override
+    public RenderScriptHandler getRenderScriptHandler() {
+        return renderScriptHandler;
+    }
+
+    @Override
+    public ActivityInterface getActivityInterface() {
+        return (ActivityInterface)getActivity();
+    }
+
+    @Override
+    public boolean isAeMeteringSupported() {
+        return Focus.isAeMeteringSupported();
+    }
+
+    @Override
+    public FocuspeakProcessor getFocusPeakProcessor() {
+        return null;
+    }
+
+    @Override
+    public AbstractFocusHandler getFocusHandler() {
+        return Focus;
     }
 
 }
