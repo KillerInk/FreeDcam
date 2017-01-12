@@ -19,10 +19,6 @@
 
 package freed.cam.apis.camera1.parameters.modes;
 
-import android.hardware.Camera.Parameters;
-import android.media.CamcorderProfile;
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,9 +27,7 @@ import java.util.List;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
-import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import freed.cam.apis.camera1.CameraHolder;
 
 /**
  * Created by troop on 13.11.2014.

@@ -23,8 +23,6 @@ import android.hardware.Camera.Parameters;
 import android.util.Log;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.camera1.CameraHolder;
-import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.device.AbstractDevice;
 import freed.cam.apis.camera1.parameters.device.BaseMTKDevice;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;

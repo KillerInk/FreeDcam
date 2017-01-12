@@ -26,7 +26,7 @@ import android.view.View;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.ExtendedSurfaceView;
-import freed.cam.apis.sonyremote.SonyCameraFragment;
+import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 
 /**
  * Created by troop on 13.06.2015.
@@ -66,7 +66,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof SonyCameraFragment)
+        if (cameraUiWrapper instanceof SonyCameraRemoteFragment)
         {
             setVisibility(View.GONE);
         }

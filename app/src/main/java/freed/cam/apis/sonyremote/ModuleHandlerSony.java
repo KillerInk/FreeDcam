@@ -27,6 +27,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.CameraHolderSony.I_CameraShotMode;
 import freed.cam.apis.sonyremote.modules.PictureModuleSony;
 import freed.cam.apis.sonyremote.modules.VideoModuleSony;
+import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 
 /**
  * Created by troop on 13.12.2014.
@@ -44,7 +45,7 @@ public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_Camera
     public void initModules()
     {
         this.cameraHolder = (CameraHolderSony) cameraUiWrapper.GetCameraHolder();
-        cameraHolder.cameraShotMode = this;
+        ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).cameraShotMode = this;
         PictureModuleSony pic = new PictureModuleSony(cameraUiWrapper,mBackgroundHandler);
         moduleList.put(pic.ModuleName(), pic);
         VideoModuleSony mov = new VideoModuleSony(cameraUiWrapper,mBackgroundHandler);

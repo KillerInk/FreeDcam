@@ -44,7 +44,7 @@ import com.troop.freedcam.R.layout;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.sonyremote.SonyCameraFragment;
+import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.ui.I_swipe;
@@ -158,7 +158,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
             removeHorizontalFragment();
 
-        if (cameraUiWrapper instanceof SonyCameraFragment)
+        if (cameraUiWrapper instanceof SonyCameraRemoteFragment)
         {
             joyPad.setVisibility(View.GONE);
             if (cameraUiWrapper.GetParameterHandler().PreviewZoom != null)

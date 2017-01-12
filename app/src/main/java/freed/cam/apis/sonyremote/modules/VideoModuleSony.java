@@ -26,6 +26,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.sonyremote.CameraHolderSony;
+import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 
 /**
  * Created by troop on 08.06.2015.
@@ -64,8 +65,8 @@ public class VideoModuleSony extends ModuleAbstract implements I_CameraStatusCha
 
     @Override
     public void InitModule() {
-        cameraHolder.CameraStatusListner = this;
-        onCameraStatusChanged(cameraHolder.GetCameraStatus());
+        ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).CameraStatusListner = this;
+        onCameraStatusChanged(((ParameterHandler)cameraUiWrapper.GetParameterHandler()).GetCameraStatus());
     }
 
     @Override

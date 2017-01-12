@@ -31,12 +31,9 @@ import java.util.Set;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
-import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.utils.DeviceUtils.Devices;
 
 import static freed.cam.apis.KEYS.BAYER;
-import static freed.cam.apis.KEYS.JPEG_QUALITY;
-import static freed.cam.apis.KEYS.PICTURE_FORMAT;
 
 
 /**

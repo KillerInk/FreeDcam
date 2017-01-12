@@ -22,6 +22,8 @@ package freed.cam.apis.sonyremote.parameters;
 import android.content.Context;
 import android.util.Log;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +33,11 @@ import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.camera1.parameters.device.I_Device;
+import freed.cam.apis.sonyremote.CameraHolderSony;
+import freed.cam.apis.sonyremote.FocusHandler;
+import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.apis.sonyremote.modules.I_CameraStatusChanged;
+import freed.cam.apis.sonyremote.modules.PictureModuleSony;
 import freed.cam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
 import freed.cam.apis.sonyremote.parameters.manual.ExposureCompManualParameterSony;
 import freed.cam.apis.sonyremote.parameters.manual.PreviewZoomManual;
@@ -49,13 +56,16 @@ import freed.cam.apis.sonyremote.parameters.modes.PictureSizeSony;
 import freed.cam.apis.sonyremote.parameters.modes.ScalePreviewModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.WhiteBalanceModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.ZoomSettingSony;
+import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
+import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
+import freed.utils.FreeDPool;
 
 /**
  * Created by troop on 13.12.2014.
  */
-public class ParameterHandler extends AbstractParameterHandler
+public class ParameterHandler extends AbstractParameterHandler implements SimpleCameraEventObserver.ChangeListener
 {
     private final String TAG = ParameterHandler.class.getSimpleName();
     public SimpleRemoteApi mRemoteApi;
@@ -63,6 +73,10 @@ public class ParameterHandler extends AbstractParameterHandler
     private final List<I_SonyApi> parametersChangedList;
     private final SimpleStreamSurfaceView surfaceView;
     private final CameraWrapperInterface cameraUiWrapper;
+    private String cameraStatus = "IDLE";
+
+    public I_CameraStatusChanged CameraStatusListner;
+    public CameraHolderSony.I_CameraShotMode cameraShotMode;
 
 
     public ParameterHandler(CameraWrapperInterface cameraUiWrapper, SimpleStreamSurfaceView surfaceView, Context context)
@@ -81,6 +95,9 @@ public class ParameterHandler extends AbstractParameterHandler
         throwSonyApiChanged(mAvailableCameraApiSet);
 
     }
+
+    public String GetCameraStatus()
+    { return cameraStatus;}
 
     private void throwSonyApiChanged(Set<String> mAvailableCameraApiSet) {
         for (int i = 0; i < parametersChangedList.size(); i++)
@@ -196,4 +213,235 @@ public class ParameterHandler extends AbstractParameterHandler
         return new float[0];
     }
 
+
+
+
+
+
+    @Override
+    public void onShootModeChanged(String shootMode) {
+        if(cameraShotMode != null )
+            cameraShotMode.onShootModeChanged(shootMode);
+    }
+
+    @Override
+    public void onCameraStatusChanged(String status)
+    {
+        //if (cameraStatus.equals(status))
+        //    return;
+        cameraStatus = status;
+        Log.d(TAG, "Camerastatus:" + cameraStatus);
+        if (CameraStatusListner != null)
+            CameraStatusListner.onCameraStatusChanged(status);
+    }
+
+    @Override
+    public void onTimout() {
+        cameraUiWrapper.onCameraError("Camera connection timed out");
+        ((SonyCameraRemoteFragment)cameraUiWrapper).stopEventObserver();
+    }
+
+    @Override
+    public void onApiListModified(List<String> apis) {
+
+        synchronized (mAvailableCameraApiSet) {
+            mAvailableCameraApiSet.clear();
+            for (String api : apis) {
+                mAvailableCameraApiSet.add(api);
+            }
+            SetCameraApiSet(mAvailableCameraApiSet);
+            if (JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet)) {
+                if (surfaceView != null && !surfaceView.isStarted()) {
+                    cameraUiWrapper.GetCameraHolder().StartPreview();
+                }
+                else cameraUiWrapper.onCameraError("failed to start live view");
+            }
+        }
+    }
+
+    @Override
+    public void onZoomPositionChanged(int zoomPosition)
+    {
+        ((ZoomManualSony)Zoom).setZoomsHasChanged(zoomPosition);
+    }
+
+    @Override
+    public void onIsoChanged(String iso)
+    {
+        ManualIso.ThrowCurrentValueStringCHanged(iso);
+    }
+
+    @Override
+    public void onIsoValuesChanged(String[] isovals) {
+        ManualIso.ThrowBackgroundValuesChanged(isovals);
+    }
+
+    @Override
+    public void onFnumberValuesChanged(String[] fnumbervals) {
+        ManualFNumber.ThrowBackgroundValuesChanged(fnumbervals);
+    }
+
+    @Override
+    public void onExposureCompensationMaxChanged(int epxosurecompmax) {
+        //parameterHandler.ManualExposure.BackgroundMaxValueChanged(epxosurecompmax);
+    }
+
+    @Override
+    public void onExposureCompensationMinChanged(int epxosurecompmin) {
+        //parameterHandler.ManualExposure.BackgroundMinValueChanged(epxosurecompmin);
+    }
+
+    @Override
+    public void onExposureCompensationChanged(int epxosurecomp) {
+        ManualExposure.ThrowCurrentValueChanged(epxosurecomp);
+    }
+
+    @Override
+    public void onShutterSpeedChanged(String shutter) {
+        ManualShutter.ThrowCurrentValueStringCHanged(shutter);
+    }
+
+    @Override
+    public void onShutterSpeedValuesChanged(String[] shuttervals) {
+        ManualShutter.ThrowBackgroundValuesChanged(shuttervals);
+    }
+
+    @Override
+    public void onFlashChanged(String flash)
+    {
+        Log.d(TAG, "Fire ONFLashCHanged");
+        FlashMode.onValueHasChanged(flash);
+    }
+
+    @Override
+    public void onFocusLocked(boolean locked) {
+        ((FocusHandler) cameraUiWrapper.getFocusHandler()).onFocusLock(locked);
+    }
+
+    @Override
+    public void onWhiteBalanceValueChanged(String wb)
+    {
+        WhiteBalanceMode.onValueHasChanged(wb);
+        if (WhiteBalanceMode.GetValue().equals("Color Temperature") && CCT != null)
+            CCT.ThrowBackgroundIsSupportedChanged(true);
+        else
+            CCT.ThrowBackgroundIsSupportedChanged(false);
+    }
+
+    @Override
+    public void onImagesRecieved(final String[] url)
+    {
+        FreeDPool.Execute(new Runnable() {
+            @Override
+            public void run() {
+                for (String s : url)
+                {
+                    if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() instanceof PictureModuleSony)
+                    {
+                        PictureModuleSony pictureModuleSony = (PictureModuleSony) cameraUiWrapper.GetModuleHandler().GetCurrentModule();
+                        try {
+                            pictureModuleSony.onPictureTaken(new URL(s));
+                        }catch (MalformedURLException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            }});
+    }
+
+    @Override
+    public void onFnumberChanged(String fnumber) {
+        ManualFNumber.ThrowCurrentValueStringCHanged(fnumber);
+    }
+
+    @Override
+    public void onLiveviewStatusChanged(boolean status) {
+
+    }
+
+    @Override
+    public void onStorageIdChanged(String storageId) {
+
+    }
+
+    @Override
+    public void onExposureModesChanged(String[] expomode)
+    {
+        ExposureMode.onValuesHasChanged(expomode);
+    }
+
+    @Override
+    public void onImageFormatChanged(String imagesize) {
+        PictureFormat.onValueHasChanged(imagesize);
+    }
+
+    @Override
+    public void onImageFormatsChanged(String[] imagesize) {
+        PictureFormat.onValuesHasChanged(imagesize);
+    }
+
+    @Override
+    public void onImageSizeChanged(String imagesize) {
+        PictureSize.onValueHasChanged(imagesize);
+    }
+
+    @Override
+    public void onContshotModeChanged(String imagesize) {
+        ContShootMode.onValueHasChanged(imagesize);
+    }
+
+    @Override
+    public void onContshotModesChanged(String[] imagesize) {
+        ContShootMode.onValuesHasChanged(imagesize);
+    }
+
+    @Override
+    public void onFocusModeChanged(String imagesize) {
+        FocusMode.onValueHasChanged(imagesize);
+    }
+
+    @Override
+    public void onFocusModesChanged(String[] imagesize) {
+        FocusMode.onValuesHasChanged(imagesize);
+    }
+
+    @Override
+    public void onPostviewModeChanged(String imagesize) {
+        PostViewSize.onValueHasChanged(imagesize);
+    }
+
+    @Override
+    public void onPostviewModesChanged(String[] imagesize) {
+        PostViewSize.onValuesHasChanged(imagesize);
+    }
+
+    @Override
+    public void onTrackingFocusModeChanged(String imagesize) {
+        ObjectTracking.onValueHasChanged(imagesize);
+    }
+
+    @Override
+    public void onTrackingFocusModesChanged(String[] imagesize) {
+        ObjectTracking.onValuesHasChanged(imagesize);
+    }
+
+    @Override
+    public void onZoomSettingValueCHanged(String value) {
+        ZoomSetting.onValueHasChanged(value);
+    }
+
+    @Override
+    public void onZoomSettingsValuesCHanged(String[] values) {
+        ZoomSetting.onValuesHasChanged(values);
+    }
+
+    @Override
+    public void onExposureModeChanged(String expomode) {
+        if (!ExposureMode.GetValue().equals(expomode))
+            ExposureMode.onValueHasChanged(expomode);
+        if (expomode.equals("Intelligent Auto")|| expomode.equals("Superior Auto"))
+            WhiteBalanceMode.onIsSupportedChanged(false);
+        else
+            WhiteBalanceMode.onIsSupportedChanged(true);
+    }
 }

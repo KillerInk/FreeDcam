@@ -95,8 +95,8 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     public void InitModule()
     {
         Log.d(TAG, "InitModule");
-        cameraHolder.CameraStatusListner = this;
-        onCameraStatusChanged(cameraHolder.GetCameraStatus());
+        ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).CameraStatusListner = this;
+        onCameraStatusChanged(((ParameterHandler)cameraUiWrapper.GetParameterHandler()).GetCameraStatus());
     }
 
     @Override

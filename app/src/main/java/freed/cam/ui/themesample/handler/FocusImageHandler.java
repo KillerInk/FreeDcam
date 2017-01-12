@@ -41,7 +41,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
-import freed.cam.apis.sonyremote.SonyCameraFragment;
+import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 
@@ -114,7 +114,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void FocusStarted(FocusRect rect)
     {
-        if (!(wrapper instanceof SonyCameraFragment))
+        if (!(wrapper instanceof SonyCameraRemoteFragment))
         {
             disWidth = wrapper.getPreviewWidth();
             disHeight = wrapper.getPreviewHeight();
@@ -147,7 +147,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void FocusFinished(final boolean success)
     {
-        if (!(wrapper instanceof SonyCameraFragment)) {
+        if (!(wrapper instanceof SonyCameraRemoteFragment)) {
             focusImageView.post(new Runnable() {
                 @Override
                 public void run() {
@@ -205,7 +205,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        if (wrapper instanceof SonyCameraFragment)
+        if (wrapper instanceof SonyCameraRemoteFragment)
             wrapper.getFocusHandler().SetMotionEvent(event);
         return false;
     }

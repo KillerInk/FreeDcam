@@ -19,21 +19,9 @@
 
 package freed.cam.apis.camera2.parameters.modes;
 
-import android.media.CamcorderProfile;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.VideoMediaProfile;
-import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
-import freed.cam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 24.02.2016.

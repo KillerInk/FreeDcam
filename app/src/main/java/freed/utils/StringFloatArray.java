@@ -1,7 +1,5 @@
 package freed.utils;
 
-import java.util.Collections;
-
 /**
  * Created by troop on 02.01.2017.
  */

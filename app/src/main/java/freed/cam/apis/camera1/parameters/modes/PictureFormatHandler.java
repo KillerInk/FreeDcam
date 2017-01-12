@@ -20,18 +20,13 @@
 package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
-import android.os.Build.VERSION;
 import android.util.Log;
-
-import java.util.ArrayList;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils.Devices;
 
 import static freed.cam.apis.KEYS.BAYER;
 

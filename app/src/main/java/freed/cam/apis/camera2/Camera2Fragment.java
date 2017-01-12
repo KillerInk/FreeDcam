@@ -33,18 +33,12 @@ import android.view.ViewGroup;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import freed.ActivityInterface;
-import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.CameraHolderInterface;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.apis.camera2.renderscript.FocuspeakProcessorApi2;
 import freed.utils.AppSettingsManager;
-import freed.utils.RenderScriptHandler;
 
 
 /**

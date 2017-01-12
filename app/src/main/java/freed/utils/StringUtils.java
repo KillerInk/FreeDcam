@@ -19,14 +19,11 @@
 
 package freed.utils;
 
-import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Ingo on 04.10.2014.

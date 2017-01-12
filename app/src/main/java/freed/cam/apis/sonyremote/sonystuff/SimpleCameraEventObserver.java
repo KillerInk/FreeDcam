@@ -122,61 +122,6 @@ public class SimpleCameraEventObserver {
         void onZoomSettingsValuesCHanged(String[] values);
     }
 
-    /**
-     * Abstract class to receive these changes. please override methods that you
-     * need.
-     */
-    public abstract static class ChangeListenerTmpl implements ChangeListener {
-
-        @Override
-        public void onApiListModified(List<String> apis) {
-        }
-
-        @Override
-        public void onCameraStatusChanged(String status) {
-        }
-
-        @Override
-        public void onLiveviewStatusChanged(boolean status) {
-        }
-
-        @Override
-        public void onShootModeChanged(String shootMode) {
-        }
-
-        @Override
-        public void onZoomPositionChanged(int zoomPosition) {
-        }
-
-        @Override
-        public void onStorageIdChanged(String storageId) {
-        }
-
-        public void onTimout()
-        {
-
-        }
-        public void onIsoChanged(String iso)
-        {
-
-        }
-
-        public void onFnumberChanged(String fnumber)
-        {
-
-        }
-        public void onExposureCompensationChanged(int epxosurecomp){}
-
-        @Override
-        public void onExposureModeChanged(String expomode) {
-
-        }
-
-        @Override
-        public void onExposureModesChanged(String[] expomode) {
-
-        }
-    }
 
     private final Handler mUiHandler;
 
@@ -212,7 +157,13 @@ public class SimpleCameraEventObserver {
     private int mExposureComp;
     private int mExposureCompMax;
     private int mExposureCompMin;
-    private String version;
+    private final String version;
+
+
+    public String getVersion()
+    {
+        return version;
+    }
 
     // :
     // : add attributes for Event data as necessary.
@@ -223,7 +174,7 @@ public class SimpleCameraEventObserver {
      * @param context context to notify the changes by UI thread.
      * @param apiClient API client
      */
-    public SimpleCameraEventObserver(Context context, SimpleRemoteApi apiClient) {
+    public SimpleCameraEventObserver(Context context, SimpleRemoteApi apiClient, String getEventVersion) {
         if (context == null) {
             throw new IllegalArgumentException("context is null.");
         }
@@ -232,6 +183,7 @@ public class SimpleCameraEventObserver {
         }
         this.mRemoteApi = apiClient;
         this.mUiHandler = new Handler(context.getMainLooper());
+        this.version = getEventVersion;
     }
 
 
@@ -278,14 +230,6 @@ public class SimpleCameraEventObserver {
                     try {
                         // Call getEvent API.
                         JSONObject replyJson;
-                        if(SimpleCameraEventObserver.this.version == null || SimpleCameraEventObserver.this.version == "")
-                        {
-                            SimpleCameraEventObserver.this.sendLog("Request version");
-                            replyJson = SimpleCameraEventObserver.this.mRemoteApi.getVersions();
-                            JSONArray array = replyJson.getJSONArray("result");
-                            array = array.getJSONArray(0);
-                            SimpleCameraEventObserver.this.version = array.getString(array.length()-1);
-                        }
 
                         replyJson = SimpleCameraEventObserver.this.mRemoteApi.getEvent(longPolling, SimpleCameraEventObserver.this.version);
 

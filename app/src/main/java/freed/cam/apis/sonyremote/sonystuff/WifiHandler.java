@@ -11,7 +11,6 @@ import android.os.Looper;
 import android.util.Log;
 
 import freed.ActivityInterface;
-import freed.cam.apis.sonyremote.SonyCameraFragment;
 
 /**
  * Created by troop on 12.01.2017.

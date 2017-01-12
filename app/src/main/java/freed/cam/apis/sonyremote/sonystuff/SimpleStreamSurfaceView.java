@@ -34,7 +34,6 @@ import android.renderscript.Element;
 import android.renderscript.Type;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 

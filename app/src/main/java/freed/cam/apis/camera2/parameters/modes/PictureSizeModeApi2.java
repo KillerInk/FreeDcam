@@ -20,12 +20,9 @@
 package freed.cam.apis.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
-import android.graphics.ImageFormat;
 import android.os.Build.VERSION_CODES;
-import android.util.Size;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 13.12.2014.

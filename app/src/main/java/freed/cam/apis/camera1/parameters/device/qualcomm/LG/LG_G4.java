@@ -21,12 +21,10 @@ package freed.cam.apis.camera1.parameters.device.qualcomm.LG;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4;
 import freed.cam.apis.camera1.parameters.manual.lg.CCTManualG4;
 import freed.cam.apis.camera1.parameters.manual.lg.FocusManualParameterLG;

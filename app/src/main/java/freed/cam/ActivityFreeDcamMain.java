@@ -39,13 +39,12 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityAbstract;
-
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
-import freed.cam.apis.sonyremote.SonyCameraFragment;
+import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.handler.I_orientation;
 import freed.cam.ui.handler.OrientationHandler;
@@ -192,7 +191,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             //get new cameraFragment
             if (getAppSettings().getCamApi().equals(AppSettingsManager.API_SONY))
             {
-                cameraFragment = new SonyCameraFragment();
+                cameraFragment = new SonyCameraRemoteFragment();
                 cameraFragment.SetRenderScriptHandler(renderScriptHandler);
 
             }
@@ -517,7 +516,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void locationPermissionGranted(boolean granted) {
         if (granted) {
-            if (!(cameraFragment instanceof SonyCameraFragment))
+            if (!(cameraFragment instanceof SonyCameraRemoteFragment))
                 locationHandler.startLocationListing();
             else
                 cameraFragment.StartCamera();
