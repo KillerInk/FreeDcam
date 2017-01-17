@@ -132,10 +132,13 @@ public class AeHandler
         public void SetValue(String valueToSet, boolean setToCamera)
         {
             super.SetValue(valueToSet,setToCamera);
-            if (valueToSet.equals(cameraUiWrapper.getContext().getString(R.string.off)))
+            if (valueToSet.equals(cameraUiWrapper.getContext().getString(R.string.off))) {
                 setManualItemsSetSupport(true);
-            else
+            }
+            else {
                 setManualItemsSetSupport(false);
+            }
+            aeModeApi2.onValueHasChanged(valueToSet);
         }
     }
 
@@ -202,7 +205,6 @@ public class AeHandler
     public class ManualExposureTimeApi2 extends AbstractManualShutter
     {
         final String TAG = ManualExposureTimeApi2.class.getSimpleName();
-        private long millimax;
         public ManualExposureTimeApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
             isSupported = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.isSupported();
@@ -246,9 +248,6 @@ public class AeHandler
                     Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                     val = 800000000;
                 }
-                //check if calced value is not bigger then max returned from cam
-                if (val > millimax *1000)
-                    val = millimax *1000;
                 cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
                 ThrowCurrentValueChanged(valueToSet);
             }

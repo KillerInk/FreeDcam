@@ -917,7 +917,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
             final String _2160pDCI = "2160pDCI";
             HashMap<String,VideoMediaProfile> supportedProfiles;
             if(getAppSettings().getFrameWork() == AppSettingsManager.FRAMEWORK_LG)
-                supportedProfiles=   getLGVideoMediaProfiles(cameraid);
+                supportedProfiles =  getLGVideoMediaProfiles(cameraid);
             else
                 supportedProfiles= getDefaultVideoMediaProfiles(cameraid);
 
@@ -974,6 +974,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
             }
             getAppSettings().saveMediaProfiles(supportedProfiles);
+            getAppSettings().setApiString(AppSettingsManager.VIDEOPROFILE, "720p");
 
             publishProgress("VideoMediaProfiles:" + getStringFromArray(supportedProfiles.keySet().toArray(new String[supportedProfiles.size()])));
         }

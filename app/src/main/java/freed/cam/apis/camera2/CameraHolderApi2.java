@@ -60,6 +60,8 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
 
+import com.troop.freedcam.R;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -468,7 +470,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 {
                     try
                     {
-                        if (!cameraUiWrapper.GetParameterHandler().ExposureMode.GetValue().equals("off") && !cameraUiWrapper.GetParameterHandler().ControlMode.equals("off"))
+                        if (!cameraUiWrapper.GetParameterHandler().ExposureMode.GetValue().equals(cameraUiWrapper.getContext().getString(R.string.off)) && !cameraUiWrapper.GetParameterHandler().ControlMode.equals(cameraUiWrapper.getContext().getString(R.string.off)))
                         {
                             try {
                                 long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
