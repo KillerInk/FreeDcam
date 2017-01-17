@@ -240,6 +240,10 @@
     <string name="focus_mode_continousepicture">Continouse Picture</string>
     <string name="focus_mode_edof">Extended Deep of Field</string>
 
+    <string name="ae_mode_alwaysfLash">Always Flash</string>
+    <string name="ae_mode_autofLash">Auto Flash</string>
+    <string name="ae_mode_redeyefLash">Auto Flash Redeye</string>
+
 
 
 </resources>

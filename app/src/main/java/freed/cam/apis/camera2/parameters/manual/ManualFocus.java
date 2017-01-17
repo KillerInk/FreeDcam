@@ -45,15 +45,8 @@ public class ManualFocus extends AbstractManualParameter
         super(cameraUiWrapper);
         if (cameraUiWrapper.GetAppSettingsManager().manualFocus.isSupported())
         {
-            String[] tmplist = cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues();
             isSupported = true;
-            focusvalues = new StringFloatArray(tmplist.length);
-            int i = 0;
-            for (String s :tmplist)
-            {
-                String[] split = s.split(";");
-                focusvalues.add(i++,split[0], Float.parseFloat(split[1]));
-            }
+            focusvalues = new StringFloatArray(cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues());
             currentInt = 0;
         }
 

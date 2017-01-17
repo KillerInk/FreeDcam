@@ -106,7 +106,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
     {
         String t = "";
         for (int i =0; i<arr.length;i++)
-            t+=arr[i]+",";
+            t+=arr[i]+AppSettingsManager.SPLITTCHAR;
         return t;
     }
 
@@ -1064,6 +1064,18 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                         sendProgress(getAppSettings().pictureSize,"PictureSizes:");
 
                         detectVideoMediaProfiles(getAppSettings().GetCurrentCamera());
+
+                        detectMode(characteristics,CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES,getAppSettings().exposureMode,R.array.aemodes);
+                        sendProgress(getAppSettings().exposureMode,"ExposureModes:");
+
+                        detectManualExposure(characteristics);
+                        sendProgress(getAppSettings().manualExposureCompensation,"ExposureCompensation:");
+
+                        detectManualexposureTime(characteristics);
+                        sendProgress(getAppSettings().manualExposureTime,"ExposureTime:");
+
+                        detectManualIso(characteristics);
+                        sendProgress(getAppSettings().manualIso,"Iso:");
                     }
                 }
             }
@@ -1205,9 +1217,122 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
             {
                 focusranges.add(t++,StringUtils.getMeterString(1/i),i);
             }
-            mf.setIsSupported(true);
+            if (focusranges.getSize() > 0)
+                mf.setIsSupported(true);
+            else
+                mf.setIsSupported(false);
 
             mf.setValues(focusranges.getStringArray());
+        }
+
+        private void detectManualExposure(CameraCharacteristics characteristics)
+        {
+            AppSettingsManager.SettingMode exposure = getAppSettings().manualExposureCompensation;
+            int max = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
+            int min = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
+            float step = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
+
+            StringFloatArray ranges = new StringFloatArray((max*2)+1);
+            int t = 0;
+            for (int i = min; i <= max; i++) {
+                String s = String.format("%.1f", i * step);
+                ranges.add(t++,s,i);
+            }
+            if (ranges.getSize() > 0)
+                exposure.setIsSupported(true);
+            else
+                exposure.setIsSupported(false);
+            exposure.setValues(ranges.getStringArray());
+        }
+
+        private void detectManualexposureTime(CameraCharacteristics characteristics)
+        {
+            long max = characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper() / 1000;
+            long min = characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower() / 1000;
+
+            Log.d(TAG, "max expo:"+max+" minexpo:"+min);
+            switch(getAppSettings().getDevice())
+            {
+                case LG_G4:
+                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1)
+                        max = 60000000;
+                    else
+                        max = 45000000;
+                    break;
+                case LG_V20:
+                    max = 90000000;
+
+                case Htc_M10:
+                    max = 1800000000;
+
+                case OnePlusTwo:
+                    max = 32000000;
+                    break;
+                case Samsung_S6_edge_plus:
+                    max = 10000000;
+                    break;
+                case Moto_X_Style_Pure_Play:
+                    max = 10000000;
+                    break;
+                default:
+                    if (max == 0)
+                        max = 800000;
+                    break;
+            }
+
+            String[] allvalues = getContext().getResources().getStringArray(R.array.shutter_values_autocreate);
+            boolean foundmin = false;
+            boolean foundmax = false;
+            ArrayList<String> tmp = new ArrayList<>();
+            for (int i = 1; i< allvalues.length; i++ )
+            {
+                String s = allvalues[i];
+
+                float a;
+                if (s.contains("/")) {
+                    String[] split = s.split("/");
+                    a = Float.parseFloat(split[0]) / Float.parseFloat(split[1])*1000000f;
+                }
+                else
+                    a = Float.parseFloat(s)*1000000f;
+
+                if (a>= min && a <= max)
+                    tmp.add(s);
+                if (a >= min && !foundmin)
+                {
+                    foundmin = true;
+                }
+                if (a > max && !foundmax)
+                {
+                    foundmax = true;
+                }
+                if (foundmax && foundmin)
+                    break;
+            }
+            getAppSettings().manualExposureTime.setIsSupported(tmp.size() > 0);
+            getAppSettings().manualExposureTime.setValues(tmp.toArray(new String[tmp.size()]));
+
+        }
+
+        private void detectManualIso(CameraCharacteristics characteristics)
+        {
+            int max = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
+            int min = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower();
+            ArrayList<String> ar = new ArrayList<>();
+            ar.add("auto");
+            for (int i = min; i <= max; i += 50) {
+                //double isostep when its bigger then 3200
+                if(i > 3200)
+                {
+                    int next = (i-50) *2;
+                    if (next > max)
+                        next = max;
+                    i =next;
+                }
+                ar.add(i + "");
+            }
+            getAppSettings().manualIso.setIsSupported(ar.size() > 0);
+            getAppSettings().manualIso.setValues(ar.toArray(new String[ar.size()]));
         }
 
         private void detectVideoMediaProfiles(int cameraid)

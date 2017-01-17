@@ -37,6 +37,8 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 import freed.utils.DeviceUtils;
+import freed.utils.StringFloatArray;
+import freed.utils.StringUtils;
 
 /**
  * Created by troop on 18.05.2016.
@@ -52,8 +54,8 @@ public class AeHandler
     private final ManualExposureApi2 manualExposureApi2;
     private final ManualExposureTimeApi2 manualExposureTimeApi2;
     private final ManualISoApi2 manualISoApi2;
-
-    private AEModes activeAeMode = AEModes.on;
+    private boolean ae_active = true;
+    //private AEModes activeAeMode = AEModes.on;
 
     public AeHandler(CameraWrapperInterface cameraUiWrapper)
     {
@@ -82,10 +84,11 @@ public class AeHandler
     }
 
     //when the ae mode change set the visiblity to the ui items
-    private void setManualItemsSetSupport(AEModes aeModes)
+    private void setManualItemsSetSupport(boolean off)
     {
-        if (aeModes == AEModes.off)
+        if (off)
         {
+            ae_active = false;
             //hide manualexposuretime ui item
             manualExposureApi2.ThrowBackgroundIsSupportedChanged(false);
             //turn flash off when ae is off. else on some devices it applys only manual stuff only for a few frames
@@ -101,6 +104,7 @@ public class AeHandler
         }
         else
         {
+            ae_active = true;
             //back in auto mode
             //set flash back to its old state
             cameraUiWrapper.GetParameterHandler().FlashMode.SetValue(cameraUiWrapper.GetParameterHandler().FlashMode.GetValue(),true);
@@ -114,70 +118,24 @@ public class AeHandler
         }
     }
 
-    @TargetApi(VERSION_CODES.LOLLIPOP)
-    /**
-     * set the new aemode to the camera
-     */
-    private void setAeMode(AEModes aeMode)
-    {
-        activeAeMode = aeMode;
-        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE, activeAeMode.ordinal());
-        aeModeApi2.onValueHasChanged(activeAeMode.toString());
-        setManualItemsSetSupport(activeAeMode);
-    }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
     public class AeModeApi2 extends BaseModeApi2
     {
-        private boolean isSupported;
-        private final String[] aemodeStringValues;
+        //private boolean isSupported;
+        //private final String[] aemodeStringValues;
         public AeModeApi2(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper);
-            int[] values = AeHandler.this.cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
-            aemodeStringValues = new String[values.length];
-            for (int i = 0; i < values.length; i++)
-            {
-                try {
-                    AEModes sceneModes = AEModes.values()[values[i]];
-                    aemodeStringValues[i] = sceneModes.toString();
-                }
-                catch (Exception ex)
-                {
-                    aemodeStringValues[i] = "unknown Scene" + values[i];
-                }
-            }
-            if (aemodeStringValues.length > 1)
-                isSupported = true;
-        }
-
-        @Override
-        public boolean IsSupported()
-        {
-            return isSupported;
+            super(cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().exposureMode,CaptureRequest.CONTROL_AE_MODE);
         }
 
         @Override
         public void SetValue(String valueToSet, boolean setToCamera)
         {
-            if (valueToSet.contains("unknown Scene"))
-                return;
-            setAeMode(Enum.valueOf(AEModes.class, valueToSet));
-        }
-
-        @Override
-        public String GetValue()
-        {
-            if (cameraHolder == null)
-                return null;
-            int i = cameraHolder.get(CaptureRequest.CONTROL_AE_MODE);
-            AEModes sceneModes = AEModes.values()[i];
-            return sceneModes.toString();
-        }
-
-        @Override
-        public String[] GetValues()
-        {
-            return aemodeStringValues;
+            super.SetValue(valueToSet,setToCamera);
+            if (valueToSet.equals(cameraUiWrapper.getContext().getString(R.string.off)))
+                setManualItemsSetSupport(true);
+            else
+                setManualItemsSetSupport(false);
         }
     }
 
@@ -185,23 +143,12 @@ public class AeHandler
     public class ManualExposureApi2 extends AbstractManualParameter
     {
         final String TAG = ManualExposureApi2.class.getSimpleName();
+        private StringFloatArray expocompvalues;
 
         public ManualExposureApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
-            int max = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
-            int min = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
-            float step = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
-            stringvalues = createStringArray(min, max, step);
-            currentInt = stringvalues.length / 2;
-        }
-
-        protected String[] createStringArray(int min, int max, float stepp) {
-            ArrayList<String> ar = new ArrayList<>();
-            for (int i = min; i <= max; i++) {
-                String s = String.format("%.1f", i * stepp);
-                ar.add(s);
-            }
-            return ar.toArray(new String[ar.size()]);
+            expocompvalues = new StringFloatArray(cameraUiWrapper.GetAppSettingsManager().manualExposureCompensation.getValues());
+            currentInt = expocompvalues.getSize() / 2;
         }
 
         @Override
@@ -215,20 +162,30 @@ public class AeHandler
             if (cameraHolder == null || cameraHolder.CaptureSessionH.GetActiveCameraCaptureSession() == null)
                 return;
             currentInt = valueToSet;
-            if (stringvalues == null || stringvalues.length == 0)
+            if (expocompvalues == null || expocompvalues.getSize() == 0)
                 return;
-            int t = valueToSet - stringvalues.length / 2;
+            int t = valueToSet - expocompvalues.getSize() / 2;
             cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
         }
 
         @Override
+        public String GetStringValue() {
+            return expocompvalues.getKey(currentInt);
+        }
+
+        @Override
+        public String[] getStringValues() {
+            return expocompvalues.getKeys();
+        }
+
+        @Override
         public boolean IsSupported() {
-            return cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE) != null;
+            return cameraUiWrapper.GetAppSettingsManager().manualExposureCompensation.isSupported();
         }
 
         @Override
         public boolean IsSetSupported() {
-            return activeAeMode != AEModes.off;
+            return ae_active;
         }
 
         @Override
@@ -248,58 +205,9 @@ public class AeHandler
         private long millimax;
         public ManualExposureTimeApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
-            isSupported = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
-            try {
-                findMinMaxValue();
-            }
-            catch (NullPointerException ex)
-            {
-                ex.printStackTrace();
-                isSupported = false;
-            }
-        }
-
-        private void findMinMaxValue()
-        {
-
-            Log.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
-            Log.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
-            //866 975 130 = 0,8sec
-            switch(cameraUiWrapper.GetAppSettingsManager().getDevice())
-            {
-                case LG_G4:
-                    if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP_MR1)
-                        millimax = 60000000;
-                    else
-                        millimax = 45000000;
-                    break;
-                case LG_V20:
-                    millimax = 90000000;
-
-                case Htc_M10:
-                    millimax = 1800000000;
-
-                case OnePlusTwo:
-                    millimax = 32000000;
-                    break;
-                case Samsung_S6_edge_plus:
-                    millimax = 10000000;
-                    break;
-                case Moto_X_Style_Pure_Play:
-                    millimax = 10000000;
-                    break;
-                default:
-                    millimax = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper() / 1000;
-                    if (millimax == 0)
-                        millimax = 800000;
-                    break;
-            }
-            int millimin = (int)cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().longValue() / 1000;
-
-            if(cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.LG_V20 || cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.Htc_M10)
-                stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_autocreate);
-            else
-                stringvalues = getSupportedShutterValues(millimin, millimax,false);
+            isSupported = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.isSupported();
+            if (isSupported)
+                stringvalues = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getValues();
         }
 
         @Override
@@ -359,7 +267,7 @@ public class AeHandler
 
         @Override
         public boolean IsSetSupported() {
-            return activeAeMode == AEModes.off;
+            return !ae_active;
         }
     }
 
@@ -373,43 +281,15 @@ public class AeHandler
         public ManualISoApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
             currentInt = 0;
-            ArrayList<String> ar = new ArrayList<>();
-            try {
-                int maxiso =cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
-                for (int i = 0; i <= maxiso; i += 50) {
-                    if (i == 0)
-                        ar.add("auto");
-                    else {
-                        //double isostep when its bigger then 3200
-                        if(i > 3200)
-                        {
-                            int next = (i-50) *2;
-                            if (next > maxiso)
-                                next = maxiso;
-                            i =next;
-                        }
-                        ar.add(i + "");
-                    }
-                }
-                stringvalues = new String[ar.size()];
-                ar.toArray(stringvalues);
-            }
-            catch (NullPointerException ex)
-            {
-                isSupported = false;
-            }
+            isSupported = cameraUiWrapper.GetAppSettingsManager().manualIso.isSupported();
+            if (isSupported)
+                stringvalues = cameraUiWrapper.GetAppSettingsManager().manualIso.getValues();
         }
 
         @Override
         public boolean IsVisible() {
             return true;
         }
-
-        @Override
-        public boolean IsSupported() {
-            return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE) != null;
-        }
-
 
         @Override
         public void SetValue(int valueToSet)
@@ -424,12 +304,12 @@ public class AeHandler
                 return;
             if (valueToSet == 0)
             {
-                setAeMode(AEModes.on);
+                aeModeApi2.SetValue(cameraUiWrapper.GetAppSettingsManager().exposureMode.get(),true);
             }
             else
             {
-                if (activeAeMode != AEModes.off)
-                    setAeMode(AEModes.off);
+                if (ae_active)
+                    aeModeApi2.SetValue(cameraUiWrapper.getContext().getString(R.string.off),true);
                 cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(stringvalues[valueToSet]));
             }
         }

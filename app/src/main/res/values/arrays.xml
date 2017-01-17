@@ -223,5 +223,13 @@
         <item>@string/highquality</item>
     </string-array>
 
+    <string-array name="aemodes"  translatable="false">
+        <item>@string/off</item>
+        <item>@string/on</item>
+        <item>@string/ae_mode_autofLash</item>
+        <item>@string/ae_mode_alwaysfLash</item>
+        <item>@string/ae_mode_redeyefLash</item>
+    </string-array>
+
     <!-- DO NOT TRANSLATE END -->
 </resources>

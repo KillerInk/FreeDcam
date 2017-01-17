@@ -8,6 +8,8 @@ public class StringFloatArray {
     private String[] keys;
     private Float[] values;
 
+    private final String SPLITCHAR = "#";
+
     public StringFloatArray(int size)
     {
         keys = new String[size];
@@ -21,7 +23,7 @@ public class StringFloatArray {
         values =new Float[array.length];
         for (int i=0; i< array.length;i++)
         {
-            String[] split = array[i].split(";");
+            String[] split = array[i].split(SPLITCHAR);
             keys[i] = split[0];
             values[i] = Float.parseFloat(split[1]);
         }
@@ -69,7 +71,7 @@ public class StringFloatArray {
         String[] ret = new String[keys.length];
         for (int i = 0; i < keys.length;i++)
         {
-            ret[i] = keys[i]+";"+values[i];
+            ret[i] = keys[i]+SPLITCHAR+values[i];
         }
         return ret;
     }

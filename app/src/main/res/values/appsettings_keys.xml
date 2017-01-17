@@ -41,5 +41,8 @@
 
 
     <string name="aps_manualfocus" translatable="false">mf</string>
+    <string name="aps_manualexpocomp" translatable="false">expocomp</string>
+    <string name="aps_manualexpotime" translatable="false">expotime</string>
+    <string name="aps_manualiso" translatable="false">iso</string>
 
 </resources>

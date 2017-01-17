@@ -180,75 +180,42 @@ public class AppSettingsManager {
     public static final String SETTINGS_NIGHTOVERLAY = "nighoverlay";
 
     public final SettingMode pictureFormat;
-
     public final SettingMode rawPictureFormat;
-
     public final SettingMode pictureSize;
-
     public final SettingMode focusMode;
-
     public final SettingMode exposureMode;
-
     public final SettingMode whiteBalanceMode;
-
     public final SettingMode colorMode;
-
     public final SettingMode flashMode;
-
-
     public final SettingMode isoMode;
-
-
     public final SettingMode antiBandingMode;
-
     public final SettingMode imagePostProcessing;
-
     public final SettingMode previewSize;
-
-
     public final SettingMode jpegQuality;
-
     public final SettingMode aeBracket;
-
     public final SettingMode previewFps;
-
     public final SettingMode previewFormat;
-
     public final SettingMode sceneMode;
-
     public final SettingMode redEyeMode;
-
     public final SettingMode lenshade;
-
     public final SettingMode zeroshutterlag;
-
     public final SettingMode sceneDetectMode;
-
     public final SettingMode memoryColorEnhancement;
-
     public final SettingMode videoSize;
-
     public final SettingMode correlatedDoubleSampling;
-
-
     public final SettingMode opticalImageStabilisation;
-
     public final SettingMode videoHDR;
-
     public final SettingMode videoHFR;
+    public final SettingMode denoiseMode;
+    public final SettingMode controlMode;
+    public final SettingMode edgeMode;
+    public final SettingMode digitalImageStabilisationMode;
+    public final SettingMode hotpixelMode;
 
     public final TypeSettingsMode manualFocus;
-
-
-    public final SettingMode denoiseMode;
-
-    public final SettingMode controlMode;
-
-    public final SettingMode edgeMode;
-
-    public final SettingMode digitalImageStabilisationMode;
-
-    public final SettingMode hotpixelMode;
+    public final SettingMode manualExposureCompensation;
+    public final SettingMode manualExposureTime;
+    public final SettingMode manualIso;
 
 
     private SharedPreferences settings;
@@ -292,6 +259,10 @@ public class AppSettingsManager {
         hotpixelMode = new SettingMode(getString(R.string.aps_hotpixel));
 
         manualFocus = new TypeSettingsMode(getString(R.string.aps_manualfocus));
+        manualExposureCompensation = new SettingMode(getString(R.string.aps_manualexpocomp));
+        manualExposureTime = new SettingMode(getString(R.string.aps_manualexpotime));
+        manualIso = new SettingMode(getString(R.string.aps_manualiso));
+
     }
 
     private String getString(int id)
@@ -428,16 +399,17 @@ public class AppSettingsManager {
         putString(getApiSettingString(settingsName), Value);
     }
 
+    public final static String SPLITTCHAR = "'";
     public void setStringArray(String settingsName, String[] Value) {
         String tmp ="";
         for (int i= 0; i<Value.length;i++)
-            tmp += Value[i]+",";
+            tmp += Value[i]+SPLITTCHAR;
         putString(getApiSettingString(settingsName), tmp);
     }
 
     public String[] getStringArray(String settingsname)
     {
-        return getApiString(settingsname).split(",");
+        return getApiString(settingsname).split(SPLITTCHAR);
     }
 
     public boolean getBoolean(String settings_key, boolean defaultValue)
