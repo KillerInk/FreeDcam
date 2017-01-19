@@ -13,7 +13,7 @@ android {
     buildToolsVersion '25.0.1'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 103
         versionName '3.3.147'
         applicationId "troop.com.freedcam"

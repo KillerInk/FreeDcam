@@ -672,7 +672,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         public void CreatePreviewRequestBuilder()
         {
             try {
-                mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+                mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             } catch (CameraAccessException ex) {
                 ex.printStackTrace();
             }

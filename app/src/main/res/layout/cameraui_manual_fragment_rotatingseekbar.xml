@@ -8,8 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:id="@+id/frameLayout"
-        android:layout_marginRight="20dp">
+        android:id="@+id/frameLayout">
 
         <freed.cam.ui.themesample.cameraui.RotatingSeekbar
             android:layout_width="@dimen/rotatingseekbar_width"
@@ -18,8 +17,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="@dimen/rotatingseekbar_margine"
-            android:layout_marginBottom="@dimen/rotatingseekbar_margine"
-            android:layout_marginLeft="30dp" />
+            android:layout_marginBottom="@dimen/rotatingseekbar_margine" />
     </FrameLayout>
 
     <HorizontalScrollView

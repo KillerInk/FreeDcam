@@ -19,7 +19,6 @@
 
 package freed.cam.apis.camera1;
 
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,8 +50,6 @@ import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
 
-import freed.utils.LayoutUtils;
-
 /**
  * Created by troop on 06.06.2015.
  */
@@ -82,8 +79,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(id.exSurface);
         preview = (TextureViewRatio) view.findViewById(id.textureView_preview);
-
-
 
         parametersHandler = new ParametersHandler(this);
         this.extendedSurfaceView.ParametersHandler = parametersHandler;
@@ -115,7 +110,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         extendedSurfaceView.getHolder().addCallback(this);
         super.onViewCreated(view, savedInstanceState);
     }
-
 
 
     @Override
@@ -227,24 +221,12 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         cameraHolder.ResetPreviewCallback();
     }
 
-    private void setMargins (View view, int left, int top, int right, int bottom) {
-        if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-            p.setMargins(left, top, right, bottom);
-            view.requestLayout();
-        }
-    }
-
-
 
     AbstractModeParameter.I_ModeParameterEvent onPreviewSizeShouldChange = new AbstractModeParameter.I_ModeParameterEvent() {
 
         @Override
         public void onParameterValueChanged(String val)
         {
-
-
-
             if(moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_PICTURE)
                     || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_HDR)
                     || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL)
@@ -266,7 +248,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
 
                 parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
-
                 uiHandler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -317,46 +298,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 }
 
             }
-
-
-            LayoutUtils utils = new LayoutUtils();
-            Size previewSZ = new Size(parametersHandler.PreviewSize.GetValue());
-            double ar = (double) previewSZ.width/(double) previewSZ.height;
-
-
-            utils.setAR(ar);
-
-            utils.setPicture_Height(previewSZ.height);
-            utils.setPicture_Width(previewSZ.width);
-
-            int Shift = (getResources().getDisplayMetrics().widthPixels - previewSZ.width) / 3;
-            utils.setShift(Shift);
-
-
-            System.out.println("Camera1Fragment AR"+utils.getAR()+" "+ar+" width "+previewSZ.width +" height "+previewSZ.height);
-
-          if(utils.getAR() != 1.7777777777777777)
-            {
-                utils.setMargins(preview,Shift,0,0,0);
-                utils.setMargins(extendedSurfaceView,Shift,0,0,0);
-            }
-             else
-            {
-
-
-                utils.setFULL(preview);
-                utils.setFULL(extendedSurfaceView);
-
-                utils.setMargins(preview,0,0,0,0);
-                utils.setMargins(extendedSurfaceView,0,0,0,0);
-
-
-            }
-
-
-
-            //utils.setMargins(extendedSurfaceView,utils.dp2px(50,getResources()),0,0,0);
-
         }
 
         @Override

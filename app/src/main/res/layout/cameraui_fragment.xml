@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/guideHolder"></LinearLayout>
 
@@ -51,7 +50,7 @@
         android:layout_alignParentLeft="false"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="110dp"
+        android:layout_marginRight="@dimen/shuttericon_size"
         android:layout_alignParentStart="false"
         android:background="#75000000">
 
@@ -304,7 +303,7 @@
 
     <RelativeLayout
         android:orientation="vertical"
-        android:layout_width="105dp"
+        android:layout_width="@dimen/shuttericon_size"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:id="@+id/right_ui_holder">

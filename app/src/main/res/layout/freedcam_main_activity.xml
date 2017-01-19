@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#1b1b1b"
     android:keepScreenOn="true"
     android:longClickable="false"
     android:touchscreenBlocksFocus="true"
-    android:id="@+id/MainLayout"
-    android:elevation="1dp"
-    android:background="@drawable/grundge2">
+    android:id="@+id/MainLayout">
 
 
     <LinearLayout

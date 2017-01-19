@@ -21,13 +21,11 @@ package freed.cam.ui.themesample.cameraui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,7 +43,6 @@ import com.troop.freedcam.R.layout;
 
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
@@ -64,7 +61,6 @@ import freed.cam.ui.themesample.handler.FocusImageHandler;
 import freed.cam.ui.themesample.handler.SampleInfoOverlayHandler;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.utils.AppSettingsManager;
-import freed.utils.LayoutUtils;
 import freed.viewer.screenslide.ScreenSlideFragment.I_ThumbClick;
 
 /**
@@ -111,7 +107,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private View camerauiValuesFragmentHolder;
 
     private JoyPad joyPad;
-    private View GuideHolderFragmentHolder;
 
     public CameraUiFragment()
     {
@@ -279,23 +274,9 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         joyPad = (JoyPad) view.findViewById(id.joypad);
         joyPad.setVisibility(View.GONE);
 
-        GuideHolderFragmentHolder = view.findViewById(id.guideHolder);
-
-
-
-
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(id.guideHolder, guideHandler, "Guide");
         transaction.commit();
-
-        LayoutUtils utils = new LayoutUtils();
-
-
-
-        //Resources r = getResources();
-      //  float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, r.getDisplayMetrics());
-
-
 
         transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(anim.bottom_to_top_enter, anim.empty);
@@ -320,15 +301,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         }
         if (cameraUiWrapper != null)
             setCameraUiWrapperToUi();
-
-        utils.setMargins(GuideHolderFragmentHolder, 160, 0, 0, 0);
-       // Size pSize = new Size(cameraUiWrapper.GetParameterHandler().PreviewSize.GetValue());
-
-        utils.setDimension(GuideHolderFragmentHolder,1440,1080);
     }
-
-
-
 
     @Override
     public void onResume() {
