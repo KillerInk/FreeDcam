@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -34,8 +35,10 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
@@ -44,6 +47,8 @@ import com.troop.freedcam.R.layout;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
@@ -69,21 +74,13 @@ import freed.viewer.screenslide.ScreenSlideFragment.I_ThumbClick;
 public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener, ModuleHandlerAbstract.CaptureStateChanged
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
-    private UiSettingsChild flash;
-    private UiSettingsChild iso;
-    private UiSettingsChild autoexposure;
-    private UiSettingsChild whitebalance;
-    private UiSettingsChild focus;
-    private UiSettingsChild night;
-    private UiSettingsChild format;
+    //private UiSettingsChild night;
+    //private UiSettingsChild format;
     private UiSettingsChildCameraSwitch cameraSwitch;
-    private UiSettingsChildModuleSwitch modeSwitch;
-    private UiSettingsChild contShot;
+    //private UiSettingsChildModuleSwitch moduleSwitch;
     private UiSettingsChild currentOpendChild;
-    private UiSettingsChild aepriority;
-    private UiSettingsFocusPeak focuspeak;
-    private UiSettingsChild hdr_switch;
-    private UiSettingsChildExit exit;
+    //private UiSettingsFocusPeak focuspeak;
+    //private UiSettingsChildExit exit;
 
     private HorizontalValuesFragment horizontalValuesFragment;
     private SwipeMenuListner touchHandler;
@@ -108,45 +105,130 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     private JoyPad joyPad;
 
+    private LinearLayout left_ui_items_holder;
+    private LinearLayout right_ui_items_top;
+
     public CameraUiFragment()
     {
 
     }
 
+    private void setUiItem(LinearLayout layout, ModeParameterInterface parameter, AppSettingsManager.SettingMode settingMode, int backgroundImg)
+    {
+        UiSettingsChild child = new UiSettingsChild(getContext());
+        child.SetParameter(parameter);
+        child.SetStuff(settingMode);
+        child.setBackgroundResource(backgroundImg);
+        child.SetMenuItemClickListner(this,true);
+        layout.addView(child);
+    }
+
+    private void setUiItem(LinearLayout layout, ModeParameterInterface parameter, String settingMode, int backgroundImg)
+    {
+        UiSettingsChild child = new UiSettingsChild(getContext());
+        child.SetParameter(parameter);
+        child.SetStuff(fragment_activityInterface,settingMode);
+        child.setBackgroundResource(backgroundImg);
+        child.SetMenuItemClickListner(this,true);
+        layout.addView(child);
+    }
+
+    private void addexit()
+    {
+        UiSettingsChildExit exit = new UiSettingsChildExit(getContext());
+        exit.SetStuff(fragment_activityInterface, "");
+        exit.onParameterValueChanged("");
+        exit.setBackgroundResource(R.drawable.quck_set_exit);
+        right_ui_items_top.addView(exit);
+    }
+
     @Override
     protected void setCameraUiWrapperToUi() {
+        if (left_ui_items_holder != null) {
+            left_ui_items_holder.removeAllViews();
+            right_ui_items_top.removeAllViews();
+            addexit();
+        }
         if (cameraUiWrapper == null || cameraUiWrapper.GetParameterHandler() == null || !isAdded())
         {
+
             Log.d(TAG, "failed to set cameraUiWrapper");
             if (isAdded())
                 hide_ManualSettings();
             return;
         }
+        AbstractParameterHandler parameterHandler = cameraUiWrapper.GetParameterHandler();
+        AppSettingsManager appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
+
+        //left cameraui items
+        if (parameterHandler.WhiteBalanceMode != null)
+        {
+            setUiItem(left_ui_items_holder,parameterHandler.WhiteBalanceMode,appSettingsManager.whiteBalanceMode,R.drawable.quck_set_wb);
+        }
+        if (parameterHandler.IsoMode != null)
+            setUiItem(left_ui_items_holder,parameterHandler.IsoMode, appSettingsManager.isoMode, R.drawable.quck_set_iso_png);
+        if (parameterHandler.FlashMode != null)
+            setUiItem(left_ui_items_holder,parameterHandler.FlashMode,appSettingsManager.flashMode,R.drawable.quck_set_flash);
+        if (parameterHandler.FocusMode != null)
+            setUiItem(left_ui_items_holder,parameterHandler.FocusMode, appSettingsManager.focusMode,R.drawable.quck_set_focus);
+        if (parameterHandler.ExposureMode != null)
+            setUiItem(left_ui_items_holder,parameterHandler.ExposureMode, appSettingsManager.exposureMode,R.drawable.quck_set_ae);
+        if (parameterHandler.AE_PriorityMode != null)
+            setUiItem(left_ui_items_holder,parameterHandler.AE_PriorityMode, appSettingsManager.aePriorityMode,R.drawable.ae_priority);
+        if (parameterHandler.ContShootMode != null)
+            setUiItem(left_ui_items_holder,parameterHandler.ContShootMode, "",R.drawable.quck_set_contin);
+        if (parameterHandler.HDRMode != null)
+            setUiItem(left_ui_items_holder,parameterHandler.HDRMode,appSettingsManager.hdrMode,R.drawable.quck_set_hdr);
+
+        if (cameraUiWrapper.GetParameterHandler().NightMode != null && cameraUiWrapper.GetParameterHandler().NightMode.IsSupported()) {
+            UiSettingsChild night = new UiSettingsChild(getContext());
+            night.SetStuff(fragment_activityInterface, AppSettingsManager.NIGHTMODE);
+            night.SetMenuItemClickListner(this, true);
+            night.SetParameter(cameraUiWrapper.GetParameterHandler().NightMode);
+            night.setBackgroundResource(R.drawable.quck_set_night);
+            left_ui_items_holder.addView(night);
+        }
+
+        if (cameraUiWrapper.GetParameterHandler().PictureFormat != null)
+        {
+            setUiItem(left_ui_items_holder,parameterHandler.PictureFormat,appSettingsManager.pictureFormat,R.drawable.quck_set_format2);
+        }
+
+
+        //right camera top camerui itmes
+        UiSettingsChildModuleSwitch moduleSwitch = new UiSettingsChildModuleSwitch(getContext());
+        moduleSwitch.SetCameraUiWrapper(cameraUiWrapper);
+        moduleSwitch.SetStuff(appSettingsManager.modules);
+        moduleSwitch.SetMenuItemClickListner(this,false);
+        moduleSwitch.setBackgroundResource(R.drawable.quck_set_mode);
+        right_ui_items_top.addView(moduleSwitch);
+
+        if (parameterHandler.Focuspeak != null && parameterHandler.Focuspeak.IsSupported()) {
+            UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
+            focusPeak.SetParameter(cameraUiWrapper.GetParameterHandler().Focuspeak);
+            focusPeak.SetCameraUiWrapper(cameraUiWrapper);
+            focusPeak.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_FOCUSPEAK);
+            focusPeak.SetUiItemClickListner(this);
+            focusPeak.setBackgroundResource(R.drawable.quck_set_zebra);
+            right_ui_items_top.addView(focusPeak);
+        }
+
+        //stuff todo
+
         cameraUiWrapper.GetModuleHandler().SetWorkListner(this);
-        flash.SetParameter(cameraUiWrapper.GetParameterHandler().FlashMode);
-        iso.SetParameter(cameraUiWrapper.GetParameterHandler().IsoMode);
-        autoexposure.SetParameter(cameraUiWrapper.GetParameterHandler().ExposureMode);
-        whitebalance.SetParameter(cameraUiWrapper.GetParameterHandler().WhiteBalanceMode);
-        focus.SetParameter(cameraUiWrapper.GetParameterHandler().FocusMode);
-        night.SetParameter(cameraUiWrapper.GetParameterHandler().NightMode);
-        aepriority.SetParameter(cameraUiWrapper.GetParameterHandler().AE_PriorityMode);
+
 
         cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
 
         messageHandler.SetCameraUiWrapper(cameraUiWrapper);
         shutterButton.SetCameraUIWrapper(cameraUiWrapper, messageHandler);
-        format.SetParameter(cameraUiWrapper.GetParameterHandler().PictureFormat);
-        contShot.SetParameter(cameraUiWrapper.GetParameterHandler().ContShootMode);
+
         if (manualModesFragment != null)
             manualModesFragment.SetCameraUIWrapper(cameraUiWrapper);
-        if (cameraUiWrapper.GetParameterHandler().Focuspeak != null) {
-            focuspeak.SetParameter(cameraUiWrapper.GetParameterHandler().Focuspeak);
-        }
+
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
-        focuspeak.SetCameraUiWrapper(cameraUiWrapper);
-        modeSwitch.SetCameraUiWrapper(cameraUiWrapper);
-        hdr_switch.SetParameter(cameraUiWrapper.GetParameterHandler().HDRMode);
+
         horizontLineFragment.setCameraUiWrapper(cameraUiWrapper);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
         shutterButton.setVisibility(View.VISIBLE);
@@ -188,52 +270,15 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         super.onViewCreated(view, savedInstanceState);
         manualModes_holder = (FrameLayout) view.findViewById(id.manualModesHolder);
         messageHandler = new UserMessageHandler(view);
-        flash = (UiSettingsChild) view.findViewById(id.Flash);
-        flash.SetStuff(fragment_activityInterface.getAppSettings().flashMode);
-        //flash.SetStuff(fragment_activityInterface, AppSettingsManager.FLASHMODE);
-        flash.SetMenuItemClickListner(this, true);
 
-        iso = (UiSettingsChild) view.findViewById(id.ui_settings_iso);
-        //iso.SetStuff(fragment_activityInterface, AppSettingsManager.ISOMODE);
-        iso.SetStuff(fragment_activityInterface.getAppSettings().isoMode);
-        iso.SetMenuItemClickListner(this,true);
+        left_ui_items_holder = (LinearLayout)view.findViewById(id.left_ui_holder);
 
-        autoexposure =(UiSettingsChild) view.findViewById(id.Ae);
-        autoexposure.SetStuff(fragment_activityInterface.getAppSettings().exposureMode);
-        autoexposure.SetMenuItemClickListner(this,true);
-
-        aepriority = (UiSettingsChild) view.findViewById(id.AePriority);
-        aepriority.SetStuff(fragment_activityInterface,AppSettingsManager.AEPRIORITY);
-        aepriority.SetMenuItemClickListner(this,true);
+        right_ui_items_top = (LinearLayout)view.findViewById(id.right_ui_holder_top);
+        addexit();
 
 
-        whitebalance = (UiSettingsChild) view.findViewById(id.wb);
-        whitebalance.SetStuff(fragment_activityInterface.getAppSettings().whiteBalanceMode);
-        //whitebalance.SetStuff(fragment_activityInterface, AppSettingsManager.WHITEBALANCEMODE);
-        whitebalance.SetMenuItemClickListner(this,true);
 
-        focus = (UiSettingsChild) view.findViewById(id.focus_uisetting);
-        focus.SetStuff(fragment_activityInterface.getAppSettings().focusMode);
-        focus.SetMenuItemClickListner(this,true);
 
-        contShot = (UiSettingsChild) view.findViewById(id.continousShot);
-        contShot.SetStuff(fragment_activityInterface, "");
-        contShot.SetMenuItemClickListner(this,true);
-
-        night = (UiSettingsChild) view.findViewById(id.night);
-        night.SetStuff(fragment_activityInterface, AppSettingsManager.NIGHTMODE);
-        night.SetMenuItemClickListner(this,true);
-
-        format = (UiSettingsChild) view.findViewById(id.format);
-        format.SetStuff(fragment_activityInterface.getAppSettings().pictureFormat);
-        format.SetMenuItemClickListner(this,true);
-
-        modeSwitch = (UiSettingsChildModuleSwitch) view.findViewById(id.mode_switch);
-        modeSwitch.SetStuff(fragment_activityInterface, AppSettingsManager.CURRENTMODULE);
-        modeSwitch.SetMenuItemClickListner(this,false);
-
-        exit = (UiSettingsChildExit) view.findViewById(id.exit);
-        exit.SetStuff(fragment_activityInterface, "");
 
         cameraSwitch = (UiSettingsChildCameraSwitch) view.findViewById(id.camera_switch);
         cameraSwitch.SetStuff(fragment_activityInterface, AppSettingsManager.CURRENTCAMERA);
@@ -247,21 +292,12 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
         view.setOnTouchListener(onTouchListener);
 
-        focuspeak = (UiSettingsFocusPeak) view.findViewById(id.ui_focuspeak);
 
-        focuspeak.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_FOCUSPEAK);
-        focuspeak.SetUiItemClickListner(this);
-        focuspeak.setVisibility(View.GONE);
-
-        hdr_switch = (UiSettingsChild) view.findViewById(id.hdr_toggle);
-        hdr_switch.SetStuff(fragment_activityInterface, AppSettingsManager.HDRMODE);
-        hdr_switch.SetMenuItemClickListner(this,true);
 
         aelock = (UiSettingsChild)view.findViewById(id.ae_lock);
         aelock.SetUiItemClickListner(this);
         aelock.SetStuff(fragment_activityInterface, "");
 
-        hideUiItems();
 
         manualModesFragment = new ManualFragment();
 
@@ -464,136 +500,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onCaptureStateChanged(ModuleHandlerAbstract.CaptureStates captureStates)
     {
-       /* switch (captureStates)
-        {
-            case video_recording_start:
-                hideVIdItems();
-                break;
-            case video_recording_stop:
-                showVIdItems();
-                break;
-        }*/
-        /*switch (captureStates)
-        {
-            case image_capture_stop:
-                enableUiItems();
-                break;
-            case image_capture_start:
-                disableUiItems();
-                break;
-            case continouse_capture_start:
-                break;
-            case continouse_capture_stop:
-                break;
-            case continouse_capture_work_start:
-                break;
-            case continouse_capture_work_stop:
-                break;
-            case cont_capture_stop_while_working:
-                break;
-            case cont_capture_stop_while_notworking:
-                break;
-        }
-*/
-
     }
 
-    private void enableUiItems()
-    {
-        if (flash.GetParameter() != null)
-            flash.onParameterIsSetSupportedChanged(flash.GetParameter().IsSupported());
-        if (iso.GetParameter() != null)
-            iso.onParameterIsSetSupportedChanged(iso.GetParameter().IsSupported());
-        if (autoexposure.GetParameter() != null)
-            autoexposure.onParameterIsSetSupportedChanged(whitebalance.GetParameter().IsSupported());
-        if (whitebalance.GetParameter() != null)
-            whitebalance.onParameterIsSetSupportedChanged(whitebalance.GetParameter().IsSupported());
-        if (focus.GetParameter() != null)
-            focus.onParameterIsSetSupportedChanged(focus.GetParameter().IsSupported());
-        if (night.GetParameter() != null)
-            night.onParameterIsSetSupportedChanged(night.GetParameter().IsSupported());
-        if (format.GetParameter() != null)
-            format.onParameterIsSetSupportedChanged(format.GetParameter().IsSupported());
-        cameraSwitch.onParameterIsSetSupportedChanged(true);
-        if (modeSwitch.GetParameter() != null)
-            modeSwitch.onParameterIsSetSupportedChanged(modeSwitch.GetParameter().IsSupported());
-        if (flash.GetParameter() != null)
-            flash.onParameterIsSetSupportedChanged(flash.GetParameter().IsSupported());
-        if (modeSwitch.GetParameter() != null)
-            modeSwitch.onParameterIsSetSupportedChanged(flash.GetParameter().IsSupported());
-        if (contShot.GetParameter() != null)
-            flash.onParameterIsSetSupportedChanged(contShot.GetParameter().IsSupported());
-        if (aepriority.GetParameter() != null)
-            aepriority.onParameterIsSetSupportedChanged(aepriority.GetParameter().IsSupported());
-        if (focuspeak.GetParameter() != null)
-            focuspeak.onParameterIsSetSupportedChanged(flash.GetParameter().IsSupported());
-        if (hdr_switch.GetParameter() != null)
-            hdr_switch.onParameterIsSetSupportedChanged(hdr_switch.GetParameter().IsSupported());
-    }
-
-    private void disableUiItems()
-    {
-        flash.onParameterIsSetSupportedChanged(false);
-        iso.onParameterIsSetSupportedChanged(false);
-        autoexposure.onParameterIsSetSupportedChanged(false);
-        whitebalance.onParameterIsSetSupportedChanged(false);
-        focus.onParameterIsSetSupportedChanged(false);
-        night.onParameterIsSetSupportedChanged(false);
-        format.onParameterIsSetSupportedChanged(false);
-        cameraSwitch.onParameterIsSetSupportedChanged(false);
-        modeSwitch.onParameterIsSetSupportedChanged(false);
-        contShot.onParameterIsSetSupportedChanged(false);
-        aepriority.onParameterIsSetSupportedChanged(false);
-        focuspeak.onParameterIsSetSupportedChanged(false);
-        hdr_switch.onParameterIsSetSupportedChanged(false);
-    }
-
-    private void showVIdItems()
-    {
-        exit.setVisibility(View.VISIBLE);
-        iso.setVisibility(View.VISIBLE);
-        autoexposure.setVisibility(View.VISIBLE);
-        whitebalance.setVisibility(View.VISIBLE);
-        focus.setVisibility(View.VISIBLE);
-        contShot.setVisibility(View.VISIBLE);
-        night.setVisibility(View.VISIBLE);
-        format.setVisibility(View.VISIBLE);
-        modeSwitch.setVisibility(View.VISIBLE);
-        cameraSwitch.setVisibility(View.VISIBLE);
-
-    }
-
-    private void hideVIdItems()
-    {
-        exit.setVisibility(View.INVISIBLE);
-        iso.setVisibility(View.INVISIBLE);
-        autoexposure.setVisibility(View.INVISIBLE);
-        whitebalance.setVisibility(View.INVISIBLE);
-        focus.setVisibility(View.INVISIBLE);
-        contShot.setVisibility(View.INVISIBLE);
-        night.setVisibility(View.INVISIBLE);
-        format.setVisibility(View.INVISIBLE);
-        modeSwitch.setVisibility(View.INVISIBLE);
-        cameraSwitch.setVisibility(View.INVISIBLE);
-    }
-
-    private void hideUiItems()
-    {
-        flash.setVisibility(View.GONE);
-        iso.setVisibility(View.GONE);
-        autoexposure.setVisibility(View.GONE);
-        aepriority.setVisibility(View.GONE);
-        whitebalance.setVisibility(View.GONE);
-        focus.setVisibility(View.GONE);
-        contShot.setVisibility(View.GONE);
-        night.setVisibility(View.GONE);
-        format.setVisibility(View.GONE);
-        modeSwitch.setVisibility(View.GONE);
-        cameraSwitch.setVisibility(View.GONE);
-        shutterButton.setVisibility(View.GONE);
-        hdr_switch.setVisibility(View.GONE);
-
-    }
 
     interface i_HelpFragment
     {

@@ -258,7 +258,7 @@ public abstract class AbstractParameterHandler
         setMode(IntervalShutterSleep, AppSettingsManager.SETTING_INTERVAL);
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
 
-        setMode(HDRMode, AppSettingsManager.HDRMODE);
+        setAppSettingsToCamera(HDRMode, appSettingsManager.hdrMode);
 
         setMode(matrixChooser, AppSettingsManager.CUSTOMMATRIX);
 

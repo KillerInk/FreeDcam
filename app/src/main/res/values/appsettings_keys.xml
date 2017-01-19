@@ -37,7 +37,9 @@
     <string name="aps_edgemode" translatable="false">edgemode</string>
     <string name="aps_digitalimagestabmode" translatable="false">digitalimagestabmode</string>
     <string name="aps_hotpixel" translatable="false">hotpixel</string>
-
+    <string name="aps_ae_priortiy" translatable="false">aepritority</string>
+    <string name="aps_hdrmode" translatable="false">hdrmode</string>
+    <string name="aps_module" translatable="false">modulemode</string>
 
 
     <string name="aps_manualfocus" translatable="false">mf</string>

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_height="39dp"
     android:gravity="center_horizontal"
 
-    android:id="@+id/uiSettingsTopLayout">
+    android:id="@+id/uiSettingsTopLayout"
+    android:layout_width="match_parent">
 
     <LinearLayout
         android:orientation="vertical"

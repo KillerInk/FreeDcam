@@ -117,6 +117,11 @@ public class UiSettingsChild extends SettingsChildAbstract
     }
 
     @Override
+    public void setBackgroundResource(int resid) {
+        laybg.setBackgroundResource(resid);
+    }
+
+    @Override
     protected void inflateTheme(LayoutInflater inflater)
     {
         inflater.inflate(layout.cameraui_uisettingschild, this);

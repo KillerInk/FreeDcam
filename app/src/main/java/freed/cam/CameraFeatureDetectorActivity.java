@@ -42,6 +42,7 @@ import freed.viewer.holder.FileHolder;
 import static freed.cam.apis.KEYS.AE_BRACKET_HDR_VALUES;
 import static freed.cam.apis.KEYS.BAYER;
 import static freed.cam.apis.KEYS.JPEG;
+import static freed.cam.apis.KEYS.MODULE_PICTURE;
 
 /**
  * Created by troop on 27.12.2016.
@@ -162,6 +163,8 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                     publishProgress("PictureFormats:" + getStringFromArray(appS.pictureFormat.getValues()));
                     publishProgress("RawFormats:" + getStringFromArray(appS.rawPictureFormat.getValues()));
                     publishProgress(" RawFormat:" + appS.rawPictureFormat.get());
+
+                    getAppSettings().modules.set(MODULE_PICTURE);
 
                     detectPictureSizes(parameters);
                     sendProgress(appS.pictureSize,"PictureSize");
@@ -1010,7 +1013,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
                 for (String s : cameras)
                 {
-
+                    getAppSettings().modules.set(MODULE_PICTURE);
                     getAppSettings().SetCurrentCamera(Integer.parseInt(s));
                     publishProgress("###################");
                     publishProgress("#####CameraID:"+s+"####");

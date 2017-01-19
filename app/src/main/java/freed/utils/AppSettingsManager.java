@@ -64,14 +64,13 @@ public class AppSettingsManager {
 
     //defcomg was here
     //1-29-2016 6:15
-    public static final String HDRMODE = "hdrmode";
     // 1-29-2016 11:49
     public static final String VIDEOBITRATE = "videobitrate";
     public static final String HELP = "help";
     //
     public static final String GUIDE = "guide";
     //done
-    public static final String CURRENTMODULE = "currentmodule";
+
 
 
 
@@ -163,11 +162,6 @@ public class AppSettingsManager {
     public static final String SETTING_AEB6 = "aeb6";
     public static final String SETTING_AEB7 = "aeb7";
 
-    private static final String VALUES = "values";
-    private static final String SUPPORTED = "supported";
-    private static final String KEY = "key";
-    private static final String TYPE = "type";
-
 
     public static final String SETTINGS_PREVIEWZOOM = "previewzoom";
 
@@ -211,6 +205,9 @@ public class AppSettingsManager {
     public final SettingMode edgeMode;
     public final SettingMode digitalImageStabilisationMode;
     public final SettingMode hotpixelMode;
+    public final SettingMode aePriorityMode;
+    public final SettingMode hdrMode;
+    public final SettingMode modules;
 
     public final TypeSettingsMode manualFocus;
     public final SettingMode manualExposureCompensation;
@@ -257,6 +254,10 @@ public class AppSettingsManager {
         edgeMode = new SettingMode(getString(R.string.aps_edgemode));
         digitalImageStabilisationMode = new SettingMode(getString(R.string.aps_digitalimagestabmode));
         hotpixelMode = new SettingMode(getString(R.string.aps_hotpixel));
+        aePriorityMode = new SettingMode(getString(R.string.aps_ae_priortiy));
+        hdrMode = new SettingMode(getString(R.string.aps_hdrmode));
+        modules = new SettingMode(getString(R.string.aps_module));
+
 
         manualFocus = new TypeSettingsMode(getString(R.string.aps_manualfocus));
         manualExposureCompensation = new SettingMode(getString(R.string.aps_manualexpocomp));
@@ -332,11 +333,14 @@ public class AppSettingsManager {
     }
 
     public void SetCurrentModule(String modulename) {
-        putString(getApiSettingString(CURRENTMODULE), modulename);
+        modules.set(modulename);
     }
 
-    public String GetCurrentModule() {
-        return settings.getString(getApiSettingString(CURRENTMODULE), KEYS.MODULE_PICTURE);
+    public String GetCurrentModule()
+    {
+        if (modules.get().equals(""))
+            return KEYS.MODULE_PICTURE;
+        return modules.get();
     }
 
     /**
