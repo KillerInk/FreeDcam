@@ -50,12 +50,11 @@ public class AeHandler
     private final CameraHolderApi2 cameraHolder;
     private final CameraWrapperInterface cameraUiWrapper;
     private final ParameterHandlerApi2 parameterHandler;
-    private final AeModeApi2 aeModeApi2;
-    private final ManualExposureApi2 manualExposureApi2;
-    private final ManualExposureTimeApi2 manualExposureTimeApi2;
-    private final ManualISoApi2 manualISoApi2;
+    public final AeModeApi2 aeModeApi2;
+    public final ManualExposureApi2 manualExposureApi2;
+    public final ManualExposureTimeApi2 manualExposureTimeApi2;
+    public final ManualISoApi2 manualISoApi2;
     private boolean ae_active = true;
-    //private AEModes activeAeMode = AEModes.on;
 
     public AeHandler(CameraWrapperInterface cameraUiWrapper)
     {
@@ -66,21 +65,8 @@ public class AeHandler
         manualExposureApi2 = new ManualExposureApi2(cameraUiWrapper);
         manualExposureTimeApi2 = new ManualExposureTimeApi2(cameraUiWrapper);
         manualISoApi2 = new ManualISoApi2(cameraUiWrapper);
-        //pass stuff to the parameterhandler that it get used by the ui
-        parameterHandler.ExposureMode = aeModeApi2;
-        parameterHandler.ManualShutter = manualExposureTimeApi2;
-        parameterHandler.ManualExposure = manualExposureApi2;
-        parameterHandler.ManualIso = manualISoApi2;
 
-    }
 
-    public enum AEModes
-    {
-        off,
-        on,
-        on_auto_flash,
-        on_always_flash,
-        on_auto_flash_redeye,
     }
 
     //when the ae mode change set the visiblity to the ui items

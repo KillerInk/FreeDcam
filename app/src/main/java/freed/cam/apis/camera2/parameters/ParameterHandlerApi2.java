@@ -103,13 +103,22 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         JpegQuality = new JpegQualityModeApi2(cameraUiWrapper);
 
         WbHandler wbHandler = new WbHandler(cameraUiWrapper);
+        CCT = wbHandler.manualWbCt;
+        WhiteBalanceMode =wbHandler.whiteBalanceApi2;
+        //dont make that avail for the ui its only internal used
+        //ColorCorrectionMode = colorCorrectionMode;
+
         //AE mode start
         AeHandler aeHandler = new AeHandler(cameraUiWrapper);
+        //pass stuff to the parameterhandler that it get used by the ui
+        ExposureMode = aeHandler.aeModeApi2;
+        ManualShutter = aeHandler.manualExposureTimeApi2;
+        ManualExposure = aeHandler.manualExposureApi2;
+        ManualIso = aeHandler.manualISoApi2;
         //ae mode end
         PictureSize = new PictureSizeModeApi2(cameraUiWrapper);
 
 
-        //shuttertime END
         //MF
         ManualFocus mf = new ManualFocus(cameraUiWrapper);
         ManualFocus = mf;

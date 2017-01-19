@@ -28,6 +28,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.freedcam.R;
+
 import java.io.File;
 
 import freed.cam.apis.KEYS;
@@ -90,7 +92,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         currentFileCount = 0;
         currentExposureTime = cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
         exposureTimeStep = currentExposureTime/2;
-        if (cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != AeHandler.AEModes.off.ordinal()) {
+        if (!appSettingsManager.exposureMode.get().equals(activityInterface.getContext().getString(R.string.off))) {
             aeWasOn = true;
             currentiso = cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY);
 
@@ -109,7 +111,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     protected void setupBurstCaptureBuilder(Builder captureBuilder, int captureNum)
     {
-        captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.off.ordinal());
+        captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF);
         int curIso = cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY);
         if (curIso >= maxiso)
             curIso = maxiso;
@@ -133,7 +135,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     protected void finishCapture(Builder captureBuilder) {
         super.finishCapture(captureBuilder);
         if (aeWasOn)
-            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.on.ordinal());
+            parameterHandler.ExposureMode.SetValue(activityInterface.getContext().getString(R.string.on),true);
         fireOnWorkFinish(savedFiles);
     }
 

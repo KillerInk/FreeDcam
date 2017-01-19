@@ -45,8 +45,8 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
     private final float[] midtones = {0.5f,0.5f};
     private final float[] highlights = { 0.75f,0.75f};
     private final float[] whitepoint = {1.0f,1.0f};
-    public Contrast contrast;
-    public Brightness brightness;
+    public final Contrast contrast;
+    public final Brightness brightness;
     private boolean visible;
 
 

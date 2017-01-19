@@ -39,9 +39,9 @@ import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 public class WbHandler
 {
     private final CameraWrapperInterface cameraUiWrapper;
-    private final WhiteBalanceApi2 whiteBalanceApi2;
+    public final WhiteBalanceApi2 whiteBalanceApi2;
     private final ColorCorrectionModeApi2 colorCorrectionMode;
-    private final ManualWbCtApi2 manualWbCt;
+    public final ManualWbCtApi2 manualWbCt;
 
     private WhiteBalanceValues activeWbMode = WhiteBalanceValues.AUTO;
 
@@ -51,10 +51,8 @@ public class WbHandler
         colorCorrectionMode = new ColorCorrectionModeApi2();
         whiteBalanceApi2 = new WhiteBalanceApi2();
         manualWbCt = new ManualWbCtApi2(cameraUiWrapper);
-        cameraUiWrapper.GetParameterHandler().CCT = manualWbCt;
-        cameraUiWrapper.GetParameterHandler().WhiteBalanceMode = whiteBalanceApi2;
-        //dont make that avail for the ui
-        //parameterHandler.ColorCorrectionMode = colorCorrectionMode;
+
+
 
     }
 
