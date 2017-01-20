@@ -471,7 +471,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                         }
                     }
                 }
-
+                getAppSettings().pictureFormat.setIsSupported(true);
                 if (device.IsDngSupported())
                 {
                     getAppSettings().pictureFormat.setValues(new String[]{

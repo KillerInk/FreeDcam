@@ -156,6 +156,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         previewZoom = (ManualButton)view.findViewById(id.manual_zoom_preview);
         previewZoom.setOnClickListener(manualButtonClickListner);
         afBracketSettingsView = (AfBracketSettingsView)view.findViewById(id.manualFragment_afbsettings);
+        afBracketSettingsView.setVisibility(View.GONE);
     }
 
     @Override
