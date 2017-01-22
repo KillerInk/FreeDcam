@@ -21,6 +21,7 @@ package freed.cam.apis.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
+import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 12.12.2014.
@@ -36,9 +38,10 @@ import freed.cam.apis.camera2.CameraHolderApi2;
 public class PictureFormatParameterApi2 extends BaseModeApi2
 {
     private String format = KEYS.JPEG;
-    public PictureFormatParameterApi2(CameraWrapperInterface cameraUiWrapper)
+
+    public PictureFormatParameterApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, CaptureRequest.Key<Integer> parameterKey)
     {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,settingMode,parameterKey);
     }
 
     @Override
@@ -67,6 +70,6 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        return cameraUiWrapper.GetAppSettingsManager().pictureFormat.getValues();
+        return parameterValues.keySet().toArray(new String[parameterValues.size()]);
     }
 }

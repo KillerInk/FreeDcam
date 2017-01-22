@@ -131,7 +131,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ToneMapMode = new ToneMapModeApi2(cameraUiWrapper);
         ToneMapMode.addEventListner(manualToneMapCurveApi2);
 
-        PictureFormat = new PictureFormatParameterApi2(cameraUiWrapper);
+        PictureFormat = new PictureFormatParameterApi2(cameraUiWrapper, appSettingsManager.pictureFormat, null);
 
         ExposureLock = new AeLockModeApi2(cameraUiWrapper);
 
