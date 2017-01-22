@@ -44,10 +44,10 @@ public class FocusManualParameterLG extends BaseManualParameter
             int max = 0;
             step = 1;
             if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G4 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_V20)
-                max = 60;
+                max = 100;
             else
                 max = 79;
-            if (cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues().length == 0) {
+            if (cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues().length < 2) {
                 stringvalues = createStringArray(0, max, step);
                 cameraUiWrapper.GetAppSettingsManager().manualFocus.setValues(stringvalues);
             }
@@ -85,5 +85,10 @@ public class FocusManualParameterLG extends BaseManualParameter
             return KEYS.AUTO;
         else
             return GetValue()+"";
+    }
+
+    @Override
+    public String[] getStringValues() {
+        return stringvalues;
     }
 }
