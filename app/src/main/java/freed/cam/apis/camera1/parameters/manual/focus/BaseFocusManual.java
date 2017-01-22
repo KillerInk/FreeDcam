@@ -28,6 +28,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 05.03.2016.
@@ -37,35 +38,28 @@ public class BaseFocusManual extends BaseManualParameter
     private final String TAG = BaseFocusManual.class.getSimpleName();
     protected String manualFocusModeString;
     private final int manualFocusType;
+    AppSettingsManager.SettingMode settingMode;
 
-    /**
-     * checks if the key_value maxvalue and minvalues are contained in the cameraparameters
-     * and creates depending on it the stringarray
-     * NOTE:if super fails the parameter is unsupported
-     * @param parameters
-     * @param value
-     * @param maxValue
-     * @param MinValue
-     * @param step
-     */
+    public BaseFocusManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager.TypeSettingsMode settingMode)
+    {
+        super(parameters,cameraUiWrapper);
+        this.settingMode = settingMode;
+        manualFocusType = settingMode.getType();
+        manualFocusModeString = settingMode.getMode();
+        stringvalues = settingMode.getValues();
+        key_value = settingMode.getKEY();
+        isSupported =true;
+    }
+
+
     public BaseFocusManual(Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, CameraWrapperInterface cameraUiWrapper, float step, int manualFocusType) {
         super(parameters, value, maxValue, MinValue, cameraUiWrapper, step);
         this.manualFocusModeString = manualFocusModeString;
         this.manualFocusType = manualFocusType;
     }
 
-    /**
-     * this allows to hardcode devices wich support manual focus but the parameters are messed up.
-     * @param parameters
-     * @param value
-     * @param min
-     * @param max
-     * @param manualFocusModeString
-     * @param cameraUiWrapper
-     * @param step
-     * @param manualFocusType
-     */
-    public BaseFocusManual(Parameters parameters, String value, int min, int max, String manualFocusModeString, CameraWrapperInterface cameraUiWrapper, float step, int manualFocusType) {
+
+    /*public BaseFocusManual(Parameters parameters, String value, int min, int max, String manualFocusModeString, CameraWrapperInterface cameraUiWrapper, float step, int manualFocusType) {
         super(parameters, value, "", "", cameraUiWrapper, step);
 
         isSupported = true;
@@ -78,10 +72,10 @@ public class BaseFocusManual extends BaseManualParameter
         else
             stringvalues = cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues();
         this.manualFocusType = manualFocusType;
-    }
+    }*/
 
 
-    @Override
+   /* @Override
     protected String[] createStringArray(int min, int max, float step) {
         ArrayList<String> ar = new ArrayList<>();
         ar.add(KEYS.AUTO);
@@ -92,7 +86,7 @@ public class BaseFocusManual extends BaseManualParameter
             ar.add(i+"");
         }
         return ar.toArray(new String[ar.size()]);
-    }
+    }*/
 
     @Override
     public void SetValue(int valueToSet)
@@ -108,7 +102,8 @@ public class BaseFocusManual extends BaseManualParameter
         {
             if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
-            parameters.set(KEYS.KEY_MANUAL_FOCUS_TYPE, manualFocusType +"");
+            if (manualFocusType > -1)
+                parameters.set(KEYS.KEY_MANUAL_FOCUS_TYPE, manualFocusType +"");
 
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);

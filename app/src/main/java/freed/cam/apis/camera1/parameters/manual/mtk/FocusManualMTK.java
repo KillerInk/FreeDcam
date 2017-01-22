@@ -27,6 +27,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 28.03.2016.
@@ -34,19 +35,8 @@ import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 public class FocusManualMTK extends BaseFocusManual {
 
     private final String TAG = FocusManualMTK.class.getSimpleName();
-    public FocusManualMTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        //TODO check if AFENG_FI_MIN/MAX can get used
-        super(parameters, KEYS.AFENG_POS, 0, 1023, KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper, (float) 10, 1);
-        isSupported = true;
-        isVisible = true;
-        manualFocusModeString = KEYS.KEY_FOCUS_MODE_MANUAL;
-
-        if (cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues().length == 0) {
-            stringvalues = createStringArray(0, 1023, (float) 10);
-            cameraUiWrapper.GetAppSettingsManager().manualFocus.setValues(stringvalues);
-        }
-        else
-            stringvalues = cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues();
+    public FocusManualMTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager.TypeSettingsMode settingMode) {
+        super(parameters, cameraUiWrapper, settingMode);
     }
 
     @Override

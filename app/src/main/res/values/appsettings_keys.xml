@@ -4,6 +4,7 @@
     <string name="aps_key" translatable="false">key</string>
     <string name="aps_supported" translatable="false">supported</string>
     <string name="aps_type" translatable="false">type</string>
+    <string name="aps_mode" translatable="false">mode</string>
 
     <string name="aps_picturesize" translatable="false">picturesize</string>
     <string name="aps_pictureformat" translatable="false">pictureformat</string>

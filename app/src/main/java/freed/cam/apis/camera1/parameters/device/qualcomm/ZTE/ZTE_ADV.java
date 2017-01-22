@@ -53,10 +53,10 @@ public class ZTE_ADV extends BaseQcomDevice {
         return new ShutterManualZTE(parameters, cameraUiWrapper);
     }
 
-    @Override
+   /* @Override
     public ManualParameterInterface getManualFocusParameter() {
         return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,1);
-    }
+    }*/
 
     @Override
     public ManualParameterInterface getCCTParameter() {

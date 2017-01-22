@@ -77,7 +77,7 @@ public class BaseMTKDevice extends AbstractDevice
     public ManualParameterInterface getManualFocusParameter()
     {
         if(parameters.get("afeng-max-focus-step")!=null)
-            return new FocusManualMTK(parameters, cameraUiWrapper);
+            return new FocusManualMTK(parameters, cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().manualFocus);
        /* else  if(parameters.get("focus-fs-fi-max") != null)
             return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", parametersHandler,10,0);*/
         else

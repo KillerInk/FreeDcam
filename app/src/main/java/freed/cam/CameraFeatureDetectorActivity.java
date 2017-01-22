@@ -240,9 +240,124 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                     sendProgress(appS.videoHFR,"VideoHFR");
 
                     detectVideoMediaProfiles(i);
+
+                    detectManualFocus(parameters);
+                    sendProgress(appS.manualFocus,"ManualFocus");
                 }
 
             return null;
+        }
+
+        private void detectManualFocus(Camera.Parameters parameters) {
+            int min =0, max =0, step = 0;
+            if (getAppSettings().getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+            {
+                getAppSettings().manualFocus.setMode(KEYS.KEY_FOCUS_MODE_MANUAL);
+                getAppSettings().manualFocus.setType(-1);
+                getAppSettings().manualFocus.setIsSupported(true);
+                min = 0;
+                max = 1023;
+                step = 10;
+                getAppSettings().manualFocus.setKEY(KEYS.AFENG_POS);
+            }
+            else {
+                //lookup old qcom
+
+                if (parameters.get(KEYS.KEY_MANUAL_FOCUS_MODE_VALUE) == null) {
+
+                    if (parameters.get(KEYS.MAX_FOCUS_POS_INDEX) != null
+                            && KEYS.MIN_FOCUS_POS_INDEX != null
+                            && getAppSettings().focusMode.contains(KEYS.KEY_FOCUS_MODE_MANUAL)) {
+
+                        getAppSettings().manualFocus.setMode(KEYS.KEY_FOCUS_MODE_MANUAL);
+                        getAppSettings().manualFocus.setType(1);
+                        getAppSettings().manualFocus.setIsSupported(true);
+                        min = Integer.parseInt(parameters.get(KEYS.MIN_FOCUS_POS_INDEX));
+                        max = Integer.parseInt(parameters.get(KEYS.MAX_FOCUS_POS_INDEX));
+                        step = 10;
+                        getAppSettings().manualFocus.setKEY(KEYS.KEY_MANUAL_FOCUS_POSITION);
+                    }
+                }
+                else
+                {
+                    //lookup new qcom
+                    if (parameters.get(KEYS.MAX_FOCUS_POS_RATIO) != null
+                            && KEYS.MIN_FOCUS_POS_RATIO != null
+                            && getAppSettings().focusMode.contains(KEYS.KEY_FOCUS_MODE_MANUAL)) {
+
+                        getAppSettings().manualFocus.setMode(KEYS.KEY_FOCUS_MODE_MANUAL);
+                        getAppSettings().manualFocus.setType(2);
+                        getAppSettings().manualFocus.setIsSupported(true);
+                        min = Integer.parseInt(parameters.get(KEYS.MIN_FOCUS_POS_RATIO));
+                        max = Integer.parseInt(parameters.get(KEYS.MAX_FOCUS_POS_RATIO));
+                        step = 1;
+                        getAppSettings().manualFocus.setKEY(KEYS.KEY_MANUAL_FOCUS_POSITION);
+                    }
+                }
+            }
+            //overide device specific
+            switch (getAppSettings().getDevice())
+            {
+                case LG_G3:
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        min = 0;
+                        max = 1023;
+                        step = 10;
+                        getAppSettings().manualFocus.setMode(KEYS.KEY_FOCUS_MODE_MANUAL);
+                        getAppSettings().manualFocus.setType(2);
+                        getAppSettings().manualFocus.setIsSupported(true);
+                        getAppSettings().manualFocus.setKEY(KEYS.KEY_MANUAL_FOCUS_POSITION);
+                    }
+                    else if (Build.VERSION.SDK_INT < 21)
+                    {
+                        min = 0;
+                        max = 79;
+                        step = 1;
+                        getAppSettings().manualFocus.setMode(KEYS.FOCUS_MODE_NORMAL);
+                        getAppSettings().manualFocus.setType(-1);
+                        getAppSettings().manualFocus.setIsSupported(true);
+                        getAppSettings().manualFocus.setKEY(KEYS.MANUALFOCUS_STEP);
+                    }
+                    break;
+                case LG_G4:
+                case LG_V20:
+                    min = 0;
+                    max = 79;
+                    step = 1;
+                    getAppSettings().manualFocus.setMode(KEYS.FOCUS_MODE_NORMAL);
+                    getAppSettings().manualFocus.setType(-1);
+                    getAppSettings().manualFocus.setIsSupported(true);
+                    getAppSettings().manualFocus.setKEY(KEYS.MANUALFOCUS_STEP);
+                    break;
+                case ZTE_Z11:
+                case ZTEADV234:
+                case ZTEADVIMX214:
+                case ZTE_ADV:
+                    getAppSettings().manualFocus.setMode(KEYS.KEY_FOCUS_MODE_MANUAL);
+                    getAppSettings().manualFocus.setType(1);
+                    getAppSettings().manualFocus.setIsSupported(true);
+                    min = 0;
+                    max = 79;
+                    step = 1;
+                    getAppSettings().manualFocus.setKEY(KEYS.KEY_MANUAL_FOCUS_POSITION);
+                    break;
+
+            }
+            //create mf values
+            if (getAppSettings().manualFocus.isSupported())
+                getAppSettings().manualFocus.setValues(createManualFocusValues(min, max,step));
+        }
+
+        private String[] createManualFocusValues(int min, int max, int step)
+        {
+            ArrayList<String> ar = new ArrayList<>();
+            ar.add(KEYS.AUTO);
+
+            for (int i = min; i < max; i+= step)
+            {
+                ar.add(i+"");
+            }
+            return ar.toArray(new String[ar.size()]);
         }
 
         private void sendProgress(AppSettingsManager.SettingMode settingMode, String name)

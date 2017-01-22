@@ -72,6 +72,12 @@ public class BaseManualParameter extends AbstractManualParameter
         }
     }
 
+    public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
+    {
+        super(cameraUiWrapper);
+        this.parameters = parameters;
+    }
+
     public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, float step)
     {
         super(cameraUiWrapper);

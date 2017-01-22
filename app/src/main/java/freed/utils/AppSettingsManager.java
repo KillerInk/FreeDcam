@@ -573,10 +573,12 @@ public class AppSettingsManager {
     public class TypeSettingsMode extends SettingMode
     {
         private String type;
+        private String mode;
 
         public TypeSettingsMode(String value_key) {
             super(value_key);
             this.type = value_key + getString(R.string.aps_type);
+            this.mode = value_key +getString(R.string.aps_mode);
         }
 
         public int getType()
@@ -587,6 +589,16 @@ public class AppSettingsManager {
         public void setType(int typevalue)
         {
             setApiInt(type,typevalue);
+        }
+
+        public String getMode()
+        {
+            return getApiString(mode);
+        }
+
+        public void setMode(String modevalue)
+        {
+            setApiString(mode,modevalue);
         }
     }
 }

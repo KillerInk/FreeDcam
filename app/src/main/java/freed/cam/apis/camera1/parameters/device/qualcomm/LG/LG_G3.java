@@ -26,6 +26,7 @@ import android.os.Build.VERSION_CODES;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.cam.apis.camera1.parameters.manual.lg.FocusManualParameterLG;
@@ -57,15 +58,17 @@ public class LG_G3 extends LG_G2
     public boolean IsDngSupported() {
         return true;
     }
+
     @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        if (VERSION.SDK_INT >= VERSION_CODES.M)
+    public ManualParameterInterface getManualFocusParameter() {
+        if (VERSION.SDK_INT >= VERSION_CODES.M || VERSION.SDK_INT < 21)
         {
-            return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,1023,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,10,1);
+            return super.getManualFocusParameter();
+            //return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,1023,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,10,1);
         }
-        else if (VERSION.SDK_INT < 21)
+       /* else if (VERSION.SDK_INT < 21)
             return new FocusManualParameterLG(parameters, cameraUiWrapper);
-        else
+        else*/
             return null;
     }
 

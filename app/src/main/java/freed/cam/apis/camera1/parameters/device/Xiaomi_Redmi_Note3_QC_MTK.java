@@ -84,9 +84,9 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
     public ManualParameterInterface getManualFocusParameter()
     {
         if (frameworks == Frameworks.MTK)
-            return new FocusManualMTK(parameters, cameraUiWrapper);
+            return new FocusManualMTK(parameters, cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().manualFocus);
         else
-            return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0, 100,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,2);
+            return new BaseFocusManual(parameters,cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().manualFocus);
     }
 
     @Override

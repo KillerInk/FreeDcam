@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
@@ -40,8 +41,8 @@ public class Vivo_Xplay3s extends BaseQcomDevice {
     }
 
     @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,KEYS.MAX_FOCUS_POS_INDEX, KEYS.MIN_FOCUS_POS_INDEX,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,1);
+    public ManualParameterInterface getManualFocusParameter() {
+        return super.getManualFocusParameter();// new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,KEYS.MAX_FOCUS_POS_INDEX, KEYS.MIN_FOCUS_POS_INDEX,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,1);
     }
 
     @Override
