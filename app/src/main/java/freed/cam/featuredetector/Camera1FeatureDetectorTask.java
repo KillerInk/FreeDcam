@@ -53,7 +53,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         appSettingsManager.setCanOpenLegacy(canOpenLegacy());
         publishProgress("CanOpenLegacy:"+appSettingsManager.getCanOpenLegacy());
 
-        Camera camera = null;
         int cameraCounts = Camera.getNumberOfCameras();
         AppSettingsManager appS = appSettingsManager;
         for (int i = 0; i < cameraCounts; i++)
@@ -156,6 +155,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             sendProgress(appS.manualFocus,"ManualFocus");
         }
 
+        appS.SetCurrentCamera(0);
+
         return null;
     }
 
@@ -206,7 +207,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 }
             }
         }
-        //overide device specific
+        //override device specific
         switch (appSettingsManager.getDevice())
         {
             case LG_G3:
@@ -232,6 +233,16 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 break;
             case LG_G4:
             case LG_V20:
+                min = 0;
+                max = 60;
+                step = 1;
+                appSettingsManager.manualFocus.setMode(KEYS.FOCUS_MODE_NORMAL);
+                appSettingsManager.manualFocus.setType(-1);
+                appSettingsManager.manualFocus.setIsSupported(true);
+                appSettingsManager.manualFocus.setKEY(KEYS.MANUALFOCUS_STEP);
+                break;
+            case LG_G2:
+            case LG_G2pro:
                 min = 0;
                 max = 79;
                 step = 1;
@@ -270,9 +281,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         return ar.toArray(new String[ar.size()]);
     }
-
-
-
 
     private void detectFrontCamera(int i) {
         Camera.CameraInfo info = new Camera.CameraInfo();

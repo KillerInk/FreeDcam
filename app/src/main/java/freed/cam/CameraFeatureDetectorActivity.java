@@ -91,7 +91,6 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
         @Override
         public void onTaskEnd(String msg) {
-            getAppSettings().SetCurrentCamera(0);
             if (Build.VERSION.SDK_INT >= 21) {
                 new Camera2FeatureDetectorTask(camera2Listner,getAppSettings(),getContext()).execute("");
             }
@@ -111,7 +110,6 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
         @Override
         public void onTaskEnd(String msg) {
-            getAppSettings().SetCurrentCamera(0);
             startFreedcam();
         }
     };

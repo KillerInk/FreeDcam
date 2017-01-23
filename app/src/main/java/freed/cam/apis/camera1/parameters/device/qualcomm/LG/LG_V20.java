@@ -11,7 +11,6 @@ import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4;
 import freed.cam.apis.camera1.parameters.manual.lg.CCTManualG4;
-import freed.cam.apis.camera1.parameters.manual.lg.FocusManualParameterLG;
 import freed.dng.DngProfile;
 
 /**
@@ -36,10 +35,6 @@ public class LG_V20 extends LG_G2
         return ae_handler_lgg4.getManualIso();
     }
 
-    @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualParameterLG(parameters, cameraUiWrapper);
-    }
 
     @Override
     public AbstractManualParameter getCCTParameter() {

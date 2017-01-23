@@ -25,15 +25,15 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
 import freed.cam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4;
 import freed.cam.apis.camera1.parameters.manual.lg.CCTManualG4;
-import freed.cam.apis.camera1.parameters.manual.lg.FocusManualParameterLG;
 import freed.dng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.
  */
-public class LG_G4 extends LG_G2
+public class LG_G4 extends BaseQcomNew
 {
     private final AE_Handler_LGG4 ae_handler_lgg4;
     public LG_G4(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
@@ -52,10 +52,6 @@ public class LG_G4 extends LG_G2
         return ae_handler_lgg4.getManualIso();
     }
 
-    @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualParameterLG(parameters, cameraUiWrapper);
-    }
 
     @Override
     public AbstractManualParameter getCCTParameter() {

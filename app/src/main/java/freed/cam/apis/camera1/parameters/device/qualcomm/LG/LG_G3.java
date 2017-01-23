@@ -61,12 +61,8 @@ public class LG_G3 extends LG_G2
         if (VERSION.SDK_INT >= VERSION_CODES.M || VERSION.SDK_INT < 21)
         {
             return super.getManualFocusParameter();
-            //return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,1023,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,10,1);
         }
-       /* else if (VERSION.SDK_INT < 21)
-            return new FocusManualParameterLG(parameters, cameraUiWrapper);
-        else*/
-            return null;
+        return null;
     }
 
     @Override

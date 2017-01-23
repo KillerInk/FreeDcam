@@ -47,6 +47,7 @@ public class BaseFocusManual extends BaseManualParameter
         stringvalues = settingMode.getValues();
         key_value = settingMode.getKEY();
         isSupported =true;
+        isVisible = isSupported;
     }
 
 

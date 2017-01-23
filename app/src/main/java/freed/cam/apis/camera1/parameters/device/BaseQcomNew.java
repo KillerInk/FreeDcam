@@ -55,12 +55,6 @@ public class BaseQcomNew extends BaseQcomDevice
     }
 
     @Override
-    public ManualParameterInterface getManualFocusParameter() {
-        return super.getManualFocusParameter();// new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0, 100,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,2);
-    }
-
-
-    @Override
     public ManualParameterInterface getSkintoneParameter() {
         return null;
     }

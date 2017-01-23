@@ -120,6 +120,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     sendProgress(appSettingsManager.manualIso,"Iso:");
                 }
             }
+            appSettingsManager.SetCurrentCamera(0);
         }
         catch (Throwable ex) {
             ex.printStackTrace();

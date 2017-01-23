@@ -33,8 +33,7 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.apis.camera1.parameters.device.AbstractDevice;
-import freed.cam.apis.camera1.parameters.manual.lg.FocusManualParameterLG;
+import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.dng.DngProfile;
@@ -42,7 +41,7 @@ import freed.dng.DngProfile;
 /**
  * Created by troop on 01.06.2016.
  */
-public class LG_G2 extends AbstractDevice
+public class LG_G2 extends BaseQcomDevice
 {
 
 
@@ -67,11 +66,6 @@ public class LG_G2 extends AbstractDevice
     @Override
     public ManualParameterInterface getIsoParameter() {
         return null;
-    }
-
-    @Override
-    public ManualParameterInterface getManualFocusParameter() {
-        return new FocusManualParameterLG(parameters, cameraUiWrapper);
     }
 
     @Override
