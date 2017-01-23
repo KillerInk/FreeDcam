@@ -61,7 +61,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     private ManualButton sharpness;
     private ManualButton programshift;
     private ManualButton zoom;
-    private ManualButton skintone;
     private ManualButton fx;
     private ManualButton convergence;
 
@@ -141,10 +140,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         zoom.SetStuff(fragment_activityInterface,"");
         zoom.setOnClickListener(manualButtonClickListner);
 
-        skintone = (ManualButton)view.findViewById(id.manual_skintone);
-        skintone.SetStuff(fragment_activityInterface,"");
-        skintone.setOnClickListener(manualButtonClickListner);
-
         fx = (ManualButton)view.findViewById(id.manual_fx);
         fx.SetStuff(fragment_activityInterface,"");
         fx.setOnClickListener(manualButtonClickListner);
@@ -179,7 +174,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         iso.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualIso);
         zoom.SetManualParameter(cameraUiWrapper.GetParameterHandler().Zoom);
         aperture.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualFNumber);
-        skintone.SetManualParameter(cameraUiWrapper.GetParameterHandler().Skintone);
         programshift.SetManualParameter(cameraUiWrapper.GetParameterHandler().ProgramShift);
         previewZoom.SetManualParameter(cameraUiWrapper.GetParameterHandler().PreviewZoom);
         seekbar.setVisibility(View.GONE);

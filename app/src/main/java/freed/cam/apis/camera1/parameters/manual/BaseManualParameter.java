@@ -78,6 +78,16 @@ public class BaseManualParameter extends AbstractManualParameter
         this.parameters = parameters;
     }
 
+    public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode)
+    {
+        super(cameraUiWrapper);
+        this.parameters = parameters;
+        key_value = settingMode.getKEY();
+        stringvalues = settingMode.getValues();
+        isSupported = settingMode.isSupported();
+        isVisible = isSupported;
+    }
+
     public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, float step)
     {
         super(cameraUiWrapper);

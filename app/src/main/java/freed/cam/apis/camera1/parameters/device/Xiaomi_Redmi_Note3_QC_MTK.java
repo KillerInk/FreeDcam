@@ -130,21 +130,6 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         }
     }
 
-
-    @Override
-    public ManualParameterInterface getSkintoneParameter() {
-        return null;
-    }
-
-    @Override
-    public ManualParameterInterface getManualSaturation() {
-        if (parameters.get(KEYS.SATURATION)!= null && parameters.get(KEYS.SATURATION_VALUES)!= null)
-            return new BaseManualParamMTK(parameters,KEYS.SATURATION, KEYS.SATURATION_VALUES, cameraUiWrapper);
-        else {
-            return  super.getManualSaturation();
-        }
-    }
-
     @Override
     public ManualParameterInterface getManualSharpness()
     {

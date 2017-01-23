@@ -153,11 +153,73 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
             detectManualFocus(parameters);
             sendProgress(appS.manualFocus,"ManualFocus");
+
+            detectManualSaturation(parameters);
+            sendProgress(appS.manualSaturation,"ManualSaturation");
         }
 
         appS.SetCurrentCamera(0);
 
         return null;
+    }
+
+    private void detectManualSaturation(Camera.Parameters parameters) {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            if (parameters.get(KEYS.SATURATION)!= null && parameters.get(KEYS.SATURATION_VALUES)!= null) {
+                appSettingsManager.manualSaturation.setValues(parameters.get(KEYS.SATURATION_VALUES).split(","));
+                appSettingsManager.manualSaturation.setKEY(KEYS.SATURATION);
+                appSettingsManager.manualSaturation.setIsSupported(true);
+            }
+        }
+        else {
+            int min = 0, max = 0;
+            if (parameters.get(KEYS.LG_COLOR_ADJUST_MAX) != null && parameters.get(KEYS.LG_COLOR_ADJUST_MIN) != null) {
+                min = Integer.parseInt(KEYS.LG_COLOR_ADJUST_MIN);
+                max = Integer.parseInt(KEYS.LG_COLOR_ADJUST_MAX);
+                appSettingsManager.manualSaturation.setKEY(KEYS.LG_COLOR_ADJUST);
+            }
+            else if (parameters.get(KEYS.SATURATION_MAX) != null) {
+                min = Integer.parseInt(KEYS.SATURATION_MIN);
+                max = Integer.parseInt(KEYS.SATURATION_MAX);
+                appSettingsManager.manualSaturation.setKEY(KEYS.SATURATION);
+            } else if (parameters.get(KEYS.MAX_SATURATION) != null) {
+                min = Integer.parseInt(KEYS.SATURATION_MIN);
+                max = Integer.parseInt(KEYS.SATURATION_MAX);
+                appSettingsManager.manualSaturation.setKEY(KEYS.SATURATION);
+            }
+            if (max > 0) {
+                appSettingsManager.manualSaturation.setValues(createStringArray(min, max, 1));
+                appSettingsManager.manualSaturation.setIsSupported(true);
+            }
+        }
+    }
+
+    private void detectManual(Camera.Parameters parameters, String key_min, String key_max, String key_value, AppSettingsManager.SettingMode settingsmode)
+    {
+        int min =0,max=0;
+        if (parameters.get(key_max)!= null)
+        {
+            min = Integer.parseInt(key_min);
+            max = Integer.parseInt(key_max);
+        }
+        if (max > 0) {
+            settingsmode.setValues(createStringArray(min, max, 1));
+            settingsmode.setKEY(key_value);
+            settingsmode.isSupported();
+        }
+    }
+
+    private String[] createStringArray(int min, int max, float step)
+    {
+        ArrayList<String> ar = new ArrayList<>();
+        if (step == 0)
+            step = 1;
+        for (int i = min; i <= max; i+=step)
+        {
+            ar.add(i+"");
+        }
+        return ar.toArray(new String[ar.size()]);
     }
 
     private void detectManualFocus(Camera.Parameters parameters) {

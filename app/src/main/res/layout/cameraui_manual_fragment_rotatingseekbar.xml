@@ -150,13 +150,6 @@
                 app:Image="@drawable/manual_convergence"
                 android:id="@+id/manual_convergence"
                 android:layout_marginRight="8dp" />
-            <freed.cam.ui.themesample.cameraui.ManualButton
-                android:layout_width="35dp"
-                android:layout_height="45dp"
-                app:Header="Skintone"
-                app:Image="@drawable/manual_skintone"
-                android:id="@+id/manual_skintone"
-                android:layout_marginRight="0dp" />
         </LinearLayout>
     </HorizontalScrollView>
 

@@ -63,10 +63,6 @@ public class P8 extends AbstractDevice {
         return null;
     }
 
-    @Override
-    public AbstractManualParameter getSkintoneParameter() {
-        return null;
-    }
 
     @Override
     public DngProfile getDngProfile(int filesize) {

@@ -55,14 +55,6 @@ public class Moto_X_Style_Pure_Play extends Alcatel_Idol3 {
     }
 
     @Override
-    public AbstractManualParameter getSkintoneParameter() {
-        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters, cameraUiWrapper);
-        parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
-        cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Skintone).GetModuleListner());
-        return Skintone;
-    }
-
-    @Override
     public void SetFocusArea(FocusRect focusAreas) {
         parameters.set("touch-aec","on");
         parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);

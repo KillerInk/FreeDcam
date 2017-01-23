@@ -45,14 +45,7 @@ public class LG_V20 extends LG_G2
     }
     @Override
     public DngProfile getDngProfile(int filesize) {
-
         return new DngProfile(64, 4656, 3492, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX298));
-
-    }
-
-    @Override
-    public AbstractManualParameter getManualSaturation() {
-        return new BaseManualParameter(parameters, KEYS.LG_COLOR_ADJUST,KEYS.LG_COLOR_ADJUST_MAX,KEYS.LG_COLOR_ADJUST_MIN, cameraUiWrapper,1);
     }
 
 

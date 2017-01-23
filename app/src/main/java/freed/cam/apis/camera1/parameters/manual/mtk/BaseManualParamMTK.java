@@ -26,6 +26,8 @@ import android.util.Log;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.cam.ui.themesample.cameraui.CameraUiFragment;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by GeorgeKiarie on 6/3/2016.
@@ -35,6 +37,11 @@ public class BaseManualParamMTK extends BaseManualParameter
     private final String TAG = BaseManualParamMTK.class.getSimpleName();
 
     private int default_value;
+
+    public BaseManualParamMTK(Parameters parameters, CameraWrapperInterface cameraWrapperInterface, AppSettingsManager.SettingMode settingMode)
+    {
+        super(parameters,cameraWrapperInterface,settingMode);
+    }
 
     public BaseManualParamMTK(Parameters  parameters, String value, String values, CameraWrapperInterface cameraUiWrapper) {
         super(parameters,value,"","", cameraUiWrapper,1);

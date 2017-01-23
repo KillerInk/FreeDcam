@@ -72,27 +72,7 @@ public abstract class AbstractDevice implements I_Device {
     @Override
     public abstract ManualParameterInterface getCCTParameter();
 
-    @Override
-    public ManualParameterInterface getSkintoneParameter() {
-        return null;
-    }
 
-    @Override
-    public ManualParameterInterface getManualSaturation()
-    {
-        BaseManualParameter ManualSaturation = null;
-        //p920 hack
-        if (parameters.get(KEYS.MAX_SATURATION)!= null && parameters.get(KEYS.SATURATION_MAX)!= null) {
-            parameters.set(KEYS.MAX_SATURATION, 100);
-            parameters.set(KEYS.MIN_SATURATION, 0);
-        }
-        //check first max after evo 3d has both but max infront is empty
-        if (parameters.get(KEYS.SATURATION_MAX)!= null)
-            ManualSaturation = new BaseManualParameter(parameters, KEYS.SATURATION, KEYS.SATURATION_MAX, KEYS.SATURATION_MIN, cameraUiWrapper,1);
-        else if (parameters.get(KEYS.MAX_SATURATION)!= null)
-            ManualSaturation = new BaseManualParameter(parameters, KEYS.SATURATION, KEYS.MAX_SATURATION, KEYS.MIN_SATURATION, cameraUiWrapper,1);
-        return ManualSaturation;
-    }
 
     @Override
     public ManualParameterInterface getManualSharpness()

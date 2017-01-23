@@ -73,10 +73,6 @@ public class LG_G2 extends BaseQcomDevice
         return null;
     }
 
-    @Override
-    public ManualParameterInterface getSkintoneParameter() {
-        return null;
-    }
 
     @Override
     public DngProfile getDngProfile(int filesize) {

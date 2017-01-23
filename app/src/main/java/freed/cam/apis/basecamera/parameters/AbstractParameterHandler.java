@@ -72,7 +72,6 @@ public abstract class AbstractParameterHandler
     public ManualParameterInterface FX;
     public ManualParameterInterface ManualIso;
     public ManualParameterInterface Zoom;
-    public ManualParameterInterface Skintone;
     public ManualParameterInterface ProgramShift;
     public ManualParameterInterface PreviewZoom;
 

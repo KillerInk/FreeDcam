@@ -54,10 +54,6 @@ public class BaseQcomNew extends BaseQcomDevice
         return new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, parameters.getInt(KEYS.MIN_ISO), parameters.getInt(KEYS.MAX_ISO), cameraUiWrapper,1);
     }
 
-    @Override
-    public ManualParameterInterface getSkintoneParameter() {
-        return null;
-    }
 
     @Override
     public DngProfile getDngProfile(int filesize) {

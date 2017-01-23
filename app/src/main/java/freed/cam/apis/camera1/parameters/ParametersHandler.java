@@ -197,6 +197,32 @@ public class ParametersHandler extends AbstractParameterHandler
             VideoHighFramerateVideo = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.videoHFR.getKEY(),appS.videoHFR.getValues());
 
 
+        if (appSettingsManager.manualFocus.isSupported())
+        {
+            if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+            {
+                ManualFocus = new FocusManualMTK(cameraParameters, cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().manualFocus);
+            }
+            else
+            {
+                //htc mf
+                if (appSettingsManager.manualFocus.getKEY().equals(KEYS.FOCUS))
+                    ManualFocus = new FocusManualParameterHTC(cameraParameters,cameraUiWrapper);
+                    //huawai mf
+                else if (appS.manualFocus.getKEY().equals(KEYS.HW_MANUAL_FOCUS_STEP_VALUE))
+                    ManualFocus = new FocusManualHuawei(cameraParameters, cameraUiWrapper, appS.manualFocus);
+                    //qcom
+                else
+                    ManualFocus = new BaseFocusManual(cameraParameters,cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().manualFocus);
+            }
+
+        }
+
+        if (appS.manualSaturation.isSupported()) {
+            ManualSaturation = new BaseManualParameter(cameraParameters, cameraUiWrapper, appS.manualSaturation);
+        }
+
+
         locationParameter = new LocationParameter(cameraUiWrapper);
 
         ManualConvergence = new BaseManualParameter(cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, cameraUiWrapper,1);
@@ -286,7 +312,6 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         VideoProfiles = Device.getVideoProfileMode();
-        Skintone = Device.getSkintoneParameter();
         NonZslManualMode = Device.getNonZslManualMode();
         opcode = Device.getOpCodeParameter();
         Denoise = Device.getDenoiseParameter();
@@ -295,29 +320,10 @@ public class ParametersHandler extends AbstractParameterHandler
 
         ManualShutter = Device.getExposureTimeParameter();
 
-        if (appSettingsManager.manualFocus.isSupported())
-        {
-            if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
-            {
-                ManualFocus = new FocusManualMTK(cameraParameters, cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().manualFocus);
-            }
-            else
-            {
-                //htc mf
-                if (appSettingsManager.manualFocus.getKEY().equals(KEYS.FOCUS))
-                    ManualFocus = new FocusManualParameterHTC(cameraParameters,cameraUiWrapper);
-                //huawai mf
-                else if (appS.manualFocus.getKEY().equals(KEYS.HW_MANUAL_FOCUS_STEP_VALUE))
-                    ManualFocus = new FocusManualHuawei(cameraParameters, cameraUiWrapper, appS.manualFocus);
-                //qcom
-                else
-                    ManualFocus = new BaseFocusManual(cameraParameters,cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().manualFocus);
-            }
 
-        }
         ManualIso = Device.getIsoParameter();
         CCT = Device.getCCTParameter();
-        ManualSaturation = Device.getManualSaturation();
+
         ManualSharpness = Device.getManualSharpness();
         ManualBrightness = Device.getManualBrightness();
         ManualContrast = Device.getManualContrast();

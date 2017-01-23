@@ -64,10 +64,6 @@ public class Moto_X2k14 extends AbstractDevice {
         return null;
     }
 
-    @Override
-    public AbstractManualParameter getSkintoneParameter() {
-        return null;
-    }
 
     @Override
     public DngProfile getDngProfile(int filesize) {

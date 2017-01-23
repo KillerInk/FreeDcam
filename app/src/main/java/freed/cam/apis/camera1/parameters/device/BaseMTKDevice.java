@@ -79,17 +79,6 @@ public class BaseMTKDevice extends AbstractDevice
         return null;
     }
 
-    @Override
-    public ManualParameterInterface getSkintoneParameter() {
-        return null;
-    }
-
-    @Override
-    public ManualParameterInterface getManualSaturation() {
-        if (parameters.get(KEYS.SATURATION)!= null && parameters.get(KEYS.SATURATION_VALUES)!= null)
-                return new BaseManualParamMTK(parameters,KEYS.SATURATION, KEYS.SATURATION_VALUES, cameraUiWrapper);
-        return null;
-    }
 
     @Override
     public ManualParameterInterface getManualSharpness() {

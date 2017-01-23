@@ -213,6 +213,7 @@ public class AppSettingsManager {
     public final SettingMode manualExposureCompensation;
     public final SettingMode manualExposureTime;
     public final SettingMode manualIso;
+    public final SettingMode manualSaturation;
 
 
     private SharedPreferences settings;
@@ -263,6 +264,8 @@ public class AppSettingsManager {
         manualExposureCompensation = new SettingMode(getResourcesString(R.string.aps_manualexpocomp));
         manualExposureTime = new SettingMode(getResourcesString(R.string.aps_manualexpotime));
         manualIso = new SettingMode(getResourcesString(R.string.aps_manualiso));
+        manualSaturation = new SettingMode(getResourcesString(R.string.aps_manualsaturation));
+
 
     }
 

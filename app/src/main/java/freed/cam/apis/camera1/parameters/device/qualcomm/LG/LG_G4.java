@@ -72,11 +72,6 @@ public class LG_G4 extends BaseQcomNew
     }
 
     @Override
-    public AbstractManualParameter getManualSaturation() {
-        return null; //new BaseManualParameter(parameters, KEYS.LG_COLOR_ADJUST,KEYS.LG_COLOR_ADJUST_MAX,KEYS.LG_COLOR_ADJUST_MIN, cameraUiWrapper,1);
-    }
-
-    @Override
     public ManualParameterInterface getManualContrast() {
         return null;
     }
