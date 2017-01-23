@@ -222,54 +222,57 @@ public class AppSettingsManager {
     {
         settings = sharedPreferences;
         this.resources = resources;
-        pictureFormat = new SettingMode(getString(R.string.aps_pictureformat));
-        rawPictureFormat = new SettingMode(getString(R.string.aps_rawpictureformat));
-        pictureSize = new SettingMode(getString(R.string.aps_picturesize));
-        focusMode = new SettingMode(getString(R.string.aps_focusmode));
-        exposureMode = new SettingMode(getString(R.string.aps_exposuremode));
-        whiteBalanceMode = new SettingMode(getString(R.string.aps_whitebalancemode));
-        colorMode = new SettingMode(getString(R.string.aps_colormode));
-        flashMode = new SettingMode(getString(R.string.aps_flashmode));
-        isoMode = new SettingMode(getString(R.string.aps_isomode));
-        antiBandingMode = new SettingMode(getString(R.string.aps_antibandingmode));
-        imagePostProcessing = new SettingMode(getString(R.string.aps_ippmode));
-        previewSize = new SettingMode(getString(R.string.aps_previewsize));
-        jpegQuality = new SettingMode(getString(R.string.aps_jpegquality));
-        aeBracket = new SettingMode(getString(R.string.aps_aebrackethdr));
-        previewFps = new SettingMode(getString(R.string.aps_previewfps));
-        previewFormat = new SettingMode(getString(R.string.aps_previewformat));
-        sceneMode = new SettingMode(getString(R.string.aps_scenemode));
-        redEyeMode = new SettingMode(getString(R.string.aps_redeyemode));
-        lenshade = new SettingMode(getString(R.string.aps_lenshademode));
-        zeroshutterlag = new SettingMode(getString(R.string.aps_zslmode));
-        sceneDetectMode = new SettingMode(getString(R.string.aps_scenedetectmode));
-        memoryColorEnhancement = new SettingMode(getString(R.string.aps_memorycolorenhancementmode));
-        videoSize = new SettingMode(getString(R.string.aps_videosize));
-        correlatedDoubleSampling = new SettingMode(getString(R.string.aps_cds));
-        opticalImageStabilisation = new SettingMode(getString(R.string.aps_ois));
-        videoHDR = new SettingMode(getString(R.string.aps_videohdr));
-        videoHFR = new SettingMode(getString(R.string.aps_videohfr));
-        controlMode = new SettingMode(getString(R.string.aps_controlmode));
-        denoiseMode = new SettingMode(getString(R.string.aps_denoisemode));
-        edgeMode = new SettingMode(getString(R.string.aps_edgemode));
-        digitalImageStabilisationMode = new SettingMode(getString(R.string.aps_digitalimagestabmode));
-        hotpixelMode = new SettingMode(getString(R.string.aps_hotpixel));
-        aePriorityMode = new SettingMode(getString(R.string.aps_ae_priortiy));
-        hdrMode = new SettingMode(getString(R.string.aps_hdrmode));
-        modules = new SettingMode(getString(R.string.aps_module));
+        pictureFormat = new SettingMode(getResourcesString(R.string.aps_pictureformat));
+        rawPictureFormat = new SettingMode(getResourcesString(R.string.aps_rawpictureformat));
+        pictureSize = new SettingMode(getResourcesString(R.string.aps_picturesize));
+        focusMode = new SettingMode(getResourcesString(R.string.aps_focusmode));
+        exposureMode = new SettingMode(getResourcesString(R.string.aps_exposuremode));
+        whiteBalanceMode = new SettingMode(getResourcesString(R.string.aps_whitebalancemode));
+        colorMode = new SettingMode(getResourcesString(R.string.aps_colormode));
+        flashMode = new SettingMode(getResourcesString(R.string.aps_flashmode));
+        isoMode = new SettingMode(getResourcesString(R.string.aps_isomode));
+        antiBandingMode = new SettingMode(getResourcesString(R.string.aps_antibandingmode));
+        imagePostProcessing = new SettingMode(getResourcesString(R.string.aps_ippmode));
+        previewSize = new SettingMode(getResourcesString(R.string.aps_previewsize));
+        jpegQuality = new SettingMode(getResourcesString(R.string.aps_jpegquality));
+        aeBracket = new SettingMode(getResourcesString(R.string.aps_aebrackethdr));
+        previewFps = new SettingMode(getResourcesString(R.string.aps_previewfps));
+        previewFormat = new SettingMode(getResourcesString(R.string.aps_previewformat));
+        sceneMode = new SettingMode(getResourcesString(R.string.aps_scenemode));
+        redEyeMode = new SettingMode(getResourcesString(R.string.aps_redeyemode));
+        lenshade = new SettingMode(getResourcesString(R.string.aps_lenshademode));
+        zeroshutterlag = new SettingMode(getResourcesString(R.string.aps_zslmode));
+        sceneDetectMode = new SettingMode(getResourcesString(R.string.aps_scenedetectmode));
+        memoryColorEnhancement = new SettingMode(getResourcesString(R.string.aps_memorycolorenhancementmode));
+        videoSize = new SettingMode(getResourcesString(R.string.aps_videosize));
+        correlatedDoubleSampling = new SettingMode(getResourcesString(R.string.aps_cds));
+        opticalImageStabilisation = new SettingMode(getResourcesString(R.string.aps_ois));
+        videoHDR = new SettingMode(getResourcesString(R.string.aps_videohdr));
+        videoHFR = new SettingMode(getResourcesString(R.string.aps_videohfr));
+        controlMode = new SettingMode(getResourcesString(R.string.aps_controlmode));
+        denoiseMode = new SettingMode(getResourcesString(R.string.aps_denoisemode));
+        edgeMode = new SettingMode(getResourcesString(R.string.aps_edgemode));
+        digitalImageStabilisationMode = new SettingMode(getResourcesString(R.string.aps_digitalimagestabmode));
+        hotpixelMode = new SettingMode(getResourcesString(R.string.aps_hotpixel));
+        aePriorityMode = new SettingMode(getResourcesString(R.string.aps_ae_priortiy));
+        hdrMode = new SettingMode(getResourcesString(R.string.aps_hdrmode));
+        modules = new SettingMode(getResourcesString(R.string.aps_module));
 
 
-        manualFocus = new TypeSettingsMode(getString(R.string.aps_manualfocus));
-        manualExposureCompensation = new SettingMode(getString(R.string.aps_manualexpocomp));
-        manualExposureTime = new SettingMode(getString(R.string.aps_manualexpotime));
-        manualIso = new SettingMode(getString(R.string.aps_manualiso));
+        manualFocus = new TypeSettingsMode(getResourcesString(R.string.aps_manualfocus));
+        manualExposureCompensation = new SettingMode(getResourcesString(R.string.aps_manualexpocomp));
+        manualExposureTime = new SettingMode(getResourcesString(R.string.aps_manualexpotime));
+        manualIso = new SettingMode(getResourcesString(R.string.aps_manualiso));
 
     }
 
-    private String getString(int id)
+    public String getResourcesString(int id)
     {
         return resources.getString(id);
     }
+
+    public Resources getResources()
+    { return resources;}
 
     public boolean areFeaturesDetected()
     {
@@ -512,9 +515,9 @@ public class AppSettingsManager {
         public SettingMode(String value_key)
         {
             this.value_key = value_key;
-            this.values_key = value_key + getString(R.string.aps_values);
-            this.supported_key= value_key + getString(R.string.aps_supported);
-            this.KEY_value = value_key + getString(R.string.aps_key);
+            this.values_key = value_key + getResourcesString(R.string.aps_values);
+            this.supported_key= value_key + getResourcesString(R.string.aps_supported);
+            this.KEY_value = value_key + getResourcesString(R.string.aps_key);
         }
 
         public void setValues(String[] ar)
@@ -577,8 +580,8 @@ public class AppSettingsManager {
 
         public TypeSettingsMode(String value_key) {
             super(value_key);
-            this.type = value_key + getString(R.string.aps_type);
-            this.mode = value_key +getString(R.string.aps_mode);
+            this.type = value_key + getResourcesString(R.string.aps_type);
+            this.mode = value_key + getResourcesString(R.string.aps_mode);
         }
 
         public int getType()

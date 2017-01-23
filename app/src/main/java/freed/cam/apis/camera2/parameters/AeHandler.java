@@ -20,15 +20,11 @@
 package freed.cam.apis.camera2.parameters;
 
 import android.annotation.TargetApi;
-import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
-import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.util.Log;
 
 import com.troop.freedcam.R;
-
-import java.util.ArrayList;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -36,9 +32,7 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
-import freed.utils.DeviceUtils;
 import freed.utils.StringFloatArray;
-import freed.utils.StringUtils;
 
 /**
  * Created by troop on 18.05.2016.

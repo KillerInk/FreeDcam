@@ -23,13 +23,10 @@ import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
-import freed.cam.apis.camera1.parameters.manual.lg.FocusManualParameterLG;
 import freed.dng.DngProfile;
 
 /**
