@@ -21,9 +21,6 @@ package freed.cam.apis.camera1.parameters.manual.htc;
 
 import android.hardware.Camera.Parameters;
 
-import java.util.ArrayList;
-
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;

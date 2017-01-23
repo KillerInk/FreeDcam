@@ -22,7 +22,6 @@ package freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.dng.DngProfile;

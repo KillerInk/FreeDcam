@@ -108,6 +108,9 @@ public final class KEYS {
     public static final String SHARPNESS = "sharpness";
     public static final String SHARPNESS_VALUES = "sharpness-values";
     public static final String SHARPNESS_STEP = "sharpness-step";
+    public static final String EDGE = "edge";
+    public static final String EDGE_VALUES = "edge-values";
+
 
     public static final String MAX_SATURATION = "max-saturation";
     public static final String MIN_SATURATION = "min-saturation";
@@ -115,6 +118,22 @@ public final class KEYS {
     public static final String SATURATION_MIN = "saturation-min";
     public static final String SATURATION = "saturation";
     public static final String SATURATION_VALUES = "saturation-values";
+
+    public static final String MAX_BRIGHTNESS = "max-brightness";
+    public static final String MIN_BRIGHTNESS = "min-brightness";
+    public static final String BRIGHTNESS_MAX = "brightness-max";
+    public static final String BRIGHTNESS_MIN = "brightness-min";
+    public static final String BRIGHTNESS = "brightness";
+    public static final String BRIGHTNESS_VALUES = "brightness-values";
+    public static final String LUMA_ADAPTATION = "luma-adaptation";
+
+    public static final String MAX_CONTRAST = "max-contrast";
+    public static final String MIN_CONTRAST = "min-contrast";
+    public static final String CONTRAST_MAX = "contrast-max";
+    public static final String CONTRAST_MIN = "contrast-min";
+    public static final String CONTRAST = "contrast";
+    public static final String CONTRAST_VALUES = "contrast-values";
+
 
 
     // Manual Focus Keys

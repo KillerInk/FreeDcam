@@ -48,5 +48,8 @@
     <string name="aps_manualexpotime" translatable="false">expotime</string>
     <string name="aps_manualiso" translatable="false">iso</string>
     <string name="aps_manualsaturation" translatable="false">saturation</string>
+    <string name="aps_manualsharpness" translatable="false">sharpness</string>
+    <string name="aps_manualbrightness" translatable="false">brightness</string>
+    <string name="aps_manualcontrast" translatable="false">contrast</string>
 
 </resources>

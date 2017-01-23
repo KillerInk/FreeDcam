@@ -156,6 +156,15 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
             detectManualSaturation(parameters);
             sendProgress(appS.manualSaturation,"ManualSaturation");
+
+            detectManualSharpness(parameters);
+            sendProgress(appS.manualSharpness,"ManualSharpness");
+
+            detectManualBrightness(parameters);
+            sendProgress(appS.manualBrightness,"ManualBrightness");
+
+            detectManualContrast(parameters);
+            sendProgress(appS.manualContrast,"ManualContrast");
         }
 
         appS.SetCurrentCamera(0);
@@ -184,8 +193,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 max = Integer.parseInt(KEYS.SATURATION_MAX);
                 appSettingsManager.manualSaturation.setKEY(KEYS.SATURATION);
             } else if (parameters.get(KEYS.MAX_SATURATION) != null) {
-                min = Integer.parseInt(KEYS.SATURATION_MIN);
-                max = Integer.parseInt(KEYS.SATURATION_MAX);
+                min = Integer.parseInt(KEYS.MIN_SATURATION);
+                max = Integer.parseInt(KEYS.MAX_SATURATION);
                 appSettingsManager.manualSaturation.setKEY(KEYS.SATURATION);
             }
             if (max > 0) {
@@ -194,6 +203,91 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
         }
     }
+
+    private void detectManualSharpness(Camera.Parameters parameters) {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            if (parameters.get(KEYS.EDGE)!= null && parameters.get(KEYS.EDGE_VALUES)!= null) {
+                appSettingsManager.manualSharpness.setValues(parameters.get(KEYS.EDGE_VALUES).split(","));
+                appSettingsManager.manualSharpness.setKEY(KEYS.EDGE);
+                appSettingsManager.manualSharpness.setIsSupported(true);
+            }
+        }
+        else {
+            int min = 0, max = 0;
+            if (parameters.get(KEYS.SHARPNESS_MAX) != null) {
+                min = Integer.parseInt(KEYS.SHARPNESS_MIN);
+                max = Integer.parseInt(KEYS.SHARPNESS_MAX);
+                appSettingsManager.manualSharpness.setKEY(KEYS.SHARPNESS);
+            } else if (parameters.get(KEYS.MAX_SHARPNESS) != null) {
+                min = Integer.parseInt(KEYS.MIN_SHARPNESS);
+                max = Integer.parseInt(KEYS.MAX_SHARPNESS);
+                appSettingsManager.manualSharpness.setKEY(KEYS.SHARPNESS);
+            }
+            if (max > 0) {
+                appSettingsManager.manualSharpness.setValues(createStringArray(min, max, 1));
+                appSettingsManager.manualSharpness.setIsSupported(true);
+            }
+        }
+    }
+
+    private void detectManualBrightness(Camera.Parameters parameters) {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            if (parameters.get(KEYS.BRIGHTNESS)!= null && parameters.get(KEYS.BRIGHTNESS_VALUES)!= null) {
+                appSettingsManager.manualBrightness.setValues(parameters.get(KEYS.BRIGHTNESS_VALUES).split(","));
+                appSettingsManager.manualBrightness.setKEY(KEYS.BRIGHTNESS);
+                appSettingsManager.manualBrightness.setIsSupported(true);
+            }
+        }
+        else {
+            int min = 0, max = 0;
+            if (parameters.get(KEYS.BRIGHTNESS_MAX) != null) {
+                min = Integer.parseInt(KEYS.BRIGHTNESS_MIN);
+                max = Integer.parseInt(KEYS.BRIGHTNESS_MAX);
+            } else if (parameters.get(KEYS.MAX_BRIGHTNESS) != null) {
+                min = Integer.parseInt(KEYS.MIN_BRIGHTNESS);
+                max = Integer.parseInt(KEYS.MAX_BRIGHTNESS);
+
+            }
+            if (max > 0) {
+                if (parameters.get(KEYS.BRIGHTNESS)!= null)
+                    appSettingsManager.manualBrightness.setKEY(KEYS.BRIGHTNESS);
+                else if (parameters.get(KEYS.LUMA_ADAPTATION)!= null)
+                    appSettingsManager.manualBrightness.setKEY(KEYS.LUMA_ADAPTATION);
+                appSettingsManager.manualBrightness.setValues(createStringArray(min, max, 1));
+                appSettingsManager.manualBrightness.setIsSupported(true);
+            }
+        }
+    }
+
+    private void detectManualContrast(Camera.Parameters parameters) {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            if (parameters.get(KEYS.CONTRAST)!= null && parameters.get(KEYS.CONTRAST_VALUES)!= null) {
+                appSettingsManager.manualContrast.setValues(parameters.get(KEYS.CONTRAST_VALUES).split(","));
+                appSettingsManager.manualContrast.setKEY(KEYS.CONTRAST);
+                appSettingsManager.manualContrast.setIsSupported(true);
+            }
+        }
+        else {
+            int min = 0, max = 0;
+            if (parameters.get(KEYS.CONTRAST_MAX) != null) {
+                min = Integer.parseInt(KEYS.CONTRAST_MIN);
+                max = Integer.parseInt(KEYS.CONTRAST_MAX);
+            } else if (parameters.get(KEYS.MAX_CONTRAST) != null) {
+                min = Integer.parseInt(KEYS.MIN_CONTRAST);
+                max = Integer.parseInt(KEYS.MAX_CONTRAST);
+
+            }
+            if (max > 0) {
+                appSettingsManager.manualContrast.setKEY(KEYS.CONTRAST);
+                appSettingsManager.manualContrast.setValues(createStringArray(min, max, 1));
+                appSettingsManager.manualContrast.setIsSupported(true);
+            }
+        }
+    }
+
 
     private void detectManual(Camera.Parameters parameters, String key_min, String key_max, String key_value, AppSettingsManager.SettingMode settingsmode)
     {

@@ -26,7 +26,6 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
-import freed.cam.apis.camera1.parameters.manual.focus.FocusManualHuawei;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.dng.DngProfile;
 

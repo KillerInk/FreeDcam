@@ -35,11 +35,7 @@ public interface I_Device
     ManualParameterInterface getExposureTimeParameter();
     ManualParameterInterface getIsoParameter();
     ManualParameterInterface getCCTParameter();
-    ManualParameterInterface getManualSharpness();
-    ManualParameterInterface getManualBrightness();
-    ManualParameterInterface getManualContrast();
 
-    ModeParameterInterface getVideoProfileMode();
     ModeParameterInterface getNonZslManualMode();
     ModeParameterInterface getOpCodeParameter();
     ModeParameterInterface getDenoiseParameter();

@@ -22,14 +22,12 @@ package freed.cam.apis.camera1.parameters.device;
 import android.app.Activity;
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.HDRModeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
@@ -72,73 +70,9 @@ public abstract class AbstractDevice implements I_Device {
     @Override
     public abstract ManualParameterInterface getCCTParameter();
 
-
-
-    @Override
-    public ManualParameterInterface getManualSharpness()
-    {
-        if (parameters.get(KEYS.MAX_SHARPNESS)!= null && parameters.get(KEYS.SHARPNESS_MAX)!= null) {
-            parameters.set(KEYS.MAX_SHARPNESS, KEYS.MAGIC_NUM100);
-            parameters.set(KEYS.MIN_SHARPNESS, KEYS.MAGIC_NUM0);
-        }
-        int step = 1;
-        if (parameters.get(KEYS.SHARPNESS_STEP)!= null)
-            step = Integer.parseInt(parameters.get(KEYS.SHARPNESS_STEP));
-
-        if (parameters.get(KEYS.SHARPNESS_MAX)!= null)
-        {
-            return new BaseManualParameter(parameters, KEYS.SHARPNESS, KEYS.SHARPNESS_MAX, KEYS.SHARPNESS_MIN, cameraUiWrapper,step);
-        }
-        else if (parameters.get(KEYS.MAX_SHARPNESS)!= null)
-        {
-            return new BaseManualParameter(parameters, KEYS.SHARPNESS, KEYS.MAX_SHARPNESS, KEYS.MIN_SHARPNESS, cameraUiWrapper,step);
-        }
-        return null;
-    }
-
-    @Override
-    public ManualParameterInterface getManualBrightness()
-    {
-        //p920hack
-        if (parameters.get("max-brightness")!= null && parameters.get("brightness-max")!= null)
-        {
-            parameters.set("max-brightness", "100");
-            parameters.set("min-brightness", "0");
-        }
-        if (parameters.get("brightness-max")!= null)
-        {
-            return new BaseManualParameter(parameters, "brightness", "brightness-max", "brightness-min", cameraUiWrapper, 1);
-        }
-        else if (parameters.get("brightness")!= null)
-            return new BaseManualParameter(parameters, "brightness", "max-brightness", "min-brightness", cameraUiWrapper, 1);
-        else if (parameters.get("luma-adaptation")!= null)
-            return  new BaseManualParameter(parameters,"luma-adaptation","max-brightness","min-brightness", cameraUiWrapper,1);
-        return null;
-    }
-
-    @Override
-    public ManualParameterInterface getManualContrast()
-    {
-        //p920 hack
-        if (parameters.get("max-contrast")!= null && parameters.get("contrast-max")!= null) {
-            parameters.set("max-contrast", "100");
-            parameters.set("min-contrast", "0");
-        }
-        if (parameters.get("contrast-max")!= null)
-             return  new BaseManualParameter(parameters,"contrast", "contrast-max", "contrast-min", cameraUiWrapper,1);
-        else if (parameters.get("max-contrast")!= null)
-             return new BaseManualParameter(parameters,"contrast", "max-contrast", "min-contrast", cameraUiWrapper,1);
-        return null;
-    }
-
     @Override
     public abstract DngProfile getDngProfile(int filesize);
 
-    @Override
-    public ModeParameterInterface getVideoProfileMode()
-    {
-        return new VideoProfilesParameter(cameraUiWrapper);
-    }
     @Override
     public ModeParameterInterface getNonZslManualMode()
     {

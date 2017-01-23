@@ -51,6 +51,7 @@ import freed.cam.apis.camera1.parameters.modes.PictureFormatHandler;
 import freed.cam.apis.camera1.parameters.modes.PictureSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
+import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.StringUtils;
@@ -148,7 +149,7 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appS.imagePostProcessing.isSupported())
             ImagePostProcessing = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.IMAGEPOSTPROCESSING, appS.imagePostProcessing.getValues());
 
-        if(appS.previewSize.isSupported())
+        if (appS.previewSize.isSupported())
             PreviewSize =  new PreviewSizeParameter(cameraParameters,cameraUiWrapper,"preview-size", appS.pictureSize.getValues());
 
         if (appS.jpegQuality.isSupported())
@@ -201,7 +202,7 @@ public class ParametersHandler extends AbstractParameterHandler
         {
             if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
             {
-                ManualFocus = new FocusManualMTK(cameraParameters, cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().manualFocus);
+                ManualFocus = new FocusManualMTK(cameraParameters, cameraUiWrapper,appS.manualFocus);
             }
             else
             {
@@ -213,7 +214,7 @@ public class ParametersHandler extends AbstractParameterHandler
                     ManualFocus = new FocusManualHuawei(cameraParameters, cameraUiWrapper, appS.manualFocus);
                     //qcom
                 else
-                    ManualFocus = new BaseFocusManual(cameraParameters,cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().manualFocus);
+                    ManualFocus = new BaseFocusManual(cameraParameters,cameraUiWrapper,appS.manualFocus);
             }
 
         }
@@ -221,6 +222,17 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appS.manualSaturation.isSupported()) {
             ManualSaturation = new BaseManualParameter(cameraParameters, cameraUiWrapper, appS.manualSaturation);
         }
+
+        if (appS.manualSharpness.isSupported())
+            ManualSharpness = new BaseManualParameter(cameraParameters,cameraUiWrapper,appS.manualSharpness);
+
+        if (appS.manualBrightness.isSupported())
+            ManualBrightness = new BaseManualParameter(cameraParameters,cameraUiWrapper,appS.manualBrightness);
+
+        if(appS.manualContrast.isSupported())
+            ManualContrast = new BaseManualParameter(cameraParameters,cameraUiWrapper,appS.manualContrast);
+
+        VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
 
 
         locationParameter = new LocationParameter(cameraUiWrapper);
@@ -311,7 +323,7 @@ public class ParametersHandler extends AbstractParameterHandler
             throw new NullPointerException("DEVICE IS NULL");
         }
 
-        VideoProfiles = Device.getVideoProfileMode();
+
         NonZslManualMode = Device.getNonZslManualMode();
         opcode = Device.getOpCodeParameter();
         Denoise = Device.getDenoiseParameter();
@@ -324,9 +336,8 @@ public class ParametersHandler extends AbstractParameterHandler
         ManualIso = Device.getIsoParameter();
         CCT = Device.getCCTParameter();
 
-        ManualSharpness = Device.getManualSharpness();
-        ManualBrightness = Device.getManualBrightness();
-        ManualContrast = Device.getManualContrast();
+
+
         DigitalImageStabilization = Device.getDigitalImageStabilisation();
         HDRMode = Device.getHDRMode();
         VideoStabilization = Device.getVideoStabilisation();

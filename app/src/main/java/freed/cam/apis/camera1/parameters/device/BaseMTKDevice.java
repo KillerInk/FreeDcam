@@ -32,8 +32,6 @@ import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
-import freed.cam.apis.camera1.parameters.manual.mtk.BaseManualParamMTK;
-import freed.cam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.dng.DngProfile;
 import freed.utils.StringUtils;
@@ -77,22 +75,6 @@ public class BaseMTKDevice extends AbstractDevice
     @Override
     public ManualParameterInterface getCCTParameter() {
         return null;
-    }
-
-
-    @Override
-    public ManualParameterInterface getManualSharpness() {
-        return new BaseManualParamMTK(parameters,"edge","edge-values", cameraUiWrapper);
-    }
-
-    @Override
-    public ManualParameterInterface getManualBrightness() {
-        return new BaseManualParamMTK(parameters,"brightness", "brightness-values", cameraUiWrapper);
-    }
-
-    @Override
-    public ManualParameterInterface getManualContrast() {
-        return  new BaseManualParamMTK(parameters,"contrast","contrast-values", cameraUiWrapper);
     }
 
     @Override

@@ -71,8 +71,4 @@ public class LG_G4 extends BaseQcomNew
         return null;
     }
 
-    @Override
-    public ManualParameterInterface getManualContrast() {
-        return null;
-    }
 }
