@@ -40,11 +40,6 @@ public class Vivo_V3 extends BaseQcomDevice {
     }
 
     @Override
-    public ManualParameterInterface getManualFocusParameter() {
-        return null;
-    }
-
-    @Override
     public ManualParameterInterface getIsoParameter() {
         return null;
     }

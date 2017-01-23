@@ -38,10 +38,6 @@ public class Lenovo_K920 extends BaseQcomDevice {
     }
 
     @Override
-    public ManualParameterInterface getManualFocusParameter() {
-        return super.getManualFocusParameter();// new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,KEYS.MAX_FOCUS_POS_INDEX, KEYS.MIN_FOCUS_POS_INDEX,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,1);
-    }
-    @Override
     public boolean IsDngSupported() {
         return true;
     }

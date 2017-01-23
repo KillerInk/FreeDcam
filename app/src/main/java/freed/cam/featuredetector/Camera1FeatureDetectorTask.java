@@ -206,6 +206,29 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     appSettingsManager.manualFocus.setKEY(KEYS.KEY_MANUAL_FOCUS_POSITION);
                 }
             }
+            //htc mf
+            if (parameters.get(KEYS.MIN_FOCUS) != null && parameters.get(KEYS.MAX_FOCUS) != null)
+            {
+                appSettingsManager.manualFocus.setMode("");
+                appSettingsManager.manualFocus.setType(-1);
+                appSettingsManager.manualFocus.setIsSupported(true);
+                min = Integer.parseInt(parameters.get(KEYS.MIN_FOCUS));
+                max = Integer.parseInt(parameters.get(KEYS.MAX_FOCUS));
+                step = 1;
+                appSettingsManager.manualFocus.setKEY(KEYS.FOCUS);
+            }
+
+            //huawai mf
+            if(parameters.get(KEYS.HW_VCM_END_VALUE) != null && parameters.get(KEYS.HW_VCM_START_VALUE) != null)
+            {
+                appSettingsManager.manualFocus.setMode(KEYS.KEY_FOCUS_MODE_MANUAL);
+                appSettingsManager.manualFocus.setType(-1);
+                appSettingsManager.manualFocus.setIsSupported(true);
+                min = Integer.parseInt(parameters.get(KEYS.HW_VCM_END_VALUE));
+                max = Integer.parseInt(parameters.get(KEYS.HW_VCM_START_VALUE));
+                step = 10;
+                appSettingsManager.manualFocus.setKEY(KEYS.HW_MANUAL_FOCUS_STEP_VALUE);
+            }
         }
         //override device specific
         switch (appSettingsManager.getDevice())
@@ -262,6 +285,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 max = 79;
                 step = 1;
                 appSettingsManager.manualFocus.setKEY(KEYS.KEY_MANUAL_FOCUS_POSITION);
+                break;
+            case Vivo_V3:
+            case Moto_X2k14:
+                appSettingsManager.manualFocus.setIsSupported(false);
                 break;
 
         }

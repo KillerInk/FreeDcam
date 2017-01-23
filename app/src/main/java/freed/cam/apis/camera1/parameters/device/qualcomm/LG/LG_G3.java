@@ -57,15 +57,6 @@ public class LG_G3 extends LG_G2
     }
 
     @Override
-    public ManualParameterInterface getManualFocusParameter() {
-        if (VERSION.SDK_INT >= VERSION_CODES.M || VERSION.SDK_INT < 21)
-        {
-            return super.getManualFocusParameter();
-        }
-        return null;
-    }
-
-    @Override
     public AbstractManualParameter getCCTParameter() {
         return null;
     }

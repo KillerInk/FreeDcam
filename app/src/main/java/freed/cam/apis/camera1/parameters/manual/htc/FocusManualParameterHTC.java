@@ -37,29 +37,10 @@ public class FocusManualParameterHTC extends BaseManualParameter
 
     public FocusManualParameterHTC(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
-        isSupported = parameters.get(KEYS.MIN_FOCUS) != null && parameters.get(KEYS.MAX_FOCUS) != null;
-        key_max_value = KEYS.MAX_FOCUS;
-        key_value = KEYS.FOCUS;
-        key_min_value = KEYS.MIN_FOCUS;
+        isSupported = cameraUiWrapper.GetAppSettingsManager().manualFocus.isSupported();
+        key_value = cameraUiWrapper.GetAppSettingsManager().manualFocus.getKEY();
         isVisible = isSupported;
-        if (isSupported)
-        {
-            stringvalues = createStringArray(Integer.parseInt(parameters.get(key_min_value)),Integer.parseInt(parameters.get(key_max_value)),1);
-        }
-    }
-
-    @Override
-    protected String[] createStringArray(int min, int max, float step)
-    {
-        ArrayList<String> ar = new ArrayList<>();
-        ar.add(KEYS.AUTO);
-        if (step == 0)
-            step = 1;
-        for (int i = min; i < max; i+=step)
-        {
-            ar.add(i+"");
-        }
-        return ar.toArray(new String[ar.size()]);
+        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues();
     }
 
 

@@ -70,9 +70,6 @@ public abstract class AbstractDevice implements I_Device {
     public abstract ManualParameterInterface getIsoParameter();
 
     @Override
-    public abstract ManualParameterInterface getManualFocusParameter();
-
-    @Override
     public abstract ManualParameterInterface getCCTParameter();
 
     @Override

@@ -65,10 +65,6 @@ public class HTC_M8 extends AbstractDevice {
         return null;
     }
 
-    @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualParameterHTC(parameters, cameraUiWrapper);
-    }
 
     @Override
     public AbstractManualParameter getCCTParameter() {

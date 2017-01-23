@@ -41,10 +41,6 @@ public class Huawei_Honor5x extends BaseQcomDevice {
     }
 
     @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualHuawei(parameters, cameraUiWrapper);
-    }
-    @Override
     public boolean IsDngSupported() {
         return true;
     }

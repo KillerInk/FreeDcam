@@ -25,6 +25,7 @@ import android.util.Log;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by GeorgeKiarie on 02/04/2016.
@@ -32,8 +33,8 @@ import freed.cam.apis.camera1.parameters.ParametersHandler;
 public class FocusManualHuawei extends BaseFocusManual
 {
     private final String TAG = FocusManualHuawei.class.getSimpleName();
-    public FocusManualHuawei(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, KEYS.HW_MANUAL_FOCUS_STEP_VALUE, KEYS.HW_VCM_END_VALUE, KEYS.HW_VCM_START_VALUE, KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper, (float) 10, 0);
+    public FocusManualHuawei(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager.TypeSettingsMode settingMode) {
+        super(parameters,cameraUiWrapper,settingMode);
     }
 
     @Override

@@ -57,10 +57,6 @@ public class P8 extends AbstractDevice {
         return null;
     }
 
-    @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return null;
-    }
 
     @Override
     public AbstractManualParameter getCCTParameter() {

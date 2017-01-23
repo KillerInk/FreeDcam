@@ -34,7 +34,6 @@ public interface I_Device
 
     ManualParameterInterface getExposureTimeParameter();
     ManualParameterInterface getIsoParameter();
-    ManualParameterInterface getManualFocusParameter();
     ManualParameterInterface getCCTParameter();
     ManualParameterInterface getSkintoneParameter();
     ManualParameterInterface getManualSaturation();

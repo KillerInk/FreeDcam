@@ -73,16 +73,6 @@ public class BaseMTKDevice extends AbstractDevice
         return ae_handler_mtk.getManualIso();
     }
 
-    @Override
-    public ManualParameterInterface getManualFocusParameter()
-    {
-        if(parameters.get("afeng-max-focus-step")!=null)
-            return new FocusManualMTK(parameters, cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().manualFocus);
-       /* else  if(parameters.get("focus-fs-fi-max") != null)
-            return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", parametersHandler,10,0);*/
-        else
-            return null;
-    }
 
     @Override
     public ManualParameterInterface getCCTParameter() {

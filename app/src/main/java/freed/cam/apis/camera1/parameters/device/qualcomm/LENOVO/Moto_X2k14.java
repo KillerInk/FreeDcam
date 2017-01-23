@@ -60,11 +60,6 @@ public class Moto_X2k14 extends AbstractDevice {
     }
 
     @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return null;
-    }
-
-    @Override
     public AbstractManualParameter getCCTParameter() {
         return null;
     }

@@ -40,10 +40,6 @@ public class Huawei_GX8 extends BaseQcomDevice {
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualHuawei(parameters, cameraUiWrapper);
-    }
 
     @Override
     public boolean IsDngSupported() {

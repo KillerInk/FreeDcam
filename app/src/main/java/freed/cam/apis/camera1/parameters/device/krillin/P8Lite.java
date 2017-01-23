@@ -60,10 +60,6 @@ public class P8Lite extends AbstractDevice {
         return null;
     }
 
-    @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualHuawei(parameters, cameraUiWrapper);
-    }
 
     @Override
     public AbstractManualParameter getCCTParameter() {

@@ -38,6 +38,10 @@ import freed.cam.apis.camera1.parameters.device.I_Device;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ExposureManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ZoomManualParameter;
+import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
+import freed.cam.apis.camera1.parameters.manual.focus.FocusManualHuawei;
+import freed.cam.apis.camera1.parameters.manual.htc.FocusManualParameterHTC;
+import freed.cam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
 import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
 import freed.cam.apis.camera1.parameters.manual.zte.FXManualParameter;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
@@ -290,7 +294,27 @@ public class ParametersHandler extends AbstractParameterHandler
         NightMode = Device.getNightMode();
 
         ManualShutter = Device.getExposureTimeParameter();
-        ManualFocus = Device.getManualFocusParameter();
+
+        if (appSettingsManager.manualFocus.isSupported())
+        {
+            if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+            {
+                ManualFocus = new FocusManualMTK(cameraParameters, cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().manualFocus);
+            }
+            else
+            {
+                //htc mf
+                if (appSettingsManager.manualFocus.getKEY().equals(KEYS.FOCUS))
+                    ManualFocus = new FocusManualParameterHTC(cameraParameters,cameraUiWrapper);
+                //huawai mf
+                else if (appS.manualFocus.getKEY().equals(KEYS.HW_MANUAL_FOCUS_STEP_VALUE))
+                    ManualFocus = new FocusManualHuawei(cameraParameters, cameraUiWrapper, appS.manualFocus);
+                //qcom
+                else
+                    ManualFocus = new BaseFocusManual(cameraParameters,cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().manualFocus);
+            }
+
+        }
         ManualIso = Device.getIsoParameter();
         CCT = Device.getCCTParameter();
         ManualSaturation = Device.getManualSaturation();
