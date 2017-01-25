@@ -19,16 +19,11 @@
 
 package freed.cam.apis.basecamera.parameters.modes;
 
-import android.content.res.Resources;
 import android.util.Log;
 
-import com.troop.freedcam.R;
-
-import java.io.File;
 import java.util.HashMap;
 
 import freed.dng.CustomMatrix;
-import freed.utils.StringUtils;
 
 /**
  * Created by troop on 02.05.2016.
@@ -53,49 +48,11 @@ public class MatrixChooserParameter extends AbstractModeParameter
     private boolean isSupported;
 
     final String TAG = MatrixChooserParameter.class.getSimpleName();
-    public MatrixChooserParameter(Resources resources)
+
+    public MatrixChooserParameter(HashMap<String, CustomMatrix> matrixHashMap)
     {
-        custommatrixes = new HashMap<>();
-        custommatrixes.put("off",null);
-        addDefaultMatrixes(custommatrixes, resources);
-        File confFolder = new File(StringUtils.GetFreeDcamConfigFolder+"matrix/");
-        if (confFolder != null) {
-            if (!confFolder.exists())
-                confFolder.mkdir();
-            File[] files = confFolder.listFiles();
-            try {
-                if (files != null && files.length > 0) {
-                    for (File f : files) {
-                        custommatrixes.put(f.getName(), CustomMatrix.loadCustomMatrixFromFile(f));
-                    }
-                }
-            }
-            catch (NullPointerException ex)
-            {
-                ex.printStackTrace();
-            }
-
-        }
-        if (custommatrixes.size() >0)
-            isSupported = true;
-    }
-
-    private void addDefaultMatrixes(HashMap map,Resources resources)
-    {
-        map.put(NEXUS6, CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_nexus6)));
-        map.put(G4, CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_lg_g4)));
-        map.put(IMX214, CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_imx214)));
-        map.put(IMX230, CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_imx230)));
-        map.put(OV5648, CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_ov5648)));
-        map.put(OmniVision,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_omnivision)));
-        map.put(Neutral,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_neutral)));
-        map.put(LumingonOV,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_ovlumingon)));
-
-        map.put(IMX135,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.IMX135_MATRIX_F2_2)));
-        map.put(IMX298,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.IMX298_MATRIX_F2_0)));
-        map.put(IMX220,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.IMX220_MATRIX_F2_0)));
-        map.put(IMX230_QC,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.IMX230_MATRIX_F2_0)));
-        map.put(OV4688,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.OV4688_F_2)));
+        this.custommatrixes = matrixHashMap;
+        isSupported = true;
     }
 
     @Override

@@ -109,7 +109,7 @@ public class DngConvertingFragment extends Fragment
         editTextheight = (EditText) view.findViewById(id.editText_height);
         editTextblacklvl = (EditText) view.findViewById(id.editText_blacklevel);
         spinnerMatrixProfile = (Spinner) view.findViewById(id.spinner_MatrixProfile);
-        matrixChooserParameter = new MatrixChooserParameter(getResources());
+        matrixChooserParameter = new MatrixChooserParameter(appSettingsManager.getMatrixesMap());
         String[] items = matrixChooserParameter.GetValues();
         ArrayAdapter<String> matrixadapter = new ArrayAdapter<>(getContext(), layout.simple_spinner_item, items);
         //ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),R.array.matrixes, android.R.layout.simple_spinner_item);
@@ -141,7 +141,6 @@ public class DngConvertingFragment extends Fragment
                 getActivity().finish();
             }
         });
-        matrixChooserParameter = new MatrixChooserParameter(getResources());
         imageView = (TouchImageView)view.findViewById(id.dngconvert_imageview);
         fakeGPS = (CheckBox)view.findViewById(id.checkBox_fakeGPS);
         return view;
@@ -161,15 +160,15 @@ public class DngConvertingFragment extends Fragment
             editTextheight.setText(dngprofile.height + "");
             editTextblacklvl.setText(dngprofile.blacklevel + "");
 
-            if (dngprofile.BayerPattern.equals(DngProfile.BGGR))
+            if (dngprofile.bayerPattern.equals(DngProfile.BGGR))
                 spinnerColorPattern.setSelection(0);
-            else if (dngprofile.BayerPattern.equals(DngProfile.RGGB))
+            else if (dngprofile.bayerPattern.equals(DngProfile.RGGB))
                 spinnerColorPattern.setSelection(1);
-            else if (dngprofile.BayerPattern.equals(DngProfile.GRBG))
+            else if (dngprofile.bayerPattern.equals(DngProfile.GRBG))
                 spinnerColorPattern.setSelection(2);
-            else if (dngprofile.BayerPattern.equals(DngProfile.GBRG))
+            else if (dngprofile.bayerPattern.equals(DngProfile.GBRG))
                 spinnerColorPattern.setSelection(3);
-            else if (dngprofile.BayerPattern.equals(DngProfile.RGBW))
+            else if (dngprofile.bayerPattern.equals(DngProfile.RGBW))
                 spinnerColorPattern.setSelection(4);
 
             spinnerMatrixProfile.setSelection(0);
@@ -199,19 +198,19 @@ public class DngConvertingFragment extends Fragment
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         switch (position) {
                             case 0:
-                                dngprofile.BayerPattern = DngProfile.BGGR;
+                                dngprofile.bayerPattern = DngProfile.BGGR;
                                 break;
                             case 1:
-                                dngprofile.BayerPattern = DngProfile.RGGB;
+                                dngprofile.bayerPattern = DngProfile.RGGB;
                                 break;
                             case 2:
-                                dngprofile.BayerPattern = DngProfile.GRBG;
+                                dngprofile.bayerPattern = DngProfile.GRBG;
                                 break;
                             case 3:
-                                dngprofile.BayerPattern = DngProfile.GBRG;
+                                dngprofile.bayerPattern = DngProfile.GBRG;
                                 break;
                             case 4:
-                                dngprofile.BayerPattern = DngProfile.RGBW;
+                                dngprofile.bayerPattern = DngProfile.RGBW;
                                 break;
                         }
                     }

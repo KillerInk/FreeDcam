@@ -93,6 +93,18 @@ public class XmlElement {
         }
     }
 
+    public float getFloatValue() {
+        if (mValue == null) {
+            return 0;
+        } else {
+            try {
+                return Float.valueOf(mValue);
+            } catch (NumberFormatException e) {
+                return 0;
+            }
+        }
+    }
+
     private void putAttribute(String name, String value) {
         mAttributes.put(name, value);
     }
@@ -130,6 +142,19 @@ public class XmlElement {
                 return Integer.valueOf(attrValue);
             } catch (NumberFormatException e) {
                 return defaultValue;
+            }
+        }
+    }
+
+    public float getFloatAttribute(String name) {
+        String attrValue = mAttributes.get(name);
+        if (attrValue == null) {
+            return 0;
+        } else {
+            try {
+                return Integer.valueOf(attrValue);
+            } catch (NumberFormatException e) {
+                return 0;
             }
         }
     }

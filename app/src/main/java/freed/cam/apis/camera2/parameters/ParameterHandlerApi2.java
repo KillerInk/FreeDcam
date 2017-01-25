@@ -23,7 +23,6 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import java.util.List;
@@ -141,7 +140,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         Burst = new BurstApi2(cameraUiWrapper);
         Focuspeak = new FocusPeakModeApi2(cameraUiWrapper);
         VideoProfiles = new VideoProfilesApi2(cameraUiWrapper);
-        matrixChooser = new MatrixChooserParameter(((Fragment)cameraUiWrapper).getResources());
+        matrixChooser = new MatrixChooserParameter(appSettingsManager.getMatrixesMap());
         Zoom = new ZoomApi2(cameraUiWrapper);
         SetAppSettingsToParameters();
     }

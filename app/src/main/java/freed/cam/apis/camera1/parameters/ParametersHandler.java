@@ -114,7 +114,6 @@ public class ParametersHandler extends AbstractParameterHandler
 
         logParameters(cameraParameters);
 
-
         //setup first Pictureformat its needed for manual parameters to
         // register their listners there if its postprocessing parameter
         PictureFormat = new PictureFormatHandler(cameraParameters, cameraUiWrapper, this);

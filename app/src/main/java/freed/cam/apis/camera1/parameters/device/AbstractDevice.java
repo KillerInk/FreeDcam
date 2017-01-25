@@ -19,7 +19,6 @@
 
 package freed.cam.apis.camera1.parameters.device;
 
-import android.app.Activity;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -30,7 +29,6 @@ import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.HDRModeParameter;
-import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoStabilizationParameter;
 import freed.dng.DngProfile;
 
@@ -52,7 +50,7 @@ public abstract class AbstractDevice implements I_Device {
             cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
             parametersHandler = (ParametersHandler) cameraUiWrapper.GetParameterHandler();
             if (IsDngSupported()) {
-                matrixChooserParameter = new MatrixChooserParameter(((Activity) cameraUiWrapper.getActivityInterface()).getResources());
+                matrixChooserParameter = new MatrixChooserParameter(cameraUiWrapper.GetAppSettingsManager().getMatrixesMap());
                 parametersHandler.matrixChooser = matrixChooserParameter;
             }
         }

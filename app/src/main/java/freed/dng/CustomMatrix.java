@@ -19,6 +19,7 @@
 
 package freed.dng;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -60,6 +61,19 @@ public class CustomMatrix
         NoiseReductionMatrix = noise;
     }
 
+    public CustomMatrix(String matrix1, String matrix2, String neutral,String fmatrix1, String fmatrix2, String rmatrix1, String rmatrix2, String noise)
+    {
+        ColorMatrix1 = getMatrixFromString(matrix1);
+        ColorMatrix2 = getMatrixFromString(matrix2);
+        NeutralMatrix = getMatrixFromString(neutral);
+        ForwardMatrix1 = getMatrixFromString(fmatrix1);
+        ForwardMatrix2 = getMatrixFromString(fmatrix2);
+        ReductionMatrix1 = getMatrixFromString(rmatrix1);
+        ReductionMatrix2 = getMatrixFromString(rmatrix2);
+        NoiseReductionMatrix = getDoubleMatrixFromString(noise);
+    }
+
+
     public static CustomMatrix getMatrixFromStringArray(String[] ar)
     {
         CustomMatrix matrix = new CustomMatrix();
@@ -99,7 +113,7 @@ public class CustomMatrix
 
     public static float[] getMatrixFromString(String m)
     {
-        if (m.equals("NULL"))
+        if (m.equals("NULL" )|| TextUtils.isEmpty(m))
             return null;
         String[] split = m.split(",");
         float[] ar = new float[split.length];
@@ -192,4 +206,6 @@ public class CustomMatrix
         }
         return matrix;
     }
+
+
 }

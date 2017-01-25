@@ -46,20 +46,26 @@ public class DngProfile
     public int widht;
     public int height;
     public int rawType;
-    public String BayerPattern;
+    public String bayerPattern;
     public int rowsize;
     public CustomMatrix matrixes;
 
-    public DngProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, CustomMatrix matrixes)
+    public DngProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize)
     {
         this.blacklevel = blacklevel;
         this.widht = widht;
         this.height = height;
         this.rawType = rawType;
-        BayerPattern = bayerPattern;
+        this.bayerPattern = bayerPattern;
         this.rowsize = rowsize;
+    }
+
+    public DngProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, CustomMatrix matrixes)
+    {
+        this(blacklevel,widht,height,rawType,bayerPattern,rowsize);
         this.matrixes = matrixes;
     }
+
 
     public static DngProfile getProfile(int blacklevel, int widht, int height,int rawFormat, String bayerPattern, int rowsize, float[] matrix1, float[] matrix2, float[] neutral, float[] fmatrix1, float[] fmatrix2, float[] rmatrix1, float[] rmatrix2, double[] noise)
     {

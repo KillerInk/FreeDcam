@@ -25,12 +25,20 @@ import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
+import freed.cam.apis.sonyremote.sonystuff.XmlElement;
+import freed.dng.CustomMatrix;
+import freed.dng.DngProfile;
 import freed.utils.DeviceUtils.Devices;
 
 import static freed.cam.apis.KEYS.BAYER;
@@ -40,11 +48,118 @@ import static freed.cam.apis.KEYS.BAYER;
  * Created by troop on 19.08.2014.
  */
 public class AppSettingsManager {
+
+    public class SettingMode
+    {
+        //String to get if supported
+        private String supported_key;
+        //String to get the values
+        private String values_key;
+        //String to get the value
+        private String value_key;
+        //String to get the value from the cameraparameters
+        private String KEY_value;
+
+        public SettingMode(String value_key)
+        {
+            this.value_key = value_key;
+            this.values_key = value_key + getResourcesString(R.string.aps_values);
+            this.supported_key= value_key + getResourcesString(R.string.aps_supported);
+            this.KEY_value = value_key + getResourcesString(R.string.aps_key);
+        }
+
+        public void setValues(String[] ar)
+        {
+            setStringArray(values_key, ar);
+        }
+
+        public String[] getValues()
+        {
+            return getStringArray(values_key);
+        }
+
+        public boolean contains(String value)
+        {
+            String[] values = getValues();
+            for (String v : values)
+            {
+                if (v.equals(value))
+                    return true;
+            }
+            return false;
+        }
+
+        public boolean isSupported()
+        {
+            return getBoolean(supported_key,false);
+        }
+
+        public void setIsSupported(boolean supported)
+        {
+            setBoolean(supported_key, supported);
+        }
+
+        public String get()
+        {
+            return getApiString(value_key);
+        }
+
+        public void set(String valueToSet)
+        {
+            setApiString(value_key,valueToSet);
+        }
+
+        public String getKEY()
+        {
+            return getApiString(KEY_value);
+        }
+
+        public void setKEY(String KEY)
+        {
+            setApiString(KEY_value,KEY);
+        }
+
+    }
+
+    public class TypeSettingsMode extends SettingMode
+    {
+        private String type;
+        private String mode;
+
+        public TypeSettingsMode(String value_key) {
+            super(value_key);
+            this.type = value_key + getResourcesString(R.string.aps_type);
+            this.mode = value_key + getResourcesString(R.string.aps_mode);
+        }
+
+        public int getType()
+        {
+            return getApiInt(type);
+        }
+
+        public void setType(int typevalue)
+        {
+            setApiInt(type,typevalue);
+        }
+
+        public String getMode()
+        {
+            return getApiString(mode);
+        }
+
+        public void setMode(String modevalue)
+        {
+            setApiString(mode,modevalue);
+        }
+    }
+
     private final String TAG = AppSettingsManager.class.getSimpleName();
 
     private int currentcamera;
     private String camApiString = AppSettingsManager.API_1;
     private Devices device;
+    private HashMap<String, CustomMatrix> matrixes;
+    private HashMap<Long, DngProfile> dngProfileHashMap;
 
     private final String FEATUREDETECTED = "featuredetected";
 
@@ -70,10 +185,6 @@ public class AppSettingsManager {
     //
     public static final String GUIDE = "guide";
     //done
-
-
-
-
     public static final String SKINTONEMODE = "skintonemode";
     public static final String NIGHTMODE = "nightmode";
     public static final String NONZSLMANUALMODE = "nonzslmanualmode";
@@ -271,8 +382,8 @@ public class AppSettingsManager {
         manualSharpness = new SettingMode(getResourcesString(R.string.aps_manualsharpness));
         manualBrightness = new SettingMode(getResourcesString(R.string.aps_manualbrightness));
         manualContrast = new SettingMode(getResourcesString(R.string.aps_manualcontrast));
-
-
+        matrixes = getMatrixes();
+        dngProfileHashMap = getDngProfiles();
     }
 
     public String getResourcesString(int id)
@@ -282,6 +393,16 @@ public class AppSettingsManager {
 
     public Resources getResources()
     { return resources;}
+
+    public HashMap<Long, DngProfile> getDngProfilesMap()
+    {
+        return dngProfileHashMap;
+    }
+
+    public HashMap<String, CustomMatrix> getMatrixesMap()
+    {
+        return matrixes;
+    }
 
     public boolean areFeaturesDetected()
     {
@@ -510,107 +631,84 @@ public class AppSettingsManager {
         return settings.getBoolean(getApiSettingString(FRONTCAMERA), false);
     }
 
-    public class SettingMode
+
+    private HashMap<Long, DngProfile> getDngProfiles()
     {
-        //String to get if supported
-        private String supported_key;
-        //String to get the values
-        private String values_key;
-        //String to get the value
-        private String value_key;
-        //String to get the value from the cameraparameters
-        private String KEY_value;
-
-        public SettingMode(String value_key)
-        {
-            this.value_key = value_key;
-            this.values_key = value_key + getResourcesString(R.string.aps_values);
-            this.supported_key= value_key + getResourcesString(R.string.aps_supported);
-            this.KEY_value = value_key + getResourcesString(R.string.aps_key);
-        }
-
-        public void setValues(String[] ar)
-        {
-            setStringArray(values_key, ar);
-        }
-
-        public String[] getValues()
-        {
-            return getStringArray(values_key);
-        }
-
-        public boolean contains(String value)
-        {
-            String[] values = getValues();
-            for (String v : values)
+        HashMap<Long,DngProfile> map = new HashMap<>();
+        try {
+            String xmlsource = getString(resources.openRawResource(R.raw.dngprofiles));
+            XmlElement rootElement = XmlElement.parse(xmlsource);
+            if (rootElement.getTagName().equals("DngProfiles"))
             {
-                if (v.equals(value))
-                    return true;
+                List<XmlElement> profileElements = rootElement.findChildren("Device");
+                for (XmlElement xmlElement: profileElements)
+                {
+                    if (xmlElement.getAttribute("name", "").equals(device.name()))
+                    {
+                        XmlElement fsize = xmlElement.findChild("filesize");
+                        long filesize = Long.parseLong(fsize.getAttribute("size","0"));
+                        DngProfile profile = getProfile(fsize);
+                        map.put(filesize,profile);
+                    }
+                }
             }
-            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        public boolean isSupported()
-        {
-            return getBoolean(supported_key,false);
-        }
-
-        public void setIsSupported(boolean supported)
-        {
-            setBoolean(supported_key, supported);
-        }
-
-        public String get()
-        {
-            return getApiString(value_key);
-        }
-
-        public void set(String valueToSet)
-        {
-            setApiString(value_key,valueToSet);
-        }
-
-        public String getKEY()
-        {
-            return getApiString(KEY_value);
-        }
-
-        public void setKEY(String KEY)
-        {
-            setApiString(KEY_value,KEY);
-        }
-
+        return map;
     }
 
-    public class TypeSettingsMode extends SettingMode
+    private DngProfile getProfile(XmlElement element)
     {
-        private String type;
-        private String mode;
+        int blacklvl = Integer.parseInt(element.findChild("blacklvl").getValue());
+        int width = Integer.parseInt(element.findChild("width").getValue());
+        int height = Integer.parseInt(element.findChild("height").getValue());
+        int rawType = Integer.parseInt(element.findChild("rawtype").getValue());
+        String colorpattern = element.findChild("colorpattern").getValue();
+        int rowsize = Integer.parseInt(element.findChild("rowsize").getValue());
+        String matrixset = element.findChild("matrixset").getValue();
 
-        public TypeSettingsMode(String value_key) {
-            super(value_key);
-            this.type = value_key + getResourcesString(R.string.aps_type);
-            this.mode = value_key + getResourcesString(R.string.aps_mode);
-        }
+        return new DngProfile(blacklvl,width,height,rawType,colorpattern,rowsize,matrixes.get(matrixset));
+    }
 
-        public int getType()
-        {
-            return getApiInt(type);
+    private HashMap<String, CustomMatrix> getMatrixes()
+    {
+        HashMap<String, CustomMatrix> matrixHashMap = new HashMap<>();
+        try {
+            String xmlsource = getString(resources.openRawResource(R.raw.matrixes));
+            XmlElement rootElement = XmlElement.parse(xmlsource);
+            if (rootElement.getTagName().equals("matrixes"))
+            {
+                List<XmlElement> profileElements = rootElement.findChildren("matrix");
+                for (XmlElement xmlElement: profileElements)
+                {
+                    String name  = xmlElement.getAttribute("name", "");
+                    String c1 = xmlElement.findChild("color1").getValue();
+                    String c2 = xmlElement.findChild("color2").getValue();
+                    String neut = xmlElement.findChild("neutral").getValue();
+                    String forward1 = xmlElement.findChild("forward1").getValue();
+                    String forward2 = xmlElement.findChild("forward2").getValue();
+                    String reduction1 = xmlElement.findChild("reduction1").getValue();
+                    String reduction2 = xmlElement.findChild("reduction2").getValue();
+                    String noise = xmlElement.findChild("noise").getValue();
+                    CustomMatrix mat = new CustomMatrix(c1,c2,neut,forward1,forward2,reduction1,reduction2,noise);
+                    matrixHashMap.put(name,mat);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return matrixHashMap;
+    }
 
-        public void setType(int typevalue)
-        {
-            setApiInt(type,typevalue);
+    private String getString(InputStream inputStream) throws IOException {
+        BufferedInputStream bis = new BufferedInputStream(inputStream);
+        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+        int result = bis.read();
+        while(result != -1) {
+            buf.write((byte) result);
+            result = bis.read();
         }
-
-        public String getMode()
-        {
-            return getApiString(mode);
-        }
-
-        public void setMode(String modevalue)
-        {
-            setApiString(mode,modevalue);
-        }
+        return buf.toString();
     }
 }
