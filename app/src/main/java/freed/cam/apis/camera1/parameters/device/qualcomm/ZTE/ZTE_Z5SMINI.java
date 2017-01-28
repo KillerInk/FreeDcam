@@ -3,12 +3,10 @@ package freed.cam.apis.camera1.parameters.device.qualcomm.ZTE;
 import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
 import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
-import freed.dng.DngProfile;
 
 /**
  * Created by GeorgeKiarie on 9/22/2016.

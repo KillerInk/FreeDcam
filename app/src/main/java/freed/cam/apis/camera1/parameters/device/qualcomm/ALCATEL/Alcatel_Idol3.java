@@ -20,12 +20,9 @@
 package freed.cam.apis.camera1.parameters.device.qualcomm.ALCATEL;
 
 import android.hardware.Camera.Parameters;
-import android.os.Build;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.

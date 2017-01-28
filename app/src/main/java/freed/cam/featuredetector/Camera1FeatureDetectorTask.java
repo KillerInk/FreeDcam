@@ -136,7 +136,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectVideoSizeModes(parameters);
             sendProgress(appS.videoSize,"VideoSize");
 
-
             detectCorrelatedDoubleSamplingModes(parameters);
             sendProgress(appS.correlatedDoubleSampling,"CorrelatedDoubleSampling");
 
@@ -144,6 +143,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             sendProgress(appS.opticalImageStabilisation, "OpticalImageStabilisation");
 
             detectDisModes(parameters);
+            sendProgress(appS.digitalImageStabilisationMode, "DigitalImageStabilisation");
+
+            detectDenoise(parameters);
+            sendProgress(appS.denoiseMode, "Denoise");
 
             detectVideoHdr(parameters);
             sendProgress(appS.videoHDR, "VideoHDR");
@@ -172,6 +175,38 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         appS.SetCurrentCamera(0);
 
         return null;
+    }
+
+    private void detectDenoise(Camera.Parameters parameters)
+    {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            if(parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE)!=null) {
+                if (parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE_VALUES).equals("on,off")) {
+                    appSettingsManager.denoiseMode.setIsSupported(true);
+                    appSettingsManager.denoiseMode.setKEY(KEYS.MTK_NOISE_REDUCTION_MODE);
+                    appSettingsManager.denoiseMode.setValues(parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE_VALUES).split(","));
+                }
+            }
+        }
+        else
+        {
+            switch (appSettingsManager.getDevice())
+            {
+                case p8:
+                case p8lite:
+                    appSettingsManager.denoiseMode.setIsSupported(false);
+                    break;
+                default:
+                    if (parameters.get(KEYS.DENOISE) != null && parameters.get(KEYS.DENOISE_VALUES) != null)
+                    {
+                        appSettingsManager.denoiseMode.setIsSupported(true);
+                        appSettingsManager.denoiseMode.setValues( parameters.get(KEYS.DENOISE_VALUES).split(","));
+                        appSettingsManager.denoiseMode.setKEY(KEYS.DENOISE);
+                    }
+                    break;
+            }
+        }
     }
 
     private void detectDisModes(Camera.Parameters parameters) {

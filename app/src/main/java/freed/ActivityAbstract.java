@@ -51,7 +51,6 @@ import java.util.List;
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils;
 import freed.utils.StorageFileHandler;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;

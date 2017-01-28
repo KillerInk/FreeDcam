@@ -5,10 +5,8 @@ import android.hardware.Camera;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
-import freed.dng.DngProfile;
 
 /**
  * Created by GeorgeKiarie on 11/22/2016.

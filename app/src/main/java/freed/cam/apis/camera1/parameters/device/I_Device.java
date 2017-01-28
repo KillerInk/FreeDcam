@@ -22,7 +22,6 @@ package freed.cam.apis.camera1.parameters.device;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 10.06.2016.
@@ -36,7 +35,6 @@ public interface I_Device
 
     ModeParameterInterface getNonZslManualMode();
     ModeParameterInterface getOpCodeParameter();
-    ModeParameterInterface getDenoiseParameter();
     ModeParameterInterface getLensFilter();
     ModeParameterInterface getNightMode();
     ModeParameterInterface getHDRMode();

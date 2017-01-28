@@ -25,18 +25,14 @@ import android.hardware.Camera.Parameters;
 
 import java.util.ArrayList;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
-import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.
@@ -72,11 +68,6 @@ public class LG_G2 extends BaseQcomDevice
     @Override
     public AbstractModeParameter getOpCodeParameter() {
         return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
-
-    @Override
-    public AbstractModeParameter getDenoiseParameter() {
-        return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.DENOISE, KEYS.DENOISE_VALUES);
     }
 
     @Override

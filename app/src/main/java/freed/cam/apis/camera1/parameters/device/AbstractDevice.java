@@ -27,10 +27,8 @@ import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.HDRModeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoStabilizationParameter;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 31.05.2016.
@@ -73,9 +71,6 @@ public abstract class AbstractDevice implements I_Device {
     {
         return null;
     }
-
-    @Override
-    public abstract ModeParameterInterface getDenoiseParameter();
 
     @Override
     public ModeParameterInterface getLensFilter()

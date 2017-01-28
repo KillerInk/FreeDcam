@@ -30,10 +30,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
-import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
-import freed.dng.DngProfile;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
@@ -73,15 +70,6 @@ public class BaseMTKDevice extends AbstractDevice
         return null;
     }
 
-    @Override
-    public ModeParameterInterface getDenoiseParameter() {
-        if(parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE)!=null) {
-            if (parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE_VALUES).equals("on,off")) {
-                return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.MTK_NOISE_REDUCTION_MODE, KEYS.MTK_NOISE_REDUCTION_MODE_VALUES);
-            }
-        }
-        return null;
-    }
 
     @Override
     public long getCurrentExposuretime() {

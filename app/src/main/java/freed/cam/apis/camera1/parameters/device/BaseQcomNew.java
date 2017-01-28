@@ -24,11 +24,8 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
 import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
-import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 02.06.2016.
@@ -47,11 +44,6 @@ public class BaseQcomNew extends BaseQcomDevice
     @Override
     public ManualParameterInterface getIsoParameter() {
         return new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, parameters.getInt(KEYS.MIN_ISO), parameters.getInt(KEYS.MAX_ISO), cameraUiWrapper,1);
-    }
-
-    @Override
-    public AbstractModeParameter getDenoiseParameter() {
-        return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.DENOISE, KEYS.DENOISE_VALUES);
     }
 
     @Override

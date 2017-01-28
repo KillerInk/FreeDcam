@@ -22,9 +22,7 @@ package freed.cam.apis.camera1.parameters.device.qualcomm.RIM;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
-import freed.dng.DngProfile;
 
 /**
  * Created by GeorgeKiarie on 6/2/2016.

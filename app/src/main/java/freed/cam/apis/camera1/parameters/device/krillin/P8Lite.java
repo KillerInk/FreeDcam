@@ -28,10 +28,8 @@ import java.util.ArrayList;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.parameters.device.AbstractDevice;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualKrillin;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.
@@ -56,11 +54,6 @@ public class P8Lite extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getCCTParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractModeParameter getDenoiseParameter() {
         return null;
     }
 

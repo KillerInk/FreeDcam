@@ -23,10 +23,8 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ALCATEL.Alcatel_Idol3;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.

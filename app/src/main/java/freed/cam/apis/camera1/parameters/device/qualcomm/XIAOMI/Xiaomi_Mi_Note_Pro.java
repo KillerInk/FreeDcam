@@ -22,11 +22,9 @@ package freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.cam.apis.camera1.parameters.modes.NightModeXiaomi;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.

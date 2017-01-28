@@ -30,13 +30,11 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
 import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ManualParameterAEHandlerInterface;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 16.06.2016.

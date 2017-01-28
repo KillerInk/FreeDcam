@@ -25,19 +25,15 @@ import android.hardware.Camera.Parameters;
 
 import java.util.ArrayList;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.AbstractDevice;
 import freed.cam.apis.camera1.parameters.manual.htc.CCTManualHtc;
 import freed.cam.apis.camera1.parameters.manual.htc.ShutterManualParameterHTC;
-import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.NonZslManualModeParameter;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.
@@ -76,10 +72,6 @@ public class HTC_M8 extends AbstractDevice {
         return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
     }
 
-    @Override
-    public AbstractModeParameter getDenoiseParameter() {
-        return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.DENOISE, KEYS.DENOISE_VALUES);
-    }
 
     @Override
     public void SetFocusArea(FocusRect focusAreas) {

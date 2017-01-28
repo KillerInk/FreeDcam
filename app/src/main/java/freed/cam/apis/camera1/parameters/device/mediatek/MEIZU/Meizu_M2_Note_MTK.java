@@ -22,9 +22,7 @@ package freed.cam.apis.camera1.parameters.device.mediatek.MEIZU;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseMTKDevice;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.

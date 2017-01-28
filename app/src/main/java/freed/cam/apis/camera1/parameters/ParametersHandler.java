@@ -238,6 +238,9 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appS.digitalImageStabilisationMode.isSupported())
             DigitalImageStabilization = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.digitalImageStabilisationMode.getKEY(),appS.digitalImageStabilisationMode.getValues());
 
+        if(appS.denoiseMode.isSupported())
+            Denoise = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.denoiseMode.getKEY(),appS.denoiseMode.getValues());
+
 
         VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
 
@@ -333,7 +336,6 @@ public class ParametersHandler extends AbstractParameterHandler
 
         NonZslManualMode = Device.getNonZslManualMode();
         opcode = Device.getOpCodeParameter();
-        Denoise = Device.getDenoiseParameter();
         LensFilter = Device.getLensFilter();
         NightMode = Device.getNightMode();
 

@@ -29,15 +29,11 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
 import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
 import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
-import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
-import freed.dng.DngProfile;
 
 
 /**
@@ -76,21 +72,6 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
     public ManualParameterInterface getCCTParameter()
     {
         return null;
-    }
-
-    @Override
-    public AbstractModeParameter getDenoiseParameter() {
-        if (frameworks == Frameworks.MTK)
-        {
-            if(parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE)!=null) {
-                if (parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE_VALUES).equals("on,off")) {
-                    return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.MTK_NOISE_REDUCTION_MODE, KEYS.MTK_NOISE_REDUCTION_MODE_VALUES);
-                }
-            }
-            return null;
-        }
-        else
-            return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.DENOISE, KEYS.DENOISE_VALUES);
     }
 
     @Override

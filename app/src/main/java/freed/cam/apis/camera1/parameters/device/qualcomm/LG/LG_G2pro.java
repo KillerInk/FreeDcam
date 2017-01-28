@@ -21,18 +21,13 @@ package freed.cam.apis.camera1.parameters.device.qualcomm.LG;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.cam.apis.camera1.parameters.manual.lg.ShutterManualG2pro;
-import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
-import freed.dng.DngProfile;
 
 /**
  * Created by GeorgeKiarie on 6/3/2016.
@@ -61,11 +56,6 @@ public class LG_G2pro extends BaseQcomDevice
     @Override
     public ManualParameterInterface getCCTParameter() {
         return null;
-    }
-
-    @Override
-    public ModeParameterInterface getDenoiseParameter() {
-        return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.DENOISE, KEYS.DENOISE_VALUES);
     }
 
     @Override

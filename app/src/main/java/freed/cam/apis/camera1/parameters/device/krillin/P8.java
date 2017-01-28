@@ -28,9 +28,7 @@ import java.util.ArrayList;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.parameters.device.AbstractDevice;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.
@@ -58,11 +56,6 @@ public class P8 extends AbstractDevice {
         return null;
     }
 
-
-    @Override
-    public AbstractModeParameter getDenoiseParameter() {
-        return null;
-    }
 
     @Override
     public void SetFocusArea(FocusRect focusAreas) {

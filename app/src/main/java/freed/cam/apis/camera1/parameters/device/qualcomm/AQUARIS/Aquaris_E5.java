@@ -27,12 +27,10 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
 import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
 import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
-import freed.dng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.
