@@ -39,7 +39,6 @@ public interface I_Device
     ModeParameterInterface getDenoiseParameter();
     ModeParameterInterface getLensFilter();
     ModeParameterInterface getNightMode();
-    ModeParameterInterface getDigitalImageStabilisation();
     ModeParameterInterface getHDRMode();
     ModeParameterInterface getVideoStabilisation();
 

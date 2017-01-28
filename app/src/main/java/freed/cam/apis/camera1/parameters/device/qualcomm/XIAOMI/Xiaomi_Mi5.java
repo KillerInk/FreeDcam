@@ -27,9 +27,5 @@ public class Xiaomi_Mi5 extends BaseQcomNew {
     public ModeParameterInterface getVideoStabilisation() {
         return null;
     }
-
-    @Override
-    public ModeParameterInterface getDigitalImageStabilisation() {
-        return null;
-    }
+    
 }

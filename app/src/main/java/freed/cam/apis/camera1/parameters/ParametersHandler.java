@@ -235,6 +235,9 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appS.getDngProfilesMap().size() > 0)
             matrixChooser = new MatrixChooserParameter(cameraUiWrapper.GetAppSettingsManager().getMatrixesMap());
 
+        if (appS.digitalImageStabilisationMode.isSupported())
+            DigitalImageStabilization = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.digitalImageStabilisationMode.getKEY(),appS.digitalImageStabilisationMode.getValues());
+
 
         VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
 
@@ -340,9 +343,6 @@ public class ParametersHandler extends AbstractParameterHandler
         ManualIso = Device.getIsoParameter();
         CCT = Device.getCCTParameter();
 
-
-
-        DigitalImageStabilization = Device.getDigitalImageStabilisation();
         HDRMode = Device.getHDRMode();
         VideoStabilization = Device.getVideoStabilisation();
 

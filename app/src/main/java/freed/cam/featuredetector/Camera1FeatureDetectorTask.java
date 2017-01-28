@@ -143,6 +143,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectOisModes(parameters);
             sendProgress(appS.opticalImageStabilisation, "OpticalImageStabilisation");
 
+            detectDisModes(parameters);
+
             detectVideoHdr(parameters);
             sendProgress(appS.videoHDR, "VideoHDR");
 
@@ -170,6 +172,30 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         appS.SetCurrentCamera(0);
 
         return null;
+    }
+
+    private void detectDisModes(Camera.Parameters parameters) {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
+            appSettingsManager.digitalImageStabilisationMode.setIsSupported(false);
+        } else{
+            switch (appSettingsManager.getDevice())
+            {
+                case XiaomiMI5:
+                case XiaomiMI5s:
+                case Lenovo_Vibe_X3:
+                    appSettingsManager.digitalImageStabilisationMode.setIsSupported(false);
+                    break;
+                default:
+                    if (parameters.get(KEYS.DIGITALIMAGESTABILIZATION) != null && parameters.get(KEYS.DIGITALIMAGESTABILIZATION_VALUES) != null)
+                    {
+                        appSettingsManager.digitalImageStabilisationMode.setIsSupported(true);
+                        appSettingsManager.digitalImageStabilisationMode.setKEY(KEYS.DIGITALIMAGESTABILIZATION);
+                        appSettingsManager.digitalImageStabilisationMode.setValues(parameters.get(KEYS.DIGITALIMAGESTABILIZATION_VALUES).split(","));
+                    }
+                    break;
+            }
+
+        }
     }
 
     private void detectManualSaturation(Camera.Parameters parameters) {

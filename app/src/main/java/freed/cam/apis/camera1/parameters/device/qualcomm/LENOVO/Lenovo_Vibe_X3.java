@@ -35,8 +35,4 @@ public class Lenovo_Vibe_X3 extends BaseQcomNew {
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public ModeParameterInterface getDigitalImageStabilisation() {
-        return null;
-    }
 }

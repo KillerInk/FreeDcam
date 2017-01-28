@@ -90,14 +90,6 @@ public abstract class AbstractDevice implements I_Device {
     }
 
     @Override
-    public ModeParameterInterface getDigitalImageStabilisation()
-    {
-        if (cameraUiWrapper.GetAppSettingsManager().digitalImageStabilisationMode.isSupported())
-            return new BaseModeParameter(parameters,cameraUiWrapper,cameraUiWrapper.GetAppSettingsManager().digitalImageStabilisationMode.getKEY(),cameraUiWrapper.GetAppSettingsManager().digitalImageStabilisationMode.getValues());
-        return null;
-    }
-
-    @Override
     public ModeParameterInterface getHDRMode() {
         return new HDRModeParameter(parameters, cameraUiWrapper);
     }

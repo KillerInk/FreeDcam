@@ -29,10 +29,4 @@ public class Xiaomi_Mi5s extends BaseQcomNew {
         return null;
     }
 
-    @Override
-    public ModeParameterInterface getDigitalImageStabilisation() {
-        return null;
-    }
-
-
 }
