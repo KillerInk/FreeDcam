@@ -66,12 +66,6 @@ public abstract class AbstractDevice implements I_Device {
     }
 
     @Override
-    public ModeParameterInterface getLensFilter()
-    {
-        return null;
-    }
-
-    @Override
     public ModeParameterInterface getNightMode()
     {
         return null;

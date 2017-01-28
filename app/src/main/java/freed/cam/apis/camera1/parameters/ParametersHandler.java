@@ -53,6 +53,7 @@ import freed.cam.apis.camera1.parameters.modes.PictureSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
+import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.StringUtils;
@@ -244,6 +245,9 @@ public class ParametersHandler extends AbstractParameterHandler
         if(appS.nonZslManualMode.isSupported())
             NonZslManualMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.nonZslManualMode.getKEY(),appS.nonZslManualMode.getValues());
 
+        if (appS.virtualLensfilter.isSupported())
+            LensFilter = new VirtualLensFilter(cameraParameters,cameraUiWrapper);
+
 
         VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
 
@@ -337,7 +341,6 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         opcode = Device.getOpCodeParameter();
-        LensFilter = Device.getLensFilter();
         NightMode = Device.getNightMode();
 
         ManualShutter = Device.getExposureTimeParameter();

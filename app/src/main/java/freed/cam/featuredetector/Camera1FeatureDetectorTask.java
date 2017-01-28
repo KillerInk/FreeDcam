@@ -151,6 +151,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectNonZslmanual(parameters);
             sendProgress(appS.nonZslManualMode, "NonZslManual");
 
+            detectVirtualLensFilter(parameters);
+            sendProgress(appS.virtualLensfilter, "NonZslManual");
+
             detectVideoHdr(parameters);
             sendProgress(appS.videoHDR, "VideoHDR");
 
@@ -178,6 +181,20 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         appS.SetCurrentCamera(0);
 
         return null;
+    }
+
+    private void detectVirtualLensFilter(Camera.Parameters parameters)
+    {
+        switch (appSettingsManager.getDevice())
+        {
+            case ZTE_ADV:
+            case ZTE_Z5SMINI:
+            case ZTE_Z11:
+                appSettingsManager.virtualLensfilter.setIsSupported(true);
+            default:
+                appSettingsManager.virtualLensfilter.setIsSupported(false);
+                break;
+        }
     }
 
     private void detectNonZslmanual(Camera.Parameters parameters) {

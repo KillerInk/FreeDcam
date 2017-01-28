@@ -32,7 +32,6 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.parameters.device.AbstractDevice;
 import freed.cam.apis.camera1.parameters.manual.htc.CCTManualHtc;
 import freed.cam.apis.camera1.parameters.manual.htc.ShutterManualParameterHTC;
-import freed.cam.apis.camera1.parameters.modes.NonZslManualModeParameter;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 
 /**

@@ -320,6 +320,7 @@ public class AppSettingsManager {
     public final SettingMode hdrMode;
     public final SettingMode modules;
     public final SettingMode nonZslManualMode;
+    public final SettingMode virtualLensfilter;
 
     public final TypeSettingsMode manualFocus;
     public final SettingMode manualExposureCompensation;
@@ -376,6 +377,7 @@ public class AppSettingsManager {
         hdrMode = new SettingMode(getResourcesString(R.string.aps_hdrmode));
         modules = new SettingMode(getResourcesString(R.string.aps_module));
         nonZslManualMode = new SettingMode(getResourcesString(R.string.aps_nonzslmanualmode));
+        virtualLensfilter = new SettingMode(getResourcesString(R.string.aps_virtuallensfilter));
 
 
         manualFocus = new TypeSettingsMode(getResourcesString(R.string.aps_manualfocus));

@@ -42,6 +42,7 @@
     <string name="aps_hdrmode" translatable="false">hdrmode</string>
     <string name="aps_module" translatable="false">modulemode</string>
     <string name="aps_nonzslmanualmode" translatable="false">nonzslmanualmode</string>
+    <string name="aps_virtuallensfilter" translatable="false">virtuallensfilter</string>
 
 
     <string name="aps_manualfocus" translatable="false">mf</string>

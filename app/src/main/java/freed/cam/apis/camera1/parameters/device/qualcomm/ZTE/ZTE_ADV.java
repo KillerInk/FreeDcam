@@ -32,7 +32,6 @@ import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.cam.apis.camera1.parameters.manual.zte.ShutterManualZTE;
 import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
-import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
 
 /**
  * Created by troop on 01.06.2016.
@@ -67,10 +66,6 @@ public class ZTE_ADV extends BaseQcomDevice {
         return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
     }
 
-    @Override
-    public ModeParameterInterface getLensFilter() {
-        return new VirtualLensFilter(parameters, cameraUiWrapper);
-    }
 
     @Override
     public float GetFnumber() {
