@@ -33,19 +33,4 @@ public class Rome_X extends BaseMTKDevice {
     public Rome_X(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 15360000:
-                return new DngProfile(64, 3200, 2400, DngProfile.Plain, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX214));
-        }
-        return null;
-    }
 }

@@ -69,7 +69,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             I_Device device = new DeviceSelector().getDevice(null,parameters, appS);
 
             detectedPictureFormats(parameters,device);
-            publishProgress("DngSupported:" + device.IsDngSupported() + " RawSupport:"+appS.rawPictureFormat.isSupported());
+            publishProgress("DngSupported:" + (appS.getDngProfilesMap().size() > 0) + " RawSupport:"+appS.rawPictureFormat.isSupported());
             publishProgress("PictureFormats:" + getStringFromArray(appS.pictureFormat.getValues()));
             publishProgress("RawFormats:" + getStringFromArray(appS.rawPictureFormat.getValues()));
             publishProgress(" RawFormat:" + appS.rawPictureFormat.get());
@@ -674,7 +674,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 }
             }
             appSettingsManager.pictureFormat.setIsSupported(true);
-            if (device.IsDngSupported())
+            if (appSettingsManager.getDngProfilesMap().size() > 0)
             {
                 appSettingsManager.pictureFormat.setValues(new String[]{
                         AppSettingsManager.CaptureMode[AppSettingsManager.JPEG], AppSettingsManager.CaptureMode[AppSettingsManager.DNG], AppSettingsManager.CaptureMode[AppSettingsManager.RAW]

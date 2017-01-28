@@ -37,26 +37,4 @@ public class Sony_C4 extends BaseMTKDevice {
     public Sony_C4(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-            case 26257920:
-                return new DngProfile(64, 4208, 3120, DngProfile.Plain,DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX214));
-        }
-        return null;
-    }
-    
-    @Override
-    public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }    
 }

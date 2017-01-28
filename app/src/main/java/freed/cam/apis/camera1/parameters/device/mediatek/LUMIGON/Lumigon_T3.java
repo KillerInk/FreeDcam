@@ -16,20 +16,4 @@ public class Lumigon_T3 extends BaseMTKDevice {
     public Lumigon_T3(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.LumingonOV));
-    }
-
 }

@@ -18,23 +18,6 @@ public class Vivo_V3 extends BaseQcomDevice {
     }
 
     @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 16424960:
-                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
-            case 17522688:
-                return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
-        }
-        return null;
-    }
-
-    @Override
     public ManualParameterInterface getExposureTimeParameter() {
         return null;
     }

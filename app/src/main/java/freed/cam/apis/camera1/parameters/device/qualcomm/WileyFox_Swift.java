@@ -33,21 +33,4 @@ public class WileyFox_Swift extends BaseQcomNew {
     public WileyFox_Swift(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 17522688:
-                return new DngProfile(16, 4208, 3120, DngProfile.Qcom, DngProfile.GBRG, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 16424960:
-                return new DngProfile(16, 4212, 3120, DngProfile.Mipi, DngProfile.GBRG, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
 }

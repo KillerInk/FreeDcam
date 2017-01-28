@@ -34,20 +34,4 @@ public class OnePlusTwo extends BaseQcomDevice {
     public OnePlusTwo(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-            case 26357760: //oneplus
-                return new DngProfile(16,4224,3120,DngProfile.Plain,DngProfile.BGGR,0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
 }

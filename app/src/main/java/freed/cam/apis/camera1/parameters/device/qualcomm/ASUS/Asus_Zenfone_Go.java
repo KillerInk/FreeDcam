@@ -17,19 +17,4 @@ public class Asus_Zenfone_Go extends BaseQcomDevice
     public Asus_Zenfone_Go(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 6144000:
-                return new DngProfile(64, 2560, 1920, DngProfile.Mipi, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX135));
-        }
-        return null;
-    }
 }

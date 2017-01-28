@@ -42,20 +42,4 @@ public class Meizu_MX4_5_MTK extends BaseMTKDevice {
     public AbstractManualParameter getExposureTimeParameter() {
         return new ShutterManualMeizu(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-            case 41312256: // Meizu MX4/5
-                return new DngProfile(64, 5248, 3936, DngProfile.Plain, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX220));
-        }
-        return null;
-    }
 }

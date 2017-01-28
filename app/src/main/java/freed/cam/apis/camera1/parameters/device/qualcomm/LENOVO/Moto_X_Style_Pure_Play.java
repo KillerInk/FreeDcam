@@ -39,19 +39,6 @@ public class Moto_X_Style_Pure_Play extends Alcatel_Idol3 {
     }
 
     @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-            case 42923008://Moto_X_Style_Pure_Play
-                return new DngProfile(64, 5344, 4016, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX230));
-            case 26935296:
-                return new DngProfile(64,5344,4016,DngProfile.Mipi16,DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX230));
-        }
-        return null;
-    }
-
-    @Override
     public void SetFocusArea(FocusRect focusAreas) {
         parameters.set("touch-aec","on");
         parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);

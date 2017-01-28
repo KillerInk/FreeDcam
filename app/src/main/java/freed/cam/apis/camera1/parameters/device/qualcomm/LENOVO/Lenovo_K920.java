@@ -35,19 +35,4 @@ public class Lenovo_K920 extends BaseQcomDevice {
     public Lenovo_K920(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-            case 19992576:  //lenovo k920
-                return new DngProfile(64, 5328,3000, DngProfile.Mipi, DngProfile.GBRG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
 }

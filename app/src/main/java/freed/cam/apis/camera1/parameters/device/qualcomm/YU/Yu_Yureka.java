@@ -33,19 +33,4 @@ public class Yu_Yureka extends BaseQcomDevice {
     public Yu_Yureka(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize) {
-            case 16424960:
-                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
 }

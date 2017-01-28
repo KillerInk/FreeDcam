@@ -55,10 +55,6 @@ public class BaseMTKDevice extends AbstractDevice
         parameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/test."+ FileEnding.BAYER);
     }
 
-    @Override
-    public boolean IsDngSupported() {
-        return false;
-    }
 
     //set by aehandler to camparametershandler direct
     @Override
@@ -74,11 +70,6 @@ public class BaseMTKDevice extends AbstractDevice
 
     @Override
     public ManualParameterInterface getCCTParameter() {
-        return null;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
         return null;
     }
 

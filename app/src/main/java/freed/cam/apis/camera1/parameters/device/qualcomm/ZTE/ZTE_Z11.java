@@ -44,22 +44,6 @@ public class ZTE_Z11 extends BaseQcomDevice {
         return new NightModeZTE(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-           case 20500480:
-                return new DngProfile(64, 4656, 3456,DngProfile.Mipi16,DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX298));
-        }
-        return null;
-    }
-
    /* @Override
     public ModeParameterInterface getOpCodeParameter() {
         return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());

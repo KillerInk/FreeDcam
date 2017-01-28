@@ -45,11 +45,6 @@ public class Moto_X2k14 extends AbstractDevice {
     }
 
     @Override
-    public boolean IsDngSupported() {
-        return false;
-    }
-
-    @Override
     public AbstractManualParameter getExposureTimeParameter() {
         return null;
     }
@@ -61,12 +56,6 @@ public class Moto_X2k14 extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getCCTParameter() {
-        return null;
-    }
-
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
         return null;
     }
 

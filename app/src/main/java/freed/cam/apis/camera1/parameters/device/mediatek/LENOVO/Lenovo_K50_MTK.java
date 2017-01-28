@@ -35,20 +35,4 @@ public class Lenovo_K50_MTK extends BaseMTKDevice {
     public Lenovo_K50_MTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-            case 26023936:
-                return new DngProfile(16, 4192, 3104, DngProfile.Plain, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
 }

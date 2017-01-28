@@ -20,7 +20,7 @@
             <rawtype>0</rawtype>
             <colorpattern>GRBG</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Imx135 F2 2</matrixset>
+            <matrixset>Imx135</matrixset>
         </filesize>
     </Device>
 
@@ -181,7 +181,7 @@
             <rawtype>1</rawtype>
             <colorpattern>BGGR</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>OV4688 F2</matrixset>
+            <matrixset>OV4688</matrixset>
         </filesize>
         <filesize size= "0"> <!-- filesize <= 5382641 && filesize > 5000000 //M8 mipi -->
             <blacklvl>0</blacklvl>
@@ -190,7 +190,7 @@
             <rawtype>0</rawtype>
             <colorpattern>BGGR</colorpattern>
             <rowsize>3360</rowsize>
-            <matrixset>OV4688 F2</matrixset>
+            <matrixset>OV4688</matrixset>
         </filesize>
     </Device>
 
@@ -343,7 +343,159 @@
             <rawtype>0</rawtype>
             <colorpattern>RGGB</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Imx135 F2 2</matrixset>
+            <matrixset>Imx135</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="LenovoK910">
+        <filesize size= "6721536">
+            <blacklvl>64</blacklvl>
+            <width>2592</width>
+            <height>1296</height>
+            <rawtype>1</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "17522688">
+            <blacklvl>64</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="LenovoK920">
+        <filesize size= "16510976">
+            <blacklvl>64</blacklvl>
+            <width>5328</width>
+            <height>3000</height>
+            <rawtype>0</rawtype>
+            <colorpattern>GBRG</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Lenovo_K4Note_MTK">
+        <filesize size= "19992576">
+            <blacklvl>16</blacklvl>
+            <width>4192</width>
+            <height>3104</height>
+            <rawtype>2</rawtype>
+            <colorpattern>GBRG</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+    <Device name ="Lenovo_K50_MTK">
+        <filesize size= "26023936">
+            <blacklvl>16</blacklvl>
+            <width>4192</width>
+            <height>3104</height>
+            <rawtype>2</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Lenovo_VibeP1">
+        <filesize size= "16510976">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>GRBG</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Lenovo_VibeShot_Z90">
+        <filesize size= "19992576">
+            <blacklvl>64</blacklvl>
+            <width>5328</width>
+            <height>3000</height>
+            <rawtype>0</rawtype>
+            <colorpattern>GBRG</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Lenovo_VibeShot_Z90">
+        <filesize size= "26935296">
+            <blacklvl>64</blacklvl>
+            <width>5344</width>
+            <height>4017</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx230</matrixset>
+        </filesize>
+        <filesize size= "10186752">
+            <blacklvl>64</blacklvl>
+            <width>3264</width>
+            <height>2472</height>
+            <rawtype>0</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx230</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="LG_G2">
+        <filesize size= "16224256">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3082</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Imx135</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Imx135</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="LG_G2pro">
+        <filesize size= "16224256">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3082</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Imx135</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Imx135</matrixset>
         </filesize>
     </Device>
 
@@ -418,6 +570,946 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-
     </Device>
+
+    <Device name ="LG_L5">
+        <filesize size= "6659840">
+            <blacklvl>64</blacklvl>
+            <width>2580</width>
+            <height>1920</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <!--- missing filesize
+
+    <Device name ="LG_V20">
+        <filesize size= "6659840">
+            <blacklvl>64</blacklvl>
+            <width>4656</width>
+            <height>3492</height>
+            <rawtype>0</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Imx298</matrixset>
+        </filesize>
+    </Device> -->
+
+    <!--- missing filesize
+
+    <Device name ="Lumigon_T3">
+        <filesize size= "6659840">
+            <blacklvl>64</blacklvl>
+            <width>4192</width>
+            <height>3104</height>
+            <rawtype>2</rawtype>
+            <colorpattern>GRBG</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Lumigon</matrixset>
+        </filesize>
+    </Device> -->
+
+    <Device name ="MeizuM1Metal_MTK">
+        <filesize size= "26492928">
+            <blacklvl>64</blacklvl>
+            <width>4224</width>
+            <height>3136</height>
+            <rawtype>2</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Lumigon</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="MeizuMX4_MTK">
+        <filesize size= "41312256">
+            <blacklvl>64</blacklvl>
+            <width>5248</width>
+            <height>3936</height>
+            <rawtype>2</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx220</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="MeizuMX5_MTK">
+        <filesize size= "41312256">
+            <blacklvl>64</blacklvl>
+            <width>5248</width>
+            <height>3936</height>
+            <rawtype>2</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx220</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Meizu_m2Note_MTK">
+        <filesize size= "26023936">
+            <blacklvl>64</blacklvl>
+            <width>4192</width>
+            <height>3104</height>
+            <rawtype>2</rawtype>
+            <colorpattern>GRBG</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Mlais_M52_Red_Note_MTK">
+        <filesize size= "15980544">
+            <blacklvl>16</blacklvl>
+            <width>3264</width>
+            <height>2448</height>
+            <rawtype>2</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Moto_X_Style_Pure_Play">
+        <filesize size= "42923008">
+            <blacklvl>64</blacklvl>
+            <width>5344</width>
+            <height>4016</height>
+            <rawtype>2</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx230</matrixset>
+        </filesize>
+        <filesize size= "26935296">
+            <blacklvl>64</blacklvl>
+            <width>5344</width>
+            <height>4016</height>
+            <rawtype>2</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx230</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="MotoG3">
+        <filesize size= "17326080">
+            <blacklvl>64</blacklvl>
+            <width>4164</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="MotoG_Turbo">
+        <filesize size= "17326080">
+            <blacklvl>64</blacklvl>
+            <width>4164</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Moto_ZPlay">
+        <filesize size= "19906560">
+            <blacklvl>16</blacklvl>
+            <width>4608</width>
+            <height>3456</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5246</rowsize>
+            <matrixset>Omnivision</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="MyPhone_Infinity2S">
+        <filesize size= "15980544">
+            <blacklvl>16</blacklvl>
+            <width>3264</width>
+            <height>2448</height>
+            <rawtype>2</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="OnePlusOne">
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>5246</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "16473600">
+            <blacklvl>64</blacklvl>
+            <width>4224</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>5280</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "17522688">
+            <blacklvl>64</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="OnePlusTwo">
+        <filesize size= "26357760">
+            <blacklvl>16</blacklvl>
+            <width>4224</width>
+            <height>3120</height>
+            <rawtype>2</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="OnePlusX">
+        <filesize size= "9990144">
+            <blacklvl>16</blacklvl>
+            <width>3264</width>
+            <height>2448</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5246</rowsize>
+            <matrixset>Omnivision</matrixset>
+        </filesize>
+        <filesize size= "10653696">
+            <blacklvl>0</blacklvl>
+            <width>3264</width>
+            <height>2448</height>
+            <rawtype>1</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5280</rowsize>
+            <matrixset>Omnivision</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>GRBG</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Prestigio_Multipad_Color">
+        <filesize size= "3763584">
+            <blacklvl>16</blacklvl>
+            <width>1584</width>
+            <height>1188</height>
+            <rawtype>2</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Omnivision</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Xiaomi_RedmiNote">
+        <filesize size= "17522688">
+            <blacklvl>64</blacklvl>
+            <width>4212</width>
+            <height>3082</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3082</height>
+            <rawtype>0</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>5246</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Xiaomi_Redmi2">
+        <filesize size= "9990144">
+            <blacklvl>64</blacklvl>
+            <width>3264</width>
+            <height>2448</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>4880</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "10653696">
+            <blacklvl>64</blacklvl>
+            <width>3264</width>
+            <height>2448</height>
+            <rawtype>1</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Xiaomi_RedmiNote2_MTK">
+        <filesize size= "26023936">
+            <blacklvl>64</blacklvl>
+            <width>4192</width>
+            <height>3104</height>
+            <rawtype>2</rawtype>
+            <colorpattern>GBRG</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Retro_MTK">
+        <filesize size= "26023936">
+            <blacklvl>0</blacklvl>
+            <width>2688</width>
+            <height>1520</height>
+            <rawtype>0</rawtype>
+            <colorpattern>GRBG</colorpattern>
+            <rowsize>3360</rowsize>
+            <matrixset>Omnivision</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="SonyM5_MTK">
+        <filesize size= "42923008">
+            <blacklvl>64</blacklvl>
+            <width>5344</width>
+            <height>4016</height>
+            <rawtype>2</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx230</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="SonyM4_QC">
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="SonyC4_MTK">
+        <filesize size= "26257920">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>2</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx214</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="SonyC5_MTK">
+        <filesize size= "26257920">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>2</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx214</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Sony_XperiaL">
+        <filesize size= "10788864">
+            <blacklvl>64</blacklvl>
+            <width>3282</width>
+            <height>2448</height>
+            <rawtype>1</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>4376</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Sony_Z5C">
+        <filesize size= "28721152">
+            <blacklvl>64</blacklvl>
+            <width>5520</width>
+            <height>4160</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>6904</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="THL100s_MTK">
+        <filesize size= "26023936">
+            <blacklvl>64</blacklvl>
+            <width>4192</width>
+            <height>3104</height>
+            <rawtype>2</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="THL5000_MTK">
+        <filesize size= "26023936">
+            <blacklvl>64</blacklvl>
+            <width>4192</width>
+            <height>3104</height>
+            <rawtype>2</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Umi_Rome_X">
+        <filesize size= "15360000">
+            <blacklvl>64</blacklvl>
+            <width>3200</width>
+            <height>2400</height>
+            <rawtype>2</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx214</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Vivo_Xplay3s">
+        <filesize size= "17522688">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Imx214</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Imx214</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Vivo_V3">
+        <filesize size= "17522688">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>G4</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>G4</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Wiko_Stairway">
+        <filesize size= "26023936">
+            <blacklvl>64</blacklvl>
+            <width>4192</width>
+            <height>3104</height>
+            <rawtype>2</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Wileyfox_Swift">
+        <filesize size= "17522688">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>GBRG</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>GBRG</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Mi_Max">
+        <filesize size= "20557824">
+            <blacklvl>64</blacklvl>
+            <width>4672</width>
+            <height>3505</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="XiaomiMI3W">
+        <filesize size= "17522688">
+            <blacklvl>0</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "16510976">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3136</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "2969600">
+            <blacklvl>64</blacklvl>
+            <width>1976</width>
+            <height>1200</height>
+            <rawtype>3</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "3170304">
+            <blacklvl>64</blacklvl>
+            <width>1976</width>
+            <height>1200</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="XiaomiMI4W">
+        <filesize size= "17522688">
+            <blacklvl>0</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "16510976">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3136</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "2969600">
+            <blacklvl>64</blacklvl>
+            <width>1976</width>
+            <height>1200</height>
+            <rawtype>3</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "3170304">
+            <blacklvl>64</blacklvl>
+            <width>1976</width>
+            <height>1200</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="XiaomiMI4C">
+        <filesize size= "17522688">
+            <blacklvl>0</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "16510976">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3136</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "2969600">
+            <blacklvl>64</blacklvl>
+            <width>1976</width>
+            <height>1200</height>
+            <rawtype>3</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "3170304">
+            <blacklvl>64</blacklvl>
+            <width>1976</width>
+            <height>1200</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="XiaomiMI5">
+        <filesize size= "20500480">
+            <blacklvl>64</blacklvl>
+            <width>4652</width>
+            <height>3520</height>
+            <rawtype>0</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Imx298</matrixset>
+        </filesize>
+    </Device>
+
+    <!-- missing rawsize
+
+    <Device name ="XiaomiMI5s">
+        <filesize size= "20500480">
+            <blacklvl>64</blacklvl>
+            <width>4056</width>
+            <height>3040</height>
+            <rawtype>0</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Imx298</matrixset>
+        </filesize>
+    </Device>
+
+    -->
+
+    <Device name ="XiaomiMI_Note_Pro">
+        <filesize size= "17612800">
+            <blacklvl>64</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "6721536">
+            <blacklvl>64</blacklvl>
+            <width>2592</width>
+            <height>1296</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "16560128">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>3</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Xiaomi_Redmi_Note3">
+        <filesize size= "26023936">
+            <blacklvl>64</blacklvl>
+            <width>4192</width>
+            <height>3104</height>
+            <rawtype>2</rawtype>
+            <colorpattern>GBRG</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "20389888">
+            <blacklvl>64</blacklvl>
+            <width>4632</width>
+            <height>3520</height>
+            <rawtype>0</rawtype>
+            <colorpattern>GRBG</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Xiaomi_Redmi3">
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>GRBG</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "17522688">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>GRBG</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Xiaomi_Redmi3S">
+        <filesize size= "16510976">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>3</rawtype>
+            <colorpattern>GRBG</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Xolo_Omega5">
+        <filesize size= "15980544">
+            <blacklvl>64</blacklvl>
+            <width>3264</width>
+            <height>2448</height>
+            <rawtype>2</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Yu_Yuphoria">
+        <filesize size= "9990144">
+            <blacklvl>64</blacklvl>
+            <width>3264</width>
+            <height>2448</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>4080</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Yu_Yureka">
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="ZTE_ADV">
+        <filesize size= "6299648">
+            <blacklvl>16</blacklvl>
+            <width>2592</width>
+            <height>1944</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>OV5648</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Imx135</matrixset>
+        </filesize>
+        <filesize size= "17522688">
+            <blacklvl>64</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx135</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="ZTEADVIMX214">
+        <filesize size= "6721536">
+            <blacklvl>64</blacklvl>
+            <width>2592</width>
+            <height>1296</height>
+            <rawtype>1</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Omnivision</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>G4</matrixset>
+        </filesize>
+        <filesize size= "17522688">
+            <blacklvl>64</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>G4</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="ZTEADV234">
+        <filesize size= "20041728">
+            <blacklvl>64</blacklvl>
+            <width>5344</width>
+            <height>3000</height>
+            <rawtype>3</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>G4</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="ZTE_Z11">
+        <filesize size= "20500480">
+            <blacklvl>64</blacklvl>
+            <width>4656</width>
+            <height>3456</height>
+            <rawtype>3</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx298</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="ZTE_Z5SMINI">
+        <filesize size= "17522688"> <!-- filesize could be wrong -->
+            <blacklvl>64</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>G4</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="ZTE_ZMAX_PRO">
+        <filesize size= "16510976"> <!-- filesize could be wrong -->
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3136</height>
+            <rawtype>0</rawtype>
+            <colorpattern>RGGB</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx135</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Nexus6p">
+        <filesize size= "15428880"> <!-- filesize could be wrong -->
+            <blacklvl>52</blacklvl>
+            <width>4080</width>
+            <height>3028</height>
+            <rawtype>3</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+    <Device name ="Nexus5x">
+        <filesize size= "15428880"> <!-- filesize could be wrong -->
+            <blacklvl>52</blacklvl>
+            <width>4080</width>
+            <height>3028</height>
+            <rawtype>3</rawtype>
+            <colorpattern>BGGR</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </Device>
+
+
+
 </DngProfiles>

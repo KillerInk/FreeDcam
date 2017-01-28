@@ -35,19 +35,4 @@ public class Meizu_M2_Note_MTK extends BaseMTKDevice {
     public Meizu_M2_Note_MTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize) {
-            case 26023936:
-                return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
 }

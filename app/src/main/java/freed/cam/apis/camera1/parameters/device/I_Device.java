@@ -29,8 +29,6 @@ import freed.dng.DngProfile;
  */
 public interface I_Device
 {
-    boolean IsDngSupported();
-    DngProfile getDngProfile(int filesize);
 
     ManualParameterInterface getExposureTimeParameter();
     ManualParameterInterface getIsoParameter();

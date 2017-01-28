@@ -38,13 +38,6 @@ public class LG_V20 extends LG_G2
     public AbstractManualParameter getCCTParameter() {
         return new CCTManualG4(parameters, cameraUiWrapper);
     }
-    public boolean IsDngSupported() {
-        return true;
-    }
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        return new DngProfile(64, 4656, 3492, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX298));
-    }
 
 
     @Override

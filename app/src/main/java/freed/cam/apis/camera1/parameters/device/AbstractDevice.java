@@ -49,15 +49,8 @@ public abstract class AbstractDevice implements I_Device {
             this.cameraUiWrapper = cameraUiWrapper;
             cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
             parametersHandler = (ParametersHandler) cameraUiWrapper.GetParameterHandler();
-            if (IsDngSupported()) {
-                matrixChooserParameter = new MatrixChooserParameter(cameraUiWrapper.GetAppSettingsManager().getMatrixesMap());
-                parametersHandler.matrixChooser = matrixChooserParameter;
-            }
         }
     }
-
-    @Override
-    public abstract boolean IsDngSupported();
 
     @Override
     public abstract ManualParameterInterface getExposureTimeParameter();
@@ -68,8 +61,6 @@ public abstract class AbstractDevice implements I_Device {
     @Override
     public abstract ManualParameterInterface getCCTParameter();
 
-    @Override
-    public abstract DngProfile getDngProfile(int filesize);
 
     @Override
     public ModeParameterInterface getNonZslManualMode()

@@ -36,20 +36,4 @@ public class Retro_MTK extends BaseMTKDevice {
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        //TODO NOT SURE IF THATS THE CORRECT SIZE someone forgot to commit that device...
-        switch (filesize) {
-            case 5364240: //testing matrix DEVICE????
-                return new DngProfile(0, 2688, 1520, DngProfile.Mipi, DngProfile.GRBG, DngProfile.HTCM8_rowSize,
-                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
-        }
-        return null;
-    }
 }

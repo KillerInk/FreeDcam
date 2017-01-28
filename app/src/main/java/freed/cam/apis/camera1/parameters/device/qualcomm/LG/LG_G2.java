@@ -54,11 +54,6 @@ public class LG_G2 extends BaseQcomDevice
     }
 
     @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
     public ManualParameterInterface getExposureTimeParameter() {
         return null;
     }
@@ -70,19 +65,6 @@ public class LG_G2 extends BaseQcomDevice
 
     @Override
     public ManualParameterInterface getCCTParameter() {
-        return null;
-    }
-
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 16224256:
-                return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX135));
-            case 16424960:
-                return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX135));
-        }
         return null;
     }
 

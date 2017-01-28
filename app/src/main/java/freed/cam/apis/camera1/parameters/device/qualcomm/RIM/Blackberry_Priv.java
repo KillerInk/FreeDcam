@@ -31,21 +31,7 @@ import freed.dng.DngProfile;
  */
 public class Blackberry_Priv extends BaseQcomNew
 {
-
-
     public Blackberry_Priv(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-    }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        if (filesize < 23472640 && filesize > 22472640) //qcom
-            return new DngProfile(0, 4896, 3672, DngProfile.Qcom, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
-        return null;
     }
 }

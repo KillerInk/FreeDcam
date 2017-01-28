@@ -20,22 +20,6 @@ public class MotoG_Turbo extends BaseQcomNew {
     }
 
     @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-            case 17326080:
-                return new DngProfile(0, 4164, 3120, DngProfile.Qcom, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
-
-    @Override
     public void SetFocusArea(FocusRect focusAreas) {
         parameters.set("touch-aec", "on");
         parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);

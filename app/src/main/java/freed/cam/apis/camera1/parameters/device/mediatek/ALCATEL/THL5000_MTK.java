@@ -36,13 +36,4 @@ public class THL5000_MTK extends BaseMTKDevice {
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-    }
 }

@@ -19,13 +19,6 @@ public class Xiaomi_Mi5s extends BaseQcomNew {
     }
 
     @Override
-    public DngProfile getDngProfile(int filesize) {
-
-                return new DngProfile(64, 4056, 3040, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX298));
-
-    }
-
-    @Override
     public ModeParameterInterface getHDRMode() {
         return null;
     }

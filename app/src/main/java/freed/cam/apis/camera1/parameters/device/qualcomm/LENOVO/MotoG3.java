@@ -21,22 +21,6 @@ public class MotoG3 extends BaseQcomNew {
     }
 
     @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-            case 17326080:
-                return new DngProfile(64, 4164, 3120, DngProfile.Qcom, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
-
-    @Override
     public AbstractModeParameter getOpCodeParameter() {
         return null;
     }

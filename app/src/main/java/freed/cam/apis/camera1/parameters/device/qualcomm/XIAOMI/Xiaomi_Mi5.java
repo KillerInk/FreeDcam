@@ -18,21 +18,6 @@ public class Xiaomi_Mi5 extends BaseQcomNew {
     }
 
     @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 20500480:
-                return new DngProfile(64, 4652, 3520, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX298));
-        }
-        return null;
-    }
-
-    @Override
     public ModeParameterInterface getHDRMode() {
         return null;
     }

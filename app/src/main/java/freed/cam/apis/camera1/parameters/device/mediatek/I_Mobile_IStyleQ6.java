@@ -35,15 +35,4 @@ public class I_Mobile_IStyleQ6 extends BaseMTKDevice {
     public I_Mobile_IStyleQ6(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize) {
-            case 9631728: //I_Mobile_I_StyleQ6
-                return new DngProfile(0, 2532, 1902, DngProfile.Plain, DngProfile.GRBG, 0,
-                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
-        }
-        return null;
-    }
 }

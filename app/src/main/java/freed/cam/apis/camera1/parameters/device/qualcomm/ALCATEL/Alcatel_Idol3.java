@@ -36,25 +36,4 @@ public class Alcatel_Idol3 extends BaseQcomNew
     public Alcatel_Idol3(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 16424960:
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-                    return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-                else
-                    return new DngProfile(0, 4208, 3120, DngProfile.Mipi, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 17522688:
-                return new DngProfile(64, 4208, 3120, DngProfile.Qcom, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
-
 }

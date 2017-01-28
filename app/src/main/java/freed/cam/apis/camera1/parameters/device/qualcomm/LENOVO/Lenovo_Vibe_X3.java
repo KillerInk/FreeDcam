@@ -36,23 +36,6 @@ public class Lenovo_Vibe_X3 extends BaseQcomNew {
     }
 
     @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 26935296:
-                return new DngProfile(64,5344,4017,DngProfile.Mipi,DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX230_QC));
-            case 10186752:
-                return new DngProfile(16,3264,2472,DngProfile.Mipi,DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX230_QC));
-        }
-        return null;
-    }
-
-    @Override
     public ModeParameterInterface getDigitalImageStabilisation() {
         return null;
     }

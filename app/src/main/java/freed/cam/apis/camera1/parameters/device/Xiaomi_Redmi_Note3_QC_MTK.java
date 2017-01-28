@@ -54,11 +54,6 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
             ae_handler_mtk = new AE_Handler_MTK(parameters, cameraUiWrapper,2700);
     }
 
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
     //gets set due ae handler
     @Override
     public ManualParameterInterface getExposureTimeParameter()
@@ -80,18 +75,6 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
     @Override
     public ManualParameterInterface getCCTParameter()
     {
-        return null;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 26023936://xiaomi redmi note3 mtk
-                return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.GBRG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 20389888: //xiaomi redmi note3 / pro
-                return new DngProfile(64, 4632, 3520, DngProfile.Mipi, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
         return null;
     }
 

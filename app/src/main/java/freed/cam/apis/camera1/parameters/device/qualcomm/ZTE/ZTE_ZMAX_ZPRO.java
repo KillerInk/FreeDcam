@@ -16,15 +16,4 @@ public class ZTE_ZMAX_ZPRO extends BaseQcomNew {
     public ZTE_ZMAX_ZPRO(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 16510976:
-                return new DngProfile(64, 4208, 3136, DngProfile.Mipi, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX135));
-        }
-        return null;
-    }
-
 }

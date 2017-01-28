@@ -58,26 +58,4 @@ public class LG_G3 extends LG_G2
         return null;
     }
 
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 2658304: //g3 front mipi
-                return new DngProfile(64, 1212, 1096, DngProfile.Mipi, DngProfile.BGGR, 2424,
-                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 2842624://g3 front qcom
-                //TODO somethings wrong with it;
-                return new DngProfile(64, 1296, 1096, DngProfile.Qcom, DngProfile.BGGR, 0,
-                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 16224256:
-				return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 16424960:
-                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 17326080://qcom g3
-                return new DngProfile(64, 4164, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 17522688:
-                return new DngProfile(64, 4212, 3082, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
 }

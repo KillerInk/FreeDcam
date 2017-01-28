@@ -50,22 +50,6 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
     }
 
     @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-            case 19992576:  //lenovo k920
-                return new DngProfile(64, 5328,3000, DngProfile.Mipi, DngProfile.GBRG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
-
-
-    @Override
     public ManualParameterInterface getExposureTimeParameter()
     {
         return null;// aeHandlerVibeShotZ90.getShutterManual();

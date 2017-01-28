@@ -36,23 +36,6 @@ public class Xiaomi_Redmi3 extends BaseQcomNew {
     }
 
     @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 16424960:
-                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.GRBG, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 17522688:
-                return new DngProfile(64, 4208, 3120, DngProfile.Qcom, DngProfile.GRBG, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
-
-    @Override
     public ManualParameterInterface getExposureTimeParameter()
     {
         return null; //new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,cameraUiWrapper.getContext().getResources().getStringArray(R.array.aquaris_e5_shuttervalues), KEYS.EXPOSURE_TIME);

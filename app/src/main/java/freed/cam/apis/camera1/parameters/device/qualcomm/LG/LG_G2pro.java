@@ -48,11 +48,6 @@ public class LG_G2pro extends BaseQcomDevice
     }
 
     @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
     public ManualParameterInterface getExposureTimeParameter() {
         return new ShutterManualG2pro(parameters, cameraUiWrapper);
     }
@@ -67,20 +62,6 @@ public class LG_G2pro extends BaseQcomDevice
     public ManualParameterInterface getCCTParameter() {
         return null;
     }
-
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 16224256:
-                return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 16424960:
-                return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-        }
-        return null;
-    }
-
 
     @Override
     public ModeParameterInterface getDenoiseParameter() {

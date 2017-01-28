@@ -35,18 +35,4 @@ public class HTC_One_E8 extends BaseQcomDevice {
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-            case 16560128:
-                return new DngProfile(16,4224,3136,DngProfile.Mipi16,DngProfile.BGGR,0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
-        }
-        return null;
-    }
 }

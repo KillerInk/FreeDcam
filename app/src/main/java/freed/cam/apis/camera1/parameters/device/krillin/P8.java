@@ -43,11 +43,6 @@ public class P8 extends AbstractDevice {
     }
 
     @Override
-    public boolean IsDngSupported() {
-        return false;
-    }
-
-    @Override
     public AbstractManualParameter getExposureTimeParameter() {
         return null;
     }
@@ -63,11 +58,6 @@ public class P8 extends AbstractDevice {
         return null;
     }
 
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        return null;
-    }
 
     @Override
     public AbstractModeParameter getDenoiseParameter() {

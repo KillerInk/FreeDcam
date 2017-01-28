@@ -38,24 +38,4 @@ public class Sony_M5_MTK extends BaseMTKDevice {
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-            case 42923008:
-                return new DngProfile(64, 5344, 4016, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX230_QC));
-        }
-        return null;
-    }
-
-    @Override
-    public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
 }

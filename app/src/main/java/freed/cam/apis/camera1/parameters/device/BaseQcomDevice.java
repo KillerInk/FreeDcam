@@ -47,10 +47,6 @@ public class BaseQcomDevice extends AbstractDevice
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public boolean IsDngSupported() {
-        return false;
-    }
 
     @Override
     public ManualParameterInterface getExposureTimeParameter()
@@ -110,11 +106,6 @@ public class BaseQcomDevice extends AbstractDevice
             if (s.equals(dif))
                 ret = true;
         return ret;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        return null;
     }
 
     @Override

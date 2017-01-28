@@ -66,22 +66,6 @@ public class ZTE_ADV_IMX234 extends ZTE_ADV {
     }
 
     @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 20041728:
-                return new DngProfile(64, 5344, 3000, DngProfile.Mipi16, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
-
-        }
-        return null;
-    }
-
-    @Override
     public void SetFocusArea(FocusRect focusAreas)
     {
         if (focusAreas != null) {

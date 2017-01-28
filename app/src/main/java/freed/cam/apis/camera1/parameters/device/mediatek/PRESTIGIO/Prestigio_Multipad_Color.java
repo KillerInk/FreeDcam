@@ -33,20 +33,4 @@ public class Prestigio_Multipad_Color extends BaseMTKDevice {
     public Prestigio_Multipad_Color(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
-            case 3763584:
-                return new DngProfile(16, 1584, 1188, DngProfile.Plain, DngProfile.BGGR, 0,
-                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
-        }
-        return null;
-    }
 }

@@ -20,18 +20,6 @@ public class Moto_ZPlay extends BaseQcomNew {
     }
 
     @Override
-    public DngProfile getDngProfile(int filesize)
-    {
-        switch (filesize)
-        {
-           case 19906560:
-                return new DngProfile(16,4608,3456,DngProfile.Mipi,DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
-        }
-        return null;
-    }
-
-
-    @Override
     public void SetFocusArea(FocusRect focusAreas) {
         parameters.set("touch-aec","on");
         parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);

@@ -14,8 +14,4 @@ public class MotoG_2k14 extends Moto_X2k14 {
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
 }
