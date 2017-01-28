@@ -241,6 +241,9 @@ public class ParametersHandler extends AbstractParameterHandler
         if(appS.denoiseMode.isSupported())
             Denoise = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.denoiseMode.getKEY(),appS.denoiseMode.getValues());
 
+        if(appS.nonZslManualMode.isSupported())
+            NonZslManualMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.nonZslManualMode.getKEY(),appS.nonZslManualMode.getValues());
+
 
         VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
 
@@ -333,8 +336,6 @@ public class ParametersHandler extends AbstractParameterHandler
             throw new NullPointerException("DEVICE IS NULL");
         }
 
-
-        NonZslManualMode = Device.getNonZslManualMode();
         opcode = Device.getOpCodeParameter();
         LensFilter = Device.getLensFilter();
         NightMode = Device.getNightMode();

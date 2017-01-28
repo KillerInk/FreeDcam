@@ -59,13 +59,6 @@ public abstract class AbstractDevice implements I_Device {
     @Override
     public abstract ManualParameterInterface getCCTParameter();
 
-
-    @Override
-    public ModeParameterInterface getNonZslManualMode()
-    {
-        return null;
-    }
-
     @Override
     public ModeParameterInterface getOpCodeParameter()
     {

@@ -148,6 +148,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectDenoise(parameters);
             sendProgress(appS.denoiseMode, "Denoise");
 
+            detectNonZslmanual(parameters);
+            sendProgress(appS.nonZslManualMode, "NonZslManual");
+
             detectVideoHdr(parameters);
             sendProgress(appS.videoHDR, "VideoHDR");
 
@@ -175,6 +178,15 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         appS.SetCurrentCamera(0);
 
         return null;
+    }
+
+    private void detectNonZslmanual(Camera.Parameters parameters) {
+        if(parameters.get("non-zsl-manual-mode")!=null)
+        {
+            appSettingsManager.nonZslManualMode.setIsSupported(true);
+            appSettingsManager.nonZslManualMode.setKEY("non-zsl-manual-mode");
+            appSettingsManager.nonZslManualMode.setValues(new String[]{KEYS.ON,KEYS.OFF});
+        }
     }
 
     private void detectDenoise(Camera.Parameters parameters)

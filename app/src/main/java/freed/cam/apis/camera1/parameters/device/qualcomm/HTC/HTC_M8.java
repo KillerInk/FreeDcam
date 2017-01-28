@@ -63,11 +63,6 @@ public class HTC_M8 extends AbstractDevice {
     }
 
     @Override
-    public AbstractModeParameter getNonZslManualMode() {
-        return  new NonZslManualModeParameter(parameters, cameraUiWrapper);
-    }
-
-    @Override
     public AbstractModeParameter getOpCodeParameter() {
         return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
     }

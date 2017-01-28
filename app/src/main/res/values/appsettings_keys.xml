@@ -41,6 +41,7 @@
     <string name="aps_ae_priortiy" translatable="false">aepritority</string>
     <string name="aps_hdrmode" translatable="false">hdrmode</string>
     <string name="aps_module" translatable="false">modulemode</string>
+    <string name="aps_nonzslmanualmode" translatable="false">nonzslmanualmode</string>
 
 
     <string name="aps_manualfocus" translatable="false">mf</string>

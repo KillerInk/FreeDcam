@@ -33,7 +33,6 @@ public interface I_Device
     ManualParameterInterface getIsoParameter();
     ManualParameterInterface getCCTParameter();
 
-    ModeParameterInterface getNonZslManualMode();
     ModeParameterInterface getOpCodeParameter();
     ModeParameterInterface getLensFilter();
     ModeParameterInterface getNightMode();

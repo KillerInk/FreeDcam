@@ -319,6 +319,7 @@ public class AppSettingsManager {
     public final SettingMode aePriorityMode;
     public final SettingMode hdrMode;
     public final SettingMode modules;
+    public final SettingMode nonZslManualMode;
 
     public final TypeSettingsMode manualFocus;
     public final SettingMode manualExposureCompensation;
@@ -374,6 +375,7 @@ public class AppSettingsManager {
         aePriorityMode = new SettingMode(getResourcesString(R.string.aps_ae_priortiy));
         hdrMode = new SettingMode(getResourcesString(R.string.aps_hdrmode));
         modules = new SettingMode(getResourcesString(R.string.aps_module));
+        nonZslManualMode = new SettingMode(getResourcesString(R.string.aps_nonzslmanualmode));
 
 
         manualFocus = new TypeSettingsMode(getResourcesString(R.string.aps_manualfocus));
