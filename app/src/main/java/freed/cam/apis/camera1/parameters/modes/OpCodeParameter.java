@@ -75,10 +75,13 @@ public class OpCodeParameter extends AbstractModeParameter
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         if(valueToSet.equals("Download")) {
-            if (hasOp2 || hasOp3)
+            if (hasOp2 || hasOp3) {
+                OpcodeEnabled = true;
+                onValueHasChanged("Enabled");
                 return;
-            final String urlopc2 = "https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/" + appSettingsManager.getDevice().name() + "/opc2.bin?raw=true";
-            final String urlopc3 = "https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/" + appSettingsManager.getDevice().name() + "/opc3.bin?raw=true";
+            }
+            final String urlopc2 = appSettingsManager.opcodeUrlList[0];
+            final String urlopc3 = appSettingsManager.opcodeUrlList[1];
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {

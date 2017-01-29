@@ -36,8 +36,4 @@ public class Sony_M4 extends BaseQcomNew {
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
 }

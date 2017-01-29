@@ -342,6 +342,8 @@ public class AppSettingsManager {
     public final SettingMode manualBrightness;
     public final SettingMode manualContrast;
 
+    public final String[] opcodeUrlList;
+
 
     private SharedPreferences settings;
     private Resources resources;
@@ -400,6 +402,7 @@ public class AppSettingsManager {
         manualBrightness = new SettingMode(getResourcesString(R.string.aps_manualbrightness));
         manualContrast = new SettingMode(getResourcesString(R.string.aps_manualcontrast));
         matrixes = getMatrixes();
+        opcodeUrlList = new String[2];
         dngProfileHashMap = getDngProfiles();
     }
 
@@ -657,15 +660,20 @@ public class AppSettingsManager {
             XmlElement rootElement = XmlElement.parse(xmlsource);
             if (rootElement.getTagName().equals("DngProfiles"))
             {
-                List<XmlElement> profileElements = rootElement.findChildren("Device");
-                for (XmlElement xmlElement: profileElements)
+                List<XmlElement> devicesList = rootElement.findChildren("Device");
+
+                for (XmlElement device_element: devicesList)
                 {
-                    if (xmlElement.getAttribute("name", "").equals(device.name()))
+                    if (device_element.getAttribute("name", "").equals(device.name()))
                     {
-                        XmlElement fsize = xmlElement.findChild("filesize");
-                        long filesize = Long.parseLong(fsize.getAttribute("size","0"));
-                        DngProfile profile = getProfile(fsize);
-                        map.put(filesize,profile);
+                        opcodeUrlList[0] = device_element.getAttribute("opcode2", "");
+                        opcodeUrlList[1] = device_element.getAttribute("opcode3", "");
+                        List<XmlElement> fsizeList = device_element.findChildren("filesize");
+                        for (XmlElement filesize_element : fsizeList) {
+                            long filesize = Long.parseLong(filesize_element.getAttribute("size", "0"));
+                            DngProfile profile = getProfile(filesize_element);
+                            map.put(filesize, profile);
+                        }
                     }
                 }
             }

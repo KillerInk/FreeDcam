@@ -36,8 +36,4 @@ public class Huawei_Honor5x extends BaseQcomDevice {
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
 }

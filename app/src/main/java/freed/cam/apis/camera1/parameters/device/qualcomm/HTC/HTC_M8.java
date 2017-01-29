@@ -48,10 +48,6 @@ public class HTC_M8 extends AbstractDevice {
         return new CCTManualHtc(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
 
 
     @Override

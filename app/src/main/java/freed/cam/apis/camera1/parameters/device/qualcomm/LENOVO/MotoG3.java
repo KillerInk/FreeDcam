@@ -19,11 +19,6 @@ public class MotoG3 extends BaseQcomNew {
     }
 
     @Override
-    public AbstractModeParameter getOpCodeParameter() {
-        return null;
-    }
-
-    @Override
     public void SetFocusArea(FocusRect focusAreas) {
         parameters.set("touch-aec","on");
         parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);

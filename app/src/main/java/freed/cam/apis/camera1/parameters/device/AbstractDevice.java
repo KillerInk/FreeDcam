@@ -54,12 +54,6 @@ public abstract class AbstractDevice implements I_Device {
     public abstract ManualParameterInterface getCCTParameter();
 
     @Override
-    public ModeParameterInterface getOpCodeParameter()
-    {
-        return null;
-    }
-
-    @Override
     public ModeParameterInterface getNightMode()
     {
         return null;

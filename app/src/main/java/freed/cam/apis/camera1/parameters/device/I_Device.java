@@ -30,7 +30,6 @@ public interface I_Device
 {
     ManualParameterInterface getCCTParameter();
 
-    ModeParameterInterface getOpCodeParameter();
     ModeParameterInterface getNightMode();
     ModeParameterInterface getHDRMode();
     ModeParameterInterface getVideoStabilisation();

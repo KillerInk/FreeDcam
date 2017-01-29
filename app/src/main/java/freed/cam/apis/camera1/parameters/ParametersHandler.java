@@ -58,6 +58,7 @@ import freed.cam.apis.camera1.parameters.manual.zte.FXManualParameter;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.ExposureLockParameter;
 import freed.cam.apis.camera1.parameters.modes.FocusPeakModeParameter;
+import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.cam.apis.camera1.parameters.modes.PictureFormatHandler;
 import freed.cam.apis.camera1.parameters.modes.PictureSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
@@ -135,6 +136,8 @@ public class ParametersHandler extends AbstractParameterHandler
         //setup first Pictureformat its needed for manual parameters to
         // register their listners there if its postprocessing parameter
         PictureFormat = new PictureFormatHandler(cameraParameters, cameraUiWrapper, this);
+        if (appSettingsManager.getDngProfilesMap().size() > 0)
+            opcode = new OpCodeParameter(appSettingsManager);
         cameraUiWrapper.GetModuleHandler().addListner((ModuleChangedEvent) PictureFormat);
         AppSettingsManager appS = cameraUiWrapper.GetAppSettingsManager();
         if (appS.pictureSize.isSupported())
@@ -392,7 +395,7 @@ public class ParametersHandler extends AbstractParameterHandler
             throw new NullPointerException("DEVICE IS NULL");
         }
 
-        opcode = Device.getOpCodeParameter();
+
         NightMode = Device.getNightMode();
 
         CCT = Device.getCCTParameter();

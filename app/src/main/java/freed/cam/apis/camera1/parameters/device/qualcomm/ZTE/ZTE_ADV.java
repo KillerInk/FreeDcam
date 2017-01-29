@@ -55,10 +55,6 @@ public class ZTE_ADV extends BaseQcomDevice {
         return new NightModeZTE(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public ModeParameterInterface getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
 
 
     @Override

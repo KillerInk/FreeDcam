@@ -1,6 +1,8 @@
 <DngProfiles>
 
     <Device name ="Alcatel_985n">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "9830400">
             <blacklvl>16</blacklvl>
             <width>2560</width>
@@ -13,6 +15,8 @@
     </Device>
 
     <Device name ="Asus_Zenfone_Go">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "6144000">
             <blacklvl>64</blacklvl>
             <width>2560</width>
@@ -25,6 +29,8 @@
     </Device>
 
     <Device name ="Blackberry_Priv">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "23472640">
             <blacklvl>0</blacklvl>
             <width>4896</width>
@@ -37,6 +43,8 @@
     </Device>
 
     <Device name ="Aquaris_E5">
+        <opcode2></opcode2>
+        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Aquaris_E5/opc3.bin?raw=true</opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -49,6 +57,8 @@
     </Device>
 
     <Device name ="Aquaris_M5">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -60,6 +70,8 @@
         </filesize>
     </Device>
     <Device name ="Alcatel_Idol3">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -81,6 +93,8 @@
     </Device>
 
     <Device name ="Alcatel_Idol3_small">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -93,6 +107,8 @@
     </Device>
 
     <Device name ="Elephone_P9000">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -123,6 +139,8 @@
     </Device>
 
     <Device name ="GioneE7">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "9990144">
             <blacklvl>16</blacklvl>
             <width>3264</width>
@@ -162,6 +180,8 @@
     </Device>
 
     <Device name ="ForwardArt_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "9830400">
             <blacklvl>16</blacklvl>
             <width>2560</width>
@@ -174,6 +194,8 @@
     </Device>
 
     <Device name ="Htc_M8">
+        <opcode2></opcode2>
+        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Htc_M8/opc3.bin?raw=true</opcode3>
         <filesize size= "5382641"> <!-- filesize < 6000000 && filesize > 5382641 //qcom -->
             <blacklvl>0</blacklvl>
             <width>2688</width>
@@ -195,6 +217,8 @@
     </Device>
 
     <Device name ="Htc_M9">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "25677824">
             <blacklvl>64</blacklvl>
             <width>5388</width>
@@ -216,6 +240,8 @@
     </Device>
 
     <Device name ="Htc_One_Sv">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "6746112">
             <blacklvl>64</blacklvl>
             <width>2592</width>
@@ -228,6 +254,8 @@
     </Device>
 
     <Device name ="Htc_One_Xl">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "10782464">
             <blacklvl>0</blacklvl>
             <width>3282</width>
@@ -240,6 +268,8 @@
     </Device>
 
     <Device name ="HTC_OneA9">
+        <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/HTC_OneA9/opc2.bin?raw=true</opcode2>
+        <opcode3></opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -252,6 +282,8 @@
     </Device>
 
     <Device name ="HTC_OneE8">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "16560128">
             <blacklvl>16</blacklvl>
             <width>4224</width>
@@ -264,6 +296,8 @@
     </Device>
 
     <Device name ="HTC_Desire500">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "10782464">
             <blacklvl>0</blacklvl>
             <width>3282</width>
@@ -276,6 +310,8 @@
     </Device>
 
     <Device name ="Huawei_GX8">
+        <opcode2></opcode2>
+        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Huawei_GX8/opc3.bin?raw=true</opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -288,6 +324,8 @@
     </Device>
 
     <Device name ="Huawei_HONOR5x">
+        <opcode2></opcode2>
+        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Huawei_HONOR5x/opc3.bin?raw=true</opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -300,6 +338,8 @@
     </Device>
 
     <Device name ="I_Mobile_I_StyleQ6">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "9631728">
             <blacklvl>0</blacklvl>
             <width>2532</width>
@@ -312,6 +352,8 @@
     </Device>
 
     <Device name ="InFocus_M808">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>16</blacklvl>
             <width>4192</width>
@@ -324,6 +366,8 @@
     </Device>
 
     <Device name ="Jiayu_S3">
+        <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Jiayu_S3/opc2.bin?raw=true</opcode2>
+        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -336,6 +380,8 @@
     </Device>
 
     <Device name ="LeEco_Cool1">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -348,6 +394,8 @@
     </Device>
 
     <Device name ="LenovoK910">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "6721536">
             <blacklvl>64</blacklvl>
             <width>2592</width>
@@ -378,6 +426,8 @@
     </Device>
 
     <Device name ="LenovoK920">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <width>5328</width>
@@ -390,6 +440,8 @@
     </Device>
 
     <Device name ="Lenovo_K4Note_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "19992576">
             <blacklvl>16</blacklvl>
             <width>4192</width>
@@ -400,7 +452,10 @@
             <matrixset>Nexus6</matrixset>
         </filesize>
     </Device>
+
     <Device name ="Lenovo_K50_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>16</blacklvl>
             <width>4192</width>
@@ -413,6 +468,8 @@
     </Device>
 
     <Device name ="Lenovo_VibeP1">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -425,6 +482,8 @@
     </Device>
 
     <Device name ="Lenovo_VibeShot_Z90">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "19992576">
             <blacklvl>64</blacklvl>
             <width>5328</width>
@@ -437,6 +496,8 @@
     </Device>
 
     <Device name ="Lenovo_VibeShot_Z90">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26935296">
             <blacklvl>64</blacklvl>
             <width>5344</width>
@@ -458,6 +519,8 @@
     </Device>
 
     <Device name ="LG_G2">
+        <opcode2></opcode2>
+        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/LG_G2/opc3.bin?raw=true</opcode3>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -479,6 +542,8 @@
     </Device>
 
     <Device name ="LG_G2pro">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -500,6 +565,8 @@
     </Device>
 
     <Device name ="LG_G4">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "19976192">
             <blacklvl>64</blacklvl>
             <width>5312</width>
@@ -512,6 +579,8 @@
     </Device>
 
     <Device name ="LG_G3">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "2658304">
             <blacklvl>64</blacklvl>
             <width>1212</width>
@@ -521,7 +590,6 @@
             <rowsize>2424</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-
         <filesize size= "2842624">
             <blacklvl>64</blacklvl>
             <width>1296</width>
@@ -573,6 +641,8 @@
     </Device>
 
     <Device name ="LG_L5">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "6659840">
             <blacklvl>64</blacklvl>
             <width>2580</width>
@@ -587,6 +657,8 @@
     <!--- missing filesize
 
     <Device name ="LG_V20">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "6659840">
             <blacklvl>64</blacklvl>
             <width>4656</width>
@@ -601,6 +673,8 @@
     <!--- missing filesize
 
     <Device name ="Lumigon_T3">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "6659840">
             <blacklvl>64</blacklvl>
             <width>4192</width>
@@ -613,6 +687,8 @@
     </Device> -->
 
     <Device name ="MeizuM1Metal_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26492928">
             <blacklvl>64</blacklvl>
             <width>4224</width>
@@ -625,6 +701,8 @@
     </Device>
 
     <Device name ="MeizuMX4_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "41312256">
             <blacklvl>64</blacklvl>
             <width>5248</width>
@@ -637,6 +715,8 @@
     </Device>
 
     <Device name ="MeizuMX5_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "41312256">
             <blacklvl>64</blacklvl>
             <width>5248</width>
@@ -649,6 +729,8 @@
     </Device>
 
     <Device name ="Meizu_m2Note_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <width>4192</width>
@@ -661,6 +743,8 @@
     </Device>
 
     <Device name ="Mlais_M52_Red_Note_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "15980544">
             <blacklvl>16</blacklvl>
             <width>3264</width>
@@ -673,6 +757,8 @@
     </Device>
 
     <Device name ="Moto_X_Style_Pure_Play">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "42923008">
             <blacklvl>64</blacklvl>
             <width>5344</width>
@@ -694,6 +780,8 @@
     </Device>
 
     <Device name ="MotoG3">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "17326080">
             <blacklvl>64</blacklvl>
             <width>4164</width>
@@ -706,6 +794,8 @@
     </Device>
 
     <Device name ="MotoG_Turbo">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "17326080">
             <blacklvl>64</blacklvl>
             <width>4164</width>
@@ -718,6 +808,8 @@
     </Device>
 
     <Device name ="Moto_ZPlay">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "19906560">
             <blacklvl>16</blacklvl>
             <width>4608</width>
@@ -730,6 +822,8 @@
     </Device>
 
     <Device name ="MyPhone_Infinity2S">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "15980544">
             <blacklvl>16</blacklvl>
             <width>3264</width>
@@ -742,6 +836,8 @@
     </Device>
 
     <Device name ="OnePlusOne">
+        <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/OnePlusOne/opc2.bin?raw=true</opcode2>
+        <opcode3></opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4212</width>
@@ -772,6 +868,8 @@
     </Device>
 
     <Device name ="OnePlusTwo">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26357760">
             <blacklvl>16</blacklvl>
             <width>4224</width>
@@ -784,6 +882,8 @@
     </Device>
 
     <Device name ="OnePlusX">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "9990144">
             <blacklvl>16</blacklvl>
             <width>3264</width>
@@ -814,6 +914,8 @@
     </Device>
 
     <Device name ="Prestigio_Multipad_Color">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "3763584">
             <blacklvl>16</blacklvl>
             <width>1584</width>
@@ -826,6 +928,8 @@
     </Device>
 
     <Device name ="Xiaomi_RedmiNote">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
             <width>4212</width>
@@ -847,6 +951,8 @@
     </Device>
 
     <Device name ="Xiaomi_Redmi2">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "9990144">
             <blacklvl>64</blacklvl>
             <width>3264</width>
@@ -868,6 +974,8 @@
     </Device>
 
     <Device name ="Xiaomi_RedmiNote2_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <width>4192</width>
@@ -880,6 +988,8 @@
     </Device>
 
     <Device name ="Retro_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>0</blacklvl>
             <width>2688</width>
@@ -892,6 +1002,8 @@
     </Device>
 
     <Device name ="SonyM5_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "42923008">
             <blacklvl>64</blacklvl>
             <width>5344</width>
@@ -904,6 +1016,8 @@
     </Device>
 
     <Device name ="SonyM4_QC">
+        <opcode2></opcode2>
+        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/SonyM4_QC/opc2.bin?raw=true</opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -916,6 +1030,8 @@
     </Device>
 
     <Device name ="SonyC4_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -928,6 +1044,8 @@
     </Device>
 
     <Device name ="SonyC5_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -940,6 +1058,8 @@
     </Device>
 
     <Device name ="Sony_XperiaL">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "10788864">
             <blacklvl>64</blacklvl>
             <width>3282</width>
@@ -952,6 +1072,8 @@
     </Device>
 
     <Device name ="Sony_Z5C">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "28721152">
             <blacklvl>64</blacklvl>
             <width>5520</width>
@@ -964,6 +1086,8 @@
     </Device>
 
     <Device name ="THL100s_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <width>4192</width>
@@ -976,6 +1100,8 @@
     </Device>
 
     <Device name ="THL5000_MTK">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <width>4192</width>
@@ -988,6 +1114,8 @@
     </Device>
 
     <Device name ="Umi_Rome_X">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "15360000">
             <blacklvl>64</blacklvl>
             <width>3200</width>
@@ -1000,6 +1128,8 @@
     </Device>
 
     <Device name ="Vivo_Xplay3s">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -1021,6 +1151,8 @@
     </Device>
 
     <Device name ="Vivo_V3">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -1042,6 +1174,8 @@
     </Device>
 
     <Device name ="Wiko_Stairway">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <width>4192</width>
@@ -1054,6 +1188,8 @@
     </Device>
 
     <Device name ="Wileyfox_Swift">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -1075,6 +1211,8 @@
     </Device>
 
     <Device name ="Mi_Max">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "20557824">
             <blacklvl>64</blacklvl>
             <width>4672</width>
@@ -1087,6 +1225,8 @@
     </Device>
 
     <Device name ="XiaomiMI3W">
+        <opcode2></opcode2>
+        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI3W/opc3.bin?raw=true</opcode3>
         <filesize size= "17522688">
             <blacklvl>0</blacklvl>
             <width>4212</width>
@@ -1135,6 +1275,8 @@
     </Device>
 
     <Device name ="XiaomiMI4W">
+        <opcode2></opcode2>
+        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI4W/opc3.bin?raw=true</opcode3>
         <filesize size= "17522688">
             <blacklvl>0</blacklvl>
             <width>4212</width>
@@ -1183,6 +1325,8 @@
     </Device>
 
     <Device name ="XiaomiMI4C">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "17522688">
             <blacklvl>0</blacklvl>
             <width>4212</width>
@@ -1231,6 +1375,8 @@
     </Device>
 
     <Device name ="XiaomiMI5">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "20500480">
             <blacklvl>64</blacklvl>
             <width>4652</width>
@@ -1245,6 +1391,8 @@
     <!-- missing rawsize
 
     <Device name ="XiaomiMI5s">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "20500480">
             <blacklvl>64</blacklvl>
             <width>4056</width>
@@ -1259,6 +1407,8 @@
     -->
 
     <Device name ="XiaomiMI_Note_Pro">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "17612800">
             <blacklvl>64</blacklvl>
             <width>4212</width>
@@ -1289,6 +1439,8 @@
     </Device>
 
     <Device name ="Xiaomi_Redmi_Note3">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <width>4192</width>
@@ -1310,6 +1462,8 @@
     </Device>
 
     <Device name ="Xiaomi_Redmi3">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -1331,6 +1485,8 @@
     </Device>
 
     <Device name ="Xiaomi_Redmi3S">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -1343,6 +1499,8 @@
     </Device>
 
     <Device name ="Xolo_Omega5">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "15980544">
             <blacklvl>64</blacklvl>
             <width>3264</width>
@@ -1355,6 +1513,8 @@
     </Device>
 
     <Device name ="Yu_Yuphoria">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "9990144">
             <blacklvl>64</blacklvl>
             <width>3264</width>
@@ -1367,6 +1527,8 @@
     </Device>
 
     <Device name ="Yu_Yureka">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -1379,6 +1541,8 @@
     </Device>
 
     <Device name ="ZTE_ADV">
+        <opcode2></opcode2>
+        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
         <filesize size= "6299648">
             <blacklvl>16</blacklvl>
             <width>2592</width>
@@ -1409,6 +1573,8 @@
     </Device>
 
     <Device name ="ZTEADVIMX214">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "6721536">
             <blacklvl>64</blacklvl>
             <width>2592</width>
@@ -1439,6 +1605,8 @@
     </Device>
 
     <Device name ="ZTEADV234">
+        <opcode2></opcode2>
+        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTEADV234/opc3.bin?raw=true</opcode3>
         <filesize size= "20041728">
             <blacklvl>64</blacklvl>
             <width>5344</width>
@@ -1451,6 +1619,8 @@
     </Device>
 
     <Device name ="ZTE_Z11">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "20500480">
             <blacklvl>64</blacklvl>
             <width>4656</width>
@@ -1463,6 +1633,8 @@
     </Device>
 
     <Device name ="ZTE_Z5SMINI">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "17522688"> <!-- filesize could be wrong -->
             <blacklvl>64</blacklvl>
             <width>4212</width>
@@ -1475,6 +1647,8 @@
     </Device>
 
     <Device name ="ZTE_ZMAX_PRO">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "16510976"> <!-- filesize could be wrong -->
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -1487,6 +1661,8 @@
     </Device>
 
     <Device name ="Nexus6p">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "15428880"> <!-- filesize could be wrong -->
             <blacklvl>52</blacklvl>
             <width>4080</width>
@@ -1499,6 +1675,8 @@
     </Device>
 
     <Device name ="Nexus5x">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
         <filesize size= "15428880"> <!-- filesize could be wrong -->
             <blacklvl>52</blacklvl>
             <width>4080</width>

@@ -56,11 +56,6 @@ public class LG_G2 extends BaseQcomDevice
 
 
     @Override
-    public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
-
-    @Override
     public void SetFocusArea(FocusRect focusAreas) {
         if (focusAreas != null) {
             Camera.Area a = new Camera.Area(new Rect(focusAreas.left, focusAreas.top, focusAreas.right, focusAreas.bottom), 1000);

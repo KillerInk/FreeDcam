@@ -35,11 +35,6 @@ public class OnePlusOne extends BaseQcomDevice {
     public OnePlusOne(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
 /*
     @Override
     public ManualParameterInterface getCCTParameter() {

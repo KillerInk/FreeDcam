@@ -55,11 +55,6 @@ public class Xiaomi_Mi3_4 extends BaseQcomDevice {
     }
 
     @Override
-    public ModeParameterInterface getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
-
-    @Override
     public ModeParameterInterface getNightMode() {
         return new NightModeXiaomi(parameters, cameraUiWrapper);
     }

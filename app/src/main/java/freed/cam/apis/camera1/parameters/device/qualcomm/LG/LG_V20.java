@@ -24,10 +24,4 @@ public class LG_V20 extends LG_G2
     public AbstractManualParameter getCCTParameter() {
         return new CCTManualG4(parameters, cameraUiWrapper);
     }
-
-
-    @Override
-    public AbstractModeParameter getOpCodeParameter() {
-        return null;
-    }
 }
