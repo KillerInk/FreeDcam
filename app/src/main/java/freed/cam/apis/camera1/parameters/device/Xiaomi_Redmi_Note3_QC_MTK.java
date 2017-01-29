@@ -33,7 +33,6 @@ import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
 import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
-import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
 
 
 /**
@@ -50,15 +49,6 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
             ae_handler_mtk = new AE_Handler_MTK(parameters, cameraUiWrapper,2700);
     }
 
-    //gets set due ae handler
-    @Override
-    public ManualParameterInterface getExposureTimeParameter()
-    {
-        if (frameworks == Frameworks.MTK)
-            return ae_handler_mtk.getShutterManual();
-        else
-            return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,true);
-    }
     //gets set due ae handler
     @Override
     public ManualParameterInterface getIsoParameter() {

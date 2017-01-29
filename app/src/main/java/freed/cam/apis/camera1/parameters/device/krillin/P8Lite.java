@@ -29,7 +29,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.camera1.parameters.device.AbstractDevice;
-import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualKrillin;
 
 /**
  * Created by troop on 01.06.2016.
@@ -41,10 +40,6 @@ public class P8Lite extends AbstractDevice {
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return new ShutterManualKrillin(parameters, cameraUiWrapper);
-    }
 
     @Override
     public AbstractManualParameter getIsoParameter() {

@@ -30,8 +30,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
-import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
-import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManual_ExposureTime_FloatToSixty;
 import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 
 /**
@@ -44,18 +42,6 @@ public class BaseQcomDevice extends AbstractDevice
         super(parameters, cameraUiWrapper);
     }
 
-
-    @Override
-    public ManualParameterInterface getExposureTimeParameter()
-    {
-        if (parameters.get(KEYS.MAX_EXPOSURE_TIME) != null && parameters.get(KEYS.MIN_EXPOSURE_TIME )!= null) {
-            if (!parameters.get(KEYS.MAX_EXPOSURE_TIME).contains("."))
-                return new ShutterManual_ExposureTime_FloatToSixty(parameters, cameraUiWrapper, true);
-            else
-                return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME, true);
-        }
-        return null;
-    }
 
     @Override
     public ManualParameterInterface getIsoParameter() {

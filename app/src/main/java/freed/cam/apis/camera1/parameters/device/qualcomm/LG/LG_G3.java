@@ -37,12 +37,6 @@ public class LG_G3 extends LG_G2
 
     //not supported by device
     @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return null;
-    }
-
-    //not supported by device
-    @Override
     public AbstractManualParameter getIsoParameter() {
         return null;
     }

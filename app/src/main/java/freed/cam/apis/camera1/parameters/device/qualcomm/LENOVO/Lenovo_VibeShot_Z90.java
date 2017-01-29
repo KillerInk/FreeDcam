@@ -48,12 +48,6 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
     }
 
     @Override
-    public ManualParameterInterface getExposureTimeParameter()
-    {
-        return null;// aeHandlerVibeShotZ90.getShutterManual();
-    }
-
-    @Override
     public ManualParameterInterface getIsoParameter() {
         return null;// aeHandlerVibeShotZ90.getManualIso();
     }

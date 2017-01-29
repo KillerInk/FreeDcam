@@ -34,31 +34,13 @@ public class ShutterManualSony extends AbstractManualShutter
     private final Parameters parameters;
     /**
      * @param parameters
-     * @param maxValue
-     * @param MinValue
      * @param cameraUiWrapper
      */
-    public ShutterManualSony(Parameters parameters, String maxValue, String MinValue, CameraWrapperInterface cameraUiWrapper) {
+    public ShutterManualSony(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         this.parameters = parameters;
-        try {
-            if (!parameters.get("sony-max-shutter-speed").equals(""))
-            {
-                try {
-                    int min = Integer.parseInt(parameters.get("sony-min-shutter-speed"));
-                    int max = Integer.parseInt(parameters.get("sony-max-shutter-speed"));
-                    stringvalues = getSupportedShutterValues(min, max,true);
-                    isSupported = true;
-                } catch (NumberFormatException ex) {
-                    ex.printStackTrace();
-                    isSupported = false;
-                }
-            }
-        }
-        catch (NullPointerException ex)
-        {
-            isSupported = false;
-        }
+        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getValues();
+        isSupported = true;
     }
 
     @Override
@@ -75,8 +57,14 @@ public class ShutterManualSony extends AbstractManualShutter
     public void SetValue(int valueToSet)
     {
         currentInt = valueToSet;
-        parameters.set("sony-ae-mode", "manual");
-        parameters.set("sony-shutter-speed", stringvalues[currentInt]);
+        if (currentInt == 0)
+        {
+            parameters.set("sony-ae-mode", "auto");
+        }
+        else {
+            parameters.set("sony-ae-mode", "manual");
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getKEY(), stringvalues[currentInt]);
+        }
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }

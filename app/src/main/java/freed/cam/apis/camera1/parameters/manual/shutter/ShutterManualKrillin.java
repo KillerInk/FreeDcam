@@ -22,8 +22,6 @@ package freed.cam.apis.camera1.parameters.manual.shutter;
 
 import android.hardware.Camera.Parameters;
 
-import com.troop.freedcam.R;
-
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 
@@ -40,7 +38,7 @@ public class ShutterManualKrillin extends AbstractManualShutter {
         this.parameters =  parameters;
         isSupported = true;
         isVisible = isSupported;
-        stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_krillin);
+        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getValues();
     }
 
     @Override
@@ -54,11 +52,11 @@ public class ShutterManualKrillin extends AbstractManualShutter {
         currentInt = valueToSet;
         if (valueToSet == 0) {
             parameters.set("hw-hwcamera-flag", "on");
-            parameters.set("hw-manual-exposure-value", "auto");
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getKEY(), "auto");
         } else {
 
             parameters.set("hw-hwcamera-flag", "on");
-            parameters.set("hw-manual-exposure-value", stringvalues[currentInt]);
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getKEY(), stringvalues[currentInt]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[valueToSet]);
     }

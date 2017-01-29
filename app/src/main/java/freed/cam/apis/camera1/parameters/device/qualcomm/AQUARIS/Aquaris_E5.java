@@ -21,15 +21,12 @@ package freed.cam.apis.camera1.parameters.device.qualcomm.AQUARIS;
 
 import android.hardware.Camera.Parameters;
 
-import com.troop.freedcam.R;
-
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
 import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
-import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 
 /**
@@ -45,12 +42,6 @@ public class Aquaris_E5 extends BaseQcomNew
     @Override
     public AbstractModeParameter getOpCodeParameter() {
         return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
-
-    @Override
-    public ManualParameterInterface getExposureTimeParameter()
-    {
-        return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,cameraUiWrapper.getContext().getResources().getStringArray(R.array.aquaris_e5_shuttervalues), KEYS.EXPOSURE_TIME);
     }
 
     @Override

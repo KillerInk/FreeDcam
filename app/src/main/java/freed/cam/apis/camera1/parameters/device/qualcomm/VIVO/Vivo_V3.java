@@ -16,11 +16,6 @@ public class Vivo_V3 extends BaseQcomDevice {
     }
 
     @Override
-    public ManualParameterInterface getExposureTimeParameter() {
-        return null;
-    }
-
-    @Override
     public ManualParameterInterface getIsoParameter() {
         return null;
     }

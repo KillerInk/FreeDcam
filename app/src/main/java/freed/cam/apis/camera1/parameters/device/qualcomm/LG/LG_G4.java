@@ -40,10 +40,6 @@ public class LG_G4 extends BaseQcomNew
         parameters.set("lge-camera","1");
     }
 
-    @Override
-    public ManualParameterInterface getExposureTimeParameter() {
-        return ae_handler_lgg4.getShutterManual();
-    }
 
     @Override
     public ManualParameterInterface getIsoParameter() {

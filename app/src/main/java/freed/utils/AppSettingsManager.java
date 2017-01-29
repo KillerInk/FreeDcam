@@ -174,6 +174,17 @@ public class AppSettingsManager {
                     KEYS.DNG
             };
 
+    public static int SHUTTER_HTC =0;
+    public static int SHUTTER_LG = 1;
+    public static int SHUTTER_MTK = 2;
+    public static int SHUTTER_QCOM_MILLISEC = 3;
+    public static int SHUTTER_QCOM_MICORSEC = 4;
+    public static int SHUTTER_MEIZU = 5;
+    public static int SHUTTER_KRILLIN = 6;
+    public static int SHUTTER_SONY = 7;
+    public static int SHUTTER_G2PRO = 8;
+    public static int SHUTTER_ZTE = 9;
+
 
     public static final String CURRENTCAMERA = "currentcamera";
 
@@ -324,7 +335,7 @@ public class AppSettingsManager {
 
     public final TypeSettingsMode manualFocus;
     public final SettingMode manualExposureCompensation;
-    public final SettingMode manualExposureTime;
+    public final TypeSettingsMode manualExposureTime;
     public final SettingMode manualIso;
     public final SettingMode manualSaturation;
     public final SettingMode manualSharpness;
@@ -382,7 +393,7 @@ public class AppSettingsManager {
 
         manualFocus = new TypeSettingsMode(getResourcesString(R.string.aps_manualfocus));
         manualExposureCompensation = new SettingMode(getResourcesString(R.string.aps_manualexpocomp));
-        manualExposureTime = new SettingMode(getResourcesString(R.string.aps_manualexpotime));
+        manualExposureTime = new TypeSettingsMode(getResourcesString(R.string.aps_manualexpotime));
         manualIso = new SettingMode(getResourcesString(R.string.aps_manualiso));
         manualSaturation = new SettingMode(getResourcesString(R.string.aps_manualsaturation));
         manualSharpness = new SettingMode(getResourcesString(R.string.aps_manualsharpness));

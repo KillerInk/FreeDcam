@@ -5,6 +5,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.lge.hardware.LGCamera;
+import com.troop.freedcam.R;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -176,11 +177,159 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
             detectManualContrast(parameters);
             sendProgress(appS.manualContrast,"ManualContrast");
+
+            detectManualExposureTime(parameters);
+            sendProgress(appS.manualExposureTime,"ExposureTime");
         }
 
         appS.SetCurrentCamera(0);
 
         return null;
+    }
+
+    private void detectManualExposureTime(Camera.Parameters parameters)
+    {
+        //mtk shutter
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            appSettingsManager.manualExposureTime.setIsSupported(true);
+            appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.mtk_shutter));
+            appSettingsManager.manualExposureTime.setKEY("m-ss");
+            appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_MTK);
+        }
+        else
+        {
+            switch(appSettingsManager.getDevice()) {
+                case Aquaris_E5:
+                    appSettingsManager.manualExposureTime.setIsSupported(true);
+                    appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.aquaris_e5_shuttervalues));
+                    appSettingsManager.manualExposureTime.setKEY(KEYS.EXPOSURE_TIME);
+                    appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MICORSEC);
+                    break;
+                case LG_G2pro:
+                    appSettingsManager.manualExposureTime.setIsSupported(true);
+                    appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_lg_g2pro));
+                    appSettingsManager.manualExposureTime.setKEY(KEYS.EXPOSURE_TIME);
+                    appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_G2PRO);
+                    break;
+                case ZTE_ADV:
+                    appSettingsManager.manualExposureTime.setIsSupported(true);
+                    appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_zte_z5s));
+                    appSettingsManager.manualExposureTime.setKEY(KEYS.EXPOSURE_TIME);
+                    appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_ZTE);
+                    break;
+                case  ZTEADVIMX214:
+                case ZTEADV234:
+                case ZTE_Z11:
+                    appSettingsManager.manualExposureTime.setIsSupported(true);
+                    appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_zte_z7));
+                    appSettingsManager.manualExposureTime.setKEY(KEYS.EXPOSURE_TIME);
+                    appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_ZTE);
+                    break;
+                case LG_G3:
+                    appSettingsManager.manualExposureTime.setIsSupported(false);
+                    break;
+                default:
+                    //htc shutter
+                    if (parameters.get("shutter") != null) {
+                        appSettingsManager.manualExposureTime.setIsSupported(true);
+                        appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.htc));
+                        appSettingsManager.manualExposureTime.setKEY("shutter");
+                        appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_HTC);
+                    }
+                    //lg shutter
+                    else if (parameters.get(KEYS.LG_SHUTTER_SPEED_VALUES) != null) {
+                        appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_LG);
+                        appSettingsManager.manualExposureTime.setValues(parameters.get(KEYS.LG_SHUTTER_SPEED_VALUES).split(","));
+                        appSettingsManager.manualExposureTime.setKEY(KEYS.LG_SHUTTER_SPEED);
+                        appSettingsManager.manualExposureTime.setIsSupported(true);
+                    }
+                    //meizu shutter
+                    else if (parameters.get("shutter-value") != null) {
+                        appSettingsManager.manualExposureTime.setIsSupported(true);
+                        appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_meizu));
+                        appSettingsManager.manualExposureTime.setKEY("shutter-value");
+                        appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_MEIZU);
+                    }
+                    //krillin shutter
+                    else if (parameters.get("hw-manual-exposure-value") != null) {
+                        appSettingsManager.manualExposureTime.setIsSupported(true);
+                        appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_krillin));
+                        appSettingsManager.manualExposureTime.setKEY("hw-manual-exposure-value");
+                        appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_KRILLIN);
+                    }
+                    //sony shutter
+                    else if (parameters.get("sony-max-shutter-speed") != null) {
+                        appSettingsManager.manualExposureTime.setIsSupported(true);
+                        appSettingsManager.manualExposureTime.setValues(getSupportedShutterValues(
+                                Long.parseLong(parameters.get("sony-min-shutter-speed")),
+                                Long.parseLong(parameters.get("sony-max-shutter-speed")),
+                                true));
+                        appSettingsManager.manualExposureTime.setKEY("sony-shutter-speed");
+                        appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_SONY);
+                    }
+                    //qcom shutter
+                    else if (parameters.get(KEYS.MAX_EXPOSURE_TIME) != null && parameters.get(KEYS.MIN_EXPOSURE_TIME) != null) {
+                        long min = 0, max = 0;
+                        switch (appSettingsManager.getDevice()) {
+                            case OnePlusX:
+                                min = Integer.parseInt(parameters.get(KEYS.MIN_EXPOSURE_TIME)) * 1000;
+                                max = Integer.parseInt(parameters.get(KEYS.MAX_EXPOSURE_TIME)) * 1000;
+                                appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MICORSEC);
+                                break;
+                            default:
+                                if (parameters.get(KEYS.MAX_EXPOSURE_TIME).contains(".")) {
+                                    min = (long) Double.parseDouble(parameters.get(KEYS.MIN_EXPOSURE_TIME)) * 1000;
+                                    max = (long) Double.parseDouble(parameters.get(KEYS.MAX_EXPOSURE_TIME)) * 1000;
+                                    appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MICORSEC);
+                                } else {
+                                    min = Integer.parseInt(parameters.get(KEYS.MIN_EXPOSURE_TIME));
+                                    max = Integer.parseInt(parameters.get(KEYS.MAX_EXPOSURE_TIME));
+                                    appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MILLISEC);
+                                }
+                                break;
+                        }
+                        if (max > 0) {
+                            appSettingsManager.manualExposureTime.setIsSupported(true);
+                            appSettingsManager.manualExposureTime.setKEY(KEYS.EXPOSURE_TIME);
+                            appSettingsManager.manualExposureTime.setValues(getSupportedShutterValues(min, max, true));
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    private String[] getSupportedShutterValues(long minMillisec, long maxMiliisec, boolean withautomode) {
+        String[] allvalues = appSettingsManager.getResources().getStringArray(R.array.shutter_values_autocreate);
+        boolean foundmin = false;
+        boolean foundmax = false;
+        ArrayList<String> tmp = new ArrayList<>();
+        if (withautomode)
+            tmp.add(KEYS.AUTO);
+        for (int i = 1; i < allvalues.length; i++) {
+            String s = allvalues[i];
+
+            float a;
+            if (s.contains("/")) {
+                String[] split = s.split("/");
+                a = Float.parseFloat(split[0]) / Float.parseFloat(split[1]) * 1000000f;
+            } else
+                a = Float.parseFloat(s) * 1000000f;
+
+            if (a >= minMillisec && a <= maxMiliisec)
+                tmp.add(s);
+            if (a >= minMillisec && !foundmin) {
+                foundmin = true;
+            }
+            if (a > maxMiliisec && !foundmax) {
+                foundmax = true;
+            }
+            if (foundmax && foundmin)
+                break;
+
+        }
+        return tmp.toArray(new String[tmp.size()]);
     }
 
     private void detectVirtualLensFilter(Camera.Parameters parameters)
@@ -191,6 +340,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             case ZTE_Z5SMINI:
             case ZTE_Z11:
                 appSettingsManager.virtualLensfilter.setIsSupported(true);
+                break;
             default:
                 appSettingsManager.virtualLensfilter.setIsSupported(false);
                 break;

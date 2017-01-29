@@ -17,19 +17,16 @@
  * /
  */
 
-package freed.cam.apis.camera1.parameters.manual.zte;
+package freed.cam.apis.camera1.parameters.manual.shutter;
 
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
 import android.util.Log;
 
-import com.troop.freedcam.R;
-
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.DeviceUtils.Devices;
 
 /**
  * Created by troop on 25.11.2015.
@@ -45,11 +42,7 @@ public class ShutterManualZTE extends AbstractManualShutter
     public ShutterManualZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         this.parameters = parameters;
-        if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV)
-            stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_zte_z5s);
-        else
-            stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_zte_z7);
-
+        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getValues();
         isSupported = true;
     }
 

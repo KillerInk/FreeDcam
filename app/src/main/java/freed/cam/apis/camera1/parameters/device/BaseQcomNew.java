@@ -25,7 +25,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
-import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
 
 /**
  * Created by troop on 02.06.2016.
@@ -34,11 +33,6 @@ public class BaseQcomNew extends BaseQcomDevice
 {
     public BaseQcomNew(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-    }
-
-    @Override
-    public ManualParameterInterface getExposureTimeParameter() {
-        return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,true);
     }
 
     @Override

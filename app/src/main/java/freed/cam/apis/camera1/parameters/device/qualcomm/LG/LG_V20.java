@@ -22,11 +22,6 @@ public class LG_V20 extends LG_G2
     }
 
     @Override
-    public ManualParameterInterface getExposureTimeParameter() {
-        return ae_handler_lgg4.getShutterManual();
-    }
-
-    @Override
     public ManualParameterInterface getIsoParameter() {
         return ae_handler_lgg4.getManualIso();
     }

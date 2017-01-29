@@ -42,8 +42,17 @@ import freed.cam.apis.camera1.parameters.manual.ZoomManualParameter;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.cam.apis.camera1.parameters.manual.focus.FocusManualHuawei;
 import freed.cam.apis.camera1.parameters.manual.htc.FocusManualParameterHTC;
+import freed.cam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4;
+import freed.cam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
 import freed.cam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
 import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
+import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MicroSec;
+import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MilliSec;
+import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualG2pro;
+import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualKrillin;
+import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualMeizu;
+import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualParameterHTC;
+import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualSony;
 import freed.cam.apis.camera1.parameters.manual.zte.FXManualParameter;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.ExposureLockParameter;
@@ -58,6 +67,12 @@ import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
+
+import static freed.utils.AppSettingsManager.FRAMEWORK_MTK;
+import static freed.utils.AppSettingsManager.SETTING_OrientationHack;
+import static freed.utils.AppSettingsManager.SHUTTER_G2PRO;
+import static freed.utils.AppSettingsManager.SHUTTER_MTK;
+import static freed.utils.AppSettingsManager.SHUTTER_SONY;
 
 /**
  * Created by troop on 17.08.2014.
@@ -201,7 +216,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
         if (appSettingsManager.manualFocus.isSupported())
         {
-            if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+            if (appSettingsManager.getFrameWork() == FRAMEWORK_MTK)
             {
                 ManualFocus = new FocusManualMTK(cameraParameters, cameraUiWrapper,appS.manualFocus);
             }
@@ -247,6 +262,36 @@ public class ParametersHandler extends AbstractParameterHandler
 
         if (appS.virtualLensfilter.isSupported())
             LensFilter = new VirtualLensFilter(cameraParameters,cameraUiWrapper);
+
+        if (appS.manualExposureTime.isSupported())
+        {
+            if (appS.manualExposureTime.getType() == AppSettingsManager.SHUTTER_HTC)
+                ManualShutter = new ShutterManualParameterHTC(cameraParameters,cameraUiWrapper);
+            else if(appS.manualExposureTime.getType() == AppSettingsManager.SHUTTER_QCOM_MICORSEC)
+                ManualShutter = new ExposureTime_MicroSec(cameraUiWrapper,cameraParameters);
+            else if (appS.manualExposureTime.getType() == AppSettingsManager.SHUTTER_QCOM_MILLISEC)
+                ManualShutter = new ExposureTime_MilliSec(cameraUiWrapper,cameraParameters);
+            else if (appS.manualExposureTime.getType() == SHUTTER_MTK)
+            {
+                AE_Handler_MTK ae_handler_mtk = new AE_Handler_MTK(cameraParameters,cameraUiWrapper,1600);
+                ManualShutter = ae_handler_mtk.getShutterManual();
+                ManualIso = ae_handler_mtk.getManualIso();
+            }
+            else if (appS.manualExposureTime.getType() == AppSettingsManager.SHUTTER_LG)
+            {
+                AE_Handler_LGG4 ae_handler_lgg4 = new AE_Handler_LGG4(cameraParameters,cameraUiWrapper);
+                ManualShutter = ae_handler_lgg4.getShutterManual();
+                ManualIso = ae_handler_lgg4.getManualIso();
+            }
+            else if (appS.manualExposureTime.getType() == AppSettingsManager.SHUTTER_MEIZU)
+                ManualShutter = new ShutterManualMeizu(cameraParameters,cameraUiWrapper);
+            else if (appS.manualExposureTime.getType() == AppSettingsManager.SHUTTER_KRILLIN)
+                ManualShutter = new ShutterManualKrillin(cameraParameters,cameraUiWrapper);
+            else if (appS.manualExposureTime.getType() == SHUTTER_SONY)
+                ManualShutter = new ShutterManualSony(cameraParameters,cameraUiWrapper);
+            else if (appS.manualExposureTime.getType() == SHUTTER_G2PRO)
+                ManualShutter = new ShutterManualG2pro(cameraParameters,cameraUiWrapper);
+        }
 
 
         VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
@@ -343,9 +388,6 @@ public class ParametersHandler extends AbstractParameterHandler
         opcode = Device.getOpCodeParameter();
         NightMode = Device.getNightMode();
 
-        ManualShutter = Device.getExposureTimeParameter();
-
-
         ManualIso = Device.getIsoParameter();
         CCT = Device.getCCTParameter();
 
@@ -401,7 +443,7 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+        if (appSettingsManager.getApiString(SETTING_OrientationHack).equals(KEYS.ON))
         {
             int or = orientation +180;
             if (or >360)
@@ -423,11 +465,11 @@ public class ParametersHandler extends AbstractParameterHandler
 
     public void SetCameraRotation()
     {
-        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(""))
+        if (appSettingsManager.getApiString(SETTING_OrientationHack).equals(""))
         {
-            appSettingsManager.setApiString(AppSettingsManager.SETTING_OrientationHack , KEYS.OFF);
+            appSettingsManager.setApiString(SETTING_OrientationHack , KEYS.OFF);
         }
-        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.OFF))
+        if (appSettingsManager.getApiString(SETTING_OrientationHack).equals(KEYS.OFF))
             ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraRotation(0);
         else
             ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraRotation(180);

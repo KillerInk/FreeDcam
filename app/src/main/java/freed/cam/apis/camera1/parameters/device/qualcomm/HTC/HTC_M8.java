@@ -31,7 +31,6 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.parameters.device.AbstractDevice;
 import freed.cam.apis.camera1.parameters.manual.htc.CCTManualHtc;
-import freed.cam.apis.camera1.parameters.manual.htc.ShutterManualParameterHTC;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 
 /**
@@ -42,12 +41,6 @@ public class HTC_M8 extends AbstractDevice {
 
     public HTC_M8(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-    }
-
-
-    @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return new ShutterManualParameterHTC(parameters, cameraUiWrapper);
     }
 
     @Override

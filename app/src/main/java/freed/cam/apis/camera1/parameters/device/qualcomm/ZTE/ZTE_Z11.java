@@ -10,7 +10,6 @@ import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
-import freed.cam.apis.camera1.parameters.manual.zte.ShutterManualZTE;
 import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
 
 /**
@@ -19,11 +18,6 @@ import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
 public class ZTE_Z11 extends BaseQcomDevice {
     public ZTE_Z11(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-    }
-
-    @Override
-    public ManualParameterInterface getExposureTimeParameter() {
-        return new ShutterManualZTE(parameters, cameraUiWrapper);
     }
 
    /* @Override

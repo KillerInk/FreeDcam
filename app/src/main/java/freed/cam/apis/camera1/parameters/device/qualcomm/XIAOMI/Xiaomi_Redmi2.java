@@ -40,8 +40,4 @@ public class Xiaomi_Redmi2 extends BaseQcomDevice
         return null;
     }
 
-    @Override
-    public ManualParameterInterface getExposureTimeParameter() {
-        return null;
-    }
 }

@@ -22,9 +22,7 @@ package freed.cam.apis.camera1.parameters.device.mediatek.MEIZU;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.camera1.parameters.device.BaseMTKDevice;
-import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualMeizu;
 
 /**
  * Created by troop on 01.06.2016.
@@ -34,10 +32,5 @@ public class Meizu_MX4_5_MTK extends BaseMTKDevice {
 
     public Meizu_MX4_5_MTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-    }
-
-    @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return new ShutterManualMeizu(parameters, cameraUiWrapper);
     }
 }

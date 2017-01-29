@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
+import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualParameterG4;
 
 /**
  * Created by troop on 27.01.2016.

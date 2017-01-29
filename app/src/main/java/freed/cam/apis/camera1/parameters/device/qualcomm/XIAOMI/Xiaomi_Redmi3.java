@@ -34,12 +34,6 @@ public class Xiaomi_Redmi3 extends BaseQcomNew {
     }
 
     @Override
-    public ManualParameterInterface getExposureTimeParameter()
-    {
-        return null; //new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,cameraUiWrapper.getContext().getResources().getStringArray(R.array.aquaris_e5_shuttervalues), KEYS.EXPOSURE_TIME);
-    }
-
-    @Override
     public ManualParameterInterface getIsoParameter() {
         return null;// new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, 100, 1600, cameraUiWrapper,1);
     }

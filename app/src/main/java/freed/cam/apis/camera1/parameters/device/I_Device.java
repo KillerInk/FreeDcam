@@ -29,7 +29,6 @@ import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 public interface I_Device
 {
 
-    ManualParameterInterface getExposureTimeParameter();
     ManualParameterInterface getIsoParameter();
     ManualParameterInterface getCCTParameter();
 

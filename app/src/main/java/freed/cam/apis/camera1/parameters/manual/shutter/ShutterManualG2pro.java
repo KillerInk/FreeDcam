@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.apis.camera1.parameters.manual.lg;
+package freed.cam.apis.camera1.parameters.manual.shutter;
 
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
@@ -45,10 +45,7 @@ public class ShutterManualG2pro extends BaseManualParameter
      */
     public ShutterManualG2pro(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
-        this.baseCameraHolder = baseCameraHolder;
-
-        stringvalues = G2Pro.split(",");
-
+        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getValues();
         isSupported = true;
     }
 

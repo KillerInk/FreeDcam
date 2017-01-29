@@ -40,10 +40,6 @@ public class P8 extends AbstractDevice {
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return null;
-    }
 
     @Override
     public AbstractManualParameter getIsoParameter() {

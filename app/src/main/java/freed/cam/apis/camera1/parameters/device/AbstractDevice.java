@@ -51,9 +51,6 @@ public abstract class AbstractDevice implements I_Device {
     }
 
     @Override
-    public abstract ManualParameterInterface getExposureTimeParameter();
-
-    @Override
     public abstract ManualParameterInterface getIsoParameter();
 
     @Override

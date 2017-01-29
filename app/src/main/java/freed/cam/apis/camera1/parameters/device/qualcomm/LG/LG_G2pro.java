@@ -27,7 +27,6 @@ import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
-import freed.cam.apis.camera1.parameters.manual.lg.ShutterManualG2pro;
 
 /**
  * Created by GeorgeKiarie on 6/3/2016.
@@ -40,11 +39,6 @@ public class LG_G2pro extends BaseQcomDevice
         super( parameters, cameraUiWrapper);
         if (cameraHolder.DeviceFrameWork == Frameworks.LG)
             parameters.set("lge-camera","1");
-    }
-
-    @Override
-    public ManualParameterInterface getExposureTimeParameter() {
-        return new ShutterManualG2pro(parameters, cameraUiWrapper);
     }
 
     @Override
