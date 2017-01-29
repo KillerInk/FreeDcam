@@ -22,7 +22,6 @@ package freed.cam.apis.camera1.parameters.device.qualcomm.XIAOMI;
 import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
 
 /**
@@ -31,10 +30,5 @@ import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
 public class Xiaomi_Redmi3 extends BaseQcomNew {
     public Xiaomi_Redmi3(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-    }
-
-    @Override
-    public ManualParameterInterface getIsoParameter() {
-        return null;// new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, 100, 1600, cameraUiWrapper,1);
     }
 }

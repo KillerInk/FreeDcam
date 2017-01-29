@@ -21,12 +21,9 @@ package freed.cam.apis.camera1.parameters.device.qualcomm.AQUARIS;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
-import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 
 /**
@@ -42,10 +39,5 @@ public class Aquaris_E5 extends BaseQcomNew
     @Override
     public AbstractModeParameter getOpCodeParameter() {
         return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
-
-    @Override
-    public ManualParameterInterface getIsoParameter() {
-        return new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, 100, 1600, cameraUiWrapper,1);
     }
 }

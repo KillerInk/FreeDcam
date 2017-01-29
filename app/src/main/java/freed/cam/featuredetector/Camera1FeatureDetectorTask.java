@@ -181,11 +181,64 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
             detectManualExposureTime(parameters);
             sendProgress(appS.manualExposureTime,"ExposureTime");
+
+            detectManualIso(parameters);
         }
 
         appS.SetCurrentCamera(0);
 
         return null;
+    }
+
+    private void detectManualIso(Camera.Parameters parameters) {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
+            appSettingsManager.manualIso.setIsSupported(true);
+            appSettingsManager.manualIso.setKEY("m-sr-g");
+            switch (appSettingsManager.getDevice())
+            {
+                case Xiaomi_Redmi_Note3:
+                    appSettingsManager.manualIso.setValues(createIsoValues(100,2700,100));
+                    break;
+                default:
+                    appSettingsManager.manualIso.setValues(createIsoValues(100,1600,100));
+                    break;
+            }
+        }
+        else
+        {
+            switch (appSettingsManager.getDevice()) {
+                case Aquaris_E5:
+                    appSettingsManager.manualIso.setIsSupported(true);
+                    appSettingsManager.manualIso.setKEY(KEYS.CONTINUOUS_ISO);
+                    appSettingsManager.manualIso.setValues(createIsoValues(100, 1600, 50));
+                    break;
+                case Xiaomi_Redmi3:
+                case LG_G3:
+                    appSettingsManager.manualIso.setIsSupported(false);
+                    break;
+                default:
+                    if (parameters.get(KEYS.MIN_ISO) != null && parameters.get(KEYS.MAX_ISO) != null) {
+                        appSettingsManager.manualIso.setIsSupported(true);
+                        appSettingsManager.manualIso.setKEY(KEYS.CONTINUOUS_ISO);
+                        int min = Integer.parseInt(parameters.get(KEYS.MIN_ISO));
+                        int max = Integer.parseInt(parameters.get(KEYS.MAX_ISO));
+                        appSettingsManager.manualIso.setValues(createIsoValues(min, max, 50));
+                    }
+                break;
+            }
+        }
+    }
+
+    private String[] createIsoValues(int miniso, int maxiso, int step)
+    {
+        ArrayList<String> s = new ArrayList<>();
+        s.add(KEYS.AUTO);
+        for (int i =miniso; i <= maxiso; i +=step)
+        {
+            s.add(i + "");
+        }
+        String[] stringvalues = new String[s.size()];
+        return s.toArray(stringvalues);
     }
 
     private void detectManualExposureTime(Camera.Parameters parameters)

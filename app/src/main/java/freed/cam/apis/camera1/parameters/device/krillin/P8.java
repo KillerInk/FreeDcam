@@ -40,13 +40,6 @@ public class P8 extends AbstractDevice {
         super(parameters, cameraUiWrapper);
     }
 
-
-    @Override
-    public AbstractManualParameter getIsoParameter() {
-        return null;
-    }
-
-
     @Override
     public AbstractManualParameter getCCTParameter() {
         return null;

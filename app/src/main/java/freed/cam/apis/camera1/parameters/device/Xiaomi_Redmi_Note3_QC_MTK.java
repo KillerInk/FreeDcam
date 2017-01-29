@@ -25,14 +25,12 @@ import android.hardware.Camera.Parameters;
 
 import java.util.ArrayList;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
-import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
 
 
 /**
@@ -49,14 +47,6 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
             ae_handler_mtk = new AE_Handler_MTK(parameters, cameraUiWrapper,2700);
     }
 
-    //gets set due ae handler
-    @Override
-    public ManualParameterInterface getIsoParameter() {
-        if (frameworks == Frameworks.MTK)
-            return ae_handler_mtk.getManualIso();
-        else
-            return new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, parameters.getInt(KEYS.MIN_ISO), parameters.getInt(KEYS.MAX_ISO), cameraUiWrapper,1);
-    }
 
     @Override
     public ManualParameterInterface getCCTParameter()

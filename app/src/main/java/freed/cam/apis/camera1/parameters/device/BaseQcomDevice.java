@@ -42,13 +42,6 @@ public class BaseQcomDevice extends AbstractDevice
         super(parameters, cameraUiWrapper);
     }
 
-
-    @Override
-    public ManualParameterInterface getIsoParameter() {
-        return null;
-    }
-
-
     @Override
     public ManualParameterInterface getCCTParameter()
     {

@@ -35,16 +35,6 @@ public class LG_G3 extends LG_G2
         parameters.set("lge-camera","1");
     }
 
-    //not supported by device
-    @Override
-    public AbstractManualParameter getIsoParameter() {
-        return null;
-    }
-
-    public boolean IsDngSupported() {
-        return true;
-    }
-
     @Override
     public AbstractManualParameter getCCTParameter() {
         return null;

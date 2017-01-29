@@ -49,12 +49,6 @@ public class LG_G2 extends BaseQcomDevice
             parameters.set("lge-camera","1");
     }
 
-
-    @Override
-    public ManualParameterInterface getIsoParameter() {
-        return null;
-    }
-
     @Override
     public ManualParameterInterface getCCTParameter() {
         return null;

@@ -52,12 +52,6 @@ public class BaseMTKDevice extends AbstractDevice
         parameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/test."+ FileEnding.BAYER);
     }
 
-    //set by aehandler to camparametershandler direct
-    @Override
-    public ManualParameterInterface getIsoParameter() {
-        return ae_handler_mtk.getManualIso();
-    }
-
 
     @Override
     public ManualParameterInterface getCCTParameter() {

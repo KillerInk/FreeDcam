@@ -21,10 +21,7 @@ package freed.cam.apis.camera1.parameters.device;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
-import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
 
 /**
  * Created by troop on 02.06.2016.
@@ -35,10 +32,6 @@ public class BaseQcomNew extends BaseQcomDevice
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public ManualParameterInterface getIsoParameter() {
-        return new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, parameters.getInt(KEYS.MIN_ISO), parameters.getInt(KEYS.MAX_ISO), cameraUiWrapper,1);
-    }
 
     @Override
     public long getCurrentExposuretime()

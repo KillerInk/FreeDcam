@@ -35,12 +35,11 @@ public class BaseISOManual extends BaseManualParameter {
 
     private String cur_iso_mode = KEYS.AUTO;
 
-    public BaseISOManual(Parameters parameters, String value, int min, int max
-            , CameraWrapperInterface cameraUiWrapper, float step) {
-        super(parameters, value, "", "", cameraUiWrapper, step);
+    public BaseISOManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+        super(parameters, "", "", "", cameraUiWrapper, 0);
         isSupported = true;
         isVisible = true;
-        stringvalues = createStringArray(min,max,step);
+        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualIso.getValues();
     }
 
     @Override

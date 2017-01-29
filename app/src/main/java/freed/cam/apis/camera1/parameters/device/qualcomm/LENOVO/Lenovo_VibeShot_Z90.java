@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
-import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
 import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
@@ -45,11 +44,6 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
     public Lenovo_VibeShot_Z90(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         //aeHandlerVibeShotZ90 = new AeHandlerVibeShotZ90(parameters,cameraUiWrapper);
-    }
-
-    @Override
-    public ManualParameterInterface getIsoParameter() {
-        return null;// aeHandlerVibeShotZ90.getManualIso();
     }
 
     class AeHandlerVibeShotZ90 extends AE_Handler_Abstract

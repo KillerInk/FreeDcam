@@ -44,12 +44,6 @@ public class HTC_M8 extends AbstractDevice {
     }
 
     @Override
-    public AbstractManualParameter getIsoParameter() {
-        return null;
-    }
-
-
-    @Override
     public AbstractManualParameter getCCTParameter() {
         return new CCTManualHtc(parameters, cameraUiWrapper);
     }

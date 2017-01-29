@@ -42,12 +42,6 @@ public class LG_G2pro extends BaseQcomDevice
     }
 
     @Override
-    public ManualParameterInterface getIsoParameter() {
-        return null;
-    }
-
-
-    @Override
     public ManualParameterInterface getCCTParameter() {
         return null;
     }

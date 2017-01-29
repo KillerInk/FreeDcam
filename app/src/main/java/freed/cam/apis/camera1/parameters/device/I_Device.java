@@ -28,8 +28,6 @@ import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
  */
 public interface I_Device
 {
-
-    ManualParameterInterface getIsoParameter();
     ManualParameterInterface getCCTParameter();
 
     ModeParameterInterface getOpCodeParameter();

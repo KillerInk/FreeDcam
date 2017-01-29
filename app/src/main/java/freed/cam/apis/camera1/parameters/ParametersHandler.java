@@ -45,6 +45,7 @@ import freed.cam.apis.camera1.parameters.manual.htc.FocusManualParameterHTC;
 import freed.cam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4;
 import freed.cam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
 import freed.cam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
+import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
 import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
 import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MicroSec;
 import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MilliSec;
@@ -293,6 +294,12 @@ public class ParametersHandler extends AbstractParameterHandler
                 ManualShutter = new ShutterManualG2pro(cameraParameters,cameraUiWrapper);
         }
 
+        //mtk and g4 aehandler set it already
+        if (appS.manualIso.isSupported())
+        {
+            ManualIso = new BaseISOManual(cameraParameters,cameraUiWrapper);
+        }
+
 
         VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
 
@@ -388,7 +395,6 @@ public class ParametersHandler extends AbstractParameterHandler
         opcode = Device.getOpCodeParameter();
         NightMode = Device.getNightMode();
 
-        ManualIso = Device.getIsoParameter();
         CCT = Device.getCCTParameter();
 
         HDRMode = Device.getHDRMode();

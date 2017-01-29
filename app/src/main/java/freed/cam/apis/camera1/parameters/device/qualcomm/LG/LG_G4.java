@@ -23,7 +23,6 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
 import freed.cam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4;
 import freed.cam.apis.camera1.parameters.manual.lg.CCTManualG4;
@@ -39,13 +38,6 @@ public class LG_G4 extends BaseQcomNew
         ae_handler_lgg4 = new AE_Handler_LGG4(parameters, cameraUiWrapper);
         parameters.set("lge-camera","1");
     }
-
-
-    @Override
-    public ManualParameterInterface getIsoParameter() {
-        return ae_handler_lgg4.getManualIso();
-    }
-
 
     @Override
     public AbstractManualParameter getCCTParameter() {
