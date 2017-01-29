@@ -9,6 +9,7 @@ import com.troop.freedcam.R;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import freed.cam.apis.KEYS;
@@ -240,7 +241,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     //lg shutter
                     else if (parameters.get(KEYS.LG_SHUTTER_SPEED_VALUES) != null) {
                         appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_LG);
-                        appSettingsManager.manualExposureTime.setValues(parameters.get(KEYS.LG_SHUTTER_SPEED_VALUES).split(","));
+                        ArrayList<String> l = new ArrayList(Arrays.asList(parameters.get(KEYS.LG_SHUTTER_SPEED_VALUES).replace(",0", "").split(",")));
+                        l.remove(0);
+                        appSettingsManager.manualExposureTime.setValues(l.toArray(new String[l.size()]));
                         appSettingsManager.manualExposureTime.setKEY(KEYS.LG_SHUTTER_SPEED);
                         appSettingsManager.manualExposureTime.setIsSupported(true);
                     }
