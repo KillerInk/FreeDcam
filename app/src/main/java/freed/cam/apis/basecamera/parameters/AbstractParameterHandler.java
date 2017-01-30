@@ -34,7 +34,6 @@ import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
-import freed.cam.apis.camera1.parameters.device.I_Device;
 import freed.utils.AppSettingsManager;
 
 /**
@@ -178,8 +177,6 @@ public abstract class AbstractParameterHandler
 
     }
 
-    public abstract I_Device getDevice();
-
     public abstract void SetFocusAREA(FocusRect focusAreas);
 
     public abstract void SetMeterAREA(FocusRect meteringAreas);
@@ -187,6 +184,10 @@ public abstract class AbstractParameterHandler
     public abstract void SetPictureOrientation(int or);
 
     public abstract float[] getFocusDistances();
+
+    public abstract long getCurrentExposuretime();
+
+    public abstract int getCurrentIso();
 
     public void SetAppSettingsToParameters()
     {

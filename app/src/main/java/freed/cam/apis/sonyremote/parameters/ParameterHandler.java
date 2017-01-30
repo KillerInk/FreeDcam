@@ -32,7 +32,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
-import freed.cam.apis.camera1.parameters.device.I_Device;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.FocusHandler;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
@@ -189,11 +188,6 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     }
 
     @Override
-    public I_Device getDevice() {
-        return null;
-    }
-
-    @Override
     public void SetFocusAREA(FocusRect focusAreas) {
 
     }
@@ -213,9 +207,15 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
         return new float[0];
     }
 
+    @Override
+    public long getCurrentExposuretime() {
+        return 0;
+    }
 
-
-
+    @Override
+    public int getCurrentIso() {
+        return 0;
+    }
 
 
     @Override

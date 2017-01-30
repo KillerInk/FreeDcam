@@ -332,6 +332,7 @@ public class AppSettingsManager {
     public final SettingMode modules;
     public final SettingMode nonZslManualMode;
     public final SettingMode virtualLensfilter;
+    public final SettingMode nightMode;
 
     public final TypeSettingsMode manualFocus;
     public final SettingMode manualExposureCompensation;
@@ -393,6 +394,7 @@ public class AppSettingsManager {
         modules = new SettingMode(getResourcesString(R.string.aps_module));
         nonZslManualMode = new SettingMode(getResourcesString(R.string.aps_nonzslmanualmode));
         virtualLensfilter = new SettingMode(getResourcesString(R.string.aps_virtuallensfilter));
+        nightMode = new SettingMode(getResourcesString(R.string.aps_nightmode));
 
 
         manualFocus = new TypeSettingsMode(getResourcesString(R.string.aps_manualfocus));
@@ -404,6 +406,7 @@ public class AppSettingsManager {
         manualSharpness = new SettingMode(getResourcesString(R.string.aps_manualsharpness));
         manualBrightness = new SettingMode(getResourcesString(R.string.aps_manualbrightness));
         manualContrast = new SettingMode(getResourcesString(R.string.aps_manualcontrast));
+
         matrixes = getMatrixes();
         opcodeUrlList = new String[2];
         dngProfileHashMap = getDngProfiles();
@@ -435,6 +438,16 @@ public class AppSettingsManager {
     public void setAreFeaturesDetected(boolean detected)
     {
         settings.edit().putBoolean(FEATUREDETECTED,detected).commit();
+    }
+
+    public boolean useQcomFocus()
+    {
+        return settings.getBoolean(getResourcesString(R.string.aps_qcomfocus),false);
+    }
+
+    public void setUseQcomFocus(boolean hasQcomFocus)
+    {
+        settings.edit().putBoolean(getResourcesString(R.string.aps_qcomfocus),hasQcomFocus).commit();
     }
 
     private void putString(String settingsval, String toSet)

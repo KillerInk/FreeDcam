@@ -15,9 +15,6 @@ import java.util.HashMap;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
-import freed.cam.apis.camera1.parameters.DeviceSelector;
-import freed.cam.apis.camera1.parameters.device.I_Device;
-import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
 
@@ -69,9 +66,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
             Camera.Parameters parameters = getParameters(i);
             publishProgress("Detecting Features");
-            I_Device device = new DeviceSelector().getDevice(null,parameters, appS);
 
-            detectedPictureFormats(parameters,device);
+            detectedPictureFormats(parameters);
             publishProgress("DngSupported:" + (appS.getDngProfilesMap().size() > 0) + " RawSupport:"+appS.rawPictureFormat.isSupported());
             publishProgress("PictureFormats:" + getStringFromArray(appS.pictureFormat.getValues()));
             publishProgress("RawFormats:" + getStringFromArray(appS.rawPictureFormat.getValues()));
@@ -187,11 +183,44 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             sendProgress(appS.manualIso,"Manual ISo");
 
             detectManualWhiteBalance(parameters);
+            sendProgress(appS.manualIso,"Manual Wb");
+
+            detectNightMode(parameters);
+
+            detectQcomFocus(parameters);
         }
 
         appS.SetCurrentCamera(0);
 
         return null;
+    }
+
+    private void detectQcomFocus(Camera.Parameters parameters)
+    {
+        if (parameters.get("touch-af-aec")!= null)
+            appSettingsManager.setUseQcomFocus(true);
+        else
+            appSettingsManager.setUseQcomFocus(false);
+    }
+
+    private void detectNightMode(Camera.Parameters parameters) {
+
+        switch (appSettingsManager.getDevice())
+        {
+            case XiaomiMI3W:
+            case XiaomiMI4C:
+            case XiaomiMI4W:
+            case XiaomiMI_Note_Pro:
+            case Xiaomi_RedmiNote:
+            case ZTE_ADV:
+            case ZTEADVIMX214:
+            case ZTEADV234:
+            case ZTE_Z5SMINI:
+            case ZTE_Z11:
+                appSettingsManager.nightMode.setIsSupported(true);
+                break;
+
+        }
     }
 
     private void detectManualWhiteBalance(Camera.Parameters parameters) {
@@ -991,7 +1020,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
     }
 
-    private void detectedPictureFormats(Camera.Parameters parameters, I_Device device)
+    private void detectedPictureFormats(Camera.Parameters parameters)
     {
         //drop raw for front camera
         if (appSettingsManager.getIsFrontCamera())

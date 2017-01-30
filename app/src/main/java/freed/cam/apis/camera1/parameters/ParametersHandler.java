@@ -20,9 +20,13 @@
 package freed.cam.apis.camera1.parameters;
 
 import android.graphics.Rect;
+import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -35,7 +39,6 @@ import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.FocusHandler;
-import freed.cam.apis.camera1.parameters.device.I_Device;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ExposureManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ZoomManualParameter;
@@ -59,12 +62,16 @@ import freed.cam.apis.camera1.parameters.manual.zte.FXManualParameter;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.ExposureLockParameter;
 import freed.cam.apis.camera1.parameters.modes.FocusPeakModeParameter;
+import freed.cam.apis.camera1.parameters.modes.HDRModeParameter;
+import freed.cam.apis.camera1.parameters.modes.NightModeXiaomi;
+import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.cam.apis.camera1.parameters.modes.PictureFormatHandler;
 import freed.cam.apis.camera1.parameters.modes.PictureSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
+import freed.cam.apis.camera1.parameters.modes.VideoStabilizationParameter;
 import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
@@ -88,7 +95,6 @@ public class ParametersHandler extends AbstractParameterHandler
 
     private Parameters cameraParameters;
     public Parameters getParameters(){return cameraParameters;}
-    private I_Device Device;
 
     public ParametersHandler(CameraWrapperInterface cameraUiWrapper)
     {
@@ -299,13 +305,44 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         //mtk and g4 aehandler set it already
-        if (appS.manualIso.isSupported())
+        if (appS.manualIso.isSupported() && ManualIso == null)
         {
             ManualIso = new BaseISOManual(cameraParameters,cameraUiWrapper);
         }
 
         if (appS.manualWhiteBalance.isSupported())
             CCT = new BaseCCTManual(cameraParameters,cameraUiWrapper);
+
+        if (appS.nightMode.isSupported()) {
+            switch (appSettingsManager.getDevice()) {
+                case XiaomiMI3W:
+                case XiaomiMI4C:
+                case XiaomiMI4W:
+                case XiaomiMI_Note_Pro:
+                case Xiaomi_RedmiNote:
+                    NightMode = new NightModeXiaomi(cameraParameters, cameraUiWrapper);
+                break;
+
+                case ZTE_ADV:
+                case ZTEADVIMX214:
+                case ZTEADV234:
+                case ZTE_Z5SMINI:
+                case ZTE_Z11:
+                    NightMode = new NightModeZTE(cameraParameters, cameraUiWrapper);
+                break;
+            }
+        }
+
+        switch (appS.getDevice())
+        {
+            case XiaomiMI5:
+            case XiaomiMI5s:
+                break;
+            default:
+                HDRMode = new HDRModeParameter(cameraParameters, cameraUiWrapper);
+                VideoStabilization = new VideoStabilizationParameter(cameraParameters,cameraUiWrapper);
+                break;
+        }
 
 
         VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
@@ -317,102 +354,28 @@ public class ParametersHandler extends AbstractParameterHandler
 
         ManualExposure = new ExposureManualParameter(cameraParameters, cameraUiWrapper,1);
 
+        FX = new FXManualParameter(cameraParameters, cameraUiWrapper);
+        PictureFormat.addEventListner(((BaseManualParameter) FX).GetPicFormatListner());
+        cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) FX).GetModuleListner());
 
-        //createManualSaturation();
+        Burst = new BurstManualParam(cameraParameters, cameraUiWrapper);
+        cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Burst).GetModuleListner());
 
+        Zoom = new ZoomManualParameter(cameraParameters, cameraUiWrapper);
 
-            FX = new FXManualParameter(cameraParameters, cameraUiWrapper);
-            PictureFormat.addEventListner(((BaseManualParameter) FX).GetPicFormatListner());
-            cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) FX).GetModuleListner());
+        ExposureLock = new ExposureLockParameter(cameraParameters, cameraUiWrapper);
 
+        Focuspeak = new FocusPeakModeParameter(cameraUiWrapper,((Camera1Fragment) cameraUiWrapper).focusPeakProcessorAp1);
 
-            Burst = new BurstManualParam(cameraParameters, cameraUiWrapper);
-            cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Burst).GetModuleListner());
+        SetCameraRotation();
 
-
-
-            Zoom = new ZoomManualParameter(cameraParameters, cameraUiWrapper);
-
-
-
-
-
-
-
-
-        /*try {
-            SkinToneEnhancment = new BaseModeParameter(cameraParameters, cameraUiWrapper, KEYS.SKINETONEENHANCEMENT, KEYS.SKINETONEENHANCEMENT_VALUES);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            SkinToneEnhancment = null;
-        }*/
-
-       /* try {
-            CameraMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "camera-mode", "camera-mode-values");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            CameraMode = null;
-        }*/
-
-            ExposureLock = new ExposureLockParameter(cameraParameters, cameraUiWrapper);
-
-
-
-
-      /*  try {
-            RdiMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "rdi-mode", "rdi-mode-values");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            RdiMode = null;
-        }*/
-
-       /* try {
-            SecureMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "secure-mode", "secure-mode-values");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            SecureMode = null;
-        }*/
-
-
-       /* try {
-            TnrMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "tnr-mode", "tnr-mode-values");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            TnrMode = null;
-        }*/
-
-
-            Focuspeak = new FocusPeakModeParameter(cameraUiWrapper,((Camera1Fragment) cameraUiWrapper).focusPeakProcessorAp1);
-
-
-            SetCameraRotation();
-            SetPictureOrientation(0);
-
-
-
-        //load device specific stuff
-        Device = new DeviceSelector().getDevice(cameraUiWrapper, cameraParameters, appSettingsManager);
-
-        if (Device == null)
-        {
-            Log.d(TAG,"################# DEVICES IS NULL! FAIL!");
-            throw new NullPointerException("DEVICE IS NULL");
-        }
-
-
-        NightMode = Device.getNightMode();
-
-
-
-        HDRMode = Device.getHDRMode();
-        VideoStabilization = Device.getVideoStabilisation();
+        SetPictureOrientation(0);
 
         Module = new ModuleParameters(cameraUiWrapper, appSettingsManager);
 
 
         //set last used settings
         SetAppSettingsToParameters();
-        /*SetParametersToCamera(cameraParameters);*/
 
         cameraUiWrapper.GetModuleHandler().SetModule(appSettingsManager.GetCurrentModule());
     }
@@ -431,26 +394,31 @@ public class ParametersHandler extends AbstractParameterHandler
     }
 
     @Override
-    public I_Device getDevice() {
-        return Device;
-    }
-
-    @Override
     public void SetFocusAREA(FocusRect focusAreas)
     {
-        getDevice().SetFocusArea(focusAreas);
+        if (appSettingsManager.useQcomFocus())
+            setQcomFocus(focusAreas);
+        else
+            setAndroidFocus(focusAreas);
     }
 
-    public static Rect viewToCameraArea(Rect v,int xPrev,int yPrev)
+    private void setQcomFocus(FocusRect focusAreas)
     {
+        cameraParameters.set("touch-aec", "on");
+        cameraParameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
+        SetParametersToCamera(cameraParameters);
+    }
 
-        Rect rect = new Rect();
-
-        rect.left = v.left * 2000 / xPrev  - 1000;
-        rect.top = v.top * 2000/ yPrev - 1000;
-        rect.right = v.right * 2000/xPrev -1000;
-        rect.bottom = v.bottom * 2000/yPrev -1000;
-        return rect;
+    private void setAndroidFocus(FocusRect focusAreas)
+    {
+        if (focusAreas != null) {
+            List<Camera.Area> l = new ArrayList<>();
+            l.add(new Camera.Area(new Rect(focusAreas.left, focusAreas.top, focusAreas.right, focusAreas.bottom), 1000));
+            cameraParameters.setFocusAreas(l);
+        }
+        else
+            cameraParameters.setFocusAreas(null);
+        SetParametersToCamera(cameraParameters);
     }
 
     @Override
@@ -474,6 +442,75 @@ public class ParametersHandler extends AbstractParameterHandler
         float focusdistance[] = new float[3];
         ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCameraParameters().getFocusDistances(focusdistance);
         return focusdistance;
+    }
+
+    @Override
+    public long getCurrentExposuretime()
+    {
+        Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
+            if (parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK) != null) {
+                if (Long.parseLong(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK)) == 0) {
+                    return 0;
+                } else
+                    return Long.parseLong(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK));
+            } else if (parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1) != null) {
+                if (Long.parseLong(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1)) == 0) {
+                    return 0;
+                } else
+                    return Long.parseLong(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1));
+            } else
+                return 0;
+        }
+        else
+        {
+            if (parameters.get(KEYS.CUR_EXPOSURE_TIME)!= null)
+                return (long)Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME))*1000000;
+        }
+        return 0;
+    }
+
+    @Override
+    public int getCurrentIso() {
+        Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
+        if (appSettingsManager.getFrameWork() == FRAMEWORK_MTK)
+        {
+            if(parameters.get(KEYS.CUR_ISO_MTK)!= null) {
+                if (Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK)) == 0) {
+                    return 0;
+                }
+                return Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK)) / 256 * 100;
+            }
+            else if(parameters.get(KEYS.CUR_ISO_MTK2)!= null)
+            {
+                if (Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK2)) == 0) {
+                    return 0;
+                }
+                return Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK2)) / 256 * 100;
+            }
+            else
+                return 0;
+        }
+        else
+        {
+            if (parameters.get(KEYS.CUR_ISO)!= null)
+                return Integer.parseInt(parameters.get(KEYS.CUR_ISO));
+        }
+        return 0;
+    }
+
+    public float getFnumber()
+    {
+        if (cameraParameters.get("f-number")!= null) {
+            return Float.parseFloat(cameraParameters.get("f-number"));
+        }
+        else
+            return 2.0f;
+    }
+
+    public float getFocal()
+    {
+        return cameraParameters.getFocalLength();
     }
 
     public void SetCameraRotation()
@@ -501,6 +538,12 @@ public class ParametersHandler extends AbstractParameterHandler
         } catch (InterruptedException e) {
             Log.e(TAG,e.getMessage());
         }
+    }
+
+    public void Set_RAWFNAME(String filename)
+    {
+        cameraParameters.set("rawfname", filename);
+        SetParametersToCamera(cameraParameters);
     }
 
 

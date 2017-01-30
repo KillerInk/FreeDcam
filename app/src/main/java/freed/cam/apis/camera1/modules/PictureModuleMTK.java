@@ -30,6 +30,7 @@ import java.io.IOException;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
 import freed.utils.StringUtils;
@@ -61,7 +62,7 @@ public class PictureModuleMTK extends PictureModule
                 waitForPicture = true;
                 if (cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(FileEnding.BAYER) || cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(FileEnding.DNG)) {
                     String timestamp = String.valueOf(System.currentTimeMillis());
-                    cameraUiWrapper.GetParameterHandler().getDevice().Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
+                    ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
                 }
                 isWorking = true;
                 changeCaptureState(CaptureStates.image_capture_start);

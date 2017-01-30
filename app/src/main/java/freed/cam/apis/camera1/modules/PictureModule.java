@@ -254,14 +254,14 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
     protected void saveDng(byte[] data, File file)
     {
 
-        float fnum = cameraUiWrapper.GetParameterHandler().getDevice().GetFnumber();
-        float focal = cameraUiWrapper.GetParameterHandler().getDevice().GetFocal();
-        long exposuretime = cameraUiWrapper.GetParameterHandler().getDevice().getCurrentExposuretime();
+        float fnum = ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getFnumber();
+        float focal = ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getFocal();
+        long exposuretime = cameraUiWrapper.GetParameterHandler().getCurrentExposuretime();
         if (exposuretime == 0 && startcapturetime != 0)
         {
             exposuretime = new Date().getTime() - startcapturetime;
         }
-        int iso = cameraUiWrapper.GetParameterHandler().getDevice().getCurrentIso();
+        int iso = cameraUiWrapper.GetParameterHandler().getCurrentIso();
         String wb = null;
         if (cameraUiWrapper.GetParameterHandler().CCT != null && cameraUiWrapper.GetParameterHandler().CCT.IsSupported())
         {
