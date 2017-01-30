@@ -135,6 +135,8 @@ public class CustomMatrix
 
     public static double[] getDoubleMatrixFromString(String m)
     {
+        if (m.equals("NULL" )|| TextUtils.isEmpty(m))
+            return null;
         String[] split = m.split(",");
         double[] ar = new double[split.length];
         for (int i = 0; i< split.length; i++)

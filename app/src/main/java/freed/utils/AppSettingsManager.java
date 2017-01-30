@@ -355,8 +355,11 @@ public class AppSettingsManager {
     {
         settings = sharedPreferences;
         this.resources = resources;
-        if (getDevice() == null)
+        if (getDevice() == null || getDevice().equals(""))
             SetDevice(new DeviceUtils().getDevice(getResources()));
+        else {
+            SetDevice(getDevice());
+        }
         pictureFormat = new SettingMode(getResourcesString(R.string.aps_pictureformat));
         rawPictureFormat = new SettingMode(getResourcesString(R.string.aps_rawpictureformat));
         pictureSize = new SettingMode(getResourcesString(R.string.aps_picturesize));
