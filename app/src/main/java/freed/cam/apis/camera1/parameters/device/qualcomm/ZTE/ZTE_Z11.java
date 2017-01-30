@@ -20,16 +20,6 @@ public class ZTE_Z11 extends BaseQcomDevice {
         super(parameters, cameraUiWrapper);
     }
 
-   /* @Override
-    public ManualParameterInterface getManualFocusParameter() {
-        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,1);
-    }*/
-
-    @Override
-    public ManualParameterInterface getCCTParameter() {
-        return new BaseCCTManual(parameters,KEYS.WB_MANUAL_CCT,8000,2000, cameraUiWrapper,100, KEYS.WB_MODE_MANUAL_CCT);
-    }
-
     @Override
     public ModeParameterInterface getNightMode() {
         return new NightModeZTE(parameters, cameraUiWrapper);

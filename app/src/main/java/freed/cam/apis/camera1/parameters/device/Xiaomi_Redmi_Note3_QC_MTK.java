@@ -47,13 +47,6 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
             ae_handler_mtk = new AE_Handler_MTK(parameters, cameraUiWrapper,2700);
     }
 
-
-    @Override
-    public ManualParameterInterface getCCTParameter()
-    {
-        return null;
-    }
-
     @Override
     public void SetFocusArea(FocusRect focusAreas) {
         if (parameters.get("touch-aec")!= null) {

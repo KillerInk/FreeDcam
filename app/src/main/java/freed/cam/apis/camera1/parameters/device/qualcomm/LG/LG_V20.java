@@ -19,9 +19,4 @@ public class LG_V20 extends LG_G2
         ae_handler_lgg4 = new AE_Handler_LGG4(parameters, cameraUiWrapper);
         parameters.set("lge-camera","1");
     }
-
-    @Override
-    public AbstractManualParameter getCCTParameter() {
-        return new CCTManualG4(parameters, cameraUiWrapper);
-    }
 }

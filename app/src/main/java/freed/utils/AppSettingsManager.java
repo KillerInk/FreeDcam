@@ -342,6 +342,8 @@ public class AppSettingsManager {
     public final SettingMode manualBrightness;
     public final SettingMode manualContrast;
 
+    public final TypeSettingsMode manualWhiteBalance;
+
     public final String[] opcodeUrlList;
 
 
@@ -396,6 +398,7 @@ public class AppSettingsManager {
         manualFocus = new TypeSettingsMode(getResourcesString(R.string.aps_manualfocus));
         manualExposureCompensation = new SettingMode(getResourcesString(R.string.aps_manualexpocomp));
         manualExposureTime = new TypeSettingsMode(getResourcesString(R.string.aps_manualexpotime));
+        manualWhiteBalance = new TypeSettingsMode(getResourcesString(R.string.aps_manualwb));
         manualIso = new SettingMode(getResourcesString(R.string.aps_manualiso));
         manualSaturation = new SettingMode(getResourcesString(R.string.aps_manualsaturation));
         manualSharpness = new SettingMode(getResourcesString(R.string.aps_manualsharpness));

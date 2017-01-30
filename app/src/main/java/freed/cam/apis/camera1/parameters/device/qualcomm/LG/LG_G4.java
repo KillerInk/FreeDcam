@@ -39,9 +39,4 @@ public class LG_G4 extends BaseQcomNew
         parameters.set("lge-camera","1");
     }
 
-    @Override
-    public AbstractManualParameter getCCTParameter() {
-        return new CCTManualG4(parameters, cameraUiWrapper);
-    }
-
 }

@@ -28,7 +28,6 @@ import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
  */
 public interface I_Device
 {
-    ManualParameterInterface getCCTParameter();
 
     ModeParameterInterface getNightMode();
     ModeParameterInterface getHDRMode();

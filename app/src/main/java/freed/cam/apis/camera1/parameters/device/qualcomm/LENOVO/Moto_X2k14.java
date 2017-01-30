@@ -41,11 +41,6 @@ public class Moto_X2k14 extends AbstractDevice {
     }
 
     @Override
-    public AbstractManualParameter getCCTParameter() {
-        return null;
-    }
-
-    @Override
     public void SetFocusArea(FocusRect focusAreas) {
         Camera.Area a = new Camera.Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
         ArrayList<Camera.Area> ar = new ArrayList<>();

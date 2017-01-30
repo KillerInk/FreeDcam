@@ -42,39 +42,6 @@ public class BaseQcomDevice extends AbstractDevice
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public ManualParameterInterface getCCTParameter()
-    {
-        // looks like wb-current-cct is loaded when the preview is up. this could be also for the other parameters
-        String wbModeval ="", wbmax = "",wbmin = "";
-
-        if (parameters.get(KEYS.MAX_WB_CCT) != null) {
-            wbmax = KEYS.MAX_WB_CCT;
-        }
-        else if (parameters.get(KEYS.MAX_WB_CT)!= null)
-            wbmax =KEYS.MAX_WB_CT;
-
-        if (parameters.get(KEYS.MIN_WB_CCT)!= null) {
-            wbmin =KEYS.MIN_WB_CCT;
-        } else if (parameters.get(KEYS.MIN_WB_CT)!= null)
-            wbmin =KEYS.MIN_WB_CT;
-
-        if (arrayContainsString(parametersHandler.WhiteBalanceMode.GetValues(), KEYS.WB_MODE_MANUAL))
-            wbModeval = KEYS.WB_MODE_MANUAL;
-        else if (arrayContainsString(parametersHandler.WhiteBalanceMode.GetValues(), KEYS.WB_MODE_MANUAL_CCT))
-            wbModeval = KEYS.WB_MODE_MANUAL_CCT;
-
-        if (!wbmax.equals("") && !wbmin.equals("") && !wbModeval.equals("")) {
-            Log.d(TAG, "Found all wbct values:" +wbmax + " " + wbmin + " " +wbModeval);
-            return new BaseCCTManual(parameters, wbmax, wbmin, cameraUiWrapper, 100, wbModeval);
-        }
-        else {
-            Log.d(TAG, "Failed to lookup wbct:" + " " +wbmax + " " + wbmin + " " +wbModeval);
-            return null;
-        }
-    }
-
-
     private boolean arrayContainsString(String[] ar,String dif)
     {
         boolean ret = false;

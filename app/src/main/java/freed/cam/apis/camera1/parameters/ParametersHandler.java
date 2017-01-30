@@ -54,6 +54,7 @@ import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualKrillin;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualMeizu;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualParameterHTC;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualSony;
+import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.cam.apis.camera1.parameters.manual.zte.FXManualParameter;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.ExposureLockParameter;
@@ -303,6 +304,9 @@ public class ParametersHandler extends AbstractParameterHandler
             ManualIso = new BaseISOManual(cameraParameters,cameraUiWrapper);
         }
 
+        if (appS.manualWhiteBalance.isSupported())
+            CCT = new BaseCCTManual(cameraParameters,cameraUiWrapper);
+
 
         VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
 
@@ -398,7 +402,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
         NightMode = Device.getNightMode();
 
-        CCT = Device.getCCTParameter();
+
 
         HDRMode = Device.getHDRMode();
         VideoStabilization = Device.getVideoStabilisation();

@@ -40,6 +40,46 @@ public class BaseCCTManual extends BaseManualParameter
     private final String TAG = BaseCCTManual.class.getSimpleName();
 
     private final String manual_WbMode;
+
+
+    public BaseCCTManual(final Parameters parameters,final CameraWrapperInterface cameraUiWrapper) {
+        super(parameters, "", "", "", cameraUiWrapper, 0);
+        manual_WbMode = cameraUiWrapper.GetAppSettingsManager().manualWhiteBalance.getMode();
+        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualWhiteBalance.getValues();
+        isSupported = true;
+        isVisible = false;
+
+        //wait 800ms to give awb a chance to set the ct value to the parameters
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //get fresh parameters from camera
+                Camera.Parameters parameters1 = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
+                String wbcur = "";
+                //lookup if ct value is avail
+                if (parameters1.get(KEYS.WB_CURRENT_CCT)!=null)
+                    wbcur = KEYS.WB_CURRENT_CCT;
+                else if (parameters1.get(KEYS.WB_CCT) != null)
+                    wbcur = KEYS.WB_CCT;
+                else if (parameters1.get(KEYS.WB_CT) != null)
+                    wbcur = KEYS.WB_CT;
+                else if (parameters1.get(KEYS.WB_MANUAL_CCT) != null)
+                    wbcur = KEYS.WB_MANUAL_CCT;
+                else if (parameters1.get(KEYS.MANUAL_WB_VALUE) != null)
+                    wbcur = KEYS.MANUAL_WB_VALUE;
+                if (wbcur != "")
+                {
+                    //update our stored parameters with ct
+                    parameters.set(wbcur, parameters1.get(wbcur));
+                    isSupported = true;
+                    isVisible = true;
+                    key_value = wbcur;
+                    BaseCCTManual.this.ThrowBackgroundIsSupportedChanged(true);
+                }
+            }
+        }, 800);
+    }
+
     /**
      * @param parameters
      * @param value

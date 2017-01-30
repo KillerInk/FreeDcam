@@ -35,9 +35,4 @@ public class LG_G3 extends LG_G2
         parameters.set("lge-camera","1");
     }
 
-    @Override
-    public AbstractManualParameter getCCTParameter() {
-        return null;
-    }
-
 }

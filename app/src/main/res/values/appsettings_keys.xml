@@ -53,5 +53,6 @@
     <string name="aps_manualsharpness" translatable="false">sharpness</string>
     <string name="aps_manualbrightness" translatable="false">brightness</string>
     <string name="aps_manualcontrast" translatable="false">contrast</string>
+    <string name="aps_manualwb" translatable="false">manualwb</string>
 
 </resources>

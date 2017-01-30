@@ -42,11 +42,6 @@ public class LG_G2pro extends BaseQcomDevice
     }
 
     @Override
-    public ManualParameterInterface getCCTParameter() {
-        return null;
-    }
-
-    @Override
     public void SetFocusArea(FocusRect focusAreas) {
         parameters.set("touch-aec", "on");
         parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);

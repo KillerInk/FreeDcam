@@ -41,16 +41,6 @@ public class ZTE_ADV_IMX234 extends ZTE_ADV {
         super(parameters, cameraUiWrapper);
     }
 
-  /*  @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,1);
-    }*/
-
-    @Override
-    public AbstractManualParameter getCCTParameter() {
-        return new BaseCCTManual(parameters,KEYS.WB_MANUAL_CCT,8000,2000, cameraUiWrapper,100, KEYS.WB_MODE_MANUAL_CCT);
-    }
-
     @Override
     public ModeParameterInterface getNightMode() {
         return new NightModeZTE(parameters, cameraUiWrapper);

@@ -52,13 +52,6 @@ public class BaseMTKDevice extends AbstractDevice
         parameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/test."+ FileEnding.BAYER);
     }
 
-
-    @Override
-    public ManualParameterInterface getCCTParameter() {
-        return null;
-    }
-
-
     @Override
     public long getCurrentExposuretime() {
         if(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK)!= null) {
