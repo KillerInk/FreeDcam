@@ -340,6 +340,12 @@ public class AppSettingsManager {
     public final SettingMode opcode;
     public final SettingMode matrixset;
     public final SettingMode sdcardlocation;
+    public final SettingMode colorCorrectionMode;
+    public final SettingMode objectTracking;
+    public final SettingMode toneMapMode;
+    public final SettingMode postviewSize;
+    public final SettingMode zoommode;
+    public final SettingMode scalePreview;
 
     public final TypeSettingsMode manualFocus;
     public final SettingMode manualExposureCompensation;
@@ -412,6 +418,12 @@ public class AppSettingsManager {
         opcode = new SettingMode(getResourcesString(R.string.aps_opcode));
         matrixset = new SettingMode(getResourcesString(R.string.aps_matrixset));
         sdcardlocation = new SettingMode(getResourcesString(R.string.aps_sdcard));
+        colorCorrectionMode = new SettingMode(getResourcesString(R.string.aps_cctmode));
+        objectTracking = new SettingMode(getResourcesString(R.string.aps_objecttracking));
+        toneMapMode = new SettingMode(getResourcesString(R.string.aps_tonemapmode));
+        postviewSize = new SettingMode(getResourcesString(R.string.aps_postviewsize));
+        zoommode = new SettingMode(getResourcesString(R.string.aps_zoommode));
+        scalePreview = new SettingMode(getResourcesString(R.string.aps_scalePreview));
 
 
         manualFocus = new TypeSettingsMode(getResourcesString(R.string.aps_manualfocus));

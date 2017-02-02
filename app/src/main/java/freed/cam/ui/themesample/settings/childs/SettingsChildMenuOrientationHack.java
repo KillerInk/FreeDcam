@@ -20,7 +20,6 @@
 package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
-import android.util.AttributeSet;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;

@@ -24,14 +24,18 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
+import freed.cam.ui.themesample.settings.childs.GroupChild;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
 import freed.utils.AppSettingsManager;
 
@@ -42,34 +46,8 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
 {
     private static final String TAG = RightMenuFragment.class.getSimpleName();
     private SettingsChildClick onMenuItemClick;
-    private SettingsChildMenu scene;
-    private SettingsChildMenu color;
-    private SettingsChildMenu cctMode;
-    private SettingsChildMenu objectTrackingMode;
-    private SettingsChildMenu toneMapMode;
-    private SettingsChildMenu postViewSize;
-    private SettingsChildMenu controleMode;
 
-    private SettingsChildMenu antiBanding;
-    private SettingsChildMenu ipp;
-    private SettingsChildMenu lensShade;
-    private SettingsChildMenu sceneDetectMode;
-    private SettingsChildMenu waveletdenoiseMode;
-    private SettingsChildMenu digitalImageStabilization;
-    private SettingsChildMenu memoryColorEnhancement;
-    private SettingsChildMenu ZeroShutterLag;
-    private SettingsChildMenu nonZSLmanualMode;
-    private SettingsChildMenu correlatedDoubleSampling;
-    private SettingsChildMenu temporalDenoise;
-    private SettingsChildMenu edgeMode;
-    private SettingsChildMenu hotPixelMode;
-    private SettingsChildMenu opticalImageStabilization;
-    private SettingsChildMenu zoomSetting;
-    private SettingsChildMenu redeyeflash;
-
-    private SettingsChildMenu LensFilter;
-
-    private SettingsChildMenu scalePreview;
+    private LinearLayout settingchildholder;
 
 
     @Override
@@ -83,138 +61,174 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        scene = (SettingsChildMenu) view.findViewById(id.MenuItemScene);
-        color = (SettingsChildMenu) view.findViewById(id.MenuItemColor);
-        cctMode = (SettingsChildMenu) view.findViewById(id.MenuItemCCTMode);
-        objectTrackingMode = (SettingsChildMenu) view.findViewById(id.MenuItemObjectTracking);
-        toneMapMode = (SettingsChildMenu) view.findViewById(id.MenuItemTonemap);
-        postViewSize = (SettingsChildMenu) view.findViewById(id.MenuItemPostViewSize);
-        controleMode = (SettingsChildMenu) view.findViewById(id.MenuItemControlMode);
-        redeyeflash = (SettingsChildMenu) view.findViewById(id.MenuItemRedEye);
-        antiBanding = (SettingsChildMenu) view.findViewById(id.MenuItemAntiBanding);
-        ipp = (SettingsChildMenu) view.findViewById(id.MenuItemIpp);
-        lensShade = (SettingsChildMenu) view.findViewById(id.MenuItemLensShade);
-        sceneDetectMode = (SettingsChildMenu) view.findViewById(id.MenuItemSceneDetection);
-        waveletdenoiseMode = (SettingsChildMenu) view.findViewById(id.MenuItemWaveletDenoise);
-        digitalImageStabilization = (SettingsChildMenu) view.findViewById(id.MenuItemDigitalImageStab);
-        memoryColorEnhancement = (SettingsChildMenu) view.findViewById(id.MenuItemMemoryColorEnhanc);
-        ZeroShutterLag = (SettingsChildMenu) view.findViewById(id.MenuItemZSL);
-        nonZSLmanualMode = (SettingsChildMenu) view.findViewById(id.MenuItemNonManualZSL);
-        correlatedDoubleSampling = (SettingsChildMenu) view.findViewById(id.MenuItemCorrelatedDoubleSampling);
-        temporalDenoise = (SettingsChildMenu) view.findViewById(id.MenuItemTemporalDenoise);
-        edgeMode = (SettingsChildMenu) view.findViewById(id.MenuItemEdgeMode);
-        hotPixelMode = (SettingsChildMenu) view.findViewById(id.MenuItemHotPixelMode);
-        opticalImageStabilization = (SettingsChildMenu) view.findViewById(id.MenuItemOIS);
-        LensFilter = (SettingsChildMenu) view.findViewById(id.LensFilter);
-        zoomSetting = (SettingsChildMenu) view.findViewById(id.MenuItemZoomSetting);
-        scalePreview = (SettingsChildMenu)view.findViewById(id.MenuItemScalePreview);
+        settingchildholder = (LinearLayout)view.findViewById(id.SettingChildHolder);
         setCameraUiWrapperToUi();
     }
 
     @Override
     protected void setCameraUiWrapperToUi()
     {
-        if (cameraUiWrapper == null)
-            return;
-            scene.SetStuff(fragment_activityInterface.getAppSettings().sceneMode);
-            scene.SetParameter(cameraUiWrapper.GetParameterHandler().SceneMode);
-            scene.SetUiItemClickListner(this);
+        settingchildholder.removeAllViews();
+        if (cameraUiWrapper != null)
+        {
+            AppSettingsManager apS = cameraUiWrapper.GetAppSettingsManager();
+            AbstractParameterHandler params = cameraUiWrapper.GetParameterHandler();
 
-        color.SetStuff(fragment_activityInterface.getAppSettings().colorMode);
-        color.SetParameter(cameraUiWrapper.GetParameterHandler().ColorMode);
-        color.SetUiItemClickListner(this);
+            GroupChild settingsgroup = new GroupChild(getContext(), getString(R.string.setting_camera_));
 
-        cctMode.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_COLORCORRECTION);
-        cctMode.SetParameter(cameraUiWrapper.GetParameterHandler().ColorCorrectionMode);
-        cctMode.SetUiItemClickListner(this);
+            if (params.SceneMode != null)
+            {
+                SettingsChildMenu scene = new SettingsChildMenu(getContext(), apS.sceneMode, params.SceneMode, R.string.setting_scene_header, R.string.setting_scene_description);
+                scene.SetUiItemClickListner(this);
+                settingsgroup.addView(scene);
+            }
 
-        objectTrackingMode.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_OBJECTTRACKING);
-        objectTrackingMode.SetParameter(cameraUiWrapper.GetParameterHandler().ObjectTracking);
-        objectTrackingMode.SetUiItemClickListner(this);
+            if (params.ColorMode != null)
+            {
+                SettingsChildMenu color = new SettingsChildMenu(getContext(), apS.colorMode, params.ColorMode, R.string.setting_color_header, R.string.setting_color_description);
+                color.SetUiItemClickListner(this);
+                settingsgroup.addView(color);
+            }
 
-        toneMapMode.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_TONEMAP);
-        toneMapMode.SetParameter(cameraUiWrapper.GetParameterHandler().ToneMapMode);
-        toneMapMode.SetUiItemClickListner(this);
+            if (params.ColorCorrectionMode != null)
+            {
+                SettingsChildMenu cct = new SettingsChildMenu(getContext(), apS.colorCorrectionMode, params.ColorCorrectionMode, R.string.setting_colorcorrection_header, R.string.setting_colorcorrection_description);
+                cct.SetUiItemClickListner(this);
+                settingsgroup.addView(cct);
+            }
+            if (params.ObjectTracking != null)
+            {
+                SettingsChildMenu ot = new SettingsChildMenu(getContext(), apS.objectTracking, params.ObjectTracking, R.string.setting_objecttrack_header, R.string.setting_objecttrack_description);
+                ot.SetUiItemClickListner(this);
+                settingsgroup.addView(ot);
+            }
+            if (params.ToneMapMode != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.toneMapMode, params.ToneMapMode, R.string.setting_tonemap_header, R.string.setting_tonemap_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.PostViewSize != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.postviewSize, params.PostViewSize, R.string.setting_postview_header, R.string.setting_postview_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.ControlMode != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.controlMode, params.ControlMode, R.string.setting_controlmode_header, R.string.setting_controlmode_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.RedEye != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.redEyeMode, params.RedEye, R.string.setting_redeye_header, R.string.setting_redeye_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.AntiBandingMode != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.antiBandingMode, params.AntiBandingMode, R.string.setting_antiflicker_header, R.string.setting_antiflicker_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.ImagePostProcessing != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.imagePostProcessing, params.ImagePostProcessing, R.string.setting_ipp_header, R.string.setting_ipp_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
 
-        postViewSize.SetStuff(fragment_activityInterface, "");
-        postViewSize.SetParameter(cameraUiWrapper.GetParameterHandler().PostViewSize);
-        postViewSize.SetUiItemClickListner(this);
+            if (params.LensShade != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.lenshade, params.LensShade, R.string.setting_lensshade_header, R.string.setting_lensshade_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.SceneDetect != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.sceneDetectMode, params.SceneDetect, R.string.setting_scenedec_header, R.string.setting_scenedec_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.Denoise != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.denoiseMode, params.Denoise, R.string.setting_waveletdenoise_header, R.string.setting_waveletdenoise_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.LensFilter != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.virtualLensfilter, params.LensFilter, R.string.setting_lensfilter_header, R.string.setting_lensfilter_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.DigitalImageStabilization != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.digitalImageStabilisationMode, params.DigitalImageStabilization, R.string.setting_dis_header, R.string.setting_dis_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.MemoryColorEnhancement != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.memoryColorEnhancement, params.MemoryColorEnhancement, R.string.setting_mce_header, R.string.setting_mce_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.ZSL != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.zeroshutterlag, params.ZSL, R.string.setting_zsl_header, R.string.setting_zsl_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.NonZslManualMode != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.nonZslManualMode, params.NonZslManualMode, R.string.setting_nonzsl_header, R.string.setting_nonzsl_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.CDS_Mode != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.correlatedDoubleSampling, params.CDS_Mode, R.string.setting_cds_header, R.string.setting_cds_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.EdgeMode != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.edgeMode, params.EdgeMode, R.string.setting_edge_header, R.string.setting_edge_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.HotPixelMode != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.hotpixelMode, params.HotPixelMode, R.string.setting_hotpixel_header, R.string.setting_hotpixel_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.oismode != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.opticalImageStabilisation, params.oismode, R.string.setting_ois_header, R.string.setting_ois_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.ZoomSetting != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.zoommode, params.ZoomSetting, R.string.setting_zoomsetting_header, R.string.setting_zoomsetting_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.scalePreview != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.scalePreview, params.scalePreview, R.string.setting_scalepreview_header, R.string.setting_scalepreview_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            settingchildholder.addView(settingsgroup);
+        }
 
-        controleMode.SetStuff(fragment_activityInterface.getAppSettings().controlMode);
-        controleMode.SetParameter(cameraUiWrapper.GetParameterHandler().ControlMode);
-        controleMode.SetUiItemClickListner(this);
-
-        redeyeflash.SetStuff(fragment_activityInterface.getAppSettings().redEyeMode);
-        redeyeflash.SetParameter(cameraUiWrapper.GetParameterHandler().RedEye);
-        redeyeflash.SetUiItemClickListner(this);
-
-        antiBanding.SetStuff(fragment_activityInterface.getAppSettings().antiBandingMode);
-        antiBanding.SetParameter(cameraUiWrapper.GetParameterHandler().AntiBandingMode);
-        antiBanding.SetUiItemClickListner(this);
-
-        ipp.SetStuff(fragment_activityInterface.getAppSettings().imagePostProcessing);
-        ipp.SetParameter(cameraUiWrapper.GetParameterHandler().ImagePostProcessing);
-        ipp.SetUiItemClickListner(this);
-
-        lensShade.SetStuff(fragment_activityInterface.getAppSettings().lenshade);
-        lensShade.SetParameter(cameraUiWrapper.GetParameterHandler().LensShade);
-        lensShade.SetUiItemClickListner(this);
-
-        sceneDetectMode.SetStuff(fragment_activityInterface.getAppSettings().sceneDetectMode);
-        sceneDetectMode.SetParameter(cameraUiWrapper.GetParameterHandler().SceneDetect);
-        sceneDetectMode.SetUiItemClickListner(this);
-
-        waveletdenoiseMode.SetStuff(fragment_activityInterface.getAppSettings().sceneDetectMode);
-        waveletdenoiseMode.SetParameter(cameraUiWrapper.GetParameterHandler().Denoise);
-        waveletdenoiseMode.SetUiItemClickListner(this);
-
-        LensFilter.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_Filter);
-        LensFilter.SetParameter(cameraUiWrapper.GetParameterHandler().LensFilter);
-        LensFilter.SetUiItemClickListner(this);
-
-        digitalImageStabilization.SetStuff(fragment_activityInterface.getAppSettings().digitalImageStabilisationMode);
-        digitalImageStabilization.SetParameter(cameraUiWrapper.GetParameterHandler().DigitalImageStabilization);
-        digitalImageStabilization.SetUiItemClickListner(this);
-
-        memoryColorEnhancement.SetStuff(fragment_activityInterface.getAppSettings().memoryColorEnhancement);
-        memoryColorEnhancement.SetParameter(cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement);
-        memoryColorEnhancement.SetUiItemClickListner(this);
-
-        ZeroShutterLag.SetStuff(fragment_activityInterface.getAppSettings().zeroshutterlag);
-        ZeroShutterLag.SetParameter(cameraUiWrapper.GetParameterHandler().ZSL);
-        ZeroShutterLag.SetUiItemClickListner(this);
-
-        nonZSLmanualMode.SetStuff(fragment_activityInterface, AppSettingsManager.NONZSLMANUALMODE);
-        nonZSLmanualMode.SetParameter(cameraUiWrapper.GetParameterHandler().NonZslManualMode);
-        nonZSLmanualMode.SetUiItemClickListner(this);
-
-        correlatedDoubleSampling.SetStuff(fragment_activityInterface.getAppSettings().correlatedDoubleSampling);
-        correlatedDoubleSampling.SetParameter(cameraUiWrapper.GetParameterHandler().CDS_Mode);
-        correlatedDoubleSampling.SetUiItemClickListner(this);
-
-        temporalDenoise.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_TNR);
+       /* temporalDenoise.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_TNR);
         temporalDenoise.SetParameter(cameraUiWrapper.GetParameterHandler().TnrMode);
-        temporalDenoise.SetUiItemClickListner(this);
-
-        edgeMode.SetStuff(fragment_activityInterface.getAppSettings().edgeMode);
-        edgeMode.SetParameter(cameraUiWrapper.GetParameterHandler().EdgeMode);
-        edgeMode.SetUiItemClickListner(this);
-
-        hotPixelMode.SetStuff(fragment_activityInterface.getAppSettings().hotpixelMode);
-        hotPixelMode.SetParameter(cameraUiWrapper.GetParameterHandler().HotPixelMode);
-        hotPixelMode.SetUiItemClickListner(this);
-
-        opticalImageStabilization.SetStuff(fragment_activityInterface.getAppSettings().opticalImageStabilisation);
-        opticalImageStabilization.SetParameter(cameraUiWrapper.GetParameterHandler().oismode);
-        opticalImageStabilization.SetUiItemClickListner(this);
-
-        zoomSetting.SetStuff(fragment_activityInterface, "");
-        zoomSetting.SetParameter(cameraUiWrapper.GetParameterHandler().ZoomSetting);
-        zoomSetting.SetUiItemClickListner(this);
-
-        scalePreview.SetStuff(fragment_activityInterface, "");
-        scalePreview.SetParameter(cameraUiWrapper.GetParameterHandler().scalePreview);
-        scalePreview.SetUiItemClickListner(this);
+        temporalDenoise.SetUiItemClickListner(this);*/
     }
 
     public void SetMenuItemClickListner(SettingsChildClick menuItemClick)

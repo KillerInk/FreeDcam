@@ -33,26 +33,21 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
-import freed.cam.apis.camera1.Camera1Fragment;
-import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
-import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
-import freed.cam.ui.themesample.settings.childs.SettingsChildMenuAEB;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuGPS;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuInterval;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuIntervalDuration;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuOrientationHack;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuSDSave;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuSaveCamParams;
-import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimer;
+import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimeLapseFrames;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoProfile;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEditor;
-import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimeLapseFrames;
 import freed.utils.AppSettingsManager;
 
 /**

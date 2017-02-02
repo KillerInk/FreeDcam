@@ -53,6 +53,12 @@
     <string name="aps_opcode" translatable="false">opcode</string>
     <string name="aps_matrixset" translatable="false">matrixset</string>
     <string name="aps_sdcard" translatable="false">sdcard</string>
+    <string name="aps_cctmode" translatable="false">cctmode</string>
+    <string name="aps_objecttracking" translatable="false">objectracking</string>
+    <string name="aps_tonemapmode" translatable="false">tonemapmode</string>
+    <string name="aps_postviewsize" translatable="false">postviewsize</string>
+    <string name="aps_zoommode" translatable="false">zoommode</string>
+    <string name="aps_scalePreview" translatable="false">scalePreview</string>
 
 
     <string name="aps_manualfocus" translatable="false">mf</string>
