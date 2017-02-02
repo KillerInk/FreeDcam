@@ -333,6 +333,13 @@ public class AppSettingsManager {
     public final SettingMode nonZslManualMode;
     public final SettingMode virtualLensfilter;
     public final SettingMode nightMode;
+    public final SettingMode videoProfile;
+    public final SettingMode videoStabilisation;
+    public final SettingMode interval;
+    public final SettingMode intervalDuration;
+    public final SettingMode opcode;
+    public final SettingMode matrixset;
+    public final SettingMode sdcardlocation;
 
     public final TypeSettingsMode manualFocus;
     public final SettingMode manualExposureCompensation;
@@ -398,6 +405,13 @@ public class AppSettingsManager {
         nonZslManualMode = new SettingMode(getResourcesString(R.string.aps_nonzslmanualmode));
         virtualLensfilter = new SettingMode(getResourcesString(R.string.aps_virtuallensfilter));
         nightMode = new SettingMode(getResourcesString(R.string.aps_nightmode));
+        videoProfile = new SettingMode(getResourcesString(R.string.aps_videoProfile));
+        videoStabilisation = new SettingMode(getResourcesString(R.string.aps_videoStabilisation));
+        interval = new SettingMode(getResourcesString(R.string.aps_interval));
+        intervalDuration = new SettingMode(getResourcesString(R.string.aps_interval_duration));
+        opcode = new SettingMode(getResourcesString(R.string.aps_opcode));
+        matrixset = new SettingMode(getResourcesString(R.string.aps_matrixset));
+        sdcardlocation = new SettingMode(getResourcesString(R.string.aps_sdcard));
 
 
         manualFocus = new TypeSettingsMode(getResourcesString(R.string.aps_manualfocus));

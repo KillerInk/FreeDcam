@@ -22,6 +22,7 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.utils.AppSettingsManager;
 
 /**
@@ -29,17 +30,13 @@ import freed.utils.AppSettingsManager;
  */
 public class SettingsChildMenuVideoProfile extends SettingsChildMenu
 {
-    public SettingsChildMenuVideoProfile(Context context) {
-        super(context);
-    }
-
-    public SettingsChildMenuVideoProfile(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public SettingsChildMenuVideoProfile(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter, int headerid, int descriptionid) {
+        super(context, settingsMode, parameter, headerid, descriptionid);
     }
 
     @Override
     public void SetValue(String value) {
-        fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.VIDEOPROFILE, value);
+        settingMode.set(value);
         onParameterValueChanged(value);
         parameter.SetValue(value, true);
     }

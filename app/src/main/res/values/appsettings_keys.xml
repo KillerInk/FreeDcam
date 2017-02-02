@@ -44,7 +44,15 @@
     <string name="aps_nonzslmanualmode" translatable="false">nonzslmanualmode</string>
     <string name="aps_virtuallensfilter" translatable="false">virtuallensfilter</string>
     <string name="aps_nightmode" translatable="false">nightmode</string>
+    <string name="aps_videoProfile" translatable="false">videoProfile</string>
+    <string name="aps_videoSize" translatable="false">videoSize</string>
+    <string name="aps_videoStabilisation" translatable="false">videoStabilisation</string>
     <string name="aps_qcomfocus" translatable="false">qcomfocus</string>
+    <string name="aps_interval" translatable="false">interval</string>
+    <string name="aps_interval_duration" translatable="false">intervalduration</string>
+    <string name="aps_opcode" translatable="false">opcode</string>
+    <string name="aps_matrixset" translatable="false">matrixset</string>
+    <string name="aps_sdcard" translatable="false">sdcard</string>
 
 
     <string name="aps_manualfocus" translatable="false">mf</string>

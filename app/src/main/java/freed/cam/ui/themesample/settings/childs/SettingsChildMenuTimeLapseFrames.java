@@ -36,9 +36,9 @@ import freed.utils.AppSettingsManager;
 /**
  * Created by troop on 29.08.2015.
  */
-public class SettingsChildMenuimeLapseFrames extends LinearLayout
+public class SettingsChildMenuTimeLapseFrames extends LinearLayout
 {
-    private final String TAG = SettingsChildMenuimeLapseFrames.class.getSimpleName();
+    private final String TAG = SettingsChildMenuTimeLapseFrames.class.getSimpleName();
     private Button plus;
     private Button minus;
     private EditText editText;
@@ -53,12 +53,13 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
     private AppSettingsManager appSettingsManager;
 
 
-    public SettingsChildMenuimeLapseFrames(Context context) {
+    public SettingsChildMenuTimeLapseFrames(Context context,AppSettingsManager appSettingsManager) {
         super(context);
+        this.appSettingsManager = appSettingsManager;
         init(context);
     }
 
-    public SettingsChildMenuimeLapseFrames(Context context, AttributeSet attrs)
+    public SettingsChildMenuTimeLapseFrames(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init(context);
@@ -99,7 +100,14 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
 
             }
         });
-        if (current >= 2)
+        settingsname = AppSettingsManager.TIMELAPSEFRAME;
+        String fps = appSettingsManager.getApiString(settingsname);
+        if (fps == null || fps.equals(""))
+            fps = "30";
+
+        Log.d(TAG, "set to " + fps);
+        current = Float.parseFloat(fps);
+        if (current >= 1)
             editText.setText(current + " fps");
         else
             editText.setText(current * 60 + " fpm");
@@ -123,18 +131,4 @@ public class SettingsChildMenuimeLapseFrames extends LinearLayout
             editText.setText(current * 60 + " fpm");
     }
 
-    public void SetStuff(AppSettingsManager appSettingsManager) {
-        settingsname = AppSettingsManager.TIMELAPSEFRAME;
-        this.appSettingsManager = appSettingsManager;
-        String fps = appSettingsManager.getApiString(settingsname);
-        if (fps == null || fps.equals(""))
-            fps = "30";
-
-        Log.d(TAG, "set to " + fps);
-        current = Float.parseFloat(fps);
-        if (current >= 1)
-            editText.setText(current + " fps");
-        else
-            editText.setText(current * 60 + " fpm");
-    }
 }

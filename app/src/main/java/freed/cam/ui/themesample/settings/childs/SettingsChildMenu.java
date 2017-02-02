@@ -27,11 +27,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
 
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 14.06.2015.
@@ -46,6 +49,25 @@ public class SettingsChildMenu extends UiSettingsChild
 
     public SettingsChildMenu(Context context) {
         super(context);
+    }
+
+    public SettingsChildMenu(Context context,int headerid, int descriptionid)
+    {
+        super(context);
+        headerText.setText(getResources().getText(headerid));
+        description.setText(getResources().getText(descriptionid));
+    }
+
+    public SettingsChildMenu(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter) {
+        super(context, settingsMode, parameter);
+    }
+
+    public SettingsChildMenu(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter, int headerid, int descriptionid)
+    {
+        super(context,settingsMode,parameter);
+        headerText.setText(getResources().getText(headerid));
+        description.setText(getResources().getText(descriptionid));
+        valueText.setText(parameter.GetValue());
     }
 
     public SettingsChildMenu(Context context, AttributeSet attrs) {
@@ -95,7 +117,8 @@ public class SettingsChildMenu extends UiSettingsChild
     public void onParameterValueChanged(String val)
     {
         sendLog("Set Value to:" + val);
-        valueText.setText(val);
+        if (valueText != null)
+            valueText.setText(val);
     }
 
     @Override

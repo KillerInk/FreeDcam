@@ -31,7 +31,9 @@ import java.io.File;
 
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
+import freed.utils.AppSettingsManager;
 import freed.utils.StringUtils;
 
 /**
@@ -43,6 +45,10 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
     final String external ="External";
     private CameraWrapperInterface cameraUiWrapper;
     private String lastval;
+
+    public SettingsChildMenuSDSave(Context context, int headerid, int descriptionid) {
+        super(context, headerid, descriptionid);
+    }
 
     public SettingsChildMenuSDSave(Context context) {
         super(context);
@@ -100,7 +106,7 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
                 fragment_activityInterface.getAppSettings().SetWriteExternal(true);
                 onParameterValueChanged(SDModeParameter.external);
             } else {
-                Toast.makeText(context, "Cant write to External SD, pls insert SD or apply SD fix", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Cant write to External SD, pls insert SD or apply SD fix", Toast.LENGTH_LONG).show();
                 onParameterValueChanged(SDModeParameter.internal);
             }
         } else {
@@ -118,7 +124,7 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
     @Override
     public void onActivityResultCallback(Uri uri)
     {
-        DocumentFile f = DocumentFile.fromTreeUri(context, uri);
+        DocumentFile f = DocumentFile.fromTreeUri(getContext(), uri);
         if (f.canWrite() && lastval.equals(SDModeParameter.external))
         {
             fragment_activityInterface.getAppSettings().SetWriteExternal(true);

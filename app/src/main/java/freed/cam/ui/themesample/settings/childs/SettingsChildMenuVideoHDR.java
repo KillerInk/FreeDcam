@@ -24,6 +24,8 @@ import android.util.AttributeSet;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 17.08.2015.
@@ -31,6 +33,11 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 public class SettingsChildMenuVideoHDR extends SettingsChildMenu
 {
     private CameraWrapperInterface cameraWrapperInterface;
+
+    public SettingsChildMenuVideoHDR(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter, int headerid, int descriptionid) {
+        super(context, settingsMode, parameter, headerid, descriptionid);
+    }
+
     public SettingsChildMenuVideoHDR(Context context) {
         super(context);
     }

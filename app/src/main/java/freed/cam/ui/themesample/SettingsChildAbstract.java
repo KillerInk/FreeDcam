@@ -52,6 +52,21 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     protected String key_appsettings;
     protected TextView valueText;
 
+    protected SettingsChildClick onItemClick;
+    protected boolean fromleft;
+
+    public SettingsChildAbstract(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter)
+    {
+        super(context);
+        this.settingMode = settingsMode;
+        this.parameter = parameter;
+        if (parameter == null)
+            return;
+        String value = parameter.GetValue();
+        onParameterValueChanged(value);
+    }
+
+
     @Override
     public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue)
     {
@@ -62,6 +77,10 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     @Override
     public void SetStuff(AppSettingsManager.SettingMode settingMode) {
         this.settingMode = settingMode;
+        String value = settingMode.get();
+        if (value.equals("") || value == null)
+            value = settingMode.getValues()[0];
+        onParameterValueChanged(value);
     }
 
     public SettingsChildAbstract(Context context) {
@@ -76,6 +95,17 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
 
     protected abstract void init(Context context);
     protected abstract void inflateTheme(LayoutInflater inflater);
+
+    public void SetMenuItemClickListner(SettingsChildClick menuItemClick, boolean fromleft)
+    {
+        onItemClick = menuItemClick;
+        this.fromleft = fromleft;
+    }
+
+    public void SetUiItemClickListner(SettingsChildClick menuItemClick)
+    {
+        onItemClick = menuItemClick;
+    }
 
     @Override
     public void SetParameter(ModeParameterInterface parameter) {

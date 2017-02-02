@@ -29,19 +29,18 @@ import freed.cam.ui.videoprofileeditor.VideoProfileEditorActivity;
 /**
  * Created by troop on 17.02.2016.
  */
-public class SettingsChildMenu_VideoProfEditor extends SettingsChildMenu {
-    public SettingsChildMenu_VideoProfEditor(Context context) {
-        super(context);
-    }
+public class SettingsChildMenu_VideoProfEditor extends SettingsChildMenu
+{
 
-    public SettingsChildMenu_VideoProfEditor(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public SettingsChildMenu_VideoProfEditor(Context context, int headerid, int descriptionid) {
+        super(context, headerid, descriptionid);
+        valueText.setText("");
     }
 
     @Override
     public void onClick(View v) {
-        Intent i = new Intent(context, VideoProfileEditorActivity.class);
-        context.startActivity(i);
+        Intent i = new Intent(getContext(), VideoProfileEditorActivity.class);
+        getContext().startActivity(i);
     }
 
 }

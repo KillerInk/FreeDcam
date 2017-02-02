@@ -75,7 +75,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
 
 
             saveCamParameters();
-            Toast.makeText(context, "Saved CameraParameters", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Saved CameraParameters", Toast.LENGTH_LONG).show();
         }
         catch (Exception ex) {
             Log.d("Freedcam", ex.getMessage());

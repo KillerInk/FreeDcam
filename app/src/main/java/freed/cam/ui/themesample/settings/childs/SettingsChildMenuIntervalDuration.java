@@ -24,6 +24,7 @@ import android.util.AttributeSet;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.utils.AppSettingsManager;
 
 /**
@@ -33,24 +34,8 @@ public class SettingsChildMenuIntervalDuration extends SettingsChildMenu
 {
     private CameraWrapperInterface cameraUiWrapper;
 
-    public SettingsChildMenuIntervalDuration(Context context) {
-        super(context);
-    }
-
-    public SettingsChildMenuIntervalDuration(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    @Override
-    public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue) {
-        super.SetStuff(fragment_activityInterface, settingvalue);
-        //onParameterValueChanged(appSettingsManager.getApiString(AppSettingsManager.SETTING_INTERVAL_DURATION));
-    }
-
-    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
-    {
-        this.cameraUiWrapper = cameraUiWrapper;
-        SetParameter(cameraUiWrapper.GetParameterHandler().IntervalDuration);
+    public SettingsChildMenuIntervalDuration(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter, int headerid, int descriptionid) {
+        super(context, settingsMode, parameter, headerid, descriptionid);
     }
 
     @Override
@@ -63,7 +48,7 @@ public class SettingsChildMenuIntervalDuration extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_INTERVAL_DURATION, value);
+        settingMode.set(value);
         onParameterValueChanged(value);
         parameter.SetValue(value,true);
     }

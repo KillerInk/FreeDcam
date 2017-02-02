@@ -40,13 +40,13 @@ import com.troop.freedcam.R.styleable;
 
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 11.06.2015.
  */
 public class UiSettingsChild extends SettingsChildAbstract
 {
-    protected Context context;
     private String headerText;
     private LinearLayout laybg;
 
@@ -54,21 +54,24 @@ public class UiSettingsChild extends SettingsChildAbstract
 
     private String TAG;
 
-    protected SettingsChildClick onItemClick;
+
     private final boolean logging =false;
-    private boolean fromleft;
+
 
 
     public UiSettingsChild(Context context) {
         super(context);
-        this.context = context;
+        init(context);
+    }
+
+    public UiSettingsChild(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter) {
+        super(context, settingsMode,parameter);
         init(context);
     }
 
     public UiSettingsChild(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.context = context;
         init(context);
         //get custom attributs
         TypedArray a = context.getTheme().obtainStyledAttributes(
@@ -125,17 +128,6 @@ public class UiSettingsChild extends SettingsChildAbstract
     protected void inflateTheme(LayoutInflater inflater)
     {
         inflater.inflate(layout.cameraui_uisettingschild, this);
-    }
-
-    public void SetMenuItemClickListner(SettingsChildClick menuItemClick, boolean fromleft)
-    {
-        onItemClick = menuItemClick;
-        this.fromleft = fromleft;
-    }
-
-    public void SetUiItemClickListner(SettingsChildClick menuItemClick)
-    {
-        onItemClick = menuItemClick;
     }
 
     @Override

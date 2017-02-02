@@ -30,7 +30,8 @@ import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 /**
  * Created by troop on 09.09.2015.
  */
-public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChildClick {
+public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChildClick
+{
     public UiSettingsFocusPeak(Context context) {
         super(context);
     }

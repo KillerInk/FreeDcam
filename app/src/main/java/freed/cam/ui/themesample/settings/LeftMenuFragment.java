@@ -23,11 +23,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.camera1.Camera1Fragment;
@@ -36,6 +39,7 @@ import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
+import freed.cam.ui.themesample.settings.childs.GroupChild;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuAEB;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuGPS;
@@ -48,7 +52,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimer;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoProfile;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEditor;
-import freed.cam.ui.themesample.settings.childs.SettingsChildMenuimeLapseFrames;
+import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimeLapseFrames;
 import freed.utils.AppSettingsManager;
 
 /**
@@ -57,52 +61,10 @@ import freed.utils.AppSettingsManager;
 public class LeftMenuFragment extends AbstractFragment  implements SettingsChildClick
 {
     private final String TAG = LeftMenuFragment.class.getSimpleName();
-    private final boolean DEBUG = false;
-    private SettingsChildMenu bayerFormatItem;
-    private SettingsChildMenu opcode;
-    private SettingsChildMenu pictureSize;
-    private SettingsChildMenuSDSave sdSave;
-    private SettingsChildMenuGPS menuItemGPS;
-
-    private SettingsChildMenuInterval menuItemInterval;
-    private SettingsChildMenuIntervalDuration menuItemIntervalDuration;
-    private SettingsChildMenuTimer menuItemTimer;
-
-    private SettingsChildMenu_VideoProfEditor videoProfileEditor;
-
-    private SettingsChildMenu guide;
-    private SettingsChildMenu api;
-    private SettingsChildMenu externalShutter;
-    private SettingsChildMenuOrientationHack orientationHack;
-
-    private SettingsChildMenu jpegQuality;
-    private SettingsChildMenuSaveCamParams saveCamParams;
-
-    private SettingsChildMenuVideoProfile videoProfile;
-    private SettingsChildMenuVideoHDR videoHDR;
-    private SettingsChildMenuimeLapseFrames timeLapseFrames;
-
-    private SettingsChildMenu VideoSize;
-
-    private SettingsChildMenu PreviewSize;
-    private SettingsChildMenu PreviewFormat;
-
-    private SettingsChildMenu videoStabilization;
-
-    private SettingsChildMenu horizont;
-    private SettingsChildMenuAEB AEB1;
-    private SettingsChildMenuAEB AEB2;
-    private SettingsChildMenuAEB AEB3;
-    private SettingsChildMenuAEB AEB4;
-    private SettingsChildMenuAEB AEB5;
-    private SettingsChildMenuAEB AEB6;
-    private SettingsChildMenuAEB AEB7;
-
-    private SettingsChildMenu matrixChooser;
-
-    private SettingsChildMenu nightoverlay;
 
     private SettingsChildClick onMenuItemClick;
+
+    private LinearLayout settingsChildHolder;
 
 
     @Override
@@ -112,145 +74,182 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         fragment_activityInterface = (ActivityInterface)getActivity();
         View view = inflater.inflate(layout.settings_leftmenufragment, container, false);
 
-        videoProfileEditor = (SettingsChildMenu_VideoProfEditor)view.findViewById(id.MenuItem_VideoProfileEditor);
-
-        pictureSize = (SettingsChildMenu)view.findViewById(id.MenuItemPicSize);
-
-        sdSave = (SettingsChildMenuSDSave)view.findViewById(id.MenuItemSDSave);
-
-        menuItemInterval = (SettingsChildMenuInterval)view.findViewById(id.MenuIntervalmeter);
-
-        menuItemIntervalDuration = (SettingsChildMenuIntervalDuration)view.findViewById(id.MenuIntervalmeterDuration);
-
-        menuItemTimer = (SettingsChildMenuTimer)view.findViewById(id.MenuTimer);
-
-        menuItemGPS = (SettingsChildMenuGPS)view.findViewById(id.MenuItemGPS);
-
-        guide = (SettingsChildMenu)view.findViewById(id.MenuItemGuide);
-
-        api = (SettingsChildMenu)view.findViewById(id.MenuItemApi);
-
-        externalShutter = (SettingsChildMenu)view.findViewById(id.MenuItemExternalShutter);
-
-        orientationHack = (SettingsChildMenuOrientationHack)view.findViewById(id.MenuItemOrientationHack);
-
-        jpegQuality = (SettingsChildMenu)view.findViewById(id.MenuItemJpegQuality);
-
-        videoProfile = (SettingsChildMenuVideoProfile)view.findViewById(id.MenuItemVideoProfile);
-
-        videoHDR = (SettingsChildMenuVideoHDR)view.findViewById(id.MenuItemVideHDR);
-
-        VideoSize = (SettingsChildMenu) view.findViewById(id.MenuItemVideoSize);
-
-        videoStabilization =  (SettingsChildMenu)view.findViewById(id.MenuItemVideoStabilization);
-
-        timeLapseFrames = (SettingsChildMenuimeLapseFrames) view.findViewById(id.MenuItemTimeLapseFrame);
-
-        saveCamParams = (SettingsChildMenuSaveCamParams)view.findViewById(id.MenuItemSaveParams);
-        PreviewFormat = (SettingsChildMenu)view.findViewById(id.MenuItemPreviewFormat);
-        PreviewSize = (SettingsChildMenu)view.findViewById(id.MenuItemPreviewSize);
-        horizont = (SettingsChildMenu)view.findViewById(id.MenuItemHorizont);
-
-        AEB1 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB1);
-        AEB2 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB2);
-        AEB3 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB3);
-
-        AEB4 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB4);
-        AEB5 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB5);
-        AEB6 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB6);
-        AEB7 = (SettingsChildMenuAEB) view.findViewById(id.MenuItemAEB7);
-
-        bayerFormatItem = (SettingsChildMenu)view.findViewById(id.MenuItemBayerFormat);
-
-        opcode = (SettingsChildMenu)view.findViewById(id.MenuItemOpCode);
-
-        matrixChooser = (SettingsChildMenu)view.findViewById(id.MenuItemMatrixChooser);
-
-
-        nightoverlay = (SettingsChildMenu)view.findViewById(id.MenuItemNightOverlay);
+        settingsChildHolder = (LinearLayout)view.findViewById(id.SettingChildHolder);
         setCameraUiWrapperToUi();
         return view;
     }
 
     @Override
     protected void setCameraUiWrapperToUi() {
-        if (cameraUiWrapper == null)
-            return;
-        pictureSize.SetStuff(fragment_activityInterface.getAppSettings().pictureSize);
-        pictureSize.SetParameter(cameraUiWrapper.GetParameterHandler().PictureSize);
-        pictureSize.SetUiItemClickListner(this);
 
-        sdSave.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_EXTERNALSD);
-        sdSave.SetCameraUiWrapper(cameraUiWrapper);
-        sdSave.SetUiItemClickListner(this);
+        settingsChildHolder.removeAllViews();
+        if (cameraUiWrapper != null) {
 
-        menuItemInterval.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_INTERVAL);
-        menuItemInterval.SetCameraUIWrapper(cameraUiWrapper);
-        menuItemInterval.SetUiItemClickListner(this);
+            AppSettingsManager apS = cameraUiWrapper.GetAppSettingsManager();
+            AbstractParameterHandler params = cameraUiWrapper.GetParameterHandler();
+        /*
+            VIDEOGROUP
+         */
+            GroupChild videoGroup = new GroupChild(getContext(), getString(R.string.setting_video_group_header));
 
-        menuItemIntervalDuration.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_INTERVAL_DURATION);
-        menuItemIntervalDuration.SetCameraUIWrapper(cameraUiWrapper);
-        menuItemIntervalDuration.SetUiItemClickListner(this);
+            if (params.VideoProfiles != null) {
+                SettingsChildMenuVideoProfile videoProfile = new SettingsChildMenuVideoProfile(getContext(), apS.videoProfile,
+                        params.VideoProfiles, R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
+                videoProfile.SetUiItemClickListner(this);
+                videoGroup.addView(videoProfile);
 
-        menuItemTimer.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_TIMER);
+                SettingsChildMenuTimeLapseFrames timeLapseFrames = new SettingsChildMenuTimeLapseFrames(getContext(), apS);
+                timeLapseFrames.setVisibility(View.VISIBLE);
+                videoGroup.addView(timeLapseFrames);
+
+                SettingsChildMenu_VideoProfEditor videoProfileEditor = new SettingsChildMenu_VideoProfEditor(getContext(), R.string.setting_videoprofileeditor_header, R.string.setting_videoprofileeditor_description);
+                videoGroup.addView(videoProfileEditor);
+            }
+            if (params.VideoHDR != null) {
+                SettingsChildMenuVideoHDR videoHDR = new SettingsChildMenuVideoHDR(getContext(), apS.videoHDR, params.VideoHDR, R.string.setting_videohdr_header, R.string.setting_videohdr_description);
+                videoHDR.SetCameraInterface(cameraUiWrapper);
+                videoHDR.SetUiItemClickListner(this);
+                videoGroup.addView(videoHDR);
+            }
+
+            if (params.VideoSize != null) {
+
+                SettingsChildMenu VideoSize = new SettingsChildMenu(getContext(), apS.videoSize, params.VideoSize, R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
+                VideoSize.SetUiItemClickListner(this);
+                videoGroup.addView(VideoSize);
+            }
+
+            if (params.VideoStabilization != null) {
+                SettingsChildMenu videoStabilization = new SettingsChildMenu(getContext(), apS.videoStabilisation, params.VideoStabilization, R.string.setting_vs_header, R.string.setting_vs_description);
+                videoStabilization.SetUiItemClickListner(this);
+                videoGroup.addView(videoStabilization);
+            }
+
+            if (videoGroup.childSize() > 0)
+                settingsChildHolder.addView(videoGroup);
+
+        /*
+            PictureGroup
+         */
+            GroupChild picGroup = new GroupChild(getContext(), getString(R.string.setting_picture_group_header));
+
+            if (params.PictureSize != null) {
+                SettingsChildMenu pictureSize = new SettingsChildMenu(getContext(), apS.pictureSize, params.PictureSize, R.string.setting_picturesize_header, R.string.setting_picturesize_description);
+                pictureSize.SetUiItemClickListner(this);
+                picGroup.addView(pictureSize);
+            }
+
+            if (params.JpegQuality != null) {
+                SettingsChildMenu jpegQuality = new SettingsChildMenu(getContext(), apS.jpegQuality, params.JpegQuality, R.string.setting_jpegquality_header, R.string.setting_jpegquality_description);
+                jpegQuality.SetUiItemClickListner(this);
+                picGroup.addView(jpegQuality);
+            }
+
+            GroupChild intervalGroup = new GroupChild(getContext(), getString(R.string.setting_Automation));
+
+            SettingsChildMenuInterval menuInterval = new SettingsChildMenuInterval(getContext(), apS.interval, params.IntervalShutterSleep, R.string.setting_interval_header, R.string.setting_interval_texter);
+            menuInterval.SetUiItemClickListner(this);
+            intervalGroup.addView(menuInterval);
+
+            SettingsChildMenuIntervalDuration menuIntervalDuration = new SettingsChildMenuIntervalDuration(getContext(), apS.intervalDuration, params.IntervalDuration, R.string.setting_interval_duration_header, R.string.setting_interval_duration_text);
+            menuIntervalDuration.SetUiItemClickListner(this);
+            intervalGroup.addView(menuIntervalDuration);
+
+            picGroup.addView(intervalGroup);
+
+            GroupChild dngGroup = new GroupChild(getContext(), getString(R.string.setting_raw_group_header));
+
+            if (params.opcode != null) {
+                SettingsChildMenu opcode = new SettingsChildMenu(getContext(), apS.opcode, params.opcode, R.string.setting_opcode_header, R.string.setting_opcode_description);
+                opcode.SetUiItemClickListner(this);
+                dngGroup.addView(opcode);
+            }
+
+            if (params.bayerformat != null) {
+                SettingsChildMenu bayerFormatItem = new SettingsChildMenu(getContext(), apS.rawPictureFormat, params.bayerformat, R.string.setting_bayerformat_header, R.string.setting_bayerformat_description);
+                bayerFormatItem.SetUiItemClickListner(this);
+                dngGroup.addView(bayerFormatItem);
+            }
+            if (params.matrixChooser != null) {
+                SettingsChildMenu matrixChooser = new SettingsChildMenu(getContext(), apS.matrixset, params.matrixChooser, R.string.setting_matrixchooser_header, R.string.setting_matrixchooser_description);
+                matrixChooser.SetUiItemClickListner(this);
+                dngGroup.addView(matrixChooser);
+            }
+            if (dngGroup.childSize() > 0)
+                picGroup.addView(dngGroup);
+
+            settingsChildHolder.addView(picGroup);
+
+        /*menuItemTimer.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_TIMER);
         menuItemTimer.SetCameraUIWrapper(cameraUiWrapper);
-        menuItemTimer.SetUiItemClickListner(this);
+        menuItemTimer.SetUiItemClickListner(this);*/
+        }
 
-        menuItemGPS.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_LOCATION);
-        menuItemGPS.SetCameraUIWrapper(cameraUiWrapper);
-        menuItemGPS.SetUiItemClickListner(this);
+        /*
+            Gobal settings
+         */
 
-        guide.SetStuff(fragment_activityInterface, AppSettingsManager.GUIDE);
-        guide.SetParameter(cameraUiWrapper.GetParameterHandler().GuideList);
-        guide.SetUiItemClickListner(this);
+        GroupChild globalSettingGroup = new GroupChild(getContext(),getString(R.string.setting_freedcam_));
 
+
+        SettingsChildMenu api = new SettingsChildMenu(getContext(),R.string.setting_api_header, R.string.setting_api_description);
         api.SetStuff(fragment_activityInterface, "");
         api.SetParameter(new ApiParameter(fragment_activityInterface));
         api.SetUiItemClickListner(this);
+        globalSettingGroup.addView(api);
 
+        SettingsChildMenu externalShutter = new SettingsChildMenu(getContext(),R.string.setting_externalshutter_header, R.string.setting_externalshutter_description);
         externalShutter.SetStuff(fragment_activityInterface, "");
         externalShutter.SetParameter(new ParameterExternalShutter(fragment_activityInterface.getAppSettings()));
         externalShutter.SetUiItemClickListner(this);
+        globalSettingGroup.addView(externalShutter);
 
+        SettingsChildMenuOrientationHack orientationHack = new SettingsChildMenuOrientationHack(getContext(),R.string.setting_orientation_header, R.string.setting_orientation_description);
         orientationHack.SetStuff(fragment_activityInterface, "");
         orientationHack.SetCameraUIWrapper(cameraUiWrapper);
         orientationHack.SetUiItemClickListner(this);
+        globalSettingGroup.addView(orientationHack);
 
-        jpegQuality.SetStuff(fragment_activityInterface.getAppSettings().jpegQuality);
-        jpegQuality.SetParameter(cameraUiWrapper.GetParameterHandler().JpegQuality);
-        jpegQuality.SetUiItemClickListner(this);
+        if (cameraUiWrapper != null) {
 
-        videoProfile.SetStuff(fragment_activityInterface, AppSettingsManager.VIDEOPROFILE);
+            SettingsChildMenuSDSave sdSave = new SettingsChildMenuSDSave(getContext(), R.string.setting_sdcard_header, R.string.setting_sdcard_description);
+            sdSave.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_EXTERNALSD);
+            sdSave.SetCameraUiWrapper(cameraUiWrapper);
+            sdSave.SetUiItemClickListner(this);
+            globalSettingGroup.addView(sdSave);
 
-        if (cameraUiWrapper.GetParameterHandler().VideoProfiles != null)
-            videoProfile.SetParameter(cameraUiWrapper.GetParameterHandler().VideoProfiles);
-        videoProfile.SetUiItemClickListner(this);
+            SettingsChildMenuGPS menuItemGPS = new SettingsChildMenuGPS(getContext(),R.string.setting_location_header, R.string.setting_location_description );
+            menuItemGPS.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_LOCATION);
+            menuItemGPS.SetCameraUIWrapper(cameraUiWrapper);
+            menuItemGPS.SetUiItemClickListner(this);
+            globalSettingGroup.addView(menuItemGPS);
 
-        videoHDR.SetStuff(fragment_activityInterface.getAppSettings().videoHDR);
-        videoHDR.SetParameter(cameraUiWrapper.GetParameterHandler().VideoHDR);
-        videoHDR.SetCameraInterface(cameraUiWrapper);
-        videoHDR.SetUiItemClickListner(this);
-        ///////////////////////////   Highspeed Recording //////////////////////////////////////////
+            SettingsChildMenu guide = new SettingsChildMenu(getContext(), R.string.setting_guide_header, R.string.setting_guide_description);
+            guide.SetStuff(fragment_activityInterface, AppSettingsManager.GUIDE);
+            guide.SetParameter(cameraUiWrapper.GetParameterHandler().GuideList);
+            guide.SetUiItemClickListner(this);
+            globalSettingGroup.addView(guide);
 
-        VideoSize.SetStuff(fragment_activityInterface.getAppSettings().videoSize);
-        if (!(cameraUiWrapper instanceof Camera1Fragment) && cameraUiWrapper.GetParameterHandler().VideoSize != null && cameraUiWrapper.GetParameterHandler().VideoSize.IsSupported()) {
-            VideoSize.SetParameter(cameraUiWrapper.GetParameterHandler().VideoSize);
-            VideoSize.SetUiItemClickListner(this);
-            VideoSize.setVisibility(View.VISIBLE);
-        } else
-            VideoSize.setVisibility(View.GONE);
+            SettingsChildMenuSaveCamParams saveCamParams = new SettingsChildMenuSaveCamParams(getContext());
+            saveCamParams.setCameraUiWrapper(cameraUiWrapper);
+            globalSettingGroup.addView(saveCamParams);
 
-        videoStabilization.SetStuff(fragment_activityInterface, AppSettingsManager.VIDEOSTABILIZATION);
-        videoStabilization.SetParameter(cameraUiWrapper.GetParameterHandler().VideoStabilization);
-        videoStabilization.SetUiItemClickListner(this);
+            SettingsChildMenu horizont = new SettingsChildMenu(getContext(), R.string.setting_horizont_header, R.string.setting_horizont_description);
+            horizont.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_HORIZONT);
+            horizont.SetParameter(cameraUiWrapper.GetParameterHandler().Horizont);
+            horizont.SetUiItemClickListner(this);
+            globalSettingGroup.addView(horizont);
+
+            SettingsChildMenu nightoverlay = new SettingsChildMenu(getContext(), R.string.setting_nightoverlay_header, R.string.setting_nightoverlay_description);
+            nightoverlay.SetUiItemClickListner(this);
+            nightoverlay.SetParameter(cameraUiWrapper.GetParameterHandler().NightOverlay);
+        }
+
+        settingsChildHolder.addView(globalSettingGroup);
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        if (cameraUiWrapper instanceof Camera1Fragment) {
-
-            timeLapseFrames.setVisibility(View.VISIBLE);
-            timeLapseFrames.SetStuff(fragment_activityInterface.getAppSettings());
-            videoProfileEditor.setVisibility(View.VISIBLE);
+        /*if (cameraUiWrapper instanceof Camera1Fragment) {
 
             if (!(cameraUiWrapper.GetCameraHolder() instanceof CameraHolderMTK)) {
                 AEB1.setVisibility(View.VISIBLE);
@@ -283,9 +282,6 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             }
         }
         else if (cameraUiWrapper instanceof Camera2Fragment) {
-            timeLapseFrames.setVisibility(View.VISIBLE);
-            timeLapseFrames.SetStuff(fragment_activityInterface.getAppSettings());
-            videoProfileEditor.setVisibility(View.VISIBLE);
 
             AEB1.setVisibility(View.GONE);
             AEB2.setVisibility(View.GONE);
@@ -295,8 +291,6 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             AEB6.setVisibility(View.GONE);
             AEB7.setVisibility(View.GONE);
         } else {
-            timeLapseFrames.setVisibility(View.GONE);
-            videoProfileEditor.setVisibility(View.GONE);
 
             AEB1.setVisibility(View.GONE);
             AEB2.setVisibility(View.GONE);
@@ -305,12 +299,12 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             AEB5.setVisibility(View.GONE);
             AEB6.setVisibility(View.GONE);
             AEB7.setVisibility(View.GONE);
-        }
+        }*/
 
 
-        saveCamParams.setCameraUiWrapper(cameraUiWrapper);
 
-        if (DEBUG) {
+
+        /*if (DEBUG) {
             PreviewFormat.SetStuff(fragment_activityInterface, "");
             PreviewFormat.SetParameter(cameraUiWrapper.GetParameterHandler().PreviewFormat);
             PreviewFormat.SetUiItemClickListner(this);
@@ -323,26 +317,8 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             PreviewFormat.setVisibility(View.GONE);
             PreviewSize.setVisibility(View.GONE);
         }
+*/
 
-        horizont.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_HORIZONT);
-        horizont.SetParameter(cameraUiWrapper.GetParameterHandler().Horizont);
-        horizont.SetUiItemClickListner(this);
-
-        opcode.SetStuff(fragment_activityInterface, "");
-        opcode.SetParameter(cameraUiWrapper.GetParameterHandler().opcode);
-        opcode.SetUiItemClickListner(this);
-
-        bayerFormatItem.SetStuff(fragment_activityInterface, AppSettingsManager.BAYERFORMAT);
-        bayerFormatItem.SetParameter(cameraUiWrapper.GetParameterHandler().bayerformat);
-        bayerFormatItem.SetUiItemClickListner(this);
-
-        matrixChooser.SetStuff(fragment_activityInterface, AppSettingsManager.CUSTOMMATRIX);
-        matrixChooser.SetParameter(cameraUiWrapper.GetParameterHandler().matrixChooser);
-        matrixChooser.SetUiItemClickListner(this);
-
-        nightoverlay.SetUiItemClickListner(this);
-        //nightoverlay.SetStuff(fragment_activityInterface,"");
-        nightoverlay.SetParameter(cameraUiWrapper.GetParameterHandler().NightOverlay);
     }
 
 

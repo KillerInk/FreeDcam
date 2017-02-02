@@ -24,6 +24,7 @@ import android.util.AttributeSet;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.utils.AppSettingsManager;
 
 /**
@@ -31,22 +32,9 @@ import freed.utils.AppSettingsManager;
  */
 public class SettingsChildMenuInterval extends SettingsChildMenu
 {
-    public SettingsChildMenuInterval(Context context) {
-        super(context);
-    }
 
-    public SettingsChildMenuInterval(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
-    {
-        SetParameter(cameraUiWrapper.GetParameterHandler().IntervalShutterSleep);
-    }
-
-    @Override
-    public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue) {
-        super.SetStuff(fragment_activityInterface, settingvalue);
+    public SettingsChildMenuInterval(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter, int headerid, int descriptionid) {
+        super(context, settingsMode, parameter, headerid, descriptionid);
     }
 
     @Override
@@ -57,7 +45,7 @@ public class SettingsChildMenuInterval extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_INTERVAL,  value);
+        settingMode.set(value);
         onParameterValueChanged(value);
         parameter.SetValue(value,true);
     }

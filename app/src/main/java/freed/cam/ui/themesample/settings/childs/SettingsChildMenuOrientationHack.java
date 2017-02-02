@@ -35,12 +35,8 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
 {
     private CameraWrapperInterface cameraUiWrapper;
 
-    public SettingsChildMenuOrientationHack(Context context) {
-        super(context);
-    }
-
-    public SettingsChildMenuOrientationHack(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public SettingsChildMenuOrientationHack(Context context, int headerid, int descriptionid) {
+        super(context, headerid, descriptionid);
     }
 
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)

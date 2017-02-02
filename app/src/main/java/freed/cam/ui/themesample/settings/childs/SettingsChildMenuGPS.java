@@ -33,6 +33,10 @@ public class SettingsChildMenuGPS extends SettingsChildMenu
         super(context);
     }
 
+    public SettingsChildMenuGPS(Context context, int headerid, int descriptionid) {
+        super(context, headerid, descriptionid);
+    }
+
     public SettingsChildMenuGPS(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
