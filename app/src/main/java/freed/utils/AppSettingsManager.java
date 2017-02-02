@@ -193,7 +193,6 @@ public class AppSettingsManager {
 
 
     public static final String CURRENTCAMERA = "currentcamera";
-    public static final String GUIDE = "guide";
     public static final String NIGHTMODE = "nightmode";
     public static final String VIDEOPROFILE = "videoprofile";
     public static final String CUSTOMMATRIX = "custommatrix";
@@ -288,6 +287,7 @@ public class AppSettingsManager {
     public final SettingMode postviewSize;
     public final SettingMode zoommode;
     public final SettingMode scalePreview;
+    public final SettingMode guide;
 
     public final TypeSettingsMode manualFocus;
     public final SettingMode manualExposureCompensation;
@@ -373,6 +373,7 @@ public class AppSettingsManager {
         postviewSize = new SettingMode(getResourcesString(R.string.aps_postviewsize));
         zoommode = new SettingMode(getResourcesString(R.string.aps_zoommode));
         scalePreview = new SettingMode(getResourcesString(R.string.aps_scalePreview));
+        guide = new SettingMode(getResourcesString(R.string.aps_guide));
 
 
         manualFocus = new TypeSettingsMode(getResourcesString(R.string.aps_manualfocus));
@@ -391,6 +392,7 @@ public class AppSettingsManager {
         manualFx = new SettingMode(getResourcesString(R.string.aps_manualfx));
         manualProgramShift = new SettingMode(getResourcesString(R.string.aps_manualprogramshift));
         manualPreviewZoom = new SettingMode(getResourcesString(R.string.aps_manualpreviewzoom));
+
 
         matrixes = getMatrixes();
         opcodeUrlList = new String[2];

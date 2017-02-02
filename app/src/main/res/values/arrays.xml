@@ -231,5 +231,33 @@
         <item>@string/ae_mode_redeyefLash</item>
     </string-array>
 
+    <string-array name="guidelist"  translatable="false">
+        <item>None</item>
+        <item>Center Type +</item>
+        <item>Center Type x</item>
+        <item>Diagonal Type 1</item>
+        <item>Diagonal Type 2</item>
+        <item>Diagonal Type 3</item>
+        <item>Diagonal Type 4</item>
+        <item>Diagonal Type 5</item>
+        <item>Golden Hybrid</item>
+        <item>Golden R/S 1</item>
+        <item>Golden R/S 2</item>
+        <item>Golden Ratio</item>
+        <item>Golden Spiral</item>
+        <item>Golden Triangle</item>
+        <item>Group POV Five</item>
+        <item>Group POV Three</item>
+        <item>Group POV Potrait</item>
+        <item>Group POV Full</item>
+        <item>Group POV Elvated</item>
+        <item>Group by Depth</item>
+        <item>Group Center Lead</item>
+        <item>Rule Of Thirds</item>
+        <item>Square 1:1</item>
+        <item>Square 4:3</item>
+        <item>Square 16:9</item>
+    </string-array>
+
     <!-- DO NOT TRANSLATE END -->
 </resources>

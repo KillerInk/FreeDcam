@@ -59,6 +59,7 @@
     <string name="aps_postviewsize" translatable="false">postviewsize</string>
     <string name="aps_zoommode" translatable="false">zoommode</string>
     <string name="aps_scalePreview" translatable="false">scalePreview</string>
+    <string name="aps_guide" translatable="false">guide</string>
 
 
     <string name="aps_manualfocus" translatable="false">mf</string>

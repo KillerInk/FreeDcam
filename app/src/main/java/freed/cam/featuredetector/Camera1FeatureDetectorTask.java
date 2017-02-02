@@ -67,6 +67,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             Camera.Parameters parameters = getParameters(i);
             publishProgress("Detecting Features");
 
+            appSettingsManager.guide.setValues(appS.getResources().getStringArray(R.array.guidelist));
+            appSettingsManager.guide.set(appS.guide.getValues()[0]);
+
             detectedPictureFormats(parameters);
             publishProgress("DngSupported:" + (appS.getDngProfilesMap().size() > 0) + " RawSupport:"+appS.rawPictureFormat.isSupported());
             publishProgress("PictureFormats:" + getStringFromArray(appS.pictureFormat.getValues()));

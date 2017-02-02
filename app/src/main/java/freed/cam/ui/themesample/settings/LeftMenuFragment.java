@@ -219,9 +219,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             menuItemGPS.SetUiItemClickListner(this);
             globalSettingGroup.addView(menuItemGPS);
 
-            SettingsChildMenu guide = new SettingsChildMenu(getContext(), R.string.setting_guide_header, R.string.setting_guide_description);
-            guide.SetStuff(fragment_activityInterface, AppSettingsManager.GUIDE);
-            guide.SetParameter(cameraUiWrapper.GetParameterHandler().GuideList);
+            SettingsChildMenu guide = new SettingsChildMenu(getContext(),cameraUiWrapper.GetAppSettingsManager().guide,cameraUiWrapper.GetParameterHandler().GuideList, R.string.setting_guide_header, R.string.setting_guide_description);
             guide.SetUiItemClickListner(this);
             globalSettingGroup.addView(guide);
 

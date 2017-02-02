@@ -167,7 +167,7 @@ public abstract class AbstractParameterHandler
         uiHandler = new Handler(Looper.getMainLooper());
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
 
-        GuideList = new GuideList();
+        GuideList = new GuideList(appSettingsManager);
         locationParameter = new LocationParameter(cameraUiWrapper);
         IntervalDuration = new IntervalDurationParameter(cameraUiWrapper);
         IntervalShutterSleep = new IntervalShutterSleepParameter(cameraUiWrapper);
@@ -203,7 +203,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(bayerformat,appSettingsManager.rawPictureFormat);
         setAppSettingsToCamera(oismode,appSettingsManager.opticalImageStabilisation);
         setAppSettingsToCamera(JpegQuality,appSettingsManager.jpegQuality);
-        setMode(GuideList, AppSettingsManager.GUIDE);
+        setAppSettingsToCamera(GuideList, appSettingsManager.guide);
         setAppSettingsToCamera(ImagePostProcessing,appSettingsManager.imagePostProcessing);
         //setMode(ImagePostProcessing, AppSettingsManager.IMAGEPOSTPROCESSINGMODE);
         setAppSettingsToCamera(SceneMode,appSettingsManager.sceneMode);

@@ -64,6 +64,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 appSettingsManager.SetCamera2FullSupported(String.valueOf(!legacy));
                 publishProgress("IsCamera2 Full Device:" + appSettingsManager.IsCamera2FullSupported() + " isFront:" +appSettingsManager.getIsFrontCamera());
 
+                appSettingsManager.guide.setValues(appSettingsManager.getResources().getStringArray(R.array.guidelist));
+                appSettingsManager.guide.set(appSettingsManager.guide.getValues()[0]);
+
+
                 if (!legacy) {
 
                     detectFlash(characteristics);
