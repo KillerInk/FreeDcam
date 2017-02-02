@@ -26,15 +26,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
+import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.AbstractFragment;
@@ -48,31 +51,15 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     private int currentValuePos;
 
     private RotatingSeekbar seekbar;
-    private ManualButton mf;
-    private ManualButton iso;
-    private ManualButton shutter;
-    private ManualButton aperture;
-    private ManualButton exposure;
-    private ManualButton brightness;
-    private ManualButton burst;
-    private ManualButton wb;
-    private ManualButton contrast;
-    private ManualButton saturation;
-    private ManualButton sharpness;
-    private ManualButton programshift;
-    private ManualButton zoom;
-    private ManualButton fx;
-    private ManualButton convergence;
 
     private ManualButton currentButton;
 
-    private ManualButton previewZoom;
 
     private AfBracketSettingsView afBracketSettingsView;
 
+    private LinearLayout manualItemsHolder;
 
     private final String TAG = ManualFragment.class.getSimpleName();
-
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -88,68 +75,8 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         seekbar.setOnSeekBarChangeListener(this);
         seekbar.setVisibility(View.GONE);
 
-        mf = (ManualButton)view.findViewById(id.manual_mf);
-        mf.SetStuff(fragment_activityInterface.getAppSettings().manualFocus);
-        mf.setOnClickListener(manualButtonClickListner);
+        manualItemsHolder = (LinearLayout)view.findViewById(id.manualItemsHolder);
 
-        iso = (ManualButton)view.findViewById(id.manual_iso);
-        iso.SetStuff(fragment_activityInterface, AppSettingsManager.MISO);
-        iso.setOnClickListener(manualButtonClickListner);
-
-        shutter = (ManualButton)view.findViewById(id.manual_shutter);
-        shutter.SetStuff(fragment_activityInterface,AppSettingsManager.MSHUTTERSPEED);
-        shutter.setOnClickListener(manualButtonClickListner);
-
-        aperture = (ManualButton)view.findViewById(id.manual_aperture);
-        aperture.SetStuff(fragment_activityInterface,"");
-        aperture.setOnClickListener(manualButtonClickListner);
-
-        exposure = (ManualButton)view.findViewById(id.manual_exposure);
-        exposure.SetStuff(fragment_activityInterface,AppSettingsManager.MEXPOSURE);
-        exposure.setOnClickListener(manualButtonClickListner);
-
-        brightness = (ManualButton)view.findViewById(id.manual_brightness);
-        brightness.SetStuff(fragment_activityInterface,AppSettingsManager.MBRIGHTNESS);
-        brightness.setOnClickListener(manualButtonClickListner);
-
-        burst = (ManualButton)view.findViewById(id.manual_burst);
-        burst.SetStuff(fragment_activityInterface,AppSettingsManager.MBURST);
-        burst.setOnClickListener(manualButtonClickListner);
-
-        wb = (ManualButton)view.findViewById(id.manual_wb);
-        wb.SetStuff(fragment_activityInterface,AppSettingsManager.MCCT);
-        wb.setOnClickListener(manualButtonClickListner);
-
-        contrast = (ManualButton)view.findViewById(id.manual_contrast);
-        contrast.SetStuff(fragment_activityInterface,AppSettingsManager.MCONTRAST);
-        contrast.setOnClickListener(manualButtonClickListner);
-
-        saturation = (ManualButton)view.findViewById(id.manual_saturation);
-        saturation.SetStuff(fragment_activityInterface,AppSettingsManager.MSATURATION);
-        saturation.setOnClickListener(manualButtonClickListner);
-
-        sharpness = (ManualButton)view.findViewById(id.manual_sharpness);
-        sharpness.SetStuff(fragment_activityInterface,AppSettingsManager.MSHARPNESS);
-        sharpness.setOnClickListener(manualButtonClickListner);
-
-        programshift = (ManualButton)view.findViewById(id.manual_program_shift);
-        programshift.SetStuff(fragment_activityInterface,"");
-        programshift.setOnClickListener(manualButtonClickListner);
-
-        zoom = (ManualButton)view.findViewById(id.manual_zoom);
-        zoom.SetStuff(fragment_activityInterface,"");
-        zoom.setOnClickListener(manualButtonClickListner);
-
-        fx = (ManualButton)view.findViewById(id.manual_fx);
-        fx.SetStuff(fragment_activityInterface,"");
-        fx.setOnClickListener(manualButtonClickListner);
-
-        convergence = (ManualButton)view.findViewById(id.manual_convergence);
-        convergence.SetStuff(fragment_activityInterface,AppSettingsManager.MCONVERGENCE);
-        convergence.setOnClickListener(manualButtonClickListner);
-
-        previewZoom = (ManualButton)view.findViewById(id.manual_zoom_preview);
-        previewZoom.setOnClickListener(manualButtonClickListner);
         afBracketSettingsView = (AfBracketSettingsView)view.findViewById(id.manualFragment_afbsettings);
         afBracketSettingsView.setVisibility(View.GONE);
     }
@@ -157,32 +84,109 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     @Override
     protected void setCameraUiWrapperToUi()
     {
-        if (cameraUiWrapper == null || cameraUiWrapper.GetParameterHandler() == null || !isAdded())
+        if (manualItemsHolder == null)
             return;
-        cameraUiWrapper.GetModuleHandler().addListner(this);
-        contrast.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualContrast);
-        burst.SetManualParameter(cameraUiWrapper.GetParameterHandler().Burst);
-        brightness.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualBrightness);
-        wb.SetManualParameter(cameraUiWrapper.GetParameterHandler().CCT);
-        convergence.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualConvergence);
-        exposure.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualExposure);
-        fx.SetManualParameter(cameraUiWrapper.GetParameterHandler().FX);
-        mf.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualFocus);
-        saturation.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualSaturation);
-        sharpness.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualSharpness);
-        shutter.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualShutter);
-        iso.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualIso);
-        zoom.SetManualParameter(cameraUiWrapper.GetParameterHandler().Zoom);
-        aperture.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualFNumber);
-        programshift.SetManualParameter(cameraUiWrapper.GetParameterHandler().ProgramShift);
-        previewZoom.SetManualParameter(cameraUiWrapper.GetParameterHandler().PreviewZoom);
-        seekbar.setVisibility(View.GONE);
-        afBracketSettingsView.SetCameraWrapper(cameraUiWrapper);
-        if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET) && currentButton == mf && seekbar.getVisibility() == View.VISIBLE)
-            afBracketSettingsView.setVisibility(View.VISIBLE);
-        else
-            afBracketSettingsView.setVisibility(View.GONE);
+        manualItemsHolder.removeAllViews();
+        if (cameraUiWrapper != null)
+        {
+            cameraUiWrapper.GetModuleHandler().addListner(this);
+            AppSettingsManager aps = cameraUiWrapper.GetAppSettingsManager();
+            AbstractParameterHandler parms = cameraUiWrapper.GetParameterHandler();
+            if (parms.Zoom != null)
+            {
+                ManualButton btn = new ManualButton(getContext(), aps.manualZoom, parms.Zoom, R.drawable.manual_zoom);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
 
+            if (parms.ManualFocus != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualFocus, parms.ManualFocus, R.drawable.manual_focus);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.ManualIso != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualIso, parms.ManualIso, R.drawable.manual_iso);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.ManualShutter != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualExposureTime, parms.ManualShutter, R.drawable.manual_shutter);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.ManualFNumber != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualFnumber, parms.ManualFNumber, R.drawable.manual_fnum);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.ManualExposure != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualExposureCompensation, parms.ManualExposure, R.drawable.manual_exposure);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.CCT != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualWhiteBalance, parms.CCT, R.drawable.manual_wb);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.CCT != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualWhiteBalance, parms.CCT, R.drawable.manual_wb);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.Burst != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualBurst, parms.CCT, R.drawable.manual_burst);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.ManualContrast != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualContrast, parms.ManualContrast, R.drawable.manual_contrast);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.ManualBrightness != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualBrightness, parms.ManualBrightness, R.drawable.brightness);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.ManualSaturation != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualSaturation, parms.ManualSaturation, R.drawable.manual_saturation);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.ManualSharpness != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualSharpness, parms.ManualSharpness, R.drawable.manual_sharpness);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.ManualConvergence != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualConvergence, parms.ManualConvergence, R.drawable.manual_convergence);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.FX != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualFx, parms.FX, R.drawable.manual_fx);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.ProgramShift != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualProgramShift, parms.ProgramShift, R.drawable.manual_shift);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.PreviewZoom != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualPreviewZoom, parms.PreviewZoom, R.drawable.manual_zoom);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+
+            seekbar.setVisibility(View.GONE);
+            afBracketSettingsView.SetCameraWrapper(cameraUiWrapper);
+            if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET) /*&& currentButton == mf*/ && seekbar.getVisibility() == View.VISIBLE)
+                afBracketSettingsView.setVisibility(View.VISIBLE);
+            else
+                afBracketSettingsView.setVisibility(View.GONE);
+        }
     }
 
     //######## ManualButton Stuff#####
@@ -212,7 +216,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 currentButton = (ManualButton) v;
                 currentButton.SetActive(true);
                 currentButton.SetParameterListner(ManualFragment.this);
-                if (currentButton == mf && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET))
+                if (/*currentButton == mf &&*/ cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET))
                     afBracketSettingsView.setVisibility(View.VISIBLE);
                 else
                     afBracketSettingsView.setVisibility(View.GONE);

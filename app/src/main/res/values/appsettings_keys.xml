@@ -70,5 +70,12 @@
     <string name="aps_manualbrightness" translatable="false">brightness</string>
     <string name="aps_manualcontrast" translatable="false">contrast</string>
     <string name="aps_manualwb" translatable="false">manualwb</string>
+    <string name="aps_manualfnum" translatable="false">manualfnum</string>
+    <string name="aps_manualzoom" translatable="false">zoom</string>
+    <string name="aps_manualburst" translatable="false">burst</string>
+    <string name="aps_manualconvergence" translatable="false">convergence</string>
+    <string name="aps_manualfx" translatable="false">manualfx</string>
+    <string name="aps_manualprogramshift" translatable="false">programshift</string>
+    <string name="aps_manualpreviewzoom" translatable="false">previewzoom</string>
 
 </resources>

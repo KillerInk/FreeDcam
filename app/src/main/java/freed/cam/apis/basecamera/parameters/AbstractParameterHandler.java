@@ -193,28 +193,15 @@ public abstract class AbstractParameterHandler
     {
         setMode(locationParameter, AppSettingsManager.SETTING_LOCATION);
         setAppSettingsToCamera(ColorMode,appSettingsManager.colorMode);
-        //setMode(ColorMode, AppSettingsManager.COLORMODE);
         setAppSettingsToCamera(ExposureMode,appSettingsManager.exposureMode);
-        //setMode(ExposureMode, AppSettingsManager.EXPOSUREMODE);
         setAppSettingsToCamera(FlashMode,appSettingsManager.flashMode);
-        //setMode(FlashMode, AppSettingsManager.FLASHMODE);
         setAppSettingsToCamera(IsoMode,appSettingsManager.isoMode);
-        //setMode(IsoMode, AppSettingsManager.ISOMODE);
-
         setAppSettingsToCamera(AntiBandingMode,appSettingsManager.antiBandingMode);
-        //setMode(AntiBandingMode, AppSettingsManager.ANTIBANDINGMODE);
         setAppSettingsToCamera(WhiteBalanceMode,appSettingsManager.whiteBalanceMode);
-        //setMode(WhiteBalanceMode, AppSettingsManager.WHITEBALANCEMODE);
         setAppSettingsToCamera(PictureSize,appSettingsManager.pictureSize);
-        //setMode(PictureSize, AppSettingsManager.PICTURESIZE);
         setAppSettingsToCamera(PictureFormat,appSettingsManager.pictureFormat);
-        //setMode(PictureFormat, AppSettingsManager.PICTUREFORMAT);
         setAppSettingsToCamera(bayerformat,appSettingsManager.rawPictureFormat);
-        //setMode(bayerformat,AppSettingsManager.BAYERFORMAT);
         setAppSettingsToCamera(oismode,appSettingsManager.opticalImageStabilisation);
-        //setMode(oismode, AppSettingsManager.SETTING_OIS);
-
-        //setMode(JpegQuality, AppSettingsManager.JPEGQUALITY);
         setAppSettingsToCamera(JpegQuality,appSettingsManager.jpegQuality);
         setMode(GuideList, AppSettingsManager.GUIDE);
         setAppSettingsToCamera(ImagePostProcessing,appSettingsManager.imagePostProcessing);
@@ -238,29 +225,29 @@ public abstract class AbstractParameterHandler
         //setMode(MemoryColorEnhancement, AppSettingsManager.MEMORYCOLORENHANCEMENTMODE);
         setAppSettingsToCamera(MemoryColorEnhancement,appSettingsManager.memoryColorEnhancement);
         setMode(NightMode, AppSettingsManager.NIGHTMODE);
-        setMode(NonZslManualMode, AppSettingsManager.NONZSLMANUALMODE);
+        setAppSettingsToCamera(NonZslManualMode, appSettingsManager.nonZslManualMode);
 
         //setMode(Histogram, AppSettingsManager.HISTOGRAM);
         setMode(VideoProfiles, AppSettingsManager.VIDEOPROFILE);
         setAppSettingsToCamera(VideoHDR, appSettingsManager.videoHDR);
         setAppSettingsToCamera(VideoSize, appSettingsManager.videoSize);
-        setMode(VideoStabilization,AppSettingsManager.VIDEOSTABILIZATION);
-        setMode(VideoHighFramerateVideo,AppSettingsManager.HIGHFRAMERATEVIDEO);
+        setAppSettingsToCamera(VideoStabilization,appSettingsManager.videoStabilisation);
+        setAppSettingsToCamera(VideoHighFramerateVideo,appSettingsManager.videoHFR);
         //setMode(WhiteBalanceMode,AppSettingsManager.WHITEBALANCEMODE);
         setAppSettingsToCamera(WhiteBalanceMode,appSettingsManager.whiteBalanceMode);
-        setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);
+        setAppSettingsToCamera(ColorCorrectionMode, appSettingsManager.colorCorrectionMode);
         setAppSettingsToCamera(EdgeMode, appSettingsManager.edgeMode);
         setAppSettingsToCamera(EdgeMode,appSettingsManager.edgeMode);
         setAppSettingsToCamera(HotPixelMode, appSettingsManager.hotpixelMode);
-        setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
+        setAppSettingsToCamera(ToneMapMode, appSettingsManager.toneMapMode);
         setAppSettingsToCamera(ControlMode, appSettingsManager.controlMode);
-        setMode(IntervalDuration,AppSettingsManager.SETTING_INTERVAL_DURATION);
-        setMode(IntervalShutterSleep, AppSettingsManager.SETTING_INTERVAL);
+        setAppSettingsToCamera(IntervalDuration,appSettingsManager.intervalDuration);
+        setAppSettingsToCamera(IntervalShutterSleep, appSettingsManager.interval);
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
 
         setAppSettingsToCamera(HDRMode, appSettingsManager.hdrMode);
 
-        setMode(matrixChooser, AppSettingsManager.CUSTOMMATRIX);
+        setAppSettingsToCamera(matrixChooser, appSettingsManager.matrixset);
 
         //setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
         //setManualMode(ManualConvergence,AppSettingsManager.MCONVERGENCE);

@@ -185,94 +185,39 @@ public class AppSettingsManager {
     public static int SHUTTER_G2PRO = 8;
     public static int SHUTTER_ZTE = 9;
 
+    public static final int FRAMEWORK_NORMAL = 0;
+    public static final int FRAMEWORK_LG = 1;
+    public static final int FRAMEWORK_MTK = 2;
+    public static final int FRAMEWORK_MOTO_EXT = 3;
+    public static final String FRAMEWORK = "framework";
+
 
     public static final String CURRENTCAMERA = "currentcamera";
-
-    //defcomg was here
-    //1-29-2016 6:15
-    // 1-29-2016 11:49
-    public static final String VIDEOBITRATE = "videobitrate";
-    public static final String HELP = "help";
-    //
     public static final String GUIDE = "guide";
-    //done
-    public static final String SKINTONEMODE = "skintonemode";
     public static final String NIGHTMODE = "nightmode";
-    public static final String NONZSLMANUALMODE = "nonzslmanualmode";
-
-    public static final String EXPOLONGTIME = "expolongtime";
-    public static final String HISTOGRAM = "histogram";
-
     public static final String VIDEOPROFILE = "videoprofile";
-    public static final String HIGHFRAMERATEVIDEO = "highframeratevideo";
-    public static final String HIGHSPEEDVIDEO = "highspeedvideo";
-    public static final String VIDEOSTABILIZATION = "videostabilization";
-    ///                  Video Override
-    // public static String VIDEOHDR = "videohfr";
-    // public static String VIDEOHDR = "videohsr";
-
-    public static final String BAYERFORMAT = "bayerformat";
-    public static final String AEPRIORITY = "aepriority";
     public static final String CUSTOMMATRIX = "custommatrix";
-    ////////// overide end
     public static final String TIMELAPSEFRAME = "timelapseframe";
     public static final String SETTING_API = "sonyapi";
-    public static final String SETTING_DNG = "dng";
-    public static final String SETTING_AEBRACKETACTIVE = "aebracketactive";
-    public static final String SETTING_OBJECTTRACKING = "objecttracking";
     public static final String SETTING_LOCATION = "location";
     public static final String SETTING_EXTERNALSHUTTER = "externalShutter";
     public static final String SETTING_OrientationHack = "orientationHack";
-
-    public static final String SETTING_INTERVAL = "innterval";
-    public static final String SETTING_INTERVAL_DURATION = "interval_duration";
     public static final String SETTING_TIMER = "timer";
-
-    public static final String SETTING_CAMERAMODE = "camMode";
-    public static final String SETTING_DUALMODE = "dualMode";
-    public static final String SETTING_Theme = "theme";
-
-    public static final String SETTING_SECUREMODE = "securemode";
-    public static final String SETTING_TNR = "tnr";
-    public static final String SETTING_RDI = "rdi";
-    public static final String SETTING_COLORCORRECTION = "colorcorrection";
-
-    public static final String SETTING_TONEMAP = "tonemap";
 
     public static final String SETTING_FOCUSPEAK = "focuspeak";
 
     public static final String SETTING_EXTERNALSD = "extSD";
-
-
-    public static final String SETTING_Filter = "filter";
 
     public static final String API_SONY = "playmemories";
     public static final String API_1 = "camera1";
     public static final String API_2 = "camera2";
 
 
-    public static final String MWB = "mbw";
-    public static final String MCONTRAST = "mcontrast";
-    public static final String MCONVERGENCE = "mconvergence";
-    public static final String MEXPOSURE = "mexposure";
-
-    public static final String MSHARPNESS = "msharpness";
-    public static final String MSHUTTERSPEED = "mshutterspeed";
-    public static final String MBRIGHTNESS = "mbrightness";
-    public static final String MISO = "miso";
-    public static final String MSATURATION = "msaturation";
-    public static final String MCCT = "mcct";
-    public static final String MBURST = "mburst";
-
     public static final String APPVERSION = "appversion";
 
     public static final String CAMERA2FULLSUPPORTED = "camera2fullsupport";
 
     public static final String SETTING_HORIZONT = "horizont";
-
-    public static final String SETTING_CAPTUREBURSTEXPOSURES = "captureburstexposures";
-    public static final String SETTING_MORPHOHDR = "morphohdr";
-    public static final String SETTING_MORPHOHHT = "morphohht";
 
     public static final String SETTING_AEB1 = "aeb1";
     public static final String SETTING_AEB2 = "aeb2";
@@ -283,9 +228,6 @@ public class AppSettingsManager {
     public static final String SETTING_AEB5 = "aeb5";
     public static final String SETTING_AEB6 = "aeb6";
     public static final String SETTING_AEB7 = "aeb7";
-
-
-    public static final String SETTINGS_PREVIEWZOOM = "previewzoom";
 
     public static final String SETTING_BASE_FOLDER = "base_folder";
 
@@ -355,6 +297,13 @@ public class AppSettingsManager {
     public final SettingMode manualSharpness;
     public final SettingMode manualBrightness;
     public final SettingMode manualContrast;
+    public final SettingMode manualFnumber;
+    public final SettingMode manualZoom;
+    public final SettingMode manualBurst;
+    public final SettingMode manualConvergence;
+    public final SettingMode manualFx;
+    public final SettingMode manualProgramShift;
+    public final SettingMode manualPreviewZoom;
 
     public final TypeSettingsMode manualWhiteBalance;
 
@@ -435,6 +384,13 @@ public class AppSettingsManager {
         manualSharpness = new SettingMode(getResourcesString(R.string.aps_manualsharpness));
         manualBrightness = new SettingMode(getResourcesString(R.string.aps_manualbrightness));
         manualContrast = new SettingMode(getResourcesString(R.string.aps_manualcontrast));
+        manualFnumber = new SettingMode(getResourcesString(R.string.aps_manualfnum));
+        manualZoom = new SettingMode(getResourcesString(R.string.aps_manualzoom));
+        manualBurst = new SettingMode(getResourcesString(R.string.aps_manualburst));
+        manualConvergence = new SettingMode(getResourcesString(R.string.aps_manualconvergence));
+        manualFx = new SettingMode(getResourcesString(R.string.aps_manualfx));
+        manualProgramShift = new SettingMode(getResourcesString(R.string.aps_manualprogramshift));
+        manualPreviewZoom = new SettingMode(getResourcesString(R.string.aps_manualpreviewzoom));
 
         matrixes = getMatrixes();
         opcodeUrlList = new String[2];
@@ -589,11 +545,11 @@ public class AppSettingsManager {
         return settings.getString(getApiSettingString(valueToGet),"");
     }
 
-    public int getApiInt(String valueToGet) {
+    private int getApiInt(String valueToGet) {
         return settings.getInt(getApiSettingString(valueToGet),0);
     }
 
-    public void setApiInt(String key,int valueToSet) {
+    private void setApiInt(String key,int valueToSet) {
         settings.edit().putInt(key,valueToSet).commit();
     }
 
@@ -657,11 +613,7 @@ public class AppSettingsManager {
     }
 
 
-    public static final int FRAMEWORK_NORMAL = 0;
-    public static final int FRAMEWORK_LG = 1;
-    public static final int FRAMEWORK_MTK = 2;
-    public static final int FRAMEWORK_MOTO_EXT = 3;
-    public static final String FRAMEWORK = "framework";
+
 
     public void setFramework(int frameWork)
     {

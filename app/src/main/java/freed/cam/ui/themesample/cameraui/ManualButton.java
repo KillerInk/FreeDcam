@@ -22,12 +22,10 @@ package freed.cam.ui.themesample.cameraui;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +35,6 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
-import com.troop.freedcam.R.styleable;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -57,7 +54,6 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     private final String TAG = ManualButton.class.getSimpleName();
     private String[] parameterValues;
     private ManualParameterInterface parameter;
-    private String settingsname;
     private TextView headerTextView;
     private TextView valueTextView;
     private ImageView imageView;
@@ -66,56 +62,19 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     private final int backgroundColor = Color.parseColor("#00000000");
     private final int stringColor = Color.parseColor("#FFFFFFFF");
     private final int stringColorActive = Color.parseColor("#FF000000");
-    private boolean imageusing;
     private int pos;
     protected ActivityInterface fragment_activityInterface;
     private AppSettingsManager.SettingMode settingMode;
 
     private final BlockingQueue<Integer> valueQueue = new ArrayBlockingQueue<>(3);
 
-    public void SetStuff(ActivityInterface fragment_activityInterface, String settingsName)
+    public ManualButton(Context context, AppSettingsManager.SettingMode settingMode, ManualParameterInterface parameter, int drawableImg)
     {
-        settingsname = settingsName;
-        this.fragment_activityInterface = fragment_activityInterface;
-    }
-
-    public void SetStuff(AppSettingsManager.SettingMode settingMode)
-    {
-        this.settingMode = settingMode;
-    }
-
-    public ManualButton(Context context) {
         super(context);
         init(context);
-    }
-
-    public ManualButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                styleable.ManualButton,
-                0, 0
-        );
-        //try to set the attributs
-        try
-        {
-            headerTextView.setText(a.getText(styleable.ManualButton_Header));
-            imageView.setImageDrawable(a.getDrawable(styleable.ManualButton_Image));
-            if (imageView.getDrawable() != null) {
-                headerTextView.setVisibility(View.GONE);
-                imageusing = true;
-            }
-
-        }
-        finally {
-            a.recycle();
-        }
-    }
-
-    public ManualButton(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context);
+        this.settingMode = settingMode;
+        SetManualParameter(parameter);
+        imageView.setImageDrawable(getResources().getDrawable(drawableImg));
     }
 
     private void init(Context context)
@@ -125,6 +84,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         inflater.inflate(layout.cameraui_manualbutton, this);
         headerTextView = (TextView) findViewById(id.manualbutton_headertext);
         headerTextView.setSelected(true);
+        headerTextView.setVisibility(GONE);
         valueTextView = (TextView) findViewById(id.manualbutton_valuetext);
         valueTextView.setSelected(true);
         imageView = (ImageView) findViewById(id.imageView_ManualButton);
@@ -148,10 +108,12 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
             if (parameter.IsSupported())
             {
                 String txt = parameter.GetStringValue();
-                if (txt != null && !txt.equals(""))
-                    valueTextView.setText(txt);
-                else
-                    valueTextView.setText(parameter.GetValue()+"");
+                if (valueTextView != null) {
+                    if (txt != null && !txt.equals(""))
+                        valueTextView.setText(txt);
+                    else
+                        valueTextView.setText(parameter.GetValue() + "");
+                }
 
                 onIsSupportedChanged(parameter.IsVisible());
                 onIsSetSupportedChanged(parameter.IsSetSupported());
@@ -337,34 +299,16 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
             return;
         parameter.SetValue(runValue);
         if (!(parameter instanceof BaseManualParameterSony)) {
-            if (settingsname != null)
-                fragment_activityInterface.getAppSettings().setApiString(settingsname, runValue + "");
-            else if (settingMode != null)
-                settingMode.set(String.valueOf(runValue));
+            settingMode.set(String.valueOf(runValue));
         }
         currentlysettingsparameter = false;
     }
 
-    public void SetActive(boolean active)
-    {
-        if (!imageusing) {
-            if (active) {
-                setBackgroundColor(backgroundColorActive);
-                headerTextView.setTextColor(stringColorActive);
-                valueTextView.setTextColor(stringColorActive);
-            } else {
-                setBackgroundColor(backgroundColor);
-                headerTextView.setTextColor(stringColor);
-                valueTextView.setTextColor(stringColor);
-            }
-        }
-        else
-        {
-            if (active) {
-                setBackgroundColor(backgroundColorActive);
-            } else {
-                setBackgroundColor(backgroundColor);
-            }
+    public void SetActive(boolean active) {
+        if (active) {
+            setBackgroundColor(backgroundColorActive);
+        } else {
+            setBackgroundColor(backgroundColor);
         }
     }
 
