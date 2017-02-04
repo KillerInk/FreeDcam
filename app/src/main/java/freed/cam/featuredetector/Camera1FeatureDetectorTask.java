@@ -604,17 +604,17 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else {
             int min = 0, max = 0;
             if (parameters.get(KEYS.LG_COLOR_ADJUST_MAX) != null && parameters.get(KEYS.LG_COLOR_ADJUST_MIN) != null) {
-                min = Integer.parseInt(KEYS.LG_COLOR_ADJUST_MIN);
-                max = Integer.parseInt(KEYS.LG_COLOR_ADJUST_MAX);
+                min = Integer.parseInt(parameters.get(KEYS.LG_COLOR_ADJUST_MIN));
+                max = Integer.parseInt(parameters.get(KEYS.LG_COLOR_ADJUST_MAX));
                 appSettingsManager.manualSaturation.setKEY(KEYS.LG_COLOR_ADJUST);
             }
             else if (parameters.get(KEYS.SATURATION_MAX) != null) {
-                min = Integer.parseInt(KEYS.SATURATION_MIN);
-                max = Integer.parseInt(KEYS.SATURATION_MAX);
+                min = Integer.parseInt(parameters.get(KEYS.SATURATION_MIN));
+                max = Integer.parseInt(parameters.get(KEYS.SATURATION_MAX));
                 appSettingsManager.manualSaturation.setKEY(KEYS.SATURATION);
             } else if (parameters.get(KEYS.MAX_SATURATION) != null) {
-                min = Integer.parseInt(KEYS.MIN_SATURATION);
-                max = Integer.parseInt(KEYS.MAX_SATURATION);
+                min = Integer.parseInt(parameters.get(KEYS.MIN_SATURATION));
+                max = Integer.parseInt(parameters.get(KEYS.MAX_SATURATION));
                 appSettingsManager.manualSaturation.setKEY(KEYS.SATURATION);
             }
             if (max > 0) {
@@ -636,12 +636,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else {
             int min = 0, max = 0;
             if (parameters.get(KEYS.SHARPNESS_MAX) != null) {
-                min = Integer.parseInt(KEYS.SHARPNESS_MIN);
-                max = Integer.parseInt(KEYS.SHARPNESS_MAX);
+                min = Integer.parseInt(parameters.get(KEYS.SHARPNESS_MIN));
+                max = Integer.parseInt(parameters.get(KEYS.SHARPNESS_MAX));
                 appSettingsManager.manualSharpness.setKEY(KEYS.SHARPNESS);
             } else if (parameters.get(KEYS.MAX_SHARPNESS) != null) {
-                min = Integer.parseInt(KEYS.MIN_SHARPNESS);
-                max = Integer.parseInt(KEYS.MAX_SHARPNESS);
+                min = Integer.parseInt(parameters.get(KEYS.MIN_SHARPNESS));
+                max = Integer.parseInt(parameters.get(KEYS.MAX_SHARPNESS));
                 appSettingsManager.manualSharpness.setKEY(KEYS.SHARPNESS);
             }
             if (max > 0) {
@@ -663,11 +663,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else {
             int min = 0, max = 0;
             if (parameters.get(KEYS.BRIGHTNESS_MAX) != null) {
-                min = Integer.parseInt(KEYS.BRIGHTNESS_MIN);
-                max = Integer.parseInt(KEYS.BRIGHTNESS_MAX);
+                min = Integer.parseInt(parameters.get(KEYS.BRIGHTNESS_MIN));
+                max = Integer.parseInt(parameters.get(KEYS.BRIGHTNESS_MAX));
             } else if (parameters.get(KEYS.MAX_BRIGHTNESS) != null) {
-                min = Integer.parseInt(KEYS.MIN_BRIGHTNESS);
-                max = Integer.parseInt(KEYS.MAX_BRIGHTNESS);
+                min = Integer.parseInt(parameters.get(KEYS.MIN_BRIGHTNESS));
+                max = Integer.parseInt(parameters.get(KEYS.MAX_BRIGHTNESS));
 
             }
             if (max > 0) {
@@ -693,11 +693,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else {
             int min = 0, max = 0;
             if (parameters.get(KEYS.CONTRAST_MAX) != null) {
-                min = Integer.parseInt(KEYS.CONTRAST_MIN);
-                max = Integer.parseInt(KEYS.CONTRAST_MAX);
+                min = Integer.parseInt(parameters.get(KEYS.CONTRAST_MIN));
+                max = Integer.parseInt(parameters.get(KEYS.CONTRAST_MAX));
             } else if (parameters.get(KEYS.MAX_CONTRAST) != null) {
-                min = Integer.parseInt(KEYS.MIN_CONTRAST);
-                max = Integer.parseInt(KEYS.MAX_CONTRAST);
+                min = Integer.parseInt(parameters.get(KEYS.MIN_CONTRAST));
+                max = Integer.parseInt(parameters.get(KEYS.MAX_CONTRAST));
 
             }
             if (max > 0) {
