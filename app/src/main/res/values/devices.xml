@@ -664,6 +664,9 @@
         <item>Moto G 2014</item>
     </string-array>
 
-
+    <string-array name="HTC_Desire830">
+        <item>HTC Desire 830</item>
+        <item>unknown</item>
+    </string-array>
 
 </resources>

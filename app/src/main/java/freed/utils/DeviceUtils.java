@@ -56,6 +56,7 @@ public class DeviceUtils
         HTC_OneA9,
         HTC_OneE8,
         HTC_Desire500,
+        HTC_Desire830,
         Huawei_GX8,
         Huawei_HONOR5x,
         huawei_honor6,
@@ -378,6 +379,8 @@ public class DeviceUtils
             return Devices.THL100s_MTK;
         else if(isDevice(res.getStringArray(array.Google_Pixel)))
             return Devices.Google_Pixel;
+        else if(isDevice(res.getStringArray(array.HTC_Desire830)))
+            return Devices.HTC_Desire830;
         else
             return Devices.UNKNOWN;
 
