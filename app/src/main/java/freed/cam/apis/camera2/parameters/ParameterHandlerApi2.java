@@ -185,7 +185,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     }
 
     @Override
-    public long getCurrentExposuretime() {
+    public float getCurrentExposuretime() {
         return 0;
     }
 

@@ -185,7 +185,7 @@ public abstract class AbstractParameterHandler
 
     public abstract float[] getFocusDistances();
 
-    public abstract long getCurrentExposuretime();
+    public abstract float getCurrentExposuretime();
 
     public abstract int getCurrentIso();
 

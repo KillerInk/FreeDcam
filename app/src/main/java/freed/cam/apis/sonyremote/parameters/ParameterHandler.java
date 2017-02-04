@@ -208,7 +208,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     }
 
     @Override
-    public long getCurrentExposuretime() {
+    public float getCurrentExposuretime() {
         return 0;
     }
 

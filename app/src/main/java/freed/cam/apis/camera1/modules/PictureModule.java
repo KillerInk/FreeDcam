@@ -256,7 +256,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
 
         float fnum = ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getFnumber();
         float focal = ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getFocal();
-        long exposuretime = cameraUiWrapper.GetParameterHandler().getCurrentExposuretime();
+        float exposuretime = cameraUiWrapper.GetParameterHandler().getCurrentExposuretime();
         if (exposuretime == 0 && startcapturetime != 0)
         {
             exposuretime = new Date().getTime() - startcapturetime;

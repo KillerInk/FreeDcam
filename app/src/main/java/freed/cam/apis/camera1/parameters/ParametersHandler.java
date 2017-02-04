@@ -445,27 +445,27 @@ public class ParametersHandler extends AbstractParameterHandler
     }
 
     @Override
-    public long getCurrentExposuretime()
+    public float getCurrentExposuretime()
     {
         Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
             if (parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK) != null) {
-                if (Long.parseLong(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK)) == 0) {
+                if (Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK)) == 0) {
                     return 0;
                 } else
-                    return Long.parseLong(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK));
+                    return Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK))/ 1000000;
             } else if (parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1) != null) {
-                if (Long.parseLong(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1)) == 0) {
+                if (Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1)) == 0) {
                     return 0;
                 } else
-                    return Long.parseLong(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1));
+                    return Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1))/ 1000000;
             } else
                 return 0;
         }
         else
         {
             if (parameters.get(KEYS.CUR_EXPOSURE_TIME)!= null)
-                return (long)Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME))*1000000;
+                return Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME))*1000000;
         }
         return 0;
     }
