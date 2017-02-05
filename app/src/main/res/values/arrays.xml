@@ -21,11 +21,11 @@
 <resources>
     <!-- DO NOT TRANSLATE START -->
     <string-array name="color_pattern"  translatable="false">
-        <item>BGGR</item>
-        <item>RGGB</item>
-        <item>GRBG</item>
-        <item>GBRG</item>
-        <item>RGBW</item>
+        <item>bggr</item>
+        <item>rggb</item>
+        <item>grbg</item>
+        <item>gbrg</item>
+        <item>rgbw</item>
     </string-array>
     <string-array name="matrixes"  translatable="false">
         <item>Nexus6</item>

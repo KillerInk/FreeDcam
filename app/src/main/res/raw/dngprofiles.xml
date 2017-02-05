@@ -8,7 +8,7 @@
             <width>2560</width>
             <height>1920</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -22,7 +22,7 @@
             <width>2560</width>
             <height>1920</height>
             <rawtype>0</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
@@ -36,7 +36,7 @@
             <width>4896</width>
             <height>3672</height>
             <rawtype>1</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
@@ -50,7 +50,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -64,7 +64,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -77,7 +77,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern> <!-- could be GRBG too -->
+            <colorpattern>rggb</colorpattern> <!-- could be grbg too -->
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -86,7 +86,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -100,7 +100,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern> <!-- could be GRBG too -->
+            <colorpattern>bggr</colorpattern> <!-- could be grbg too -->
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -114,7 +114,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>2</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -123,7 +123,7 @@
             <width>4160</width>
             <height>3120</height>
             <rawtype>2</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -132,7 +132,7 @@
             <width>4864</width>
             <height>2736</height>
             <rawtype>2</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -146,7 +146,7 @@
             <width>3264</width>
             <height>2448</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>4080</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -155,7 +155,7 @@
             <width>3264</width>
             <height>2448</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -164,7 +164,7 @@
             <width>4608</width>
             <height>3456</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
@@ -173,7 +173,7 @@
             <width>4608</width>
             <height>3456</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>1</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
@@ -187,7 +187,7 @@
             <width>2560</width>
             <height>1920</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -201,7 +201,7 @@
             <width>2688</width>
             <height>1520</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>OV4688</matrixset>
         </filesize>
@@ -210,7 +210,7 @@
             <width>2688</width>
             <height>1520</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>3360</rowsize>
             <matrixset>OV4688</matrixset>
         </filesize>
@@ -224,7 +224,7 @@
             <width>5388</width>
             <height>3752</height>
             <rawtype>0</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -233,7 +233,7 @@
             <width>5388</width>
             <height>3752</height>
             <rawtype>1</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -247,7 +247,7 @@
             <width>2592</width>
             <height>1944</height>
             <rawtype>1</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -261,7 +261,7 @@
             <width>3282</width>
             <height>2448</height>
             <rawtype>1</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -275,7 +275,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -289,7 +289,7 @@
             <width>4224</width>
             <height>3136</height>
             <rawtype>3</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
@@ -303,7 +303,7 @@
             <width>3282</width>
             <height>2448</height>
             <rawtype>1</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -317,7 +317,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -331,7 +331,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -345,7 +345,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -359,7 +359,7 @@
             <width>2532</width>
             <height>1902</height>
             <rawtype>2</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
@@ -373,7 +373,7 @@
             <width>4192</width>
             <height>3104</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Lumigon</matrixset>
         </filesize>
@@ -387,7 +387,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx214</matrixset>
         </filesize>
@@ -401,7 +401,7 @@
             <width>4208</width>
             <height>3136</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
@@ -415,7 +415,7 @@
             <width>2592</width>
             <height>1296</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -424,7 +424,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -433,7 +433,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -447,7 +447,7 @@
             <width>5328</width>
             <height>3000</height>
             <rawtype>0</rawtype>
-            <colorpattern>GBRG</colorpattern>
+            <colorpattern>gbrg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -461,7 +461,7 @@
             <width>4192</width>
             <height>3104</height>
             <rawtype>2</rawtype>
-            <colorpattern>GBRG</colorpattern>
+            <colorpattern>gbrg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -475,7 +475,7 @@
             <width>4192</width>
             <height>3104</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -489,7 +489,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -503,7 +503,7 @@
             <width>5328</width>
             <height>3000</height>
             <rawtype>0</rawtype>
-            <colorpattern>GBRG</colorpattern>
+            <colorpattern>gbrg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -517,7 +517,7 @@
             <width>5344</width>
             <height>4017</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx230</matrixset>
         </filesize>
@@ -526,7 +526,7 @@
             <width>3264</width>
             <height>2472</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx230</matrixset>
         </filesize>
@@ -540,7 +540,7 @@
             <width>4208</width>
             <height>3082</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
@@ -549,7 +549,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
@@ -563,7 +563,7 @@
             <width>4208</width>
             <height>3082</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
@@ -572,7 +572,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
@@ -586,7 +586,7 @@
             <width>5312</width>
             <height>2988</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
@@ -600,7 +600,7 @@
             <width>1212</width>
             <height>1096</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>2424</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -609,7 +609,7 @@
             <width>1296</width>
             <height>1096</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -619,7 +619,7 @@
             <width>4208</width>
             <height>3082</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -628,7 +628,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -638,7 +638,7 @@
             <width>4164</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -648,7 +648,7 @@
             <width>4212</width>
             <height>3082</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -662,7 +662,7 @@
             <width>2580</width>
             <height>1920</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -678,7 +678,7 @@
             <width>4656</width>
             <height>3492</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Imx298</matrixset>
         </filesize>
@@ -694,7 +694,7 @@
             <width>4192</width>
             <height>3104</height>
             <rawtype>2</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Lumigon</matrixset>
         </filesize>
@@ -708,7 +708,7 @@
             <width>4224</width>
             <height>3136</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Lumigon</matrixset>
         </filesize>
@@ -722,7 +722,7 @@
             <width>5248</width>
             <height>3936</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx220</matrixset>
         </filesize>
@@ -736,7 +736,7 @@
             <width>5248</width>
             <height>3936</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx220</matrixset>
         </filesize>
@@ -750,7 +750,7 @@
             <width>4192</width>
             <height>3104</height>
             <rawtype>2</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -764,7 +764,7 @@
             <width>3264</width>
             <height>2448</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -778,7 +778,7 @@
             <width>5344</width>
             <height>4016</height>
             <rawtype>2</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx230</matrixset>
         </filesize>
@@ -787,7 +787,7 @@
             <width>5344</width>
             <height>4016</height>
             <rawtype>2</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx230</matrixset>
         </filesize>
@@ -801,7 +801,7 @@
             <width>4164</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -815,7 +815,7 @@
             <width>4164</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -829,7 +829,7 @@
             <width>4608</width>
             <height>3456</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5246</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
@@ -843,7 +843,7 @@
             <width>3264</width>
             <height>2448</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5246</rowsize>
             <matrixset>Imx179</matrixset>
         </filesize>
@@ -852,7 +852,7 @@
             <width>3264</width>
             <height>2448</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx179</matrixset>
         </filesize>
@@ -866,7 +866,7 @@
             <width>3264</width>
             <height>2448</height>
             <rawtype>2</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -880,7 +880,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5246</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -889,7 +889,7 @@
             <width>4224</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5280</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -898,7 +898,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -912,7 +912,7 @@
             <width>4224</width>
             <height>3120</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -926,7 +926,7 @@
             <width>3264</width>
             <height>2448</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5246</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
@@ -935,7 +935,7 @@
             <width>3264</width>
             <height>2448</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5280</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
@@ -944,7 +944,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -958,7 +958,7 @@
             <width>1584</width>
             <height>1188</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
@@ -972,7 +972,7 @@
             <width>4212</width>
             <height>3082</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -981,7 +981,7 @@
             <width>4208</width>
             <height>3082</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5246</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -995,7 +995,7 @@
             <width>3264</width>
             <height>2448</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>4880</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1004,7 +1004,7 @@
             <width>3264</width>
             <height>2448</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1018,7 +1018,7 @@
             <width>4192</width>
             <height>3104</height>
             <rawtype>2</rawtype>
-            <colorpattern>GBRG</colorpattern>
+            <colorpattern>gbrg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1032,7 +1032,7 @@
             <width>2688</width>
             <height>1520</height>
             <rawtype>0</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>3360</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
@@ -1046,7 +1046,7 @@
             <width>5344</width>
             <height>4016</height>
             <rawtype>2</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx230</matrixset>
         </filesize>
@@ -1060,7 +1060,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1074,7 +1074,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>2</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx214</matrixset>
         </filesize>
@@ -1088,7 +1088,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>2</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx214</matrixset>
         </filesize>
@@ -1102,7 +1102,7 @@
             <width>3282</width>
             <height>2448</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>4376</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1116,7 +1116,7 @@
             <width>5520</width>
             <height>4160</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>6904</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1130,7 +1130,7 @@
             <width>4192</width>
             <height>3104</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1144,7 +1144,7 @@
             <width>4192</width>
             <height>3104</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1158,7 +1158,7 @@
             <width>3200</width>
             <height>2400</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx179</matrixset>
         </filesize>
@@ -1172,7 +1172,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Imx214</matrixset>
         </filesize>
@@ -1181,7 +1181,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Imx214</matrixset>
         </filesize>
@@ -1195,7 +1195,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
@@ -1204,7 +1204,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
@@ -1218,7 +1218,7 @@
             <width>4192</width>
             <height>3104</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1232,7 +1232,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>GBRG</colorpattern>
+            <colorpattern>gbrg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1241,7 +1241,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>GBRG</colorpattern>
+            <colorpattern>gbrg</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1255,7 +1255,7 @@
             <width>4672</width>
             <height>3505</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1269,7 +1269,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1278,7 +1278,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1287,7 +1287,7 @@
             <width>4208</width>
             <height>3136</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1296,7 +1296,7 @@
             <width>1976</width>
             <height>1200</height>
             <rawtype>3</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1305,7 +1305,7 @@
             <width>1976</width>
             <height>1200</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1319,7 +1319,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1328,7 +1328,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1337,7 +1337,7 @@
             <width>4208</width>
             <height>3136</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1346,7 +1346,7 @@
             <width>1976</width>
             <height>1200</height>
             <rawtype>3</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1355,7 +1355,7 @@
             <width>1976</width>
             <height>1200</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1369,7 +1369,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1378,7 +1378,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1387,7 +1387,7 @@
             <width>4208</width>
             <height>3136</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1396,7 +1396,7 @@
             <width>1976</width>
             <height>1200</height>
             <rawtype>3</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1405,7 +1405,7 @@
             <width>1976</width>
             <height>1200</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1419,7 +1419,7 @@
             <width>4652</width>
             <height>3520</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Imx298</matrixset>
         </filesize>
@@ -1435,7 +1435,7 @@
             <width>4056</width>
             <height>3040</height>
             <rawtype>3</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx298</matrixset>
         </filesize>
@@ -1451,7 +1451,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1460,7 +1460,7 @@
             <width>2592</width>
             <height>1296</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1469,7 +1469,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>3</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1483,7 +1483,7 @@
             <width>4192</width>
             <height>3104</height>
             <rawtype>2</rawtype>
-            <colorpattern>GBRG</colorpattern>
+            <colorpattern>gbrg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1492,7 +1492,7 @@
             <width>4632</width>
             <height>3520</height>
             <rawtype>0</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>S5K3P3</matrixset>
         </filesize>
@@ -1506,7 +1506,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1515,7 +1515,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1529,7 +1529,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>3</rawtype>
-            <colorpattern>GRBG</colorpattern>
+            <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1543,7 +1543,7 @@
             <width>3264</width>
             <height>2448</height>
             <rawtype>2</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1557,7 +1557,7 @@
             <width>3264</width>
             <height>2448</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>4080</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1571,7 +1571,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1585,7 +1585,7 @@
             <width>2592</width>
             <height>1944</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>OV5648</matrixset>
         </filesize>
@@ -1594,7 +1594,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
@@ -1603,7 +1603,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
@@ -1612,7 +1612,7 @@
             <width>4208</width>
             <height>2367</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
@@ -1621,7 +1621,7 @@
             <width>2104</width>
             <height>1560</height>
             <rawtype>3</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
@@ -1635,7 +1635,7 @@
             <width>2592</width>
             <height>1296</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
@@ -1644,7 +1644,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
@@ -1653,7 +1653,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
@@ -1667,7 +1667,7 @@
             <width>5344</width>
             <height>3000</height>
             <rawtype>3</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
@@ -1681,7 +1681,7 @@
             <width>4656</width>
             <height>3456</height>
             <rawtype>3</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx298</matrixset>
         </filesize>
@@ -1695,7 +1695,7 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
@@ -1709,7 +1709,7 @@
             <width>4208</width>
             <height>3136</height>
             <rawtype>0</rawtype>
-            <colorpattern>RGGB</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
@@ -1723,7 +1723,7 @@
             <width>4080</width>
             <height>3028</height>
             <rawtype>3</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
@@ -1737,7 +1737,7 @@
             <width>4080</width>
             <height>3028</height>
             <rawtype>3</rawtype>
-            <colorpattern>BGGR</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
