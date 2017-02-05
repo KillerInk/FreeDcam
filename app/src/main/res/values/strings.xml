@@ -248,6 +248,12 @@
     <string name="ae_mode_autofLash">Auto Flash</string>
     <string name="ae_mode_redeyefLash">Auto Flash Redeye</string>
 
+    <string name="pictureformat_dng10">10bitDNG</string>
+    <string name="pictureformat_dng12">12bitDNG</string>
+    <string name="pictureformat_dng16">16bitDNG</string>
+    <string name="pictureformat_jpeg">Jpeg</string>
+    <string name="pictureformat_bayer">Bayer</string>
+
 
 
 </resources>

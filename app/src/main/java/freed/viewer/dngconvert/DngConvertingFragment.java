@@ -45,6 +45,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ortiz.touch.TouchImageView;
@@ -177,14 +178,7 @@ public class DngConvertingFragment extends Fragment
                 spinnerMatrixProfile.setOnItemSelectedListener(new OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        switch (position) {
-                            case 0:
-                                dngprofile.matrixes = matrixChooserParameter.GetCustomMatrixNotOverWritten(MatrixChooserParameter.NEXUS6);
-                                break;
-                            case 1:
-                                dngprofile.matrixes = matrixChooserParameter.GetCustomMatrixNotOverWritten(MatrixChooserParameter.G4);
-                                break;
-                        }
+                        dngprofile.matrixes = matrixChooserParameter.GetCustomMatrixNotOverWritten(spinnerMatrixProfile.getSelectedItem().toString());
                     }
 
                     @Override
@@ -196,23 +190,7 @@ public class DngConvertingFragment extends Fragment
                 spinnerColorPattern.setOnItemSelectedListener(new OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        switch (position) {
-                            case 0:
-                                dngprofile.bayerPattern = DngProfile.BGGR;
-                                break;
-                            case 1:
-                                dngprofile.bayerPattern = DngProfile.RGGB;
-                                break;
-                            case 2:
-                                dngprofile.bayerPattern = DngProfile.GRBG;
-                                break;
-                            case 3:
-                                dngprofile.bayerPattern = DngProfile.GBRG;
-                                break;
-                            case 4:
-                                dngprofile.bayerPattern = DngProfile.RGBW;
-                                break;
-                        }
+                        dngprofile.bayerPattern = spinnerColorPattern.getSelectedItem().toString();
                     }
 
                     @Override

@@ -62,6 +62,8 @@ public class PictureFormatHandler extends BaseModeParameter
         if (rawSupported) {
             rawFormat = cameraUiWrapper.GetAppSettingsManager().rawPictureFormat.get();
             rawFormats = cameraUiWrapper.GetAppSettingsManager().rawPictureFormat.getValues();
+            BayerFormats = new BayerFormat(parameters, cameraUiWrapper, "");
+            parametersHandler.bayerformat = BayerFormats;
         }
         Log.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+ isSupported);
     }

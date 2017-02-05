@@ -197,13 +197,13 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         HashMap<String, Integer> hmap = new HashMap<>();
         if (smap.isOutputSupportedFor(ImageFormat.RAW10))
-            hmap.put("10bitDNG", ImageFormat.RAW10);
+            hmap.put(appSettingsManager.getResourcesString(R.string.pictureformat_dng10), ImageFormat.RAW10);
         if (smap.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
-            hmap.put("16bitDNG", ImageFormat.RAW_SENSOR);
+            hmap.put(appSettingsManager.getResourcesString(R.string.pictureformat_dng16), ImageFormat.RAW_SENSOR);
         if (smap.isOutputSupportedFor(ImageFormat.RAW12))
-            hmap.put("12bitDNG", ImageFormat.RAW12);
+            hmap.put(appSettingsManager.getResourcesString(R.string.pictureformat_dng12), ImageFormat.RAW12);
         if (smap.isOutputSupportedFor(ImageFormat.JPEG))
-            hmap.put(JPEG, ImageFormat.JPEG);
+            hmap.put(appSettingsManager.getResourcesString(R.string.pictureformat_jpeg), ImageFormat.JPEG);
         appSettingsManager.pictureFormat.setIsSupported(true);
         appSettingsManager.pictureFormat.set(JPEG);
         appSettingsManager.pictureFormat.setValues(StringUtils.IntHashmapToStringArray(hmap));

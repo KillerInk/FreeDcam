@@ -306,6 +306,7 @@ public class ParametersHandler extends AbstractParameterHandler
                     ManualIso = aehandler.getManualIso();
                     break;
                 case SHUTTER_LG:
+                    //its needed else cam ignores manuals like shutter and iso
                     cameraParameters.set("lge-camera","1");
                     aehandler = new AE_Handler_LGG4(cameraParameters,cameraUiWrapper);
                     ManualShutter = aehandler.getShutterManual();
