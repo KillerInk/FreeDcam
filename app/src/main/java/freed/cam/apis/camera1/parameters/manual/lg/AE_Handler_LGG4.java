@@ -43,7 +43,9 @@ public class AE_Handler_LGG4 extends AE_Handler_Abstract
 
     @Override
     protected void resetManualMode() {
-        parameters.set(KEYS.LG_MANUAL_MODE_RESET, "1");
-        parameters.set(KEYS.LG_MANUAL_MODE_RESET, "0");
+        if (!auto)
+            parameters.set(KEYS.LG_MANUAL_MODE_RESET, "1");
+        else
+            parameters.set(KEYS.LG_MANUAL_MODE_RESET, "0");
     }
 }

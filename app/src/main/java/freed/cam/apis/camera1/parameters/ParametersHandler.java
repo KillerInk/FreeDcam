@@ -39,6 +39,7 @@ import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.FocusHandler;
+import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ExposureManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ZoomManualParameter;
@@ -81,7 +82,13 @@ import freed.utils.StringUtils.FileEnding;
 import static freed.utils.AppSettingsManager.FRAMEWORK_MTK;
 import static freed.utils.AppSettingsManager.SETTING_OrientationHack;
 import static freed.utils.AppSettingsManager.SHUTTER_G2PRO;
+import static freed.utils.AppSettingsManager.SHUTTER_HTC;
+import static freed.utils.AppSettingsManager.SHUTTER_KRILLIN;
+import static freed.utils.AppSettingsManager.SHUTTER_LG;
+import static freed.utils.AppSettingsManager.SHUTTER_MEIZU;
 import static freed.utils.AppSettingsManager.SHUTTER_MTK;
+import static freed.utils.AppSettingsManager.SHUTTER_QCOM_MICORSEC;
+import static freed.utils.AppSettingsManager.SHUTTER_QCOM_MILLISEC;
 import static freed.utils.AppSettingsManager.SHUTTER_SONY;
 
 /**
@@ -94,6 +101,7 @@ public class ParametersHandler extends AbstractParameterHandler
     private final String TAG = ParametersHandler.class.getSimpleName();
 
     private Parameters cameraParameters;
+    private AE_Handler_Abstract aehandler;
     public Parameters getParameters(){return cameraParameters;}
 
     public ParametersHandler(CameraWrapperInterface cameraUiWrapper)
@@ -276,36 +284,51 @@ public class ParametersHandler extends AbstractParameterHandler
 
         if (appS.manualExposureTime.isSupported())
         {
-            if (appS.manualExposureTime.getType() == AppSettingsManager.SHUTTER_HTC)
-                ManualShutter = new ShutterManualParameterHTC(cameraParameters,cameraUiWrapper);
-            else if(appS.manualExposureTime.getType() == AppSettingsManager.SHUTTER_QCOM_MICORSEC)
-                ManualShutter = new ExposureTime_MicroSec(cameraUiWrapper,cameraParameters);
-            else if (appS.manualExposureTime.getType() == AppSettingsManager.SHUTTER_QCOM_MILLISEC)
-                ManualShutter = new ExposureTime_MilliSec(cameraUiWrapper,cameraParameters);
-            else if (appS.manualExposureTime.getType() == SHUTTER_MTK)
+            int type = appS.manualExposureTime.getType();
+            switch (type)
             {
-                AE_Handler_MTK ae_handler_mtk = new AE_Handler_MTK(cameraParameters,cameraUiWrapper,1600);
-                ManualShutter = ae_handler_mtk.getShutterManual();
-                ManualIso = ae_handler_mtk.getManualIso();
+                case SHUTTER_HTC:
+                    ManualShutter = new ShutterManualParameterHTC(cameraParameters,cameraUiWrapper);
+                    break;
+                case SHUTTER_QCOM_MICORSEC:
+                    ManualShutter = new ExposureTime_MicroSec(cameraUiWrapper,cameraParameters);
+                    break;
+                case SHUTTER_QCOM_MILLISEC:
+                    ManualShutter = new ExposureTime_MilliSec(cameraUiWrapper,cameraParameters);
+                    break;
+                case SHUTTER_MTK:
+                    cameraParameters.set("afeng_raw_dump_flag", "1");
+                    cameraParameters.set("rawsave-mode", "2");
+                    cameraParameters.set("isp-mode", "1");
+                    cameraParameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/test."+ FileEnding.BAYER);
+                    aehandler = new AE_Handler_MTK(cameraParameters,cameraUiWrapper,1600);
+                    ManualShutter = aehandler.getShutterManual();
+                    ManualIso = aehandler.getManualIso();
+                    break;
+                case SHUTTER_LG:
+                    cameraParameters.set("lge-camera","1");
+                    aehandler = new AE_Handler_LGG4(cameraParameters,cameraUiWrapper);
+                    ManualShutter = aehandler.getShutterManual();
+                    ManualIso = aehandler.getManualIso();
+                    break;
+                case SHUTTER_MEIZU:
+                    ManualShutter = new ShutterManualMeizu(cameraParameters,cameraUiWrapper);
+                    break;
+                case SHUTTER_KRILLIN:
+                    ManualShutter = new ShutterManualKrillin(cameraParameters,cameraUiWrapper);
+                    break;
+                case SHUTTER_SONY:
+                    ManualShutter = new ShutterManualSony(cameraParameters,cameraUiWrapper);
+                    break;
+                case SHUTTER_G2PRO:
+                    ManualShutter = new ShutterManualG2pro(cameraParameters,cameraUiWrapper);
+                    break;
             }
-            else if (appS.manualExposureTime.getType() == AppSettingsManager.SHUTTER_LG)
-            {
-                AE_Handler_LGG4 ae_handler_lgg4 = new AE_Handler_LGG4(cameraParameters,cameraUiWrapper);
-                ManualShutter = ae_handler_lgg4.getShutterManual();
-                ManualIso = ae_handler_lgg4.getManualIso();
-            }
-            else if (appS.manualExposureTime.getType() == AppSettingsManager.SHUTTER_MEIZU)
-                ManualShutter = new ShutterManualMeizu(cameraParameters,cameraUiWrapper);
-            else if (appS.manualExposureTime.getType() == AppSettingsManager.SHUTTER_KRILLIN)
-                ManualShutter = new ShutterManualKrillin(cameraParameters,cameraUiWrapper);
-            else if (appS.manualExposureTime.getType() == SHUTTER_SONY)
-                ManualShutter = new ShutterManualSony(cameraParameters,cameraUiWrapper);
-            else if (appS.manualExposureTime.getType() == SHUTTER_G2PRO)
-                ManualShutter = new ShutterManualG2pro(cameraParameters,cameraUiWrapper);
+
         }
 
         //mtk and g4 aehandler set it already
-        if (appS.manualIso.isSupported() && ManualIso == null)
+        if (appS.manualIso.isSupported() && aehandler == null)
         {
             ManualIso = new BaseISOManual(cameraParameters,cameraUiWrapper);
         }

@@ -174,16 +174,16 @@ public class AppSettingsManager {
                     KEYS.DNG
             };
 
-    public static int SHUTTER_HTC =0;
-    public static int SHUTTER_LG = 1;
-    public static int SHUTTER_MTK = 2;
-    public static int SHUTTER_QCOM_MILLISEC = 3;
-    public static int SHUTTER_QCOM_MICORSEC = 4;
-    public static int SHUTTER_MEIZU = 5;
-    public static int SHUTTER_KRILLIN = 6;
-    public static int SHUTTER_SONY = 7;
-    public static int SHUTTER_G2PRO = 8;
-    public static int SHUTTER_ZTE = 9;
+    public static final int SHUTTER_HTC =0;
+    public static final int SHUTTER_LG = 1;
+    public static final int SHUTTER_MTK = 2;
+    public static final int SHUTTER_QCOM_MILLISEC = 3;
+    public static final int SHUTTER_QCOM_MICORSEC = 4;
+    public static final int SHUTTER_MEIZU = 5;
+    public static final int SHUTTER_KRILLIN = 6;
+    public static final int SHUTTER_SONY = 7;
+    public static final int SHUTTER_G2PRO = 8;
+    public static final int SHUTTER_ZTE = 9;
 
     public static final int FRAMEWORK_NORMAL = 0;
     public static final int FRAMEWORK_LG = 1;
@@ -552,7 +552,7 @@ public class AppSettingsManager {
     }
 
     private void setApiInt(String key,int valueToSet) {
-        settings.edit().putInt(key,valueToSet).commit();
+        settings.edit().putInt(getApiSettingString(key),valueToSet).commit();
     }
 
     public void setApiString(String settingsName, String Value) {

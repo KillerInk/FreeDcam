@@ -203,7 +203,8 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
                 uihandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        moduleChangedListner.get(toget).onModuleChanged(module);
+                        if (moduleChangedListner.size() > 0)
+                            moduleChangedListner.get(toget).onModuleChanged(module);
                     }
                 });
 
