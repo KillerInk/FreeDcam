@@ -54,7 +54,6 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     private final String TAG = ManualButton.class.getSimpleName();
     private String[] parameterValues;
     private ManualParameterInterface parameter;
-    private TextView headerTextView;
     private TextView valueTextView;
     private ImageView imageView;
     private Handler handler;
@@ -82,9 +81,6 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         handler = new Handler();
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layout.cameraui_manualbutton, this);
-        headerTextView = (TextView) findViewById(id.manualbutton_headertext);
-        headerTextView.setSelected(true);
-        headerTextView.setVisibility(GONE);
         valueTextView = (TextView) findViewById(id.manualbutton_valuetext);
         valueTextView.setSelected(true);
         imageView = (ImageView) findViewById(id.imageView_ManualButton);
@@ -139,8 +135,6 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         post(new Runnable() {
             @Override
             public void run() {
-                String txt = headerTextView.getText().toString();
-                Log.d(txt, "isSupported:" + value);
                 if (value) {
                     setVisibility(View.VISIBLE);
                     animate().setListener(null).scaleX(1f).setDuration(300);

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="@dimen/cameraui_settingschild_width"
+    android:layout_height="@dimen/cameraui_settingschild_height"
     android:background="#00000000"
     android:gravity="center_horizontal">
 
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/imageView_ManualButton" />
 
     <LinearLayout
@@ -15,26 +16,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="bottom|center_horizontal">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/manualbutton_headertext"
-            android:textColor="#ffffff"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:focusable="true"
-            android:scrollHorizontally="true"
-            android:focusableInTouchMode="true"
-            android:freezesText="true"
-            android:textStyle="bold"
-            android:textSize="@dimen/manualitemtextsize"
-            android:gravity="center_vertical"
-            />
 
         <FrameLayout
             android:layout_width="fill_parent"
@@ -54,7 +35,7 @@
                 android:scrollHorizontally="true"
                 android:focusableInTouchMode="true"
                 android:freezesText="true"
-                android:textSize="@dimen/manualitemtextsize"
+                android:textSize="@dimen/cameraui_manualbutton_textsize"
                 android:gravity="center_vertical"
                 android:layout_marginBottom="4dp"
                 android:layout_gravity="center_horizontal"

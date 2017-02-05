@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="shuttericon_size">90dp</dimen>
-    <dimen name="uiSettingsWidth">55dp</dimen>
-    <dimen name="infoOverlayTextSize">10dip</dimen>
-    <dimen name="infoOverlayTextMargine">3dp</dimen>
-    <dimen name="uiSettingsHeight">30dp</dimen>
-    <dimen name="crosshairwidth">80dp</dimen>
-    <dimen name="manualitemtextsize">8dp</dimen>
-    <dimen name="manualitemwidth">45dp</dimen>
-    <dimen name="thumbviewsize">65dp</dimen>
-    <dimen name="uiSettingsWidthRight">65dp</dimen>
+    <dimen name="cameraui_shuttericon_size">90dp</dimen>
+    <dimen name="cameraui_settings_margin_left">55dp</dimen>
+
+    <dimen name="cameraui_infooverlay_textsize">10dip</dimen>
+    <dimen name="cameraui_infooverlay_textmargin">3dp</dimen>
+    <dimen name="cameraui_focusselector_width">80dp</dimen>
+
+    <dimen name="cameraui_settingschild_width">45dp</dimen>
+    <dimen name="cameraui_settingschild_height">39dp</dimen>
+    <dimen name="cameraui_settings_margin_right">65dp</dimen>
     <dimen name="menu_margin">3dp</dimen>
-    <dimen name="left_ui_holder_width">40dp</dimen>
-    <dimen name="manualSettingsHeight">50dp</dimen>
+    <dimen name="cameraui_left_settings_holder_width">40dp</dimen>
+
     <dimen name="image_thumbnails_size">90dp</dimen>
     <dimen name="ui_settings_item_width">32dp</dimen>
     <dimen name="ui_settings_item_height">39dp</dimen>
+
+    <dimen name="cameraui_manual_fragment_rotatingseekbar_width">72dp</dimen>
+    <dimen name="cameraui_manual_fragment_rotatingseekbar_margin_right">60dp</dimen>
+    <dimen name="cameraui_manualbuttonholder_margin_right">100dp</dimen>
+    <dimen name="cameraui_manualbuttonholder_margin_left">55dp</dimen>
+    <dimen name="cameraui_manualbuttonholder_height">50dp</dimen>
+    <dimen name="cameraui_manualbutton_textsize">8dip</dimen>
 
     <dimen name="image_thumbnail_size">120dp</dimen>
     <dimen name="freedviewer_gridview_topBarHeight">38dp</dimen>
@@ -27,12 +34,10 @@
     <dimen name="freedviewer_screenslide_histogram_width">86dp</dimen>
     <dimen name="freedviewer_screenslide_histogram_height">66dp</dimen>
     <dimen name="app_icon_size">30dp</dimen>
+
+
     <dimen name="settings_menu_item_description">11dp</dimen>
     <dimen name="settings_menu_item_header_value">13dp</dimen>
     <dimen name="settings_menu_item_header">15dp</dimen>
-    <dimen name="rotatingseekbar_width">72dp</dimen>
-    <dimen name="rotatingseekbar_margine">60dp</dimen>
-    <dimen name="cameraui_infooverlay_textsize">10dp</dimen>
-    <dimen name="manualModesHolderRightMargine">100dp</dimen>
-    <dimen name="manualModesHolderLeftMargine">55dp</dimen>
+    <dimen name="settingsmenu_groupchild_margin_left">5dp</dimen>
 </resources>

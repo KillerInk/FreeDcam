@@ -71,7 +71,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
         cancelFocus = (ImageView)view.findViewById(R.id.imageViewFocusClose);
         meteringArea = (ImageView)view.findViewById(R.id.imageView_meteringarea);
-        recthalf = fragment.getResources().getDimensionPixelSize(R.dimen.crosshairwidth)/2;
+        recthalf = fragment.getResources().getDimensionPixelSize(R.dimen.cameraui_focusselector_width)/2;
 
         cancelFocus.setVisibility(View.GONE);
         cancelFocus.setOnClickListener(new OnClickListener() {

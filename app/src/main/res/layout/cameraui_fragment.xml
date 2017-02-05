@@ -39,9 +39,9 @@
         android:background="@drawable/focusclose"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/uiSettingsWidthRight"
+        android:layout_marginRight="@dimen/cameraui_settings_margin_right"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/uiSettingsWidthRight" />
+        android:layout_marginTop="@dimen/cameraui_settings_margin_right" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -50,7 +50,7 @@
         android:layout_alignParentLeft="false"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/shuttericon_size"
+        android:layout_marginRight="@dimen/cameraui_shuttericon_size"
         android:layout_alignParentStart="false"
         android:background="#75000000">
 
@@ -74,7 +74,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_format"
             android:textSize="@dimen/cameraui_infooverlay_textsize"
-            android:layout_marginLeft="@dimen/infoOverlayTextMargine"
+            android:layout_marginLeft="@dimen/cameraui_infooverlay_textmargin"
             android:textColor="#ffffff"
             android:visibility="gone"
             android:shadowColor="#000000"
@@ -89,7 +89,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_size"
             android:textSize="@dimen/cameraui_infooverlay_textsize"
-            android:layout_marginLeft="@dimen/infoOverlayTextMargine"
+            android:layout_marginLeft="@dimen/cameraui_infooverlay_textmargin"
             android:textColor="#ffffff"
             android:shadowColor="#000000"
             android:elevation="2dp"
@@ -104,7 +104,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_storage"
             android:textSize="@dimen/cameraui_infooverlay_textsize"
-            android:layout_marginLeft="@dimen/infoOverlayTextMargine"
+            android:layout_marginLeft="@dimen/cameraui_infooverlay_textmargin"
             android:textColor="#ffffff"
             android:shadowColor="#000000"
             android:elevation="2dp"
@@ -119,7 +119,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_battery"
             android:textSize="@dimen/cameraui_infooverlay_textsize"
-            android:layout_marginLeft="@dimen/infoOverlayTextMargine"
+            android:layout_marginLeft="@dimen/cameraui_infooverlay_textmargin"
             android:textColor="#ffffff"
             android:shadowColor="#000000"
             android:elevation="2dp"
@@ -134,7 +134,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_dngsupported"
             android:textSize="@dimen/cameraui_infooverlay_textsize"
-            android:layout_marginLeft="@dimen/infoOverlayTextMargine"
+            android:layout_marginLeft="@dimen/cameraui_infooverlay_textmargin"
             android:textColor="#ffffff"
             android:shadowColor="#000000"
             android:elevation="2dp"
@@ -149,7 +149,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_buildmodel"
             android:textSize="@dimen/cameraui_infooverlay_textsize"
-            android:layout_marginLeft="@dimen/infoOverlayTextMargine"
+            android:layout_marginLeft="@dimen/cameraui_infooverlay_textmargin"
             android:textColor="#ffffff"
             android:shadowColor="#000000"
             android:elevation="2dp"
@@ -164,7 +164,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_appversion"
             android:textSize="@dimen/cameraui_infooverlay_textsize"
-            android:layout_marginLeft="@dimen/infoOverlayTextMargine"
+            android:layout_marginLeft="@dimen/cameraui_infooverlay_textmargin"
             android:textColor="#ffffff"
             android:shadowColor="#000000"
             android:elevation="2dp"
@@ -192,7 +192,7 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="@dimen/left_ui_holder_width"
+        android:layout_width="@dimen/cameraui_settingschild_width"
         android:layout_height="wrap_content"
         android:id="@+id/left_ui_holder"
         android:gravity="center_vertical">
@@ -204,16 +204,17 @@
 
     <RelativeLayout
         android:orientation="vertical"
-        android:layout_width="@dimen/shuttericon_size"
+        android:layout_width="@dimen/cameraui_shuttericon_size"
         android:layout_height="match_parent"
+        android:id="@+id/right_ui_holder"
         android:layout_alignParentRight="true"
-        android:id="@+id/right_ui_holder">
+        android:gravity="center_horizontal">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="false">
+            android:layout_alignParentRight="true">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -235,8 +236,8 @@
         </LinearLayout>
 
         <freed.cam.ui.themesample.cameraui.ShutterButton
-            android:layout_width="@dimen/shuttericon_size"
-            android:layout_height="@dimen/shuttericon_size"
+            android:layout_width="@dimen/cameraui_shuttericon_size"
+            android:layout_height="@dimen/cameraui_shuttericon_size"
             android:id="@+id/shutter_button"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -280,16 +281,16 @@
         android:id="@+id/manualModesHolder"
         android:foregroundGravity="center_horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/manualModesHolderLeftMargine"
-        android:layout_marginRight="@dimen/manualModesHolderRightMargine"></FrameLayout>
+        android:layout_marginLeft="@dimen/cameraui_manualbuttonholder_margin_left"
+        android:layout_marginRight="@dimen/cameraui_manualbuttonholder_margin_right"></FrameLayout>
 
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cameraui_values_fragment_holder"
-        android:layout_marginLeft="@dimen/uiSettingsWidth"
-        android:layout_marginRight="@dimen/shuttericon_size"
+        android:layout_marginLeft="@dimen/cameraui_settings_margin_left"
+        android:layout_marginRight="@dimen/cameraui_shuttericon_size"
         android:layout_alignParentTop="false"
         android:layout_centerVertical="true"></FrameLayout>
 
@@ -299,10 +300,10 @@
         class="freed.cam.apis.sonyremote.parameters.JoyPad"
         android:id="@+id/joypad"
         android:focusable="true"
-        android:layout_marginLeft="@dimen/manualModesHolderLeftMargine"
+        android:layout_marginLeft="@dimen/cameraui_manualbuttonholder_margin_left"
         android:layout_centerInParent="false"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/manualSettingsHeight"
+        android:layout_marginBottom="@dimen/cameraui_manualbuttonholder_height"
         android:clickable="true"
         android:focusableInTouchMode="true" />
 
