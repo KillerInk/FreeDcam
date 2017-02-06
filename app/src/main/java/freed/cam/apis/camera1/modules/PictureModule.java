@@ -83,13 +83,13 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
                 isWorking = true;
                 String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
                 Log.d(TAG,"DoWork:picformat:" + picformat);
-                if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
+                if (picformat.equals(KEYS.DNG) || picformat.equals(KEYS.BAYER))
                 {
-                    if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported()
-                            && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on") && ((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
+                    if (cameraUiWrapper.GetAppSettingsManager().zeroshutterlag.isSupported()
+                            && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals(KEYS.ON))
                     {
                         Log.d(TAG,"ZSL is on turning it off");
-                        cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
+                        cameraUiWrapper.GetParameterHandler().ZSL.SetValue(KEYS.OFF, true);
                         Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.GetParameterHandler().ZSL.GetValue());
                     }
 
@@ -115,8 +115,8 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
         if (cameraUiWrapper.GetParameterHandler() == null)
             return;
         cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp",true);
-        if (cameraUiWrapper.GetParameterHandler().VideoHDR != null && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported() && !cameraUiWrapper.GetParameterHandler().VideoHDR.GetValue().equals("off"))
-            cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("off", true);
+        if (cameraUiWrapper.GetAppSettingsManager().videoHDR.isSupported() && !cameraUiWrapper.GetParameterHandler().VideoHDR.GetValue().equals(KEYS.OFF))
+            cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue(KEYS.OFF, true);
         if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 || appSettingsManager.getDevice() == Devices.ZTEADVIMX214) {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetZTE_AE();
         }
@@ -140,7 +140,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
         String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
         saveImage(data,picFormat);
         //Handel Burst capture
-        if (cameraUiWrapper.GetParameterHandler().Burst != null && cameraUiWrapper.GetParameterHandler().Burst.IsSupported() && cameraUiWrapper.GetParameterHandler().Burst.GetValue() > 1)
+        if (cameraUiWrapper.GetAppSettingsManager().manualBurst.isSupported() && cameraUiWrapper.GetParameterHandler().Burst.GetValue() > 1)
         {
             Log.d(this.TAG, "BurstCapture Count:" + burstcount + "/"+ cameraUiWrapper.GetParameterHandler().Burst.GetValue());
             if (burstcount == cameraUiWrapper.GetParameterHandler().Burst.GetValue())
@@ -245,7 +245,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
 
     protected File getFile(String fileending)
     {
-        if (cameraUiWrapper.GetParameterHandler().Burst != null && cameraUiWrapper.GetParameterHandler().Burst.IsSupported() && cameraUiWrapper.GetParameterHandler().Burst.GetValue() > 1)
+        if (cameraUiWrapper.GetAppSettingsManager().manualBurst.isSupported() && cameraUiWrapper.GetParameterHandler().Burst.GetValue() > 1)
             return new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePathBurst(appSettingsManager.GetWriteExternal(), fileending, burstcount));
         else
             return new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), fileending));

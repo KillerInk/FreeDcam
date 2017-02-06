@@ -317,11 +317,9 @@ public class AppSettingsManager {
     {
         settings = sharedPreferences;
         this.resources = resources;
-        if (getDevice() == null || getDevice().equals(""))
+        if (getdevice() == null)
             SetDevice(new DeviceUtils().getDevice(getResources()));
-        else {
-            SetDevice(getDevice());
-        }
+
         pictureFormat = new SettingMode(getResourcesString(R.string.aps_pictureformat));
         rawPictureFormat = new SettingMode(getResourcesString(R.string.aps_rawpictureformat));
         pictureSize = new SettingMode(getResourcesString(R.string.aps_picturesize));
@@ -459,8 +457,14 @@ public class AppSettingsManager {
     }
 
     public Devices getDevice() {
+        return device;
+    }
+
+    private Devices getdevice()
+    {
         String t = settings.getString("DEVICE", null);
-        return TextUtils.isEmpty(t) ? null : Devices.valueOf(t);
+        device = TextUtils.isEmpty(t) ? null : Devices.valueOf(t);
+        return device;
     }
 
     public void setshowHelpOverlay(boolean value) {
