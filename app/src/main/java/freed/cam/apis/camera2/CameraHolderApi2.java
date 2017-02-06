@@ -601,12 +601,12 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     private String getShutterString(long val)
     {
-        int mili = (int) val / 10000;
+        int mili = (int) val / 1000000;
         //double sec =  mili / 1000;
-        if (mili < 80000)
-            return 1 + "/" + 10000000 / mili;
+        if (mili < 1000)
+            return 1 + "/" +mili;
         else {
-            float t = mili / 10000;
+            float t = mili / 1000;
             return String.format("%01.1f", t);
         }
     }

@@ -865,14 +865,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
         else if (picFormat.equals(appSettingsManager.getResourcesString(R.string.pictureformat_dng10)))
         {
-            Log.d(TAG, "ImageReader RAW_SENOSR");
+            Log.d(TAG, "ImageReader RAW10");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
         }
         else if (picFormat.equals(appSettingsManager.getResourcesString(R.string.pictureformat_dng12)))
         {
-            Log.d(TAG, "ImageReader RAW_SENOSR");
+            Log.d(TAG, "ImageReader RAW12");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW12)), new CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
