@@ -25,6 +25,7 @@ import android.support.v4.app.Fragment;
 import android.view.SurfaceView;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -81,7 +82,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     public CameraFragmentAbstract()
     {
-        cameraChangedListners = new CopyOnWriteArrayList<>();
+        cameraChangedListners = new ArrayList<>();
         uiHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -118,9 +119,14 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
      * adds a new listner for camera state changes
      * @param cameraChangedListner to add
      */
-    public void SetCameraStateChangedListner(CameraStateEvents cameraChangedListner)
+    public void SetCameraStateChangedListner(final CameraStateEvents cameraChangedListner)
     {
-        cameraChangedListners.add(cameraChangedListner);
+        uiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                cameraChangedListners.add(cameraChangedListner);
+            }
+        });
     }
 
     @Override
