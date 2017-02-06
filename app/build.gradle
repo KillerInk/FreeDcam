@@ -48,6 +48,6 @@ android {
 dependencies {
     provided files('libs/com.lge.frameworks.jar')
     provided files('libs/real3d.jar')
-    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:appcompat-v7:25.1.1'
 }
 
