@@ -61,4 +61,9 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
             }
         });
     }
+
+    @Override
+    public void onParameterValueChanged(String val) {
+        onModuleChanged(val);
+    }
 }
