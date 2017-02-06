@@ -31,11 +31,6 @@ public class PreviewSizeParameter extends BaseModeParameter
 {
     final String TAG = PreviewSizeParameter.class.getSimpleName();
 
-    public PreviewSizeParameter(Parameters parameters, CameraWrapperInterface parameterChanged)
-    {
-        super(parameters, parameterChanged, "preview-size", "preview-size-values");
-    }
-
     public PreviewSizeParameter(Parameters parameters, CameraWrapperInterface cameraWrapperInterface, String t, String[] s)
     {
         super(parameters,cameraWrapperInterface,t,s);
