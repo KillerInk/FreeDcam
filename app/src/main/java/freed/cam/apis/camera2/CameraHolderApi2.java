@@ -593,12 +593,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
     };
 
-
-
-    //###########################  private helper methods
-    //###########################
-    //###########################
-
     private String getShutterString(long val)
     {
         int mili = (int) val / 1000000;
@@ -629,20 +623,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             Log.e(TAG, "Couldn't find any suitable previewSize size");
             return choices[0];
         }
-    }
-
-    public static boolean IsLegacy(Context context)
-    {
-        boolean legacy = true;
-        try {
-            CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-            CameraCharacteristics characteristics = manager.getCameraCharacteristics("0");
-            legacy = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
-        }
-        catch (Throwable ex) {
-            ex.printStackTrace();
-        }
-        return legacy;
     }
 
     public class CaptureSessionHandler

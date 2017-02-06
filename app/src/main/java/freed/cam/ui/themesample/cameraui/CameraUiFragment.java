@@ -73,14 +73,8 @@ import freed.viewer.screenslide.ScreenSlideFragment.I_ThumbClick;
 public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener, ModuleHandlerAbstract.CaptureStateChanged
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
-    //private UiSettingsChild night;
-    //private UiSettingsChild format;
     private UiSettingsChildCameraSwitch cameraSwitch;
-    //private UiSettingsChildModuleSwitch moduleSwitch;
     private UiSettingsChild currentOpendChild;
-    //private UiSettingsFocusPeak focuspeak;
-    //private UiSettingsChildExit exit;
-
     private HorizontalValuesFragment horizontalValuesFragment;
     private SwipeMenuListner touchHandler;
     private ShutterButton shutterButton;
@@ -202,7 +196,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         moduleSwitch.setBackgroundResource(R.drawable.quck_set_mode);
         right_ui_items_top.addView(moduleSwitch);
 
-        if (parameterHandler.Focuspeak != null && parameterHandler.Focuspeak.IsSupported()) {
+        if (parameterHandler.Focuspeak != null && parameterHandler.Focuspeak.IsSupported() && cameraUiWrapper.getRenderScriptHandler().isSucessfullLoaded()) {
             UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
             focusPeak.SetParameter(cameraUiWrapper.GetParameterHandler().Focuspeak);
             focusPeak.SetCameraUiWrapper(cameraUiWrapper);
@@ -275,10 +269,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         right_ui_items_top = (LinearLayout)view.findViewById(id.right_ui_holder_top);
         addexit();
 
-
-
-
-
         cameraSwitch = (UiSettingsChildCameraSwitch) view.findViewById(id.camera_switch);
         cameraSwitch.SetStuff(fragment_activityInterface, AppSettingsManager.CURRENTCAMERA);
 
@@ -290,8 +280,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         shutterButton = (ShutterButton) view.findViewById(id.shutter_button);
 
         view.setOnTouchListener(onTouchListener);
-
-
 
         aelock = (UiSettingsChild)view.findViewById(id.ae_lock);
         aelock.SetUiItemClickListner(this);
@@ -462,15 +450,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     @Override
     public void onClick(int x, int y) {
-
-    /*    showVIdItems();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideVIdItems();
-            }
-        }, 5000);*/
-
         if (focusImageHandler != null)
             focusImageHandler.OnClick(x,y);
     }
