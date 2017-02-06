@@ -833,9 +833,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 new CompareSizesByArea());
         picFormat = appSettingsManager.pictureFormat.get();
         if (picFormat.equals("")) {
-            picFormat = KEYS.JPEG;
-            appSettingsManager.pictureFormat.set(KEYS.JPEG);
-            parameterHandler.PictureFormat.onValueHasChanged(KEYS.JPEG);
+            picFormat = appSettingsManager.getResourcesString(R.string.pictureformat_jpeg);
+            appSettingsManager.pictureFormat.set(picFormat);
+            parameterHandler.PictureFormat.onValueHasChanged(picFormat);
 
         }
 
