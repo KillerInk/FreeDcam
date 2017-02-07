@@ -234,19 +234,27 @@ void DngWriter::processTight(TIFF *tif) {
 void DngWriter::process10tight(TIFF *tif) {
     unsigned char *ar = bayerBytes;
     int bytesToSkip = 0;
+    int realrowsize;
+    int shouldberowsize;
     LOGD("writer-RowSize: %d  rawheight:%d ,rawwidht: %d", rawSize, rawheight,
          rawwidht);
-    int realrowsize = rawSize / rawheight;
-    int shouldberowsize = realrowsize;
-    if (realrowsize % 5 > 0)
-    {
-        shouldberowsize = rawwidht*10/8;
-        bytesToSkip = realrowsize - shouldberowsize;
-
+    if (rowSize == 0) {
+        realrowsize = rawSize / rawheight;
+        int shouldberowsize = realrowsize;
+        if (realrowsize % 5 > 0) {
+            shouldberowsize = rawwidht * 10 / 8;
+            bytesToSkip = realrowsize - shouldberowsize;
+        }
+        LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
+        LOGD("width: %i height: %i", rawwidht, rawheight);
+        LOGD("bytesToSkip: %i", bytesToSkip);
     }
-    LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
-    LOGD("width: %i height: %i", rawwidht, rawheight);
-    LOGD("bytesToSkip: %i", bytesToSkip);
+    else{
+        realrowsize = rawSize / rawheight;
+        shouldberowsize = rowSize;
+        bytesToSkip = realrowsize - shouldberowsize;
+    }
+
     int row = shouldberowsize;
     unsigned char* out = new unsigned char[(int)shouldberowsize*rawheight];
     int m = 0;
