@@ -22,6 +22,8 @@ package freed.cam.apis.camera1.parameters.manual.focus;
 import android.hardware.Camera.Parameters;
 import android.util.Log;
 
+import com.troop.freedcam.R;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -102,7 +104,7 @@ public class BaseFocusManual extends BaseManualParameter
             if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
             if (manualFocusType > -1)
-                parameters.set(KEYS.KEY_MANUAL_FOCUS_TYPE, manualFocusType +"");
+                parameters.set(cameraUiWrapper.getResString(R.string.manual_focus_pos_type), manualFocusType +"");
 
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);

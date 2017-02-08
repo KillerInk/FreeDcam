@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string translatable="false" name="preview_fps_range_values">preview-fps-range-values</string>
+    <string translatable="false" name="preview_fps_range">preview-fps-range</string>
+    <string translatable="false" name="preview_format">preview-format</string>
+    <string translatable="false" name="preview_format_values">preview-format-values</string>
+    <string translatable="false" name="preview_size">preview-size</string>
+    <string translatable="false" name="preview_size_values">preview-size-values</string>
+    <string translatable="false" name="preview_frame_rate">preview-frame-rate</string>
+    <string translatable="false" name="preview_frame_rate_values">preview-frame-rate-values</string>
+
+    <string translatable="false" name="video_size">video-size</string>
+    <string translatable="false" name="video_size_values">video-size-values</string>
+
+    <string translatable="false" name="cds_mode_values">cds-mode-values</string>
+    <string translatable="false" name="cds_mode">cds-mode</string>
+
+    <string translatable="false" name="whitebalance_values">whitebalance-values</string>
+    <string translatable="false" name="whitebalance">whitebalance</string>
+
+    <string translatable="false" name="exposure_mode_values">exposure-mode-values</string>
+    <string translatable="false" name="exposure">exposure</string>
+    <string translatable="false" name="auto_exposure">auto-exposure</string>
+    <string translatable="false" name="auto_exposure_values">auto-exposure-values</string>
+    <string translatable="false" name="sony_metering_mode_values">sony-metering-mode-values</string>
+    <string translatable="false" name="sony_metering_mode">sony-metering-mode</string>
+    <string translatable="false" name="exposure_meter_values">exposure-meter-values</string>
+    <string translatable="false" name="exposure_meter">exposure-meter</string>
+
+    <string translatable="false" name="effect_values">effect-values</string>
+    <string translatable="false" name="effect">effect</string>
+    <string translatable="false" name="flash_mode">flash-mode</string>
+    <string translatable="false" name="flash_mode_values">flash-mode-values</string>
+
+    <string translatable="false" name="iso_mode_values">iso-mode-values</string>
+    <string translatable="false" name="iso">iso</string>
+    <string translatable="false" name="iso_values">iso-values</string>
+    <string translatable="false" name="iso_speed_values">iso-speed-values</string>
+    <string translatable="false" name="iso_speed">iso-speed</string>
+    <string translatable="false" name="sony_iso_values">sony-iso-values</string>
+    <string translatable="false" name="sony_iso">sony-iso</string>
+    <string translatable="false" name="lg_iso_values">lg-iso-values</string>
+
+    <string translatable="false" name="antibanding">antibanding</string>
+    <string translatable="false" name="antibanding_values">antibanding-values</string>
+
+    <string translatable="false" name="focus_mode_values">focus-mode-values</string>
+    <string translatable="false" name="focus_mode">focus-mode</string>
+
+    <string translatable="false" name="scene_mode_values">scene-mode-values</string>
+    <string translatable="false" name="scene_mode">scene-mode</string>
+
+    <string translatable="false" name="jpeg_quality">jpeg-quality</string>
+
+    <string translatable="false" name="ae_bracket_hdr_values">ae-bracket-hdr-values</string>
+    <string translatable="false" name="ae_bracket_hdr">ae-bracket-hdr</string>
+    <string translatable="false" name="ae_bracket_hdr_values_off">Off</string>
+    <string translatable="false" name="ae_bracket_hdr_values_aebracket">AE-Bracket</string>
+
+    <string translatable="false" name="picture_size">picture-size</string>
+    <string translatable="false" name="picture_size_values">picture-size-values</string>
+    <string translatable="false" name="picture_format_values">picture-format-values</string>
+    <string translatable="false" name="picture_format">picture-format</string>
+
+    <string translatable="false" name="ipp">ipp</string>
+    <string translatable="false" name="ipp_values">ipp-values</string>
+
+    <string translatable="false" name="lensshade">lensshade</string>
+    <string translatable="false" name="lensshade_values">lensshade-values</string>
+
+    <string translatable="false" name="zsl">zsl</string>
+    <string translatable="false" name="zsl_values">zsl-values</string>
+
+    <string translatable="false" name="mode_values">mode-values</string>
+    <string translatable="false" name="mode">mode</string>
+
+    <string translatable="false" name="zsd_mode">zsd-mode</string>
+    <string translatable="false" name="zsd_mode_values">zsd-mode-values</string>
+
+    <string translatable="false" name="mce">mce</string>
+    <string translatable="false" name="mce_values">mce-values</string>
+
+    <string translatable="false" name="video_hdr">video-hdr</string>
+    <string translatable="false" name="video_hdr_values">video-hdr-values</string>
+
+    <string translatable="false" name="sony_video_hdr">sony-video-hdr</string>
+    <string translatable="false" name="sony_video_hdr_values">sony-video-hdr-values</string>
+
+    <string translatable="false" name="zoom">zoom</string>
+    <string translatable="false" name="zoom_supported">zoom-supported</string>
+    <string translatable="false" name="zoom_max">max-zoom</string>
+
+    <string translatable="false" name="denoise">denoise</string>
+    <string translatable="false" name="denoise_values">denoise-values</string>
+
+    <string translatable="false" name="dis">dis</string>
+    <string translatable="false" name="dis_values">dis-values</string>
+    <string translatable="false" name="mtk_3dnr_mode">3dnr-mode</string>
+    <string translatable="false" name="mtk_3dnr_mode_values">3dnr-mode-values</string>
+
+
+    <string translatable="false" name="video_stabilization">video-stabilization</string>
+    <string translatable="false" name="video_stabilization_supported">video-stabilization-supported</string>
+
+    <string translatable="false" name="max_sharpness">max-sharpness</string>
+    <string translatable="false" name="min_sharpness">min-sharpness</string>
+    <string translatable="false" name="sharpness_min">sharpness-min</string>
+    <string translatable="false" name="sharpness_max">sharpness-max</string>
+    <string translatable="false" name="sharpness">sharpness</string>
+    <string translatable="false" name="edge">edge</string>
+    <string translatable="false" name="edge_values">edge-values</string>
+
+    <string translatable="false" name="max_saturation">max-saturation</string>
+    <string translatable="false" name="min_saturation">min-saturation</string>
+    <string translatable="false" name="saturation_min">saturation-min</string>
+    <string translatable="false" name="saturation_max">saturation-max</string>
+    <string translatable="false" name="saturation">saturation</string>
+    <string translatable="false" name="saturation_values">saturation-values</string>
+
+    <string translatable="false" name="max_brightness">max-brightness</string>
+    <string translatable="false" name="min_brightness">min-brightness</string>
+    <string translatable="false" name="brightness_min">brightness-min</string>
+    <string translatable="false" name="brightness_max">brightness-max</string>
+    <string translatable="false" name="brightness">brightness</string>
+    <string translatable="false" name="luma_adaptation">luma-adaptation</string>
+    <string translatable="false" name="brightness_values">brightness-values</string>
+
+    <string translatable="false" name="max_contrast">max-contrast</string>
+    <string translatable="false" name="min_contrast">min-contrast</string>
+    <string translatable="false" name="contrast_min">contrast-min</string>
+    <string translatable="false" name="contrast_max">contrast-max</string>
+    <string translatable="false" name="contrast">contrast</string>
+    <string translatable="false" name="contrast_values">contrast-values</string>
+
+    <string translatable="false" name="touch_af_aec">touch-af-aec</string>
+
+    <string translatable="false" name="manual_focus_modes">manual-focus-modes</string>
+    <string translatable="false" name="manual">manual</string>
+    <string translatable="false" name="min_focus_pos_index">min-focus-pos-index</string>
+    <string translatable="false" name="max_focus_pos_index">max-focus-pos-index</string>
+    <string translatable="false" name="max_focus_pos_ratio">max-focus-pos-ratio</string>
+    <string translatable="false" name="min_focus_pos_ratio">min-focus-pos-ratio</string>
+    <string translatable="false" name="min_focus_pos_diopter">min-focus-pos-diopter</string>
+    <string translatable="false" name="max_focus_pos_diopter">max-focus-pos-diopter</string>
+    <string translatable="false" name="manual_focus_position">manual-focus-position</string>
+    <string translatable="false" name="min_focus">min-focus</string>
+    <string translatable="false" name="max_focus">max-focus</string>
+    <string translatable="false" name="focus">focus</string>
+    <string translatable="false" name="manual_focus_pos_type">manual-focus-pos-type</string>
+
+
+    <string translatable="false" name="wb_current_cct">wb-current-cct</string>
+    <string translatable="false" name="wb_cct">wb-cct</string>
+    <string translatable="false" name="wb_ct">wb-ct</string>
+    <string translatable="false" name="wb_manual_cct">wb-manual-cct</string>
+    <string translatable="false" name="manual_wb_value">manual-wb-value</string>
+    <string translatable="false" name="max_wb_cct">max-wb-cct</string>
+    <string translatable="false" name="min_wb_cct">min-wb-cct</string>
+    <string translatable="false" name="max_wb_ct">max-wb-ct</string>
+    <string translatable="false" name="min_wb_ct">min-wb-ct</string>
+    <string translatable="false" name="manual_cct">manual-cct</string>
+    <string translatable="false" name="manual_wb_type">manual-wb-type</string>
+
+    <string translatable="false" name="max_exposure_time">max-exposure-time</string>
+    <string translatable="false" name="min_exposure_time">min-exposure-time</string>
+    <string translatable="false" name="exposure_time">exposure-time</string>
+    <string translatable="false" name="cur_iso">cur-iso</string>
+    <string translatable="false" name="cur_exposure_time">cur-exposure-time</string>
+
+
+
+
+
+
+
+</resources>

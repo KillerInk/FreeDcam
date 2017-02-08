@@ -18,7 +18,6 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
 
-import static freed.cam.apis.KEYS.AE_BRACKET_HDR_VALUES;
 import static freed.cam.apis.KEYS.BAYER;
 import static freed.cam.apis.KEYS.MODULE_PICTURE;
 
@@ -33,6 +32,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     public Camera1FeatureDetectorTask(ProgressUpdate progressUpdate, AppSettingsManager appSettingsManager)
     {
         super(progressUpdate,appSettingsManager);
+    }
+
+    private String camstring(int id)
+    {
+        return appSettingsManager.getResString(id);
     }
 
     @Override
@@ -117,6 +121,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectPreviewFPSModes(parameters);
             sendProgress(appS.previewFps,"PreviewFPS");
 
+            detectPreviewFpsRanges(parameters);
+
             detectPreviewFormatModes(parameters);
             sendProgress(appS.previewFormat,"PreviewFormat");
 
@@ -198,9 +204,19 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         return null;
     }
 
+    private void detectPreviewFpsRanges(Camera.Parameters parameters) {
+        if (parameters.get(camstring(R.string.preview_fps_range_values))!= null)
+        {
+            appSettingsManager.previewFpsRange.setIsSupported(true);
+            appSettingsManager.previewFpsRange.setValues(parameters.get(camstring(R.string.preview_fps_range_values)).split(","));
+            appSettingsManager.previewFpsRange.setKEY(camstring(R.string.preview_fps_range));
+            appSettingsManager.previewFpsRange.set(parameters.get(camstring(R.string.preview_fps_range)));
+        }
+    }
+
     private void detectQcomFocus(Camera.Parameters parameters)
     {
-        if (parameters.get("touch-af-aec")!= null)
+        if (parameters.get(camstring(R.string.touch_af_aec))!= null)
             appSettingsManager.setUseQcomFocus(true);
         else
             appSettingsManager.setUseQcomFocus(false);
@@ -238,7 +254,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 case ZTE_Z11:
                 case ZTE_ADV:
                     appSettingsManager.manualWhiteBalance.setValues(createWBStringArray(2000,8000,100));
-                    appSettingsManager.manualWhiteBalance.setMode(KEYS.WB_MODE_MANUAL);
+                    appSettingsManager.manualWhiteBalance.setMode(appSettingsManager.getResString(R.string.manual));
                     appSettingsManager.manualWhiteBalance.setIsSupported(true);
                     break;
                 case XiaomiMI3W:
@@ -248,10 +264,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     if(!DeviceUtils.isCyanogenMod()) {
                         if (Build.VERSION.SDK_INT < 23) {
                             appSettingsManager.manualWhiteBalance.setValues(createWBStringArray(2000,7500,100));
-                            appSettingsManager.manualWhiteBalance.setMode(KEYS.WB_MODE_MANUAL);
+                            appSettingsManager.manualWhiteBalance.setMode(appSettingsManager.getResString(R.string.manual));
                         } else {
                             appSettingsManager.manualWhiteBalance.setValues(createWBStringArray(2000,8000,100));
-                            appSettingsManager.manualWhiteBalance.setMode(KEYS.WB_MODE_MANUAL_CCT);
+                            appSettingsManager.manualWhiteBalance.setMode(appSettingsManager.getResString(R.string.manual_cct));
                         }
                         appSettingsManager.manualWhiteBalance.setIsSupported(true);
                         break;
@@ -261,21 +277,21 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     // looks like wb-current-cct is loaded when the preview is up. this could be also for the other parameters
                     String wbModeval ="", wbmax = "",wbmin = "";
 
-                    if (parameters.get(KEYS.MAX_WB_CCT) != null) {
-                        wbmax = KEYS.MAX_WB_CCT;
+                    if (parameters.get(appSettingsManager.getResString(R.string.max_wb_cct)) != null) {
+                        wbmax = appSettingsManager.getResString(R.string.max_wb_cct);
                     }
-                    else if (parameters.get(KEYS.MAX_WB_CT)!= null)
-                        wbmax =KEYS.MAX_WB_CT;
+                    else if (parameters.get(appSettingsManager.getResString(R.string.max_wb_ct))!= null)
+                        wbmax =appSettingsManager.getResString(R.string.max_wb_ct);
 
-                    if (parameters.get(KEYS.MIN_WB_CCT)!= null) {
-                        wbmin =KEYS.MIN_WB_CCT;
-                    } else if (parameters.get(KEYS.MIN_WB_CT)!= null)
-                        wbmin =KEYS.MIN_WB_CT;
+                    if (parameters.get(appSettingsManager.getResString(R.string.min_wb_cct))!= null) {
+                        wbmin =appSettingsManager.getResString(R.string.min_wb_cct);
+                    } else if (parameters.get(appSettingsManager.getResString(R.string.min_wb_ct))!= null)
+                        wbmin =appSettingsManager.getResString(R.string.min_wb_ct);
 
-                    if (arrayContainsString(appSettingsManager.whiteBalanceMode.getValues(), KEYS.WB_MODE_MANUAL))
-                        wbModeval = KEYS.WB_MODE_MANUAL;
-                    else if (arrayContainsString(appSettingsManager.whiteBalanceMode.getValues(), KEYS.WB_MODE_MANUAL_CCT))
-                        wbModeval = KEYS.WB_MODE_MANUAL_CCT;
+                    if (arrayContainsString(appSettingsManager.whiteBalanceMode.getValues(), appSettingsManager.getResString(R.string.manual)))
+                        wbModeval = appSettingsManager.getResString(R.string.manual);
+                    else if (arrayContainsString(appSettingsManager.whiteBalanceMode.getValues(),appSettingsManager.getResString(R.string.manual_cct)))
+                        wbModeval = appSettingsManager.getResString(R.string.manual_cct);
 
                     if (!wbmax.equals("") && !wbmin.equals("") && !wbModeval.equals("")) {
                         Log.d(TAG, "Found all wbct values:" +wbmax + " " + wbmin + " " +wbModeval);
@@ -381,19 +397,19 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 case Aquaris_E5:
                     appSettingsManager.manualExposureTime.setIsSupported(true);
                     appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.aquaris_e5_shuttervalues));
-                    appSettingsManager.manualExposureTime.setKEY(KEYS.EXPOSURE_TIME);
+                    appSettingsManager.manualExposureTime.setKEY(camstring(R.string.exposure_time));
                     appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MICORSEC);
                     break;
                 case LG_G2pro:
                     appSettingsManager.manualExposureTime.setIsSupported(true);
                     appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_lg_g2pro));
-                    appSettingsManager.manualExposureTime.setKEY(KEYS.EXPOSURE_TIME);
+                    appSettingsManager.manualExposureTime.setKEY(camstring(R.string.exposure_time));
                     appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_G2PRO);
                     break;
                 case ZTE_ADV:
                     appSettingsManager.manualExposureTime.setIsSupported(true);
                     appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_zte_z5s));
-                    appSettingsManager.manualExposureTime.setKEY(KEYS.EXPOSURE_TIME);
+                    appSettingsManager.manualExposureTime.setKEY(camstring(R.string.exposure_time));
                     appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_ZTE);
                     break;
                 case  ZTEADVIMX214:
@@ -401,7 +417,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 case ZTE_Z11:
                     appSettingsManager.manualExposureTime.setIsSupported(true);
                     appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_zte_z7));
-                    appSettingsManager.manualExposureTime.setKEY(KEYS.EXPOSURE_TIME);
+                    appSettingsManager.manualExposureTime.setKEY(camstring(R.string.exposure_time));
                     appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_ZTE);
                     break;
                 case LG_G3:
@@ -449,29 +465,29 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                         appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_SONY);
                     }
                     //qcom shutter
-                    else if (parameters.get(KEYS.MAX_EXPOSURE_TIME) != null && parameters.get(KEYS.MIN_EXPOSURE_TIME) != null) {
+                    else if (parameters.get(camstring(R.string.max_exposure_time)) != null && parameters.get(camstring(R.string.min_exposure_time)) != null) {
                         long min = 0, max = 0;
                         switch (appSettingsManager.getDevice()) {
                             case OnePlusX:
-                                min = Integer.parseInt(parameters.get(KEYS.MIN_EXPOSURE_TIME)) * 1000;
-                                max = Integer.parseInt(parameters.get(KEYS.MAX_EXPOSURE_TIME)) * 1000;
+                                min = Integer.parseInt(parameters.get(camstring(R.string.min_exposure_time))) * 1000;
+                                max = Integer.parseInt(parameters.get(camstring(R.string.max_exposure_time))) * 1000;
                                 appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MICORSEC);
                                 break;
                             default:
-                                if (parameters.get(KEYS.MAX_EXPOSURE_TIME).contains(".")) {
-                                    min = (long) Double.parseDouble(parameters.get(KEYS.MIN_EXPOSURE_TIME)) * 1000;
-                                    max = (long) Double.parseDouble(parameters.get(KEYS.MAX_EXPOSURE_TIME)) * 1000;
+                                if (parameters.get(camstring(R.string.max_exposure_time)).contains(".")) {
+                                    min = (long) Double.parseDouble(parameters.get(camstring(R.string.min_exposure_time))) * 1000;
+                                    max = (long) Double.parseDouble(parameters.get(camstring(R.string.max_exposure_time))) * 1000;
                                     appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MICORSEC);
                                 } else {
-                                    min = Integer.parseInt(parameters.get(KEYS.MIN_EXPOSURE_TIME));
-                                    max = Integer.parseInt(parameters.get(KEYS.MAX_EXPOSURE_TIME));
+                                    min = Integer.parseInt(parameters.get(camstring(R.string.min_exposure_time)));
+                                    max = Integer.parseInt(parameters.get(camstring(R.string.max_exposure_time)));
                                     appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MILLISEC);
                                 }
                                 break;
                         }
                         if (max > 0) {
                             appSettingsManager.manualExposureTime.setIsSupported(true);
-                            appSettingsManager.manualExposureTime.setKEY(KEYS.EXPOSURE_TIME);
+                            appSettingsManager.manualExposureTime.setKEY(camstring(R.string.exposure_time));
                             appSettingsManager.manualExposureTime.setValues(getSupportedShutterValues(min, max, true));
                         }
                     }
@@ -540,11 +556,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     {
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
-            if(parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE)!=null) {
-                if (parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE_VALUES).equals("on,off")) {
+            if(parameters.get(camstring(R.string.mtk_3dnr_mode))!=null) {
+                if (parameters.get(camstring(R.string.mtk_3dnr_mode_values)).equals("on,off")) {
                     appSettingsManager.denoiseMode.setIsSupported(true);
-                    appSettingsManager.denoiseMode.setKEY(KEYS.MTK_NOISE_REDUCTION_MODE);
-                    appSettingsManager.denoiseMode.setValues(parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE_VALUES).split(","));
+                    appSettingsManager.denoiseMode.setKEY(camstring(R.string.mtk_3dnr_mode));
+                    appSettingsManager.denoiseMode.setValues(parameters.get(camstring(R.string.mtk_3dnr_mode_values)).split(","));
                 }
             }
         }
@@ -557,12 +573,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     appSettingsManager.denoiseMode.setIsSupported(false);
                     break;
                 default:
-                    if (parameters.get(KEYS.DENOISE) != null && parameters.get(KEYS.DENOISE_VALUES) != null)
-                    {
-                        appSettingsManager.denoiseMode.setIsSupported(true);
-                        appSettingsManager.denoiseMode.setValues( parameters.get(KEYS.DENOISE_VALUES).split(","));
-                        appSettingsManager.denoiseMode.setKEY(KEYS.DENOISE);
-                    }
+                    detectMode(parameters,R.string.denoise,R.string.denoise_values,appSettingsManager.denoiseMode);
                     break;
             }
         }
@@ -580,12 +591,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     appSettingsManager.digitalImageStabilisationMode.setIsSupported(false);
                     break;
                 default:
-                    if (parameters.get(KEYS.DIGITALIMAGESTABILIZATION) != null && parameters.get(KEYS.DIGITALIMAGESTABILIZATION_VALUES) != null)
-                    {
-                        appSettingsManager.digitalImageStabilisationMode.setIsSupported(true);
-                        appSettingsManager.digitalImageStabilisationMode.setKEY(KEYS.DIGITALIMAGESTABILIZATION);
-                        appSettingsManager.digitalImageStabilisationMode.setValues(parameters.get(KEYS.DIGITALIMAGESTABILIZATION_VALUES).split(","));
-                    }
+                    detectMode(parameters,R.string.dis,R.string.dis_values, appSettingsManager.digitalImageStabilisationMode);
                     break;
             }
 
@@ -595,9 +601,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private void detectManualSaturation(Camera.Parameters parameters) {
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
-            if (parameters.get(KEYS.SATURATION)!= null && parameters.get(KEYS.SATURATION_VALUES)!= null) {
-                appSettingsManager.manualSaturation.setValues(parameters.get(KEYS.SATURATION_VALUES).split(","));
-                appSettingsManager.manualSaturation.setKEY(KEYS.SATURATION);
+            if (parameters.get(camstring(R.string.saturation))!= null && parameters.get(camstring(R.string.saturation_values))!= null) {
+                appSettingsManager.manualSaturation.setValues(parameters.get(camstring(R.string.saturation_values)).split(","));
+                appSettingsManager.manualSaturation.setKEY(camstring(R.string.saturation));
                 appSettingsManager.manualSaturation.setIsSupported(true);
             }
         }
@@ -608,14 +614,14 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 max = Integer.parseInt(parameters.get(KEYS.LG_COLOR_ADJUST_MAX));
                 appSettingsManager.manualSaturation.setKEY(KEYS.LG_COLOR_ADJUST);
             }
-            else if (parameters.get(KEYS.SATURATION_MAX) != null) {
-                min = Integer.parseInt(parameters.get(KEYS.SATURATION_MIN));
-                max = Integer.parseInt(parameters.get(KEYS.SATURATION_MAX));
-                appSettingsManager.manualSaturation.setKEY(KEYS.SATURATION);
-            } else if (parameters.get(KEYS.MAX_SATURATION) != null) {
-                min = Integer.parseInt(parameters.get(KEYS.MIN_SATURATION));
-                max = Integer.parseInt(parameters.get(KEYS.MAX_SATURATION));
-                appSettingsManager.manualSaturation.setKEY(KEYS.SATURATION);
+            else if (parameters.get(camstring(R.string.saturation_max)) != null) {
+                min = Integer.parseInt(parameters.get(camstring(R.string.saturation_min)));
+                max = Integer.parseInt(parameters.get(camstring(R.string.saturation_max)));
+                appSettingsManager.manualSaturation.setKEY(camstring(R.string.saturation));
+            } else if (parameters.get(camstring(R.string.max_saturation)) != null) {
+                min = Integer.parseInt(parameters.get(camstring(R.string.min_saturation)));
+                max = Integer.parseInt(parameters.get(camstring(R.string.max_saturation)));
+                appSettingsManager.manualSaturation.setKEY(camstring(R.string.saturation));
             }
             if (max > 0) {
                 appSettingsManager.manualSaturation.setValues(createStringArray(min, max, 1));
@@ -627,22 +633,22 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private void detectManualSharpness(Camera.Parameters parameters) {
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
-            if (parameters.get(KEYS.EDGE)!= null && parameters.get(KEYS.EDGE_VALUES)!= null) {
-                appSettingsManager.manualSharpness.setValues(parameters.get(KEYS.EDGE_VALUES).split(","));
-                appSettingsManager.manualSharpness.setKEY(KEYS.EDGE);
+            if (parameters.get(camstring(R.string.edge))!= null && parameters.get(camstring(R.string.edge_values))!= null) {
+                appSettingsManager.manualSharpness.setValues(parameters.get(camstring(R.string.edge_values)).split(","));
+                appSettingsManager.manualSharpness.setKEY(camstring(R.string.edge));
                 appSettingsManager.manualSharpness.setIsSupported(true);
             }
         }
         else {
             int min = 0, max = 0;
-            if (parameters.get(KEYS.SHARPNESS_MAX) != null) {
-                min = Integer.parseInt(parameters.get(KEYS.SHARPNESS_MIN));
-                max = Integer.parseInt(parameters.get(KEYS.SHARPNESS_MAX));
-                appSettingsManager.manualSharpness.setKEY(KEYS.SHARPNESS);
-            } else if (parameters.get(KEYS.MAX_SHARPNESS) != null) {
-                min = Integer.parseInt(parameters.get(KEYS.MIN_SHARPNESS));
-                max = Integer.parseInt(parameters.get(KEYS.MAX_SHARPNESS));
-                appSettingsManager.manualSharpness.setKEY(KEYS.SHARPNESS);
+            if (parameters.get(camstring(R.string.sharpness_max)) != null) {
+                min = Integer.parseInt(parameters.get(camstring(R.string.sharpness_min)));
+                max = Integer.parseInt(parameters.get(camstring(R.string.sharpness_max)));
+                appSettingsManager.manualSharpness.setKEY(camstring(R.string.sharpness));
+            } else if (parameters.get(camstring(R.string.max_sharpness)) != null) {
+                min = Integer.parseInt(parameters.get(camstring(R.string.min_sharpness)));
+                max = Integer.parseInt(parameters.get(camstring(R.string.max_sharpness)));
+                appSettingsManager.manualSharpness.setKEY(camstring(R.string.sharpness));
             }
             if (max > 0) {
                 appSettingsManager.manualSharpness.setValues(createStringArray(min, max, 1));
@@ -654,27 +660,27 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private void detectManualBrightness(Camera.Parameters parameters) {
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
-            if (parameters.get(KEYS.BRIGHTNESS)!= null && parameters.get(KEYS.BRIGHTNESS_VALUES)!= null) {
-                appSettingsManager.manualBrightness.setValues(parameters.get(KEYS.BRIGHTNESS_VALUES).split(","));
-                appSettingsManager.manualBrightness.setKEY(KEYS.BRIGHTNESS);
+            if (parameters.get(camstring(R.string.brightness))!= null && parameters.get(camstring(R.string.brightness_values))!= null) {
+                appSettingsManager.manualBrightness.setValues(parameters.get(camstring(R.string.brightness_values)).split(","));
+                appSettingsManager.manualBrightness.setKEY(camstring(R.string.brightness));
                 appSettingsManager.manualBrightness.setIsSupported(true);
             }
         }
         else {
             int min = 0, max = 0;
-            if (parameters.get(KEYS.BRIGHTNESS_MAX) != null) {
-                min = Integer.parseInt(parameters.get(KEYS.BRIGHTNESS_MIN));
-                max = Integer.parseInt(parameters.get(KEYS.BRIGHTNESS_MAX));
-            } else if (parameters.get(KEYS.MAX_BRIGHTNESS) != null) {
-                min = Integer.parseInt(parameters.get(KEYS.MIN_BRIGHTNESS));
-                max = Integer.parseInt(parameters.get(KEYS.MAX_BRIGHTNESS));
+            if (parameters.get(camstring(R.string.brightness_max)) != null) {
+                min = Integer.parseInt(parameters.get(camstring(R.string.brightness_min)));
+                max = Integer.parseInt(parameters.get(camstring(R.string.brightness_max)));
+            } else if (parameters.get(camstring(R.string.max_brightness)) != null) {
+                min = Integer.parseInt(parameters.get(camstring(R.string.min_brightness)));
+                max = Integer.parseInt(parameters.get(camstring(R.string.max_brightness)));
 
             }
             if (max > 0) {
-                if (parameters.get(KEYS.BRIGHTNESS)!= null)
-                    appSettingsManager.manualBrightness.setKEY(KEYS.BRIGHTNESS);
-                else if (parameters.get(KEYS.LUMA_ADAPTATION)!= null)
-                    appSettingsManager.manualBrightness.setKEY(KEYS.LUMA_ADAPTATION);
+                if (parameters.get(camstring(R.string.brightness))!= null)
+                    appSettingsManager.manualBrightness.setKEY(camstring(R.string.brightness));
+                else if (parameters.get(camstring(R.string.luma_adaptation))!= null)
+                    appSettingsManager.manualBrightness.setKEY(camstring(R.string.luma_adaptation));
                 appSettingsManager.manualBrightness.setValues(createStringArray(min, max, 1));
                 appSettingsManager.manualBrightness.setIsSupported(true);
             }
@@ -684,24 +690,24 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private void detectManualContrast(Camera.Parameters parameters) {
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
-            if (parameters.get(KEYS.CONTRAST)!= null && parameters.get(KEYS.CONTRAST_VALUES)!= null) {
-                appSettingsManager.manualContrast.setValues(parameters.get(KEYS.CONTRAST_VALUES).split(","));
-                appSettingsManager.manualContrast.setKEY(KEYS.CONTRAST);
+            if (parameters.get(camstring(R.string.contrast))!= null && parameters.get(camstring(R.string.contrast_values))!= null) {
+                appSettingsManager.manualContrast.setValues(parameters.get(camstring(R.string.contrast_values)).split(","));
+                appSettingsManager.manualContrast.setKEY(camstring(R.string.contrast));
                 appSettingsManager.manualContrast.setIsSupported(true);
             }
         }
         else {
             int min = 0, max = 0;
-            if (parameters.get(KEYS.CONTRAST_MAX) != null) {
-                min = Integer.parseInt(parameters.get(KEYS.CONTRAST_MIN));
-                max = Integer.parseInt(parameters.get(KEYS.CONTRAST_MAX));
-            } else if (parameters.get(KEYS.MAX_CONTRAST) != null) {
-                min = Integer.parseInt(parameters.get(KEYS.MIN_CONTRAST));
-                max = Integer.parseInt(parameters.get(KEYS.MAX_CONTRAST));
+            if (parameters.get(camstring(R.string.contrast_max)) != null) {
+                min = Integer.parseInt(parameters.get(camstring(R.string.contrast_min)));
+                max = Integer.parseInt(parameters.get(camstring(R.string.contrast_max)));
+            } else if (parameters.get(camstring(R.string.max_contrast)) != null) {
+                min = Integer.parseInt(parameters.get(camstring(R.string.min_contrast)));
+                max = Integer.parseInt(parameters.get(camstring(R.string.max_contrast)));
 
             }
             if (max > 0) {
-                appSettingsManager.manualContrast.setKEY(KEYS.CONTRAST);
+                appSettingsManager.manualContrast.setKEY(camstring(R.string.contrast));
                 appSettingsManager.manualContrast.setValues(createStringArray(min, max, 1));
                 appSettingsManager.manualContrast.setIsSupported(true);
             }
@@ -740,7 +746,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         int min =0, max =0, step = 0;
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
-            appSettingsManager.manualFocus.setMode(KEYS.KEY_FOCUS_MODE_MANUAL);
+            appSettingsManager.manualFocus.setMode(camstring(R.string.manual));
             appSettingsManager.manualFocus.setType(-1);
             appSettingsManager.manualFocus.setIsSupported(true);
             min = 0;
@@ -751,53 +757,53 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else {
             //lookup old qcom
 
-            if (parameters.get(KEYS.KEY_MANUAL_FOCUS_MODE_VALUE) == null) {
+            if (parameters.get(camstring(R.string.manual_focus_modes)) == null) {
 
-                if (parameters.get(KEYS.MAX_FOCUS_POS_INDEX) != null
-                        && KEYS.MIN_FOCUS_POS_INDEX != null
-                        && appSettingsManager.focusMode.contains(KEYS.KEY_FOCUS_MODE_MANUAL)) {
+                if (parameters.get(camstring(R.string.max_focus_pos_index)) != null
+                        && parameters.get(camstring(R.string.min_focus_pos_index))!= null
+                        && appSettingsManager.focusMode.contains(camstring(R.string.manual))) {
 
-                    appSettingsManager.manualFocus.setMode(KEYS.KEY_FOCUS_MODE_MANUAL);
+                    appSettingsManager.manualFocus.setMode(camstring(R.string.manual));
                     appSettingsManager.manualFocus.setType(1);
                     appSettingsManager.manualFocus.setIsSupported(true);
-                    min = Integer.parseInt(parameters.get(KEYS.MIN_FOCUS_POS_INDEX));
-                    max = Integer.parseInt(parameters.get(KEYS.MAX_FOCUS_POS_INDEX));
+                    min = Integer.parseInt(parameters.get(camstring(R.string.min_focus_pos_index)));
+                    max = Integer.parseInt(parameters.get(camstring(R.string.max_focus_pos_index)));
                     step = 10;
-                    appSettingsManager.manualFocus.setKEY(KEYS.KEY_MANUAL_FOCUS_POSITION);
+                    appSettingsManager.manualFocus.setKEY(camstring(R.string.manual_focus_position));
                 }
             }
             else
             {
                 //lookup new qcom
-                if (parameters.get(KEYS.MAX_FOCUS_POS_RATIO) != null
-                        && KEYS.MIN_FOCUS_POS_RATIO != null
-                        && appSettingsManager.focusMode.contains(KEYS.KEY_FOCUS_MODE_MANUAL)) {
+                if (parameters.get(camstring(R.string.max_focus_pos_ratio)) != null
+                        && parameters.get(camstring(R.string.min_focus_pos_ratio)) != null
+                        && appSettingsManager.focusMode.contains(camstring(R.string.manual))) {
 
-                    appSettingsManager.manualFocus.setMode(KEYS.KEY_FOCUS_MODE_MANUAL);
+                    appSettingsManager.manualFocus.setMode(camstring(R.string.manual));
                     appSettingsManager.manualFocus.setType(2);
                     appSettingsManager.manualFocus.setIsSupported(true);
-                    min = Integer.parseInt(parameters.get(KEYS.MIN_FOCUS_POS_RATIO));
-                    max = Integer.parseInt(parameters.get(KEYS.MAX_FOCUS_POS_RATIO));
+                    min = Integer.parseInt(parameters.get(camstring(R.string.min_focus_pos_ratio)));
+                    max = Integer.parseInt(parameters.get(camstring(R.string.max_focus_pos_ratio)));
                     step = 1;
-                    appSettingsManager.manualFocus.setKEY(KEYS.KEY_MANUAL_FOCUS_POSITION);
+                    appSettingsManager.manualFocus.setKEY(camstring(R.string.manual_focus_position));
                 }
             }
             //htc mf
-            if (parameters.get(KEYS.MIN_FOCUS) != null && parameters.get(KEYS.MAX_FOCUS) != null)
+            if (parameters.get(camstring(R.string.min_focus)) != null && parameters.get(camstring(R.string.max_focus)) != null)
             {
                 appSettingsManager.manualFocus.setMode("");
                 appSettingsManager.manualFocus.setType(-1);
                 appSettingsManager.manualFocus.setIsSupported(true);
-                min = Integer.parseInt(parameters.get(KEYS.MIN_FOCUS));
-                max = Integer.parseInt(parameters.get(KEYS.MAX_FOCUS));
+                min = Integer.parseInt(parameters.get(camstring(R.string.min_focus)));
+                max = Integer.parseInt(parameters.get(camstring(R.string.max_focus)));
                 step = 1;
-                appSettingsManager.manualFocus.setKEY(KEYS.FOCUS);
+                appSettingsManager.manualFocus.setKEY(camstring(R.string.focus));
             }
 
             //huawai mf
             if(parameters.get(KEYS.HW_VCM_END_VALUE) != null && parameters.get(KEYS.HW_VCM_START_VALUE) != null)
             {
-                appSettingsManager.manualFocus.setMode(KEYS.KEY_FOCUS_MODE_MANUAL);
+                appSettingsManager.manualFocus.setMode(camstring(R.string.manual));
                 appSettingsManager.manualFocus.setType(-1);
                 appSettingsManager.manualFocus.setIsSupported(true);
                 min = Integer.parseInt(parameters.get(KEYS.HW_VCM_END_VALUE));
@@ -814,10 +820,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     min = 0;
                     max = 1023;
                     step = 10;
-                    appSettingsManager.manualFocus.setMode(KEYS.KEY_FOCUS_MODE_MANUAL);
+                    appSettingsManager.manualFocus.setMode(camstring(R.string.manual));
                     appSettingsManager.manualFocus.setType(2);
                     appSettingsManager.manualFocus.setIsSupported(true);
-                    appSettingsManager.manualFocus.setKEY(KEYS.KEY_MANUAL_FOCUS_POSITION);
+                    appSettingsManager.manualFocus.setKEY(camstring(R.string.manual_focus_position));
                 }
                 else if (Build.VERSION.SDK_INT < 21)
                 {
@@ -854,13 +860,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             case ZTEADV234:
             case ZTEADVIMX214:
             case ZTE_ADV:
-                appSettingsManager.manualFocus.setMode(KEYS.KEY_FOCUS_MODE_MANUAL);
+                appSettingsManager.manualFocus.setMode(camstring(R.string.manual));
                 appSettingsManager.manualFocus.setType(1);
                 appSettingsManager.manualFocus.setIsSupported(true);
                 min = 0;
                 max = 79;
                 step = 1;
-                appSettingsManager.manualFocus.setKEY(KEYS.KEY_MANUAL_FOCUS_POSITION);
+                appSettingsManager.manualFocus.setKEY(camstring(R.string.manual_focus_position));
                 break;
             case Vivo_V3:
             case Moto_X2k14:
@@ -1023,6 +1029,21 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
     }
 
+    private void detectMode(Camera.Parameters parameters, int key, int keyvalues, AppSettingsManager.SettingMode mode)
+    {
+        if (parameters.get(camstring(keyvalues)) == null)
+        {
+            mode.setIsSupported(false);
+            return;
+        }
+        mode.setValues(parameters.get(camstring(keyvalues)).split(","));
+        mode.setKEY(camstring(key));
+        mode.set(parameters.get(mode.getKEY()));
+
+        if (mode.getValues().length >0)
+            mode.setIsSupported(true);
+    }
+
     private void detectedPictureFormats(Camera.Parameters parameters)
     {
         //drop raw for front camera
@@ -1063,7 +1084,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 }
                 else
                 {
-                    String formats = parameters.get(KEYS.PICTURE_FORMAT_VALUES);
+                    String formats = parameters.get(camstring(R.string.picture_format_values));
 
                     if (formats.contains("bayer-mipi") || formats.contains("raw"))
                     {
@@ -1117,56 +1138,32 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectPictureSizes(Camera.Parameters parameters)
     {
-        String[] sizes = parameters.get(KEYS.PICTURE_SIZE_VALUES).split(",");
-        appSettingsManager.pictureSize.setValues(sizes);
-        appSettingsManager.pictureSize.set(parameters.get(KEYS.PICTURE_SIZE));
-        if (sizes.length > 0)
-            appSettingsManager.pictureSize.setIsSupported(true);
-        else
-            appSettingsManager.pictureSize.setIsSupported(false);
+        detectMode(parameters,R.string.picture_size,R.string.picture_size_values,appSettingsManager.pictureSize);
     }
 
     private void detectFocusModes(Camera.Parameters parameters)
     {
-        appSettingsManager.focusMode.setValues(parameters.get(KEYS.FOCUS_MODE_VALUES).split(","));
-        appSettingsManager.focusMode.set(parameters.get(KEYS.FOCUS_MODE));
-        if (appSettingsManager.focusMode.getValues().length >0)
-            appSettingsManager.focusMode.setIsSupported(true);
-        else
-            appSettingsManager.focusMode.setIsSupported(false);
+        detectMode(parameters,R.string.focus_mode,R.string.focus_mode_values,appSettingsManager.focusMode);
     }
 
     private void detectWhiteBalanceModes(Camera.Parameters parameters)
     {
-        appSettingsManager.whiteBalanceMode.setValues(parameters.get(KEYS.WHITEBALANCE_VALUES).split(","));
-        appSettingsManager.whiteBalanceMode.set(parameters.get(KEYS.WHITEBALANCE));
-        if (appSettingsManager.whiteBalanceMode.getValues().length >0)
-            appSettingsManager.whiteBalanceMode.setIsSupported(true);
-        else
-            appSettingsManager.whiteBalanceMode.setIsSupported(false);
+        detectMode(parameters,R.string.whitebalance,R.string.whitebalance_values,appSettingsManager.whiteBalanceMode);
     }
 
     private void detectExposureModes(Camera.Parameters parameters)
     {
-        if (parameters.get("exposure-mode-values")!= null) {
-            appSettingsManager.exposureMode.setKEY("exposure");
-            appSettingsManager.exposureMode.set(parameters.get("exposure"));
-            appSettingsManager.exposureMode.setValues(parameters.get("exposure-mode-values").split(","));
+        if (parameters.get(camstring(R.string.exposure))!= null) {
+            detectMode(parameters,R.string.exposure,R.string.exposure_mode_values,appSettingsManager.exposureMode);
         }
-        else if (parameters.get("auto-exposure-values")!= null) {
-            appSettingsManager.exposureMode.setKEY("auto-exposure");
-            appSettingsManager.exposureMode.set(parameters.get("auto-exposure"));
-            appSettingsManager.exposureMode.setValues(parameters.get("auto-exposure-values").split(","));
+        else if (parameters.get(camstring(R.string.auto_exposure_values))!= null) {
+            detectMode(parameters,R.string.auto_exposure,R.string.auto_exposure_values,appSettingsManager.exposureMode);
         }
-        else if(parameters.get("sony-metering-mode-values")!= null) {
-            appSettingsManager.exposureMode.setKEY("sony-metering-mode");
-            appSettingsManager.exposureMode.set(parameters.get("sony-metering-mode"));
-            appSettingsManager.exposureMode.setValues(parameters.get("sony-metering-mode-values").split(","));
+        else if(parameters.get(camstring(R.string.sony_metering_mode))!= null) {
+            detectMode(parameters,R.string.sony_metering_mode,R.string.sony_metering_mode_values,appSettingsManager.exposureMode);
         }
-        else if(parameters.get("exposure-meter-values")!= null) {
-            appSettingsManager.exposureMode.setKEY("exposure-meter");
-            appSettingsManager.exposureMode.set(parameters.get("exposure-meter"));
-            appSettingsManager.exposureMode.setValues(parameters.get("exposure-meter-values").split(","));
+        else if(parameters.get(camstring(R.string.exposure_meter))!= null) {
+            detectMode(parameters,R.string.exposure_meter,R.string.exposure_meter_values,appSettingsManager.exposureMode);
         }
         if (!appSettingsManager.exposureMode.getKEY().equals(""))
             appSettingsManager.exposureMode.setIsSupported(true);
@@ -1176,56 +1173,30 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectColorModes(Camera.Parameters parameters)
     {
-        if (parameters.get(KEYS.COLOR_EFFECT_VALUES) == null)
-        {
-            appSettingsManager.colorMode.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.colorMode.setValues(parameters.get(KEYS.COLOR_EFFECT_VALUES).split(","));
-        appSettingsManager.colorMode.set(parameters.get(KEYS.COLOR_EFFECT));
-        if (appSettingsManager.colorMode.getValues().length >0)
-            appSettingsManager.colorMode.setIsSupported(true);
+        detectMode(parameters,R.string.effect,R.string.effect_values,appSettingsManager.colorMode);
     }
 
     private void detectFlashModes(Camera.Parameters parameters)
     {
-        if (parameters.get(KEYS.FLASH_MODE_VALUES) == null)
-        {
-            appSettingsManager.flashMode.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.flashMode.setValues(parameters.get(KEYS.FLASH_MODE_VALUES).split(","));
-        appSettingsManager.flashMode.set(parameters.get(KEYS.FLASH_MODE));
-        if (appSettingsManager.flashMode.getValues().length >0)
-            appSettingsManager.flashMode.setIsSupported(true);
+        detectMode(parameters,R.string.flash_mode,R.string.flash_mode_values,appSettingsManager.flashMode);
     }
 
     private void detectIsoModes(Camera.Parameters parameters)
     {
-        if (parameters.get("iso-mode-values")!= null){
-            appSettingsManager.isoMode.setKEY("iso");
-            appSettingsManager.isoMode.setValues(parameters.get("iso-mode-values").split(","));
-            appSettingsManager.isoMode.set(parameters.get("iso"));
+        if (parameters.get(camstring(R.string.iso_mode_values))!= null){
+            detectMode(parameters,R.string.iso,R.string.iso_mode_values,appSettingsManager.isoMode);
         }
-        else if (parameters.get("iso-values")!= null) {
-            appSettingsManager.isoMode.setKEY("iso");
-            appSettingsManager.isoMode.setValues(parameters.get("iso-values").split(","));
-            appSettingsManager.isoMode.set(parameters.get("iso"));
+        else if (parameters.get(camstring(R.string.iso_values))!= null) {
+            detectMode(parameters,R.string.iso,R.string.iso_values,appSettingsManager.isoMode);
         }
-        else if (parameters.get("iso-speed-values")!= null) {
-            appSettingsManager.isoMode.setKEY("iso-speed");
-            appSettingsManager.isoMode.setValues(parameters.get("iso-speed-values").split(","));
-            appSettingsManager.isoMode.set(parameters.get("iso-speed"));
+        else if (parameters.get(camstring(R.string.iso_speed_values))!= null) {
+            detectMode(parameters,R.string.iso_speed,R.string.iso_speed_values,appSettingsManager.isoMode);
         }
-        else if (parameters.get("sony-iso-values")!= null) {
-            appSettingsManager.isoMode.setKEY("sony-iso");
-            appSettingsManager.isoMode.setValues(parameters.get("sony-iso-values").split(","));
-            appSettingsManager.isoMode.set(parameters.get("sony-iso"));
+        else if (parameters.get(camstring(R.string.sony_iso_values))!= null) {
+            detectMode(parameters,R.string.sony_iso,R.string.sony_iso_values,appSettingsManager.isoMode);
         }
-        else if (parameters.get("lg-iso-values")!= null) {
-            appSettingsManager.isoMode.setKEY("iso");
-            appSettingsManager.isoMode.setValues(parameters.get("lg-iso-values").split(","));
-            appSettingsManager.isoMode.set(parameters.get("iso"));
+        else if (parameters.get(camstring(R.string.lg_iso_values))!= null) {
+            detectMode(parameters,R.string.iso,R.string.lg_iso_values,appSettingsManager.isoMode);
         }
         if (appSettingsManager.isoMode.getValues().length >1)
             appSettingsManager.isoMode.setIsSupported(true);
@@ -1235,46 +1206,22 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectAntiBandingModes(Camera.Parameters parameters)
     {
-        if (parameters.get(KEYS.ANTIBANDING_VALUES) == null)
-        {
-            appSettingsManager.antiBandingMode.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.antiBandingMode.setValues(parameters.get(KEYS.ANTIBANDING_VALUES).split(","));
-        appSettingsManager.antiBandingMode.set(parameters.get(KEYS.ANTIBANDING));
-        if (appSettingsManager.antiBandingMode.getValues().length >0)
-            appSettingsManager.antiBandingMode.setIsSupported(true);
+        detectMode(parameters,R.string.antibanding,R.string.antibanding_values,appSettingsManager.antiBandingMode);
     }
 
     private void detectImagePostProcessingModes(Camera.Parameters parameters)
     {
-        if (parameters.get(KEYS.IMAGEPOSTPROCESSING_VALUES) == null)
-        {
-            appSettingsManager.imagePostProcessing.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.imagePostProcessing.setValues(parameters.get(KEYS.IMAGEPOSTPROCESSING_VALUES).split(","));
-        appSettingsManager.imagePostProcessing.set(parameters.get(KEYS.IMAGEPOSTPROCESSING));
-        if (appSettingsManager.imagePostProcessing.getValues().length >0)
-            appSettingsManager.imagePostProcessing.setIsSupported(true);
+        detectMode(parameters,R.string.ipp,R.string.ipp_values,appSettingsManager.imagePostProcessing);
     }
 
     private void detectPreviewSizeModes(Camera.Parameters parameters)
     {
-        if (parameters.get("preview-size-values") == null)
-        {
-            appSettingsManager.previewSize.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.previewSize.setValues(parameters.get("preview-size-values").split(","));
-        appSettingsManager.previewSize.set(parameters.get("preview-size"));
-        if (appSettingsManager.previewSize.getValues().length >0)
-            appSettingsManager.previewSize.setIsSupported(true);
+        detectMode(parameters,R.string.preview_size,R.string.preview_size_values,appSettingsManager.previewSize);
     }
 
     private void detectJpeqQualityModes(Camera.Parameters parameters)
     {
-        if (parameters.get(KEYS.JPEG_QUALITY) == null)
+        if (parameters.get(camstring(R.string.jpeg_quality)) == null)
         {
             appSettingsManager.jpegQuality.setIsSupported(false);
             return;
@@ -1285,98 +1232,52 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             valuetoreturn[i-1] = "" + i*5;
         }
         appSettingsManager.jpegQuality.setValues(valuetoreturn);
-        appSettingsManager.jpegQuality.set(parameters.get(KEYS.JPEG_QUALITY));
+        appSettingsManager.jpegQuality.set(parameters.get(camstring(R.string.jpeg_quality)));
+        appSettingsManager.jpegQuality.setKEY(camstring(R.string.jpeg_quality));
         if (valuetoreturn.length >0)
             appSettingsManager.jpegQuality.setIsSupported(true);
     }
 
+
+
     private void detectAeBracketModes(Camera.Parameters parameters)
     {
-        if (parameters.get(KEYS.AE_BRACKET_HDR_VALUES) == null)
-        {
-            appSettingsManager.aeBracket.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.aeBracket.setValues(parameters.get(AE_BRACKET_HDR_VALUES).split(","));
-        appSettingsManager.aeBracket.set(parameters.get(KEYS.AE_BRACKET_HDR));
-        if (appSettingsManager.aeBracket.getValues().length >0)
-            appSettingsManager.aeBracket.setIsSupported(true);
+        detectMode(parameters,R.string.ae_bracket_hdr,R.string.ae_bracket_hdr_values,appSettingsManager.aeBracket);
     }
 
     private void detectPreviewFPSModes(Camera.Parameters parameters)
     {
-        if (parameters.get(KEYS.PREVIEW_FRAME_RATE_VALUES) == null)
-        {
-            appSettingsManager.previewFps.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.previewFps.setValues(parameters.get(KEYS.PREVIEW_FRAME_RATE_VALUES).split(","));
-        appSettingsManager.previewFps.set(parameters.get(KEYS.PREVIEW_FRAME_RATE));
-        if (appSettingsManager.previewFps.getValues().length >0)
-            appSettingsManager.previewFps.setIsSupported(true);
+        detectMode(parameters,R.string.preview_frame_rate,R.string.preview_frame_rate_values,appSettingsManager.previewFps);
     }
 
     private void detectPreviewFormatModes(Camera.Parameters parameters)
     {
-        if (parameters.get("preview-format-values") == null)
-        {
-            appSettingsManager.previewFormat.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.previewFormat.setValues(parameters.get("preview-format-values").split(","));
-        appSettingsManager.previewFormat.set(parameters.get("preview-format"));
-        if (appSettingsManager.previewFormat.getValues().length >0)
-            appSettingsManager.previewFormat.setIsSupported(true);
+        detectMode(parameters,R.string.preview_format,R.string.preview_format_values,appSettingsManager.previewFormat);
     }
 
     private void detectSceneModes(Camera.Parameters parameters)
     {
-        if (parameters.get(KEYS.SCENE_MODE_VALUES) == null)
-        {
-            appSettingsManager.sceneMode.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.sceneMode.setValues(parameters.get(KEYS.SCENE_MODE_VALUES).split(","));
-        appSettingsManager.sceneMode.set(parameters.get(KEYS.SCENE_MODE));
-        if (appSettingsManager.sceneMode.getValues().length >0)
-            appSettingsManager.sceneMode.setIsSupported(true);
+        detectMode(parameters,R.string.scene_mode,R.string.scene_mode_values,appSettingsManager.sceneMode);
     }
 
     private void detectLensShadeModes(Camera.Parameters parameters)
     {
-        if (parameters.get(KEYS.LENSSHADE) == null)
-        {
-            appSettingsManager.lenshade.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.lenshade.setValues(parameters.get(KEYS.LENSSHADE_VALUES).split(","));
-        appSettingsManager.lenshade.set(parameters.get(KEYS.LENSSHADE));
-        if (appSettingsManager.lenshade.getValues().length >0)
-            appSettingsManager.lenshade.setIsSupported(true);
+        detectMode(parameters,R.string.lensshade,R.string.lensshade_values,appSettingsManager.lenshade);
     }
 
     private void detectZeroShutterLagModes(Camera.Parameters parameters)
     {
-        if (parameters.get("zsl") != null)
+        if (parameters.get(camstring(R.string.zsl_values)) != null)
         {
-            appSettingsManager.zeroshutterlag.setValues(parameters.get("zsl-values").split(","));
-            appSettingsManager.zeroshutterlag.set(parameters.get("zsl"));
-            appSettingsManager.zeroshutterlag.setKEY("zsl");
-            appSettingsManager.zeroshutterlag.setIsSupported(true);
+            detectMode(parameters,R.string.zsl,R.string.zsl_values,appSettingsManager.zeroshutterlag);
+
         }
-        else if (parameters.get("mode") != null)
+        else if (parameters.get(camstring(R.string.mode_values)) != null)
         {
-            appSettingsManager.zeroshutterlag.setValues(parameters.get("mode-values").split(","));
-            appSettingsManager.zeroshutterlag.set(parameters.get("mode"));
-            appSettingsManager.zeroshutterlag.setKEY("mode");
-            appSettingsManager.zeroshutterlag.setIsSupported(true);
+            detectMode(parameters,R.string.mode,R.string.mode_values,appSettingsManager.zeroshutterlag);
         }
-        else if (parameters.get("zsd-mode") != null)
-        {
-            appSettingsManager.zeroshutterlag.setValues(parameters.get("zsd-mode-values").split(","));
-            appSettingsManager.zeroshutterlag.set(parameters.get("zsd-mode"));
-            appSettingsManager.zeroshutterlag.setKEY("zsd-mode");
-            appSettingsManager.zeroshutterlag.setIsSupported(true);
+        else if (parameters.get(camstring(R.string.zsd_mode)) != null) {
+            detectMode(parameters, R.string.zsd_mode, R.string.zsd_mode_values, appSettingsManager.zeroshutterlag);
         }
 
         if (appSettingsManager.lenshade.getValues().length == 0)
@@ -1385,55 +1286,22 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectSceneDetectModes(Camera.Parameters parameters)
     {
-        if (parameters.get(KEYS.SCENE_DETECT) == null)
-        {
-            appSettingsManager.sceneDetectMode.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.sceneDetectMode.setValues(parameters.get(KEYS.SCENE_MODE_VALUES).split(","));
-        appSettingsManager.sceneDetectMode.set(parameters.get(KEYS.SCENE_DETECT));
-        if (appSettingsManager.sceneDetectMode.getValues().length >0)
-            appSettingsManager.sceneDetectMode.setIsSupported(true);
+        detectMode(parameters,R.string.scene_mode,R.string.scene_mode_values,appSettingsManager.sceneMode);
     }
 
     private void detectMemoryColorEnhancementModes(Camera.Parameters parameters)
     {
-        if (parameters.get(KEYS.MEMORYCOLORENHANCEMENT) == null)
-        {
-            appSettingsManager.memoryColorEnhancement.setIsSupported(false);
-            return;
-        }
-        String mce = parameters.get(KEYS.MEMORYCOLORENHANCEMENT_VALUES);
-        appSettingsManager.memoryColorEnhancement.setValues(mce.split(","));
-        appSettingsManager.memoryColorEnhancement.set(parameters.get(KEYS.MEMORYCOLORENHANCEMENT));
-        if (appSettingsManager.memoryColorEnhancement.getValues().length >0)
-            appSettingsManager.memoryColorEnhancement.setIsSupported(true);
+        detectMode(parameters,R.string.mce,R.string.mce_values,appSettingsManager.memoryColorEnhancement);
     }
 
     private void detectVideoSizeModes(Camera.Parameters parameters)
     {
-        if (parameters.get("video-size") == null)
-        {
-            appSettingsManager.videoSize.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.videoSize.setValues(parameters.get("video-size-values").split(","));
-        appSettingsManager.videoSize.set(parameters.get("video-size"));
-        if (appSettingsManager.videoSize.getValues().length >0)
-            appSettingsManager.videoSize.setIsSupported(true);
+        detectMode(parameters,R.string.video_size,R.string.video_size_values,appSettingsManager.videoSize);
     }
 
     private void detectCorrelatedDoubleSamplingModes(Camera.Parameters parameters)
     {
-        if (parameters.get("cds-mode") == null)
-        {
-            appSettingsManager.correlatedDoubleSampling.setIsSupported(false);
-            return;
-        }
-        appSettingsManager.correlatedDoubleSampling.setValues(parameters.get("cds-mode-values").split(","));
-        appSettingsManager.correlatedDoubleSampling.set(parameters.get("cds-mode"));
-        if (appSettingsManager.correlatedDoubleSampling.getValues().length >0)
-            appSettingsManager.correlatedDoubleSampling.setIsSupported(true);
+        detectMode(parameters,R.string.cds_mode,R.string.cds_mode_values,appSettingsManager.correlatedDoubleSampling);
     }
 
     private void detectOisModes(Camera.Parameters parameters)
@@ -1470,16 +1338,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectVideoHdr(Camera.Parameters parameters)
     {
-        if (parameters.get("video-hdr-values") != null)
+        if (parameters.get(camstring(R.string.video_hdr_values)) != null)
         {
-            appSettingsManager.videoHDR.setIsSupported(true);
-            appSettingsManager.videoHDR.setKEY("video-hdr");
-            appSettingsManager.videoHDR.setValues(parameters.get("video-hdr-values").split(","));
+            detectMode(parameters,R.string.video_hdr,R.string.video_hdr_values,appSettingsManager.videoHDR);
         }
-        else if (parameters.get("sony-video-hdr")!= null) {
-            appSettingsManager.videoHDR.setIsSupported(true);
-            appSettingsManager.videoHDR.setKEY("sony-video-hdr");
-            appSettingsManager.videoHDR.setValues(parameters.get("sony-video-hdr-values").split(","));
+        else if (parameters.get(camstring(R.string.sony_video_hdr_values))!= null) {
+            detectMode(parameters,R.string.sony_video_hdr,R.string.sony_video_hdr_values,appSettingsManager.videoHDR);
         }
         else
             appSettingsManager.videoHDR.setIsSupported(false);

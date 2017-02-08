@@ -36,7 +36,7 @@ public class VirtualLensFilter extends  BaseModeParameter {
     private final String[] asU;
     public VirtualLensFilter(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {
-        super(parameters, cameraUiWrapper, "", "");
+        super(parameters, cameraUiWrapper);
 
         if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV)
             isSupported = true;

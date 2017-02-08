@@ -67,7 +67,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
@@ -833,13 +832,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 new CompareSizesByArea());
         picFormat = appSettingsManager.pictureFormat.get();
         if (picFormat.equals("")) {
-            picFormat = appSettingsManager.getResourcesString(R.string.pictureformat_jpeg);
+            picFormat = appSettingsManager.getResString(R.string.pictureformat_jpeg);
             appSettingsManager.pictureFormat.set(picFormat);
             parameterHandler.PictureFormat.onValueHasChanged(picFormat);
 
         }
 
-        if (picFormat.equals(appSettingsManager.getResourcesString(R.string.pictureformat_jpeg)))
+        if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpeg)))
         {
             String[] split = picSize.split("x");
             int width, height;
@@ -856,21 +855,21 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             //create new ImageReader with the size and format for the image
             Log.d(TAG, "ImageReader JPEG");
         }
-        else if (picFormat.equals(appSettingsManager.getResourcesString(R.string.pictureformat_dng16)))
+        else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng16)))
         {
             Log.d(TAG, "ImageReader RAW_SENOSR");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
         }
-        else if (picFormat.equals(appSettingsManager.getResourcesString(R.string.pictureformat_dng10)))
+        else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng10)))
         {
             Log.d(TAG, "ImageReader RAW10");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
         }
-        else if (picFormat.equals(appSettingsManager.getResourcesString(R.string.pictureformat_dng12)))
+        else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng12)))
         {
             Log.d(TAG, "ImageReader RAW12");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW12)), new CompareSizesByArea());
@@ -934,13 +933,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
             cameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
 
-            if (picFormat.equals(appSettingsManager.getResourcesString(R.string.pictureformat_jpeg)))
+            if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpeg)))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst+1);
-            else if (picFormat.equals(appSettingsManager.getResourcesString(R.string.pictureformat_dng10)))
+            else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng10)))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, burst+1);
-            else if (picFormat.equals(appSettingsManager.getResourcesString(R.string.pictureformat_dng16)))
+            else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng16)))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst+1);
-            else if (picFormat.equals(appSettingsManager.getResourcesString(R.string.pictureformat_dng12)))
+            else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng12)))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW12,burst+1);
             cameraHolder.CaptureSessionH.AddSurface(mImageReader.getSurface(),false);
             cameraHolder.CaptureSessionH.CreateCaptureSession();

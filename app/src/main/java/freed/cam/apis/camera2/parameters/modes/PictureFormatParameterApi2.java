@@ -32,11 +32,12 @@ import freed.utils.AppSettingsManager;
  */
 public class PictureFormatParameterApi2 extends BaseModeApi2
 {
-    private String format = KEYS.JPEG;
+    private String format;
 
     public PictureFormatParameterApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, CaptureRequest.Key<Integer> parameterKey)
     {
         super(cameraUiWrapper,settingMode,parameterKey);
+        format = settingMode.get();
     }
 
     @Override

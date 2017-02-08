@@ -93,6 +93,7 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface PreviewSize;
     public ModeParameterInterface PreviewFPS;
     public ModeParameterInterface PreviewFormat;
+    public ModeParameterInterface PreviewFpsRange;
     public ModeParameterInterface SceneMode;
     public ModeParameterInterface FocusMode;
     public ModeParameterInterface RedEye;
@@ -106,7 +107,6 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface NightMode;
     public ModeParameterInterface NonZslManualMode;
     public ModeParameterInterface AE_Bracket;
-    public ModeParameterInterface Histogram;
     public ModeParameterInterface ExposureLock;
     public ModeParameterInterface CDS_Mode;
 
@@ -118,9 +118,6 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface VideoHighFramerateVideo;
     public ModeParameterInterface LensFilter;
     public ModeParameterInterface Horizont;
-
-    //yet only seen on m9
-    public ModeParameterInterface TnrMode;
 
     //SonyApi
     public ModeParameterInterface ContShootMode;

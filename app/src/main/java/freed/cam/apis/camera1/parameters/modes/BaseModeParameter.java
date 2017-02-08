@@ -29,6 +29,7 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 17.08.2014.
@@ -67,52 +68,12 @@ public class BaseModeParameter extends AbstractModeParameter implements ModuleCh
         this.cameraUiWrapper = cameraUiWrapper;
     }
 
-    public BaseModeParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, String key_value, String[] valuesArray)
+    public BaseModeParameter(Parameters  parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode)
     {
         this(parameters,cameraUiWrapper);
-        this.key_value = key_value;
-        this.valuesArray = valuesArray;
-        isSupported = true;
-    }
-
-    /***
-     *
-     * @param parameters
-     * Hold the Camera Parameters
-     * @param cameraUiWrapper
-     * Hold the camera object
-     * @param key_value
-     * The String to get/set the key_value from the parameters, if empty the parameter is unsupported
-     * @param key_values
-     * the string to get the values avail/supported for @param key_value, if empty the parameter is unsupported
-     */
-    public BaseModeParameter(Parameters  parameters, CameraWrapperInterface cameraUiWrapper, String key_value, String key_values)
-    {
-        this(parameters,cameraUiWrapper);
-        this.key_value = key_value;
-        this.key_values = key_values;
-        //check if nothing is null or empty
-        if (parameters != null && !key_value.isEmpty() && parameters.get(key_value) != null && parameters.get(key_values) != null)
-        {
-            String tmp = parameters.get(key_value);
-            if (!tmp.isEmpty())
-            {
-                isSupported = true;
-                valuesArray = parameters.get(key_values).split(",");
-                ArrayList<String> tmpl  = new ArrayList<>();
-                for (String s : valuesArray)
-                {
-                    if (!tmpl.contains(s))
-                        tmpl.add(s);
-                }
-                valuesArray = new String[tmpl.size()];
-                tmpl.toArray(valuesArray);
-            }
-        }
-        else
-            isSupported =false;
-        isVisible = isSupported;
-        Log.d(TAG, key_value + ":" + isSupported);
+        this.key_value = settingMode.getKEY();
+        this.valuesArray = settingMode.getValues();
+        isSupported = settingMode.isSupported();
     }
 
     @Override

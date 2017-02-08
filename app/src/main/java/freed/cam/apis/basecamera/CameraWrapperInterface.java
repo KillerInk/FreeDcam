@@ -112,4 +112,6 @@ public interface CameraWrapperInterface extends CameraStateEvents
 
     ActivityInterface getActivityInterface();
 
+    String getResString(int id);
+
 }

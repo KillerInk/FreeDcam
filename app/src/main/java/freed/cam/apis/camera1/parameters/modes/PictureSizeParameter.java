@@ -31,7 +31,7 @@ public class PictureSizeParameter extends BaseModeParameter
 {
     final String TAG = PictureSizeParameter.class.getSimpleName();
     public PictureSizeParameter(Parameters  parameters, CameraWrapperInterface parameterChanged) {
-        super(parameters, parameterChanged, "", "");
+        super(parameters, parameterChanged);
         this.cameraUiWrapper = parameterChanged;
         isSupported = true;
     }

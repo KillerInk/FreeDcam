@@ -22,6 +22,8 @@ package freed.cam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 import android.util.Log;
 
+import com.troop.freedcam.R;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
@@ -96,7 +98,7 @@ public class PictureFormatHandler extends BaseModeParameter
     private void setString(String val, boolean setTocam)
     {
         Log.d(TAG, "setApiString:" +val);
-        parameters.set(KEYS.PICTURE_FORMAT, val);
+        parameters.set(cameraUiWrapper.getResString(R.string.picture_format), val);
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 

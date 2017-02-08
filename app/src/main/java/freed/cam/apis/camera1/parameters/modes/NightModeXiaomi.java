@@ -21,6 +21,8 @@ package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera;
 
+import com.troop.freedcam.R;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -38,7 +40,7 @@ public class NightModeXiaomi extends BaseModeParameter
 
     public NightModeXiaomi(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-        if(parameters.get(KEYS.MORPHO_HHT) != null && parameters.get(KEYS.AE_BRACKET_HDR) != null) {
+        if(parameters.get(KEYS.MORPHO_HHT) != null && parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr)) != null) {
             isSupported = true;
             isVisible = true;
             cameraUiWrapper.GetModuleHandler().addListner(this);
@@ -59,10 +61,10 @@ public class NightModeXiaomi extends BaseModeParameter
             parameters.set(KEYS.MORPHO_HDR, KEYS.FALSE);
             cameraUiWrapper.GetParameterHandler().HDRMode.onValueHasChanged(KEYS.OFF);
             parameters.set("capture-burst-exposures","-10,0,10");
-            parameters.set(KEYS.AE_BRACKET_HDR, KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET);
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr), cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket));
             parameters.set(KEYS.MORPHO_HHT, KEYS.TRUE);
         } else {
-            parameters.set(KEYS.AE_BRACKET_HDR, KEYS.AE_BRACKET_HDR_VALUES_OFF);
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr), cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket));
             parameters.set(KEYS.MORPHO_HHT, KEYS.FALSE);
         }
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
@@ -73,7 +75,8 @@ public class NightModeXiaomi extends BaseModeParameter
     @Override
     public String GetValue()
     {
-        if (parameters.get(KEYS.MORPHO_HHT).equals(KEYS.TRUE) && parameters.get(KEYS.AE_BRACKET_HDR).equals(KEYS.AE_BRACKET_HDR_VALUES_OFF))
+        if (parameters.get(KEYS.MORPHO_HHT).equals(KEYS.TRUE)
+                && parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr)).equals(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_off)))
             return KEYS.ON;
         else
             return KEYS.OFF;

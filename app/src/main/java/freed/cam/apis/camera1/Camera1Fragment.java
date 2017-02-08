@@ -412,6 +412,11 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     }
 
     @Override
+    public String getResString(int id) {
+        return getResources().getString(id);
+    }
+
+    @Override
     public SurfaceView getSurfaceView() {
         return extendedSurfaceView;
     }

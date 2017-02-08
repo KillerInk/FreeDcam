@@ -21,6 +21,8 @@ package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
+import com.troop.freedcam.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,7 +67,7 @@ public class HDRModeParameter extends BaseModeParameter
             String autohdr = parameters.get(KEYS.AUTO_HDR_SUPPORTED);
             if (autohdr != null && !autohdr.equals("") && autohdr.equals(KEYS.TRUE) && parameters.get(KEYS.AUTO_HDR_ENABLE) != null) {
 
-                List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(KEYS.SCENE_MODE_VALUES).split(",")));
+                List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.scene_mode_values)).split(",")));
                 if (Scenes.contains(KEYS.SCENE_MODE_VALUES_HDR)) {
                     supporton = true;
                     isSupported = true;
@@ -103,10 +105,10 @@ public class HDRModeParameter extends BaseModeParameter
                 parameters.set(KEYS.MORPHO_HHT, KEYS.FALSE);
                 cameraUiWrapper.GetParameterHandler().NightMode.onValueHasChanged(KEYS.OFF);
                 parameters.set("capture-burst-exposures","-10,0,10");
-                cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET, true);
+                cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket), true);
                 parameters.set(KEYS.MORPHO_HDR, KEYS.TRUE);
             } else {
-                cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_HDR_VALUES_OFF, true);
+                cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_off), true);
                 parameters.set(KEYS.MORPHO_HDR, KEYS.FALSE);
             }
         }
@@ -128,15 +130,15 @@ public class HDRModeParameter extends BaseModeParameter
         else {
             switch (valueToSet) {
                 case KEYS.OFF:
-                    parameters.set(KEYS.SCENE_MODE, KEYS.AUTO);
+                    parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.scene_mode), KEYS.AUTO);
                     parameters.set(KEYS.AUTO_HDR_ENABLE, KEYS.DISABLE);
                     break;
                 case KEYS.ON:
-                    parameters.set(KEYS.SCENE_MODE, KEYS.SCENE_MODE_VALUES_HDR);
+                    parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.scene_mode), KEYS.SCENE_MODE_VALUES_HDR);
                     parameters.set(KEYS.AUTO_HDR_ENABLE, KEYS.ENABLE);
                     break;
                 case KEYS.AUTO:
-                    parameters.set(KEYS.SCENE_MODE, KEYS.SCENE_MODE_VALUES_ASD);
+                    parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.scene_mode), KEYS.SCENE_MODE_VALUES_ASD);
                     parameters.set(KEYS.AUTO_HDR_ENABLE, KEYS.ENABLE);
                     break;
             }
@@ -151,7 +153,8 @@ public class HDRModeParameter extends BaseModeParameter
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI_Note_Pro
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Xiaomi_RedmiNote) {
-            if (parameters.get(KEYS.MORPHO_HDR).equals(KEYS.TRUE) && parameters.get(KEYS.AE_BRACKET_HDR).equals(KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET))
+            if (parameters.get(KEYS.MORPHO_HDR).equals(KEYS.TRUE)
+                    && parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr)).equals(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket)))
                 return KEYS.ON;
             else
                 return KEYS.OFF;
@@ -171,9 +174,11 @@ public class HDRModeParameter extends BaseModeParameter
         }
         else if(parameters.get(KEYS.AUTO_HDR_ENABLE)!= null)
         {
-            if (parameters.get(KEYS.AUTO_HDR_ENABLE).equals(KEYS.ENABLE) && parameters.get(KEYS.SCENE_MODE).equals(KEYS.SCENE_MODE_VALUES_HDR))
+            if (parameters.get(KEYS.AUTO_HDR_ENABLE).equals(KEYS.ENABLE)
+                    && parameters.get(cameraUiWrapper.getResString(R.string.scene_mode)).equals(KEYS.SCENE_MODE_VALUES_HDR))
                 return KEYS.ON;
-            else if (parameters.get(KEYS.AUTO_HDR_ENABLE).equals(KEYS.ENABLE) && parameters.get(KEYS.SCENE_MODE).equals(KEYS.SCENE_MODE_VALUES_ASD))
+            else if (parameters.get(KEYS.AUTO_HDR_ENABLE).equals(KEYS.ENABLE)
+                    && parameters.get(cameraUiWrapper.getResString(R.string.scene_mode)).equals(KEYS.SCENE_MODE_VALUES_ASD))
                 return KEYS.AUTO;
             else
                 return KEYS.OFF;

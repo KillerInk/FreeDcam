@@ -20,7 +20,6 @@ import freed.utils.AppSettingsManager;
 import freed.utils.StringFloatArray;
 import freed.utils.StringUtils;
 
-import static freed.cam.apis.KEYS.JPEG;
 import static freed.cam.apis.KEYS.MODULE_PICTURE;
 
 /**
@@ -197,15 +196,15 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         HashMap<String, Integer> hmap = new HashMap<>();
         if (smap.isOutputSupportedFor(ImageFormat.RAW10))
-            hmap.put(appSettingsManager.getResourcesString(R.string.pictureformat_dng10), ImageFormat.RAW10);
+            hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng10), ImageFormat.RAW10);
         if (smap.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
-            hmap.put(appSettingsManager.getResourcesString(R.string.pictureformat_dng16), ImageFormat.RAW_SENSOR);
+            hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng16), ImageFormat.RAW_SENSOR);
         if (smap.isOutputSupportedFor(ImageFormat.RAW12))
-            hmap.put(appSettingsManager.getResourcesString(R.string.pictureformat_dng12), ImageFormat.RAW12);
+            hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng12), ImageFormat.RAW12);
         if (smap.isOutputSupportedFor(ImageFormat.JPEG))
-            hmap.put(appSettingsManager.getResourcesString(R.string.pictureformat_jpeg), ImageFormat.JPEG);
+            hmap.put(appSettingsManager.getResString(R.string.pictureformat_jpeg), ImageFormat.JPEG);
         appSettingsManager.pictureFormat.setIsSupported(true);
-        appSettingsManager.pictureFormat.set(JPEG);
+        appSettingsManager.pictureFormat.set(appSettingsManager.getResString(R.string.pictureformat_jpeg));
         appSettingsManager.pictureFormat.setValues(StringUtils.IntHashmapToStringArray(hmap));
     }
 
@@ -258,7 +257,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         float step = 0.2f;
         int count = (int)(maxfocusrange/step)+1;
         StringFloatArray focusranges = new StringFloatArray(count);
-        focusranges.add(0,appSettingsManager.getResourcesString(R.string.auto),0f);
+        focusranges.add(0,appSettingsManager.getResString(R.string.auto),0f);
         int t = 1;
         for (float i = step; i < maxfocusrange; i += step)
         {

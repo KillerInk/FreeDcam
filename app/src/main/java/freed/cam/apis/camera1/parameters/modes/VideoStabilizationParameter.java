@@ -21,6 +21,8 @@ package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
+import com.troop.freedcam.R;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 
@@ -32,10 +34,10 @@ public class VideoStabilizationParameter extends  BaseModeParameter {
     public VideoStabilizationParameter(Parameters parameters, CameraWrapperInterface parameterChanged)
     {
         super(parameters, parameterChanged);
-        if (parameters.get(KEYS.VIDEO_STABILIZATION_SUPPORTED).equals(KEYS.TRUE))
+        if (parameters.get(cameraUiWrapper.getResString(R.string.video_stabilization_supported)).equals(KEYS.TRUE))
         {
             isSupported = true;
-            key_value = KEYS.VIDEO_STABILIZATION;
+            key_value = cameraUiWrapper.getResString(R.string.video_stabilization);
         }
         else
             isSupported = false;
@@ -55,7 +57,7 @@ public class VideoStabilizationParameter extends  BaseModeParameter {
     @Override
     public String GetValue()
     {
-        String vs = parameters.get(KEYS.VIDEO_STABILIZATION);
+        String vs = parameters.get(cameraUiWrapper.getResString(R.string.video_stabilization));
         if (vs != null && !vs.equals(""))
             return vs;
         else
