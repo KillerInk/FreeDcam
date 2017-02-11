@@ -3,7 +3,8 @@ package freed.cam.ui.themesample.cameraui.childs;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.ui.themesample.SettingsChildAbstract;
 
 /**
@@ -27,10 +28,10 @@ public class UiSettingsChildAeLock extends UiSettingsChild implements SettingsCh
     public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment) {
         if (parameter == null)
             return;
-        if (parameter.GetValue().equals(KEYS.TRUE)) {
-            parameter.SetValue(KEYS.FALSE, false);
+        if (parameter.GetValue().equals(getResources().getString(R.string.true_))) {
+            parameter.SetValue(getResources().getString(R.string.false_), false);
         }
         else{
-            parameter.SetValue(KEYS.TRUE,false);}
+            parameter.SetValue(getResources().getString(R.string.true_),false);}
     }
 }

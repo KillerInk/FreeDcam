@@ -20,7 +20,6 @@ import freed.utils.AppSettingsManager;
 import freed.utils.StringFloatArray;
 import freed.utils.StringUtils;
 
-import static freed.cam.apis.KEYS.MODULE_PICTURE;
 
 /**
  * Created by troop on 23.01.2017.
@@ -50,7 +49,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
             for (String s : cameras)
             {
-                appSettingsManager.modules.set(MODULE_PICTURE);
+                appSettingsManager.modules.set(appSettingsManager.getResString(R.string.module_picture));
                 appSettingsManager.SetCurrentCamera(Integer.parseInt(s));
                 publishProgress("###################");
                 publishProgress("#####CameraID:"+s+"####");

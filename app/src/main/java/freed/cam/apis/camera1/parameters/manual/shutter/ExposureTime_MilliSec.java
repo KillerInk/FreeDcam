@@ -3,7 +3,8 @@ package freed.cam.apis.camera1.parameters.manual.shutter;
 import android.hardware.Camera;
 import android.util.Log;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -34,7 +35,7 @@ public class ExposureTime_MilliSec extends AbstractManualParameter {
     {
         currentInt = valueToset;
         String shutterstring = stringvalues[currentInt];
-        if(!shutterstring.equals(KEYS.AUTO))
+        if(!shutterstring.equals(cameraUiWrapper.getResString(R.string.auto_)))
         {
             if (shutterstring.contains("/")) {
                 String[] split = shutterstring.split("/");

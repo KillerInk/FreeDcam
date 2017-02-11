@@ -23,7 +23,6 @@ import com.troop.freedcam.R;
 
 import java.util.ArrayList;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 
 /**
@@ -42,7 +41,7 @@ public abstract class AbstractManualShutter extends AbstractManualParameter
         boolean foundmax = false;
         ArrayList<String> tmp = new ArrayList<>();
         if (withautomode)
-            tmp.add(KEYS.AUTO);
+            tmp.add(cameraUiWrapper.getResString(R.string.auto_));
         for (int i = 1; i< allvalues.length; i++ )
         {
             String s = allvalues[i];

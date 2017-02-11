@@ -21,9 +21,10 @@ package freed.cam.apis.sonyremote.parameters.modes;
 
 import android.os.Build.VERSION;
 
+import com.troop.freedcam.R;
+
 import java.util.Set;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 
 /**
@@ -31,32 +32,33 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
  */
 public class FocusPeakSony extends BaseModeParameterSony {
 
-    private final String currentval = KEYS.OFF;
+    private final String currentval;
     private final SimpleStreamSurfaceView simpleStreamSurfaceView;
 
 
     public FocusPeakSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {
         super(null, null, null, null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
+        currentval = simpleStreamSurfaceView.getResources().getString(R.string.off_);
     }
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        simpleStreamSurfaceView.focuspeak = valueToSet.equals(KEYS.ON);
+        simpleStreamSurfaceView.focuspeak = valueToSet.equals( simpleStreamSurfaceView.getResources().getString(R.string.on_));
     }
 
     @Override
     public String GetValue()
     {
         if (simpleStreamSurfaceView.focuspeak)
-            return KEYS.ON;
+            return simpleStreamSurfaceView.getResources().getString(R.string.on_);
         else
-            return KEYS.OFF;
+            return simpleStreamSurfaceView.getResources().getString(R.string.off_);
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {KEYS.ON, KEYS.OFF};
+        return new String[] { simpleStreamSurfaceView.getResources().getString(R.string.on_),  simpleStreamSurfaceView.getResources().getString(R.string.off_)};
     }
 
     @Override

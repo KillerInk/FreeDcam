@@ -19,12 +19,13 @@
 
 package freed.cam.apis.camera1.parameters.modes;
 
+import com.troop.freedcam.R;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
@@ -55,7 +56,8 @@ public class VideoProfilesParameter extends AbstractModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         profile = valueToSet;
-        if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+        if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null
+                && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
             cameraUiWrapper.GetModuleHandler().GetCurrentModule().InitModule();
     }
 

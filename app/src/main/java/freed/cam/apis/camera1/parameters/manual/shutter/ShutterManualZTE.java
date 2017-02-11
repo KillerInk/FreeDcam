@@ -23,7 +23,8 @@ import android.hardware.Camera.Parameters;
 import android.os.Handler;
 import android.util.Log;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -66,7 +67,7 @@ public class ShutterManualZTE extends AbstractManualShutter
             Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
             shutterstring = "" + a;
         }
-        if(!stringvalues[currentInt].equals(KEYS.AUTO))
+        if(!stringvalues[currentInt].equals(cameraUiWrapper.getResString(R.string.auto_)))
         {
             try {
                 shutterstring = setExposureTimeToParameter(shutterstring);

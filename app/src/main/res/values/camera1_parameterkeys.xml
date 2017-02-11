@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string translatable="false" name="module_video">module_video</string>
+    <string translatable="false" name="module_picture">module_picture</string>
+    <string translatable="false" name="module_hdr">module_hdr</string>
+    <string translatable="false" name="module_stacking">module_stacking</string>
+    <string translatable="false" name="module_interval">module_interval</string>
+    <string translatable="false" name="module_afbracket">module_afbracket</string>
+
+    <string translatable="false" name="off_">off</string>
+    <string translatable="false" name="on_">on</string>
+    <string translatable="false" name="true_">true</string>
+    <string translatable="false" name="false_">false</string>
+    <string translatable="false" name="auto_">auto</string>
+    <string translatable="false" name="disable_">disable</string>
+    <string translatable="false" name="enable_">enable</string>
+    <string translatable="false" name="jpeg_">jpeg</string>
+    <string translatable="false" name="bayer_">bayer</string>
+    <string translatable="false" name="dng_">dng</string>
+    <string translatable="false" name="iso100_">ISO100</string>
+    <string translatable="false" name="bayer_mipi_10bggr">bayer-mipi-10bggr</string>
+    <string translatable="false" name="bayer_mipi_10rggb">bayer-mipi-10rggb</string>
+    <string translatable="false" name="bayer_qcom_10grbg">bayer-qcom-10grbg</string>
+    <string translatable="false" name="bayer_qcom_10rggb">bayer-qcom-10rggb</string>
+
     <string translatable="false" name="preview_fps_range_values">preview-fps-range-values</string>
     <string translatable="false" name="preview_fps_range">preview-fps-range</string>
     <string translatable="false" name="preview_format">preview-format</string>
@@ -33,6 +57,8 @@
     <string translatable="false" name="flash_mode_values">flash-mode-values</string>
 
     <string translatable="false" name="iso_mode_values">iso-mode-values</string>
+    <string translatable="false" name="min_iso">min-iso</string>
+    <string translatable="false" name="max_iso">max-iso</string>
     <string translatable="false" name="iso">iso</string>
     <string translatable="false" name="iso_values">iso-values</string>
     <string translatable="false" name="iso_speed_values">iso-speed-values</string>
@@ -40,6 +66,7 @@
     <string translatable="false" name="sony_iso_values">sony-iso-values</string>
     <string translatable="false" name="sony_iso">sony-iso</string>
     <string translatable="false" name="lg_iso_values">lg-iso-values</string>
+    <string translatable="false" name="continuous_iso">continuous-iso</string>
 
     <string translatable="false" name="antibanding">antibanding</string>
     <string translatable="false" name="antibanding_values">antibanding-values</string>
@@ -49,6 +76,8 @@
 
     <string translatable="false" name="scene_mode_values">scene-mode-values</string>
     <string translatable="false" name="scene_mode">scene-mode</string>
+    <string translatable="false" name="scene_mode_hdr">hdr</string>
+    <string translatable="false" name="scene_mode_asd">asd</string>
 
     <string translatable="false" name="jpeg_quality">jpeg-quality</string>
 
@@ -133,7 +162,7 @@
     <string translatable="false" name="contrast_values">contrast-values</string>
 
     <string translatable="false" name="touch_af_aec">touch-af-aec</string>
-
+<!-- qcom mf -->
     <string translatable="false" name="manual_focus_modes">manual-focus-modes</string>
     <string translatable="false" name="manual">manual</string>
     <string translatable="false" name="min_focus_pos_index">min-focus-pos-index</string>
@@ -147,8 +176,23 @@
     <string translatable="false" name="max_focus">max-focus</string>
     <string translatable="false" name="focus">focus</string>
     <string translatable="false" name="manual_focus_pos_type">manual-focus-pos-type</string>
+<!-- mtk mf -->
+    <string translatable="false" name="afeng_min_focus_step">afeng-min-focus-step</string>
+    <string translatable="false" name="afeng_max_focus_step">afeng-max-focus-step</string>
+    <string translatable="false" name="afeng_pos">afeng-pos</string>
+    <string translatable="false" name="focus_fs_fi">focus-fs-fi</string>
+    <string translatable="false" name="focus_fs_fi_max">focus-fs-fi-max</string>
+    <string translatable="false" name="focus_fs_fi_min">focus-fs-fi-min</string>
 
+<!-- huawei mf -->
+    <string translatable="false" name="hw_manual_focus_supported">hw-manual-focus-supported</string>
+    <string translatable="false" name="hw_vcm_start_value">hw-vcm-start-value</string>
+    <string translatable="false" name="hw_vcm_end_value">hw-vcm-end-value</string>
+    <string translatable="false" name="hw_hwcamera_flag">hw-hwcamera-flag</string>
+    <string translatable="false" name="hw_manual_focus_mode">hw-manual-focus-mode</string>
+    <string translatable="false" name="hw_manual_focus_step_value">hw-manual-focus-step-value</string>
 
+<!-- manual whitebalance -->
     <string translatable="false" name="wb_current_cct">wb-current-cct</string>
     <string translatable="false" name="wb_cct">wb-cct</string>
     <string translatable="false" name="wb_ct">wb-ct</string>
@@ -161,15 +205,64 @@
     <string translatable="false" name="manual_cct">manual-cct</string>
     <string translatable="false" name="manual_wb_type">manual-wb-type</string>
 
+<!-- qcom shutter speed -->
     <string translatable="false" name="max_exposure_time">max-exposure-time</string>
     <string translatable="false" name="min_exposure_time">min-exposure-time</string>
     <string translatable="false" name="exposure_time">exposure-time</string>
     <string translatable="false" name="cur_iso">cur-iso</string>
     <string translatable="false" name="cur_exposure_time">cur-exposure-time</string>
+<!-- mtk shutter speed-->
+    <string translatable="false" name="eng_capture_sensor_gain">eng-capture-sensor-gain</string>
+    <string translatable="false" name="eng_capture_shutter_speed">eng-capture-shutter-speed</string>
+    <string translatable="false" name="cap_isp_g">cap-isp-h</string>
+    <string translatable="false" name="cap_ss">cap-ss</string>
+
+<!-- hdr -->
+    <string translatable="false" name="auto_hdr_supported">auto-hdr-supported</string>
+    <string translatable="false" name="auto_hdr_enable">auto-hdr-enable</string>
+
+    <string translatable="false" name="morpho_hdr">morpho-hdr</string>
+    <string translatable="false" name="morpho_hht">morpho-hht</string>
+    <string translatable="false" name="morpho_effect_type">morpho-effect-type</string>
+
+    <string translatable="false" name="hdr_mode">hdr-mode</string>
+
+<!-- burst -->
+    <string translatable="false" name="num_snaps_per_shutter">num-snaps-per-shutter</string>
+    <string translatable="false" name="snapshot_burst_num">snapshot-burst-num</string>
+    <string translatable="false" name="burst_num">burst-num</string>
+
+    <string translatable="false" name="lg_manual_mode_reset">lg-manual-mode-reset</string>
+    <string translatable="false" name="lg_wb_supported_min">lg-wb-supported-min</string>
+    <string translatable="false" name="lg_wb_supported_max">lg-wb-supported-max</string>
+    <string translatable="false" name="lg_wb">lg-wb</string>
+    <string translatable="false" name="lg_iso">lg-iso</string>
+    <string translatable="false" name="lg_color_adjust">lg-color-adjust</string>
+    <string translatable="false" name="lg_color_adjust_min">lg-color-adjust-min</string>
+    <string translatable="false" name="lg_color_adjust_max">lg-color-adjust-max</string>
+    <string translatable="false" name="manualfocus_step">manualfocus_step</string>
+    <string translatable="false" name="normal">normal</string>
+
+    <string translatable="false" name="lg_ois">ois-ctrl</string>
+    <string translatable="false" name="lg_ois_preview_capture">preview-capture</string>
+    <string translatable="false" name="lg_ois_capture">capture</string>
+    <string translatable="false" name="lg_ois_video">video</string>
+    <string translatable="false" name="lg_ois_centering_only">centering-only</string>
+    <string translatable="false" name="lg_ois_centering_off">centering-off</string>
+
+    <string translatable="false" name="lg_shutterspeed_values">shutter-speed-values</string>
+    <string translatable="false" name="lg_shutterspeed">shutter-speed</string>
 
 
+    <string translatable="false" name="night_key">night_key</string>
+    <string translatable="false" name="night_mode_tripod">tripod</string>
 
+    <string translatable="false" name="manual_convergence">manual-convergence</string>
+    <string translatable="false" name="supported_manual_convergence_max">supported-manual-convergence-max</string>
+    <string translatable="false" name="supported_manual_convergence_min">supported-manual-convergence-min</string>
 
+    <string translatable="false" name="sony_vs">sony-vs</string>
+    <string translatable="false" name="sony_vs_values">sony-vs-values</string>
 
 
 

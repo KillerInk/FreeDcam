@@ -21,9 +21,10 @@ package freed.cam.apis.camera1.parameters.manual.qcom;
 
 import android.hardware.Camera.Parameters;
 
+import com.troop.freedcam.R;
+
 import java.util.ArrayList;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -33,7 +34,7 @@ import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
  */
 public class BaseISOManual extends BaseManualParameter {
 
-    private String cur_iso_mode = KEYS.AUTO;
+    private String cur_iso_mode = cameraUiWrapper.getResString(R.string.auto_);
 
     public BaseISOManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper, 0);
@@ -65,8 +66,8 @@ public class BaseISOManual extends BaseManualParameter {
     {
         cur_iso_mode = cameraUiWrapper.GetParameterHandler().IsoMode.GetValue();
 
-        if (!cameraUiWrapper.GetParameterHandler().IsoMode.GetValue().equals(KEYS.ISO_MANUAL))
-            cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.ISO_MANUAL, true);
+        if (!cameraUiWrapper.GetParameterHandler().IsoMode.GetValue().equals(cameraUiWrapper.getResString(R.string.manual)))
+            cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(cameraUiWrapper.getResString(R.string.manual), true);
         parameters.set(key_value, stringvalues[currentInt]);
 
 
@@ -74,8 +75,8 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_to_auto()
     {
-        if (cameraUiWrapper.GetParameterHandler().IsoMode.GetValue().equals(KEYS.ISO_MANUAL))
-            cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.AUTO, true);
+        if (cameraUiWrapper.GetParameterHandler().IsoMode.GetValue().equals(cameraUiWrapper.getResString(R.string.manual)))
+            cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
         cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(cur_iso_mode, true);
 
     }
@@ -85,7 +86,7 @@ public class BaseISOManual extends BaseManualParameter {
     protected String[] createStringArray(int min, int max, float step)
     {
         ArrayList<String> t = new ArrayList<>();
-        t.add(KEYS.AUTO);
+        t.add(cameraUiWrapper.getResString(R.string.auto_));
         for (int i = min; i<=max;i+=step)
         {
             t.add(i+"");

@@ -35,10 +35,11 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView.SurfaceTextureListener;
 
+import com.troop.freedcam.R;
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
@@ -327,9 +328,9 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     public void onModuleChanged(String module)
     {
         Log.d(TAG, "onModuleChanged(String):" + module + " enabled:" + enable);
-        if (module.equals(KEYS.MODULE_PICTURE)
-                ||module.equals(KEYS.MODULE_HDR)
-                ||module.equals(KEYS.MODULE_INTERVAL))
+        if (module.equals(cameraUiWrapper.getResString(R.string.module_picture))
+                ||module.equals(cameraUiWrapper.getResString(R.string.module_hdr))
+                ||module.equals(cameraUiWrapper.getResString(R.string.module_interval)))
         {
             setDoWork(true);
             setEnable(enable);

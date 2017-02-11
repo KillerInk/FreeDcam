@@ -34,15 +34,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.utils.DeviceUtils.Devices;
-
-import static freed.cam.apis.KEYS.BAYER;
-
 
 /**
  * Created by troop on 19.08.2014.
@@ -167,12 +163,6 @@ public class AppSettingsManager {
     public static final int RAW = 1;
     public static final int DNG = 2;
 
-    public static final String[] CaptureMode =
-            {
-                    KEYS.JPEG,
-                    BAYER,
-                    KEYS.DNG
-            };
 
     public static final int SHUTTER_HTC =0;
     public static final int SHUTTER_LG = 1;
@@ -501,7 +491,7 @@ public class AppSettingsManager {
     public String GetCurrentModule()
     {
         if (modules.get().equals(""))
-            return KEYS.MODULE_PICTURE;
+            return getResString(R.string.module_picture);
         return modules.get();
     }
 

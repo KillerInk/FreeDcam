@@ -21,7 +21,8 @@ package freed.cam.apis.camera1.parameters.modes;
 
 import android.os.Build.VERSION;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
@@ -46,7 +47,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam) {
-        if (valueToSet.equals(KEYS.ON))
+        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
         {
             //set foucs mode at same stage again else on some devices the camera preview gets green
             cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(cameraUiWrapper.GetParameterHandler().FocusMode.GetValue(),true);
@@ -62,17 +63,17 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     {
         if (focusPeakProcessorAp1 == null) {
             onIsSupportedChanged(false);
-            return KEYS.OFF;
+            return cameraUiWrapper.getResString(R.string.off_);
         }
         if (focusPeakProcessorAp1.isEnable())
-            return KEYS.ON;
+            return cameraUiWrapper.getResString(R.string.on_);
         else
-            return KEYS.OFF;
+            return cameraUiWrapper.getResString(R.string.off_);
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {KEYS.ON, KEYS.OFF};
+        return new String[] {cameraUiWrapper.getResString(R.string.on_), cameraUiWrapper.getResString(R.string.off_)};
     }
 
     @Override
@@ -89,10 +90,10 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     @Override
     public void onValueHasChanged(String value)
     {
-        if (value.equals(KEYS.TRUE))
-            super.onValueHasChanged(KEYS.ON);
-        else if (value.equals(KEYS.FALSE))
-            super.onValueHasChanged(KEYS.OFF);
+        if (value.equals(cameraUiWrapper.getResString(R.string.true_)))
+            super.onValueHasChanged(cameraUiWrapper.getResString(R.string.on));
+        else if (value.equals(cameraUiWrapper.getResString(R.string.false_)))
+            super.onValueHasChanged(cameraUiWrapper.getResString(R.string.off));
     }
 
     @Override

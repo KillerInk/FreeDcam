@@ -4,7 +4,8 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.CameraHolderApi2;
 
@@ -26,19 +27,19 @@ public class AeLockModeApi2 extends BaseModeApi2 {
     @Override
     public String GetValue() {
         if (((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AE_LOCK))
-            return KEYS.TRUE;
+            return cameraUiWrapper.getResString(R.string.true_);
         else
-            return KEYS.FALSE;
+            return cameraUiWrapper.getResString(R.string.false_);
     }
 
     @Override
     public String[] GetValues() {
-        return new String[]{KEYS.FALSE, KEYS.TRUE};
+        return new String[]{cameraUiWrapper.getResString(R.string.false_), cameraUiWrapper.getResString(R.string.true_)};
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
-        if (valueToSet.equals(KEYS.TRUE))
+        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.true_)))
             ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true);
         else
             ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,false);

@@ -22,7 +22,8 @@ package freed.cam.apis.camera1.parameters.manual.shutter;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
@@ -42,7 +43,7 @@ public class ShutterManualParameterG4 extends AbstractManualShutter implements M
         super(cameraUiWrapper);
         this.parameters = parameters;
         this.manualevent = manualevent;
-        if (parameters.get(KEYS.LG_SHUTTER_SPEED) != null) {
+        if (parameters.get(cameraUiWrapper.getResString(R.string.lg_shutterspeed)) != null) {
             isSupported = true;
             stringvalues = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getValues();
         }
@@ -75,12 +76,12 @@ public class ShutterManualParameterG4 extends AbstractManualShutter implements M
 
         if (value == 0)
         {
-            parameters.set(KEYS.LG_SHUTTER_SPEED, "0");
+            parameters.set(cameraUiWrapper.getResString(R.string.lg_shutterspeed), "0");
         }
         else
         {
             currentInt = value;
-            parameters.set(KEYS.LG_SHUTTER_SPEED, stringvalues[value]);
+            parameters.set(cameraUiWrapper.getResString(R.string.lg_shutterspeed), stringvalues[value]);
             ThrowCurrentValueStringCHanged(stringvalues[value]);
         }
 

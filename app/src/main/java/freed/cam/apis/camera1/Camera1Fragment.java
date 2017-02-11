@@ -28,6 +28,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -35,7 +36,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
@@ -93,7 +93,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
             cameraHolder = new CameraHolderMotoX(this, CameraHolder.Frameworks.MotoX);
         else if (GetAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
             cameraHolder = new CameraHolderMTK(this, CameraHolder.Frameworks.MTK);
-        else if (GetAppSettingsManager().IsCamera2FullSupported().equals(KEYS.TRUE) && GetAppSettingsManager().getDevice() != DeviceUtils.Devices.OnePlusOne && canOpenLegacy())
+        else if (GetAppSettingsManager().IsCamera2FullSupported().equals(getResString(R.string.true_)) && GetAppSettingsManager().getDevice() != DeviceUtils.Devices.OnePlusOne && canOpenLegacy())
             cameraHolder = new CameraHolderLegacy(this, CameraHolder.Frameworks.Normal);
         else
             cameraHolder = new CameraHolder(this, CameraHolder.Frameworks.Normal);
@@ -116,7 +116,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     public void onPause() {
         super.onPause();
         try {
-            if(moduleHandler.GetCurrentModule().ModuleName().equals(KEYS.MODULE_VIDEO) && moduleHandler.GetCurrentModule().IsWorking())
+            if(moduleHandler.GetCurrentModule().ModuleName().equals(getResString(R.string.module_video)) && moduleHandler.GetCurrentModule().IsWorking())
                 moduleHandler.GetCurrentModule().DoWork();
         }
         catch (NullPointerException ex)
@@ -227,10 +227,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         @Override
         public void onParameterValueChanged(String val)
         {
-            if(moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_PICTURE)
-                    || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_HDR)
-                    || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL)
-                    || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_STACKING))
+            if(moduleHandler.GetCurrentModuleName().equals(getResString(R.string.module_picture))
+                    || moduleHandler.GetCurrentModuleName().equals(getResString(R.string.module_hdr))
+                    || moduleHandler.GetCurrentModuleName().equals(getResString(R.string.module_interval)))
             {
                 Size sizefromCam = new Size(parametersHandler.PictureSize.GetValue());
                 List<Size> sizes = new ArrayList<>();
@@ -239,7 +238,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
-                if(val.equals(KEYS.ON)) {
+                if(val.equals(getResString(R.string.on_))) {
                      size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
                 }
                 else {
@@ -259,7 +258,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 });
 
             }
-            else if (moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+            else if (moduleHandler.GetCurrentModuleName().equals(getResString(R.string.module_video)))
             {
                 Size sizefromCam = new Size("1920x1080");
 

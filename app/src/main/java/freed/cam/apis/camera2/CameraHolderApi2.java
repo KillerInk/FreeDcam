@@ -69,7 +69,6 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
@@ -865,7 +864,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                // if(bufferRect.width() <= viewRect.width())
                     matrix.setRectToRect(bufferRect, viewRect, ScaleToFit.FILL);
 
-                if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+                if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.on_)))
                     matrix.preRotate(orientationWithHack, centerX, centerY);
                 else
                     matrix.preRotate(orientation, centerX, centerY);
@@ -873,7 +872,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             else
             {
                 matrix.setRectToRect(viewRect, viewRect, ScaleToFit.FILL);
-                if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+                if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.on_)))
                     matrix.postRotate(orientationWithHack, centerX, centerY);
                 else
                     matrix.postRotate(orientation, centerX, centerY);

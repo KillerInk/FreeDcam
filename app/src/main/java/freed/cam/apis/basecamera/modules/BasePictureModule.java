@@ -8,6 +8,8 @@ import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
+import com.troop.freedcam.R;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,7 +17,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import freed.ActivityInterface;
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
@@ -34,7 +35,7 @@ public class BasePictureModule extends ModuleAbstract {
     public BasePictureModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler)
     {
         super(cameraUiWrapper,mBackgroundHandler);
-        name = KEYS.MODULE_PICTURE;
+        name = cameraUiWrapper.getResString(R.string.module_picture);
         this.activityInterface = cameraUiWrapper.getActivityInterface();
         dngConverter = RawToDng.GetInstance();
     }
@@ -78,7 +79,7 @@ public class BasePictureModule extends ModuleAbstract {
         double Longitude = 0;
         String Provider = "ASCII";
         long gpsTime = 0;
-        if (activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+        if (activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(activityInterface.getAppSettings().getResString(R.string.on_)))
         {
             if (activityInterface.getLocationHandler().getCurrentLocation() != null)
             {

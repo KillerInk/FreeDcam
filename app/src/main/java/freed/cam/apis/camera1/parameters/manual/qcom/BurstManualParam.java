@@ -27,9 +27,10 @@ import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 import android.util.Log;
 
+import com.troop.freedcam.R;
+
 import java.util.ArrayList;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -53,9 +54,9 @@ public class BurstManualParam extends BaseManualParameter
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
                 || cameraUiWrapper.GetAppSettingsManager().getDevice()== Devices.LG_G4
                 || cameraUiWrapper.GetAppSettingsManager().getDevice()== Devices.LG_V20
-                || parameters.get(KEYS.NUM_SNAPS_PER_SHUTTER) != null
-                || parameters.get(KEYS.SNAPSHOT_BURST_NUM) != null
-                || parameters.get(KEYS.BURST_NUM)!= null)
+                || parameters.get(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter)) != null
+                || parameters.get(cameraUiWrapper.getResString(R.string.snapshot_burst_num)) != null
+                || parameters.get(cameraUiWrapper.getResString(R.string.burst_num))!= null)
         {
             isSupported = true;
             int max = 10;
@@ -82,7 +83,7 @@ public class BurstManualParam extends BaseManualParameter
     @Override
     protected String[] createStringArray(int min, int max, float step) {
         ArrayList<String> ar = new ArrayList<>();
-        ar.add(KEYS.OFF);
+        ar.add(cameraUiWrapper.getResString(R.string.off_));
         if (step == 0)
             step = 1;
         for (int i = min; i < max; i+=step)
@@ -108,32 +109,32 @@ public class BurstManualParam extends BaseManualParameter
     {
         currentInt = valueToSet;
 
-        if (parameters.get(KEYS.NUM_SNAPS_PER_SHUTTER) != null
+        if (parameters.get(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter)) != null
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W)
         {
             if (currentInt == 0)
-                parameters.set(KEYS.NUM_SNAPS_PER_SHUTTER, 1+"");
+                parameters.set(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter), 1+"");
             else
-                parameters.set(KEYS.NUM_SNAPS_PER_SHUTTER, stringvalues[currentInt]);
-            Log.d(TAG, KEYS.NUM_SNAPS_PER_SHUTTER+ stringvalues[currentInt]);
+                parameters.set(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter), stringvalues[currentInt]);
+            Log.d(TAG, cameraUiWrapper.getResString(R.string.num_snaps_per_shutter)+ stringvalues[currentInt]);
 
         }
-        if (parameters.get(KEYS.BURST_NUM)!=null)
+        if (parameters.get(cameraUiWrapper.getResString(R.string.burst_num))!=null)
         {
             if (currentInt == 0)
-                parameters.set(KEYS.SNAPSHOT_BURST_NUM, String.valueOf(0));
+                parameters.set(cameraUiWrapper.getResString(R.string.snapshot_burst_num), String.valueOf(0));
             else
-                parameters.set(KEYS.SNAPSHOT_BURST_NUM, stringvalues[currentInt]);
-            Log.d(TAG, KEYS.SNAPSHOT_BURST_NUM+ stringvalues[currentInt]);
+                parameters.set(cameraUiWrapper.getResString(R.string.snapshot_burst_num), stringvalues[currentInt]);
+            Log.d(TAG, cameraUiWrapper.getResString(R.string.snapshot_burst_num)+ stringvalues[currentInt]);
         }
-        else if(parameters.get(KEYS.BURST_NUM) != null)
+        else if(parameters.get(cameraUiWrapper.getResString(R.string.burst_num)) != null)
         {
             if (valueToSet == 0)
-                parameters.set(KEYS.BURST_NUM, String.valueOf(0));
+                parameters.set(cameraUiWrapper.getResString(R.string.burst_num), String.valueOf(0));
             else
-                parameters.set(KEYS.BURST_NUM, stringvalues[currentInt]);
-            Log.d(TAG, KEYS.BURST_NUM+ stringvalues[currentInt]);
+                parameters.set(cameraUiWrapper.getResString(R.string.burst_num), stringvalues[currentInt]);
+            Log.d(TAG, cameraUiWrapper.getResString(R.string.burst_num)+ stringvalues[currentInt]);
         }
 
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
@@ -154,10 +155,10 @@ public class BurstManualParam extends BaseManualParameter
         @Override
         public void onModuleChanged(String module)
         {
-            if ((module.equals(KEYS.MODULE_VIDEO) || module.equals(KEYS.MODULE_HDR)) && isSupported)
+            if ((module.equals(cameraUiWrapper.getResString(R.string.module_video)) || module.equals(cameraUiWrapper.getResString(R.string.module_hdr))) && isSupported)
                 ThrowBackgroundIsSupportedChanged(false);
-            else if ((module.equals(KEYS.MODULE_PICTURE)
-                    || module.equals(KEYS.MODULE_INTERVAL)
+            else if ((module.equals(cameraUiWrapper.getResString(R.string.module_picture))
+                    || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
                     )&& isSupported)
             {
                 ThrowBackgroundIsSupportedChanged(true);

@@ -32,7 +32,6 @@ import com.troop.freedcam.R;
 
 import java.io.File;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 
 /**
@@ -59,7 +58,7 @@ public class AeBracketApi2 extends PictureModuleApi2
 
     public AeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
         super(cameraUiWrapper,mBackgroundHandler);
-        name = KEYS.MODULE_HDR;
+        name = cameraUiWrapper.getResString(R.string.module_hdr);
     }
 
     @Override

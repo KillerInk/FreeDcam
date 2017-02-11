@@ -21,9 +21,10 @@ package freed.cam.apis.camera1.parameters.manual.lg;
 
 import android.hardware.Camera.Parameters;
 
+import com.troop.freedcam.R;
+
 import java.util.ArrayList;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -35,13 +36,13 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
 
     public ISOManualParameterG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AE_Handler_Abstract.AeManualEvent manualevent) {
         super(parameters, cameraUiWrapper,1);
-        if (parameters.get(KEYS.LG_ISO) != null) {
+        if (parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.lg_iso)) != null) {
             isSupported = true;
             isVisible = isSupported;
             ArrayList<String> s = new ArrayList<>();
             for (int i = 0; i <= 2700; i += 50) {
                 if (i == 0)
-                    s.add(KEYS.AUTO);
+                    s.add(cameraUiWrapper.getResString(R.string.auto_));
                 else
                     s.add(i + "");
             }
@@ -72,12 +73,12 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
 
         if (value == 0)
         {
-            parameters.set(KEYS.LG_ISO, KEYS.AUTO);
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.lg_iso), cameraUiWrapper.getResString(R.string.auto_));
         }
         else
         {
             currentInt = value;
-            parameters.set(KEYS.LG_ISO, stringvalues[value]);
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.lg_iso), stringvalues[value]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }
@@ -87,7 +88,7 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
         try {
             return stringvalues[currentInt];
         } catch (NullPointerException ex) {
-            return KEYS.AUTO;
+            return cameraUiWrapper.getResString(R.string.auto_);
         }
     }
 }

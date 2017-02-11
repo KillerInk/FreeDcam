@@ -41,7 +41,6 @@ import com.troop.freedcam.R;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
@@ -167,18 +166,18 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
         post(new Runnable() {
             @Override
             public void run() {
-                if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+                if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
                 {
                     switchBackground(CaptureStates.video_recording_stop, true);
                 }
-                else  if((cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_PICTURE)
-                        || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_HDR)
-                        || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET))
+                else  if((cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_picture))
+                        || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_afbracket)))
+                        || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_hdr))
                         && !contshot) {
                     switchBackground(CaptureStates.image_capture_stop,true);
                 }
-                else if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL)
-                        || contshot || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_STACKING))
+                else if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_interval))
+                        || contshot)
                     switchBackground(CaptureStates.continouse_capture_stop,false);
 
             }

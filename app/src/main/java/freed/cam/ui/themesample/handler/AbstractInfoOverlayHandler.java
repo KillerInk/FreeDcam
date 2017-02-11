@@ -30,11 +30,12 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.StatFs;
 
+import com.troop.freedcam.R;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.utils.AppSettingsManager;
@@ -145,7 +146,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
 
     private void getFormat()
     {
-        if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+        if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
         {
             if (cameraUiWrapper.GetParameterHandler().VideoProfiles != null)
                 size = cameraUiWrapper.GetParameterHandler().VideoProfiles.GetValue();
@@ -171,7 +172,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         try
         {
             //defcomg was here 24/01/2015
-            if(!cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+            if(!cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
                 storageSpace = Avail4PIC();
             else
                 storageSpace = readableFileSize(SDspace());
@@ -203,7 +204,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     {
         String[] res = appSettingsManager.pictureSize.get().split("x");
 
-        if(appSettingsManager.pictureFormat.get().contains(KEYS.BAYER))
+        if(appSettingsManager.pictureFormat.get().contains(appSettingsManager.getResString(R.string.bayer_)))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;

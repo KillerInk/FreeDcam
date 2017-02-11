@@ -26,9 +26,10 @@ import android.hardware.camera2.CaptureRequest.Builder;
 import android.os.Build;
 import android.os.Handler;
 
+import com.troop.freedcam.R;
+
 import java.io.File;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.AppSettingsManager;
 
@@ -40,7 +41,7 @@ public class AfBracketApi2 extends PictureModuleApi2
 {
     public AfBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
         super(cameraUiWrapper,mBackgroundHandler);
-        name = KEYS.MODULE_AFBRACKET;
+        name = cameraUiWrapper.getResString(R.string.module_afbracket);
     }
 
     private final int PICSTOTAKE = 10;

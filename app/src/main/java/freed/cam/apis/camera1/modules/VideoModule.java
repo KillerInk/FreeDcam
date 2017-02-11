@@ -26,7 +26,8 @@ import android.media.MediaRecorder.OutputFormat;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Handler;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
@@ -57,7 +58,7 @@ public class VideoModule extends AbstractVideoModule
         recorder = new MediaRecorder();
         recorder.reset();
         recorder.setCamera(((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera());
-        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON)){
+        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
             Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
             if (location != null)
                 recorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
@@ -185,11 +186,11 @@ public class VideoModule extends AbstractVideoModule
             {
 
                 if (cameraUiWrapper.GetParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.IsSupported())
-                    cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", true);
+                    cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), true);
                 if (cameraUiWrapper.GetParameterHandler().VideoStabilization != null && cameraUiWrapper.GetParameterHandler().VideoStabilization.IsSupported())
-                    cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", true);
+                    cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue(appSettingsManager.getResString(R.string.false_), true);
 
-                if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.FALSE))
+                if (appSettingsManager.IsCamera2FullSupported().equals(appSettingsManager.getResString(R.string.false_)))
                     cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
             }
             else
@@ -197,7 +198,7 @@ public class VideoModule extends AbstractVideoModule
 
             if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported())
             {
-                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", true);
+                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(appSettingsManager.getResString(R.string.off_), true);
             }
         }
 
@@ -224,7 +225,7 @@ public class VideoModule extends AbstractVideoModule
         if (cameraUiWrapper.GetParameterHandler().Denoise != null && cameraUiWrapper.GetParameterHandler().Denoise.IsSupported())
             cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", false);
         //full camera2 devices dont use hardware preview format so set it only for legacy devices
-        if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.FALSE))
+        if (appSettingsManager.IsCamera2FullSupported().equals(appSettingsManager.getResString(R.string.false_)))
             cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus", false);
 
 

@@ -41,11 +41,12 @@ import android.util.Range;
 import android.util.Size;
 import android.view.Surface;
 
+import com.troop.freedcam.R;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
@@ -71,7 +72,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     public VideoModuleApi2( CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
         super(cameraUiWrapper,mBackgroundHandler);
-        name = KEYS.MODULE_VIDEO;
+        name = cameraUiWrapper.getResString(R.string.module_video);
     }
 
     @Override
@@ -207,7 +208,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             }
         });
 
-        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON)){
+        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
             Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
             if (location != null)
                 mediaRecorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());

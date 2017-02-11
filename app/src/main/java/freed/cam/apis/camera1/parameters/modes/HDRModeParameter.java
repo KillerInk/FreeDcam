@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.DeviceUtils.Devices;
@@ -62,17 +61,17 @@ public class HDRModeParameter extends BaseModeParameter
         }
         else
         {
-            if (parameters.get(KEYS.AUTO_HDR_SUPPORTED)!=null)
+            if (parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_supported))!=null)
                 isSupported = false;
-            String autohdr = parameters.get(KEYS.AUTO_HDR_SUPPORTED);
-            if (autohdr != null && !autohdr.equals("") && autohdr.equals(KEYS.TRUE) && parameters.get(KEYS.AUTO_HDR_ENABLE) != null) {
+            String autohdr = parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_supported));
+            if (autohdr != null && !autohdr.equals("") && autohdr.equals(cameraUiWrapper.getResString(R.string.true_)) && parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_enable)) != null) {
 
                 List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.scene_mode_values)).split(",")));
-                if (Scenes.contains(KEYS.SCENE_MODE_VALUES_HDR)) {
+                if (Scenes.contains(cameraUiWrapper.getResString(R.string.scene_mode_hdr))) {
                     supporton = true;
                     isSupported = true;
                 }
-                if (Scenes.contains(KEYS.SCENE_MODE_VALUES_ASD)) {
+                if (Scenes.contains(cameraUiWrapper.getResString(R.string.scene_mode_asd))) {
                     supportauto = true;
                     isSupported = true;
                 }
@@ -101,46 +100,44 @@ public class HDRModeParameter extends BaseModeParameter
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI_Note_Pro
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Xiaomi_RedmiNote)
         {
-            if (valueToSet.equals(KEYS.ON)) {
-                parameters.set(KEYS.MORPHO_HHT, KEYS.FALSE);
-                cameraUiWrapper.GetParameterHandler().NightMode.onValueHasChanged(KEYS.OFF);
+            if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_))) {
+                parameters.set(cameraUiWrapper.getResString(R.string.morpho_hht), cameraUiWrapper.getResString(R.string.false_));
+                cameraUiWrapper.GetParameterHandler().NightMode.onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
                 parameters.set("capture-burst-exposures","-10,0,10");
                 cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket), true);
-                parameters.set(KEYS.MORPHO_HDR, KEYS.TRUE);
+                parameters.set(cameraUiWrapper.getResString(R.string.morpho_hdr), cameraUiWrapper.getResString(R.string.true_));
             } else {
                 cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_off), true);
-                parameters.set(KEYS.MORPHO_HDR, KEYS.FALSE);
+                parameters.set(cameraUiWrapper.getResString(R.string.morpho_hdr), cameraUiWrapper.getResString(R.string.false_));
             }
         }
         else if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G2
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G3)
         {
-            switch (valueToSet)
-            {
-                case KEYS.ON:
-                    parameters.set(KEYS.HDR_MODE, 1);
-                    break;
-                case KEYS.OFF:
-                    parameters.set(KEYS.HDR_MODE, 0);
-                    break;
-                case KEYS.AUTO:
-                    parameters.set(KEYS.HDR_MODE, 2);
-            }
+            if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
+                parameters.set(cameraUiWrapper.getResString(R.string.hdr_mode), 1);
+            else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_)))
+                parameters.set(cameraUiWrapper.getResString(R.string.hdr_mode), 0);
+            else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.auto_)))
+                parameters.set(cameraUiWrapper.getResString(R.string.hdr_mode), 2);
         }
         else {
-            switch (valueToSet) {
-                case KEYS.OFF:
-                    parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.scene_mode), KEYS.AUTO);
-                    parameters.set(KEYS.AUTO_HDR_ENABLE, KEYS.DISABLE);
-                    break;
-                case KEYS.ON:
-                    parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.scene_mode), KEYS.SCENE_MODE_VALUES_HDR);
-                    parameters.set(KEYS.AUTO_HDR_ENABLE, KEYS.ENABLE);
-                    break;
-                case KEYS.AUTO:
-                    parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.scene_mode), KEYS.SCENE_MODE_VALUES_ASD);
-                    parameters.set(KEYS.AUTO_HDR_ENABLE, KEYS.ENABLE);
-                    break;
+
+            if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
+            {
+                parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.auto));
+                parameters.set(cameraUiWrapper.getResString(R.string.auto_hdr_enable), cameraUiWrapper.getResString(R.string.disable_));
+
+            }
+            else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_)))
+            {
+                parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.auto));
+                parameters.set(cameraUiWrapper.getResString(R.string.auto_hdr_enable), cameraUiWrapper.getResString(R.string.disable_));
+            }
+            else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.auto_)))
+            {
+                parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.scene_mode_asd));
+                parameters.set(cameraUiWrapper.getResString(R.string.auto_hdr_enable), cameraUiWrapper.getResString(R.string.enable_));
             }
         }
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
@@ -153,60 +150,60 @@ public class HDRModeParameter extends BaseModeParameter
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI_Note_Pro
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Xiaomi_RedmiNote) {
-            if (parameters.get(KEYS.MORPHO_HDR).equals(KEYS.TRUE)
+            if (parameters.get(cameraUiWrapper.getResString(R.string.morpho_hdr)).equals(cameraUiWrapper.getResString(R.string.true_))
                     && parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr)).equals(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket)))
-                return KEYS.ON;
+                return cameraUiWrapper.getResString(R.string.on_);
             else
-                return KEYS.OFF;
+                return cameraUiWrapper.getResString(R.string.off_);
         }
         else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G2
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G3
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV)
         {
-            if (parameters.get(KEYS.HDR_MODE)== null)
-                parameters.set(KEYS.HDR_MODE, "0");
-            if (parameters.get(KEYS.HDR_MODE).equals("0"))
-                return KEYS.OFF;
-            else if (parameters.get(KEYS.HDR_MODE).equals("1"))
-                return KEYS.ON;
+            if (parameters.get(cameraUiWrapper.getResString(R.string.hdr_mode))== null)
+                parameters.set(cameraUiWrapper.getResString(R.string.hdr_mode), "0");
+            if (parameters.get(cameraUiWrapper.getResString(R.string.hdr_mode)).equals("0"))
+                return cameraUiWrapper.getResString(R.string.off_);
+            else if (parameters.get(cameraUiWrapper.getResString(R.string.hdr_mode)).equals("1"))
+                return cameraUiWrapper.getResString(R.string.on_);
             else
-                return KEYS.AUTO;
+                return cameraUiWrapper.getResString(R.string.auto_);
         }
-        else if(parameters.get(KEYS.AUTO_HDR_ENABLE)!= null)
+        else if(parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_enable))!= null)
         {
-            if (parameters.get(KEYS.AUTO_HDR_ENABLE).equals(KEYS.ENABLE)
-                    && parameters.get(cameraUiWrapper.getResString(R.string.scene_mode)).equals(KEYS.SCENE_MODE_VALUES_HDR))
-                return KEYS.ON;
-            else if (parameters.get(KEYS.AUTO_HDR_ENABLE).equals(KEYS.ENABLE)
-                    && parameters.get(cameraUiWrapper.getResString(R.string.scene_mode)).equals(KEYS.SCENE_MODE_VALUES_ASD))
-                return KEYS.AUTO;
+            if (parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_enable)).equals(cameraUiWrapper.getResString(R.string.enable_))
+                    && parameters.get(cameraUiWrapper.getResString(R.string.scene_mode)).equals(cameraUiWrapper.getResString(R.string.scene_mode_hdr)))
+                return cameraUiWrapper.getResString(R.string.on_);
+            else if (parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_enable)).equals(cameraUiWrapper.getResString(R.string.enable_))
+                    && parameters.get(cameraUiWrapper.getResString(R.string.scene_mode)).equals(cameraUiWrapper.getResString(R.string.scene_mode_asd)))
+                return cameraUiWrapper.getResString(R.string.auto_);
             else
-                return KEYS.OFF;
+                return cameraUiWrapper.getResString(R.string.off_);
         }
         else
-            return KEYS.OFF;
+            return cameraUiWrapper.getResString(R.string.off_);
     }
 
     @Override
     public String[] GetValues() {
         List<String> hdrVals =  new ArrayList<>();
-        hdrVals.add(KEYS.OFF);
+        hdrVals.add(cameraUiWrapper.getResString(R.string.off_));
             if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
                     || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W)
             {
-                hdrVals.add(KEYS.ON);
+                hdrVals.add(cameraUiWrapper.getResString(R.string.on_));
             }
             else if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G2
                     || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G3
                     || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV) {
-                hdrVals.add(KEYS.ON);
-                hdrVals.add(KEYS.AUTO);
+                hdrVals.add(cameraUiWrapper.getResString(R.string.on_));
+                hdrVals.add(cameraUiWrapper.getResString(R.string.auto_));
             }
             else  {
                 if (supporton)
-                    hdrVals.add(KEYS.ON);
+                    hdrVals.add(cameraUiWrapper.getResString(R.string.on_));
                 if (supportauto)
-                    hdrVals.add(KEYS.AUTO);
+                    hdrVals.add(cameraUiWrapper.getResString(R.string.auto_));
             }
         return hdrVals.toArray(new String[hdrVals.size()]);
     }
@@ -222,23 +219,22 @@ public class HDRModeParameter extends BaseModeParameter
                 || supportauto
                 || supporton) {
             curmodule = module;
-            switch (module)
+            if (curmodule.equals(cameraUiWrapper.getResString(R.string.module_video))|| curmodule.equals(cameraUiWrapper.getResString(R.string.module_video)))
             {
-                case KEYS.MODULE_VIDEO:
-                case KEYS.MODULE_HDR:
+                Hide();
+                SetValue(cameraUiWrapper.getResString(R.string.off_),true);
+            }
+            else
+            {
+                if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_))) {
+                    Show();
+                    onIsSupportedChanged(true);
+                }
+                else
+                {
                     Hide();
-                    SetValue(KEYS.OFF,true);
-                    break;
-                default:
-                    if (format.contains(KEYS.JPEG)) {
-                        Show();
-                        onIsSupportedChanged(true);
-                    }
-                    else
-                    {
-                        Hide();
-                        SetValue(KEYS.OFF,true);
-                    }
+                    SetValue(cameraUiWrapper.getResString(R.string.off_),true);
+                }
             }
         }
     }
@@ -247,10 +243,10 @@ public class HDRModeParameter extends BaseModeParameter
     public void onParameterValueChanged(String val)
     {
         format = val;
-        if (val.contains(KEYS.JPEG)&&!visible &&!curmodule.equals(KEYS.MODULE_HDR))
+        if (val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&&!visible &&!curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
             Show();
 
-        else if (!val.contains(KEYS.JPEG)&& visible) {
+        else if (!val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&& visible) {
             Hide();
         }
     }
@@ -259,8 +255,8 @@ public class HDRModeParameter extends BaseModeParameter
     {
         state = GetValue();
         visible = false;
-        SetValue(KEYS.OFF,true);
-        onValueHasChanged(KEYS.OFF);
+        SetValue(cameraUiWrapper.getResString(R.string.off_),true);
+        onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
         onIsSupportedChanged(visible);
     }
     private void Show()

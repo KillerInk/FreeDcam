@@ -30,7 +30,6 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
@@ -312,7 +311,7 @@ public class ParametersHandler extends AbstractParameterHandler
                 if (appSettingsManager.manualFocus.getKEY().equals(cameraUiWrapper.getResString(R.string.focus)))
                     ManualFocus = new FocusManualParameterHTC(cameraParameters,cameraUiWrapper);
                     //huawai mf
-                else if (appS.manualFocus.getKEY().equals(KEYS.HW_MANUAL_FOCUS_STEP_VALUE))
+                else if (appS.manualFocus.getKEY().equals(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.hw_manual_focus_step_value)))
                     ManualFocus = new FocusManualHuawei(cameraParameters, cameraUiWrapper, appS.manualFocus);
                     //qcom
                 else
@@ -393,7 +392,11 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appS.manualWhiteBalance.isSupported())
             CCT = new BaseCCTManual(cameraParameters,cameraUiWrapper);
 
-        ManualConvergence = new BaseManualParameter(cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, cameraUiWrapper,1);
+        ManualConvergence = new BaseManualParameter(cameraParameters,
+                cameraUiWrapper.getResString(R.string.manual_convergence),
+                cameraUiWrapper.getResString(R.string.supported_manual_convergence_max),
+                cameraUiWrapper.getResString(R.string.supported_manual_convergence_min),
+                cameraUiWrapper,1);
 
         ManualExposure = new ExposureManualParameter(cameraParameters, cameraUiWrapper,1);
 
@@ -458,7 +461,7 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-        if (appSettingsManager.getApiString(SETTING_OrientationHack).equals(KEYS.ON))
+        if (appSettingsManager.getApiString(SETTING_OrientationHack).equals(appSettingsManager.getResString(R.string.on_)))
         {
             int or = orientation +180;
             if (or >360)
@@ -483,16 +486,16 @@ public class ParametersHandler extends AbstractParameterHandler
     {
         Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
-            if (parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK) != null) {
-                if (Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK)) == 0) {
+            if (parameters.get(appSettingsManager.getResString(R.string.eng_capture_shutter_speed)) != null) {
+                if (Float.parseFloat(parameters.get(appSettingsManager.getResString(R.string.eng_capture_shutter_speed))) == 0) {
                     return 0;
                 } else
-                    return Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK))/ 1000000;
-            } else if (parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1) != null) {
-                if (Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1)) == 0) {
+                    return Float.parseFloat(parameters.get(appSettingsManager.getResString(R.string.eng_capture_shutter_speed)))/ 1000000;
+            } else if (parameters.get(appSettingsManager.getResString(R.string.cap_ss)) != null) {
+                if (Float.parseFloat(parameters.get(appSettingsManager.getResString(R.string.cap_ss))) == 0) {
                     return 0;
                 } else
-                    return Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1))/ 1000000;
+                    return Float.parseFloat(parameters.get(appSettingsManager.getResString(R.string.cap_ss)))/ 1000000;
             } else
                 return 0;
         }
@@ -509,18 +512,18 @@ public class ParametersHandler extends AbstractParameterHandler
         Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
         if (appSettingsManager.getFrameWork() == FRAMEWORK_MTK)
         {
-            if(parameters.get(KEYS.CUR_ISO_MTK)!= null) {
-                if (Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK)) == 0) {
+            if(parameters.get(appSettingsManager.getResString(R.string.eng_capture_sensor_gain))!= null) {
+                if (Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.eng_capture_sensor_gain))) == 0) {
                     return 0;
                 }
-                return Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK)) / 256 * 100;
+                return Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.eng_capture_sensor_gain))) / 256 * 100;
             }
-            else if(parameters.get(KEYS.CUR_ISO_MTK2)!= null)
+            else if(parameters.get(appSettingsManager.getResString(R.string.cap_isp_g))!= null)
             {
-                if (Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK2)) == 0) {
+                if (Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.cap_isp_g))) == 0) {
                     return 0;
                 }
-                return Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK2)) / 256 * 100;
+                return Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.cap_isp_g))) / 256 * 100;
             }
             else
                 return 0;
@@ -551,9 +554,9 @@ public class ParametersHandler extends AbstractParameterHandler
     {
         if (appSettingsManager.getApiString(SETTING_OrientationHack).equals(""))
         {
-            appSettingsManager.setApiString(SETTING_OrientationHack , KEYS.OFF);
+            appSettingsManager.setApiString(SETTING_OrientationHack , cameraUiWrapper.getResString(R.string.off_));
         }
-        if (appSettingsManager.getApiString(SETTING_OrientationHack).equals(KEYS.OFF))
+        if (appSettingsManager.getApiString(SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.off_)))
             ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraRotation(0);
         else
             ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraRotation(180);

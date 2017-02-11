@@ -28,7 +28,6 @@ import com.troop.freedcam.R;
 
 import java.util.ArrayList;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -146,7 +145,7 @@ public class BaseCCTManual extends BaseManualParameter
     protected String[] createStringArray(int min, int max, float step)
     {
         ArrayList<String> t = new ArrayList<>();
-        t.add(KEYS.AUTO);
+        t.add(cameraUiWrapper.getResString(R.string.auto_));
         for (int i = min; i<=max;i+=step)
         {
             t.add(i+"");

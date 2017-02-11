@@ -24,13 +24,10 @@ import android.util.Log;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-
-import static freed.cam.apis.KEYS.BAYER;
 
 /**
  * Created by troop on 05.02.2016.
@@ -39,7 +36,7 @@ public class PictureFormatHandler extends BaseModeParameter
 {
     private final String TAG = PictureFormatHandler.class.getSimpleName();
     private boolean rawSupported;
-    private String captureMode = KEYS.JPEG;
+    private String captureMode = cameraUiWrapper.getResString(R.string.jpeg_);
     private String rawFormat;
 
     private String[] rawFormats;
@@ -77,19 +74,17 @@ public class PictureFormatHandler extends BaseModeParameter
         captureMode = valueToSet;
         if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != Frameworks.MTK)
         {
-            switch (valueToSet)
+            if (valueToSet.equals(cameraUiWrapper.getResString(R.string.jpeg_)))
+                setString(valueToSet,setToCam);
+            else if(valueToSet.equals(cameraUiWrapper.getResString(R.string.bayer_)))
             {
-                case KEYS.JPEG:
-                    setString(valueToSet,setToCam);
-                    break;
-                case BAYER:
-                    setString(rawFormat,setToCam);
-                    cameraUiWrapper.GetParameterHandler().SetDngActive(false);
-                    break;
-                case KEYS.DNG:
-                    setString(rawFormat,setToCam);
-                    cameraUiWrapper.GetParameterHandler().SetDngActive(true);
-                    break;
+                setString(rawFormat,setToCam);
+                cameraUiWrapper.GetParameterHandler().SetDngActive(false);
+            }
+            else if(valueToSet.equals(cameraUiWrapper.getResString(R.string.dng_)))
+            {
+                setString(rawFormat,setToCam);
+                cameraUiWrapper.GetParameterHandler().SetDngActive(true);
             }
         }
         onValueHasChanged(valueToSet);
@@ -123,16 +118,13 @@ public class PictureFormatHandler extends BaseModeParameter
     @Override
     public void onModuleChanged(String module)
     {
-        switch (module)
+        if (module.equals(cameraUiWrapper.getResString(R.string.module_video)))
         {
-            case KEYS.MODULE_PICTURE:
-            case KEYS.MODULE_INTERVAL:
-            case KEYS.MODULE_HDR:
-                onIsSupportedChanged(true);
-                break;
-            case KEYS.MODULE_VIDEO:
-                onIsSupportedChanged(false);
-                break;
+            onIsSupportedChanged(false);
+        }
+        else
+        {
+            onIsSupportedChanged(true);
         }
     }
 
@@ -178,7 +170,7 @@ public class PictureFormatHandler extends BaseModeParameter
         public void SetValue(String valueToSet, boolean setToCam)
         {
             rawFormat = valueToSet;
-            if (captureMode.equals(BAYER)|| captureMode.equals(KEYS.DNG)) {
+            if (captureMode.equals(cameraUiWrapper.getResString(R.string.bayer_))|| captureMode.equals(cameraUiWrapper.getResString(R.string.dng_))) {
                 PictureFormatHandler.this.SetValue(captureMode, true);
             }
         }

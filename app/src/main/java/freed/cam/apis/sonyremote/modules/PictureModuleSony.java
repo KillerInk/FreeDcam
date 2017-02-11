@@ -25,6 +25,8 @@ import android.os.Handler;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
+import com.troop.freedcam.R;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,7 +35,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
@@ -50,7 +51,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
 
     public PictureModuleSony(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
         super(cameraUiWrapper,mBackgroundHandler);
-        name = KEYS.MODULE_PICTURE;
+        name = cameraUiWrapper.getResString(R.string.module_picture);
         cameraHolder = (CameraHolderSony)cameraUiWrapper.GetCameraHolder();
 
 

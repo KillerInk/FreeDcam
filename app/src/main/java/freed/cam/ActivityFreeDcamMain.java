@@ -34,12 +34,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityAbstract;
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.apis.camera1.Camera1Fragment;
@@ -155,7 +155,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = true;
         if (screenSlideFragment != null)
             screenSlideFragment.NotifyDATAhasChanged();
-        if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON) && hasLocationPermission())
+        if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)) && hasLocationPermission())
             locationHandler.startLocationListing();
         SetNightOverlay();
     }

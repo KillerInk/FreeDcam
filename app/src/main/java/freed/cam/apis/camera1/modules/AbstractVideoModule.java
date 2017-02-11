@@ -28,11 +28,12 @@ import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
+import com.troop.freedcam.R;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
@@ -53,7 +54,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     public AbstractVideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
         super(cameraUiWrapper,mBackgroundHandler);
-        name = KEYS.MODULE_VIDEO;
+        name = cameraUiWrapper.getResString(R.string.module_video);
     }
 
     @Override
@@ -91,7 +92,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     protected void startRecording()
     {
-        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
             cameraUiWrapper.GetCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         prepareRecorder();
 

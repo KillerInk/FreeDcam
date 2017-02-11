@@ -26,11 +26,12 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.troop.freedcam.R;
+
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.AppSettingsManager;
 
@@ -139,7 +140,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     public String GetCurrentModuleName() {
         if (currentModule != null)
             return currentModule.ModuleName();
-        else return KEYS.MODULE_PICTURE;
+        else return cameraUiWrapper.getResString(R.string.module_picture);
     }
 
     @Override

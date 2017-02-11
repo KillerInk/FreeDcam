@@ -35,7 +35,6 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
@@ -178,7 +177,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
             seekbar.setVisibility(View.GONE);
             afBracketSettingsView.SetCameraWrapper(cameraUiWrapper);
-            if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET) /*&& currentButton == mf*/ && seekbar.getVisibility() == View.VISIBLE)
+            if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_afbracket)) /*&& currentButton == mf*/ && seekbar.getVisibility() == View.VISIBLE)
                 afBracketSettingsView.setVisibility(View.VISIBLE);
             else
                 afBracketSettingsView.setVisibility(View.GONE);
@@ -212,7 +211,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 currentButton = (ManualButton) v;
                 currentButton.SetActive(true);
                 currentButton.SetParameterListner(ManualFragment.this);
-                if (/*currentButton == mf &&*/ cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET))
+                if (/*currentButton == mf &&*/ cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_afbracket)))
                     afBracketSettingsView.setVisibility(View.VISIBLE);
                 else
                     afBracketSettingsView.setVisibility(View.GONE);
@@ -307,7 +306,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     @Override
     public void onModuleChanged(String module)
     {
-        if (module.equals(KEYS.MODULE_AFBRACKET) && seekbar.getVisibility() == View.VISIBLE)
+        if (module.equals(cameraUiWrapper.getResString(R.string.module_afbracket)) && seekbar.getVisibility() == View.VISIBLE)
             afBracketSettingsView.setVisibility(View.VISIBLE);
         else
             afBracketSettingsView.setVisibility(View.GONE);

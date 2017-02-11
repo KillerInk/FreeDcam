@@ -25,9 +25,10 @@ import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 import android.util.Log;
 
+import com.troop.freedcam.R;
+
 import java.util.List;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
@@ -158,7 +159,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.on_)))
         {
             int or = orientation +180;
             if (or >360)

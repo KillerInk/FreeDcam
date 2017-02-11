@@ -24,7 +24,6 @@ import android.util.Log;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -79,7 +78,7 @@ public class BaseFocusManual extends BaseManualParameter
    /* @Override
     protected String[] createStringArray(int min, int max, float step) {
         ArrayList<String> ar = new ArrayList<>();
-        ar.add(KEYS.AUTO);
+        ar.add(cameraUiWrapper.getResString(R.string.auto_));
         if (step == 0)
             step = 1;
         for (int i = min; i < max; i+=step)
@@ -96,7 +95,7 @@ public class BaseFocusManual extends BaseManualParameter
 
         if (valueToSet == 0)
         {
-            cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(KEYS.AUTO, true);
+            cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
             Log.d(TAG, "Set Focus to : auto");
         }
         else

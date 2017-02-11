@@ -19,7 +19,8 @@
 
 package freed.cam.apis.basecamera.parameters.modes;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.AppSettingsManager;
 
@@ -47,24 +48,24 @@ public class LocationParameter extends AbstractModeParameter
     public String GetValue()
     {
         if (cameraUiWrapper == null ||cameraUiWrapper.GetAppSettingsManager() == null)
-            return KEYS.OFF;
+            return cameraUiWrapper.getResString(R.string.off_);
         if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(""))
-            cameraUiWrapper.GetAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, KEYS.OFF);
+            cameraUiWrapper.GetAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
         return cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION);
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] { KEYS.OFF, KEYS.ON };
+        return new String[] { cameraUiWrapper.getResString(R.string.off_), cameraUiWrapper.getResString(R.string.on_) };
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         cameraUiWrapper.GetAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, valueToSet);
-        if (valueToSet.equals(KEYS.OFF))
+        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_)))
             cameraUiWrapper.getActivityInterface().getLocationHandler().stopLocationListining();
-        if (valueToSet.equals(KEYS.ON) && cameraUiWrapper.getActivityInterface().hasLocationPermission())
+        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)) && cameraUiWrapper.getActivityInterface().hasLocationPermission())
             cameraUiWrapper.getActivityInterface().getLocationHandler().startLocationListing();
     }
 
