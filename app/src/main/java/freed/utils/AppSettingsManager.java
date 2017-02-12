@@ -417,6 +417,16 @@ public class AppSettingsManager {
         settings.edit().putBoolean(FEATUREDETECTED,detected).commit();
     }
 
+    public boolean openCamera1Legacy()
+    {
+        return settings.getBoolean(getResString(R.string.aps_opencamera1legacy), false);
+    }
+
+    public void setOpenCamera1Legacy(boolean legacy)
+    {
+        settings.edit().putBoolean(getResString(R.string.aps_opencamera1legacy),legacy).commit();
+    }
+
     public boolean useQcomFocus()
     {
         return settings.getBoolean(getResString(R.string.aps_qcomfocus),false);
@@ -623,17 +633,6 @@ public class AppSettingsManager {
         return settings.getInt(FRAMEWORK,0);
     }
 
-
-    public static final String CAN_OPEN_LEGACY ="canopenlegacy";
-    public void setCanOpenLegacy(boolean canopen)
-    {
-        settings.edit().putBoolean(CAN_OPEN_LEGACY, canopen).commit();
-    }
-
-    public boolean getCanOpenLegacy()
-    {
-        return settings.getBoolean(CAN_OPEN_LEGACY, false);
-    }
 
     public static final String FRONTCAMERA ="frontcamera";
     public void setIsFrontCamera(boolean isFront)
