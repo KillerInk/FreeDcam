@@ -21,9 +21,10 @@ package freed.cam.apis.sonyremote.parameters.modes;
 
 import android.os.Build;
 
+import com.troop.freedcam.R;
+
 import java.util.Set;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 
 /**
@@ -40,7 +41,7 @@ public class ScalePreviewModeSony extends BaseModeParameterSony {
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
-        if (KEYS.ON.equals(valueToSet))
+        if (simpleStreamSurfaceView.getResources().getString(R.string.on_).equals(valueToSet))
             simpleStreamSurfaceView.ScalePreview(true);
         else
             simpleStreamSurfaceView.ScalePreview(false);
@@ -49,14 +50,14 @@ public class ScalePreviewModeSony extends BaseModeParameterSony {
     @Override
     public String GetValue() {
         if (simpleStreamSurfaceView.isScalePreview())
-            return KEYS.ON;
+            return simpleStreamSurfaceView.getResources().getString(R.string.on_);
         else
-            return KEYS.OFF;
+            return simpleStreamSurfaceView.getResources().getString(R.string.off_);
     }
 
     @Override
     public String[] GetValues() {
-        return new String[]{KEYS.ON, KEYS.OFF};
+        return new String[]{simpleStreamSurfaceView.getResources().getString(R.string.on_), simpleStreamSurfaceView.getResources().getString(R.string.off_)};
     }
 
     @Override

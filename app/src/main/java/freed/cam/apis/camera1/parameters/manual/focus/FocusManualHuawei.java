@@ -22,7 +22,8 @@ package freed.cam.apis.camera1.parameters.manual.focus;
 import android.hardware.Camera.Parameters;
 import android.util.Log;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
@@ -44,16 +45,16 @@ public class FocusManualHuawei extends BaseFocusManual
 
         if (valueToSet == 0)
         {
-            cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(KEYS.AUTO, true);
-            parameters.set(KEYS.HW_HWCAMERA_FLAG,KEYS.ON);
-            parameters.set(KEYS.HW_MANUAL_FOCUS_MODE,KEYS.OFF);
+            cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.hw_hwcamera_flag),cameraUiWrapper.getResString(R.string.on_));
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.hw_manual_focus_mode),cameraUiWrapper.getResString(R.string.off_));
         }
         else
         {
             if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
-            parameters.set(KEYS.HW_HWCAMERA_FLAG,KEYS.ON);
-            parameters.set(KEYS.HW_MANUAL_FOCUS_MODE,KEYS.ON);
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.hw_hwcamera_flag),cameraUiWrapper.getResString(R.string.on_));
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.hw_manual_focus_mode),cameraUiWrapper.getResString(R.string.on_));
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set " + key_value + " to : " + stringvalues[currentInt]);
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);

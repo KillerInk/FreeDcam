@@ -21,9 +21,10 @@ package freed.cam.apis.camera1.parameters.manual.mtk;
 
 import android.hardware.Camera.Parameters;
 
+import com.troop.freedcam.R;
+
 import java.util.ArrayList;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -42,7 +43,7 @@ public class ISOManualParameterMTK extends BaseManualParameter implements Manual
         isSupported = true;
         isVisible = isSupported;
         ArrayList<String> s = new ArrayList<>();
-        s.add(KEYS.AUTO);
+        s.add(cameraUiWrapper.getResString(R.string.auto_));
         for (int i =100; i <= maxiso; i +=100)
         {
             s.add(i + "");
@@ -88,7 +89,7 @@ public class ISOManualParameterMTK extends BaseManualParameter implements Manual
         try {
             return stringvalues[currentInt];
         } catch (NullPointerException ex) {
-            return KEYS.AUTO;
+            return cameraUiWrapper.getResString(R.string.auto_);
         }
     }
 

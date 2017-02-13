@@ -21,7 +21,8 @@ package freed.cam.apis.camera1.parameters.manual.zte;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -76,7 +77,7 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     public void SetValue(int valueToSet)
     {
-        parameters.set(KEYS.MORPHO_EFFECT_TYPE, String.valueOf(valueToSet));
+        parameters.set(cameraUiWrapper.getResString(R.string.morpho_effect_type), String.valueOf(valueToSet));
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
     }

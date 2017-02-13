@@ -62,7 +62,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
@@ -141,7 +140,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
         super(cameraUiWrapper,mBackgroundHandler);
-        name = KEYS.MODULE_PICTURE;
+        name = cameraUiWrapper.getResString(R.string.module_picture);
         handler = new Handler(Looper.getMainLooper());
 
     }
@@ -181,7 +180,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
             mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,mBackgroundHandler);
 
-            if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.TRUE) && cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
+            if (appSettingsManager.IsCamera2FullSupported().equals(cameraUiWrapper.getResString(R.string.true_)) && cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
                 PictureModuleApi2.this.setCaptureState(STATE_WAIT_FOR_PRECAPTURE);
                 Log.d(TAG,"Start AE Precapture");
                 startTimerLocked();
@@ -249,7 +248,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }catch (NullPointerException ex){ex.printStackTrace();}
             try {
                 long val = 0;
-                if(!parameterHandler.ManualIso.GetStringValue().equals(KEYS.AUTO))
+                if(!parameterHandler.ManualIso.GetStringValue().equals(cameraUiWrapper.getResString(R.string.auto_)))
                     val = (long)(AbstractManualShutter.getMilliSecondStringFromShutterString(parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()]) * 1000f);
                 else
                     val= cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
@@ -282,7 +281,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             catch (NullPointerException ex)
             {ex.printStackTrace();}
             try {
-                if (appSettingsManager.getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                if (appSettingsManager.getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
                 captureBuilder.set(CaptureRequest.JPEG_GPS_LOCATION, cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
             }
             catch (NullPointerException ex)
@@ -620,7 +619,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             ex.printStackTrace();
         }
 
-        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
             dngCreator.setLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         try
         {
@@ -879,7 +878,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         int orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation)%360;
-        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.on_)))
             orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation+180)%360;
         cameraHolder.SetParameter(CaptureRequest.JPEG_ORIENTATION, orientationToSet);
 

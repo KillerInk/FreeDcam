@@ -23,10 +23,11 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.freedcam.R;
+
 import java.io.File;
 import java.util.Date;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
@@ -46,7 +47,7 @@ public class BracketModule extends PictureModule
 
     public BracketModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
         super(cameraUiWrapper,mBackgroundHandler);
-        name = KEYS.MODULE_HDR;
+        name = cameraUiWrapper.getResString(R.string.module_hdr);
     }
 
     //ModuleInterface START
@@ -61,12 +62,12 @@ public class BracketModule extends PictureModule
         mBackgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
                 files = new File[7];
                 hdrCount = 0;
                 String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
-                if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
+                if (picformat.equals(appSettingsManager.getResString(R.string.dng_)) ||picformat.equals(appSettingsManager.getResString(R.string.bayer_)))
                 {
                     if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported()
                             && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on")

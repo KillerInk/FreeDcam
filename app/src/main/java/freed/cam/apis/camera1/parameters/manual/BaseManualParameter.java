@@ -22,7 +22,8 @@ package freed.cam.apis.camera1.parameters.manual;
 import android.hardware.Camera.Parameters;
 import android.util.Log;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
@@ -187,7 +188,7 @@ public class BaseManualParameter extends AbstractManualParameter
         @Override
         public void onParameterValueChanged(String val)
         {
-           if (val.equals(AppSettingsManager.CaptureMode[AppSettingsManager.JPEG]) && isSupported)
+           if (val.equals(cameraUiWrapper.getResString(R.string.jpeg_)) && isSupported)
            {
                isVisible = true;
                ThrowBackgroundIsSupportedChanged(true);
@@ -225,11 +226,11 @@ public class BaseManualParameter extends AbstractManualParameter
         @Override
         public void onModuleChanged(String module)
         {
-            if (module.equals(KEYS.MODULE_VIDEO) && isSupported)
+            if (module.equals(cameraUiWrapper.getResString(R.string.module_video)) && isSupported)
                 ThrowBackgroundIsSupportedChanged(true);
-            else if (module.equals(KEYS.MODULE_PICTURE)
-                    || module.equals(KEYS.MODULE_INTERVAL)
-                    || module.equals(KEYS.MODULE_HDR))
+            else if (module.equals(cameraUiWrapper.getResString(R.string.module_picture))
+                    || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
+                    || module.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
             {
                 ThrowBackgroundIsSupportedChanged(isVisible);
             }

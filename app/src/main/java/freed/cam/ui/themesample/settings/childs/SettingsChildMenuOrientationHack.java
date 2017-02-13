@@ -21,7 +21,8 @@ package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -42,16 +43,16 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(""))
-            fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_OrientationHack, KEYS.OFF);
-        if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
-            onParameterValueChanged(KEYS.ON);
+            fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_OrientationHack, getResources().getString(R.string.off_));
+        if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(getResources().getString(R.string.on_)))
+            onParameterValueChanged(getResources().getString(R.string.on_));
         else
-            onParameterValueChanged(KEYS.OFF);
+            onParameterValueChanged(getResources().getString(R.string.off_));
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {KEYS.ON, KEYS.OFF};
+        return new String[] {getResources().getString(R.string.on_), getResources().getString(R.string.off_)};
     }
 
     @Override

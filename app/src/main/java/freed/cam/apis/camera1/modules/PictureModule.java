@@ -23,10 +23,11 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.freedcam.R;
+
 import java.io.File;
 import java.util.Date;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.BasePictureModule;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
@@ -53,7 +54,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
     public PictureModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler)
     {
         super(cameraUiWrapper,mBackgroundHandler);
-        name = KEYS.MODULE_PICTURE;
+        name = cameraUiWrapper.getResString(R.string.module_picture);
         this.cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
     }
 
@@ -83,13 +84,13 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
                 isWorking = true;
                 String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
                 Log.d(TAG,"DoWork:picformat:" + picformat);
-                if (picformat.equals(KEYS.DNG) || picformat.equals(KEYS.BAYER))
+                if (picformat.equals(appSettingsManager.getResString(R.string.dng_)) || picformat.equals(appSettingsManager.getResString(R.string.bayer_)))
                 {
                     if (cameraUiWrapper.GetAppSettingsManager().zeroshutterlag.isSupported()
-                            && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals(KEYS.ON))
+                            && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals(cameraUiWrapper.getResString(R.string.on_)))
                     {
                         Log.d(TAG,"ZSL is on turning it off");
-                        cameraUiWrapper.GetParameterHandler().ZSL.SetValue(KEYS.OFF, true);
+                        cameraUiWrapper.GetParameterHandler().ZSL.SetValue(cameraUiWrapper.getResString(R.string.off_), true);
                         Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.GetParameterHandler().ZSL.GetValue());
                     }
 
@@ -98,7 +99,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
                 changeCaptureState(CaptureStates.image_capture_start);
                 waitForPicture = true;
                 burstcount = 0;
-                if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
                 startcapturetime =new Date().getTime();
                 cameraHolder.TakePicture(PictureModule.this);
@@ -115,8 +116,8 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
         if (cameraUiWrapper.GetParameterHandler() == null)
             return;
         cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp",true);
-        if (cameraUiWrapper.GetAppSettingsManager().videoHDR.isSupported() && !cameraUiWrapper.GetParameterHandler().VideoHDR.GetValue().equals(KEYS.OFF))
-            cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue(KEYS.OFF, true);
+        if (cameraUiWrapper.GetAppSettingsManager().videoHDR.isSupported() && !cameraUiWrapper.GetParameterHandler().VideoHDR.GetValue().equals(cameraUiWrapper.getResString(R.string.off_)))
+            cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue(cameraUiWrapper.getResString(R.string.off_), true);
         if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 || appSettingsManager.getDevice() == Devices.ZTEADVIMX214) {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetZTE_AE();
         }
@@ -168,9 +169,8 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
         //workaround to keep ae locked
         if (cameraHolder.GetCameraParameters().getAutoExposureLock() == true)
         {
-            cameraUiWrapper.GetParameterHandler().ExposureLock.SetValue(KEYS.FALSE,true);
-            cameraUiWrapper.GetParameterHandler().ExposureLock.SetValue(KEYS.TRUE,true);
-            //cameraHolder.GetCameraParameters().setAutoExposureLock(true);
+            cameraUiWrapper.GetParameterHandler().ExposureLock.SetValue(cameraUiWrapper.getResString(R.string.false_),true);
+            cameraUiWrapper.GetParameterHandler().ExposureLock.SetValue(cameraUiWrapper.getResString(R.string.true_),true);
         }
         if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.MotoG3 ||cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.MotoG_Turbo)
         {
@@ -232,7 +232,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
     }
     private String getFileEnding(String picFormat)
     {
-        if (picFormat.equals(KEYS.JPEG))
+        if (picFormat.equals(cameraUiWrapper.getResString(R.string.jpeg_)))
             return ".jpg";
         else if (picFormat.equals("jps"))
             return  ".jps";
@@ -266,7 +266,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
         if (cameraUiWrapper.GetParameterHandler().CCT != null && cameraUiWrapper.GetParameterHandler().CCT.IsSupported())
         {
             wb = cameraUiWrapper.GetParameterHandler().CCT.GetStringValue();
-            if (wb.equals(KEYS.AUTO))
+            if (wb.equals(cameraUiWrapper.getResString(R.string.auto_)))
                 wb = null;
             Log.d(this.TAG,"Set Manual WhiteBalance:"+ wb);
         }

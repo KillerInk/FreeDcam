@@ -21,7 +21,8 @@ package freed.cam.apis.sonyremote;
 
 import android.util.Log;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.CameraHolderSony.I_CameraShotMode;
@@ -58,9 +59,9 @@ public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_Camera
     @Override
     public void SetModule(String name)
     {
-        if (name.equals(KEYS.MODULE_VIDEO))
+        if (name.equals(cameraUiWrapper.getResString(R.string.module_video)))
             cameraHolder.SetShootMode("movie");
-        else if (name.equals(KEYS.MODULE_PICTURE))
+        else if (name.equals(cameraUiWrapper.getResString(R.string.module_picture)))
             cameraHolder.SetShootMode("still");
     }
 
@@ -73,7 +74,7 @@ public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_Camera
         }
         if (mode.equals("still"))
         {
-            currentModule = moduleList.get(KEYS.MODULE_PICTURE);
+            currentModule = moduleList.get(cameraUiWrapper.getResString(R.string.module_picture));
 
             ModuleHasChanged(currentModule.ModuleName());
             currentModule.SetCaptureStateChangedListner(workerListner);
@@ -81,7 +82,7 @@ public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_Camera
         }
         else if (mode.equals("movie"))
         {
-            currentModule = moduleList.get(KEYS.MODULE_VIDEO);
+            currentModule = moduleList.get(cameraUiWrapper.getResString(R.string.module_video));
             ModuleHasChanged(currentModule.ModuleName());
             currentModule.SetCaptureStateChangedListner(workerListner);
             currentModule.InitModule();

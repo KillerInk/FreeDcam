@@ -24,7 +24,6 @@ import android.hardware.Camera.Parameters;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 
@@ -39,7 +38,7 @@ public class ZoomManualParameter extends  BaseManualParameter
         key_value = cameraUiWrapper.getResString(R.string.zoom);
         isSupported = false;
         if (parameters.get(cameraUiWrapper.getResString(R.string.zoom_supported))!= null)
-            if (parameters.get(cameraUiWrapper.getResString(R.string.zoom_supported)).equals(KEYS.TRUE)) {
+            if (parameters.get(cameraUiWrapper.getResString(R.string.zoom_supported)).equals(cameraUiWrapper.getResString(R.string.true_))) {
                 isSupported = true;
                 isVisible = true;
                 Set_Default_Value(GetValue());

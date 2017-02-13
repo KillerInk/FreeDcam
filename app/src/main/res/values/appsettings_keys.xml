@@ -6,6 +6,8 @@
     <string name="aps_type" translatable="false">type</string>
     <string name="aps_mode" translatable="false">mode</string>
 
+    <string name="aps_opencamera1legacy" translatable="false">opencamera1legacy</string>
+
     <string name="aps_picturesize" translatable="false">picturesize</string>
     <string name="aps_pictureformat" translatable="false">pictureformat</string>
     <string name="aps_rawpictureformat" translatable="false">rawpictureformat</string>

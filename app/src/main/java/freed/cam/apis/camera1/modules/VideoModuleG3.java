@@ -27,8 +27,8 @@ import android.media.MediaRecorder.VideoSource;
 import android.os.Handler;
 
 import com.lge.media.MediaRecorderEx;
+import com.troop.freedcam.R;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
@@ -58,7 +58,7 @@ public class VideoModuleG3 extends AbstractVideoModule
             recorder = new MediaRecorderEx();
             recorder.reset();
             recorder.setCamera(((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera());
-            if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON)){
+            if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
                 Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
                 if (location != null)
                     recorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
@@ -153,10 +153,10 @@ public class VideoModuleG3 extends AbstractVideoModule
         }
         if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("2160p"))
         {
-            cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable",false);
-            cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", false);
+            cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue(appSettingsManager.getResString(R.string.disable_),false);
+            cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), false);
             cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", false);
-            if(appSettingsManager.IsCamera2FullSupported().equals(KEYS.FALSE))
+            if(appSettingsManager.IsCamera2FullSupported().equals(appSettingsManager.getResString(R.string.false_)))
                 cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",false);
             if (currentProfile.Mode == VideoMode.Highspeed)
             {

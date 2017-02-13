@@ -23,18 +23,17 @@ import android.hardware.Camera.Parameters;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 
 /**
  * Created by Ar4eR on 10.12.15.
  */
 public class VideoStabilizationParameter extends  BaseModeParameter {
-    private final String[] vs_values = {KEYS.TRUE, KEYS.FALSE};
+    private final String[] vs_values = {cameraUiWrapper.getResString(R.string.true_), cameraUiWrapper.getResString(R.string.false_)};
     public VideoStabilizationParameter(Parameters parameters, CameraWrapperInterface parameterChanged)
     {
         super(parameters, parameterChanged);
-        if (parameters.get(cameraUiWrapper.getResString(R.string.video_stabilization_supported)).equals(KEYS.TRUE))
+        if (parameters.get(cameraUiWrapper.getResString(R.string.video_stabilization_supported)).equals(cameraUiWrapper.getResString(R.string.true_)))
         {
             isSupported = true;
             key_value = cameraUiWrapper.getResString(R.string.video_stabilization);

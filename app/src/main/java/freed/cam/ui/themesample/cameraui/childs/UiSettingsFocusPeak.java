@@ -23,7 +23,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 
@@ -59,21 +60,21 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     {
         if (parameter == null)
             return;
-        if (parameter.GetValue().equals(KEYS.ON)) {
-            parameter.SetValue(KEYS.OFF, false);
+        if (parameter.GetValue().equals(getResources().getString(R.string.off_))) {
+            parameter.SetValue(getResources().getString(R.string.off_), false);
         }
         else{
-            parameter.SetValue(KEYS.ON,false);}
+            parameter.SetValue(getResources().getString(R.string.on_),false);}
 
     }
 
     @Override
     public void onModuleChanged(String module)
     {
-        if ((module.equals(KEYS.MODULE_PICTURE)
-                || module.equals(KEYS.MODULE_HDR)
-                || module.equals(KEYS.MODULE_INTERVAL)
-        || module.equals(KEYS.MODULE_AFBRACKET))
+        if ((module.equals(getResources().getString(R.string.module_picture))
+                || module.equals(getResources().getString(R.string.module_hdr))
+                || module.equals(getResources().getString(R.string.module_interval))
+        || module.equals(getResources().getString(R.string.module_afbracket)))
                 && parameter != null && parameter.IsSupported())
             setVisibility(View.VISIBLE);
         else

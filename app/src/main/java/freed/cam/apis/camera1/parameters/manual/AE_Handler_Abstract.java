@@ -22,7 +22,8 @@ package freed.cam.apis.camera1.parameters.manual;
 import android.hardware.Camera;
 import android.util.Log;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
@@ -138,10 +139,10 @@ public abstract class AE_Handler_Abstract
                 ((ParametersHandler) cameraWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
                 if (automode) {
                     String t = cameraWrapper.GetParameterHandler().IsoMode.GetValue();
-                    if (!t.equals(KEYS.ISO100))
-                        cameraWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.ISO100, true);
+                    if (!t.equals(cameraWrapper.getResString(R.string.iso100_)))
+                        cameraWrapper.GetParameterHandler().IsoMode.SetValue(cameraWrapper.getResString(R.string.iso100_), true);
                     else
-                        cameraWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.AUTO, true);
+                        cameraWrapper.GetParameterHandler().IsoMode.SetValue(cameraWrapper.getResString(R.string.auto_), true);
                     cameraWrapper.GetParameterHandler().IsoMode.SetValue(t, true);
                 }
             }

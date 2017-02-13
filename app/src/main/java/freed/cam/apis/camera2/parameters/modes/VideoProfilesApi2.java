@@ -19,7 +19,8 @@
 
 package freed.cam.apis.camera2.parameters.modes;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 
@@ -40,7 +41,8 @@ public class VideoProfilesApi2 extends VideoProfilesParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         profile = valueToSet;
-        if (cameraUiWrapper !=null && cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+        if (cameraUiWrapper !=null && cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null
+                && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
         {
             cameraUiWrapper.GetModuleHandler().GetCurrentModule().DestroyModule();
             cameraUiWrapper.GetModuleHandler().GetCurrentModule().InitModule();

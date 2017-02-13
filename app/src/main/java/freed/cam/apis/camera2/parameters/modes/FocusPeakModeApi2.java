@@ -22,7 +22,8 @@ package freed.cam.apis.camera2.parameters.modes;
 import android.annotation.TargetApi;
 import android.os.Build.VERSION_CODES;
 
-import freed.cam.apis.KEYS;
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 
 /**
@@ -50,14 +51,14 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.equals(KEYS.ON))
+        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
         {
             cameraUiWrapper.getFocusPeakProcessor().Enable(true);
-            onValueHasChanged("true");
+            onValueHasChanged(cameraUiWrapper.getResString(R.string.true_));
         }
         else {
             cameraUiWrapper.getFocusPeakProcessor().Enable(false);
-            onValueHasChanged("false");
+            onValueHasChanged(cameraUiWrapper.getResString(R.string.false_));
         }
 
     }
@@ -65,24 +66,24 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
     @Override
     public String GetValue() {
         if (cameraUiWrapper.getFocusPeakProcessor().isEnabled())
-            return KEYS.ON;
+            return cameraUiWrapper.getResString(R.string.on_);
         else
-            return KEYS.OFF;
+            return cameraUiWrapper.getResString(R.string.off_);
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {KEYS.ON, KEYS.OFF};
+        return new String[] {cameraUiWrapper.getResString(R.string.on_), cameraUiWrapper.getResString(R.string.off_)};
     }
 
 
     @Override
     public void onValueHasChanged(String value)
     {
-        if (value.equals("true"))
-            super.onValueHasChanged(KEYS.ON);
-        else if (value.equals("false"))
-            super.onValueHasChanged(KEYS.OFF);
+        if (value.equals(cameraUiWrapper.getResString(R.string.true_)))
+            super.onValueHasChanged(cameraUiWrapper.getResString(R.string.on_));
+        else if (value.equals(cameraUiWrapper.getResString(R.string.false_)))
+            super.onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
     }
 
     @Override

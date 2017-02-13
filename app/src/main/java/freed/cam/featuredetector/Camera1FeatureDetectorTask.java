@@ -12,14 +12,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
 
-import static freed.cam.apis.KEYS.BAYER;
-import static freed.cam.apis.KEYS.MODULE_PICTURE;
 
 /**
  * Created by troop on 23.01.2017.
@@ -54,8 +51,16 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         appSettingsManager.setFramework(getFramework());
         publishProgress("FrameWork:"+appSettingsManager.getFrameWork());
         //can open legcay
-        appSettingsManager.setCanOpenLegacy(canOpenLegacy());
-        publishProgress("CanOpenLegacy:"+appSettingsManager.getCanOpenLegacy());
+        switch (appSettingsManager.getDevice())
+        {
+            case LG_G4:
+                appSettingsManager.setOpenCamera1Legacy(true);
+                break;
+            default:
+                appSettingsManager.setOpenCamera1Legacy(false);
+                break;
+        }
+        publishProgress("CanOpenLegacy:"+appSettingsManager.openCamera1Legacy());
 
         int cameraCounts = Camera.getNumberOfCameras();
         AppSettingsManager appS = appSettingsManager;
@@ -80,7 +85,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             publishProgress("RawFormats:" + getStringFromArray(appS.rawPictureFormat.getValues()));
             publishProgress(" RawFormat:" + appS.rawPictureFormat.get());
 
-            appSettingsManager.modules.set(MODULE_PICTURE);
+            appSettingsManager.modules.set(appS.getResString(R.string.module_picture));
 
             detectPictureSizes(parameters);
             sendProgress(appS.pictureSize,"PictureSize");
@@ -313,7 +318,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     protected String[] createWBStringArray(int min, int max, float step)
     {
         ArrayList<String> t = new ArrayList<>();
-        t.add(KEYS.AUTO);
+        t.add(appSettingsManager.getResString(R.string.auto_));
         for (int i = min; i<=max;i+=step)
         {
             t.add(i+"");
@@ -349,7 +354,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             switch (appSettingsManager.getDevice()) {
                 case Aquaris_E5:
                     appSettingsManager.manualIso.setIsSupported(true);
-                    appSettingsManager.manualIso.setKEY(KEYS.CONTINUOUS_ISO);
+                    appSettingsManager.manualIso.setKEY(appSettingsManager.getResString(R.string.continuous_iso));
                     appSettingsManager.manualIso.setValues(createIsoValues(100, 1600, 50));
                     break;
                 case Xiaomi_Redmi3:
@@ -357,11 +362,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     appSettingsManager.manualIso.setIsSupported(false);
                     break;
                 default:
-                    if (parameters.get(KEYS.MIN_ISO) != null && parameters.get(KEYS.MAX_ISO) != null) {
+                    if (parameters.get(appSettingsManager.getResString(R.string.min_iso)) != null && parameters.get(appSettingsManager.getResString(R.string.max_iso)) != null) {
                         appSettingsManager.manualIso.setIsSupported(true);
-                        appSettingsManager.manualIso.setKEY(KEYS.CONTINUOUS_ISO);
-                        int min = Integer.parseInt(parameters.get(KEYS.MIN_ISO));
-                        int max = Integer.parseInt(parameters.get(KEYS.MAX_ISO));
+                        appSettingsManager.manualIso.setKEY(appSettingsManager.getResString(R.string.continuous_iso));
+                        int min = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.min_iso)));
+                        int max = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.max_iso)));
                         appSettingsManager.manualIso.setValues(createIsoValues(min, max, 50));
                     }
                 break;
@@ -372,7 +377,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private String[] createIsoValues(int miniso, int maxiso, int step)
     {
         ArrayList<String> s = new ArrayList<>();
-        s.add(KEYS.AUTO);
+        s.add(appSettingsManager.getResString(R.string.auto_));
         for (int i =miniso; i <= maxiso; i +=step)
         {
             s.add(i + "");
@@ -432,12 +437,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                         appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_HTC);
                     }
                     //lg shutter
-                    else if (parameters.get(KEYS.LG_SHUTTER_SPEED_VALUES) != null) {
+                    else if (parameters.get(appSettingsManager.getResString(R.string.lg_shutterspeed_values)) != null) {
                         appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_LG);
-                        ArrayList<String> l = new ArrayList(Arrays.asList(parameters.get(KEYS.LG_SHUTTER_SPEED_VALUES).replace(",0", "").split(",")));
+                        ArrayList<String> l = new ArrayList(Arrays.asList(parameters.get(appSettingsManager.getResString(R.string.lg_shutterspeed_values)).replace(",0", "").split(",")));
                         l.remove(0);
                         appSettingsManager.manualExposureTime.setValues(l.toArray(new String[l.size()]));
-                        appSettingsManager.manualExposureTime.setKEY(KEYS.LG_SHUTTER_SPEED);
+                        appSettingsManager.manualExposureTime.setKEY(appSettingsManager.getResString(R.string.lg_shutterspeed));
                         appSettingsManager.manualExposureTime.setIsSupported(true);
                     }
                     //meizu shutter
@@ -502,7 +507,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         boolean foundmax = false;
         ArrayList<String> tmp = new ArrayList<>();
         if (withautomode)
-            tmp.add(KEYS.AUTO);
+            tmp.add(appSettingsManager.getResString(R.string.auto_));
         for (int i = 1; i < allvalues.length; i++) {
             String s = allvalues[i];
 
@@ -548,7 +553,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         {
             appSettingsManager.nonZslManualMode.setIsSupported(true);
             appSettingsManager.nonZslManualMode.setKEY("non-zsl-manual-mode");
-            appSettingsManager.nonZslManualMode.setValues(new String[]{KEYS.ON,KEYS.OFF});
+            appSettingsManager.nonZslManualMode.setValues(new String[]{appSettingsManager.getResString(R.string.on_),appSettingsManager.getResString(R.string.off_)});
         }
     }
 
@@ -609,10 +614,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         else {
             int min = 0, max = 0;
-            if (parameters.get(KEYS.LG_COLOR_ADJUST_MAX) != null && parameters.get(KEYS.LG_COLOR_ADJUST_MIN) != null) {
-                min = Integer.parseInt(parameters.get(KEYS.LG_COLOR_ADJUST_MIN));
-                max = Integer.parseInt(parameters.get(KEYS.LG_COLOR_ADJUST_MAX));
-                appSettingsManager.manualSaturation.setKEY(KEYS.LG_COLOR_ADJUST);
+            if (parameters.get(appSettingsManager.getResString(R.string.lg_color_adjust_max)) != null
+                    && parameters.get(appSettingsManager.getResString(R.string.lg_color_adjust_min)) != null) {
+                min = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.lg_color_adjust_min)));
+                max = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.lg_color_adjust_max)));
+                appSettingsManager.manualSaturation.setKEY(appSettingsManager.getResString(R.string.lg_color_adjust));
             }
             else if (parameters.get(camstring(R.string.saturation_max)) != null) {
                 min = Integer.parseInt(parameters.get(camstring(R.string.saturation_min)));
@@ -752,7 +758,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             min = 0;
             max = 1023;
             step = 10;
-            appSettingsManager.manualFocus.setKEY(KEYS.AFENG_POS);
+            appSettingsManager.manualFocus.setKEY(appSettingsManager.getResString(R.string.afeng_pos));
         }
         else {
             //lookup old qcom
@@ -801,15 +807,15 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
 
             //huawai mf
-            if(parameters.get(KEYS.HW_VCM_END_VALUE) != null && parameters.get(KEYS.HW_VCM_START_VALUE) != null)
+            if(parameters.get(appSettingsManager.getResString(R.string.hw_vcm_end_value)) != null && parameters.get(appSettingsManager.getResString(R.string.hw_vcm_start_value)) != null)
             {
                 appSettingsManager.manualFocus.setMode(camstring(R.string.manual));
                 appSettingsManager.manualFocus.setType(-1);
                 appSettingsManager.manualFocus.setIsSupported(true);
-                min = Integer.parseInt(parameters.get(KEYS.HW_VCM_END_VALUE));
-                max = Integer.parseInt(parameters.get(KEYS.HW_VCM_START_VALUE));
+                min = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.hw_vcm_end_value)));
+                max = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.hw_vcm_start_value)));
                 step = 10;
-                appSettingsManager.manualFocus.setKEY(KEYS.HW_MANUAL_FOCUS_STEP_VALUE);
+                appSettingsManager.manualFocus.setKEY(appSettingsManager.getResString(R.string.hw_manual_focus_step_value));
             }
         }
         //override device specific
@@ -830,10 +836,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     min = 0;
                     max = 79;
                     step = 1;
-                    appSettingsManager.manualFocus.setMode(KEYS.FOCUS_MODE_NORMAL);
+                    appSettingsManager.manualFocus.setMode(appSettingsManager.getResString(R.string.normal));
                     appSettingsManager.manualFocus.setType(-1);
                     appSettingsManager.manualFocus.setIsSupported(true);
-                    appSettingsManager.manualFocus.setKEY(KEYS.MANUALFOCUS_STEP);
+                    appSettingsManager.manualFocus.setKEY(appSettingsManager.getResString(R.string.manualfocus_step));
                 }
                 break;
             case LG_G4:
@@ -841,20 +847,20 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 min = 0;
                 max = 60;
                 step = 1;
-                appSettingsManager.manualFocus.setMode(KEYS.FOCUS_MODE_NORMAL);
+                appSettingsManager.manualFocus.setMode(appSettingsManager.getResString(R.string.manual));
                 appSettingsManager.manualFocus.setType(-1);
                 appSettingsManager.manualFocus.setIsSupported(true);
-                appSettingsManager.manualFocus.setKEY(KEYS.MANUALFOCUS_STEP);
+                appSettingsManager.manualFocus.setKEY(appSettingsManager.getResString(R.string.manualfocus_step));
                 break;
             case LG_G2:
             case LG_G2pro:
                 min = 0;
                 max = 79;
                 step = 1;
-                appSettingsManager.manualFocus.setMode(KEYS.FOCUS_MODE_NORMAL);
+                appSettingsManager.manualFocus.setMode(appSettingsManager.getResString(R.string.normal));
                 appSettingsManager.manualFocus.setType(-1);
                 appSettingsManager.manualFocus.setIsSupported(true);
-                appSettingsManager.manualFocus.setKEY(KEYS.MANUALFOCUS_STEP);
+                appSettingsManager.manualFocus.setKEY(appSettingsManager.getResString(R.string.manualfocus_step));
                 break;
             case ZTE_Z11:
             case ZTEADV234:
@@ -882,7 +888,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private String[] createManualFocusValues(int min, int max, int step)
     {
         ArrayList<String> ar = new ArrayList<>();
-        ar.add(KEYS.AUTO);
+        ar.add(appSettingsManager.getResString(R.string.auto_));
 
         for (int i = min; i < max; i+= step)
         {
@@ -1062,25 +1068,25 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 {
                     appSettingsManager.pictureFormat.setIsSupported(true);
                     appSettingsManager.rawPictureFormat.setIsSupported(true);
-                    appSettingsManager.rawPictureFormat.set(KEYS.BAYER_MIPI_10BGGR);
+                    appSettingsManager.rawPictureFormat.set(appSettingsManager.getResString(R.string.bayer_mipi_10bggr));
                 }
                 else if (appSettingsManager.getDevice() == DeviceUtils.Devices.HTC_OneA9 )
                 {
                     appSettingsManager.pictureFormat.setIsSupported(true);
                     appSettingsManager.rawPictureFormat.setIsSupported(true);
-                    appSettingsManager.rawPictureFormat.set(KEYS.BAYER_MIPI_10RGGB);
+                    appSettingsManager.rawPictureFormat.set(appSettingsManager.getResString(R.string.bayer_mipi_10rggb));
                 }else if(appSettingsManager.getDevice() == DeviceUtils.Devices.MotoG3 ||appSettingsManager.getDevice() == DeviceUtils.Devices.MotoG_Turbo)
                 {
                     appSettingsManager.pictureFormat.setIsSupported(true);
                     appSettingsManager.rawPictureFormat.setIsSupported(true);
-                    appSettingsManager.rawPictureFormat.set(KEYS.BAYER_QCOM_10RGGB);
+                    appSettingsManager.rawPictureFormat.set(appSettingsManager.getResString(R.string.bayer_qcom_10rggb));
                 }
 
                 else if(appSettingsManager.getDevice() == DeviceUtils.Devices.Htc_M8 && Build.VERSION.SDK_INT >= 21)
                 {
                     appSettingsManager.pictureFormat.setIsSupported(true);
                     appSettingsManager.rawPictureFormat.setIsSupported(true);
-                    appSettingsManager.rawPictureFormat.set(KEYS.BAYER_QCOM_10GRBG);
+                    appSettingsManager.rawPictureFormat.set(appSettingsManager.getResString(R.string.bayer_qcom_10grbg));
                 }
                 else
                 {
@@ -1098,12 +1104,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                             }
                         }
                     }
-                    if (formats.contains(BAYER))
+                    if (formats.contains(appSettingsManager.getResString(R.string.bayer_)))
                     {
                         ArrayList<String> tmp = new ArrayList<>();
                         String[] forms = formats.split(",");
                         for (String s : forms) {
-                            if (s.contains(BAYER))
+                            if (s.contains(appSettingsManager.getResString(R.string.bayer_)))
                             {
                                 tmp.add(s);
                             }
@@ -1117,19 +1123,23 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             appSettingsManager.pictureFormat.setIsSupported(true);
             if (appSettingsManager.getDngProfilesMap().size() > 0)
             {
-                appSettingsManager.pictureFormat.setValues(new String[]{
-                        AppSettingsManager.CaptureMode[AppSettingsManager.JPEG], AppSettingsManager.CaptureMode[AppSettingsManager.DNG], AppSettingsManager.CaptureMode[AppSettingsManager.RAW]
-                });
+                appSettingsManager.pictureFormat.setValues(new String[]
+                        {
+                                appSettingsManager.getResString(R.string.jpeg_),
+                                appSettingsManager.getResString(R.string.dng_),
+                                appSettingsManager.getResString(R.string.bayer_)
+                        });
             }
             else if (appSettingsManager.rawPictureFormat.isSupported()) {
                 appSettingsManager.pictureFormat.setValues(new String[]{
-                        AppSettingsManager.CaptureMode[AppSettingsManager.JPEG], AppSettingsManager.CaptureMode[AppSettingsManager.RAW]
+                        appSettingsManager.getResString(R.string.jpeg_),
+                        appSettingsManager.getResString(R.string.bayer_)
                 });
             }
             else
             {
                 appSettingsManager.pictureFormat.setValues(new String[]{
-                        AppSettingsManager.CaptureMode[AppSettingsManager.JPEG]
+                        appSettingsManager.getResString(R.string.jpeg_)
                 });
             }
 
@@ -1312,24 +1322,29 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             case LG_G2pro:
             case LG_G3:
                 appSettingsManager.opticalImageStabilisation.setIsSupported(true);
-                appSettingsManager.opticalImageStabilisation.setKEY(KEYS.LG_OIS);
+                appSettingsManager.opticalImageStabilisation.setKEY(appSettingsManager.getResString(R.string.lg_ois));
                 appSettingsManager.opticalImageStabilisation.setValues(new String[] {
-                        KEYS.LG_OIS_PREVIEW_CAPTURE,KEYS.LG_OIS_CAPTURE,KEYS.LG_OIS_VIDEO,KEYS.LG_OIS_CENTERING_ONLY, KEYS.LG_OIS_CENTERING_OFF});
-                appSettingsManager.opticalImageStabilisation.set(KEYS.LG_OIS_CENTERING_OFF);
+                        appSettingsManager.getResString(R.string.lg_ois_preview_capture),
+                        appSettingsManager.getResString(R.string.lg_ois_capture),
+                        appSettingsManager.getResString(R.string.lg_ois_video),
+                        appSettingsManager.getResString(R.string.lg_ois_centering_only),
+                        appSettingsManager.getResString(R.string.lg_ois_centering_off)});
+
+                appSettingsManager.opticalImageStabilisation.set(appSettingsManager.getResString(R.string.lg_ois_centering_off));
                 break;
             case XiaomiMI5:
                 appSettingsManager.opticalImageStabilisation.setIsSupported(true);
                 appSettingsManager.opticalImageStabilisation.setKEY("ois");
                 appSettingsManager.opticalImageStabilisation.setValues(new String[] {
-                        KEYS.ENABLE,KEYS.DISABLE});
-                appSettingsManager.opticalImageStabilisation.set(KEYS.ENABLE);
+                        appSettingsManager.getResString(R.string.enable_),appSettingsManager.getResString(R.string.disable_)});
+                appSettingsManager.opticalImageStabilisation.set(appSettingsManager.getResString(R.string.enable_));
                 break;
             case p8lite:
                 appSettingsManager.opticalImageStabilisation.setIsSupported(true);
                 appSettingsManager.opticalImageStabilisation.setKEY("hw_ois_enable");
                 appSettingsManager.opticalImageStabilisation.setValues(new String[] {
-                        KEYS.ON,KEYS.OFF});
-                appSettingsManager.opticalImageStabilisation.set(KEYS.ON);
+                        appSettingsManager.getResString(R.string.on_),appSettingsManager.getResString(R.string.off_)});
+                appSettingsManager.opticalImageStabilisation.set(appSettingsManager.getResString(R.string.on_));
                 break;
             default:
                 appSettingsManager.opticalImageStabilisation.setIsSupported(false);

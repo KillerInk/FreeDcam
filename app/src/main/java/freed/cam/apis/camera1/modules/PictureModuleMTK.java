@@ -23,11 +23,12 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.freedcam.R;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -54,7 +55,7 @@ public class PictureModuleMTK extends PictureModule
         mBackgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
 
                 cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
@@ -84,25 +85,23 @@ public class PictureModuleMTK extends PictureModule
         // must always be jpg ending. dng gets created based on that
         holdFile = getFile(".jpg");
         Log.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
-        switch (picformat) {
-            case KEYS.JPEG:
-                //savejpeg
-                saveJpeg(holdFile,data);
-                try {
-                    DeviceSwitcher().delete();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                break;
-            case FileEnding.DNG:
-                //savejpeg
-                saveJpeg(holdFile,data);
-                CreateDNG_DeleteRaw();
-                break;
-            case FileEnding.BAYER:
-                //savejpeg
-                saveJpeg(holdFile,data);
-                break;
+        if (picformat.equals(cameraUiWrapper.getResString(R.string.jpeg_)))
+        {
+            saveJpeg(holdFile,data);
+            try {
+                DeviceSwitcher().delete();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else if (picformat.equals(cameraUiWrapper.getResString(R.string.dng_)))
+        {
+            saveJpeg(holdFile,data);
+            CreateDNG_DeleteRaw();
+        }
+        else
+        {
+            saveJpeg(holdFile,data);
         }
         fireOnWorkFinish(holdFile);
         waitForPicture = false;
