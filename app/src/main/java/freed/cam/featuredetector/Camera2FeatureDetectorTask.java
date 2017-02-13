@@ -59,7 +59,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 CameraCharacteristics characteristics = manager.getCameraCharacteristics(s);
                 boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
                 appSettingsManager.setIsFrontCamera(front);
-                boolean legacy = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
+                boolean legacy = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY
+                        || characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED;
                 appSettingsManager.SetCamera2FullSupported(String.valueOf(!legacy));
                 publishProgress("IsCamera2 Full Device:" + appSettingsManager.IsCamera2FullSupported() + " isFront:" +appSettingsManager.getIsFrontCamera());
 
