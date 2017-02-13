@@ -121,6 +121,12 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     detectManualIso(characteristics);
                     sendProgress(appSettingsManager.manualIso,"Iso:");
+
+                    detectColorcorrectionMode(characteristics);
+                    sendProgress(appSettingsManager.colorCorrectionMode, "ColorCorrection");
+
+                    detectMode(characteristics,CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES,appSettingsManager.whiteBalanceMode,R.array.whitebalancemodes);
+                    sendProgress(appSettingsManager.whiteBalanceMode,"Whitebalance");
                 }
             }
             appSettingsManager.SetCurrentCamera(0);
@@ -137,6 +143,18 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         super.onPostExecute(s);
         appSettingsManager.SetCurrentCamera(0);
         //startFreedcam();
+    }
+
+    private void detectColorcorrectionMode(CameraCharacteristics cameraCharacteristics)
+    {
+        String[] lookupar = appSettingsManager.getResources().getStringArray(R.array.colorcorrectionmodes);
+        HashMap<String,Integer> map = new HashMap<>();
+        map.put(lookupar[0],0);
+        map.put(lookupar[1],1);
+        map.put(lookupar[2],2);
+        lookupar = StringUtils.IntHashmapToStringArray(map);
+        appSettingsManager.colorCorrectionMode.setValues(lookupar);
+        appSettingsManager.colorCorrectionMode.isSupported();
     }
 
     private void detectFlash(CameraCharacteristics characteristics) {
@@ -307,10 +325,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 break;
             case LG_V20:
                 max = 90000000;
-
+                break;
             case Htc_M10:
                 max = 1800000000;
-
+                break;
             case OnePlusTwo:
                 max = 32000000;
                 break;

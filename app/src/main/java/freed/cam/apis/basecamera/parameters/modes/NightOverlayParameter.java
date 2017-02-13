@@ -33,9 +33,9 @@ public class NightOverlayParameter extends AbstractModeParameter  {
     public String GetValue() {
         boolean enable = cameraWrapperInterface.GetAppSettingsManager().getBoolean(AppSettingsManager.SETTINGS_NIGHTOVERLAY,false);
         if (enable)
-            return cameraWrapperInterface.getResString(R.string.on_);
+            return cameraWrapperInterface.GetAppSettingsManager().getResString(R.string.on_);
         else
-            return cameraWrapperInterface.getResString(R.string.off_);
+            return cameraWrapperInterface.GetAppSettingsManager().getResString(R.string.off_);
     }
 
     @Override

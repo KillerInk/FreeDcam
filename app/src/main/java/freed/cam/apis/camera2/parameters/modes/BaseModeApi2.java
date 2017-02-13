@@ -90,12 +90,4 @@ public class BaseModeApi2 extends AbstractModeParameter
     public String[] GetValues() {
         return parameterValues.keySet().toArray(new String[parameterValues.size()]);
     }
-
-    @TargetApi(VERSION_CODES.LOLLIPOP)
-    private void setIntKey(Key<Integer> key, int value)
-    {
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(key, value);
-    }
-
-
 }

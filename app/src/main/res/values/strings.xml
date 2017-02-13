@@ -254,6 +254,8 @@
     <string name="pictureformat_jpeg">Jpeg</string>
     <string name="pictureformat_bayer">Bayer</string>
 
+    <string name="colorcorrection_transform_matrix">Transform Matrix</string>
+
 
 
 </resources>
