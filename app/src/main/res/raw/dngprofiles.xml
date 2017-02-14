@@ -1,8 +1,9 @@
-<DngProfiles>
+<devices>
 
-    <Device name ="Alcatel_985n">
+    <device name ="Alcatel_985n">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>"Vodafone 985N"</item></models>
         <filesize size= "9830400">
             <blacklvl>16</blacklvl>
             <width>2560</width>
@@ -12,11 +13,15 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Asus_Zenfone_Go">
+    <device name ="Asus_Zenfone_Go">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models>
+            <item>ASUS_X014D</item>
+            <item>ASUS_Z00VD</item>
+        </models>
         <filesize size= "6144000">
             <blacklvl>64</blacklvl>
             <width>2560</width>
@@ -26,11 +31,25 @@
             <rowsize>0</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Blackberry_Priv">
+    <device name="Asus_Zenfon2">
+        <string-array>
+            <item>ASUS_Z00ED</item>
+        </string-array>
+    </device>
+
+    <device name ="Blackberry_Priv">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models>
+            <item>STV100</item>
+            <item>STV100-0</item>
+            <item>STV100-1</item>
+            <item>STV100-2</item>
+            <item>STV100-3</item>
+            <item>STV100-4</item>
+            <item>STV100-5</item></models>
         <filesize size= "23472640">
             <blacklvl>0</blacklvl>
             <width>4896</width>
@@ -40,11 +59,12 @@
             <rowsize>0</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Aquaris_E5">
+    <device name ="Aquaris_E5">
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Aquaris_E5/opc3.bin?raw=true</opcode3>
+        <models><item>Aquaris E5</item><item>Aquaris_E5</item></models>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -54,11 +74,12 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Aquaris_M5">
+    <device name ="Aquaris_M5">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>Aquaris M5</item></models>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -68,10 +89,15 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
-    <Device name ="Alcatel_Idol3">
+    </device>
+    <device name ="Alcatel_Idol3">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>6045Y</item>
+            <item>6045B</item>
+            <item>6045F</item>
+            <item>6045I</item>
+            <item>6045K</item></models>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -90,11 +116,12 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Alcatel_Idol3_small">
+    <device name ="Alcatel_Idol3_small">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>6039Y</item></models>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -104,11 +131,12 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Elephone_P9000">
+    <device name ="Elephone_P9000">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>P9000</item></models>
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -136,11 +164,12 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="GioneE7">
+    <device name ="GioneE7">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>E7</item></models>
         <filesize size= "9990144">
             <blacklvl>16</blacklvl>
             <width>3264</width>
@@ -177,11 +206,13 @@
             <rowsize>1</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="ForwardArt_MTK">
+    <device name ="ForwardArt_MTK">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>Forward_Art</item>
+            <item>Primo GH2 By NFS GHOST</item></models>
         <filesize size= "9830400">
             <blacklvl>16</blacklvl>
             <width>2560</width>
@@ -191,11 +222,34 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Htc_M8">
+    <device name ="Htc_Evo3d">
+        <models>
+            <item>HTC EVO 3D X515m"</item>
+            <item>HTC X515d</item>
+            <item>HTC ShooterU</item>
+            <item>HTC Shooter</item>
+        </models>
+    </device>
+
+    <device name ="Htc_M8">
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Htc_M8/opc3.bin?raw=true</opcode3>
+        <models>
+            <item>HTC One_M8"</item>
+            <item>One M8</item>
+            <item>HTC One M8</item>
+            <item>831C</item>
+            <item>HTC M8w</item>
+            <item>HTC One_M8</item>
+            <item>HTC_0P6B</item>
+            <item>HTC_0P6B6</item>
+            <item>HTC_M8x</item>
+            <item>HTC One_M8 dual sim</item>
+            <item>HTC M8d</item>
+            <item>HTC6525LVW</item>
+            <item>m8</item></models>
         <filesize size= "5382641"> <!-- filesize < 6000000 && filesize > 5382641 //qcom -->
             <blacklvl>0</blacklvl>
             <width>2688</width>
@@ -214,11 +268,20 @@
             <rowsize>3360</rowsize>
             <matrixset>OV4688</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Htc_M9">
+    <device name ="Htc_M9">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models>
+            <item>HTC One_M9"</item>
+            <item>HTC One M9</item>
+            <item>0PJA10</item>
+            <item>HTC 0PJA10</item>
+            <item>HTC_M9u</item>
+            <item>HTC6535LRA</item>
+            <item>HTC6535LVW</item>
+            <item>0PJA2</item></models>
         <filesize size= "25677824">
             <blacklvl>64</blacklvl>
             <width>5388</width>
@@ -237,11 +300,21 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Htc_One_Sv">
+    <device name="htc_m10">
+        <models>
+            <item>HTC One M10</item>
+            <item>HTC 10</item>
+            <item>pmewl_00617</item>
+            <item>htc_pmewl</item>
+        </models>
+    </device>
+
+    <device name ="Htc_One_Sv">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>HTC One SV</item></models>
         <filesize size= "6746112">
             <blacklvl>64</blacklvl>
             <width>2592</width>
@@ -251,11 +324,12 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Htc_One_Xl">
+    <device name ="Htc_One_Xl">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>one xl</item></models>
         <filesize size= "10782464">
             <blacklvl>0</blacklvl>
             <width>3282</width>
@@ -265,11 +339,15 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="HTC_OneA9">
+    <device name ="HTC_OneA9">
         <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/HTC_OneA9/opc2.bin?raw=true</opcode2>
         <opcode3></opcode3>
+        <models><item>HTC One A9</item>
+            <item>HTC One_A9</item>
+            <item>One A9</item>
+            <item>One_A9</item></models>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -279,11 +357,12 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="HTC_OneE8">
+    <device name ="HTC_OneE8">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>HTC One_E8</item></models>
         <filesize size= "16560128">
             <blacklvl>16</blacklvl>
             <width>4224</width>
@@ -293,11 +372,12 @@
             <rowsize>0</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="HTC_Desire500">
+    <device name ="HTC_Desire500">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>HTC Desire 500</item></models>
         <filesize size= "10782464">
             <blacklvl>0</blacklvl>
             <width>3282</width>
@@ -307,11 +387,12 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="HTC_Desire830">
+    <device name ="HTC_Desire830">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>HTC Desire 830</item><item>unknown</item></models>
         <filesize size= "26257920">
             <blacklvl>0</blacklvl>
             <width>4208</width>
@@ -321,11 +402,19 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Huawei_GX8">
+    <device name ="Huawei_GX8">
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Huawei_GX8/opc3.bin?raw=true</opcode3>
+        <models><item>HUAWEI RIO-L01</item>
+            <item>HUAWEI RIO-L02</item>
+            <item>HUAWEI RIO-L03</item>
+            <item>HUAWEI RIO-L04</item>
+            <item>RIO-L01</item>
+            <item>RIO-L02</item>
+            <item>RIO-L03</item>
+            <item>RIO-L04</item></models>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -335,9 +424,29 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Huawei_HONOR5x">
+    <device name ="Huawei_HONOR5x">
+        <models><item>KIW-L21</item>
+            <item>KIW-L22</item>
+            <item>KIW-L23</item>
+            <item>KIW-L24</item>
+            <item>KIW-CL00</item>
+            <item>KIW-TL00</item>
+            <item>KII-L21</item>
+            <item>KII-L22</item>
+            <item>KII-L23</item>
+            <item>KII-L24</item>
+            <item>HUAWEI KIW-L21</item>
+            <item>HUAWEI KIW-L22</item>
+            <item>HUAWEI KIW-L23</item>
+            <item>HUAWEI KIW-L24</item>
+            <item>HUAWEI KIW-CL00</item>
+            <item>HUAWEI KIW-TL00</item>
+            <item>HUAWEI -L21</item>
+            <item>HUAWEI KII-L22</item>
+            <item>HUAWEI KII-L23</item>
+            <item>HUAWEI KII-L24</item></models>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Huawei_HONOR5x/opc3.bin?raw=true</opcode3>
         <filesize size= "16424960">
@@ -349,9 +458,10 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="I_Mobile_I_StyleQ6">
+    <device name ="I_Mobile_I_StyleQ6">
+        <models><item>i-mobile i-STYLE Q6</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "9631728">
@@ -363,9 +473,10 @@
             <rowsize>0</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="InFocus_M808">
+    <device name ="InFocus_M808">
+        <models><item>InFocus M808</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -377,9 +488,22 @@
             <rowsize>0</rowsize>
             <matrixset>Lumigon</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Jiayu_S3">
+    <device name="Google_Pixel">
+        <models>
+            <item>Pixel</item>
+            <item>Pixel XL</item>
+        </models>
+    </device>
+
+    <device name ="Jiayu_S3">
+        <models>
+            <item>JY-S3</item>
+            <item>Jiayu S3</item>
+            <item>h560</item>
+            <item>S3</item>
+            <item>Jiayu_S3</item></models>
         <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Jiayu_S3/opc2.bin?raw=true</opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -391,9 +515,10 @@
             <rowsize>0</rowsize>
             <matrixset>Imx214</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="LeEco_Cool1">
+    <device name ="LeEco_Cool1">
+        <models><item>C106</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16510976">
@@ -405,9 +530,16 @@
             <rowsize>0</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="LenovoK910">
+    <device name="lenovo_vibe_x3">
+        <models>
+        <item>Lenovo X3a40</item>
+        </models>
+    </device>
+
+    <device name ="LenovoK910">
+        <models><item>Lenovo K910</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "6721536">
@@ -437,9 +569,13 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="LenovoK920">
+    <device name ="LenovoK920">
+        <models><item>Lenovo K920</item>
+            <item>K920</item>
+            <item>K920 (ROW)</item>
+            <item>K920 (CN)</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16510976">
@@ -451,9 +587,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Lenovo_K4Note_MTK">
+    <device name ="Lenovo_K4Note_MTK">
+        <models><item>Lenovo A7010a48</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "19992576">
@@ -465,9 +602,11 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Lenovo_K50_MTK">
+    <device name ="Lenovo_K50_MTK">
+        <models><item>Lenovo K50-t5</item>
+            <item>K50-t5</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -479,9 +618,11 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Lenovo_VibeP1">
+    <device name ="Lenovo_VibeP1">
+        <models><item>Lenovo P1a42</item>
+            <item>Lenovo_P1a42</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16510976">
@@ -493,9 +634,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Lenovo_VibeShot_Z90">
+    <device name ="Lenovo_VibeShot_Z90">
+        <models><item>Lenovo Z90a40</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "19992576">
@@ -507,9 +649,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Lenovo_VibeShot_Z90">
+    <device name ="Lenovo_VibeShot_Z90">
+        <models><item>Lenovo Z90a40</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26935296">
@@ -530,11 +673,33 @@
             <rowsize>0</rowsize>
             <matrixset>Imx230</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="LG_G2">
+    <device name ="LG_G2">
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/LG_G2/opc3.bin?raw=true</opcode3>
+        <models>
+            <item>LG-D800</item>
+            <item>LG-D801</item>
+            <item>LG-D802</item>
+            <item>LG-D802T</item>
+            <item>LG-D802TR</item>
+            <item>LG-D803</item>
+            <item>LG-D804</item>
+            <item>LG-D805</item>
+            <item>LG-D806</item>
+            <item>LG-D820</item>
+            <item>LG-F320</item>
+            <item>LG-F320S</item>
+            <item>LG-F320L</item>
+            <item>LG-F320K</item>
+            <item>LG-VS980</item>
+            <item>LG-LS980</item>
+            <item>L-01F</item>
+            <item>L-01F g2</item>
+            <item>g2</item>
+            <item>VS980 4G</item>
+        </models>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -553,11 +718,14 @@
             <rowsize>5264</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="LG_G2pro">
+    <device name ="LG_G2pro">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models>
+            <item>LG-D838</item>
+        </models>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -576,11 +744,33 @@
             <rowsize>5264</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="LG_G4">
+    <device name ="LG_G4">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models>
+            <item>LG-AS986</item>
+            <item>LG-AS811</item>
+            <item>LG-AS991</item>
+            <item>LG-F500K</item>
+            <item>LG-F500L</item>
+            <item>LG-F500S</item>
+            <item>LG-H810</item>
+            <item>LG-H811</item>
+            <item>LG-H812</item>
+            <item>LG-H815</item>
+            <item>LG-H815P</item>
+            <item>LG-H818P</item>
+            <item>LG-H818</item>
+            <item>LG-H818N</item>
+            <item>LG-H819</item>
+            <item>LG-LS991</item>
+            <item>LGLS991</item>
+            <item>LGUS991</item>
+            <item>LGV32</item>
+            <item>VS986</item>
+        </models>
         <filesize size= "19976192">
             <blacklvl>64</blacklvl>
             <width>5312</width>
@@ -590,11 +780,35 @@
             <rowsize>0</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="LG_G3">
+    <device name ="LG_G3">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models>
+            <item>AS985</item>
+            <item>LG-AS990</item>
+            <item>LG-D850</item>
+            <item>LG-D851</item>
+            <item>LG-D852</item>
+            <item>LG-D852G</item>
+            <item>LG-D855</item>
+            <item>LG-D856</item>
+            <item>LG-D857</item>
+            <item>LG-D858</item>
+            <item>LG-D858HK</item>
+            <item>LG-D859</item>
+            <item>LG-F400K</item>
+            <item>LG-F400L</item>
+            <item>LG-F400S</item>
+            <item>LGL24</item>
+            <item>LGLS990</item>
+            <item>LGUS990</item>
+            <item>LGV31</item>
+            <item>LG VS985 4G</item>
+            <item>LG VS985</item>
+            <item>L-02F</item>
+        </models>
         <filesize size= "2658304">
             <blacklvl>64</blacklvl>
             <width>1212</width>
@@ -652,9 +866,10 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="LG_L5">
+    <device name ="LG_L5">
+        <models><item>LG-E615</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "6659840">
@@ -666,13 +881,14 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
     <!--- missing filesize
 
-    <Device name ="LG_V20">
+    <device name ="LG_V20">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>LG-H918</item></models>
         <filesize size= "6659840">
             <blacklvl>64</blacklvl>
             <width>4656</width>
@@ -682,11 +898,12 @@
             <rowsize>5264</rowsize>
             <matrixset>Imx298</matrixset>
         </filesize>
-    </Device> -->
+    </device> -->
 
     <!--- missing filesize
 
-    <Device name ="Lumigon_T3">
+    <device name ="Lumigon_T3">
+    <models><item>Lumigon_T3</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "6659840">
@@ -698,9 +915,10 @@
             <rowsize>0</rowsize>
             <matrixset>Lumigon</matrixset>
         </filesize>
-    </Device> -->
+    </device> -->
 
-    <Device name ="MeizuM1Metal_MTK">
+    <device name ="MeizuM1Metal_MTK">
+        <models><item>m1 metal</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26492928">
@@ -712,9 +930,10 @@
             <rowsize>0</rowsize>
             <matrixset>Lumigon</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="MeizuMX4_MTK">
+    <device name ="MeizuMX4_MTK">
+        <models><item>MX4</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "41312256">
@@ -726,9 +945,10 @@
             <rowsize>0</rowsize>
             <matrixset>Imx220</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="MeizuMX5_MTK">
+    <device name ="MeizuMX5_MTK">
+        <models><item>MX5</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "41312256">
@@ -740,9 +960,11 @@
             <rowsize>0</rowsize>
             <matrixset>Imx220</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Meizu_m2Note_MTK">
+    <device name ="Meizu_m2Note_MTK">
+        <models><item>m2 note</item>
+            <item>m2</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -754,9 +976,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Mlais_M52_Red_Note_MTK">
+    <device name ="Mlais_M52_Red_Note_MTK">
+        <models><item>M52_Red_Note</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "15980544">
@@ -768,9 +991,27 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Moto_X_Style_Pure_Play">
+    <device name ="Moto_X_Style_Pure_Play">
+        <models><item>XT1560</item>
+            <item>XT1561</item>
+            <item>XT1562</item>
+            <item>XT1563</item>
+            <item>XT1564</item>
+            <item>XT1565</item>
+            <item>XT1566</item>
+            <item>XT1567</item>
+            <item>XT1568</item>
+            <item>XT1570</item>
+            <item>XT1571</item>
+            <item>XT1572</item>
+            <item>XT1573</item>
+            <item>XT1574</item>
+            <item>XT1575</item>
+            <item>XT1576</item>
+            <item>XT1577</item>
+            <item>XT1578</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "42923008">
@@ -791,9 +1032,10 @@
             <rowsize>0</rowsize>
             <matrixset>Imx230</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="MotoG3">
+    <device name ="MotoG3">
+        <models><item>MotoG3</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17326080">
@@ -805,9 +1047,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="MotoG_Turbo">
+    <device name ="MotoG_Turbo">
+        <models><item>MotoG3-TE</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17326080">
@@ -819,9 +1062,13 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Moto_ZPlay">
+    <device name ="Moto_ZPlay">
+        <models><item>XT1635-02</item>
+            <item>XT1635-01</item>
+            <item>XT1635-00</item>
+            <item>XT1635</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "19906560">
@@ -833,9 +1080,22 @@
             <rowsize>5246</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="MOTOG_2k14">
+    <device name ="Moto_X2k14">
+        <models>
+            <item>XT1090</item>
+            <item>XT1091</item>
+            <item>XT1092</item>
+            <item>XT1093</item>
+            <item>XT1094</item>
+            <item>XT1095</item>
+        </models>
+    </device>
+
+    <device name ="MOTOG_2k14">
+        <models>
+            <item>Moto G 2014</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "9990144">
@@ -856,9 +1116,10 @@
             <rowsize>0</rowsize>
             <matrixset>Imx179</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="MyPhone_Infinity2S">
+    <device name ="MyPhone_Infinity2S">
+        <models><item>INFINITY_II_S</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "15980544">
@@ -870,9 +1131,11 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="OnePlusOne">
+    <device name ="OnePlusOne">
+        <models><item>A0001</item>
+            <item>One</item></models>
         <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/OnePlusOne/opc2.bin?raw=true</opcode2>
         <opcode3></opcode3>
         <filesize size= "16424960">
@@ -902,9 +1165,17 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="OnePlusTwo">
+    <device name ="OnePlusTwo">
+        <models><item>ONE A2001</item>
+            <item>ONE A2003</item>
+            <item>ONE A2005</item>
+            <item>ONE A2004</item>
+            <item>A2001</item>
+            <item>A2003</item>
+            <item>A2005</item>
+            <item>A2004</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26357760">
@@ -916,9 +1187,12 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="OnePlusX">
+    <device name ="OnePlusX">
+        <models><item>ONE E1003</item>
+            <item>ONE E1002</item>
+            <item>ONE E1001</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "9990144">
@@ -948,9 +1222,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Prestigio_Multipad_Color">
+    <device name ="Prestigio_Multipad_Color">
+        <models><item>PMT5777_3G</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "3763584">
@@ -962,9 +1237,14 @@
             <rowsize>0</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Xiaomi_RedmiNote">
+    <device name ="Xiaomi_RedmiNote">
+        <models>
+            <item>HM NOTE 1LTE</item>
+            <item>HM NOTE 1LTETD</item>
+            <item>HM NOTE 1LTEW</item>
+            <item>MI NOTE LTE</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17522688">
@@ -985,9 +1265,28 @@
             <rowsize>5246</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Xiaomi_Redmi2">
+    <device name ="Xiaomi_Redmi2">
+        <models>
+            <item>HM2014811</item>
+            <item>HM2014812</item>
+            <item>HM2014813</item>
+            <item>HM2014815</item>
+            <item>HM2014816</item>
+            <item>HM2014817</item>
+            <item>HM2014818</item>
+            <item>HM2014819</item>
+            <item>2014811</item>
+            <item>2014812</item>
+            <item>2014813</item>
+            <item>2014814</item>
+            <item>2014815</item>
+            <item>2014816</item>
+            <item>2014817</item>
+            <item>2014818</item>
+            <item>2014819</item>
+        </models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "9990144">
@@ -1008,9 +1307,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Xiaomi_RedmiNote2_MTK">
+    <device name ="Xiaomi_RedmiNote2_MTK">
+        <models><item>Redmi Note 2</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1022,9 +1322,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Retro_MTK">
+    <device name ="Retro_MTK">
+        <models><item>Retro</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1036,9 +1337,12 @@
             <rowsize>3360</rowsize>
             <matrixset>Omnivision</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="SonyM5_MTK">
+    <device name ="SonyM5_MTK">
+        <models><item>E5633</item>
+            <item>E5643</item>
+            <item>E5663</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "42923008">
@@ -1050,9 +1354,12 @@
             <rowsize>0</rowsize>
             <matrixset>Imx230</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="SonyM4_QC">
+    <device name ="SonyM4_QC">
+        <models><item>E2303</item>
+            <item>E2306</item>
+            <item>E2353</item></models>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/SonyM4_QC/opc2.bin?raw=true</opcode3>
         <filesize size= "16424960">
@@ -1064,9 +1371,12 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="SonyC4_MTK">
+    <device name ="SonyC4_MTK">
+        <models><item>E5333</item>
+            <item>E5343</item>
+            <item>E5363</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26257920">
@@ -1078,9 +1388,11 @@
             <rowsize>0</rowsize>
             <matrixset>Imx214</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="SonyC5_MTK">
+    <device name ="SonyC5_MTK">
+        <models><item>E5533</item>
+            <item>E5563</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26257920">
@@ -1092,9 +1404,11 @@
             <rowsize>0</rowsize>
             <matrixset>Imx214</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Sony_XperiaL">
+    <device name ="Sony_XperiaL">
+        <models><item>C2104</item>
+            <item>C2105</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "10788864">
@@ -1106,11 +1420,12 @@
             <rowsize>4376</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Sony_Z5C">
+    <device name ="Sony_Z5C">
         <opcode2></opcode2>
         <opcode3></opcode3>
+        <models><item>E5823</item></models>
         <filesize size= "28721152">
             <blacklvl>64</blacklvl>
             <width>5520</width>
@@ -1120,9 +1435,20 @@
             <rowsize>6904</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="THL100s_MTK">
+    <device name="sony_adv">
+        <models>
+            <item>C66</item>
+            <item>C69</item>
+            <item>C65</item>
+            <item>C64</item>
+            <item>D65</item>
+            <item>D66</item>
+        </models></device>
+
+    <device name ="THL100s_MTK">
+        <models><item>S5008</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1134,9 +1460,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="THL5000_MTK">
+    <device name ="THL5000_MTK">
+        <models><item>thl 5000</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1148,9 +1475,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Umi_Rome_X">
+    <device name ="Umi_Rome_X">
+        <models><item>ROME_X</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "15360000">
@@ -1162,9 +1490,10 @@
             <rowsize>0</rowsize>
             <matrixset>Imx179</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Vivo_Xplay3s">
+    <device name ="Vivo_Xplay3s">
+        <models><item>vivo Xplay3S</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17522688">
@@ -1185,9 +1514,10 @@
             <rowsize>5264</rowsize>
             <matrixset>Imx214</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Vivo_V3">
+    <device name ="Vivo_V3">
+        <models><item>vivo V3</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17522688">
@@ -1208,9 +1538,10 @@
             <rowsize>5264</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Wiko_Stairway">
+    <device name ="Wiko_Stairway">
+        <models><item>STAIRWAY</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1222,9 +1553,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Wileyfox_Swift">
+    <device name ="Wileyfox_Swift">
+        <models><item>Wileyfox Swift</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17522688">
@@ -1245,9 +1577,10 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Mi_Max">
+    <device name ="Mi_Max">
+        <models><item>MI MAX</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "20557824">
@@ -1259,9 +1592,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="XiaomiMI3W">
+    <device name ="XiaomiMI3W">
+        <models><item>MI 3W</item></models>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI3W/opc3.bin?raw=true</opcode3>
         <filesize size= "17522688">
@@ -1309,9 +1643,13 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="XiaomiMI4W">
+    <device name ="XiaomiMI4W">
+        <models>
+            <item>MI 4</item>
+            <item>MI 4W</item>
+            <item>MI 4LTE</item></models>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI4W/opc3.bin?raw=true</opcode3>
         <filesize size= "17522688">
@@ -1359,9 +1697,11 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="XiaomiMI4C">
+    <device name ="XiaomiMI4C">
+        <models><item>Mi-4c</item>
+            <item>MI 4C</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17522688">
@@ -1409,9 +1749,11 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="XiaomiMI5">
+    <device name ="XiaomiMI5">
+        <models><item>MI 5</item>
+            <item>MI_5</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "20500480">
@@ -1423,11 +1765,12 @@
             <rowsize>5264</rowsize>
             <matrixset>Imx298</matrixset>
         </filesize>
-    </Device>
+    </device>
 
     <!-- missing rawsize
 
-    <Device name ="XiaomiMI5s">
+    <device name ="XiaomiMI5s">
+    <models><item>MI 5s</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "20500480">
@@ -1439,11 +1782,12 @@
             <rowsize>0</rowsize>
             <matrixset>Imx298</matrixset>
         </filesize>
-    </Device>
+    </device>
 
     -->
 
-    <Device name ="XiaomiMI_Note_Pro">
+    <device name ="XiaomiMI_Note_Pro">
+        <models><item>MI NOTE Pro</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17612800">
@@ -1473,9 +1817,18 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Xiaomi_Redmi_Note3">
+    <device name ="Xiaomi_Redmi_Note3">
+        <models>
+            <item>Redmi Note 3 pro</item>
+            <item>Redmi Note 3 Pro</item>
+            <item>Redmi_Note 3_pro</item>
+            <item>Redmi Note 3_pro</item>
+            <item>Redmi Note 3</item>
+            <item>Xiaomi Redmi Note 3</item>
+            <item>kenzo</item>
+            <item>Kenzo</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1496,9 +1849,10 @@
             <rowsize>0</rowsize>
             <matrixset>S5K3P3</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Xiaomi_Redmi3">
+    <device name ="Xiaomi_Redmi3">
+        <models><item>Redmi 3</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16424960">
@@ -1519,9 +1873,10 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Xiaomi_Redmi3S">
+    <device name ="Xiaomi_Redmi3S">
+        <models><item>Redmi 3S</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16510976">
@@ -1533,9 +1888,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Xolo_Omega5">
+    <device name ="Xolo_Omega5">
+        <models><item>Omega 5.0</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "15980544">
@@ -1547,9 +1903,11 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Yu_Yuphoria">
+    <device name ="Yu_Yuphoria">
+        <models><item>YU5010</item>
+            <item>YU5010A</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "9990144">
@@ -1561,9 +1919,14 @@
             <rowsize>4080</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Yu_Yureka">
+    <device name ="Yu_Yureka">
+        <models><item>YUREKA</item>
+            <item>AO5510</item>
+            <item>Yureka</item>
+            <item>A05510</item>
+            <item>YU5510</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16424960">
@@ -1575,9 +1938,14 @@
             <rowsize>5264</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="ZTE_ADV">
+    <device name ="ZTE_ADV">
+        <models><item>NX503A</item>
+            <item>NX503J</item>
+            <item>NX501</item>
+            <item>Z5s</item>
+            <item>NX601J</item></models>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
         <filesize size= "6299648">
@@ -1625,9 +1993,12 @@
             <rowsize>5264</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="ZTEADVIMX214">
+    <device name ="ZTEADVIMX214">
+        <models><item>NX505J</item>
+            <item>NX506J</item>
+            <item>NX507J</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "6721536">
@@ -1657,9 +2028,14 @@
             <rowsize>0</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="ZTEADV234">
+    <device name ="ZTEADV234">
+        <models><item>NX508J</item>
+            <item>NX509J</item>
+            <item>NX510J</item>
+            <item>NX511J</item>
+            <item>NX512J</item></models>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTEADV234/opc3.bin?raw=true</opcode3>
         <filesize size= "20041728">
@@ -1671,9 +2047,16 @@
             <rowsize>0</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="ZTE_Z11">
+    <device name ="ZTE_Z11">
+        <models>
+            <item>NX523J</item>
+            <item>NX523J_V0</item>
+            <item>NX523J_V1</item>
+            <item>NX523J_V2</item>
+            <item>NX523J_V3</item>
+            <item>NX5222</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "20500480">
@@ -1685,9 +2068,10 @@
             <rowsize>0</rowsize>
             <matrixset>Imx298</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="ZTE_Z5SMINI">
+    <device name ="ZTE_Z5SMINI">
+        <models><item>NX403A</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17522688"> <!-- filesize could be wrong -->
@@ -1699,9 +2083,16 @@
             <rowsize>0</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="ZTE_ZMAX_PRO">
+    <device name="ZTE_Z5">
+        <models>
+            <item>Z5</item>
+        </models>
+    </device>
+
+    <device name ="ZTE_ZMAX_PRO">
+        <models><item>Z981</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16510976"> <!-- filesize could be wrong -->
@@ -1713,9 +2104,16 @@
             <rowsize>0</rowsize>
             <matrixset>Imx135</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Nexus6p">
+    <device name="ZTE_MyPrague">
+        <models>
+            <item>NX403oA</item>
+        </models>
+    </device>
+
+    <device name ="Nexus6p">
+        <models><item>Nexus 6P</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "15428880"> <!-- filesize could be wrong -->
@@ -1727,9 +2125,10 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
-    <Device name ="Nexus5x">
+    <device name ="Nexus5x">
+        <models><item>Nexus 5X</item></models>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "15428880"> <!-- filesize could be wrong -->
@@ -1741,8 +2140,113 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-    </Device>
+    </device>
 
+    <device name="Huawei_P8Lite">
+        <models><item>hi6210sft</item></models>
+    </device>
 
+    <device name="Huawei_p8">
+        <models><item>hi6210sft</item></models>
+    </device>
 
-</DngProfiles>
+    <device name="Huawei_Honor6">
+        <models>
+            <item>hi6210sft</item></models>
+    </device>
+
+    <device name="Huawei_Honor5X">
+        <models >
+            <item>KIW-L21</item>
+            <item>KIW-L22</item>
+            <item>KIW-L23</item>
+            <item>KIW-L24</item>
+            <item>KIW-CL00</item>
+            <item>KIW-TL00</item>
+            <item>KII-L21</item>
+            <item>KII-L22</item>
+            <item>KII-L23</item>
+            <item>KII-L24</item>
+            <item>HUAWEI KIW-L21</item>
+            <item>HUAWEI KIW-L22</item>
+            <item>HUAWEI KIW-L23</item>
+            <item>HUAWEI KIW-L24</item>
+            <item>HUAWEI KIW-CL00</item>
+            <item>HUAWEI KIW-TL00</item>
+            <item>HUAWEI -L21</item>
+            <item>HUAWEI KII-L22</item>
+            <item>HUAWEI KII-L23</item>
+            <item>HUAWEI KII-L24</item>
+        </models>
+    </device>
+
+    <device name="Huawei_GX8">
+        <models >
+            <item>HUAWEI RIO-L01</item>
+            <item>HUAWEI RIO-L02</item>
+            <item>HUAWEI RIO-L03</item>
+            <item>HUAWEI RIO-L04</item>
+            <item>RIO-L01</item>
+            <item>RIO-L02</item>
+            <item>RIO-L03</item>
+            <item>RIO-L04</item>
+        </models>
+    </device>
+
+    <device name="Philips_W8555">
+        <models>
+            <item>Philips W8555</item>
+        </models></device>
+
+    <device name="Nexus4">
+        <string-array>
+            <item>Nexus 4</item>
+        </string-array>
+    </device>
+
+    <device name="Nexus6">
+        <models>
+            <item>Nexus 6</item>
+        </models>
+    </device>
+
+    <device name="Samsung_S6_edge_plus">
+        <models>
+            <item>SM-G9287</item>
+            <item>SM-G9287C</item>
+            <item>SM-G928C</item>
+            <item>SM-G928F</item>
+            <item>SM-G928G</item>
+            <item>SM-G928I</item>
+            <item>SM-G928X</item>
+            <item>SAMSUNG-SM-G928A</item>
+            <item>SM-G928W8</item>
+            <item>SM-G9280</item>
+            <item>SM-G928K</item>
+            <item>SM-G928N0</item>
+            <item>SM-G928L</item>
+            <item>SM-G928S</item>
+            <item>SM-G928P</item>
+            <item>SM-G928T</item>
+            <item>SM-G928V</item>
+        </models>
+    </device>
+
+    <device name="Samsung_S6_edge"><models>
+        <item>SM-G925F</item>
+    </models>
+    </device>
+
+    <device name="Zoppo_8speed">
+        <models>
+            <item>ZP955</item>
+        </models>
+    </device>
+
+    <device name="VERNEE_APOLLO_Lite">
+        <models>
+            <item>Apollo Lite</item>
+        </models>
+    </device>
+
+</devices>

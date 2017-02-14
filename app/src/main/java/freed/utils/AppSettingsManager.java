@@ -652,9 +652,9 @@ public class AppSettingsManager {
         try {
             String xmlsource = getString(resources.openRawResource(R.raw.dngprofiles));
             XmlElement rootElement = XmlElement.parse(xmlsource);
-            if (rootElement.getTagName().equals("DngProfiles"))
+            if (rootElement.getTagName().equals("devices"))
             {
-                List<XmlElement> devicesList = rootElement.findChildren("Device");
+                List<XmlElement> devicesList = rootElement.findChildren("device");
 
                 for (XmlElement device_element: devicesList)
                 {
