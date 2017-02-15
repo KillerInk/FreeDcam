@@ -45,7 +45,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ortiz.touch.TouchImageView;
@@ -61,11 +60,9 @@ import java.io.IOException;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.dng.DngProfile;
-import freed.dng.DngSupportedDevices;
 import freed.jni.RawToDng;
 import freed.jni.RawUtils;
 import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
@@ -102,8 +99,6 @@ public class DngConvertingFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()),getResources());
-        if (appSettingsManager.getDevice() == null)
-            appSettingsManager.SetDevice(new DeviceUtils().getDevice(getResources()));
         handler = new Handler();
         view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
         editTextwidth = (EditText) view.findViewById(id.editText_width);
@@ -152,9 +147,10 @@ public class DngConvertingFragment extends Fragment
         super.onResume();
         filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
         if (filesToConvert != null && filesToConvert.length > 0) {
-            dngprofile = new DngSupportedDevices().getProfile(appSettingsManager.getDevice(), (int) new File(filesToConvert[0]).length(),matrixChooserParameter);
+            dngprofile = appSettingsManager.getDngProfilesMap().get( new File(filesToConvert[0]).length());
             if (dngprofile == null) {
-                dngprofile = new DngSupportedDevices().GetEmptyProfile(matrixChooserParameter);
+                dngprofile = new DngProfile(0,0,0,0,"bggr",0,
+                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
             editTextwidth.setText(dngprofile.widht + "");

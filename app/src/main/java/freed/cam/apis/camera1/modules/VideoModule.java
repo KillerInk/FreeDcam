@@ -136,7 +136,7 @@ public class VideoModule extends AbstractVideoModule
     public void DestroyModule() {
         if (isWorking)
             stopRecording();
-        if (cameraUiWrapper.GetParameterHandler().VideoHDR != null && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported())
+        if (appSettingsManager.videoHDR.isSupported())
             cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("off", true);
         super.DestroyModule();
     }
@@ -148,7 +148,7 @@ public class VideoModule extends AbstractVideoModule
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getApiString(AppSettingsManager.VIDEOPROFILE));
         if (currentProfile.Mode == VideoMode.Highspeed)
         {
-            if(appSettingsManager.getDevice() == Devices.Htc_M8 ||appSettingsManager.getDevice() == Devices.Htc_M9||appSettingsManager.getDevice() == Devices.HTC_OneA9||appSettingsManager.getDevice() == Devices.HTC_OneE8 ) {
+            if(cameraUiWrapper.GetParameterHandler().HTCVideoMode != null) {
                 loadHtcHighspeed();
             }
             else if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == CameraHolder.Frameworks.MTK)
@@ -162,32 +162,29 @@ public class VideoModule extends AbstractVideoModule
         }
         else
         {
-            if (currentProfile.videoFrameRate <=24) {
-                if (((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-frame-rate-values") != null) {
-                    for (String fpz : ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-frame-rate-values").split(",")) {
+            if (appSettingsManager.previewFps.isSupported())
+            {
+                if (currentProfile.videoFrameRate <=24) {
+                    for (String fpz : appSettingsManager.previewFps.getValues()) {
                         if (Integer.parseInt(fpz) == currentProfile.videoFrameRate) {
                             cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate + "", false);
                         }
-
                     }
-
                 }
             }
 
-
-            if (((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range") != null) {
+            if (appSettingsManager.previewFpsRange.isSupported()) {
 
                 if (currentProfile.videoFrameRate <= 30) {
-                    ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("preview-fps-range", String.valueOf(currentProfile.videoFrameRate * 1000) + "," + String.valueOf(currentProfile.videoFrameRate * 1000));
-                    ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters());
+                    cameraUiWrapper.GetParameterHandler().PreviewFpsRange.SetValue(String.valueOf(currentProfile.videoFrameRate * 1000) + "," + String.valueOf(currentProfile.videoFrameRate * 1000),true);
                 }
             }
             if (currentProfile.ProfileName.contains(VideoProfilesParameter._2160p) ||currentProfile.ProfileName.contains(VideoProfilesParameter._2160pDCI))
             {
 
-                if (cameraUiWrapper.GetParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.IsSupported())
+                if (appSettingsManager.digitalImageStabilisationMode.isSupported())
                     cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), true);
-                if (cameraUiWrapper.GetParameterHandler().VideoStabilization != null && cameraUiWrapper.GetParameterHandler().VideoStabilization.IsSupported())
+                if (appSettingsManager.videoStabilisation.isSupported())
                     cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue(appSettingsManager.getResString(R.string.false_), true);
 
                 if (appSettingsManager.IsCamera2FullSupported().equals(appSettingsManager.getResString(R.string.false_)))
@@ -196,7 +193,7 @@ public class VideoModule extends AbstractVideoModule
             else
                 cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp", true);
 
-            if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported())
+            if (appSettingsManager.videoHFR.isSupported())
             {
                 cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(appSettingsManager.getResString(R.string.off_), true);
             }
@@ -220,7 +217,7 @@ public class VideoModule extends AbstractVideoModule
             cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable", false);
         if (appSettingsManager.digitalImageStabilisationMode.isSupported())
             cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", false);
-        if (cameraUiWrapper.GetParameterHandler().VideoStabilization != null && cameraUiWrapper.GetParameterHandler().VideoStabilization.IsSupported())
+        if (appSettingsManager.videoStabilisation.isSupported())
             cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", false);
         if (cameraUiWrapper.GetParameterHandler().Denoise != null && cameraUiWrapper.GetParameterHandler().Denoise.IsSupported())
             cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", false);
@@ -231,38 +228,10 @@ public class VideoModule extends AbstractVideoModule
 
         cameraUiWrapper.StopPreview();
         //set the profile defined frames per seconds
-        if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
+        if (appSettingsManager.videoHFR.isSupported()) {
             cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", false);
         }
-
-        if (cameraUiWrapper.GetParameterHandler().HTCVideoModeHSR != null && cameraUiWrapper.GetParameterHandler().HTCVideoModeHSR.IsSupported()) {
-            cameraUiWrapper.GetParameterHandler().HTCVideoModeHSR.SetValue(currentProfile.videoFrameRate + "", false);
-        }
         cameraUiWrapper.StartPreview();
-
-
-        if (((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-frame-rate-values") != null) {
-            for (String fpz : ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-frame-rate-values").split(",")) {
-                if (Integer.parseInt(fpz) == currentProfile.videoFrameRate) {
-                    cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate + "", false);
-                }
-
-            }
-
-        }
-
-
-        if (((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range") != null) {
-
-            if (currentProfile.videoFrameRate <= 30) {
-                ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("preview-fps-range", String.valueOf(currentProfile.videoFrameRate * 1000) + "," + String.valueOf(currentProfile.videoFrameRate * 1000));
-                ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters());
-            }
-
-            if (((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range").contains(String.valueOf(currentProfile.videoFrameRate*1000)) ) {
-                MaXFPS = currentProfile.videoFrameRate;
-            }
-        }
     }
 
     private void loadMtkHighspeed() {

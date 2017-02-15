@@ -43,23 +43,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         publishProgress("#######Camera1#####");
         publishProgress("###################");
         appSettingsManager.setCamApi(AppSettingsManager.API_1);
-        //detect Device
-        if (appSettingsManager.getDevice() == null)
-            appSettingsManager.SetDevice(new DeviceUtils().getDevice(appSettingsManager.getResources()));
+
         publishProgress("Device:"+appSettingsManager.getDevice().name());
         //detect frameworks
         appSettingsManager.setFramework(getFramework());
         publishProgress("FrameWork:"+appSettingsManager.getFrameWork());
-        //can open legcay
-        switch (appSettingsManager.getDevice())
-        {
-            case LG_G4:
-                appSettingsManager.setOpenCamera1Legacy(true);
-                break;
-            default:
-                appSettingsManager.setOpenCamera1Legacy(false);
-                break;
-        }
+
         publishProgress("CanOpenLegacy:"+appSettingsManager.openCamera1Legacy());
 
         int cameraCounts = Camera.getNumberOfCameras();

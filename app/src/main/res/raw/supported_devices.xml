@@ -1,9 +1,44 @@
 <devices>
 
+    <!--
+    <device name ="device_name"> //defines a device
+
+        <models>// different models for same device
+            <item>xxx</item>
+            <item>yyy</item>
+        </models>
+
+        <camera1>//holds camera1 specfic stuff
+            <framework>0</framework> // framework used by the device 0 = android, 1 = LG, 2 = MTK, 3 = Moto_ext
+            <dngmanual>false</dngmanual> false when the device dont support manual exposuretime and iso when shooting raw
+            <opencameralegacy>true</opencameralegacy>//when empty/false default camera gets open
+        </camera1>
+
+        <opcode2></opcode2> opcode2 url to download
+        <opcode3></opcode3> opcode3 url to download
+
+        <filesize size= "6144000"> holds an dngprofile
+            <blacklvl>64</blacklvl>
+            <width>2560</width>
+            <height>1920</height>
+            <rawtype>0</rawtype> // 0 = Mipi, 1 = qcom, 2 = Plain, 3 = mipi16, 4 = mipi12
+            <colorpattern>grbg</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx135</matrixset>
+        </filesize>
+    </device>
+    -->
+
     <device name ="Alcatel_985n">
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <models><item>"Vodafone 985N"</item></models>
+        <models>
+            <item>"Vodafone 985N"</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "9830400">
             <blacklvl>16</blacklvl>
             <width>2560</width>
@@ -22,6 +57,10 @@
             <item>ASUS_X014D</item>
             <item>ASUS_Z00VD</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "6144000">
             <blacklvl>64</blacklvl>
             <width>2560</width>
@@ -37,6 +76,10 @@
         <string-array>
             <item>ASUS_Z00ED</item>
         </string-array>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name ="Blackberry_Priv">
@@ -49,7 +92,12 @@
             <item>STV100-2</item>
             <item>STV100-3</item>
             <item>STV100-4</item>
-            <item>STV100-5</item></models>
+            <item>STV100-5</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "23472640">
             <blacklvl>0</blacklvl>
             <width>4896</width>
@@ -64,7 +112,14 @@
     <device name ="Aquaris_E5">
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Aquaris_E5/opc3.bin?raw=true</opcode3>
-        <models><item>Aquaris E5</item><item>Aquaris_E5</item></models>
+        <models>
+            <item>Aquaris E5</item>
+            <item>Aquaris_E5</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -79,7 +134,13 @@
     <device name ="Aquaris_M5">
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <models><item>Aquaris M5</item></models>
+        <models>
+            <item>Aquaris M5</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -97,7 +158,12 @@
             <item>6045B</item>
             <item>6045F</item>
             <item>6045I</item>
-            <item>6045K</item></models>
+            <item>6045K</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -121,7 +187,13 @@
     <device name ="Alcatel_Idol3_small">
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <models><item>6039Y</item></models>
+        <models>
+            <item>6039Y</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -136,7 +208,13 @@
     <device name ="Elephone_P9000">
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <models><item>P9000</item></models>
+        <models>
+            <item>P9000</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -169,7 +247,13 @@
     <device name ="GioneE7">
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <models><item>E7</item></models>
+        <models>
+            <item>E7</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "9990144">
             <blacklvl>16</blacklvl>
             <width>3264</width>
@@ -211,8 +295,14 @@
     <device name ="ForwardArt_MTK">
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <models><item>Forward_Art</item>
-            <item>Primo GH2 By NFS GHOST</item></models>
+        <models>
+            <item>Forward_Art</item>
+            <item>Primo GH2 By NFS GHOST</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
         <filesize size= "9830400">
             <blacklvl>16</blacklvl>
             <width>2560</width>
@@ -231,6 +321,10 @@
             <item>HTC ShooterU</item>
             <item>HTC Shooter</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name ="Htc_M8">
@@ -249,7 +343,12 @@
             <item>HTC One_M8 dual sim</item>
             <item>HTC M8d</item>
             <item>HTC6525LVW</item>
-            <item>m8</item></models>
+            <item>m8</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
         <filesize size= "5382641"> <!-- filesize < 6000000 && filesize > 5382641 //qcom -->
             <blacklvl>0</blacklvl>
             <width>2688</width>
@@ -281,7 +380,12 @@
             <item>HTC_M9u</item>
             <item>HTC6535LRA</item>
             <item>HTC6535LVW</item>
-            <item>0PJA2</item></models>
+            <item>0PJA2</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
         <filesize size= "25677824">
             <blacklvl>64</blacklvl>
             <width>5388</width>
@@ -309,12 +413,22 @@
             <item>pmewl_00617</item>
             <item>htc_pmewl</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
     </device>
 
     <device name ="Htc_One_Sv">
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <models><item>HTC One SV</item></models>
+        <models>
+            <item>HTC One SV</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "6746112">
             <blacklvl>64</blacklvl>
             <width>2592</width>
@@ -329,7 +443,13 @@
     <device name ="Htc_One_Xl">
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <models><item>one xl</item></models>
+        <models>
+            <item>one xl</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "10782464">
             <blacklvl>0</blacklvl>
             <width>3282</width>
@@ -344,10 +464,16 @@
     <device name ="HTC_OneA9">
         <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/HTC_OneA9/opc2.bin?raw=true</opcode2>
         <opcode3></opcode3>
-        <models><item>HTC One A9</item>
+        <models>
+            <item>HTC One A9</item>
             <item>HTC One_A9</item>
             <item>One A9</item>
-            <item>One_A9</item></models>
+            <item>One_A9</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -362,7 +488,13 @@
     <device name ="HTC_OneE8">
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <models><item>HTC One_E8</item></models>
+        <models>
+            <item>HTC One_E8</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "16560128">
             <blacklvl>16</blacklvl>
             <width>4224</width>
@@ -377,7 +509,13 @@
     <device name ="HTC_Desire500">
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <models><item>HTC Desire 500</item></models>
+        <models>
+            <item>HTC Desire 500</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "10782464">
             <blacklvl>0</blacklvl>
             <width>3282</width>
@@ -392,7 +530,14 @@
     <device name ="HTC_Desire830">
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <models><item>HTC Desire 830</item><item>unknown</item></models>
+        <models>
+            <item>HTC Desire 830</item>
+            <item>unknown</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "26257920">
             <blacklvl>0</blacklvl>
             <width>4208</width>
@@ -407,14 +552,20 @@
     <device name ="Huawei_GX8">
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Huawei_GX8/opc3.bin?raw=true</opcode3>
-        <models><item>HUAWEI RIO-L01</item>
+        <models>
+            <item>HUAWEI RIO-L01</item>
             <item>HUAWEI RIO-L02</item>
             <item>HUAWEI RIO-L03</item>
             <item>HUAWEI RIO-L04</item>
             <item>RIO-L01</item>
             <item>RIO-L02</item>
             <item>RIO-L03</item>
-            <item>RIO-L04</item></models>
+            <item>RIO-L04</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -427,7 +578,8 @@
     </device>
 
     <device name ="Huawei_HONOR5x">
-        <models><item>KIW-L21</item>
+        <models>
+            <item>KIW-L21</item>
             <item>KIW-L22</item>
             <item>KIW-L23</item>
             <item>KIW-L24</item>
@@ -446,7 +598,12 @@
             <item>HUAWEI -L21</item>
             <item>HUAWEI KII-L22</item>
             <item>HUAWEI KII-L23</item>
-            <item>HUAWEI KII-L24</item></models>
+            <item>HUAWEI KII-L24</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Huawei_HONOR5x/opc3.bin?raw=true</opcode3>
         <filesize size= "16424960">
@@ -461,7 +618,13 @@
     </device>
 
     <device name ="I_Mobile_I_StyleQ6">
-        <models><item>i-mobile i-STYLE Q6</item></models>
+        <models>
+            <item>i-mobile i-STYLE Q6</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "9631728">
@@ -476,7 +639,13 @@
     </device>
 
     <device name ="InFocus_M808">
-        <models><item>InFocus M808</item></models>
+        <models>
+            <item>InFocus M808</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -495,6 +664,10 @@
             <item>Pixel</item>
             <item>Pixel XL</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name ="Jiayu_S3">
@@ -503,7 +676,12 @@
             <item>Jiayu S3</item>
             <item>h560</item>
             <item>S3</item>
-            <item>Jiayu_S3</item></models>
+            <item>Jiayu_S3</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
         <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Jiayu_S3/opc2.bin?raw=true</opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -518,7 +696,13 @@
     </device>
 
     <device name ="LeEco_Cool1">
-        <models><item>C106</item></models>
+        <models>
+            <item>C106</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16510976">
@@ -536,10 +720,20 @@
         <models>
         <item>Lenovo X3a40</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name ="LenovoK910">
-        <models><item>Lenovo K910</item></models>
+        <models>
+            <item>Lenovo K910</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "6721536">
@@ -572,10 +766,16 @@
     </device>
 
     <device name ="LenovoK920">
-        <models><item>Lenovo K920</item>
+        <models>
+            <item>Lenovo K920</item>
             <item>K920</item>
             <item>K920 (ROW)</item>
-            <item>K920 (CN)</item></models>
+            <item>K920 (CN)</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16510976">
@@ -590,7 +790,13 @@
     </device>
 
     <device name ="Lenovo_K4Note_MTK">
-        <models><item>Lenovo A7010a48</item></models>
+        <models>
+            <item>Lenovo A7010a48</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "19992576">
@@ -605,8 +811,14 @@
     </device>
 
     <device name ="Lenovo_K50_MTK">
-        <models><item>Lenovo K50-t5</item>
-            <item>K50-t5</item></models>
+        <models>
+            <item>Lenovo K50-t5</item>
+            <item>K50-t5</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -621,8 +833,14 @@
     </device>
 
     <device name ="Lenovo_VibeP1">
-        <models><item>Lenovo P1a42</item>
-            <item>Lenovo_P1a42</item></models>
+        <models>
+            <item>Lenovo P1a42</item>
+            <item>Lenovo_P1a42</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16510976">
@@ -637,7 +855,13 @@
     </device>
 
     <device name ="Lenovo_VibeShot_Z90">
-        <models><item>Lenovo Z90a40</item></models>
+        <models>
+            <item>Lenovo Z90a40</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "19992576">
@@ -652,7 +876,13 @@
     </device>
 
     <device name ="Lenovo_VibeShot_Z90">
-        <models><item>Lenovo Z90a40</item></models>
+        <models>
+            <item>Lenovo Z90a40</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26935296">
@@ -700,6 +930,10 @@
             <item>g2</item>
             <item>VS980 4G</item>
         </models>
+        <camera1>
+            <framework>1</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -726,6 +960,10 @@
         <models>
             <item>LG-D838</item>
         </models>
+        <camera1>
+            <framework>1</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
             <width>4208</width>
@@ -771,6 +1009,11 @@
             <item>LGV32</item>
             <item>VS986</item>
         </models>
+        <camera1>
+            <framework>1</framework>
+            <dngmanual>true</dngmanual>
+            <opencameralegacy>true</opencameralegacy>
+        </camera1>
         <filesize size= "19976192">
             <blacklvl>64</blacklvl>
             <width>5312</width>
@@ -809,6 +1052,10 @@
             <item>LG VS985</item>
             <item>L-02F</item>
         </models>
+        <camera1>
+            <framework>1</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "2658304">
             <blacklvl>64</blacklvl>
             <width>1212</width>
@@ -869,7 +1116,13 @@
     </device>
 
     <device name ="LG_L5">
-        <models><item>LG-E615</item></models>
+        <models>
+            <item>LG-E615</item>
+        </models>
+        <camera1>
+            <framework>1</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "6659840">
@@ -889,6 +1142,10 @@
         <opcode2></opcode2>
         <opcode3></opcode3>
         <models><item>LG-H918</item></models>
+        <camera1>
+            <framework>1</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "6659840">
             <blacklvl>64</blacklvl>
             <width>4656</width>
@@ -918,7 +1175,13 @@
     </device> -->
 
     <device name ="MeizuM1Metal_MTK">
-        <models><item>m1 metal</item></models>
+        <models>
+            <item>m1 metal</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26492928">
@@ -933,7 +1196,13 @@
     </device>
 
     <device name ="MeizuMX4_MTK">
-        <models><item>MX4</item></models>
+        <models>
+            <item>MX4</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "41312256">
@@ -948,7 +1217,13 @@
     </device>
 
     <device name ="MeizuMX5_MTK">
-        <models><item>MX5</item></models>
+        <models>
+            <item>MX5</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "41312256">
@@ -963,8 +1238,14 @@
     </device>
 
     <device name ="Meizu_m2Note_MTK">
-        <models><item>m2 note</item>
-            <item>m2</item></models>
+        <models>
+            <item>m2 note</item>
+            <item>m2</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -979,7 +1260,13 @@
     </device>
 
     <device name ="Mlais_M52_Red_Note_MTK">
-        <models><item>M52_Red_Note</item></models>
+        <models>
+            <item>M52_Red_Note</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>true</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "15980544">
@@ -994,7 +1281,8 @@
     </device>
 
     <device name ="Moto_X_Style_Pure_Play">
-        <models><item>XT1560</item>
+        <models>
+            <item>XT1560</item>
             <item>XT1561</item>
             <item>XT1562</item>
             <item>XT1563</item>
@@ -1011,7 +1299,12 @@
             <item>XT1575</item>
             <item>XT1576</item>
             <item>XT1577</item>
-            <item>XT1578</item></models>
+            <item>XT1578</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "42923008">
@@ -1035,7 +1328,13 @@
     </device>
 
     <device name ="MotoG3">
-        <models><item>MotoG3</item></models>
+        <models>
+            <item>MotoG3</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17326080">
@@ -1050,7 +1349,13 @@
     </device>
 
     <device name ="MotoG_Turbo">
-        <models><item>MotoG3-TE</item></models>
+        <models>
+            <item>MotoG3-TE</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17326080">
@@ -1065,10 +1370,16 @@
     </device>
 
     <device name ="Moto_ZPlay">
-        <models><item>XT1635-02</item>
+        <models>
+            <item>XT1635-02</item>
             <item>XT1635-01</item>
             <item>XT1635-00</item>
-            <item>XT1635</item></models>
+            <item>XT1635</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "19906560">
@@ -1091,11 +1402,20 @@
             <item>XT1094</item>
             <item>XT1095</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name ="MOTOG_2k14">
         <models>
-            <item>Moto G 2014</item></models>
+            <item>Moto G 2014</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "9990144">
@@ -1119,7 +1439,13 @@
     </device>
 
     <device name ="MyPhone_Infinity2S">
-        <models><item>INFINITY_II_S</item></models>
+        <models>
+            <item>INFINITY_II_S</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "15980544">
@@ -1134,8 +1460,14 @@
     </device>
 
     <device name ="OnePlusOne">
-        <models><item>A0001</item>
-            <item>One</item></models>
+        <models>
+            <item>A0001</item>
+            <item>One</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/OnePlusOne/opc2.bin?raw=true</opcode2>
         <opcode3></opcode3>
         <filesize size= "16424960">
@@ -1168,14 +1500,20 @@
     </device>
 
     <device name ="OnePlusTwo">
-        <models><item>ONE A2001</item>
+        <models>
+            <item>ONE A2001</item>
             <item>ONE A2003</item>
             <item>ONE A2005</item>
             <item>ONE A2004</item>
             <item>A2001</item>
             <item>A2003</item>
             <item>A2005</item>
-            <item>A2004</item></models>
+            <item>A2004</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26357760">
@@ -1190,9 +1528,15 @@
     </device>
 
     <device name ="OnePlusX">
-        <models><item>ONE E1003</item>
+        <models>
+            <item>ONE E1003</item>
             <item>ONE E1002</item>
-            <item>ONE E1001</item></models>
+            <item>ONE E1001</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "9990144">
@@ -1225,7 +1569,13 @@
     </device>
 
     <device name ="Prestigio_Multipad_Color">
-        <models><item>PMT5777_3G</item></models>
+        <models>
+            <item>PMT5777_3G</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "3763584">
@@ -1244,7 +1594,12 @@
             <item>HM NOTE 1LTE</item>
             <item>HM NOTE 1LTETD</item>
             <item>HM NOTE 1LTEW</item>
-            <item>MI NOTE LTE</item></models>
+            <item>MI NOTE LTE</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17522688">
@@ -1287,6 +1642,10 @@
             <item>2014818</item>
             <item>2014819</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "9990144">
@@ -1310,7 +1669,13 @@
     </device>
 
     <device name ="Xiaomi_RedmiNote2_MTK">
-        <models><item>Redmi Note 2</item></models>
+        <models>
+            <item>Redmi Note 2</item>
+            <dngmanual>false</dngmanual>
+        </models>
+        <camera1>
+            <framework>2</framework>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1325,7 +1690,13 @@
     </device>
 
     <device name ="Retro_MTK">
-        <models><item>Retro</item></models>
+        <models>
+            <item>Retro</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1340,9 +1711,15 @@
     </device>
 
     <device name ="SonyM5_MTK">
-        <models><item>E5633</item>
+        <models>
+            <item>E5633</item>
             <item>E5643</item>
-            <item>E5663</item></models>
+            <item>E5663</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "42923008">
@@ -1357,9 +1734,15 @@
     </device>
 
     <device name ="SonyM4_QC">
-        <models><item>E2303</item>
+        <models>
+            <item>E2303</item>
             <item>E2306</item>
-            <item>E2353</item></models>
+            <item>E2353</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/SonyM4_QC/opc2.bin?raw=true</opcode3>
         <filesize size= "16424960">
@@ -1374,9 +1757,15 @@
     </device>
 
     <device name ="SonyC4_MTK">
-        <models><item>E5333</item>
+        <models>
+            <item>E5333</item>
             <item>E5343</item>
-            <item>E5363</item></models>
+            <item>E5363</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26257920">
@@ -1391,8 +1780,14 @@
     </device>
 
     <device name ="SonyC5_MTK">
-        <models><item>E5533</item>
-            <item>E5563</item></models>
+        <models>
+            <item>E5533</item>
+            <item>E5563</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26257920">
@@ -1407,8 +1802,14 @@
     </device>
 
     <device name ="Sony_XperiaL">
-        <models><item>C2104</item>
-            <item>C2105</item></models>
+        <models>
+            <item>C2104</item>
+            <item>C2105</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "10788864">
@@ -1425,7 +1826,13 @@
     <device name ="Sony_Z5C">
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <models><item>E5823</item></models>
+        <models>
+            <item>E5823</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <filesize size= "28721152">
             <blacklvl>64</blacklvl>
             <width>5520</width>
@@ -1445,10 +1852,21 @@
             <item>C64</item>
             <item>D65</item>
             <item>D66</item>
-        </models></device>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
+    </device>
 
     <device name ="THL100s_MTK">
-        <models><item>S5008</item></models>
+        <models>
+            <item>S5008</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1463,7 +1881,13 @@
     </device>
 
     <device name ="THL5000_MTK">
-        <models><item>thl 5000</item></models>
+        <models>
+            <item>thl 5000</item>
+        </models>
+        <camera1>
+            <framework>2</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1478,7 +1902,13 @@
     </device>
 
     <device name ="Umi_Rome_X">
-        <models><item>ROME_X</item></models>
+        <models>
+            <item>ROME_X</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "15360000">
@@ -1493,7 +1923,13 @@
     </device>
 
     <device name ="Vivo_Xplay3s">
-        <models><item>vivo Xplay3S</item></models>
+        <models>
+            <item>vivo Xplay3S</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17522688">
@@ -1517,7 +1953,13 @@
     </device>
 
     <device name ="Vivo_V3">
-        <models><item>vivo V3</item></models>
+        <models>
+            <item>vivo V3</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17522688">
@@ -1541,7 +1983,13 @@
     </device>
 
     <device name ="Wiko_Stairway">
-        <models><item>STAIRWAY</item></models>
+        <models>
+            <item>STAIRWAY</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1556,7 +2004,13 @@
     </device>
 
     <device name ="Wileyfox_Swift">
-        <models><item>Wileyfox Swift</item></models>
+        <models>
+            <item>Wileyfox Swift</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17522688">
@@ -1580,7 +2034,13 @@
     </device>
 
     <device name ="Mi_Max">
-        <models><item>MI MAX</item></models>
+        <models>
+            <item>MI MAX</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "20557824">
@@ -1595,7 +2055,13 @@
     </device>
 
     <device name ="XiaomiMI3W">
-        <models><item>MI 3W</item></models>
+        <models>
+            <item>MI 3W</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI3W/opc3.bin?raw=true</opcode3>
         <filesize size= "17522688">
@@ -1649,7 +2115,12 @@
         <models>
             <item>MI 4</item>
             <item>MI 4W</item>
-            <item>MI 4LTE</item></models>
+            <item>MI 4LTE</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI4W/opc3.bin?raw=true</opcode3>
         <filesize size= "17522688">
@@ -1700,8 +2171,14 @@
     </device>
 
     <device name ="XiaomiMI4C">
-        <models><item>Mi-4c</item>
-            <item>MI 4C</item></models>
+        <models>
+            <item>Mi-4c</item>
+            <item>MI 4C</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17522688">
@@ -1752,8 +2229,14 @@
     </device>
 
     <device name ="XiaomiMI5">
-        <models><item>MI 5</item>
-            <item>MI_5</item></models>
+        <models>
+            <item>MI 5</item>
+            <item>MI_5</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "20500480">
@@ -1771,6 +2254,10 @@
 
     <device name ="XiaomiMI5s">
     <models><item>MI 5s</item></models>
+    <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "20500480">
@@ -1787,7 +2274,13 @@
     -->
 
     <device name ="XiaomiMI_Note_Pro">
-        <models><item>MI NOTE Pro</item></models>
+        <models>
+            <item>MI NOTE Pro</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17612800">
@@ -1828,7 +2321,12 @@
             <item>Redmi Note 3</item>
             <item>Xiaomi Redmi Note 3</item>
             <item>kenzo</item>
-            <item>Kenzo</item></models>
+            <item>Kenzo</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1852,7 +2350,13 @@
     </device>
 
     <device name ="Xiaomi_Redmi3">
-        <models><item>Redmi 3</item></models>
+        <models>
+            <item>Redmi 3</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16424960">
@@ -1876,7 +2380,13 @@
     </device>
 
     <device name ="Xiaomi_Redmi3S">
-        <models><item>Redmi 3S</item></models>
+        <models>
+            <item>Redmi 3S</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16510976">
@@ -1891,7 +2401,13 @@
     </device>
 
     <device name ="Xolo_Omega5">
-        <models><item>Omega 5.0</item></models>
+        <models>
+            <item>Omega 5.0</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "15980544">
@@ -1906,8 +2422,14 @@
     </device>
 
     <device name ="Yu_Yuphoria">
-        <models><item>YU5010</item>
-            <item>YU5010A</item></models>
+        <models>
+            <item>YU5010</item>
+            <item>YU5010A</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "9990144">
@@ -1922,11 +2444,17 @@
     </device>
 
     <device name ="Yu_Yureka">
-        <models><item>YUREKA</item>
+        <models>
+            <item>YUREKA</item>
             <item>AO5510</item>
             <item>Yureka</item>
             <item>A05510</item>
-            <item>YU5510</item></models>
+            <item>YU5510</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16424960">
@@ -1941,11 +2469,17 @@
     </device>
 
     <device name ="ZTE_ADV">
-        <models><item>NX503A</item>
+        <models>
+            <item>NX503A</item>
             <item>NX503J</item>
             <item>NX501</item>
             <item>Z5s</item>
-            <item>NX601J</item></models>
+            <item>NX601J</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
         <filesize size= "6299648">
@@ -1996,9 +2530,15 @@
     </device>
 
     <device name ="ZTEADVIMX214">
-        <models><item>NX505J</item>
+        <models>
+            <item>NX505J</item>
             <item>NX506J</item>
-            <item>NX507J</item></models>
+            <item>NX507J</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "6721536">
@@ -2031,11 +2571,17 @@
     </device>
 
     <device name ="ZTEADV234">
-        <models><item>NX508J</item>
+        <models>
+            <item>NX508J</item>
             <item>NX509J</item>
             <item>NX510J</item>
             <item>NX511J</item>
-            <item>NX512J</item></models>
+            <item>NX512J</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTEADV234/opc3.bin?raw=true</opcode3>
         <filesize size= "20041728">
@@ -2056,7 +2602,12 @@
             <item>NX523J_V1</item>
             <item>NX523J_V2</item>
             <item>NX523J_V3</item>
-            <item>NX5222</item></models>
+            <item>NX5222</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "20500480">
@@ -2071,7 +2622,13 @@
     </device>
 
     <device name ="ZTE_Z5SMINI">
-        <models><item>NX403A</item></models>
+        <models>
+            <item>NX403A</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "17522688"> <!-- filesize could be wrong -->
@@ -2089,10 +2646,20 @@
         <models>
             <item>Z5</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name ="ZTE_ZMAX_PRO">
-        <models><item>Z981</item></models>
+        <models>
+            <item>Z981</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "16510976"> <!-- filesize could be wrong -->
@@ -2110,10 +2677,20 @@
         <models>
             <item>NX403oA</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name ="Nexus6p">
-        <models><item>Nexus 6P</item></models>
+        <models>
+            <item>Nexus 6P</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "15428880"> <!-- filesize could be wrong -->
@@ -2128,7 +2705,13 @@
     </device>
 
     <device name ="Nexus5x">
-        <models><item>Nexus 5X</item></models>
+        <models>
+            <item>Nexus 5X</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "15428880"> <!-- filesize could be wrong -->
@@ -2143,16 +2726,33 @@
     </device>
 
     <device name="Huawei_P8Lite">
-        <models><item>hi6210sft</item></models>
+        <models>
+            <item>hi6210sft</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name="Huawei_p8">
-        <models><item>hi6210sft</item></models>
+        <models>
+            <item>hi6210sft</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name="Huawei_Honor6">
         <models>
-            <item>hi6210sft</item></models>
+            <item>hi6210sft</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name="Huawei_Honor5X">
@@ -2178,6 +2778,10 @@
             <item>HUAWEI KII-L23</item>
             <item>HUAWEI KII-L24</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name="Huawei_GX8">
@@ -2191,23 +2795,40 @@
             <item>RIO-L03</item>
             <item>RIO-L04</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name="Philips_W8555">
         <models>
             <item>Philips W8555</item>
-        </models></device>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
+    </device>
 
     <device name="Nexus4">
-        <string-array>
+        <models>
             <item>Nexus 4</item>
-        </string-array>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name="Nexus6">
         <models>
             <item>Nexus 6</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name="Samsung_S6_edge_plus">
@@ -2230,23 +2851,40 @@
             <item>SM-G928T</item>
             <item>SM-G928V</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
-    <device name="Samsung_S6_edge"><models>
-        <item>SM-G925F</item>
-    </models>
+    <device name="Samsung_S6_edge">
+        <models>
+            <item>SM-G925F</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name="Zoppo_8speed">
         <models>
             <item>ZP955</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
     <device name="VERNEE_APOLLO_Lite">
         <models>
             <item>Apollo Lite</item>
         </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
     </device>
 
 </devices>
