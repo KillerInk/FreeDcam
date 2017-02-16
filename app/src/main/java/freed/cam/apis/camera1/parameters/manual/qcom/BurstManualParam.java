@@ -35,7 +35,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.utils.DeviceUtils.Devices;
 
 public class BurstManualParam extends BaseManualParameter
 {
@@ -44,40 +43,9 @@ public class BurstManualParam extends BaseManualParameter
 
     public BurstManualParam(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
-
-        if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G3
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G2
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
-                || cameraUiWrapper.GetAppSettingsManager().getDevice()== Devices.LG_G4
-                || cameraUiWrapper.GetAppSettingsManager().getDevice()== Devices.LG_V20
-                || parameters.get(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter)) != null
-                || parameters.get(cameraUiWrapper.getResString(R.string.snapshot_burst_num)) != null
-                || parameters.get(cameraUiWrapper.getResString(R.string.burst_num))!= null)
-        {
-            isSupported = true;
-            int max = 10;
-            if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
-                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
-                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
-                    ||  cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G2)
-                max =  7;
-            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G3
-                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W)
-                max =  9;
-            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W)
-                if (VERSION.SDK_INT < 23)
-                    max =  6;
-                else
-                    max =  10;
-            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G4 || cameraUiWrapper.GetAppSettingsManager().getDevice()== Devices.LG_V20)
-                max =  6;
-            stringvalues = createStringArray(2,max,1);
-            currentInt = 0;
-        }
+        isSupported = cameraUiWrapper.GetAppSettingsManager().manualBurst.isSupported();
+        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualBurst.getValues();
+        currentInt = Integer.parseInt(cameraUiWrapper.GetAppSettingsManager().manualBurst.get());
     }
 
     @Override
@@ -109,9 +77,7 @@ public class BurstManualParam extends BaseManualParameter
     {
         currentInt = valueToSet;
 
-        if (parameters.get(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter)) != null
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W)
+        if (parameters.get(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter)) != null)
         {
             if (currentInt == 0)
                 parameters.set(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter), 1+"");
@@ -120,11 +86,8 @@ public class BurstManualParam extends BaseManualParameter
             Log.d(TAG, cameraUiWrapper.getResString(R.string.num_snaps_per_shutter)+ stringvalues[currentInt]);
 
         }
-        if (parameters.get(cameraUiWrapper.getResString(R.string.burst_num))!=null)
+        if (parameters.get(cameraUiWrapper.getResString(R.string.snapshot_burst_num))!=null)
         {
-            if (currentInt == 0)
-                parameters.set(cameraUiWrapper.getResString(R.string.snapshot_burst_num), String.valueOf(0));
-            else
                 parameters.set(cameraUiWrapper.getResString(R.string.snapshot_burst_num), stringvalues[currentInt]);
             Log.d(TAG, cameraUiWrapper.getResString(R.string.snapshot_burst_num)+ stringvalues[currentInt]);
         }

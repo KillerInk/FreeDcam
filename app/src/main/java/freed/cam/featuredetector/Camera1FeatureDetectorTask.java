@@ -44,7 +44,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         publishProgress("###################");
         appSettingsManager.setCamApi(AppSettingsManager.API_1);
 
-        publishProgress("Device:"+appSettingsManager.getDevice().name());
+        publishProgress("Device:"+appSettingsManager.getDeviceString());
         //detect frameworks
         appSettingsManager.setFramework(getFramework());
         publishProgress("FrameWork:"+appSettingsManager.getFrameWork());
@@ -188,8 +188,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectManualWhiteBalance(parameters);
             sendProgress(appS.manualIso,"Manual Wb");
 
-            detectNightMode(parameters);
-
             detectQcomFocus(parameters);
         }
 
@@ -216,25 +214,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             appSettingsManager.setUseQcomFocus(false);
     }
 
-    private void detectNightMode(Camera.Parameters parameters) {
-
-        switch (appSettingsManager.getDevice())
-        {
-            case XiaomiMI3W:
-            case XiaomiMI4C:
-            case XiaomiMI4W:
-            case XiaomiMI_Note_Pro:
-            case Xiaomi_RedmiNote:
-            case ZTE_ADV:
-            case ZTEADVIMX214:
-            case ZTEADV234:
-            case ZTE_Z5SMINI:
-            case ZTE_Z11:
-                appSettingsManager.nightMode.setIsSupported(true);
-                break;
-
-        }
-    }
 
     private void detectManualWhiteBalance(Camera.Parameters parameters) {
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)

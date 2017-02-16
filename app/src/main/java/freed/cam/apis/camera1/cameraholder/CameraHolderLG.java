@@ -23,7 +23,6 @@ import com.lge.hardware.LGCamera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.utils.DeviceUtils.Devices;
 
 /**
  * Created by troop on 08.06.2016.

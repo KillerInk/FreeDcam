@@ -31,7 +31,7 @@ import com.troop.freedcam.R.array;
 public class DeviceUtils
 {
 
-    /*Holds all added Devices*/
+    /*Holds all added Devices*//*
     public enum Devices
     {
         UNKNOWN,
@@ -146,7 +146,7 @@ public class DeviceUtils
         ZTE_AXXON_7,
         ZTE_ZMAX_PRO,
         Zoppo_8speed,
-    }
+    }*/
 
     public static boolean isCyanogenMod() {
         try {
@@ -159,17 +159,17 @@ public class DeviceUtils
     /**
      * all devices that are test to have non working raw stream
      */
-    public static Devices[] camera1NO_RAW_STREAM = {
+   /* public static Devices[] camera1NO_RAW_STREAM = {
             Devices.Asus_Zenfon2,
             Devices.Nexus4,
             Devices.Htc_Evo3d,
-    };
+    };*/
 
 
     /**
      * identify the current device
      */
-    public Devices getDevice(Resources res)
+   /* public Devices getDevice(Resources res)
     {
         if (isDevice(res.getStringArray(array.Alcatel_Idol_3)))
             return Devices.Alcatel_Idol3;
@@ -384,7 +384,7 @@ public class DeviceUtils
         else
             return Devices.UNKNOWN;
 
-    }
+    }*/
 
     /*
      * Here start the private stuff

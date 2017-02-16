@@ -35,7 +35,6 @@ import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.dng.DngProfile;
 import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils.Devices;
 import freed.utils.StringUtils.FileEnding;
 
 /**
@@ -118,7 +117,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
         cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp",true);
         if (cameraUiWrapper.GetAppSettingsManager().videoHDR.isSupported() && !cameraUiWrapper.GetParameterHandler().VideoHDR.GetValue().equals(cameraUiWrapper.getResString(R.string.off_)))
             cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue(cameraUiWrapper.getResString(R.string.off_), true);
-        if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 || appSettingsManager.getDevice() == Devices.ZTEADVIMX214) {
+        if(appSettingsManager.isZteAe()) {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetZTE_AE();
         }
     }
@@ -172,7 +171,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
             cameraUiWrapper.GetParameterHandler().ExposureLock.SetValue(cameraUiWrapper.getResString(R.string.false_),true);
             cameraUiWrapper.GetParameterHandler().ExposureLock.SetValue(cameraUiWrapper.getResString(R.string.true_),true);
         }
-        if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.MotoG3 ||cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.MotoG_Turbo)
+        if(cameraUiWrapper.GetAppSettingsManager().needRestartAfterCapture())
         {
             MotoPreviewResetLogic();
 
@@ -220,7 +219,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
 
             saveJpeg(toSave,data);
         }
-        if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 || appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
+        if(appSettingsManager.isZteAe())
             ShutterResetLogic();
 
         fireInternalOnWorkFinish(toSave);

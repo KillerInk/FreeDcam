@@ -32,10 +32,8 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils.Devices;
 
 
 /**

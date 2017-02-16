@@ -26,7 +26,6 @@ import com.troop.freedcam.R;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.utils.DeviceUtils.Devices;
 
 public class FXManualParameter extends BaseManualParameter {
 
@@ -37,9 +36,7 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214)
+        if(cameraUiWrapper.GetAppSettingsManager().isZteAe())
         {
             isSupported = true;
             isVisible = true;
@@ -61,9 +58,7 @@ public class FXManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
-                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
-                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214);
+            if (cameraUiWrapper.GetAppSettingsManager().isZteAe());
                 i = 0;
         }
         catch (Exception ex)

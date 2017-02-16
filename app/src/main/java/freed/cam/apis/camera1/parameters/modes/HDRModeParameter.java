@@ -29,7 +29,6 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.DeviceUtils.Devices;
 
 /**
  * Created by Ar4eR on 02.02.16.

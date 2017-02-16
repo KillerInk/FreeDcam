@@ -28,7 +28,6 @@ import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
-import freed.utils.DeviceUtils.Devices;
 
 /**
  * Created by troop on 02.09.2014.
@@ -206,16 +205,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     @Override
     public void SetMeteringAreas(FocusRect meteringRect, int width, int height)
     {
-        if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV)
-        {
-            FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
-            cameraUiWrapper.GetParameterHandler().SetMeterAREA(targetFocusRect);
-        }
-        else {
-            FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
-            ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetMeteringAreas(targetFocusRect);
-        }
-
+        ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetMeteringAreas(getFocusRect(meteringRect, width, height));
     }
 
     private FocusRect getFocusRect(FocusRect rect, int width, int height)

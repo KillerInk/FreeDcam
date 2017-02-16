@@ -19,6 +19,7 @@
 
 package freed.utils;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
@@ -30,6 +31,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -39,7 +41,6 @@ import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
-import freed.utils.DeviceUtils.Devices;
 
 /**
  * Created by troop on 19.08.2014.
@@ -154,7 +155,7 @@ public class AppSettingsManager {
 
     private int currentcamera;
     private String camApiString = AppSettingsManager.API_1;
-    private Devices device;
+   /* private Devices device;*/
     private String mDevice;
     private HashMap<String, CustomMatrix> matrixes;
     private HashMap<Long, DngProfile> dngProfileHashMap;
@@ -182,6 +183,9 @@ public class AppSettingsManager {
     public static final int FRAMEWORK_MTK = 2;
     public static final int FRAMEWORK_MOTO_EXT = 3;
     public static final String FRAMEWORK = "framework";
+
+    public static final int NIGHTMODE_XIAOMI = 0;
+    public static final int NIGHTMODE_ZTE = 1;
 
 
     public static final String CURRENTCAMERA = "currentcamera";
@@ -265,7 +269,7 @@ public class AppSettingsManager {
     public final SettingMode modules;
     public final SettingMode nonZslManualMode;
     public final SettingMode virtualLensfilter;
-    public final SettingMode nightMode;
+    public final TypeSettingsMode nightMode;
     public final SettingMode videoProfile;
     public final SettingMode videoStabilisation;
     public final SettingMode interval;
@@ -364,7 +368,7 @@ public class AppSettingsManager {
         modules = new SettingMode(getResString(R.string.aps_module));
         nonZslManualMode = new SettingMode(getResString(R.string.aps_nonzslmanualmode));
         virtualLensfilter = new SettingMode(getResString(R.string.aps_virtuallensfilter));
-        nightMode = new SettingMode(getResString(R.string.aps_nightmode));
+        nightMode = new TypeSettingsMode(getResString(R.string.aps_nightmode));
         videoProfile = new SettingMode(getResString(R.string.aps_videoProfile));
         videoStabilisation = new SettingMode(getResString(R.string.aps_videoStabilisation));
         interval = new SettingMode(getResString(R.string.aps_interval));
@@ -438,10 +442,31 @@ public class AppSettingsManager {
         settings.edit().putBoolean(getResString(R.string.aps_opencamera1legacy),legacy).commit();
     }
 
+    public boolean isZteAe()
+    {
+        return settings.getBoolean("zteae", false);
+    }
+
+    private void setZteAe(boolean legacy)
+    {
+        settings.edit().putBoolean("zteae",legacy).commit();
+    }
+
     public boolean useQcomFocus()
     {
         return settings.getBoolean(getResString(R.string.aps_qcomfocus),false);
     }
+
+    public boolean needRestartAfterCapture()
+    {
+        return settings.getBoolean("needrestartaftercapture", false);
+    }
+
+    private void setNeedRestartAfterCapture(boolean legacy)
+    {
+        settings.edit().putBoolean("needrestartaftercapture",legacy).commit();
+    }
+
 
     public void setUseQcomFocus(boolean hasQcomFocus)
     {
@@ -494,12 +519,12 @@ public class AppSettingsManager {
         putString("DEVICE", mDevice);
     }
 
-    public Devices getDevice() {
-        return device;
-    }
-
     public String getDeviceString() {
         return mDevice;
+    }
+
+/*    public Devices getDevice() {
+        return device;
     }
 
     private Devices getdevice()
@@ -507,7 +532,9 @@ public class AppSettingsManager {
         String t = settings.getString("DEVICE", null);
         device = TextUtils.isEmpty(t) ? null : Devices.valueOf(t);
         return device;
-    }
+    }*/
+
+
 
     public void setshowHelpOverlay(boolean value) {
         settings.edit().putBoolean("showhelpoverlay", value).commit();
@@ -694,15 +721,45 @@ public class AppSettingsManager {
                     {
                         if (mod.getValue().equals(Build.MODEL)) {
                             setDevice(device_element.getAttribute("name",""));
-                            if (device_element.findChild("camera1").findChild("dngmanual") != null)
+
+                            XmlElement camera1element = device_element.findChild("camera1");
+
+                            if (camera1element != null) {
+                                if (camera1element.findChild("dngmanual") != null)
                                 setDngManualsSupported(Boolean.parseBoolean(device_element.findChild("camera1").findChild("dngmanual").getValue()));
-                            else
+                                else
                                 setDngManualsSupported(true);
 
-                            if (device_element.findChild("camera1").findChild("opencameralegacy") != null)
-                                setOpenCamera1Legacy(Boolean.parseBoolean(device_element.findChild("camera1").findChild("opencameralegacy").getValue()));
-                            else
-                                setOpenCamera1Legacy(false);
+                                if (camera1element.findChild("opencameralegacy") != null)
+                                    setOpenCamera1Legacy(Boolean.parseBoolean(device_element.findChild("camera1").findChild("opencameralegacy").getValue()));
+                                else
+                                    setOpenCamera1Legacy(false);
+
+                                if (camera1element.findChild("zteae") != null)
+                                    setZteAe(Boolean.parseBoolean(device_element.findChild("camera1").findChild("zte").getValue()));
+                                else
+                                    setZteAe(false);
+
+                                if (camera1element.findChild("needrestartaftercapture") != null)
+                                    setNeedRestartAfterCapture(Boolean.parseBoolean(device_element.findChild("camera1").findChild("needrestartaftercapture").getValue()));
+                                else
+                                    setNeedRestartAfterCapture(false);
+
+                                if (camera1element.findChild("burst") != null) {
+                                    manualBurst.setIsSupported(true);
+                                    int max = Integer.parseInt(camera1element.findChild("burst").getValue());
+                                    manualBurst.setValues(createStringArray(1, max, 1));
+                                    manualBurst.set(1 + "");
+                                } else
+                                    manualBurst.setIsSupported(false);
+
+                                if (camera1element.findChild("nightmode") != null) {
+                                    nightMode.setIsSupported(true);
+                                    int type = Integer.parseInt(camera1element.findChild("nightmode").getValue());
+                                    nightMode.setType(type);
+                                } else
+                                    nightMode.setIsSupported(false);
+                            }
 
                             dngProfileHashMap = new HashMap<>();
                             getDngStuff(dngProfileHashMap, device_element);
@@ -717,7 +774,16 @@ public class AppSettingsManager {
         }
     }
 
-
+    private String[] createStringArray(int min, int max, float step) {
+        ArrayList<String> ar = new ArrayList<>();
+        if (step == 0)
+            step = 1;
+        for (int i = min; i < max; i+=step)
+        {
+            ar.add(i+"");
+        }
+        return ar.toArray(new String[ar.size()]);
+    }
 
     private HashMap<Long, DngProfile> getDngProfiles()
     {
@@ -731,7 +797,7 @@ public class AppSettingsManager {
 
                 for (XmlElement device_element: devicesList)
                 {
-                    if (device_element.getAttribute("name", "").equals(device.name()))
+                    if (device_element.getAttribute("name", "").equals(mDevice))
                     {
                         getDngStuff(map, device_element);
                     }

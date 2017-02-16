@@ -76,7 +76,6 @@ import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoStabilizationParameter;
 import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
 import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils.Devices;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
@@ -237,26 +236,17 @@ public class ParametersHandler extends AbstractParameterHandler
             VideoHighFramerateVideo = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.videoHFR);
 
         if (appS.nightMode.isSupported()) {
-            switch (appSettingsManager.getDevice()) {
-                case XiaomiMI3W:
-                case XiaomiMI4C:
-                case XiaomiMI4W:
-                case XiaomiMI_Note_Pro:
-                case Xiaomi_RedmiNote:
+            switch (appSettingsManager.nightMode.getType()) {
+                case AppSettingsManager.NIGHTMODE_XIAOMI:
                     NightMode = new NightModeXiaomi(cameraParameters, cameraUiWrapper);
                     break;
-
-                case ZTE_ADV:
-                case ZTEADVIMX214:
-                case ZTEADV234:
-                case ZTE_Z5SMINI:
-                case ZTE_Z11:
+                case AppSettingsManager.NIGHTMODE_ZTE:
                     NightMode = new NightModeZTE(cameraParameters, cameraUiWrapper);
                     break;
             }
         }
 
-        switch (appS.getDevice())
+       /* switch (appS.getDevice())
         {
             case XiaomiMI5:
             case XiaomiMI5s:
@@ -265,7 +255,7 @@ public class ParametersHandler extends AbstractParameterHandler
                 HDRMode = new HDRModeParameter(cameraParameters, cameraUiWrapper);
                 VideoStabilization = new VideoStabilizationParameter(cameraParameters,cameraUiWrapper);
                 break;
-        }
+        }*/
 
         if (appS.getDngProfilesMap().size() > 0)
             matrixChooser = new MatrixChooserParameter(cameraUiWrapper.GetAppSettingsManager().getMatrixesMap());
@@ -402,10 +392,12 @@ public class ParametersHandler extends AbstractParameterHandler
 
         FX = new FXManualParameter(cameraParameters, cameraUiWrapper);
         PictureFormat.addEventListner(((BaseManualParameter) FX).GetPicFormatListner());
-        cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) FX).GetModuleListner());
+        cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter)FX).GetModuleListner());
 
-        Burst = new BurstManualParam(cameraParameters, cameraUiWrapper);
-        cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Burst).GetModuleListner());
+        if (appS.manualBurst.isSupported()){
+            Burst = new BurstManualParam(cameraParameters, cameraUiWrapper);
+            cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Burst).GetModuleListner());
+        }
 
         Zoom = new ZoomManualParameter(cameraParameters, cameraUiWrapper);
 
@@ -415,19 +407,6 @@ public class ParametersHandler extends AbstractParameterHandler
         SetAppSettingsToParameters();
 
         cameraUiWrapper.GetModuleHandler().SetModule(appSettingsManager.GetCurrentModule());
-    }
-
-    @Override
-    public void SetMeterAREA(final FocusRect meteringAreas)
-    {
-        if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 || appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
-        {
-            cameraParameters.set("touch-aec","on");
-            cameraParameters.set("selectable-zone-af","spot-metering");
-            cameraParameters.set("raw-size","4208x3120");
-            cameraParameters.set("touch-index-aec", meteringAreas.x + "," + meteringAreas.y);
-            SetParametersToCamera(cameraParameters);
-        }
     }
 
     @Override

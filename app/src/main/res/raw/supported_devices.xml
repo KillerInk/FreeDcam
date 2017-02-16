@@ -12,6 +12,10 @@
             <framework>0</framework> // framework used by the device 0 = android, 1 = LG, 2 = MTK, 3 = Moto_ext
             <dngmanual>false</dngmanual> false when the device dont support manual exposuretime and iso when shooting raw
             <opencameralegacy>true</opencameralegacy>//when empty/false default camera gets open
+            <zteae>true</zteae>
+            <needrestartaftercapture>true</needrestartaftercapture>
+            <bust>9</burst> //burst count, not added = unsupported
+            <nightmode></nightmode> 0 = xiaomi, 1 = zte, not added = unsupported
         </camera1>
 
         <opcode2></opcode2> opcode2 url to download
@@ -933,6 +937,7 @@
         <camera1>
             <framework>1</framework>
             <dngmanual>false</dngmanual>
+            <burst>7</burst>
         </camera1>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
@@ -1013,6 +1018,7 @@
             <framework>1</framework>
             <dngmanual>true</dngmanual>
             <opencameralegacy>true</opencameralegacy>
+            <burst>6</burst>
         </camera1>
         <filesize size= "19976192">
             <blacklvl>64</blacklvl>
@@ -1055,6 +1061,7 @@
         <camera1>
             <framework>1</framework>
             <dngmanual>false</dngmanual>
+            <burst>9</burst>
         </camera1>
         <filesize size= "2658304">
             <blacklvl>64</blacklvl>
@@ -1334,6 +1341,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <needrestartaftercapture>true</needrestartaftercapture>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -1355,6 +1363,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <needrestartaftercapture>true</needrestartaftercapture>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -1598,7 +1607,8 @@
         </models>
         <camera1>
             <framework>0</framework>
-            <dngmanual>false</dngmanual>
+            <nightmode>0</nightmode>
+            <burst>5</burst>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2060,7 +2070,9 @@
         </models>
         <camera1>
             <framework>0</framework>
-            <dngmanual>false</dngmanual>
+            <dngmanual>true</dngmanual>
+            <burst>6</burst>
+            <nightmode>0</nightmode>
         </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI3W/opc3.bin?raw=true</opcode3>
@@ -2119,7 +2131,8 @@
         </models>
         <camera1>
             <framework>0</framework>
-            <dngmanual>false</dngmanual>
+            <burst>7</burst>
+            <nightmode>0</nightmode>
         </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI4W/opc3.bin?raw=true</opcode3>
@@ -2177,7 +2190,8 @@
         </models>
         <camera1>
             <framework>0</framework>
-            <dngmanual>false</dngmanual>
+            <nightmode>0</nightmode>
+            <burst>6</burst>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2279,7 +2293,8 @@
         </models>
         <camera1>
             <framework>0</framework>
-            <dngmanual>false</dngmanual>
+            <nightmode>0</nightmode>
+            <burst>5</burst>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2478,7 +2493,9 @@
         </models>
         <camera1>
             <framework>0</framework>
-            <dngmanual>false</dngmanual>
+            <zteae>true</zteae>
+            <burst>7</burst>
+            <nightmode>1</nightmode>
         </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
@@ -2537,7 +2554,9 @@
         </models>
         <camera1>
             <framework>0</framework>
-            <dngmanual>false</dngmanual>
+            <zteae>true</zteae>
+            <burst>7</burst>
+            <nightmode>1</nightmode>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2580,7 +2599,10 @@
         </models>
         <camera1>
             <framework>0</framework>
-            <dngmanual>false</dngmanual>
+            <dngmanual>true</dngmanual>
+            <zteae>true</zteae>
+            <burst>7</burst>
+            <nightmode>1</nightmode>
         </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTEADV234/opc3.bin?raw=true</opcode3>
@@ -2606,7 +2628,8 @@
         </models>
         <camera1>
             <framework>0</framework>
-            <dngmanual>false</dngmanual>
+            <dngmanual>true</dngmanual>
+            <nightmode>1</nightmode>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2628,6 +2651,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <nightmode>1</nightmode>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2649,6 +2673,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <nightmode>1</nightmode>
         </camera1>
     </device>
 
@@ -2659,6 +2684,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <nightmode>1</nightmode>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>

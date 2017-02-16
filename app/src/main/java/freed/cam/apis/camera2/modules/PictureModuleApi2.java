@@ -70,7 +70,6 @@ import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils.Devices;
 
 
 /**

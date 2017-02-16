@@ -193,11 +193,6 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     }
 
     @Override
-    public void SetMeterAREA(FocusRect meteringAreas) {
-
-    }
-
-    @Override
     public void SetPictureOrientation(int or) {
 
     }
