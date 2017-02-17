@@ -39,6 +39,7 @@ import java.util.Set;
 
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
+import freed.cam.featuredetector.Camera1FeatureDetectorTask;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 
@@ -725,23 +726,31 @@ public class AppSettingsManager {
                             XmlElement camera1element = device_element.findChild("camera1");
 
                             if (camera1element != null) {
-                                if (camera1element.findChild("dngmanual") != null)
-                                setDngManualsSupported(Boolean.parseBoolean(device_element.findChild("camera1").findChild("dngmanual").getValue()));
+
+                                if (camera1element.findChild("framework")!= null)
+                                {
+                                    setFramework(Integer.parseInt(camera1element.findChild("framework").getValue()));
+                                }
                                 else
-                                setDngManualsSupported(true);
+                                    setFramework(FRAMEWORK_NORMAL);
+
+                                if (camera1element.findChild("dngmanual") != null)
+                                    setDngManualsSupported(Boolean.parseBoolean(camera1element.findChild("dngmanual").getValue()));
+                                else
+                                    setDngManualsSupported(true);
 
                                 if (camera1element.findChild("opencameralegacy") != null)
-                                    setOpenCamera1Legacy(Boolean.parseBoolean(device_element.findChild("camera1").findChild("opencameralegacy").getValue()));
+                                    setOpenCamera1Legacy(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
                                 else
                                     setOpenCamera1Legacy(false);
 
                                 if (camera1element.findChild("zteae") != null)
-                                    setZteAe(Boolean.parseBoolean(device_element.findChild("camera1").findChild("zte").getValue()));
+                                    setZteAe(Boolean.parseBoolean(camera1element.findChild("zte").getValue()));
                                 else
                                     setZteAe(false);
 
                                 if (camera1element.findChild("needrestartaftercapture") != null)
-                                    setNeedRestartAfterCapture(Boolean.parseBoolean(device_element.findChild("camera1").findChild("needrestartaftercapture").getValue()));
+                                    setNeedRestartAfterCapture(Boolean.parseBoolean(camera1element.findChild("needrestartaftercapture").getValue()));
                                 else
                                     setNeedRestartAfterCapture(false);
 
@@ -759,6 +768,17 @@ public class AppSettingsManager {
                                     nightMode.setType(type);
                                 } else
                                     nightMode.setIsSupported(false);
+
+                                if (camera1element.findChild("whitebalance") != null)
+                                {
+                                    int min = camera1element.findChild("whitebalance").findChild("min").getIntValue(2000);
+                                    int max  = camera1element.findChild("whitebalance").findChild("max").getIntValue(8000);
+                                    int step = camera1element.findChild("whitebalance").findChild("step").getIntValue(100);
+                                    manualWhiteBalance.setKEY(camera1element.findChild("whitebalance").findChild("key").getValue());
+                                    manualWhiteBalance.setMode(camera1element.findChild("whitebalance").findChild("mode").getValue());
+                                    manualWhiteBalance.setValues(Camera1FeatureDetectorTask.createWBStringArray(min,max,step,this));
+                                    manualWhiteBalance.setIsSupported(true);
+                                }
                             }
 
                             dngProfileHashMap = new HashMap<>();

@@ -218,72 +218,45 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private void detectManualWhiteBalance(Camera.Parameters parameters) {
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
             appSettingsManager.manualWhiteBalance.setIsSupported(false);
+        else if (appSettingsManager.manualWhiteBalance.isSupported()) // happens when its already set due supportedevices.xml
+            return;
         else
         {
-            switch (appSettingsManager.getDevice())
-            {
-                case ZTEADV234:
-                case ZTEADVIMX214:
-                case ZTE_Z11:
-                case ZTE_ADV:
-                    appSettingsManager.manualWhiteBalance.setValues(createWBStringArray(2000,8000,100));
-                    appSettingsManager.manualWhiteBalance.setMode(appSettingsManager.getResString(R.string.manual));
-                    appSettingsManager.manualWhiteBalance.setIsSupported(true);
-                    break;
-                case XiaomiMI3W:
-                case XiaomiMI4W:
-                case XiaomiMI4C:
-                {
-                    if(!DeviceUtils.isCyanogenMod()) {
-                        if (Build.VERSION.SDK_INT < 23) {
-                            appSettingsManager.manualWhiteBalance.setValues(createWBStringArray(2000,7500,100));
-                            appSettingsManager.manualWhiteBalance.setMode(appSettingsManager.getResString(R.string.manual));
-                        } else {
-                            appSettingsManager.manualWhiteBalance.setValues(createWBStringArray(2000,8000,100));
-                            appSettingsManager.manualWhiteBalance.setMode(appSettingsManager.getResString(R.string.manual_cct));
-                        }
-                        appSettingsManager.manualWhiteBalance.setIsSupported(true);
-                        break;
-                    }
-                }
-                default:
-                    // looks like wb-current-cct is loaded when the preview is up. this could be also for the other parameters
-                    String wbModeval ="", wbmax = "",wbmin = "";
+            // looks like wb-current-cct is loaded when the preview is up. this could be also for the other parameters
+            String wbModeval ="", wbmax = "",wbmin = "";
 
-                    if (parameters.get(appSettingsManager.getResString(R.string.max_wb_cct)) != null) {
-                        wbmax = appSettingsManager.getResString(R.string.max_wb_cct);
-                    }
-                    else if (parameters.get(appSettingsManager.getResString(R.string.max_wb_ct))!= null)
-                        wbmax =appSettingsManager.getResString(R.string.max_wb_ct);
+            if (parameters.get(appSettingsManager.getResString(R.string.max_wb_cct)) != null) {
+                wbmax = appSettingsManager.getResString(R.string.max_wb_cct);
+            }
+            else if (parameters.get(appSettingsManager.getResString(R.string.max_wb_ct))!= null)
+                wbmax =appSettingsManager.getResString(R.string.max_wb_ct);
 
-                    if (parameters.get(appSettingsManager.getResString(R.string.min_wb_cct))!= null) {
-                        wbmin =appSettingsManager.getResString(R.string.min_wb_cct);
-                    } else if (parameters.get(appSettingsManager.getResString(R.string.min_wb_ct))!= null)
-                        wbmin =appSettingsManager.getResString(R.string.min_wb_ct);
+            if (parameters.get(appSettingsManager.getResString(R.string.min_wb_cct))!= null) {
+                wbmin =appSettingsManager.getResString(R.string.min_wb_cct);
+            } else if (parameters.get(appSettingsManager.getResString(R.string.min_wb_ct))!= null)
+                wbmin =appSettingsManager.getResString(R.string.min_wb_ct);
 
-                    if (arrayContainsString(appSettingsManager.whiteBalanceMode.getValues(), appSettingsManager.getResString(R.string.manual)))
-                        wbModeval = appSettingsManager.getResString(R.string.manual);
-                    else if (arrayContainsString(appSettingsManager.whiteBalanceMode.getValues(),appSettingsManager.getResString(R.string.manual_cct)))
-                        wbModeval = appSettingsManager.getResString(R.string.manual_cct);
+            if (arrayContainsString(appSettingsManager.whiteBalanceMode.getValues(), appSettingsManager.getResString(R.string.manual)))
+                wbModeval = appSettingsManager.getResString(R.string.manual);
+            else if (arrayContainsString(appSettingsManager.whiteBalanceMode.getValues(),appSettingsManager.getResString(R.string.manual_cct)))
+                wbModeval = appSettingsManager.getResString(R.string.manual_cct);
 
-                    if (!wbmax.equals("") && !wbmin.equals("") && !wbModeval.equals("")) {
-                        Log.d(TAG, "Found all wbct values:" +wbmax + " " + wbmin + " " +wbModeval);
-                        appSettingsManager.manualWhiteBalance.setIsSupported(true);
-                        appSettingsManager.manualWhiteBalance.setMode(wbModeval);
-                        int min = Integer.parseInt(parameters.get(wbmin));
-                        int max = Integer.parseInt(parameters.get(wbmax));
-                        appSettingsManager.manualWhiteBalance.setValues(createWBStringArray(min,max,100));
-                    }
-                    else {
-                        Log.d(TAG, "Failed to lookup wbct:" + " " +wbmax + " " + wbmin + " " +wbModeval);
-                        appSettingsManager.manualWhiteBalance.setIsSupported(false);
-                    }
-                    break;
+            if (!wbmax.equals("") && !wbmin.equals("") && !wbModeval.equals("")) {
+                Log.d(TAG, "Found all wbct values:" +wbmax + " " + wbmin + " " +wbModeval);
+                appSettingsManager.manualWhiteBalance.setIsSupported(true);
+                appSettingsManager.manualWhiteBalance.setMode(wbModeval);
+                int min = Integer.parseInt(parameters.get(wbmin));
+                int max = Integer.parseInt(parameters.get(wbmax));
+                appSettingsManager.manualWhiteBalance.setValues(createWBStringArray(min,max,100, appSettingsManager));
+            }
+            else {
+                Log.d(TAG, "Failed to lookup wbct:" + " " +wbmax + " " + wbmin + " " +wbModeval);
+                appSettingsManager.manualWhiteBalance.setIsSupported(false);
             }
         }
     }
 
-    protected String[] createWBStringArray(int min, int max, float step)
+    public static String[] createWBStringArray(int min, int max, float step, AppSettingsManager appSettingsManager)
     {
         ArrayList<String> t = new ArrayList<>();
         t.add(appSettingsManager.getResString(R.string.auto_));

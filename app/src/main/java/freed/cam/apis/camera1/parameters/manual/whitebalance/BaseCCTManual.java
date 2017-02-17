@@ -51,7 +51,8 @@ public class BaseCCTManual extends BaseManualParameter
         isVisible = false;
 
         //wait 800ms to give awb a chance to set the ct value to the parameters
-        new Handler().postDelayed(new Runnable() {
+        if (cameraUiWrapper.GetAppSettingsManager().manualWhiteBalance.getKEY().equals(""))
+            new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 //get fresh parameters from camera
@@ -79,6 +80,8 @@ public class BaseCCTManual extends BaseManualParameter
                 }
             }
         }, 800);
+        else
+            key_value = cameraUiWrapper.GetAppSettingsManager().manualWhiteBalance.getKEY();
     }
 
     /**

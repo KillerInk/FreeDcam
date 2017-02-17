@@ -10,12 +10,33 @@
 
         <camera1>//holds camera1 specfic stuff
             <framework>0</framework> // framework used by the device 0 = android, 1 = LG, 2 = MTK, 3 = Moto_ext
+
             <dngmanual>false</dngmanual> false when the device dont support manual exposuretime and iso when shooting raw
+
             <opencameralegacy>true</opencameralegacy>//when empty/false default camera gets open
+
             <zteae>true</zteae>
+
             <needrestartaftercapture>true</needrestartaftercapture>
+
             <bust>9</burst> //burst count, not added = unsupported
+
             <nightmode></nightmode> 0 = xiaomi, 1 = zte, not added = unsupported
+
+            <whitebalance sdkint="21">
+                <min></min>
+                <max></max>
+                <step></step>
+                <key></key>
+                <mode></mode>
+            </whitebalance>
+
+            <manualiso>
+                <min></min>
+                <max></max>
+                <step></step>
+                <key></key>
+            </manualiso>
         </camera1>
 
         <opcode2></opcode2> opcode2 url to download
@@ -123,6 +144,12 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>true</dngmanual>
+            <manualiso>
+                <min>100</min>
+                <max>1600</max>
+                <step>50</step>
+                <key>continous-iso</key>
+            </manualiso>
         </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
@@ -2073,6 +2100,13 @@
             <dngmanual>true</dngmanual>
             <burst>6</burst>
             <nightmode>0</nightmode>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual-cct</mode>
+            </whiteblance>
         </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI3W/opc3.bin?raw=true</opcode3>
@@ -2133,6 +2167,13 @@
             <framework>0</framework>
             <burst>7</burst>
             <nightmode>0</nightmode>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual-cct</mode>
+            </whiteblance>
         </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI4W/opc3.bin?raw=true</opcode3>
@@ -2192,6 +2233,13 @@
             <framework>0</framework>
             <nightmode>0</nightmode>
             <burst>6</burst>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual-cct</mode>
+            </whiteblance>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2496,6 +2544,13 @@
             <zteae>true</zteae>
             <burst>7</burst>
             <nightmode>1</nightmode>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual</mode>
+            </whiteblance>
         </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
@@ -2557,6 +2612,13 @@
             <zteae>true</zteae>
             <burst>7</burst>
             <nightmode>1</nightmode>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual</mode>
+            </whiteblance>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2603,6 +2665,13 @@
             <zteae>true</zteae>
             <burst>7</burst>
             <nightmode>1</nightmode>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual</mode>
+            </whiteblance>
         </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTEADV234/opc3.bin?raw=true</opcode3>
@@ -2630,6 +2699,13 @@
             <framework>0</framework>
             <dngmanual>true</dngmanual>
             <nightmode>1</nightmode>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual</mode>
+            </whiteblance>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
