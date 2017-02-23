@@ -24,7 +24,7 @@ import freed.utils.DeviceUtils;
 
 public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 {
-    private final  String TAG = Camera1FeatureDetectorTask.class.getSimpleName();
+    private static final  String TAG = Camera1FeatureDetectorTask.class.getSimpleName();
 
     public Camera1FeatureDetectorTask(ProgressUpdate progressUpdate, AppSettingsManager appSettingsManager)
     {
@@ -277,45 +277,28 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     }
 
     private void detectManualIso(Camera.Parameters parameters) {
-        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
-            appSettingsManager.manualIso.setIsSupported(true);
-            appSettingsManager.manualIso.setKEY("m-sr-g");
-            switch (appSettingsManager.getDevice())
-            {
-                case Xiaomi_Redmi_Note3:
-                    appSettingsManager.manualIso.setValues(createIsoValues(100,2700,100));
-                    break;
-                default:
-                    appSettingsManager.manualIso.setValues(createIsoValues(100,1600,100));
-                    break;
-            }
-        }
-        else
-        {
-            switch (appSettingsManager.getDevice()) {
-                case Aquaris_E5:
+
+        if (appSettingsManager.manualIso.getKEY().equals("") && !appSettingsManager.manualIso.getKEY().equals(appSettingsManager.getResString(R.string.aps_unsupported))) {
+
+            if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
+                appSettingsManager.manualIso.setIsSupported(true);
+                appSettingsManager.manualIso.setKEY("m-sr-g");
+                appSettingsManager.manualIso.setValues(createIsoValues(100, 1600, 100, appSettingsManager));
+            } else {
+                if (parameters.get(appSettingsManager.getResString(R.string.min_iso)) != null && parameters.get(appSettingsManager.getResString(R.string.max_iso)) != null) {
                     appSettingsManager.manualIso.setIsSupported(true);
                     appSettingsManager.manualIso.setKEY(appSettingsManager.getResString(R.string.continuous_iso));
-                    appSettingsManager.manualIso.setValues(createIsoValues(100, 1600, 50));
-                    break;
-                case Xiaomi_Redmi3:
-                case LG_G3:
-                    appSettingsManager.manualIso.setIsSupported(false);
-                    break;
-                default:
-                    if (parameters.get(appSettingsManager.getResString(R.string.min_iso)) != null && parameters.get(appSettingsManager.getResString(R.string.max_iso)) != null) {
-                        appSettingsManager.manualIso.setIsSupported(true);
-                        appSettingsManager.manualIso.setKEY(appSettingsManager.getResString(R.string.continuous_iso));
-                        int min = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.min_iso)));
-                        int max = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.max_iso)));
-                        appSettingsManager.manualIso.setValues(createIsoValues(min, max, 50));
-                    }
-                break;
+                    int min = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.min_iso)));
+                    int max = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.max_iso)));
+                    appSettingsManager.manualIso.setValues(createIsoValues(min, max, 50, appSettingsManager));
+                }
             }
+
         }
+
     }
 
-    private String[] createIsoValues(int miniso, int maxiso, int step)
+    public static String[] createIsoValues(int miniso, int maxiso, int step,AppSettingsManager appSettingsManager)
     {
         ArrayList<String> s = new ArrayList<>();
         s.add(appSettingsManager.getResString(R.string.auto_));
@@ -329,6 +312,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectManualExposureTime(Camera.Parameters parameters)
     {
+        if (appSettingsManager.manualExposureTime.getKEY().equals("") && ! appSettingsManager.manualExposureTime.getKEY().equals(appSettingsManager.getResString(R.string.aps_unsupported)))
         //mtk shutter
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
@@ -339,105 +323,63 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         else
         {
-            switch(appSettingsManager.getDevice()) {
-                case Aquaris_E5:
-                    appSettingsManager.manualExposureTime.setIsSupported(true);
-                    appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.aquaris_e5_shuttervalues));
-                    appSettingsManager.manualExposureTime.setKEY(camstring(R.string.exposure_time));
+            //htc shutter
+            if (parameters.get("shutter") != null) {
+                appSettingsManager.manualExposureTime.setIsSupported(true);
+                appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.htc));
+                appSettingsManager.manualExposureTime.setKEY("shutter");
+                appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_HTC);
+            }
+            //lg shutter
+            else if (parameters.get(appSettingsManager.getResString(R.string.lg_shutterspeed_values)) != null) {
+                appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_LG);
+                ArrayList<String> l = new ArrayList(Arrays.asList(parameters.get(appSettingsManager.getResString(R.string.lg_shutterspeed_values)).replace(",0", "").split(",")));
+                l.remove(0);
+                appSettingsManager.manualExposureTime.setValues(l.toArray(new String[l.size()]));
+                appSettingsManager.manualExposureTime.setKEY(appSettingsManager.getResString(R.string.lg_shutterspeed));
+                appSettingsManager.manualExposureTime.setIsSupported(true);
+            }
+            //meizu shutter
+            else if (parameters.get("shutter-value") != null) {
+                appSettingsManager.manualExposureTime.setIsSupported(true);
+                appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_meizu));
+                appSettingsManager.manualExposureTime.setKEY("shutter-value");
+                appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_MEIZU);
+            }
+            //krillin shutter
+            else if (parameters.get("hw-manual-exposure-value") != null) {
+                appSettingsManager.manualExposureTime.setIsSupported(true);
+                appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_krillin));
+                appSettingsManager.manualExposureTime.setKEY("hw-manual-exposure-value");
+                appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_KRILLIN);
+            }
+            //sony shutter
+            else if (parameters.get("sony-max-shutter-speed") != null) {
+                appSettingsManager.manualExposureTime.setIsSupported(true);
+                appSettingsManager.manualExposureTime.setValues(getSupportedShutterValues(
+                        Long.parseLong(parameters.get("sony-min-shutter-speed")),
+                        Long.parseLong(parameters.get("sony-max-shutter-speed")),
+                        true));
+                appSettingsManager.manualExposureTime.setKEY("sony-shutter-speed");
+                appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_SONY);
+            }
+            //qcom shutter
+            else if (parameters.get(camstring(R.string.max_exposure_time)) != null && parameters.get(camstring(R.string.min_exposure_time)) != null) {
+                long min = 0, max = 0;
+                if (parameters.get(camstring(R.string.max_exposure_time)).contains(".")) {
+                    min = (long) Double.parseDouble(parameters.get(camstring(R.string.min_exposure_time))) * 1000;
+                    max = (long) Double.parseDouble(parameters.get(camstring(R.string.max_exposure_time))) * 1000;
                     appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MICORSEC);
-                    break;
-                case LG_G2pro:
+                } else {
+                    min = Integer.parseInt(parameters.get(camstring(R.string.min_exposure_time)));
+                    max = Integer.parseInt(parameters.get(camstring(R.string.max_exposure_time)));
+                    appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MILLISEC);
+                }
+                if (max > 0) {
                     appSettingsManager.manualExposureTime.setIsSupported(true);
-                    appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_lg_g2pro));
                     appSettingsManager.manualExposureTime.setKEY(camstring(R.string.exposure_time));
-                    appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_G2PRO);
-                    break;
-                case ZTE_ADV:
-                    appSettingsManager.manualExposureTime.setIsSupported(true);
-                    appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_zte_z5s));
-                    appSettingsManager.manualExposureTime.setKEY(camstring(R.string.exposure_time));
-                    appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_ZTE);
-                    break;
-                case  ZTEADVIMX214:
-                case ZTEADV234:
-                case ZTE_Z11:
-                    appSettingsManager.manualExposureTime.setIsSupported(true);
-                    appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_zte_z7));
-                    appSettingsManager.manualExposureTime.setKEY(camstring(R.string.exposure_time));
-                    appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_ZTE);
-                    break;
-                case LG_G3:
-                    appSettingsManager.manualExposureTime.setIsSupported(false);
-                    break;
-                default:
-                    //htc shutter
-                    if (parameters.get("shutter") != null) {
-                        appSettingsManager.manualExposureTime.setIsSupported(true);
-                        appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.htc));
-                        appSettingsManager.manualExposureTime.setKEY("shutter");
-                        appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_HTC);
-                    }
-                    //lg shutter
-                    else if (parameters.get(appSettingsManager.getResString(R.string.lg_shutterspeed_values)) != null) {
-                        appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_LG);
-                        ArrayList<String> l = new ArrayList(Arrays.asList(parameters.get(appSettingsManager.getResString(R.string.lg_shutterspeed_values)).replace(",0", "").split(",")));
-                        l.remove(0);
-                        appSettingsManager.manualExposureTime.setValues(l.toArray(new String[l.size()]));
-                        appSettingsManager.manualExposureTime.setKEY(appSettingsManager.getResString(R.string.lg_shutterspeed));
-                        appSettingsManager.manualExposureTime.setIsSupported(true);
-                    }
-                    //meizu shutter
-                    else if (parameters.get("shutter-value") != null) {
-                        appSettingsManager.manualExposureTime.setIsSupported(true);
-                        appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_meizu));
-                        appSettingsManager.manualExposureTime.setKEY("shutter-value");
-                        appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_MEIZU);
-                    }
-                    //krillin shutter
-                    else if (parameters.get("hw-manual-exposure-value") != null) {
-                        appSettingsManager.manualExposureTime.setIsSupported(true);
-                        appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_krillin));
-                        appSettingsManager.manualExposureTime.setKEY("hw-manual-exposure-value");
-                        appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_KRILLIN);
-                    }
-                    //sony shutter
-                    else if (parameters.get("sony-max-shutter-speed") != null) {
-                        appSettingsManager.manualExposureTime.setIsSupported(true);
-                        appSettingsManager.manualExposureTime.setValues(getSupportedShutterValues(
-                                Long.parseLong(parameters.get("sony-min-shutter-speed")),
-                                Long.parseLong(parameters.get("sony-max-shutter-speed")),
-                                true));
-                        appSettingsManager.manualExposureTime.setKEY("sony-shutter-speed");
-                        appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_SONY);
-                    }
-                    //qcom shutter
-                    else if (parameters.get(camstring(R.string.max_exposure_time)) != null && parameters.get(camstring(R.string.min_exposure_time)) != null) {
-                        long min = 0, max = 0;
-                        switch (appSettingsManager.getDevice()) {
-                            case OnePlusX:
-                                min = Integer.parseInt(parameters.get(camstring(R.string.min_exposure_time))) * 1000;
-                                max = Integer.parseInt(parameters.get(camstring(R.string.max_exposure_time))) * 1000;
-                                appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MICORSEC);
-                                break;
-                            default:
-                                if (parameters.get(camstring(R.string.max_exposure_time)).contains(".")) {
-                                    min = (long) Double.parseDouble(parameters.get(camstring(R.string.min_exposure_time))) * 1000;
-                                    max = (long) Double.parseDouble(parameters.get(camstring(R.string.max_exposure_time))) * 1000;
-                                    appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MICORSEC);
-                                } else {
-                                    min = Integer.parseInt(parameters.get(camstring(R.string.min_exposure_time)));
-                                    max = Integer.parseInt(parameters.get(camstring(R.string.max_exposure_time)));
-                                    appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MILLISEC);
-                                }
-                                break;
-                        }
-                        if (max > 0) {
-                            appSettingsManager.manualExposureTime.setIsSupported(true);
-                            appSettingsManager.manualExposureTime.setKEY(camstring(R.string.exposure_time));
-                            appSettingsManager.manualExposureTime.setValues(getSupportedShutterValues(min, max, true));
-                        }
-                    }
-                    break;
+                    appSettingsManager.manualExposureTime.setValues(getSupportedShutterValues(min, max, true));
+                }
             }
         }
     }
@@ -847,7 +789,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             appSettingsManager.setIsFrontCamera(true);
     }
 
-    private boolean hasLGFramework()
+    private static boolean hasLGFramework()
     {
         try {
             Class c = Class.forName("com.lge.hardware.LGCamera");
@@ -863,7 +805,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
     }
 
-    private boolean isMotoExt()
+    private static boolean isMotoExt()
     {
         try {
             Class c = Class.forName("com.motorola.android.camera.CameraMotExt");
@@ -878,7 +820,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
     }
 
-    private boolean isMTKDevice()
+    private static boolean isMTKDevice()
     {
         try
         {
@@ -905,7 +847,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
     }
 
-    private int getFramework()
+    public static int getFramework()
     {
         if (hasLGFramework())
             return AppSettingsManager.FRAMEWORK_LG;

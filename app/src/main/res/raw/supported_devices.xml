@@ -31,7 +31,13 @@
                 <mode></mode>
             </whitebalance>
 
-            <manualiso>
+            <manualiso supported="true">
+                <framework type="1">
+                    <min></min>
+                    <max></max>
+                    <step></step>
+                    <key></key>
+                </framework> //used for redmi note3, it has same model but different socs: Snap,MTK
                 <min></min>
                 <max></max>
                 <step></step>
@@ -150,6 +156,11 @@
                 <step>50</step>
                 <key>continous-iso</key>
             </manualiso>
+            <exposuretime>
+                <values>aquaris_e5_shuttervalues</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>4</type>
+            </exposuretime>
         </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
@@ -994,7 +1005,12 @@
         </models>
         <camera1>
             <framework>1</framework>
-            <dngmanual>false</dngmanual>
+            <dngmanual>true</dngmanual>
+            <exposuretime>
+                <values>shutter_lg_g2pro</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>8</type>
+            </exposuretime>
         </camera1>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
@@ -1089,6 +1105,8 @@
             <framework>1</framework>
             <dngmanual>false</dngmanual>
             <burst>9</burst>
+            <manualiso supported="false"></manualiso>
+            <exposuretime></exposuretime>
         </camera1>
         <filesize size= "2658304">
             <blacklvl>64</blacklvl>
@@ -2387,8 +2405,18 @@
             <item>Kenzo</item>
         </models>
         <camera1>
-            <framework>0</framework>
+            <!--<framework>0</framework>-->
             <dngmanual>false</dngmanual>
+            <manualiso supported="true">
+                <framework type="2"> <!-- mtk support it -->
+                    <min>100</min>
+                    <max>2700</max>
+                    <step>100</step>
+                    <key>m-sr-g</key>
+                </framework>
+                <framework type="0"> <!-- unsupported by the snap -->
+                </framework>
+            </manualiso>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2551,6 +2579,11 @@
                 <key>wb-manual-cct</key>
                 <mode>manual</mode>
             </whiteblance>
+            <exposuretime>
+                <values>shutter_values_zte_z5s</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>9</type>
+            </exposuretime>
         </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
@@ -2619,6 +2652,12 @@
                 <key>wb-manual-cct</key>
                 <mode>manual</mode>
             </whiteblance>
+
+            <exposuretime>
+                <values>shutter_values_zte_z7</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>9</type>
+            </exposuretime>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2672,6 +2711,11 @@
                 <key>wb-manual-cct</key>
                 <mode>manual</mode>
             </whiteblance>
+            <exposuretime>
+                <values>shutter_values_zte_z7</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>9</type>
+            </exposuretime>
         </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTEADV234/opc3.bin?raw=true</opcode3>
@@ -2706,6 +2750,11 @@
                 <key>wb-manual-cct</key>
                 <mode>manual</mode>
             </whiteblance>
+            <exposuretime>
+                <values>shutter_values_zte_z7</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>9</type>
+            </exposuretime>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>

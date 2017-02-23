@@ -25,6 +25,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.text.TextUtils;
 
+import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
 import java.io.BufferedInputStream;
@@ -732,7 +733,7 @@ public class AppSettingsManager {
                                     setFramework(Integer.parseInt(camera1element.findChild("framework").getValue()));
                                 }
                                 else
-                                    setFramework(FRAMEWORK_NORMAL);
+                                    setFramework(Camera1FeatureDetectorTask.getFramework());
 
                                 if (camera1element.findChild("dngmanual") != null)
                                     setDngManualsSupported(Boolean.parseBoolean(camera1element.findChild("dngmanual").getValue()));
@@ -779,6 +780,53 @@ public class AppSettingsManager {
                                     manualWhiteBalance.setValues(Camera1FeatureDetectorTask.createWBStringArray(min,max,step,this));
                                     manualWhiteBalance.setIsSupported(true);
                                 }
+
+                                if (camera1element.findChild("manualiso") != null)
+                                {
+                                    if (camera1element.findChild("manualiso").getAttribute("supported","false") != null)
+                                    {
+                                        if (camera1element.findChild("manualiso").getAttribute("supported","false").equals("false")) {
+                                            manualIso.setIsSupported(false);
+                                            manualIso.setKEY("unsupported");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if(camera1element.findChild("manualiso").findChildren("framework")!= null)
+                                        {
+                                            List<XmlElement> frameworksiso = camera1element.findChild("manualiso").findChildren("framework");
+                                            for(XmlElement framiso : frameworksiso)
+                                            {
+                                                if (Integer.parseInt(framiso.getAttribute("type","0")) == getFrameWork())
+                                                    setManualIso(framiso);
+                                            }
+                                        }
+                                        else
+                                            setManualIso(camera1element.findChild("manualiso"));
+                                    }
+                                }
+
+                                if (camera1element.findChild("exposuretime") != null)
+                                {
+                                    if (camera1element.findChild("exposuretime").findChild("values")!= null)
+                                    {
+                                        String name = camera1element.findChild("exposuretime").findChild("values").getValue();
+                                        manualExposureTime.setValues(getResources().getStringArray(getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
+                                    }
+                                    if (camera1element.findChild("exposuretime").findChild("key")!= null)
+                                    {
+                                        manualExposureTime.setKEY(camera1element.findChild("exposuretime").findChild("key").getValue());
+                                    }
+                                    if (camera1element.findChild("exposuretime").findChild("key")!= null)
+                                    {
+                                        manualExposureTime.setType(camera1element.findChild("exposuretime").findChild("type").getIntValue(0));
+                                        manualExposureTime.setIsSupported(true);
+                                    }
+                                    else {
+                                        manualExposureTime.setIsSupported(false);
+                                        manualExposureTime.setKEY("unsupported");
+                                    }
+                                }
                             }
 
                             dngProfileHashMap = new HashMap<>();
@@ -791,6 +839,22 @@ public class AppSettingsManager {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setManualIso(XmlElement element)
+    {
+        if (element.findChild("min") != null) {
+            int min = element.findChild("min").getIntValue(100);
+            int max = element.findChild("max").getIntValue(1600);
+            int step = element.findChild("step").getIntValue(50);
+            manualIso.setKEY(element.findChild("key").getValue());
+            manualIso.setValues(Camera1FeatureDetectorTask.createIsoValues(min, max, step, this));
+            manualIso.setIsSupported(true);
+        }
+        else {
+            manualIso.setKEY("unsupported");
+            manualIso.setIsSupported(false);
         }
     }
 
