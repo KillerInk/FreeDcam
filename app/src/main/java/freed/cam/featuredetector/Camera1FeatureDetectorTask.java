@@ -154,9 +154,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectNonZslmanual(parameters);
             sendProgress(appS.nonZslManualMode, "NonZslManual");
 
-            detectVirtualLensFilter(parameters);
-            sendProgress(appS.virtualLensfilter, "NonZslManual");
-
             detectVideoHdr(parameters);
             sendProgress(appS.videoHDR, "VideoHDR");
 
@@ -449,20 +446,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         return tmp.toArray(new String[tmp.size()]);
     }
 
-    private void detectVirtualLensFilter(Camera.Parameters parameters)
-    {
-        switch (appSettingsManager.getDevice())
-        {
-            case ZTE_ADV:
-            case ZTE_Z5SMINI:
-            case ZTE_Z11:
-                appSettingsManager.virtualLensfilter.setIsSupported(true);
-                break;
-            default:
-                appSettingsManager.virtualLensfilter.setIsSupported(false);
-                break;
-        }
-    }
 
     private void detectNonZslmanual(Camera.Parameters parameters) {
         if(parameters.get("non-zsl-manual-mode")!=null)
@@ -475,6 +458,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectDenoise(Camera.Parameters parameters)
     {
+        if (appSettingsManager.denoiseMode.isPresetted())
+            return;
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
             if(parameters.get(camstring(R.string.mtk_3dnr_mode))!=null) {
@@ -487,35 +472,17 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         else
         {
-            switch (appSettingsManager.getDevice())
-            {
-                case p8:
-                case p8lite:
-                    appSettingsManager.denoiseMode.setIsSupported(false);
-                    break;
-                default:
-                    detectMode(parameters,R.string.denoise,R.string.denoise_values,appSettingsManager.denoiseMode);
-                    break;
-            }
+            detectMode(parameters,R.string.denoise,R.string.denoise_values,appSettingsManager.denoiseMode);
         }
     }
 
     private void detectDisModes(Camera.Parameters parameters) {
+        if (appSettingsManager.digitalImageStabilisationMode.isPresetted())
+            return;
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
             appSettingsManager.digitalImageStabilisationMode.setIsSupported(false);
         } else{
-            switch (appSettingsManager.getDevice())
-            {
-                case XiaomiMI5:
-                case XiaomiMI5s:
-                case Lenovo_Vibe_X3:
-                    appSettingsManager.digitalImageStabilisationMode.setIsSupported(false);
-                    break;
-                default:
-                    detectMode(parameters,R.string.dis,R.string.dis_values, appSettingsManager.digitalImageStabilisationMode);
-                    break;
-            }
-
+            detectMode(parameters,R.string.dis,R.string.dis_values, appSettingsManager.digitalImageStabilisationMode);
         }
     }
 
@@ -665,6 +632,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     }
 
     private void detectManualFocus(Camera.Parameters parameters) {
+
+        if (appSettingsManager.manualFocus.isPresetted())
+            return;
+
         int min =0, max =0, step = 0;
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
@@ -734,74 +705,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 appSettingsManager.manualFocus.setKEY(appSettingsManager.getResString(R.string.hw_manual_focus_step_value));
             }
         }
-        //override device specific
-        switch (appSettingsManager.getDevice())
-        {
-            case LG_G3:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    min = 0;
-                    max = 1023;
-                    step = 10;
-                    appSettingsManager.manualFocus.setMode(camstring(R.string.manual));
-                    appSettingsManager.manualFocus.setType(2);
-                    appSettingsManager.manualFocus.setIsSupported(true);
-                    appSettingsManager.manualFocus.setKEY(camstring(R.string.manual_focus_position));
-                }
-                else if (Build.VERSION.SDK_INT < 21)
-                {
-                    min = 0;
-                    max = 79;
-                    step = 1;
-                    appSettingsManager.manualFocus.setMode(appSettingsManager.getResString(R.string.normal));
-                    appSettingsManager.manualFocus.setType(-1);
-                    appSettingsManager.manualFocus.setIsSupported(true);
-                    appSettingsManager.manualFocus.setKEY(appSettingsManager.getResString(R.string.manualfocus_step));
-                }
-                break;
-            case LG_G4:
-            case LG_V20:
-                min = 0;
-                max = 60;
-                step = 1;
-                appSettingsManager.manualFocus.setMode(appSettingsManager.getResString(R.string.manual));
-                appSettingsManager.manualFocus.setType(-1);
-                appSettingsManager.manualFocus.setIsSupported(true);
-                appSettingsManager.manualFocus.setKEY(appSettingsManager.getResString(R.string.manualfocus_step));
-                break;
-            case LG_G2:
-            case LG_G2pro:
-                min = 0;
-                max = 79;
-                step = 1;
-                appSettingsManager.manualFocus.setMode(appSettingsManager.getResString(R.string.normal));
-                appSettingsManager.manualFocus.setType(-1);
-                appSettingsManager.manualFocus.setIsSupported(true);
-                appSettingsManager.manualFocus.setKEY(appSettingsManager.getResString(R.string.manualfocus_step));
-                break;
-            case ZTE_Z11:
-            case ZTEADV234:
-            case ZTEADVIMX214:
-            case ZTE_ADV:
-                appSettingsManager.manualFocus.setMode(camstring(R.string.manual));
-                appSettingsManager.manualFocus.setType(1);
-                appSettingsManager.manualFocus.setIsSupported(true);
-                min = 0;
-                max = 79;
-                step = 1;
-                appSettingsManager.manualFocus.setKEY(camstring(R.string.manual_focus_position));
-                break;
-            case Vivo_V3:
-            case Moto_X2k14:
-                appSettingsManager.manualFocus.setIsSupported(false);
-                break;
-
-        }
         //create mf values
         if (appSettingsManager.manualFocus.isSupported())
-            appSettingsManager.manualFocus.setValues(createManualFocusValues(min, max,step));
+            appSettingsManager.manualFocus.setValues(createManualFocusValues(min, max,step,appSettingsManager));
     }
 
-    private String[] createManualFocusValues(int min, int max, int step)
+    public static String[] createManualFocusValues(int min, int max, int step,AppSettingsManager appSettingsManager)
     {
         ArrayList<String> ar = new ArrayList<>();
         ar.add(appSettingsManager.getResString(R.string.auto_));

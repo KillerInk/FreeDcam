@@ -45,6 +45,18 @@
                 <step></step>
                 <key></key>
             </manualiso>
+            <virtuallensfilter></virtuallensfilter>
+           <denoise>false</denoise>
+           <digitalimagestab>false</digitalimagestab>
+
+           <manualfocus version="21">
+                <min></min>
+                <max></max>
+                <step></step>
+                <type></type>
+                <mode></mode>
+                <key></key>
+            </manualfocus>
         </camera1>
 
         <opcode2></opcode2> opcode2 url to download
@@ -767,6 +779,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <digitalimagestab>false</digitalimagestab>
         </camera1>
     </device>
 
@@ -979,6 +992,14 @@
             <dngmanual>false</dngmanual>
             <burst>7</burst>
             <hdrmode supported="true">2</hdrmode>
+            <manualfocus>
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>-1</type>
+                <mode>normal</mode>
+                <key>manualfocus_step</key>
+            </manualfocus>
         </camera1>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
@@ -1065,6 +1086,14 @@
             <dngmanual>true</dngmanual>
             <opencameralegacy>true</opencameralegacy>
             <burst>6</burst>
+            <manualfocus>
+                <min>0</min>
+                <max>60</max>
+                <step>1</step>
+                <type>-1</type>
+                <mode>manual</mode>
+                <key>manualfocus_step</key>
+            </manualfocus>
         </camera1>
         <filesize size= "19976192">
             <blacklvl>64</blacklvl>
@@ -1111,6 +1140,25 @@
             <manualiso supported="false"></manualiso>
             <exposuretime></exposuretime>
             <hdrmode supported="true">2</hdrmode>
+
+            <manualfocus version="23">
+                <min>0</min>
+                <max>1023</max>
+                <step>10</step>
+                <type>2</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
+            <manualfocus version="21">
+            </manualfocus>
+            <manualfocus version="19">
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>-1</type>
+                <mode>normal</mode>
+                <key>manualfocus_step</key>
+            </manualfocus>
         </camera1>
         <filesize size= "2658304">
             <blacklvl>64</blacklvl>
@@ -1201,6 +1249,14 @@
         <camera1>
             <framework>1</framework>
             <dngmanual>false</dngmanual>
+            <manualfocus>
+                <min>0</min>
+                <max>60</max>
+                <step>1</step>
+                <type>-1</type>
+                <mode>manual</mode>
+                <key>manualfocus_step</key>
+            </manualfocus>
         </camera1>
         <filesize size= "6659840">
             <blacklvl>64</blacklvl>
@@ -1463,6 +1519,8 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <manualfocus>
+            </manualfocus>
         </camera1>
     </device>
 
@@ -1989,6 +2047,8 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <manualfocus>
+            </manualfocus>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2323,6 +2383,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <digitalimagestab>false</digitalimagestab>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2344,6 +2405,7 @@
     <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <digitalimagestab>false</digitalimagestab>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2592,6 +2654,15 @@
                 <key>exposure-time</key>
                 <type>9</type>
             </exposuretime>
+            <virtuallensfilter>true</virtuallensfilter>
+            <manualfocus>
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>1</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
         </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
@@ -2666,6 +2737,15 @@
                 <key>exposure-time</key>
                 <type>9</type>
             </exposuretime>
+
+            <manualfocus>
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>1</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2724,6 +2804,14 @@
                 <key>exposure-time</key>
                 <type>9</type>
             </exposuretime>
+            <manualfocus>
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>1</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
         </camera1>
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTEADV234/opc3.bin?raw=true</opcode3>
@@ -2763,6 +2851,15 @@
                 <key>exposure-time</key>
                 <type>9</type>
             </exposuretime>
+            <virtuallensfilter>true</virtuallensfilter>
+            <manualfocus>
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>1</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2785,6 +2882,7 @@
             <framework>0</framework>
             <dngmanual>false</dngmanual>
             <nightmode>1</nightmode>
+            <virtuallensfilter>true</virtuallensfilter>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2891,6 +2989,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <denoise>false</denoise>
         </camera1>
     </device>
 
@@ -2901,6 +3000,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <denoise>false</denoise>
         </camera1>
     </device>
 

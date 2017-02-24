@@ -105,6 +105,18 @@ public class XmlElement {
         }
     }
 
+    public boolean getBooleanValue() {
+        if (mValue == null) {
+            return false;
+        } else {
+            try {
+                return Boolean.parseBoolean(mValue);
+            } catch (Exception e) {
+                return false;
+            }
+        }
+    }
+
     private void putAttribute(String name, String value) {
         mAttributes.put(name, value);
     }

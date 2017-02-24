@@ -865,6 +865,44 @@ public class AppSettingsManager {
                                     }
                                     hdrMode.setIsPresetted(true);
                                 }
+
+                                if (camera1element.findChild("virtuallensfilter") != null)
+                                {
+                                    virtualLensfilter.setIsSupported(true);
+                                }
+
+                                if (camera1element.findChild("denoise")!= null)
+                                {
+                                    if (!camera1element.findChild("denoise").getBooleanValue())
+                                    {
+                                        denoiseMode.setIsSupported(false);
+                                        denoiseMode.setIsPresetted(true);
+                                    }
+                                }
+
+                                if (camera1element.findChild("digitalimagestab")!= null)
+                                {
+                                    if (!camera1element.findChild("digitalimagestab").getBooleanValue())
+                                    {
+                                        digitalImageStabilisationMode.setIsSupported(false);
+                                        digitalImageStabilisationMode.setIsPresetted(true);
+                                    }
+                                }
+
+                                if (camera1element.findChild("manualfocus")!= null)
+                                {
+                                    List<XmlElement> mfs = camera1element.findChildren("manualfocus");
+                                    if (mfs.size() > 1) {
+                                        for (XmlElement mf : mfs) {
+                                            if (mf.getIntAttribute("version", 0) == Build.VERSION.SDK_INT) {
+                                                setManualFocus(mf);
+                                            }
+                                        }
+                                    }
+                                    else
+                                        setManualFocus(mfs.get(0));
+                                    manualFocus.setIsPresetted(true);
+                                }
                             }
 
                             dngProfileHashMap = new HashMap<>();
@@ -878,6 +916,20 @@ public class AppSettingsManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setManualFocus(XmlElement element)
+    {
+        if (element.findChild("min") != null)
+        {
+            manualFocus.setMode(element.findChild("mode").getValue());
+            manualFocus.setType(element.findChild("type").getIntValue(-1));
+            manualFocus.setIsSupported(true);
+            manualFocus.setKEY(element.findChild("key").getValue());
+            manualFocus.setValues(Camera1FeatureDetectorTask.createManualFocusValues(element.findChild("min").getIntValue(0),element.findChild("max").getIntValue(0),element.findChild("step").getIntValue(0),this));
+        }
+        else
+            manualFocus.setIsSupported(false);
     }
 
     private void setManualIso(XmlElement element)
