@@ -903,6 +903,19 @@ public class AppSettingsManager {
                                         setManualFocus(mfs.get(0));
                                     manualFocus.setIsPresetted(true);
                                 }
+
+                                if (camera1element.findChild("rawformat")!= null)
+                                {
+                                    rawPictureFormat.set(camera1element.findChild("rawformat").getValue());
+                                }
+
+                                if (camera1element.findChild("opticalimagestab")!= null)
+                                {
+                                    opticalImageStabilisation.set(camera1element.findChild("opticalimagestab").findChild("key").getValue());
+                                    opticalImageStabilisation.setValues(camera1element.findChild("opticalimagestab").findChild("values").getValue().split(","));
+                                    opticalImageStabilisation.setIsSupported(true);
+                                    opticalImageStabilisation.setIsPresetted(true);
+                                }
                             }
 
                             dngProfileHashMap = new HashMap<>();

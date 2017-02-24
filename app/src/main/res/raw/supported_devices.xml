@@ -57,6 +57,13 @@
                 <mode></mode>
                 <key></key>
             </manualfocus>
+
+            <rawformat></rawformat>
+
+            <opticalimagestab>
+                <key></key>
+                <values></values>
+            </opticalimagestab>
         </camera1>
 
         <opcode2></opcode2> opcode2 url to download
@@ -404,6 +411,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>true</dngmanual>
+            <rawformat>bayer-qcom-10grbg</rawformat>
         </camera1>
         <filesize size= "5382641"> <!-- filesize < 6000000 && filesize > 5382641 //qcom -->
             <blacklvl>0</blacklvl>
@@ -529,6 +537,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>true</dngmanual>
+            <rawformat>bayer-mipi-10bggr</rawformat>
         </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
@@ -1000,6 +1009,13 @@
                 <mode>normal</mode>
                 <key>manualfocus_step</key>
             </manualfocus>
+
+            <rawformat>bayer-mipi-10bggr</rawformat>
+
+            <opticalimagestab>
+                <key>ois-ctrl</key>
+                <values>preview-capture,capture,video,centering-only,centering-off</values>
+            </opticalimagestab>
         </camera1>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
@@ -1035,6 +1051,10 @@
                 <key>exposure-time</key>
                 <type>8</type>
             </exposuretime>
+            <opticalimagestab>
+                <key>ois-ctrl</key>
+                <values>preview-capture,capture,video,centering-only,centering-off</values>
+            </opticalimagestab>
         </camera1>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
@@ -1159,6 +1179,11 @@
                 <mode>normal</mode>
                 <key>manualfocus_step</key>
             </manualfocus>
+
+            <opticalimagestab>
+                <key>ois-ctrl</key>
+                <values>preview-capture,capture,video,centering-only,centering-off</values>
+            </opticalimagestab>
         </camera1>
         <filesize size= "2658304">
             <blacklvl>64</blacklvl>
@@ -1447,6 +1472,7 @@
             <framework>0</framework>
             <dngmanual>false</dngmanual>
             <needrestartaftercapture>true</needrestartaftercapture>
+            <rawformat>bayer-qcom-10rggb</rawformat>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -1469,6 +1495,7 @@
             <framework>0</framework>
             <dngmanual>false</dngmanual>
             <needrestartaftercapture>true</needrestartaftercapture>
+            <rawformat>bayer-qcom-10rggb</rawformat>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2384,6 +2411,10 @@
             <framework>0</framework>
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
+            <opticalimagestab>
+                <key>ois</key>
+                <values>enable,disable</values>
+            </opticalimagestab>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2990,6 +3021,10 @@
             <framework>0</framework>
             <dngmanual>false</dngmanual>
             <denoise>false</denoise>
+            <opticalimagestab>
+                <key>hw_ois_enalbe</key>
+                <values>on,off</values>
+            </opticalimagestab>
         </camera1>
     </device>
 

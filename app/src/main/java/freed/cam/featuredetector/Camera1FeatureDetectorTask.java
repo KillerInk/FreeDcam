@@ -142,9 +142,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectCorrelatedDoubleSamplingModes(parameters);
             sendProgress(appS.correlatedDoubleSampling,"CorrelatedDoubleSampling");
 
-            detectOisModes(parameters);
-            sendProgress(appS.opticalImageStabilisation, "OpticalImageStabilisation");
-
             detectDisModes(parameters);
             sendProgress(appS.digitalImageStabilisationMode, "DigitalImageStabilisation");
 
@@ -884,65 +881,38 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             appSettingsManager.rawPictureFormat.setIsSupported(false);
         }
         else {
-
             if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
                 appSettingsManager.pictureFormat.setIsSupported(true);
                 appSettingsManager.rawPictureFormat.setIsSupported(true);
             } else {
-                if (appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G2)
-                {
-                    appSettingsManager.pictureFormat.setIsSupported(true);
-                    appSettingsManager.rawPictureFormat.setIsSupported(true);
-                    appSettingsManager.rawPictureFormat.set(appSettingsManager.getResString(R.string.bayer_mipi_10bggr));
-                }
-                else if (appSettingsManager.getDevice() == DeviceUtils.Devices.HTC_OneA9 )
-                {
-                    appSettingsManager.pictureFormat.setIsSupported(true);
-                    appSettingsManager.rawPictureFormat.setIsSupported(true);
-                    appSettingsManager.rawPictureFormat.set(appSettingsManager.getResString(R.string.bayer_mipi_10rggb));
-                }else if(appSettingsManager.getDevice() == DeviceUtils.Devices.MotoG3 ||appSettingsManager.getDevice() == DeviceUtils.Devices.MotoG_Turbo)
-                {
-                    appSettingsManager.pictureFormat.setIsSupported(true);
-                    appSettingsManager.rawPictureFormat.setIsSupported(true);
-                    appSettingsManager.rawPictureFormat.set(appSettingsManager.getResString(R.string.bayer_qcom_10rggb));
-                }
 
-                else if(appSettingsManager.getDevice() == DeviceUtils.Devices.Htc_M8 && Build.VERSION.SDK_INT >= 21)
-                {
-                    appSettingsManager.pictureFormat.setIsSupported(true);
-                    appSettingsManager.rawPictureFormat.setIsSupported(true);
-                    appSettingsManager.rawPictureFormat.set(appSettingsManager.getResString(R.string.bayer_qcom_10grbg));
-                }
-                else
-                {
-                    String formats = parameters.get(camstring(R.string.picture_format_values));
+                String formats = parameters.get(camstring(R.string.picture_format_values));
 
-                    if (formats.contains("bayer-mipi") || formats.contains("raw"))
-                    {
+                if (appSettingsManager.rawPictureFormat.get().equals("")) {
+                    if (formats.contains("bayer-mipi") || formats.contains("raw")) {
                         appSettingsManager.rawPictureFormat.setIsSupported(true);
                         String[] forms = formats.split(",");
                         for (String s : forms) {
-                            if (s.contains("bayer-mipi") || s.contains("raw"))
-                            {
+                            if (s.contains("bayer-mipi") || s.contains("raw")) {
                                 appSettingsManager.rawPictureFormat.set(s);
                                 break;
                             }
                         }
                     }
-                    if (formats.contains(appSettingsManager.getResString(R.string.bayer_)))
-                    {
-                        ArrayList<String> tmp = new ArrayList<>();
-                        String[] forms = formats.split(",");
-                        for (String s : forms) {
-                            if (s.contains(appSettingsManager.getResString(R.string.bayer_)))
-                            {
-                                tmp.add(s);
-                            }
+                }
+                if (formats.contains(appSettingsManager.getResString(R.string.bayer_)))
+                {
+                    ArrayList<String> tmp = new ArrayList<>();
+                    String[] forms = formats.split(",");
+                    for (String s : forms) {
+                        if (s.contains(appSettingsManager.getResString(R.string.bayer_)))
+                        {
+                            tmp.add(s);
                         }
-                        String[] rawFormats = new String[tmp.size()];
-                        tmp.toArray(rawFormats);
-                        appSettingsManager.rawPictureFormat.setValues(rawFormats);
                     }
+                    String[] rawFormats = new String[tmp.size()];
+                    tmp.toArray(rawFormats);
+                    appSettingsManager.rawPictureFormat.setValues(rawFormats);
                 }
             }
             appSettingsManager.pictureFormat.setIsSupported(true);
@@ -1139,43 +1109,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         detectMode(parameters,R.string.cds_mode,R.string.cds_mode_values,appSettingsManager.correlatedDoubleSampling);
     }
 
-    private void detectOisModes(Camera.Parameters parameters)
-    {
-        switch (appSettingsManager.getDevice())
-        {
-            case LG_G2:
-            case LG_G2pro:
-            case LG_G3:
-                appSettingsManager.opticalImageStabilisation.setIsSupported(true);
-                appSettingsManager.opticalImageStabilisation.setKEY(appSettingsManager.getResString(R.string.lg_ois));
-                appSettingsManager.opticalImageStabilisation.setValues(new String[] {
-                        appSettingsManager.getResString(R.string.lg_ois_preview_capture),
-                        appSettingsManager.getResString(R.string.lg_ois_capture),
-                        appSettingsManager.getResString(R.string.lg_ois_video),
-                        appSettingsManager.getResString(R.string.lg_ois_centering_only),
-                        appSettingsManager.getResString(R.string.lg_ois_centering_off)});
-
-                appSettingsManager.opticalImageStabilisation.set(appSettingsManager.getResString(R.string.lg_ois_centering_off));
-                break;
-            case XiaomiMI5:
-                appSettingsManager.opticalImageStabilisation.setIsSupported(true);
-                appSettingsManager.opticalImageStabilisation.setKEY("ois");
-                appSettingsManager.opticalImageStabilisation.setValues(new String[] {
-                        appSettingsManager.getResString(R.string.enable_),appSettingsManager.getResString(R.string.disable_)});
-                appSettingsManager.opticalImageStabilisation.set(appSettingsManager.getResString(R.string.enable_));
-                break;
-            case p8lite:
-                appSettingsManager.opticalImageStabilisation.setIsSupported(true);
-                appSettingsManager.opticalImageStabilisation.setKEY("hw_ois_enable");
-                appSettingsManager.opticalImageStabilisation.setValues(new String[] {
-                        appSettingsManager.getResString(R.string.on_),appSettingsManager.getResString(R.string.off_)});
-                appSettingsManager.opticalImageStabilisation.set(appSettingsManager.getResString(R.string.on_));
-                break;
-            default:
-                appSettingsManager.opticalImageStabilisation.setIsSupported(false);
-        }
-    }
-
     private void detectVideoHdr(Camera.Parameters parameters)
     {
         if (parameters.get(camstring(R.string.video_hdr_values)) != null)
@@ -1220,7 +1153,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         else
         {
-            switch (appSettingsManager.getDevice())
+            /*switch (appSettingsManager.getDevice())
             {
                 case Htc_M8:
                 case Htc_M9:
@@ -1234,7 +1167,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 default:
                     appSettingsManager.videoHFR.setIsSupported(false);
                     break;
-            }
+            }*/
 
         }
     }
