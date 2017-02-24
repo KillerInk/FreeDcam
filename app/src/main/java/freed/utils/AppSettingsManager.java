@@ -60,12 +60,15 @@ public class AppSettingsManager {
         //String to get the value from the cameraparameters
         private String KEY_value;
 
+        private String presetKey;
+
         public SettingMode(String value_key)
         {
             this.value_key = value_key;
             this.values_key = value_key + getResString(R.string.aps_values);
             this.supported_key= value_key + getResString(R.string.aps_supported);
             this.KEY_value = value_key + getResString(R.string.aps_key);
+            this.presetKey = value_key + "preset";
         }
 
         public void setValues(String[] ar)
@@ -94,9 +97,19 @@ public class AppSettingsManager {
             return getBoolean(supported_key,false);
         }
 
+        public boolean isPresetted()
+        {
+            return getBoolean(presetKey,false);
+        }
+
         public void setIsSupported(boolean supported)
         {
             setBoolean(supported_key, supported);
+        }
+
+        public void setIsPresetted(boolean preset)
+        {
+            setBoolean(presetKey, preset);
         }
 
         public String get()
@@ -189,6 +202,11 @@ public class AppSettingsManager {
     public static final int NIGHTMODE_XIAOMI = 0;
     public static final int NIGHTMODE_ZTE = 1;
 
+    public static final int HDR_MORPHO = 0;
+    public static final int HDR_AUTO = 1;
+    public static final int HDR_LG = 2;
+
+
 
     public static final String CURRENTCAMERA = "currentcamera";
     public static final String NIGHTMODE = "nightmode";
@@ -267,7 +285,7 @@ public class AppSettingsManager {
     public final SettingMode digitalImageStabilisationMode;
     public final SettingMode hotpixelMode;
     public final SettingMode aePriorityMode;
-    public final SettingMode hdrMode;
+    public final TypeSettingsMode hdrMode;
     public final SettingMode modules;
     public final SettingMode nonZslManualMode;
     public final SettingMode virtualLensfilter;
@@ -366,7 +384,7 @@ public class AppSettingsManager {
         digitalImageStabilisationMode = new SettingMode(getResString(R.string.aps_digitalimagestabmode));
         hotpixelMode = new SettingMode(getResString(R.string.aps_hotpixel));
         aePriorityMode = new SettingMode(getResString(R.string.aps_ae_priortiy));
-        hdrMode = new SettingMode(getResString(R.string.aps_hdrmode));
+        hdrMode = new TypeSettingsMode(getResString(R.string.aps_hdrmode));
         modules = new SettingMode(getResString(R.string.aps_module));
         nonZslManualMode = new SettingMode(getResString(R.string.aps_nonzslmanualmode));
         virtualLensfilter = new SettingMode(getResString(R.string.aps_virtuallensfilter));
@@ -762,6 +780,7 @@ public class AppSettingsManager {
                                     manualBurst.set(1 + "");
                                 } else
                                     manualBurst.setIsSupported(false);
+                                manualBurst.setIsPresetted(true);
 
                                 if (camera1element.findChild("nightmode") != null) {
                                     nightMode.setIsSupported(true);
@@ -769,6 +788,7 @@ public class AppSettingsManager {
                                     nightMode.setType(type);
                                 } else
                                     nightMode.setIsSupported(false);
+                                nightMode.setIsPresetted(true);
 
                                 if (camera1element.findChild("whitebalance") != null)
                                 {
@@ -779,6 +799,7 @@ public class AppSettingsManager {
                                     manualWhiteBalance.setMode(camera1element.findChild("whitebalance").findChild("mode").getValue());
                                     manualWhiteBalance.setValues(Camera1FeatureDetectorTask.createWBStringArray(min,max,step,this));
                                     manualWhiteBalance.setIsSupported(true);
+                                    manualWhiteBalance.setIsPresetted(true);
                                 }
 
                                 if (camera1element.findChild("manualiso") != null)
@@ -788,6 +809,7 @@ public class AppSettingsManager {
                                         if (camera1element.findChild("manualiso").getAttribute("supported","false").equals("false")) {
                                             manualIso.setIsSupported(false);
                                             manualIso.setKEY("unsupported");
+                                            manualIso.setIsPresetted(true);
                                         }
                                     }
                                     else
@@ -803,6 +825,7 @@ public class AppSettingsManager {
                                         }
                                         else
                                             setManualIso(camera1element.findChild("manualiso"));
+                                        manualIso.setIsPresetted(true);
                                     }
                                 }
 
@@ -826,6 +849,21 @@ public class AppSettingsManager {
                                         manualExposureTime.setIsSupported(false);
                                         manualExposureTime.setKEY("unsupported");
                                     }
+                                    manualExposureTime.setIsPresetted(true);
+                                }
+
+                                if (camera1element.findChild("hdrmode") != null)
+                                {
+                                    if (camera1element.findChild("hdrmode").getAttribute("supported","false") != null)
+                                    {
+                                        if (!Boolean.parseBoolean(camera1element.findChild("hdrmode").getAttribute("supported","false")))
+                                            hdrMode.setIsSupported(false);
+                                        else{
+                                            hdrMode.setIsSupported(true);
+                                            hdrMode.setType(camera1element.findChild("hdrmode").getIntValue(1));
+                                        }
+                                    }
+                                    hdrMode.setIsPresetted(true);
                                 }
                             }
 

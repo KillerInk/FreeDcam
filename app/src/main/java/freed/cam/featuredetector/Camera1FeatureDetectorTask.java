@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
@@ -189,11 +190,40 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             sendProgress(appS.manualIso,"Manual Wb");
 
             detectQcomFocus(parameters);
+
+            detectAutoHdr(parameters);
         }
 
         appS.SetCurrentCamera(0);
 
         return null;
+    }
+
+    private void detectAutoHdr(Camera.Parameters parameters) {
+        if (appSettingsManager.hdrMode.isPresetted())
+            return;
+        if (parameters.get(camstring(R.string.auto_hdr_supported))!=null){
+            appSettingsManager.hdrMode.setIsSupported(false);
+            return;
+        }
+        String autohdr = parameters.get(camstring(R.string.auto_hdr_supported));
+        if (autohdr != null && !autohdr.equals("") && autohdr.equals(camstring(R.string.true_)) && parameters.get(camstring(R.string.auto_hdr_enable)) != null) {
+
+            List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(appSettingsManager.getResString(R.string.scene_mode_values)).split(",")));
+
+            List<String> hdrVals =  new ArrayList<>();
+            hdrVals.add(camstring(R.string.off_));
+
+            if (Scenes.contains(camstring(R.string.scene_mode_hdr))) {
+                hdrVals.add(camstring(R.string.on_));
+            }
+            if (Scenes.contains(camstring(R.string.scene_mode_asd))) {
+                hdrVals.add(camstring(R.string.auto_));
+            }
+            appSettingsManager.hdrMode.setValues(hdrVals.toArray(new String[hdrVals.size()]));
+            appSettingsManager.hdrMode.setIsSupported(true);
+            appSettingsManager.hdrMode.setType(1);
+        }
     }
 
     private void detectPreviewFpsRanges(Camera.Parameters parameters) {
@@ -216,6 +246,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
 
     private void detectManualWhiteBalance(Camera.Parameters parameters) {
+        if (appSettingsManager.manualWhiteBalance.isPresetted())
+            return;
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
             appSettingsManager.manualWhiteBalance.setIsSupported(false);
         else if (appSettingsManager.manualWhiteBalance.isSupported()) // happens when its already set due supportedevices.xml
@@ -278,7 +310,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectManualIso(Camera.Parameters parameters) {
 
-        if (appSettingsManager.manualIso.getKEY().equals("") && !appSettingsManager.manualIso.getKEY().equals(appSettingsManager.getResString(R.string.aps_unsupported))) {
+        if (appSettingsManager.manualIso.getKEY().equals("") && !appSettingsManager.manualIso.isPresetted()) {
 
             if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
                 appSettingsManager.manualIso.setIsSupported(true);
@@ -312,7 +344,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectManualExposureTime(Camera.Parameters parameters)
     {
-        if (appSettingsManager.manualExposureTime.getKEY().equals("") && ! appSettingsManager.manualExposureTime.getKEY().equals(appSettingsManager.getResString(R.string.aps_unsupported)))
+        if (appSettingsManager.manualExposureTime.isPresetted())
+            return;
         //mtk shutter
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
@@ -887,7 +920,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             case AppSettingsManager.FRAMEWORK_LG:
             {
                 LGCamera lgCamera;
-                if (appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G4 || appSettingsManager.getDevice() == DeviceUtils.Devices.LG_V20)
+                if (appSettingsManager.openCamera1Legacy())
                     lgCamera = new LGCamera(currentcamera, 256);
                 else
                     lgCamera = new LGCamera(currentcamera);

@@ -61,10 +61,12 @@ import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualParameterHT
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualSony;
 import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.cam.apis.camera1.parameters.manual.zte.FXManualParameter;
+import freed.cam.apis.camera1.parameters.modes.AutoHdrMode;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.ExposureLockParameter;
 import freed.cam.apis.camera1.parameters.modes.FocusPeakModeParameter;
-import freed.cam.apis.camera1.parameters.modes.HDRModeParameter;
+import freed.cam.apis.camera1.parameters.modes.LgHdrMode;
+import freed.cam.apis.camera1.parameters.modes.MorphoHdrModeParameters;
 import freed.cam.apis.camera1.parameters.modes.NightModeXiaomi;
 import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
@@ -252,10 +254,23 @@ public class ParametersHandler extends AbstractParameterHandler
             case XiaomiMI5s:
                 break;
             default:
-                HDRMode = new HDRModeParameter(cameraParameters, cameraUiWrapper);
                 VideoStabilization = new VideoStabilizationParameter(cameraParameters,cameraUiWrapper);
                 break;
         }*/
+        if (appS.hdrMode.isSupported()){
+            switch (appS.hdrMode.getType())
+            {
+                case AppSettingsManager.HDR_MORPHO:
+                    HDRMode = new MorphoHdrModeParameters(cameraParameters,cameraUiWrapper,appS.hdrMode);
+                    break;
+                case AppSettingsManager.HDR_AUTO:
+                    HDRMode = new AutoHdrMode(cameraParameters,cameraUiWrapper,appS.hdrMode);
+                    break;
+                case AppSettingsManager.HDR_LG:
+                    HDRMode = new LgHdrMode(cameraParameters,cameraUiWrapper,appS.hdrMode);
+                    break;
+            }
+        }
 
         if (appS.getDngProfilesMap().size() > 0)
             matrixChooser = new MatrixChooserParameter(cameraUiWrapper.GetAppSettingsManager().getMatrixesMap());

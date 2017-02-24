@@ -23,6 +23,8 @@
 
             <nightmode></nightmode> 0 = xiaomi, 1 = zte, not added = unsupported
 
+            <hdrmode supported="true">0</hdrmode>
+
             <whitebalance sdkint="21">
                 <min></min>
                 <max></max>
@@ -976,6 +978,7 @@
             <framework>1</framework>
             <dngmanual>false</dngmanual>
             <burst>7</burst>
+            <hdrmode supported="true">2</hdrmode>
         </camera1>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
@@ -1107,6 +1110,7 @@
             <burst>9</burst>
             <manualiso supported="false"></manualiso>
             <exposuretime></exposuretime>
+            <hdrmode supported="true">2</hdrmode>
         </camera1>
         <filesize size= "2658304">
             <blacklvl>64</blacklvl>
@@ -1653,6 +1657,7 @@
         <camera1>
             <framework>0</framework>
             <nightmode>0</nightmode>
+            <hdrmode supported="true">0</hdrmode>
             <burst>5</burst>
         </camera1>
         <opcode2></opcode2>
@@ -2118,6 +2123,7 @@
             <dngmanual>true</dngmanual>
             <burst>6</burst>
             <nightmode>0</nightmode>
+            <hdrmode supported="true">0</hdrmode>
             <whiteblance>
                 <min>2000</min>
                 <max>8000</max>
@@ -2185,6 +2191,7 @@
             <framework>0</framework>
             <burst>7</burst>
             <nightmode>0</nightmode>
+            <hdrmode supported="true">0</hdrmode>
             <whiteblance>
                 <min>2000</min>
                 <max>8000</max>
@@ -2360,6 +2367,7 @@
         <camera1>
             <framework>0</framework>
             <nightmode>0</nightmode>
+            <hdrmode supported="true">0</hdrmode>
             <burst>5</burst>
         </camera1>
         <opcode2></opcode2>
