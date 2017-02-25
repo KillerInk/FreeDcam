@@ -153,7 +153,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         map.put(lookupar[2],2);
         lookupar = StringUtils.IntHashmapToStringArray(map);
         appSettingsManager.colorCorrectionMode.setValues(lookupar);
-        appSettingsManager.colorCorrectionMode.isSupported();
+        appSettingsManager.colorCorrectionMode.setIsSupported(true);
     }
 
     private void detectFlash(CameraCharacteristics characteristics) {
@@ -313,35 +313,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         long max = characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper() / 1000;
         long min = characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower() / 1000;
 
-        Log.d(TAG, "max expo:"+max+" minexpo:"+min);
-        switch(appSettingsManager.getDevice())
-        {
-            case LG_G4:
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1)
-                    max = 60000000;
-                else
-                    max = 45000000;
-                break;
-            case LG_V20:
-                max = 90000000;
-                break;
-            case Htc_M10:
-                max = 1800000000;
-                break;
-            case OnePlusTwo:
-                max = 32000000;
-                break;
-            case Samsung_S6_edge_plus:
-                max = 10000000;
-                break;
-            case Moto_X_Style_Pure_Play:
-                max = 10000000;
-                break;
-            default:
-                if (max == 0)
-                    max = 800000;
-                break;
-        }
+        if (appSettingsManager.getCamera2MaxExposureTime() >0)
+            max = appSettingsManager.getCamera2MaxExposureTime();
 
         String[] allvalues = appSettingsManager.getResources().getStringArray(R.array.shutter_values_autocreate);
         boolean foundmin = false;

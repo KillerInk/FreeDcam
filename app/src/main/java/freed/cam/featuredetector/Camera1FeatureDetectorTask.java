@@ -70,7 +70,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             appSettingsManager.guide.set(appS.guide.getValues()[0]);
 
             detectedPictureFormats(parameters);
-            publishProgress("DngSupported:" + (appS.getDngProfilesMap().size() > 0) + " RawSupport:"+appS.rawPictureFormat.isSupported());
+            publishProgress("DngSupported:" + (appS.getDngProfilesMap() != null && appS.getDngProfilesMap().size() > 0) + " RawSupport:"+appS.rawPictureFormat.isSupported());
             publishProgress("PictureFormats:" + getStringFromArray(appS.pictureFormat.getValues()));
             publishProgress("RawFormats:" + getStringFromArray(appS.rawPictureFormat.getValues()));
             publishProgress(" RawFormat:" + appS.rawPictureFormat.get());
@@ -916,7 +916,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 }
             }
             appSettingsManager.pictureFormat.setIsSupported(true);
-            if (appSettingsManager.getDngProfilesMap().size() > 0)
+            if (appSettingsManager.getDngProfilesMap() != null && appSettingsManager.getDngProfilesMap().size() > 0)
             {
                 appSettingsManager.pictureFormat.setValues(new String[]
                         {

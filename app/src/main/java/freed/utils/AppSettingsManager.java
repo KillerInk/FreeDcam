@@ -472,6 +472,16 @@ public class AppSettingsManager {
         settings.edit().putBoolean("zteae",legacy).commit();
     }
 
+    public boolean isForceRawToDng()
+    {
+        return settings.getBoolean("forcerawtodng", false);
+    }
+
+    private void setForceRawToDng(boolean legacy)
+    {
+        settings.edit().putBoolean("forcerawtodng",legacy).commit();
+    }
+
     public boolean useQcomFocus()
     {
         return settings.getBoolean(getResString(R.string.aps_qcomfocus),false);
@@ -526,6 +536,16 @@ public class AppSettingsManager {
     public String getCamApi() {
         camApiString = settings.getString(SETTING_API, API_1);
         return camApiString;
+    }
+
+    public long getCamera2MaxExposureTime()
+    {
+        return settings.getLong("camera2maxexposuretime",0);
+    }
+
+    public void setCamera2MaxExposureTime(long max)
+    {
+        settings.edit().putLong("camera2maxexposuretime",max).commit();
     }
 
     /*public void SetDevice(Devices device) {
@@ -915,6 +935,17 @@ public class AppSettingsManager {
                                     opticalImageStabilisation.setValues(camera1element.findChild("opticalimagestab").findChild("values").getValue().split(","));
                                     opticalImageStabilisation.setIsSupported(true);
                                     opticalImageStabilisation.setIsPresetted(true);
+                                }
+                            }
+
+                            XmlElement camera2element = device_element.findChild("camera2");
+                            if (camera2element != null) {
+
+                                if (camera2element.findChild("forcerawtodng")!= null)
+                                    setForceRawToDng(camera2element.findChild("forcerawtodng").getBooleanValue());
+                                if (camera2element.findChild("maxexposuretime")!= null)
+                                {
+                                    setCamera2MaxExposureTime(camera2element.findChild("maxexposuretime").getLongValue());
                                 }
                             }
 

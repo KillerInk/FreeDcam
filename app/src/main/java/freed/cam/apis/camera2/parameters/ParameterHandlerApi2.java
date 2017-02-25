@@ -150,10 +150,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
     }
 
-    @Override
-    public void SetMeterAREA(FocusRect meteringAreas) {
-
-    }
 
 
     @Override

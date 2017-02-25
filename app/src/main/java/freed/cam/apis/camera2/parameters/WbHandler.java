@@ -105,7 +105,8 @@ public class WbHandler
             settingMode = cameraUiWrapper.GetAppSettingsManager().whiteBalanceMode;
             parameterKey = CaptureRequest.CONTROL_AWB_MODE;
             parameterValues = StringUtils.StringArrayToIntHashmap(cameraUiWrapper.GetAppSettingsManager().whiteBalanceMode.getValues());
-            lastcctmode = colorCorrectionMode.GetValue();
+            if (colorCorrectionMode != null)
+                lastcctmode = colorCorrectionMode.GetValue();
         }
 
         @Override

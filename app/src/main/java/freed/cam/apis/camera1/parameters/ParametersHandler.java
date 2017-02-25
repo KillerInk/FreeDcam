@@ -153,7 +153,7 @@ public class ParametersHandler extends AbstractParameterHandler
         //setup first Pictureformat its needed for manual parameters to
         // register their listners there if its postprocessing parameter
         PictureFormat = new PictureFormatHandler(cameraParameters, cameraUiWrapper, this);
-        if (appSettingsManager.getDngProfilesMap().size() > 0)
+        if (appSettingsManager.getDngProfilesMap()!= null && appSettingsManager.getDngProfilesMap().size() > 0)
             opcode = new OpCodeParameter(appSettingsManager);
         cameraUiWrapper.GetModuleHandler().addListner((ModuleChangedEvent) PictureFormat);
         AppSettingsManager appS = cameraUiWrapper.GetAppSettingsManager();
@@ -272,7 +272,7 @@ public class ParametersHandler extends AbstractParameterHandler
             }
         }
 
-        if (appS.getDngProfilesMap().size() > 0)
+        if (appSettingsManager.getDngProfilesMap() != null && appS.getDngProfilesMap().size() > 0)
             matrixChooser = new MatrixChooserParameter(cameraUiWrapper.GetAppSettingsManager().getMatrixesMap());
 
         if (appS.digitalImageStabilisationMode.isSupported())

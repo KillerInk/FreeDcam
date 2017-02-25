@@ -105,6 +105,18 @@ public class XmlElement {
         }
     }
 
+    public long getLongValue() {
+        if (mValue == null) {
+            return 0;
+        } else {
+            try {
+                return Long.valueOf(mValue);
+            } catch (NumberFormatException e) {
+                return 0;
+            }
+        }
+    }
+
     public boolean getBooleanValue() {
         if (mValue == null) {
             return false;

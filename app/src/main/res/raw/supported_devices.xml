@@ -66,6 +66,11 @@
             </opticalimagestab>
         </camera1>
 
+        <camera2>
+            <forcerawtodng>true</forcerawtodng>
+            <maxexposuretime version="21">60000000</maxexposuretime> //ms =60sec
+        </camera2>
+
         <opcode2></opcode2> opcode2 url to download
         <opcode3></opcode3> opcode3 url to download
 
@@ -1115,6 +1120,11 @@
                 <key>manualfocus_step</key>
             </manualfocus>
         </camera1>
+
+        <camera2>
+            <maxexposuretime version="21">60000000</maxexposuretime>
+            <maxexposuretime version="23">45000000</maxexposuretime>
+        </camera2>
         <filesize size= "19976192">
             <blacklvl>64</blacklvl>
             <width>5312</width>
@@ -1283,6 +1293,9 @@
                 <key>manualfocus_step</key>
             </manualfocus>
         </camera1>
+        <camera2>
+            <maxexposuretime>90000000</maxexposuretime>
+        </camera2>
         <filesize size= "6659840">
             <blacklvl>64</blacklvl>
             <width>4656</width>
@@ -1442,6 +1455,9 @@
             <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
+        <camera2>
+            <maxexposuretime>10000000</maxexposuretime>
+        </camera2>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "42923008">
@@ -1549,6 +1565,10 @@
             <manualfocus>
             </manualfocus>
         </camera1>
+
+        <camera2>
+            <forcerawtodng>true</forcerawtodng>
+        </camera2>
     </device>
 
     <device name ="MOTOG_2k14">
@@ -1657,6 +1677,10 @@
             <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
+        <camera2>
+            <forcerawtodng>true</forcerawtodng>
+            <maxexposuretime>32000000</maxexposuretime>
+        </camera2>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26357760">
@@ -3149,6 +3173,9 @@
             <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
+        <camera2><camera2>
+            <maxexposuretime>10000000</maxexposuretime>
+        </camera2></camera2>
     </device>
 
     <device name="Samsung_S6_edge">
