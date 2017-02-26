@@ -179,7 +179,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
             mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,mBackgroundHandler);
 
-            if (appSettingsManager.IsCamera2FullSupported().equals(cameraUiWrapper.getResString(R.string.true_)) && cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
+            if (appSettingsManager.IsCamera2FullSupported() && cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
                 PictureModuleApi2.this.setCaptureState(STATE_WAIT_FOR_PRECAPTURE);
                 Log.d(TAG,"Start AE Precapture");
                 startTimerLocked();

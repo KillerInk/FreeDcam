@@ -643,13 +643,12 @@ public class AppSettingsManager {
         setBoolean(SETTING_EXTERNALSD, write);
     }
 
-    public void SetCamera2FullSupported(String value) {
-        putString(CAMERA2FULLSUPPORTED, value);
+    public void SetCamera2FullSupported(boolean value) {
+        setBoolean(CAMERA2FULLSUPPORTED, value);
     }
 
-    public String IsCamera2FullSupported() {
-        String t = settings.getString(CAMERA2FULLSUPPORTED, "");
-        return TextUtils.isEmpty(t) ? "" : t;
+    public boolean IsCamera2FullSupported() {
+        return getBoolean(CAMERA2FULLSUPPORTED,false);
     }
 
     public String getApiString(String valueToGet, String defaultValue) {

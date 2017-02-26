@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Build;
 import android.util.Log;
@@ -58,8 +59,24 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 CameraCharacteristics characteristics = manager.getCameraCharacteristics(s);
                 boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
                 appSettingsManager.setIsFrontCamera(front);
-                boolean fulldevice = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL;
-                appSettingsManager.SetCamera2FullSupported(String.valueOf(fulldevice));
+                int hwlvl = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+                boolean fulldevice = false;
+                switch (hwlvl)
+                {
+                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL:
+                        fulldevice = true;
+                        break;
+                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED:
+                        fulldevice = true;
+                        break;
+                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY:
+                        fulldevice = false;
+                        break;
+                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3:
+                        fulldevice = false;
+                }
+
+                appSettingsManager.SetCamera2FullSupported(fulldevice);
                 publishProgress("IsCamera2 Full Device:" + appSettingsManager.IsCamera2FullSupported() + " isFront:" +appSettingsManager.getIsFrontCamera());
 
                 appSettingsManager.guide.setValues(appSettingsManager.getResources().getStringArray(R.array.guidelist));
@@ -129,10 +146,13 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
             }
             appSettingsManager.SetCurrentCamera(0);
+            if (!appSettingsManager.IsCamera2FullSupported())
+                appSettingsManager.setCamApi(AppSettingsManager.API_1);
         }
         catch (Throwable ex) {
             ex.printStackTrace();
-            appSettingsManager.SetCamera2FullSupported("false");
+            appSettingsManager.SetCamera2FullSupported(false);
+            appSettingsManager.setCamApi(AppSettingsManager.API_1);
         }
         return null;
     }
@@ -157,7 +177,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     }
 
     private void detectFlash(CameraCharacteristics characteristics) {
-        if (appSettingsManager.IsCamera2FullSupported().equals("true")) {
+        if (appSettingsManager.IsCamera2FullSupported()) {
             //flash mode
             boolean flashavail = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
             appSettingsManager.flashMode.setIsSupported(flashavail);
@@ -175,7 +195,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     }
 
     private void detectControlMode(CameraCharacteristics characteristics) {
-        if (appSettingsManager.IsCamera2FullSupported().equals("true")) {
+        if (appSettingsManager.IsCamera2FullSupported()) {
             //flash mode
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
@@ -243,7 +263,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
     {
-        if (appSettingsManager.IsCamera2FullSupported().equals("true")) {
+        if (appSettingsManager.IsCamera2FullSupported()) {
 
             int[]  scenes = characteristics.get(requestKey);
             if (scenes.length >0)

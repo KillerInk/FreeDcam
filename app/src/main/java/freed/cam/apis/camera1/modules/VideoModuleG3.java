@@ -156,7 +156,7 @@ public class VideoModuleG3 extends AbstractVideoModule
             cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue(appSettingsManager.getResString(R.string.disable_),false);
             cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), false);
             cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", false);
-            if(appSettingsManager.IsCamera2FullSupported().equals(appSettingsManager.getResString(R.string.false_)))
+            if(!appSettingsManager.IsCamera2FullSupported())
                 cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",false);
             if (currentProfile.Mode == VideoMode.Highspeed)
             {

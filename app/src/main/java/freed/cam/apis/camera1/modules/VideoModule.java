@@ -185,7 +185,7 @@ public class VideoModule extends AbstractVideoModule
                 if (appSettingsManager.videoStabilisation.isSupported())
                     cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue(appSettingsManager.getResString(R.string.false_), true);
 
-                if (appSettingsManager.IsCamera2FullSupported().equals(appSettingsManager.getResString(R.string.false_)))
+                if (!appSettingsManager.IsCamera2FullSupported())
                     cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
             }
             else
@@ -220,7 +220,7 @@ public class VideoModule extends AbstractVideoModule
         if (cameraUiWrapper.GetParameterHandler().Denoise != null && cameraUiWrapper.GetParameterHandler().Denoise.IsSupported())
             cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", false);
         //full camera2 devices dont use hardware preview format so set it only for legacy devices
-        if (appSettingsManager.IsCamera2FullSupported().equals(appSettingsManager.getResString(R.string.false_)))
+        if (!appSettingsManager.IsCamera2FullSupported())
             cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus", false);
 
 
