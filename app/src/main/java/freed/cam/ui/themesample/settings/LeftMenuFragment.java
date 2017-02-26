@@ -223,7 +223,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             guide.SetUiItemClickListner(this);
             globalSettingGroup.addView(guide);
 
-            SettingsChildMenuSaveCamParams saveCamParams = new SettingsChildMenuSaveCamParams(getContext());
+            SettingsChildMenuSaveCamParams saveCamParams = new SettingsChildMenuSaveCamParams(getContext(),R.string.setting_savecamparams_header,R.string.setting_savecamparams_description,cameraUiWrapper);
             saveCamParams.setCameraUiWrapper(cameraUiWrapper);
             globalSettingGroup.addView(saveCamParams);
 

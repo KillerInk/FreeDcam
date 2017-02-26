@@ -46,12 +46,10 @@ import freed.utils.StringUtils;
 public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
 {
     private CameraWrapperInterface cameraUiWrapper;
-    public SettingsChildMenuSaveCamParams(Context context) {
-        super(context);
-    }
 
-    public SettingsChildMenuSaveCamParams(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public SettingsChildMenuSaveCamParams(Context context, int headerid, int descriptionid, CameraWrapperInterface cameraUiWrapper) {
+        super(context, headerid, descriptionid);
+        this.cameraUiWrapper = cameraUiWrapper;
     }
 
     @Override
