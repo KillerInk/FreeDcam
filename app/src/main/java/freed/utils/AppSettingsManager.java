@@ -644,11 +644,11 @@ public class AppSettingsManager {
     }
 
     public void SetCamera2FullSupported(boolean value) {
-        setBoolean(CAMERA2FULLSUPPORTED, value);
+        settings.edit().putBoolean(CAMERA2FULLSUPPORTED, value).commit();
     }
 
     public boolean IsCamera2FullSupported() {
-        return getBoolean(CAMERA2FULLSUPPORTED,false);
+        return settings.getBoolean(CAMERA2FULLSUPPORTED,false);
     }
 
     public String getApiString(String valueToGet, String defaultValue) {
