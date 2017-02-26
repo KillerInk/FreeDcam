@@ -223,10 +223,11 @@ public class AeHandler
             if (valueToSet > 0) {
                 long val = (long) (AbstractManualShutter.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
                 Log.d(TAG, "ExposureTimeToSet:" + val);
-                if (val > 800000000 && !cameraUiWrapper.GetAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
+                cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+                /*if (val > 800000000 && !cameraUiWrapper.GetAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
                     Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                     val = 800000000;
-                }
+                }*/
                 cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
                 ThrowCurrentValueChanged(valueToSet);
             }

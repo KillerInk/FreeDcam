@@ -3208,4 +3208,13 @@
         </camera1>
     </device>
 
+    <device name="Huawei_P9">
+        <models>
+            <item>EVA-L09</item>
+        </models>
+        <camera2>
+            <maxexposuretime>45000000</maxexposuretime>
+        </camera2>
+    </device>
+
 </devices>
