@@ -49,6 +49,8 @@ public class AeHandler
     public final ManualISoApi2 manualISoApi2;
     private boolean ae_active = true;
 
+    public final static long MAX_PREVIEW_EXPOSURETIME = 100000000;
+
     public AeHandler(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
@@ -221,13 +223,14 @@ public class AeHandler
                 valueToSet = stringvalues.length - 1;
             currentInt = valueToSet;
             if (valueToSet > 0) {
-                long val = (long) (AbstractManualShutter.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
+                long val = AbstractManualShutter.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000;
                 Log.d(TAG, "ExposureTimeToSet:" + val);
-                cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
-                /*if (val > 800000000 && !cameraUiWrapper.GetAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
+                //cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+                if (val > MAX_PREVIEW_EXPOSURETIME && !cameraUiWrapper.GetAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
                     Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
-                    val = 800000000;
-                }*/
+                    val = MAX_PREVIEW_EXPOSURETIME;
+                    cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+                }
                 cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
                 ThrowCurrentValueChanged(valueToSet);
             }

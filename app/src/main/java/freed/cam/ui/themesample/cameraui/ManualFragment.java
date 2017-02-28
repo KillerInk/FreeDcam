@@ -269,12 +269,18 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     }
 
     @Override
-    public void onIsSetSupportedChanged(boolean value)
+    public void onIsSetSupportedChanged(final boolean value)
     {
-        if (value)
-            seekbar.setVisibility(View.VISIBLE);
-        else
-            seekbar.setVisibility(View.GONE);
+        seekbar.post(new Runnable() {
+            @Override
+            public void run() {
+                if (value)
+                    seekbar.setVisibility(View.VISIBLE);
+                else
+                    seekbar.setVisibility(View.GONE);
+            }
+        });
+
     }
 
 

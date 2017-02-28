@@ -138,6 +138,10 @@
     <string name="shutter_120" translatable="false">120</string>
     <string name="shutter_180" translatable="false">180</string>
     <string name="shutter_240" translatable="false">240</string>
+    <string name="shutter_900" translatable="false">900</string>
+    <string name="shutter_1200" translatable="false">1200</string>
+    <string name="shutter_1800" translatable="false">1800</string>
+    <string name="shutter_3600" translatable="false">3600</string>
 
     <string-array name="shutter_values_autocreate" translatable="false">
         <item>@string/shutter_auto</item>
@@ -254,6 +258,10 @@
         <item>@string/shutter_120</item>
         <item>@string/shutter_180</item>
         <item>@string/shutter_240</item>
+        <item>@string/shutter_900</item>
+        <item>@string/shutter_1200</item>
+        <item>@string/shutter_1800</item>
+        <item>@string/shutter_3600</item>
     </string-array>
 
     <string-array name="shutter_values_krillin" translatable="false">

@@ -651,6 +651,14 @@ public class AppSettingsManager {
         return settings.getBoolean(CAMERA2FULLSUPPORTED,false);
     }
 
+    private void setCamera2usepreviewformanual(boolean value) {
+        settings.edit().putBoolean("camera2usepreviewformanual", value).commit();
+    }
+
+    public boolean useCamera2PreviewForManual() {
+        return settings.getBoolean("camera2usepreviewformanual",false);
+    }
+
     public String getApiString(String valueToGet, String defaultValue) {
         return settings.getString(getApiSettingString(valueToGet), defaultValue);
     }
@@ -946,6 +954,12 @@ public class AppSettingsManager {
                                 {
                                     setCamera2MaxExposureTime(camera2element.findChild("maxexposuretime").getLongValue());
                                 }
+                                if (!camera2element.findChild("usepreviewformanual").isEmpty())
+                                {
+                                    setCamera2usepreviewformanual(camera2element.findChild("usepreviewformanual").getBooleanValue());
+                                }
+                                else
+                                    setCamera2usepreviewformanual(false);
                             }
 
                             dngProfileHashMap = new HashMap<>();

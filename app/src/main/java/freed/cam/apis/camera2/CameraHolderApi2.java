@@ -305,6 +305,16 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         CaptureSessionH.StartRepeatingCaptureSession();
     }
 
+
+    public <T> void SetParameterRepeating(@NonNull Key<T> key, T value, CaptureCallback captureCallback)
+    {
+        if (mPreviewRequestBuilder == null )
+            return;
+        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        mPreviewRequestBuilder.set(key,value);
+        CaptureSessionH.StartRepeatingCaptureSession(captureCallback);
+    }
+
     public <T> void SetParameter(@NonNull Key<T> key, T value)
     {
         if (mPreviewRequestBuilder == null|| mCaptureSession == null)
@@ -454,6 +464,11 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     public CaptureCallback cameraBackroundValuesChangedListner = new CaptureCallback()
     {
         @Override
+        public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp, long frameNumber) {
+            super.onCaptureStarted(session, request, timestamp, frameNumber);
+        }
+
+        @Override
         public void onCaptureSequenceCompleted(CameraCaptureSession session, int sequenceId, long frameNumber) {
             super.onCaptureSequenceCompleted(session, sequenceId, frameNumber);
         }
@@ -461,11 +476,13 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result)
         {
+            if (result == null || result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME) == null)
+                return;
             //Log.d(TAG,result.get(TotalCaptureResult.SENSOR_SENSITIVITY).toString() + " / " + request.get(CaptureRequest.SENSOR_SENSITIVITY).toString());
             //Log.d(TAG,result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME).toString() + " / " + request.get(CaptureRequest.SENSOR_EXPOSURE_TIME));
             if (cameraUiWrapper.GetParameterHandler().ManualShutter != null && cameraUiWrapper.GetParameterHandler().ManualShutter.IsSupported())
             {
-                if (result != null && result.getPartialResults().size() > 0)
+                if (result != null && result.getKeys().size() > 0)
                 {
                     try
                     {
@@ -478,6 +495,8 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                                 }
                                 else
                                     cameraUiWrapper.GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged("1/60");
+
+                                Log.d(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
                             }
                             catch (Exception ex)
                             {
@@ -487,6 +506,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                                 int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
                                 mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, iso);
                                 cameraUiWrapper.GetParameterHandler().ManualIso.ThrowCurrentValueStringCHanged("" + iso);
+                                Log.d(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
                             }
                             catch (NullPointerException ex) {
                                 ex.printStackTrace();
@@ -590,6 +610,8 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult) {
             super.onCaptureProgressed(session, request, partialResult);
         }
+
+
     };
 
     private String getShutterString(long val)
@@ -750,6 +772,23 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
         }
 
+        public void CancelRepeatingCaptureSession()
+        {
+            Log.d(TAG, "StopRepeatingCaptureSession");
+            if (mCaptureSession != null)
+                try {
+                    mCaptureSession.abortCaptures();
+                } catch (CameraAccessException | java.lang.SecurityException ex) {
+                    ex.printStackTrace();
+                    mCaptureSession = null;
+                }
+                catch (IllegalStateException ex)
+                {
+                    ex.printStackTrace();
+                    mCaptureSession = null;
+                }
+        }
+
         public void StartRepeatingCaptureSession()
         {
             Log.d(TAG, "StartRepeatingCaptureSession");
@@ -815,6 +854,8 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         public void StartImageCapture(@NonNull Builder request,
                                       @Nullable CaptureCallback listener, Handler handler)
         {
+            //StopRepeatingCaptureSession();
+            CancelRepeatingCaptureSession();
             try {
                 mCaptureSession.capture(request.build(),listener,handler);
             } catch (CameraAccessException ex) {

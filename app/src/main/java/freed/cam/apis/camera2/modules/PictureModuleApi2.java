@@ -67,9 +67,11 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
+import freed.cam.apis.camera2.parameters.AeHandler;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.utils.AppSettingsManager;
+import freed.utils.StringUtils;
 
 
 /**
@@ -125,6 +127,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private final int STATE_WAIT_FOR_PRECAPTURE = 0;
     private final int STATE_WAIT_FOR_NONPRECAPTURE = 1;
     private final int STATE_PICTURE_TAKEN = 2;
+    private final int STATE_WAIT_FOR_PREVIEW = 3;
     private int mState = STATE_PICTURE_TAKEN;
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
@@ -176,7 +179,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 e.printStackTrace();
             }
 
-
             mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,mBackgroundHandler);
 
             if (appSettingsManager.IsCamera2FullSupported() && cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
@@ -184,6 +186,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 Log.d(TAG,"Start AE Precapture");
                 startTimerLocked();
                 cameraHolder.StartAePrecapture(aecallback);
+
+            }
+            else if (cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF && appSettingsManager.useCamera2PreviewForManual())
+            {
+                String shutter = parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()];
+                long val = AbstractManualShutter.getMilliSecondStringFromShutterString(shutter) * 1000;
+                mState = STATE_WAIT_FOR_PREVIEW;
+                cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val, expotimeToFrameAppliedCallback);
             }
             else
             {
@@ -247,12 +257,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }catch (NullPointerException ex){ex.printStackTrace();}
             try {
                 long val = 0;
-                if(!parameterHandler.ManualIso.GetStringValue().equals(cameraUiWrapper.getResString(R.string.auto_)))
-                    val = (long)(AbstractManualShutter.getMilliSecondStringFromShutterString(parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()]) * 1000f);
+                if(!parameterHandler.ManualIso.GetStringValue().equals(cameraUiWrapper.getResString(R.string.auto_))) {
+                    val = AbstractManualShutter.getMilliSecondStringFromShutterString(parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()]) * 1000;
+                    //cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
+                }
                 else
                     val= cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
-                Log.d(TAG, "Set ExposureTime for Capture to:" + val);
+                Log.e(TAG, "Set ExposureTime for Capture to:" + val);
                 captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
+
             }catch (NullPointerException ex){ex.printStackTrace();}
             try {
                 captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY));
@@ -294,11 +307,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
             else
             {
-                //cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
                 captureBuilder.setTag(mRequestCounter.getAndIncrement());
                 captureBuilder.addTarget(mImageReader.getSurface());
-                if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) != null && cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
-                    cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+
                 ImageHolder imageHolder = new ImageHolder();
                 resultQueue.put((int)captureBuilder.build().getTag(), imageHolder);
                 changeCaptureState(CaptureStates.image_capture_start);
@@ -323,8 +334,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             ImageHolder imageHolder = new ImageHolder();
             resultQueue.put(pos, imageHolder);
         }
-        if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
-            cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
         changeCaptureState(CaptureStates.image_capture_start);
         cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback,mBackgroundHandler);
     }
@@ -371,13 +380,32 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
     }
 
+    private CaptureCallback expotimeToFrameAppliedCallback = new CaptureCallback()
+    {
+        @Override
+        public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp, long frameNumber) {
+            super.onCaptureStarted(session, request, timestamp, frameNumber);
+            long exposet = request.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
+            long expowant = AbstractManualShutter.getMilliSecondStringFromShutterString(parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()]) * 1000;
+            if (request.get(CaptureRequest.CONTROL_AE_MODE) ==CaptureRequest.CONTROL_AE_MODE_OFF &&  exposet == expowant && mState == STATE_WAIT_FOR_PREVIEW) {
+                mState = STATE_PICTURE_TAKEN;
+                captureStillPicture();
+            }
+        }
+
+        @Override
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+            super.onCaptureCompleted(session, request, result);
+        }
+
+    };
+
     private CaptureCallback aecallback = new CaptureCallback()
     {
-
         private void processResult(CaptureResult partialResult)
         {
             Integer aeState = partialResult.get(CaptureResult.CONTROL_AE_STATE);
-            Log.d(TAG, "CurrentCaptureState:" + getCaptureState(mState) + " AE_STATE:" + getAeStateString(aeState));
+            Log.e(TAG, "CurrentCaptureState:" + getCaptureState(mState) + " AE_STATE:" + getAeStateString(aeState));
             switch (mState)
             {
                 case STATE_WAIT_FOR_PRECAPTURE:
@@ -390,7 +418,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     else if (aeState == CaptureResult.CONTROL_AE_STATE_PRECAPTURE ||
                             aeState == CaptureRequest.CONTROL_AE_STATE_FLASH_REQUIRED)
                     {
-                        Log.d(TAG,"Wait For nonprecapture");
+                        Log.e(TAG,"Wait For nonprecapture");
                         setCaptureState(STATE_WAIT_FOR_NONPRECAPTURE);
                         if (hitTimeoutLocked())
                         {
@@ -444,6 +472,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private final CaptureCallback CaptureCallback
             = new CaptureCallback()
     {
+
+        @Override
+        public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp, long frameNumber) {
+            super.onCaptureStarted(session, request, timestamp, frameNumber);
+        }
 
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request,
@@ -513,6 +546,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         try
         {
             Log.d(TAG, "CaptureDone");
+
+            if (cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF && appSettingsManager.useCamera2PreviewForManual()) {
+                cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, AeHandler.MAX_PREVIEW_EXPOSURETIME);
+                cameraHolder.CaptureSessionH.CancelRepeatingCaptureSession();
+
+            }
             cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
             if (cameraHolder.get(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
                     || cameraHolder.get(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO)
@@ -522,6 +561,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
                         CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
             }
+
         }
         catch (NullPointerException ex) {
             ex.printStackTrace();;
