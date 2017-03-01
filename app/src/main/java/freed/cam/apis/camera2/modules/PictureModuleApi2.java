@@ -127,7 +127,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private final int STATE_WAIT_FOR_PRECAPTURE = 0;
     private final int STATE_WAIT_FOR_NONPRECAPTURE = 1;
     private final int STATE_PICTURE_TAKEN = 2;
-    private final int STATE_WAIT_FOR_PREVIEW = 3;
     private int mState = STATE_PICTURE_TAKEN;
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
@@ -187,13 +186,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 startTimerLocked();
                 cameraHolder.StartAePrecapture(aecallback);
 
-            }
-            else if (cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF && appSettingsManager.useCamera2PreviewForManual())
-            {
-                String shutter = parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()];
-                long val = AbstractManualShutter.getMilliSecondStringFromShutterString(shutter) * 1000;
-                mState = STATE_WAIT_FOR_PREVIEW;
-                cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val, expotimeToFrameAppliedCallback);
             }
             else
             {
@@ -380,32 +372,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
     }
 
-    private CaptureCallback expotimeToFrameAppliedCallback = new CaptureCallback()
-    {
-        @Override
-        public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp, long frameNumber) {
-            super.onCaptureStarted(session, request, timestamp, frameNumber);
-            long exposet = request.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
-            long expowant = AbstractManualShutter.getMilliSecondStringFromShutterString(parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()]) * 1000;
-            if (request.get(CaptureRequest.CONTROL_AE_MODE) ==CaptureRequest.CONTROL_AE_MODE_OFF &&  exposet == expowant && mState == STATE_WAIT_FOR_PREVIEW) {
-                mState = STATE_PICTURE_TAKEN;
-                captureStillPicture();
-            }
-        }
-
-        @Override
-        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
-            super.onCaptureCompleted(session, request, result);
-        }
-
-    };
-
     private CaptureCallback aecallback = new CaptureCallback()
     {
         private void processResult(CaptureResult partialResult)
         {
             Integer aeState = partialResult.get(CaptureResult.CONTROL_AE_STATE);
-            Log.e(TAG, "CurrentCaptureState:" + getCaptureState(mState) + " AE_STATE:" + getAeStateString(aeState));
+            if (aeState != null)
+                Log.e(TAG, "CurrentCaptureState:" + getCaptureState(mState) + " AE_STATE:" + getAeStateString(aeState));
             switch (mState)
             {
                 case STATE_WAIT_FOR_PRECAPTURE:
@@ -547,10 +520,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         {
             Log.d(TAG, "CaptureDone");
 
-            if (cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF && appSettingsManager.useCamera2PreviewForManual()) {
+            if (cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF) {
                 cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, AeHandler.MAX_PREVIEW_EXPOSURETIME);
                 cameraHolder.CaptureSessionH.CancelRepeatingCaptureSession();
-
             }
             cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
             if (cameraHolder.get(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE

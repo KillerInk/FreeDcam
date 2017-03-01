@@ -69,7 +69,6 @@
         <camera2>
             <forcerawtodng>true</forcerawtodng>
             <maxexposuretime version="21">60000000</maxexposuretime> //ms =60sec
-            <usepreviewformanual/>
         </camera2>
 
         <opcode2></opcode2> opcode2 url to download
@@ -3215,7 +3214,6 @@
         </models>
         <camera2>
             <maxexposuretime>4500000000</maxexposuretime>
-            <usepreviewformanual>true</usepreviewformanual>
         </camera2>
     </device>
 

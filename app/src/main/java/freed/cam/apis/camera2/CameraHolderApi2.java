@@ -478,8 +478,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         {
             if (result == null || result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME) == null)
                 return;
-            //Log.d(TAG,result.get(TotalCaptureResult.SENSOR_SENSITIVITY).toString() + " / " + request.get(CaptureRequest.SENSOR_SENSITIVITY).toString());
-            //Log.d(TAG,result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME).toString() + " / " + request.get(CaptureRequest.SENSOR_EXPOSURE_TIME));
             if (cameraUiWrapper.GetParameterHandler().ManualShutter != null && cameraUiWrapper.GetParameterHandler().ManualShutter.IsSupported())
             {
                 if (result != null && result.getKeys().size() > 0)
@@ -496,7 +494,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                                 else
                                     cameraUiWrapper.GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged("1/60");
 
-                                Log.d(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
+                                Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
                             }
                             catch (Exception ex)
                             {
@@ -506,7 +504,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                                 int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
                                 mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, iso);
                                 cameraUiWrapper.GetParameterHandler().ManualIso.ThrowCurrentValueStringCHanged("" + iso);
-                                Log.d(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
+                                Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
                             }
                             catch (NullPointerException ex) {
                                 ex.printStackTrace();
