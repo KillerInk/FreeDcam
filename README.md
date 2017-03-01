@@ -1,13 +1,14 @@
 FreeDcam
 ========
-[Build](#build)  
-[Supported Apis](#supported-apis)    
-[Projects used by FreeDcam](#projects-used-by-freedcam)  
-[Q&A](#qa)  
-[Camera Ui Icon](#camera-ui-icons)  
-[Camera1 Dng Supported Devices](#camera1-dng-supported-devices)  
-[How to create a Custom Matrix](#how-to-create-a-custom-matrix)  
-[License](#license) 
+* [Build](#build)
+* [Supported Apis](#supported-apis)
+* [Projects used by FreeDcam](#projects-used-by-freedcam)
+* [Q&A](#qa)
+* [Hidden Oem Settings](#Hidden-Oem-Settings)
+* [Camera Ui Icon](#camera-ui-icons)
+* [Camera1 Dng Supported Devices](#camera1-dng-supported-devices)
+* [How to create a Custom Matrix](#how-to-create-a-custom-matrix)
+* [License](#license)
 
 <img src="/playstoreimages/freedcam.jpg" width="500" height="280">
 
@@ -69,6 +70,13 @@ In that case send us the raw/bayer file and it will work soon.
 -Select Highspeed
 -Save the Profile and close the VideoProfileEditor.
 
+
+Hidden Oem Settings
+=========================
+Huawei Code:
+```
+*#*#2846579#*#*
+```
 
 Camera Ui Icons
 =========================
