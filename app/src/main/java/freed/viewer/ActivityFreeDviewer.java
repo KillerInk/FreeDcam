@@ -38,7 +38,9 @@ import java.util.List;
 import freed.ActivityAbstract;
 import freed.utils.FreeDPool;
 import freed.utils.LocationHandler;
+import freed.utils.StorageFileHandler;
 import freed.viewer.gridview.GridViewFragment;
+import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
 
@@ -76,6 +78,8 @@ public class ActivityFreeDviewer extends ActivityAbstract
     private void init()
     {
 
+        bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
+        storageHandler = new StorageFileHandler(this);
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {

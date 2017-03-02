@@ -55,7 +55,9 @@ import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import freed.utils.AppSettingsManager;
 import freed.utils.LocationHandler;
 import freed.utils.RenderScriptHandler;
+import freed.utils.StorageFileHandler;
 import freed.utils.StringUtils;
+import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
 
@@ -99,6 +101,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             startActivity(intent);
             this.finish();
         }
+        bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
+        storageHandler = new StorageFileHandler(this);
 
         setContentView(layout.freedcam_main_activity);
 

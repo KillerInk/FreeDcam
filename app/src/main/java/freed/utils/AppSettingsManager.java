@@ -335,19 +335,6 @@ public class AppSettingsManager {
         settings = sharedPreferences;
         this.resources = resources;
 
-        //first time init
-        if (TextUtils.isEmpty(mDevice = getDeviceString()))
-        {
-            parseAndFindSupportedDevice();
-        }
-        else //load only stuff for dng
-        {
-            opcodeUrlList = new String[2];
-            dngProfileHashMap = getDngProfiles();
-        }
-        matrixes = getMatrixes();
-
-
        /* if (getdevice() == null)
             SetDevice(new DeviceUtils().getDevice(getResources()));*/
 
@@ -422,6 +409,21 @@ public class AppSettingsManager {
         manualFx = new SettingMode(getResString(R.string.aps_manualfx));
         manualProgramShift = new SettingMode(getResString(R.string.aps_manualprogramshift));
         manualPreviewZoom = new SettingMode(getResString(R.string.aps_manualpreviewzoom));
+
+
+        //first time init
+        matrixes = getMatrixes();
+        if (mDevice == null || TextUtils.isEmpty(mDevice = getDeviceString()))
+        {
+            parseAndFindSupportedDevice();
+        }
+        else //load only stuff for dng
+        {
+            opcodeUrlList = new String[2];
+            dngProfileHashMap = getDngProfiles();
+        }
+
+
     }
 
     public String getResString(int id)
@@ -827,7 +829,6 @@ public class AppSettingsManager {
                                     {
                                         if (camera1element.findChild("manualiso").getAttribute("supported","false").equals("false")) {
                                             manualIso.setIsSupported(false);
-                                            manualIso.setKEY("unsupported");
                                             manualIso.setIsPresetted(true);
                                         }
                                     }

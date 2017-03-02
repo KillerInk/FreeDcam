@@ -91,9 +91,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         super.onCreate(savedInstanceState);
         Log.d(TAG, "createHandlers()");
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()),getBaseContext().getResources());
-        bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
-        storageHandler = new StorageFileHandler(this);
-        HIDENAVBAR();
+
+        //HIDENAVBAR();
     }
 
    @Override

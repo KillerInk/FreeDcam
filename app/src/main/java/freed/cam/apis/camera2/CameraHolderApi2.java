@@ -572,25 +572,25 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 {
                     case CaptureResult.CONTROL_AE_STATE_CONVERGED:
                         //SetParameter(CaptureRequest.CONTROL_AE_LOCK, true);
-                        Log.d(TAG, "AESTATE: Converged");
+                        Log.v(TAG, "AESTATE: Converged");
                         break;
                     case CaptureResult.CONTROL_AE_STATE_FLASH_REQUIRED:
                         flashRequired = true;
                         //SetParameter(CaptureRequest.CONTROL_AE_LOCK, true);
-                        Log.d(TAG, "AESTATE: FLASH_REQUIRED");
+                        Log.v(TAG, "AESTATE: FLASH_REQUIRED");
                         break;
                     case CaptureResult.CONTROL_AE_STATE_INACTIVE:
-                        Log.d(TAG, "AESTATE: INACTIVE");
+                        Log.v(TAG, "AESTATE: INACTIVE");
 
                         break;
                     case CaptureResult.CONTROL_AE_STATE_LOCKED:
-                        Log.d(TAG, "AESTATE: LOCKED");
+                        Log.v(TAG, "AESTATE: LOCKED");
                         break;
                     case CaptureResult.CONTROL_AE_STATE_PRECAPTURE:
-                        Log.d(TAG, "AESTATE: PRECAPTURE");
+                        Log.v(TAG, "AESTATE: PRECAPTURE");
                         break;
                     case CaptureResult.CONTROL_AE_STATE_SEARCHING:
-                        Log.d(TAG, "AESTATE: SEARCHING");
+                        Log.v(TAG, "AESTATE: SEARCHING");
                         break;
                 }
             }

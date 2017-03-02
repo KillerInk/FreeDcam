@@ -208,7 +208,8 @@ public class StorageFileHandler
             for (File file : files) {
                 //first lookup emulated path, for backward compatibility they are mounted too
                 //as sdcard1/2 on some devices
-                if (file.getName().toLowerCase().equals("emulated")) {
+                String filename = file.getName();
+                if (filename.toLowerCase().equals("emulated")) {
                     internalSD = new File(file.getAbsolutePath() + "/0/");
                     internalfound = true;
                     File extDcim = new File(file.getAbsolutePath() + "/1/");
@@ -217,11 +218,11 @@ public class StorageFileHandler
                         externalSD = extDcim;
                     }
                 }
-                if (file.getName().toLowerCase().equals("sdcard0") && !internalfound) {
+                if (filename.toLowerCase().equals("sdcard0") && !internalfound) {
                     internalSD = new File(file.getAbsolutePath());
                     internalfound = true;
                 }
-                if (file.getName().toLowerCase().equals("sdcard1") && !externalfound) {
+                if (filename.toLowerCase().equals("sdcard1") && !externalfound) {
                     File extDcim = new File(file.getAbsolutePath());
                     if (extDcim.exists()) {
 
@@ -230,10 +231,10 @@ public class StorageFileHandler
                     }
                 }
                 //that is the true sdcard finaly /storage/XXX-XXX/
-                if (!file.getName().toLowerCase().equals("emulated")
-                        && !file.getName().toLowerCase().equals("sdcard0")
-                        && !file.getName().toLowerCase().equals("sdcard1")
-                        && !file.getName().toLowerCase().equals("self")) {
+                if (!filename.toLowerCase().equals("emulated")
+                        && !filename.toLowerCase().equals("sdcard0")
+                        && !filename.toLowerCase().equals("sdcard1")
+                        && !filename.toLowerCase().equals("self")) {
                     File extDcim = new File(file.getAbsolutePath());
                     if (extDcim.exists()) {
                         externalfound = true;

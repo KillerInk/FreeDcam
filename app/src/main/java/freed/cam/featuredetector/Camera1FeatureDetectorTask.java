@@ -629,7 +629,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     }
 
     private void detectManualFocus(Camera.Parameters parameters) {
-
+        Log.d(TAG, "mf is preseted:" +appSettingsManager.manualFocus.isPresetted());
         if (appSettingsManager.manualFocus.isPresetted())
             return;
 
