@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsoluteLayout;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
@@ -47,7 +48,7 @@ import freed.viewer.holder.FileHolder;
 /**
  * Created by troop on 11.12.2015.
  */
-public class GridImageView extends AbsoluteLayout implements FileHolder.EventHandler
+public class GridImageView extends FrameLayout implements FileHolder.EventHandler
 {
     private ImageView imageView;
     private TextView textView;
@@ -112,7 +113,6 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         this.fileHolder = fileHolder;
         SetViewState(fileHolder.GetCurrentViewState());
         fileHolder.SetEventListner(this);
-
     }
 
 
@@ -148,7 +148,6 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
                 else
                     setChecked(false);
         }
-        invalidate();
     }
 
     @Override
@@ -171,6 +170,12 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
             imageView.setImageBitmap(bitmap);
             progressBar.setVisibility(View.GONE);
         }
+    }
+
+    public void resetImg()
+    {
+        if (imageView != null)
+            imageView.setImageBitmap(null);
     }
 
     private void setChecked(boolean checked) {
@@ -209,7 +214,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
             sdcard.setVisibility(View.VISIBLE);
         else
             sdcard.setVisibility(View.GONE);
-        invalidate();
+        //invalidate();
 
     }
 

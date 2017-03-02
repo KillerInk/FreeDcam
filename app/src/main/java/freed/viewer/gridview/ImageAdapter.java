@@ -1,0 +1,111 @@
+package freed.viewer.gridview;
+
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+
+import com.troop.freedcam.R;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import freed.ActivityInterface;
+import freed.viewer.holder.FileHolder;
+
+/**
+ * Created by troop on 02.03.2017.
+ */
+
+class ImageAdapter extends BaseAdapter
+{
+    private final String TAG = ImageAdapter.class.getSimpleName();
+
+    private ExecutorService executor;
+    private ActivityInterface viewerActivityInterface;
+
+    /**
+     * the current state of the gridview if items are in selection mode or normal rdy to click
+     */
+    private BaseGridViewFragment.ViewStates currentViewState = BaseGridViewFragment.ViewStates.normal;
+
+    public ImageAdapter(ActivityInterface viewerActivityInterface) {
+        this.viewerActivityInterface = viewerActivityInterface;
+        createExecutor();
+    }
+
+    public void Destroy()
+    {
+        shutdownExecutor();
+    }
+
+    public void shutdownExecutor()
+    {
+        if (executor != null)
+            executor.shutdown();
+        while (!executor.isShutdown())
+        {}
+    }
+
+    public void createExecutor()
+    {
+        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-1);
+    }
+
+    @Override
+    public int getCount()
+    {
+        if (viewerActivityInterface.getFiles() != null)
+            return viewerActivityInterface.getFiles().size();
+        else return 0;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return viewerActivityInterface.getFiles().get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup container) {
+        final GridImageView imageView;
+        if (convertView == null) { // if it's not recycled, initialize some attributes
+            imageView = new GridImageView(viewerActivityInterface.getContext(), executor, viewerActivityInterface.getBitmapHelper());
+        } else {
+            imageView = (GridImageView) convertView;
+            imageView.resetImg();
+            imageView.SetThreadPoolAndBitmapHelper(executor, viewerActivityInterface.getBitmapHelper());
+        }
+        Log.d(TAG, "filessize:" + viewerActivityInterface.getFiles().size() + " position:"+position);
+        if (viewerActivityInterface.getFiles().size() <= position)
+            position = viewerActivityInterface.getFiles().size() -1;
+        if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(viewerActivityInterface.getFiles().get(position)) /*||imageView.viewstate != currentViewState*/)
+        {
+            imageView.resetImg();
+            imageView.SetEventListner(viewerActivityInterface.getFiles().get(position));
+            imageView.SetViewState(currentViewState);
+            imageView.loadFile(viewerActivityInterface.getFiles().get(position), viewerActivityInterface.getAppSettings().getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
+        }
+        return imageView;
+    }
+
+
+
+    public void SetViewState(BaseGridViewFragment.ViewStates states)
+    {
+        currentViewState = states;
+        if (viewerActivityInterface.getFiles() == null)
+            return;
+        for (int i = 0; i< viewerActivityInterface.getFiles().size(); i++)
+        {
+            FileHolder f = viewerActivityInterface.getFiles().get(i);
+            f.SetViewState(states);
+        }
+
+    }
+}

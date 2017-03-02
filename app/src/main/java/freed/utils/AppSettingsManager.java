@@ -459,7 +459,7 @@ public class AppSettingsManager {
         return settings.getBoolean(getResString(R.string.aps_opencamera1legacy), false);
     }
 
-    private void setOpenCamera1Legacy(boolean legacy)
+    public void setOpenCamera1Legacy(boolean legacy)
     {
         settings.edit().putBoolean(getResString(R.string.aps_opencamera1legacy),legacy).commit();
     }

@@ -304,7 +304,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectManualIso(Camera.Parameters parameters) {
 
-        if (appSettingsManager.manualIso.getKEY().equals("") && !appSettingsManager.manualIso.isPresetted()) {
+        if (!appSettingsManager.manualIso.isPresetted()) {
 
             if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
                 appSettingsManager.manualIso.setIsSupported(true);
@@ -319,9 +319,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     appSettingsManager.manualIso.setValues(createIsoValues(min, max, 50, appSettingsManager));
                 }
             }
-
         }
-
     }
 
     public static String[] createIsoValues(int miniso, int maxiso, int step,AppSettingsManager appSettingsManager)
@@ -351,10 +349,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else
         {
             //htc shutter
-            if (parameters.get("shutter") != null) {
+            if (parameters.get(appSettingsManager.getResString(R.string.shutter)) != null) {
                 appSettingsManager.manualExposureTime.setIsSupported(true);
                 appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.htc));
-                appSettingsManager.manualExposureTime.setKEY("shutter");
+                appSettingsManager.manualExposureTime.setKEY(appSettingsManager.getResString(R.string.shutter));
                 appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_HTC);
             }
             //lg shutter
@@ -693,11 +691,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             //huawai mf
             if(parameters.get(appSettingsManager.getResString(R.string.hw_vcm_end_value)) != null && parameters.get(appSettingsManager.getResString(R.string.hw_vcm_start_value)) != null)
             {
+                Log.d(TAG,"Huawei MF");
                 appSettingsManager.manualFocus.setMode(camstring(R.string.manual));
                 appSettingsManager.manualFocus.setType(-1);
                 appSettingsManager.manualFocus.setIsSupported(true);
-                min = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.hw_vcm_end_value)));
-                max = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.hw_vcm_start_value)));
+                max = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.hw_vcm_end_value)));
+                min = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.hw_vcm_start_value)));
+                Log.d(TAG,"min/max mf:" + min+"/"+max);
                 step = 10;
                 appSettingsManager.manualFocus.setKEY(appSettingsManager.getResString(R.string.hw_manual_focus_step_value));
             }

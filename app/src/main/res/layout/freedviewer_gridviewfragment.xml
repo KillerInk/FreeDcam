@@ -3,16 +3,11 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/freedviewer_gridview_base" />
-
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/freedviewer_topbar_height"
-        android:background="#50000000"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/app_icon_size"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentBottom="true">
 
         <ImageButton
             android:layout_width="@dimen/app_icon_size"
@@ -22,62 +17,66 @@
             android:layout_marginLeft="10dp"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="4dp"
-            />
-        <LinearLayout
+            android:layout_weight="1" />
+
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="false">
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/files_selected"
+            android:id="@+id/textView_filesSelected"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
+            android:textColor="@color/abc_background_cache_hint_selector_material_light" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/files_selected"
-                android:id="@+id/textView_filesSelected"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
-                android:textColor="@color/abc_background_cache_hint_selector_material_light" />
+        <Button
+        android:layout_width="50dp"
+        android:layout_height="@dimen/app_icon_size"
+        android:text="@string/ALL"
+        android:id="@+id/button_filetype"
+        android:textSize="18dp"
+        android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
+        android:background="#00000000"
+        android:textStyle="bold"
+        android:layout_gravity="center_vertical"
+            android:textColor="@color/button_material_light" />
 
-            <Button
-            android:layout_width="50dp"
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/app_icon_size"
-            android:text="@string/ALL"
-            android:id="@+id/button_filetype"
+            android:text="OK"
+            android:id="@+id/button_DoAction"
             android:textSize="18dp"
             android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
             android:background="#00000000"
             android:textStyle="bold"
             android:layout_gravity="center_vertical"
-                android:textColor="@color/button_material_light" />
+            android:layout_weight="1"
+            android:textColor="@color/button_material_light" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/app_icon_size"
-                android:text="OK"
-                android:id="@+id/button_DoAction"
-                android:textSize="18dp"
-                android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
-                android:background="#00000000"
-                android:textStyle="bold"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:textColor="@color/button_material_light" />
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="@dimen/app_icon_size"
+            android:text="..."
+            android:id="@+id/button_options"
+            android:textSize="18dp"
+            android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
+            android:background="#00000000"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textColor="@color/button_material_light" />
 
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="@dimen/app_icon_size"
-                android:text="..."
-                android:id="@+id/button_options"
-                android:textSize="18dp"
-                android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
-                android:background="#00000000"
-                android:textStyle="bold"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:textColor="@color/button_material_light" />
+    </LinearLayout>
 
-        </LinearLayout>
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/freedviewer_topbar_height"
+        android:background="#50000000"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
     </RelativeLayout>
 

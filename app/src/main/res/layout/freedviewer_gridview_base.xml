@@ -10,6 +10,11 @@
         android:numColumns="auto_fit"
         android:columnWidth="@dimen/image_thumbnail_size"
         android:clipToPadding="false"
-        android:animateLayoutChanges="true" />
+        android:smoothScrollbar="true"
+        android:scrollingCache="false"
+        android:animationCache="false"
+        android:addStatesFromChildren="true"
+        style="@android:style/Widget.Material.Light.GridView"
+        android:background="@android:color/darker_gray" />
 
 </LinearLayout>

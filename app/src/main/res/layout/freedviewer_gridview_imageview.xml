@@ -31,7 +31,8 @@
             android:ellipsize="end"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="2dp"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:background="@android:color/background_dark" />
 
     <ImageView
         android:layout_width="wrap_content"
