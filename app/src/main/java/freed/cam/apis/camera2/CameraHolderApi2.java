@@ -861,6 +861,15 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
         }
 
+        public void cancelCapture()
+        {
+            try {
+                mCaptureSession.abortCaptures();
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
         public void StartCaptureBurst(@NonNull List<CaptureRequest>  request,
                                  @Nullable CaptureCallback listener, Handler handler)
         {

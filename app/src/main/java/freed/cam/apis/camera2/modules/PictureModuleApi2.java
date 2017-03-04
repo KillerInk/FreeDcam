@@ -161,7 +161,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
 
         Log.d(TAG, "DoWork: start new progress");
-        mBackgroundHandler.post(TakePicture);
+        if(!isWorking)
+            mBackgroundHandler.post(TakePicture);
+        else if (parameterHandler.ExposureMode.GetValue().equals(appSettingsManager.getResString(R.string.Off)))
+        {
+            cameraHolder.CaptureSessionH.cancelCapture();
+            finishCapture(captureBuilder);
+            changeCaptureState(CaptureStates.image_capture_stop);
+        }
     }
 
     private Runnable TakePicture = new Runnable()
