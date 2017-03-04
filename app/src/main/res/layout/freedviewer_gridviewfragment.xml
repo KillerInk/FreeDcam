@@ -3,11 +3,27 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/app_icon_size"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentBottom="true">
+    <GridView
+
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/gridView_base"
+        android:numColumns="auto_fit"
+        android:columnWidth="@dimen/image_thumbnail_size"
+        android:clipToPadding="false"
+        android:smoothScrollbar="true"
+        android:scrollingCache="false"
+        android:animationCache="false"
+        android:addStatesFromChildren="true"
+        android:background="@android:color/darker_gray" />
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/freedviewer_topbar_height"
+        android:background="#50000000"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageButton
             android:layout_width="@dimen/app_icon_size"
@@ -17,66 +33,62 @@
             android:layout_marginLeft="10dp"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="4dp"
-            android:layout_weight="1" />
-
-        <TextView
+            />
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/files_selected"
-            android:id="@+id/textView_filesSelected"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
-            android:textColor="@color/abc_background_cache_hint_selector_material_light" />
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="false">
 
-        <Button
-        android:layout_width="50dp"
-        android:layout_height="@dimen/app_icon_size"
-        android:text="@string/ALL"
-        android:id="@+id/button_filetype"
-        android:textSize="18dp"
-        android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
-        android:background="#00000000"
-        android:textStyle="bold"
-        android:layout_gravity="center_vertical"
-            android:textColor="@color/button_material_light" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/files_selected"
+                android:id="@+id/textView_filesSelected"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
+                android:textColor="@color/abc_background_cache_hint_selector_material_light" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/app_icon_size"
-            android:text="OK"
-            android:id="@+id/button_DoAction"
-            android:textSize="18dp"
-            android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
-            android:background="#00000000"
-            android:textStyle="bold"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:textColor="@color/button_material_light" />
-
-        <Button
+            <Button
             android:layout_width="50dp"
             android:layout_height="@dimen/app_icon_size"
-            android:text="..."
-            android:id="@+id/button_options"
+            android:text="@string/ALL"
+            android:id="@+id/button_filetype"
             android:textSize="18dp"
             android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
             android:background="#00000000"
             android:textStyle="bold"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:textColor="@color/button_material_light" />
+                android:textColor="@color/button_material_light" />
 
-    </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/app_icon_size"
+                android:text="OK"
+                android:id="@+id/button_DoAction"
+                android:textSize="18dp"
+                android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
+                android:background="#00000000"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:textColor="@color/button_material_light" />
 
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/freedviewer_topbar_height"
-        android:background="#50000000"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="@dimen/app_icon_size"
+                android:text="..."
+                android:id="@+id/button_options"
+                android:textSize="18dp"
+                android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
+                android:background="#00000000"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:textColor="@color/button_material_light" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

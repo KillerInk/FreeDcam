@@ -27,7 +27,7 @@ class ImageAdapter extends BaseAdapter
     /**
      * the current state of the gridview if items are in selection mode or normal rdy to click
      */
-    private BaseGridViewFragment.ViewStates currentViewState = BaseGridViewFragment.ViewStates.normal;
+    private GridViewFragment.ViewStates currentViewState = GridViewFragment.ViewStates.normal;
 
     public ImageAdapter(ActivityInterface viewerActivityInterface) {
         this.viewerActivityInterface = viewerActivityInterface;
@@ -96,7 +96,7 @@ class ImageAdapter extends BaseAdapter
 
 
 
-    public void SetViewState(BaseGridViewFragment.ViewStates states)
+    public void SetViewState(GridViewFragment.ViewStates states)
     {
         currentViewState = states;
         if (viewerActivityInterface.getFiles() == null)

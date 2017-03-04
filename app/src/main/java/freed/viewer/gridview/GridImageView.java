@@ -39,8 +39,6 @@ import com.troop.freedcam.R.layout;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.ExecutorService;
-
-import freed.viewer.gridview.BaseGridViewFragment.ViewStates;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.BaseHolder;
 import freed.viewer.holder.FileHolder;
@@ -62,7 +60,7 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
     private ExecutorService executor;
     private BitmapHelper bitmapHelper;
 
-    private GridViewFragment.ViewStates viewstate = ViewStates.normal;
+    private GridViewFragment.ViewStates viewstate = GridViewFragment.ViewStates.normal;
 
 
     public GridImageView(Context context) {

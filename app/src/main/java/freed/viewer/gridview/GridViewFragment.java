@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
@@ -69,10 +71,23 @@ import freed.viewer.stack.StackActivity;
 /**
  * Created by troop on 11.12.2015.
  */
-public class GridViewFragment extends BaseGridViewFragment implements I_OnActivityResultCallback
+public class GridViewFragment extends Fragment implements I_OnActivityResultCallback ,AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
     public final int STACK_REQUEST = 44;
     public final int DNGCONVERT_REQUEST = 45;
+
+    protected GridView gridView;
+    protected View view;
+    protected boolean pos0ret;
+    protected ViewStates currentViewState = ViewStates.normal;
+
+
+
+    public enum ViewStates
+    {
+        normal,
+        selection,
+    }
 
     private ImageAdapter mPagerAdapter;
 
@@ -145,6 +160,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         super.onCreateView(inflater, container, savedInstanceState);
         viewerActivityInterface = (ActivityInterface) getActivity();
 
+        inflate(inflater, container);
+        gridView = (GridView) view.findViewById(id.gridView_base);
+        gridView.setOnItemClickListener(this);
+        gridView.setOnItemLongClickListener(this);
+
 
         ImageButton gobackButton = (ImageButton) view.findViewById(id.button_goback);
         gobackButton.setOnClickListener(onGobBackClick);
@@ -205,8 +225,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     }
 
 
-
-    @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(layout.freedviewer_gridviewfragment, container, false);
     }
@@ -233,6 +251,10 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     }
 
     @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        return false;
+    }
+
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
         switch (currentViewState)
