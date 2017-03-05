@@ -78,7 +78,7 @@ class ImageAdapter extends BaseAdapter
             imageView = new GridImageView(viewerActivityInterface.getContext(), executor, viewerActivityInterface.getBitmapHelper());
         } else {
             imageView = (GridImageView) convertView;
-            imageView.resetImg();
+            //imageView.resetImg();
             imageView.SetThreadPoolAndBitmapHelper(executor, viewerActivityInterface.getBitmapHelper());
         }
         Log.d(TAG, "filessize:" + viewerActivityInterface.getFiles().size() + " position:"+position);
@@ -86,7 +86,7 @@ class ImageAdapter extends BaseAdapter
             position = viewerActivityInterface.getFiles().size() -1;
         if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(viewerActivityInterface.getFiles().get(position)) /*||imageView.viewstate != currentViewState*/)
         {
-            imageView.resetImg();
+            //imageView.resetImg();
             imageView.SetEventListner(viewerActivityInterface.getFiles().get(position));
             imageView.SetViewState(currentViewState);
             imageView.loadFile(viewerActivityInterface.getFiles().get(position), viewerActivityInterface.getAppSettings().getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
