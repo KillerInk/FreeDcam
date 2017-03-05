@@ -619,6 +619,27 @@
         </filesize>
     </device>
 
+    <device name ="HTC_OneMini2">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <models>
+            <item>HTC One mini 2</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+        </camera1>
+        <filesize size= "16560128">
+            <blacklvl>16</blacklvl>
+            <width>4224</width>
+            <height>3136</height>
+            <rawtype>3</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>OV4688</matrixset>
+        </filesize>
+    </device>
+
     <device name ="Huawei_GX8">
         <opcode2></opcode2>
         <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Huawei_GX8/opc3.bin?raw=true</opcode3>
