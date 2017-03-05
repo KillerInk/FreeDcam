@@ -50,7 +50,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         appSettingsManager.setFramework(getFramework());
         publishProgress("FrameWork:"+appSettingsManager.getFrameWork());
 
-        publishProgress("CanOpenLegacy:"+appSettingsManager.openCamera1Legacy());
+        publishProgress("CanOpenLegacy:"+appSettingsManager.opencamera1Legacy.getBoolean());
 
         int cameraCounts = Camera.getNumberOfCameras();
         AppSettingsManager appS = appSettingsManager;
@@ -826,7 +826,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             case AppSettingsManager.FRAMEWORK_LG:
             {
                 LGCamera lgCamera;
-                if (appSettingsManager.openCamera1Legacy())
+                if (appSettingsManager.opencamera1Legacy.getBoolean())
                     lgCamera = new LGCamera(currentcamera, 256);
                 else
                     lgCamera = new LGCamera(currentcamera);

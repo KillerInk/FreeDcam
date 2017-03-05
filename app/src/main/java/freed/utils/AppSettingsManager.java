@@ -49,6 +49,7 @@ import freed.dng.DngProfile;
  */
 public class AppSettingsManager {
 
+
     public class SettingMode
     {
         //String to get if supported
@@ -164,6 +165,40 @@ public class AppSettingsManager {
         {
             setApiString(mode,modevalue);
         }
+    }
+
+    public class BooleanSettingsMode
+    {
+        //String to get the value
+        private String value_key;
+        private String presetKey;
+
+        public BooleanSettingsMode(String value_key)
+        {
+            this.value_key = value_key;
+            this.presetKey = value_key + "preset";
+        }
+
+        public boolean getBoolean()
+        {
+            return settings.getBoolean(value_key, false);
+        }
+
+        public void setBoolean(boolean value)
+        {
+            settings.edit().putBoolean(value_key, value).commit();
+        }
+
+        public void setIsPresetted(boolean preset)
+        {
+            settings.edit().putBoolean(presetKey, preset).commit();
+        }
+
+        public boolean isPresetted()
+        {
+            return settings.getBoolean(presetKey, false);
+        }
+
     }
 
     private final String TAG = AppSettingsManager.class.getSimpleName();
@@ -324,6 +359,8 @@ public class AppSettingsManager {
 
     public final TypeSettingsMode manualWhiteBalance;
 
+    public final BooleanSettingsMode opencamera1Legacy;
+
     public String[] opcodeUrlList;
 
 
@@ -410,6 +447,8 @@ public class AppSettingsManager {
         manualProgramShift = new SettingMode(getResString(R.string.aps_manualprogramshift));
         manualPreviewZoom = new SettingMode(getResString(R.string.aps_manualpreviewzoom));
 
+        opencamera1Legacy = new BooleanSettingsMode(getResString(R.string.aps_opencamera1legacy));
+
 
         //first time init
         matrixes = getMatrixes();
@@ -452,16 +491,6 @@ public class AppSettingsManager {
     public void setAreFeaturesDetected(boolean detected)
     {
         settings.edit().putBoolean(FEATUREDETECTED,detected).commit();
-    }
-
-    public boolean openCamera1Legacy()
-    {
-        return settings.getBoolean(getResString(R.string.aps_opencamera1legacy), false);
-    }
-
-    public void setOpenCamera1Legacy(boolean legacy)
-    {
-        settings.edit().putBoolean(getResString(R.string.aps_opencamera1legacy),legacy).commit();
     }
 
     public boolean isZteAe()
@@ -550,12 +579,6 @@ public class AppSettingsManager {
         settings.edit().putLong("camera2maxexposuretime",max).commit();
     }
 
-    /*public void SetDevice(Devices device) {
-        this.device = device;
-        String t = device.name();
-        putString("DEVICE", t);
-    }*/
-
     private void setDevice(String device) {
         this.mDevice = device;
         putString("DEVICE", mDevice);
@@ -564,19 +587,6 @@ public class AppSettingsManager {
     public String getDeviceString() {
         return mDevice;
     }
-
-/*    public Devices getDevice() {
-        return device;
-    }
-
-    private Devices getdevice()
-    {
-        String t = settings.getString("DEVICE", null);
-        device = TextUtils.isEmpty(t) ? null : Devices.valueOf(t);
-        return device;
-    }*/
-
-
 
     public void setshowHelpOverlay(boolean value) {
         settings.edit().putBoolean("showhelpoverlay", value).commit();
@@ -685,9 +695,7 @@ public class AppSettingsManager {
     {
         return getApiString(settingsname).split(SPLITTCHAR);
     }
-
-
-
+    
     public HashMap<String,VideoMediaProfile> getMediaProfiles()
     {
         Set<String> tmp = settings.getStringSet(getApiSettingString(SETTING_MEDIAPROFILES),new HashSet<String>());
@@ -717,9 +725,6 @@ public class AppSettingsManager {
             editor.putBoolean("tmp",false);
         editor.commit();
     }
-
-
-
 
     public void setFramework(int frameWork)
     {
@@ -779,10 +784,12 @@ public class AppSettingsManager {
                                 else
                                     setDngManualsSupported(true);
 
-                                if (!camera1element.findChild("opencameralegacy").isEmpty())
-                                    setOpenCamera1Legacy(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
+                                if (!camera1element.findChild("opencameralegacy").isEmpty()) {
+                                    opencamera1Legacy.setBoolean(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
+                                    opencamera1Legacy.setIsPresetted(true);
+                                }
                                 else
-                                    setOpenCamera1Legacy(false);
+                                    opencamera1Legacy.setBoolean(false);
 
                                 if (!camera1element.findChild("zteae").isEmpty())
                                     setZteAe(Boolean.parseBoolean(camera1element.findChild("zte").getValue()));

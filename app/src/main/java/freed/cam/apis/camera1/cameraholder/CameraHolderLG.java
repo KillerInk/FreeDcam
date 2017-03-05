@@ -39,7 +39,7 @@ public class CameraHolderLG extends CameraHolder
     {
 
         try {
-            if (appSettingsManager.openCamera1Legacy())
+            if (appSettingsManager.opencamera1Legacy.getBoolean())
                 lgCamera = new LGCamera(camera, 256);
             else
                 lgCamera = new LGCamera(camera);
