@@ -2468,6 +2468,28 @@
         </filesize>
     </device>
 
+    <device name ="XiaomiMI4s">
+        <models>
+            <item>MI 4S</item>
+        </models>
+        <camera1>
+            <framework>0</framework>
+            <dngmanual>false</dngmanual>
+            <digitalimagestab>false</digitalimagestab>
+        </camera1>
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <filesize size= "16510976">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>3</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize></rowsize>
+            <matrixset>Imx298</matrixset>
+        </filesize>
+    </device>
+
     <device name ="XiaomiMI5">
         <models>
             <item>MI 5</item>
