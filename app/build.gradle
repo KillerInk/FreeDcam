@@ -9,11 +9,11 @@ android {
             storePassword 'freedcam'
         }
     }
-    compileSdkVersion 25
-    buildToolsVersion '25.0.1'
+    compileSdkVersion 24
+    buildToolsVersion '24.0.2'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 24
         versionCode 103
         versionName '3.3.147'
         applicationId "troop.com.freedcam"
@@ -48,6 +48,6 @@ android {
 dependencies {
     provided files('libs/com.lge.frameworks.jar')
     provided files('libs/real3d.jar')
-    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:appcompat-v7:24.2.1'
 }
 
