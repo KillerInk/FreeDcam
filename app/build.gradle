@@ -14,8 +14,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 103
-        versionName '3.3.147'
+        versionCode 107
+        versionName '4.1_alpha5'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 18
         externalNativeBuild {
