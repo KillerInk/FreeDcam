@@ -19,7 +19,7 @@
 
 package freed.viewer.holder;
 
-import freed.viewer.gridview.BaseGridViewFragment.ViewStates;
+import freed.viewer.gridview.GridViewFragment.ViewStates;
 import freed.viewer.gridview.GridViewFragment;
 
 /**

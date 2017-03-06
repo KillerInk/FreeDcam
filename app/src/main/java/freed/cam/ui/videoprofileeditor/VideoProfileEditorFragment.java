@@ -97,6 +97,8 @@ public class VideoProfileEditorFragment extends Fragment {
     private EditText editText_videobitrate;
     private EditText editText_videoframerate;
     private EditText editText_maxrecordtime;
+    private EditText editText_width;
+    private EditText editText_height;
     private Button button_recordMode;
     private Button button_videoCodec;
     private Button button_audioCodec;
@@ -125,6 +127,8 @@ public class VideoProfileEditorFragment extends Fragment {
         editText_videobitrate = (EditText)view.findViewById(id.editText_videoBitrate);
         editText_videoframerate = (EditText)view.findViewById(id.editText_videoframerate);
         editText_maxrecordtime = (EditText)view.findViewById(id.editText_recordtime);
+        editText_width = (EditText)view.findViewById(id.editText_Profilewidth);
+        editText_height = (EditText)view.findViewById(id.editText_Profileheight);
         button_save = (Button)view.findViewById(id.button_Save_profile);
         switch_Audio = (Switch)view.findViewById(id.switchAudio);
         button_recordMode = (Button)view.findViewById(id.button_recordMode);
@@ -275,6 +279,8 @@ public class VideoProfileEditorFragment extends Fragment {
         editText_videobitrate.setText("");
         editText_videoframerate.setText("");
         editText_maxrecordtime.setText("");
+        editText_width.setText("");
+        editText_height.setText("");
         button_recordMode.setText("");
     }
 
@@ -288,6 +294,8 @@ public class VideoProfileEditorFragment extends Fragment {
         editText_videobitrate.setText(profile.videoBitRate+"");
         editText_videoframerate.setText(profile.videoFrameRate+"");
         editText_maxrecordtime.setText(profile.duration+"");
+        editText_height.setText(profile.videoFrameHeight+"");
+        editText_width.setText(profile.videoFrameWidth+"");
         switch_Audio.setChecked(profile.isAudioActive);
         int videocodec = profile.videoCodec;
         switch (videocodec)
@@ -334,6 +342,8 @@ public class VideoProfileEditorFragment extends Fragment {
             currentProfile.duration = Integer.parseInt(editText_maxrecordtime.getText().toString());
             currentProfile.isAudioActive = switch_Audio.isChecked();
             currentProfile.Mode = VideoMode.valueOf((String) button_recordMode.getText());
+            currentProfile.videoFrameHeight = Integer.parseInt(editText_height.getText().toString());
+            currentProfile.videoFrameWidth = Integer.parseInt(editText_width.getText().toString());
 
             VideoCodecs videoCodec = VideoCodecs.valueOf((String)button_videoCodec.getText());
             currentProfile.videoCodec = videoCodec.GetInt();

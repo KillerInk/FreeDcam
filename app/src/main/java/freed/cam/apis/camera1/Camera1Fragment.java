@@ -93,7 +93,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
             cameraHolder = new CameraHolderMotoX(this, CameraHolder.Frameworks.MotoX);
         else if (GetAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
             cameraHolder = new CameraHolderMTK(this, CameraHolder.Frameworks.MTK);
-        else if (GetAppSettingsManager().openCamera1Legacy())
+        else if (GetAppSettingsManager().opencamera1Legacy.getBoolean())
             cameraHolder = new CameraHolderLegacy(this, CameraHolder.Frameworks.Normal);
         else
             cameraHolder = new CameraHolder(this, CameraHolder.Frameworks.Normal);

@@ -50,6 +50,7 @@ public class VideoProfilesParameter extends AbstractModeParameter
         this.cameraUiWrapper = cameraUiWrapper;
         isSupported =true;
         supportedProfiles = cameraUiWrapper.GetAppSettingsManager().getMediaProfiles();
+        profile = cameraUiWrapper.GetAppSettingsManager().videoProfile.get();
     }
 
     @Override

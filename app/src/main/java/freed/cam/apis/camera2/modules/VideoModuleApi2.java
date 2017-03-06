@@ -20,6 +20,8 @@
 package freed.cam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.StateCallback;
@@ -46,11 +48,15 @@ import com.troop.freedcam.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
+import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
 
@@ -95,7 +101,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         Log.d(TAG, "InitModule");
         super.InitModule();
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.VideoProfiles;
-        currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.getApiString(AppSettingsManager.VIDEOPROFILE));
+        currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.videoProfile.get());
+        parameterHandler.VideoProfiles.onValueHasChanged(currentVideoProfile.ProfileName);
         startPreview();
     }
 
@@ -140,6 +147,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
         cameraHolder.CaptureSessionH.CreateCaptureSession();
+        fireOnWorkFinish(recordingFile);
         cameraUiWrapper.getActivityInterface().ScanFile(recordingFile);
     }
 
@@ -147,7 +155,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview()
     {
-        previewSize = new Size(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+        previewSize = getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888),cameraHolder.characteristics, currentVideoProfile.videoFrameWidth,currentVideoProfile.videoFrameHeight);
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         int orientation = 0;
         switch (sensorOrientation)
@@ -163,12 +171,37 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             case 0: orientation = 180;
                 break;
         }
-        cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(), orientation,orientation+180,true);
+        if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
+            cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(), orientation,orientation+180,true);
+        else
+            cameraHolder.CaptureSessionH.SetTextureViewSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight, orientation,orientation+180,true);
         SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
-        texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+        if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
+            texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
+        else
+            texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         previewsurface = new Surface(texture);
         cameraHolder.CaptureSessionH.AddSurface(previewsurface,true);
         cameraHolder.CaptureSessionH.CreateCaptureSession();
+    }
+
+    public Size getSizeForPreviewDependingOnImageSize(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
+    {
+        List<Size> sizes = new ArrayList<>();
+        Rect rect = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        double ratio = (double)mImageWidth/mImageHeight;
+        for (Size s : choices)
+        {
+            if (s.getWidth() <= cameraHolder.CaptureSessionH.displaySize.x && s.getHeight() <= cameraHolder.CaptureSessionH.displaySize.y && (double)s.getWidth()/s.getHeight() == ratio)
+                sizes.add(s);
+
+        }
+        if (sizes.size() > 0) {
+            return Collections.max(sizes, new CameraHolderApi2.CompareSizesByArea());
+        } else {
+            Log.e(TAG, "Couldn't find any suitable previewSize size");
+            return choices[0];
+        }
     }
 
     @Override
@@ -241,9 +274,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2
       //  if(currentVideoProfile.Mode == VideoMediaProfile.VideoMode.SlowMO)
        //     int SlowFactor = currentVideoProfile.videoFrameRate /30;
 
-        if(currentVideoProfile.videoFrameRate == 120 && currentVideoProfile.videoFrameWidth == 1920)
+        /*if(currentVideoProfile.videoFrameRate == 120 && currentVideoProfile.videoFrameWidth == 1920)
             mediaRecorder.setVideoFrameRate(60);
-        else
+        else*/
             mediaRecorder.setVideoFrameRate(currentVideoProfile.videoFrameRate);
 
         /*setCaptureRate

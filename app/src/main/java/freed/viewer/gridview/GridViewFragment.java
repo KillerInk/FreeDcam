@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
@@ -69,10 +71,23 @@ import freed.viewer.stack.StackActivity;
 /**
  * Created by troop on 11.12.2015.
  */
-public class GridViewFragment extends BaseGridViewFragment implements I_OnActivityResultCallback
+public class GridViewFragment extends Fragment implements I_OnActivityResultCallback ,AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
     public final int STACK_REQUEST = 44;
     public final int DNGCONVERT_REQUEST = 45;
+
+    protected GridView gridView;
+    protected View view;
+    protected boolean pos0ret;
+    protected ViewStates currentViewState = ViewStates.normal;
+
+
+
+    public enum ViewStates
+    {
+        normal,
+        selection,
+    }
 
     private ImageAdapter mPagerAdapter;
 
@@ -103,12 +118,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
      * extSD/DCIM/FreeDcam showed with sd icon
      */
     private boolean isRootDir = true;
-    /**
-     * the current state of the gridview if items are in selection mode or normal rdy to click
-     */
-    private ViewStates currentViewState = ViewStates.normal;
-    private  int mImageThumbSize;
-    private  ExecutorService executor;
+
     private ActivityInterface viewerActivityInterface;
     private ScreenSlideFragment.I_ThumbClick onGridItemClick;
     private FileHolder folderToShow;
@@ -148,9 +158,13 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
-        this.mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
         viewerActivityInterface = (ActivityInterface) getActivity();
-        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-1);
+
+        inflate(inflater, container);
+        gridView = (GridView) view.findViewById(id.gridView_base);
+        gridView.setOnItemClickListener(this);
+        gridView.setOnItemLongClickListener(this);
+
 
         ImageButton gobackButton = (ImageButton) view.findViewById(id.button_goback);
         gobackButton.setOnClickListener(onGobBackClick);
@@ -211,8 +225,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     }
 
 
-
-    @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(layout.freedviewer_gridviewfragment, container, false);
     }
@@ -229,7 +241,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     {
         if (mPagerAdapter == null)
         {
-            mPagerAdapter = new ImageAdapter();
+            mPagerAdapter = new ImageAdapter(viewerActivityInterface);
             gridView.setAdapter(mPagerAdapter);
             setViewMode(ViewStates.normal);
             if (viewerActivityInterface.getFiles() == null)
@@ -239,6 +251,10 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     }
 
     @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        return false;
+    }
+
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
         switch (currentViewState)
@@ -412,15 +428,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
 
     private void deleteFiles()
     {
-        executor.shutdown();
-        while (!executor.isShutdown())
-        {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        mPagerAdapter.shutdownExecutor();
         FreeDPool.Execute(new Runnable()
         {
             @Override
@@ -440,7 +448,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 viewerActivityInterface.DeleteFiles(to_del);
             }
         });
-        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-1);
+        mPagerAdapter.createExecutor();
     }
 
     private final OnClickListener onGobBackClick = new OnClickListener() {
@@ -692,77 +700,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         }
     };
 
-    class ImageAdapter extends BaseAdapter
-    {
-        private final String TAG = ImageAdapter.class.getSimpleName();
 
-        public ImageAdapter() {
-
-        }
-
-        public void Destroy()
-        {
-            if (executor != null)
-                executor.shutdown();
-            while (!executor.isShutdown())
-            {}
-        }
-
-        @Override
-        public int getCount()
-        {
-            if (viewerActivityInterface.getFiles() != null)
-                return viewerActivityInterface.getFiles().size();
-            else return 0;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return viewerActivityInterface.getFiles().get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup container) {
-            GridImageView imageView;
-            if (convertView == null) { // if it's not recycled, initialize some attributes
-                imageView = new GridImageView(getContext(), executor, viewerActivityInterface.getBitmapHelper());
-            } else {
-                imageView = (GridImageView) convertView;
-                imageView.SetThreadPoolAndBitmapHelper(executor, viewerActivityInterface.getBitmapHelper());
-            }
-            Log.d(TAG, "filessize:" + viewerActivityInterface.getFiles().size() + " position:"+position);
-            if (viewerActivityInterface.getFiles().size() <= position)
-                position = viewerActivityInterface.getFiles().size() -1;
-            if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(viewerActivityInterface.getFiles().get(position)) /*||imageView.viewstate != currentViewState*/)
-            {
-                imageView.SetEventListner(viewerActivityInterface.getFiles().get(position));
-                imageView.SetViewState(currentViewState);
-                imageView.loadFile(viewerActivityInterface.getFiles().get(position), mImageThumbSize);
-            }
-            return imageView;
-        }
-
-
-
-        public void SetViewState(ViewStates states)
-        {
-            currentViewState = states;
-            if (viewerActivityInterface.getFiles() == null)
-                return;
-            for (int i = 0; i< viewerActivityInterface.getFiles().size(); i++)
-            {
-                FileHolder f = viewerActivityInterface.getFiles().get(i);
-                f.SetViewState(states);
-            }
-
-        }
-    }
 }
 
 

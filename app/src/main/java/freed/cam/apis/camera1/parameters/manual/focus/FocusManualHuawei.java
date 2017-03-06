@@ -53,8 +53,8 @@ public class FocusManualHuawei extends BaseFocusManual
         {
             if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.hw_hwcamera_flag),cameraUiWrapper.getResString(R.string.on_));
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.hw_manual_focus_mode),cameraUiWrapper.getResString(R.string.on_));
+            parameters.set(cameraUiWrapper.getResString(R.string.hw_hwcamera_flag),cameraUiWrapper.getResString(R.string.on_));
+            parameters.set(cameraUiWrapper.getResString(R.string.hw_manual_focus_mode),cameraUiWrapper.getResString(R.string.on_));
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set " + key_value + " to : " + stringvalues[currentInt]);
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);

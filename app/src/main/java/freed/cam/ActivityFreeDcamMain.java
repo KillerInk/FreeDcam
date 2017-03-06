@@ -94,6 +94,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(layout.freedcam_main_activity);
 
         if (!getAppSettings().areFeaturesDetected())
         {
@@ -104,7 +105,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         storageHandler = new StorageFileHandler(this);
 
-        setContentView(layout.freedcam_main_activity);
+
 
         mSecureCamera.onCreate();
 
