@@ -146,7 +146,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     private void loadProfileSpecificParameters()
     {
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
-        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getApiString(AppSettingsManager.VIDEOPROFILE));
+        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.videoProfile.get());
         if (((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range") != null) {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("preview-fps-range", "30000,30000");
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters());

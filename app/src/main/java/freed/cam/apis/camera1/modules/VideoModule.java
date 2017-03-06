@@ -143,7 +143,7 @@ public class VideoModule extends AbstractVideoModule
     {
 
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
-        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getApiString(AppSettingsManager.VIDEOPROFILE));
+        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.videoProfile.get());
         if (currentProfile.Mode == VideoMode.Highspeed)
         {
             if(cameraUiWrapper.GetParameterHandler().HTCVideoMode != null) {

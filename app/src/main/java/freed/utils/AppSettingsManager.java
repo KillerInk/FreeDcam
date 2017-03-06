@@ -663,7 +663,7 @@ public class AppSettingsManager {
         return settings.getBoolean(CAMERA2FULLSUPPORTED,false);
     }
 
-    public String getApiString(String valueToGet, String defaultValue) {
+    private String getApiString(String valueToGet, String defaultValue) {
         return settings.getString(getApiSettingString(valueToGet), defaultValue);
     }
 
