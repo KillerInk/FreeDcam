@@ -466,6 +466,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             ImageHolder imageHolder = resultQueue.get(requestId);
             imageHolder.SetCaptureResult(result);
 
+            Log.d(TAG, "Rdy to save Image from onCaptureCompleted: " + imageHolder.rdyToGetSaved());
             if (imageHolder.rdyToGetSaved())
             {
                 resultQueue.remove(requestId);
@@ -557,6 +558,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             Map.Entry<Integer, ImageHolder> entry = resultQueue.firstEntry();
             ImageHolder imageHolder = entry.getValue();
             imageHolder.SetImage(reader.acquireNextImage());
+            Log.d(TAG, "Rdy to save Image from mOnRawImageAvailableListener: " + imageHolder.rdyToGetSaved());
             if (imageHolder.rdyToGetSaved())
             {
                 resultQueue.remove(0);

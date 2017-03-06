@@ -229,8 +229,11 @@ public class AeHandler
                 if (val > MAX_PREVIEW_EXPOSURETIME && !cameraUiWrapper.GetAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
                     Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                     val = MAX_PREVIEW_EXPOSURETIME;
-                    cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+                    cameraHolder.CaptureSessionH.CancelRepeatingCaptureSession();
                 }
+                else if(cameraUiWrapper.GetAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video)) && val > MAX_PREVIEW_EXPOSURETIME)
+                    cameraHolder.CaptureSessionH.CancelRepeatingCaptureSession();
+
                 cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
                 ThrowCurrentValueChanged(valueToSet);
             }
