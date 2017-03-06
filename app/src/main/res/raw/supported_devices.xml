@@ -816,6 +816,25 @@
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
+
+        <filesize size= "26935296">
+            <blacklvl>64</blacklvl>
+            <width>5344</width>
+            <height>4017</height>
+            <rawtype>0</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx230</matrixset>
+        </filesize>
+        <filesize size= "10186752">
+            <blacklvl>16</blacklvl>
+            <width>3264</width>
+            <height>2472</height>
+            <rawtype>0</rawtype>
+            <colorpattern>rggb</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx230</matrixset>
+        </filesize>
     </device>
 
     <device name ="LenovoK910">
