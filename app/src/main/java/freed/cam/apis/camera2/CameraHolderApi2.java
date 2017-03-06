@@ -648,7 +648,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     {
         private final String TAG = CaptureSessionHandler.class.getSimpleName();
         private final List<Surface> surfaces;
-        private final Point displaySize;
+        public final Point displaySize;
         public CaptureSessionHandler()
         {
             surfaces = new ArrayList<>();
@@ -882,7 +882,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
         public void CloseCaptureSession()
         {
-            StopRepeatingCaptureSession();
+            CancelRepeatingCaptureSession();
             Clear();
             if (mCaptureSession != null)
             {

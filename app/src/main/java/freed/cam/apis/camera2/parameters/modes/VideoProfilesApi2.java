@@ -30,7 +30,6 @@ import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 public class VideoProfilesApi2 extends VideoProfilesParameter
 {
     final String TAG = VideoProfilesApi2.class.getSimpleName();
-    protected CameraWrapperInterface cameraUiWrapper;
 
     public VideoProfilesApi2(CameraWrapperInterface cameraUiWrapper)
     {
