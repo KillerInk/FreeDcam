@@ -100,26 +100,42 @@ public class SecureCamera {
     }
 
     public void onResume() {
-        mMainHandler.removeCallbacks(mOnResumeTasks);
-        if (fIsSecureCamera && !mCanceledResumeTasks) {
-            mMainHandler.postDelayed(mOnResumeTasks, ON_RESUME_DELAY_MILLIS);
-        } else {
-            if (mPaused) {
-                mActivity.onResumeTasks();
-                mPaused = false;
-                mCanceledResumeTasks = false;
+        try {
+            mMainHandler.removeCallbacks(mOnResumeTasks);
+            if (fIsSecureCamera && !mCanceledResumeTasks) {
+                mMainHandler.postDelayed(mOnResumeTasks, ON_RESUME_DELAY_MILLIS);
+            } else {
+                if (mPaused) {
+                    mActivity.onResumeTasks();
+                    mPaused = false;
+                    mCanceledResumeTasks = false;
+                }
             }
         }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+            mActivity.onResumeTasks();
+        }
+
     }
 
     public void onPause() {
-        mMainHandler.removeCallbacks(mOnResumeTasks);
-        if (!mPaused) {
-            mActivity.onPauseTasks();
-            mPaused = true;
-        } else {
-            mCanceledResumeTasks = true;
+        try {
+            mMainHandler.removeCallbacks(mOnResumeTasks);
+            if (!mPaused) {
+                mActivity.onPauseTasks();
+                mPaused = true;
+            } else {
+                mCanceledResumeTasks = true;
+            }
         }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+            mActivity.onPauseTasks();
+        }
+
     }
 
     private void checkSecure() {

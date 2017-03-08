@@ -28,7 +28,6 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
     }
 
@@ -96,8 +95,8 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
     private AbstractFeatureDetectorTask.ProgressUpdate camera1Listner = new AbstractFeatureDetectorTask.ProgressUpdate() {
         @Override
         public void onProgessUpdate(String msg) {
-            sendLog(msg);
             Log.d(TAG, msg);
+            sendLog(msg);
         }
 
         @Override
@@ -115,8 +114,9 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
     private AbstractFeatureDetectorTask.ProgressUpdate camera2Listner = new AbstractFeatureDetectorTask.ProgressUpdate() {
         @Override
         public void onProgessUpdate(String msg) {
-            sendLog(msg);
             Log.d(TAG, msg);
+            sendLog(msg);
+
         }
 
         @Override
