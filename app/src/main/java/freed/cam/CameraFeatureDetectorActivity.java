@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
+import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
@@ -85,6 +86,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
     private void startFreedcam()
     {
+        getAppSettings().setAppVersion(BuildConfig.VERSION_CODE);
         getAppSettings().setAreFeaturesDetected(true);
         Intent intent = new Intent(this, ActivityFreeDcamMain.class);
         startActivity(intent);

@@ -534,6 +534,16 @@ public class AppSettingsManager {
         settings.edit().putBoolean(getResString(R.string.aps_qcomfocus),hasQcomFocus).commit();
     }
 
+    public int getAppVersion()
+    {
+        return settings.getInt(APPVERSION,0);
+    }
+
+    public void setAppVersion(int version)
+    {
+        settings.edit().putInt(APPVERSION,version);
+    }
+
     private void setDngManualsSupported(boolean supported)
     {
         setBoolean("dngmanualSupported", supported);
