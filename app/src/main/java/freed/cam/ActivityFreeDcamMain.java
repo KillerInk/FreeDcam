@@ -34,6 +34,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
@@ -104,7 +105,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void initOnCreate() {
         super.initOnCreate();
-        if (!getAppSettings().areFeaturesDetected())
+        if (!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion())
         {
             Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
             startActivity(intent);
