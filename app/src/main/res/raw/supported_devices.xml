@@ -2549,9 +2549,9 @@
             <blacklvl>50</blacklvl>
             <width>4056</width>
             <height>3040</height>
-            <rawtype>3</rawtype>
+            <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
-            <rowsize>0</rowsize>
+            <rowsize>5264</rowsize>
             <matrixset>Imx298</matrixset>
         </filesize>
     </device>

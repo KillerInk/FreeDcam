@@ -33,6 +33,12 @@ public class Log
         fileLog = null;
     }
 
+    public static void flush()
+    {
+        if (fileLog != null)
+            fileLog.flush();
+    }
+
     public static boolean isLogToFileEnable()
     {
         return fileLog != null;
@@ -112,6 +118,17 @@ public class Log
                     e.printStackTrace();
                 }
             }
+        }
+
+        public void flush()
+        {
+            try {
+                outwriter.flush();
+                fileWriter.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
 
         public void destroy()
