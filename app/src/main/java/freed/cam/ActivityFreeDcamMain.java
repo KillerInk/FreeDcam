@@ -105,12 +105,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void initOnCreate() {
         super.initOnCreate();
-        if (!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion())
-        {
-            Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
-            startActivity(intent);
-            this.finish();
-        }
+
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         storageHandler = new StorageFileHandler(this);
 
@@ -140,6 +135,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //used for videorecording timer
         //TODO move that into camerauifragment
         timerHandler = new TimerHandler(this);
+        if (!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion())
+        {
+            Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
+            startActivity(intent);
+            this.finish();
+        }
     }
 
     @Override
@@ -518,12 +519,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     protected void externalSDPermissionGranted(boolean granted) {
-        Log.d(TAG, "externalSdPermission Granted:" + granted);
-        if (granted) {
-            LoadFreeDcamDCIMDirsFiles();
-        }
-        else {
-            finish();
+        super.externalSDPermissionGranted(granted);
+        if(LOG_TO_FILE && Log.isLogToFileEnable() || !LOG_TO_FILE) {
+            Log.d(TAG, "externalSdPermission Granted:" + granted);
+            if (granted) {
+                LoadFreeDcamDCIMDirsFiles();
+            } else {
+                finish();
+            }
         }
     }
 

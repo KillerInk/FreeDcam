@@ -22,7 +22,7 @@ public class Log
 
     public Log()
     {
-        if (fileLog == null)
+        if(fileLog == null)
             fileLog = new FileLog();
     }
 
@@ -85,16 +85,17 @@ public class Log
     private class FileLog
     {
         private BufferedWriter outwriter;
+        private FileWriter fileWriter;
         public FileLog()
         {
             try {
-                File outfile = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeDcam/log.txt");
+                File outfile = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeDcam/"+/*+ DateFormat.format("yyyy-mm-dd hh.mm.ss", Calendar.getInstance().getTime())*/ "log"+".txt");
                 if (outfile.getParent() == null)
                     outfile.mkdirs();
-                if (!outfile.exists())
-                    outfile.createNewFile();
-
-                outwriter = new BufferedWriter(new FileWriter(outfile,true));
+                /*if (!outfile.exists())
+                    outfile.createNewFile();*/
+                fileWriter = new FileWriter(outfile,true);
+                outwriter = new BufferedWriter(fileWriter);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -117,8 +118,11 @@ public class Log
         {
             try {
                 outwriter.flush();
+                fileWriter.flush();
                 outwriter.close();
+                fileWriter.close();
                 outwriter = null;
+                fileWriter =null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
