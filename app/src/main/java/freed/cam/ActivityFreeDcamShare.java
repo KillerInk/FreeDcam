@@ -24,7 +24,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
+import freed.utils.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,6 +47,11 @@ public class ActivityFreeDcamShare extends ActivityFreeDcamMain implements I_Wor
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void initOnCreate() {
+        super.initOnCreate();
         Intent callerIntent = getIntent();
         Log.d(TAG, callerIntent.getAction());
         if (callerIntent.getAction().equals(MediaStore.ACTION_IMAGE_CAPTURE)) {
@@ -54,7 +59,6 @@ public class ActivityFreeDcamShare extends ActivityFreeDcamMain implements I_Wor
             toreturnFile = new File(imageUri.getPath());
             Log.d(TAG, imageUri.getPath());
         }
-
     }
 
     @Override

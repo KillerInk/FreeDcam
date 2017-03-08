@@ -52,7 +52,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import freed.utils.Log;
 import android.util.Pair;
 import android.util.Size;
 import android.view.Display;
@@ -853,7 +853,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                                       @Nullable CaptureCallback listener, Handler handler)
         {
             //StopRepeatingCaptureSession();
-            CancelRepeatingCaptureSession();
+            //CancelRepeatingCaptureSession();
             try {
                 mCaptureSession.capture(request.build(),listener,handler);
             } catch (CameraAccessException ex) {

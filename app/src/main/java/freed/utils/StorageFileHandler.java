@@ -21,7 +21,7 @@ package freed.utils;
 
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
+import freed.utils.Log;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

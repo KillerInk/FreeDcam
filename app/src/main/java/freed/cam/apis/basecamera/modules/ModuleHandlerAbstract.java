@@ -24,7 +24,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import freed.utils.Log;
 
 import com.troop.freedcam.R;
 

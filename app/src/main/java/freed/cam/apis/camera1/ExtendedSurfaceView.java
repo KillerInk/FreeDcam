@@ -24,7 +24,7 @@ import android.content.SharedPreferences;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.util.Log;
+import freed.utils.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.FrameLayout.LayoutParams;

@@ -42,7 +42,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
-import android.util.Log;
+import freed.utils.Log;
 import android.util.Pair;
 import android.util.Rational;
 import android.util.Size;
@@ -178,12 +178,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             isWorking = true;
             Log.d(TAG, appSettingsManager.pictureFormat.get());
             Log.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
-            // This is the CaptureRequest.Builder that we use to take a picture.
-            try {
-                captureBuilder = cameraHolder.createCaptureRequestStillCapture();
-            } catch (CameraAccessException e) {
-                e.printStackTrace();
-            }
+
 
             mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,mBackgroundHandler);
 
@@ -208,112 +203,119 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      *
      */
     protected void captureStillPicture() {
-            Log.d(TAG, "StartStillCapture");
+        Log.d(TAG, "StartStillCapture");
 
-            // Use the same AE and AF modes as the preview.
-            try {
-                captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, cameraHolder.get(CaptureRequest.CONTROL_AF_MODE));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraHolder.get(CaptureRequest.CONTROL_AE_MODE));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.FLASH_MODE, cameraHolder.get(CaptureRequest.FLASH_MODE));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.COLOR_CORRECTION_MODE, cameraHolder.get(CaptureRequest.COLOR_CORRECTION_MODE));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.COLOR_CORRECTION_TRANSFORM, cameraHolder.get(CaptureRequest.COLOR_CORRECTION_TRANSFORM));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, cameraHolder.get(CaptureRequest.COLOR_CORRECTION_GAINS));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.TONEMAP_CURVE, cameraHolder.get(CaptureRequest.TONEMAP_CURVE));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                if (Build.VERSION.SDK_INT >= VERSION_CODES.M)
-                    captureBuilder.set(CaptureRequest.TONEMAP_GAMMA, cameraHolder.get(CaptureRequest.TONEMAP_GAMMA));
-            }
-            catch (NullPointerException ex) {ex.printStackTrace();}
+        // This is the CaptureRequest.Builder that we use to take a picture.
+        cameraHolder.CaptureSessionH.CancelRepeatingCaptureSession();
+        try {
+            captureBuilder = cameraHolder.createCaptureRequestStillCapture();
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+        // Use the same AE and AF modes as the preview.
+        try {
+            captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, cameraHolder.get(CaptureRequest.CONTROL_AF_MODE));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraHolder.get(CaptureRequest.CONTROL_AE_MODE));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.FLASH_MODE, cameraHolder.get(CaptureRequest.FLASH_MODE));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.COLOR_CORRECTION_MODE, cameraHolder.get(CaptureRequest.COLOR_CORRECTION_MODE));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.COLOR_CORRECTION_TRANSFORM, cameraHolder.get(CaptureRequest.COLOR_CORRECTION_TRANSFORM));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, cameraHolder.get(CaptureRequest.COLOR_CORRECTION_GAINS));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.TONEMAP_CURVE, cameraHolder.get(CaptureRequest.TONEMAP_CURVE));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            if (Build.VERSION.SDK_INT >= VERSION_CODES.M)
+                captureBuilder.set(CaptureRequest.TONEMAP_GAMMA, cameraHolder.get(CaptureRequest.TONEMAP_GAMMA));
+        }
+        catch (NullPointerException ex) {ex.printStackTrace();}
 
-            try {
-                int awb = cameraHolder.get(CaptureRequest.CONTROL_AWB_MODE);
-                captureBuilder.set(CaptureRequest.CONTROL_AWB_MODE, awb );
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.EDGE_MODE, cameraHolder.get(CaptureRequest.EDGE_MODE));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.HOT_PIXEL_MODE, cameraHolder.get(CaptureRequest.HOT_PIXEL_MODE));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.NOISE_REDUCTION_MODE, cameraHolder.get(CaptureRequest.NOISE_REDUCTION_MODE));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, cameraHolder.get(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                long val = 0;
-                if(!parameterHandler.ManualIso.GetStringValue().equals(cameraUiWrapper.getResString(R.string.auto_))) {
-                    val = AbstractManualShutter.getMilliSecondStringFromShutterString(parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()]) * 1000;
-                    //cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
-                }
-                else
-                    val= cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
-                Log.e(TAG, "Set ExposureTime for Capture to:" + val);
-                captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
-
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, cameraHolder.get(CaptureRequest.CONTROL_EFFECT_MODE));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, cameraHolder.get(CaptureRequest.CONTROL_SCENE_MODE));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, cameraHolder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                    captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, cameraUiWrapper.getActivityInterface().getOrientation());
-            }catch (NullPointerException ex){ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, cameraHolder.get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
-            }
-            catch (NullPointerException ex)
-            {ex.printStackTrace();}
-            try {
-                captureBuilder.set(CaptureRequest.SCALER_CROP_REGION, cameraHolder.get(CaptureRequest.SCALER_CROP_REGION));
-            }
-            catch (NullPointerException ex)
-            {ex.printStackTrace();}
-            try {
-                if (appSettingsManager.getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
-                captureBuilder.set(CaptureRequest.JPEG_GPS_LOCATION, cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
-            }
-            catch (NullPointerException ex)
-            {ex.printStackTrace();}
-
-            prepareCaptureBuilder(captureBuilder);
-            imagecount = 0;
-            //mDngResult = null;
-            if (parameterHandler.Burst != null && parameterHandler.Burst.GetValue() > 0) {
-                initBurstCapture(captureBuilder, CaptureCallback);
+        try {
+            int awb = cameraHolder.get(CaptureRequest.CONTROL_AWB_MODE);
+            captureBuilder.set(CaptureRequest.CONTROL_AWB_MODE, awb );
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.EDGE_MODE, cameraHolder.get(CaptureRequest.EDGE_MODE));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.HOT_PIXEL_MODE, cameraHolder.get(CaptureRequest.HOT_PIXEL_MODE));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.NOISE_REDUCTION_MODE, cameraHolder.get(CaptureRequest.NOISE_REDUCTION_MODE));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, cameraHolder.get(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            long val = 0;
+            if(!parameterHandler.ManualIso.GetStringValue().equals(cameraUiWrapper.getResString(R.string.auto_))) {
+                val = AbstractManualShutter.getMilliSecondStringFromShutterString(parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()]) * 1000;
+                //cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
             }
             else
-            {
-                captureBuilder.setTag(mRequestCounter.getAndIncrement());
-                captureBuilder.addTarget(mImageReader.getSurface());
+                val= cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
+            Log.e(TAG, "Set ExposureTime for Capture to:" + val);
+            captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
 
-                ImageHolder imageHolder = new ImageHolder();
-                resultQueue.put((int)captureBuilder.build().getTag(), imageHolder);
-                changeCaptureState(CaptureStates.image_capture_start);
-                cameraHolder.CaptureSessionH.StartImageCapture(captureBuilder, CaptureCallback, mBackgroundHandler);
-            }
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, cameraHolder.get(CaptureRequest.CONTROL_EFFECT_MODE));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, cameraHolder.get(CaptureRequest.CONTROL_SCENE_MODE));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, cameraHolder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, cameraUiWrapper.getActivityInterface().getOrientation());
+        }catch (NullPointerException ex){ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, cameraHolder.get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
+        }
+        catch (NullPointerException ex)
+        {ex.printStackTrace();}
+        try {
+            captureBuilder.set(CaptureRequest.SCALER_CROP_REGION, cameraHolder.get(CaptureRequest.SCALER_CROP_REGION));
+        }
+        catch (NullPointerException ex)
+        {ex.printStackTrace();}
+        try {
+            if (appSettingsManager.getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+                captureBuilder.set(CaptureRequest.JPEG_GPS_LOCATION, cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
+        }
+        catch (NullPointerException ex)
+        {ex.printStackTrace();}
+
+        prepareCaptureBuilder(captureBuilder);
+        imagecount = 0;
+        //mDngResult = null;
+        if (parameterHandler.Burst != null && parameterHandler.Burst.GetValue() > 0) {
+            initBurstCapture(captureBuilder, CaptureCallback);
+        }
+        else
+        {
+            captureBuilder.setTag(mRequestCounter.getAndIncrement());
+            captureBuilder.addTarget(mImageReader.getSurface());
+
+            ImageHolder imageHolder = new ImageHolder();
+            resultQueue.put((int)captureBuilder.build().getTag(), imageHolder);
+            changeCaptureState(CaptureStates.image_capture_start);
+            cameraHolder.CaptureSessionH.StartImageCapture(captureBuilder, CaptureCallback, mBackgroundHandler);
+        }
     }
 
     protected void prepareCaptureBuilder(Builder captureBuilder)

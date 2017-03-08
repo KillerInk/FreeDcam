@@ -19,7 +19,7 @@
 
 package freed.cam.apis.basecamera.parameters.modes;
 
-import android.util.Log;
+import freed.utils.Log;
 
 import java.util.HashMap;
 

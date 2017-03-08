@@ -21,7 +21,7 @@ package freed.cam.apis.basecamera.parameters;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
+import freed.utils.Log;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;

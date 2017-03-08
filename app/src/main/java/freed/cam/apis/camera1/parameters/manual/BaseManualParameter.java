@@ -20,7 +20,7 @@
 package freed.cam.apis.camera1.parameters.manual;
 
 import android.hardware.Camera.Parameters;
-import android.util.Log;
+import freed.utils.Log;
 
 import com.troop.freedcam.R;
 

@@ -19,7 +19,7 @@
 
 package freed.cam.apis.sonyremote.parameters.manual;
 
-import android.util.Log;
+import freed.utils.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;

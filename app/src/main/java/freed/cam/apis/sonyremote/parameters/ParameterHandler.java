@@ -20,7 +20,7 @@
 package freed.cam.apis.sonyremote.parameters;
 
 import android.content.Context;
-import android.util.Log;
+import freed.utils.Log;
 
 import java.net.MalformedURLException;
 import java.net.URL;

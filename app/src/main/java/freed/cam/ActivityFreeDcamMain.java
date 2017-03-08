@@ -29,7 +29,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
+import freed.utils.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -94,8 +94,16 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.freedcam_main_activity);
+    }
 
+    @Override
+    protected void setContentToView() {
+        setContentView(layout.freedcam_main_activity);
+    }
+
+    @Override
+    protected void initOnCreate() {
+        super.initOnCreate();
         if (!getAppSettings().areFeaturesDetected())
         {
             Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);

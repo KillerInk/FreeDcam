@@ -26,7 +26,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;

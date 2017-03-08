@@ -19,7 +19,7 @@
 
 package freed.cam.apis.camera1.cameraholder;
 
-import android.util.Log;
+import freed.utils.Log;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -38,7 +38,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
-import android.util.Log;
+import freed.utils.Log;
 import android.util.Range;
 import android.util.Size;
 import android.view.Surface;

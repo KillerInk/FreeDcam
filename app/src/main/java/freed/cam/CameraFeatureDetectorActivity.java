@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
@@ -14,6 +13,7 @@ import freed.cam.featuredetector.AbstractFeatureDetectorTask;
 import freed.cam.featuredetector.Camera1FeatureDetectorTask;
 import freed.cam.featuredetector.Camera2FeatureDetectorTask;
 import freed.utils.LocationHandler;
+import freed.utils.Log;
 import freed.viewer.holder.FileHolder;
 
 /**
@@ -27,14 +27,23 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void setContentToView() {
         setContentView(R.layout.camerafeaturedetector);
+    }
+
+    @Override
+    protected void initOnCreate() {
+        super.initOnCreate();
         loggerview = (TextView)findViewById(R.id.textview_log);
         loggerview.setMovementMethod(new ScrollingMovementMethod());
         if (hasCameraPermission()) {
             new Camera1FeatureDetectorTask(camera1Listner,getAppSettings()).execute("");
         }
-
     }
 
     @Override

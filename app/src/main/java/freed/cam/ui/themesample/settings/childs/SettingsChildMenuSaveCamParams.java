@@ -23,7 +23,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
 import android.util.AttributeSet;
-import android.util.Log;
+import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;

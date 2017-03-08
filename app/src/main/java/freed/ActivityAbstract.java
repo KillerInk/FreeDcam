@@ -36,7 +36,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.WindowManager.LayoutParams;
@@ -51,6 +50,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 import freed.utils.StorageFileHandler;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
@@ -59,6 +59,9 @@ import freed.viewer.holder.FileHolder;
  * Created by troop on 28.03.2016.
  */
 public abstract class ActivityAbstract extends AppCompatActivity implements ActivityInterface, I_WorkEvent {
+
+    public static final boolean LOG_TO_FILE = true;
+    private boolean onCreateIsInit = false;
 
     public enum FormatTypes
     {
@@ -89,13 +92,41 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "createHandlers()");
-        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()),getBaseContext().getResources());
+        setContentToView();
+        onCreateIsInit = false;
+        if (LOG_TO_FILE && !Log.isLogToFileEnable() && hasExternalSDPermission())
+        {
+            new Log();
+            if (!onCreateIsInit)
+                initOnCreate();
+        }
+        else if(hasExternalSDPermission())
+            initOnCreate();
+
 
         //HIDENAVBAR();
     }
 
-   @Override
+    protected void setContentToView()
+    {
+
+    }
+
+    protected void initOnCreate()
+    {
+        onCreateIsInit = true;
+        Log.d(TAG, "createHandlers()");
+        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()),getBaseContext().getResources());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (Log.isLogToFileEnable())
+            Log.destroy();
+    }
+
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus)
@@ -504,7 +535,14 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     protected void externalSDPermissionGranted(boolean granted)
-    {}
+    {
+        if (granted) {
+            if (!Log.isLogToFileEnable() && LOG_TO_FILE)
+                new Log();
+            if (!onCreateIsInit)
+                initOnCreate();
+        }
+    }
 
     @Override
     public int getOrientation() {

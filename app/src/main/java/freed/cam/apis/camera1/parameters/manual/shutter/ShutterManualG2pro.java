@@ -21,7 +21,7 @@ package freed.cam.apis.camera1.parameters.manual.shutter;
 
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
-import android.util.Log;
+import freed.utils.Log;
 
 import com.troop.freedcam.R;
 

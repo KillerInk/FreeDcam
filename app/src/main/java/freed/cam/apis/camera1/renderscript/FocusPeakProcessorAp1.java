@@ -31,7 +31,7 @@ import android.renderscript.Element;
 import android.renderscript.RSInvalidStateException;
 import android.renderscript.RSRuntimeException;
 import android.renderscript.Type.Builder;
-import android.util.Log;
+import freed.utils.Log;
 import android.view.Surface;
 import android.view.TextureView.SurfaceTextureListener;
 

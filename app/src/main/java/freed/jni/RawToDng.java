@@ -3,7 +3,7 @@ package freed.jni;
 import android.location.Location;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
-import android.util.Log;
+import freed.utils.Log;
 
 import java.io.File;
 import java.io.IOException;

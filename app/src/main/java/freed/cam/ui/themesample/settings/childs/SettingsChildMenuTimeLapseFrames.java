@@ -21,7 +21,7 @@ package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
+import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;

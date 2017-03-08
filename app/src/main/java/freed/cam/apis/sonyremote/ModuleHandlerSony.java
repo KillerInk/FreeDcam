@@ -19,7 +19,7 @@
 
 package freed.cam.apis.sonyremote;
 
-import android.util.Log;
+import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
