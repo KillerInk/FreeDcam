@@ -541,7 +541,7 @@ public class AppSettingsManager {
 
     public void setAppVersion(int version)
     {
-        settings.edit().putInt(APPVERSION,version);
+        settings.edit().putInt(APPVERSION,version).commit();
     }
 
     private void setDngManualsSupported(boolean supported)
