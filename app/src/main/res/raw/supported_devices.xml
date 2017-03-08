@@ -2536,8 +2536,6 @@
         </filesize>
     </device>
 
-    <!-- missing rawsize
-
     <device name ="XiaomiMI5s">
     <models><item>MI 5s</item></models>
     <camera1>
@@ -2547,7 +2545,7 @@
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <filesize size= "20500480">
+        <filesize size= "15581184">
             <blacklvl>50</blacklvl>
             <width>4056</width>
             <height>3040</height>
@@ -2557,8 +2555,6 @@
             <matrixset>Imx298</matrixset>
         </filesize>
     </device>
-
-    -->
 
     <device name ="XiaomiMI_Note_Pro">
         <models>
