@@ -137,6 +137,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected void onPause()
     {
         super.onPause();
+        Log.flush();
     }
 
     private void HIDENAVBAR()
