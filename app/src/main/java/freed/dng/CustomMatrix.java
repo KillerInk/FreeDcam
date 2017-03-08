@@ -20,7 +20,7 @@
 package freed.dng;
 
 import android.text.TextUtils;
-import android.util.Log;
+import freed.utils.Log;
 
 import java.io.BufferedReader;
 import java.io.File;

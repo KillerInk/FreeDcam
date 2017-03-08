@@ -22,7 +22,7 @@ package freed.cam.apis.camera2.parameters.manual;
 import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
-import android.util.Log;
+import freed.utils.Log;
 
 import com.troop.freedcam.R;
 

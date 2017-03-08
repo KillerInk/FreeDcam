@@ -21,7 +21,7 @@ package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
 import android.os.Handler;
-import android.util.Log;
+import freed.utils.Log;
 
 import com.troop.freedcam.R;
 

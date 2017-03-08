@@ -21,7 +21,7 @@ package freed.cam.apis.camera1;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -154,7 +154,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public void StopCamera() {
         Log.d(TAG, "Stop Camera");
-        focusPeakProcessorAp1.kill();
+        if (focusPeakProcessorAp1 != null)
+            focusPeakProcessorAp1.kill();
         cameraHolder.CloseCamera();
     }
 

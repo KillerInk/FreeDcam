@@ -19,7 +19,7 @@
 
 package freed.cam.apis.camera1.parameters.modes;
 
-import android.util.Log;
+import freed.utils.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;

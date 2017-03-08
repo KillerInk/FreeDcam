@@ -1,6 +1,6 @@
 package freed.viewer.gridview;
 
-import android.util.Log;
+import freed.utils.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;

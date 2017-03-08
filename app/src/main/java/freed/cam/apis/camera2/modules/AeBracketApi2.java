@@ -26,7 +26,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Builder;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
+import freed.utils.Log;
 
 import com.troop.freedcam.R;
 

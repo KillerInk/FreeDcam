@@ -20,7 +20,7 @@
 package freed.cam.apis.camera1;
 
 
-import android.util.Log;
+import freed.utils.Log;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalModule;

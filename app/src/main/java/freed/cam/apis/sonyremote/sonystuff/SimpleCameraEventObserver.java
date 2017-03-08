@@ -6,7 +6,7 @@ package freed.cam.apis.sonyremote.sonystuff;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
+import freed.utils.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;

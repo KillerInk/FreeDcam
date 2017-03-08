@@ -19,7 +19,7 @@
 
 package freed.cam.apis.camera1;
 
-import android.util.Log;
+import freed.utils.Log;
 import android.view.MotionEvent;
 
 import freed.cam.apis.basecamera.AbstractFocusHandler;

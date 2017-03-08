@@ -8,7 +8,7 @@ import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
+import freed.utils.Log;
 
 import freed.ActivityInterface;
 

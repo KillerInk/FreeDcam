@@ -62,6 +62,11 @@ public class ActivityFreeDviewer extends ActivityAbstract
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void initOnCreate() {
+        super.initOnCreate();
         if (hasExternalSDPermission())
             init();
     }

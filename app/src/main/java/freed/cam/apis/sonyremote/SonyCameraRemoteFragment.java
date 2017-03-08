@@ -20,7 +20,7 @@
 package freed.cam.apis.sonyremote;
 
 import android.os.Bundle;
-import android.util.Log;
+import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;

@@ -2,7 +2,7 @@ package freed.cam.featuredetector;
 
 import android.hardware.Camera;
 import android.os.Build;
-import android.util.Log;
+import freed.utils.Log;
 
 import com.lge.hardware.LGCamera;
 import com.troop.freedcam.R;

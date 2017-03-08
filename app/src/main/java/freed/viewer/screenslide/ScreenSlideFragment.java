@@ -36,7 +36,7 @@ import android.support.v4.provider.DocumentFile;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
+import freed.utils.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -28,7 +28,7 @@ import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.PreviewCallback;
 import android.location.Location;
-import android.util.Log;
+import freed.utils.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 

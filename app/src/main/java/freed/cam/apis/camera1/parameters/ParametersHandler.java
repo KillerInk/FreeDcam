@@ -23,7 +23,7 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
-import android.util.Log;
+import freed.utils.Log;
 
 import com.troop.freedcam.R;
 

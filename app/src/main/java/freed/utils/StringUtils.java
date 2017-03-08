@@ -20,7 +20,7 @@
 package freed.utils;
 
 import android.os.Environment;
-import android.util.Log;
+import freed.utils.Log;
 
 import java.util.HashMap;
 import java.util.Map;

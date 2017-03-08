@@ -20,7 +20,7 @@
 package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
-import android.util.Log;
+import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
