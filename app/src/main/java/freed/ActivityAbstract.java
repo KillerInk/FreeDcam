@@ -133,8 +133,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (Log.isLogToFileEnable())
-            Log.destroy();
+        /*if (Log.isLogToFileEnable())
+            Log.destroy();*/
     }
 
     @Override
