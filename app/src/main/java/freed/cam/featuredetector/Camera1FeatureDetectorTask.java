@@ -1,7 +1,7 @@
 package freed.cam.featuredetector;
 
 import android.hardware.Camera;
-import android.os.Build;
+
 import freed.utils.Log;
 
 import com.lge.hardware.LGCamera;
@@ -16,7 +16,6 @@ import java.util.List;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils;
 
 
 /**

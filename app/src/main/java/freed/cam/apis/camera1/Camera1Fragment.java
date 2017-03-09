@@ -48,7 +48,6 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils;
 
 /**
  * Created by troop on 06.06.2015.
