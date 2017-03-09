@@ -41,15 +41,19 @@ public class CameraHolderLegacy extends CameraHolder
     @Override
     public boolean OpenCamera(int camera)
     {
+        Log.d(CameraHolderLG.class.getSimpleName(), "open camera legacy");
         try {
             mCamera = openWrapper(camera);
             isRdy = true;
         } catch (NullPointerException ex)
         {
+            Log.e(CameraHolderLG.class.getSimpleName(), "failed to open camera legacy");
+            Log.WriteEx(ex);
             mCamera = Camera.open(camera);
             isRdy = true;
         } catch (RuntimeException ex)
         {
+            Log.WriteEx(ex);
             cameraUiWrapper.onCameraError("Fail to connect to camera service");
             isRdy = false;
             mCamera = Camera.open(camera);
