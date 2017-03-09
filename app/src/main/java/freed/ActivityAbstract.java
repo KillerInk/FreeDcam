@@ -51,6 +51,7 @@ import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
+import freed.utils.PermissionHandler;
 import freed.utils.StorageFileHandler;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
@@ -61,7 +62,9 @@ import freed.viewer.holder.FileHolder;
 public abstract class ActivityAbstract extends AppCompatActivity implements ActivityInterface, I_WorkEvent {
 
     public static final boolean LOG_TO_FILE = true;
-    private boolean onCreateIsInit = false;
+
+    protected boolean initDone = false;
+
 
     public enum FormatTypes
     {
@@ -78,8 +81,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected BitmapHelper bitmapHelper;
     protected  List<FileHolder> files;
     protected StorageFileHandler storageHandler;
-
-    protected boolean RequestPermission = false;
+    private PermissionHandler permissionHandler;
 
 
     private final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -93,31 +95,40 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentToView();
-        onCreateIsInit = false;
-        if (LOG_TO_FILE && !Log.isLogToFileEnable() && hasExternalSDPermission())
-        {
-            new Log();
-            if (!onCreateIsInit)
-                initOnCreate();
+        permissionHandler =new PermissionHandler(this);
+        if (LOG_TO_FILE && !Log.isLogToFileEnable()) {
+            if (permissionHandler.hasExternalSDPermission(logSDPermission))
+                logSDPermission.permissionGranted(true);
         }
-        else if(hasExternalSDPermission())
+        else
             initOnCreate();
-
-
-        //HIDENAVBAR();
     }
+
+    protected void initOnCreate()
+    {
+        initDone = true;
+        Log.d(TAG, "initOnCreate()");
+        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()),getBaseContext().getResources());
+    }
+
+    private PermissionHandler.PermissionCallback logSDPermission = new PermissionHandler.PermissionCallback()
+    {
+        @Override
+        public void permissionGranted(boolean granted) {
+            if (granted) {
+                if (!Log.isLogToFileEnable() && LOG_TO_FILE)
+                    new Log();
+                initOnCreate();
+            }
+        }
+    };
 
     protected void setContentToView()
     {
 
     }
 
-    protected void initOnCreate()
-    {
-        onCreateIsInit = true;
-        Log.d(TAG, "createHandlers()");
-        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()),getBaseContext().getResources());
-    }
+
 
     @Override
     protected void onDestroy() {
@@ -217,6 +228,11 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
                 }
             }
         }
+    }
+
+    @Override
+    public PermissionHandler getPermissionHandler() {
+        return permissionHandler;
     }
 
     @Override
@@ -433,117 +449,12 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     @Override
-    public boolean hasCameraPermission()
-    {
-        if (VERSION.SDK_INT >= VERSION_CODES.M)
-        {
-            if (checkSelfPermission(Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED)
-            {
-                RequestPermission = true;
-                Log.d(TAG, "Request cameraPermission");
-                requestPermissions(new String[]{
-                        Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO},1);
-                return false;
-            }
-            return true;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean hasExternalSDPermission() {
-        if (VERSION.SDK_INT >= VERSION_CODES.M)
-        {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED)
-            {
-                RequestPermission = true;
-                Log.d(TAG, "Request externalSdPermission");
-                requestPermissions(new String[]{
-                        Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                return false;
-            }
-            return true;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean hasWifiPermission() {
-        if (VERSION.SDK_INT >= VERSION_CODES.M)
-        {
-            if (checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE)
-                    != PackageManager.PERMISSION_GRANTED)
-            {
-                RequestPermission = true;
-                Log.d(TAG, "Request wifiPermission");
-                requestPermissions(new String[]{
-                        Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE},1);
-                return false;
-            }
-            return true;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean hasLocationPermission() {
-        if (VERSION.SDK_INT >= VERSION_CODES.M)
-        {
-            if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED)
-            {
-                RequestPermission = true;
-                Log.d(TAG, "Request LocationPermission");
-                requestPermissions(new String[]{
-                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},1);
-                return false;
-            }
-            return true;
-        }
-        return true;
-    }
-
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
-        for (int i = 0; i < permissions.length; ++i) {
-            String perm = permissions[i];
-            boolean wasGranted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
-            if (Manifest.permission.CAMERA.equals(perm)) {
-                cameraPermsissionGranted(wasGranted);
-            } else if (Manifest.permission.READ_EXTERNAL_STORAGE.equals(perm)) {
-                externalSDPermissionGranted(wasGranted);
-            } else if (Manifest.permission.ACCESS_WIFI_STATE.equals(perm)) {
-                wifiPermissionGranted(wasGranted);
-            } else if (Manifest.permission.ACCESS_COARSE_LOCATION.equals(perm)) {
-                locationPermissionGranted(wasGranted);
-            }
-        }
-        RequestPermission = false;
+        permissionHandler.onRequestPermissionsResult(requestCode,permissions,grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    protected void cameraPermsissionGranted(boolean granted)
-    {}
-
-    protected void wifiPermissionGranted(boolean granted)
-    {}
-
-    protected void locationPermissionGranted(boolean granted)
-    {
-    }
-
-    protected void externalSDPermissionGranted(boolean granted)
-    {
-        if (granted) {
-            if (!Log.isLogToFileEnable() && LOG_TO_FILE)
-                new Log();
-            if (!onCreateIsInit)
-                initOnCreate();
-        }
-    }
 
     @Override
     public int getOrientation() {

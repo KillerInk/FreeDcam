@@ -23,6 +23,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.AppSettingsManager;
+import freed.utils.PermissionHandler;
 
 /**
  * Created by troop on 21.07.2015.
@@ -65,8 +66,15 @@ public class LocationParameter extends AbstractModeParameter
         cameraUiWrapper.GetAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, valueToSet);
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_)))
             cameraUiWrapper.getActivityInterface().getLocationHandler().stopLocationListining();
-        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)) && cameraUiWrapper.getActivityInterface().hasLocationPermission())
+        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)) && cameraUiWrapper.getActivityInterface().getPermissionHandler().hasLocationPermission(onLocationPermission))
             cameraUiWrapper.getActivityInterface().getLocationHandler().startLocationListing();
     }
+
+    private PermissionHandler.PermissionCallback onLocationPermission = new PermissionHandler.PermissionCallback() {
+        @Override
+        public void permissionGranted(boolean granted) {
+            cameraUiWrapper.getActivityInterface().getLocationHandler().startLocationListing();
+        }
+    };
 
 }

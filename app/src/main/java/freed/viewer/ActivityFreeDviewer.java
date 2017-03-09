@@ -38,6 +38,7 @@ import java.util.List;
 import freed.ActivityAbstract;
 import freed.utils.FreeDPool;
 import freed.utils.LocationHandler;
+import freed.utils.PermissionHandler;
 import freed.utils.StorageFileHandler;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;
@@ -67,18 +68,20 @@ public class ActivityFreeDviewer extends ActivityAbstract
     @Override
     protected void initOnCreate() {
         super.initOnCreate();
-        if (hasExternalSDPermission())
-            init();
+        if (getPermissionHandler().hasExternalSDPermission(onExtSdCallback))
+            onExtSdCallback.permissionGranted(true);
     }
 
-    @Override
-    protected void externalSDPermissionGranted(boolean granted)
-    {
-        if (granted)
-            init();
-        else
-            finish();
-    }
+    private PermissionHandler.PermissionCallback onExtSdCallback = new PermissionHandler.PermissionCallback() {
+        @Override
+        public void permissionGranted(boolean granted) {
+            if (granted)
+                init();
+            else
+                finish();
+        }
+    };
+
 
     private void init()
     {
