@@ -146,7 +146,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             appSettingsManager.SetCurrentCamera(0);
             if (!appSettingsManager.IsCamera2FullSupported())
                 appSettingsManager.setCamApi(AppSettingsManager.API_1);
-            else if (!appSettingsManager.opencamera1Legacy.isPresetted())
+            if (!appSettingsManager.opencamera1Legacy.isPresetted())
                 appSettingsManager.opencamera1Legacy.setBoolean(true);
         }
         catch (Throwable ex) {
