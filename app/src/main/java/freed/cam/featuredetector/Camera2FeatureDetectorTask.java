@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 import freed.utils.StringFloatArray;
 import freed.utils.StringUtils;
 
@@ -146,8 +147,11 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             appSettingsManager.SetCurrentCamera(0);
             if (!appSettingsManager.IsCamera2FullSupported())
                 appSettingsManager.setCamApi(AppSettingsManager.API_1);
-            if (!appSettingsManager.opencamera1Legacy.isPresetted())
+
+            if (appSettingsManager.IsCamera2FullSupported() && !appSettingsManager.opencamera1Legacy.isPresetted()) {
                 appSettingsManager.opencamera1Legacy.setBoolean(true);
+            }
+            Log.d(TAG, "Can Open Legacy: " + appSettingsManager.opencamera1Legacy.getBoolean() + " was presetted: " + appSettingsManager.opencamera1Legacy.isPresetted());
         }
         catch (Throwable ex) {
             ex.printStackTrace();

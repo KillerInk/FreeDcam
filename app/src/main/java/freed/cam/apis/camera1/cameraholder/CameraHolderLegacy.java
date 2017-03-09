@@ -41,13 +41,13 @@ public class CameraHolderLegacy extends CameraHolder
     @Override
     public boolean OpenCamera(int camera)
     {
-        Log.d(CameraHolderLG.class.getSimpleName(), "open camera legacy");
+        Log.d(TAG, "open camera legacy");
         try {
             mCamera = openWrapper(camera);
             isRdy = true;
         } catch (NullPointerException ex)
         {
-            Log.e(CameraHolderLG.class.getSimpleName(), "failed to open camera legacy");
+            Log.e(TAG, "failed to open camera legacy");
             Log.WriteEx(ex);
             mCamera = Camera.open(camera);
             isRdy = true;
