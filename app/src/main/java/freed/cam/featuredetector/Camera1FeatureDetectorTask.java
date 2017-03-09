@@ -338,11 +338,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectManualExposureTime(Camera.Parameters parameters)
     {
+        Log.d(TAG, "ManualExposureTime is Presetted: "+appSettingsManager.manualExposureTime.isPresetted());
         if (appSettingsManager.manualExposureTime.isPresetted())
             return;
         //mtk shutter
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
+            Log.d(TAG, "ManualExposureTime MTK");
             appSettingsManager.manualExposureTime.setIsSupported(true);
             appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.mtk_shutter));
             appSettingsManager.manualExposureTime.setKEY("m-ss");
@@ -352,6 +354,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         {
             //htc shutter
             if (parameters.get(appSettingsManager.getResString(R.string.shutter)) != null) {
+                Log.d(TAG, "ManualExposureTime HTC");
                 appSettingsManager.manualExposureTime.setIsSupported(true);
                 appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.htc));
                 appSettingsManager.manualExposureTime.setKEY(appSettingsManager.getResString(R.string.shutter));
@@ -359,6 +362,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             //lg shutter
             else if (parameters.get(appSettingsManager.getResString(R.string.lg_shutterspeed_values)) != null) {
+                Log.d(TAG, "ManualExposureTime LG");
                 appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_LG);
                 ArrayList<String> l = new ArrayList(Arrays.asList(parameters.get(appSettingsManager.getResString(R.string.lg_shutterspeed_values)).replace(",0", "").split(",")));
                 l.remove(0);
@@ -368,6 +372,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             //meizu shutter
             else if (parameters.get("shutter-value") != null) {
+                Log.d(TAG, "ManualExposureTime Meizu");
                 appSettingsManager.manualExposureTime.setIsSupported(true);
                 appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_meizu));
                 appSettingsManager.manualExposureTime.setKEY("shutter-value");
@@ -375,6 +380,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             //krillin shutter
             else if (parameters.get("hw-manual-exposure-value") != null) {
+                Log.d(TAG, "ManualExposureTime Krilin");
                 appSettingsManager.manualExposureTime.setIsSupported(true);
                 appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_krillin));
                 appSettingsManager.manualExposureTime.setKEY("hw-manual-exposure-value");
@@ -382,6 +388,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             //sony shutter
             else if (parameters.get("sony-max-shutter-speed") != null) {
+                Log.d(TAG, "ManualExposureTime Sony");
                 appSettingsManager.manualExposureTime.setIsSupported(true);
                 appSettingsManager.manualExposureTime.setValues(getSupportedShutterValues(
                         Long.parseLong(parameters.get("sony-min-shutter-speed")),
@@ -394,15 +401,18 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             else if (parameters.get(camstring(R.string.max_exposure_time)) != null && parameters.get(camstring(R.string.min_exposure_time)) != null) {
                 long min = 0, max = 0;
                 if (parameters.get(camstring(R.string.max_exposure_time)).contains(".")) {
+                    Log.d(TAG, "ManualExposureTime Qcom Microsec");
                     min = (long) Double.parseDouble(parameters.get(camstring(R.string.min_exposure_time))) * 1000;
                     max = (long) Double.parseDouble(parameters.get(camstring(R.string.max_exposure_time))) * 1000;
                     appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MICORSEC);
                 } else {
+                    Log.d(TAG, "ManualExposureTime Qcom Millisec");
                     min = Integer.parseInt(parameters.get(camstring(R.string.min_exposure_time)));
                     max = Integer.parseInt(parameters.get(camstring(R.string.max_exposure_time)));
                     appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MILLISEC);
                 }
                 if (max > 0) {
+
                     appSettingsManager.manualExposureTime.setIsSupported(true);
                     appSettingsManager.manualExposureTime.setKEY(camstring(R.string.exposure_time));
                     appSettingsManager.manualExposureTime.setValues(getSupportedShutterValues(min, max, true));
@@ -455,6 +465,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectDenoise(Camera.Parameters parameters)
     {
+        Log.d(TAG, "Denoise is Presetted: "+appSettingsManager.denoiseMode.isPresetted());
         if (appSettingsManager.denoiseMode.isPresetted())
             return;
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
@@ -483,9 +494,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
     }
 
-    private void detectManualSaturation(Camera.Parameters parameters) {
+    private void detectManualSaturation(Camera.Parameters parameters)
+    {
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
+            Log.d(TAG, "Saturation: MTK");
             if (parameters.get(camstring(R.string.saturation))!= null && parameters.get(camstring(R.string.saturation_values))!= null) {
                 appSettingsManager.manualSaturation.setValues(parameters.get(camstring(R.string.saturation_values)).split(","));
                 appSettingsManager.manualSaturation.setKEY(camstring(R.string.saturation));
@@ -496,19 +509,23 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             int min = 0, max = 0;
             if (parameters.get(appSettingsManager.getResString(R.string.lg_color_adjust_max)) != null
                     && parameters.get(appSettingsManager.getResString(R.string.lg_color_adjust_min)) != null) {
+                Log.d(TAG, "Saturation: LG");
                 min = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.lg_color_adjust_min)));
                 max = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.lg_color_adjust_max)));
                 appSettingsManager.manualSaturation.setKEY(appSettingsManager.getResString(R.string.lg_color_adjust));
             }
             else if (parameters.get(camstring(R.string.saturation_max)) != null) {
+                Log.d(TAG, "Saturation: Default");
                 min = Integer.parseInt(parameters.get(camstring(R.string.saturation_min)));
                 max = Integer.parseInt(parameters.get(camstring(R.string.saturation_max)));
                 appSettingsManager.manualSaturation.setKEY(camstring(R.string.saturation));
             } else if (parameters.get(camstring(R.string.max_saturation)) != null) {
+                Log.d(TAG, "Saturation: Default");
                 min = Integer.parseInt(parameters.get(camstring(R.string.min_saturation)));
                 max = Integer.parseInt(parameters.get(camstring(R.string.max_saturation)));
                 appSettingsManager.manualSaturation.setKEY(camstring(R.string.saturation));
             }
+            Log.d(TAG, "Saturation Max:" +max);
             if (max > 0) {
                 appSettingsManager.manualSaturation.setValues(createStringArray(min, max, 1));
                 appSettingsManager.manualSaturation.setIsSupported(true);
@@ -519,6 +536,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private void detectManualSharpness(Camera.Parameters parameters) {
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
+            Log.d(TAG, "Sharpness: MTK");
             if (parameters.get(camstring(R.string.edge))!= null && parameters.get(camstring(R.string.edge_values))!= null) {
                 appSettingsManager.manualSharpness.setValues(parameters.get(camstring(R.string.edge_values)).split(","));
                 appSettingsManager.manualSharpness.setKEY(camstring(R.string.edge));
@@ -528,14 +546,17 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else {
             int min = 0, max = 0;
             if (parameters.get(camstring(R.string.sharpness_max)) != null) {
+                Log.d(TAG, "Sharpness: Default");
                 min = Integer.parseInt(parameters.get(camstring(R.string.sharpness_min)));
                 max = Integer.parseInt(parameters.get(camstring(R.string.sharpness_max)));
                 appSettingsManager.manualSharpness.setKEY(camstring(R.string.sharpness));
             } else if (parameters.get(camstring(R.string.max_sharpness)) != null) {
+                Log.d(TAG, "Sharpness: Default");
                 min = Integer.parseInt(parameters.get(camstring(R.string.min_sharpness)));
                 max = Integer.parseInt(parameters.get(camstring(R.string.max_sharpness)));
                 appSettingsManager.manualSharpness.setKEY(camstring(R.string.sharpness));
             }
+            Log.d(TAG, "Sharpness Max:" +max);
             if (max > 0) {
                 appSettingsManager.manualSharpness.setValues(createStringArray(min, max, 1));
                 appSettingsManager.manualSharpness.setIsSupported(true);
@@ -546,6 +567,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private void detectManualBrightness(Camera.Parameters parameters) {
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
         {
+            Log.d(TAG, "Brightness: MTK");
             if (parameters.get(camstring(R.string.brightness))!= null && parameters.get(camstring(R.string.brightness_values))!= null) {
                 appSettingsManager.manualBrightness.setValues(parameters.get(camstring(R.string.brightness_values)).split(","));
                 appSettingsManager.manualBrightness.setKEY(camstring(R.string.brightness));
@@ -555,13 +577,15 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else {
             int min = 0, max = 0;
             if (parameters.get(camstring(R.string.brightness_max)) != null) {
+                Log.d(TAG, "Brightness: Default");
                 min = Integer.parseInt(parameters.get(camstring(R.string.brightness_min)));
                 max = Integer.parseInt(parameters.get(camstring(R.string.brightness_max)));
             } else if (parameters.get(camstring(R.string.max_brightness)) != null) {
                 min = Integer.parseInt(parameters.get(camstring(R.string.min_brightness)));
                 max = Integer.parseInt(parameters.get(camstring(R.string.max_brightness)));
-
+                Log.d(TAG, "Brightness: Default");
             }
+            Log.d(TAG, "Brightness Max:" +max);
             if (max > 0) {
                 if (parameters.get(camstring(R.string.brightness))!= null)
                     appSettingsManager.manualBrightness.setKEY(camstring(R.string.brightness));
@@ -592,27 +616,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 max = Integer.parseInt(parameters.get(camstring(R.string.max_contrast)));
 
             }
+            Log.d(TAG, "Contrast Max:" +max);
             if (max > 0) {
                 appSettingsManager.manualContrast.setKEY(camstring(R.string.contrast));
                 appSettingsManager.manualContrast.setValues(createStringArray(min, max, 1));
                 appSettingsManager.manualContrast.setIsSupported(true);
             }
-        }
-    }
-
-
-    private void detectManual(Camera.Parameters parameters, String key_min, String key_max, String key_value, AppSettingsManager.SettingMode settingsmode)
-    {
-        int min =0,max=0;
-        if (parameters.get(key_max)!= null)
-        {
-            min = Integer.parseInt(key_min);
-            max = Integer.parseInt(key_max);
-        }
-        if (max > 0) {
-            settingsmode.setValues(createStringArray(min, max, 1));
-            settingsmode.setKEY(key_value);
-            settingsmode.isSupported();
         }
     }
 
@@ -643,6 +652,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             max = 1023;
             step = 10;
             appSettingsManager.manualFocus.setKEY(appSettingsManager.getResString(R.string.afeng_pos));
+            Log.d(TAG, "MF MTK");
         }
         else {
             //lookup old qcom
@@ -660,6 +670,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     max = Integer.parseInt(parameters.get(camstring(R.string.max_focus_pos_index)));
                     step = 10;
                     appSettingsManager.manualFocus.setKEY(camstring(R.string.manual_focus_position));
+                    Log.d(TAG, "MF old qcom");
                 }
             }
             else
@@ -676,6 +687,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     max = Integer.parseInt(parameters.get(camstring(R.string.max_focus_pos_ratio)));
                     step = 1;
                     appSettingsManager.manualFocus.setKEY(camstring(R.string.manual_focus_position));
+                    Log.d(TAG, "MF new qcom");
                 }
             }
             //htc mf
@@ -688,6 +700,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 max = Integer.parseInt(parameters.get(camstring(R.string.max_focus)));
                 step = 1;
                 appSettingsManager.manualFocus.setKEY(camstring(R.string.focus));
+                Log.d(TAG, "MF HTC");
             }
 
             //huawai mf

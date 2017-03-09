@@ -113,7 +113,7 @@ public class Log
                 try {
                     outwriter.write(msg);
                     outwriter.newLine();
-                    //outwriter.flush();
+                    outwriter.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
