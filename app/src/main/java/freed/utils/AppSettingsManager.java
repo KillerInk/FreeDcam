@@ -19,7 +19,6 @@
 
 package freed.utils;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
@@ -777,11 +776,12 @@ public class AppSettingsManager {
                     {
                         if (mod.getValue().equals(Build.MODEL)) {
                             setDevice(device_element.getAttribute("name",""));
+                            Log.d(TAG, "Found Device:" +Build.MODEL);
 
                             XmlElement camera1element = device_element.findChild("camera1");
 
                             if (!camera1element.isEmpty()) {
-
+                                Log.d(TAG, "Found camera1 overrides");
                                 if (!camera1element.findChild("framework").isEmpty())
                                 {
                                     setFramework(Integer.parseInt(camera1element.findChild("framework").getValue()));
@@ -957,7 +957,7 @@ public class AppSettingsManager {
 
                             XmlElement camera2element = device_element.findChild("camera2");
                             if (!camera2element.isEmpty()) {
-
+                                Log.d(TAG,"Found Camera2 overrides");
                                 if (!camera2element.findChild("forcerawtodng").isEmpty())
                                     setForceRawToDng(camera2element.findChild("forcerawtodng").getBooleanValue());
                                 if (!camera2element.findChild("maxexposuretime").isEmpty())
@@ -1050,6 +1050,7 @@ public class AppSettingsManager {
         if (!device_element.getAttribute("opcode3", "").isEmpty())
             opcodeUrlList[1] = device_element.getAttribute("opcode3", "");
         List<XmlElement> fsizeList = device_element.findChildren("filesize");
+        Log.d(TAG, "Found Dng Profiles:" + fsizeList.size());
         for (XmlElement filesize_element : fsizeList) {
             long filesize = Long.parseLong(filesize_element.getAttribute("size", "0"));
             DngProfile profile = getProfile(filesize_element);

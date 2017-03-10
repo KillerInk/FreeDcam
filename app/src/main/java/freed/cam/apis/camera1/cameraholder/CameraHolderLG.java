@@ -23,6 +23,7 @@ import com.lge.hardware.LGCamera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.utils.Log;
 
 /**
  * Created by troop on 08.06.2016.
@@ -39,10 +40,14 @@ public class CameraHolderLG extends CameraHolder
     {
 
         try {
-            if (appSettingsManager.opencamera1Legacy.getBoolean())
+            if (appSettingsManager.opencamera1Legacy.getBoolean()) {
                 lgCamera = new LGCamera(camera, 256);
-            else
+                Log.d(CameraHolderLG.class.getSimpleName(), "open LG camera legacy");
+            }
+            else {
                 lgCamera = new LGCamera(camera);
+                Log.d(CameraHolderLG.class.getSimpleName(), "open LG camera");
+            }
             mCamera = lgCamera.getCamera();
             isRdy = true;
         }

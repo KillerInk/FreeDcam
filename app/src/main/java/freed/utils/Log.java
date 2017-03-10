@@ -79,7 +79,7 @@ public class Log
         android.util.Log.d(TAG,msg);
     }
 
-    public void WriteEx(Throwable ex)
+    public static void WriteEx(Throwable ex)
     {
         StringWriter errors = new StringWriter();
         ex.printStackTrace(new PrintWriter(errors));
@@ -113,7 +113,7 @@ public class Log
                 try {
                     outwriter.write(msg);
                     outwriter.newLine();
-                    //outwriter.flush();
+                    outwriter.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

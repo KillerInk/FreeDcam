@@ -42,6 +42,7 @@ public class CameraHolderMTK extends CameraHolder
     public boolean OpenCamera(int camera)
     {
         try {
+            Log.d(CameraHolderLG.class.getSimpleName(), "open MTK camera");
             setMtkAppMode();
             isRdy = super.OpenCamera(camera);
             cameraUiWrapper.onCameraOpen("");

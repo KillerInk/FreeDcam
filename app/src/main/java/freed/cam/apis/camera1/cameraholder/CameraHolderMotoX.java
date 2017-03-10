@@ -22,6 +22,7 @@ package freed.cam.apis.camera1.cameraholder;
 import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.utils.Log;
 
 /**
  * Created by troop on 17.06.2016.
@@ -34,6 +35,7 @@ public class CameraHolderMotoX extends CameraHolderLegacy {
     @Override
     public boolean OpenCamera(int camera)
     {
+        Log.d(CameraHolderLG.class.getSimpleName(), "open Motox camera");
         isRdy = super.OpenCamera(camera);
         try {
             Camera.Parameters paras = mCamera.getParameters();

@@ -72,6 +72,7 @@ public class CameraHolder extends CameraHolderAbstract
     {
         super(cameraUiWrapper);
         DeviceFrameWork = frameworks;
+
     }
 
     public String GetParamsDirect(String para)
@@ -90,6 +91,7 @@ public class CameraHolder extends CameraHolderAbstract
     {
         try
         {
+            Log.d(TAG, "open camera");
             mCamera = Camera.open(camera);
             isRdy = true;
             cameraUiWrapper.onCameraOpen("");

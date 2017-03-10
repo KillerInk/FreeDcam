@@ -48,7 +48,6 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils;
 
 /**
  * Created by troop on 06.06.2015.
@@ -87,19 +86,35 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
         Focus = new FocusHandler(this);
 
-        if (GetAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_LG)
+        Log.d(TAG,"FrameWork:" + GetAppSettingsManager().getFrameWork() + " openlegacy:" + GetAppSettingsManager().opencamera1Legacy.getBoolean());
+
+        if (GetAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_LG) {
             cameraHolder = new CameraHolderLG(this, CameraHolder.Frameworks.LG);
-        else if (GetAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_MOTO_EXT)
+            Log.d(TAG, "create LG camera");
+        }
+        else if (GetAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_MOTO_EXT) {
             cameraHolder = new CameraHolderMotoX(this, CameraHolder.Frameworks.MotoX);
-        else if (GetAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+            Log.d(TAG, "create MotoExt camera");
+        }
+        else if (GetAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
             cameraHolder = new CameraHolderMTK(this, CameraHolder.Frameworks.MTK);
-        else if (GetAppSettingsManager().opencamera1Legacy.getBoolean())
+            Log.d(TAG, "create Mtk camera");
+        }
+        else if (GetAppSettingsManager().opencamera1Legacy.getBoolean()) {
             cameraHolder = new CameraHolderLegacy(this, CameraHolder.Frameworks.Normal);
-        else
+            Log.d(TAG, "create Legacy camera");
+        }
+        else {
             cameraHolder = new CameraHolder(this, CameraHolder.Frameworks.Normal);
+            Log.d(TAG, "create Normal camera");
+        }
+
+        Log.d(TAG, "initModules");
         moduleHandler.initModules();
 
+        Log.d(TAG, "Check Focuspeak");
         if (Build.VERSION.SDK_INT >= 18) {
+
             focusPeakProcessorAp1 = new FocusPeakProcessorAp1(preview,this, getContext(), renderScriptHandler);
             SetCameraStateChangedListner(focusPeakProcessorAp1);
         }
@@ -122,26 +137,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         catch (NullPointerException ex)
         {
             ex.printStackTrace();
-        }
-    }
-
-    private boolean canOpenLegacy()
-    {
-        try {
-            Class[] arrclass = {Integer.TYPE, Integer.TYPE};
-            Method method = Class.forName("android.hardware.Camera").getDeclaredMethod("openLegacy", arrclass);
-            if (method != null)
-                return true;
-            else
-                return false;
-        }
-        catch
-        (NoSuchMethodException e) {
-            e.printStackTrace();
-            return false;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return false;
         }
     }
 
