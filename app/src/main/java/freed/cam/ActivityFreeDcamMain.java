@@ -55,6 +55,7 @@ import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import freed.utils.AppSettingsManager;
 import freed.utils.LocationHandler;
+import freed.utils.PermissionHandler;
 import freed.utils.RenderScriptHandler;
 import freed.utils.StorageFileHandler;
 import freed.utils.StringUtils;
@@ -95,6 +96,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSecureCamera.onCreate();
     }
 
     @Override
@@ -106,12 +108,17 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     protected void initOnCreate() {
         super.initOnCreate();
 
+        if (!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion())
+        {
+            Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
+            startActivity(intent);
+            this.finish();
+            return;
+        }
+
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         storageHandler = new StorageFileHandler(this);
 
-
-
-        mSecureCamera.onCreate();
 
         if (VERSION.SDK_INT >= VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
@@ -124,10 +131,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         mPager.setCurrentItem(1);
 
         nightoverlay = (LinearLayout) findViewById(id.nightoverlay);
-        if (hasExternalSDPermission()) {
-            Log.d(TAG, "createHandlers()");
-            LoadFreeDcamDCIMDirsFiles();
-
+        if (getPermissionHandler().hasExternalSDPermission(onExtSDPermission)) {
+            onExtSDPermission.permissionGranted(true);
         }
         //listen to phone orientation changes
         orientationHandler = new OrientationHandler(this, this);
@@ -135,13 +140,41 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //used for videorecording timer
         //TODO move that into camerauifragment
         timerHandler = new TimerHandler(this);
-        if (!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion())
-        {
-            Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
-            startActivity(intent);
-            this.finish();
-        }
     }
+
+    private PermissionHandler.PermissionCallback onExtSDPermission = new PermissionHandler.PermissionCallback() {
+        @Override
+        public void permissionGranted(boolean granted) {
+            if (granted)
+                LoadFreeDcamDCIMDirsFiles();
+            else {
+                finish();
+            }
+        }
+    };
+
+    private PermissionHandler.PermissionCallback onCameraPermission = new PermissionHandler.PermissionCallback() {
+        @Override
+        public void permissionGranted(boolean granted) {
+            Log.d(TAG, "cameraPermission Granted:" + granted);
+            if (granted) {
+                loadcam();
+            }
+            else {
+                finish();
+            }
+        }
+    };
+
+    private PermissionHandler.PermissionCallback onLocationPermission = new PermissionHandler.PermissionCallback() {
+        @Override
+        public void permissionGranted(boolean granted) {
+            Log.d(TAG, "locationPermission Granted:" + granted);
+            if (granted) {
+                locationHandler.startLocationListing();
+            }
+        }
+    };
 
     @Override
     protected void onDestroy() {
@@ -153,24 +186,32 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         super.onResume();
         Log.d(TAG, "onResume()");
         // forward to secure camera to handle resume bug
-        mSecureCamera.onResume();
+        if (mSecureCamera !=  null)
+            mSecureCamera.onResume();
     }
 
     @Override
     public void onResumeTasks() {
         Log.d(TAG, "onResumeTasks()");
-        if (!hasCameraPermission()) {
+        if (!initDone)
             return;
+        if (getPermissionHandler().hasCameraPermission(onCameraPermission)) {
+            //setup apihandler and register listner for apiDetectionDone
+            //api handler itself checks first if its a camera2 full device
+            //and if yes loads camera2fragment else load camera1fragment
+            loadcam();
         }
+    }
 
-        //setup apihandler and register listner for apiDetectionDone
-        //api handler itself checks first if its a camera2 full device
-        //and if yes loads camera2fragment else load camera1fragment
+    private void loadcam()
+    {
+        if (getAppSettings() == null)
+            return;
         loadCameraFragment();
         activityIsResumed = true;
         if (screenSlideFragment != null)
             screenSlideFragment.NotifyDATAhasChanged();
-        if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)) && hasLocationPermission())
+        if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)) && getPermissionHandler().hasLocationPermission(onLocationPermission))
             locationHandler.startLocationListing();
         SetNightOverlay();
     }
@@ -181,7 +222,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         super.onPause();
         Log.d(TAG, "onPause()");
         // forward to secure camera to handle resume bug
-        mSecureCamera.onPause();
+        if (mSecureCamera != null)
+            mSecureCamera.onPause();
     }
 
     @Override
@@ -200,6 +242,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      */
     private void loadCameraFragment() {
         Log.d(TAG, "loading cameraWrapper");
+        if(orientationHandler == null)
+            return;
         orientationHandler.Start();
 
         if (cameraFragment == null) {
@@ -504,40 +548,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             return 3;
         }
 
-    }
-
-    @Override
-    protected void cameraPermsissionGranted(boolean granted) {
-        Log.d(TAG, "cameraPermission Granted:" + granted);
-        if (granted) {
-            onResumeTasks();
-        }
-        else {
-            finish();
-        }
-    }
-
-    @Override
-    protected void externalSDPermissionGranted(boolean granted) {
-        super.externalSDPermissionGranted(granted);
-        if(LOG_TO_FILE && Log.isLogToFileEnable() || !LOG_TO_FILE) {
-            Log.d(TAG, "externalSdPermission Granted:" + granted);
-            if (granted) {
-                LoadFreeDcamDCIMDirsFiles();
-            } else {
-                finish();
-            }
-        }
-    }
-
-    @Override
-    protected void locationPermissionGranted(boolean granted) {
-        if (granted) {
-            if (!(cameraFragment instanceof SonyCameraRemoteFragment))
-                locationHandler.startLocationListing();
-            else
-                cameraFragment.StartCamera();
-        }
     }
 
     @Override

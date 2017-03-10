@@ -29,6 +29,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.utils.AppSettingsManager;
 import freed.utils.LocationHandler;
+import freed.utils.PermissionHandler;
 import freed.utils.StorageFileHandler;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
@@ -45,6 +46,8 @@ public interface ActivityInterface extends I_WorkEvent
     {
         void onActivityResultCallback(Uri uri);
     }
+
+    PermissionHandler getPermissionHandler();
 
     BitmapHelper getBitmapHelper();
 
@@ -71,10 +74,6 @@ public interface ActivityInterface extends I_WorkEvent
 
     void DisablePagerTouch(boolean disable);
 
-    boolean hasExternalSDPermission();
-    boolean hasCameraPermission();
-    boolean hasLocationPermission();
-    boolean hasWifiPermission();
 
     LocationHandler getLocationHandler();
 

@@ -15,6 +15,7 @@ import freed.cam.featuredetector.Camera1FeatureDetectorTask;
 import freed.cam.featuredetector.Camera2FeatureDetectorTask;
 import freed.utils.LocationHandler;
 import freed.utils.Log;
+import freed.utils.PermissionHandler;
 import freed.viewer.holder.FileHolder;
 
 /**
@@ -41,8 +42,8 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
         super.initOnCreate();
         loggerview = (TextView)findViewById(R.id.textview_log);
         loggerview.setMovementMethod(new ScrollingMovementMethod());
-        if (hasCameraPermission()) {
-            new Camera1FeatureDetectorTask(camera1Listner,getAppSettings()).execute("");
+        if (getPermissionHandler().hasCameraPermission(onCameraPermission)) {
+            onCameraPermission.permissionGranted(true);
         }
     }
 
@@ -66,16 +67,18 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
     }
 
-    @Override
-    protected void cameraPermsissionGranted(boolean granted) {
-        Log.d(TAG, "cameraPermission Granted:" + granted);
-        if (granted) {
-            new Camera1FeatureDetectorTask(camera1Listner,getAppSettings()).execute("");
+    private PermissionHandler.PermissionCallback onCameraPermission = new PermissionHandler.PermissionCallback() {
+        @Override
+        public void permissionGranted(boolean granted) {
+            if (granted) {
+                new Camera1FeatureDetectorTask(camera1Listner,getAppSettings()).execute("");
+            }
+            else {
+                finish();
+            }
         }
-        else {
-            finish();
-        }
-    }
+    };
+
 
     private void sendLog(String log)
     {

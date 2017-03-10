@@ -11,6 +11,7 @@ import android.os.Looper;
 import freed.utils.Log;
 
 import freed.ActivityInterface;
+import freed.utils.PermissionHandler;
 
 /**
  * Created by troop on 12.01.2017.
@@ -44,16 +45,20 @@ public class WifiHandler extends WifiUtils {
 
     public void onResume()
     {
-        if(activityInterface.hasLocationPermission() == true) {
-            ((Activity)activityInterface).registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-            isWifiListnerRegistered = true;
-            /*Log.d(TAG, "onResume.StartLookup");
-            StartLookUp();*/
-            //startWifiScanning();
+        if(activityInterface.getPermissionHandler().hasLocationPermission(onLocationPermission)) {
+            onLocationPermission.permissionGranted(true);
         }
         else
             sendMessage("Location Permission is needed to find the camera!");
     }
+
+    private PermissionHandler.PermissionCallback onLocationPermission = new PermissionHandler.PermissionCallback() {
+        @Override
+        public void permissionGranted(boolean granted) {
+            ((Activity)activityInterface).registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+            isWifiListnerRegistered = true;
+        }
+    };
 
     public void onPause()
     {
