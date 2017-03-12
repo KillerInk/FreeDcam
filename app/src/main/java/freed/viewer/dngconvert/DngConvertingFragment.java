@@ -33,6 +33,8 @@ import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
+
+import freed.dng.CustomMatrix;
 import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,6 +75,7 @@ public class DngConvertingFragment extends Fragment
 {
     final String TAG = DngConvertingFragment.class.getSimpleName();
     private View view;
+    private EditText editTextCusotmRowSize;
     private EditText editTextwidth;
     private EditText editTextheight;
     private EditText editTextblacklvl;
@@ -101,6 +104,7 @@ public class DngConvertingFragment extends Fragment
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()),getResources());
         handler = new Handler();
         view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
+        editTextCusotmRowSize = (EditText)view.findViewById(id.editText_customrowsize);
         editTextwidth = (EditText) view.findViewById(id.editText_width);
         editTextheight = (EditText) view.findViewById(id.editText_height);
         editTextblacklvl = (EditText) view.findViewById(id.editText_blacklevel);
@@ -153,6 +157,7 @@ public class DngConvertingFragment extends Fragment
                         matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
+            editTextCusotmRowSize.setText(dngprofile.rowsize +"");
             editTextwidth.setText(dngprofile.widht + "");
             editTextheight.setText(dngprofile.height + "");
             editTextblacklvl.setText(dngprofile.blacklevel + "");
@@ -168,7 +173,6 @@ public class DngConvertingFragment extends Fragment
             else if (dngprofile.bayerPattern.equals(DngProfile.RGBW))
                 spinnerColorPattern.setSelection(4);
 
-            spinnerMatrixProfile.setSelection(0);
             spinnerrawFormat.setSelection(dngprofile.rawType);
             if (dngprofile != null){
                 spinnerMatrixProfile.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -223,6 +227,7 @@ public class DngConvertingFragment extends Fragment
                 dngprofile.widht = Integer.parseInt(editTextwidth.getText().toString());
                 dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
                 dngprofile.blacklevel = Integer.parseInt(editTextblacklvl.getText().toString());
+                dngprofile.rowsize = Integer.parseInt(editTextCusotmRowSize.getText().toString());
                 final ProgressDialog pr = ProgressDialog.show(getContext(), "Converting DNG", "");
 
                 pr.setMax(filesToConvert.length);
@@ -232,7 +237,8 @@ public class DngConvertingFragment extends Fragment
                     public void run() {
                         int t = 0;
                         for (String s : filesToConvert) {
-                            convertRawToDng(new File(s));
+                            File f = new File(s);
+                            convertRawToDng(f);
                             t++;
                             final int i = t;
                             handler.post(new Runnable() {
@@ -273,8 +279,16 @@ public class DngConvertingFragment extends Fragment
         RawToDng dng = RawToDng.GetInstance();
         String intsd = StringUtils.GetInternalSDCARD();
         if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
-                || file.getAbsolutePath().contains(intsd))
+                || file.getAbsolutePath().contains(intsd)) {
+            File s = new File(out);
+            if(!s.exists())
+                try {
+                    s.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             dng.setBayerData(data, out);
+        }
         else
         {
             DocumentFile df = ((ActivityInterface)getActivity()).getFreeDcamDocumentFolder();

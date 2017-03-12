@@ -1260,7 +1260,7 @@
             <height>3082</height>
             <rawtype>0</rawtype>
             <colorpattern>bggr</colorpattern>
-            <rowsize>5264</rowsize>
+            <rowsize>5260</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
         <filesize size= "16424960">
@@ -1269,7 +1269,7 @@
             <height>3120</height>
             <rawtype>0</rawtype>
             <colorpattern>bggr</colorpattern>
-            <rowsize>5264</rowsize>
+            <rowsize>5260</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
 

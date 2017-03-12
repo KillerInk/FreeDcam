@@ -49,8 +49,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         appSettingsManager.setFramework(getFramework());
         publishProgress("FrameWork:"+appSettingsManager.getFrameWork());
 
-        /*if (!appSettingsManager.opencamera1Legacy.isPresetted())
-            appSettingsManager.opencamera1Legacy.setBoolean(canOpenLegacy());
         publishProgress("CanOpenLegacy:"+appSettingsManager.opencamera1Legacy.getBoolean());*/
 
         int cameraCounts = Camera.getNumberOfCameras();
@@ -902,13 +900,16 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
                 String formats = parameters.get(camstring(R.string.picture_format_values));
 
-                if (appSettingsManager.rawPictureFormat.get().equals("")) {
+                if (!appSettingsManager.rawPictureFormat.isPresetted()) {
+                    Log.d(TAG, "rawpictureformat is not preseted try to find it");
                     if (formats.contains("bayer-mipi") || formats.contains("raw")) {
                         appSettingsManager.rawPictureFormat.setIsSupported(true);
                         String[] forms = formats.split(",");
                         for (String s : forms) {
                             if (s.contains("bayer-mipi") || s.contains("raw")) {
+                                Log.d(TAG, "rawpictureformat set to:" +s);
                                 appSettingsManager.rawPictureFormat.set(s);
+                                appSettingsManager.rawPictureFormat.setIsSupported(true);
                                 break;
                             }
                         }
@@ -916,6 +917,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 }
                 if (formats.contains(appSettingsManager.getResString(R.string.bayer_)))
                 {
+                    Log.d(TAG, "create rawformats");
                     ArrayList<String> tmp = new ArrayList<>();
                     String[] forms = formats.split(",");
                     for (String s : forms) {
@@ -930,8 +932,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 }
             }
             appSettingsManager.pictureFormat.setIsSupported(true);
+
             if (appSettingsManager.getDngProfilesMap() != null && appSettingsManager.getDngProfilesMap().size() > 0)
             {
+                Log.d(TAG, "Dng, bayer, jpeg supported");
                 appSettingsManager.pictureFormat.setValues(new String[]
                         {
                                 appSettingsManager.getResString(R.string.jpeg_),
@@ -940,6 +944,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                         });
             }
             else if (appSettingsManager.rawPictureFormat.isSupported()) {
+                Log.d(TAG, "bayer, jpeg supported");
                 appSettingsManager.pictureFormat.setValues(new String[]{
                         appSettingsManager.getResString(R.string.jpeg_),
                         appSettingsManager.getResString(R.string.bayer_)
@@ -947,6 +952,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             else
             {
+                Log.d(TAG, "jpeg supported");
                 appSettingsManager.pictureFormat.setValues(new String[]{
                         appSettingsManager.getResString(R.string.jpeg_)
                 });

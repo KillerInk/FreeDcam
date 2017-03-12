@@ -768,6 +768,7 @@ public class AppSettingsManager {
             if (rootElement.getTagName().equals("devices"))
             {
                 List<XmlElement> devicesList = rootElement.findChildren("device");
+                Log.d(TAG, "Found " + devicesList.size() + " Devices in Xml");
 
                 for (XmlElement device_element: devicesList)
                 {
@@ -776,7 +777,7 @@ public class AppSettingsManager {
                     {
                         if (mod.getValue().equals(Build.MODEL)) {
                             setDevice(device_element.getAttribute("name",""));
-                            Log.d(TAG, "Found Device:" +Build.MODEL);
+                            Log.d(TAG, "Found Device:" +device_element.getAttribute("name",""));
 
                             XmlElement camera1element = device_element.findChild("camera1");
 
@@ -793,6 +794,7 @@ public class AppSettingsManager {
                                     setDngManualsSupported(Boolean.parseBoolean(camera1element.findChild("dngmanual").getValue()));
                                 else
                                     setDngManualsSupported(true);
+                                Log.d(TAG, "dng manual supported:" + getDngManualsSupported());
 
                                 if (!camera1element.findChild("opencameralegacy").isEmpty()) {
                                     opencamera1Legacy.setBoolean(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
@@ -801,10 +803,14 @@ public class AppSettingsManager {
                                 else
                                     opencamera1Legacy.setBoolean(false);
 
+                                Log.d(TAG, "OpenLegacy: " + opencamera1Legacy.getBoolean() + " isPresetted:" + opencamera1Legacy.isPresetted());
+
                                 if (!camera1element.findChild("zteae").isEmpty())
                                     setZteAe(Boolean.parseBoolean(camera1element.findChild("zte").getValue()));
                                 else
                                     setZteAe(false);
+
+                                Log.d(TAG, "isZteAE:" + isZteAe());
 
                                 if (!camera1element.findChild("needrestartaftercapture").isEmpty())
                                     setNeedRestartAfterCapture(Boolean.parseBoolean(camera1element.findChild("needrestartaftercapture").getValue()));
@@ -830,6 +836,8 @@ public class AppSettingsManager {
 
                                 if (!camera1element.findChild("whitebalance").isEmpty())
                                 {
+                                    //TODO handel sdk specific
+                                    Log.d(TAG, "override manual whiteblalance");
                                     int min = camera1element.findChild("whitebalance").findChild("min").getIntValue(2000);
                                     int max  = camera1element.findChild("whitebalance").findChild("max").getIntValue(8000);
                                     int step = camera1element.findChild("whitebalance").findChild("step").getIntValue(100);
@@ -842,6 +850,7 @@ public class AppSettingsManager {
 
                                 if (!camera1element.findChild("manualiso").isEmpty())
                                 {
+                                    Log.d(TAG, "override manual iso");
                                     if (!camera1element.findChild("manualiso").getAttribute("supported","false").isEmpty())
                                     {
                                         if (camera1element.findChild("manualiso").getAttribute("supported","false").equals("false")) {
@@ -868,6 +877,7 @@ public class AppSettingsManager {
 
                                 if (!camera1element.findChild("exposuretime").isEmpty())
                                 {
+                                    Log.d(TAG, "override manual exposuretime");
                                     if (!camera1element.findChild("exposuretime").findChild("values").isEmpty())
                                     {
                                         String name = camera1element.findChild("exposuretime").findChild("values").getValue();
@@ -891,6 +901,7 @@ public class AppSettingsManager {
 
                                 if (!camera1element.findChild("hdrmode").isEmpty())
                                 {
+                                    Log.d(TAG, "override hdr");
                                     if (camera1element.findChild("hdrmode").getAttribute("supported","false") != null)
                                     {
                                         if (!Boolean.parseBoolean(camera1element.findChild("hdrmode").getAttribute("supported","false")))
@@ -928,6 +939,7 @@ public class AppSettingsManager {
 
                                 if (!camera1element.findChild("manualfocus").isEmpty())
                                 {
+                                    Log.d(TAG, "override manual focus");
                                     List<XmlElement> mfs = camera1element.findChildren("manualfocus");
                                     if (mfs.size() > 1) {
                                         for (XmlElement mf : mfs) {
@@ -943,7 +955,10 @@ public class AppSettingsManager {
 
                                 if (!camera1element.findChild("rawformat").isEmpty())
                                 {
+                                    Log.d(TAG, "override rawpictureformat");
                                     rawPictureFormat.set(camera1element.findChild("rawformat").getValue());
+                                    rawPictureFormat.setIsPresetted(true);
+                                    rawPictureFormat.setIsSupported(true);
                                 }
 
                                 if (!camera1element.findChild("opticalimagestab").isEmpty())

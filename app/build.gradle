@@ -20,7 +20,7 @@ android {
         renderscriptTargetApi 18
         externalNativeBuild {
             ndkBuild {
-                abiFilters 'armeabi', 'armeabi-v7a'
+                abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
             }
         }
     }
