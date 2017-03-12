@@ -253,6 +253,7 @@ void DngWriter::process10tight(TIFF *tif) {
         realrowsize = rawSize / rawheight;
         shouldberowsize = rowSize;
         bytesToSkip = realrowsize - shouldberowsize;
+        LOGD("realrowsize:%i shouldbe:%i bytestoskip: %i", realrowsize, shouldberowsize, bytesToSkip);
     }
 
     int row = shouldberowsize;
