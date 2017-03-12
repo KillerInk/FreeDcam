@@ -255,7 +255,7 @@
     <string name="pictureformat_bayer">Bayer</string>
 
     <string name="colorcorrection_transform_matrix">Transform Matrix</string>
-
+    <string name="customrowsize">Custom Row Size</string>
 
 
 </resources>
