@@ -2,6 +2,8 @@ package freed.cam.featuredetector;
 
 import android.hardware.Camera;
 
+import freed.cam.apis.camera1.CameraHolder;
+import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.utils.Log;
 
 import com.lge.hardware.LGCamera;
@@ -48,7 +50,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         //detect frameworks
         appSettingsManager.setFramework(getFramework());
         publishProgress("FrameWork:"+appSettingsManager.getFrameWork());
-        
+
 
         int cameraCounts = Camera.getNumberOfCameras();
         AppSettingsManager appS = appSettingsManager;
@@ -856,13 +858,37 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             case AppSettingsManager.FRAMEWORK_MTK:
             {
                 CameraHolderMTK.setMtkAppMode();
-            }
-            default:
-            {
-                camera  = Camera.open(currentcamera);
+                camera = Camera.open(currentcamera);
                 Camera.Parameters parameters = camera.getParameters();
                 camera.release();
                 return parameters;
+            }
+            default:
+            {
+                if (appSettingsManager.opencamera1Legacy.getBoolean())
+                {
+                    try {
+                        camera = CameraHolderLegacy.openWrapper(currentcamera);
+                        Camera.Parameters parameters = camera.getParameters();
+                        camera.release();
+                        return parameters;
+                    }
+                    catch (NullPointerException ex)
+                    {
+                        Log.d(TAG,"Failes to open Legacy");
+                        camera = Camera.open(currentcamera);
+                        Camera.Parameters parameters = camera.getParameters();
+                        camera.release();
+                        return parameters;
+                    }
+
+                }
+                else {
+                    camera = Camera.open(currentcamera);
+                    Camera.Parameters parameters = camera.getParameters();
+                    camera.release();
+                    return parameters;
+                }
             }
 
         }

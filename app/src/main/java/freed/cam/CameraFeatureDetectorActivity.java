@@ -13,6 +13,7 @@ import freed.ActivityAbstract;
 import freed.cam.featuredetector.AbstractFeatureDetectorTask;
 import freed.cam.featuredetector.Camera1FeatureDetectorTask;
 import freed.cam.featuredetector.Camera2FeatureDetectorTask;
+import freed.utils.AppSettingsManager;
 import freed.utils.LocationHandler;
 import freed.utils.Log;
 import freed.utils.PermissionHandler;
@@ -71,7 +72,12 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
         @Override
         public void permissionGranted(boolean granted) {
             if (granted) {
-                new Camera1FeatureDetectorTask(camera1Listner,getAppSettings()).execute("");
+                if (Build.VERSION.SDK_INT >= 21) {
+                    new Camera2FeatureDetectorTask(camera2Listner,getAppSettings(),getContext()).execute("");
+                }
+                else {
+                    new Camera1FeatureDetectorTask(camera1Listner, getAppSettings()).execute("");
+                }
             }
             else {
                 finish();
@@ -104,13 +110,9 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
         @Override
         public void onTaskEnd(String msg) {
-            if (Build.VERSION.SDK_INT >= 21) {
-                new Camera2FeatureDetectorTask(camera2Listner,getAppSettings(),getContext()).execute("");
-            }
-            else {
-                sendLog("No camera2");
-                startFreedcam();
-            }
+            if(getAppSettings().IsCamera2FullSupported())
+                getAppSettings().setCamApi(AppSettingsManager.API_2);
+            startFreedcam();
         }
     };
 
@@ -124,7 +126,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
         @Override
         public void onTaskEnd(String msg) {
-            startFreedcam();
+            new Camera1FeatureDetectorTask(camera1Listner, getAppSettings()).execute("");
         }
     };
 

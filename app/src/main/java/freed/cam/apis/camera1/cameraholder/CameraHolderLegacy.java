@@ -33,7 +33,7 @@ import freed.cam.apis.camera1.CameraHolder;
  */
 public class CameraHolderLegacy extends CameraHolder
 {
-    private final String TAG = CameraHolderLegacy.class.getSimpleName();
+    private static final String TAG = CameraHolderLegacy.class.getSimpleName();
     public CameraHolderLegacy(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper,frameworks);
     }
@@ -63,7 +63,7 @@ public class CameraHolderLegacy extends CameraHolder
         return isRdy;
     }
 
-    private  Camera openWrapper(int n) {
+    public static  Camera openWrapper(int n) {
         Class[] arrclass = {Integer.TYPE, Integer.TYPE};
         try {
             Method method = Class.forName("android.hardware.Camera").getDeclaredMethod("openLegacy", arrclass);
@@ -71,16 +71,16 @@ public class CameraHolderLegacy extends CameraHolder
             return (Camera)method.invoke(null, arrobject);
         }
         catch (NoSuchMethodException e) {
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, "Failed to open Legacy");
             return Camera.open(n);}
         catch (ClassNotFoundException e) {
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, "Failed to open Legacy");
             return Camera.open(n);}
         catch (IllegalAccessException e) {
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, "Failed to open Legacy");
             return Camera.open(n);}
         catch (InvocationTargetException e) {
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, "Failed to open Legacy");
             return Camera.open(n);}
     }
 }
