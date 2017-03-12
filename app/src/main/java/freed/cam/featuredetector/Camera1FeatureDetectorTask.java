@@ -48,8 +48,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         //detect frameworks
         appSettingsManager.setFramework(getFramework());
         publishProgress("FrameWork:"+appSettingsManager.getFrameWork());
-
-        publishProgress("CanOpenLegacy:"+appSettingsManager.opencamera1Legacy.getBoolean());*/
+        
 
         int cameraCounts = Camera.getNumberOfCameras();
         AppSettingsManager appS = appSettingsManager;
