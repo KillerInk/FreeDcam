@@ -92,8 +92,11 @@ public class Log
     {
         private BufferedWriter outwriter;
         private FileWriter fileWriter;
+        private Thread.UncaughtExceptionHandler defaultUncaughtExHandler;
         public FileLog()
         {
+            defaultUncaughtExHandler = Thread.getDefaultUncaughtExceptionHandler();
+            Thread.setDefaultUncaughtExceptionHandler(uncaughtExceptionHandler);
             try {
                 File outfile = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeDcam/"+/*+ DateFormat.format("yyyy-mm-dd hh.mm.ss", Calendar.getInstance().getTime())*/ "log"+".txt");
                 if (outfile.getParent() == null)
@@ -144,6 +147,16 @@ public class Log
                 e.printStackTrace();
             }
         }
+
+        private Thread.UncaughtExceptionHandler uncaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+
+                Log.WriteEx(e);
+                defaultUncaughtExHandler.uncaughtException(t,e);
+
+            }
+        };
     }
 
 }

@@ -116,8 +116,9 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         @Override
         public void permissionGranted(boolean granted) {
             if (granted) {
-                if (!Log.isLogToFileEnable() && LOG_TO_FILE)
+                if (!Log.isLogToFileEnable() && LOG_TO_FILE) {
                     new Log();
+                }
                 initOnCreate();
             }
         }
@@ -127,8 +128,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     {
 
     }
-
-
 
     @Override
     protected void onDestroy() {
