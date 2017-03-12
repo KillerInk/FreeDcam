@@ -237,7 +237,8 @@ public class DngConvertingFragment extends Fragment
                     public void run() {
                         int t = 0;
                         for (String s : filesToConvert) {
-                            convertRawToDng(new File(s));
+                            File f = new File(s);
+                            convertRawToDng(f);
                             t++;
                             final int i = t;
                             handler.post(new Runnable() {
@@ -278,8 +279,16 @@ public class DngConvertingFragment extends Fragment
         RawToDng dng = RawToDng.GetInstance();
         String intsd = StringUtils.GetInternalSDCARD();
         if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
-                || file.getAbsolutePath().contains(intsd))
+                || file.getAbsolutePath().contains(intsd)) {
+            File s = new File(out);
+            if(!s.exists())
+                try {
+                    s.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             dng.setBayerData(data, out);
+        }
         else
         {
             DocumentFile df = ((ActivityInterface)getActivity()).getFreeDcamDocumentFolder();
