@@ -2610,6 +2610,7 @@
         </models>
         <camera1>
             <!--<framework>0</framework>-->
+            <hdrmode supported="true">0</hdrmode>
             <dngmanual>false</dngmanual>
             <manualiso supported="true">
                 <framework type="2"> <!-- mtk support it -->
