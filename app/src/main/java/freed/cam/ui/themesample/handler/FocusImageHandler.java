@@ -102,6 +102,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 meteringArea.setVisibility(View.GONE);
 
             }
+
         }
         else
         {
@@ -109,6 +110,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
         if (wrapper.getFocusHandler() != null)
             wrapper.getFocusHandler().focusEvent = this;
+        focusImageView.setVisibility(View.GONE);
     }
 
     @Override

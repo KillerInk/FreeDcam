@@ -83,9 +83,20 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     @Override
     protected void setCameraUiWrapperToUi()
     {
+
         if (manualItemsHolder == null)
             return;
+        //rest views to init state
         manualItemsHolder.removeAllViews();
+        seekbar.setVisibility(View.GONE);
+        if (currentButton != null) {
+            currentButton.SetActive(false);
+            currentButton.SetParameterListner(null);
+            currentButton = null;
+        }
+        afBracketSettingsView.setVisibility(View.GONE);
+
+
         if (cameraUiWrapper != null)
         {
             cameraUiWrapper.GetModuleHandler().addListner(this);
