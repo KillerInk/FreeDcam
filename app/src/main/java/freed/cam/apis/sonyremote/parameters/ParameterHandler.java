@@ -245,12 +245,6 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
                 mAvailableCameraApiSet.add(api);
             }
             SetCameraApiSet(mAvailableCameraApiSet);
-            if (JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet)) {
-                if (surfaceView != null && !surfaceView.isStarted()) {
-                    cameraUiWrapper.GetCameraHolder().StartPreview();
-                }
-                else cameraUiWrapper.onCameraError("failed to start live view");
-            }
         }
     }
 

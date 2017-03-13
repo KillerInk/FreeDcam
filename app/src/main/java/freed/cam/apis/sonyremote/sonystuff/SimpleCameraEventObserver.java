@@ -157,7 +157,7 @@ public class SimpleCameraEventObserver {
     private int mExposureComp;
     private int mExposureCompMax;
     private int mExposureCompMin;
-    private final String version;
+    private String version;
 
 
     public String getVersion()
@@ -174,7 +174,7 @@ public class SimpleCameraEventObserver {
      * @param context context to notify the changes by UI thread.
      * @param apiClient API client
      */
-    public SimpleCameraEventObserver(Context context, SimpleRemoteApi apiClient, String getEventVersion) {
+    public SimpleCameraEventObserver(Context context, SimpleRemoteApi apiClient) {
         if (context == null) {
             throw new IllegalArgumentException("context is null.");
         }
@@ -183,7 +183,11 @@ public class SimpleCameraEventObserver {
         }
         this.mRemoteApi = apiClient;
         this.mUiHandler = new Handler(context.getMainLooper());
-        this.version = getEventVersion;
+    }
+
+    public void setEventVersion(String version)
+    {
+        this.version = version;
     }
 
 

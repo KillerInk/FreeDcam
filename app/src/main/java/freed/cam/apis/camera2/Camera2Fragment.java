@@ -213,7 +213,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
 
     @Override
     public String getResString(int id) {
-        return getResources().getString(id);
+        return GetAppSettingsManager().getResString(id);
     }
 
     @Override
