@@ -25,6 +25,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -85,7 +86,6 @@ public class DngConvertingFragment extends Fragment
     private Button buttonconvertToDng;
     private String[] filesToConvert;
     private DngProfile dngprofile;
-    private Handler handler;
     private Button closeButton;
     private CheckBox fakeGPS;
     private AppSettingsManager appSettingsManager;
@@ -102,7 +102,6 @@ public class DngConvertingFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()),getResources());
-        handler = new Handler();
         view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
         editTextCusotmRowSize = (EditText)view.findViewById(id.editText_customrowsize);
         editTextwidth = (EditText) view.findViewById(id.editText_width);
@@ -228,40 +227,63 @@ public class DngConvertingFragment extends Fragment
                 dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
                 dngprofile.blacklevel = Integer.parseInt(editTextblacklvl.getText().toString());
                 dngprofile.rowsize = Integer.parseInt(editTextCusotmRowSize.getText().toString());
-                final ProgressDialog pr = ProgressDialog.show(getContext(), "Converting DNG", "");
+                new AsyncConverter().execute(filesToConvert);
 
-                pr.setMax(filesToConvert.length);
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int t = 0;
-                        for (String s : filesToConvert) {
-                            File f = new File(s);
-                            convertRawToDng(f);
-                            t++;
-                            final int i = t;
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    pr.setProgress(i);
-                                }
-                            });
-                        }
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                pr.dismiss();
-                            }
-                        });
-                    }
-                }).start();
 
             }
         }
     };
 
-    private void convertRawToDng(File file)
+    private class AsyncConverter extends AsyncTask<String[], Integer, Bitmap>
+    {
+        private ProgressDialog pr;
+        public AsyncConverter()
+        {
+
+            //pr.setMax(filesToConvert.length);
+        }
+
+        @Override
+        protected Bitmap doInBackground(String[]... params) {
+            String[] files = params[0];
+            if (files.length == 1) {
+                return convertRawToDng(new File(files[0]));
+            }
+            else
+            {
+                int t = 0;
+                for (String s : files) {
+                    File f = new File(s);
+                    convertRawToDng(f);
+                    t++;
+                    publishProgress(t);
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            //pr.setProgress(values[0]);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pr = ProgressDialog.show(getContext(), "Converting DNG", "");
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap map) {
+            pr.dismiss();
+            pr.cancel();
+            pr = null;
+            imageView.setImageBitmap(map);
+            Log.d(TAG,"Converting Done");
+        }
+    }
+
+    private Bitmap convertRawToDng(File file)
     {
         byte[] data = null;
         try {
@@ -270,6 +292,7 @@ public class DngConvertingFragment extends Fragment
 
         } catch (IOException ex) {
             ex.printStackTrace();
+            return null;
         }
         String out =null;
         if (file.getName().endsWith(FileEnding.RAW))
@@ -281,12 +304,6 @@ public class DngConvertingFragment extends Fragment
         if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
                 || file.getAbsolutePath().contains(intsd)) {
             File s = new File(out);
-            if(!s.exists())
-                try {
-                    s.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             dng.setBayerData(data, out);
         }
         else
@@ -299,6 +316,7 @@ public class DngConvertingFragment extends Fragment
                 pfd = getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
             } catch (FileNotFoundException | IllegalArgumentException ex) {
                 ex.printStackTrace();
+                return null;
             }
             if (pfd != null) {
                 dng.SetBayerDataFD(data, pfd, file.getName());
@@ -306,6 +324,7 @@ public class DngConvertingFragment extends Fragment
                     pfd.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    return null;
                 }
                 pfd = null;
             }
@@ -321,14 +340,10 @@ public class DngConvertingFragment extends Fragment
         if (filesToConvert.length == 1)
         {
 
-            final Bitmap map = new RawUtils().UnPackRAW(out);
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    imageView.setImageBitmap(map);
-                }
-            });
+            return new RawUtils().UnPackRAW(out);
+
         }
+        return null;
     }
 
 

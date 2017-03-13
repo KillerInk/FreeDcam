@@ -236,6 +236,7 @@ void DngWriter::process10tight(TIFF *tif) {
     int bytesToSkip = 0;
     int realrowsize;
     int shouldberowsize;
+    unsigned char* out;
     LOGD("writer-RowSize: %d  rawheight:%d ,rawwidht: %d", rawSize, rawheight,
          rawwidht);
     if (rowSize == 0) {
@@ -257,7 +258,16 @@ void DngWriter::process10tight(TIFF *tif) {
     }
 
     int row = shouldberowsize;
-    unsigned char* out = new unsigned char[(int)shouldberowsize*rawheight];
+    out = (unsigned char *)malloc((int)shouldberowsize*rawheight);
+    if(out == NULL)
+    {
+        out = (unsigned char *)malloc((int)shouldberowsize*rawheight);
+        if (out == NULL)
+        {
+        LOGD("failed to set buffer");
+        return;}
+    }
+
     int m = 0;
     for(int i =0; i< rawSize; i+=5)
     {
@@ -275,7 +285,7 @@ void DngWriter::process10tight(TIFF *tif) {
     }
     TIFFWriteRawStrip(tif, 0, out, rawheight*shouldberowsize);
     LOGD("Finalizng DNG");
-    free(out);
+    delete[] out;
 }
 
 void DngWriter::process12tight(TIFF *tif) {
@@ -289,7 +299,7 @@ void DngWriter::process12tight(TIFF *tif) {
         bytesToSkip = realrowsize - shouldberowsize;
     LOGD("bytesToSkip: %i", bytesToSkip);
     int row = shouldberowsize;
-    unsigned char* out = new unsigned char[(int)shouldberowsize*rawheight];
+    unsigned char* out = (unsigned char *)malloc((int)shouldberowsize*rawheight);;
     int m = 0;
     for(int i =0; i< rawSize; i+=3)
     {
@@ -304,7 +314,8 @@ void DngWriter::process12tight(TIFF *tif) {
     }
     TIFFWriteRawStrip(tif, 0, out, rawheight*shouldberowsize);
     LOGD("Finalizng DNG");
-    free(out);
+    delete[] out;
+    out = NULL;
 }
 
 void DngWriter::processLoose(TIFF *tif) {

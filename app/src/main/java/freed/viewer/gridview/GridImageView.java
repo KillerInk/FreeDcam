@@ -193,7 +193,14 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
         {
             imageView.setImageResource(drawable.noimage);
             progressBar.setVisibility(View.VISIBLE);
-            executor.execute(new BitmapLoadRunnable(this,fileHolder));
+            try {
+                executor.execute(new BitmapLoadRunnable(this,fileHolder));
+            }
+            catch (NullPointerException ex)
+            {
+                Log.e(TAG, "Executer destryed");
+            }
+
         }
         else {
             progressBar.setVisibility(View.GONE);

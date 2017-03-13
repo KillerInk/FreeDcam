@@ -230,8 +230,23 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (mPagerAdapter != null)
+            mPagerAdapter.createExecutor();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mPagerAdapter != null)
+            mPagerAdapter.Destroy();
+    }
+
+    @Override
     public void onDestroyView()
     {
+        Log.d(TAG,"onDestroyView(): Destroy PagerAdapter");
         if (mPagerAdapter != null)
             mPagerAdapter.Destroy();
         super.onDestroyView();
