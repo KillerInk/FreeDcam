@@ -21,7 +21,6 @@ import freed.viewer.holder.FileHolder;
 public class DngStackActivity extends ActivityAbstract
 {
     private String[] filesToStack = null;
-    private TouchImageView imageView;
     private Button stackButton;
 
     @Override
@@ -38,7 +37,7 @@ public class DngStackActivity extends ActivityAbstract
                 stackButton.setClickable(false);
             }
         });
-        imageView = (TouchImageView)findViewById(R.id.imageview_dngstack);
+        TouchImageView imageView = (TouchImageView) findViewById(R.id.imageview_dngstack);
         filesToStack = getIntent().getStringArrayExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT);
         ((TextView)findViewById(R.id.rawList)).setText(filesToStack.length+"");
 

@@ -68,7 +68,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 {
     private final String TAG = VideoModuleApi2.class.getSimpleName();
     private boolean isRecording;
-    private Size previewSize;
     private VideoMediaProfile currentVideoProfile;
     private Surface previewsurface;
     private Surface recorderSurface;
@@ -155,7 +154,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview()
     {
-        previewSize = getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888),cameraHolder.characteristics, currentVideoProfile.videoFrameWidth,currentVideoProfile.videoFrameHeight);
+        Size previewSize = getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         int orientation = 0;
         switch (sensorOrientation)

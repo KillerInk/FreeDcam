@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -41,7 +42,6 @@ import freed.cam.ui.themesample.cameraui.childs.SimpleValueChild;
  */
 public class HorizontalValuesFragment extends Fragment implements SettingsChildAbstract.CloseChildClick, I_ModeParameterEvent
 {
-    private View view;
     private LinearLayout valuesHolder;
     private String[] values;
     private SettingsChildAbstract.CloseChildClick rdytoclose;
@@ -56,7 +56,7 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,null);
-        view = inflater.inflate(layout.cameraui_horizontal_values_fragment, container, false);
+        View view = inflater.inflate(layout.cameraui_horizontal_values_fragment, container, false);
         valuesHolder = (LinearLayout) view.findViewById(id.horizontal_values_holder);
         setValueToView();
         return view;

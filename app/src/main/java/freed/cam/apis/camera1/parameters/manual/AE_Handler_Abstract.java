@@ -166,8 +166,8 @@ public abstract class AE_Handler_Abstract
                 while (readMetaData && auto)
                 {
                     try {
-                        shutter.ThrowCurrentValueStringCHanged("1/"+(int) ((ParametersHandler)cameraWrapper.GetParameterHandler()).getCurrentExposuretime());
-                        iso.ThrowCurrentValueStringCHanged(((ParametersHandler)cameraWrapper.GetParameterHandler()).getCurrentIso()+"");
+                        shutter.ThrowCurrentValueStringCHanged("1/"+(int) cameraWrapper.GetParameterHandler().getCurrentExposuretime());
+                        iso.ThrowCurrentValueStringCHanged(cameraWrapper.GetParameterHandler().getCurrentIso()+"");
                     }
                     catch (RuntimeException ex)
                     {

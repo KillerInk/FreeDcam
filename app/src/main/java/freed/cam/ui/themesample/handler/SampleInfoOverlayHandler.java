@@ -22,6 +22,7 @@ package freed.cam.ui.themesample.handler;
 import android.view.View;
 import android.widget.TextView;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 
 import freed.utils.AppSettingsManager;
@@ -33,21 +34,18 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
 {
     private final TextView tbattery;
     private final TextView tsize;
-    private final TextView tformat;
     private final TextView tTime;
     private final TextView tStorage;
-    private final TextView tdngsupported;
-    private final TextView tbuidlmodel;
     TextView tappversion;
     public SampleInfoOverlayHandler(View view, AppSettingsManager appSettingsManager)
     {
         super(view.getContext(),appSettingsManager);
         tbattery = (TextView)view.findViewById(id.textView_battery);
         tsize = (TextView)view.findViewById(id.textView_size);
-        tformat = (TextView)view.findViewById(id.textView_format);
+        TextView tformat = (TextView) view.findViewById(id.textView_format);
         tTime = (TextView)view.findViewById(id.textView_time);
         tStorage = (TextView)view.findViewById(id.textView_storage);
-        tdngsupported =(TextView)view.findViewById(id.textView_dngsupported);
+        TextView tdngsupported = (TextView) view.findViewById(id.textView_dngsupported);
         tdngsupported.setVisibility(View.GONE);
         /* if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
         {
@@ -58,7 +56,7 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
                 tdngsupported.setTextColor(Color.RED);
         }*/
         //else tdngsupported.setVisibility(View.GONE);
-        tbuidlmodel = (TextView)view.findViewById(id.textView_buildmodel);
+        TextView tbuidlmodel = (TextView) view.findViewById(id.textView_buildmodel);
         tbuidlmodel.setVisibility(View.GONE);
         /*tbuidlmodel.setText(Build.MODEL);
         tappversion = (TextView)view.findViewById(R.id.textView_appversion);

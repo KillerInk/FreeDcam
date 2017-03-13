@@ -22,6 +22,7 @@ package freed.utils;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
+import android.support.v4.util.LongSparseArray;
 import android.text.TextUtils;
 
 import com.troop.freedcam.BuildConfig;
@@ -207,7 +208,7 @@ public class AppSettingsManager {
    /* private Devices device;*/
     private String mDevice;
     private HashMap<String, CustomMatrix> matrixes;
-    private HashMap<Long, DngProfile> dngProfileHashMap;
+    private LongSparseArray<DngProfile> dngProfileHashMap;
 
     private final String FEATUREDETECTED = "featuredetected";
 
@@ -472,7 +473,7 @@ public class AppSettingsManager {
     public Resources getResources()
     { return resources;}
 
-    public HashMap<Long, DngProfile> getDngProfilesMap()
+    public LongSparseArray<DngProfile> getDngProfilesMap()
     {
         return dngProfileHashMap;
     }
@@ -981,7 +982,7 @@ public class AppSettingsManager {
                                 }
                             }
 
-                            dngProfileHashMap = new HashMap<>();
+                            dngProfileHashMap = new LongSparseArray<>();
                             getDngStuff(dngProfileHashMap, device_element);
 
                             break;
@@ -1035,9 +1036,9 @@ public class AppSettingsManager {
         return ar.toArray(new String[ar.size()]);
     }
 
-    private HashMap<Long, DngProfile> getDngProfiles()
+    private LongSparseArray<DngProfile> getDngProfiles()
     {
-        HashMap<Long,DngProfile> map = new HashMap<>();
+        LongSparseArray<DngProfile> map = new LongSparseArray<>();
         try {
             String xmlsource = getString(resources.openRawResource(R.raw.supported_devices));
             XmlElement rootElement = XmlElement.parse(xmlsource);
@@ -1059,7 +1060,7 @@ public class AppSettingsManager {
         return map;
     }
 
-    private void getDngStuff(HashMap<Long, DngProfile> map, XmlElement device_element) {
+    private void getDngStuff(LongSparseArray<DngProfile> map, XmlElement device_element) {
         if (!device_element.getAttribute("opcode2", "").isEmpty())
             opcodeUrlList[0] = device_element.getAttribute("opcode2", "");
         if (!device_element.getAttribute("opcode3", "").isEmpty())

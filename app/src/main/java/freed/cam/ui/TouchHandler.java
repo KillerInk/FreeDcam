@@ -29,12 +29,11 @@ import android.view.MotionEvent;
  */
 public class TouchHandler
 {
-    private final int distance = 90;
     private final String TAG = TouchHandler.class.getSimpleName();
-    private final boolean DEBUG = false;
 
     private void L(String log)
     {
+        boolean DEBUG = false;
         if (DEBUG)
             Log.d(TAG, log);
     }
@@ -111,6 +110,7 @@ public class TouchHandler
         float x = getDistance(startX, currentX);
         float y = getDistance(startY, currentY);
         //if we have a swipeDetected
+        int distance = 90;
         if (x >= distance || y >= distance)
         {
             //its a swipeDetected

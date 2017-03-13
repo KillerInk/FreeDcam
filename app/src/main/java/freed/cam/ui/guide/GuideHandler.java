@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.drawable;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -20,7 +21,6 @@ import freed.utils.AppSettingsManager;
  * Created by George on 1/19/2015.
  */
 public class GuideHandler extends Fragment implements I_ModeParameterEvent {
-    private View view;
     private ImageView img;
     private CameraWrapperInterface cameraUiWrapper;
     private float quckRationMath;
@@ -39,7 +39,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container,null);
-        view = inflater.inflate(layout.cameraui_guides_fragment, container,false);
+        View view = inflater.inflate(layout.cameraui_guides_fragment, container, false);
         img = (ImageView) view.findViewById(id.imageViewGyide);
         return view;
     }

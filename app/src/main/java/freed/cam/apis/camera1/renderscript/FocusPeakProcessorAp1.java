@@ -33,6 +33,7 @@ import android.renderscript.RSRuntimeException;
 import android.renderscript.Type.Builder;
 import freed.utils.Log;
 import android.view.Surface;
+import android.view.TextureView;
 import android.view.TextureView.SurfaceTextureListener;
 
 import com.troop.freedcam.R;
@@ -68,7 +69,6 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     private boolean enable;
     private boolean doWork;
     private boolean isWorking;
-    private final Context context;
     private final RenderScriptHandler renderScriptHandler;
     private int expectedByteSize;
     private final BlockingQueue<byte[]> frameQueue = new ArrayBlockingQueue<>(2);
@@ -78,9 +78,62 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         Log.d(TAG, "Ctor");
         this.output = output;
         this.cameraUiWrapper = cameraUiWrapper;
-        this.context = context;
+        Context context1 = context;
         this.renderScriptHandler = renderScriptHandler;
         this.cameraUiWrapper.GetModuleHandler().addListner(this);
+        SurfaceTextureListener previewSurfaceListner = new SurfaceTextureListener() {
+            @Override
+            public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+                mWidth = width;
+                mHeight = height;
+                Log.d(TAG, "SurfaceSizeAvail");
+                mSurface = new Surface(surface);
+                try {
+                    if (FocusPeakProcessorAp1.this.renderScriptHandler.GetOut() != null && FocusPeakProcessorAp1.this.renderScriptHandler.GetOut().getUsage() == Allocation.USAGE_IO_OUTPUT)
+                        FocusPeakProcessorAp1.this.renderScriptHandler.GetOut().setSurface(mSurface);
+                    else {
+                        Log.d(TAG, "Allocout null or not USAGE_IO_OUTPUT");
+                        Size size = new Size(FocusPeakProcessorAp1.this.cameraUiWrapper.GetAppSettingsManager().previewSize.get());
+                        reset(size.width, size.height);
+                    }
+                } catch (NullPointerException ex) {
+                    ex.printStackTrace();
+                }
+
+                clear_preview("onSurfaceTextureAvailable");
+            }
+
+            @Override
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+                Log.d(TAG, "SurfaceSizeChanged");
+                mSurface = new Surface(surface);
+                try {
+                    if (FocusPeakProcessorAp1.this.renderScriptHandler.GetOut() != null)
+                        FocusPeakProcessorAp1.this.renderScriptHandler.GetOut().setSurface(mSurface);
+                    else {
+                        Log.d(TAG, "Allocout null");
+
+                    }
+                } catch (RSInvalidStateException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+                Log.d(TAG, "SurfaceDestroyed");
+                clear_preview("onSurfaceTextureDestroyed");
+                mSurface = null;
+
+
+                return false;
+            }
+
+            @Override
+            public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
+            }
+        };
         output.setSurfaceTextureListener(previewSurfaceListner);
         clear_preview("Ctor");
     }
@@ -345,62 +398,4 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     private void setDoWork(boolean work) {
         doWork = work;}
 
-    private final SurfaceTextureListener previewSurfaceListner = new SurfaceTextureListener() {
-        @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
-        {
-            mWidth = width;
-            mHeight = height;
-            Log.d(TAG, "SurfaceSizeAvail");
-            mSurface = new Surface(surface);
-            try {
-                if (renderScriptHandler.GetOut() != null && renderScriptHandler.GetOut().getUsage() == Allocation.USAGE_IO_OUTPUT)
-                    renderScriptHandler.GetOut().setSurface(mSurface);
-                else {
-                    Log.d(TAG, "Allocout null or not USAGE_IO_OUTPUT");
-                    Size size = new Size(cameraUiWrapper.GetAppSettingsManager().previewSize.get());
-                    reset(size.width, size.height);
-                }
-            }
-            catch (NullPointerException ex)
-            {
-                ex.printStackTrace();
-            }
-
-            clear_preview("onSurfaceTextureAvailable");
-        }
-
-        @Override
-        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-            Log.d(TAG, "SurfaceSizeChanged");
-            mSurface = new Surface(surface);
-            try {
-                if (renderScriptHandler.GetOut()  != null)
-                    renderScriptHandler.GetOut().setSurface(mSurface);
-                else {
-                    Log.d(TAG, "Allocout null");
-
-                }
-            }
-            catch(RSInvalidStateException ex)
-            {
-                ex.printStackTrace();
-            }
-        }
-
-        @Override
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-            Log.d(TAG, "SurfaceDestroyed");
-            clear_preview("onSurfaceTextureDestroyed");
-            mSurface = null;
-
-
-            return false;
-        }
-
-        @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-
-        }
-    };
 }

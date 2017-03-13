@@ -41,7 +41,6 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
 {
     final String internal = "Internal";
     final String external ="External";
-    private CameraWrapperInterface cameraUiWrapper;
     private String lastval;
 
     public SettingsChildMenuSDSave(Context context, int headerid, int descriptionid) {
@@ -58,7 +57,7 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
 
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        this.cameraUiWrapper = cameraUiWrapper;
+        CameraWrapperInterface cameraUiWrapper1 = cameraUiWrapper;
         SetParameter(cameraUiWrapper.GetParameterHandler().SdSaveLocation);
     }
 

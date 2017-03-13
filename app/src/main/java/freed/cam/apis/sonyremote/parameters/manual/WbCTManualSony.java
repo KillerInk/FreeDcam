@@ -38,8 +38,6 @@ import freed.utils.FreeDPool;
 public class WbCTManualSony extends BaseManualParameterSony
 {
     final String TAG = WbCTManualSony.class.getSimpleName();
-    private int min;
-    private int max;
     private int step;
 
     private String[] values;
@@ -129,8 +127,8 @@ public class WbCTManualSony extends BaseManualParameterSony
         {
             JSONArray ar = ob.getJSONArray("colorTemperatureRange");
             step = ar.getInt(2);
-            max = ar.getInt(0)/ step;
-            min = ar.getInt(1)/ step;
+            int max = ar.getInt(0) / step;
+            int min = ar.getInt(1) / step;
             ArrayList<String> r = new ArrayList<>();
             for (int t = min; t < max; t++)
                 r.add(t* step +"");

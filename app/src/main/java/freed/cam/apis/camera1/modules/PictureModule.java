@@ -166,7 +166,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
     protected void startPreview()
     {
         //workaround to keep ae locked
-        if (cameraHolder.GetCameraParameters().getAutoExposureLock() == true)
+        if (cameraHolder.GetCameraParameters().getAutoExposureLock())
         {
             cameraUiWrapper.GetParameterHandler().ExposureLock.SetValue(cameraUiWrapper.getResString(R.string.false_),true);
             cameraUiWrapper.GetParameterHandler().ExposureLock.SetValue(cameraUiWrapper.getResString(R.string.true_),true);

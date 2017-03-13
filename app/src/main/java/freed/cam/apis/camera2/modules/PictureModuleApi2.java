@@ -42,6 +42,8 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
+
+import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.utils.Log;
 import android.util.Pair;
 import android.util.Rational;
@@ -112,16 +114,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     private final String TAG = PictureModuleApi2.class.getSimpleName();
-    private Size largestImageSize;
     private String picFormat;
-    private String picSize;
     private int mImageWidth;
     private int mImageHeight;
     private ImageReader mImageReader;
-    private Size previewSize;
-    private Surface previewsurface;
-    private Surface camerasurface;
-    private final Handler handler;
     private int imagecount;
     private Builder captureBuilder;
     private final int STATE_WAIT_FOR_PRECAPTURE = 0;
@@ -142,7 +138,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
         super(cameraUiWrapper,mBackgroundHandler);
         name = cameraUiWrapper.getResString(R.string.module_picture);
-        handler = new Handler(Looper.getMainLooper());
+        Handler handler = new Handler(Looper.getMainLooper());
 
     }
 
@@ -846,9 +842,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview() {
 
-        picSize = appSettingsManager.pictureSize.get();
+        String picSize = appSettingsManager.pictureSize.get();
         Log.d(TAG, "Start Preview");
-        largestImageSize = Collections.max(
+        Size largestImageSize = Collections.max(
                 Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new CompareSizesByArea());
         picFormat = appSettingsManager.pictureFormat.get();
@@ -923,7 +919,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         try {
             Log.d(TAG, "Set Burst to:" + burst);
-            previewSize = cameraHolder.getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
+            Size previewSize = cameraHolder.getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
             if (cameraUiWrapper.getFocusPeakProcessor() != null)
             {
                 cameraUiWrapper.getFocusPeakProcessor().kill();
@@ -946,12 +942,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(),orientation,orientation+180,false);
             SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
-            previewsurface = new Surface(texture);
+            Surface previewsurface = new Surface(texture);
 
             cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight());
             Log.d(TAG, "Previewsurface vailid:" + previewsurface.isValid());
             cameraUiWrapper.getFocusPeakProcessor().setOutputSurface(previewsurface);
-            camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
+            Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
             cameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
 
             if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpeg)))

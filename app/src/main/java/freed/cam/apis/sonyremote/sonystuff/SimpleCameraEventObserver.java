@@ -28,11 +28,10 @@ public class SimpleCameraEventObserver {
 
     private static final String TAG = SimpleCameraEventObserver.class.getSimpleName();
 
-    private final boolean LOGGING = true;
-
     private void sendLog(String msg)
     {
-        if (this.LOGGING)
+        boolean LOGGING = true;
+        if (LOGGING)
             Log.d(SimpleCameraEventObserver.TAG, msg);
     }
 
@@ -154,7 +153,6 @@ public class SimpleCameraEventObserver {
 
     private String flash;
 
-    private int mExposureComp;
     private int mExposureCompMax;
     private int mExposureCompMin;
     private String version;
@@ -400,7 +398,7 @@ public class SimpleCameraEventObserver {
         if (cexpo != -5000)
         {
             this.sendLog("getEvent currentExposure: " + cexpo);
-            this.mExposureComp = cexpo;
+            int mExposureComp = cexpo;
             this.fireExposurCompChangeListener(cexpo + minexpo * -1);
         }
 

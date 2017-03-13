@@ -35,13 +35,12 @@ import freed.utils.RenderScriptHandler;
 public class ModuleHandlerApi2 extends ModuleHandlerAbstract
 {
     private final String TAG = "cam.ModuleHandler";
-    private final RenderScriptHandler renderScriptHandler;
 
 
     public  ModuleHandlerApi2 (CameraWrapperInterface cameraUiWrapper, RenderScriptHandler renderScriptHandler)
     {
         super(cameraUiWrapper);
-        this.renderScriptHandler = renderScriptHandler;
+        RenderScriptHandler renderScriptHandler1 = renderScriptHandler;
         initModules();
     }
 

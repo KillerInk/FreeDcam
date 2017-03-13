@@ -32,14 +32,13 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
  */
 public class FocusPeakSony extends BaseModeParameterSony {
 
-    private final String currentval;
     private final SimpleStreamSurfaceView simpleStreamSurfaceView;
 
 
     public FocusPeakSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {
         super(null, null, null, null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
-        currentval = simpleStreamSurfaceView.getResources().getString(R.string.off_);
+        String currentval = simpleStreamSurfaceView.getResources().getString(R.string.off_);
     }
 
     public void SetValue(String valueToSet, boolean setToCamera)

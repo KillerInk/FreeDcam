@@ -44,8 +44,6 @@ public class RenderScriptHandler
     private Allocation mAllocationOut;
     private Allocation mAllocationIn;
     private final RenderScript mRS;
-    private Builder inputbuilder;
-    private Builder outputbuilder;
 
 /*        public ScriptC_focus_peak ScriptFocusPeakApi2;
     public ScriptC_focus_peak_cam1 ScriptFocusPeakApi1;
@@ -96,8 +94,8 @@ public class RenderScriptHandler
 
     public void SetAllocsTypeBuilder(Builder inputBuilder, Builder outputBuilder, int inputUsage, int outputUsage)
     {
-        inputbuilder = inputBuilder;
-        outputbuilder = outputBuilder;
+        Builder inputbuilder = inputBuilder;
+        Builder outputbuilder = outputBuilder;
         mAllocationIn = Allocation.createTyped(mRS, inputbuilder.create(), MipmapControl.MIPMAP_NONE,  inputUsage);
         mAllocationOut = Allocation.createTyped(mRS, outputbuilder.create(), MipmapControl.MIPMAP_NONE, outputUsage);
     }

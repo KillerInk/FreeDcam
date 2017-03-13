@@ -35,7 +35,6 @@ import java.util.List;
  */
 public class WifiUtils
 {
-    private final Context context;
     private final WifiManager wifiManager;
     private LocationManager locationManager;
 
@@ -43,8 +42,8 @@ public class WifiUtils
 
     public WifiUtils(Context context)
     {
-        this.context = context;
-        wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        Context context1 = context;
+        wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
         connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }

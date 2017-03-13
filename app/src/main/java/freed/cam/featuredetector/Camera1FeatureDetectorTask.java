@@ -816,10 +816,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         try {
             Class[] arrclass = {Integer.TYPE, Integer.TYPE};
             Method method = Class.forName("android.hardware.Camera").getDeclaredMethod("openLegacy", arrclass);
-            if (method != null)
-                return true;
-            else
-                return false;
+            return method != null;
         }
         catch
                 (NoSuchMethodException e) {

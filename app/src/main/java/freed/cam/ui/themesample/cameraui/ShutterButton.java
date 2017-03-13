@@ -81,8 +81,6 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
     private int shutter_open_step;
     //true when the red recording button should get shown
     private boolean drawRecordingImage =false;
-    //the size for the recrodingbutton to calc the shutter
-    private int recordingSize;
 
     private int recordingRadiusCircle;
     private int recordingRadiusRectangle;
@@ -262,9 +260,9 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
             //animationHandler.removeCallbacks(animationRunnable);
             size = (getWidth()-100) /2;
             shutter_open_step = (size) / MAXFRAMES;
-            recordingSize = getWidth()/4;
+            int recordingSize = getWidth() / 4;
             recordingRadiusCircle = recordingSize;
-            recordingRadiusRectangle = recordingSize-7;
+            recordingRadiusRectangle = recordingSize -7;
             currentframe = 0;
             animationHandler.post(animationRunnable);
         }

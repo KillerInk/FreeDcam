@@ -37,8 +37,6 @@ public class LocationHandler implements LocationListener
     private final String TAG = LocationHandler.class.getSimpleName();
     private final LocationManager locationManager;
     private ActivityInterface activityInterface;
-    private final int updateTime = 60*1000;
-    private final int updateDistance = 15;
     private Location currentLocation;
 
     public LocationHandler(ActivityInterface activityInterface)
@@ -70,6 +68,8 @@ public class LocationHandler implements LocationListener
 
             Location locnet = null;
             Location locgps = null;
+            int updateDistance = 15;
+            int updateTime = 60 * 1000;
             if (network)
             {
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,

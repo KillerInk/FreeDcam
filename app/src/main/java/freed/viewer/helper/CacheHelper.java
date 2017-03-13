@@ -45,7 +45,6 @@ public class CacheHelper
     private final Object mDiskCacheLock = new Object();
     private boolean mDiskCacheStarting = true;
     public static final int DISK_CACHE_SIZE = 1024 * 1024 * 200;
-    private final String DISK_CACHE_SUBDIR = "thumbnails";
     //private final LruCache<String, Bitmap> mMemoryCache;
     final String TAG = CacheHelper.class.getSimpleName();
 
@@ -199,6 +198,7 @@ public class CacheHelper
         // otherwise use internal cache dir
         String cachePath = context.getCacheDir().getPath();
 
+        String DISK_CACHE_SUBDIR = "thumbnails";
         return new File(cachePath + File.separator + DISK_CACHE_SUBDIR);
     }
 

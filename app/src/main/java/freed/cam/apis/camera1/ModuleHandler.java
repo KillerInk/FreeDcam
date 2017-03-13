@@ -37,7 +37,6 @@ import freed.cam.apis.camera1.modules.VideoModuleG3;
  */
 public class ModuleHandler extends ModuleHandlerAbstract
 {
-    private final String TAG = "cam.ModuleHandler";
 
 
     public  ModuleHandler (CameraWrapperInterface cameraUiWrapper)
@@ -50,6 +49,7 @@ public class ModuleHandler extends ModuleHandlerAbstract
     {
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
+        String TAG = "cam.ModuleHandler";
         if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
         {
             Log.d(TAG, "load mtk picmodule");

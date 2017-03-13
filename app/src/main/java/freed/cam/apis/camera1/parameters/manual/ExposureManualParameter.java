@@ -32,12 +32,12 @@ import freed.cam.apis.camera1.parameters.ParametersHandler;
  */
 public class ExposureManualParameter extends BaseManualParameter
 {
-    private final String TAG = ExposureManualParameter.class.getSimpleName();
     public ExposureManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, float step) {
         super(parameters,cameraUiWrapper,step);
         stringvalues = createStringArray(parameters.getMinExposureCompensation(),parameters.getMaxExposureCompensation(),parameters.getExposureCompensationStep());
         isSupported = true;
         isVisible = true;
+        String TAG = ExposureManualParameter.class.getSimpleName();
         Log.d(TAG, "Is Supported:" + isSupported);
     }
 

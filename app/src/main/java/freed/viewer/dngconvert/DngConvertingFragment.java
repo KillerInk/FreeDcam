@@ -75,7 +75,6 @@ import freed.utils.StringUtils.FileEnding;
 public class DngConvertingFragment extends Fragment
 {
     final String TAG = DngConvertingFragment.class.getSimpleName();
-    private View view;
     private EditText editTextCusotmRowSize;
     private EditText editTextwidth;
     private EditText editTextheight;
@@ -83,27 +82,20 @@ public class DngConvertingFragment extends Fragment
     private Spinner spinnerMatrixProfile;
     private Spinner spinnerColorPattern;
     private Spinner spinnerrawFormat;
-    private Button buttonconvertToDng;
     private String[] filesToConvert;
     private DngProfile dngprofile;
-    private Button closeButton;
     private CheckBox fakeGPS;
     private AppSettingsManager appSettingsManager;
     private MatrixChooserParameter matrixChooserParameter;
     private TouchImageView imageView;
-    private final double Altitude =561.0;
-    private final double Latitude = 48.2503155;
-    private final double Longitude = 11.65918818;
-    private final String Provider = "gps";
-    private final long gpsTime = 1477324747000l;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()),getResources());
-        view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
-        editTextCusotmRowSize = (EditText)view.findViewById(id.editText_customrowsize);
+        View view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
+        editTextCusotmRowSize = (EditText) view.findViewById(id.editText_customrowsize);
         editTextwidth = (EditText) view.findViewById(id.editText_width);
         editTextheight = (EditText) view.findViewById(id.editText_height);
         editTextblacklvl = (EditText) view.findViewById(id.editText_blacklevel);
@@ -116,7 +108,7 @@ public class DngConvertingFragment extends Fragment
         spinnerMatrixProfile.setAdapter(matrixadapter);
 
 
-        buttonconvertToDng = (Button) view.findViewById(id.button_convertDng);
+        Button buttonconvertToDng = (Button) view.findViewById(id.button_convertDng);
         buttonconvertToDng.setOnClickListener(convertToDngClick);
 
         spinnerColorPattern =(Spinner) view.findViewById(id.spinner_ColorPattern);
@@ -130,7 +122,7 @@ public class DngConvertingFragment extends Fragment
                 array.raw_format, layout.simple_spinner_item);
         rawadapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
         spinnerrawFormat.setAdapter(rawadapter);
-        closeButton = (Button) view.findViewById(id.button_goback_from_conv);
+        Button closeButton = (Button) view.findViewById(id.button_goback_from_conv);
         closeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v)
@@ -140,8 +132,8 @@ public class DngConvertingFragment extends Fragment
                 getActivity().finish();
             }
         });
-        imageView = (TouchImageView)view.findViewById(id.dngconvert_imageview);
-        fakeGPS = (CheckBox)view.findViewById(id.checkBox_fakeGPS);
+        imageView = (TouchImageView) view.findViewById(id.dngconvert_imageview);
+        fakeGPS = (CheckBox) view.findViewById(id.checkBox_fakeGPS);
         return view;
     }
 
@@ -330,8 +322,13 @@ public class DngConvertingFragment extends Fragment
             }
         }
         dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
+        long gpsTime = 1477324747000l;
+        String provider = "gps";
+        double longitude = 11.65918818;
+        double latitude = 48.2503155;
+        double altitude = 561.0;
         if (fakeGPS.isChecked())
-            dng.SetGpsData(Altitude, Latitude, Longitude,Provider, gpsTime);
+            dng.SetGpsData(altitude, latitude, longitude, provider, gpsTime);
         dng.WriteDngWithProfile(dngprofile);
         data = null;
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);

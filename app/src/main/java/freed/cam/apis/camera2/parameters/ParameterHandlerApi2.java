@@ -57,7 +57,6 @@ import freed.utils.AppSettingsManager;
 public class ParameterHandlerApi2 extends AbstractParameterHandler
 {
     private final String TAG = ParameterHandlerApi2.class.getSimpleName();
-    private ManualToneMapCurveApi2 manualToneMapCurveApi2;
 
 
     private CameraHolderApi2 cameraHolder;
@@ -123,7 +122,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ManualFocus = mf;
         //MF END
 
-        manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
+        ManualToneMapCurveApi2 manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
         ManualContrast = manualToneMapCurveApi2.contrast;
         ManualBrightness = manualToneMapCurveApi2.brightness;
 

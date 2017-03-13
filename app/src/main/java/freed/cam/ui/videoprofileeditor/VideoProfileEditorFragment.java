@@ -37,6 +37,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -102,8 +103,6 @@ public class VideoProfileEditorFragment extends Fragment {
     private Button button_recordMode;
     private Button button_videoCodec;
     private Button button_audioCodec;
-    private Button button_save;
-    private Button button_delete;
     private VideoMediaProfile currentProfile;
     private Switch switch_Audio;
     private AppSettingsManager appSettingsManager;
@@ -129,7 +128,7 @@ public class VideoProfileEditorFragment extends Fragment {
         editText_maxrecordtime = (EditText)view.findViewById(id.editText_recordtime);
         editText_width = (EditText)view.findViewById(id.editText_Profilewidth);
         editText_height = (EditText)view.findViewById(id.editText_Profileheight);
-        button_save = (Button)view.findViewById(id.button_Save_profile);
+        Button button_save = (Button) view.findViewById(id.button_Save_profile);
         switch_Audio = (Switch)view.findViewById(id.switchAudio);
         button_recordMode = (Button)view.findViewById(id.button_recordMode);
         button_recordMode.setOnClickListener(recordModeClickListner);
@@ -139,7 +138,7 @@ public class VideoProfileEditorFragment extends Fragment {
         button_audioCodec.setOnClickListener(onAudioCodecClickListner);
 
         button_save.setOnClickListener(onSavebuttonClick);
-        button_delete = (Button)view.findViewById(id.button_delete_profile);
+        Button button_delete = (Button) view.findViewById(id.button_delete_profile);
         button_delete.setOnClickListener(ondeleteButtonClick);
         videoMediaProfiles = new HashMap<>();
 

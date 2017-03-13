@@ -47,8 +47,6 @@ public class WbHandler
     private ColorCorrectionModeApi2 colorCorrectionMode;
     public final ManualWbCtApi2 manualWbCt;
 
-    private String activeWbMode;
-
     public WbHandler(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper= cameraUiWrapper;
@@ -68,7 +66,7 @@ public class WbHandler
      */
     private void setWbMode(String wbMode)
     {
-        activeWbMode =wbMode;
+        String activeWbMode = wbMode;
         if (!wbMode.equals(cameraUiWrapper.getResString(R.string.off)))
         {
             //if ON or any other preset set the colorcorrection to fast to let is use hal wb

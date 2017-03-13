@@ -42,7 +42,6 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModePa
 public class FocusHandler extends AbstractFocusHandler
 {
     private int mState;
-    private FocusRect focusRect;
     private boolean focusenabled;
 
     private final String TAG = FocusHandler.class.getSimpleName();
@@ -97,7 +96,7 @@ public class FocusHandler extends AbstractFocusHandler
         Log.d(TAG, "Width:" + width + "Height" + height);
         if (!focusenabled)
             return;
-        focusRect = rect;
+        FocusRect focusRect = rect;
         Rect m =  ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         logRect(m);
         FocusRect targetFocusRect = new FocusRect(

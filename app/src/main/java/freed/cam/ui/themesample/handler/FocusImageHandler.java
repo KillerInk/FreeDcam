@@ -56,12 +56,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private final FocusSelector focusImageView;
     private int disHeight;
     private int disWidth;
-    private int marginLeft;
-    private int marginRight;
     private final int recthalf;
     private final ImageView cancelFocus;
     private final ImageView meteringArea;
-    private FocusRect meteringRect;
 
 
     public FocusImageHandler(View view, ActivityAbstract fragment)
@@ -92,7 +89,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     {
         wrapper = cameraUiWrapper;
         if(cameraUiWrapper instanceof Camera1Fragment || cameraUiWrapper instanceof Camera2Fragment) {
-            meteringRect = centerImageView(meteringArea);
+            FocusRect meteringRect = centerImageView(meteringArea);
             meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch));
             if (wrapper.isAeMeteringSupported())
             {
@@ -257,8 +254,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             return;
         disWidth = wrapper.getPreviewWidth();
         disHeight = wrapper.getPreviewHeight();
-        marginLeft = wrapper.getMargineLeft();
-        marginRight = wrapper.getMargineRight();
+        int marginLeft = wrapper.getMargineLeft();
+        int marginRight = wrapper.getMargineRight();
         if (x > marginLeft && x < disWidth + marginLeft) {
             if (x < marginLeft + recthalf)
                 x = marginLeft + recthalf;

@@ -32,7 +32,6 @@ import java.lang.ref.WeakReference;
  */
 public class BitmapRessourceWorkerTask extends AsyncTask<Integer, Void, Bitmap> {
     private final WeakReference<ImageView> imageViewReference;
-    private int data = 0;
     private int w;
     private int h;
     private Resources resources;
@@ -48,10 +47,10 @@ public class BitmapRessourceWorkerTask extends AsyncTask<Integer, Void, Bitmap> 
     // Decode image in background.
     @Override
     protected Bitmap doInBackground(Integer... params) {
-        data = params[0];
+        int data = params[0];
         if (w == 0 || h == 0)
             return null;
-        return decodeSampledBitmapFromResource(resources,data, w, h);
+        return decodeSampledBitmapFromResource(resources, data, w, h);
     }
 
     // Once complete, see if ImageView is still around and set bitmap.

@@ -43,7 +43,6 @@ public class VideoModule extends AbstractVideoModule
 {
     private final String TAG = VideoModule.class.getSimpleName();
     private VideoMediaProfile currentProfile;
-    private int MaXFPS = 30;
 
     public VideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
         super(cameraUiWrapper,mBackgroundHandler);
@@ -75,7 +74,8 @@ public class VideoModule extends AbstractVideoModule
                 break;
         }
         recorder.setOutputFormat(OutputFormat.MPEG_4);
-        recorder.setVideoFrameRate(MaXFPS);
+        int maXFPS = 30;
+        recorder.setVideoFrameRate(maXFPS);
         recorder.setVideoSize(currentProfile.videoFrameWidth, currentProfile.videoFrameHeight);
         recorder.setVideoEncodingBitRate(currentProfile.videoBitRate);
         try {

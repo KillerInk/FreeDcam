@@ -54,7 +54,6 @@ public class OpCodeParameter extends AbstractModeParameter
     private final String TAG = OpCodeParameter.class.getSimpleName();
     private boolean hasOp2;
     private boolean hasOp3;
-    private boolean OpcodeEnabled = true;
     private final boolean isSupported;
     private final AppSettingsManager appSettingsManager;
     public OpCodeParameter(AppSettingsManager appSettingsManager)
@@ -74,9 +73,10 @@ public class OpCodeParameter extends AbstractModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
+        boolean opcodeEnabled = true;
         if(valueToSet.equals("Download")) {
             if (hasOp2 || hasOp3) {
-                OpcodeEnabled = true;
+                opcodeEnabled = true;
                 onValueHasChanged("Enabled");
                 return;
             }
@@ -103,7 +103,7 @@ public class OpCodeParameter extends AbstractModeParameter
                 }
             });
         }
-        else OpcodeEnabled = !valueToSet.equals("Disabled");
+        else opcodeEnabled = !valueToSet.equals("Disabled");
     }
 
     @Override

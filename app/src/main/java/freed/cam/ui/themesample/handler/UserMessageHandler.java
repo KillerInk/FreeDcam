@@ -37,7 +37,6 @@ public class UserMessageHandler implements CameraStateEvents
 {
     private final LinearLayout messageHolder;
     private final TextView messageTextView;
-    private CameraWrapperInterface cameraUiWrapper;
     private final Handler handler;
 
     public UserMessageHandler(View view)
@@ -51,7 +50,7 @@ public class UserMessageHandler implements CameraStateEvents
 
     public void SetCameraUiWrapper(CameraWrapperInterface wrapper)
     {
-        cameraUiWrapper =wrapper;
+        CameraWrapperInterface cameraUiWrapper = wrapper;
         cameraUiWrapper.SetCameraStateChangedListner(this);
     }
 

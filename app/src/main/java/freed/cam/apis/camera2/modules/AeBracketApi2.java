@@ -51,7 +51,6 @@ public class AeBracketApi2 extends PictureModuleApi2
     private long exposureTimeStep = 0;
     private boolean aeWasOn = false;
     private int maxiso;
-    private int currentiso;
     private File[] savedFiles;
     private int currentFileCount;
 
@@ -92,7 +91,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         exposureTimeStep = currentExposureTime/2;
         if (!appSettingsManager.exposureMode.get().equals(activityInterface.getContext().getString(R.string.off))) {
             aeWasOn = true;
-            currentiso = cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY);
+            int currentiso = cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY);
 
             if (currentiso >= maxiso)
                 currentiso = maxiso;

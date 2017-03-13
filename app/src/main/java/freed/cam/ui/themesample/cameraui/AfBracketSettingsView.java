@@ -37,8 +37,6 @@ import freed.utils.AppSettingsManager;
  */
 public class AfBracketSettingsView extends LinearLayout
 {
-    private Button button_setMax;
-    private Button button_setMin;
     private TextView textView_max;
     private TextView textView_min;
     private CameraWrapperInterface cameraWrapperInterface;
@@ -63,9 +61,9 @@ public class AfBracketSettingsView extends LinearLayout
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.cameraui_afbracketsettings, this);
-        button_setMax = (Button)findViewById(R.id.button_afbracket_fragment_setMax);
+        Button button_setMax = (Button) findViewById(R.id.button_afbracket_fragment_setMax);
         button_setMax.setOnClickListener(onSetMaxClick);
-        button_setMin = (Button)findViewById(R.id.button_afbracket_fragment_setMin);
+        Button button_setMin = (Button) findViewById(R.id.button_afbracket_fragment_setMin);
         button_setMin.setOnClickListener(onSetMinClick);
         textView_max = (TextView)findViewById(R.id.textView_afBracketFragment_maxvalue);
         textView_min = (TextView)findViewById(R.id.textView_afBracketFragment_minvalue);

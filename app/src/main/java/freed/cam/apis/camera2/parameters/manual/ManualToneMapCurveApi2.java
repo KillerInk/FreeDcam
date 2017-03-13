@@ -47,7 +47,6 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
     private final float[] whitepoint = {1.0f,1.0f};
     public final Contrast contrast;
     public final Brightness brightness;
-    private boolean visible;
 
 
     public ManualToneMapCurveApi2(CameraWrapperInterface cameraUiWrapper)
@@ -56,11 +55,11 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
         brightness = new Brightness(cameraUiWrapper);
     }
 
-    private boolean canSet;
-    private boolean isSupported;
-
     @Override
     public void onParameterValueChanged(String val) {
+        boolean isSupported;
+        boolean canSet;
+        boolean visible;
         if (val.equals("CONTRAST_CURVE"))
         {
             canSet = true;

@@ -41,11 +41,11 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
 {
     private final String TAG = ProgramShiftManualSony.class.getSimpleName();
     private final BaseManualParameterSony shutter;
-    private final BaseManualParameterSony fnumber;
+
     public ProgramShiftManualSony(CameraWrapperInterface cameraUiWrapper) {
         super("", "getSupportedProgramShift", "setProgramShift", cameraUiWrapper);
         shutter = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualShutter;
-        fnumber = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualFNumber;
+        BaseManualParameterSony fnumber = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualFNumber;
     }
 
     @Override

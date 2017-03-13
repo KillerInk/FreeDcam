@@ -11,11 +11,10 @@ public class OrientationHandler
 {
     private int currentOrientation;
     private final OrientationEventListener orientationEventListener;
-    private final I_orientation orientationListner;
 
     public OrientationHandler(FragmentActivity activity, final I_orientation orientationListner)
     {
-        this.orientationListner = orientationListner;
+        I_orientation orientationListner1 = orientationListner;
 
         orientationEventListener = new OrientationEventListener(activity, SensorManager.SENSOR_DELAY_NORMAL) {
             @Override

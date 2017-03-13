@@ -45,6 +45,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -79,7 +80,6 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     {
         void onClick(Fragment fragment);
     }
-    private int mImageThumbSize;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -92,8 +92,6 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
      */
     private ScreenSlidePagerAdapter mPagerAdapter;
 
-
-    private Button closeButton;
 
     private TextView iso;
     private TextView shutter;
@@ -122,7 +120,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         super.onCreateView(inflater,container,savedInstanceState);
         view = inflater.inflate(layout.freedviewer_screenslide_fragment, container, false);
 
-        mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
+        int mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
         activityInterface = (ActivityInterface) getActivity();
 
         // Instantiate a ViewPager and a PagerAdapter.
@@ -130,7 +128,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         topbar =(LinearLayout)view.findViewById(id.top_bar);
         histogram = (MyHistogram)view.findViewById(id.screenslide_histogram);
 
-        closeButton = (Button)view.findViewById(id.button_closeView);
+        Button closeButton = (Button) view.findViewById(id.button_closeView);
         closeButton.setOnClickListener(new View.OnClickListener()
         {
             @Override

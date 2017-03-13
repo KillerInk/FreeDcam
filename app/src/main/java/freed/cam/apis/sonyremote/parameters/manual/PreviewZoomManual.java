@@ -33,7 +33,6 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 public class PreviewZoomManual extends BaseManualParameterSony
 {
     private final SimpleStreamSurfaceView surfaceView;
-    private int zoomFactor = 1;
 
     public PreviewZoomManual(SimpleStreamSurfaceView surfaceView, CameraWrapperInterface cameraUiWrapper) {
         super("", "", "", cameraUiWrapper);
@@ -69,7 +68,7 @@ public class PreviewZoomManual extends BaseManualParameterSony
 
     @Override
     public void SetValue(int valueToSet) {
-        zoomFactor = Integer.parseInt(stringvalues[valueToSet]);
+        int zoomFactor = Integer.parseInt(stringvalues[valueToSet]);
         surfaceView.PreviewZOOMFactor = zoomFactor;
         ThrowCurrentValueChanged(valueToSet);
     }
