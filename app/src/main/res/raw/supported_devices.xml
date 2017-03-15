@@ -3337,4 +3337,21 @@
         </filesize>
     </device>
 
+    <device name ="Xiaomi_Redmi_Pro">
+        <models>
+            <item>Redmi Pro</item>
+        </models>
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <filesize size= "26257920">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>2</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx179</matrixset>
+        </filesize>
+    </device>
+
 </devices>
