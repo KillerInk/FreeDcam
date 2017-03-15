@@ -445,16 +445,22 @@ void DngWriter::process16to10(TIFF *tif) {
 }
 
 void DngWriter::writeRawStuff(TIFF *tif) {
-    if(0 == strcmp(bayerformat,"bggr"))
-        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
-    if(0 == strcmp(bayerformat , "grbg"))
-        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
-    if(0 == strcmp(bayerformat , "rggb"))
-        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
-    if(0 == strcmp(bayerformat , "gbrg"))
-        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
-    if(0 == strcmp(bayerformat , "rgbw"))
-        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\002\006");
+    char cfa[4] = {0,0,0,0};
+    if(0 == strcmp(bayerformat,"bggr")){
+        cfa[0] = 2;cfa[1] = 1;cfa[2] = 1;cfa[3] = 0;}
+        //TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
+    if(0 == strcmp(bayerformat , "grbg")){
+        cfa[0] = 1;cfa[1] = 0;cfa[2] = 2;cfa[3] = 1;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
+    if(0 == strcmp(bayerformat , "rggb")){
+        cfa[0] = 0;cfa[1] = 1;cfa[2] = 1;cfa[3] = 2;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
+    if(0 == strcmp(bayerformat , "gbrg")){
+        cfa[0] = 1;cfa[1] = 2;cfa[2] = 0;cfa[3] = 1;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
+    if(0 == strcmp(bayerformat , "rgbw")){
+        cfa[0] = 0;cfa[1] = 1;cfa[2] = 2;cfa[3] = 6;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\002\006");
+
+    LOGD("cfa pattern %c%c&c&c", cfa[0],cfa[1],cfa[2],cfa[3]);
+
+    TIFFSetField (tif, TIFFTAG_CFAPATTERN, cfa);
     long white=0x3ff;
     TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
 
