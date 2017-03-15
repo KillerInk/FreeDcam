@@ -68,7 +68,7 @@ public class VideoModule extends AbstractVideoModule
             case Normal:
             case Highspeed:
                 if(currentProfile.isAudioActive)
-                    recorder.setAudioSource(AudioSource.CAMCORDER);
+                    recorder.setAudioSource(AudioSource.DEFAULT);
                 break;
             case Timelapse:
                 break;

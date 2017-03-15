@@ -251,7 +251,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             case Normal:
             case Highspeed:
                 if (currentVideoProfile.isAudioActive)
-                    mediaRecorder.setAudioSource(AudioSource.CAMCORDER);
+                    mediaRecorder.setAudioSource(AudioSource.DEFAULT);
                 break;
             case Timelapse:
                 break;
