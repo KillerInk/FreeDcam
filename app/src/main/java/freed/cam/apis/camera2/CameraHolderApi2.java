@@ -494,7 +494,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                                 else
                                     cameraUiWrapper.GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged("1/60");
 
-                                Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
+                                //Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
                             }
                             catch (Exception ex)
                             {
@@ -504,7 +504,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                                 int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
                                 mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, iso);
                                 cameraUiWrapper.GetParameterHandler().ManualIso.ThrowCurrentValueStringCHanged("" + iso);
-                                Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
+                                //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
                             }
                             catch (NullPointerException ex) {
                                 ex.printStackTrace();
@@ -896,38 +896,41 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         public void SetTextureViewSize(int w, int h, int orientation, int orientationWithHack,boolean video)
         {
             Matrix matrix = new Matrix();
-            RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
-            Log.d(TAG,"DisplaySize:" + displaySize.x +"x"+ displaySize.y);
-            RectF bufferRect;
-            if (video)
-                bufferRect = new RectF(0, 0, h, w);
-            else
-                bufferRect = new RectF(0, 0, w, h);
+            RectF bufferRect = new RectF(0, 0, w, h);
+            float xof = displaySize.x - bufferRect.width();
+            float yof = displaySize.y - bufferRect.height();
+            Log.d(TAG,"Video:"+video);
             Log.d(TAG, "PreviewSize:" + w +"x"+ h);
+            Log.d(TAG,"DisplaySize:" + displaySize.x +"x"+ displaySize.y);
+            Log.d(TAG, "margine x:" + xof +" margine y:" + yof);
+            RectF viewRect = new RectF(0, 0, displaySize.x - xof, displaySize.y - yof);
+            Log.d(TAG, "finalsize: " + viewRect.width()+"x"+viewRect.height());
+
+
             float centerX = viewRect.centerX();
             float centerY = viewRect.centerY();
-            bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
-            if (video)
-            {
-               // if(bufferRect.width() <= viewRect.width())
-                    matrix.setRectToRect(bufferRect, viewRect, ScaleToFit.FILL);
+            if (orientation == 90|| orientation == 270) {
+                bufferRect = new RectF(0, 0, h, w);
+                //center buffer to screen
+                bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
 
-                if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.on_)))
-                    matrix.preRotate(orientationWithHack, centerX, centerY);
-                else
-                    matrix.preRotate(orientation, centerX, centerY);
-            }
-            else
-            {
-                matrix.setRectToRect(viewRect, viewRect, ScaleToFit.FILL);
+                float scale = Math.max(
+                        (float) displaySize.x / h,
+                        (float) displaySize.y / w);
+                matrix.postScale(scale,scale);
+
+                textureView.setAspectRatio((int)viewRect.width(), (int)viewRect.height());
+
+                matrix.setRectToRect(viewRect, bufferRect, ScaleToFit.FILL);
+
                 if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.on_)))
                     matrix.postRotate(orientationWithHack, centerX, centerY);
                 else
-                    matrix.postRotate(orientation, centerX, centerY);
+                    matrix.postRotate(orientation, centerX,centerY);
             }
-
+            else
+                textureView.setAspectRatio((int)bufferRect.width(), (int)bufferRect.height());
             textureView.setTransform(matrix);
-            textureView.setAspectRatio((int)viewRect.width(), (int)viewRect.height());
         }
 
 
