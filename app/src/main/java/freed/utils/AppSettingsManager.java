@@ -801,8 +801,6 @@ public class AppSettingsManager {
                                     opencamera1Legacy.setBoolean(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
                                     opencamera1Legacy.setIsPresetted(true);
                                 }
-                                else
-                                    opencamera1Legacy.setBoolean(false);
 
                                 Log.d(TAG, "OpenLegacy: " + opencamera1Legacy.getBoolean() + " isPresetted:" + opencamera1Legacy.isPresetted());
 

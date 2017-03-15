@@ -835,6 +835,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         {
             case AppSettingsManager.FRAMEWORK_LG:
             {
+                Log.d(TAG,"Open LG Camera");
                 LGCamera lgCamera;
                 if (appSettingsManager.opencamera1Legacy.getBoolean())
                     lgCamera = new LGCamera(currentcamera, 256);
@@ -844,6 +845,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             case AppSettingsManager.FRAMEWORK_MOTO_EXT:
             {
+                Log.d(TAG,"Open MOTO Camera");
                 camera  = Camera.open(currentcamera);
                 Camera.Parameters parameters = camera.getParameters();
                 parameters.set("mot-app", "true");
@@ -854,6 +856,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             case AppSettingsManager.FRAMEWORK_MTK:
             {
+                Log.d(TAG,"Open MTK Camera");
                 CameraHolderMTK.setMtkAppMode();
                 camera = Camera.open(currentcamera);
                 Camera.Parameters parameters = camera.getParameters();
@@ -864,6 +867,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             {
                 if (appSettingsManager.opencamera1Legacy.getBoolean())
                 {
+                    Log.d(TAG,"Open Try legacy Camera");
                     try {
                         camera = CameraHolderLegacy.openWrapper(currentcamera);
                         Camera.Parameters parameters = camera.getParameters();
@@ -881,6 +885,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
                 }
                 else {
+                    Log.d(TAG,"Open Normal Camera");
                     camera = Camera.open(currentcamera);
                     Camera.Parameters parameters = camera.getParameters();
                     camera.release();
