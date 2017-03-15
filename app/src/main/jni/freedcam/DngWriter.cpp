@@ -241,7 +241,7 @@ void DngWriter::process10tight(TIFF *tif) {
          rawwidht);
     if (rowSize == 0) {
         realrowsize = rawSize / rawheight;
-        int shouldberowsize = realrowsize;
+        shouldberowsize = realrowsize;
         if (realrowsize % 5 > 0) {
             shouldberowsize = rawwidht * 10 / 8;
             bytesToSkip = realrowsize - shouldberowsize;

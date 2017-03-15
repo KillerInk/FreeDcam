@@ -142,7 +142,14 @@ public class DngConvertingFragment extends Fragment
         super.onResume();
         filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
         if (filesToConvert != null && filesToConvert.length > 0) {
-            dngprofile = appSettingsManager.getDngProfilesMap().get( new File(filesToConvert[0]).length());
+            if (appSettingsManager.getDngProfilesMap() == null)
+            {
+                dngprofile = new DngProfile(0,0,0,0,"bggr",0,
+                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
+            }
+            else
+                dngprofile = appSettingsManager.getDngProfilesMap().get( new File(filesToConvert[0]).length());
             if (dngprofile == null) {
                 dngprofile = new DngProfile(0,0,0,0,"bggr",0,
                         matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
