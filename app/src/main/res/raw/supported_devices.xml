@@ -3297,4 +3297,17 @@
         </camera2>
     </device>
 
+    <device name="Sony_XperiaZ3">
+        <models>
+            <item>D6603</item>
+        </models>
+       <camera1>
+           <exposuretime>
+               <values>aquaris_e5_shuttervalues</values> <!--correct shutter values needed to add -->
+               <key>sony-shutter-speed</key>
+               <type>7</type>
+           </exposuretime>
+       </camera1>
+    </device>
+
 </devices>
