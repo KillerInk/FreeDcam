@@ -2504,7 +2504,7 @@
             <height>3120</height>
             <rawtype>3</rawtype>
             <colorpattern>bggr</colorpattern>
-            <rowsize></rowsize>
+            <rowsize>0</rowsize>
             <matrixset>Imx298</matrixset>
         </filesize>
     </device>
