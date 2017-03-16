@@ -10,6 +10,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 24.02.2017.
@@ -58,6 +59,33 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
 
     @Override
     public String GetValue() {
+
+        if(cameraUiWrapper == null) {
+            Log.d(TAG, "cameraUiWrapper null");
+            isSupported =false;
+            onParameterIsSupportedChanged(false);
+            return cameraUiWrapper.getResString(R.string.off_);
+        }
+        if (parameters == null) {
+            Log.d(TAG, "Parameters are null");
+            isSupported =false;
+            onParameterIsSupportedChanged(false);
+            return cameraUiWrapper.getResString(R.string.off_);
+        }
+        if (parameters.get(cameraUiWrapper.getResString(R.string.morpho_hdr)) == null) {
+            Log.d(TAG, "MorphoHdr is null");
+            isSupported =false;
+            onParameterIsSupportedChanged(false);
+            return cameraUiWrapper.getResString(R.string.off_);
+        }
+        if (parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr)) == null){
+            Log.d(TAG, "Ae bracket is null");
+            isSupported =false;
+            onParameterIsSupportedChanged(false);
+            return cameraUiWrapper.getResString(R.string.off_);
+        }
+
+
         if (parameters.get(cameraUiWrapper.getResString(R.string.morpho_hdr)).equals(cameraUiWrapper.getResString(R.string.true_))
                 && parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr)).equals(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket)))
             return cameraUiWrapper.getResString(R.string.on_);
