@@ -2611,6 +2611,7 @@
         <camera1>
             <!--<framework>0</framework>-->
             <hdrmode supported="true">0</hdrmode>
+            <nightmode>0</nightmode>
             <dngmanual>false</dngmanual>
             <manualiso supported="true">
                 <framework type="2"> <!-- mtk support it -->
