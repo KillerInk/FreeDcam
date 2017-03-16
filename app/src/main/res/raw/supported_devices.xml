@@ -23,7 +23,7 @@
 
             <nightmode></nightmode> 0 = xiaomi, 1 = zte, not added = unsupported
 
-            <hdrmode supported="true">0</hdrmode>
+            <hdrmode supported="true">0</hdrmode> // xiaomi must get set with nightmode
 
             <whitebalance sdkint="21">
                 <min></min>
@@ -2564,6 +2564,7 @@
             <framework>0</framework>
             <nightmode>0</nightmode>
             <hdrmode supported="true">0</hdrmode>
+            <nightmode>0</nightmode>
             <burst>5</burst>
         </camera1>
         <opcode2></opcode2>
