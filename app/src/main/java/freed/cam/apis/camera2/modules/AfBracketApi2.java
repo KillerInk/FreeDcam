@@ -118,9 +118,9 @@ public class AfBracketApi2 extends PictureModuleApi2
                 currentFocusPos = focuslength+min;
         }
         if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
-            cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+            cameraHolder.captureSessionHandler.StopRepeatingCaptureSession();
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
-        cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback, mBackgroundHandler);*/
+        cameraHolder.captureSessionHandler.StartCaptureBurst(captureList, captureCallback, mBackgroundHandler);*/
     }
 
     @Override

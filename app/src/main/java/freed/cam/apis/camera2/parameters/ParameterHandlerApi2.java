@@ -166,7 +166,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         try
         {
             Log.d(TAG, "Set Orientation to:" + orientation);
-            cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, orientation);
+            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, orientation);
         }
         catch (NullPointerException ex)
         {

@@ -82,7 +82,7 @@ public class ZoomApi2 extends AbstractManualParameter
         cropW -= cropW & 3;
         cropH -= cropH & 3;
         Rect zoom = new Rect(cropW, cropH,m.width()-cropW, m.height() - cropH);
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom);
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom);
     }
 
     public Rect getZoomRect(float zoom, int imgWidth, int imgHeight)
