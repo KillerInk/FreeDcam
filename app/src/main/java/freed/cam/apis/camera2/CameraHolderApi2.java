@@ -272,7 +272,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     public void StartAePrecapture(CaptureCallback listener)
     {
-        captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+        captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START,listener);
     }
 
     public <T> void SetFocusArea(@NonNull Key<T> key, T value)
