@@ -23,11 +23,17 @@ public class ExposureTime_MilliSec extends AbstractManualParameter {
         stringvalues = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getValues();
         isVisible = true;
         isSupported = true;
+        this.parameters = parameters;
     }
 
     @Override
     public boolean IsVisible() {
         return isSupported;
+    }
+
+    @Override
+    public boolean IsSetSupported() {
+        return true;
     }
 
     @Override

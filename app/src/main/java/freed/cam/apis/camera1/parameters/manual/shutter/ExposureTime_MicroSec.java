@@ -30,6 +30,11 @@ public class ExposureTime_MicroSec extends AbstractManualParameter {
     }
 
     @Override
+    public boolean IsSetSupported() {
+        return true;
+    }
+
+    @Override
     public void SetValue(int valueToset)
     {
         currentInt = valueToset;
