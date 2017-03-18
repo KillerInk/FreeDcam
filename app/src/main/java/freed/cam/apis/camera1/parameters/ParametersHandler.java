@@ -23,6 +23,9 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
+
+import freed.cam.apis.camera1.parameters.manual.ManualIsoSony;
+import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualZTE;
 import freed.utils.Log;
 
 import com.troop.freedcam.R;
@@ -82,6 +85,8 @@ import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
 import static freed.utils.AppSettingsManager.FRAMEWORK_MTK;
+import static freed.utils.AppSettingsManager.ISOMANUAL_QCOM;
+import static freed.utils.AppSettingsManager.ISOMANUAL_SONY;
 import static freed.utils.AppSettingsManager.SETTING_OrientationHack;
 import static freed.utils.AppSettingsManager.SHUTTER_G2PRO;
 import static freed.utils.AppSettingsManager.SHUTTER_HTC;
@@ -92,6 +97,7 @@ import static freed.utils.AppSettingsManager.SHUTTER_MTK;
 import static freed.utils.AppSettingsManager.SHUTTER_QCOM_MICORSEC;
 import static freed.utils.AppSettingsManager.SHUTTER_QCOM_MILLISEC;
 import static freed.utils.AppSettingsManager.SHUTTER_SONY;
+import static freed.utils.AppSettingsManager.SHUTTER_ZTE;
 
 /**
  * Created by troop on 17.08.2014.
@@ -384,6 +390,8 @@ public class ParametersHandler extends AbstractParameterHandler
                 case SHUTTER_G2PRO:
                     ManualShutter = new ShutterManualG2pro(cameraParameters,cameraUiWrapper);
                     break;
+                case SHUTTER_ZTE:
+                    ManualShutter = new ShutterManualZTE(cameraParameters,cameraUiWrapper);
             }
 
         }
@@ -391,7 +399,10 @@ public class ParametersHandler extends AbstractParameterHandler
         //mtk and g4 aehandler set it already
         if (appS.manualIso.isSupported() && aehandler == null)
         {
-            ManualIso = new BaseISOManual(cameraParameters,cameraUiWrapper);
+            if (appS.manualIso.getType() == ISOMANUAL_QCOM)
+                ManualIso = new BaseISOManual(cameraParameters,cameraUiWrapper);
+            else if (appS.manualIso.getType() == ISOMANUAL_SONY)
+                ManualIso = new ManualIsoSony(cameraUiWrapper,cameraParameters);
         }
 
         if (appS.manualWhiteBalance.isSupported())
