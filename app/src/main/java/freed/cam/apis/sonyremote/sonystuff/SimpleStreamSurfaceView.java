@@ -174,7 +174,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
         }
         scalePreview = enable;
@@ -524,7 +524,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             this.getHolder().unlockCanvasAndPost(canvas);
         }
         catch(IllegalStateException ex)
-        {ex.printStackTrace();}
+        {Log.WriteEx(ex);}
     }
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)

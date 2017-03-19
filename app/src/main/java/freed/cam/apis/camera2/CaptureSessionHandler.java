@@ -137,7 +137,7 @@ public class CaptureSessionHandler
         try {
             mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
         } catch (CameraAccessException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -189,7 +189,7 @@ public class CaptureSessionHandler
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         if (mPreviewRequestBuilder != null)
             for (Surface s: surfaces)
@@ -206,7 +206,7 @@ public class CaptureSessionHandler
         try {
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
         } catch (CameraAccessException | SecurityException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -219,7 +219,7 @@ public class CaptureSessionHandler
         try {
             cameraHolderApi2.mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, null);
         } catch (CameraAccessException | SecurityException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -229,7 +229,7 @@ public class CaptureSessionHandler
         try {
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, customCallback, null);
         } catch (CameraAccessException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -240,12 +240,12 @@ public class CaptureSessionHandler
             try {
                 mCaptureSession.stopRepeating();
             } catch (CameraAccessException | java.lang.SecurityException ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
                 mCaptureSession = null;
             }
             catch (IllegalStateException ex)
             {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
                 mCaptureSession = null;
             }
     }
@@ -258,12 +258,12 @@ public class CaptureSessionHandler
             try {
                 mCaptureSession.abortCaptures();
             } catch (CameraAccessException | java.lang.SecurityException ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
                 mCaptureSession = null;
             }
             catch (IllegalStateException ex)
             {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
                 mCaptureSession = null;
             }
     }
@@ -277,7 +277,7 @@ public class CaptureSessionHandler
             mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                     null);
         } catch (CameraAccessException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -290,7 +290,7 @@ public class CaptureSessionHandler
             mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), listener,
                     null);
         } catch (CameraAccessException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -300,11 +300,11 @@ public class CaptureSessionHandler
             try {
                 mHighSpeedCaptureSession.stopRepeating();
             } catch (CameraAccessException ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
             }
             catch (IllegalStateException ex)
             {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
                 mHighSpeedCaptureSession = null;
             }
     }
@@ -326,7 +326,7 @@ public class CaptureSessionHandler
                 }
             }, null);
         } catch (CameraAccessException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -339,7 +339,7 @@ public class CaptureSessionHandler
             CaptureRequest request1 = request.build();
             mCaptureSession.capture(request1,listener,handler);
         } catch (CameraAccessException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -348,7 +348,7 @@ public class CaptureSessionHandler
         try {
             mCaptureSession.abortCaptures();
         } catch (CameraAccessException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
     }
 
@@ -358,7 +358,7 @@ public class CaptureSessionHandler
         try {
             mCaptureSession.captureBurst(request,listener,handler);
         } catch (CameraAccessException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -406,7 +406,7 @@ public class CaptureSessionHandler
             mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                     null);
         } catch (CameraAccessException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 

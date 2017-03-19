@@ -146,7 +146,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             {
                 Log.e(TAG,"Recording failed");
                 cameraUiWrapper.GetCameraHolder().SendUIMessage("Start Recording failed");
-                ex.printStackTrace();
+                Log.WriteEx(ex);
                 recorder.reset();
                 isWorking = false;
                 ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
@@ -157,7 +157,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             cameraUiWrapper.GetCameraHolder().SendUIMessage("Start Recording failed");
             recorder.reset();
             isWorking = false;
@@ -208,7 +208,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                     fileDescriptor = null;
                 }
             } catch (IOException e1) {
-                e1.printStackTrace();
+                Log.WriteEx(e1);
             }
             File file = new File(mediaSavePath);
             cameraUiWrapper.getActivityInterface().ScanFile(file);
@@ -231,11 +231,11 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 fileDescriptor = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
                 recorder.setOutputFile(fileDescriptor.getFileDescriptor());
             } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
                 try {
                     fileDescriptor.close();
                 } catch (IOException ex1) {
-                    ex1.printStackTrace();
+                   Log.WriteEx(ex1);
                 }
             }
         }

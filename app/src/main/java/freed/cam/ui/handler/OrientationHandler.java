@@ -4,6 +4,8 @@ import android.hardware.SensorManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.OrientationEventListener;
 
+import freed.utils.Log;
+
 /**
  * Created by troop on 17.09.2014.
  */
@@ -29,7 +31,7 @@ public class OrientationHandler
                         }
                         catch (NullPointerException ex)
                         {
-                            ex.printStackTrace();
+                            Log.WriteEx(ex);
                         }
                     }
                 }

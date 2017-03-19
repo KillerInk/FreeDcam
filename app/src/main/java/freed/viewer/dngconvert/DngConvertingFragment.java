@@ -290,7 +290,7 @@ public class DngConvertingFragment extends Fragment
             Log.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             return null;
         }
         String out =null;
@@ -314,7 +314,7 @@ public class DngConvertingFragment extends Fragment
 
                 pfd = getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
             } catch (FileNotFoundException | IllegalArgumentException ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
                 return null;
             }
             if (pfd != null) {
@@ -322,7 +322,7 @@ public class DngConvertingFragment extends Fragment
                 try {
                     pfd.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.WriteEx(e);
                     return null;
                 }
                 pfd = null;

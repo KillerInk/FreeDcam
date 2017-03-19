@@ -296,7 +296,7 @@ public class TouchImageView extends ImageView {
             super.onDraw(canvas);
         }
         catch (RuntimeException ex){
-            ex.printStackTrace();}
+            Log.WriteEx(ex);}
 
     }
 

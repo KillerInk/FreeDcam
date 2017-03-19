@@ -26,6 +26,7 @@ import com.troop.freedcam.R;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.utils.Log;
 
 public class FXManualParameter extends BaseManualParameter {
 
@@ -63,7 +64,7 @@ public class FXManualParameter extends BaseManualParameter {
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
 
         return i;

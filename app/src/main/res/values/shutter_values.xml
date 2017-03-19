@@ -578,6 +578,36 @@
         <item>@string/shutter_64</item>
     </string-array>
 
+    <string-array name="shutter_sony_xperiaZ3" translatable="false">
+        <item>@string/auto_</item>
+        <item>@string/shutter_1_10000</item>
+        <item>@string/shutter_1_5000</item>
+        <item>@string/shutter_1_2000</item>
+        <item>@string/shutter_1_1000</item>
+        <item>@string/shutter_1_500</item>
+        <item>@string/shutter_1_250</item>
+        <item>@string/shutter_1_125</item>
+        <item>@string/shutter_1_100</item>
+        <item>@string/shutter_1_8</item>
+        <item>@string/shutter_1_4</item>
+        <item>@string/shutter_1_2</item>
+        <item>@string/shutter_1</item>
+    </string-array>
+
+    <string-array name="iso_sony_xperiaZ3" translatable="false">
+        <item>@string/auto_</item>
+        <item>50</item>
+        <item>100</item>
+        <item>200</item>
+        <item>400</item>
+        <item>800</item>
+        <item>1600</item>
+        <item>3200</item>
+        <item>6400</item>
+        <item>10000</item>
+        <item>12800</item>
+    </string-array>
+
     <string-array name="htc" translatable="false">
         <item>@string/shutter_auto</item>
         <item>@string/shutter_1_8000</item>

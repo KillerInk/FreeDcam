@@ -281,7 +281,7 @@ public class CameraHolderSony extends CameraHolderAbstract
 
                 } catch (IOException ex)
                 {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                     Log.w(TAG, "IOException while closing slicer: " + ex.getMessage());
                     awaitTakePicture(pictureCallback);
                 } catch (JSONException e) {
@@ -313,10 +313,10 @@ public class CameraHolderSony extends CameraHolderAbstract
             } catch (IOException e1)
             {
                 awaitTakePicture(pictureCallback);
-                e1.printStackTrace();
+                Log.WriteEx(e1);
             } catch (JSONException e1) {
                 //awaitTakePicture(pictureCallback);
-                e1.printStackTrace();
+                Log.WriteEx(e1);
             }
         }
     }
@@ -414,7 +414,7 @@ public class CameraHolderSony extends CameraHolderAbstract
                     {
                         JSONObject ob = mRemoteApi.setParameterToCamera("cancelTouchAFPosition", new JSONArray());
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                         Log.d(TAG, "Cancel Focus failed");
                     }
                 }
@@ -432,7 +432,7 @@ public class CameraHolderSony extends CameraHolderAbstract
                     {
                         JSONObject ob = mRemoteApi.setParameterToCamera("cancelTrackingFocus", new JSONArray());
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                         Log.d(TAG, "Cancel Focus failed");
                     }
                 }
@@ -541,7 +541,7 @@ public class CameraHolderSony extends CameraHolderAbstract
                 try {
                     mRemoteApi.setLiveviewFrameInfo(val);
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
             }
         });

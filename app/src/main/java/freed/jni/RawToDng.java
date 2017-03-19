@@ -79,7 +79,7 @@ public class RawToDng
                 opcode2 = readFile(op2);
                 Log.d(TAG, "opcode2 size" + opcode2.length);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
         File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
         if (op3.exists())
@@ -87,7 +87,7 @@ public class RawToDng
                 opcode3 = readFile(op3);
                 Log.d(TAG, "opcode3 size" + opcode3.length);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
     }
 

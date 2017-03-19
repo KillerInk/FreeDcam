@@ -109,7 +109,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
             transaction.commit();
         }catch (NullPointerException | IllegalStateException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
     private void loadRightFragment()
@@ -127,7 +127,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
         }
         catch (NullPointerException | IllegalStateException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 

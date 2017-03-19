@@ -148,10 +148,10 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 
         } catch (CameraAccessException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             return  false;
         } catch (InterruptedException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             return false;
         }
         return true;
@@ -192,7 +192,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             //throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
         }
         finally
@@ -221,7 +221,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         try {
             return manager.getCameraIdList();
         } catch (CameraAccessException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return null;
     }
@@ -422,7 +422,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                             }
                             catch (Exception ex)
                             {
-                                ex.printStackTrace();
+                                Log.WriteEx(ex);
                             }
                             try {
                                 int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
@@ -430,18 +430,18 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                                 //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
                             }
                             catch (NullPointerException ex) {
-                                ex.printStackTrace();
+                                Log.WriteEx(ex);
                             }
                             try {
                                 focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
                                 cameraUiWrapper.GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString4Places(focus_distance + ""));
                             }
-                            catch (NullPointerException ex) {ex.printStackTrace();}
+                            catch (NullPointerException ex) {Log.WriteEx(ex);}
                         }
                     }
                     catch (NullPointerException ex)
                     {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                     }
                 }
             }

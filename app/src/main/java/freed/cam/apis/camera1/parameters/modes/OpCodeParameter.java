@@ -88,7 +88,7 @@ public class OpCodeParameter extends AbstractModeParameter
                     try {
                         httpsGet(urlopc2, "opc2.bin");
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                     }
                 }
             });
@@ -98,7 +98,7 @@ public class OpCodeParameter extends AbstractModeParameter
                     try {
                         httpsGet(urlopc3, "opc3.bin");
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                     }
                 }
             });
@@ -230,7 +230,7 @@ public class OpCodeParameter extends AbstractModeParameter
             HttpsURLConnection
                     .setDefaultSSLSocketFactory(sc.getSocketFactory());
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
     }
 }

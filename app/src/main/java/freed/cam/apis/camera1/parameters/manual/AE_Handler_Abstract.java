@@ -177,7 +177,7 @@ public abstract class AE_Handler_Abstract
                     try {
                         Thread.sleep(200);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Log.WriteEx(e);
                     }
                 }
             }

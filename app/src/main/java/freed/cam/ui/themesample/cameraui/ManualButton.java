@@ -284,7 +284,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
             runValue = valueQueue.take();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
             currentlysettingsparameter = false;
         }
         pos = runValue;

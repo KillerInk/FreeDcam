@@ -98,7 +98,7 @@ public class CameraHolder extends CameraHolderAbstract
 
         } catch (Exception ex) {
             isRdy = false;
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return isRdy;
     }
@@ -114,7 +114,7 @@ public class CameraHolder extends CameraHolderAbstract
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         finally {
             mCamera = null;
@@ -153,12 +153,12 @@ public class CameraHolder extends CameraHolderAbstract
                 return true;
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             return false;
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             return false;
         }
         return false;
@@ -185,7 +185,7 @@ public class CameraHolder extends CameraHolderAbstract
             cameraUiWrapper.onPreviewOpen("");
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             SendUIMessage("Failed to Start Preview");
         }
     }
@@ -205,7 +205,7 @@ public class CameraHolder extends CameraHolderAbstract
         {
             cameraUiWrapper.onPreviewClose("");
             Log.d(TAG, "Camera was released");
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -222,7 +222,7 @@ public class CameraHolder extends CameraHolderAbstract
         catch (RuntimeException ex)
         {
             SendUIMessage("Picture Taking failed, What a Terrible Failure!!");
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 

@@ -71,7 +71,7 @@ public class ExposureManualParameter extends BaseManualParameter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         ThrowCurrentValueChanged(currentInt);
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);

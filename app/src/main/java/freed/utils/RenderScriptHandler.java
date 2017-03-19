@@ -87,7 +87,7 @@ public class RenderScriptHandler
         }
         catch (RSRuntimeException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             sucessfullLoaded = false;
         }
     }

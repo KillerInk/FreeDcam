@@ -612,7 +612,7 @@ public class SimpleRemoteApi {
         JSONObject params = new JSONObject().put("scheme", scheme);
             return executeSetMethod(service, "getSourceList", new JSONArray().put(0, params));
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
         return null;
     }

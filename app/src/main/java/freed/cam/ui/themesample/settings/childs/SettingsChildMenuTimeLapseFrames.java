@@ -120,7 +120,7 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         appSettingsManager.setApiString(settingsname, current + "");
         if (current >= 1)

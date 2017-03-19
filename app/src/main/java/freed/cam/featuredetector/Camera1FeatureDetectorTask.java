@@ -310,6 +310,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 appSettingsManager.manualIso.setIsSupported(true);
                 appSettingsManager.manualIso.setKEY("m-sr-g");
                 appSettingsManager.manualIso.setValues(createIsoValues(100, 1600, 100, appSettingsManager));
+                appSettingsManager.manualIso.setType(AppSettingsManager.ISOMANUAL_MTK);
             } else {
                 if (parameters.get(appSettingsManager.getResString(R.string.min_iso)) != null && parameters.get(appSettingsManager.getResString(R.string.max_iso)) != null) {
                     appSettingsManager.manualIso.setIsSupported(true);
@@ -317,6 +318,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     int min = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.min_iso)));
                     int max = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.max_iso)));
                     appSettingsManager.manualIso.setValues(createIsoValues(min, max, 50, appSettingsManager));
+                    appSettingsManager.manualIso.setType(AppSettingsManager.ISOMANUAL_QCOM);
                 }
             }
         }
@@ -793,7 +795,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e)
         {
-            e.printStackTrace();
+            Log.WriteEx(e);
             Log.d(TAG, "MTK Framework not found");
             return false;
         }
@@ -820,10 +822,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         catch
                 (NoSuchMethodException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
             return false;
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
             return false;
         }
     }

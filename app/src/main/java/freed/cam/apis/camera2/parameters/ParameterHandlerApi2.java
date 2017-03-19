@@ -170,7 +170,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 

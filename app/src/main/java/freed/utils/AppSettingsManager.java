@@ -241,6 +241,10 @@ public class AppSettingsManager {
     public static final int HDR_AUTO = 1;
     public static final int HDR_LG = 2;
 
+    public static final int ISOMANUAL_QCOM = 0;
+    public static final int ISOMANUAL_SONY =1;
+    public static final int ISOMANUAL_MTK =2;
+
 
 
     public static final String CURRENTCAMERA = "currentcamera";
@@ -344,7 +348,7 @@ public class AppSettingsManager {
     public final TypeSettingsMode manualFocus;
     public final SettingMode manualExposureCompensation;
     public final TypeSettingsMode manualExposureTime;
-    public final SettingMode manualIso;
+    public final TypeSettingsMode manualIso;
     public final SettingMode manualSaturation;
     public final SettingMode manualSharpness;
     public final SettingMode manualBrightness;
@@ -434,7 +438,7 @@ public class AppSettingsManager {
         manualExposureCompensation = new SettingMode(getResString(R.string.aps_manualexpocomp));
         manualExposureTime = new TypeSettingsMode(getResString(R.string.aps_manualexpotime));
         manualWhiteBalance = new TypeSettingsMode(getResString(R.string.aps_manualwb));
-        manualIso = new SettingMode(getResString(R.string.aps_manualiso));
+        manualIso = new TypeSettingsMode(getResString(R.string.aps_manualiso));
         manualSaturation = new SettingMode(getResString(R.string.aps_manualsaturation));
         manualSharpness = new SettingMode(getResString(R.string.aps_manualsharpness));
         manualBrightness = new SettingMode(getResString(R.string.aps_manualbrightness));
@@ -989,7 +993,7 @@ public class AppSettingsManager {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
     }
 
@@ -1009,17 +1013,26 @@ public class AppSettingsManager {
 
     private void setManualIso(XmlElement element)
     {
-        if (element.findChild("min") != null) {
+        if (!element.findChild("min").isEmpty()) {
             int min = element.findChild("min").getIntValue(100);
             int max = element.findChild("max").getIntValue(1600);
             int step = element.findChild("step").getIntValue(50);
+            int type = element.findChild("type").getIntValue(0);
+            manualIso.setType(type);
             manualIso.setKEY(element.findChild("key").getValue());
             manualIso.setValues(Camera1FeatureDetectorTask.createIsoValues(min, max, step, this));
             manualIso.setIsSupported(true);
+            manualIso.setIsPresetted(true);
         }
-        else {
-            manualIso.setKEY("unsupported");
-            manualIso.setIsSupported(false);
+        else if (!element.findChild("values").isEmpty())
+        {
+            String name = element.findChild("values").getValue();
+            manualIso.setValues(getResources().getStringArray(getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
+            manualIso.setKEY(element.findChild("key").getValue());
+            int type = element.findChild("type").getIntValue(0);
+            manualIso.setType(type);
+            manualIso.setIsSupported(true);
+            manualIso.setIsPresetted(true);
         }
     }
 
@@ -1053,7 +1066,7 @@ public class AppSettingsManager {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
         return map;
     }
@@ -1110,7 +1123,7 @@ public class AppSettingsManager {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
         return matrixHashMap;
     }
