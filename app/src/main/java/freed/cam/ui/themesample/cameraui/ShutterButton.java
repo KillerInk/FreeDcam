@@ -98,7 +98,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
     private void init()
     {
         shutteropentimePaint =new Paint();
-        shutteropentimePaint.setColor(Color.RED);
+        shutteropentimePaint.setColor(Color.GREEN);
         shutteropentimePaint.setTextSize(getResources().getDimension(R.dimen.cameraui_infooverlay_textsize));
         shutteropentimePaint.setStyle(Paint.Style.FILL);
         shutteropentimePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
