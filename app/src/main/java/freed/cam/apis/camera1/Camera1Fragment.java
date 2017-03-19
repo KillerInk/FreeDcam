@@ -136,7 +136,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 

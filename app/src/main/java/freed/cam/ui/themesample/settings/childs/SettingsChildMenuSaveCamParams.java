@@ -152,7 +152,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
             //file.mkdirs();
             file.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
 
         try {
@@ -166,7 +166,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
 
             outputStream.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
     }
 }

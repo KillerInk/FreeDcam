@@ -46,6 +46,7 @@ import java.util.HashMap;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 15.02.2016.
@@ -150,7 +151,7 @@ public class VideoProfileEditorFragment extends Fragment {
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 

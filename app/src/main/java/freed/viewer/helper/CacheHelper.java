@@ -80,7 +80,7 @@ public class CacheHelper
                 try {
                     mDiskLruCache = DiskLruCache.open(cacheDir, 1, DISK_CACHE_SIZE);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.WriteEx(e);
                 }
                 mDiskCacheStarting = false; // Finished initialization
                 mDiskCacheLock.notifyAll(); // Wake any waiting threads
@@ -127,7 +127,7 @@ public class CacheHelper
                         if (out != null) {
                             out.close();
                         }
-                    } catch (IOException e) { e.printStackTrace();}
+                    } catch (IOException e) { Log.WriteEx(e);}
                 }
             }
         }
@@ -145,7 +145,7 @@ public class CacheHelper
             while (mDiskCacheStarting) {
                 try {
                     mDiskCacheLock.wait();
-                } catch (InterruptedException e) {e.printStackTrace();}
+                } catch (InterruptedException e) {Log.WriteEx(e);}
             }
             if (mDiskLruCache != null) {
                 InputStream inputStream = null;
@@ -163,13 +163,13 @@ public class CacheHelper
                         }
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.WriteEx(e);
                 } finally {
                     try {
                         if (inputStream != null) {
                             inputStream.close();
                         }
-                    } catch (IOException e) {e.printStackTrace();}
+                    } catch (IOException e) {Log.WriteEx(e);}
                 }
             }
             return bitmap;
@@ -186,7 +186,7 @@ public class CacheHelper
             try {
                 mDiskLruCache.remove(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
         }
     }

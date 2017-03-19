@@ -331,7 +331,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
                         try {
                             pictureModuleSony.onPictureTaken(new URL(s));
                         }catch (MalformedURLException ex) {
-                            ex.printStackTrace();
+                            Log.WriteEx(ex);
                         }
                     }
                 }

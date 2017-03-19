@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 
 /**
  * Created by troop on 15.12.2014.
@@ -52,7 +53,7 @@ public class PictureSizeSony extends BaseModeParameterSony
                     values = processValuesToReturn();
                     onValuesHasChanged(values);
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
             }
         });
@@ -71,12 +72,12 @@ public class PictureSizeSony extends BaseModeParameterSony
                 JSONArray array = new JSONArray().put(0, split[0]).put(1, split[1]);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
             } catch (JSONException ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
             }
 
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -93,7 +94,7 @@ public class PictureSizeSony extends BaseModeParameterSony
                 ret[i] = size.getString("aspect") + "x" +size.getString("size");
             }
         } catch (JSONException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return ret;
     }
@@ -103,7 +104,7 @@ public class PictureSizeSony extends BaseModeParameterSony
         try {
             array = jsonObject.getJSONArray("result");
         } catch (JSONException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         String ret ="";
         try
@@ -112,7 +113,7 @@ public class PictureSizeSony extends BaseModeParameterSony
             ret = size.getString("aspect") + "+" +size.getString("size");
         } catch (JSONException | NullPointerException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return ret;
     }

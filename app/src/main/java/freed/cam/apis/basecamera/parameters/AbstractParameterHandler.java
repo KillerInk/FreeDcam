@@ -314,7 +314,7 @@ public abstract class AbstractParameterHandler
                 }
                 catch (NumberFormatException ex)
                 {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
 
             }

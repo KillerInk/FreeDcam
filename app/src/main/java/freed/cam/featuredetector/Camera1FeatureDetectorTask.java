@@ -795,7 +795,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e)
         {
-            e.printStackTrace();
+            Log.WriteEx(e);
             Log.d(TAG, "MTK Framework not found");
             return false;
         }
@@ -822,10 +822,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         catch
                 (NoSuchMethodException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
             return false;
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
             return false;
         }
     }

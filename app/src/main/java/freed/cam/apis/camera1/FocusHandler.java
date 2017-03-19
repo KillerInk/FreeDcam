@@ -184,7 +184,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                     }
                 }
 

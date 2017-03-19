@@ -8,6 +8,8 @@ import android.provider.MediaStore;
 import android.view.Window;
 import android.view.WindowManager;
 
+import freed.utils.Log;
+
 /**
  * Workaround helper class for secure-lockscreen double-onResume() bug:
  * <p>
@@ -114,7 +116,7 @@ public class SecureCamera {
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             mActivity.onResumeTasks();
         }
 
@@ -132,7 +134,7 @@ public class SecureCamera {
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             mActivity.onPauseTasks();
         }
 

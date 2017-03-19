@@ -204,7 +204,7 @@ public class CustomMatrix
             }
             br.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
         return matrix;
     }

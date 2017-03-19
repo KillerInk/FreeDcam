@@ -172,7 +172,7 @@ public class BracketModule extends PictureModule
         try {
             Thread.sleep(time);
         } catch (InterruptedException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 

@@ -97,7 +97,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                         reset(size.width, size.height);
                     }
                 } catch (NullPointerException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
 
                 clear_preview("onSurfaceTextureAvailable");
@@ -115,7 +115,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
 
                     }
                 } catch (RSInvalidStateException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
             }
 
@@ -208,7 +208,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                         //pass frame back to camera that it get reused
                         ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().addCallbackBuffer(tmp);
                     } catch (InterruptedException | NullPointerException e) {
-                        e.printStackTrace();
+                        Log.WriteEx(e);
                     }
                     finally
                     {
@@ -218,7 +218,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                                 ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().addCallbackBuffer(frameQueue.take());
                             } catch (InterruptedException | NullPointerException e)
                             {
-                                e.printStackTrace();
+                                Log.WriteEx(e);
                             }
                         frameQueue.clear();
                     }
@@ -243,7 +243,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                 cameraUiWrapper.GetCameraHolder().ResetPreviewCallback();
             } catch (NullPointerException ex)
             {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
             }
 
             Builder tbIn = new Builder(renderScriptHandler.GetRS(), Element.U8(renderScriptHandler.GetRS()));
@@ -332,7 +332,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
             try {
                 camera.addCallbackBuffer(frameQueue.take());
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
         }
         //store new frame, dont pass it back to the camera else it get cleaned

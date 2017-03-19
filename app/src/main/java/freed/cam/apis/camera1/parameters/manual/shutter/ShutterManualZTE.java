@@ -101,7 +101,7 @@ public class ShutterManualZTE extends AbstractManualShutter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
 
     }
@@ -128,7 +128,7 @@ public class ShutterManualZTE extends AbstractManualShutter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return shutterstring;
     }

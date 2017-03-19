@@ -577,7 +577,7 @@ public class SimpleCameraEventObserver {
                 }
             }
         } catch (JSONException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -605,7 +605,7 @@ public class SimpleCameraEventObserver {
             }
         }
         } catch (JSONException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 

@@ -68,12 +68,12 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
 
                         //ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                     Log.e(TAG, "Error SetValue " + valueToSet);
                 } catch (IOException ex)
                 {
                     Log.e(TAG, "Error SetValue " + valueToSet);
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
             }
         });
@@ -99,7 +99,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     {
 
                         Log.e(TAG, "Error getMinMaxValues ");
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
 
                     }
                 }
@@ -120,7 +120,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                         currentInt = array.getInt(0);
                         //onCurrentValueChanged(val);
                     } catch (IOException | JSONException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                         Log.e(TAG, "Error GetValue() ");
 
                     }

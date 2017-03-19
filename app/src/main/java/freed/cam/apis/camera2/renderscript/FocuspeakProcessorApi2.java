@@ -103,7 +103,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
             }
             mProcessingTask = null;
@@ -129,7 +129,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
             }
             mProcessingTask = null;

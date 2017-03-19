@@ -372,7 +372,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Log.WriteEx(e);
                 }
             }
 

@@ -267,7 +267,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate));
         }catch (Exception e)
         {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
 
       //  if(currentVideoProfile.Mode == VideoMediaProfile.VideoMode.SlowMO)
@@ -328,7 +328,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         try {
             mediaRecorder.prepare();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
             return;
@@ -356,11 +356,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2
                 fileDescriptor = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
                 mediaRecorder.setOutputFile(fileDescriptor.getFileDescriptor());
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
                 try {
                     fileDescriptor.close();
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                    Log.WriteEx(e1);
                 }
             }
         }

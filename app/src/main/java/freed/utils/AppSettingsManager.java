@@ -993,7 +993,7 @@ public class AppSettingsManager {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
     }
 
@@ -1066,7 +1066,7 @@ public class AppSettingsManager {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
         return map;
     }
@@ -1123,7 +1123,7 @@ public class AppSettingsManager {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
         return matrixHashMap;
     }
