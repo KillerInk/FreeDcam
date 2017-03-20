@@ -16,6 +16,9 @@ public class CameraExtension
 
     }
 
+    private static void postEventFromNative(Object cameraref, int what, int arg1, int arg2, Object obj) {
+    }
+
     private final native void disableBurstShotCallback();
 
     private final native void enableBurstShotCallback();
