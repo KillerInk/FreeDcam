@@ -18,7 +18,6 @@ public class CameraHolderSony extends CameraHolder {
 
     public CameraHolderSony(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper, frameworks);
-        sonyCameraExtension = new CameraExtension();
     }
 
     /**
@@ -44,7 +43,7 @@ public class CameraHolderSony extends CameraHolder {
         try
         {
             Log.d(TAG, "open SonyCameraExtension");
-            sonyCameraExtension.loadSonyExtension(camera);
+            sonyCameraExtension.open(mCamera,camera);
         } catch (Exception ex) {
             isRdy = false;
             Log.WriteEx(ex);
@@ -60,7 +59,7 @@ public class CameraHolderSony extends CameraHolder {
         try
         {
             mCamera.release();
-            sonyCameraExtension.close();
+            sonyCameraExtension.release();
             Log.d(TAG, "Camera Released");
         }
         catch (Exception ex)
@@ -79,7 +78,7 @@ public class CameraHolderSony extends CameraHolder {
     public Camera.Parameters GetCameraParameters()
     {
         Camera.Parameters parameters = mCamera.getParameters();
-        parameters.unflatten(sonyCameraExtension.getNativeParameters());
+        sonyCameraExtension.fetchParameters(parameters);
         return parameters;
     }
 }
