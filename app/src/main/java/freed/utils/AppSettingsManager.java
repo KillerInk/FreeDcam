@@ -861,6 +861,12 @@ public class AppSettingsManager {
                                             manualIso.setIsSupported(false);
                                             manualIso.setIsPresetted(true);
                                         }
+                                        else
+                                        {
+                                            manualIso.setIsSupported(true);
+                                            manualIso.setIsPresetted(true);
+                                            setManualIso(camera1element.findChild("manualiso"));
+                                        }
                                     }
                                     else
                                     {
