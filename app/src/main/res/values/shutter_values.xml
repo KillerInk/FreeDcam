@@ -588,6 +588,8 @@
         <item>@string/shutter_1_250</item>
         <item>@string/shutter_1_125</item>
         <item>@string/shutter_1_100</item>
+        <item>1/32</item>
+        <item>1/16</item>
         <item>@string/shutter_1_8</item>
         <item>@string/shutter_1_4</item>
         <item>@string/shutter_1_2</item>

@@ -19,6 +19,7 @@ public class ManualIsoSony extends AbstractManualParameter
         this.parameters = parameters;
         stringvalues = cameraUiWrapper.GetAppSettingsManager().manualIso.getValues();
         isSupported = true;
+        isVisible = isSupported;
     }
 
     @Override
@@ -43,11 +44,11 @@ public class ManualIsoSony extends AbstractManualParameter
                 parameters.set("sony-ae-mode", "shutter-prio");
         }
         else {
-            if (cameraUiWrapper.GetParameterHandler().ManualShutter.GetValue() == 0)
+            if (cameraUiWrapper.GetParameterHandler().ManualShutter.GetValue() == 0 && !parameters.get("sony-ae-mode").equals("iso-prio"))
                 parameters.set("sony-ae-mode", "iso-prio");
-            else if (cameraUiWrapper.GetParameterHandler().ManualShutter.GetValue() >0)
+            else if (cameraUiWrapper.GetParameterHandler().ManualShutter.GetValue() >0 && !parameters.get("sony-ae-mode").equals("manual"))
                 parameters.set("sony-ae-mode", "manual");
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().manualIso.getKEY(), stringvalues[currentInt]);
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().manualIso.getKEY(), currentInt);
         }
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }

@@ -232,6 +232,7 @@ public class AppSettingsManager {
     public static final int FRAMEWORK_LG = 1;
     public static final int FRAMEWORK_MTK = 2;
     public static final int FRAMEWORK_MOTO_EXT = 3;
+    public static final int FRAMEWORK_SONY_CAMERAEXTENSION = 4;
     public static final String FRAMEWORK = "framework";
 
     public static final int NIGHTMODE_XIAOMI = 0;

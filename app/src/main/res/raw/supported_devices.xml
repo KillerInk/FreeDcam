@@ -3304,12 +3304,13 @@
     </device>
 
     <device name="Sony_XperiaZ3">
+        <framework>4</framework>
         <models>
             <item>D6603</item>
         </models>
        <camera1>
            <exposuretime>
-               <values>shutter_sony_xperiaZ3</values> <!--correct shutter values needed to add -->
+               <values>shutter_sony_xperiaZ3</values>
                <key>sony-shutter-speed</key>
                <type>7</type>
            </exposuretime>
