@@ -3,6 +3,7 @@
     package="com.troop.freedcam"
     android:installLocation="auto">
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="com.sonyericsson.permission.CAMERA_EXTENDED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>
