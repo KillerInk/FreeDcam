@@ -3324,6 +3324,7 @@
     <device name ="Xiaomi_Redmi4">
         <models>
             <item>Redmi 4</item>
+            <item>Redmi Note4---</item>
         </models>
         <camera1>
             <framework>0</framework>
