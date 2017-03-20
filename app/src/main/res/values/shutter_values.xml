@@ -57,9 +57,11 @@
     <string name="shutter_1_55" translatable="false">1/55</string>
     <string name="shutter_1_45" translatable="false">1/45</string>
     <string name="shutter_1_35" translatable="false">1/35</string>
+    <string name="shutter_1_32" translatable="false">1/32</string>
     <string name="shutter_1_30" translatable="false">1/30</string>
     <string name="shutter_1_25" translatable="false">1/25</string>
     <string name="shutter_1_20" translatable="false">1/20</string>
+    <string name="shutter_1_16" translatable="false">1/16</string>
     <string name="shutter_1_15" translatable="false">1/15</string>
     <string name="shutter_1_13" translatable="false">1/13</string>
     <string name="shutter_1_10" translatable="false">1/10</string>
@@ -580,20 +582,20 @@
 
     <string-array name="shutter_sony_xperiaZ3" translatable="false">
         <item>@string/auto_</item>
-        <item>@string/shutter_1_10000</item>
-        <item>@string/shutter_1_5000</item>
-        <item>@string/shutter_1_2000</item>
-        <item>@string/shutter_1_1000</item>
-        <item>@string/shutter_1_500</item>
-        <item>@string/shutter_1_250</item>
-        <item>@string/shutter_1_125</item>
-        <item>@string/shutter_1_100</item>
-        <item>1/32</item>
-        <item>1/16</item>
-        <item>@string/shutter_1_8</item>
-        <item>@string/shutter_1_4</item>
-        <item>@string/shutter_1_2</item>
         <item>@string/shutter_1</item>
+        <item>@string/shutter_1_2</item>
+        <item>@string/shutter_1_4</item>
+        <item>@string/shutter_1_8</item>
+        <item>@string/shutter_1_16</item>
+        <item>@string/shutter_1_32</item>
+        <item>@string/shutter_1_100</item>
+        <item>@string/shutter_1_125</item>
+        <item>@string/shutter_1_250</item>
+        <item>@string/shutter_1_500</item>
+        <item>@string/shutter_1_1000</item>
+        <item>@string/shutter_1_2000</item>
+        <item>@string/shutter_1_5000</item>
+        <item>@string/shutter_1_10000</item>
     </string-array>
 
     <string-array name="iso_sony_xperiaZ3" translatable="false">
@@ -605,9 +607,6 @@
         <item>800</item>
         <item>1600</item>
         <item>3200</item>
-        <item>6400</item>
-        <item>10000</item>
-        <item>12800</item>
     </string-array>
 
     <string-array name="htc" translatable="false">
