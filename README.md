@@ -63,12 +63,15 @@ In that case send us the raw/bayer file and it will work soon.
 
 * **Q** Why my Device dont show an highspeed video profile, i know it support it  
 **A** Its because the Oem's did not add it as MediaProfile and freedcam support it only for most snapdragon socs
--In that case open the VideoProfileEditor inside FreeDcamSetting.
--As sample for 720p highspeed select first the 720p profile.
--Rename it to 720Hfr or what ever you want.
--Change Framerate to 120
--Select Highspeed
--Save the Profile and close the VideoProfileEditor.
+- In that case open the VideoProfileEditor inside FreeDcamSetting.
+- As sample for 720p highspeed select first the 720p profile.
+- Rename it to 720Hfr or what ever you want.
+- Change Framerate to 120
+- Select Highspeed
+- Save the Profile and close the VideoProfileEditor.
+
+* **Q** Why cant i decompile apps build with nougat sdk
+**A** They changed the dex header version. Use a hexeditor to change the version from 37 to 35 and dex2jar works
 
 
 Hidden Oem Settings
