@@ -89,6 +89,8 @@ public class CameraHolderSony extends CameraHolder {
         sonyCameraExtension.startAutoFocus(new CameraExtension.AutoFocusCallback() {
             @Override
             public void onAutoFocus(CameraExtension.AutoFocusResult autoFocusResult) {
+                if (autoFocusResult.isFocused())
+                    sonyCameraExtension.stopAutoFocus();
                 autoFocusCallback.onFocusEvent(autoFocusResult.isFocused());
             }
         },true,true,true);
