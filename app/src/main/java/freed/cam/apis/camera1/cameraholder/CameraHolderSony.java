@@ -5,6 +5,7 @@ import android.hardware.Camera;
 import com.sonyericsson.cameraextension.CameraExtension;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.Log;
 
@@ -75,10 +76,26 @@ public class CameraHolderSony extends CameraHolder {
         cameraUiWrapper.onCameraClose("");
     }
 
+    @Override
     public Camera.Parameters GetCameraParameters()
     {
         Camera.Parameters parameters = mCamera.getParameters();
         sonyCameraExtension.fetchParameters(parameters);
         return parameters;
+    }
+
+    @Override
+    public void StartFocus(final FocusEvents autoFocusCallback) {
+        sonyCameraExtension.startAutoFocus(new CameraExtension.AutoFocusCallback() {
+            @Override
+            public void onAutoFocus(CameraExtension.AutoFocusResult autoFocusResult) {
+                autoFocusCallback.onFocusEvent(autoFocusResult.isFocused());
+            }
+        },true,true,true);
+    }
+
+    @Override
+    public void CancelFocus() {
+        sonyCameraExtension.stopAutoFocus();
     }
 }
