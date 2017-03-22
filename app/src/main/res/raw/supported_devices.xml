@@ -1704,7 +1704,7 @@
             <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>5246</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>Imx214</matrixset>
         </filesize>
         <filesize size= "16473600">
             <blacklvl>64</blacklvl>
@@ -1713,7 +1713,7 @@
             <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>5280</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>Imx214</matrixset>
         </filesize>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
@@ -1722,7 +1722,7 @@
             <rawtype>1</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>Imx214</matrixset>
         </filesize>
     </device>
 
