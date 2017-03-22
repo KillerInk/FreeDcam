@@ -1832,6 +1832,7 @@
             <nightmode>0</nightmode>
             <hdrmode supported="true">0</hdrmode>
             <burst>5</burst>
+            <manualiso supported="false"></manualiso>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -1878,6 +1879,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <manualiso supported="false"></manualiso>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2299,6 +2301,7 @@
             <burst>6</burst>
             <nightmode>0</nightmode>
             <hdrmode supported="true">0</hdrmode>
+            <manualiso supported="false"></manualiso>
             <whiteblance>
                 <min>2000</min>
                 <max>8000</max>
@@ -2367,6 +2370,7 @@
             <burst>7</burst>
             <nightmode>0</nightmode>
             <hdrmode supported="true">0</hdrmode>
+            <manualiso supported="false"></manualiso>
             <whiteblance>
                 <min>2000</min>
                 <max>8000</max>
@@ -2433,6 +2437,7 @@
             <framework>0</framework>
             <nightmode>0</nightmode>
             <burst>6</burst>
+            <manualiso supported="false"></manualiso>
             <whiteblance>
                 <min>2000</min>
                 <max>8000</max>
@@ -2658,6 +2663,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <manualiso supported="false"></manualiso>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2688,6 +2694,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <manualiso supported="false"></manualiso>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -3299,7 +3306,7 @@
             <item>EVA-L09</item>
         </models>
         <camera2>
-            <maxexposuretime>4500000000</maxexposuretime>
+            <maxexposuretime>300000000</maxexposuretime>
         </camera2>
     </device>
 
@@ -3330,6 +3337,7 @@
         <camera1>
             <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <manualiso supported="false"></manualiso>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -3348,6 +3356,9 @@
         <models>
             <item>Redmi Pro</item>
         </models>
+        <camera1>
+            <manualiso supported="false"></manualiso>
+        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26257920">
