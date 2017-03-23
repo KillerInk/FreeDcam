@@ -110,6 +110,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
         if (!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion())
         {
+            getAppSettings().RESET();
             Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
             startActivity(intent);
             this.finish();

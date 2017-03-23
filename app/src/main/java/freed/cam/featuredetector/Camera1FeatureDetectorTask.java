@@ -53,6 +53,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
 
         int cameraCounts = Camera.getNumberOfCameras();
+        Log.d(TAG, "Cameras Found: " + cameraCounts);
         AppSettingsManager appS = appSettingsManager;
         for (int i = 0; i < cameraCounts; i++)
         {
@@ -887,7 +888,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
                 }
                 else {
-                    Log.d(TAG,"Open Normal Camera");
+                    Log.d(TAG,"Open Normal Camera " + currentcamera);
                     camera = Camera.open(currentcamera);
                     Camera.Parameters parameters = camera.getParameters();
                     camera.release();

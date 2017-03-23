@@ -29,13 +29,19 @@ import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
@@ -376,6 +382,7 @@ public class AppSettingsManager {
     {
         settings = sharedPreferences;
         this.resources = resources;
+        Log.d(TAG, "Version/Build:" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE + " Last Version: " + getAppVersion());
 
        /* if (getdevice() == null)
             SetDevice(new DeviceUtils().getDevice(getResources()));*/
@@ -457,7 +464,8 @@ public class AppSettingsManager {
 
         //first time init
         matrixes = getMatrixes();
-        if (mDevice == null || TextUtils.isEmpty(mDevice = getDeviceString()))
+        mDevice = sharedPreferences.getString("DEVICE","");
+        if (mDevice == null || TextUtils.isEmpty(mDevice))
         {
             parseAndFindSupportedDevice();
         }
@@ -468,6 +476,11 @@ public class AppSettingsManager {
         }
 
 
+    }
+
+    public void RESET()
+    {
+        settings.edit().clear().commit();
     }
 
     public String getResString(int id)
@@ -782,13 +795,16 @@ public class AppSettingsManager {
                     for (XmlElement mod : models)
                     {
                         if (mod.getValue().equals(Build.MODEL)) {
+
                             setDevice(device_element.getAttribute("name",""));
-                            Log.d(TAG, "Found Device:" +device_element.getAttribute("name",""));
+                            Log.d(TAG, "Found Device:" + getDeviceString());
 
                             XmlElement camera1element = device_element.findChild("camera1");
 
+
                             if (!camera1element.isEmpty()) {
                                 Log.d(TAG, "Found camera1 overrides");
+                                Log.v(TAG, camera1element.dumpChildElementsTagNames());
                                 if (!camera1element.findChild("framework").isEmpty())
                                 {
                                     setFramework(Integer.parseInt(camera1element.findChild("framework").getValue()));
@@ -993,6 +1009,7 @@ public class AppSettingsManager {
 
                             dngProfileHashMap = new LongSparseArray<>();
                             getDngStuff(dngProfileHashMap, device_element);
+                            saveDngProfiles();
 
                             break;
                         }
@@ -1058,19 +1075,14 @@ public class AppSettingsManager {
     {
         LongSparseArray<DngProfile> map = new LongSparseArray<>();
         try {
-            String xmlsource = getString(resources.openRawResource(R.raw.supported_devices));
+            File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
+            String xmlsource = getString(new FileInputStream(configFile));
             XmlElement rootElement = XmlElement.parse(xmlsource);
             if (rootElement.getTagName().equals("devices"))
             {
                 List<XmlElement> devicesList = rootElement.findChildren("device");
-
-                for (XmlElement device_element: devicesList)
-                {
-                    if (device_element.getAttribute("name", "").equals(mDevice))
-                    {
-                        getDngStuff(map, device_element);
-                    }
-                }
+                XmlElement device = devicesList.get(0);
+                getDngStuff(map, device);
             }
         } catch (IOException e) {
             Log.WriteEx(e);
@@ -1083,10 +1095,13 @@ public class AppSettingsManager {
             opcodeUrlList[0] = device_element.getAttribute("opcode2", "");
         if (!device_element.getAttribute("opcode3", "").isEmpty())
             opcodeUrlList[1] = device_element.getAttribute("opcode3", "");
+
+        Log.d(TAG, device_element.dumpChildElementsTagNames());
         List<XmlElement> fsizeList = device_element.findChildren("filesize");
         Log.d(TAG, "Found Dng Profiles:" + fsizeList.size());
         for (XmlElement filesize_element : fsizeList) {
             long filesize = Long.parseLong(filesize_element.getAttribute("size", "0"));
+            Log.d(TAG, filesize_element.dumpChildElementsTagNames());
             DngProfile profile = getProfile(filesize_element);
             map.put(filesize, profile);
         }
@@ -1102,7 +1117,7 @@ public class AppSettingsManager {
         int rowsize = Integer.parseInt(element.findChild("rowsize").getValue());
         String matrixset = element.findChild("matrixset").getValue();
 
-        return new DngProfile(blacklvl,width,height,rawType,colorpattern,rowsize,matrixes.get(matrixset));
+        return new DngProfile(blacklvl,width,height,rawType,colorpattern,rowsize,matrixes.get(matrixset), matrixset);
     }
 
     private HashMap<String, CustomMatrix> getMatrixes()
@@ -1145,4 +1160,34 @@ public class AppSettingsManager {
         }
         return buf.toString();
     }
+
+    private void saveDngProfiles()
+    {
+        try {
+
+            File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
+            if (!configFile.getParentFile().exists())
+                configFile.getParentFile().mkdirs();
+            configFile.createNewFile();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
+            writer.write("<devices>" + "\r\n");
+            writer.write("<device name = \""+ mDevice +"\">\r\n");
+
+            for (int i =0; i< dngProfileHashMap.size();i++)
+            {
+                long t = dngProfileHashMap.keyAt(i);
+                writer.write(dngProfileHashMap.get(t).getXmlString(t));
+            }
+
+            writer.write("</device>" + "\r\n");
+            writer.write("</devices>" + "\r\n");
+            writer.flush();
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

@@ -145,14 +145,14 @@ public class DngConvertingFragment extends Fragment
             if (appSettingsManager.getDngProfilesMap() == null)
             {
                 dngprofile = new DngProfile(0,0,0,0,"bggr",0,
-                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6),MatrixChooserParameter.NEXUS6);
                 Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
             else
                 dngprofile = appSettingsManager.getDngProfilesMap().get( new File(filesToConvert[0]).length());
             if (dngprofile == null) {
                 dngprofile = new DngProfile(0,0,0,0,"bggr",0,
-                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6),MatrixChooserParameter.NEXUS6);
                 Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
             editTextCusotmRowSize.setText(dngprofile.rowsize +"");
