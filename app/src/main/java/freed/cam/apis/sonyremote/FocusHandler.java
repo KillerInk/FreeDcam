@@ -25,7 +25,6 @@ import android.view.MotionEvent;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
-import freed.cam.apis.basecamera.FocusRect;
 
 /**
  * Created by troop on 31.01.2015.
@@ -46,8 +45,9 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     }
 
     @Override
-    public void StartTouchToFocus(FocusRect rect, int width, int height)
+    public void StartTouchToFocus(int x, int y, int width, int height)
     {
+        int areasize = (width*height) /8;
         if (this.cameraUiWrapper.GetParameterHandler() == null)
             return;
         if (this.isFocusing)
@@ -61,8 +61,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
             }
         }
 
-        double x = rect.left + (rect.right - rect.left)/2  ;
-        double y = rect.top + (rect.bottom - rect.top )  /2;
         double xproz = x / (double)width * 100;
         double yproz = y / (double)height *100;
         Log.d(this.TAG, "set focus to: x: " + xproz + " y: " +yproz);
@@ -70,11 +68,11 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         ((CameraHolderSony) this.cameraUiWrapper.GetCameraHolder()).SetTouchFocus(xproz, yproz);
         this.isFocusing = true;
         if (this.focusEvent != null)
-            this.focusEvent.FocusStarted(rect);
+            this.focusEvent.FocusStarted(x,y);
     }
 
     @Override
-    public void SetMeteringAreas(FocusRect meteringRect, int width, int height) {
+    public void SetMeteringAreas(int x,int y, int width, int height) {
 
     }
 

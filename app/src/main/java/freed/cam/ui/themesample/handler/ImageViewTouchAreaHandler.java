@@ -30,7 +30,6 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.FocusRect;
 
 /**
  * This class handles touch events that happens to the attached imageview and moves them
@@ -47,7 +46,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
 
     public interface I_TouchListnerEvent
     {
-        void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight);
+        void onAreaCHanged(int x, int y, int previewWidth, int previewHeight);
         void OnAreaClick(int x, int y);
         void OnAreaLongClick(int x, int y);
         void IsMoving(boolean moving);
@@ -151,15 +150,16 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
                 {
                     longClickHandler.removeCallbacks(longClickRunnable);
                     moving = false;
-                    x = 0;
-                    y = 0;
-                    difx = 0;
-                    dify = 0;
                     recthalf = imageView.getWidth() /2;
-                    FocusRect imageRect = new FocusRect((int) imageView.getX(), (int) imageView.getX() + imageView.getWidth(), (int) imageView.getY(), (int) imageView.getY() + imageView.getWidth(), (int) imageView.getX(), (int) imageView.getY());
+                    x = imageView.getX() + recthalf;
+                    y = imageView.getY() + recthalf;;
+                    /*difx = 0;
+                    dify = 0;
 
+                    FocusRect imageRect = new FocusRect((int) imageView.getX(), (int) imageView.getX() + imageView.getWidth(), (int) imageView.getY(), (int) imageView.getY() + imageView.getWidth(), (int) imageView.getX(), (int) imageView.getY());
+*/
                     if (touchListnerEvent != null) {
-                        touchListnerEvent.onAreaCHanged(imageRect, cameraUiWrapper.getPreviewWidth(), cameraUiWrapper.getPreviewHeight());
+                        touchListnerEvent.onAreaCHanged((int)x,(int)y, cameraUiWrapper.getPreviewWidth(), cameraUiWrapper.getPreviewHeight());
                         touchListnerEvent.IsMoving(false);
                     }
                 }

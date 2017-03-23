@@ -20,6 +20,7 @@
 package freed.cam.apis.camera2.parameters;
 
 import android.annotation.TargetApi;
+import android.graphics.Rect;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
@@ -30,7 +31,6 @@ import com.troop.freedcam.R;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
@@ -145,7 +145,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     }
 
     @Override
-    public void SetFocusAREA(FocusRect focusAreas) {
+    public void SetFocusAREA(Rect focusAreas) {
 
     }
 

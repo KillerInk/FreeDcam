@@ -39,7 +39,6 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
-import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.Size;
 
 /**
@@ -289,7 +288,7 @@ public class CameraHolder extends CameraHolderAbstract
         mCamera.cancelAutoFocus();
     }
 
-    public void SetMeteringAreas(FocusRect meteringRect)
+    public void SetMeteringAreas(Rect meteringRect)
     {
         try {
 

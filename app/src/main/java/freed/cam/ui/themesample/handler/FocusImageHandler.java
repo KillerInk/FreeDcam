@@ -23,6 +23,7 @@ package freed.cam.ui.themesample.handler;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Build.VERSION;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -33,18 +34,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TabHost;
 
 import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
-
+import freed.utils.Log;
 
 
 /**
@@ -89,7 +90,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     {
         wrapper = cameraUiWrapper;
         if(cameraUiWrapper instanceof Camera1Fragment || cameraUiWrapper instanceof Camera2Fragment) {
-            FocusRect meteringRect = centerImageView(meteringArea);
+            centerImageView(meteringArea);
             meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch));
             if (wrapper.isAeMeteringSupported())
             {
@@ -111,22 +112,22 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     }
 
     @Override
-    public void FocusStarted(FocusRect rect)
+    public void FocusStarted(int x, int y)
     {
         if (!(wrapper instanceof SonyCameraRemoteFragment))
         {
             disWidth = wrapper.getPreviewWidth();
             disHeight = wrapper.getPreviewHeight();
 
-            if (rect == null)
+            /*if (rect == null)
             {
                 int halfwidth = disWidth / 2;
                 int halfheight = disHeight / 2;
                 rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf,halfwidth,halfheight);
-            }
+            }*/
             final LayoutParams mParams = (LayoutParams) focusImageView.getLayoutParams();
-            mParams.leftMargin = rect.left;
-            mParams.topMargin = rect.top;
+            mParams.leftMargin = x +wrapper.getMargineLeft();
+            mParams.topMargin = y;
 
             focusImageView.post(new Runnable() {
                 @Override
@@ -211,9 +212,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
     private final I_TouchListnerEvent meteringTouch = new I_TouchListnerEvent() {
         @Override
-        public void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight) {
+        public void onAreaCHanged(int x, int y, int previewWidth, int previewHeight) {
             if (wrapper != null)
-                wrapper.getFocusHandler().SetMeteringAreas(imageRect,previewWidth, previewHeight);
+                wrapper.getFocusHandler().SetMeteringAreas(x,y,previewWidth, previewHeight);
         }
 
         @Override
@@ -252,9 +253,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     {
         if (wrapper == null || wrapper.getFocusHandler() == null)
             return;
-        disWidth = wrapper.getPreviewWidth();
+        disWidth = wrapper.getPreviewWidth() - wrapper.getMargineLeft();
         disHeight = wrapper.getPreviewHeight();
-        int marginLeft = wrapper.getMargineLeft();
+
+        /*int marginLeft = wrapper.getMargineLeft();
         int marginRight = wrapper.getMargineRight();
         if (x > marginLeft && x < disWidth + marginLeft) {
             if (x < marginLeft + recthalf)
@@ -265,18 +267,23 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 y = recthalf;
             if (y > disHeight - recthalf)
                 y = disHeight - recthalf;
-            FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf,x,y);
 
-            if (wrapper.getFocusHandler() != null)
-                wrapper.getFocusHandler().StartTouchToFocus(rect, disWidth, disHeight);
-        }
+
+        }*/
+
+        x = x - wrapper.getMargineLeft();
+        if (wrapper.getFocusHandler() != null)
+            wrapper.getFocusHandler().StartTouchToFocus(x,y, disWidth, disHeight);
+
+
+
     }
 
 
     /*
     Centers the attached Imageview
      */
-    private FocusRect centerImageView(ImageView imageview)
+    private Rect centerImageView(ImageView imageview)
     {
         int width = 0;
         int height = 0;
@@ -316,6 +323,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         imageview.setX(width/2 - recthalf);
         imageview.setY(height/2 - recthalf);
 
-        return new FocusRect((int)imageview.getX() - recthalf, (int)imageview.getX() + recthalf, (int)imageview.getY() - recthalf, (int)imageview.getY() + recthalf,(int)imageview.getX(),(int)imageview.getY());
+        return new Rect((int)imageview.getX() - recthalf, (int)imageview.getX() + recthalf, (int)imageview.getY() - recthalf, (int)imageview.getY() + recthalf);
     }
 }

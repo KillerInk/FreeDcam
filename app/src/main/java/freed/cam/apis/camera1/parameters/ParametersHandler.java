@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
@@ -78,7 +77,6 @@ import freed.cam.apis.camera1.parameters.modes.PictureSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
-import freed.cam.apis.camera1.parameters.modes.VideoStabilizationParameter;
 import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
 import freed.utils.AppSettingsManager;
 import freed.utils.StringUtils;
@@ -436,7 +434,7 @@ public class ParametersHandler extends AbstractParameterHandler
     }
 
     @Override
-    public void SetFocusAREA(FocusRect focusAreas)
+    public void SetFocusAREA(Rect focusAreas)
     {
         if (appSettingsManager.useQcomFocus())
             setQcomFocus(focusAreas);
@@ -444,14 +442,15 @@ public class ParametersHandler extends AbstractParameterHandler
             setAndroidFocus(focusAreas);
     }
 
-    private void setQcomFocus(FocusRect focusAreas)
+    private void setQcomFocus(Rect focusRect)
     {
+        int half = (focusRect.left - focusRect.right)/2;
         cameraParameters.set("touch-aec", "on");
-        cameraParameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
+        cameraParameters.set("touch-index-af", focusRect.left +half + "," +focusRect.top +half);
         SetParametersToCamera(cameraParameters);
     }
 
-    private void setAndroidFocus(FocusRect focusAreas)
+    private void setAndroidFocus(Rect focusAreas)
     {
         if (focusAreas != null) {
             List<Camera.Area> l = new ArrayList<>();
