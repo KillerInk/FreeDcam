@@ -279,8 +279,8 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appSettingsManager.getDngProfilesMap() != null && appS.getDngProfilesMap().size() > 0)
             matrixChooser = new MatrixChooserParameter(cameraUiWrapper.GetAppSettingsManager().getMatrixesMap());
 
-        if (appS.digitalImageStabilisationMode.isSupported())
-            DigitalImageStabilization = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.digitalImageStabilisationMode);
+        /*if (appS.digitalImageStabilisationMode.isSupported())
+            DigitalImageStabilization = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.digitalImageStabilisationMode);*/
 
         if(appS.denoiseMode.isSupported())
             Denoise = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.denoiseMode);
@@ -395,7 +395,8 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         //mtk and g4 aehandler set it already
-        if (appS.manualIso.isSupported() && aehandler == null)
+        Log.d(TAG, "manual Iso supported:" + appS.manualIso.isSupported());
+        if (appS.manualIso.isSupported() && aehandler == null && appS.manualIso.getValues() != null && appS.manualIso.getValues().length > 0)
         {
             if (appS.manualIso.getType() == ISOMANUAL_QCOM)
                 ManualIso = new BaseISOManual(cameraParameters,cameraUiWrapper);

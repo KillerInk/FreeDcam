@@ -305,6 +305,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectManualIso(Camera.Parameters parameters) {
 
+        Log.d(TAG, "Manual Iso Presetted:" + appSettingsManager.manualIso.isPresetted());
         if (!appSettingsManager.manualIso.isPresetted()) {
 
             if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
