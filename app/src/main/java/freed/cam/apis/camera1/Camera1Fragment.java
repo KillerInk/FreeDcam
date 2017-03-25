@@ -408,7 +408,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Override
     public String getResString(int id) {
-        return getResources().getString(id);
+        return GetAppSettingsManager().getResString(id);
     }
 
     @Override

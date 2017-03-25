@@ -41,6 +41,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
+import freed.utils.PermissionHandler;
 
 /**
  * Created by troop on 06.01.2016.
@@ -92,9 +93,16 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     protected void startRecording()
     {
-        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
-            cameraUiWrapper.GetCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
-        prepareRecorder();
+        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(new PermissionHandler.PermissionCallback() {
+            @Override
+            public void permissionGranted(boolean granted) {
+
+            }
+        })) {
+            if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+                cameraUiWrapper.GetCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
+            prepareRecorder();
+        }
 
     }
 

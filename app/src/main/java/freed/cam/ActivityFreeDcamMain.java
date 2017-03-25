@@ -146,11 +146,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private PermissionHandler.PermissionCallback onExtSDPermission = new PermissionHandler.PermissionCallback() {
         @Override
         public void permissionGranted(boolean granted) {
-            if (granted)
+            /*if (granted)
                 LoadFreeDcamDCIMDirsFiles();
             else {
                 finish();
-            }
+            }*/
         }
     };
 
@@ -211,7 +211,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         loadCameraFragment();
         activityIsResumed = true;
         if (screenSlideFragment != null)
-            screenSlideFragment.NotifyDATAhasChanged();
+        {
+            if (getFiles() != null)
+                screenSlideFragment.NotifyDATAhasChanged();
+            else LoadFreeDcamDCIMDirsFiles();
+        }
+
         if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)) && getPermissionHandler().hasLocationPermission(onLocationPermission))
             locationHandler.startLocationListing();
         SetNightOverlay();
