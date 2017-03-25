@@ -142,7 +142,10 @@ public class StringUtils
         if (t > 1000) {
             int meter = t / 1000;
             int cm = t - meter*1000;
-            ret = meter + "." + cm +"m";
+            if (meter > 100)
+                ret = "∞";
+            else
+                ret = meter + "." + cm +"m";
         }
         else {
             int cm = t /10;
