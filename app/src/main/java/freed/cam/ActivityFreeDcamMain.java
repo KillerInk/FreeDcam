@@ -212,9 +212,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = true;
         if (screenSlideFragment != null)
         {
+            LoadFreeDcamDCIMDirsFiles();
             if (getFiles() != null)
                 screenSlideFragment.NotifyDATAhasChanged();
-            else LoadFreeDcamDCIMDirsFiles();
         }
 
         if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)) && getPermissionHandler().hasLocationPermission(onLocationPermission))
