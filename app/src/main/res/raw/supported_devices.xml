@@ -3190,7 +3190,7 @@
             <item>EVA-L09</item>
         </models>
         <camera2>
-            <maxexposuretime>300000000</maxexposuretime>
+            <maxexposuretime>30000000</maxexposuretime>
         </camera2>
     </device>
 
