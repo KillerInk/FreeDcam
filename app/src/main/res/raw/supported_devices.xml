@@ -290,7 +290,7 @@
             <rawtype>2</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX258_Qualcomm</matrixset>
         </filesize>
         <filesize size= "25958400">
             <blacklvl>64</blacklvl>
@@ -664,7 +664,7 @@
             <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX258_Qualcomm</matrixset>
         </filesize>
     </device>
 
@@ -704,7 +704,7 @@
             <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX258_Qualcomm</matrixset>
         </filesize>
     </device>
 
@@ -1774,7 +1774,7 @@
             <rawtype>0</rawtype>
             <colorpattern>bggr</colorpattern>
             <rowsize>5246</rowsize>
-            <matrixset>Omnivision</matrixset>
+            <matrixset>OV8858_Qualcomm</matrixset>
         </filesize>
         <filesize size= "10653696">
             <blacklvl>0</blacklvl>
@@ -1783,7 +1783,7 @@
             <rawtype>1</rawtype>
             <colorpattern>bggr</colorpattern>
             <rowsize>5280</rowsize>
-            <matrixset>Omnivision</matrixset>
+            <matrixset>OV8858_Qualcomm</matrixset>
         </filesize>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
@@ -1792,7 +1792,7 @@
             <rawtype>0</rawtype>
             <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>s5k3m2xx_Qualcomm</matrixset>
         </filesize>
     </device>
 
@@ -2447,7 +2447,7 @@
             <rawtype>1</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX258_Qualcomm</matrixset>
         </filesize>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
@@ -2456,7 +2456,7 @@
             <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX258_Qualcomm</matrixset>
         </filesize>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
@@ -2465,7 +2465,7 @@
             <rawtype>0</rawtype>
             <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX258_Qualcomm</matrixset>
         </filesize>
         <filesize size= "2969600">
             <blacklvl>64</blacklvl>
@@ -2474,7 +2474,7 @@
             <rawtype>3</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX258_Qualcomm</matrixset>
         </filesize>
         <filesize size= "3170304">
             <blacklvl>64</blacklvl>
@@ -2483,7 +2483,7 @@
             <rawtype>1</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX258_Qualcomm</matrixset>
         </filesize>
     </device>
 
@@ -2505,7 +2505,7 @@
             <rawtype>3</rawtype>
             <colorpattern>bggr</colorpattern>
             <rowsize></rowsize>
-            <matrixset>Imx298</matrixset>
+            <matrixset>IMX258_Qualcomm</matrixset>
         </filesize>
     </device>
 
@@ -2532,7 +2532,7 @@
             <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
-            <matrixset>Imx298</matrixset>
+            <matrixset>IMX298_Qualcomm</matrixset>
         </filesize>
     </device>
 
@@ -2552,7 +2552,7 @@
             <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
-            <matrixset>Imx298</matrixset>
+            <matrixset>Imx378</matrixset>
         </filesize>
     </device>
 
@@ -2691,7 +2691,7 @@
             <rawtype>3</rawtype>
             <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>S5K3L8_Qualcomm</matrixset>
         </filesize>
     </device>
 
@@ -2825,7 +2825,7 @@
             <rawtype>1</rawtype>
             <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Imx135</matrixset>
+            <matrixset>IMX135_Z5S_JB</matrixset>
         </filesize>
         <filesize size= "12460032">
             <blacklvl>64</blacklvl>
@@ -2834,7 +2834,7 @@
             <rawtype>0</rawtype>
             <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
-            <matrixset>Imx135</matrixset>
+            <matrixset>IMX135_Z5S_JB</matrixset>
         </filesize>
         <filesize size= "4108288">
             <blacklvl>64</blacklvl>
@@ -2843,7 +2843,7 @@
             <rawtype>3</rawtype>
             <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
-            <matrixset>Imx135</matrixset>
+            <matrixset>IMX135_Z5S_JB</matrixset>
         </filesize>
     </device>
 
@@ -3004,7 +3004,7 @@
             <rawtype>3</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Imx298</matrixset>
+            <matrixset>IMX298_Qualcomm</matrixset>
         </filesize>
     </device>
 
