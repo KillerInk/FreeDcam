@@ -210,9 +210,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             return;
         loadCameraFragment();
         activityIsResumed = true;
+        LoadFreeDcamDCIMDirsFiles();
         if (screenSlideFragment != null)
         {
-            LoadFreeDcamDCIMDirsFiles();
             if (getFiles() != null)
                 screenSlideFragment.NotifyDATAhasChanged();
         }
@@ -384,7 +384,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(screenSlideFragment != null && activityIsResumed)
+                if(screenSlideFragment != null && activityIsResumed && getFiles() != null)
                     screenSlideFragment.NotifyDATAhasChanged();
             }
         });
