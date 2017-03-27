@@ -45,7 +45,6 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     private int mCount;
     long mLastTime;
     private float mFps;
-    private final HandlerThread mProcessingThread;
     private final Handler mProcessingHandler;
     private ProcessingTask mProcessingTask;
     private boolean peak;
@@ -56,7 +55,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     {
         Log.d(TAG, "Ctor");
         this.renderScriptHandler = renderScriptHandler;
-        mProcessingThread = new HandlerThread("ViewfinderProcessor");
+        HandlerThread mProcessingThread = new HandlerThread("ViewfinderProcessor");
         mProcessingThread.start();
         mProcessingHandler = new Handler(mProcessingThread.getLooper());
 
@@ -104,7 +103,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
             }
             mProcessingTask = null;
@@ -130,7 +129,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
             }
             mProcessingTask = null;

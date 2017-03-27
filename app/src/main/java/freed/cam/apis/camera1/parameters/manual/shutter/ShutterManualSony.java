@@ -59,11 +59,17 @@ public class ShutterManualSony extends AbstractManualShutter
         currentInt = valueToSet;
         if (currentInt == 0)
         {
-            parameters.set("sony-ae-mode", "auto");
+            if (cameraUiWrapper.GetParameterHandler().ManualIso.GetValue() == 0)
+                parameters.set("sony-ae-mode", "auto");
+            else if (cameraUiWrapper.GetParameterHandler().ManualIso.GetValue() > 0)
+                parameters.set("sony-ae-mode", "iso-prio");
         }
         else {
-            parameters.set("sony-ae-mode", "manual");
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getKEY(), stringvalues[currentInt]);
+            if (cameraUiWrapper.GetParameterHandler().ManualIso.GetValue() == 0 && !parameters.get("sony-ae-mode").equals("shutter-prio"))
+                parameters.set("sony-ae-mode", "shutter-prio");
+            else if (cameraUiWrapper.GetParameterHandler().ManualIso.GetValue() > 0 && !parameters.get("sony-ae-mode").equals("manual"))
+                parameters.set("sony-ae-mode", "manual");
+            parameters.set(cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getKEY(), currentInt-1);
         }
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }

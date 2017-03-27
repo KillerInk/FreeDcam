@@ -41,11 +41,11 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
 {
     private final String TAG = ProgramShiftManualSony.class.getSimpleName();
     private final BaseManualParameterSony shutter;
-    private final BaseManualParameterSony fnumber;
+
     public ProgramShiftManualSony(CameraWrapperInterface cameraUiWrapper) {
         super("", "getSupportedProgramShift", "setProgramShift", cameraUiWrapper);
         shutter = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualShutter;
-        fnumber = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualFNumber;
+        BaseManualParameterSony fnumber = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualFNumber;
     }
 
     @Override
@@ -128,7 +128,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
 
 
                     } catch (IOException | JSONException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                         Log.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
                         stringvalues = new String[0];
                     }
@@ -138,7 +138,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
         }
     }
@@ -157,7 +157,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     JSONObject object = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException | IOException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
             }
         });

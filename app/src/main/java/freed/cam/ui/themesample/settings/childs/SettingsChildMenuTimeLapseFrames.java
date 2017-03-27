@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -39,10 +40,7 @@ import freed.utils.AppSettingsManager;
 public class SettingsChildMenuTimeLapseFrames extends LinearLayout
 {
     private final String TAG = SettingsChildMenuTimeLapseFrames.class.getSimpleName();
-    private Button plus;
-    private Button minus;
     private EditText editText;
-    private Context context;
 
     private final float min = 0.01f;
     private final float max = 30;
@@ -66,11 +64,11 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
     }
     private void init(Context context)
     {
-        this.context = context;
+        Context context1 = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layout.settings_expandable_childs_number, this);
-        plus = (Button) findViewById(id.button_plus);
-        minus = (Button) findViewById(id.button_minus);
+        Button plus = (Button) findViewById(id.button_plus);
+        Button minus = (Button) findViewById(id.button_minus);
         editText = (EditText) findViewById(id.editText_number);
         plus.setClickable(true);
         minus.setClickable(true);
@@ -122,7 +120,7 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         appSettingsManager.setApiString(settingsname, current + "");
         if (current >= 1)

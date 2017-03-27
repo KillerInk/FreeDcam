@@ -41,11 +41,9 @@ import freed.utils.AppSettingsManager;
 public class ExtendedSurfaceView extends SurfaceView
 {
     private boolean hasReal3d;
-    private boolean hasOpenSense;
     private final String TAG = ExtendedSurfaceView.class.getSimpleName();
     private Context context;
 
-    private SurfaceHolder mHolder;
     private SharedPreferences preferences;
 
     private Real3D mReal3D;
@@ -75,6 +73,7 @@ public class ExtendedSurfaceView extends SurfaceView
         this.context = context;
 
 
+        SurfaceHolder mHolder;
         if (VERSION.SDK_INT < 21)
         {
 
@@ -120,6 +119,7 @@ public class ExtendedSurfaceView extends SurfaceView
 
     private void isopensense()
     {
+        boolean hasOpenSense;
         try {
             Class c = Class.forName("com.htc.view.DisplaySetting");
             Log.d(TAG, "Found class com.htc.view.DisplaySetting");

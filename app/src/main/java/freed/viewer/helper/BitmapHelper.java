@@ -30,6 +30,7 @@ import java.io.File;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.jni.RawUtils;
+import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.holder.FileHolder;
 
@@ -69,7 +70,7 @@ public class BitmapHelper
             }
 
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
         return  response;
     }
@@ -96,7 +97,7 @@ public class BitmapHelper
             }
 
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
         return  response;
     }
@@ -130,7 +131,7 @@ public class BitmapHelper
                 }
                 catch (IllegalArgumentException ex)
                 {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
 
                 }
             }

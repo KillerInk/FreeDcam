@@ -97,7 +97,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG,"found 480p");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfile.hasProfile(camera_id, CamcorderProfile.QUALITY_720P))
@@ -106,7 +106,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG, "found 720p");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfile.hasProfile(camera_id, CamcorderProfile.QUALITY_1080P)) {
@@ -114,7 +114,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG,"found 1080p");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfile.hasProfile(camera_id, CamcorderProfile.QUALITY_TIME_LAPSE_480P)) {
@@ -122,7 +122,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG, "found Timnelapse480p");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfile.hasProfile(camera_id, CamcorderProfile.QUALITY_TIME_LAPSE_720P)) {
@@ -130,7 +130,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG, "found Timelapse720p");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfile.hasProfile(camera_id, CamcorderProfile.QUALITY_TIME_LAPSE_1080P)) {
@@ -138,7 +138,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG, "found Timelapse1080p");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
 
         try {
@@ -151,7 +151,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG, "found 2160pDCI");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfile.hasProfile(camera_id, CAMCORDER_QUALITY_2160p))
@@ -162,7 +162,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG, "found 2160p");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfile.hasProfile(camera_id, CAMCORDER_QUALITY_TIME_LAPSE_2160p)) {
@@ -170,7 +170,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG, "found Timelapse2160p");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfile.hasProfile(camera_id, CAMCORDER_QUALITY_TIME_LAPSE_2160pDCI)) {
@@ -178,7 +178,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG, "found Timelapse2160pDCI");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfile.hasProfile(camera_id, CamcorderProfile.QUALITY_HIGH_SPEED_1080P))
@@ -187,7 +187,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG, "found 1080pHFR");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfile.hasProfile(camera_id, CamcorderProfile.QUALITY_HIGH_SPEED_2160P)) {
@@ -195,7 +195,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG, "found 2016pHFR");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfile.hasProfile(camera_id, CamcorderProfile.QUALITY_HIGH_SPEED_720P)) {
@@ -203,7 +203,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG, "found 720pHFR");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfile.hasProfile(camera_id, CamcorderProfile.QUALITY_HIGH_SPEED_480P)) {
@@ -211,7 +211,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 Log.d(TAG, "found 480pHFR");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return supportedProfiles;
     }
@@ -244,13 +244,13 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
             if (CamcorderProfileEx.hasProfile(camera_id, CamcorderProfileEx.QUALITY_480P))
                 supportedProfiles.put("480p", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CamcorderProfileEx.QUALITY_480P), "480p", VideoMediaProfile.VideoMode.Normal,true));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfileEx.hasProfile(camera_id, CamcorderProfileEx.QUALITY_720P))
                 supportedProfiles.put("720p", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CamcorderProfileEx.QUALITY_720P),"720p", VideoMediaProfile.VideoMode.Normal,true));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfileEx.hasProfile(camera_id, CamcorderProfileEx.QUALITY_1080P)) {
@@ -262,31 +262,31 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
             }
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfileEx.hasProfile(camera_id, CamcorderProfileEx.QUALITY_TIME_LAPSE_480P))
                 supportedProfiles.put("Timelapse480p", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CamcorderProfileEx.QUALITY_TIME_LAPSE_480P), "Timelapse480p", VideoMediaProfile.VideoMode.Timelapse,false));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfileEx.hasProfile(camera_id, CamcorderProfileEx.QUALITY_TIME_LAPSE_720P))
                 supportedProfiles.put("Timelapse720p", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CamcorderProfileEx.QUALITY_TIME_LAPSE_720P),"Timelapse720p", VideoMediaProfile.VideoMode.Timelapse,false));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfileEx.hasProfile(camera_id, CamcorderProfileEx.QUALITY_TIME_LAPSE_1080P))
                 supportedProfiles.put("Timelapse1080p", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CamcorderProfileEx.QUALITY_TIME_LAPSE_1080P),"Timelapse1080p", VideoMediaProfile.VideoMode.Timelapse,false));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfileEx.hasProfile(camera_id, CAMCORDER_QUALITY_2160pDCI))
                 supportedProfiles.put("2160pDCI", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CAMCORDER_QUALITY_2160pDCI),"2160pDCI", VideoMediaProfile.VideoMode.Normal,true));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfileEx.hasProfile(camera_id, CAMCORDER_QUALITY_2160p))
@@ -295,7 +295,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 supportedProfiles.put("2160p", new VideoMediaProfileLG(fourk,"2160p", VideoMediaProfile.VideoMode.Normal,true));
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfileEx.hasProfile(camera_id, QUALITY_2160p))
@@ -304,26 +304,26 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
                 supportedProfiles.put("2160p", new VideoMediaProfileLG(fourk,"2160p", VideoMediaProfile.VideoMode.Normal,true));
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfileEx.hasProfile(camera_id, CAMCORDER_QUALITY_720p_HFR))
                 supportedProfiles.put("720pHFR", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CAMCORDER_QUALITY_720p_HFR),"720pHFR", VideoMediaProfile.VideoMode.Highspeed,true));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         try {
             if (CamcorderProfileEx.hasProfile(camera_id, QUALITY_HFR720P))
                 supportedProfiles.put("720pHFR", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, QUALITY_HFR720P),"720pHFR", VideoMediaProfile.VideoMode.Highspeed,true));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
 
         try {
             if (CamcorderProfileEx.hasProfile(camera_id, QUALITY_HIGH_SPEED_1080P))
                 supportedProfiles.put("1080pHFR", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, QUALITY_HIGH_SPEED_1080P), "1080pHFR", VideoMediaProfile.VideoMode.Highspeed,true));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return supportedProfiles;
     }

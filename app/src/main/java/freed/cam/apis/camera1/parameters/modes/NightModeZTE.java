@@ -34,7 +34,6 @@ public class NightModeZTE extends BaseModeParameter
     final String TAG = NightModeZTE.class.getSimpleName();
     private final boolean visible = true;
     private final String state = "";
-    private String format = "";
     private final String curmodule = "";
     public NightModeZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
@@ -75,6 +74,6 @@ public class NightModeZTE extends BaseModeParameter
     @Override
     public void onParameterValueChanged(String val)
     {
-        format = val;
+        String format = val;
     }
 }

@@ -172,7 +172,7 @@ public class BaseManualParameter extends AbstractManualParameter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 

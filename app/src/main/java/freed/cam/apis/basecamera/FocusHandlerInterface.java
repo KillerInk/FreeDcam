@@ -26,7 +26,7 @@ import android.view.MotionEvent;
  */
 public interface FocusHandlerInterface
 {
-    void FocusStarted(FocusRect rect);
+    void FocusStarted(int x, int y);
     void FocusFinished(boolean success);
     void FocusLocked(boolean locked);
     void TouchToFocusSupported(boolean isSupported);

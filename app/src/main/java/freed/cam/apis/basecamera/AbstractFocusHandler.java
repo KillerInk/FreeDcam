@@ -37,14 +37,14 @@ public abstract class AbstractFocusHandler
     }
 
     public abstract void StartFocus();
-    public abstract void StartTouchToFocus(FocusRect rect,int width, int height);
-    public abstract void SetMeteringAreas(FocusRect meteringRect, int width, int height);
+    public abstract void StartTouchToFocus(int x, int y,int width, int height);
+    public abstract void SetMeteringAreas(int x, int y, int width, int height);
     public FocusHandlerInterface focusEvent;
     public abstract boolean isAeMeteringSupported();
     public abstract void SetMotionEvent(MotionEvent event);
 
 
-    protected void logFocusRect(FocusRect rect)
+    protected void logFocusRect(Rect rect)
     {
         Log.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
     }

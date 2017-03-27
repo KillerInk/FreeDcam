@@ -4,6 +4,8 @@ import android.hardware.SensorManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.OrientationEventListener;
 
+import freed.utils.Log;
+
 /**
  * Created by troop on 17.09.2014.
  */
@@ -11,11 +13,10 @@ public class OrientationHandler
 {
     private int currentOrientation;
     private final OrientationEventListener orientationEventListener;
-    private final I_orientation orientationListner;
 
     public OrientationHandler(FragmentActivity activity, final I_orientation orientationListner)
     {
-        this.orientationListner = orientationListner;
+        I_orientation orientationListner1 = orientationListner;
 
         orientationEventListener = new OrientationEventListener(activity, SensorManager.SENSOR_DELAY_NORMAL) {
             @Override
@@ -30,7 +31,7 @@ public class OrientationHandler
                         }
                         catch (NullPointerException ex)
                         {
-                            ex.printStackTrace();
+                            Log.WriteEx(ex);
                         }
                     }
                 }

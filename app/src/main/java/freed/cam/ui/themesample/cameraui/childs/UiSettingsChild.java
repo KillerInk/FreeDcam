@@ -55,10 +55,6 @@ public class UiSettingsChild extends SettingsChildAbstract
     private String TAG;
 
 
-    private final boolean logging =false;
-
-
-
     public UiSettingsChild(Context context) {
         super(context);
         init(context);
@@ -97,6 +93,7 @@ public class UiSettingsChild extends SettingsChildAbstract
     @Override
     protected void sendLog(String log)
     {
+        boolean logging = false;
         if (logging)
             Log.d(TAG, log);
     }

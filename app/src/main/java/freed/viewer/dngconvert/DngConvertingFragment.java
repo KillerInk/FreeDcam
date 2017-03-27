@@ -25,6 +25,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -74,7 +75,6 @@ import freed.utils.StringUtils.FileEnding;
 public class DngConvertingFragment extends Fragment
 {
     final String TAG = DngConvertingFragment.class.getSimpleName();
-    private View view;
     private EditText editTextCusotmRowSize;
     private EditText editTextwidth;
     private EditText editTextheight;
@@ -82,29 +82,20 @@ public class DngConvertingFragment extends Fragment
     private Spinner spinnerMatrixProfile;
     private Spinner spinnerColorPattern;
     private Spinner spinnerrawFormat;
-    private Button buttonconvertToDng;
     private String[] filesToConvert;
     private DngProfile dngprofile;
-    private Handler handler;
-    private Button closeButton;
     private CheckBox fakeGPS;
     private AppSettingsManager appSettingsManager;
     private MatrixChooserParameter matrixChooserParameter;
     private TouchImageView imageView;
-    private final double Altitude =561.0;
-    private final double Latitude = 48.2503155;
-    private final double Longitude = 11.65918818;
-    private final String Provider = "gps";
-    private final long gpsTime = 1477324747000l;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()),getResources());
-        handler = new Handler();
-        view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
-        editTextCusotmRowSize = (EditText)view.findViewById(id.editText_customrowsize);
+        View view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
+        editTextCusotmRowSize = (EditText) view.findViewById(id.editText_customrowsize);
         editTextwidth = (EditText) view.findViewById(id.editText_width);
         editTextheight = (EditText) view.findViewById(id.editText_height);
         editTextblacklvl = (EditText) view.findViewById(id.editText_blacklevel);
@@ -117,7 +108,7 @@ public class DngConvertingFragment extends Fragment
         spinnerMatrixProfile.setAdapter(matrixadapter);
 
 
-        buttonconvertToDng = (Button) view.findViewById(id.button_convertDng);
+        Button buttonconvertToDng = (Button) view.findViewById(id.button_convertDng);
         buttonconvertToDng.setOnClickListener(convertToDngClick);
 
         spinnerColorPattern =(Spinner) view.findViewById(id.spinner_ColorPattern);
@@ -131,7 +122,7 @@ public class DngConvertingFragment extends Fragment
                 array.raw_format, layout.simple_spinner_item);
         rawadapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
         spinnerrawFormat.setAdapter(rawadapter);
-        closeButton = (Button) view.findViewById(id.button_goback_from_conv);
+        Button closeButton = (Button) view.findViewById(id.button_goback_from_conv);
         closeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v)
@@ -141,8 +132,8 @@ public class DngConvertingFragment extends Fragment
                 getActivity().finish();
             }
         });
-        imageView = (TouchImageView)view.findViewById(id.dngconvert_imageview);
-        fakeGPS = (CheckBox)view.findViewById(id.checkBox_fakeGPS);
+        imageView = (TouchImageView) view.findViewById(id.dngconvert_imageview);
+        fakeGPS = (CheckBox) view.findViewById(id.checkBox_fakeGPS);
         return view;
     }
 
@@ -151,10 +142,17 @@ public class DngConvertingFragment extends Fragment
         super.onResume();
         filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
         if (filesToConvert != null && filesToConvert.length > 0) {
-            dngprofile = appSettingsManager.getDngProfilesMap().get( new File(filesToConvert[0]).length());
+            if (appSettingsManager.getDngProfilesMap() == null)
+            {
+                dngprofile = new DngProfile(0,0,0,0,"bggr",0,
+                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6),MatrixChooserParameter.NEXUS6);
+                Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
+            }
+            else
+                dngprofile = appSettingsManager.getDngProfilesMap().get( new File(filesToConvert[0]).length());
             if (dngprofile == null) {
                 dngprofile = new DngProfile(0,0,0,0,"bggr",0,
-                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6),MatrixChooserParameter.NEXUS6);
                 Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
             editTextCusotmRowSize.setText(dngprofile.rowsize +"");
@@ -228,40 +226,63 @@ public class DngConvertingFragment extends Fragment
                 dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
                 dngprofile.blacklevel = Integer.parseInt(editTextblacklvl.getText().toString());
                 dngprofile.rowsize = Integer.parseInt(editTextCusotmRowSize.getText().toString());
-                final ProgressDialog pr = ProgressDialog.show(getContext(), "Converting DNG", "");
+                new AsyncConverter().execute(filesToConvert);
 
-                pr.setMax(filesToConvert.length);
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int t = 0;
-                        for (String s : filesToConvert) {
-                            File f = new File(s);
-                            convertRawToDng(f);
-                            t++;
-                            final int i = t;
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    pr.setProgress(i);
-                                }
-                            });
-                        }
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                pr.dismiss();
-                            }
-                        });
-                    }
-                }).start();
 
             }
         }
     };
 
-    private void convertRawToDng(File file)
+    private class AsyncConverter extends AsyncTask<String[], Integer, Bitmap>
+    {
+        private ProgressDialog pr;
+        public AsyncConverter()
+        {
+
+            //pr.setMax(filesToConvert.length);
+        }
+
+        @Override
+        protected Bitmap doInBackground(String[]... params) {
+            String[] files = params[0];
+            if (files.length == 1) {
+                return convertRawToDng(new File(files[0]));
+            }
+            else
+            {
+                int t = 0;
+                for (String s : files) {
+                    File f = new File(s);
+                    convertRawToDng(f);
+                    t++;
+                    publishProgress(t);
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            //pr.setProgress(values[0]);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pr = ProgressDialog.show(getContext(), "Converting DNG", "");
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap map) {
+            pr.dismiss();
+            pr.cancel();
+            pr = null;
+            imageView.setImageBitmap(map);
+            Log.d(TAG,"Converting Done");
+        }
+    }
+
+    private Bitmap convertRawToDng(File file)
     {
         byte[] data = null;
         try {
@@ -269,7 +290,8 @@ public class DngConvertingFragment extends Fragment
             Log.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
+            return null;
         }
         String out =null;
         if (file.getName().endsWith(FileEnding.RAW))
@@ -281,12 +303,6 @@ public class DngConvertingFragment extends Fragment
         if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
                 || file.getAbsolutePath().contains(intsd)) {
             File s = new File(out);
-            if(!s.exists())
-                try {
-                    s.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             dng.setBayerData(data, out);
         }
         else
@@ -298,21 +314,28 @@ public class DngConvertingFragment extends Fragment
 
                 pfd = getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
             } catch (FileNotFoundException | IllegalArgumentException ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
+                return null;
             }
             if (pfd != null) {
                 dng.SetBayerDataFD(data, pfd, file.getName());
                 try {
                     pfd.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.WriteEx(e);
+                    return null;
                 }
                 pfd = null;
             }
         }
         dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
+        long gpsTime = 1477324747000l;
+        String provider = "gps";
+        double longitude = 11.65918818;
+        double latitude = 48.2503155;
+        double altitude = 561.0;
         if (fakeGPS.isChecked())
-            dng.SetGpsData(Altitude, Latitude, Longitude,Provider, gpsTime);
+            dng.SetGpsData(altitude, latitude, longitude, provider, gpsTime);
         dng.WriteDngWithProfile(dngprofile);
         data = null;
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -321,14 +344,10 @@ public class DngConvertingFragment extends Fragment
         if (filesToConvert.length == 1)
         {
 
-            final Bitmap map = new RawUtils().UnPackRAW(out);
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    imageView.setImageBitmap(map);
-                }
-            });
+            return new RawUtils().UnPackRAW(out);
+
         }
+        return null;
     }
 
 

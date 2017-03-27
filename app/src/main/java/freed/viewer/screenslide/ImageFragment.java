@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.ortiz.touch.TouchImageView;
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -59,7 +60,6 @@ public class ImageFragment extends Fragment
     private final String TAG = ImageFragment.class.getSimpleName();
     private TouchImageView imageView;
     private FileHolder file;
-    private int mImageThumbSize;
     private FragmentClickClistner onClickListener;
     private ProgressBar progressBar;
     private int [] histogramData;
@@ -112,7 +112,7 @@ public class ImageFragment extends Fragment
     {
         super.onCreateView(inflater,container,savedInstanceState);
 
-        mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
+        int mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
         View view = inflater.inflate(layout.freedviewer_screenslide_imageframent, container, false);
         imageView = (TouchImageView) view.findViewById(id.imageView_PicView);
 

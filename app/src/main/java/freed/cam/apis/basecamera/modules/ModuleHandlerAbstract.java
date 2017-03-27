@@ -260,7 +260,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             mBackgroundThread = null;
             mBackgroundHandler = null;
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
     }
 

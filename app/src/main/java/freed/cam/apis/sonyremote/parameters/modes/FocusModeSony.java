@@ -24,6 +24,7 @@ import java.io.IOException;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 
 /**
  * Created by troop on 09.08.2016.
@@ -48,7 +49,7 @@ public class FocusModeSony extends BaseModeParameterSony {
                         else
                             mRemoteApi.setLiveviewFrameInfo(true);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Log.WriteEx(e);
                     }
                 }
             });

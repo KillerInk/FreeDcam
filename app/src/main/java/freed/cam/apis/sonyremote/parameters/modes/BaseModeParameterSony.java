@@ -109,12 +109,12 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
                 JSONArray array = new JSONArray().put(0, valueToSet);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
             } catch (JSONException ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
             }
 
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -149,7 +149,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             array = jsonObject.getJSONArray("result");
             ret = array.getString(0);
         } catch (JSONException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return ret;
     }
@@ -189,7 +189,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             JSONArray subarray = array.getJSONArray(1);
             ret = JsonUtils.ConvertJSONArrayToStringArray(subarray);
         } catch (JSONException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return ret;
     }

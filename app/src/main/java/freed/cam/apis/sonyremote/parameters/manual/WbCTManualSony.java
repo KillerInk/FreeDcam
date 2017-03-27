@@ -38,8 +38,6 @@ import freed.utils.FreeDPool;
 public class WbCTManualSony extends BaseManualParameterSony
 {
     final String TAG = WbCTManualSony.class.getSimpleName();
-    private int min;
-    private int max;
     private int step;
 
     private String[] values;
@@ -75,10 +73,10 @@ public class WbCTManualSony extends BaseManualParameterSony
 
                         ThrowCurrentValueChanged(currentInt / step);
                     } catch (JSONException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                     }
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
 
                 }
             }
@@ -106,7 +104,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                     JSONArray array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(t[set])) ;
                     JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
             }
         });
@@ -129,8 +127,8 @@ public class WbCTManualSony extends BaseManualParameterSony
         {
             JSONArray ar = ob.getJSONArray("colorTemperatureRange");
             step = ar.getInt(2);
-            max = ar.getInt(0)/ step;
-            min = ar.getInt(1)/ step;
+            int max = ar.getInt(0) / step;
+            int min = ar.getInt(1) / step;
             ArrayList<String> r = new ArrayList<>();
             for (int t = min; t < max; t++)
                 r.add(t* step +"");
@@ -174,10 +172,10 @@ public class WbCTManualSony extends BaseManualParameterSony
                             SetMinMAx(ob);
                         }
                     } catch (JSONException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                     }
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
             }
         });
@@ -185,7 +183,7 @@ public class WbCTManualSony extends BaseManualParameterSony
             try {
                 Thread.sleep(10);
             } catch (InterruptedException ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
             }
     }
 

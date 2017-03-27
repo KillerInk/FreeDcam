@@ -264,6 +264,10 @@
     <string translatable="false" name="sony_vs">sony-vs</string>
     <string translatable="false" name="sony_vs_values">sony-vs-values</string>
     <string name="shutter">shutter</string>
+    <string name="hw_exposure_mode">metering-mode</string>
+    <string name="hw_exposure_mode_values">metering-mode-values</string>
+    <string name="hw_sensor_iso_range">hw-sensor-iso-range</string>
+    <string name="hw_sensor_iso">hw-sensor-iso</string>
 
 
 </resources>

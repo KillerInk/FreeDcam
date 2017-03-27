@@ -32,6 +32,7 @@ import java.io.File;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
+import freed.utils.Log;
 import freed.utils.StringUtils;
 
 /**
@@ -41,7 +42,6 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
 {
     final String internal = "Internal";
     final String external ="External";
-    private CameraWrapperInterface cameraUiWrapper;
     private String lastval;
 
     public SettingsChildMenuSDSave(Context context, int headerid, int descriptionid) {
@@ -58,7 +58,7 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
 
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        this.cameraUiWrapper = cameraUiWrapper;
+        CameraWrapperInterface cameraUiWrapper1 = cameraUiWrapper;
         SetParameter(cameraUiWrapper.GetParameterHandler().SdSaveLocation);
     }
 
@@ -98,7 +98,7 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
                     f.delete();
 
             } catch (Exception ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
             }
             if (canWriteExternal) {
                 fragment_activityInterface.getAppSettings().SetWriteExternal(true);

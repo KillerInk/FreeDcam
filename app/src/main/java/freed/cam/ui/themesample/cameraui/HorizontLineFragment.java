@@ -56,7 +56,6 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     private Sensor magnetometer;
     private float[] mGravity;
     private float[] mGeomagnetic;
-    private float rolldegree;
     private float pitchdegree;
     private final Handler handler = new Handler();
     private Handler sensorHandler;
@@ -181,7 +180,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
                 if (success) {
                     SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_X, SensorManager.AXIS_MINUS_Y, I);
                     SensorManager.getOrientation(I, orientation);
-                    rolldegree = get360Degrees(orientation[1]);
+                    float rolldegree = get360Degrees(orientation[1]);
                     pitchdegree = (float) Math.toDegrees(orientation[2]);
                     yaw = get360Degrees(orientation[0]);
                     updateUi(pitchdegree, rolldegree, -yaw);

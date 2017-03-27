@@ -42,9 +42,12 @@ class ImageAdapter extends BaseAdapter
     public void shutdownExecutor()
     {
         if (executor != null)
+        {
             executor.shutdown();
-        while (!executor.isShutdown())
-        {}
+            while (!executor.isShutdown())
+            {}
+            executor = null;
+        }
     }
 
     public void createExecutor()

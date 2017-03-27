@@ -24,7 +24,7 @@ public class SimpleRemoteApi {
 
     // If you'd like to suppress detailed log output, change this value into
     // false.
-    private static final boolean FULL_LOG = true;
+    private static final boolean FULL_LOG = false;
 
     // API server device you want to send requests.
     private final ServerDevice mTargetServer;
@@ -612,7 +612,7 @@ public class SimpleRemoteApi {
         JSONObject params = new JSONObject().put("scheme", scheme);
             return executeSetMethod(service, "getSourceList", new JSONArray().put(0, params));
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
         return null;
     }

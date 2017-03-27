@@ -35,17 +35,10 @@ import freed.cam.apis.camera1.parameters.ParametersHandler;
 public class PictureFormatHandler extends BaseModeParameter
 {
     private final String TAG = PictureFormatHandler.class.getSimpleName();
-    private boolean rawSupported;
     private String captureMode = cameraUiWrapper.getResString(R.string.jpeg_);
     private String rawFormat;
 
     private String[] rawFormats;
-
-
-
-    private BayerFormat BayerFormats;
-    private final ParametersHandler parametersHandler;
-
 
 
     /***
@@ -55,14 +48,14 @@ public class PictureFormatHandler extends BaseModeParameter
     public PictureFormatHandler(Parameters parameters, CameraWrapperInterface cameraUiWrapper, ParametersHandler parametersHandler)
     {
         super(parameters, cameraUiWrapper);
-        this.parametersHandler = parametersHandler;
+        ParametersHandler parametersHandler1 = parametersHandler;
         isSupported = cameraUiWrapper.GetAppSettingsManager().pictureFormat.isSupported();
-        rawSupported = cameraUiWrapper.GetAppSettingsManager().rawPictureFormat.isSupported();
+        boolean rawSupported = cameraUiWrapper.GetAppSettingsManager().rawPictureFormat.isSupported();
         if (rawSupported) {
             rawFormat = cameraUiWrapper.GetAppSettingsManager().rawPictureFormat.get();
             rawFormats = cameraUiWrapper.GetAppSettingsManager().rawPictureFormat.getValues();
-            BayerFormats = new BayerFormat(parameters, cameraUiWrapper, "");
-            parametersHandler.bayerformat = BayerFormats;
+            BayerFormat bayerFormats = new BayerFormat(parameters, cameraUiWrapper, "");
+            parametersHandler.bayerformat = bayerFormats;
         }
         Log.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+ isSupported);
     }

@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
+import freed.utils.Log;
+
 public class RawUtils {
 
     static final String TAG = RawUtils.class.getSimpleName();
@@ -76,7 +78,7 @@ public class RawUtils {
         }
         catch (IOException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return byteArray;
     }
@@ -193,7 +195,7 @@ public class RawUtils {
             outputStream.flush();
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         finally {
             try {
@@ -201,7 +203,7 @@ public class RawUtils {
                     outputStream.close();
                 }
             } catch (IOException ex) {
-                ex.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                Log.WriteEx(ex);  //To change body of catch statement use File | Settings | File Templates.
             }
         }
         return result;

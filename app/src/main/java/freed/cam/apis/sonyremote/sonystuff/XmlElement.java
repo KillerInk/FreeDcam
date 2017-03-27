@@ -222,6 +222,14 @@ public class XmlElement {
         return tagItemList;
     }
 
+    public String dumpChildElementsTagNames() {
+        String t = new String();
+        for (XmlElement child : mChildElements) {
+            t += child.getTagName() +"\n";
+        }
+        return t;
+    }
+
     /**
      * Returns the parent element of this one.
      * 

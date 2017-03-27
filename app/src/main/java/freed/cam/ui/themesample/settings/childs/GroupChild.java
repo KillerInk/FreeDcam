@@ -14,14 +14,13 @@ import com.troop.freedcam.R;
 
 public class GroupChild extends LinearLayout {
 
-    private TextView headerTextview;
     LinearLayout childHolder;
 
     public GroupChild(Context context, String headername) {
         super(context);
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.settingsmenu_groupchild, this);
-        headerTextview = (TextView)findViewById(R.id.groupchild_header);
+        TextView headerTextview = (TextView) findViewById(R.id.groupchild_header);
         headerTextview.setText(headername);
         childHolder = (LinearLayout)findViewById(R.id.groupchild_childholder);
     }

@@ -79,8 +79,8 @@ public class AfBracketApi2 extends PictureModuleApi2
     }
 
     @Override
-    protected void initBurstCapture(Builder captureBuilder, CaptureCallback captureCallback)
-    {
+    protected void onStartTakePicture() {
+        super.onStartTakePicture();
         savedFiles = new File[PICSTOTAKE];
         currentFileCount = 0;
         int max  = 0;
@@ -106,30 +106,16 @@ public class AfBracketApi2 extends PictureModuleApi2
             focusStep = focuslength /PICSTOTAKE;
             currentFocusPos = min;
         }
-        super.initBurstCapture(captureBuilder,captureCallback);
-        /*List<CaptureRequest> captureList = new ArrayList<>();
-        captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, FocusModeApi2.FocusModes.off.ordinal());
-        for (int i = 0; i < parameterHandler.Burst.GetValue()+1; i++)
-        {
-            captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float) currentFocusPos / 10);
-            captureList.add(captureBuilder.build());
-            currentFocusPos +=focusStep;
-            if (currentFocusPos > focuslength+min)
-                currentFocusPos = focuslength+min;
-        }
-        if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
-            cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
-        cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback, mBackgroundHandler);*/
     }
 
     @Override
-    protected void setupBurstCaptureBuilder(Builder captureBuilder, int captureNum) {
+    protected void prepareCaptureBuilder(Builder captureBuilder, int captureNum) {
         captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float) currentFocusPos / 10);
         currentFocusPos +=focusStep;
         if (currentFocusPos > focuslength+min)
             currentFocusPos = focuslength+min;
     }
+
 
     @Override
     protected void finishCapture(Builder captureBuilder) {

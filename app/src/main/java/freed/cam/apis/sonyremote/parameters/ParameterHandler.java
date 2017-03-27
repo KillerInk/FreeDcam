@@ -20,6 +20,8 @@
 package freed.cam.apis.sonyremote.parameters;
 
 import android.content.Context;
+import android.graphics.Rect;
+
 import freed.utils.Log;
 
 import java.net.MalformedURLException;
@@ -29,7 +31,6 @@ import java.util.List;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.sonyremote.CameraHolderSony;
@@ -55,7 +56,6 @@ import freed.cam.apis.sonyremote.parameters.modes.PictureSizeSony;
 import freed.cam.apis.sonyremote.parameters.modes.ScalePreviewModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.WhiteBalanceModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.ZoomSettingSony;
-import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
@@ -188,7 +188,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     }
 
     @Override
-    public void SetFocusAREA(FocusRect focusAreas) {
+    public void SetFocusAREA(Rect focusAreas) {
 
     }
 
@@ -245,12 +245,6 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
                 mAvailableCameraApiSet.add(api);
             }
             SetCameraApiSet(mAvailableCameraApiSet);
-            if (JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet)) {
-                if (surfaceView != null && !surfaceView.isStarted()) {
-                    cameraUiWrapper.GetCameraHolder().StartPreview();
-                }
-                else cameraUiWrapper.onCameraError("failed to start live view");
-            }
         }
     }
 
@@ -337,7 +331,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
                         try {
                             pictureModuleSony.onPictureTaken(new URL(s));
                         }catch (MalformedURLException ex) {
-                            ex.printStackTrace();
+                            Log.WriteEx(ex);
                         }
                     }
                 }

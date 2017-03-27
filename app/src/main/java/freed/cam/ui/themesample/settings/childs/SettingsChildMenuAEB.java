@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -37,10 +38,7 @@ import freed.utils.AppSettingsManager;
  * Created by Ar4eR on 05.02.16.
  */
 public class SettingsChildMenuAEB extends LinearLayout {
-    private Button plus;
-    private Button minus;
     private EditText editText;
-    private Context context;
 
     private int min = -12;
     private int max = 12;
@@ -63,11 +61,11 @@ public class SettingsChildMenuAEB extends LinearLayout {
     }
     private void init(Context context)
     {
-        this.context = context;
+        Context context1 = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layout.settings_expandable_childs_number, this);
-        plus = (Button) findViewById(id.button_plus);
-        minus = (Button) findViewById(id.button_minus);
+        Button plus = (Button) findViewById(id.button_plus);
+        Button minus = (Button) findViewById(id.button_minus);
         editText = (EditText) findViewById(id.editText_number);
         /*this.plus.setClickable(true);
         this.minus.setClickable(true);

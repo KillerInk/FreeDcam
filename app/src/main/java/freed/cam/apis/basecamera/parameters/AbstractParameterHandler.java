@@ -19,12 +19,12 @@
 
 package freed.cam.apis.basecamera.parameters;
 
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 import freed.utils.Log;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.GuideList;
 import freed.cam.apis.basecamera.parameters.modes.Horizont;
@@ -128,6 +128,10 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface Module;
     public ModeParameterInterface ZoomSetting;
     public ModeParameterInterface NightOverlay;
+
+    //huawei
+    public ModeParameterInterface dualPrimaryCameraMode;
+
     private boolean isDngActive;
     public boolean IsDngActive(){ return isDngActive; }
     public void SetDngActive(boolean active) {
@@ -174,7 +178,7 @@ public abstract class AbstractParameterHandler
 
     }
 
-    public abstract void SetFocusAREA(FocusRect focusAreas);
+    public abstract void SetFocusAREA(Rect focusAreas);
 
     public abstract void SetPictureOrientation(int or);
 
@@ -314,7 +318,7 @@ public abstract class AbstractParameterHandler
                 }
                 catch (NumberFormatException ex)
                 {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
 
             }

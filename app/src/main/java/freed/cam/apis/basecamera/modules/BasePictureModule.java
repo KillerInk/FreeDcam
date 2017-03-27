@@ -67,7 +67,7 @@ public class BasePictureModule extends ModuleAbstract {
             try {
                 fileName.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
     }
 
@@ -116,7 +116,7 @@ public class BasePictureModule extends ModuleAbstract {
             try {
                 pfd = activityInterface.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
             } catch (FileNotFoundException | IllegalArgumentException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
             if (pfd != null)
             {
@@ -125,7 +125,7 @@ public class BasePictureModule extends ModuleAbstract {
                 try {
                     pfd.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.WriteEx(e);
                 }
                 pfd = null;
             }
@@ -146,7 +146,7 @@ public class BasePictureModule extends ModuleAbstract {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
                 outStream.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
         }
         else
@@ -160,7 +160,7 @@ public class BasePictureModule extends ModuleAbstract {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
                 outStream.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
         }
         activityInterface.ScanFile(file);
@@ -192,7 +192,7 @@ public class BasePictureModule extends ModuleAbstract {
 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
         activityInterface.ScanFile(file);
         Log.d(TAG, "End Saving Bytes");

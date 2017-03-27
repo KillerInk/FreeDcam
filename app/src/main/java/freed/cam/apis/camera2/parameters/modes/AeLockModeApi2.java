@@ -26,7 +26,7 @@ public class AeLockModeApi2 extends BaseModeApi2 {
 
     @Override
     public String GetValue() {
-        if (((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AE_LOCK))
+        if (((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).captureSessionHandler.get(CaptureRequest.CONTROL_AE_LOCK))
             return cameraUiWrapper.getResString(R.string.true_);
         else
             return cameraUiWrapper.getResString(R.string.false_);
@@ -40,9 +40,9 @@ public class AeLockModeApi2 extends BaseModeApi2 {
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.true_)))
-            ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true);
+            ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true);
         else
-            ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,false);
+            ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,false);
         //onValueHasChanged(valueToSet);
     }
 }

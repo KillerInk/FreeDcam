@@ -20,8 +20,6 @@ public class AutoHdrMode extends BaseModeParameter {
 
     final String TAG = AutoHdrMode.class.getSimpleName();
     private boolean visible = true;
-    private boolean supportauto;
-    private boolean supporton;
     private String state = "";
     private String format = "";
     private String curmodule = "";
@@ -35,11 +33,11 @@ public class AutoHdrMode extends BaseModeParameter {
 
             List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.scene_mode_values)).split(",")));
             if (Scenes.contains(cameraUiWrapper.getResString(R.string.scene_mode_hdr))) {
-                supporton = true;
+                boolean supporton = true;
                 isSupported = true;
             }
             if (Scenes.contains(cameraUiWrapper.getResString(R.string.scene_mode_asd))) {
-                supportauto = true;
+                boolean supportauto = true;
                 isSupported = true;
             }
 

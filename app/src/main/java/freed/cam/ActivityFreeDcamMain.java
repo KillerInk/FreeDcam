@@ -110,6 +110,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
         if (!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion())
         {
+            getAppSettings().RESET();
             Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
             startActivity(intent);
             this.finish();
@@ -145,11 +146,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private PermissionHandler.PermissionCallback onExtSDPermission = new PermissionHandler.PermissionCallback() {
         @Override
         public void permissionGranted(boolean granted) {
-            if (granted)
+            /*if (granted)
                 LoadFreeDcamDCIMDirsFiles();
             else {
                 finish();
-            }
+            }*/
         }
     };
 
@@ -209,8 +210,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             return;
         loadCameraFragment();
         activityIsResumed = true;
+        LoadFreeDcamDCIMDirsFiles();
         if (screenSlideFragment != null)
-            screenSlideFragment.NotifyDATAhasChanged();
+        {
+            if (getFiles() != null)
+                screenSlideFragment.NotifyDATAhasChanged();
+        }
+
         if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)) && getPermissionHandler().hasLocationPermission(onLocationPermission))
             locationHandler.startLocationListing();
         SetNightOverlay();
@@ -378,7 +384,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(screenSlideFragment != null && activityIsResumed)
+                if(screenSlideFragment != null && activityIsResumed && getFiles() != null)
                     screenSlideFragment.NotifyDATAhasChanged();
             }
         });

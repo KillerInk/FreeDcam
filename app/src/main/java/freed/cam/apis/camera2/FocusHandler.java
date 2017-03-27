@@ -32,7 +32,6 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 
 /**
@@ -42,7 +41,6 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModePa
 public class FocusHandler extends AbstractFocusHandler
 {
     private int mState;
-    private FocusRect focusRect;
     private boolean focusenabled;
 
     private final String TAG = FocusHandler.class.getSimpleName();
@@ -91,35 +89,55 @@ public class FocusHandler extends AbstractFocusHandler
     }
 
     @Override
-    public void StartTouchToFocus(FocusRect rect, int width, int height)
+    public void StartTouchToFocus(int x, int y, int width, int height)
     {
-        logFocusRect(rect);
-        Log.d(TAG, "Width:" + width + "Height" + height);
+        //logFocusRect(rect);
+        Log.d(TAG, "Width:" + width + "Height" + height + " X: " + x + "Y : "+y);
         if (!focusenabled)
             return;
-        focusRect = rect;
+        int areasize = (width /8) /2;
         Rect m =  ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         logRect(m);
-        FocusRect targetFocusRect = new FocusRect(
-                rect.left * m.right /width,
-                rect.right * m.right /width,
-                rect.top * m.bottom /height,
-                rect.bottom * m.bottom / height,rect.x,rect.y);
+        float xf = (float)x / width * m.right;
+        float yf = (float)y / height * m.bottom;
+        int x_c = (int)xf; //(int)((float)x/width * m.right);
+        int y_C = (int) yf; //(int)((float)y/height * m.bottom);
+        int left = x_c - areasize;
+        int right =x_c +areasize;
+        int top = y_C -areasize;
+        int bottom = y_C +areasize;
+        Rect targetFocusRect = new Rect(left, top,right,bottom);
+
         logFocusRect(targetFocusRect);
-        if (targetFocusRect.left < m.left)
+        if (targetFocusRect.left < 0) {
+            int dif = targetFocusRect.left + m.left;
             targetFocusRect.left = m.left;
-        if (targetFocusRect.right > m.right)
+            targetFocusRect.right -= dif;
+        }
+        if (targetFocusRect.right > m.right) {
+            int dif = targetFocusRect.right - m.right;
             targetFocusRect.right = m.right;
-        if (targetFocusRect.top < m.top)
+            targetFocusRect.left -= dif;
+        }
+        if (targetFocusRect.top < m.top) {
+            int dif = targetFocusRect.top + m.top;
             targetFocusRect.top = m.top;
+            targetFocusRect.bottom -= dif;
+
+        }
         if (targetFocusRect.bottom > m.bottom)
+        {
+            int dif = targetFocusRect.bottom - m.bottom;
             targetFocusRect.bottom = m.bottom;
+            targetFocusRect.top -=dif;
+        }
+
         logFocusRect(targetFocusRect);
         MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
         ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
         if (focusEvent != null)
-            focusEvent.FocusStarted(focusRect);
+            focusEvent.FocusStarted(x,y);
     }
 
     public I_ModeParameterEvent aeModeListner = new I_ModeParameterEvent() {
@@ -155,21 +173,32 @@ public class FocusHandler extends AbstractFocusHandler
     };
 
     @Override
-    public void SetMeteringAreas(FocusRect rect, int width, int height)
+    public void SetMeteringAreas(int x, int y, int width, int height)
     {
-        Rect m = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        if (rect.left < m.left)
-            rect.left = m.left;
-        if (rect.right > m.right)
-            rect.right = m.right;
-        if (rect.top < m.top)
-            rect.top = m.top;
-        if (rect.bottom > m.bottom)
-            rect.bottom = m.bottom;
-        MeteringRectangle rectangle = new MeteringRectangle(rect.left,rect.top,rect.right,rect.bottom, 1000);
+        int areasize = (width/8)/2;
+        Rect sensor_size = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+
+        int left = (x - areasize) * sensor_size.right /width;
+
+        Rect targetFocusRect = new Rect(
+                left,
+                (x + areasize) * sensor_size.right /width, //right
+                (y - areasize) * sensor_size.bottom /height, //top
+                (y + areasize) * sensor_size.bottom / height); //bottom
+        if (targetFocusRect.left < 0)
+            targetFocusRect.left = sensor_size.left;
+        if (targetFocusRect.right > sensor_size.right)
+            targetFocusRect.right = sensor_size.right;
+        if (targetFocusRect.top < 0)
+            targetFocusRect.top = sensor_size.top;
+        if (targetFocusRect.bottom > sensor_size.bottom)
+            targetFocusRect.bottom = sensor_size.bottom;
+
+
+        MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameter(CaptureRequest.CONTROL_AE_REGIONS, mre);
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_REGIONS, mre);
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
     @Override

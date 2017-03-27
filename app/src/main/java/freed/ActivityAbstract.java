@@ -195,7 +195,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         }
         catch(ActivityNotFoundException activityNotFoundException)
         {
-            activityNotFoundException.printStackTrace();
+            Log.WriteEx(activityNotFoundException);
+
         }
     }
 
@@ -299,8 +300,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         if (files == null)
             return;
         synchronized (files) {
-            for (FileHolder f : fil)
-                files.add(f);
+            Collections.addAll(files, fil);
             SortFileHolder(files);
         }
     }

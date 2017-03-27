@@ -23,7 +23,7 @@
 
             <nightmode></nightmode> 0 = xiaomi, 1 = zte, not added = unsupported
 
-            <hdrmode supported="true">0</hdrmode>
+            <hdrmode supported="true">0</hdrmode> // xiaomi must get set with nightmode
 
             <whitebalance sdkint="21">
                 <min></min>
@@ -44,6 +44,8 @@
                 <max></max>
                 <step></step>
                 <key></key>
+                <type>0</type> 0=qcom 1=sony
+                <values></values>
             </manualiso>
             <virtuallensfilter></virtuallensfilter>
            <denoise>false</denoise>
@@ -93,7 +95,6 @@
             <item>"Vodafone 985N"</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "9830400">
@@ -115,7 +116,6 @@
             <item>ASUS_Z00VD</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "6144000">
@@ -134,7 +134,6 @@
             <item>ASUS_Z00ED</item>
         </string-array>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -152,7 +151,6 @@
             <item>STV100-5</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "23472640">
@@ -174,13 +172,13 @@
             <item>Aquaris_E5</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>true</dngmanual>
             <manualiso>
                 <min>100</min>
                 <max>1600</max>
                 <step>50</step>
                 <key>continous-iso</key>
+                <type>0</type>
             </manualiso>
             <exposuretime>
                 <values>aquaris_e5_shuttervalues</values> <!-- see shutter_values.xml -->
@@ -206,7 +204,6 @@
             <item>Aquaris M5</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>true</dngmanual>
         </camera1>
         <filesize size= "16424960">
@@ -229,7 +226,6 @@
             <item>6045K</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "16424960">
@@ -259,7 +255,6 @@
             <item>6039Y</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "16424960">
@@ -280,7 +275,6 @@
             <item>P9000</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "26257920">
@@ -319,7 +313,6 @@
             <item>E7</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "9990144">
@@ -368,7 +361,6 @@
             <item>Primo GH2 By NFS GHOST</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>true</dngmanual>
         </camera1>
         <filesize size= "9830400">
@@ -390,7 +382,6 @@
             <item>HTC Shooter</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -414,7 +405,6 @@
             <item>m8</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>true</dngmanual>
             <rawformat>bayer-qcom-10grbg</rawformat>
         </camera1>
@@ -452,7 +442,6 @@
             <item>0PJA2</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>true</dngmanual>
         </camera1>
         <filesize size= "25677824">
@@ -483,7 +472,6 @@
             <item>htc_pmewl</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>true</dngmanual>
         </camera1>
     </device>
@@ -495,7 +483,6 @@
             <item>HTC One SV</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "6746112">
@@ -516,7 +503,6 @@
             <item>one xl</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "10782464">
@@ -540,7 +526,6 @@
             <item>One_A9</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>true</dngmanual>
             <rawformat>bayer-mipi-10bggr</rawformat>
         </camera1>
@@ -562,7 +547,6 @@
             <item>HTC One_E8</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "16560128">
@@ -583,7 +567,6 @@
             <item>HTC Desire 500</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "10782464">
@@ -605,7 +588,6 @@
             <item>unknown</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "26257920">
@@ -626,7 +608,6 @@
             <item>HTC One mini 2</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "16560128">
@@ -654,7 +635,6 @@
             <item>RIO-L04</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "16424960">
@@ -692,7 +672,6 @@
             <item>HUAWEI KII-L24</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -713,7 +692,6 @@
             <item>i-mobile i-STYLE Q6</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -734,7 +712,6 @@
             <item>InFocus M808</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -756,7 +733,6 @@
             <item>Pixel XL</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -770,7 +746,6 @@
             <item>Jiayu_S3</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>true</dngmanual>
         </camera1>
         <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Jiayu_S3/opc2.bin?raw=true</opcode2>
@@ -791,7 +766,6 @@
             <item>C106</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -812,7 +786,6 @@
         <item>Lenovo X3a40</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
@@ -842,7 +815,6 @@
             <item>Lenovo K910</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -884,7 +856,6 @@
             <item>K920 (CN)</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -905,7 +876,6 @@
             <item>Lenovo A7010a48</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -927,7 +897,6 @@
             <item>K50-t5</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -949,7 +918,6 @@
             <item>Lenovo_P1a42</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -970,7 +938,6 @@
             <item>Lenovo Z90a40</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -991,7 +958,6 @@
             <item>Lenovo Z90a40</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1042,7 +1008,6 @@
             <item>VS980 4G</item>
         </models>
         <camera1>
-            <framework>1</framework>
             <dngmanual>false</dngmanual>
             <burst>7</burst>
             <hdrmode supported="true">2</hdrmode>
@@ -1089,7 +1054,6 @@
             <item>LG-D838</item>
         </models>
         <camera1>
-            <framework>1</framework>
             <dngmanual>true</dngmanual>
             <exposuretime>
                 <values>shutter_lg_g2pro</values> <!-- see shutter_values.xml -->
@@ -1147,7 +1111,6 @@
             <item>VS986</item>
         </models>
         <camera1>
-            <framework>1</framework>
             <dngmanual>true</dngmanual>
             <opencameralegacy>true</opencameralegacy>
             <burst>6</burst>
@@ -1204,7 +1167,6 @@
             <item>L-02F</item>
         </models>
         <camera1>
-            <framework>1</framework>
             <dngmanual>false</dngmanual>
             <burst>9</burst>
             <manualiso supported="false"></manualiso>
@@ -1299,7 +1261,6 @@
             <item>LG-E615</item>
         </models>
         <camera1>
-            <framework>1</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1322,7 +1283,6 @@
         <opcode3></opcode3>
         <models><item>LG-H918</item></models>
         <camera1>
-            <framework>1</framework>
             <dngmanual>false</dngmanual>
             <manualfocus>
                 <min>0</min>
@@ -1369,7 +1329,6 @@
             <item>U10</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>true</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1390,7 +1349,6 @@
             <item>m1 metal</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>true</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1411,7 +1369,6 @@
             <item>MX4</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>true</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1432,7 +1389,6 @@
             <item>MX5</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>true</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1454,7 +1410,6 @@
             <item>m2</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>true</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1475,7 +1430,6 @@
             <item>M52_Red_Note</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>true</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1513,7 +1467,6 @@
             <item>XT1578</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <camera2>
@@ -1546,7 +1499,6 @@
             <item>MotoG3</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <needrestartaftercapture>true</needrestartaftercapture>
             <rawformat>bayer-qcom-10rggb</rawformat>
@@ -1569,7 +1521,6 @@
             <item>MotoG3-TE</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <needrestartaftercapture>true</needrestartaftercapture>
             <rawformat>bayer-qcom-10rggb</rawformat>
@@ -1595,7 +1546,6 @@
             <item>XT1635</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1621,7 +1571,6 @@
             <item>XT1095</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <manualfocus>
             </manualfocus>
@@ -1637,7 +1586,6 @@
             <item>Moto G 2014</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1667,7 +1615,6 @@
             <item>INFINITY_II_S</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1689,7 +1636,6 @@
             <item>One</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/OnePlusOne/opc2.bin?raw=true</opcode2>
@@ -1701,7 +1647,7 @@
             <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>5246</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>Imx214</matrixset>
         </filesize>
         <filesize size= "16473600">
             <blacklvl>64</blacklvl>
@@ -1710,7 +1656,7 @@
             <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>5280</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>Imx214</matrixset>
         </filesize>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
@@ -1719,7 +1665,7 @@
             <rawtype>1</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>Imx214</matrixset>
         </filesize>
     </device>
 
@@ -1735,7 +1681,6 @@
             <item>A2004</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <camera2>
@@ -1762,7 +1707,6 @@
             <item>ONE E1001</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1801,7 +1745,6 @@
             <item>PMT5777_3G</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1825,10 +1768,10 @@
             <item>MI NOTE LTE</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <nightmode>0</nightmode>
             <hdrmode supported="true">0</hdrmode>
             <burst>5</burst>
+            <manualiso supported="false"></manualiso>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -1873,8 +1816,8 @@
             <item>2014819</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <manualiso supported="false"></manualiso>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -1901,11 +1844,7 @@
     <device name ="Xiaomi_RedmiNote2_MTK">
         <models>
             <item>Redmi Note 2</item>
-            <dngmanual>false</dngmanual>
         </models>
-        <camera1>
-            <framework>2</framework>
-        </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
@@ -1924,7 +1863,6 @@
             <item>Retro</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1947,7 +1885,6 @@
             <item>E5663</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1970,7 +1907,6 @@
             <item>E2353</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -1993,7 +1929,6 @@
             <item>E5363</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2015,7 +1950,6 @@
             <item>E5563</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2037,7 +1971,6 @@
             <item>C2105</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2060,7 +1993,6 @@
             <item>E5823</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <filesize size= "28721152">
@@ -2084,7 +2016,6 @@
             <item>D66</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -2094,7 +2025,6 @@
             <item>S5008</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2115,7 +2045,6 @@
             <item>thl 5000</item>
         </models>
         <camera1>
-            <framework>2</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2136,7 +2065,6 @@
             <item>ROME_X</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2157,7 +2085,6 @@
             <item>vivo Xplay3S</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <manualfocus>
             </manualfocus>
@@ -2189,7 +2116,6 @@
             <item>vivo V3</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2219,7 +2145,6 @@
             <item>STAIRWAY</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2240,7 +2165,6 @@
             <item>Wileyfox Swift</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2270,7 +2194,6 @@
             <item>MI MAX</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2291,11 +2214,11 @@
             <item>MI 3W</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>true</dngmanual>
             <burst>6</burst>
             <nightmode>0</nightmode>
             <hdrmode supported="true">0</hdrmode>
+            <manualiso supported="false"></manualiso>
             <whiteblance>
                 <min>2000</min>
                 <max>8000</max>
@@ -2360,10 +2283,10 @@
             <item>MI 4LTE</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <burst>7</burst>
             <nightmode>0</nightmode>
             <hdrmode supported="true">0</hdrmode>
+            <manualiso supported="false"></manualiso>
             <whiteblance>
                 <min>2000</min>
                 <max>8000</max>
@@ -2427,9 +2350,9 @@
             <item>MI 4C</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <nightmode>0</nightmode>
             <burst>6</burst>
+            <manualiso supported="false"></manualiso>
             <whiteblance>
                 <min>2000</min>
                 <max>8000</max>
@@ -2492,7 +2415,6 @@
             <item>MI 4S</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
@@ -2504,7 +2426,7 @@
             <height>3120</height>
             <rawtype>3</rawtype>
             <colorpattern>bggr</colorpattern>
-            <rowsize></rowsize>
+            <rowsize>0</rowsize>
             <matrixset>IMX258_Qualcomm</matrixset>
         </filesize>
     </device>
@@ -2515,7 +2437,6 @@
             <item>MI_5</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
             <opticalimagestab>
@@ -2539,7 +2460,6 @@
     <device name ="XiaomiMI5s">
     <models><item>MI 5s</item></models>
     <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
@@ -2561,9 +2481,9 @@
             <item>MI NOTE Pro</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <nightmode>0</nightmode>
             <hdrmode supported="true">0</hdrmode>
+            <nightmode>0</nightmode>
             <burst>5</burst>
         </camera1>
         <opcode2></opcode2>
@@ -2610,6 +2530,8 @@
         </models>
         <camera1>
             <!--<framework>0</framework>-->
+            <hdrmode supported="true">0</hdrmode>
+            <nightmode>0</nightmode>
             <dngmanual>false</dngmanual>
             <manualiso supported="true">
                 <framework type="2"> <!-- mtk support it -->
@@ -2617,6 +2539,7 @@
                     <max>2700</max>
                     <step>100</step>
                     <key>m-sr-g</key>
+                    <type>2</type>
                 </framework>
                 <framework type="0"> <!-- unsupported by the snap -->
                 </framework>
@@ -2649,8 +2572,8 @@
             <item>Redmi 3</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <manualiso supported="false"></manualiso>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2679,8 +2602,8 @@
             <item>Redmi 3S</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
+            <manualiso supported="false"></manualiso>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2700,7 +2623,6 @@
             <item>Omega 5.0</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2722,7 +2644,6 @@
             <item>YU5010A</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2747,7 +2668,6 @@
             <item>YU5510</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2772,7 +2692,6 @@
             <item>NX601J</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <zteae>true</zteae>
             <burst>7</burst>
             <nightmode>1</nightmode>
@@ -2854,7 +2773,6 @@
             <item>NX507J</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <zteae>true</zteae>
             <burst>7</burst>
             <nightmode>1</nightmode>
@@ -2921,7 +2839,6 @@
             <item>NX512J</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>true</dngmanual>
             <zteae>true</zteae>
             <burst>7</burst>
@@ -2970,7 +2887,6 @@
             <item>NX5222</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>true</dngmanual>
             <nightmode>1</nightmode>
             <whiteblance>
@@ -3013,7 +2929,6 @@
             <item>NX403A</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <nightmode>1</nightmode>
             <virtuallensfilter>true</virtuallensfilter>
@@ -3036,7 +2951,6 @@
             <item>Z5</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <nightmode>1</nightmode>
         </camera1>
@@ -3047,7 +2961,6 @@
             <item>Z981</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <nightmode>1</nightmode>
         </camera1>
@@ -3069,7 +2982,6 @@
             <item>NX403oA</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -3079,7 +2991,6 @@
             <item>Nexus 6P</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -3100,7 +3011,6 @@
             <item>Nexus 5X</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -3121,7 +3031,6 @@
             <item>hi6210sft</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <denoise>false</denoise>
             <opticalimagestab>
@@ -3136,7 +3045,6 @@
             <item>hi6210sft</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
             <denoise>false</denoise>
         </camera1>
@@ -3147,7 +3055,6 @@
             <item>hi6210sft</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -3176,7 +3083,6 @@
             <item>HUAWEI KII-L24</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -3193,7 +3099,6 @@
             <item>RIO-L04</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -3203,7 +3108,6 @@
             <item>Philips W8555</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -3213,7 +3117,6 @@
             <item>Nexus 4</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -3223,7 +3126,6 @@
             <item>Nexus 6</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -3249,7 +3151,6 @@
             <item>SM-G928V</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
         <camera2><camera2>
@@ -3262,7 +3163,6 @@
             <item>SM-G925F</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -3272,7 +3172,6 @@
             <item>ZP955</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -3282,7 +3181,6 @@
             <item>Apollo Lite</item>
         </models>
         <camera1>
-            <framework>0</framework>
             <dngmanual>false</dngmanual>
         </camera1>
     </device>
@@ -3292,8 +3190,90 @@
             <item>EVA-L09</item>
         </models>
         <camera2>
-            <maxexposuretime>4500000000</maxexposuretime>
+            <maxexposuretime>30000000</maxexposuretime>
         </camera2>
+    </device>
+
+    <device name="Sony_XperiaZ3">
+        <framework>4</framework>
+        <models>
+            <item>D6603</item>
+        </models>
+       <camera1>
+           <exposuretime>
+               <values>shutter_sony_xperiaZ3</values>
+               <key>sony-shutter-speed</key>
+               <type>7</type>
+           </exposuretime>
+           <manualiso supported="true">
+               <values>iso_sony_xperiaZ3</values>
+               <key>sony-iso</key>
+               <type>1</type>
+           </manualiso>
+       </camera1>
+    </device>
+
+    <device name ="Xiaomi_Redmi4">
+        <models>
+            <item>Redmi 4</item>
+        </models>
+        <camera1>
+            <dngmanual>false</dngmanual>
+            <manualiso supported="false"></manualiso>
+        </camera1>
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <filesize size= "16510976">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>3</rawtype>
+            <colorpattern>grbg</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </device>
+
+    <device name ="Xiaomi_Redmi_Note_4">
+        <models>
+            <item>Redmi Note4---</item>
+            <item>Redmi Note4</item>
+        </models>
+        <camera1>
+            <dngmanual>false</dngmanual>
+            <manualiso supported="false"></manualiso>
+        </camera1>
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <filesize size= "16510976">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>3</rawtype>
+            <colorpattern>grbg</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </device>
+
+    <device name ="Xiaomi_Redmi_Pro">
+        <models>
+            <item>Redmi Pro</item>
+        </models>
+        <camera1>
+            <manualiso supported="false"></manualiso>
+        </camera1>
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <filesize size= "26257920">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>2</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx179</matrixset>
+        </filesize>
     </device>
 
 </devices>

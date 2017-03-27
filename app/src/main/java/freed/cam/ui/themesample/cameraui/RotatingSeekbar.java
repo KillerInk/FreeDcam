@@ -57,7 +57,6 @@ public class RotatingSeekbar extends View
     private int distanceInPixelFromLastSwipe;
     private boolean autoscroll;
     private final int textColor = Color.WHITE;
-    private final boolean debug = true;
     private final String TAG = RotatingSeekbar.class.getSimpleName();
     //this handels how much get added or substracted from @distanceInPixelFromLastSwipe when autoscroll = true
     private final int scrollsubstract = 1;
@@ -107,6 +106,7 @@ public class RotatingSeekbar extends View
 
     private void log(String msg)
     {
+        boolean debug = true;
         if (debug)
             Log.d(TAG, msg);
     }

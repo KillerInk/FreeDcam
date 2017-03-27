@@ -154,7 +154,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.d(TAG, "Can Open Legacy: " + appSettingsManager.opencamera1Legacy.getBoolean() + " was presetted: " + appSettingsManager.opencamera1Legacy.isPresetted());
         }
         catch (Throwable ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
             appSettingsManager.SetCamera2FullSupported(false);
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
         }

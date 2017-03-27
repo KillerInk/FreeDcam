@@ -20,9 +20,8 @@ public class FocusSelector extends ImageView
 	private boolean isfocused;
 
 	private int textsize = 20;
-	private final float txtdpi = 6;
 
-	public FocusSelector(Context c)
+    public FocusSelector(Context c)
 	{
 		super(c);
 		init();
@@ -36,7 +35,8 @@ public class FocusSelector extends ImageView
 
 	private void init() {
 
-		textsize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, txtdpi, getResources().getDisplayMetrics());
+        float txtdpi = 6;
+        textsize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, txtdpi, getResources().getDisplayMetrics());
 		bracPaint = new Paint();
 		nfPaint = new Paint();
 		hypPaint = new Paint();

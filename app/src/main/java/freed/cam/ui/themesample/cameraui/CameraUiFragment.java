@@ -144,7 +144,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         }
         if (cameraUiWrapper == null || cameraUiWrapper.GetParameterHandler() == null || !isAdded())
         {
-
+            if (focusImageHandler != null) {
+                focusImageHandler.AEMeteringSupported(false);
+                focusImageHandler.TouchToFocusSupported(false);
+            }
             Log.d(TAG, "failed to set cameraUiWrapper");
             if (isAdded())
                 hide_ManualSettings();

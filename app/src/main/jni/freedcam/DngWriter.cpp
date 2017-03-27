@@ -236,11 +236,12 @@ void DngWriter::process10tight(TIFF *tif) {
     int bytesToSkip = 0;
     int realrowsize;
     int shouldberowsize;
+    unsigned char* out;
     LOGD("writer-RowSize: %d  rawheight:%d ,rawwidht: %d", rawSize, rawheight,
          rawwidht);
     if (rowSize == 0) {
         realrowsize = rawSize / rawheight;
-        int shouldberowsize = realrowsize;
+        shouldberowsize = realrowsize;
         if (realrowsize % 5 > 0) {
             shouldberowsize = rawwidht * 10 / 8;
             bytesToSkip = realrowsize - shouldberowsize;
@@ -257,7 +258,16 @@ void DngWriter::process10tight(TIFF *tif) {
     }
 
     int row = shouldberowsize;
-    unsigned char* out = new unsigned char[(int)shouldberowsize*rawheight];
+    out = (unsigned char *)malloc((int)shouldberowsize*rawheight);
+    if(out == NULL)
+    {
+        out = (unsigned char *)malloc((int)shouldberowsize*rawheight);
+        if (out == NULL)
+        {
+        LOGD("failed to set buffer");
+        return;}
+    }
+
     int m = 0;
     for(int i =0; i< rawSize; i+=5)
     {
@@ -275,7 +285,7 @@ void DngWriter::process10tight(TIFF *tif) {
     }
     TIFFWriteRawStrip(tif, 0, out, rawheight*shouldberowsize);
     LOGD("Finalizng DNG");
-    free(out);
+    delete[] out;
 }
 
 void DngWriter::process12tight(TIFF *tif) {
@@ -289,7 +299,7 @@ void DngWriter::process12tight(TIFF *tif) {
         bytesToSkip = realrowsize - shouldberowsize;
     LOGD("bytesToSkip: %i", bytesToSkip);
     int row = shouldberowsize;
-    unsigned char* out = new unsigned char[(int)shouldberowsize*rawheight];
+    unsigned char* out = (unsigned char *)malloc((int)shouldberowsize*rawheight);;
     int m = 0;
     for(int i =0; i< rawSize; i+=3)
     {
@@ -304,7 +314,8 @@ void DngWriter::process12tight(TIFF *tif) {
     }
     TIFFWriteRawStrip(tif, 0, out, rawheight*shouldberowsize);
     LOGD("Finalizng DNG");
-    free(out);
+    delete[] out;
+    out = NULL;
 }
 
 void DngWriter::processLoose(TIFF *tif) {
@@ -434,16 +445,22 @@ void DngWriter::process16to10(TIFF *tif) {
 }
 
 void DngWriter::writeRawStuff(TIFF *tif) {
-    if(0 == strcmp(bayerformat,"bggr"))
-        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
-    if(0 == strcmp(bayerformat , "grbg"))
-        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
-    if(0 == strcmp(bayerformat , "rggb"))
-        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
-    if(0 == strcmp(bayerformat , "gbrg"))
-        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
-    if(0 == strcmp(bayerformat , "rgbw"))
-        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\002\006");
+    char cfa[4] = {0,0,0,0};
+    if(0 == strcmp(bayerformat,"bggr")){
+        cfa[0] = 2;cfa[1] = 1;cfa[2] = 1;cfa[3] = 0;}
+        //TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
+    if(0 == strcmp(bayerformat , "grbg")){
+        cfa[0] = 1;cfa[1] = 0;cfa[2] = 2;cfa[3] = 1;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
+    if(0 == strcmp(bayerformat , "rggb")){
+        cfa[0] = 0;cfa[1] = 1;cfa[2] = 1;cfa[3] = 2;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
+    if(0 == strcmp(bayerformat , "gbrg")){
+        cfa[0] = 1;cfa[1] = 2;cfa[2] = 0;cfa[3] = 1;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
+    if(0 == strcmp(bayerformat , "rgbw")){
+        cfa[0] = 0;cfa[1] = 1;cfa[2] = 2;cfa[3] = 6;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\002\006");
+
+    LOGD("cfa pattern %c%c&c&c", cfa[0],cfa[1],cfa[2],cfa[3]);
+
+    TIFFSetField (tif, TIFFTAG_CFAPATTERN, cfa);
     long white=0x3ff;
     TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
 

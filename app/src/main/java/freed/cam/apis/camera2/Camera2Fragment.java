@@ -20,6 +20,8 @@
 package freed.cam.apis.camera2;
 
 import android.annotation.TargetApi;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -69,6 +72,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         moduleHandler = new ModuleHandlerApi2(this, renderScriptHandler);
         Focus = new FocusHandler(this);
         cameraHolder = new CameraHolderApi2(this);
+        ((CameraHolderApi2)cameraHolder).captureSessionHandler = new CaptureSessionHandler(this, ((CameraHolderApi2)cameraHolder).cameraBackroundValuesChangedListner);
         mProcessor = new FocuspeakProcessorApi2(renderScriptHandler);
         Log.d(TAG, "Constructor done");
         return view;
@@ -213,13 +217,14 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
 
     @Override
     public String getResString(int id) {
-        return getResources().getString(id);
+        return GetAppSettingsManager().getResString(id);
     }
 
     @Override
     public SurfaceView getSurfaceView() {
         return null;
     }
+
 
 
 

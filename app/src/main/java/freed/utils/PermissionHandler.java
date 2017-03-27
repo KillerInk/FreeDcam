@@ -101,7 +101,7 @@ public class PermissionHandler
         if (callbackToReturn == null)
             return;
         boolean allGranted = true;
-        for (int i = 0; i < permissions.length; ++i) {
+        for (int i = 0; i < permissions.length;i++) {
             String perm = permissions[i];
             allGranted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
             if (!allGranted)

@@ -20,12 +20,13 @@
 package freed.cam.apis.camera1;
 
 import freed.utils.Log;
+
+import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
-import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 
@@ -155,21 +156,22 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     {
         if (focusEvent != null)
         {
-            focusEvent.FocusStarted(null);
+            focusEvent.FocusStarted(0, 0);
         }
         ((CameraHolder) cameraUiWrapper.GetCameraHolder()).StartFocus(this);
     }
 
     @Override
-    public void StartTouchToFocus(FocusRect rect,int width, int height)
+    public void StartTouchToFocus(int x_input, int y_input,int width, int height)
     {
         if (cameraUiWrapper == null|| cameraUiWrapper.GetParameterHandler() == null || cameraUiWrapper.GetParameterHandler().FocusMode == null)
             return;
 
+        Log.d(TAG, "start Touch X:Y " + x_input +":" + y_input);
         String focusmode = cameraUiWrapper.GetParameterHandler().FocusMode.GetValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
-            FocusRect targetFocusRect = getFocusRect(rect, width, height);
+            Rect targetFocusRect = getFocusRect(x_input,y_input, width, height);
 
             if (targetFocusRect.left >= -1000
                     && targetFocusRect.top >= -1000
@@ -177,17 +179,18 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                     && targetFocusRect.right <= 1000)
             {
 
-                if (this.isFocusing)
+                /*if (this.isFocusing)
                 {
                     this.cameraUiWrapper.GetCameraHolder().CancelFocus();
                     Log.d(this.TAG, "Canceld Focus");
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                     }
-                }
+                }*/
 
+                logFocusRect(targetFocusRect);
                 //tempDIS
                 cameraUiWrapper.GetParameterHandler().SetFocusAREA(targetFocusRect);
 
@@ -196,31 +199,36 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                 this.isFocusing = true;
 
                 if (focusEvent != null)
-                    focusEvent.FocusStarted(rect);
+                    focusEvent.FocusStarted(x_input,y_input);
             }
         }
 
     }
 
     @Override
-    public void SetMeteringAreas(FocusRect meteringRect, int width, int height)
+    public void SetMeteringAreas(int x, int y, int width, int height)
     {
-        ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetMeteringAreas(getFocusRect(meteringRect, width, height));
+        ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetMeteringAreas(getFocusRect(x,y, width, height));
     }
 
-    private FocusRect getFocusRect(FocusRect rect, int width, int height)
+    private Rect getFocusRect(int inputx, int inputy, int width, int height)
     {
-        logFocusRect(rect);
+        int areasize = (width/8) /2;
+        Log.d(TAG, "TapToFocus X:Y " + inputx +":"+inputy);
         if (width == 0 || height == 0)
             return null;
-        FocusRect targetFocusRect = new FocusRect(
-                rect.left * 2000 / width - 1000,
-                rect.right * 2000 / width - 1000,
-                rect.top * 2000 / height - 1000,
-                rect.bottom * 2000 / height - 1000,
-                rect.x,rect.y);
+        int left = ((inputx - areasize) * 2000) / width - 1000;
+        int right = ((inputx + areasize) * 2000) / width - 1000;
+        int top = ((inputy - areasize) * 2000) / height - 1000;
+        int bottom = ((inputy + areasize) * 2000) / height - 1000;
+
+        Rect targetFocusRect = new Rect(
+                left,
+                top,
+                right,
+                bottom);
         logFocusRect(targetFocusRect);
-        //check if stuff is to big or to small and set it to min max key_value
+        //check if stuff is to big or to small and set it to min max
         if (targetFocusRect.left < -1000)
         {
             int dif = targetFocusRect.left + 1000;

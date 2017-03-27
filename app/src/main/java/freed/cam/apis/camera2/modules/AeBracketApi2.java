@@ -74,6 +74,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
+        cameraUiWrapper.GetParameterHandler().Burst.ThrowBackgroundIsSetSupportedChanged(false);
         cameraUiWrapper.GetParameterHandler().Burst.SetValue(2);
         maxiso = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
     }
@@ -81,52 +82,48 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     public void DestroyModule() {
         super.DestroyModule();
+        cameraUiWrapper.GetParameterHandler().Burst.ThrowBackgroundIsSetSupportedChanged(true);
+
     }
 
     @Override
-    protected void initBurstCapture(Builder captureBuilder, CameraCaptureSession.CaptureCallback captureCallback)
-    {
+    protected void onStartTakePicture() {
         savedFiles = new File[3];
         currentFileCount = 0;
-        currentExposureTime = cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
-        exposureTimeStep = currentExposureTime/2;
-        if (!appSettingsManager.exposureMode.get().equals(activityInterface.getContext().getString(R.string.off))) {
-            aeWasOn = true;
-            currentiso = cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY);
-
-            if (currentiso >= maxiso)
-                currentiso = maxiso;
-            cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, currentiso);
-            cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME,currentExposureTime);
-            //cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.off.ordinal());
+        currentExposureTime = cameraHolder.captureSessionHandler.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
+        currentiso = cameraHolder.captureSessionHandler.get(CaptureRequest.SENSOR_SENSITIVITY);
+        if (currentExposureTime == 0)
+        {
+            currentExposureTime = cameraHolder.currentExposureTime;
         }
-        else
-            aeWasOn = false;
-
-        super.initBurstCapture(captureBuilder,captureCallback);
+        if (currentiso == 0)
+            currentiso = cameraHolder.currentIso;
+        exposureTimeStep = currentExposureTime/2;
+        aeWasOn = !appSettingsManager.exposureMode.get().equals(activityInterface.getContext().getString(R.string.off));
     }
 
     @Override
-    protected void setupBurstCaptureBuilder(Builder captureBuilder, int captureNum)
-    {
-        captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF);
-        int curIso = cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY);
-        if (curIso >= maxiso)
-            curIso = maxiso;
-        Log.d(TAG, "set iso to :" + curIso);
+    protected void prepareCaptureBuilder(Builder captureBuilder,int captureNum) {
         long expotimeToSet = currentExposureTime;
-        captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, curIso);
+        captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF);
+
+        if (currentiso >= maxiso)
+            currentiso = maxiso;
+        if (currentiso == 0)
+            currentiso = 100;
+        Log.d(TAG, "set iso to :" + currentiso);
+        captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, currentiso);
         if (0 == captureNum)
             expotimeToSet = currentExposureTime - exposureTimeStep;
         else if (1== captureNum)
             expotimeToSet = currentExposureTime;
         else if (2 == captureNum)
-             expotimeToSet = currentExposureTime + exposureTimeStep;
+            expotimeToSet = currentExposureTime + exposureTimeStep;
         Log.d(TAG,"Set shutter to:" + expotimeToSet);
         captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME,expotimeToSet);
-        super.setupBurstCaptureBuilder(captureBuilder, captureNum);
+        captureBuilder.set(CaptureRequest.SENSOR_FRAME_DURATION, expotimeToSet);
+        Log.d(TAG, "request: " +captureNum + " AE Mode:" + captureBuilder.get(CaptureRequest.CONTROL_AE_MODE) + " Expotime:" + captureBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) + " iso:" + captureBuilder.get(CaptureRequest.SENSOR_SENSITIVITY));
     }
-
 
 
     @Override

@@ -28,11 +28,10 @@ public class SimpleCameraEventObserver {
 
     private static final String TAG = SimpleCameraEventObserver.class.getSimpleName();
 
-    private final boolean LOGGING = true;
-
     private void sendLog(String msg)
     {
-        if (this.LOGGING)
+        boolean LOGGING = true;
+        if (LOGGING)
             Log.d(SimpleCameraEventObserver.TAG, msg);
     }
 
@@ -154,10 +153,9 @@ public class SimpleCameraEventObserver {
 
     private String flash;
 
-    private int mExposureComp;
     private int mExposureCompMax;
     private int mExposureCompMin;
-    private final String version;
+    private String version;
 
 
     public String getVersion()
@@ -174,7 +172,7 @@ public class SimpleCameraEventObserver {
      * @param context context to notify the changes by UI thread.
      * @param apiClient API client
      */
-    public SimpleCameraEventObserver(Context context, SimpleRemoteApi apiClient, String getEventVersion) {
+    public SimpleCameraEventObserver(Context context, SimpleRemoteApi apiClient) {
         if (context == null) {
             throw new IllegalArgumentException("context is null.");
         }
@@ -183,7 +181,11 @@ public class SimpleCameraEventObserver {
         }
         this.mRemoteApi = apiClient;
         this.mUiHandler = new Handler(context.getMainLooper());
-        this.version = getEventVersion;
+    }
+
+    public void setEventVersion(String version)
+    {
+        this.version = version;
     }
 
 
@@ -396,7 +398,7 @@ public class SimpleCameraEventObserver {
         if (cexpo != -5000)
         {
             this.sendLog("getEvent currentExposure: " + cexpo);
-            this.mExposureComp = cexpo;
+            int mExposureComp = cexpo;
             this.fireExposurCompChangeListener(cexpo + minexpo * -1);
         }
 
@@ -575,7 +577,7 @@ public class SimpleCameraEventObserver {
                 }
             }
         } catch (JSONException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -603,7 +605,7 @@ public class SimpleCameraEventObserver {
             }
         }
         } catch (JSONException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 

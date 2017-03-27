@@ -8,8 +8,6 @@ public class StringIntArray {
     private String keys[];
     private int values[][];
 
-    private final String SPLITCHARAR = ",";
-
     public StringIntArray(String[] splitar)
     {
         keys = new String[splitar.length];
@@ -17,6 +15,7 @@ public class StringIntArray {
         int i = 0;
         for (String s : splitar)
         {
+            String SPLITCHARAR = ",";
             String[] valuessplit = s.split(SPLITCHARAR);
             keys[i] =valuessplit[0];
             values[i][0] =  Integer.parseInt(valuessplit[1]);

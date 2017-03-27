@@ -223,6 +223,12 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
                 ton.SetUiItemClickListner(this);
                 settingsgroup.addView(ton);
             }
+            if (params.dualPrimaryCameraMode != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.dualPrimaryCameraMode, params.dualPrimaryCameraMode, R.string.setting_dualprimarycamera_header, R.string.setting_dualprimarycamera_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
             settingchildholder.addView(settingsgroup);
         }
 

@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
+import freed.utils.Log;
 
 /**
  * Created by troop on 30.01.2015.
@@ -45,7 +46,7 @@ public class PictureFormatSony extends BaseModeParameterSony
             array = jsonObject.getJSONArray("result");
             ret = array.getJSONObject(0).getString("stillQuality");
         } catch (JSONException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return ret;
     }
@@ -60,12 +61,12 @@ public class PictureFormatSony extends BaseModeParameterSony
                 JSONArray array = new JSONArray().put(0, o);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
             } catch (JSONException ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
             }
 
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -77,7 +78,7 @@ public class PictureFormatSony extends BaseModeParameterSony
             JSONArray subarray = ob.getJSONArray("candidate");
             ret = JsonUtils.ConvertJSONArrayToStringArray(subarray);
         } catch (JSONException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return ret;
     }

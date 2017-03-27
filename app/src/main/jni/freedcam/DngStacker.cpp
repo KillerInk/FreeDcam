@@ -14,6 +14,8 @@ extern "C"
     JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject thiz, jobjectArray filesToStack, jstring outputfile);
 }
 
+
+
 //move in pointer values to different mem region that it not get cleared on TIFFClose(tif);
 void moveToMem(float * in, float *out, int count)
 {
@@ -31,7 +33,8 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     const char * outfile =(*env).GetStringUTFChars( outputfile, NULL);
     unsigned short tmpPixel, bitdeep,bitdeeptemp;
     unsigned char * rawOutputData;
-    char * cfa;
+    unsigned char* cfa= new unsigned char[4];
+    unsigned char* cfatmp= new unsigned char[4];
     float* cmat1 = new float[9];
     float * cmat2 = new float[9];
     float * neutMat = new float[3];
@@ -79,7 +82,11 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     for (int i = 0; i < 6; ++i) {
         noisemat[i] = tmpdouble[i];
     }
-    TIFFGetField(tif, TIFFTAG_CFAPATTERN, &cfa);
+    TIFFGetField(tif, TIFFTAG_CFAPATTERN, &cfatmp);
+    for (int i = 0; i < 4; ++i) {
+        cfa[i] = cfatmp[i];
+    }
+    LOGD("cfa pattern %c%c&c&c", cfa[0],cfa[1],cfa[2],cfa[3]);
     //TIFFGetField(tif, TIFFTAG_WHITELEVEL, &whitelvltmp);
     //whitelvl = whitelvltmp[0];
     TIFFGetField(tif, TIFFTAG_BLACKLEVEL, &blackleveltmp);
@@ -226,8 +233,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
 
     TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
 
-
-    TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");
+    TIFFSetField (tif, TIFFTAG_CFAPATTERN, cfa);
     long white=65535;
     TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
 

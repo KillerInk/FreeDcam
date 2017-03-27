@@ -91,7 +91,7 @@ public class PictureModuleMTK extends PictureModule
             try {
                 DeviceSwitcher().delete();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
             }
         }
         else if (picformat.equals(cameraUiWrapper.getResString(R.string.dng_)))
@@ -143,7 +143,7 @@ public class PictureModuleMTK extends PictureModule
             Log.d(TAG, "Found Raw: Filesize: " + data.length + " File:" + rawfile.getAbsolutePath());
 
         } catch (InterruptedException | IOException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         File dng = new File(holdFile.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
         saveDng(data,dng);

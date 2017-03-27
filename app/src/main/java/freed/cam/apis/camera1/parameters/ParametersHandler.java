@@ -23,6 +23,11 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
+
+import freed.cam.apis.camera1.parameters.manual.krilin.ManualAperture;
+import freed.cam.apis.camera1.parameters.manual.krilin.ManualIsoKrilin;
+import freed.cam.apis.camera1.parameters.manual.ManualIsoSony;
+import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualZTE;
 import freed.utils.Log;
 
 import com.troop.freedcam.R;
@@ -31,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
@@ -55,7 +59,7 @@ import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
 import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MicroSec;
 import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MilliSec;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualG2pro;
-import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualKrillin;
+import freed.cam.apis.camera1.parameters.manual.krilin.ShutterManualKrilin;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualMeizu;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualParameterHTC;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualSony;
@@ -75,13 +79,16 @@ import freed.cam.apis.camera1.parameters.modes.PictureSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
-import freed.cam.apis.camera1.parameters.modes.VideoStabilizationParameter;
 import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
 import freed.utils.AppSettingsManager;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
 import static freed.utils.AppSettingsManager.FRAMEWORK_MTK;
+import static freed.utils.AppSettingsManager.ISOMANUAL_KRILLIN;
+import static freed.utils.AppSettingsManager.ISOMANUAL_MTK;
+import static freed.utils.AppSettingsManager.ISOMANUAL_QCOM;
+import static freed.utils.AppSettingsManager.ISOMANUAL_SONY;
 import static freed.utils.AppSettingsManager.SETTING_OrientationHack;
 import static freed.utils.AppSettingsManager.SHUTTER_G2PRO;
 import static freed.utils.AppSettingsManager.SHUTTER_HTC;
@@ -92,6 +99,7 @@ import static freed.utils.AppSettingsManager.SHUTTER_MTK;
 import static freed.utils.AppSettingsManager.SHUTTER_QCOM_MICORSEC;
 import static freed.utils.AppSettingsManager.SHUTTER_QCOM_MILLISEC;
 import static freed.utils.AppSettingsManager.SHUTTER_SONY;
+import static freed.utils.AppSettingsManager.SHUTTER_ZTE;
 
 /**
  * Created by troop on 17.08.2014.
@@ -168,8 +176,10 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appS.whiteBalanceMode.isSupported())
             WhiteBalanceMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,appS.whiteBalanceMode);
 
-        if (appS.exposureMode.isSupported())
-            ExposureMode = new BaseModeParameter(cameraParameters,cameraUiWrapper, appS.exposureMode);
+        if (appS.exposureMode.isSupported()) {
+            ExposureMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, appS.exposureMode);
+            ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
+        }
 
         if (appS.colorMode.isSupported())
             ColorMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.colorMode);
@@ -275,8 +285,8 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appSettingsManager.getDngProfilesMap() != null && appS.getDngProfilesMap().size() > 0)
             matrixChooser = new MatrixChooserParameter(cameraUiWrapper.GetAppSettingsManager().getMatrixesMap());
 
-        if (appS.digitalImageStabilisationMode.isSupported())
-            DigitalImageStabilization = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.digitalImageStabilisationMode);
+        /*if (appS.digitalImageStabilisationMode.isSupported())
+            DigitalImageStabilization = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.digitalImageStabilisationMode);*/
 
         if(appS.denoiseMode.isSupported())
             Denoise = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.denoiseMode);
@@ -376,7 +386,7 @@ public class ParametersHandler extends AbstractParameterHandler
                     ManualShutter = new ShutterManualMeizu(cameraParameters,cameraUiWrapper);
                     break;
                 case SHUTTER_KRILLIN:
-                    ManualShutter = new ShutterManualKrillin(cameraParameters,cameraUiWrapper);
+                    ManualShutter = new ShutterManualKrilin(cameraParameters,cameraUiWrapper);
                     break;
                 case SHUTTER_SONY:
                     ManualShutter = new ShutterManualSony(cameraParameters,cameraUiWrapper);
@@ -384,15 +394,35 @@ public class ParametersHandler extends AbstractParameterHandler
                 case SHUTTER_G2PRO:
                     ManualShutter = new ShutterManualG2pro(cameraParameters,cameraUiWrapper);
                     break;
+                case SHUTTER_ZTE:
+                    ManualShutter = new ShutterManualZTE(cameraParameters,cameraUiWrapper);
             }
 
         }
 
         //mtk and g4 aehandler set it already
-        if (appS.manualIso.isSupported() && aehandler == null)
+        Log.d(TAG, "manual Iso supported:" + appS.manualIso.isSupported());
+        if (appS.manualIso.isSupported() && aehandler == null && appS.manualIso.getValues() != null && appS.manualIso.getValues().length > 0)
         {
-            ManualIso = new BaseISOManual(cameraParameters,cameraUiWrapper);
+            switch (appS.manualIso.getType())
+            {
+                case ISOMANUAL_QCOM:
+                    ManualIso = new BaseISOManual(cameraParameters,cameraUiWrapper);
+                    break;
+                case ISOMANUAL_SONY:
+                    ManualIso = new ManualIsoSony(cameraUiWrapper,cameraParameters);
+                    break;
+                case ISOMANUAL_KRILLIN:
+                    ManualIso =  new ManualIsoKrilin(cameraParameters,cameraUiWrapper);
+                    break;
+                case ISOMANUAL_MTK: //get set due aehandler
+                    break;
+
+            }
         }
+
+        if (appS.manualAperture.isSupported())
+            ManualFNumber = new ManualAperture(cameraUiWrapper,cameraParameters);
 
         if (appS.manualWhiteBalance.isSupported())
             CCT = new BaseCCTManual(cameraParameters,cameraUiWrapper);
@@ -416,6 +446,8 @@ public class ParametersHandler extends AbstractParameterHandler
 
         Zoom = new ZoomManualParameter(cameraParameters, cameraUiWrapper);
 
+        if (appS.dualPrimaryCameraMode.isSupported())
+            dualPrimaryCameraMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.dualPrimaryCameraMode);
 
 
         //set last used settings
@@ -425,7 +457,7 @@ public class ParametersHandler extends AbstractParameterHandler
     }
 
     @Override
-    public void SetFocusAREA(FocusRect focusAreas)
+    public void SetFocusAREA(Rect focusAreas)
     {
         if (appSettingsManager.useQcomFocus())
             setQcomFocus(focusAreas);
@@ -433,14 +465,15 @@ public class ParametersHandler extends AbstractParameterHandler
             setAndroidFocus(focusAreas);
     }
 
-    private void setQcomFocus(FocusRect focusAreas)
+    private void setQcomFocus(Rect focusRect)
     {
+        int half = (focusRect.left - focusRect.right)/2;
         cameraParameters.set("touch-aec", "on");
-        cameraParameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
+        cameraParameters.set("touch-index-af", focusRect.left +half + "," +focusRect.top +half);
         SetParametersToCamera(cameraParameters);
     }
 
-    private void setAndroidFocus(FocusRect focusAreas)
+    private void setAndroidFocus(Rect focusAreas)
     {
         if (focusAreas != null) {
             List<Camera.Area> l = new ArrayList<>();

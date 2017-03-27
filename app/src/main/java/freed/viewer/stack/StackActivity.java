@@ -48,6 +48,7 @@ import freed.ActivityAbstract;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.FreeDPool;
 import freed.utils.LocationHandler;
+import freed.utils.Log;
 import freed.utils.RenderScriptHandler;
 import freed.utils.ScriptField_MinMaxPixel;
 import freed.utils.StringUtils;
@@ -228,7 +229,7 @@ public class StackActivity extends ActivityAbstract
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
                 outStream.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
         }
         else
@@ -241,7 +242,7 @@ public class StackActivity extends ActivityAbstract
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
                 outStream.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
         }
         MediaScannerManager.ScanMedia(getContext(), file);

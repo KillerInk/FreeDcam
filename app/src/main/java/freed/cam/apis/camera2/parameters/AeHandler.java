@@ -42,7 +42,6 @@ public class AeHandler
 {
     private final CameraHolderApi2 cameraHolder;
     private final CameraWrapperInterface cameraUiWrapper;
-    private final ParameterHandlerApi2 parameterHandler;
     public final AeModeApi2 aeModeApi2;
     public final ManualExposureApi2 manualExposureApi2;
     public final ManualExposureTimeApi2 manualExposureTimeApi2;
@@ -55,7 +54,7 @@ public class AeHandler
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolder = (CameraHolderApi2) cameraUiWrapper.GetCameraHolder();
-        this.parameterHandler = (ParameterHandlerApi2) cameraUiWrapper.GetParameterHandler();
+        ParameterHandlerApi2 parameterHandler = (ParameterHandlerApi2) cameraUiWrapper.GetParameterHandler();
         aeModeApi2 = new AeModeApi2(cameraUiWrapper);
         manualExposureApi2 = new ManualExposureApi2(cameraUiWrapper);
         manualExposureTimeApi2 = new ManualExposureTimeApi2(cameraUiWrapper);
@@ -74,7 +73,7 @@ public class AeHandler
             manualExposureApi2.ThrowBackgroundIsSupportedChanged(false);
             //turn flash off when ae is off. else on some devices it applys only manual stuff only for a few frames
             //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
-            cameraHolder.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
+            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
             //hide flash ui item its not supported in manual mode
             cameraUiWrapper.GetParameterHandler().FlashMode.onIsSupportedChanged(false);
             //enable manualiso item in ui
@@ -143,13 +142,13 @@ public class AeHandler
         @TargetApi(VERSION_CODES.LOLLIPOP)
         @Override
         public void SetValue(int valueToSet) {
-            if (cameraHolder == null || cameraHolder.CaptureSessionH.GetActiveCameraCaptureSession() == null)
+            if (cameraHolder == null || cameraHolder.captureSessionHandler.GetActiveCameraCaptureSession() == null)
                 return;
             currentInt = valueToSet;
             if (expocompvalues == null || expocompvalues.getSize() == 0)
                 return;
             int t = valueToSet - expocompvalues.getSize() / 2;
-            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
+            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
         }
 
         @Override
@@ -225,16 +224,16 @@ public class AeHandler
             if (valueToSet > 0) {
                 long val = AbstractManualShutter.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000;
                 Log.d(TAG, "ExposureTimeToSet:" + val);
-                //cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+                //cameraHolder.captureSessionHandler.StopRepeatingCaptureSession();
                 if (val > MAX_PREVIEW_EXPOSURETIME && !cameraUiWrapper.GetAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
                     Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                     val = MAX_PREVIEW_EXPOSURETIME;
-                    cameraHolder.CaptureSessionH.CancelRepeatingCaptureSession();
+                    cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(null);
                 }
                 else if(cameraUiWrapper.GetAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video)) && val > MAX_PREVIEW_EXPOSURETIME)
-                    cameraHolder.CaptureSessionH.CancelRepeatingCaptureSession();
+                    cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(null);
 
-                cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
+                cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
                 ThrowCurrentValueChanged(valueToSet);
             }
         }
@@ -285,7 +284,7 @@ public class AeHandler
                 valueToSet = 0;
             //////////////////////
             currentInt = valueToSet;
-            if (cameraHolder == null || cameraHolder.CaptureSessionH.GetActiveCameraCaptureSession() == null)
+            if (cameraHolder == null || cameraHolder.captureSessionHandler.GetActiveCameraCaptureSession() == null)
                 return;
             if (valueToSet == 0)
             {
@@ -295,7 +294,7 @@ public class AeHandler
             {
                 if (ae_active)
                     aeModeApi2.SetValue(cameraUiWrapper.getContext().getString(R.string.off),true);
-                cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(stringvalues[valueToSet]));
+                cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(stringvalues[valueToSet]));
             }
         }
 

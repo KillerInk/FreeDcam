@@ -54,13 +54,10 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
     private ImageView checkBox;
     private ImageView sdcard;
     private FileHolder fileHolder;
-    private int mImageThumbSize;
     private ProgressBar progressBar;
     private final String TAG = GridImageView.class.getSimpleName();
     private ExecutorService executor;
     private BitmapHelper bitmapHelper;
-
-    private GridViewFragment.ViewStates viewstate = GridViewFragment.ViewStates.normal;
 
 
     public GridImageView(Context context) {
@@ -130,7 +127,7 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
 
     public void SetViewState(GridViewFragment.ViewStates state)
     {
-        viewstate = state;
+        GridViewFragment.ViewStates viewstate = state;
         switch (state)
         {
             case normal:
@@ -186,14 +183,21 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
     public void loadFile(FileHolder fileHolder, int mImageThumbSize)
     {
         this.fileHolder = fileHolder;
-        this.mImageThumbSize = mImageThumbSize;
+        int mImageThumbSize1 = mImageThumbSize;
         Log.d(TAG, "load file:" + fileHolder.getFile().getName());
         imageView.setImageBitmap(null);
         if (!fileHolder.getFile().isDirectory())
         {
             imageView.setImageResource(drawable.noimage);
             progressBar.setVisibility(View.VISIBLE);
-            executor.execute(new BitmapLoadRunnable(this,fileHolder));
+            try {
+                executor.execute(new BitmapLoadRunnable(this,fileHolder));
+            }
+            catch (NullPointerException ex)
+            {
+                Log.e(TAG, "Executer destryed");
+            }
+
         }
         else {
             progressBar.setVisibility(View.GONE);

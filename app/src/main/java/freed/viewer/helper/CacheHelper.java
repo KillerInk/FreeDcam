@@ -45,7 +45,6 @@ public class CacheHelper
     private final Object mDiskCacheLock = new Object();
     private boolean mDiskCacheStarting = true;
     public static final int DISK_CACHE_SIZE = 1024 * 1024 * 200;
-    private final String DISK_CACHE_SUBDIR = "thumbnails";
     //private final LruCache<String, Bitmap> mMemoryCache;
     final String TAG = CacheHelper.class.getSimpleName();
 
@@ -81,7 +80,7 @@ public class CacheHelper
                 try {
                     mDiskLruCache = DiskLruCache.open(cacheDir, 1, DISK_CACHE_SIZE);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.WriteEx(e);
                 }
                 mDiskCacheStarting = false; // Finished initialization
                 mDiskCacheLock.notifyAll(); // Wake any waiting threads
@@ -128,7 +127,7 @@ public class CacheHelper
                         if (out != null) {
                             out.close();
                         }
-                    } catch (IOException e) { e.printStackTrace();}
+                    } catch (IOException e) { Log.WriteEx(e);}
                 }
             }
         }
@@ -146,7 +145,7 @@ public class CacheHelper
             while (mDiskCacheStarting) {
                 try {
                     mDiskCacheLock.wait();
-                } catch (InterruptedException e) {e.printStackTrace();}
+                } catch (InterruptedException e) {Log.WriteEx(e);}
             }
             if (mDiskLruCache != null) {
                 InputStream inputStream = null;
@@ -164,13 +163,13 @@ public class CacheHelper
                         }
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.WriteEx(e);
                 } finally {
                     try {
                         if (inputStream != null) {
                             inputStream.close();
                         }
-                    } catch (IOException e) {e.printStackTrace();}
+                    } catch (IOException e) {Log.WriteEx(e);}
                 }
             }
             return bitmap;
@@ -187,7 +186,7 @@ public class CacheHelper
             try {
                 mDiskLruCache.remove(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
         }
     }
@@ -199,6 +198,7 @@ public class CacheHelper
         // otherwise use internal cache dir
         String cachePath = context.getCacheDir().getPath();
 
+        String DISK_CACHE_SUBDIR = "thumbnails";
         return new File(cachePath + File.separator + DISK_CACHE_SUBDIR);
     }
 

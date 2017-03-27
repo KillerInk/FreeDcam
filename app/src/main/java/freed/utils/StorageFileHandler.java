@@ -44,10 +44,10 @@ public class StorageFileHandler
     private final String TAG = StorageFileHandler.class.getSimpleName();
     private File internalSD;
     private File externalSD;
-    private ActivityAbstract activityAbstract;
+
     public StorageFileHandler(ActivityAbstract activityAbstract)
     {
-        this.activityAbstract = activityAbstract;
+        ActivityAbstract activityAbstract1 = activityAbstract;
         findSdCards();
     }
 

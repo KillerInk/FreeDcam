@@ -105,7 +105,7 @@ public class ShutterManualG2pro extends BaseManualParameter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
         return shutterstring;
     }

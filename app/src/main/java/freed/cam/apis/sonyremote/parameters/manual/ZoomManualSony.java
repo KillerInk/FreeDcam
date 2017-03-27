@@ -28,6 +28,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 
 /**
  * Created by troop on 15.12.2014.
@@ -117,7 +118,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                         JSONObject object = mRemoteApi.actZoom(finaldirection, movement);
                         isZooming = false;
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                     }
                 }
             });

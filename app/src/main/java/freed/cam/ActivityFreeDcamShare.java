@@ -68,7 +68,7 @@ public class ActivityFreeDcamShare extends ActivityFreeDcamMain implements I_Wor
             try {
                 copy(fileHolder.getFile(), toreturnFile);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
             }
             Intent intent = new Intent();
             setResult(Activity.RESULT_OK, intent);

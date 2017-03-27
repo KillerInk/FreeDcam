@@ -109,40 +109,35 @@ public class CameraHolderSony extends CameraHolderAbstract
     @Override
     public void StartPreview()
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject replyJson = null;
-                    replyJson = mRemoteApi.startLiveview();
+        try {
+            JSONObject replyJson = null;
+            replyJson = mRemoteApi.startLiveview();
 
-                    if (!SimpleRemoteApi.isErrorReply(replyJson)) {
-                        JSONArray resultsObj = replyJson.getJSONArray("result");
-                        if (1 <= resultsObj.length()) {
-                            // Obtain liveview URL from the result.
-                            String liveviewUrl = resultsObj.getString(0);
-                            Log.d(TAG,"startLiveview");
-                            mLiveviewSurface.start(liveviewUrl, //
-                                    new StreamErrorListener() {
+            if (!SimpleRemoteApi.isErrorReply(replyJson)) {
+                JSONArray resultsObj = replyJson.getJSONArray("result");
+                if (1 <= resultsObj.length()) {
+                    // Obtain liveview URL from the result.
+                    String liveviewUrl = resultsObj.getString(0);
+                    Log.d(TAG,"startLiveview");
+                    mLiveviewSurface.start(liveviewUrl, //
+                            new StreamErrorListener() {
 
-                                        @Override
-                                        public void onError(StreamErrorReason reason)
-                                        {
-                                            Log.e(TAG, "Error StartingLiveView");
-                                            StopPreview();
-                                        }
-                                    });
-                        }
-                    }
-                    else
-                        Log.d(TAG, "Error : " + replyJson);
-                } catch (IOException e) {
-                    Log.w(TAG, "startLiveview IOException: " + e.getMessage());
-                } catch (JSONException e) {
-                    Log.w(TAG, "startLiveview JSONException: " + e.getMessage());
+                                @Override
+                                public void onError(StreamErrorReason reason)
+                                {
+                                    Log.e(TAG, "Error StartingLiveView" + reason.toString());
+                                    StopPreview();
+                                }
+                            });
                 }
             }
-        });
+            else
+                Log.d(TAG, "Error : " + replyJson);
+        } catch (IOException e) {
+            Log.w(TAG, "startLiveview IOException: " + e.getMessage());
+        } catch (JSONException e) {
+            Log.w(TAG, "startLiveview JSONException: " + e.getMessage());
+        }
     }
 
     @Override
@@ -286,7 +281,7 @@ public class CameraHolderSony extends CameraHolderAbstract
 
                 } catch (IOException ex)
                 {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                     Log.w(TAG, "IOException while closing slicer: " + ex.getMessage());
                     awaitTakePicture(pictureCallback);
                 } catch (JSONException e) {
@@ -318,10 +313,10 @@ public class CameraHolderSony extends CameraHolderAbstract
             } catch (IOException e1)
             {
                 awaitTakePicture(pictureCallback);
-                e1.printStackTrace();
+                Log.WriteEx(e1);
             } catch (JSONException e1) {
                 //awaitTakePicture(pictureCallback);
-                e1.printStackTrace();
+                Log.WriteEx(e1);
             }
         }
     }
@@ -419,7 +414,7 @@ public class CameraHolderSony extends CameraHolderAbstract
                     {
                         JSONObject ob = mRemoteApi.setParameterToCamera("cancelTouchAFPosition", new JSONArray());
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                         Log.d(TAG, "Cancel Focus failed");
                     }
                 }
@@ -437,7 +432,7 @@ public class CameraHolderSony extends CameraHolderAbstract
                     {
                         JSONObject ob = mRemoteApi.setParameterToCamera("cancelTrackingFocus", new JSONArray());
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        Log.WriteEx(ex);
                         Log.d(TAG, "Cancel Focus failed");
                     }
                 }
@@ -546,7 +541,7 @@ public class CameraHolderSony extends CameraHolderAbstract
                 try {
                     mRemoteApi.setLiveviewFrameInfo(val);
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    Log.WriteEx(ex);
                 }
             }
         });

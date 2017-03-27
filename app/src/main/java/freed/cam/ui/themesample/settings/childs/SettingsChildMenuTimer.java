@@ -31,7 +31,6 @@ import freed.utils.AppSettingsManager;
  */
 public class SettingsChildMenuTimer extends SettingsChildMenu
 {
-    private CameraWrapperInterface cameraUiWrapper;
 
     public SettingsChildMenuTimer(Context context) {
         super(context);
@@ -43,7 +42,7 @@ public class SettingsChildMenuTimer extends SettingsChildMenu
 
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        this.cameraUiWrapper = cameraUiWrapper;
+        CameraWrapperInterface cameraUiWrapper1 = cameraUiWrapper;
     }
 
     @Override

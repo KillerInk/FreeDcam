@@ -254,7 +254,6 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         return parameter.GetValue();
     }
 
-    private boolean currentlysettingsparameter;
     public void setValueToParameters(int value)
     {
         if (valueQueue.size() == 3)
@@ -279,13 +278,13 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
 
     private void setparameter()
     {
-        currentlysettingsparameter = true;
+        boolean currentlysettingsparameter = true;
         int runValue = 0;
         try {
             runValue = valueQueue.take();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
             currentlysettingsparameter = false;
         }
         pos = runValue;

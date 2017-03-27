@@ -63,6 +63,7 @@
     <string name="aps_scalePreview" translatable="false">scalePreview</string>
     <string name="aps_guide" translatable="false">guide</string>
     <string name="aps_previewfpsrange" translatable="false">previewfpsrange</string>
+    <string name="aps_dualprimarycameramode" translatable="false">dualprimarycameramode</string>
 
 
     <string name="aps_manualfocus" translatable="false">mf</string>
@@ -82,5 +83,6 @@
     <string name="aps_manualprogramshift" translatable="false">programshift</string>
     <string name="aps_manualpreviewzoom" translatable="false">previewzoom</string>
     <string name="aps_unsupported">unsupported</string>
+    <string name="aps_manualaperture">manualaperture</string>
 
 </resources>

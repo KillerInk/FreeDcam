@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
@@ -41,8 +42,6 @@ import freed.utils.AppSettingsManager;
 public class SettingsChildMenu extends UiSettingsChild
 {
     private TextView description;
-
-    private LinearLayout toplayout;
 
     private TextView headerText;
 
@@ -103,7 +102,7 @@ public class SettingsChildMenu extends UiSettingsChild
         headerText = (TextView) findViewById(id.textview_menuitem_header);
         valueText = (TextView) findViewById(id.textview_menuitem_header_value);
         description = (TextView) findViewById(id.textview_menuitem_description);
-        toplayout = (LinearLayout) findViewById(id.menu_item_toplayout);
+        LinearLayout toplayout = (LinearLayout) findViewById(id.menu_item_toplayout);
         setOnClickListener(this);
     }
 

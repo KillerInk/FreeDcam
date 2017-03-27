@@ -147,6 +147,9 @@
     <string name="setting_scalepreview_header">Scale Preview</string>
     <string name="setting_scalepreview_description">Turn on to Scale the preview x2</string>
 
+    <string name="setting_dualprimarycamera_header">Dual Camera</string>
+    <string name="setting_dualprimarycamera_description">Switch the Camera</string>
+
 
     <!-- cameraui  -->
     <string name="uisetting_wb_header">WB</string>

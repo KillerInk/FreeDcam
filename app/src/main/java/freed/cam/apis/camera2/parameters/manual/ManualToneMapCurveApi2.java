@@ -47,7 +47,6 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
     private final float[] whitepoint = {1.0f,1.0f};
     public final Contrast contrast;
     public final Brightness brightness;
-    private boolean visible;
 
 
     public ManualToneMapCurveApi2(CameraWrapperInterface cameraUiWrapper)
@@ -56,11 +55,11 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
         brightness = new Brightness(cameraUiWrapper);
     }
 
-    private boolean canSet;
-    private boolean isSupported;
-
     @Override
     public void onParameterValueChanged(String val) {
+        boolean isSupported;
+        boolean canSet;
+        boolean visible;
         if (val.equals("CONTRAST_CURVE"))
         {
             canSet = true;
@@ -157,14 +156,14 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
 
                 float[] tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
                 TonemapCurve tonemapCurve = new TonemapCurve(tonemap, tonemap, tonemap);
-                ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+                ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
             }
             firststart = false;
         }
 
         @Override
         public boolean IsSupported() {
-            return !(cameraUiWrapper.GetCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics == null) && ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null && ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            return !(cameraUiWrapper.GetCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics == null) && ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null && ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
 
         @Override
@@ -227,7 +226,7 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
 
             float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
             TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
-            ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+            ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
 
         }
 
@@ -236,7 +235,7 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
         {
             if (cameraUiWrapper.GetCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics == null || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) == null )
                 return false;
-            return  ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.TONEMAP_MODE) == null || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            return  ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE) == null || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
 
         @Override

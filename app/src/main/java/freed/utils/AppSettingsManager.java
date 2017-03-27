@@ -22,19 +22,26 @@ package freed.utils;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
+import android.support.v4.util.LongSparseArray;
 import android.text.TextUtils;
 
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
@@ -207,7 +214,7 @@ public class AppSettingsManager {
    /* private Devices device;*/
     private String mDevice;
     private HashMap<String, CustomMatrix> matrixes;
-    private HashMap<Long, DngProfile> dngProfileHashMap;
+    private LongSparseArray<DngProfile> dngProfileHashMap;
 
     private final String FEATUREDETECTED = "featuredetected";
 
@@ -231,6 +238,7 @@ public class AppSettingsManager {
     public static final int FRAMEWORK_LG = 1;
     public static final int FRAMEWORK_MTK = 2;
     public static final int FRAMEWORK_MOTO_EXT = 3;
+    public static final int FRAMEWORK_SONY_CAMERAEXTENSION = 4;
     public static final String FRAMEWORK = "framework";
 
     public static final int NIGHTMODE_XIAOMI = 0;
@@ -239,6 +247,11 @@ public class AppSettingsManager {
     public static final int HDR_MORPHO = 0;
     public static final int HDR_AUTO = 1;
     public static final int HDR_LG = 2;
+
+    public static final int ISOMANUAL_QCOM = 0;
+    public static final int ISOMANUAL_SONY =1;
+    public static final int ISOMANUAL_MTK =2;
+    public static final int ISOMANUAL_KRILLIN =3;
 
 
 
@@ -343,7 +356,7 @@ public class AppSettingsManager {
     public final TypeSettingsMode manualFocus;
     public final SettingMode manualExposureCompensation;
     public final TypeSettingsMode manualExposureTime;
-    public final SettingMode manualIso;
+    public final TypeSettingsMode manualIso;
     public final SettingMode manualSaturation;
     public final SettingMode manualSharpness;
     public final SettingMode manualBrightness;
@@ -355,6 +368,9 @@ public class AppSettingsManager {
     public final SettingMode manualFx;
     public final SettingMode manualProgramShift;
     public final SettingMode manualPreviewZoom;
+
+    public final SettingMode dualPrimaryCameraMode;
+    public final SettingMode manualAperture;
 
     public final TypeSettingsMode manualWhiteBalance;
 
@@ -370,6 +386,7 @@ public class AppSettingsManager {
     {
         settings = sharedPreferences;
         this.resources = resources;
+        Log.d(TAG, "Version/Build:" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE + " Last Version: " + getAppVersion());
 
        /* if (getdevice() == null)
             SetDevice(new DeviceUtils().getDevice(getResources()));*/
@@ -433,7 +450,7 @@ public class AppSettingsManager {
         manualExposureCompensation = new SettingMode(getResString(R.string.aps_manualexpocomp));
         manualExposureTime = new TypeSettingsMode(getResString(R.string.aps_manualexpotime));
         manualWhiteBalance = new TypeSettingsMode(getResString(R.string.aps_manualwb));
-        manualIso = new SettingMode(getResString(R.string.aps_manualiso));
+        manualIso = new TypeSettingsMode(getResString(R.string.aps_manualiso));
         manualSaturation = new SettingMode(getResString(R.string.aps_manualsaturation));
         manualSharpness = new SettingMode(getResString(R.string.aps_manualsharpness));
         manualBrightness = new SettingMode(getResString(R.string.aps_manualbrightness));
@@ -445,13 +462,16 @@ public class AppSettingsManager {
         manualFx = new SettingMode(getResString(R.string.aps_manualfx));
         manualProgramShift = new SettingMode(getResString(R.string.aps_manualprogramshift));
         manualPreviewZoom = new SettingMode(getResString(R.string.aps_manualpreviewzoom));
+        manualAperture = new SettingMode(getResString(R.string.aps_manualaperture));
 
         opencamera1Legacy = new BooleanSettingsMode(getResString(R.string.aps_opencamera1legacy));
+        dualPrimaryCameraMode = new SettingMode(getResString(R.string.aps_dualprimarycameramode));
 
 
         //first time init
         matrixes = getMatrixes();
-        if (mDevice == null || TextUtils.isEmpty(mDevice = getDeviceString()))
+        mDevice = sharedPreferences.getString("DEVICE","");
+        if (mDevice == null || TextUtils.isEmpty(mDevice))
         {
             parseAndFindSupportedDevice();
         }
@@ -464,6 +484,11 @@ public class AppSettingsManager {
 
     }
 
+    public void RESET()
+    {
+        settings.edit().clear().commit();
+    }
+
     public String getResString(int id)
     {
         return resources.getString(id);
@@ -472,7 +497,7 @@ public class AppSettingsManager {
     public Resources getResources()
     { return resources;}
 
-    public HashMap<Long, DngProfile> getDngProfilesMap()
+    public LongSparseArray<DngProfile> getDngProfilesMap()
     {
         return dngProfileHashMap;
     }
@@ -776,13 +801,16 @@ public class AppSettingsManager {
                     for (XmlElement mod : models)
                     {
                         if (mod.getValue().equals(Build.MODEL)) {
+
                             setDevice(device_element.getAttribute("name",""));
-                            Log.d(TAG, "Found Device:" +device_element.getAttribute("name",""));
+                            Log.d(TAG, "Found Device:" + getDeviceString());
 
                             XmlElement camera1element = device_element.findChild("camera1");
 
+
                             if (!camera1element.isEmpty()) {
                                 Log.d(TAG, "Found camera1 overrides");
+                                Log.v(TAG, camera1element.dumpChildElementsTagNames());
                                 if (!camera1element.findChild("framework").isEmpty())
                                 {
                                     setFramework(Integer.parseInt(camera1element.findChild("framework").getValue()));
@@ -800,8 +828,6 @@ public class AppSettingsManager {
                                     opencamera1Legacy.setBoolean(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
                                     opencamera1Legacy.setIsPresetted(true);
                                 }
-                                else
-                                    opencamera1Legacy.setBoolean(false);
 
                                 Log.d(TAG, "OpenLegacy: " + opencamera1Legacy.getBoolean() + " isPresetted:" + opencamera1Legacy.isPresetted());
 
@@ -856,6 +882,12 @@ public class AppSettingsManager {
                                         if (camera1element.findChild("manualiso").getAttribute("supported","false").equals("false")) {
                                             manualIso.setIsSupported(false);
                                             manualIso.setIsPresetted(true);
+                                        }
+                                        else
+                                        {
+                                            manualIso.setIsSupported(true);
+                                            manualIso.setIsPresetted(true);
+                                            setManualIso(camera1element.findChild("manualiso"));
                                         }
                                     }
                                     else
@@ -981,8 +1013,9 @@ public class AppSettingsManager {
                                 }
                             }
 
-                            dngProfileHashMap = new HashMap<>();
+                            dngProfileHashMap = new LongSparseArray<>();
                             getDngStuff(dngProfileHashMap, device_element);
+                            saveDngProfiles();
 
                             break;
                         }
@@ -990,7 +1023,7 @@ public class AppSettingsManager {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
     }
 
@@ -1010,17 +1043,26 @@ public class AppSettingsManager {
 
     private void setManualIso(XmlElement element)
     {
-        if (element.findChild("min") != null) {
+        if (!element.findChild("min").isEmpty()) {
             int min = element.findChild("min").getIntValue(100);
             int max = element.findChild("max").getIntValue(1600);
             int step = element.findChild("step").getIntValue(50);
+            int type = element.findChild("type").getIntValue(0);
+            manualIso.setType(type);
             manualIso.setKEY(element.findChild("key").getValue());
             manualIso.setValues(Camera1FeatureDetectorTask.createIsoValues(min, max, step, this));
             manualIso.setIsSupported(true);
+            manualIso.setIsPresetted(true);
         }
-        else {
-            manualIso.setKEY("unsupported");
-            manualIso.setIsSupported(false);
+        else if (!element.findChild("values").isEmpty())
+        {
+            String name = element.findChild("values").getValue();
+            manualIso.setValues(getResources().getStringArray(getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
+            manualIso.setKEY(element.findChild("key").getValue());
+            int type = element.findChild("type").getIntValue(0);
+            manualIso.setType(type);
+            manualIso.setIsSupported(true);
+            manualIso.setIsPresetted(true);
         }
     }
 
@@ -1035,39 +1077,37 @@ public class AppSettingsManager {
         return ar.toArray(new String[ar.size()]);
     }
 
-    private HashMap<Long, DngProfile> getDngProfiles()
+    private LongSparseArray<DngProfile> getDngProfiles()
     {
-        HashMap<Long,DngProfile> map = new HashMap<>();
+        LongSparseArray<DngProfile> map = new LongSparseArray<>();
         try {
-            String xmlsource = getString(resources.openRawResource(R.raw.supported_devices));
+            File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
+            String xmlsource = getString(new FileInputStream(configFile));
             XmlElement rootElement = XmlElement.parse(xmlsource);
             if (rootElement.getTagName().equals("devices"))
             {
                 List<XmlElement> devicesList = rootElement.findChildren("device");
-
-                for (XmlElement device_element: devicesList)
-                {
-                    if (device_element.getAttribute("name", "").equals(mDevice))
-                    {
-                        getDngStuff(map, device_element);
-                    }
-                }
+                XmlElement device = devicesList.get(0);
+                getDngStuff(map, device);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
         return map;
     }
 
-    private void getDngStuff(HashMap<Long, DngProfile> map, XmlElement device_element) {
+    private void getDngStuff(LongSparseArray<DngProfile> map, XmlElement device_element) {
         if (!device_element.getAttribute("opcode2", "").isEmpty())
             opcodeUrlList[0] = device_element.getAttribute("opcode2", "");
         if (!device_element.getAttribute("opcode3", "").isEmpty())
             opcodeUrlList[1] = device_element.getAttribute("opcode3", "");
+
+        Log.d(TAG, device_element.dumpChildElementsTagNames());
         List<XmlElement> fsizeList = device_element.findChildren("filesize");
         Log.d(TAG, "Found Dng Profiles:" + fsizeList.size());
         for (XmlElement filesize_element : fsizeList) {
             long filesize = Long.parseLong(filesize_element.getAttribute("size", "0"));
+            Log.d(TAG, filesize_element.dumpChildElementsTagNames());
             DngProfile profile = getProfile(filesize_element);
             map.put(filesize, profile);
         }
@@ -1083,7 +1123,7 @@ public class AppSettingsManager {
         int rowsize = Integer.parseInt(element.findChild("rowsize").getValue());
         String matrixset = element.findChild("matrixset").getValue();
 
-        return new DngProfile(blacklvl,width,height,rawType,colorpattern,rowsize,matrixes.get(matrixset));
+        return new DngProfile(blacklvl,width,height,rawType,colorpattern,rowsize,matrixes.get(matrixset), matrixset);
     }
 
     private HashMap<String, CustomMatrix> getMatrixes()
@@ -1111,7 +1151,7 @@ public class AppSettingsManager {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
         return matrixHashMap;
     }
@@ -1126,4 +1166,34 @@ public class AppSettingsManager {
         }
         return buf.toString();
     }
+
+    private void saveDngProfiles()
+    {
+        try {
+
+            File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
+            if (!configFile.getParentFile().exists())
+                configFile.getParentFile().mkdirs();
+            configFile.createNewFile();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
+            writer.write("<devices>" + "\r\n");
+            writer.write("<device name = \""+ mDevice +"\">\r\n");
+
+            for (int i =0; i< dngProfileHashMap.size();i++)
+            {
+                long t = dngProfileHashMap.keyAt(i);
+                writer.write(dngProfileHashMap.get(t).getXmlString(t));
+            }
+
+            writer.write("</device>" + "\r\n");
+            writer.write("</devices>" + "\r\n");
+            writer.flush();
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

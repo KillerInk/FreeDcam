@@ -45,7 +45,6 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     private final String TAG = SettingsMenuFragment.class.getSimpleName();
     private LeftMenuFragment leftMenuFragment;
     private RightMenuFragment rightMenuFragment;
-    private ValuesMenuFragment valuesMenuFragment;
 
 
     private final int VALUE_MENU_CLOSED = 0;
@@ -110,7 +109,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
             transaction.commit();
         }catch (NullPointerException | IllegalStateException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
     private void loadRightFragment()
@@ -128,7 +127,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
         }
         catch (NullPointerException | IllegalStateException ex)
         {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
@@ -161,7 +160,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
         }
         currentOpendItem = item;
 
-        valuesMenuFragment = new ValuesMenuFragment();
+        ValuesMenuFragment valuesMenuFragment = new ValuesMenuFragment();
         if (item.GetValues() == null) {
             item.onParameterIsSupportedChanged(false);
             value_menu_status = VALUE_MENU_CLOSED;

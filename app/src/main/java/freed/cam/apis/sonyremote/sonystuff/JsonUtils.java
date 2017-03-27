@@ -123,7 +123,7 @@ public class JsonUtils
             try {
                 ret[i] = array.get(i).toString();
             } catch (JSONException ex) {
-                ex.printStackTrace();
+                Log.WriteEx(ex);
             }
         }
         return ret;

@@ -39,6 +39,7 @@ import java.util.Date;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 14.06.2015.
@@ -107,7 +108,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
             context.unregisterReceiver(batteryBroadCastListner);
         }
         catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
+            Log.WriteEx(ex);
         }
     }
 
