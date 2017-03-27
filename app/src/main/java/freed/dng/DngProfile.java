@@ -89,7 +89,7 @@ public class DngProfile
         t += "<filesize size= " +String.valueOf("\"") +String.valueOf(filesize) +String.valueOf("\"")  +">" + "\r\n";
             t += "<blacklvl>" + blacklevel + "</blacklvl>" + "\r\n";
             t += "<width>" + widht + "</width>" + "\r\n";
-            t += "<height>" + widht + "</height>" + "\r\n";
+            t += "<height>" + height + "</height>" + "\r\n";
             t += "<rawtype>" + rawType + "</rawtype>" + "\r\n";
             t += "<colorpattern>" + bayerPattern + "</colorpattern>" + "\r\n";
             t += "<rowsize>" + rowsize + "</rowsize>" + "\r\n";
