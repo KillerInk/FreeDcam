@@ -343,6 +343,18 @@ public class CaptureSessionHandler
         }
     }
 
+    public void StartImageCapture(@NonNull CaptureRequest request,
+                                  @Nullable CameraCaptureSession.CaptureCallback listener, Handler handler)
+    {
+        //StopRepeatingCaptureSession();
+        //CancelRepeatingCaptureSession();
+        try {;
+            mCaptureSession.capture(request,listener,handler);
+        } catch (CameraAccessException ex) {
+            Log.WriteEx(ex);
+        }
+    }
+
     public void cancelCapture()
     {
         try {

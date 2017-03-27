@@ -91,7 +91,7 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
-        Handler h = new Handler(Looper.getMainLooper());
+        /*Handler h = new Handler(Looper.getMainLooper());
         h.post(new Runnable() {
             @Override
             public void run() {
@@ -99,7 +99,7 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
                 //TODO FIX BURST
                 cameraUiWrapper.StartPreview();
             }
-        });
+        });*/
 
 
     }

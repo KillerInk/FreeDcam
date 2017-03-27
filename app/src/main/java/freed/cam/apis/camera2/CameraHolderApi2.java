@@ -99,6 +99,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     int afState;
     int aeState;
     public long currentExposureTime;
+    public int currentIso;
     private Pair<Float,Float> focusRanges;
     private float focus_distance;
 
@@ -426,6 +427,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                             }
                             try {
                                 int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
+                                currentIso = iso;
                                 cameraUiWrapper.GetParameterHandler().ManualIso.ThrowCurrentValueStringCHanged("" + iso);
                                 //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
                             }
