@@ -77,11 +77,22 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     @Override
     public void DoWork()
     {
+        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(new PermissionHandler.PermissionCallback() {
+            @Override
+            public void permissionGranted(boolean granted) {
+
+            }
+        }))
+            startStopRecording();
+
+    }
+
+    private void startStopRecording()
+    {
         if (!isWorking)
             startRecording();
         else
             stopRecording();
-
     }
 
     @Override

@@ -59,6 +59,7 @@ import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
+import freed.utils.PermissionHandler;
 
 /**
  * Created by troop on 26.11.2015.
@@ -87,6 +88,17 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     @Override
     public void DoWork()
+    {
+        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(new PermissionHandler.PermissionCallback() {
+            @Override
+            public void permissionGranted(boolean granted) {
+
+            }
+        }))
+            startStopRecording();
+    }
+
+    private void startStopRecording()
     {
         if (isRecording)
             stopRecording();
@@ -251,7 +263,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             case Normal:
             case Highspeed:
                 if (currentVideoProfile.isAudioActive)
-                    mediaRecorder.setAudioSource(AudioSource.DEFAULT);
+                    mediaRecorder.setAudioSource(AudioSource.CAMCORDER);
                 break;
             case Timelapse:
                 break;
