@@ -426,6 +426,8 @@ public class ParametersHandler extends AbstractParameterHandler
 
         Zoom = new ZoomManualParameter(cameraParameters, cameraUiWrapper);
 
+        if (appS.dualPrimaryCameraMode.isSupported())
+            dualPrimaryCameraMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.dualPrimaryCameraMode);
 
 
         //set last used settings

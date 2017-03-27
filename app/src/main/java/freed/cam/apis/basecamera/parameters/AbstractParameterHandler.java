@@ -128,6 +128,10 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface Module;
     public ModeParameterInterface ZoomSetting;
     public ModeParameterInterface NightOverlay;
+
+    //huawei
+    public ModeParameterInterface dualPrimaryCameraMode;
+
     private boolean isDngActive;
     public boolean IsDngActive(){ return isDngActive; }
     public void SetDngActive(boolean active) {

@@ -187,6 +187,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectQcomFocus(parameters);
 
             detectAutoHdr(parameters);
+            if (parameters.get("hw-dual-primary-supported") != null)
+            {
+                appSettingsManager.dualPrimaryCameraMode.setValues(parameters.get("hw-dual-primary-supported").split(","));
+                appSettingsManager.dualPrimaryCameraMode.setKEY("hw-dual-primary-mode");
+                appSettingsManager.dualPrimaryCameraMode.setIsSupported(true);
+            }
         }
 
         appS.SetCurrentCamera(0);
