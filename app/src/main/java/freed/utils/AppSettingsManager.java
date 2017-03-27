@@ -251,6 +251,7 @@ public class AppSettingsManager {
     public static final int ISOMANUAL_QCOM = 0;
     public static final int ISOMANUAL_SONY =1;
     public static final int ISOMANUAL_MTK =2;
+    public static final int ISOMANUAL_KRILLIN =3;
 
 
 
@@ -369,6 +370,7 @@ public class AppSettingsManager {
     public final SettingMode manualPreviewZoom;
 
     public final SettingMode dualPrimaryCameraMode;
+    public final SettingMode manualAperture;
 
     public final TypeSettingsMode manualWhiteBalance;
 
@@ -460,6 +462,7 @@ public class AppSettingsManager {
         manualFx = new SettingMode(getResString(R.string.aps_manualfx));
         manualProgramShift = new SettingMode(getResString(R.string.aps_manualprogramshift));
         manualPreviewZoom = new SettingMode(getResString(R.string.aps_manualpreviewzoom));
+        manualAperture = new SettingMode(getResString(R.string.aps_manualaperture));
 
         opencamera1Legacy = new BooleanSettingsMode(getResString(R.string.aps_opencamera1legacy));
         dualPrimaryCameraMode = new SettingMode(getResString(R.string.aps_dualprimarycameramode));

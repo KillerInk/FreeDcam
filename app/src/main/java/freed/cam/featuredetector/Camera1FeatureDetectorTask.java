@@ -187,11 +187,19 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectQcomFocus(parameters);
 
             detectAutoHdr(parameters);
+
             if (parameters.get("hw-dual-primary-supported") != null)
             {
                 appSettingsManager.dualPrimaryCameraMode.setValues(parameters.get("hw-dual-primary-supported").split(","));
                 appSettingsManager.dualPrimaryCameraMode.setKEY("hw-dual-primary-mode");
                 appSettingsManager.dualPrimaryCameraMode.setIsSupported(true);
+            }
+
+            if (parameters.get("hw-supported-aperture-value") != null)
+            {
+                appSettingsManager.manualAperture.setKEY("hw-set-aperture-value");
+                appSettingsManager.manualAperture.setValues(parameters.get("hw-supported-aperture-value").split(","));
+                appSettingsManager.manualAperture.setIsSupported(true);
             }
         }
 
@@ -328,6 +336,17 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     appSettingsManager.manualIso.setValues(createIsoValues(min, max, 50, appSettingsManager));
                     appSettingsManager.manualIso.setType(AppSettingsManager.ISOMANUAL_QCOM);
                 }
+                else if (parameters.get(appSettingsManager.getResString(R.string.hw_sensor_iso_range))!= null)
+                {
+                    appSettingsManager.manualIso.setIsSupported(true);
+                    String t[] = parameters.get(appSettingsManager.getResString(R.string.hw_sensor_iso_range)).split(",");
+                    int min = Integer.parseInt(t[0]);
+                    int max = Integer.parseInt(t[1]);
+                    appSettingsManager.manualIso.setValues(createIsoValues(min, max, 50, appSettingsManager));
+                    appSettingsManager.manualIso.setType(AppSettingsManager.ISOMANUAL_KRILLIN);
+                    appSettingsManager.manualIso.setKEY(appSettingsManager.getResString(R.string.hw_sensor_iso));
+
+                }
             }
         }
     }
@@ -392,6 +411,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 appSettingsManager.manualExposureTime.setIsSupported(true);
                 appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_krillin));
                 appSettingsManager.manualExposureTime.setKEY("hw-manual-exposure-value");
+                appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_KRILLIN);
+            }
+            else if (parameters.get("hw-max-exposure-time") != null) {
+                Log.d(TAG, "ManualExposureTime huawei");
+                appSettingsManager.manualExposureTime.setIsSupported(true);
+                appSettingsManager.manualExposureTime.setValues(appSettingsManager.getResources().getStringArray(R.array.shutter_values_krillin));
+                appSettingsManager.manualExposureTime.setKEY("hw-sensor-exposure-time");
                 appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_KRILLIN);
             }
             //sony shutter
@@ -1027,6 +1053,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else if(parameters.get(camstring(R.string.exposure_meter))!= null) {
             detectMode(parameters,R.string.exposure_meter,R.string.exposure_meter_values,appSettingsManager.exposureMode);
         }
+        else if (parameters.get(camstring(R.string.hw_exposure_mode_values)) != null)
+            detectMode(parameters, R.string.hw_exposure_mode,R.string.hw_exposure_mode_values, appSettingsManager.exposureMode);
         if (!appSettingsManager.exposureMode.getKEY().equals(""))
             appSettingsManager.exposureMode.setIsSupported(true);
         else

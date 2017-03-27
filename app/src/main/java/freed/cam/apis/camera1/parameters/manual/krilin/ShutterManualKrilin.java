@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.apis.camera1.parameters.manual.shutter;
+package freed.cam.apis.camera1.parameters.manual.krilin;
 
 
 import android.hardware.Camera.Parameters;
@@ -28,12 +28,12 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 /**
  * Created by GeorgeKiarie on 02/04/2016.
  */
-public class ShutterManualKrillin extends AbstractManualShutter {
+public class ShutterManualKrilin extends AbstractManualShutter {
 
-    private final String TAG = ShutterManualKrillin.class.getSimpleName();
+    private final String TAG = ShutterManualKrilin.class.getSimpleName();
     private final Parameters parameters;
 
-    public ShutterManualKrillin(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+    public ShutterManualKrilin(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         this.parameters =  parameters;
         isSupported = true;
@@ -52,10 +52,11 @@ public class ShutterManualKrillin extends AbstractManualShutter {
         currentInt = valueToSet;
         if (valueToSet == 0) {
             parameters.set("hw-hwcamera-flag", "on");
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getKEY(), "auto");
+            parameters.set("hw-professional-mode", "off");
         } else {
 
             parameters.set("hw-hwcamera-flag", "on");
+            parameters.set("hw-professional-mode", "on");
             parameters.set(cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getKEY(), stringvalues[currentInt]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[valueToSet]);

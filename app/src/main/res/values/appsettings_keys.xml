@@ -83,5 +83,6 @@
     <string name="aps_manualprogramshift" translatable="false">programshift</string>
     <string name="aps_manualpreviewzoom" translatable="false">previewzoom</string>
     <string name="aps_unsupported">unsupported</string>
+    <string name="aps_manualaperture">manualaperture</string>
 
 </resources>

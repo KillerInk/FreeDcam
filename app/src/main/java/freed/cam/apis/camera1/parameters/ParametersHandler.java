@@ -24,6 +24,8 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
 
+import freed.cam.apis.camera1.parameters.manual.krilin.ManualAperture;
+import freed.cam.apis.camera1.parameters.manual.krilin.ManualIsoKrilin;
 import freed.cam.apis.camera1.parameters.manual.ManualIsoSony;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualZTE;
 import freed.utils.Log;
@@ -57,7 +59,7 @@ import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
 import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MicroSec;
 import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MilliSec;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualG2pro;
-import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualKrillin;
+import freed.cam.apis.camera1.parameters.manual.krilin.ShutterManualKrilin;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualMeizu;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualParameterHTC;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualSony;
@@ -83,6 +85,8 @@ import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
 import static freed.utils.AppSettingsManager.FRAMEWORK_MTK;
+import static freed.utils.AppSettingsManager.ISOMANUAL_KRILLIN;
+import static freed.utils.AppSettingsManager.ISOMANUAL_MTK;
 import static freed.utils.AppSettingsManager.ISOMANUAL_QCOM;
 import static freed.utils.AppSettingsManager.ISOMANUAL_SONY;
 import static freed.utils.AppSettingsManager.SETTING_OrientationHack;
@@ -172,8 +176,10 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appS.whiteBalanceMode.isSupported())
             WhiteBalanceMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,appS.whiteBalanceMode);
 
-        if (appS.exposureMode.isSupported())
-            ExposureMode = new BaseModeParameter(cameraParameters,cameraUiWrapper, appS.exposureMode);
+        if (appS.exposureMode.isSupported()) {
+            ExposureMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, appS.exposureMode);
+            ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
+        }
 
         if (appS.colorMode.isSupported())
             ColorMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.colorMode);
@@ -380,7 +386,7 @@ public class ParametersHandler extends AbstractParameterHandler
                     ManualShutter = new ShutterManualMeizu(cameraParameters,cameraUiWrapper);
                     break;
                 case SHUTTER_KRILLIN:
-                    ManualShutter = new ShutterManualKrillin(cameraParameters,cameraUiWrapper);
+                    ManualShutter = new ShutterManualKrilin(cameraParameters,cameraUiWrapper);
                     break;
                 case SHUTTER_SONY:
                     ManualShutter = new ShutterManualSony(cameraParameters,cameraUiWrapper);
@@ -398,11 +404,25 @@ public class ParametersHandler extends AbstractParameterHandler
         Log.d(TAG, "manual Iso supported:" + appS.manualIso.isSupported());
         if (appS.manualIso.isSupported() && aehandler == null && appS.manualIso.getValues() != null && appS.manualIso.getValues().length > 0)
         {
-            if (appS.manualIso.getType() == ISOMANUAL_QCOM)
-                ManualIso = new BaseISOManual(cameraParameters,cameraUiWrapper);
-            else if (appS.manualIso.getType() == ISOMANUAL_SONY)
-                ManualIso = new ManualIsoSony(cameraUiWrapper,cameraParameters);
+            switch (appS.manualIso.getType())
+            {
+                case ISOMANUAL_QCOM:
+                    ManualIso = new BaseISOManual(cameraParameters,cameraUiWrapper);
+                    break;
+                case ISOMANUAL_SONY:
+                    ManualIso = new ManualIsoSony(cameraUiWrapper,cameraParameters);
+                    break;
+                case ISOMANUAL_KRILLIN:
+                    ManualIso =  new ManualIsoKrilin(cameraParameters,cameraUiWrapper);
+                    break;
+                case ISOMANUAL_MTK: //get set due aehandler
+                    break;
+
+            }
         }
+
+        if (appS.manualAperture.isSupported())
+            ManualFNumber = new ManualAperture(cameraUiWrapper,cameraParameters);
 
         if (appS.manualWhiteBalance.isSupported())
             CCT = new BaseCCTManual(cameraParameters,cameraUiWrapper);
