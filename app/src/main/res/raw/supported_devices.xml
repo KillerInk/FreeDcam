@@ -783,7 +783,7 @@
 
     <device name="lenovo_vibe_x3">
         <models>
-        <item>Lenovo X3a40</item>
+            <item>Lenovo X3a40</item>
         </models>
         <camera1>
             <dngmanual>false</dngmanual>
@@ -2458,8 +2458,8 @@
     </device>
 
     <device name ="XiaomiMI5s">
-    <models><item>MI 5s</item></models>
-    <camera1>
+        <models><item>MI 5s</item></models>
+        <camera1>
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
@@ -3199,18 +3199,18 @@
         <models>
             <item>D6603</item>
         </models>
-       <camera1>
-           <exposuretime>
-               <values>shutter_sony_xperiaZ3</values>
-               <key>sony-shutter-speed</key>
-               <type>7</type>
-           </exposuretime>
-           <manualiso supported="true">
-               <values>iso_sony_xperiaZ3</values>
-               <key>sony-iso</key>
-               <type>1</type>
-           </manualiso>
-       </camera1>
+        <camera1>
+            <exposuretime>
+                <values>shutter_sony_xperiaZ3</values>
+                <key>sony-shutter-speed</key>
+                <type>7</type>
+            </exposuretime>
+            <manualiso supported="true">
+                <values>iso_sony_xperiaZ3</values>
+                <key>sony-iso</key>
+                <type>1</type>
+            </manualiso>
+        </camera1>
     </device>
 
     <device name ="Xiaomi_Redmi4">
