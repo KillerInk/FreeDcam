@@ -1642,29 +1642,29 @@
         <opcode3></opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
-            <width>4212</width>
+            <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
-            <rowsize>5246</rowsize>
+            <rowsize>5260</rowsize>
             <matrixset>Imx214</matrixset>
         </filesize>
         <filesize size= "16473600">
             <blacklvl>64</blacklvl>
-            <width>4224</width>
+            <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
-            <rowsize>5280</rowsize>
+            <rowsize>5260</rowsize>
             <matrixset>Imx214</matrixset>
         </filesize>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
-            <width>4212</width>
+            <width>4208</width>
             <height>3120</height>
             <rawtype>1</rawtype>
             <colorpattern>rggb</colorpattern>
-            <rowsize>0</rowsize>
+            <rowsize>5260</rowsize>
             <matrixset>Imx214</matrixset>
         </filesize>
     </device>

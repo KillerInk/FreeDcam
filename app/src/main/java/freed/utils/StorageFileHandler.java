@@ -173,6 +173,11 @@ public class StorageFileHandler
     {
         return new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
     }
+    
+    public static SimpleDateFormat getStringExifPattern()
+    {
+        return new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+    }
 
     private void readSubFolders(ArrayList<FileHolder> listToAdd, File folderToRead, boolean external)
     {

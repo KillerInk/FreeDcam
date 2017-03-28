@@ -184,7 +184,7 @@ public class RawToDng
                             double exposureIndex)
     {
         SetExifData(iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
-        SetDateTime(StorageFileHandler.getStringDatePAttern().format(new Date()));
+        SetDateTime(StorageFileHandler.getStringExifPattern().format(new Date()));
     }
 
     private float[] parseGpsvalue(double val)
