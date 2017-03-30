@@ -19,6 +19,8 @@
 
 package freed.cam.apis.basecamera.parameters.modes;
 
+import android.text.TextUtils;
+
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -33,6 +35,10 @@ public class IntervalShutterSleepParameter extends AbstractModeParameter
     public IntervalShutterSleepParameter(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        if (TextUtils.isEmpty(cameraUiWrapper.GetAppSettingsManager().interval.get()))
+            cameraUiWrapper.GetAppSettingsManager().interval.set(current);
+        else
+            current = cameraUiWrapper.GetAppSettingsManager().interval.get();
     }
 
     @Override

@@ -19,6 +19,8 @@
 
 package freed.cam.apis.basecamera.parameters.modes;
 
+import android.text.TextUtils;
+
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -35,6 +37,10 @@ public class IntervalDurationParameter extends AbstractModeParameter
     public IntervalDurationParameter(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        if (TextUtils.isEmpty(cameraUiWrapper.GetAppSettingsManager().intervalDuration.get()))
+            cameraUiWrapper.GetAppSettingsManager().intervalDuration.set(current);
+        else
+            current = cameraUiWrapper.GetAppSettingsManager().intervalDuration.get();
     }
 
     @Override
