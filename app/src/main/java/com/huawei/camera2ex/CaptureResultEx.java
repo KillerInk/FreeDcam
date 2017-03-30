@@ -3,6 +3,7 @@ package com.huawei.camera2ex;
 import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.utils.TypeReference;
 import android.os.Build;
 
 import java.lang.reflect.Constructor;
@@ -69,24 +70,17 @@ public class CaptureResultEx {
     private static CaptureResult.Key getKeyType(String string, Type type)
     {
         try {
-            Class typeref = Class.forName("android.hardware.camera2.utils.TypeReference");
-            Constructor typrefctor = typeref.getDeclaredConstructor(Type.class);
-            typrefctor.setAccessible(true);
-            Object typeRefOB = typrefctor.newInstance(type);
+            TypeReference typeref = TypeReference.createSpecializedTypeReference(type);
 
             Constructor<?>[] ctors = CaptureResult.Key.class.getDeclaredConstructors();
             Constructor<CaptureResult.Key> constructor = (Constructor<CaptureResult.Key>) ctors[1];
             constructor.setAccessible(true);
-            return constructor.newInstance(string, typeRefOB);
+            return constructor.newInstance(string, typeref);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
         return null;
