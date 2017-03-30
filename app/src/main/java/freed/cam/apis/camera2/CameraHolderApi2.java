@@ -52,8 +52,12 @@ import android.util.Pair;
 import android.util.Size;
 import android.view.TextureView;
 
+import com.huawei.camera2ex.CameraCharacteristicsEx;
+import com.huawei.camera2ex.CaptureRequestEx;
 import com.troop.freedcam.R;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -77,6 +81,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     public static String RAW10 = "raw10";
     public static String RAW12 = "raw12";
 
+
     public interface AeCompensationListner
     {
         void onAeCompensationChanged(int aecompensation);
@@ -88,7 +93,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     public CameraDevice mCameraDevice;
     private final Semaphore mCameraOpenCloseLock = new Semaphore(1);
     public AutoFitTextureView textureView;
-
 
     public StreamConfigurationMap map;
     public int CurrentCamera;
@@ -119,9 +123,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         super(cameraUiWrapper);
         manager = (CameraManager) cameraUiWrapper.getContext().getSystemService(Context.CAMERA_SERVICE);
 
-
-
-    }
+     }
 
     //###########################  public camera methods
     //###########################
@@ -141,11 +143,13 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
         try
         {
+            characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
             manager.openCamera(cam, mStateCallback, null);
-            characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
+
+            List<CameraCharacteristics.Key<?>> keys = characteristics.getKeys();
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 
         } catch (CameraAccessException ex) {

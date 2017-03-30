@@ -3,6 +3,7 @@ package com.huawei.camera2ex;
 import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.utils.TypeReference;
 import android.os.Build;
 import android.util.Rational;
 
@@ -254,28 +255,22 @@ public class CaptureRequestEx {
         HUAWEI_MAKEUP_EFFECT = getKeyType("com.huawei.capture.metadata.makeUpEffect", Byte.TYPE);
         HUAWEI_FACE_BEAUTY_MODE = getKeyType("com.huawei.capture.metadata.faceBeautyMode", Byte.TYPE);
     }
-
-    private static CaptureRequest.Key getKeyType(String string, Type type)
+//0 = {Constructor@5072} "protected android.hardware.camera2.utils.TypeReference()"
+//1 = {Constructor@5073} "private android.hardware.camera2.utils.TypeReference(java.lang.reflect.Type)"
+//            2 = {Constructor@5061} "android.hardware.camera2.utils.TypeReference(java.lang.reflect.Type,android.hardware.camera2.utils.TypeReference)"
+    private static CaptureRequest.Key getKeyType(String string, Type typeReference)
     {
         try {
-            Class typeref = Class.forName("android.hardware.camera2.utils.TypeReference");
-            Constructor typrefctor = typeref.getDeclaredConstructor(Type.class);
-            typrefctor.setAccessible(true);
-            Object typeRefOB = typrefctor.newInstance(type);
-
+            TypeReference typeref = TypeReference.createSpecializedTypeReference(typeReference);
             Constructor<?>[] ctors = CaptureRequest.Key.class.getDeclaredConstructors();
             Constructor<CaptureRequest.Key> constructor = (Constructor<CaptureRequest.Key>) ctors[1];
             constructor.setAccessible(true);
-            return constructor.newInstance(string, typeRefOB);
+            return constructor.newInstance(string, typeref);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
         return null;
