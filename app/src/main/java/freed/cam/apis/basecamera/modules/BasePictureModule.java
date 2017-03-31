@@ -73,65 +73,65 @@ public class BasePictureModule extends ModuleAbstract {
 
     protected void saveRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile)
     {
-        Log.d(TAG,"saveDng");
-        double Altitude = 0;
-        double Latitude = 0;
-        double Longitude = 0;
-        String Provider = "ASCII";
-        long gpsTime = 0;
-        if (activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(activityInterface.getAppSettings().getResString(R.string.on_)))
+        if(Build.MODEL.equals("SM-J710MN"))
         {
-            if (activityInterface.getLocationHandler().getCurrentLocation() != null)
-            {
-                Location location = activityInterface.getLocationHandler().getCurrentLocation();
-                Log.d(TAG, "location:" + location.toString());
-                Altitude = location.getAltitude();
-                Latitude = location.getLatitude();
-                Longitude = location.getLongitude();
-                Provider = location.getProvider();
-                gpsTime = location.getTime();
-                dngConverter.SetGpsData(Altitude, Latitude, Longitude, Provider, gpsTime);
-            }
-        }
-        dngConverter.setExifData(iso, exposuretime, 0, fnumber, focal, "0", orientation + "", 0);
-        if (wb != null)
-            dngConverter.SetWBCT(wb);
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !activityInterface.getAppSettings().GetWriteExternal())
-        {
-            //DngMatrixCalc dngMatrixCalc = new DngMatrixCalc();
-            // dngMatrixCalc.CalcualteD65();
+            saveJpeg(fileName,bytes);
+        }else {
 
-            Log.d(TAG, "Write To internal or kitkat<");
-            checkFileExists(fileName);
-            dngConverter.setBayerData(bytes, fileName.getAbsolutePath());
-            dngConverter.WriteDngWithProfile(dngProfile);
-        }
-        else
-        {
-            DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
-            Log.d(TAG,"Filepath: " + df.getUri());
-            DocumentFile wr = df.createFile("image/dng", fileName.getName().replace(".jpg", ".dng"));
-            Log.d(TAG,"Filepath: " + wr.getUri());
-            ParcelFileDescriptor pfd = null;
-            try {
-                pfd = activityInterface.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-            } catch (FileNotFoundException | IllegalArgumentException e) {
-                Log.WriteEx(e);
+            Log.d(TAG, "saveDng");
+            double Altitude = 0;
+            double Latitude = 0;
+            double Longitude = 0;
+            String Provider = "ASCII";
+            long gpsTime = 0;
+            if (activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(activityInterface.getAppSettings().getResString(R.string.on_))) {
+                if (activityInterface.getLocationHandler().getCurrentLocation() != null) {
+                    Location location = activityInterface.getLocationHandler().getCurrentLocation();
+                    Log.d(TAG, "location:" + location.toString());
+                    Altitude = location.getAltitude();
+                    Latitude = location.getLatitude();
+                    Longitude = location.getLongitude();
+                    Provider = location.getProvider();
+                    gpsTime = location.getTime();
+                    dngConverter.SetGpsData(Altitude, Latitude, Longitude, Provider, gpsTime);
+                }
             }
-            if (pfd != null)
-            {
-                dngConverter.SetBayerDataFD(bytes, pfd, fileName.getName());
+            dngConverter.setExifData(iso, exposuretime, 0, fnumber, focal, "0", orientation + "", 0);
+            if (wb != null)
+                dngConverter.SetWBCT(wb);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !activityInterface.getAppSettings().GetWriteExternal()) {
+                //DngMatrixCalc dngMatrixCalc = new DngMatrixCalc();
+                // dngMatrixCalc.CalcualteD65();
+
+                Log.d(TAG, "Write To internal or kitkat<");
+                checkFileExists(fileName);
+                dngConverter.setBayerData(bytes, fileName.getAbsolutePath());
                 dngConverter.WriteDngWithProfile(dngProfile);
+            } else {
+                DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
+                Log.d(TAG, "Filepath: " + df.getUri());
+                DocumentFile wr = df.createFile("image/dng", fileName.getName().replace(".jpg", ".dng"));
+                Log.d(TAG, "Filepath: " + wr.getUri());
+                ParcelFileDescriptor pfd = null;
                 try {
-                    pfd.close();
-                } catch (IOException e) {
+                    pfd = activityInterface.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                } catch (FileNotFoundException | IllegalArgumentException e) {
                     Log.WriteEx(e);
                 }
-                pfd = null;
+                if (pfd != null) {
+                    dngConverter.SetBayerDataFD(bytes, pfd, fileName.getName());
+                    dngConverter.WriteDngWithProfile(dngProfile);
+                    try {
+                        pfd.close();
+                    } catch (IOException e) {
+                        Log.WriteEx(e);
+                    }
+                    pfd = null;
+                }
             }
+            activityInterface.ScanFile(fileName);
+            bytes = null;
         }
-        activityInterface.ScanFile(fileName);
-        bytes = null;
     }
 
     protected void saveBitmap(File file, Bitmap bitmap)
