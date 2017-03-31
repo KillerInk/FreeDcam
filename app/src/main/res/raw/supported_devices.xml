@@ -929,7 +929,7 @@
             <rawtype>0</rawtype>
             <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX258_Qualcomm</matrixset>
         </filesize>
     </device>
 
@@ -1561,6 +1561,23 @@
         </filesize>
     </device>
 
+    <device name ="SamsungJ7">
+        <models>
+            <item>SM-J710MN</item>
+            <item>SM-J710M</item>
+            <item>SM-J710</item>
+        </models>
+        <camera1>
+            <dngmanual>false</dngmanual>
+            <manualfocus>
+            </manualfocus>
+        </camera1>
+
+        <camera2>
+            <forcerawtodng>true</forcerawtodng>
+        </camera2>
+    </device>
+
     <device name ="Moto_X2k14">
         <models>
             <item>XT1090</item>
@@ -1580,6 +1597,7 @@
             <forcerawtodng>true</forcerawtodng>
         </camera2>
     </device>
+
 
     <device name ="MOTOG_2k14">
         <models>
@@ -2254,7 +2272,7 @@
             <rawtype>0</rawtype>
             <colorpattern>bggr</colorpattern>
             <rowsize>5264</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX258_Qualcomm</matrixset>
         </filesize>
         <filesize size= "2969600">
             <blacklvl>64</blacklvl>
@@ -2453,7 +2471,7 @@
             <rawtype>0</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
-            <matrixset>IMX298_Qualcomm</matrixset>
+            <matrixset>IMX298_SEMCO</matrixset>
         </filesize>
     </device>
 
@@ -2920,7 +2938,7 @@
             <rawtype>3</rawtype>
             <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>IMX298_Qualcomm</matrixset>
+            <matrixset>IMX298_SEMCO</matrixset>
         </filesize>
     </device>
 
@@ -3238,6 +3256,7 @@
         <models>
             <item>Redmi Note4---</item>
             <item>Redmi Note4</item>
+            <item>Redmi Note 4</item>
         </models>
         <camera1>
             <dngmanual>false</dngmanual>
@@ -3250,9 +3269,9 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>3</rawtype>
-            <colorpattern>grbg</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX135_Z5S_JB</matrixset>
         </filesize>
     </device>
 
