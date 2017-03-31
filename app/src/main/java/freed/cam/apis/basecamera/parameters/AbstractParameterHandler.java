@@ -247,6 +247,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(HDRMode, appSettingsManager.hdrMode);
 
         setAppSettingsToCamera(matrixChooser, appSettingsManager.matrixset);
+        setAppSettingsToCamera(dualPrimaryCameraMode, appSettingsManager.dualPrimaryCameraMode);
 
         //setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
         //setManualMode(ManualConvergence,AppSettingsManager.MCONVERGENCE);

@@ -49,5 +49,6 @@ dependencies {
     provided files('libs/com.lge.frameworks.jar')
     provided files('libs/real3d.jar')
     compile 'com.android.support:appcompat-v7:24.2.1'
+    provided files('libs/libTypeReference.jar')
 }
 

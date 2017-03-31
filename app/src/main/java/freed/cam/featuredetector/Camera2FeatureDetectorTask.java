@@ -9,6 +9,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Build;
 import android.util.Size;
 
+import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.troop.freedcam.R;
 
 import java.util.ArrayList;
@@ -87,31 +88,31 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     detectFlash(characteristics);
                     sendProgress(appSettingsManager.flashMode, "Flash");
 
-                    detectMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES,appSettingsManager.sceneMode, R.array.sceneModes);
+                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES,appSettingsManager.sceneMode, R.array.sceneModes);
                     sendProgress(appSettingsManager.sceneMode, "Scene");
 
-                    detectMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES,appSettingsManager.antiBandingMode,R.array.antibandingmodes);
+                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES,appSettingsManager.antiBandingMode,R.array.antibandingmodes);
                     sendProgress(appSettingsManager.antiBandingMode, "Antibanding");
 
-                    detectMode(characteristics,CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, appSettingsManager.colorMode,R.array.colormodes);
+                    detectIntMode(characteristics,CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, appSettingsManager.colorMode,R.array.colormodes);
                     sendProgress(appSettingsManager.colorMode, "Color");
 
                     detectControlMode(characteristics);
                     sendProgress(appSettingsManager.controlMode, "ControlMode");
 
-                    detectMode(characteristics,CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, appSettingsManager.edgeMode,R.array.edgeModes);
+                    detectIntMode(characteristics,CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, appSettingsManager.edgeMode,R.array.edgeModes);
                     sendProgress(appSettingsManager.edgeMode, "EdgeMode");
 
-                    detectMode(characteristics,CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, appSettingsManager.opticalImageStabilisation,R.array.digitalImageStabModes);
+                    detectIntMode(characteristics,CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, appSettingsManager.opticalImageStabilisation,R.array.digitalImageStabModes);
                     sendProgress(appSettingsManager.opticalImageStabilisation, "OpticalImageStabilisationMode");
 
-                    detectMode(characteristics,CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES,appSettingsManager.focusMode,R.array.focusModes);
+                    detectIntMode(characteristics,CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES,appSettingsManager.focusMode,R.array.focusModes);
                     sendProgress(appSettingsManager.focusMode, "FocusMode");
 
-                    detectMode(characteristics,CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES,appSettingsManager.hotpixelMode,R.array.hotpixelmodes);
+                    detectIntMode(characteristics,CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES,appSettingsManager.hotpixelMode,R.array.hotpixelmodes);
                     sendProgress(appSettingsManager.hotpixelMode, "HotPixelMode");
 
-                    detectMode(characteristics,CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES,appSettingsManager.denoiseMode,R.array.denoiseModes);
+                    detectIntMode(characteristics,CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES,appSettingsManager.denoiseMode,R.array.denoiseModes);
                     sendProgress(appSettingsManager.denoiseMode, "Denoise");
 
                     detectPictureFormats(characteristics);
@@ -125,7 +126,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     detectVideoMediaProfiles(appSettingsManager.GetCurrentCamera());
 
-                    detectMode(characteristics,CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES,appSettingsManager.exposureMode,R.array.aemodes);
+                    detectIntMode(characteristics,CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES,appSettingsManager.exposureMode,R.array.aemodes);
                     sendProgress(appSettingsManager.exposureMode,"ExposureModes:");
 
                     detectManualExposure(characteristics);
@@ -140,8 +141,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     detectColorcorrectionMode(characteristics);
                     sendProgress(appSettingsManager.colorCorrectionMode, "ColorCorrection");
 
-                    detectMode(characteristics,CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES,appSettingsManager.whiteBalanceMode,R.array.whitebalancemodes);
+                    detectIntMode(characteristics,CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES,appSettingsManager.whiteBalanceMode,R.array.whitebalancemodes);
                     sendProgress(appSettingsManager.whiteBalanceMode,"Whitebalance");
+
+                    detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY,appSettingsManager.dualPrimaryCameraMode,R.array.dual_camera_mode);
                 }
             }
             appSettingsManager.SetCurrentCamera(0);
@@ -203,7 +206,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             //flash mode
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
-                detectMode(characteristics,CameraCharacteristics.CONTROL_AVAILABLE_MODES,appSettingsManager.controlMode,R.array.controlModes);
+                detectIntMode(characteristics,CameraCharacteristics.CONTROL_AVAILABLE_MODES,appSettingsManager.controlMode,R.array.controlModes);
                 return;
             }
             else {
@@ -265,7 +268,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         appSettingsManager.pictureSize.setValues(ar);
     }
 
-    private void detectMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
+    private void detectIntMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
     {
         if (appSettingsManager.IsCamera2FullSupported()) {
 
@@ -279,6 +282,28 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             for (int i = 0; i< scenes.length; i++)
             {
                 map.put(lookupar[i], i);
+            }
+            lookupar = StringUtils.IntHashmapToStringArray(map);
+            settingMode.setValues(lookupar);
+        }
+    }
+
+    private void detectByteMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<byte[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
+    {
+        if (appSettingsManager.IsCamera2FullSupported() && characteristics.get(requestKey) != null) {
+
+            byte[] scenes = characteristics.get(requestKey);
+            if (scenes == null)
+                return;
+            if (scenes.length >0)
+                settingMode.setIsSupported(true);
+            else
+                return;
+            String[] lookupar = appSettingsManager.getResources().getStringArray(ressourceArray);
+            HashMap<String,Integer> map = new HashMap<>();
+            for (int i = 0; i< scenes.length; i++)
+            {
+                map.put(lookupar[i], (int)scenes[i]);
             }
             lookupar = StringUtils.IntHashmapToStringArray(map);
             settingMode.setValues(lookupar);

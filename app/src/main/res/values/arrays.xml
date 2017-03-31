@@ -249,6 +249,12 @@
         <item>SHADE</item>
     </string-array>
 
+    <string-array name="dual_camera_mode">
+        <item>Primary</item>
+        <item>Secondary</item>
+        <item>Dual</item>
+    </string-array>
+
     <string-array name="guidelist"  translatable="false">
         <item>None</item>
         <item>Center Type +</item>

@@ -24,8 +24,11 @@ import android.graphics.Rect;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
+
+import freed.cam.apis.camera2.parameters.modes.DualCameraModeHuaweiApi2;
 import freed.utils.Log;
 
+import com.huawei.camera2ex.CaptureRequestEx;
 import com.troop.freedcam.R;
 
 import java.util.List;
@@ -98,6 +101,11 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         }
         if (appSettingsManager.hotpixelMode.isSupported())
             HotPixelMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.hotpixelMode,CaptureRequest.HOT_PIXEL_MODE);
+
+        if (appSettingsManager.dualPrimaryCameraMode.isSupported())
+        {
+            dualPrimaryCameraMode = new DualCameraModeHuaweiApi2(cameraUiWrapper,appSettingsManager.dualPrimaryCameraMode, CaptureRequestEx.HUAWEI_DUAL_SENSOR_MODE);
+        }
         JpegQuality = new JpegQualityModeApi2(cameraUiWrapper);
 
         WbHandler wbHandler = new WbHandler(cameraUiWrapper);
