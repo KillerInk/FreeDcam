@@ -53,6 +53,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     /*unsigned char * opcodetmp;
     unsigned char * opcode2;
     unsigned char * opcode3;*/
+    LOGD("FilesToReadCount: %i", stringCount);
     for (int i=0; i<stringCount; i++) {
         jstring string = (jstring) (*env).GetObjectArrayElement(filesToStack, i);
         files[i] = (*env).GetStringUTFChars( string, NULL);
@@ -61,14 +62,20 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     TIFF *tif=TIFFOpen(files[0], "rw");
     //read needed dng tags
     TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &width);
+    LOGD("GetWidth");
     TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &height);
+    LOGD("GetHeight");
     TIFFGetField(tif, TIFFTAG_BITSPERSAMPLE, &bitdeeptemp);
+    LOGD("GetBitDeep");
     bitdeep = bitdeeptemp;
     TIFFGetField(tif, TIFFTAG_COLORMATRIX1, &tmpmat);
+    LOGD("cc1");
     moveToMem(tmpmat, cmat1,9);
     TIFFGetField(tif, TIFFTAG_COLORMATRIX2, &tmpmat);
+    LOGD("cc2");
     moveToMem(tmpmat, cmat2,9);
     TIFFGetField(tif, TIFFTAG_ASSHOTNEUTRAL, &tmpmat);
+    LOGD("neutral");
     moveToMem(tmpmat, neutMat,3);
     TIFFGetField(tif, TIFFTAG_FOWARDMATRIX1, &tmpmat);
     moveToMem(tmpmat, fmat1,9);

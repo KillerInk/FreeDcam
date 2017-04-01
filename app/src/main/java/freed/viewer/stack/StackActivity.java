@@ -51,6 +51,7 @@ import freed.utils.LocationHandler;
 import freed.utils.Log;
 import freed.utils.RenderScriptHandler;
 import freed.utils.ScriptField_MinMaxPixel;
+import freed.utils.StorageFileHandler;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingFragment;
 import freed.viewer.holder.FileHolder;
@@ -88,6 +89,7 @@ public class StackActivity extends ActivityAbstract
         stackvaluesButton.setAdapter(stackadapter);
         filesToStack = getIntent().getStringArrayExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT);
         renderScriptHandler = new RenderScriptHandler(getContext());
+        storageHandler = new StorageFileHandler(this);
 
         stackvaluesButton.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
