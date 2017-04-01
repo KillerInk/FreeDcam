@@ -51,7 +51,7 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 /**
  * Created by troop on 20.06.2015.
  */
-public class ShutterButton extends Button implements ModuleChangedEvent, ModuleHandlerAbstract.CaptureStateChanged
+public class ShutterButton extends android.support.v7.widget.AppCompatButton implements ModuleChangedEvent, ModuleHandlerAbstract.CaptureStateChanged
 {
     private CameraWrapperInterface cameraUiWrapper;
     private AnimationDrawable shutterOpenAnimation;
@@ -64,11 +64,12 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
     private boolean shutteractive = false;
     private String shutteropentime = "";
     private Paint shutteropentimePaint;
+    private TimerAsyncTask shutterTimer;
 
     //shutter_open_radius for the Transparent Radius to draw to simulate shutter open
     private float shutter_open_radius = 0.0f;
     //frames to draw
-    private final int MAXFRAMES = 5;
+    private final int MAXFRAMES = 1;
     //holds the currentframe number
     private int currentframe = 0;
     //handler to call the animaiont frames
@@ -185,7 +186,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
     @Override
     public void onCaptureStateChanged(CaptureStates mode)
     {
-        Log.d(this.TAG, "onCaptureStateChanged CurrentShow:" + this.currentShow);
+        Log.d(this.TAG, "onCaptureStateChanged CurrentShow:" + this.currentShow + " Capturestate: " + mode.name());
         this.switchBackground(mode,true);
 
         switch (mode)
@@ -195,29 +196,42 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
             case video_recording_start:
                 break;
             case image_capture_stop:
-                shutteractive = false;
+                stopShutterTimer();
                 break;
             case image_capture_start:
-                shutteractive = true;
-                new TimerAsyncTask().execute(new Date().getTime());
+                startShutterTimer();
                 break;
             case continouse_capture_start:
                 break;
             case continouse_capture_stop:
                 break;
             case continouse_capture_work_start:
-                shutteractive = true;
-                new TimerAsyncTask().execute(new Date().getTime());
+                startShutterTimer();
                 break;
             case continouse_capture_work_stop:
-                shutteractive = false;
+                stopShutterTimer();
                 break;
             case cont_capture_stop_while_working:
                 break;
             case cont_capture_stop_while_notworking:
+                stopShutterTimer();
                 break;
         }
 
+    }
+
+    private void startShutterTimer()
+    {
+        shutteractive = true;
+        shutterTimer = new TimerAsyncTask();
+        shutterTimer.execute(new Date().getTime());
+    }
+
+    private void stopShutterTimer()
+    {
+        shutteractive = false;
+
+        shutterTimer = null;
     }
 
     private final AbstractModeParameter.I_ModeParameterEvent contshotListner = new AbstractModeParameter.I_ModeParameterEvent() {
@@ -346,8 +360,6 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
         int halfSize = canvas.getWidth()/2;
         shutterImage.draw(canvas);
         canvas.drawCircle(halfSize,halfSize, shutter_open_radius, transparent);
-        if (shutteractive && !TextUtils.isEmpty(shutteropentime))
-            canvas.drawText(shutteropentime,halfSize - shutteropentimePaint.measureText(shutteropentime)/2,halfSize,shutteropentimePaint);
         if (drawRecordingImage)
         {
             canvas.drawCircle(halfSize,halfSize,recordingRadiusCircle/2, red);
@@ -358,6 +370,8 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
             canvas.drawRect(left,top,right,bottom,red);
 
         }
+        if (shutteractive && !TextUtils.isEmpty(shutteropentime))
+            canvas.drawText(shutteropentime,halfSize - shutteropentimePaint.measureText(shutteropentime)/2,halfSize,shutteropentimePaint);
     }
 
     private class TimerAsyncTask extends AsyncTask<Long, String, String>
@@ -387,6 +401,11 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
 
         @Override
         protected void onPostExecute(String s) {
+            resetShutterTimer();
+
+        }
+        private void resetShutterTimer()
+        {
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -394,7 +413,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
                     ShutterButton.this.invalidate();
                 }
             },1000);
-
+            shutterTimer = null;
         }
     }
 

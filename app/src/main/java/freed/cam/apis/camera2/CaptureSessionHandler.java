@@ -52,6 +52,11 @@ public class CaptureSessionHandler
         void onRdy();
     }
 
+    public List<CaptureRequest.Key<?>> getKeys()
+    {
+        return mPreviewRequestBuilder.build().getKeys();
+    }
+
 
     CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
     {
@@ -102,6 +107,12 @@ public class CaptureSessionHandler
         public void onActive(@NonNull CameraCaptureSession session) {
             super.onActive(session);
             Log.d(TAG, "onActive()");
+        }
+
+        @Override
+        public void onSurfacePrepared(@NonNull CameraCaptureSession session, @NonNull Surface surface) {
+            super.onSurfacePrepared(session, surface);
+            Log.d(TAG,"onSurfacePrepared");
         }
     };
 
@@ -250,6 +261,12 @@ public class CaptureSessionHandler
             }
     }
 
+    public void StopRepeatingCaptureSession(CaptureEvent event)
+    {
+        this.waitForRdyCallback = event;
+        StopRepeatingCaptureSession();
+    }
+
     public void CancelRepeatingCaptureSession(CaptureEvent event)
     {
         this.waitForRdyCallback = event;
@@ -349,9 +366,19 @@ public class CaptureSessionHandler
         //StopRepeatingCaptureSession();
         //CancelRepeatingCaptureSession();
         try {;
+
             mCaptureSession.capture(request,listener,handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
+        }
+    }
+
+    public void prepareSurface(Surface surface)
+    {
+        try {
+            mCaptureSession.prepare(surface);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
         }
     }
 

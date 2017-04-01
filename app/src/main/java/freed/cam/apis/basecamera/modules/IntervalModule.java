@@ -34,8 +34,8 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 public class IntervalModule extends ModuleAbstract implements CaptureStateChanged
 {
     private final ModuleAbstract picModule;
-    private final IntervalHandler intervalHandler;
-    private  final String TAG  = IntervalModule.class.getSimpleName();
+    protected final IntervalHandler intervalHandler;
+    protected   final String TAG  = IntervalModule.class.getSimpleName();
 
     public IntervalModule(ModuleAbstract picModule, CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
         super(cameraUiWrapper, mBackgroundHandler);

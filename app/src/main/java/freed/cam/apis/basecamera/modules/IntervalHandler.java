@@ -29,7 +29,7 @@ import freed.utils.AppSettingsManager;
 /**
  * Created by Ingo on 04.10.2015.
  */
-class IntervalHandler
+public class IntervalHandler
 {
     private final ModuleAbstract picmodule;
 
