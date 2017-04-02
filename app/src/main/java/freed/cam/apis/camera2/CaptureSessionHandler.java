@@ -52,6 +52,11 @@ public class CaptureSessionHandler
         void onRdy();
     }
 
+    public List<CaptureRequest.Key<?>> getKeys()
+    {
+        return mPreviewRequestBuilder.build().getKeys();
+    }
+
 
     CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
     {
@@ -86,6 +91,7 @@ public class CaptureSessionHandler
         public void onReady(@NonNull CameraCaptureSession session) {
             super.onReady(session);
             Log.d(TAG, "onReady()");
+            Log.d(TAG, "waitforCallBack:" + (waitForRdyCallback != null));
             if (waitForRdyCallback != null){
                 waitForRdyCallback.onRdy();
                 waitForRdyCallback = null;
@@ -102,6 +108,12 @@ public class CaptureSessionHandler
         public void onActive(@NonNull CameraCaptureSession session) {
             super.onActive(session);
             Log.d(TAG, "onActive()");
+        }
+
+        @Override
+        public void onSurfacePrepared(@NonNull CameraCaptureSession session, @NonNull Surface surface) {
+            super.onSurfacePrepared(session, surface);
+            Log.d(TAG,"onSurfacePrepared");
         }
     };
 
@@ -250,10 +262,16 @@ public class CaptureSessionHandler
             }
     }
 
+    public void StopRepeatingCaptureSession(CaptureEvent event)
+    {
+        this.waitForRdyCallback = event;
+        StopRepeatingCaptureSession();
+    }
+
     public void CancelRepeatingCaptureSession(CaptureEvent event)
     {
         this.waitForRdyCallback = event;
-        Log.d(TAG, "StopRepeatingCaptureSession");
+        Log.d(TAG, "CancelRepeatingCaptureSession waitforCallback:" + ( waitForRdyCallback != null));
         if (mCaptureSession != null)
             try {
                 mCaptureSession.abortCaptures();
@@ -274,6 +292,8 @@ public class CaptureSessionHandler
         if (mCaptureSession == null)
             return;
         try {
+            if (waitForRdyCallback != null)
+                Log.d(TAG, "waitforRdy not null");
             mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                     null);
         } catch (CameraAccessException ex) {
@@ -349,9 +369,19 @@ public class CaptureSessionHandler
         //StopRepeatingCaptureSession();
         //CancelRepeatingCaptureSession();
         try {;
+
             mCaptureSession.capture(request,listener,handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
+        }
+    }
+
+    public void prepareSurface(Surface surface)
+    {
+        try {
+            mCaptureSession.prepare(surface);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
         }
     }
 
@@ -376,6 +406,7 @@ public class CaptureSessionHandler
 
     public void CloseCaptureSession()
     {
+        Log.d(TAG, "CloseCaptureSession");
         CancelRepeatingCaptureSession(null);
         Clear();
         if (mCaptureSession != null)

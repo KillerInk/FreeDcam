@@ -24,6 +24,8 @@ import android.os.Handler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalModule;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.utils.Log;
 
 /**
  * Created by troop on 26.02.2016.
@@ -56,5 +58,34 @@ public class IntervalApi2 extends IntervalModule implements I_PreviewWrapper
     @Override
     public void DestroyModule() {
         picModule.DestroyModule();
+    }
+
+    @Override
+    public void DoWork()
+    {
+        if (!intervalHandler.IsWorking())
+        {
+            Log.d(TAG, "StartInterval");
+            isWorking = true;
+            picModule.setIntervalCapture(true);
+            intervalHandler.StartInterval();
+            changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_start);
+            return;
+        } else {
+            Log.d(TAG, "Stop Interval");
+            isWorking = false;
+            picModule.setIntervalCapture(false);
+            intervalHandler.CancelInterval();
+            if (picModule.isWorking)
+            {
+                Log.d(TAG, "changeWorkstate to cont_capture_stop_while_working");
+                changeCaptureState(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_working);
+            }
+            else {
+                Log.d(TAG, "changeWorkstate to cont_capture_stop_while_notworking");
+                changeCaptureState(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_notworking);
+            }
+            return;
+        }
     }
 }
