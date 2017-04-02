@@ -91,6 +91,7 @@ public class CaptureSessionHandler
         public void onReady(@NonNull CameraCaptureSession session) {
             super.onReady(session);
             Log.d(TAG, "onReady()");
+            Log.d(TAG, "waitforCallBack:" + (waitForRdyCallback != null));
             if (waitForRdyCallback != null){
                 waitForRdyCallback.onRdy();
                 waitForRdyCallback = null;
@@ -270,7 +271,7 @@ public class CaptureSessionHandler
     public void CancelRepeatingCaptureSession(CaptureEvent event)
     {
         this.waitForRdyCallback = event;
-        Log.d(TAG, "StopRepeatingCaptureSession");
+        Log.d(TAG, "CancelRepeatingCaptureSession waitforCallback:" + ( waitForRdyCallback != null));
         if (mCaptureSession != null)
             try {
                 mCaptureSession.abortCaptures();
@@ -291,6 +292,8 @@ public class CaptureSessionHandler
         if (mCaptureSession == null)
             return;
         try {
+            if (waitForRdyCallback != null)
+                Log.d(TAG, "waitforRdy not null");
             mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                     null);
         } catch (CameraAccessException ex) {
@@ -403,6 +406,7 @@ public class CaptureSessionHandler
 
     public void CloseCaptureSession()
     {
+        Log.d(TAG, "CloseCaptureSession");
         CancelRepeatingCaptureSession(null);
         Clear();
         if (mCaptureSession != null)

@@ -36,7 +36,6 @@ import android.hardware.camera2.params.ColorSpaceTransform;
 import android.media.Image;
 import android.media.ImageReader;
 import android.media.ImageReader.OnImageAvailableListener;
-import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.Looper;
@@ -44,7 +43,6 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 
-import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.utils.Log;
 import android.util.Pair;
@@ -52,16 +50,15 @@ import android.util.Rational;
 import android.util.Size;
 import android.view.Surface;
 
+import com.huawei.camera2ex.CaptureRequestEx;
 import com.troop.freedcam.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -88,22 +85,28 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         private CaptureResult captureResult;
         private Image image;
+        private int acessCount = 0;
         public void SetCaptureResult(CaptureResult captureResult)
         {
             this.captureResult = captureResult;
         }
 
-        public void SetImage(Image image)
+        public synchronized void SetImage(Image image)
         {
             this.image = image;
         }
 
-        public boolean rdyToGetSaved()
+        public synchronized boolean rdyToGetSaved()
         {
+            acessCount++;
             return image != null && captureResult != null;
         }
 
-        public Image getImage()
+        public boolean capturefailed()
+        {
+            return acessCount == 2;
+        }
+        public synchronized Image getImage()
         {
             return image;
         }
@@ -115,6 +118,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     private final String TAG = PictureModuleApi2.class.getSimpleName();
+    private final String CAPTURECYCLE = "CAPTURECYCLE";
     private String picFormat;
     private int mImageWidth;
     private int mImageHeight;
@@ -128,6 +132,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
     private boolean intervalCapture = false;
+    private Object captureLock = new Object();
 
     /**
      * A counter for tracking corresponding {@link CaptureRequest}s and {@link CaptureResult}s
@@ -164,7 +169,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         else if (parameterHandler.ExposureMode.GetValue().equals(appSettingsManager.getResString(R.string.Off)))
         {
             cameraHolder.captureSessionHandler.cancelCapture();
-            finishCapture(captureBuilder);
+            finishCapture(captureBuilder,0);
             changeCaptureState(CaptureStates.image_capture_stop);
         }
     }
@@ -216,13 +221,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             cameraHolder.captureSessionHandler.AddSurface(camerasurface,true);
 
             if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpeg)))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, 2);
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, 3);
             else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng10)))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, 2);
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, 3);
             else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng16)))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, 2);
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, 3);
             else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng12)))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW12,2);
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW12,3);
             cameraHolder.captureSessionHandler.AddSurface(mImageReader.getSurface(),false);
             cameraHolder.captureSessionHandler.CreateCaptureSession();
 
@@ -366,40 +371,45 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
 
         captureBuilder.setTag(mRequestCounter.getAndIncrement());
+        synchronized (captureLock) {
+            ImageHolder imageHolder = new ImageHolder();
+            resultQueue.put((int) captureBuilder.build().getTag(), imageHolder);
+            Log.d(CAPTURECYCLE,"captureStillPicture ID:" + captureBuilder.build().getTag());
 
-        ImageHolder imageHolder = new ImageHolder();
-        resultQueue.put((int)captureBuilder.build().getTag(), imageHolder);
-
-        changeCaptureState(CaptureStates.image_capture_start);
-        for(CaptureRequest.Key<?> key : cameraHolder.captureSessionHandler.getKeys())
-        {
-            CaptureRequest.Key k = key;
-            if (k == CaptureRequest.SENSOR_EXPOSURE_TIME)
+            changeCaptureState(CaptureStates.image_capture_start);
+            for(CaptureRequest.Key<?> key : cameraHolder.captureSessionHandler.getKeys())
             {
-                long val = 0;
-                if(!parameterHandler.ManualIso.GetStringValue().equals(cameraUiWrapper.getResString(R.string.auto_))) {
-                    val = AbstractManualShutter.getMilliSecondStringFromShutterString(parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()]) * 1000;
-                    //cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
+                CaptureRequest.Key k = key;
+                if (k == CaptureRequest.SENSOR_EXPOSURE_TIME)
+                {
+                    long val = 0;
+                    if(!parameterHandler.ManualIso.GetStringValue().equals(cameraUiWrapper.getResString(R.string.auto_))) {
+                        val = AbstractManualShutter.getMilliSecondStringFromShutterString(parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()]) * 1000;
+                        //cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
+                    }
+                    else
+                        val= cameraHolder.captureSessionHandler.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
+                    Log.e(TAG, "Set ExposureTime for Capture to:" + val);
+                    captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
+                    captureBuilder.set(CaptureRequest.SENSOR_FRAME_DURATION, val);
                 }
                 else
-                    val= cameraHolder.captureSessionHandler.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
-                Log.e(TAG, "Set ExposureTime for Capture to:" + val);
-                captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
-                captureBuilder.set(CaptureRequest.SENSOR_FRAME_DURATION, val);
+                    captureBuilder.set(k, cameraHolder.captureSessionHandler.get(k));
             }
-            else
-                captureBuilder.set(k, cameraHolder.captureSessionHandler.get(k));
-        }
 
-        prepareCaptureBuilder(captureBuilder, imagecount);
-        cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(imageCaptureRdyCallback);
+            prepareCaptureBuilder(captureBuilder, imagecount);
+            Log.d(CAPTURECYCLE, "CancelRepeatingCaptureSessoion set imageRdyCallback");
+            cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(imageCaptureRdyCallback);
+            //cameraHolder.captureSessionHandler.StopRepeatingCaptureSession();
+            //imageCaptureRdyCallback.onRdy();
+        }
 
     }
 
     private CaptureSessionHandler.CaptureEvent imageCaptureRdyCallback = new CaptureSessionHandler.CaptureEvent() {
         @Override
         public void onRdy() {
-            Log.d(TAG, "StartStillCapture");
+            Log.d(CAPTURECYCLE, "StartStillCapture");
             cameraHolder.captureSessionHandler.StartImageCapture(captureBuilder, CaptureCallback, mBackgroundHandler);
         }
     };
@@ -525,40 +535,46 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void onCaptureSequenceCompleted(@NonNull CameraCaptureSession session, int sequenceId, long frameNumber) {
             super.onCaptureSequenceCompleted(session, sequenceId, frameNumber);
-            Log.d(TAG,"onCaptureSequenceCompleted");
+            Log.d(CAPTURECYCLE,"onCaptureSequenceCompleted sequenceID: "+ sequenceId + " frameNum:" +frameNumber);
         }
 
         @Override
         public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp, long frameNumber) {
             super.onCaptureStarted(session, request, timestamp, frameNumber);
-            Log.d(TAG, "onCaptureStart() timestamp:" + timestamp);
+            Log.d(CAPTURECYCLE, "onCaptureStart() timestamp:" + timestamp + "ID: " + request.getTag() +" frameNum:" + frameNumber);
         }
 
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
-            int requestId = (int) request.getTag();
-            ImageHolder imageHolder = resultQueue.get(requestId);
-            imageHolder.SetCaptureResult(result);
+            Log.d(CAPTURECYCLE, "onCaptureCompleted FrameNum:" +result.getFrameNumber());
+            synchronized (captureLock) {
+                int requestId = (int) request.getTag();
+                ImageHolder imageHolder = resultQueue.get(requestId);
 
-            Log.d(TAG, "Rdy to save Image from onCaptureCompleted: " + imageHolder.rdyToGetSaved());
-            if (imageHolder.rdyToGetSaved()) {
-                resultQueue.remove(requestId);
-                saveImage(imageHolder);
+                imageHolder.SetCaptureResult(result);
+
+                Log.d(CAPTURECYCLE, "##############Rdy to save Image from onCaptureCompleted: " + imageHolder.rdyToGetSaved() + " ID: " +requestId);
+                if (imageHolder.rdyToGetSaved()) {
+                    resultQueue.remove(requestId);
+                    saveImage(imageHolder);
+                }
+                Log.d(CAPTURECYCLE, "result AE Mode:" + result.get(CaptureResult.CONTROL_AE_MODE) + " Expotime:" + result.get(CaptureResult.SENSOR_EXPOSURE_TIME) + " iso:" + result.get(CaptureResult.SENSOR_SENSITIVITY));
+                Log.d(CAPTURECYCLE, "request AE Mode:" + request.get(CaptureRequest.CONTROL_AE_MODE) + " Expotime:" + request.get(CaptureRequest.SENSOR_EXPOSURE_TIME) + " iso:" + request.get(CaptureRequest.SENSOR_SENSITIVITY));
             }
-            Log.d(TAG, "result AE Mode:" + result.get(CaptureResult.CONTROL_AE_MODE) + " Expotime:" + result.get(CaptureResult.SENSOR_EXPOSURE_TIME) + " iso:" + result.get(CaptureResult.SENSOR_SENSITIVITY));
-            Log.d(TAG, "request AE Mode:" + request.get(CaptureRequest.CONTROL_AE_MODE) + " Expotime:" + request.get(CaptureRequest.SENSOR_EXPOSURE_TIME) + " iso:" + request.get(CaptureRequest.SENSOR_SENSITIVITY));
         }
 
         @Override
         public void onCaptureFailed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull CaptureFailure failure) {
             super.onCaptureFailed(session, request, failure);
-            Log.d(TAG, "#################CAPTURE FAILED!###############");
+            Log.d(CAPTURECYCLE, "#################CAPTURE FAILED!###############");
+            int requestId = (int) request.getTag();
+            resultQueue.remove(requestId);
         }
 
         @Override
         public void onCaptureBufferLost(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull Surface target, long frameNumber) {
             super.onCaptureBufferLost(session, request, target, frameNumber);
-            Log.d(TAG, "#################CAPTURE BUFFER LOST!###############");
+            Log.d(CAPTURECYCLE, "#################CAPTURE BUFFER LOST!############### FrameNum:" +frameNumber);
         }
 
         @Override
@@ -568,19 +584,48 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
     };
 
+    private final OnImageAvailableListener mOnRawImageAvailableListener = new OnImageAvailableListener()
+    {
+        @Override
+        public void onImageAvailable(final ImageReader reader)
+        {
+            synchronized (captureLock) {
+                Map.Entry<Integer, ImageHolder> entry = resultQueue.firstEntry();
+                ImageHolder imageHolder = entry.getValue();
+
+                if(imageHolder == null)
+                {
+                    Log.e(CAPTURECYCLE, "mOnRawImageAvailableListener ImageHolder NULL");
+                    return;
+                }
+                Image img = reader.acquireLatestImage();
+                imageHolder.SetImage(img);
+                Log.d(CAPTURECYCLE, "##########Rdy to save Image from mOnRawImageAvailableListener: " + imageHolder.rdyToGetSaved() + " Time: " + imageHolder.getImage().getTimestamp() + " ID: " + entry.getKey());
+                if (imageHolder.rdyToGetSaved()) {
+                    resultQueue.remove(0);
+                    saveImage(imageHolder);
+                }
+            }
+        }
+    };
+
     /**
      * Reset the capturesession to preview
      * @param captureBuilder
      */
-    protected void finishCapture(Builder captureBuilder) {
+    protected void finishCapture(Builder captureBuilder,int burstcount) {
 
         try
         {
-            Log.d(TAG, "CaptureDone");
-
+            Log.d(CAPTURECYCLE, "CaptureDone");
+            if (burstcount > 1 && burstcount > imagecount) {
+                captureStillPicture();
+            }
+            else
             if (cameraHolder.captureSessionHandler.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF) {
                 cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, AeHandler.MAX_PREVIEW_EXPOSURETIME);
                 cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_FRAME_DURATION, AeHandler.MAX_PREVIEW_EXPOSURETIME);
+                Log.d(CAPTURECYCLE, "CancelRepeatingCaptureSessoion set onSessionRdy");
                 cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(onSesssionRdy);
             }
             else {
@@ -592,6 +637,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
                             CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                 }
+                isWorking = false;
+                changeCaptureState(CaptureStates.image_capture_stop);
+                Log.d(TAG, "BurstCount/Imagecount:" + burstcount+"/"+imagecount + " Interval:" + intervalCapture);
+
             }
 
         }
@@ -599,7 +648,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             Log.WriteEx(ex);;
         }
 
-        isWorking = false;
+
+
     }
 
     /**
@@ -609,6 +659,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         @Override
         public void onRdy() {
+        isWorking = false;
+        changeCaptureState(CaptureStates.image_capture_stop);
+
+            Log.d(CAPTURECYCLE, "onSessionRdy() Rdy to Start Preview");
             cameraHolder.captureSessionHandler.StartRepeatingCaptureSession();
             if (cameraHolder.captureSessionHandler.get(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
                     || cameraHolder.captureSessionHandler.get(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO) {
@@ -617,25 +671,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
                         CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
             }
+
         }
+
+
+
     };
 
-    private final OnImageAvailableListener mOnRawImageAvailableListener = new OnImageAvailableListener()
-    {
-        @Override
-        public void onImageAvailable(final ImageReader reader)
-        {
-            Map.Entry<Integer, ImageHolder> entry = resultQueue.firstEntry();
-            ImageHolder imageHolder = entry.getValue();
-            imageHolder.SetImage(reader.acquireNextImage());
-            Log.d(TAG, "Rdy to save Image from mOnRawImageAvailableListener: " + imageHolder.rdyToGetSaved() + " Time: " +imageHolder.getImage().getTimestamp());
-            if (imageHolder.rdyToGetSaved())
-            {
-                resultQueue.remove(0);
-                saveImage(imageHolder);
-            }
-        }
-    };
+
 
     private void saveImage(ImageHolder image) {
         int burstcount = parameterHandler.Burst.GetValue()+1;
@@ -671,16 +714,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         internalFireOnWorkDone(file);
         isWorking = false;
-        changeCaptureState(CaptureStates.image_capture_stop);
-
-        if (burstcount > 1 && burstcount == imagecount) {
-            finishCapture(captureBuilder);
-        }
-        else if (burstcount == 1 && !intervalCapture)
-            finishCapture(captureBuilder);
-        else if (burstcount > 0) captureStillPicture();
-
-
+        finishCapture(captureBuilder,burstcount);
     }
 
     protected void internalFireOnWorkDone(File file)
