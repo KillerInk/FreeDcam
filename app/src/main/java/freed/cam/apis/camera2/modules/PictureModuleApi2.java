@@ -368,8 +368,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      *
      */
     protected void captureStillPicture() {
-
-
         captureBuilder.setTag(mRequestCounter.getAndIncrement());
         synchronized (captureLock) {
             ImageHolder imageHolder = new ImageHolder();
@@ -614,15 +612,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      * @param captureBuilder
      */
     protected void finishCapture(Builder captureBuilder,int burstcount) {
-
+        isWorking = false;
+        changeCaptureState(CaptureStates.image_capture_stop);
         try
         {
             Log.d(CAPTURECYCLE, "CaptureDone");
             if (burstcount > 1 && burstcount > imagecount) {
                 captureStillPicture();
             }
-            else
-            if (cameraHolder.captureSessionHandler.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF) {
+            else if (cameraHolder.captureSessionHandler.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF) {
                 cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, AeHandler.MAX_PREVIEW_EXPOSURETIME);
                 cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_FRAME_DURATION, AeHandler.MAX_PREVIEW_EXPOSURETIME);
                 Log.d(CAPTURECYCLE, "CancelRepeatingCaptureSessoion set onSessionRdy");
@@ -637,8 +635,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
                             CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                 }
-                isWorking = false;
-                changeCaptureState(CaptureStates.image_capture_stop);
+
                 Log.d(TAG, "BurstCount/Imagecount:" + burstcount+"/"+imagecount + " Interval:" + intervalCapture);
 
             }

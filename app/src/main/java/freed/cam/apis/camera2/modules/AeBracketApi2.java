@@ -131,7 +131,8 @@ public class AeBracketApi2 extends PictureModuleApi2
         super.finishCapture(captureBuilder,burstcount);
         if (aeWasOn)
             parameterHandler.ExposureMode.SetValue(activityInterface.getContext().getString(R.string.on),true);
-        fireOnWorkFinish(savedFiles);
+        if (burstcount == 2)
+            fireOnWorkFinish(savedFiles);
     }
 
     @Override

@@ -120,7 +120,8 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     protected void finishCapture(Builder captureBuilder,int burstcount) {
         super.finishCapture(captureBuilder,burstcount);
-        fireOnWorkFinish(savedFiles);
+        if (burstcount == PICSTOTAKE)
+            fireOnWorkFinish(savedFiles);
     }
 
     @Override

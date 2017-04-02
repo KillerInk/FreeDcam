@@ -84,7 +84,7 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
 
     @Override
     public String[] getStringValues() {
-        return new String[] {"1","2","3","4","5"};
+        return new String[] {"1","2","3","4","5","6","7","8","9","10"};
     }
 
     @Override
