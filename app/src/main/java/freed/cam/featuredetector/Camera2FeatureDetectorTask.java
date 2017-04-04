@@ -321,10 +321,11 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             return;
         }
         float step = 0.2f;
-        int count = (int)(maxfocusrange/step)+1;
+        int count = (int)(maxfocusrange/step)+2;
         StringFloatArray focusranges = new StringFloatArray(count);
         focusranges.add(0,appSettingsManager.getResString(R.string.auto),0f);
-        int t = 1;
+        focusranges.add(1,"∞", 0f);
+        int t = 2;
         for (float i = step; i < maxfocusrange; i += step)
         {
             focusranges.add(t++,StringUtils.getMeterString(1/i),i);

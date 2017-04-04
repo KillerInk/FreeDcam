@@ -440,7 +440,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                             }
                             try {
                                 focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                                cameraUiWrapper.GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString4Places(focus_distance + ""));
+                                cameraUiWrapper.GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.getMeterString(1/focus_distance));
                             }
                             catch (NullPointerException ex) {Log.WriteEx(ex);}
                         }
