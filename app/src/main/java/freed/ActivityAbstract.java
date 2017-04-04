@@ -19,13 +19,11 @@
 
 package freed;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -39,8 +37,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.WindowManager.LayoutParams;
-
-import com.troop.freedcam.R;
 
 import java.io.File;
 import java.util.Collections;
@@ -108,7 +104,13 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     {
         initDone = true;
         Log.d(TAG, "initOnCreate()");
-        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()),getBaseContext().getResources());
+        SettingsApplication application = (SettingsApplication)getApplication();
+        if (application.getAppSettingsManager() == null) {
+            appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
+            application.setAppSettingsManager(appSettingsManager);
+        }
+        else
+            appSettingsManager = application.getAppSettingsManager();
     }
 
     private PermissionHandler.PermissionCallback logSDPermission = new PermissionHandler.PermissionCallback()
