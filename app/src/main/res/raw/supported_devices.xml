@@ -2574,6 +2574,8 @@
         <camera1>
             <dngmanual>false</dngmanual>
             <manualiso supported="false"></manualiso>
+            <hdrmode supported="true">0</hdrmode>
+            <nightmode>0</nightmode>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
