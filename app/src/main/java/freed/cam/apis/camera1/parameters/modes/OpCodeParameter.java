@@ -32,6 +32,8 @@ import java.net.URL;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -65,7 +67,7 @@ public class OpCodeParameter extends AbstractModeParameter
         File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
         if (op3.exists())
             hasOp3 =true;
-        isSupported = true;
+        isSupported = hasOp2 || hasOp3 || appSettingsManager.opcodeUrlList[0] != null || appSettingsManager.opcodeUrlList[1] != null;
 
     }
 
@@ -118,7 +120,15 @@ public class OpCodeParameter extends AbstractModeParameter
 
     @Override
     public String[] GetValues() {
-        return new String[] {"Enabled,Disabled,Download"};
+        List<String> list = new ArrayList<>();
+        if (hasOp2 || hasOp3)
+        {
+            list.add("Enabled");
+            list.add("Disabled");
+        }
+        else if ((!hasOp2 && !hasOp3) && (appSettingsManager.opcodeUrlList[0] != null || appSettingsManager.opcodeUrlList[1] != null))
+            list.add("Download");
+        return list.toArray(new String[list.size()]);
     }
 
     @Override
