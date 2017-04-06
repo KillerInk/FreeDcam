@@ -3218,7 +3218,7 @@
             <item>Redmi 4</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
+            <dngmanual>true</dngmanual>
             <manualiso supported="false"></manualiso>
         </camera1>
         <opcode2></opcode2>
@@ -3242,7 +3242,9 @@
         </models>
         <camera1>
             <dngmanual>false</dngmanual>
-            <manualiso supported="false"></manualiso>
+            <manualiso supported="true"></manualiso>
+            <hdrmode supported="true">0</hdrmode>
+            <nightmode>0</nightmode>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -3251,7 +3253,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>3</rawtype>
-            <colorpattern>grbg</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
