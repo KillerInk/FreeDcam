@@ -346,8 +346,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
                         publishProgress(getTimeGoneString(startime));
                     else
                         publishProgress("");
-                    if (!stopTimer)
-                        currentframe++;
+                    currentframe++;
                 }
                 try {
                     Thread.sleep(2);
