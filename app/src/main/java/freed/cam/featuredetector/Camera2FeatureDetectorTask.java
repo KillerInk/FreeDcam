@@ -144,7 +144,13 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     detectIntMode(characteristics,CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES,appSettingsManager.whiteBalanceMode,R.array.whitebalancemodes);
                     sendProgress(appSettingsManager.whiteBalanceMode,"Whitebalance");
 
-                    detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY,appSettingsManager.dualPrimaryCameraMode,R.array.dual_camera_mode);
+                    try {
+                        detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, appSettingsManager.dualPrimaryCameraMode, R.array.dual_camera_mode);
+                    }
+                    catch (IllegalArgumentException ex)
+                    {
+                        Log.e(TAG, "Unsupported HUAWEI_AVAILABLE_DUAL_PRIMARY");
+                    }
                 }
             }
             appSettingsManager.SetCurrentCamera(0);
