@@ -473,10 +473,12 @@ public class AppSettingsManager {
         mDevice = sharedPreferences.getString("DEVICE","");
         if (mDevice == null || TextUtils.isEmpty(mDevice))
         {
+            Log.d(TAG, "Lookup ConfigFile");
             parseAndFindSupportedDevice();
         }
         else //load only stuff for dng
         {
+            Log.d(TAG, "load dngProfiles");
             opcodeUrlList = new String[2];
             dngProfileHashMap = getDngProfiles();
         }
@@ -1015,6 +1017,7 @@ public class AppSettingsManager {
 
                             dngProfileHashMap = new LongSparseArray<>();
                             getDngStuff(dngProfileHashMap, device_element);
+                            Log.d(TAG, "Save Dng Profiles:" + dngProfileHashMap.size());
                             saveDngProfiles();
 
                             break;
@@ -1082,7 +1085,10 @@ public class AppSettingsManager {
         LongSparseArray<DngProfile> map = new LongSparseArray<>();
         try {
             File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
+            Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
+
             String xmlsource = getString(new FileInputStream(configFile));
+            Log.d(TAG, xmlsource);
             XmlElement rootElement = XmlElement.parse(xmlsource);
             if (rootElement.getTagName().equals("devices"))
             {
@@ -1172,8 +1178,11 @@ public class AppSettingsManager {
         try {
 
             File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
+            Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
+            Log.d(TAG, configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
             if (!configFile.getParentFile().exists())
                 configFile.getParentFile().mkdirs();
+            Log.d(TAG, configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
             configFile.createNewFile();
             BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
             writer.write("<devices>" + "\r\n");
@@ -1182,6 +1191,7 @@ public class AppSettingsManager {
             for (int i =0; i< dngProfileHashMap.size();i++)
             {
                 long t = dngProfileHashMap.keyAt(i);
+                Log.d(TAG, "Write Profile: " + t);
                 writer.write(dngProfileHashMap.get(t).getXmlString(t));
             }
 
@@ -1191,7 +1201,7 @@ public class AppSettingsManager {
             writer.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
 
     }
