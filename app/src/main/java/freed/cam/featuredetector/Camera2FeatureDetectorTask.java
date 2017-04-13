@@ -408,7 +408,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectManualIso(CameraCharacteristics characteristics)
     {
-        int max = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
+        int max  = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
+        if (appSettingsManager.getCamera2MaxIso() >0)
+            max = appSettingsManager.getCamera2MaxIso();
+
         int min = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower();
         ArrayList<String> ar = new ArrayList<>();
         ar.add("auto");

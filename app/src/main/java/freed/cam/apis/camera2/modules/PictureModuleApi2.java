@@ -624,7 +624,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
                 Log.d(CAPTURECYCLE, "########## mOnRawImageAvailableListener Rdy to save Image : " + imageHolder.rdyToGetSaved() + " Time: " + imageHolder.getImage().getTimestamp());
                 if (imageHolder.rdyToGetSaved()) {
-                    resultQueue.remove(0);
+                    resultQueue.remove(img.getTimestamp());
                     saveImage(imageHolder);
                 }
                 else if (imageHolder.capturefailed()) {

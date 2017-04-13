@@ -615,6 +615,16 @@ public class AppSettingsManager {
         settings.edit().putLong("camera2maxexposuretime",max).commit();
     }
 
+    public int getCamera2MaxIso()
+    {
+        return settings.getInt("camera2maxiso",0);
+    }
+
+    public void setCamera2MaxIso(int max)
+    {
+        settings.edit().putInt("camera2maxiso",max).commit();
+    }
+
     private void setDevice(String device) {
         this.mDevice = device;
         putString("DEVICE", mDevice);
@@ -1013,6 +1023,8 @@ public class AppSettingsManager {
                                 {
                                     setCamera2MaxExposureTime(camera2element.findChild("maxexposuretime").getLongValue());
                                 }
+                                if (!camera2element.findChild("maxiso").isEmpty())
+                                    setCamera2MaxIso(camera2element.findChild("maxiso").getIntValue(0));
                             }
 
                             dngProfileHashMap = new LongSparseArray<>();
