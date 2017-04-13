@@ -151,9 +151,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         Log.d(TAG, "stopRecording");
         mediaRecorder.stop();
         mediaRecorder.reset();
+        cameraHolder.captureSessionHandler.StopRepeatingCaptureSession();
         cameraHolder.captureSessionHandler.RemoveSurface(recorderSurface);
         recorderSurface = null;
         isRecording = false;
+
 
         cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
