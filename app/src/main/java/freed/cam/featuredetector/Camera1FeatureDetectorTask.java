@@ -978,6 +978,16 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                         }
                     }
                 }
+                else
+                {
+                    if (!formats.contains(appSettingsManager.rawPictureFormat.get()))
+                    {
+                        appSettingsManager.rawPictureFormat.set(appSettingsManager.rawPictureFormat.get());
+                        appSettingsManager.rawPictureFormat.setIsSupported(true);
+                    }
+
+
+                }
                 if (formats.contains(appSettingsManager.getResString(R.string.bayer_)))
                 {
                     Log.d(TAG, "create rawformats");

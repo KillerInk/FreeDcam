@@ -1502,6 +1502,18 @@
             <dngmanual>false</dngmanual>
             <needrestartaftercapture>true</needrestartaftercapture>
             <rawformat>bayer-qcom-10rggb</rawformat>
+            <manualiso supported="true">
+                <min>50</min>
+                <max>3200</max>
+                <step>50</step>
+                <key>continous-iso</key>
+                <type>0</type>
+            </manualiso>
+            <exposuretime>
+                <values>aquaris_e5_shuttervalues</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>4</type>
+            </exposuretime>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
