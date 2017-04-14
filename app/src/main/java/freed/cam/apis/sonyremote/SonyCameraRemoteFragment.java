@@ -173,7 +173,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
             ((ParameterHandler)parametersHandler).SetRemoteApi(mRemoteApi);
 
         }
-        mEventObserver = new SimpleCameraEventObserver(getContext(), mRemoteApi);
+        mEventObserver = new SimpleCameraEventObserver(getActivityInterface().getContext(), mRemoteApi);
         mEventObserver.setEventChangeListener((ParameterHandler)parametersHandler);
 
         if (!mEventObserver.isActive())
