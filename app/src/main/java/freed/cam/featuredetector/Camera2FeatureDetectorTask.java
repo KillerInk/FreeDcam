@@ -149,7 +149,97 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     }
                     catch (IllegalArgumentException ex)
                     {
-                        Log.e(TAG, "Unsupported HUAWEI_AVAILABLE_DUAL_PRIMARY");
+                        Log.e(TAG, "Unsupported HUAWEI_AVAILABLE_DUAL_PRIMARY  false");
+                    }
+                    try {
+                        int[] raw12 = characteristics.get(CameraCharacteristicsEx.HUAWEI_PROFESSIONAL_RAW12_SUPPORTED);
+                        Log.d(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED");
+                    }
+                    catch (IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED false");
+                    }
+
+                    try {
+                        byte rawsupported = characteristics.get(CameraCharacteristicsEx.HUAWEI_RAW_IMAGE_SUPPORTED);
+                        Log.d(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED false");
+                    }
+                    try {
+                        int[] deepmap = characteristics.get(CameraCharacteristicsEx.HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS);
+                        Log.d(TAG,"HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS");
+                    }
+                    catch (IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS false");
+                    }
+                    try {
+                        byte fastbinder = characteristics.get(CameraCharacteristicsEx.HUAWEI_FAST_NOTIFY_SUPPORTED);
+                        Log.d(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED false");
+                    }
+
+                    try {
+                        byte dualcamerareporcess = characteristics.get(CameraCharacteristicsEx.HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS);
+                        Log.d(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS false");
+                    }
+
+                    try {
+                        byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_PRE_CAPTURE_SUPPORTED);
+                        Log.d(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED false");
+                    }
+                    try {
+                        byte[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_HDC_CALIBRATE_DATA);
+                        Log.d(TAG,"HUAWEI_HDC_CALIBRATE_DATA");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_HDC_CALIBRATE_DATA false");
+                    }
+                    try {
+                        int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE);
+                        Log.d(TAG,"HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE false");
+                    }
+                    try {
+                        int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);
+                        Log.d(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE false");
+                    }
+                    try {
+                        int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_MULTICAP);
+                        Log.d(TAG,"HUAWEI_MULTICAP");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_MULTICAP false");
+                    }try {
+                        int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_AVAILIBLE_DEPTH_SIZES);
+                        Log.d(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES false");
                     }
                 }
             }

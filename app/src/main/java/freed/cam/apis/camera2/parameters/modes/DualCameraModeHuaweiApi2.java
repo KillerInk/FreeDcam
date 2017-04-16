@@ -20,10 +20,6 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
 
     protected CaptureRequest.Key<Byte> parameterKey;
 
-    public DualCameraModeHuaweiApi2(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
-    }
-
     public DualCameraModeHuaweiApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, CaptureRequest.Key<Byte> parameterKey) {
         super(cameraUiWrapper, settingMode, null);
         this.parameterKey = parameterKey;
