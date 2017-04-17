@@ -149,7 +149,6 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
 
     @Override
     public void onPreviewOpen(String message) {
-
     }
 
     @Override

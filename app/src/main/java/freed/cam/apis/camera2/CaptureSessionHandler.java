@@ -73,7 +73,7 @@ public class CaptureSessionHandler
             mCaptureSession = cameraCaptureSession;
 
             try {
-                // Finally, we start displaying the camera previewSize.
+                // Finally, we start displaying the camera preview.
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
                         cameraBackroundValuesChangedListner, null);
             } catch (CameraAccessException | IllegalStateException e) {

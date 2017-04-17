@@ -44,6 +44,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 
 import freed.cam.apis.camera2.CaptureSessionHandler;
+import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.utils.Log;
 import android.util.Pair;
 import android.util.Rational;
@@ -248,7 +249,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             Log.WriteEx(ex);
         }
         if (parameterHandler.Burst != null)
-            parameterHandler.Burst.ThrowCurrentValueChanged(parameterHandler.Burst.GetValue());
+            parameterHandler.Burst.ThrowCurrentValueChanged(parameterHandler.Burst.GetValue()+1);
     }
 
     private void setOutputSizes() {
@@ -392,7 +393,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         val= cameraHolder.captureSessionHandler.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
                     Log.e(TAG, "Set ExposureTime for Capture to:" + val);
                     captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
-                    captureBuilder.set(CaptureRequest.SENSOR_FRAME_DURATION, val);
                 }
                 else
                     captureBuilder.set(k, cameraHolder.captureSessionHandler.get(k));
