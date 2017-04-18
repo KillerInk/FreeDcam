@@ -154,12 +154,15 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         }
         Log.d(TAG,"startCamera");
 
-        FreeDPool.Execute(new Runnable() {
+        mBackgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                startSonyCamera();
-                Log.d(TAG, "onCameraOpen State:" + STATE);
-                STATE = STATE_DEVICE_CONNECTED;
+                synchronized (cameraLock)
+                {
+                    startSonyCamera();
+                    Log.d(TAG, "onCameraOpen State:" + STATE);
+                    STATE = STATE_DEVICE_CONNECTED;
+                }
             }
         });
     }
@@ -182,84 +185,73 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         ((CameraHolderSony)cameraHolder).setRemoteApi(mRemoteApi);
         ((CameraHolderSony)cameraHolder).cameraRemoteEventsListner =this;
 
-        FreeDPool.Execute(new Runnable()
-        {
-              @Override
-              public void run() {
-                  try {
-                      JSONObject replyJson;
-                      //find api version for requests
-                      replyJson = mRemoteApi.getVersions();
-                      JSONArray array = replyJson.getJSONArray("result");
-                      array = array.getJSONArray(0);
-                      mEventObserver.setEventVersion(array.getString(array.length()-1));
-                      // Get supported API list (Camera API)
-                      Log.d(TAG, "get event longpool false");
-                      replyJson = mRemoteApi.getEvent(false, "1.0");
-                      JSONArray resultsObj = replyJson.getJSONArray("result");
-                      JsonUtils.loadSupportedApiListFromEvent(resultsObj.getJSONObject(0), mAvailableCameraApiSet);
-                      ((ParameterHandler) parametersHandler).SetCameraApiSet(mAvailableCameraApiSet);
+        try {
+            JSONObject replyJson;
+            //find api version for requests
+            replyJson = mRemoteApi.getVersions();
+            JSONArray array = replyJson.getJSONArray("result");
+            array = array.getJSONArray(0);
+            mEventObserver.setEventVersion(array.getString(array.length()-1));
+            // Get supported API list (Camera API)
+            Log.d(TAG, "get event longpool false");
+            replyJson = mRemoteApi.getEvent(false, "1.0");
+            JSONArray resultsObj = replyJson.getJSONArray("result");
+            JsonUtils.loadSupportedApiListFromEvent(resultsObj.getJSONObject(0), mAvailableCameraApiSet);
+            ((ParameterHandler) parametersHandler).SetCameraApiSet(mAvailableCameraApiSet);
 
-                      mEventObserver.processEvents(replyJson);
+            mEventObserver.processEvents(replyJson);
 
-                      if (!JsonUtils.isApiSupported("setCameraFunction", mAvailableCameraApiSet)) {
+            if (!JsonUtils.isApiSupported("setCameraFunction", mAvailableCameraApiSet)) {
+                // this device does not support setCameraFunction.
+                // No need to check camera status.
+                Log.d(TAG, "prepareOpenConnection->openconnection, no setCameraFunciton");
+                openConnection();
+            }
+            else
+            {
+                // this device supports setCameraFunction.
+                // after confirmation of camera state, open connection.
+                Log.d(TAG, "this device support set camera function");
 
-                          // this device does not support setCameraFunction.
-                          // No need to check camera status.
-                          Log.d(TAG, "prepareOpenConnection->openconnection, no setCameraFunciton");
-                          openConnection();
+                if (!JsonUtils.isApiSupported("getEvent", mAvailableCameraApiSet)) {
+                    Log.e(TAG, "this device is not support getEvent");
+                    openConnection();
+                    return;
+                }
+                // confirm current camera status
+                String cameraStatus = null;
+                JSONObject cameraStatusObj = resultsObj.getJSONObject(1);
+                String type = cameraStatusObj.getString("type");
+                if ("cameraStatus".equals(type)) {
+                    cameraStatus = cameraStatusObj.getString("cameraStatus");
 
-                      }
-                      else
-                      {
-                          // this device supports setCameraFunction.
-                          // after confirmation of camera state, open connection.
-                          Log.d(TAG, "this device support set camera function");
+                    Log.d(TAG,"prepareOpenConnection camerastatusChanged" + cameraStatus );
+                    onCameraStatusChanged(cameraStatus);
+                } else {
+                    throw new IOException();
+                }
 
-                          if (!JsonUtils.isApiSupported("getEvent", mAvailableCameraApiSet)) {
-                              Log.e(TAG, "this device is not support getEvent");
-                              openConnection();
-                              return;
-                          }
-                          // confirm current camera status
-                          String cameraStatus = null;
-                          JSONObject cameraStatusObj = resultsObj.getJSONObject(1);
-                          String type = cameraStatusObj.getString("type");
-                          if ("cameraStatus".equals(type)) {
-                              cameraStatus = cameraStatusObj.getString("cameraStatus");
+                if (SonyUtils.isShootingStatus(cameraStatus)) {
+                    Log.d(TAG, "camera function is Remote Shooting.");
 
-                                  Log.d(TAG,"prepareOpenConnection camerastatusChanged" + cameraStatus );
-                                  onCameraStatusChanged(cameraStatus);
+                    openConnection();
 
-                          } else {
-                              throw new IOException();
-                          }
+                } else {
+                    // set Listener
+                    Log.d(TAG,"Change function to remote shooting");
+                    // set Camera function to Remote Shooting
+                    replyJson = mRemoteApi.setCameraFunction();
+                    openConnection();
+                }
+                onCameraOpenFinish("");
+            }
+        } catch (IOException e) {
+            Log.w(TAG, "prepareToStartContentsListMode: IOException: " + e.getMessage());
 
+        } catch (JSONException e) {
+            Log.w(TAG, "prepareToStartContentsListMode: JSONException: " + e.getMessage());
 
-
-                          if (SonyUtils.isShootingStatus(cameraStatus)) {
-                              Log.d(TAG, "camera function is Remote Shooting.");
-
-                              openConnection();
-
-                          } else {
-                              // set Listener
-                              Log.d(TAG,"Change function to remote shooting");
-                              // set Camera function to Remote Shooting
-                              replyJson = mRemoteApi.setCameraFunction();
-                              openConnection();
-                          }
-                          onCameraOpenFinish("");
-                      }
-                  } catch (IOException e) {
-                      Log.w(TAG, "prepareToStartContentsListMode: IOException: " + e.getMessage());
-
-                  } catch (JSONException e) {
-                      Log.w(TAG, "prepareToStartContentsListMode: JSONException: " + e.getMessage());
-
-                  }
-              }
-          });
+        }
 
         cameraHolder.OpenCamera(0);
     }
@@ -320,35 +312,46 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     @Override
     public void stopCamera()
     {
-        if (mEventObserver != null)
-            mEventObserver.stop();
-        cameraHolder.CloseCamera();
-        STATE = STATE_IDEL;
+        mBackgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (cameraLock)
+                {
+                    if (mEventObserver != null)
+                        mEventObserver.stop();
+                    cameraHolder.CloseCamera();
+                    STATE = STATE_IDEL;
+                }
+            }
+        });
     }
 
     @Override
     public void restartCamera() {
-        if (mEventObserver != null)
-            mEventObserver.stop();
-        cameraHolder.CloseCamera();
-        STATE = STATE_IDEL;
-
-        if (serverDevice == null)
-        {
-            wifiHandler.setEventsListner(this);
-            wifiHandler.StartLookUp();
-            return;
-        }
-        Log.d(TAG,"startCamera");
-
-        FreeDPool.Execute(new Runnable() {
+        mBackgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                startCamera();
-                Log.d(TAG, "onCameraOpen State:" + STATE);
-                STATE = STATE_DEVICE_CONNECTED;
+                synchronized (cameraLock){
+                    if (mEventObserver != null)
+                        mEventObserver.stop();
+                    cameraHolder.CloseCamera();
+                    STATE = STATE_IDEL;
+
+                    if (serverDevice == null)
+                    {
+                        wifiHandler.setEventsListner(SonyCameraRemoteFragment.this);
+                        wifiHandler.StartLookUp();
+                        return;
+                    }
+                    Log.d(TAG,"startCamera");
+
+                    startCamera();
+                    Log.d(TAG, "onCameraOpen State:" + STATE);
+                    STATE = STATE_DEVICE_CONNECTED;
+                }
             }
         });
+
     }
 
     @Override
@@ -466,7 +469,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         mEventObserver.stop();
         surfaceView.stop();
         //setCameraStateChangedListner(SonyCameraRemoteFragment.this);
-        surfaceView.postDelayed(new Runnable() {
+        mBackgroundHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 startCamera();
