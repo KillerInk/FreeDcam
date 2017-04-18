@@ -92,7 +92,6 @@ Camera Ui Icons
     <td>Manuals:</td>
     </tr>
     <tr>
-        </td>
         <td>
             <table bgcolor="#6f6f6f">
                 <tr>
@@ -153,7 +152,6 @@ Camera Ui Icons
                 </tr>
             </table>
         </td>
-        
         <td>
             <table  bgcolor="#6f6f6f">
                 <tr>
@@ -214,9 +212,7 @@ Camera Ui Icons
                 </tr>
             </table>
         </td>
-    
     </tr>
-
 </table>
 
 Camera1 Dng Supported Devices
