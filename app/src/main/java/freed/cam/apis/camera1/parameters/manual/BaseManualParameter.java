@@ -20,7 +20,6 @@
 package freed.cam.apis.camera1.parameters.manual;
 
 import android.hardware.Camera.Parameters;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -30,6 +29,7 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 17.08.2014.
@@ -168,7 +168,7 @@ public class BaseManualParameter extends AbstractManualParameter
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
         try
         {
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         }
         catch (Exception ex)
         {

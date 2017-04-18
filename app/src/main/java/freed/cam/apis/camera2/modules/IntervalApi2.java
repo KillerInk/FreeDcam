@@ -33,8 +33,8 @@ import freed.utils.Log;
 public class IntervalApi2 extends IntervalModule implements I_PreviewWrapper
 {
     private final PictureModuleApi2 picModule;
-    public IntervalApi2(ModuleAbstract picModule, CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
-        super(picModule,cameraUiWrapper,mBackgroundHandler);
+    public IntervalApi2(ModuleAbstract picModule, CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+        super(picModule,cameraUiWrapper,mBackgroundHandler,mainHandler);
         this.picModule = (PictureModuleApi2)picModule;
     }
 

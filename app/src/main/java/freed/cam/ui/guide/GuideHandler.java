@@ -2,13 +2,11 @@ package freed.cam.ui.guide;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.drawable;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -16,6 +14,7 @@ import com.troop.freedcam.R.layout;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by George on 1/19/2015.
@@ -47,8 +46,8 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
     @Override
     public void onResume() {
         super.onResume();
-        if (cameraUiWrapper !=  null && cameraUiWrapper.GetParameterHandler() != null && cameraUiWrapper.GetParameterHandler().PreviewSize != null)
-            previewSizeChanged.onParameterValueChanged(cameraUiWrapper.GetParameterHandler().PreviewSize.GetValue());
+        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().PreviewSize != null)
+            previewSizeChanged.onParameterValueChanged(cameraUiWrapper.getParameterHandler().PreviewSize.GetValue());
     }
     @Override
     public void onPause(){
@@ -59,10 +58,10 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.GetParameterHandler().GuideList.addEventListner(this);
+        cameraUiWrapper.getParameterHandler().GuideList.addEventListner(this);
         Log.d(TAG, "setCameraUiWrapper SetViewG()");
         if (img != null)
-            SetViewG(cameraUiWrapper.GetAppSettingsManager().guide.get());
+            SetViewG(cameraUiWrapper.getAppSettingsManager().guide.get());
     }
 
     private void SetViewG(final String str)

@@ -46,8 +46,8 @@ public class PictureSizeModeApi2 extends BaseModeApi2
         size = valueToSet;
         if (setToCamera)
         {
-            cameraUiWrapper.StopPreview();
-            cameraUiWrapper.StartPreview();
+            cameraUiWrapper.stopPreview();
+            cameraUiWrapper.startPreview();
         }
     }
 
@@ -61,6 +61,6 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        return cameraUiWrapper.GetAppSettingsManager().pictureSize.getValues();
+        return cameraUiWrapper.getAppSettingsManager().pictureSize.getValues();
     }
 }

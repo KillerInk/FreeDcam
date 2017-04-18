@@ -49,8 +49,8 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
     protected CameraHolderAbstract(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
-        //this.moduleHandler = cameraUiWrapper.GetModuleHandler();
+        this.appSettingsManager = cameraUiWrapper.getAppSettingsManager();
+        //this.moduleHandler = cameraUiWrapper.getModuleHandler();
         UIHandler = new Handler(Looper.getMainLooper());
     }
 

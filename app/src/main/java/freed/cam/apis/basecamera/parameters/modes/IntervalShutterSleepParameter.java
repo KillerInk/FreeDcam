@@ -35,10 +35,10 @@ public class IntervalShutterSleepParameter extends AbstractModeParameter
     public IntervalShutterSleepParameter(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (TextUtils.isEmpty(cameraUiWrapper.GetAppSettingsManager().interval.get()))
-            cameraUiWrapper.GetAppSettingsManager().interval.set(current);
+        if (TextUtils.isEmpty(cameraUiWrapper.getAppSettingsManager().interval.get()))
+            cameraUiWrapper.getAppSettingsManager().interval.set(current);
         else
-            current = cameraUiWrapper.GetAppSettingsManager().interval.get();
+            current = cameraUiWrapper.getAppSettingsManager().interval.get();
     }
 
     @Override

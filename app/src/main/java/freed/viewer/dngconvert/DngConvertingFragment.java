@@ -29,14 +29,10 @@ import android.os.AsyncTask;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
-
-import freed.dng.CustomMatrix;
-import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,6 +62,7 @@ import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.jni.RawUtils;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 

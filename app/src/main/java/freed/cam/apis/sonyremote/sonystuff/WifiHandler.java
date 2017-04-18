@@ -8,9 +8,9 @@ import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Looper;
-import freed.utils.Log;
 
 import freed.ActivityInterface;
+import freed.utils.Log;
 import freed.utils.PermissionHandler;
 
 /**

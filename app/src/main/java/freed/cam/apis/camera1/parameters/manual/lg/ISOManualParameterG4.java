@@ -36,7 +36,7 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
 
     public ISOManualParameterG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AE_Handler_Abstract.AeManualEvent manualevent) {
         super(parameters, cameraUiWrapper,1);
-        if (parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.lg_iso)) != null) {
+        if (parameters.get(cameraUiWrapper.getAppSettingsManager().getResString(R.string.lg_iso)) != null) {
             isSupported = true;
             isVisible = isSupported;
             ArrayList<String> s = new ArrayList<>();
@@ -73,12 +73,12 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
 
         if (value == 0)
         {
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.lg_iso), cameraUiWrapper.getResString(R.string.auto_));
+            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.lg_iso), cameraUiWrapper.getResString(R.string.auto_));
         }
         else
         {
             currentInt = value;
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.lg_iso), stringvalues[value]);
+            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.lg_iso), stringvalues[value]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }

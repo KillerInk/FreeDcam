@@ -24,12 +24,12 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build.VERSION_CODES;
-import freed.utils.Log;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.utils.Log;
 
 /**
  * Created by troop on 05.05.2015.
@@ -114,18 +114,18 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
             Log.d(TAG, "Contrast value to set:" + valueToSet);
             if (valueToSet == -1)
             {
-                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.GetParameterHandler().ToneMapMode.GetValue());
-                if (cameraUiWrapper.GetParameterHandler().ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
+                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().ToneMapMode.GetValue());
+                if (cameraUiWrapper.getParameterHandler().ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
                 {
-                    cameraUiWrapper.GetParameterHandler().ToneMapMode.SetValue("FAST", true);
+                    cameraUiWrapper.getParameterHandler().ToneMapMode.SetValue("FAST", true);
                     Log.d(TAG, "Disabled Contrast Curve");
                 }
             }
             else {
-                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.GetParameterHandler().ToneMapMode.GetValue());
-                if (!cameraUiWrapper.GetParameterHandler().ToneMapMode.GetValue().equals("CONTRAST_CURVE") && !firststart)
+                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().ToneMapMode.GetValue());
+                if (!cameraUiWrapper.getParameterHandler().ToneMapMode.GetValue().equals("CONTRAST_CURVE") && !firststart)
                 {
-                    cameraUiWrapper.GetParameterHandler().ToneMapMode.SetValue("CONTRAST_CURVE", true);
+                    cameraUiWrapper.getParameterHandler().ToneMapMode.SetValue("CONTRAST_CURVE", true);
                     Log.d(TAG, "Enabled Contrast Curve");
                 }
                 valueToSet = valueToSet * 3;
@@ -156,14 +156,14 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
 
                 float[] tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
                 TonemapCurve tonemapCurve = new TonemapCurve(tonemap, tonemap, tonemap);
-                ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+                ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
             }
             firststart = false;
         }
 
         @Override
         public boolean IsSupported() {
-            return !(cameraUiWrapper.GetCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics == null) && ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null && ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            return !(cameraUiWrapper.getCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics == null) && ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null && ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
 
         @Override
@@ -226,16 +226,16 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
 
             float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
             TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
-            ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+            ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
 
         }
 
         @Override
         public boolean IsSupported()
         {
-            if (cameraUiWrapper.GetCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics == null || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) == null )
+            if (cameraUiWrapper.getCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) == null )
                 return false;
-            return  ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE) == null || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            return  ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE) == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
 
         @Override

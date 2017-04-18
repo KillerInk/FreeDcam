@@ -24,8 +24,6 @@ package freed.cam.apis.camera1.parameters.manual.qcom;
  */
 
 import android.hardware.Camera.Parameters;
-import android.os.Build.VERSION;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -35,6 +33,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.utils.Log;
 
 public class BurstManualParam extends BaseManualParameter
 {
@@ -43,9 +42,9 @@ public class BurstManualParam extends BaseManualParameter
 
     public BurstManualParam(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
-        isSupported = cameraUiWrapper.GetAppSettingsManager().manualBurst.isSupported();
-        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualBurst.getValues();
-        currentInt = Integer.parseInt(cameraUiWrapper.GetAppSettingsManager().manualBurst.get());
+        isSupported = cameraUiWrapper.getAppSettingsManager().manualBurst.isSupported();
+        stringvalues = cameraUiWrapper.getAppSettingsManager().manualBurst.getValues();
+        currentInt = Integer.parseInt(cameraUiWrapper.getAppSettingsManager().manualBurst.get());
     }
 
     @Override
@@ -100,7 +99,7 @@ public class BurstManualParam extends BaseManualParameter
             Log.d(TAG, cameraUiWrapper.getResString(R.string.burst_num)+ stringvalues[currentInt]);
         }
 
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
 
     }
 

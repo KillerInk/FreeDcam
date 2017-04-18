@@ -20,7 +20,6 @@
 package freed.cam.apis.camera1.parameters.manual.shutter;
 
 import android.hardware.Camera.Parameters;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -29,6 +28,7 @@ import java.text.DecimalFormat;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.utils.Log;
 
 /**
  * Created by troop on 17.08.2014.
@@ -41,7 +41,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
     public ShutterManualParameterHTC(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
         isSupported = true;
-        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getValues();
+        stringvalues = cameraUiWrapper.getAppSettingsManager().manualExposureTime.getValues();
     }
 
     @Override
@@ -84,14 +84,14 @@ public class ShutterManualParameterHTC extends BaseManualParameter
 
     private void setShutterToAuto() {
         parameters.set("shutter", "-1");
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
 
     private String setExposureTimeToParameter(String shutterstring)
     {
         shutterstring = trimfloat.format(Float.parseFloat(shutterstring));
         parameters.set("shutter", shutterstring);
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         return shutterstring;
     }
 }

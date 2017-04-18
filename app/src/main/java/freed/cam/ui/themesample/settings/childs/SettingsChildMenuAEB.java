@@ -27,7 +27,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -98,9 +97,9 @@ public class SettingsChildMenuAEB extends LinearLayout {
         if (cameraUiWrapper == this.cameraUiWrapper)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper !=  null && cameraUiWrapper.GetParameterHandler() != null && cameraUiWrapper.GetParameterHandler().ManualExposure != null)
+        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().ManualExposure != null)
         {
-            String[] v = cameraUiWrapper.GetParameterHandler().ManualExposure.getStringValues();
+            String[] v = cameraUiWrapper.getParameterHandler().ManualExposure.getStringValues();
             int le = v.length;
             min = -(le/2);
             max = le/2;

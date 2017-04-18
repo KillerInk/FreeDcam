@@ -19,8 +19,6 @@
 
 package freed.cam.apis.camera1;
 
-import freed.utils.Log;
-
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
@@ -29,6 +27,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
+import freed.utils.Log;
 
 /**
  * Created by troop on 02.09.2014.
@@ -49,7 +48,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         @Override
         public void onParameterValueChanged(String val)
         {
-            if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != Frameworks.MTK) {
+            if (((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != Frameworks.MTK) {
                 if (val.equals("auto") || val.equals("macro") || val.equals("touch")) {
                     if (focusEvent != null)
                         focusEvent.TouchToFocusSupported(true);
@@ -86,7 +85,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         @Override
         public void onParameterValueChanged(String val)
         {
-            if(((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != Frameworks.MTK)
+            if(((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != Frameworks.MTK)
             {
                 if (val.contains("spot")) {
                     if (focusEvent != null) {
@@ -158,17 +157,17 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         {
             focusEvent.FocusStarted(0, 0);
         }
-        ((CameraHolder) cameraUiWrapper.GetCameraHolder()).StartFocus(this);
+        ((CameraHolder) cameraUiWrapper.getCameraHolder()).StartFocus(this);
     }
 
     @Override
     public void StartTouchToFocus(int x_input, int y_input,int width, int height)
     {
-        if (cameraUiWrapper == null|| cameraUiWrapper.GetParameterHandler() == null || cameraUiWrapper.GetParameterHandler().FocusMode == null)
+        if (cameraUiWrapper == null|| cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().FocusMode == null)
             return;
 
         Log.d(TAG, "start Touch X:Y " + x_input +":" + y_input);
-        String focusmode = cameraUiWrapper.GetParameterHandler().FocusMode.GetValue();
+        String focusmode = cameraUiWrapper.getParameterHandler().FocusMode.GetValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
             Rect targetFocusRect = getFocusRect(x_input,y_input, width, height);
@@ -181,7 +180,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 
                 /*if (this.isFocusing)
                 {
-                    this.cameraUiWrapper.GetCameraHolder().CancelFocus();
+                    this.cameraUiWrapper.getCameraHolder().CancelFocus();
                     Log.d(this.TAG, "Canceld Focus");
                     try {
                         Thread.sleep(100);
@@ -192,10 +191,10 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 
                 logFocusRect(targetFocusRect);
                 //tempDIS
-                cameraUiWrapper.GetParameterHandler().SetFocusAREA(targetFocusRect);
+                cameraUiWrapper.getParameterHandler().SetFocusAREA(targetFocusRect);
 
-                if (cameraUiWrapper.GetCameraHolder() != null)
-                    ((CameraHolder) cameraUiWrapper.GetCameraHolder()).StartFocus(this);
+                if (cameraUiWrapper.getCameraHolder() != null)
+                    ((CameraHolder) cameraUiWrapper.getCameraHolder()).StartFocus(this);
                 this.isFocusing = true;
 
                 if (focusEvent != null)
@@ -208,7 +207,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     @Override
     public void SetMeteringAreas(int x, int y, int width, int height)
     {
-        ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetMeteringAreas(getFocusRect(x,y, width, height));
+        ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetMeteringAreas(getFocusRect(x,y, width, height));
     }
 
     private Rect getFocusRect(int inputx, int inputy, int width, int height)

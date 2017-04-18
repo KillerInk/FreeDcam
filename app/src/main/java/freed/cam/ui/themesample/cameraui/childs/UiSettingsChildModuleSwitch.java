@@ -41,13 +41,13 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if(cameraUiWrapper.GetModuleHandler() != null)
-            cameraUiWrapper.GetModuleHandler().addListner(this);
-        SetParameter(cameraUiWrapper.GetParameterHandler().Module);
-        if (cameraUiWrapper.GetModuleHandler() == null)
+        if(cameraUiWrapper.getModuleHandler() != null)
+            cameraUiWrapper.getModuleHandler().addListner(this);
+        SetParameter(cameraUiWrapper.getParameterHandler().Module);
+        if (cameraUiWrapper.getModuleHandler() == null)
             return;
-        if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null)
-            onParameterValueChanged(cameraUiWrapper.GetModuleHandler().GetCurrentModule().ShortName());
+        if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
+            onParameterValueChanged(cameraUiWrapper.getModuleHandler().getCurrentModule().ShortName());
     }
 
     @Override
@@ -56,8 +56,8 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         valueText.post(new Runnable() {
             @Override
             public void run() {
-                if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null)
-                    valueText.setText(cameraUiWrapper.GetModuleHandler().GetCurrentModule().ShortName());
+                if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
+                    valueText.setText(cameraUiWrapper.getModuleHandler().getCurrentModule().ShortName());
             }
         });
     }

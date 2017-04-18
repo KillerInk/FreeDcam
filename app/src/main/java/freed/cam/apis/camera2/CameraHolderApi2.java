@@ -23,9 +23,7 @@ import android.Manifest.permission;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.hardware.Camera.Parameters;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -45,19 +43,12 @@ import android.location.Location;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.support.annotation.NonNull;
-
-import freed.utils.AppSettingsManager;
-import freed.utils.Log;
 import android.util.Pair;
 import android.util.Size;
 import android.view.TextureView;
 
-import com.huawei.camera2ex.CameraCharacteristicsEx;
-import com.huawei.camera2ex.CaptureRequestEx;
 import com.troop.freedcam.R;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -68,6 +59,7 @@ import java.util.concurrent.TimeUnit;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
+import freed.utils.Log;
 import freed.utils.StringUtils;
 
 /**
@@ -77,10 +69,6 @@ import freed.utils.StringUtils;
 public class CameraHolderApi2 extends CameraHolderAbstract
 {
     private final String TAG = CameraHolderApi2.class.getSimpleName();
-    public static String RAW_SENSOR = "raw_sensor";
-    public static String RAW10 = "raw10";
-    public static String RAW12 = "raw12";
-
 
     public interface AeCompensationListner
     {
@@ -406,22 +394,22 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         {
             if (result == null || result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME) == null)
                 return;
-            if (cameraUiWrapper.GetParameterHandler().ManualShutter != null && cameraUiWrapper.GetParameterHandler().ManualShutter.IsSupported())
+            if (cameraUiWrapper.getParameterHandler().ManualShutter != null && cameraUiWrapper.getParameterHandler().ManualShutter.IsSupported())
             {
                 if (result != null && result.getKeys().size() > 0)
                 {
                     try
                     {
-                        if (!cameraUiWrapper.GetParameterHandler().ExposureMode.GetValue().equals(cameraUiWrapper.getContext().getString(R.string.off)) && !cameraUiWrapper.GetParameterHandler().ControlMode.equals(cameraUiWrapper.getContext().getString(R.string.off)))
+                        if (!cameraUiWrapper.getParameterHandler().ExposureMode.GetValue().equals(cameraUiWrapper.getContext().getString(R.string.off)) && !cameraUiWrapper.getParameterHandler().ControlMode.equals(cameraUiWrapper.getContext().getString(R.string.off)))
                         {
                             try {
                                 long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                                 currentExposureTime = expores;
                                 if(expores != 0) {
-                                    cameraUiWrapper.GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged(getShutterString(expores));
+                                    cameraUiWrapper.getParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged(getShutterString(expores));
                                 }
                                 else
-                                    cameraUiWrapper.GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged("1/60");
+                                    cameraUiWrapper.getParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged("1/60");
 
                                 //Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
                             }
@@ -432,7 +420,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                             try {
                                 int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
                                 currentIso = iso;
-                                cameraUiWrapper.GetParameterHandler().ManualIso.ThrowCurrentValueStringCHanged("" + iso);
+                                cameraUiWrapper.getParameterHandler().ManualIso.ThrowCurrentValueStringCHanged("" + iso);
                                 //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
                             }
                             catch (NullPointerException ex) {
@@ -440,7 +428,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                             }
                             try {
                                 focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                                cameraUiWrapper.GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.getMeterString(1/focus_distance));
+                                cameraUiWrapper.getParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.getMeterString(1/focus_distance));
                             }
                             catch (NullPointerException ex) {Log.WriteEx(ex);}
                         }
@@ -529,8 +517,8 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 //Log.d(TAG,"ExpoCompensation:" + );
             }
 
-            if (cameraUiWrapper.GetParameterHandler().ExposureLock != null)
-                cameraUiWrapper.GetParameterHandler().ExposureLock.onValueHasChanged(result.get(CaptureResult.CONTROL_AE_LOCK).toString());
+            if (cameraUiWrapper.getParameterHandler().ExposureLock != null)
+                cameraUiWrapper.getParameterHandler().ExposureLock.onValueHasChanged(result.get(CaptureResult.CONTROL_AE_LOCK).toString());
         }
 
         @Override

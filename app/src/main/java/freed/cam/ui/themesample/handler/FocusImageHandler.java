@@ -34,7 +34,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TabHost;
 
 import com.troop.freedcam.R;
 
@@ -45,7 +44,6 @@ import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
-import freed.utils.Log;
 
 
 /**
@@ -75,7 +73,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         cancelFocus.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                wrapper.GetCameraHolder().CancelFocus();
+                wrapper.getCameraHolder().CancelFocus();
                 cancelFocus.setVisibility(View.GONE);
             }
         });
@@ -152,7 +150,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 @Override
                 public void run() {
                     focusImageView.setFocusCheck(success);
-                    focusImageView.getFocus(wrapper.GetParameterHandler().getFocusDistances());
+                    focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
                     /*if (success)
                         focusImageView.setBackgroundResource(R.drawable.crosshair_circle_success);
                     else
@@ -236,9 +234,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         public void IsMoving(boolean moving)
         {
             //disable exposure lock that metering can get applied
-            if (moving && wrapper.GetParameterHandler().ExposureLock != null && wrapper.GetParameterHandler().ExposureLock.IsSupported() && wrapper.GetParameterHandler().ExposureLock.GetValue().equals("true"))
+            if (moving && wrapper.getParameterHandler().ExposureLock != null && wrapper.getParameterHandler().ExposureLock.IsSupported() && wrapper.getParameterHandler().ExposureLock.GetValue().equals("true"))
             {
-                wrapper.GetParameterHandler().ExposureLock.SetValue("false",true);
+                wrapper.getParameterHandler().ExposureLock.SetValue("false",true);
             }
             //enable/disable viewpager touch
             fragment.DisablePagerTouch(moving);

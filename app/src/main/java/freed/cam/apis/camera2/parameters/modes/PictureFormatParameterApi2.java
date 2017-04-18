@@ -41,7 +41,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
 
     @Override
     public boolean IsSupported() {
-        return cameraUiWrapper.GetAppSettingsManager().pictureFormat.isSupported();
+        return cameraUiWrapper.getAppSettingsManager().pictureFormat.isSupported();
     }
 
     @Override
@@ -51,8 +51,8 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
         format = valueToSet;
         if (setToCamera)
         {
-            cameraUiWrapper.StopPreview();
-            cameraUiWrapper.StartPreview();
+            cameraUiWrapper.stopPreview();
+            cameraUiWrapper.startPreview();
         }
     }
 

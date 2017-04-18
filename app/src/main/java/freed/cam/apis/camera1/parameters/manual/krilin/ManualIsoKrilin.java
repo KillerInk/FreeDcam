@@ -18,7 +18,7 @@ public class ManualIsoKrilin extends AbstractManualParameter {
         this.parameters =  parameters;
         isSupported = true;
         isVisible = isSupported;
-        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualIso.getValues();
+        stringvalues = cameraUiWrapper.getAppSettingsManager().manualIso.getValues();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ManualIsoKrilin extends AbstractManualParameter {
 
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-professional-mode", "on");
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().manualIso.getKEY(), stringvalues[currentInt]);
+            parameters.set(cameraUiWrapper.getAppSettingsManager().manualIso.getKEY(), stringvalues[currentInt]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[valueToSet]);
     }

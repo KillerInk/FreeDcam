@@ -42,7 +42,7 @@ public class ModuleParameters extends AbstractModeParameter {
     @Override
     public String[] GetValues() {
         List<String> mods = new ArrayList<>();
-        for (HashMap.Entry<String, ModuleInterface> module : cameraUiWrapper.GetModuleHandler().moduleList.entrySet()) {
+        for (HashMap.Entry<String, ModuleInterface> module : cameraUiWrapper.getModuleHandler().moduleList.entrySet()) {
             mods.add(module.getValue().LongName());
         }
         return mods.toArray(new String[mods.size()]);
@@ -50,17 +50,17 @@ public class ModuleParameters extends AbstractModeParameter {
 
     @Override
     public String GetValue() {
-        if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null)
-            return cameraUiWrapper.GetModuleHandler().GetCurrentModule().ShortName();
+        if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
+            return cameraUiWrapper.getModuleHandler().getCurrentModule().ShortName();
         else return "";
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
-        for (HashMap.Entry<String, ModuleInterface> module : cameraUiWrapper.GetModuleHandler().moduleList.entrySet()) {
+        for (HashMap.Entry<String, ModuleInterface> module : cameraUiWrapper.getModuleHandler().moduleList.entrySet()) {
             if (valueToSet.equals(module.getValue().LongName())) {
                 appSettingsManager.SetCurrentModule(module.getValue().ModuleName());
-                cameraUiWrapper.GetModuleHandler().SetModule(module.getValue().ModuleName());
+                cameraUiWrapper.getModuleHandler().setModule(module.getValue().ModuleName());
                 break;
             }
 

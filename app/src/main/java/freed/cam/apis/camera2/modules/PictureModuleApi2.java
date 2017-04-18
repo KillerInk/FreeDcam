@@ -42,16 +42,11 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
-
-import freed.cam.apis.camera2.CaptureSessionHandler;
-import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
-import freed.utils.Log;
 import android.util.Pair;
 import android.util.Rational;
 import android.util.Size;
 import android.view.Surface;
 
-import com.huawei.camera2ex.CaptureRequestEx;
 import com.troop.freedcam.R;
 
 import java.io.File;
@@ -60,7 +55,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -69,10 +63,12 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
+import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.cam.apis.camera2.parameters.AeHandler;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 
 /**
@@ -147,8 +143,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     private final TreeMap<Long, ImageHolder> resultQueue = new TreeMap<>();
 
-    public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
-        super(cameraUiWrapper,mBackgroundHandler);
+    public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+        super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_picture);
         Handler handler = new Handler(Looper.getMainLooper());
 
@@ -168,7 +164,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public void DoWork()
     {
 
-        Log.d(TAG, "DoWork: start new progress");
+        Log.d(TAG, "startWork: start new progress");
         if(!isWorking)
             mBackgroundHandler.post(TakePicture);
         else if (parameterHandler.ExposureMode.GetValue().equals(appSettingsManager.getResString(R.string.Off)))
@@ -214,7 +210,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 case 0: orientation = 270;
                     break;
             }
-            cameraHolder.captureSessionHandler.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(),orientation,orientation+180,false);
+            final int w = previewSize.getWidth();
+            final int h = previewSize.getHeight();
+            final int or = orientation;
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraHolder.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,false);
+                }
+            });
+
             SurfaceTexture texture = cameraHolder.captureSessionHandler.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             Surface previewsurface = new Surface(texture);
@@ -242,7 +247,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             } catch (CameraAccessException e) {
                 Log.WriteEx(e);
             }
-            //cameraHolder.captureSessionHandler.StartRepeatingCaptureSession();
         }
         catch(Exception ex)
         {
@@ -316,7 +320,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         super.InitModule();
         Log.d(TAG, "InitModule");
-        cameraUiWrapper.GetParameterHandler().Burst.SetValue(0);
+        cameraUiWrapper.getParameterHandler().Burst.SetValue(0);
         startPreview();
     }
 

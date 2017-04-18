@@ -28,7 +28,6 @@ import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.PreviewCallback;
 import android.location.Location;
-import freed.utils.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
@@ -40,6 +39,7 @@ import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.Size;
+import freed.utils.Log;
 
 /**
  * Created by troop on 15.08.2014.
@@ -230,7 +230,7 @@ public class CameraHolder extends CameraHolderAbstract
         try {
             if (!isRdy)
                 return;
-            Size s = new Size(cameraUiWrapper.GetParameterHandler().PreviewSize.GetValue());
+            Size s = new Size(cameraUiWrapper.getParameterHandler().PreviewSize.GetValue());
             //Add 5 pre allocated buffers. that avoids that the camera create with each frame a new one
             for (int i = 0; i< BUFFERCOUNT; i++)
             {

@@ -23,10 +23,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -39,6 +37,8 @@ import com.troop.freedcam.R.layout;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.ExecutorService;
+
+import freed.utils.Log;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.BaseHolder;
 import freed.viewer.holder.FileHolder;

@@ -19,14 +19,13 @@
 
 package freed.cam.apis.camera1.cameraholder;
 
-import freed.utils.Log;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.utils.Log;
 
 /**
  * Created by troop on 08.06.2016.
@@ -59,7 +58,7 @@ public class CameraHolderMTK extends CameraHolder
     public void StartPreview()
     {
         //not sure if that is realy needed. same stuff gets applied when BaseMTKDevice.java gets created
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetupMTK();
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetupMTK();
         super.StartPreview();
     }
 

@@ -46,7 +46,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
 
     @Override
     public boolean IsSupported() {
-        return ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null;
+        return ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Scene"))
             return;
         ToneMapModes sceneModes = Enum.valueOf(ToneMapModes.class, valueToSet);
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_MODE, sceneModes.ordinal());
         onValueHasChanged(valueToSet);
     }
 
@@ -63,7 +63,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
     @Override
     public String GetValue()
     {
-        int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE);
+        int i = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE);
         ToneMapModes sceneModes = ToneMapModes.values()[i];
         return sceneModes.toString();
 
@@ -72,7 +72,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES);
+        int[] values = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

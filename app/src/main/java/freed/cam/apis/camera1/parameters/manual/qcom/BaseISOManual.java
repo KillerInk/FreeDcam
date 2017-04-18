@@ -40,7 +40,7 @@ public class BaseISOManual extends BaseManualParameter {
         super(parameters, "", "", "", cameraUiWrapper, 0);
         isSupported = true;
         isVisible = true;
-        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualIso.getValues();
+        stringvalues = cameraUiWrapper.getAppSettingsManager().manualIso.getValues();
     }
 
     @Override
@@ -58,16 +58,16 @@ public class BaseISOManual extends BaseManualParameter {
         {
             set_manual();
         }
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
 
 
     protected void set_manual()
     {
-        cur_iso_mode = cameraUiWrapper.GetParameterHandler().IsoMode.GetValue();
+        cur_iso_mode = cameraUiWrapper.getParameterHandler().IsoMode.GetValue();
 
-        if (!cameraUiWrapper.GetParameterHandler().IsoMode.GetValue().equals(cameraUiWrapper.getResString(R.string.manual)))
-            cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(cameraUiWrapper.getResString(R.string.manual), true);
+        if (!cameraUiWrapper.getParameterHandler().IsoMode.GetValue().equals(cameraUiWrapper.getResString(R.string.manual)))
+            cameraUiWrapper.getParameterHandler().IsoMode.SetValue(cameraUiWrapper.getResString(R.string.manual), true);
         parameters.set(key_value, stringvalues[currentInt]);
 
 
@@ -75,9 +75,9 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_to_auto()
     {
-        if (cameraUiWrapper.GetParameterHandler().IsoMode.GetValue().equals(cameraUiWrapper.getResString(R.string.manual)))
-            cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
-        cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(cur_iso_mode, true);
+        if (cameraUiWrapper.getParameterHandler().IsoMode.GetValue().equals(cameraUiWrapper.getResString(R.string.manual)))
+            cameraUiWrapper.getParameterHandler().IsoMode.SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
+        cameraUiWrapper.getParameterHandler().IsoMode.SetValue(cur_iso_mode, true);
 
     }
 

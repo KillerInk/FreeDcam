@@ -51,6 +51,6 @@ public class ZoomManualParameter extends  BaseManualParameter
     public void SetValue(int valueToset) {
         currentInt = valueToset;
         parameters.set(key_value, valueToset);
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
 }

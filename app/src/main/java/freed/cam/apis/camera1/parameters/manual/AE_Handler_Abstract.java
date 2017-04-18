@@ -20,7 +20,6 @@
 package freed.cam.apis.camera1.parameters.manual;
 
 import android.hardware.Camera;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -29,6 +28,7 @@ import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 
 /**
  * Created by troop on 13.06.2016.
@@ -84,7 +84,7 @@ public abstract class AE_Handler_Abstract
     protected final AeManualEvent aeevent =  new AeManualEvent() {
         @Override
         public void onManualChanged(AeManual fromManual, boolean automode, int value) {
-            if (shutter.IsSupported() && iso.IsSupported() && cameraWrapper.GetAppSettingsManager().GetCurrentCamera() == 0)
+            if (shutter.IsSupported() && iso.IsSupported() && cameraWrapper.getAppSettingsManager().GetCurrentCamera() == 0)
             {
                 if (automode) {
                     Log.d(TAG, "AutomodeActive");
@@ -136,14 +136,14 @@ public abstract class AE_Handler_Abstract
                     }
                     resetManualMode();
                 }
-                ((ParametersHandler) cameraWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+                ((ParametersHandler) cameraWrapper.getParameterHandler()).SetParametersToCamera(parameters);
                 if (automode) {
-                    String t = cameraWrapper.GetParameterHandler().IsoMode.GetValue();
+                    String t = cameraWrapper.getParameterHandler().IsoMode.GetValue();
                     if (!t.equals(cameraWrapper.getResString(R.string.iso100_)))
-                        cameraWrapper.GetParameterHandler().IsoMode.SetValue(cameraWrapper.getResString(R.string.iso100_), true);
+                        cameraWrapper.getParameterHandler().IsoMode.SetValue(cameraWrapper.getResString(R.string.iso100_), true);
                     else
-                        cameraWrapper.GetParameterHandler().IsoMode.SetValue(cameraWrapper.getResString(R.string.auto_), true);
-                    cameraWrapper.GetParameterHandler().IsoMode.SetValue(t, true);
+                        cameraWrapper.getParameterHandler().IsoMode.SetValue(cameraWrapper.getResString(R.string.auto_), true);
+                    cameraWrapper.getParameterHandler().IsoMode.SetValue(t, true);
                 }
             }
         }
@@ -157,7 +157,7 @@ public abstract class AE_Handler_Abstract
      */
     private void startReadingMeta()
     {
-        if (((CameraHolder)cameraWrapper.GetCameraHolder()).DeviceFrameWork == CameraHolder.Frameworks.MTK)
+        if (((CameraHolder)cameraWrapper.getCameraHolder()).DeviceFrameWork == CameraHolder.Frameworks.MTK)
             return;
         readMetaData = true;
         FreeDPool.Execute(new Runnable() {
@@ -166,8 +166,8 @@ public abstract class AE_Handler_Abstract
                 while (readMetaData && auto)
                 {
                     try {
-                        shutter.ThrowCurrentValueStringCHanged("1/"+(int) cameraWrapper.GetParameterHandler().getCurrentExposuretime());
-                        iso.ThrowCurrentValueStringCHanged(cameraWrapper.GetParameterHandler().getCurrentIso()+"");
+                        shutter.ThrowCurrentValueStringCHanged("1/"+(int) cameraWrapper.getParameterHandler().getCurrentExposuretime());
+                        iso.ThrowCurrentValueStringCHanged(cameraWrapper.getParameterHandler().getCurrentIso()+"");
                     }
                     catch (RuntimeException ex)
                     {

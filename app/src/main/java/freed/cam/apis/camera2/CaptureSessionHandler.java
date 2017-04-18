@@ -490,7 +490,7 @@ public class CaptureSessionHandler
 
             matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
 
-            if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.on_)))
+            if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.on_)))
                 matrix.postRotate(orientationWithHack, centerX, centerY);
             else
                 matrix.postRotate(orientation, centerX,centerY);

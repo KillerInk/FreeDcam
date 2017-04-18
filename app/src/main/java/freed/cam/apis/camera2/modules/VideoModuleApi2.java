@@ -38,7 +38,6 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
-import freed.utils.Log;
 import android.util.Range;
 import android.util.Size;
 import android.view.Surface;
@@ -59,6 +58,7 @@ import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 import freed.utils.PermissionHandler;
 
 /**
@@ -76,8 +76,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     private MediaRecorder mediaRecorder;
 
-    public VideoModuleApi2( CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
-        super(cameraUiWrapper,mBackgroundHandler);
+    public VideoModuleApi2( CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+        super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_video);
     }
 
@@ -157,7 +157,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         isRecording = false;
 
 
-        cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+        cameraUiWrapper.getModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
         cameraHolder.captureSessionHandler.CreateCaptureSession();
         fireOnWorkFinish(recordingFile);
@@ -235,7 +235,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             @Override
             public void onError(MediaRecorder mr, int what, int extra) {
                 Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
-                cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+                cameraUiWrapper.getModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
                 changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
             }
         });
@@ -254,7 +254,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             }
         });
 
-        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
+        if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
             Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
             if (location != null)
                 mediaRecorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
@@ -308,7 +308,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         catch (IllegalArgumentException ex)
         {
             mediaRecorder.reset();
-            cameraUiWrapper.GetCameraHolder().SendUIMessage("VideoCodec not Supported");
+            cameraUiWrapper.getCameraHolder().SendUIMessage("VideoCodec not Supported");
         }
 
         switch (currentVideoProfile.Mode)
@@ -323,7 +323,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
                     catch (IllegalArgumentException ex)
                     {
                         mediaRecorder.reset();
-                        cameraUiWrapper.GetCameraHolder().SendUIMessage("AudioCodec not Supported");
+                        cameraUiWrapper.getCameraHolder().SendUIMessage("AudioCodec not Supported");
                     }
                     mediaRecorder.setAudioChannels(currentVideoProfile.audioChannels);
                     mediaRecorder.setAudioEncodingBitRate(currentVideoProfile.audioBitRate);
@@ -343,7 +343,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             mediaRecorder.prepare();
         } catch (IOException ex) {
             Log.WriteEx(ex);
-            cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+            cameraUiWrapper.getModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
             return;
         }
@@ -402,7 +402,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             }
             mediaRecorder.start();
             isRecording = true;
-            cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
+            cameraUiWrapper.getModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
 
         }
 

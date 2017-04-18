@@ -49,9 +49,9 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
 
-        cameraUiWrapper.GetModuleHandler().addListner(this);
+        cameraUiWrapper.getModuleHandler().addListner(this);
 
-        onModuleChanged(cameraUiWrapper.GetModuleHandler().GetCurrentModuleName());
+        onModuleChanged(cameraUiWrapper.getModuleHandler().getCurrentModuleName());
 
     }
 

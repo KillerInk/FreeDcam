@@ -41,17 +41,17 @@ public class PictureSizeParameter extends BaseModeParameter
     {
         parameters.set("picture-size" , valueToSet);
 
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         onValueHasChanged(valueToSet);
     }
 
     @Override
     public String GetValue() {
-        return cameraUiWrapper.GetAppSettingsManager().pictureSize.get();
+        return cameraUiWrapper.getAppSettingsManager().pictureSize.get();
     }
 
     @Override
     public String[] GetValues() {
-        return cameraUiWrapper.GetAppSettingsManager().pictureSize.getValues();
+        return cameraUiWrapper.getAppSettingsManager().pictureSize.getValues();
     }
 }

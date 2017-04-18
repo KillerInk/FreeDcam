@@ -20,12 +20,12 @@
 package freed.cam.apis.camera1.parameters.manual;
 
 import android.hardware.Camera.Parameters;
-import freed.utils.Log;
 
 import java.util.ArrayList;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.utils.Log;
 
 /**
  * Created by troop on 17.08.2014.
@@ -67,7 +67,7 @@ public class ExposureManualParameter extends BaseManualParameter
         parameters.setExposureCompensation(currentInt);
         try
         {
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         }
         catch (Exception ex)
         {

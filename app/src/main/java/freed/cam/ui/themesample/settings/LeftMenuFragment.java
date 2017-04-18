@@ -80,8 +80,8 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         settingsChildHolder.removeAllViews();
         if (cameraUiWrapper != null) {
 
-            AppSettingsManager apS = cameraUiWrapper.GetAppSettingsManager();
-            AbstractParameterHandler params = cameraUiWrapper.GetParameterHandler();
+            AppSettingsManager apS = cameraUiWrapper.getAppSettingsManager();
+            AbstractParameterHandler params = cameraUiWrapper.getParameterHandler();
         /*
             VIDEOGROUP
          */
@@ -219,7 +219,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             menuItemGPS.SetUiItemClickListner(this);
             globalSettingGroup.addView(menuItemGPS);
 
-            SettingsChildMenu guide = new SettingsChildMenu(getContext(),cameraUiWrapper.GetAppSettingsManager().guide,cameraUiWrapper.GetParameterHandler().GuideList, R.string.setting_guide_header, R.string.setting_guide_description);
+            SettingsChildMenu guide = new SettingsChildMenu(getContext(),cameraUiWrapper.getAppSettingsManager().guide,cameraUiWrapper.getParameterHandler().GuideList, R.string.setting_guide_header, R.string.setting_guide_description);
             guide.SetUiItemClickListner(this);
             globalSettingGroup.addView(guide);
 
@@ -229,13 +229,13 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
             SettingsChildMenu horizont = new SettingsChildMenu(getContext(), R.string.setting_horizont_header, R.string.setting_horizont_description);
             horizont.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_HORIZONT);
-            horizont.SetParameter(cameraUiWrapper.GetParameterHandler().Horizont);
+            horizont.SetParameter(cameraUiWrapper.getParameterHandler().Horizont);
             horizont.SetUiItemClickListner(this);
             globalSettingGroup.addView(horizont);
 
             SettingsChildMenu nightoverlay = new SettingsChildMenu(getContext(), R.string.setting_nightoverlay_header, R.string.setting_nightoverlay_description);
             nightoverlay.SetUiItemClickListner(this);
-            nightoverlay.SetParameter(cameraUiWrapper.GetParameterHandler().NightOverlay);
+            nightoverlay.SetParameter(cameraUiWrapper.getParameterHandler().NightOverlay);
         }
 
         settingsChildHolder.addView(globalSettingGroup);
@@ -244,7 +244,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
         /*if (cameraUiWrapper instanceof Camera1Fragment) {
 
-            if (!(cameraUiWrapper.GetCameraHolder() instanceof CameraHolderMTK)) {
+            if (!(cameraUiWrapper.getCameraHolder() instanceof CameraHolderMTK)) {
                 AEB1.setVisibility(View.VISIBLE);
                 AEB1.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB1);
                 AEB1.SetCameraUIWrapper(cameraUiWrapper);
@@ -299,11 +299,11 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
         /*if (DEBUG) {
             PreviewFormat.SetStuff(fragment_activityInterface, "");
-            PreviewFormat.SetParameter(cameraUiWrapper.GetParameterHandler().PreviewFormat);
+            PreviewFormat.SetParameter(cameraUiWrapper.getParameterHandler().PreviewFormat);
             PreviewFormat.SetUiItemClickListner(this);
             PreviewFormat.setVisibility(View.VISIBLE);
             PreviewSize.SetStuff(fragment_activityInterface, "");
-            PreviewSize.SetParameter(cameraUiWrapper.GetParameterHandler().PreviewSize);
+            PreviewSize.SetParameter(cameraUiWrapper.getParameterHandler().PreviewSize);
             PreviewSize.SetUiItemClickListner(this);
             PreviewSize.setVisibility(View.VISIBLE);
         } else {

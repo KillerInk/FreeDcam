@@ -60,8 +60,8 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     {
         fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_OrientationHack, value);
         if (cameraUiWrapper instanceof Camera1Fragment) {
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetCameraRotation();
-            cameraUiWrapper.GetParameterHandler().SetPictureOrientation(0);
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetCameraRotation();
+            cameraUiWrapper.getParameterHandler().SetPictureOrientation(0);
         }
         else if(cameraUiWrapper instanceof Camera1Fragment)
         {

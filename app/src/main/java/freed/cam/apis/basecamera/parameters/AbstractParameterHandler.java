@@ -22,7 +22,6 @@ package freed.cam.apis.basecamera.parameters;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
-import freed.utils.Log;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
@@ -35,6 +34,7 @@ import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 09.12.2014.
@@ -166,7 +166,7 @@ public abstract class AbstractParameterHandler
     public AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
         uiHandler = new Handler(Looper.getMainLooper());
-        this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
+        this.appSettingsManager = cameraUiWrapper.getAppSettingsManager();
 
         GuideList = new GuideList(appSettingsManager);
         locationParameter = new LocationParameter(cameraUiWrapper);

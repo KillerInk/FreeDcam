@@ -19,20 +19,26 @@
 
 package freed.cam.apis.basecamera;
 
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 import freed.utils.RenderScriptHandler;
 
 /**
@@ -79,6 +85,10 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     public abstract String CameraApiName();
 
+    protected Object cameraLock = new Object();
+    protected HandlerThread mBackgroundThread;
+    protected Handler mBackgroundHandler;
+
 
     public CameraFragmentAbstract()
     {
@@ -86,13 +96,52 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
         uiHandler = new Handler(Looper.getMainLooper());
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater layoutInflater, @Nullable ViewGroup viewGroup, @Nullable Bundle bundle) {
+        startBackgroundThread();
+        return super.onCreateView(layoutInflater, viewGroup, bundle);
+    }
+
     @Override
     public void onDestroyView()
     {
         moduleHandler.CLEAR();
         moduleHandler.CLEARWORKERLISTNER();
+        stopBackgroundThread();
         super.onDestroyView();
 
+    }
+
+    /**
+     * Starts a background thread and its {@link Handler}.
+     */
+    private void startBackgroundThread() {
+        mBackgroundThread = new HandlerThread("CameraBackground");
+        mBackgroundThread.start();
+        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+    }
+
+    /**
+     * Stops the background thread and its {@link Handler}.
+     */
+    private void stopBackgroundThread()
+    {
+        Log.d(TAG,"stopBackgroundThread");
+        if(mBackgroundThread == null)
+            return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            mBackgroundThread.quitSafely();
+        }
+        else
+            mBackgroundThread.quit();
+        try {
+            mBackgroundThread.join();
+            mBackgroundThread = null;
+            mBackgroundHandler = null;
+        } catch (InterruptedException e) {
+            Log.WriteEx(e);
+        }
     }
 
     public void SetRenderScriptHandler(RenderScriptHandler renderScriptHandler)
@@ -119,7 +168,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
      * adds a new listner for camera state changes
      * @param cameraChangedListner to add
      */
-    public void SetCameraStateChangedListner(final CameraStateEvents cameraChangedListner)
+    public void setCameraStateChangedListner(final CameraStateEvents cameraChangedListner)
     {
         uiHandler.post(new Runnable() {
             @Override
@@ -130,23 +179,23 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     }
 
     @Override
-    public void StartCamera()
+    public void startCamera()
     {
     }
 
     @Override
-    public void StopCamera()
+    public void stopCamera()
     {
     }
 
     @Override
-    public void StopPreview()
+    public void stopPreview()
     {
     }
 
 
     @Override
-    public void StartPreview()
+    public void startPreview()
     {
     }
 
@@ -155,9 +204,9 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
      * the module must handle the workstate on its own if it gets hit twice while work is already in progress
      */
     @Override
-    public void DoWork()
+    public void startWork()
     {
-        moduleHandler.DoWork();
+        moduleHandler.startWork();
     }
 
 
@@ -258,7 +307,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
 
     @Override
-    public AppSettingsManager GetAppSettingsManager() {
+    public AppSettingsManager getAppSettingsManager() {
         return appSettingsManager;
     }
 
@@ -288,17 +337,17 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     }
 
     @Override
-    public CameraHolderInterface GetCameraHolder() {
+    public CameraHolderInterface getCameraHolder() {
         return cameraHolder;
     }
 
     @Override
-    public AbstractParameterHandler GetParameterHandler() {
+    public AbstractParameterHandler getParameterHandler() {
         return parametersHandler;
     }
 
     @Override
-    public ModuleHandlerAbstract GetModuleHandler() {
+    public ModuleHandlerAbstract getModuleHandler() {
         return moduleHandler;
     }
 }

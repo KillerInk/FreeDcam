@@ -21,8 +21,6 @@ package freed.cam.apis.basecamera.modules;
 
 
 import android.os.Handler;
-import android.os.Looper;
-import freed.utils.Log;
 
 import java.io.File;
 
@@ -30,6 +28,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 import freed.viewer.holder.FileHolder;
 
 /**
@@ -47,14 +46,15 @@ public abstract class ModuleAbstract implements ModuleInterface
     protected CaptureStates currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;
     protected Handler mBackgroundHandler;
+    protected Handler mainHandler;
 
 
-    public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler)
+    public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
+        this.appSettingsManager = cameraUiWrapper.getAppSettingsManager();
         this.mBackgroundHandler = mBackgroundHandler;
-
+        this.mainHandler = mainHandler;
     }
 
     public void SetCaptureStateChangedListner(CaptureStateChanged captureStateChangedListner)
@@ -69,7 +69,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     {
         Log.d(TAG, "work started");
         currentWorkState = captureStates;
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        mainHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (captureStateChangedListner != null)

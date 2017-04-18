@@ -29,7 +29,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
-import freed.utils.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -55,6 +54,7 @@ import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import freed.utils.AppSettingsManager;
 import freed.utils.LocationHandler;
+import freed.utils.Log;
 import freed.utils.PermissionHandler;
 import freed.utils.RenderScriptHandler;
 import freed.utils.StorageFileHandler;
@@ -273,7 +273,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             }
             cameraFragment.SetAppSettingsManager(getAppSettings());
 
-            cameraFragment.SetCameraStateChangedListner(this);
+            cameraFragment.setCameraStateChangedListner(this);
             //load the cameraFragment to ui
             //that starts the camera represent by that fragment when the surface/textureviews
             //are created and calls then onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
@@ -284,7 +284,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             Log.d(TAG, "loaded cameraWrapper");
         }
         else { //resuse fragments
-            cameraFragment.StartCamera();
+            cameraFragment.startCamera();
 
         }
     }
@@ -301,7 +301,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             //kill the cam befor the fragment gets removed to make sure when
             //new cameraFragment gets created and its texture view is created the cam get started
             //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
-            cameraFragment.StopCamera();
+            cameraFragment.stopCamera();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
             transaction.remove(cameraFragment);
@@ -329,7 +329,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                     || keyCode == appSettingsKeyShutter
                     || keyCode == KeyEvent.KEYCODE_UNKNOWN
                     || keyCode == KeyEvent.KEYCODE_CAMERA) {
-                cameraFragment.GetModuleHandler().DoWork();
+                cameraFragment.getModuleHandler().startWork();
                 return true;
             }
             if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME)
@@ -483,8 +483,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         Log.d(TAG, "add events");
         //register timer to to moduleevent handler that it get shown/hidden when its video or not
         //and start/stop working when recording starts/stops
-        cameraFragment.GetModuleHandler().AddRecoderChangedListner(timerHandler);
-        cameraFragment.GetModuleHandler().addListner(timerHandler);
+        cameraFragment.getModuleHandler().AddRecoderChangedListner(timerHandler);
+        cameraFragment.getModuleHandler().addListner(timerHandler);
     }
 
     @Override

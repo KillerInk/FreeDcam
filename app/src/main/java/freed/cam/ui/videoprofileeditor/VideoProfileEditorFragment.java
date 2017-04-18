@@ -37,7 +37,6 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 

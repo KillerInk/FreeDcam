@@ -25,7 +25,6 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build.VERSION_CODES;
-import freed.utils.Log;
 import android.view.MotionEvent;
 
 import com.troop.freedcam.R;
@@ -33,6 +32,7 @@ import com.troop.freedcam.R;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import freed.utils.Log;
 
 /**
  * Created by troop on 12.12.2014.
@@ -96,7 +96,7 @@ public class FocusHandler extends AbstractFocusHandler
         if (!focusenabled)
             return;
         int areasize = (width /8) /2;
-        Rect m =  ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        Rect m =  ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         logRect(m);
         float xf = (float)x / width * m.right;
         float yf = (float)y / height * m.bottom;
@@ -135,7 +135,7 @@ public class FocusHandler extends AbstractFocusHandler
         logFocusRect(targetFocusRect);
         MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
+        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
         if (focusEvent != null)
             focusEvent.FocusStarted(x,y);
     }
@@ -176,7 +176,7 @@ public class FocusHandler extends AbstractFocusHandler
     public void SetMeteringAreas(int x, int y, int width, int height)
     {
         int areasize = (width/8)/2;
-        Rect sensor_size = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        Rect sensor_size = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
 
         int left = (x - areasize) * sensor_size.right /width;
 
@@ -197,8 +197,8 @@ public class FocusHandler extends AbstractFocusHandler
 
         MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_REGIONS, mre);
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_REGIONS, mre);
+        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
     @Override

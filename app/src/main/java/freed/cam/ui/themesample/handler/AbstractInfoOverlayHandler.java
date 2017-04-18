@@ -79,8 +79,8 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     public void setCameraUIWrapper(CameraWrapperInterface cameraUIWrapper)
     {
         cameraUiWrapper = cameraUIWrapper;
-        if (cameraUIWrapper != null && cameraUIWrapper.GetModuleHandler() != null)
-            cameraUIWrapper.GetModuleHandler().addListner(this);
+        if (cameraUIWrapper != null && cameraUIWrapper.getModuleHandler() != null)
+            cameraUIWrapper.getModuleHandler().addListner(this);
     }
 
     @Override
@@ -147,22 +147,22 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
 
     private void getFormat()
     {
-        if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
+        if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
         {
-            if (cameraUiWrapper.GetParameterHandler().VideoProfiles != null)
-                size = cameraUiWrapper.GetParameterHandler().VideoProfiles.GetValue();
+            if (cameraUiWrapper.getParameterHandler().VideoProfiles != null)
+                size = cameraUiWrapper.getParameterHandler().VideoProfiles.GetValue();
             else
                 size = "";
         }
         else
         {
-            if (cameraUiWrapper.GetParameterHandler().PictureFormat != null)
-                format = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
+            if (cameraUiWrapper.getParameterHandler().PictureFormat != null)
+                format = cameraUiWrapper.getParameterHandler().PictureFormat.GetValue();
             else
                 format = "";
 
-            if (cameraUiWrapper.GetParameterHandler().PictureSize != null)
-                size = cameraUiWrapper.GetParameterHandler().PictureSize.GetValue();
+            if (cameraUiWrapper.getParameterHandler().PictureSize != null)
+                size = cameraUiWrapper.getParameterHandler().PictureSize.GetValue();
             else
                 size = "";
         }
@@ -173,7 +173,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         try
         {
             //defcomg was here 24/01/2015
-            if(!cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
+            if(!cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
                 storageSpace = Avail4PIC();
             else
                 storageSpace = readableFileSize(SDspace());

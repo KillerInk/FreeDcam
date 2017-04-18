@@ -25,7 +25,6 @@ import android.view.View;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.camera1.ExtendedSurfaceView;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 
 /**
@@ -77,7 +76,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
     private void switchCamera()
     {
-        int maxcams = cameraUiWrapper.GetCameraHolder().CameraCout();
+        int maxcams = cameraUiWrapper.getCameraHolder().CameraCout();
         if (currentCamera++ >= maxcams - 1)
             currentCamera = 0;
 

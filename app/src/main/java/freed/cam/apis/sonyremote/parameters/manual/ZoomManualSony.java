@@ -62,7 +62,7 @@ public class ZoomManualSony extends BaseManualParameterSony
 
     @Override
     public boolean IsSupported() {
-        return ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mAvailableCameraApiSet != null && JsonUtils.isCameraApiAvailable("actZoom", ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mAvailableCameraApiSet);
+        return ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mAvailableCameraApiSet != null && JsonUtils.isCameraApiAvailable("actZoom", ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mAvailableCameraApiSet);
     }
 
     @Override

@@ -59,7 +59,7 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         CameraWrapperInterface cameraUiWrapper1 = cameraUiWrapper;
-        SetParameter(cameraUiWrapper.GetParameterHandler().SdSaveLocation);
+        SetParameter(cameraUiWrapper.getParameterHandler().SdSaveLocation);
     }
 
     @Override

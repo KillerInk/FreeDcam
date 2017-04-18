@@ -34,10 +34,10 @@ public class FocusManualParameterHTC extends BaseManualParameter
 
     public FocusManualParameterHTC(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
-        isSupported = cameraUiWrapper.GetAppSettingsManager().manualFocus.isSupported();
-        key_value = cameraUiWrapper.GetAppSettingsManager().manualFocus.getKEY();
+        isSupported = cameraUiWrapper.getAppSettingsManager().manualFocus.isSupported();
+        key_value = cameraUiWrapper.getAppSettingsManager().manualFocus.getKEY();
         isVisible = isSupported;
-        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues();
+        stringvalues = cameraUiWrapper.getAppSettingsManager().manualFocus.getValues();
     }
 
 
@@ -45,7 +45,7 @@ public class FocusManualParameterHTC extends BaseManualParameter
     public void SetValue(int valueToSet)
     {
         parameters.set(key_value, valueToSet+"");
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
 
 }

@@ -30,8 +30,8 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
         super(parameters, cameraUiWrapper, settingMode);
         isSupported = settingMode.isSupported();
         isVisible = isSupported;
-        cameraUiWrapper.GetModuleHandler().addListner(this);
-        cameraUiWrapper.GetParameterHandler().PictureFormat.addEventListner(this);
+        cameraUiWrapper.getModuleHandler().addListner(this);
+        cameraUiWrapper.getParameterHandler().PictureFormat.addEventListner(this);
     }
 
     @Override
@@ -44,16 +44,16 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
     public void SetValue(String valueToSet, boolean setToCam) {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_))) {
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hht), cameraUiWrapper.getResString(R.string.false_));
-            cameraUiWrapper.GetParameterHandler().NightMode.onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
+            cameraUiWrapper.getParameterHandler().NightMode.onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
             parameters.set("capture-burst-exposures","-10,0,10");
-            cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket), true);
+            cameraUiWrapper.getParameterHandler().AE_Bracket.SetValue(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket), true);
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hdr), cameraUiWrapper.getResString(R.string.true_));
         } else {
-            cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_off), true);
+            cameraUiWrapper.getParameterHandler().AE_Bracket.SetValue(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_off), true);
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hdr), cameraUiWrapper.getResString(R.string.false_));
         }
 
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         onValueHasChanged(valueToSet);
     }
 
@@ -78,7 +78,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
             onParameterIsSupportedChanged(false);
             return cameraUiWrapper.getResString(R.string.off_);
         }
-        if (parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr)) == null){
+        if (parameters.get(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr)) == null){
             Log.d(TAG, "Ae bracket is null");
             isSupported =false;
             onParameterIsSupportedChanged(false);
@@ -87,7 +87,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
 
 
         if (parameters.get(cameraUiWrapper.getResString(R.string.morpho_hdr)).equals(cameraUiWrapper.getResString(R.string.true_))
-                && parameters.get(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr)).equals(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket)))
+                && parameters.get(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr)).equals(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket)))
             return cameraUiWrapper.getResString(R.string.on_);
         else
             return cameraUiWrapper.getResString(R.string.off_);

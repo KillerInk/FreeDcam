@@ -18,7 +18,7 @@ public class ManualAperture extends AbstractManualParameter
         this.parameters = parameters;
         isSupported = true;
         isVisible = isSupported;
-        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualAperture.getValues();
+        stringvalues = cameraUiWrapper.getAppSettingsManager().manualAperture.getValues();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ManualAperture extends AbstractManualParameter
 
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-big-aperture-mode", "on");
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().manualIso.getKEY(), stringvalues[currentInt]);
+            parameters.set(cameraUiWrapper.getAppSettingsManager().manualIso.getKEY(), stringvalues[currentInt]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[valueToSet]);
     }

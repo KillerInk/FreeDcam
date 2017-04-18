@@ -20,7 +20,6 @@
 package freed.cam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
-import android.hardware.camera2.CameraCaptureSession.CaptureCallback;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Builder;
 import android.os.Build;
@@ -39,8 +38,8 @@ import freed.utils.AppSettingsManager;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class AfBracketApi2 extends PictureModuleApi2
 {
-    public AfBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
-        super(cameraUiWrapper,mBackgroundHandler);
+    public AfBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+        super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_afbracket);
     }
 
@@ -66,7 +65,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
-        cameraUiWrapper.GetParameterHandler().Burst.SetValue(PICSTOTAKE-1);
+        cameraUiWrapper.getParameterHandler().Burst.SetValue(PICSTOTAKE-1);
         focuslength = parameterHandler.ManualFocus.getStringValues().length -1;
         focusStep =  focuslength/PICSTOTAKE;
         currentFocusPos = 1;

@@ -71,7 +71,7 @@ public class BaseModeApi2 extends AbstractModeParameter
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         int toset = parameterValues.get(valueToSet);
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(parameterKey, toset);
+        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(parameterKey, toset);
         onValueHasChanged(valueToSet);
 
     }
@@ -79,7 +79,7 @@ public class BaseModeApi2 extends AbstractModeParameter
     @Override
     public String GetValue()
     {
-        int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.get(parameterKey);
+        int i = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(parameterKey);
         for (Map.Entry s : parameterValues.entrySet())
             if (s.getValue().equals(i))
                 return s.getKey().toString();

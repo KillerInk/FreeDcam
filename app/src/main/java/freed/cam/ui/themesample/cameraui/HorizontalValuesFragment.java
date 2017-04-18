@@ -28,7 +28,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 

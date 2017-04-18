@@ -49,17 +49,17 @@ public class VideoProfilesParameter extends AbstractModeParameter
         super();
         this.cameraUiWrapper = cameraUiWrapper;
         isSupported =true;
-        supportedProfiles = cameraUiWrapper.GetAppSettingsManager().getMediaProfiles();
-        profile = cameraUiWrapper.GetAppSettingsManager().videoProfile.get();
+        supportedProfiles = cameraUiWrapper.getAppSettingsManager().getMediaProfiles();
+        profile = cameraUiWrapper.getAppSettingsManager().videoProfile.get();
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
         profile = valueToSet;
-        if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null
-                && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
-            cameraUiWrapper.GetModuleHandler().GetCurrentModule().InitModule();
+        if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null
+                && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
+            cameraUiWrapper.getModuleHandler().getCurrentModule().InitModule();
     }
 
     @Override

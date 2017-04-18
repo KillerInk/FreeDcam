@@ -33,7 +33,6 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.Type;
 import android.util.AttributeSet;
-import freed.utils.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -46,6 +45,7 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 import freed.utils.RenderScriptHandler;
 
 

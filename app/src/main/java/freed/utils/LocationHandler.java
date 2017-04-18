@@ -24,7 +24,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import freed.utils.Log;
 import android.widget.Toast;
 
 import freed.ActivityInterface;

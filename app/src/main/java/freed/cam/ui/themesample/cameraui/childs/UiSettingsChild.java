@@ -26,7 +26,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
-import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -41,6 +40,7 @@ import com.troop.freedcam.R.styleable;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 11.06.2015.

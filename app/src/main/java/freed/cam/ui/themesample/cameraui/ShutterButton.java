@@ -25,14 +25,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import freed.utils.Log;
 import android.view.View;
 
 import com.troop.freedcam.R;
@@ -47,6 +42,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.utils.Log;
 
 /**
  * Created by troop on 20.06.2015.
@@ -123,9 +119,9 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         this.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cameraUiWrapper == null || cameraUiWrapper.GetModuleHandler() == null || cameraUiWrapper.GetModuleHandler().GetCurrentModule() == null)
+                if (cameraUiWrapper == null || cameraUiWrapper.getModuleHandler() == null || cameraUiWrapper.getModuleHandler().getCurrentModule() == null)
                     return;
-                cameraUiWrapper.GetModuleHandler().GetCurrentModule().DoWork();
+                cameraUiWrapper.getModuleHandler().getCurrentModule().DoWork();
             }
         });
 
@@ -134,13 +130,13 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
 
 
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper, UserMessageHandler messageHandler) {
-        if (cameraUiWrapper.GetModuleHandler() == null)
+        if (cameraUiWrapper.getModuleHandler() == null)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.GetModuleHandler().SetWorkListner(this);
-        cameraUiWrapper.GetModuleHandler().addListner(this);
-        if (cameraUiWrapper.GetParameterHandler().ContShootMode != null)
-            cameraUiWrapper.GetParameterHandler().ContShootMode.addEventListner(this.contshotListner);
+        cameraUiWrapper.getModuleHandler().setWorkListner(this);
+        cameraUiWrapper.getModuleHandler().addListner(this);
+        if (cameraUiWrapper.getParameterHandler().ContShootMode != null)
+            cameraUiWrapper.getParameterHandler().ContShootMode.addEventListner(this.contshotListner);
 
         this.onModuleChanged("");
         Log.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
@@ -152,21 +148,21 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
     public void onModuleChanged(String module) {
 
         Log.d(this.TAG, "Module Changed");
-        if (this.cameraUiWrapper.GetParameterHandler().ContShootMode != null && this.cameraUiWrapper.GetParameterHandler().ContShootMode.IsSupported()) {
-            this.contshotListner.onParameterValueChanged(this.cameraUiWrapper.GetParameterHandler().ContShootMode.GetValue());
+        if (this.cameraUiWrapper.getParameterHandler().ContShootMode != null && this.cameraUiWrapper.getParameterHandler().ContShootMode.IsSupported()) {
+            this.contshotListner.onParameterValueChanged(this.cameraUiWrapper.getParameterHandler().ContShootMode.GetValue());
 
         }
         post(new Runnable() {
             @Override
             public void run() {
-                if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video))) {
+                if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video))) {
                     switchBackground(CaptureStates.video_recording_stop, true);
-                } else if ((cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_picture))
-                        || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_afbracket)))
-                        || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_hdr))
+                } else if ((cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_picture))
+                        || cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_afbracket)))
+                        || cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_hdr))
                         && !contshot) {
                     switchBackground(CaptureStates.image_capture_stop, true);
-                } else if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_interval))
+                } else if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_interval))
                         || contshot)
                     switchBackground(CaptureStates.continouse_capture_stop, false);
 
@@ -247,7 +243,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         public void onParameterValueChanged(String val) {
             //Single","Continuous","Spd Priority Cont.
             Log.d(ShutterButton.this.TAG, "contshot:" + val);
-            if (ShutterButton.this.cameraUiWrapper.GetParameterHandler().ContShootMode.GetValue().contains("Single")) {
+            if (ShutterButton.this.cameraUiWrapper.getParameterHandler().ContShootMode.GetValue().contains("Single")) {
                 ShutterButton.this.switchBackground(CaptureStates.image_capture_stop, false);
                 ShutterButton.this.contshot = false;
             } else {

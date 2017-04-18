@@ -19,11 +19,10 @@
 
 package freed.cam.apis.basecamera.parameters.modes;
 
-import freed.utils.Log;
-
 import java.util.HashMap;
 
 import freed.dng.CustomMatrix;
+import freed.utils.Log;
 
 /**
  * Created by troop on 02.05.2016.

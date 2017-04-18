@@ -21,8 +21,9 @@ package freed.cam.apis.camera1;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import freed.utils.Log;
 import android.view.TextureView;
+
+import freed.utils.Log;
 
 /**
  * Created by troop on 27.08.2015.

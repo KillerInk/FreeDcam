@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -21,6 +20,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 09.12.2016.
@@ -32,9 +32,9 @@ public class BasePictureModule extends ModuleAbstract {
     protected ActivityInterface activityInterface;
     private RawToDng dngConverter;
 
-    public BasePictureModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler)
+    public BasePictureModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
-        super(cameraUiWrapper,mBackgroundHandler);
+        super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_picture);
         this.activityInterface = cameraUiWrapper.getActivityInterface();
         dngConverter = RawToDng.GetInstance();

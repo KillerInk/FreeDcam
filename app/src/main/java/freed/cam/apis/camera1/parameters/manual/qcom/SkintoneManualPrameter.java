@@ -57,9 +57,9 @@ public class SkintoneManualPrameter extends BaseManualParameter {
 
     @Override
     public void SetValue(int valueToSet) {
-        cameraUiWrapper.GetParameterHandler().SceneMode.SetValue("portrait", true);
+        cameraUiWrapper.getParameterHandler().SceneMode.SetValue("portrait", true);
         parameters.set("skinToneEnhancement",valueToSet + "");
         if (valueToSet == 0)
-            cameraUiWrapper.GetParameterHandler().SceneMode.SetValue("auto", true);
+            cameraUiWrapper.getParameterHandler().SceneMode.SetValue("auto", true);
     }
 }

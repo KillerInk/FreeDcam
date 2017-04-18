@@ -20,7 +20,6 @@
 package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -28,6 +27,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.utils.Log;
 
 /**
  * Created by troop on 05.02.2016.
@@ -49,11 +49,11 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         super(parameters, cameraUiWrapper);
         ParametersHandler parametersHandler1 = parametersHandler;
-        isSupported = cameraUiWrapper.GetAppSettingsManager().pictureFormat.isSupported();
-        boolean rawSupported = cameraUiWrapper.GetAppSettingsManager().rawPictureFormat.isSupported();
+        isSupported = cameraUiWrapper.getAppSettingsManager().pictureFormat.isSupported();
+        boolean rawSupported = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.isSupported();
         if (rawSupported) {
-            rawFormat = cameraUiWrapper.GetAppSettingsManager().rawPictureFormat.get();
-            rawFormats = cameraUiWrapper.GetAppSettingsManager().rawPictureFormat.getValues();
+            rawFormat = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.get();
+            rawFormats = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.getValues();
             BayerFormat bayerFormats = new BayerFormat(parameters, cameraUiWrapper, "");
             parametersHandler.bayerformat = bayerFormats;
         }
@@ -65,19 +65,19 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         Log.d(TAG, "SetValue:" + valueToSet);
         captureMode = valueToSet;
-        if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != Frameworks.MTK)
+        if (((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != Frameworks.MTK)
         {
             if (valueToSet.equals(cameraUiWrapper.getResString(R.string.jpeg_)))
                 setString(valueToSet,setToCam);
             else if(valueToSet.equals(cameraUiWrapper.getResString(R.string.bayer_)))
             {
                 setString(rawFormat,setToCam);
-                cameraUiWrapper.GetParameterHandler().SetDngActive(false);
+                cameraUiWrapper.getParameterHandler().SetDngActive(false);
             }
             else if(valueToSet.equals(cameraUiWrapper.getResString(R.string.dng_)))
             {
                 setString(rawFormat,setToCam);
-                cameraUiWrapper.GetParameterHandler().SetDngActive(true);
+                cameraUiWrapper.getParameterHandler().SetDngActive(true);
             }
         }
         onValueHasChanged(valueToSet);
@@ -87,7 +87,7 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         Log.d(TAG, "setApiString:" +val);
         parameters.set(cameraUiWrapper.getResString(R.string.picture_format), val);
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class PictureFormatHandler extends BaseModeParameter
     @Override
     public String[] GetValues()
     {
-        return cameraUiWrapper.GetAppSettingsManager().pictureFormat.getValues();
+        return cameraUiWrapper.getAppSettingsManager().pictureFormat.getValues();
     }
 
     @Override
