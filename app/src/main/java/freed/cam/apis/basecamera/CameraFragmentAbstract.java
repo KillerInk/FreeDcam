@@ -117,9 +117,11 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
      * Starts a background thread and its {@link Handler}.
      */
     private void startBackgroundThread() {
-        mBackgroundThread = new HandlerThread("CameraBackground");
-        mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+        synchronized (cameraLock) {
+            mBackgroundThread = new HandlerThread("CameraBackground");
+            mBackgroundThread.start();
+            mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+        }
     }
 
     /**
@@ -127,20 +129,21 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
      */
     private void stopBackgroundThread()
     {
-        Log.d(TAG,"stopBackgroundThread");
-        if(mBackgroundThread == null)
-            return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            mBackgroundThread.quitSafely();
-        }
-        else
-            mBackgroundThread.quit();
-        try {
-            mBackgroundThread.join();
-            mBackgroundThread = null;
-            mBackgroundHandler = null;
-        } catch (InterruptedException e) {
-            Log.WriteEx(e);
+        synchronized (cameraLock) {
+            Log.d(TAG, "stopBackgroundThread");
+            if (mBackgroundThread == null)
+                return;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                mBackgroundThread.quitSafely();
+            } else
+                mBackgroundThread.quit();
+            try {
+                mBackgroundThread.join();
+                mBackgroundThread = null;
+                mBackgroundHandler = null;
+            } catch (InterruptedException e) {
+                Log.WriteEx(e);
+            }
         }
     }
 
