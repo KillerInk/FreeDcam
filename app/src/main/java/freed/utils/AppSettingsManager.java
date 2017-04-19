@@ -1028,7 +1028,7 @@ public class AppSettingsManager {
                             dngProfileHashMap = new LongSparseArray<>();
                             getDngStuff(dngProfileHashMap, device_element);
                             Log.d(TAG, "Save Dng Profiles:" + dngProfileHashMap.size());
-                            saveDngProfiles();
+                            saveDngProfiles(dngProfileHashMap);
 
                             break;
                         }
@@ -1183,8 +1183,9 @@ public class AppSettingsManager {
         return buf.toString();
     }
 
-    private void saveDngProfiles()
+    public void saveDngProfiles(LongSparseArray<DngProfile> dngProfileList)
     {
+        BufferedWriter writer = null;
         try {
 
             File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
@@ -1194,26 +1195,32 @@ public class AppSettingsManager {
                 configFile.getParentFile().mkdirs();
             Log.d(TAG, configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
             configFile.createNewFile();
-            BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
+            writer = new BufferedWriter(new FileWriter(configFile));
             writer.write("<devices>" + "\r\n");
             writer.write("<device name = \""+ mDevice +"\">\r\n");
 
-            for (int i =0; i< dngProfileHashMap.size();i++)
+            for (int i =0; i< dngProfileList.size();i++)
             {
-                long t = dngProfileHashMap.keyAt(i);
+                long t = dngProfileList.keyAt(i);
                 Log.d(TAG, "Write Profile: " + t);
-                writer.write(dngProfileHashMap.get(t).getXmlString(t));
+                writer.write(dngProfileList.get(t).getXmlString(t));
             }
 
             writer.write("</device>" + "\r\n");
             writer.write("</devices>" + "\r\n");
             writer.flush();
-            writer.close();
 
         } catch (IOException e) {
             Log.WriteEx(e);
         }
-
+        finally {
+            if (writer != null)
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
     }
 
 }

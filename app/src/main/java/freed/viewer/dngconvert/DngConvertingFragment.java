@@ -131,6 +131,10 @@ public class DngConvertingFragment extends Fragment
         });
         imageView = (TouchImageView) view.findViewById(id.dngconvert_imageview);
         fakeGPS = (CheckBox) view.findViewById(id.checkBox_fakeGPS);
+
+        Button saveDngProfile = (Button)view.findViewById(id.button_saveProfile);
+        saveDngProfile.setOnClickListener(saveDngProfileClick);
+
         return view;
     }
 
@@ -168,12 +172,18 @@ public class DngConvertingFragment extends Fragment
             else if (dngprofile.bayerPattern.equals(DngProfile.RGBW))
                 spinnerColorPattern.setSelection(4);
 
+            for (int i = 0; i< matrixChooserParameter.GetValues().length;i++)
+                if (matrixChooserParameter.GetValues()[i].equals(dngprofile.matrixName))
+                    spinnerMatrixProfile.setSelection(i);
+
+
             spinnerrawFormat.setSelection(dngprofile.rawType);
             if (dngprofile != null){
                 spinnerMatrixProfile.setOnItemSelectedListener(new OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         dngprofile.matrixes = matrixChooserParameter.GetCustomMatrixNotOverWritten(spinnerMatrixProfile.getSelectedItem().toString());
+                        dngprofile.matrixName = spinnerMatrixProfile.getSelectedItem().toString();
                     }
 
                     @Override
@@ -227,6 +237,20 @@ public class DngConvertingFragment extends Fragment
 
 
             }
+        }
+    };
+
+    private final OnClickListener saveDngProfileClick = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            dngprofile.widht = Integer.parseInt(editTextwidth.getText().toString());
+            dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
+            dngprofile.blacklevel = Integer.parseInt(editTextblacklvl.getText().toString());
+            dngprofile.rowsize = Integer.parseInt(editTextCusotmRowSize.getText().toString());
+            long filesize = new File(filesToConvert[0]).length();
+            appSettingsManager.getDngProfilesMap().append(filesize,dngprofile);
+            appSettingsManager.saveDngProfiles(appSettingsManager.getDngProfilesMap());
+            Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };
 

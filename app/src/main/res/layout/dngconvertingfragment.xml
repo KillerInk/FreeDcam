@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="@string/customrowsize"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -52,26 +53,27 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp">
 
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/width"
-                android:id="@+id/textView2"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:text="@string/width"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
+                android:id="@+id/editText_width"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/editText_width"
                 android:layout_alignParentRight="true"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number" />
         </LinearLayout>
 
         <LinearLayout
@@ -80,14 +82,15 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/height"
-                android:id="@+id/textView3"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
-                android:layout_weight="1" />
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="@string/height"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -107,14 +110,15 @@
             android:layout_centerInParent="true">
 
             <TextView
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/blacklevel"
-                android:id="@+id/textView4"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
-                android:layout_weight="1" />
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="@string/blacklevel"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -132,12 +136,13 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/textview_dngconvert_ColorMatrix"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
                 android:text="ColorMatrix:"
-                android:id="@+id/textview_dngconvert_ColorMatrix"
-                android:layout_weight="1" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Spinner
                 android:layout_width="wrap_content"
@@ -154,12 +159,13 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
                 android:text="ColorPattern"
-                android:id="@+id/textView7"
-                android:layout_weight="1" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Spinner
             android:layout_width="wrap_content"
@@ -177,12 +183,13 @@
         android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
                 android:text="DngOutput"
-                android:id="@+id/textView8"
-                android:layout_weight="1" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Spinner
             android:layout_width="wrap_content"
@@ -195,16 +202,36 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/converttodng"
-        android:textStyle="bold"
-        android:id="@+id/button_convertDng"
-        android:layout_alignParentBottom="false"
-        android:layout_centerHorizontal="true"
-        android:background="#00000000"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_saveProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:text="Save Profile" />
+
+        <Button
+            android:id="@+id/button_convertDng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:text="@string/converttodng"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <CheckBox
         android:text="FakeGps"
