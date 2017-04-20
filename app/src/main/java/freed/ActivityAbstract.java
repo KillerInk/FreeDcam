@@ -39,6 +39,7 @@ import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.WindowManager.LayoutParams;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -75,7 +76,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     private final String TAG = ActivityAbstract.class.getSimpleName();
     private AppSettingsManager appSettingsManager;
     protected BitmapHelper bitmapHelper;
-    protected  List<FileHolder> files;
+    protected  List<FileHolder> files =  new ArrayList<>();
     protected StorageFileHandler storageHandler;
     private PermissionHandler permissionHandler;
 
@@ -271,26 +272,24 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     private boolean deleteFile(FileHolder file)
     {
         boolean del = false;
-        bitmapHelper.DeleteCache(file.getFile());
-        if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || file.getFile().canWrite())
-        {
-            del = file.getFile().delete();
+        synchronized (files) {
+            bitmapHelper.DeleteCache(file.getFile());
+            if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || file.getFile().canWrite()) {
+                del = file.getFile().delete();
+            }
+            if (!del && VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
+                del = delteDocumentFile(file.getFile());
+            if (del) {
+                if (files != null)
+                    files.remove(file);
+            }
+            MediaScannerManager.ScanMedia(getContext(), file.getFile());
+            return del;
         }
-        if (!del && VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
-            del = delteDocumentFile(file.getFile());
-        if (del)
-        {
-            if (files != null)
-                files.remove(file);
-        }
-        MediaScannerManager.ScanMedia(getContext(), file.getFile());
-        return del;
     }
 
     public void AddFile(FileHolder file)
     {
-        if (files == null)
-            return;
         synchronized (files) {
             files.add(file);
             SortFileHolder(files);
@@ -299,8 +298,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
     public void AddFiles(FileHolder[] fil)
     {
-        if (files == null)
-            return;
         synchronized (files) {
             Collections.addAll(files, fil);
             SortFileHolder(files);
@@ -320,8 +317,10 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     public void LoadFolder(FileHolder fileHolder,FormatTypes types )
     {
-        files.clear();
-        storageHandler.readFilesFromFolder(fileHolder.getFile(),files,types,fileHolder.isExternalSD());
+        synchronized (files) {
+            files.clear();
+            storageHandler.readFilesFromFolder(fileHolder.getFile(), files, types, fileHolder.isExternalSD());
+        }
     }
 
     /**
@@ -330,9 +329,10 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     public void LoadDCIMDirs()
     {
-        if (files != null)
+        synchronized (files) {
             files.clear();
-        files = storageHandler.getDCIMDirs();
+            files = storageHandler.getDCIMDirs();
+        }
     }
 
     /**
@@ -340,9 +340,10 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
      */
     @Override
     public void LoadFreeDcamDCIMDirsFiles() {
-        if (files != null)
+        synchronized (files) {
             files.clear();
-        files = storageHandler.getFreeDcamDCIMDirsFiles();
+            files = storageHandler.getFreeDcamDCIMDirsFiles();
+        }
     }
 
     private void SortFileHolder(List<FileHolder> f)

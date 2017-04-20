@@ -197,9 +197,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (!initDone)
             return;
         if (getPermissionHandler().hasCameraPermission(onCameraPermission)) {
-            //setup apihandler and register listner for apiDetectionDone
-            //api handler itself checks first if its a camera2 full device
-            //and if yes loads camera2fragment else load camera1fragment
             loadcam();
         }
     }
@@ -210,12 +207,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             return;
         loadCameraFragment();
         activityIsResumed = true;
-        LoadFreeDcamDCIMDirsFiles();
-        if (screenSlideFragment != null)
-        {
-            if (getFiles() != null)
-                screenSlideFragment.NotifyDATAhasChanged();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LoadFreeDcamDCIMDirsFiles();
+            }
+        }).start();
 
         if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)) && getPermissionHandler().hasLocationPermission(onLocationPermission))
             locationHandler.startLocationListing();
