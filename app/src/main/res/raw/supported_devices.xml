@@ -1441,7 +1441,7 @@
             <rawtype>2</rawtype>
             <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX298_Qualcomm</matrixset>
         </filesize>
     </device>
 
