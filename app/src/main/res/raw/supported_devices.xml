@@ -1364,6 +1364,26 @@
         </filesize>
     </device>
 
+    <device name ="Meizu_M3_Note">
+        <models>
+            <item>m3 note</item>
+        </models>
+        <camera1>
+            <dngmanual>true</dngmanual>
+        </camera1>
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <filesize size= "26492928">
+            <blacklvl>64</blacklvl>
+            <width>4224</width>
+            <height>3136</height>
+            <rawtype>2</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Lumigon</matrixset>
+        </filesize>
+    </device>
+
     <device name ="MeizuMX4_MTK">
         <models>
             <item>MX4</item>
