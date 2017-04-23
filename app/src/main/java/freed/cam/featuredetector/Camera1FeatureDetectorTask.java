@@ -434,8 +434,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 long min = 0, max = 0;
                 if (parameters.get(camstring(R.string.max_exposure_time)).contains(".")) {
                     Log.d(TAG, "ManualExposureTime Qcom Microsec");
-                    min = (long) Double.parseDouble(parameters.get(camstring(R.string.min_exposure_time))) * 1000;
-                    max = (long) Double.parseDouble(parameters.get(camstring(R.string.max_exposure_time))) * 1000;
+                    min = (long) (Double.parseDouble(parameters.get(camstring(R.string.min_exposure_time))) * 1000);
+                    max = (long) (Double.parseDouble(parameters.get(camstring(R.string.max_exposure_time))) * 1000);
                     appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MICORSEC);
                 } else {
                     Log.d(TAG, "ManualExposureTime Qcom Millisec");
@@ -460,13 +460,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         ArrayList<String> tmp = new ArrayList<>();
         if (withautomode)
             tmp.add(appSettingsManager.getResString(R.string.auto_));
-        for (int i = 1; i < allvalues.length; i++) {
+        for (int i = 0; i < allvalues.length; i++) {
             String s = allvalues[i];
 
             float a;
             if (s.contains("/")) {
                 String[] split = s.split("/");
-                a = Float.parseFloat(split[0]) / Float.parseFloat(split[1]) * 1000000f;
+                a = (Float.parseFloat(split[0]) / Float.parseFloat(split[1])) * 1000000f;
             } else
                 a = Float.parseFloat(s) * 1000000f;
 
