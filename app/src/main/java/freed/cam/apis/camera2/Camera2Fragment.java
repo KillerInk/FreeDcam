@@ -111,7 +111,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void startCamera()
     {
-        if (mBackgroundHandler == null || cameraIsOpen)
+        if (mBackgroundHandler == null)
             return;
         mBackgroundHandler.post(new Runnable() {
             @Override
@@ -127,7 +127,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void stopCamera()
     {
-        if (mBackgroundHandler == null || !cameraIsOpen)
+        if (mBackgroundHandler == null)
             return;
         mBackgroundHandler.post(new Runnable() {
             @Override
@@ -179,7 +179,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void stopPreview()
     {
-        if (mBackgroundHandler == null || !cameraIsOpen)
+        if (mBackgroundHandler == null)
             return;
         mBackgroundHandler.post(new Runnable() {
             @Override

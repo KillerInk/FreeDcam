@@ -85,8 +85,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     public abstract String CameraApiName();
 
-    protected Object cameraLock = new Object();
-    protected HandlerThread mBackgroundThread;
+    protected Object cameraLock;
     protected Handler mBackgroundHandler;
 
 
@@ -96,10 +95,15 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
         uiHandler = new Handler(Looper.getMainLooper());
     }
 
+    public void setHandler(Handler mBackgroundHandler, Object cameraLock)
+    {
+        this.mBackgroundHandler = mBackgroundHandler;
+        this.cameraLock = cameraLock;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater layoutInflater, @Nullable ViewGroup viewGroup, @Nullable Bundle bundle) {
-        startBackgroundThread();
         return super.onCreateView(layoutInflater, viewGroup, bundle);
     }
 
@@ -110,44 +114,11 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
             moduleHandler.CLEAR();
             moduleHandler.CLEARWORKERLISTNER();
         }
-        stopBackgroundThread();
         super.onDestroyView();
 
     }
 
-    /**
-     * Starts a background thread and its {@link Handler}.
-     */
-    private void startBackgroundThread() {
-        synchronized (cameraLock) {
-            mBackgroundThread = new HandlerThread("CameraBackground");
-            mBackgroundThread.start();
-            mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-        }
-    }
 
-    /**
-     * Stops the background thread and its {@link Handler}.
-     */
-    private void stopBackgroundThread()
-    {
-        synchronized (cameraLock) {
-            Log.d(TAG, "stopBackgroundThread");
-            if (mBackgroundThread == null)
-                return;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                mBackgroundThread.quitSafely();
-            } else
-                mBackgroundThread.quit();
-            try {
-                mBackgroundThread.join();
-                mBackgroundThread = null;
-                mBackgroundHandler = null;
-            } catch (InterruptedException e) {
-                Log.WriteEx(e);
-            }
-        }
-    }
 
     public void SetRenderScriptHandler(RenderScriptHandler renderScriptHandler)
     {

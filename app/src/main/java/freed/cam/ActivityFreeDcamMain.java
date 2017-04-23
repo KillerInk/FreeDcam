@@ -21,9 +21,12 @@ package freed.cam;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -93,10 +96,56 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     private LinearLayout nightoverlay;
 
+    protected Object cameraLock = new Object();
+    protected HandlerThread mBackgroundThread;
+    protected Handler mBackgroundHandler;
+
+    /**
+     * Starts a background thread and its {@link Handler}.
+     */
+    private void startBackgroundThread() {
+        synchronized (cameraLock) {
+            mBackgroundThread = new HandlerThread("CameraBackground");
+            mBackgroundThread.start();
+            mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+        }
+    }
+
+    /**
+     * Stops the background thread and its {@link Handler}.
+     */
+    private void stopBackgroundThread()
+    {
+        synchronized (cameraLock) {
+            Log.d(TAG, "stopBackgroundThread");
+            if (mBackgroundThread == null)
+                return;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                mBackgroundThread.quitSafely();
+            } else
+                mBackgroundThread.quit();
+            try {
+                mBackgroundThread.join();
+                mBackgroundThread = null;
+                mBackgroundHandler = null;
+            } catch (InterruptedException e) {
+                Log.WriteEx(e);
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSecureCamera.onCreate();
+        startBackgroundThread();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        stopBackgroundThread();
+        super.onDestroy();
     }
 
     @Override
@@ -177,10 +226,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         }
     };
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
     protected void onResume() {
@@ -268,6 +313,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 cameraFragment = new Camera1Fragment();
                 cameraFragment.SetRenderScriptHandler(renderScriptHandler);
             }
+            cameraFragment.setHandler(mBackgroundHandler,cameraLock);
             cameraFragment.SetAppSettingsManager(getAppSettings());
 
             cameraFragment.setCameraStateChangedListner(this);
