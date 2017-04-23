@@ -180,7 +180,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             sendProgress(appS.manualIso,"Manual ISo");
 
             detectManualWhiteBalance(parameters);
-            sendProgress(appS.manualIso,"Manual Wb");
+            sendProgress(appS.manualWhiteBalance,"Manual Wb");
 
             detectQcomFocus(parameters);
 
@@ -297,6 +297,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     public static String[] createWBStringArray(int min, int max, float step, AppSettingsManager appSettingsManager)
     {
+        Log.d(TAG,"Create Wbvalues");
         ArrayList<String> t = new ArrayList<>();
         t.add(appSettingsManager.getResString(R.string.auto_));
         for (int i = min; i<=max;i+=step)
@@ -351,6 +352,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     public static String[] createIsoValues(int miniso, int maxiso, int step,AppSettingsManager appSettingsManager)
     {
+        Log.d(TAG,"Create Isovalues");
         ArrayList<String> s = new ArrayList<>();
         s.add(appSettingsManager.getResString(R.string.auto_));
         for (int i =miniso; i <= maxiso; i +=step)
