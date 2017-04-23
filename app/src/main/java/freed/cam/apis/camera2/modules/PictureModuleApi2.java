@@ -404,9 +404,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
             prepareCaptureBuilder(captureBuilder, imagecount);
             Log.d(CAPTURECYCLE, "CancelRepeatingCaptureSessoion set imageRdyCallback");
-            cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(imageCaptureRdyCallback);
-            //cameraHolder.captureSessionHandler.StopRepeatingCaptureSession();
-            //imageCaptureRdyCallback.onRdy();
+            if (cameraHolder.captureSessionHandler.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF)
+                cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(imageCaptureRdyCallback);
+            else {
+                cameraHolder.captureSessionHandler.StopRepeatingCaptureSession();
+                imageCaptureRdyCallback.onRdy();
+            }
         }
 
     }
