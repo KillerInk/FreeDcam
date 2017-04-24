@@ -115,16 +115,16 @@ public class BitmapHelper
         Bitmap response = null;
         if (response == null && file.exists())
         {
-            if (file.getAbsolutePath().endsWith(FileEnding.JPG) || file.getAbsolutePath().endsWith(FileEnding.JPS))
+            if (file.getAbsolutePath().toLowerCase().endsWith(FileEnding.JPG) || file.getAbsolutePath().toLowerCase().endsWith(FileEnding.JPS))
             {
                 Options options = new Options();
                 options.inSampleSize = 2;
                 response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
             }
-            else if (file.getAbsolutePath().endsWith(FileEnding.MP4))
+            else if (file.getAbsolutePath().toLowerCase().endsWith(FileEnding.MP4))
                 response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), Thumbnails.FULL_SCREEN_KIND);
-            else if (file.getAbsolutePath().endsWith(FileEnding.DNG)
-                    || file.getAbsolutePath().endsWith(FileEnding.RAW) || file.getAbsolutePath().endsWith(FileEnding.BAYER))
+            else if (file.getAbsolutePath().toLowerCase().endsWith(FileEnding.DNG)
+                    || file.getAbsolutePath().toLowerCase().endsWith(FileEnding.RAW) || file.getAbsolutePath().toLowerCase().endsWith(FileEnding.BAYER))
             {
                 try {
                     response = new RawUtils().UnPackRAW(file.getAbsolutePath());
