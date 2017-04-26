@@ -193,19 +193,22 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         api.SetUiItemClickListner(this);
         globalSettingGroup.addView(api);
 
-        SettingsChildMenu externalShutter = new SettingsChildMenu(getContext(),R.string.setting_externalshutter_header, R.string.setting_externalshutter_description);
-        externalShutter.SetStuff(fragment_activityInterface, "");
-        externalShutter.SetParameter(new ParameterExternalShutter(fragment_activityInterface.getAppSettings()));
-        externalShutter.SetUiItemClickListner(this);
-        globalSettingGroup.addView(externalShutter);
 
-        SettingsChildMenuOrientationHack orientationHack = new SettingsChildMenuOrientationHack(getContext(),R.string.setting_orientation_header, R.string.setting_orientation_description);
-        orientationHack.SetStuff(fragment_activityInterface, "");
-        orientationHack.SetCameraUIWrapper(cameraUiWrapper);
-        orientationHack.SetUiItemClickListner(this);
-        globalSettingGroup.addView(orientationHack);
 
         if (cameraUiWrapper != null) {
+
+
+            SettingsChildMenu externalShutter = new SettingsChildMenu(getContext(),R.string.setting_externalshutter_header, R.string.setting_externalshutter_description);
+            externalShutter.SetStuff(fragment_activityInterface, "");
+            externalShutter.SetParameter(new ParameterExternalShutter(fragment_activityInterface.getAppSettings()));
+            externalShutter.SetUiItemClickListner(this);
+            globalSettingGroup.addView(externalShutter);
+
+            SettingsChildMenuOrientationHack orientationHack = new SettingsChildMenuOrientationHack(getContext(),R.string.setting_orientation_header, R.string.setting_orientation_description);
+            orientationHack.SetStuff(fragment_activityInterface, "");
+            orientationHack.SetCameraUIWrapper(cameraUiWrapper);
+            orientationHack.SetUiItemClickListner(this);
+            globalSettingGroup.addView(orientationHack);
 
             SettingsChildMenuSDSave sdSave = new SettingsChildMenuSDSave(getContext(), R.string.setting_sdcard_header, R.string.setting_sdcard_description);
             sdSave.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_EXTERNALSD);

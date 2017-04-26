@@ -142,109 +142,117 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             right_ui_items_top.removeAllViews();
             addexit();
         }
-        if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || !isAdded())
-        {
+        if (cameraUiWrapper == null) {
             if (focusImageHandler != null) {
                 focusImageHandler.AEMeteringSupported(false);
                 focusImageHandler.TouchToFocusSupported(false);
+                joyPad.setVisibility(View.GONE);
+                cameraSwitch.setVisibility(View.GONE);
+                aelock.setVisibility(View.GONE);
+                shutterButton.setVisibility(View.GONE);
+                if (isAdded())
+                    hide_ManualSettings();
             }
-            Log.d(TAG, "failed to set cameraUiWrapper");
-            if (isAdded())
-                hide_ManualSettings();
-            return;
         }
-        AbstractParameterHandler parameterHandler = cameraUiWrapper.getParameterHandler();
-        AppSettingsManager appSettingsManager = cameraUiWrapper.getAppSettingsManager();
+        else {
+            AbstractParameterHandler parameterHandler = cameraUiWrapper.getParameterHandler();
+            AppSettingsManager appSettingsManager = cameraUiWrapper.getAppSettingsManager();
 
-        //left cameraui items
-        if (parameterHandler.WhiteBalanceMode != null)
-        {
-            setUiItem(left_ui_items_holder,parameterHandler.WhiteBalanceMode,appSettingsManager.whiteBalanceMode,R.drawable.quck_set_wb);
+            //left cameraui items
+            if (parameterHandler.WhiteBalanceMode != null) {
+                setUiItem(left_ui_items_holder, parameterHandler.WhiteBalanceMode, appSettingsManager.whiteBalanceMode, R.drawable.quck_set_wb);
+            }
+            if (parameterHandler.IsoMode != null)
+                setUiItem(left_ui_items_holder, parameterHandler.IsoMode, appSettingsManager.isoMode, R.drawable.quck_set_iso_png);
+            if (parameterHandler.FlashMode != null)
+                setUiItem(left_ui_items_holder, parameterHandler.FlashMode, appSettingsManager.flashMode, R.drawable.quck_set_flash);
+            if (parameterHandler.FocusMode != null)
+                setUiItem(left_ui_items_holder, parameterHandler.FocusMode, appSettingsManager.focusMode, R.drawable.quck_set_focus);
+            if (parameterHandler.ExposureMode != null)
+                setUiItem(left_ui_items_holder, parameterHandler.ExposureMode, appSettingsManager.exposureMode, R.drawable.quck_set_ae);
+            if (parameterHandler.AE_PriorityMode != null)
+                setUiItem(left_ui_items_holder, parameterHandler.AE_PriorityMode, appSettingsManager.aePriorityMode, R.drawable.ae_priority);
+            if (parameterHandler.ContShootMode != null)
+                setUiItem(left_ui_items_holder, parameterHandler.ContShootMode, "", R.drawable.quck_set_contin);
+            if (parameterHandler.HDRMode != null)
+                setUiItem(left_ui_items_holder, parameterHandler.HDRMode, appSettingsManager.hdrMode, R.drawable.quck_set_hdr);
+
+            if (cameraUiWrapper.getParameterHandler().NightMode != null && cameraUiWrapper.getParameterHandler().NightMode.IsSupported()) {
+                UiSettingsChild night = new UiSettingsChild(getContext());
+                night.SetStuff(fragment_activityInterface, AppSettingsManager.NIGHTMODE);
+                night.SetMenuItemClickListner(this, true);
+                night.SetParameter(cameraUiWrapper.getParameterHandler().NightMode);
+                night.setBackgroundResource(R.drawable.quck_set_night);
+                left_ui_items_holder.addView(night);
+            }
+
+            if (cameraUiWrapper.getParameterHandler().PictureFormat != null) {
+                setUiItem(left_ui_items_holder, parameterHandler.PictureFormat, appSettingsManager.pictureFormat, R.drawable.quck_set_format2);
+            }
+
+
+            //right camera top camerui itmes
+
+            if (isAdded()) {
+                UiSettingsChildModuleSwitch moduleSwitch = new UiSettingsChildModuleSwitch(getContext());
+                moduleSwitch.SetCameraUiWrapper(cameraUiWrapper);
+                moduleSwitch.SetStuff(appSettingsManager.modules);
+                moduleSwitch.SetMenuItemClickListner(this, false);
+                moduleSwitch.setBackgroundResource(R.drawable.quck_set_mode);
+                right_ui_items_top.addView(moduleSwitch);
+
+                if (parameterHandler.Focuspeak != null && parameterHandler.Focuspeak.IsSupported() && cameraUiWrapper.getRenderScriptHandler().isSucessfullLoaded()) {
+                    UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
+                    focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().Focuspeak);
+                    focusPeak.SetCameraUiWrapper(cameraUiWrapper);
+                    focusPeak.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_FOCUSPEAK);
+                    focusPeak.SetUiItemClickListner(this);
+                    focusPeak.setBackgroundResource(R.drawable.quck_set_zebra);
+                    right_ui_items_top.addView(focusPeak);
+                }
+
+                cameraSwitch.setVisibility(View.VISIBLE);
+                cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
+                focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
+
+                messageHandler.SetCameraUiWrapper(cameraUiWrapper);
+                shutterButton.setVisibility(View.VISIBLE);
+                shutterButton.SetCameraUIWrapper(cameraUiWrapper, messageHandler);
+
+
+                //stuff todo
+
+                cameraUiWrapper.getModuleHandler().setWorkListner(this);
+
+
+
+                if (manualModesFragment != null)
+                    manualModesFragment.SetCameraUIWrapper(cameraUiWrapper);
+
+                guideHandler.setCameraUiWrapper(cameraUiWrapper);
+
+                horizontLineFragment.setCameraUiWrapper(cameraUiWrapper);
+                infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
+                shutterButton.setVisibility(View.VISIBLE);
+                aelock.setVisibility(View.VISIBLE);
+                aelock.SetParameter(cameraUiWrapper.getParameterHandler().ExposureLock);
+
+                //restore view state for the manuals
+                if (manualsettingsIsOpen)
+                    showManualSettings();
+                //remove the values fragment from ui when a new api gets loaded and it was open.
+                if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
+                    removeHorizontalFragment();
+
+                if (cameraUiWrapper instanceof SonyCameraRemoteFragment) {
+                    joyPad.setVisibility(View.GONE);
+                    if (cameraUiWrapper.getParameterHandler().PreviewZoom != null)
+                        cameraUiWrapper.getParameterHandler().PreviewZoom.addEventListner(joyPad);
+                    joyPad.setNavigationClickListner((SimpleStreamSurfaceView) cameraUiWrapper.getSurfaceView());
+                } else
+                    joyPad.setVisibility(View.GONE);
+            }
         }
-        if (parameterHandler.IsoMode != null)
-            setUiItem(left_ui_items_holder,parameterHandler.IsoMode, appSettingsManager.isoMode, R.drawable.quck_set_iso_png);
-        if (parameterHandler.FlashMode != null)
-            setUiItem(left_ui_items_holder,parameterHandler.FlashMode,appSettingsManager.flashMode,R.drawable.quck_set_flash);
-        if (parameterHandler.FocusMode != null)
-            setUiItem(left_ui_items_holder,parameterHandler.FocusMode, appSettingsManager.focusMode,R.drawable.quck_set_focus);
-        if (parameterHandler.ExposureMode != null)
-            setUiItem(left_ui_items_holder,parameterHandler.ExposureMode, appSettingsManager.exposureMode,R.drawable.quck_set_ae);
-        if (parameterHandler.AE_PriorityMode != null)
-            setUiItem(left_ui_items_holder,parameterHandler.AE_PriorityMode, appSettingsManager.aePriorityMode,R.drawable.ae_priority);
-        if (parameterHandler.ContShootMode != null)
-            setUiItem(left_ui_items_holder,parameterHandler.ContShootMode, "",R.drawable.quck_set_contin);
-        if (parameterHandler.HDRMode != null)
-            setUiItem(left_ui_items_holder,parameterHandler.HDRMode,appSettingsManager.hdrMode,R.drawable.quck_set_hdr);
-
-        if (cameraUiWrapper.getParameterHandler().NightMode != null && cameraUiWrapper.getParameterHandler().NightMode.IsSupported()) {
-            UiSettingsChild night = new UiSettingsChild(getContext());
-            night.SetStuff(fragment_activityInterface, AppSettingsManager.NIGHTMODE);
-            night.SetMenuItemClickListner(this, true);
-            night.SetParameter(cameraUiWrapper.getParameterHandler().NightMode);
-            night.setBackgroundResource(R.drawable.quck_set_night);
-            left_ui_items_holder.addView(night);
-        }
-
-        if (cameraUiWrapper.getParameterHandler().PictureFormat != null)
-        {
-            setUiItem(left_ui_items_holder,parameterHandler.PictureFormat,appSettingsManager.pictureFormat,R.drawable.quck_set_format2);
-        }
-
-
-        //right camera top camerui itmes
-        UiSettingsChildModuleSwitch moduleSwitch = new UiSettingsChildModuleSwitch(getContext());
-        moduleSwitch.SetCameraUiWrapper(cameraUiWrapper);
-        moduleSwitch.SetStuff(appSettingsManager.modules);
-        moduleSwitch.SetMenuItemClickListner(this,false);
-        moduleSwitch.setBackgroundResource(R.drawable.quck_set_mode);
-        right_ui_items_top.addView(moduleSwitch);
-
-        if (parameterHandler.Focuspeak != null && parameterHandler.Focuspeak.IsSupported() && cameraUiWrapper.getRenderScriptHandler().isSucessfullLoaded()) {
-            UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
-            focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().Focuspeak);
-            focusPeak.SetCameraUiWrapper(cameraUiWrapper);
-            focusPeak.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_FOCUSPEAK);
-            focusPeak.SetUiItemClickListner(this);
-            focusPeak.setBackgroundResource(R.drawable.quck_set_zebra);
-            right_ui_items_top.addView(focusPeak);
-        }
-
-        //stuff todo
-
-        cameraUiWrapper.getModuleHandler().setWorkListner(this);
-
-
-        cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
-        focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
-
-        messageHandler.SetCameraUiWrapper(cameraUiWrapper);
-        shutterButton.SetCameraUIWrapper(cameraUiWrapper, messageHandler);
-
-        if (manualModesFragment != null)
-            manualModesFragment.SetCameraUIWrapper(cameraUiWrapper);
-
-        guideHandler.setCameraUiWrapper(cameraUiWrapper);
-
-        horizontLineFragment.setCameraUiWrapper(cameraUiWrapper);
-        infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
-        shutterButton.setVisibility(View.VISIBLE);
-        aelock.SetParameter(cameraUiWrapper.getParameterHandler().ExposureLock);
-        //restore view state for the manuals
-        if(manualsettingsIsOpen)
-            showManualSettings();
-        //remove the values fragment from ui when a new api gets loaded and it was open.
-        if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
-            removeHorizontalFragment();
-
-        if (cameraUiWrapper instanceof SonyCameraRemoteFragment)
-        {
-            joyPad.setVisibility(View.GONE);
-            if (cameraUiWrapper.getParameterHandler().PreviewZoom != null)
-                cameraUiWrapper.getParameterHandler().PreviewZoom.addEventListner(joyPad);
-            joyPad.setNavigationClickListner((SimpleStreamSurfaceView)cameraUiWrapper.getSurfaceView());
-        }
-        else
-            joyPad.setVisibility(View.GONE);
     }
 
     @Override
@@ -325,8 +333,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             transaction.addToBackStack(null);
             transaction.commit();
         }
-        if (cameraUiWrapper != null)
-            setCameraUiWrapperToUi();
+        setCameraUiWrapperToUi();
     }
 
     @Override

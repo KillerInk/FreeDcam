@@ -125,14 +125,16 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         @Override
         public void run()
         {
-            if (cameraUiWrapper == null)
-                return;
             timeString = dateFormat.format(new Date());
-            getFormat();
-            getStorageSpace();
+            if (cameraUiWrapper != null){
+                getFormat();
+                getStorageSpace();
+            }
+            else
+            {
+                format = "";
+            }
             UpdateViews();
-
-
             startLooperThread();
 
         }

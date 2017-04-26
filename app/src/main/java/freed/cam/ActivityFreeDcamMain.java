@@ -350,6 +350,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             transaction.remove(cameraFragment);
             transaction.commit();
             cameraFragment = null;
+            if (cameraUiFragment != null) {
+                cameraUiFragment.SetCameraUIWrapper(null);
+            }
+            if (settingsMenuFragment != null)
+                settingsMenuFragment.SetCameraUIWrapper(null);
         }
         Log.d(TAG, "destroyed cameraWrapper");
     }
