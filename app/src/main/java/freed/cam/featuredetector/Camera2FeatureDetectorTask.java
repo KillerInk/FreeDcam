@@ -287,7 +287,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             if (appSettingsManager.flashMode.isSupported()) {
                 String[] lookupar = appSettingsManager.getResources().getStringArray(R.array.flashModes);
                 HashMap<String,Integer> map = new HashMap<>();
-                for (int i = 0; i< 3; i++)
+                for (int i = 0; i< lookupar.length; i++)
                 {
                     map.put(lookupar[i], i);
                 }

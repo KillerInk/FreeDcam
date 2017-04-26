@@ -61,7 +61,13 @@ public class AutoFitTextureView extends TextureView /*implements  AbstractModePa
         }
         mRatioWidth = width;
         mRatioHeight = height;
-        requestLayout();
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                requestLayout();
+            }
+        });
+
     }
 
     @Override

@@ -89,12 +89,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void DoWork()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(new PermissionHandler.PermissionCallback() {
-            @Override
-            public void permissionGranted(boolean granted) {
-
-            }
-        }))
+        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(null))
             startStopRecording();
     }
 
@@ -184,10 +179,20 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             case 0: orientation = 180;
                 break;
         }
-        if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
-            cameraHolder.captureSessionHandler.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(), orientation,orientation+180,true);
-        else
-            cameraHolder.captureSessionHandler.SetTextureViewSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight, orientation,orientation+180,true);
+        final int w,h, or;
+        w = previewSize.getWidth();
+        h = previewSize.getHeight();
+        or = orientation;
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
+                    cameraHolder.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,true);
+                else
+                    cameraHolder.captureSessionHandler.SetTextureViewSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight, or,or+180,true);
+            }
+        });
+
         SurfaceTexture texture = cameraHolder.captureSessionHandler.getSurfaceTexture();
         if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());

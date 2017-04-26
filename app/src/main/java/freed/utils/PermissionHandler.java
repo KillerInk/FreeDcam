@@ -90,8 +90,9 @@ public class PermissionHandler
                         permission},1);
                 return false;
             }
-            return true;
         }
+        if (callbackToReturn != null)
+            callbackToReturn.permissionGranted(true);
         return true;
     }
 
@@ -105,10 +106,9 @@ public class PermissionHandler
             String perm = permissions[i];
             allGranted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
             if (!allGranted)
-                callbackToReturn.permissionGranted(false);
-            break;
+                break;
         }
-        callbackToReturn.permissionGranted(true);
+        callbackToReturn.permissionGranted(allGranted);
         callbackToReturn = null;
     }
 }

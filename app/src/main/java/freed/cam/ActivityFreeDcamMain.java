@@ -31,10 +31,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
@@ -157,15 +159,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     protected void initOnCreate() {
         super.initOnCreate();
 
-        if (!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion())
-        {
-            getAppSettings().RESET();
-            Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
-            startActivity(intent);
-            this.finish();
-            return;
-        }
-
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         storageHandler = new StorageFileHandler(this);
 
@@ -181,9 +174,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         mPager.setCurrentItem(1);
 
         nightoverlay = (LinearLayout) findViewById(id.nightoverlay);
-        if (getPermissionHandler().hasExternalSDPermission(onExtSDPermission)) {
-            onExtSDPermission.permissionGranted(true);
-        }
+        getPermissionHandler().hasExternalSDPermission(onExtSDPermission);
         //listen to phone orientation changes
         orientationHandler = new OrientationHandler(this, this);
         orientationHandler.Start();
@@ -211,6 +202,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 loadcam();
             }
             else {
+                Toast.makeText(getApplicationContext(),"Great wanna use a camera app but dont grant the permission.. hero...",Toast.LENGTH_LONG).show();
                 finish();
             }
         }
@@ -240,11 +232,18 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void onResumeTasks() {
         Log.d(TAG, "onResumeTasks()");
         activityIsResumed = true;
-        if (!initDone)
+        if (getAppSettings() == null)
             return;
-        if (getPermissionHandler().hasCameraPermission(onCameraPermission)) {
-            loadcam();
+        if (!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion())
+        {
+            getAppSettings().RESET();
+            Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
+            startActivity(intent);
         }
+        /*if (!initDone)
+            return;*/
+        else
+            getPermissionHandler().hasCameraPermission(onCameraPermission);
     }
 
     private void loadcam()
@@ -260,8 +259,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             }
         }).start();
 
-        if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)) && getPermissionHandler().hasLocationPermission(onLocationPermission))
-            locationHandler.startLocationListing();
+        if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)))
+            getPermissionHandler().hasLocationPermission(onLocationPermission);
         SetNightOverlay();
     }
 

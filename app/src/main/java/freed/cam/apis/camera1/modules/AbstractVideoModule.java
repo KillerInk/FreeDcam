@@ -77,14 +77,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     @Override
     public void DoWork()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(new PermissionHandler.PermissionCallback() {
-            @Override
-            public void permissionGranted(boolean granted) {
-
-            }
-        }))
-            startStopRecording();
-
+        startStopRecording();
     }
 
     private void startStopRecording()
@@ -104,12 +97,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     protected void startRecording()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(new PermissionHandler.PermissionCallback() {
-            @Override
-            public void permissionGranted(boolean granted) {
-
-            }
-        })) {
+        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(null)) {
             if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
                 cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
             prepareRecorder();

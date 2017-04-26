@@ -497,6 +497,7 @@ public class CaptureSessionHandler
         }
         else
             cameraHolderApi2.textureView.setAspectRatio((int)bufferRect.width(), (int)bufferRect.height());
+
         cameraHolderApi2.textureView.setTransform(matrix);
     }
 

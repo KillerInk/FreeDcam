@@ -68,8 +68,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     @Override
     protected void initOnCreate() {
         super.initOnCreate();
-        if (getPermissionHandler().hasExternalSDPermission(onExtSdCallback))
-            onExtSdCallback.permissionGranted(true);
+        getPermissionHandler().hasExternalSDPermission(onExtSdCallback);
     }
 
     private PermissionHandler.PermissionCallback onExtSdCallback = new PermissionHandler.PermissionCallback() {

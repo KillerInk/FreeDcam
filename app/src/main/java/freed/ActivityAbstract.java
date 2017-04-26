@@ -94,8 +94,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         setContentToView();
         permissionHandler =new PermissionHandler(this);
         if (LOG_TO_FILE && !Log.isLogToFileEnable()) {
-            if (permissionHandler.hasExternalSDPermission(logSDPermission))
-                logSDPermission.permissionGranted(true);
+            permissionHandler.hasExternalSDPermission(logSDPermission);
         }
         else
             initOnCreate();
