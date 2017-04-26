@@ -239,6 +239,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void onResumeTasks() {
         Log.d(TAG, "onResumeTasks()");
+        activityIsResumed = true;
         if (!initDone)
             return;
         if (getPermissionHandler().hasCameraPermission(onCameraPermission)) {
@@ -251,7 +252,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (getAppSettings() == null)
             return;
         loadCameraFragment();
-        activityIsResumed = true;
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -423,12 +424,15 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      */
     @Override
     public void LoadFreeDcamDCIMDirsFiles() {
+        Log.d(TAG, "LoadFreeDcamDCIMDirsFiles()");
         super.LoadFreeDcamDCIMDirsFiles();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(screenSlideFragment != null && activityIsResumed && getFiles() != null)
-                    screenSlideFragment.NotifyDATAhasChanged();
+                synchronized (files) {
+                    if (screenSlideFragment != null)
+                        screenSlideFragment.NotifyDATAhasChanged(files);
+                }
             }
         });
     }
@@ -452,13 +456,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      * @param types the file format to load
      */
     @Override
-    public void LoadFolder(FileHolder fileHolder, FormatTypes types) {
+    public void LoadFolder(final FileHolder fileHolder, FormatTypes types) {
         super.LoadFolder(fileHolder, types);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (screenSlideFragment != null && activityIsResumed)
-                    screenSlideFragment.NotifyDATAhasChanged();
+                if (screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged(files);
             }
         });
     }
@@ -491,8 +495,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             @Override
             public void run() {
                 AddFile(fileHolder);
-                if (screenSlideFragment != null && activityIsResumed)
-                    screenSlideFragment.NotifyDATAhasChanged();
+                if (screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged(files);
             }
         });
     }
@@ -504,8 +508,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             public void run() {
 
                 AddFiles(fileHolder);
-                if (screenSlideFragment != null && activityIsResumed)
-                    screenSlideFragment.NotifyDATAhasChanged();
+                if (screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged(files);
             }
         });
     }

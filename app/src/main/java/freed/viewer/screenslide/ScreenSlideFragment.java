@@ -50,6 +50,8 @@ import com.troop.freedcam.R.layout;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import freed.ActivityAbstract;
 import freed.ActivityAbstract.FormatTypes;
@@ -109,6 +111,8 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     private LinearLayout topbar;
     //hold the showed folder_to_show
     private FileHolder folder_to_show;
+
+    protected List<FileHolder> files =  new ArrayList<>();
 
     private ActivityInterface activityInterface;
     View view;
@@ -228,10 +232,13 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     }
 
 
-    public void NotifyDATAhasChanged()
+    public void NotifyDATAhasChanged(List<FileHolder> files)
     {
-        if (mPagerAdapter != null || mPager != null)
+        Log.d(TAG,"notifyDataHasChanged");
+        if (mPagerAdapter != null && mPager != null) {
+            this.files = files;
             mPagerAdapter.notifyDataSetChanged();
+        }
     }
 
     public void SetOnThumbClick(I_ThumbClick thumbClick)
@@ -444,10 +451,10 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         public Fragment getItem(int position)
         {
             ImageFragment  currentFragment = new ImageFragment();
-            if (activityInterface.getFiles() == null || activityInterface.getFiles().size() == 0)
+            if (files == null || files.size() == 0)
                 currentFragment.SetFilePath(null);
             else
-                currentFragment.SetFilePath(activityInterface.getFiles().get(position));
+                currentFragment.SetFilePath(files.get(position));
             currentFragment.SetOnclickLisnter(fragmentclickListner);
 
             return currentFragment;
@@ -456,8 +463,8 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         @Override
         public int getCount()
         {
-            if(activityInterface.getFiles() != null)
-                return activityInterface.getFiles().size();
+            if(files != null && files.size() > 0)
+                return files.size();
             else return 1;
         }
 
@@ -466,7 +473,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         {
             ImageFragment imageFragment = (ImageFragment) object;
             FileHolder file = imageFragment.GetFilePath();
-            int position = activityInterface.getFiles().indexOf(file);
+            int position = files.indexOf(file);
             //if (position >= 0) {
                 // The current data matches the data in this active fragment, so let it be as it is.
             if (position == imageFragment.getPosition){

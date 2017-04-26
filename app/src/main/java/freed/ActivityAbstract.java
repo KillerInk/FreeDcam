@@ -341,7 +341,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     public void LoadFreeDcamDCIMDirsFiles() {
         synchronized (files) {
-            files.clear();
             files = storageHandler.getFreeDcamDCIMDirsFiles();
         }
     }
