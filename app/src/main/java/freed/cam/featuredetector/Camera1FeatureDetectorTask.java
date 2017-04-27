@@ -464,25 +464,25 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             tmp.add(appSettingsManager.getResString(R.string.auto_));
         for (int i = 0; i < allvalues.length; i++) {
             String s = allvalues[i];
+            if (!s.equals(appSettingsManager.getResString(R.string.auto_))) {
+                float a;
+                if (s.contains("/")) {
+                    String[] split = s.split("/");
+                    a = (Float.parseFloat(split[0]) / Float.parseFloat(split[1])) * 1000000f;
+                } else
+                    a = Float.parseFloat(s) * 1000000f;
 
-            float a;
-            if (s.contains("/")) {
-                String[] split = s.split("/");
-                a = (Float.parseFloat(split[0]) / Float.parseFloat(split[1])) * 1000000f;
-            } else
-                a = Float.parseFloat(s) * 1000000f;
-
-            if (a >= minMillisec && a <= maxMiliisec)
-                tmp.add(s);
-            if (a >= minMillisec && !foundmin) {
-                foundmin = true;
+                if (a >= minMillisec && a <= maxMiliisec)
+                    tmp.add(s);
+                if (a >= minMillisec && !foundmin) {
+                    foundmin = true;
+                }
+                if (a > maxMiliisec && !foundmax) {
+                    foundmax = true;
+                }
+                if (foundmax && foundmin)
+                    break;
             }
-            if (a > maxMiliisec && !foundmax) {
-                foundmax = true;
-            }
-            if (foundmax && foundmin)
-                break;
-
         }
         return tmp.toArray(new String[tmp.size()]);
     }
