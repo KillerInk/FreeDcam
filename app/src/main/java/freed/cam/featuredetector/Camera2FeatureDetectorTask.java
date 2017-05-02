@@ -309,11 +309,9 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 int device = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
                 String[] lookupar = appSettingsManager.getResources().getStringArray(R.array.controlModes);
                 int[] full = null;
-                if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL) {
-                    full = new int[] {0,1,2,3};
-                }
-                else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED)
-                {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_MODES) != null)
+                    full = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_MODES);
+                else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL || device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED) {
                     full = new int[] {0,1,2,};
                 }
                 else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
@@ -326,6 +324,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     }
                     lookupar = StringUtils.IntHashmapToStringArray(map);
                     appSettingsManager.controlMode.setValues(lookupar);
+                    appSettingsManager.controlMode.set(appSettingsManager.getResString(R.string.auto));
                 }
             }
         }
