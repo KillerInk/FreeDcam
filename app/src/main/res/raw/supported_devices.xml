@@ -1834,8 +1834,28 @@
             <item>2014819</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
+            <dngmanual>true</dngmanual>
             <manualiso supported="false"></manualiso>
+			 <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual</mode>
+            </whiteblance>
+            <exposuretime>
+                <values>shutter_values_zte_z5s</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>3</type>
+            </exposuretime>
+            <manualfocus>
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>1</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2532,6 +2552,37 @@
             <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
+        </filesize>
+    </device>
+
+    <device name ="Moto_G5_p">
+        <models>
+            <item>Moto G (5) Plus</item>
+        </models>
+        <camera1>
+            <!--<framework>0</framework>-->
+            <hdrmode supported="true">0</hdrmode>
+            <dngmanual>true</dngmanual>
+        </camera1>
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <filesize size= "26023936">
+            <blacklvl>64</blacklvl>
+            <width>4192</width>
+            <height>3104</height>
+            <rawtype>2</rawtype>
+            <colorpattern>gbrg</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+        <filesize size= "20389888">
+            <blacklvl>64</blacklvl>
+            <width>4632</width>
+            <height>3520</height>
+            <rawtype>0</rawtype>
+            <colorpattern>grbg</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>S5K3P3</matrixset>
         </filesize>
     </device>
 
