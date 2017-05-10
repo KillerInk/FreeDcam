@@ -23,7 +23,7 @@
     <uses-feature android:name="android.hardware.sensor.compass" android:required="false"/>
 
 
-    <application
+    <application android:name="freed.SettingsApplication"
         android:allowBackup="true"
         android:icon="@drawable/launcher_freedcam"
         android:label="FreeDCam"

@@ -21,18 +21,17 @@ package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 29.08.2015.

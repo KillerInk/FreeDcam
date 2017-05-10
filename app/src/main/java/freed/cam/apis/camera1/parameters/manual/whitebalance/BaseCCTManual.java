@@ -22,7 +22,6 @@ package freed.cam.apis.camera1.parameters.manual.whitebalance;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -32,6 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.utils.Log;
 
 /**
  * Created by Ingo on 06.03.2016.
@@ -45,18 +45,18 @@ public class BaseCCTManual extends BaseManualParameter
 
     public BaseCCTManual(final Parameters parameters,final CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper, 0);
-        manual_WbMode = cameraUiWrapper.GetAppSettingsManager().manualWhiteBalance.getMode();
-        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualWhiteBalance.getValues();
+        manual_WbMode = cameraUiWrapper.getAppSettingsManager().manualWhiteBalance.getMode();
+        stringvalues = cameraUiWrapper.getAppSettingsManager().manualWhiteBalance.getValues();
         isSupported = true;
         isVisible = false;
 
         //wait 800ms to give awb a chance to set the ct value to the parameters
-        if (cameraUiWrapper.GetAppSettingsManager().manualWhiteBalance.getKEY().equals(""))
+        if (cameraUiWrapper.getAppSettingsManager().manualWhiteBalance.getKEY().equals(""))
             new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 //get fresh parameters from camera
-                Camera.Parameters parameters1 = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
+                Camera.Parameters parameters1 = ((CameraHolder)cameraUiWrapper.getCameraHolder()).GetCameraParameters();
                 String wbcur = "";
                 //lookup if ct value is avail
                 if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_current_cct))!=null)
@@ -81,7 +81,7 @@ public class BaseCCTManual extends BaseManualParameter
             }
         }, 800);
         else
-            key_value = cameraUiWrapper.GetAppSettingsManager().manualWhiteBalance.getKEY();
+            key_value = cameraUiWrapper.getAppSettingsManager().manualWhiteBalance.getKEY();
     }
 
     /**
@@ -111,7 +111,7 @@ public class BaseCCTManual extends BaseManualParameter
             set_manual();
         }
         try {
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         }
         catch (RuntimeException ex)
         {
@@ -122,16 +122,16 @@ public class BaseCCTManual extends BaseManualParameter
 
     protected void set_manual()
     {
-        if (cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.GetValues().toString().contains("manual")&& parameters.get("manual-wb-modes")!=null)
+        if (cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetValues().toString().contains("manual")&& parameters.get("manual-wb-modes")!=null)
         {
-            cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
+            cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
             parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_type),0);
             parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_value),stringvalues[currentInt]);
 
         }
         else {
-            if (!cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
-                cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
+            if (!cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
+                cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
             parameters.set(key_value, stringvalues[currentInt]);
         }
         Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
@@ -140,7 +140,7 @@ public class BaseCCTManual extends BaseManualParameter
 
     protected void set_to_auto()
     {
-        cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.SetValue("auto", true);
+        cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue("auto", true);
         Log.d(TAG, "Set  to : auto");
     }
 

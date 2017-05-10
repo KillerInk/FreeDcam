@@ -48,11 +48,11 @@ public class LocationParameter extends AbstractModeParameter
     @Override
     public String GetValue()
     {
-        if (cameraUiWrapper == null ||cameraUiWrapper.GetAppSettingsManager() == null)
+        if (cameraUiWrapper == null ||cameraUiWrapper.getAppSettingsManager() == null)
             return cameraUiWrapper.getResString(R.string.off_);
-        if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(""))
-            cameraUiWrapper.GetAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
-        return cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION);
+        if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(""))
+            cameraUiWrapper.getAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
+        return cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION);
     }
 
     @Override
@@ -63,17 +63,23 @@ public class LocationParameter extends AbstractModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        cameraUiWrapper.GetAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, valueToSet);
+        cameraUiWrapper.getAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, valueToSet);
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_)))
             cameraUiWrapper.getActivityInterface().getLocationHandler().stopLocationListining();
-        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)) && cameraUiWrapper.getActivityInterface().getPermissionHandler().hasLocationPermission(onLocationPermission))
-            cameraUiWrapper.getActivityInterface().getLocationHandler().startLocationListing();
+        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
+            cameraUiWrapper.getActivityInterface().getPermissionHandler().hasLocationPermission(onLocationPermission);
     }
 
     private PermissionHandler.PermissionCallback onLocationPermission = new PermissionHandler.PermissionCallback() {
         @Override
         public void permissionGranted(boolean granted) {
-            cameraUiWrapper.getActivityInterface().getLocationHandler().startLocationListing();
+            if (granted)
+                cameraUiWrapper.getActivityInterface().getLocationHandler().startLocationListing();
+            else
+            {
+                cameraUiWrapper.getAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
+                onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
+            }
         }
     };
 

@@ -20,8 +20,8 @@
 package freed.cam.apis.basecamera.modules;
 
 import android.media.CamcorderProfile;
-import freed.utils.Log;
 
+import freed.utils.Log;
 import freed.utils.StringUtils;
 
 /**

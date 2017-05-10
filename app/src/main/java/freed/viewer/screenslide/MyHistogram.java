@@ -28,8 +28,9 @@ import android.graphics.Path;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
-import freed.utils.Log;
 import android.view.View;
+
+import freed.utils.Log;
 
 public class MyHistogram extends View {
 

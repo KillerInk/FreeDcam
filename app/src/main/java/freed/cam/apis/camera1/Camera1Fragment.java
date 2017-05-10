@@ -21,7 +21,6 @@ package freed.cam.apis.camera1;
 
 import android.os.Build;
 import android.os.Bundle;
-import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -32,7 +31,6 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +46,7 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 06.06.2015.
@@ -69,61 +68,69 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        super.onCreateView(inflater,container,savedInstanceState);
         return inflater.inflate(layout.cameraholder1, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
-
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(id.exSurface);
         preview = (TextureViewRatio) view.findViewById(id.textureView_preview);
 
-        parametersHandler = new ParametersHandler(this);
-        this.extendedSurfaceView.ParametersHandler = parametersHandler;
-        moduleHandler = new ModuleHandler(this);
-        moduleHandler.addListner(this);
+        mBackgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (cameraLock)
+                {
+                    parametersHandler = new ParametersHandler(Camera1Fragment.this);
+                    moduleHandler = new ModuleHandler(Camera1Fragment.this);
+                    moduleHandler.addListner(Camera1Fragment.this);
 
-        Focus = new FocusHandler(this);
+                    Focus = new FocusHandler(Camera1Fragment.this);
 
-        Log.d(TAG,"FrameWork:" + GetAppSettingsManager().getFrameWork() + " openlegacy:" + GetAppSettingsManager().opencamera1Legacy.getBoolean());
+                    Log.d(TAG,"FrameWork:" + getAppSettingsManager().getFrameWork() + " openlegacy:" + getAppSettingsManager().opencamera1Legacy.getBoolean());
 
-        if (GetAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_LG) {
-            cameraHolder = new CameraHolderLG(this, CameraHolder.Frameworks.LG);
-            Log.d(TAG, "create LG camera");
-        }
-        else if (GetAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_MOTO_EXT) {
-            cameraHolder = new CameraHolderMotoX(this, CameraHolder.Frameworks.MotoX);
-            Log.d(TAG, "create MotoExt camera");
-        }
-        else if (GetAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
-            cameraHolder = new CameraHolderMTK(this, CameraHolder.Frameworks.MTK);
-            Log.d(TAG, "create Mtk camera");
-        }
-        else if (GetAppSettingsManager().opencamera1Legacy.getBoolean()) {
-            cameraHolder = new CameraHolderLegacy(this, CameraHolder.Frameworks.Normal);
-            Log.d(TAG, "create Legacy camera");
-        }
-        else {
-            cameraHolder = new CameraHolder(this, CameraHolder.Frameworks.Normal);
-            Log.d(TAG, "create Normal camera");
-        }
+                    if (getAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_LG) {
+                        cameraHolder = new CameraHolderLG(Camera1Fragment.this, CameraHolder.Frameworks.LG);
+                        Log.d(TAG, "create LG camera");
+                    }
+                    else if (getAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_MOTO_EXT) {
+                        cameraHolder = new CameraHolderMotoX(Camera1Fragment.this, CameraHolder.Frameworks.MotoX);
+                        Log.d(TAG, "create MotoExt camera");
+                    }
+                    else if (getAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
+                        cameraHolder = new CameraHolderMTK(Camera1Fragment.this, CameraHolder.Frameworks.MTK);
+                        Log.d(TAG, "create Mtk camera");
+                    }
+                    else if (getAppSettingsManager().opencamera1Legacy.getBoolean()) {
+                        cameraHolder = new CameraHolderLegacy(Camera1Fragment.this, CameraHolder.Frameworks.Normal);
+                        Log.d(TAG, "create Legacy camera");
+                    }
+                    else {
+                        cameraHolder = new CameraHolder(Camera1Fragment.this, CameraHolder.Frameworks.Normal);
+                        Log.d(TAG, "create Normal camera");
+                    }
 
-        Log.d(TAG, "initModules");
-        moduleHandler.initModules();
+                    Log.d(TAG, "initModules");
+                    moduleHandler.initModules();
 
-        Log.d(TAG, "Check Focuspeak");
-        if (Build.VERSION.SDK_INT >= 18) {
+                    Log.d(TAG, "Check Focuspeak");
+                    if (Build.VERSION.SDK_INT >= 18) {
 
-            focusPeakProcessorAp1 = new FocusPeakProcessorAp1(preview,this, getContext(), renderScriptHandler);
-            SetCameraStateChangedListner(focusPeakProcessorAp1);
-        }
-        else
-            preview.setVisibility(View.GONE);
-        Log.d(TAG, "Ctor done");
+                        focusPeakProcessorAp1 = new FocusPeakProcessorAp1(preview,Camera1Fragment.this, getContext(), renderScriptHandler);
+                        setCameraStateChangedListner(focusPeakProcessorAp1);
+                    }
+                    else
+                        preview.setVisibility(View.GONE);
+                    Log.d(TAG, "Ctor done");
+                }
+            }
+        });
+
 
         extendedSurfaceView.getHolder().addCallback(this);
-        super.onViewCreated(view, savedInstanceState);
+
     }
 
 
@@ -131,8 +138,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     public void onPause() {
         super.onPause();
         try {
-            if(moduleHandler.GetCurrentModule().ModuleName().equals(getResString(R.string.module_video)) && moduleHandler.GetCurrentModule().IsWorking())
-                moduleHandler.GetCurrentModule().DoWork();
+            if(moduleHandler.getCurrentModule().ModuleName().equals(getResString(R.string.module_video)) && moduleHandler.getCurrentModule().IsWorking())
+                moduleHandler.getCurrentModule().DoWork();
         }
         catch (NullPointerException ex)
         {
@@ -141,26 +148,68 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     }
 
     @Override
-    public void StartCamera() {
-        cameraHolder.OpenCamera(GetAppSettingsManager().GetCurrentCamera());
-        Log.d(TAG, "opencamera");
+    public void startCamera() {
+        if (mBackgroundHandler == null)
+            return;
+        mBackgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (cameraLock)
+                {
+                    cameraHolder.OpenCamera(getAppSettingsManager().GetCurrentCamera());
+                    Log.d(TAG, "opencamera");
+                }
+            }
+        });
     }
 
     @Override
-    public void StopCamera() {
-        Log.d(TAG, "Stop Camera");
-        if (focusPeakProcessorAp1 != null)
-            focusPeakProcessorAp1.kill();
-        cameraHolder.CloseCamera();
+    public void stopCamera() {
+        if (mBackgroundHandler == null)
+            return;
+        mBackgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (cameraLock)
+                {
+                    Log.d(TAG, "Stop Camera");
+                    if (focusPeakProcessorAp1 != null)
+                        focusPeakProcessorAp1.kill();
+                    cameraHolder.CloseCamera();
+                }
+            }
+        });
+
     }
 
     @Override
-    public void StartPreview() {
+    public void restartCamera() {
+        if (mBackgroundHandler == null)
+            return;
+        mBackgroundHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (cameraLock)
+                {
+                    Log.d(TAG, "Stop Camera");
+                    if (focusPeakProcessorAp1 != null)
+                        focusPeakProcessorAp1.kill();
+                    cameraHolder.CloseCamera();
+                    cameraHolder.OpenCamera(getAppSettingsManager().GetCurrentCamera());
+                    Log.d(TAG, "opencamera");
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void startPreview() {
         cameraHolder.StartPreview();
     }
 
     @Override
-    public void StopPreview() {
+    public void stopPreview() {
         Log.d(TAG, "Stop Preview");
         cameraHolder.StopPreview();
     }
@@ -170,7 +219,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     {
         Log.d(TAG, "surface created");
         PreviewSurfaceRdy = true;
-        StartCamera();
+        startCamera();
     }
 
     @Override
@@ -223,9 +272,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         @Override
         public void onParameterValueChanged(String val)
         {
-            if(moduleHandler.GetCurrentModuleName().equals(getResString(R.string.module_picture))
-                    || moduleHandler.GetCurrentModuleName().equals(getResString(R.string.module_hdr))
-                    || moduleHandler.GetCurrentModuleName().equals(getResString(R.string.module_interval)))
+            if(moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_picture))
+                    || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_hdr))
+                    || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_interval)))
             {
                 Size sizefromCam = new Size(parametersHandler.PictureSize.GetValue());
                 List<Size> sizes = new ArrayList<>();
@@ -254,7 +303,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 });
 
             }
-            else if (moduleHandler.GetCurrentModuleName().equals(getResString(R.string.module_video)))
+            else if (moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_video)))
             {
                 Size sizefromCam = new Size("1920x1080");
 
@@ -266,7 +315,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height,false);
 
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
-                if (GetAppSettingsManager().getApiString(AppSettingsManager.VIDEOPROFILE).contains("4k") &&parametersHandler.PreviewSize.GetValues().toString().contains("3840x"))
+                if (getAppSettingsManager().getApiString(AppSettingsManager.VIDEOPROFILE).contains("4k") &&parametersHandler.PreviewSize.GetValues().toString().contains("3840x"))
                 {
                     parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                     uiHandler.post(new Runnable() {
@@ -408,7 +457,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Override
     public String getResString(int id) {
-        return GetAppSettingsManager().getResString(id);
+        return getAppSettingsManager().getResString(id);
     }
 
     @Override

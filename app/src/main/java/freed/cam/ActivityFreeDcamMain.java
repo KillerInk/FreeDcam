@@ -21,18 +21,22 @@ package freed.cam;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
-import freed.utils.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
@@ -55,6 +59,7 @@ import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import freed.utils.AppSettingsManager;
 import freed.utils.LocationHandler;
+import freed.utils.Log;
 import freed.utils.PermissionHandler;
 import freed.utils.RenderScriptHandler;
 import freed.utils.StorageFileHandler;
@@ -93,10 +98,56 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     private LinearLayout nightoverlay;
 
+    protected Object cameraLock = new Object();
+    protected HandlerThread mBackgroundThread;
+    protected Handler mBackgroundHandler;
+
+    /**
+     * Starts a background thread and its {@link Handler}.
+     */
+    private void startBackgroundThread() {
+        synchronized (cameraLock) {
+            mBackgroundThread = new HandlerThread("CameraBackground");
+            mBackgroundThread.start();
+            mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+        }
+    }
+
+    /**
+     * Stops the background thread and its {@link Handler}.
+     */
+    private void stopBackgroundThread()
+    {
+        synchronized (cameraLock) {
+            Log.d(TAG, "stopBackgroundThread");
+            if (mBackgroundThread == null)
+                return;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                mBackgroundThread.quitSafely();
+            } else
+                mBackgroundThread.quit();
+            try {
+                mBackgroundThread.join();
+                mBackgroundThread = null;
+                mBackgroundHandler = null;
+            } catch (InterruptedException e) {
+                Log.WriteEx(e);
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSecureCamera.onCreate();
+        startBackgroundThread();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        stopBackgroundThread();
+        super.onDestroy();
     }
 
     @Override
@@ -107,15 +158,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void initOnCreate() {
         super.initOnCreate();
-
-        if (!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion())
-        {
-            getAppSettings().RESET();
-            Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
-            startActivity(intent);
-            this.finish();
-            return;
-        }
 
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         storageHandler = new StorageFileHandler(this);
@@ -132,9 +174,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         mPager.setCurrentItem(1);
 
         nightoverlay = (LinearLayout) findViewById(id.nightoverlay);
-        if (getPermissionHandler().hasExternalSDPermission(onExtSDPermission)) {
-            onExtSDPermission.permissionGranted(true);
-        }
+        getPermissionHandler().hasExternalSDPermission(onExtSDPermission);
         //listen to phone orientation changes
         orientationHandler = new OrientationHandler(this, this);
         orientationHandler.Start();
@@ -162,6 +202,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 loadcam();
             }
             else {
+                Toast.makeText(getApplicationContext(),"Great wanna use a camera app but dont grant the permission.. hero...",Toast.LENGTH_LONG).show();
                 finish();
             }
         }
@@ -177,10 +218,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         }
     };
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
     protected void onResume() {
@@ -194,14 +231,19 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void onResumeTasks() {
         Log.d(TAG, "onResumeTasks()");
-        if (!initDone)
+        activityIsResumed = true;
+        if (getAppSettings() == null)
             return;
-        if (getPermissionHandler().hasCameraPermission(onCameraPermission)) {
-            //setup apihandler and register listner for apiDetectionDone
-            //api handler itself checks first if its a camera2 full device
-            //and if yes loads camera2fragment else load camera1fragment
-            loadcam();
+        if (!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion())
+        {
+            getAppSettings().RESET();
+            Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
+            startActivity(intent);
         }
+        /*if (!initDone)
+            return;*/
+        else
+            getPermissionHandler().hasCameraPermission(onCameraPermission);
     }
 
     private void loadcam()
@@ -209,16 +251,16 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (getAppSettings() == null)
             return;
         loadCameraFragment();
-        activityIsResumed = true;
-        LoadFreeDcamDCIMDirsFiles();
-        if (screenSlideFragment != null)
-        {
-            if (getFiles() != null)
-                screenSlideFragment.NotifyDATAhasChanged();
-        }
 
-        if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)) && getPermissionHandler().hasLocationPermission(onLocationPermission))
-            locationHandler.startLocationListing();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LoadFreeDcamDCIMDirsFiles();
+            }
+        }).start();
+
+        if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)))
+            getPermissionHandler().hasLocationPermission(onLocationPermission);
         SetNightOverlay();
     }
 
@@ -271,9 +313,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 cameraFragment = new Camera1Fragment();
                 cameraFragment.SetRenderScriptHandler(renderScriptHandler);
             }
+            cameraFragment.setHandler(mBackgroundHandler,cameraLock);
             cameraFragment.SetAppSettingsManager(getAppSettings());
 
-            cameraFragment.SetCameraStateChangedListner(this);
+            cameraFragment.setCameraStateChangedListner(this);
             //load the cameraFragment to ui
             //that starts the camera represent by that fragment when the surface/textureviews
             //are created and calls then onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
@@ -284,7 +327,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             Log.d(TAG, "loaded cameraWrapper");
         }
         else { //resuse fragments
-            cameraFragment.StartCamera();
+            cameraFragment.startCamera();
 
         }
     }
@@ -301,12 +344,17 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             //kill the cam befor the fragment gets removed to make sure when
             //new cameraFragment gets created and its texture view is created the cam get started
             //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
-            cameraFragment.StopCamera();
+            cameraFragment.stopCamera();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
             transaction.remove(cameraFragment);
             transaction.commit();
             cameraFragment = null;
+            if (cameraUiFragment != null) {
+                cameraUiFragment.SetCameraUIWrapper(null);
+            }
+            if (settingsMenuFragment != null)
+                settingsMenuFragment.SetCameraUIWrapper(null);
         }
         Log.d(TAG, "destroyed cameraWrapper");
     }
@@ -329,7 +377,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                     || keyCode == appSettingsKeyShutter
                     || keyCode == KeyEvent.KEYCODE_UNKNOWN
                     || keyCode == KeyEvent.KEYCODE_CAMERA) {
-                cameraFragment.GetModuleHandler().DoWork();
+                cameraFragment.getModuleHandler().startWork();
                 return true;
             }
             if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME)
@@ -380,12 +428,15 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      */
     @Override
     public void LoadFreeDcamDCIMDirsFiles() {
+        Log.d(TAG, "LoadFreeDcamDCIMDirsFiles()");
         super.LoadFreeDcamDCIMDirsFiles();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(screenSlideFragment != null && activityIsResumed && getFiles() != null)
-                    screenSlideFragment.NotifyDATAhasChanged();
+                synchronized (files) {
+                    if (screenSlideFragment != null)
+                        screenSlideFragment.NotifyDATAhasChanged(files);
+                }
             }
         });
     }
@@ -409,13 +460,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      * @param types the file format to load
      */
     @Override
-    public void LoadFolder(FileHolder fileHolder, FormatTypes types) {
+    public void LoadFolder(final FileHolder fileHolder, FormatTypes types) {
         super.LoadFolder(fileHolder, types);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (screenSlideFragment != null && activityIsResumed)
-                    screenSlideFragment.NotifyDATAhasChanged();
+                if (screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged(files);
             }
         });
     }
@@ -448,8 +499,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             @Override
             public void run() {
                 AddFile(fileHolder);
-                if (screenSlideFragment != null && activityIsResumed)
-                    screenSlideFragment.NotifyDATAhasChanged();
+                if (screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged(files);
             }
         });
     }
@@ -461,8 +512,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             public void run() {
 
                 AddFiles(fileHolder);
-                if (screenSlideFragment != null && activityIsResumed)
-                    screenSlideFragment.NotifyDATAhasChanged();
+                if (screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged(files);
             }
         });
     }
@@ -483,8 +534,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         Log.d(TAG, "add events");
         //register timer to to moduleevent handler that it get shown/hidden when its video or not
         //and start/stop working when recording starts/stops
-        cameraFragment.GetModuleHandler().AddRecoderChangedListner(timerHandler);
-        cameraFragment.GetModuleHandler().addListner(timerHandler);
+        cameraFragment.getModuleHandler().AddRecoderChangedListner(timerHandler);
+        cameraFragment.getModuleHandler().addListner(timerHandler);
     }
 
     @Override

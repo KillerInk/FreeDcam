@@ -24,12 +24,6 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
 
-import freed.cam.apis.camera1.parameters.manual.krilin.ManualAperture;
-import freed.cam.apis.camera1.parameters.manual.krilin.ManualIsoKrilin;
-import freed.cam.apis.camera1.parameters.manual.ManualIsoSony;
-import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualZTE;
-import freed.utils.Log;
-
 import com.troop.freedcam.R;
 
 import java.util.ArrayList;
@@ -47,10 +41,14 @@ import freed.cam.apis.camera1.FocusHandler;
 import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ExposureManualParameter;
+import freed.cam.apis.camera1.parameters.manual.ManualIsoSony;
 import freed.cam.apis.camera1.parameters.manual.ZoomManualParameter;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.cam.apis.camera1.parameters.manual.focus.FocusManualHuawei;
 import freed.cam.apis.camera1.parameters.manual.focus.FocusManualParameterHTC;
+import freed.cam.apis.camera1.parameters.manual.krilin.ManualAperture;
+import freed.cam.apis.camera1.parameters.manual.krilin.ManualIsoKrilin;
+import freed.cam.apis.camera1.parameters.manual.krilin.ShutterManualKrilin;
 import freed.cam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4;
 import freed.cam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
 import freed.cam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
@@ -59,10 +57,10 @@ import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
 import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MicroSec;
 import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MilliSec;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualG2pro;
-import freed.cam.apis.camera1.parameters.manual.krilin.ShutterManualKrilin;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualMeizu;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualParameterHTC;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualSony;
+import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualZTE;
 import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.cam.apis.camera1.parameters.manual.zte.FXManualParameter;
 import freed.cam.apis.camera1.parameters.modes.AutoHdrMode;
@@ -81,6 +79,7 @@ import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
@@ -122,17 +121,17 @@ public class ParametersHandler extends AbstractParameterHandler
     public void SetParametersToCamera(Parameters params)
     {
         Log.d(TAG, "SetParametersToCam");
-        ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraParameters(params);
+        ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetCameraParameters(params);
     }
 
     @Override
     protected void SetParameters() {
-        ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraParameters(cameraParameters);
+        ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetCameraParameters(cameraParameters);
     }
 
     public void LoadParametersFromCamera()
     {
-        cameraParameters = ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
+        cameraParameters = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
         initParameters();
     }
 
@@ -163,8 +162,8 @@ public class ParametersHandler extends AbstractParameterHandler
         PictureFormat = new PictureFormatHandler(cameraParameters, cameraUiWrapper, this);
         if (appSettingsManager.getDngProfilesMap()!= null && appSettingsManager.getDngProfilesMap().size() > 0)
             opcode = new OpCodeParameter(appSettingsManager);
-        cameraUiWrapper.GetModuleHandler().addListner((ModuleChangedEvent) PictureFormat);
-        AppSettingsManager appS = cameraUiWrapper.GetAppSettingsManager();
+        cameraUiWrapper.getModuleHandler().addListner((ModuleChangedEvent) PictureFormat);
+        AppSettingsManager appS = cameraUiWrapper.getAppSettingsManager();
         if (appS.pictureSize.isSupported())
             PictureSize = new PictureSizeParameter(cameraParameters, cameraUiWrapper);
 
@@ -283,7 +282,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         if (appSettingsManager.getDngProfilesMap() != null && appS.getDngProfilesMap().size() > 0)
-            matrixChooser = new MatrixChooserParameter(cameraUiWrapper.GetAppSettingsManager().getMatrixesMap());
+            matrixChooser = new MatrixChooserParameter(cameraUiWrapper.getAppSettingsManager().getMatrixesMap());
 
         /*if (appS.digitalImageStabilisationMode.isSupported())
             DigitalImageStabilization = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.digitalImageStabilisationMode);*/
@@ -326,7 +325,7 @@ public class ParametersHandler extends AbstractParameterHandler
                 if (appSettingsManager.manualFocus.getKEY().equals(cameraUiWrapper.getResString(R.string.focus)))
                     ManualFocus = new FocusManualParameterHTC(cameraParameters,cameraUiWrapper);
                     //huawai mf
-                else if (appS.manualFocus.getKEY().equals(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.hw_manual_focus_step_value)))
+                else if (appS.manualFocus.getKEY().equals(cameraUiWrapper.getAppSettingsManager().getResString(R.string.hw_manual_focus_step_value)))
                     ManualFocus = new FocusManualHuawei(cameraParameters, cameraUiWrapper, appS.manualFocus);
                     //qcom
                 else
@@ -437,11 +436,11 @@ public class ParametersHandler extends AbstractParameterHandler
 
         FX = new FXManualParameter(cameraParameters, cameraUiWrapper);
         PictureFormat.addEventListner(((BaseManualParameter) FX).GetPicFormatListner());
-        cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter)FX).GetModuleListner());
+        cameraUiWrapper.getModuleHandler().addListner(((BaseManualParameter)FX).GetModuleListner());
 
         if (appS.manualBurst.isSupported()){
             Burst = new BurstManualParam(cameraParameters, cameraUiWrapper);
-            cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Burst).GetModuleListner());
+            cameraUiWrapper.getModuleHandler().addListner(((BaseManualParameter) Burst).GetModuleListner());
         }
 
         Zoom = new ZoomManualParameter(cameraParameters, cameraUiWrapper);
@@ -453,7 +452,7 @@ public class ParametersHandler extends AbstractParameterHandler
         //set last used settings
         SetAppSettingsToParameters();
 
-        cameraUiWrapper.GetModuleHandler().SetModule(appSettingsManager.GetCurrentModule());
+        cameraUiWrapper.getModuleHandler().setModule(appSettingsManager.GetCurrentModule());
     }
 
     @Override
@@ -504,14 +503,14 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public float[] getFocusDistances() {
         float focusdistance[] = new float[3];
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCameraParameters().getFocusDistances(focusdistance);
+        ((CameraHolder)cameraUiWrapper.getCameraHolder()).GetCameraParameters().getFocusDistances(focusdistance);
         return focusdistance;
     }
 
     @Override
     public float getCurrentExposuretime()
     {
-        Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
+        Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
         if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
             if (parameters.get(appSettingsManager.getResString(R.string.eng_capture_shutter_speed)) != null) {
                 if (Float.parseFloat(parameters.get(appSettingsManager.getResString(R.string.eng_capture_shutter_speed))) == 0) {
@@ -536,7 +535,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
     @Override
     public int getCurrentIso() {
-        Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
+        Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
         if (appSettingsManager.getFrameWork() == FRAMEWORK_MTK)
         {
             if(parameters.get(appSettingsManager.getResString(R.string.eng_capture_sensor_gain))!= null) {
@@ -584,9 +583,9 @@ public class ParametersHandler extends AbstractParameterHandler
             appSettingsManager.setApiString(SETTING_OrientationHack , cameraUiWrapper.getResString(R.string.off_));
         }
         if (appSettingsManager.getApiString(SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.off_)))
-            ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraRotation(0);
+            ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetCameraRotation(0);
         else
-            ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraRotation(180);
+            ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetCameraRotation(180);
     }
 
     public void SetupMTK()    {
@@ -624,8 +623,8 @@ public class ParametersHandler extends AbstractParameterHandler
     public void SetZTE_RESET_AE_SETSHUTTER(String Shutter)
     {
         SetZTE_AE();
-        cameraUiWrapper.StopPreview();
-        cameraUiWrapper.StartPreview();
+        cameraUiWrapper.stopPreview();
+        cameraUiWrapper.startPreview();
         cameraParameters.set("slow_shutter",Shutter);
         cameraParameters.set("slow_shutter_addition", "1");
         SetParametersToCamera(cameraParameters);

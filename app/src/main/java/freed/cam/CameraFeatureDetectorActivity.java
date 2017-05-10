@@ -3,8 +3,10 @@ package freed.cam;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
@@ -43,14 +45,19 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
         super.initOnCreate();
         loggerview = (TextView)findViewById(R.id.textview_log);
         loggerview.setMovementMethod(new ScrollingMovementMethod());
-        if (getPermissionHandler().hasCameraPermission(onCameraPermission)) {
-            onCameraPermission.permissionGranted(true);
-        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getPermissionHandler().hasCameraPermission(onCameraPermission);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
     }
 
     @Override
@@ -80,7 +87,8 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
                 }
             }
             else {
-                finish();
+                Toast.makeText(getApplicationContext(),"Great wanna use a camera app but dont grant the permission.. hero...",Toast.LENGTH_LONG).show();
+                ActivityCompat.finishAffinity(CameraFeatureDetectorActivity.this);
             }
         }
     };
@@ -96,8 +104,8 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
     {
         getAppSettings().setAppVersion(BuildConfig.VERSION_CODE);
         getAppSettings().setAreFeaturesDetected(true);
-        Intent intent = new Intent(this, ActivityFreeDcamMain.class);
-        startActivity(intent);
+       /* Intent intent = new Intent(this, ActivityFreeDcamMain.class);
+        startActivity(intent);*/
         this.finish();
     }
 

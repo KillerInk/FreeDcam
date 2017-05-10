@@ -17,7 +17,7 @@ public class ManualIsoSony extends AbstractManualParameter
     public ManualIsoSony(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters) {
         super(cameraUiWrapper);
         this.parameters = parameters;
-        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualIso.getValues();
+        stringvalues = cameraUiWrapper.getAppSettingsManager().manualIso.getValues();
         isSupported = true;
         isVisible = isSupported;
     }
@@ -38,18 +38,18 @@ public class ManualIsoSony extends AbstractManualParameter
         currentInt = valueToSet;
         if (currentInt == 0)
         {
-            if (cameraUiWrapper.GetParameterHandler().ManualShutter.GetValue() == 0)
+            if (cameraUiWrapper.getParameterHandler().ManualShutter.GetValue() == 0)
                 parameters.set("sony-ae-mode", "auto");
-            else if (cameraUiWrapper.GetParameterHandler().ManualShutter.GetValue() >0)
+            else if (cameraUiWrapper.getParameterHandler().ManualShutter.GetValue() >0)
                 parameters.set("sony-ae-mode", "shutter-prio");
         }
         else {
-            if (cameraUiWrapper.GetParameterHandler().ManualShutter.GetValue() == 0 && !parameters.get("sony-ae-mode").equals("iso-prio"))
+            if (cameraUiWrapper.getParameterHandler().ManualShutter.GetValue() == 0 && !parameters.get("sony-ae-mode").equals("iso-prio"))
                 parameters.set("sony-ae-mode", "iso-prio");
-            else if (cameraUiWrapper.GetParameterHandler().ManualShutter.GetValue() >0 && !parameters.get("sony-ae-mode").equals("manual"))
+            else if (cameraUiWrapper.getParameterHandler().ManualShutter.GetValue() >0 && !parameters.get("sony-ae-mode").equals("manual"))
                 parameters.set("sony-ae-mode", "manual");
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().manualIso.getKEY(), stringvalues[currentInt]);
+            parameters.set(cameraUiWrapper.getAppSettingsManager().manualIso.getKEY(), stringvalues[currentInt]);
         }
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
 }

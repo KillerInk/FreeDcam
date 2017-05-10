@@ -25,7 +25,6 @@ import android.view.View;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.camera1.ExtendedSurfaceView;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 
 /**
@@ -77,18 +76,13 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
     private void switchCamera()
     {
-        int maxcams = cameraUiWrapper.GetCameraHolder().CameraCout();
+        int maxcams = cameraUiWrapper.getCameraHolder().CameraCout();
         if (currentCamera++ >= maxcams - 1)
             currentCamera = 0;
 
         fragment_activityInterface.getAppSettings().SetCurrentCamera(currentCamera);
         sendLog("Stop Preview and Camera");
-        if (cameraUiWrapper.GetCameraHolder() != null && cameraUiWrapper.getSurfaceView() instanceof ExtendedSurfaceView)
-        {
-            ((ExtendedSurfaceView) cameraUiWrapper.getSurfaceView()).SwitchViewMode();
-        }
-        cameraUiWrapper.StopCamera();
-        cameraUiWrapper.StartCamera();
+        cameraUiWrapper.restartCamera();
         valueText.setText(getCamera(currentCamera));
     }
 

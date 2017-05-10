@@ -144,7 +144,103 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     detectIntMode(characteristics,CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES,appSettingsManager.whiteBalanceMode,R.array.whitebalancemodes);
                     sendProgress(appSettingsManager.whiteBalanceMode,"Whitebalance");
 
-                    detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY,appSettingsManager.dualPrimaryCameraMode,R.array.dual_camera_mode);
+                    try {
+                        detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, appSettingsManager.dualPrimaryCameraMode, R.array.dual_camera_mode);
+                    }
+                    catch (IllegalArgumentException ex)
+                    {
+                        Log.e(TAG, "Unsupported HUAWEI_AVAILABLE_DUAL_PRIMARY  false");
+                    }
+                    try {
+                        int[] raw12 = characteristics.get(CameraCharacteristicsEx.HUAWEI_PROFESSIONAL_RAW12_SUPPORTED);
+                        Log.d(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED");
+                    }
+                    catch (IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED false");
+                    }
+
+                    try {
+                        byte rawsupported = characteristics.get(CameraCharacteristicsEx.HUAWEI_RAW_IMAGE_SUPPORTED);
+                        Log.d(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED false");
+                    }
+                    try {
+                        int[] deepmap = characteristics.get(CameraCharacteristicsEx.HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS);
+                        Log.d(TAG,"HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS");
+                    }
+                    catch (IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS false");
+                    }
+                    try {
+                        byte fastbinder = characteristics.get(CameraCharacteristicsEx.HUAWEI_FAST_NOTIFY_SUPPORTED);
+                        Log.d(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED false");
+                    }
+
+                    try {
+                        byte dualcamerareporcess = characteristics.get(CameraCharacteristicsEx.HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS);
+                        Log.d(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS false");
+                    }
+
+                    try {
+                        byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_PRE_CAPTURE_SUPPORTED);
+                        Log.d(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED false");
+                    }
+                    try {
+                        byte[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_HDC_CALIBRATE_DATA);
+                        Log.d(TAG,"HUAWEI_HDC_CALIBRATE_DATA");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_HDC_CALIBRATE_DATA false");
+                    }
+                    try {
+                        int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE);
+                        Log.d(TAG,"HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE false");
+                    }
+                    try {
+                        int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);
+                        Log.d(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE false");
+                    }
+                    try {
+                        int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_MULTICAP);
+                        Log.d(TAG,"HUAWEI_MULTICAP");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_MULTICAP false");
+                    }try {
+                        int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_AVAILIBLE_DEPTH_SIZES);
+                        Log.d(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES");
+                    }
+                    catch (NullPointerException | IllegalArgumentException ex)
+                    {
+                        Log.e(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES false");
+                    }
                 }
             }
             appSettingsManager.SetCurrentCamera(0);
@@ -191,7 +287,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             if (appSettingsManager.flashMode.isSupported()) {
                 String[] lookupar = appSettingsManager.getResources().getStringArray(R.array.flashModes);
                 HashMap<String,Integer> map = new HashMap<>();
-                for (int i = 0; i< 3; i++)
+                for (int i = 0; i< lookupar.length; i++)
                 {
                     map.put(lookupar[i], i);
                 }
@@ -213,11 +309,9 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 int device = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
                 String[] lookupar = appSettingsManager.getResources().getStringArray(R.array.controlModes);
                 int[] full = null;
-                if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL) {
-                    full = new int[] {0,1,2,3};
-                }
-                else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED)
-                {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_MODES) != null)
+                    full = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_MODES);
+                else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL || device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED) {
                     full = new int[] {0,1,2,};
                 }
                 else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
@@ -230,6 +324,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     }
                     lookupar = StringUtils.IntHashmapToStringArray(map);
                     appSettingsManager.controlMode.setValues(lookupar);
+                    appSettingsManager.controlMode.set(appSettingsManager.getResString(R.string.auto));
                 }
             }
         }
@@ -321,10 +416,11 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             return;
         }
         float step = 0.2f;
-        int count = (int)(maxfocusrange/step)+1;
+        int count = (int)(maxfocusrange/step)+2;
         StringFloatArray focusranges = new StringFloatArray(count);
         focusranges.add(0,appSettingsManager.getResString(R.string.auto),0f);
-        int t = 1;
+        focusranges.add(1,"∞", 0f);
+        int t = 2;
         for (float i = step; i < maxfocusrange; i += step)
         {
             focusranges.add(t++,StringUtils.getMeterString(1/i),i);
@@ -401,7 +497,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectManualIso(CameraCharacteristics characteristics)
     {
-        int max = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
+        int max  = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
+        if (appSettingsManager.getCamera2MaxIso() >0)
+            max = appSettingsManager.getCamera2MaxIso();
+
         int min = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower();
         ArrayList<String> ar = new ArrayList<>();
         ar.add("auto");

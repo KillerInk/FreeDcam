@@ -21,7 +21,6 @@ package freed.cam.apis.sonyremote;
 
 import android.content.Context;
 import android.location.Location;
-import freed.utils.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +41,7 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener;
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 
 /**
  * Created by troop on 11.12.2014.
@@ -295,8 +295,8 @@ public class CameraHolderSony extends CameraHolderAbstract
 
     private void awaitTakePicture(I_PictureCallback pictureCallback)
     {
-        Log.d(TAG, "Camerastatus:" + ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).GetCameraStatus());
-        if (((ParameterHandler)cameraUiWrapper.GetParameterHandler()).GetCameraStatus().equals("StillCapturing")) {
+        Log.d(TAG, "Camerastatus:" + ((ParameterHandler)cameraUiWrapper.getParameterHandler()).GetCameraStatus());
+        if (((ParameterHandler)cameraUiWrapper.getParameterHandler()).GetCameraStatus().equals("StillCapturing")) {
             try {
                 Log.d(TAG, "####################### AWAIT TAKE");
                 JSONObject replyJson = mRemoteApi.awaitTakePicture();

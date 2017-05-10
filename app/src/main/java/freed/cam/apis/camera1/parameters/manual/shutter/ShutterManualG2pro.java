@@ -21,7 +21,6 @@ package freed.cam.apis.camera1.parameters.manual.shutter;
 
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -29,6 +28,7 @@ import freed.cam.apis.basecamera.CameraHolderInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.utils.Log;
 
 /**
  * Created by GeorgeKiarie on 6/3/2016.
@@ -46,7 +46,7 @@ public class ShutterManualG2pro extends BaseManualParameter
      */
     public ShutterManualG2pro(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
-        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getValues();
+        stringvalues = cameraUiWrapper.getAppSettingsManager().manualExposureTime.getValues();
         isSupported = true;
     }
 
@@ -98,7 +98,7 @@ public class ShutterManualG2pro extends BaseManualParameter
                 public void run() {
 
                     parameters.set("exposure-time", shutterstring);
-                    ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+                    ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
                 }
             };
             handler.post(r);

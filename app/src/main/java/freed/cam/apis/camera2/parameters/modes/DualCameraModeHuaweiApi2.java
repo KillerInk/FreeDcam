@@ -2,8 +2,6 @@ package freed.cam.apis.camera2.parameters.modes;
 
 import android.hardware.camera2.CaptureRequest;
 
-import com.huawei.camera2ex.CaptureRequestEx;
-
 import java.util.Map;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -20,15 +18,11 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
 
     protected CaptureRequest.Key<Byte> parameterKey;
 
-    public DualCameraModeHuaweiApi2(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
-    }
-
     public DualCameraModeHuaweiApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, CaptureRequest.Key<Byte> parameterKey) {
         super(cameraUiWrapper, settingMode, null);
         this.parameterKey = parameterKey;
         isSupported = settingMode.isSupported();
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(parameterKey,(byte)0);
+        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(parameterKey,(byte)0);
         if (isSupported)
             parameterValues = StringUtils.StringArrayToIntHashmap(settingMode.getValues());
         else settingMode = null;
@@ -44,7 +38,7 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         int toset = parameterValues.get(valueToSet);
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(parameterKey, Byte.valueOf((byte)toset));
+        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(parameterKey, Byte.valueOf((byte)toset));
 
         onValueHasChanged(valueToSet);
 
@@ -55,7 +49,12 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
     {
         if (parameterKey == null)
             return null;
-        Byte b = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.get(parameterKey);
+        Byte b = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(parameterKey);
+        if (b == null)
+        {
+            onSetIsSupportedHasChanged(false);
+            return "";
+        }
         int i = b.intValue();
         for (Map.Entry s : parameterValues.entrySet())
             if (s.getValue().equals(i))

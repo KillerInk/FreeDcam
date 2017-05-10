@@ -39,7 +39,7 @@ public class ZoomApi2 extends AbstractManualParameter
     public ZoomApi2(CameraWrapperInterface cameraUiWrapper)  {
         super(cameraUiWrapper);
 
-        int max = (int)(((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) *10);
+        int max = (int)(((CameraHolderApi2)cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) *10);
         stringvalues = createStringArray(0,max,1);
     }
 
@@ -48,7 +48,7 @@ public class ZoomApi2 extends AbstractManualParameter
 
     @Override
     public boolean IsSupported() {
-        return ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) > 0;
+        return ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) > 0;
     }
 
     @Override
@@ -71,8 +71,8 @@ public class ZoomApi2 extends AbstractManualParameter
     public void SetValue(int valueToSet)
     {
         zoom = valueToSet;
-        float maxzoom = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
-        Rect m = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        float maxzoom = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
+        Rect m = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         int minW = (int) (m.width() / maxzoom);
         int minH = (int) (m.height() / maxzoom);
         int difW = m.width() - minW;
@@ -82,7 +82,7 @@ public class ZoomApi2 extends AbstractManualParameter
         cropW -= cropW & 3;
         cropH -= cropH & 3;
         Rect zoom = new Rect(cropW, cropH,m.width()-cropW, m.height() - cropH);
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom);
+        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom);
     }
 
     public Rect getZoomRect(float zoom, int imgWidth, int imgHeight)

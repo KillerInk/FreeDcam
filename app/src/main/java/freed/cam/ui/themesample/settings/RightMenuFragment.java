@@ -71,8 +71,8 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         settingchildholder.removeAllViews();
         if (cameraUiWrapper != null)
         {
-            AppSettingsManager apS = cameraUiWrapper.GetAppSettingsManager();
-            AbstractParameterHandler params = cameraUiWrapper.GetParameterHandler();
+            AppSettingsManager apS = cameraUiWrapper.getAppSettingsManager();
+            AbstractParameterHandler params = cameraUiWrapper.getParameterHandler();
 
             GroupChild settingsgroup = new GroupChild(getContext(), getString(R.string.setting_camera_));
 
@@ -223,7 +223,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
                 ton.SetUiItemClickListner(this);
                 settingsgroup.addView(ton);
             }
-            if (params.dualPrimaryCameraMode != null)
+            if (params.dualPrimaryCameraMode != null && !apS.getIsFrontCamera())
             {
                 SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.dualPrimaryCameraMode, params.dualPrimaryCameraMode, R.string.setting_dualprimarycamera_header, R.string.setting_dualprimarycamera_description);
                 ton.SetUiItemClickListner(this);
@@ -233,7 +233,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         }
 
        /* temporalDenoise.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_TNR);
-        temporalDenoise.SetParameter(cameraUiWrapper.GetParameterHandler().TnrMode);
+        temporalDenoise.SetParameter(cameraUiWrapper.getParameterHandler().TnrMode);
         temporalDenoise.SetUiItemClickListner(this);*/
     }
 

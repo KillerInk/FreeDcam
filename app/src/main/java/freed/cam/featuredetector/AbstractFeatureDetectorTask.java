@@ -2,7 +2,6 @@ package freed.cam.featuredetector;
 
 import android.media.CamcorderProfile;
 import android.os.AsyncTask;
-import freed.utils.Log;
 
 import com.lge.media.CamcorderProfileEx;
 
@@ -11,6 +10,7 @@ import java.util.HashMap;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera1.modules.VideoMediaProfileLG;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 23.01.2017.

@@ -68,8 +68,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     @Override
     protected void initOnCreate() {
         super.initOnCreate();
-        if (getPermissionHandler().hasExternalSDPermission(onExtSdCallback))
-            onExtSdCallback.permissionGranted(true);
+        getPermissionHandler().hasExternalSDPermission(onExtSdCallback);
     }
 
     private PermissionHandler.PermissionCallback onExtSdCallback = new PermissionHandler.PermissionCallback() {
@@ -115,7 +114,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     public void LoadFreeDcamDCIMDirsFiles() {
         super.LoadFreeDcamDCIMDirsFiles();
         gridViewFragment.NotifyDataSetChanged();
-        screenSlideFragment.NotifyDATAhasChanged();
+        screenSlideFragment.NotifyDATAhasChanged(files);
     }
 
     /**
@@ -128,7 +127,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     public void LoadFolder(FileHolder fileHolder, ActivityAbstract.FormatTypes types) {
         super.LoadFolder(fileHolder, types);
         gridViewFragment.NotifyDataSetChanged();
-        screenSlideFragment.NotifyDATAhasChanged();
+        screenSlideFragment.NotifyDATAhasChanged(files);
     }
 
     @Override
@@ -150,7 +149,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
                 if (gridViewFragment != null)
                     gridViewFragment.NotifyDataSetChanged();
                 if (screenSlideFragment != null)
-                    screenSlideFragment.NotifyDATAhasChanged();
+                    screenSlideFragment.NotifyDATAhasChanged(files);
             }
         });
 
@@ -163,7 +162,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
             @Override
             public void run() {
                 gridViewFragment.NotifyDataSetChanged();
-                screenSlideFragment.NotifyDATAhasChanged();
+                screenSlideFragment.NotifyDATAhasChanged(files);
             }
         });
     }
@@ -173,7 +172,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     {
         boolean del = super.DeleteFile(file);
         gridViewFragment.NotifyDataSetChanged();
-        screenSlideFragment.NotifyDATAhasChanged();
+        screenSlideFragment.NotifyDATAhasChanged(files);
         return del;
     }
 

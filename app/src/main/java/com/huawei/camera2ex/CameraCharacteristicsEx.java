@@ -177,6 +177,11 @@ public class CameraCharacteristicsEx
     
     public static final CameraCharacteristics.Key<Byte> HUAWEI_ZSL_SUPPORTED;
 
+    public static final CameraCharacteristics.Key<int[]> HUAWEI_PROFESSIONAL_RAW12_SUPPORTED;
+
+    public static final CameraCharacteristics.Key<int[]>HUAWEI_MULTICAP;
+    public static final CameraCharacteristics.Key<int[]>HUAWEI_AVAILIBLE_DEPTH_SIZES;
+
     static {
 
         HUAWEI_FACE_BEAUTY_RANGE = getKeyClass("com.huawei.device.capabilities.faceBeautyRange", int[].class);
@@ -259,6 +264,9 @@ public class CameraCharacteristicsEx
         HUAWEI_FACE_BEAUTY_SUPPORTED = getKeyType("com.huawei.device.capabilities.faceBeautySupported", Byte.TYPE);
         HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS = getKeyClass("com.huawei.device.capabilities.hwAvailableDepthStreamConfigurations", int[].class);
         HUAWEI_OPTICAL_MAX_ZOOM_VALUE = getKeyType("com.huawei.device.capabilities.opticalMaxZoomValue", Byte.TYPE);
+        HUAWEI_PROFESSIONAL_RAW12_SUPPORTED = getKeyClass("com.huawei.device.capabilities.hw-professional-raw12-supported", int[].class);
+        HUAWEI_MULTICAP = getKeyClass("com.huawei.device.capabilities.multiCameraCap",int[].class);
+        HUAWEI_AVAILIBLE_DEPTH_SIZES = getKeyClass("com.huawei.device.capabilities.availableCaptureDepthSizes",int[].class);
     }
 
 

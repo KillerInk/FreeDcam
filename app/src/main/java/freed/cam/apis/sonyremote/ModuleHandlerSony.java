@@ -19,8 +19,6 @@
 
 package freed.cam.apis.sonyremote;
 
-import freed.utils.Log;
-
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -29,6 +27,7 @@ import freed.cam.apis.sonyremote.CameraHolderSony.I_CameraShotMode;
 import freed.cam.apis.sonyremote.modules.PictureModuleSony;
 import freed.cam.apis.sonyremote.modules.VideoModuleSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
+import freed.utils.Log;
 
 /**
  * Created by troop on 13.12.2014.
@@ -45,11 +44,11 @@ public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_Camera
 
     public void initModules()
     {
-        this.cameraHolder = (CameraHolderSony) cameraUiWrapper.GetCameraHolder();
-        ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).cameraShotMode = this;
-        PictureModuleSony pic = new PictureModuleSony(cameraUiWrapper,mBackgroundHandler);
+        this.cameraHolder = (CameraHolderSony) cameraUiWrapper.getCameraHolder();
+        ((ParameterHandler)cameraUiWrapper.getParameterHandler()).cameraShotMode = this;
+        PictureModuleSony pic = new PictureModuleSony(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(pic.ModuleName(), pic);
-        VideoModuleSony mov = new VideoModuleSony(cameraUiWrapper,mBackgroundHandler);
+        VideoModuleSony mov = new VideoModuleSony(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(mov.ModuleName(), mov);
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
@@ -57,7 +56,7 @@ public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_Camera
     }
 
     @Override
-    public void SetModule(String name)
+    public void setModule(String name)
     {
         if (name.equals(cameraUiWrapper.getResString(R.string.module_video)))
             cameraHolder.SetShootMode("movie");

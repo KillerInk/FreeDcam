@@ -20,13 +20,13 @@
 package freed.cam.apis.camera1.parameters.manual.focus;
 
 import android.hardware.Camera.Parameters;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by GeorgeKiarie on 02/04/2016.
@@ -45,8 +45,8 @@ public class FocusManualHuawei extends BaseFocusManual
 
         if (valueToSet == 0)
         {
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.hw_hwcamera_flag),cameraUiWrapper.getResString(R.string.on_));
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.hw_manual_focus_mode),cameraUiWrapper.getResString(R.string.off_));
+            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.hw_hwcamera_flag),cameraUiWrapper.getResString(R.string.on_));
+            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.hw_manual_focus_mode),cameraUiWrapper.getResString(R.string.off_));
         }
         else
         {
@@ -54,7 +54,7 @@ public class FocusManualHuawei extends BaseFocusManual
             parameters.set(cameraUiWrapper.getResString(R.string.hw_manual_focus_mode),cameraUiWrapper.getResString(R.string.on_));
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set " + key_value + " to : " + stringvalues[currentInt]);
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 }

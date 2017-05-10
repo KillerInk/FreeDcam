@@ -48,8 +48,8 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     private final String TAG = VideoModuleG3.class.getSimpleName();
 
-    public VideoModuleG3(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
-        super(cameraUiWrapper,mBackgroundHandler);
+    public VideoModuleG3(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+        super(cameraUiWrapper,mBackgroundHandler,mainHandler);
     }
 
     protected MediaRecorder initRecorder()
@@ -57,8 +57,8 @@ public class VideoModuleG3 extends AbstractVideoModule
         try {
             recorder = new MediaRecorderEx();
             recorder.reset();
-            recorder.setCamera(((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera());
-            if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
+            recorder.setCamera(((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera());
+            if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
                 Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
                 if (location != null)
                     recorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
@@ -86,7 +86,7 @@ public class VideoModuleG3 extends AbstractVideoModule
             catch (IllegalArgumentException ex)
             {
                 recorder.reset();
-                cameraUiWrapper.GetCameraHolder().SendUIMessage("VideoCodec not Supported");
+                cameraUiWrapper.getCameraHolder().SendUIMessage("VideoCodec not Supported");
             }
 
 
@@ -124,7 +124,7 @@ public class VideoModuleG3 extends AbstractVideoModule
         catch (IllegalArgumentException ex)
         {
             recorder.reset();
-            cameraUiWrapper.GetCameraHolder().SendUIMessage("AudioCodec not Supported");
+            cameraUiWrapper.getCameraHolder().SendUIMessage("AudioCodec not Supported");
         }
 
     }
@@ -145,35 +145,35 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     private void loadProfileSpecificParameters()
     {
-        VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
+        VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.getParameterHandler().VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.videoProfile.get());
-        if (((ParametersHandler)cameraUiWrapper.GetParameterHandler()).getParameters().get("preview-fps-range") != null) {
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters().set("preview-fps-range", "30000,30000");
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.GetParameterHandler()).getParameters());
+        if (((ParametersHandler)cameraUiWrapper.getParameterHandler()).getParameters().get("preview-fps-range") != null) {
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).getParameters().set("preview-fps-range", "30000,30000");
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.getParameterHandler()).getParameters());
         }
         if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("2160p"))
         {
-            cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue(appSettingsManager.getResString(R.string.disable_),false);
-            cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), false);
-            cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", false);
+            cameraUiWrapper.getParameterHandler().MemoryColorEnhancement.SetValue(appSettingsManager.getResString(R.string.disable_),false);
+            cameraUiWrapper.getParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), false);
+            cameraUiWrapper.getParameterHandler().Denoise.SetValue("denoise-off", false);
             if(!appSettingsManager.IsCamera2FullSupported())
-                cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",false);
+                cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("nv12-venus",false);
             if (currentProfile.Mode == VideoMode.Highspeed)
             {
-                if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported())
+                if (cameraUiWrapper.getParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.getParameterHandler().VideoHighFramerateVideo.IsSupported())
                 {
-                    cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", false);
+                    cameraUiWrapper.getParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", false);
                 }
             }
         }
         else
         {
-            cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp", false);
+            cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("yuv420sp", false);
         }
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
-        cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,false);
-        cameraUiWrapper.GetParameterHandler().VideoSize.SetValue(size,true);
-        /*cameraUiWrapper.StopPreview();
-        cameraUiWrapper.StartPreview();*/
+        cameraUiWrapper.getParameterHandler().PreviewSize.SetValue(size,false);
+        cameraUiWrapper.getParameterHandler().VideoSize.SetValue(size,true);
+        /*cameraUiWrapper.stopPreview();
+        cameraUiWrapper.startPreview();*/
     }
 }

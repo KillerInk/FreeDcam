@@ -45,7 +45,7 @@ public class ShutterManualParameterG4 extends AbstractManualShutter implements M
         this.manualevent = manualevent;
         if (parameters.get(cameraUiWrapper.getResString(R.string.lg_shutterspeed)) != null) {
             isSupported = true;
-            stringvalues = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getValues();
+            stringvalues = cameraUiWrapper.getAppSettingsManager().manualExposureTime.getValues();
         }
         else
             isSupported = false;

@@ -26,7 +26,6 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -41,6 +40,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 import freed.utils.PermissionHandler;
 
 /**
@@ -53,8 +53,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     private final String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
 
-    public AbstractVideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
-        super(cameraUiWrapper,mBackgroundHandler);
+    public AbstractVideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+        super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_video);
     }
 
@@ -77,14 +77,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     @Override
     public void DoWork()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(new PermissionHandler.PermissionCallback() {
-            @Override
-            public void permissionGranted(boolean granted) {
-
-            }
-        }))
-            startStopRecording();
-
+        startStopRecording();
     }
 
     private void startStopRecording()
@@ -104,14 +97,9 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     protected void startRecording()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(new PermissionHandler.PermissionCallback() {
-            @Override
-            public void permissionGranted(boolean granted) {
-
-            }
-        })) {
-            if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
-                cameraUiWrapper.GetCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
+        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(null)) {
+            if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+                cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
             prepareRecorder();
         }
 
@@ -123,7 +111,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         {
             Log.d(TAG, "InitMediaRecorder");
             isWorking = true;
-            ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().unlock();
+            ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().unlock();
             recorder = initRecorder();
             recorder.setMaxFileSize(3037822976L); //~2.8 gigabyte
             recorder.setMaxDuration(7200000); //2hours
@@ -131,9 +119,9 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {
                     Log.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
-                    cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+                    cameraUiWrapper.getModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
                     changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
-                    ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
+                    ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
                 }
             });
 
@@ -147,11 +135,11 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             else
                 recorder.setOrientationHint(0);
 
-            // cameraHolder.StopPreview();
+            // cameraHolder.stopPreview();
             //parameterHandler.PreviewFormat.SetValue("nv12-venus", true);
 
-            recorder.setPreviewDisplay(((CameraHolder) cameraUiWrapper.GetCameraHolder()).getSurfaceHolder());
-            // cameraHolder.StartPreview();
+            recorder.setPreviewDisplay(((CameraHolder) cameraUiWrapper.getCameraHolder()).getSurfaceHolder());
+            // cameraHolder.startPreview();
 
             try {
                 Log.d(TAG,"Preparing Recorder");
@@ -164,11 +152,11 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             } catch (Exception ex)
             {
                 Log.e(TAG,"Recording failed");
-                cameraUiWrapper.GetCameraHolder().SendUIMessage("Start Recording failed");
+                cameraUiWrapper.getCameraHolder().SendUIMessage("Start Recording failed");
                 Log.WriteEx(ex);
                 recorder.reset();
                 isWorking = false;
-                ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
+                ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
                 recorder.release();
                 isWorking = false;
                 sendStopToUi();
@@ -177,10 +165,10 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
-            cameraUiWrapper.GetCameraHolder().SendUIMessage("Start Recording failed");
+            cameraUiWrapper.getCameraHolder().SendUIMessage("Start Recording failed");
             recorder.reset();
             isWorking = false;
-            ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
+            ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
             recorder.release();
             isWorking = false;
             sendStopToUi();
@@ -191,12 +179,12 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     private void sendStopToUi()
     {
         changeCaptureState(CaptureStates.video_recording_stop);
-        cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+        cameraUiWrapper.getModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
     }
 
     private void sendStartToUi()
     {
-        cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
+        cameraUiWrapper.getModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
         changeCaptureState(CaptureStates.video_recording_start);
     }
 
@@ -211,14 +199,14 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         catch (Exception ex)
         {
             Log.e(TAG, "Stop Recording failed, was called bevor start");
-            cameraUiWrapper.GetCameraHolder().SendUIMessage("Stop Recording failed, was called bevor start");
+            cameraUiWrapper.getCameraHolder().SendUIMessage("Stop Recording failed, was called bevor start");
             Log.e(TAG,ex.getMessage());
             isWorking = false;
         }
         finally
         {
             recorder.reset();
-            ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
+            ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
             recorder.release();
             isWorking = false;
             try {

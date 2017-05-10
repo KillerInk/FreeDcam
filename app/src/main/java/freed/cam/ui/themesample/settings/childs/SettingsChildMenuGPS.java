@@ -43,7 +43,7 @@ public class SettingsChildMenuGPS extends SettingsChildMenu
 
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        SetParameter(cameraUiWrapper.GetParameterHandler().locationParameter);
+        SetParameter(cameraUiWrapper.getParameterHandler().locationParameter);
 
     }
 }

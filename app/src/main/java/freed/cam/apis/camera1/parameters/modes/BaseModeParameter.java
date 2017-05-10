@@ -20,9 +20,6 @@
 package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
-import freed.utils.Log;
-
-import java.util.ArrayList;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
@@ -30,6 +27,7 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 17.08.2014.
@@ -97,7 +95,7 @@ public class BaseModeParameter extends AbstractModeParameter implements ModuleCh
         onValueHasChanged(valueToSet);
         if (setToCam) {
 
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 

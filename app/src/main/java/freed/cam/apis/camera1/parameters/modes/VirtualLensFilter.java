@@ -37,7 +37,7 @@ public class VirtualLensFilter extends  BaseModeParameter {
     {
         super(parameters, cameraUiWrapper);
 
-        if (cameraUiWrapper.GetAppSettingsManager().isZteAe())
+        if (cameraUiWrapper.getAppSettingsManager().isZteAe())
             isSupported = true;
         this.cameraUiWrapper = cameraUiWrapper;
         valuesArray = cameraUiWrapper.getContext().getResources().getStringArray(R.array.virtual_lensfilter_colors);
@@ -100,7 +100,7 @@ public class VirtualLensFilter extends  BaseModeParameter {
 
 
         }
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
 
     @Override

@@ -29,10 +29,10 @@ import android.renderscript.Allocation.OnBufferAvailableListener;
 import android.renderscript.Element;
 import android.renderscript.RenderScript.RSErrorHandler;
 import android.renderscript.Type.Builder;
-import freed.utils.Log;
 import android.view.Surface;
 
 import freed.cam.apis.basecamera.FocuspeakProcessor;
+import freed.utils.Log;
 import freed.utils.RenderScriptHandler;
 
 /**
@@ -49,6 +49,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     private ProcessingTask mProcessingTask;
     private boolean peak;
     private final RenderScriptHandler renderScriptHandler;
+    private final Object workLock = new Object();
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     public FocuspeakProcessorApi2(RenderScriptHandler renderScriptHandler)
@@ -99,14 +100,9 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
 
         if (mProcessingTask != null) {
 
-            while (mProcessingTask.working) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Log.WriteEx(ex);
-                }
+            synchronized (workLock) {
+                mProcessingTask = null;
             }
-            mProcessingTask = null;
         }
         mProcessingTask = new ProcessingTask();
     }
@@ -125,21 +121,17 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     {
         if (mProcessingTask != null) {
 
-            while (mProcessingTask.working) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Log.WriteEx(ex);
-                }
-            }
-            mProcessingTask = null;
-            if (renderScriptHandler.GetIn() != null) {
-                renderScriptHandler.GetIn().setOnBufferAvailableListener(null);
-            }
-            if (renderScriptHandler.GetOut() != null)
+            synchronized (workLock)
             {
-                renderScriptHandler.GetOut().setSurface(null);
-                //mOutputAllocation = null;
+                mProcessingTask = null;
+                if (renderScriptHandler.GetIn() != null) {
+                    renderScriptHandler.GetIn().setOnBufferAvailableListener(null);
+                }
+                if (renderScriptHandler.GetOut() != null)
+                {
+                    renderScriptHandler.GetOut().setSurface(null);
+                    //mOutputAllocation = null;
+                }
             }
         }
         Log.d(TAG,"kill()");
@@ -168,35 +160,34 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
         @Override
         public void run()
         {
-            working = true;
-            // Find out how many frames have arrived
-            int pendingFrames;
-            synchronized (this) {
-                pendingFrames = mPendingFrames;
-                mPendingFrames = 0;
-                // Discard extra messages in case processing is slower than frame rate
-                mProcessingHandler.removeCallbacks(this);
-            }
-            // Get to newest input
-            for (int i = 0; i < pendingFrames; i++)
-            {
-                renderScriptHandler.GetIn().ioReceive();
-            }
-            mCount++;
-            if (renderScriptHandler.GetOut() == null)
-                return;
-            if (peak) {
+            synchronized (workLock) {
+                working = true;
+                // Find out how many frames have arrived
+                int pendingFrames;
+                synchronized (this) {
+                    pendingFrames = mPendingFrames;
+                    mPendingFrames = 0;
+                    // Discard extra messages in case processing is slower than frame rate
+                    mProcessingHandler.removeCallbacks(this);
+                }
+                // Get to newest input
+                for (int i = 0; i < pendingFrames; i++) {
+                    renderScriptHandler.GetIn().ioReceive();
+                }
+                mCount++;
+                if (renderScriptHandler.GetOut() == null)
+                    return;
+                if (peak) {
 
-                // Run processing pass
-                renderScriptHandler.freedcamScript.forEach_focuspeakcam2(renderScriptHandler.GetOut());
-            }
-            else
-            {
+                    // Run processing pass
+                    renderScriptHandler.freedcamScript.forEach_focuspeakcam2(renderScriptHandler.GetOut());
+                } else {
 
-                renderScriptHandler.yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOut());
+                    renderScriptHandler.yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOut());
+                }
+                renderScriptHandler.GetOut().ioSend();
+                working = false;
             }
-            renderScriptHandler.GetOut().ioSend();
-            working = false;
         }
     }
 }

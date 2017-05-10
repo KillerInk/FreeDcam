@@ -21,7 +21,6 @@
 package freed.cam.apis.camera1.parameters.manual.mtk;
 
 import android.hardware.Camera.Parameters;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -29,6 +28,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 28.03.2016.
@@ -47,16 +47,16 @@ public class FocusManualMTK extends BaseFocusManual {
 
         if (valueToSet == 0)
         {
-            cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
+            cameraUiWrapper.getParameterHandler().FocusMode.SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
         }
         else
         {
-            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
-                cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
+            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.getParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
+                cameraUiWrapper.getParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
 
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 }

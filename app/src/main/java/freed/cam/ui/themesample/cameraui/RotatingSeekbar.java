@@ -29,11 +29,12 @@ import android.graphics.Paint.Style;
 import android.graphics.Shader;
 import android.os.Handler;
 import android.util.AttributeSet;
-import freed.utils.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+
+import freed.utils.Log;
 
 /**
  * Created by troop on 07.12.2015.

@@ -19,8 +19,6 @@
 
 package freed.cam.apis.sonyremote.parameters.manual;
 
-import freed.utils.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +35,7 @@ import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 
 /**
  * Created by troop on 15.12.2014.
@@ -61,7 +60,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         this.VALUE_TO_GET = VALUE_TO_GET;
         this.VALUES_TO_GET = VALUES_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;
-        mRemoteApi = ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).mRemoteApi;
+        mRemoteApi = ((ParameterHandler)cameraUiWrapper.getParameterHandler()).mRemoteApi;
         addEventListner(this);
 
     }

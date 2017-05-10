@@ -45,10 +45,10 @@ public abstract class AbstractModuleApi2 extends BasePictureModule implements I_
     protected Point displaySize;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-    public AbstractModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler)
+    public AbstractModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
-        super(cameraUiWrapper,mBackgroundHandler);
-        parameterHandler = (ParameterHandlerApi2) cameraUiWrapper.GetParameterHandler();
+        super(cameraUiWrapper,mBackgroundHandler,mainHandler);
+        parameterHandler = (ParameterHandlerApi2) cameraUiWrapper.getParameterHandler();
         Display display = ((WindowManager)cameraUiWrapper.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
 
@@ -73,7 +73,7 @@ public abstract class AbstractModuleApi2 extends BasePictureModule implements I_
     public void InitModule()
     {
         super.InitModule();
-        this.cameraHolder = (CameraHolderApi2) cameraUiWrapper.GetCameraHolder();
+        this.cameraHolder = (CameraHolderApi2) cameraUiWrapper.getCameraHolder();
     }
 
 }

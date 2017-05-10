@@ -2,10 +2,6 @@ package freed.cam.featuredetector;
 
 import android.hardware.Camera;
 
-import freed.cam.apis.camera1.CameraHolder;
-import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
-import freed.utils.Log;
-
 import com.lge.hardware.LGCamera;
 import com.troop.freedcam.R;
 
@@ -16,8 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
+import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 
 /**
@@ -182,7 +180,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             sendProgress(appS.manualIso,"Manual ISo");
 
             detectManualWhiteBalance(parameters);
-            sendProgress(appS.manualIso,"Manual Wb");
+            sendProgress(appS.manualWhiteBalance,"Manual Wb");
 
             detectQcomFocus(parameters);
 
@@ -299,6 +297,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     public static String[] createWBStringArray(int min, int max, float step, AppSettingsManager appSettingsManager)
     {
+        Log.d(TAG,"Create Wbvalues");
         ArrayList<String> t = new ArrayList<>();
         t.add(appSettingsManager.getResString(R.string.auto_));
         for (int i = min; i<=max;i+=step)
@@ -353,6 +352,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     public static String[] createIsoValues(int miniso, int maxiso, int step,AppSettingsManager appSettingsManager)
     {
+        Log.d(TAG,"Create Isovalues");
         ArrayList<String> s = new ArrayList<>();
         s.add(appSettingsManager.getResString(R.string.auto_));
         for (int i =miniso; i <= maxiso; i +=step)
@@ -436,8 +436,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 long min = 0, max = 0;
                 if (parameters.get(camstring(R.string.max_exposure_time)).contains(".")) {
                     Log.d(TAG, "ManualExposureTime Qcom Microsec");
-                    min = (long) Double.parseDouble(parameters.get(camstring(R.string.min_exposure_time))) * 1000;
-                    max = (long) Double.parseDouble(parameters.get(camstring(R.string.max_exposure_time))) * 1000;
+                    min = (long) (Double.parseDouble(parameters.get(camstring(R.string.min_exposure_time))) * 1000);
+                    max = (long) (Double.parseDouble(parameters.get(camstring(R.string.max_exposure_time))) * 1000);
                     appSettingsManager.manualExposureTime.setType(AppSettingsManager.SHUTTER_QCOM_MICORSEC);
                 } else {
                     Log.d(TAG, "ManualExposureTime Qcom Millisec");
@@ -462,27 +462,27 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         ArrayList<String> tmp = new ArrayList<>();
         if (withautomode)
             tmp.add(appSettingsManager.getResString(R.string.auto_));
-        for (int i = 1; i < allvalues.length; i++) {
+        for (int i = 0; i < allvalues.length; i++) {
             String s = allvalues[i];
+            if (!s.equals(appSettingsManager.getResString(R.string.auto_))) {
+                float a;
+                if (s.contains("/")) {
+                    String[] split = s.split("/");
+                    a = (Float.parseFloat(split[0]) / Float.parseFloat(split[1])) * 1000000f;
+                } else
+                    a = Float.parseFloat(s) * 1000000f;
 
-            float a;
-            if (s.contains("/")) {
-                String[] split = s.split("/");
-                a = Float.parseFloat(split[0]) / Float.parseFloat(split[1]) * 1000000f;
-            } else
-                a = Float.parseFloat(s) * 1000000f;
-
-            if (a >= minMillisec && a <= maxMiliisec)
-                tmp.add(s);
-            if (a >= minMillisec && !foundmin) {
-                foundmin = true;
+                if (a >= minMillisec && a <= maxMiliisec)
+                    tmp.add(s);
+                if (a >= minMillisec && !foundmin) {
+                    foundmin = true;
+                }
+                if (a > maxMiliisec && !foundmax) {
+                    foundmax = true;
+                }
+                if (foundmax && foundmin)
+                    break;
             }
-            if (a > maxMiliisec && !foundmax) {
-                foundmax = true;
-            }
-            if (foundmax && foundmin)
-                break;
-
         }
         return tmp.toArray(new String[tmp.size()]);
     }
@@ -977,6 +977,16 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                             }
                         }
                     }
+                }
+                else
+                {
+                    if (!formats.contains(appSettingsManager.rawPictureFormat.get()))
+                    {
+                        appSettingsManager.rawPictureFormat.set(appSettingsManager.rawPictureFormat.get());
+                        appSettingsManager.rawPictureFormat.setIsSupported(true);
+                    }
+
+
                 }
                 if (formats.contains(appSettingsManager.getResString(R.string.bayer_)))
                 {

@@ -36,12 +36,10 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
@@ -473,10 +471,12 @@ public class AppSettingsManager {
         mDevice = sharedPreferences.getString("DEVICE","");
         if (mDevice == null || TextUtils.isEmpty(mDevice))
         {
+            Log.d(TAG, "Lookup ConfigFile");
             parseAndFindSupportedDevice();
         }
         else //load only stuff for dng
         {
+            Log.d(TAG, "load dngProfiles");
             opcodeUrlList = new String[2];
             dngProfileHashMap = getDngProfiles();
         }
@@ -611,6 +611,16 @@ public class AppSettingsManager {
     public void setCamera2MaxExposureTime(long max)
     {
         settings.edit().putLong("camera2maxexposuretime",max).commit();
+    }
+
+    public int getCamera2MaxIso()
+    {
+        return settings.getInt("camera2maxiso",0);
+    }
+
+    public void setCamera2MaxIso(int max)
+    {
+        settings.edit().putInt("camera2maxiso",max).commit();
     }
 
     private void setDevice(String device) {
@@ -1011,11 +1021,14 @@ public class AppSettingsManager {
                                 {
                                     setCamera2MaxExposureTime(camera2element.findChild("maxexposuretime").getLongValue());
                                 }
+                                if (!camera2element.findChild("maxiso").isEmpty())
+                                    setCamera2MaxIso(camera2element.findChild("maxiso").getIntValue(0));
                             }
 
                             dngProfileHashMap = new LongSparseArray<>();
                             getDngStuff(dngProfileHashMap, device_element);
-                            saveDngProfiles();
+                            Log.d(TAG, "Save Dng Profiles:" + dngProfileHashMap.size());
+                            saveDngProfiles(dngProfileHashMap);
 
                             break;
                         }
@@ -1082,7 +1095,10 @@ public class AppSettingsManager {
         LongSparseArray<DngProfile> map = new LongSparseArray<>();
         try {
             File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
+            Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
+
             String xmlsource = getString(new FileInputStream(configFile));
+            Log.d(TAG, xmlsource);
             XmlElement rootElement = XmlElement.parse(xmlsource);
             if (rootElement.getTagName().equals("devices"))
             {
@@ -1167,33 +1183,44 @@ public class AppSettingsManager {
         return buf.toString();
     }
 
-    private void saveDngProfiles()
+    public void saveDngProfiles(LongSparseArray<DngProfile> dngProfileList)
     {
+        BufferedWriter writer = null;
         try {
 
             File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
+            Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
+            Log.d(TAG, configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
             if (!configFile.getParentFile().exists())
                 configFile.getParentFile().mkdirs();
+            Log.d(TAG, configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
             configFile.createNewFile();
-            BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
+            writer = new BufferedWriter(new FileWriter(configFile));
             writer.write("<devices>" + "\r\n");
             writer.write("<device name = \""+ mDevice +"\">\r\n");
 
-            for (int i =0; i< dngProfileHashMap.size();i++)
+            for (int i =0; i< dngProfileList.size();i++)
             {
-                long t = dngProfileHashMap.keyAt(i);
-                writer.write(dngProfileHashMap.get(t).getXmlString(t));
+                long t = dngProfileList.keyAt(i);
+                Log.d(TAG, "Write Profile: " + t);
+                writer.write(dngProfileList.get(t).getXmlString(t));
             }
 
             writer.write("</device>" + "\r\n");
             writer.write("</devices>" + "\r\n");
             writer.flush();
-            writer.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
-
+        finally {
+            if (writer != null)
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
     }
 
 }

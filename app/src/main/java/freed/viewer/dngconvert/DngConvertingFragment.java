@@ -29,14 +29,10 @@ import android.os.AsyncTask;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
-
-import freed.dng.CustomMatrix;
-import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,6 +62,7 @@ import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.jni.RawUtils;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
@@ -134,6 +131,10 @@ public class DngConvertingFragment extends Fragment
         });
         imageView = (TouchImageView) view.findViewById(id.dngconvert_imageview);
         fakeGPS = (CheckBox) view.findViewById(id.checkBox_fakeGPS);
+
+        Button saveDngProfile = (Button)view.findViewById(id.button_saveProfile);
+        saveDngProfile.setOnClickListener(saveDngProfileClick);
+
         return view;
     }
 
@@ -171,12 +172,18 @@ public class DngConvertingFragment extends Fragment
             else if (dngprofile.bayerPattern.equals(DngProfile.RGBW))
                 spinnerColorPattern.setSelection(4);
 
+            for (int i = 0; i< matrixChooserParameter.GetValues().length;i++)
+                if (matrixChooserParameter.GetValues()[i].equals(dngprofile.matrixName))
+                    spinnerMatrixProfile.setSelection(i);
+
+
             spinnerrawFormat.setSelection(dngprofile.rawType);
             if (dngprofile != null){
                 spinnerMatrixProfile.setOnItemSelectedListener(new OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         dngprofile.matrixes = matrixChooserParameter.GetCustomMatrixNotOverWritten(spinnerMatrixProfile.getSelectedItem().toString());
+                        dngprofile.matrixName = spinnerMatrixProfile.getSelectedItem().toString();
                     }
 
                     @Override
@@ -230,6 +237,20 @@ public class DngConvertingFragment extends Fragment
 
 
             }
+        }
+    };
+
+    private final OnClickListener saveDngProfileClick = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            dngprofile.widht = Integer.parseInt(editTextwidth.getText().toString());
+            dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
+            dngprofile.blacklevel = Integer.parseInt(editTextblacklvl.getText().toString());
+            dngprofile.rowsize = Integer.parseInt(editTextCusotmRowSize.getText().toString());
+            long filesize = new File(filesToConvert[0]).length();
+            appSettingsManager.getDngProfilesMap().append(filesize,dngprofile);
+            appSettingsManager.saveDngProfiles(appSettingsManager.getDngProfilesMap());
+            Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };
 

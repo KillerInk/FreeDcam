@@ -20,19 +20,18 @@
 package freed.cam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
-import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Builder;
 import android.os.Build;
 import android.os.Handler;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
 import java.io.File;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.utils.Log;
 
 /**
  * Created by troop on 17.08.2016.
@@ -56,8 +55,8 @@ public class AeBracketApi2 extends PictureModuleApi2
     private int currentFileCount;
 
 
-    public AeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
-        super(cameraUiWrapper,mBackgroundHandler);
+    public AeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+        super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_hdr);
     }
 
@@ -74,15 +73,15 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
-        cameraUiWrapper.GetParameterHandler().Burst.ThrowBackgroundIsSetSupportedChanged(false);
-        cameraUiWrapper.GetParameterHandler().Burst.SetValue(2);
+        cameraUiWrapper.getParameterHandler().Burst.ThrowBackgroundIsSetSupportedChanged(false);
+        cameraUiWrapper.getParameterHandler().Burst.SetValue(2);
         maxiso = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
     }
 
     @Override
     public void DestroyModule() {
         super.DestroyModule();
-        cameraUiWrapper.GetParameterHandler().Burst.ThrowBackgroundIsSetSupportedChanged(true);
+        cameraUiWrapper.getParameterHandler().Burst.ThrowBackgroundIsSetSupportedChanged(true);
 
     }
 
@@ -127,11 +126,12 @@ public class AeBracketApi2 extends PictureModuleApi2
 
 
     @Override
-    protected void finishCapture(Builder captureBuilder) {
-        super.finishCapture(captureBuilder);
+    protected void finishCapture(Builder captureBuilder, int burstcount) {
+        super.finishCapture(captureBuilder,burstcount);
         if (aeWasOn)
             parameterHandler.ExposureMode.SetValue(activityInterface.getContext().getString(R.string.on),true);
-        fireOnWorkFinish(savedFiles);
+        if (burstcount == 2)
+            fireOnWorkFinish(savedFiles);
     }
 
     @Override

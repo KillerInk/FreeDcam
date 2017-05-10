@@ -20,7 +20,6 @@
 package freed.cam.apis.camera1.parameters.manual.focus;
 
 import android.hardware.Camera.Parameters;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -28,6 +27,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 05.03.2016.
@@ -65,12 +65,12 @@ public class BaseFocusManual extends BaseManualParameter
         isSupported = true;
         isVisible = true;
         this.manualFocusModeString = manualFocusModeString;
-        if (cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues().length == 0) {
+        if (cameraUiWrapper.getAppSettingsManager().manualFocus.getValues().length == 0) {
             stringvalues = createStringArray(min, max, step);
-            cameraUiWrapper.GetAppSettingsManager().manualFocus.setValues(stringvalues);
+            cameraUiWrapper.getAppSettingsManager().manualFocus.setValues(stringvalues);
         }
         else
-            stringvalues = cameraUiWrapper.GetAppSettingsManager().manualFocus.getValues();
+            stringvalues = cameraUiWrapper.getAppSettingsManager().manualFocus.getValues();
         this.manualFocusType = manualFocusType;
     }*/
 
@@ -95,19 +95,19 @@ public class BaseFocusManual extends BaseManualParameter
 
         if (valueToSet == 0)
         {
-            cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
+            cameraUiWrapper.getParameterHandler().FocusMode.SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
             Log.d(TAG, "Set Focus to : auto");
         }
         else
         {
-            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
-                cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
+            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.getParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
+                cameraUiWrapper.getParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
             if (manualFocusType > -1)
                 parameters.set(cameraUiWrapper.getResString(R.string.manual_focus_pos_type), manualFocusType +"");
 
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 

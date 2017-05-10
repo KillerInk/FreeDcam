@@ -30,31 +30,31 @@ public interface ModuleHandlerInterface
      * Load the new module
      * @param name of the module to load
      */
-    void SetModule(String name);
+    void setModule(String name);
 
     /**
      * Get the name of the current module
      * @return name of moduke
      */
-    String GetCurrentModuleName();
+    String getCurrentModuleName();
 
     /**
      * get the current module instace
      * @return current active module
      */
-    ModuleInterface GetCurrentModule();
+    ModuleInterface getCurrentModule();
 
     /**
      * Start work on the current modulé
      * @return
      */
-    boolean DoWork();
+    boolean startWork();
 
     /**
      * Add worklistner that listen to the current module
      * @param workerListner to add
      */
-    void SetWorkListner(CaptureStateChanged workerListner);
+    void setWorkListner(CaptureStateChanged workerListner);
 
     void initModules();
 }

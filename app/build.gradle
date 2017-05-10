@@ -14,8 +14,10 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 119
-        versionName '4.1_alpha17'
+        versionCode 121
+        versionName '4.1_alpha19'
+        versionCode 122
+        versionName '4.1_alpha20'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 18
         externalNativeBuild {
@@ -47,7 +49,6 @@ android {
 
 dependencies {
     provided files('libs/com.lge.frameworks.jar')
-    provided files('libs/real3d.jar')
     compile 'com.android.support:appcompat-v7:24.2.1'
     provided files('libs/libTypeReference.jar')
 }

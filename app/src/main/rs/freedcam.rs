@@ -88,9 +88,9 @@ uchar4 __attribute__((kernel)) focuspeakcam2(uint32_t x, uint32_t y) {
             mergedPixel.g * 1814 / 1024 - 227;
     rgb.a = 255;
     // Write out merged HDR result
-    if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
-    if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
-    if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
+    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
+    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
     uchar4 out = convert_uchar4(rgb);
     return out;
 }
@@ -139,9 +139,9 @@ uchar4 __attribute__((kernel)) focuspeakcam1(uint32_t x, uint32_t y) {
     {
         rgb.r =0; rgb.g = 0;  rgb.b = 255;
     }
-    if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
-    if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
-    if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
+    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
+    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
 
     uchar4 out = convert_uchar4(rgb);
 
@@ -183,9 +183,9 @@ uchar4 __attribute__((kernel)) focuspeaksony(uint32_t x, uint32_t y) {
     rgb.g = mergedPixel.g + sum;
     rgb.b = mergedPixel.b + sum;
     rgb.a = 255;
-    if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
-    if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
-    if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
+    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
+    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
 
     //rsDebug("rgb", rgb);
     uchar4 out = convert_uchar4(rgb);
@@ -259,9 +259,9 @@ uchar4 __attribute__((kernel)) stackimage_avarage(uint32_t x, uint32_t y) {
     lastPixel = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y));
     merged = (curPixel + lastPixel)/2;
     rgb = rsPackColorTo8888(merged);
-    if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
-    if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
-    if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
+    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
+    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
     return rgb;
 }
 
@@ -272,9 +272,9 @@ uchar4 __attribute__((kernel)) stackimage_exposure(uint32_t x, uint32_t y) {
     lastPixel = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y));
     merged = (curPixel*2 + lastPixel*4)/4;
     rgb = rsPackColorTo8888(merged);
-    if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
-    if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
-    if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
+    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
+    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
     return rgb;
 }
 
@@ -302,9 +302,9 @@ uchar4 __attribute__((kernel)) stackimage_avarage1x2(uint32_t x, uint32_t y)
         lastPixel = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y));
         rgb = rsPackColorTo8888(merged);
     }
-    if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
-    if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
-    if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
+    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
+    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
     return rgb;
 }
 
@@ -337,9 +337,9 @@ uchar4 __attribute__((kernel)) stackimage_avarage1x3(uint32_t x, uint32_t y)
         rgb = rsPackColorTo8888(mergedPix);
 
     }
-    if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
-    if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
-    if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
+    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
+    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
     return rgb;
 }
 
@@ -387,9 +387,9 @@ uchar4 __attribute__((kernel)) stackimage_avarage3x3(uint32_t x, uint32_t y)
         rgb = rsPackColorTo8888(mergedPix);
 
     }
-    if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
-    if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
-    if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
+    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
+    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
     return rgb;
 }
 
@@ -403,9 +403,9 @@ uchar4 __attribute__((kernel)) stackimage_lighten(uint32_t x, uint32_t y)
         rgb = rsPackColorTo8888(curPixel);
     else
         rgb = rsPackColorTo8888(lastPixel);
-    if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
-    if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
-    if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
+    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
+    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
     return rgb;
 }
 
@@ -421,9 +421,9 @@ uchar4 __attribute__((kernel)) stackimage_lightenV(uint32_t x, uint32_t y)
         rgb = curPixel;
     else
         rgb = lastPixel;
-    if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
-    if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
-    if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+   rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
+   rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
+   rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
     return rgb;
 }
 
@@ -437,9 +437,9 @@ uchar4 __attribute__((kernel)) stackimage_median(uint32_t x, uint32_t y)
     else if(curPixel.r > t.max.r && curPixel.g > t.max.g && curPixel.b > t.max.b)
         t.max = curPixel;
     uchar4 rgb = t.max - t.min;
-    if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
-    if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
-    if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
+    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
+    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
     return rgb;
 }
 

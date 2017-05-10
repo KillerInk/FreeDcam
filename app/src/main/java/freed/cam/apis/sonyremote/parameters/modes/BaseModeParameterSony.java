@@ -19,8 +19,6 @@
 
 package freed.cam.apis.sonyremote.parameters.modes;
 
-import freed.utils.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +30,7 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 
 /**
  * Created by troop on 15.12.2014.

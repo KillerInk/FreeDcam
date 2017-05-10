@@ -1364,6 +1364,26 @@
         </filesize>
     </device>
 
+    <device name ="Meizu_M3_Note">
+        <models>
+            <item>m3 note</item>
+        </models>
+        <camera1>
+            <dngmanual>true</dngmanual>
+        </camera1>
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <filesize size= "26492928">
+            <blacklvl>64</blacklvl>
+            <width>4224</width>
+            <height>3136</height>
+            <rawtype>2</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Lumigon</matrixset>
+        </filesize>
+    </device>
+
     <device name ="MeizuMX4_MTK">
         <models>
             <item>MX4</item>
@@ -1421,7 +1441,7 @@
             <rawtype>2</rawtype>
             <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
+            <matrixset>IMX298_Qualcomm</matrixset>
         </filesize>
     </device>
 
@@ -1502,6 +1522,18 @@
             <dngmanual>false</dngmanual>
             <needrestartaftercapture>true</needrestartaftercapture>
             <rawformat>bayer-qcom-10rggb</rawformat>
+            <manualiso supported="true">
+                <min>50</min>
+                <max>3200</max>
+                <step>50</step>
+                <key>continous-iso</key>
+                <type>0</type>
+            </manualiso>
+            <exposuretime>
+                <values>aquaris_e5_shuttervalues</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>4</type>
+            </exposuretime>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -2643,6 +2675,8 @@
         <camera1>
             <dngmanual>false</dngmanual>
             <manualiso supported="false"></manualiso>
+            <hdrmode supported="true">0</hdrmode>
+            <nightmode>0</nightmode>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
@@ -3259,7 +3293,8 @@
             <item>EVA-L09</item>
         </models>
         <camera2>
-            <maxexposuretime>30000000</maxexposuretime>
+            <maxexposuretime>32000000</maxexposuretime>
+            <maxiso>34000</maxiso>
         </camera2>
     </device>
 
@@ -3287,7 +3322,7 @@
             <item>Redmi 4</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
+            <dngmanual>true</dngmanual>
             <manualiso supported="false"></manualiso>
         </camera1>
         <opcode2></opcode2>
@@ -3311,7 +3346,9 @@
         </models>
         <camera1>
             <dngmanual>false</dngmanual>
-            <manualiso supported="false"></manualiso>
+            <manualiso supported="true"></manualiso>
+            <hdrmode supported="true">0</hdrmode>
+            <nightmode>0</nightmode>
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>

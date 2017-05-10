@@ -38,7 +38,7 @@ public class ShutterManualKrilin extends AbstractManualShutter {
         this.parameters =  parameters;
         isSupported = true;
         isVisible = isSupported;
-        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getValues();
+        stringvalues = cameraUiWrapper.getAppSettingsManager().manualExposureTime.getValues();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ShutterManualKrilin extends AbstractManualShutter {
 
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-professional-mode", "on");
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getKEY(), stringvalues[currentInt]);
+            parameters.set(cameraUiWrapper.getAppSettingsManager().manualExposureTime.getKEY(), stringvalues[currentInt]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[valueToSet]);
     }

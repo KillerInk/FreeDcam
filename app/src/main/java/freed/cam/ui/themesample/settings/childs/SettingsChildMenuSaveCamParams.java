@@ -22,8 +22,6 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
-import android.util.AttributeSet;
-import freed.utils.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -38,6 +36,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.utils.Log;
 import freed.utils.StringUtils;
 
 /**
@@ -137,7 +136,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
     private void saveCamParameters()
     {
         String[] paras = null;
-        CameraHolder holder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
+        CameraHolder holder = (CameraHolder) cameraUiWrapper.getCameraHolder();
 
         paras = holder.GetCamera().getParameters().flatten().split(";");
 

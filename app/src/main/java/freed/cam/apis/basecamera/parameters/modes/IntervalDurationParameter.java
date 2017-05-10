@@ -37,10 +37,10 @@ public class IntervalDurationParameter extends AbstractModeParameter
     public IntervalDurationParameter(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (TextUtils.isEmpty(cameraUiWrapper.GetAppSettingsManager().intervalDuration.get()))
-            cameraUiWrapper.GetAppSettingsManager().intervalDuration.set(current);
+        if (TextUtils.isEmpty(cameraUiWrapper.getAppSettingsManager().intervalDuration.get()))
+            cameraUiWrapper.getAppSettingsManager().intervalDuration.set(current);
         else
-            current = cameraUiWrapper.GetAppSettingsManager().intervalDuration.get();
+            current = cameraUiWrapper.getAppSettingsManager().intervalDuration.get();
     }
 
     @Override

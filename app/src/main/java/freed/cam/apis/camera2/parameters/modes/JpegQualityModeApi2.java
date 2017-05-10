@@ -31,7 +31,7 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
     {
         int r;
         try {
-            r  = (int) ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.get(CaptureRequest.JPEG_QUALITY);
+            r  = (int) ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(CaptureRequest.JPEG_QUALITY);
         }
         catch (NullPointerException ex)
         {
@@ -55,6 +55,6 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
-        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_QUALITY, (byte)Integer.parseInt(valueToSet));
+        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_QUALITY, (byte)Integer.parseInt(valueToSet));
     }
 }

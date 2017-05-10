@@ -19,8 +19,6 @@
 
 package freed.cam.apis.sonyremote.parameters.manual;
 
-import freed.utils.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +28,7 @@ import java.io.IOException;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 
 /**
  * Created by troop on 03.01.2015.
@@ -64,7 +63,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     else
                         toset = valueToSet;
                     array = new JSONArray().put(0, Integer.parseInt(stringvalues[toset]));
-                    JSONObject object =  ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+                    JSONObject object =  ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
 
                         //ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException ex) {
@@ -90,7 +89,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 {
                     try {
                         Log.d(TAG, "try get min max values ");
-                        JSONObject object =  ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                        JSONObject object =  ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         int min = array.getInt(2);
                         int max = array.getInt(1);

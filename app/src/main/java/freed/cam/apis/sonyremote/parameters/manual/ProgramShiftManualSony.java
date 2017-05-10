@@ -19,8 +19,6 @@
 
 package freed.cam.apis.sonyremote.parameters.manual;
 
-import freed.utils.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 
 /**
  * Created by Ingo on 19.04.2015.
@@ -44,8 +43,8 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
 
     public ProgramShiftManualSony(CameraWrapperInterface cameraUiWrapper) {
         super("", "getSupportedProgramShift", "setProgramShift", cameraUiWrapper);
-        shutter = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualShutter;
-        BaseManualParameterSony fnumber = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualFNumber;
+        shutter = (BaseManualParameterSony) cameraUiWrapper.getParameterHandler().ManualShutter;
+        BaseManualParameterSony fnumber = (BaseManualParameterSony) cameraUiWrapper.getParameterHandler().ManualFNumber;
     }
 
     @Override
@@ -94,7 +93,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     try
                     {
                         Log.d(TAG, "Trying to get String Values from: " + VALUES_TO_GET);
-                        JSONObject object =  ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                        JSONObject object =  ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(0);
                         stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);

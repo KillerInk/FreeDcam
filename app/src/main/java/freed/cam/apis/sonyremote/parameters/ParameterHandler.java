@@ -22,8 +22,6 @@ package freed.cam.apis.sonyremote.parameters;
 import android.content.Context;
 import android.graphics.Rect;
 
-import freed.utils.Log;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -60,6 +58,7 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 
 /**
  * Created by troop on 13.12.2014.
@@ -325,9 +324,9 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
             public void run() {
                 for (String s : url)
                 {
-                    if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() instanceof PictureModuleSony)
+                    if (cameraUiWrapper.getModuleHandler().getCurrentModule() instanceof PictureModuleSony)
                     {
-                        PictureModuleSony pictureModuleSony = (PictureModuleSony) cameraUiWrapper.GetModuleHandler().GetCurrentModule();
+                        PictureModuleSony pictureModuleSony = (PictureModuleSony) cameraUiWrapper.getModuleHandler().getCurrentModule();
                         try {
                             pictureModuleSony.onPictureTaken(new URL(s));
                         }catch (MalformedURLException ex) {

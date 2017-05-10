@@ -8,9 +8,9 @@ import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Looper;
-import freed.utils.Log;
 
 import freed.ActivityInterface;
+import freed.utils.Log;
 import freed.utils.PermissionHandler;
 
 /**
@@ -45,9 +45,8 @@ public class WifiHandler extends WifiUtils {
 
     public void onResume()
     {
-        if(activityInterface.getPermissionHandler().hasLocationPermission(onLocationPermission)) {
-            if (activityInterface.getPermissionHandler().hasWifiPermission(onLocationPermission))
-                onLocationPermission.permissionGranted(true);
+        if(activityInterface.getPermissionHandler().hasLocationPermission(null)) {
+            activityInterface.getPermissionHandler().hasWifiPermission(onLocationPermission);
         }
         else
             sendMessage("Location Permission is needed to find the camera!");
@@ -56,6 +55,8 @@ public class WifiHandler extends WifiUtils {
     private PermissionHandler.PermissionCallback onLocationPermission = new PermissionHandler.PermissionCallback() {
         @Override
         public void permissionGranted(boolean granted) {
+            if (!granted)
+                return;
             ((Activity)activityInterface).registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
             isWifiListnerRegistered = true;
         }

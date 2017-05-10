@@ -516,28 +516,36 @@ void DngWriter::WriteDNG() {
         tif = openfTIFF(fileSavePath);
 
     writeIfd0(tif);
+    //allocate empty exifIFD tag
+    TIFFSetField (tif, TIFFTAG_EXIFIFD, exif_offset);
+    if(gps == true)
+    {   //allocate empty GPSIFD tag
+        TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);        
+    }
+    //save directory
     TIFFCheckpointDirectory(tif);
 
-    writeExifIfd(tif);
-    TIFFCheckpointDirectory(tif);
-    TIFFWriteCustomDirectory(tif, &exif_offset);
-    TIFFSetDirectory(tif, 0);
-    TIFFSetField (tif, TIFFTAG_EXIFIFD, exif_offset);
-    TIFFCheckpointDirectory(tif);
-    TIFFSetDirectory(tif, 0);
+    //write and store exififd
+    writeExifIfd(tif);    
+    TIFFWriteCustomDirectory(tif, &exif_offset);    
+    
     LOGD("set exif");
 
     if(gps == true)
     {
-        makeGPS_IFD(tif);
-        TIFFCheckpointDirectory(tif);
-        TIFFWriteCustomDirectory(tif, &gps_offset);
-        TIFFSetDirectory(tif, 0);
-        TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);
-        TIFFCheckpointDirectory(tif);
-        TIFFSetDirectory(tif, 0);
+        makeGPS_IFD(tif);        
+        TIFFWriteCustomDirectory(tif, &gps_offset);	
+        
+	// set GPSIFD tag
+	TIFFSetDirectory(tif, 0);
+	TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);    	
+	TIFFCheckpointDirectory(tif);    	        
     }
-
+    
+    //set exififd tag
+    TIFFSetDirectory(tif, 0);
+    TIFFSetField (tif, TIFFTAG_EXIFIFD, exif_offset);        
+    
     writeRawStuff(tif);
 
     TIFFRewriteDirectory(tif);

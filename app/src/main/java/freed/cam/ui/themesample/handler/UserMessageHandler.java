@@ -51,7 +51,7 @@ public class UserMessageHandler implements CameraStateEvents
     public void SetCameraUiWrapper(CameraWrapperInterface wrapper)
     {
         CameraWrapperInterface cameraUiWrapper = wrapper;
-        cameraUiWrapper.SetCameraStateChangedListner(this);
+        cameraUiWrapper.setCameraStateChangedListner(this);
     }
 
     private void SetUserMessage(String msg)

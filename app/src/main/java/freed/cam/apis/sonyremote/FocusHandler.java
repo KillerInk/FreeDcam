@@ -19,12 +19,12 @@
 
 package freed.cam.apis.sonyremote;
 
-import freed.utils.Log;
 import android.view.MotionEvent;
 
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
+import freed.utils.Log;
 
 /**
  * Created by troop on 31.01.2015.
@@ -48,11 +48,11 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     public void StartTouchToFocus(int x, int y, int width, int height)
     {
         int areasize = (width*height) /8;
-        if (this.cameraUiWrapper.GetParameterHandler() == null)
+        if (this.cameraUiWrapper.getParameterHandler() == null)
             return;
         if (this.isFocusing)
         {
-            this.cameraUiWrapper.GetCameraHolder().CancelFocus();
+            this.cameraUiWrapper.getCameraHolder().CancelFocus();
             Log.d(this.TAG, "Canceld Focus");
             try {
                 Thread.sleep(100);
@@ -64,8 +64,8 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         double xproz = x / (double)width * 100;
         double yproz = y / (double)height *100;
         Log.d(this.TAG, "set focus to: x: " + xproz + " y: " +yproz);
-        ((CameraHolderSony) this.cameraUiWrapper.GetCameraHolder()).StartFocus(this);
-        ((CameraHolderSony) this.cameraUiWrapper.GetCameraHolder()).SetTouchFocus(xproz, yproz);
+        ((CameraHolderSony) this.cameraUiWrapper.getCameraHolder()).StartFocus(this);
+        ((CameraHolderSony) this.cameraUiWrapper.getCameraHolder()).SetTouchFocus(xproz, yproz);
         this.isFocusing = true;
         if (this.focusEvent != null)
             this.focusEvent.FocusStarted(x,y);
@@ -93,7 +93,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         this.isFocusing = false;
         if (this.focusEvent != null) {
             this.focusEvent.FocusFinished(success);
-            this.focusEvent.FocusLocked(((CameraHolderSony) this.cameraUiWrapper.GetCameraHolder()).canCancelFocus());
+            this.focusEvent.FocusLocked(((CameraHolderSony) this.cameraUiWrapper.getCameraHolder()).canCancelFocus());
         }
 
     }

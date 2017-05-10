@@ -24,7 +24,6 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import freed.utils.Log;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -33,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import freed.utils.Log;
 import freed.viewer.helper.DiskLruCache.Editor;
 import freed.viewer.helper.DiskLruCache.Snapshot;
 

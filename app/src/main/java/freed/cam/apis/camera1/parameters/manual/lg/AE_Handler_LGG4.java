@@ -46,8 +46,8 @@ public class AE_Handler_LGG4 extends AE_Handler_Abstract
     @Override
     protected void resetManualMode() {
         if (!auto)
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.lg_manual_mode_reset), "1");
+            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.lg_manual_mode_reset), "1");
         else
-            parameters.set(cameraUiWrapper.GetAppSettingsManager().getResString(R.string.lg_manual_mode_reset), "0");
+            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.lg_manual_mode_reset), "0");
     }
 }

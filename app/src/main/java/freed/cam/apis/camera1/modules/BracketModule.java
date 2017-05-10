@@ -21,7 +21,6 @@ package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
 import android.os.Handler;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -32,6 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 
 /**
@@ -45,8 +45,8 @@ public class BracketModule extends PictureModule
     private int hdrCount;
     private File[] files;
 
-    public BracketModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
-        super(cameraUiWrapper,mBackgroundHandler);
+    public BracketModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+        super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_hdr);
     }
 
@@ -62,17 +62,17 @@ public class BracketModule extends PictureModule
         mBackgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (cameraUiWrapper.GetAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+                if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
                 files = new File[7];
                 hdrCount = 0;
-                String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
+                String picformat = cameraUiWrapper.getParameterHandler().PictureFormat.GetValue();
                 if (picformat.equals(appSettingsManager.getResString(R.string.dng_)) ||picformat.equals(appSettingsManager.getResString(R.string.bayer_)))
                 {
-                    if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported()
-                            && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on")
-                            && ((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
-                        cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
+                    if (cameraUiWrapper.getParameterHandler().ZSL != null && cameraUiWrapper.getParameterHandler().ZSL.IsSupported()
+                            && cameraUiWrapper.getParameterHandler().ZSL.GetValue().equals("on")
+                            && ((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
+                        cameraUiWrapper.getParameterHandler().ZSL.SetValue("off", true);
                 }
                 changeCaptureState(CaptureStates.image_capture_start);
                 waitForPicture = true;
@@ -124,8 +124,8 @@ public class BracketModule extends PictureModule
             value = 0;
 
         Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
-        int toset = value + cameraUiWrapper.GetParameterHandler().ManualExposure.getStringValues().length/2;
-        cameraUiWrapper.GetParameterHandler().ManualExposure.SetValue(toset);
+        int toset = value + cameraUiWrapper.getParameterHandler().ManualExposure.getStringValues().length/2;
+        cameraUiWrapper.getParameterHandler().ManualExposure.SetValue(toset);
         Log.d(TAG, "HDR Exposure SET");
     }
 
@@ -140,7 +140,7 @@ public class BracketModule extends PictureModule
             return;
         }
         hdrCount++;
-        String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
+        String picFormat = cameraUiWrapper.getParameterHandler().PictureFormat.GetValue();
         saveImage(data,picFormat);
         startPreview();
         if (hdrCount == 7)//handel normal capture

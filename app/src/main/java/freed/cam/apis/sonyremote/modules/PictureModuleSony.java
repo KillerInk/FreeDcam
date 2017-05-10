@@ -23,7 +23,6 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.support.v4.provider.DocumentFile;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -40,6 +39,7 @@ import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
+import freed.utils.Log;
 
 /**
  * Created by troop on 22.12.2014.
@@ -49,10 +49,10 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     private final String TAG = PictureModuleSony.class.getSimpleName();
     private final CameraHolderSony cameraHolder;
 
-    public PictureModuleSony(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
-        super(cameraUiWrapper,mBackgroundHandler);
+    public PictureModuleSony(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+        super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_picture);
-        cameraHolder = (CameraHolderSony)cameraUiWrapper.GetCameraHolder();
+        cameraHolder = (CameraHolderSony)cameraUiWrapper.getCameraHolder();
 
 
     }
@@ -65,8 +65,8 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     @Override
     public void DoWork()
     {
-        if (cameraUiWrapper.GetParameterHandler().ContShootMode != null && cameraUiWrapper.GetParameterHandler().ContShootMode.IsSupported()) {
-            String shootmode = ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).ContShootMode.GetValue();
+        if (cameraUiWrapper.getParameterHandler().ContShootMode != null && cameraUiWrapper.getParameterHandler().ContShootMode.IsSupported()) {
+            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).ContShootMode.GetValue();
             if (!isWorking && shootmode.equals("Single"))
             {
                 changeCaptureState(CaptureStates.image_capture_start);
@@ -96,8 +96,8 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     public void InitModule()
     {
         Log.d(TAG, "InitModule");
-        ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).CameraStatusListner = this;
-        onCameraStatusChanged(((ParameterHandler)cameraUiWrapper.GetParameterHandler()).GetCameraStatus());
+        ((ParameterHandler)cameraUiWrapper.getParameterHandler()).CameraStatusListner = this;
+        onCameraStatusChanged(((ParameterHandler)cameraUiWrapper.getParameterHandler()).GetCameraStatus());
     }
 
     @Override

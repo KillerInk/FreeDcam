@@ -36,36 +36,38 @@ public interface CameraWrapperInterface extends CameraStateEvents
     /**
      * Start the Camera
      */
-    void StartCamera();
+    void startCamera();
 
     /**
      * Stop the Camera
      */
-    void StopCamera();
-    void StartPreview();
-    void StopPreview();
+    void stopCamera();
+    void restartCamera();
+
+    void startPreview();
+    void stopPreview();
     /**
      * Starts a new work with the current active module
      * the module must handle the workstate on its own if it gets hit twice while work is already in progress
      */
-    void DoWork();
+    void startWork();
 
     /**
      * Get the current active CameraHolderSony
      * @return
      */
-    CameraHolderInterface GetCameraHolder();
+    CameraHolderInterface getCameraHolder();
 
     /**
      * get the active parameterhandler
      * @return
      */
-    AbstractParameterHandler GetParameterHandler();
+    AbstractParameterHandler getParameterHandler();
     /**
      * get the appsettings
      */
-    AppSettingsManager GetAppSettingsManager();
-    ModuleHandlerAbstract GetModuleHandler();
+    AppSettingsManager getAppSettingsManager();
+    ModuleHandlerAbstract getModuleHandler();
     SurfaceView getSurfaceView();
     AbstractFocusHandler getFocusHandler();
 
@@ -73,7 +75,7 @@ public interface CameraWrapperInterface extends CameraStateEvents
      * set the listner that get notifyed when camera state has changed
      * @param cameraChangedListner to notify
      */
-    void SetCameraStateChangedListner(CameraStateEvents cameraChangedListner);
+    void setCameraStateChangedListner(CameraStateEvents cameraChangedListner);
 
 
     /**

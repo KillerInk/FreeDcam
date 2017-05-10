@@ -19,8 +19,8 @@
 
 package freed.viewer.holder;
 
-import freed.viewer.gridview.GridViewFragment.ViewStates;
 import freed.viewer.gridview.GridViewFragment;
+import freed.viewer.gridview.GridViewFragment.ViewStates;
 
 /**
  * Created by Ingo on 27.12.2015.

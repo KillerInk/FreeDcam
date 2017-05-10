@@ -20,16 +20,16 @@
 package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
-import freed.utils.Log;
 
 import java.util.Date;
 
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by Ingo on 04.10.2015.
  */
-class IntervalHandler
+public class IntervalHandler
 {
     private final ModuleAbstract picmodule;
 
@@ -57,13 +57,13 @@ class IntervalHandler
         Log.d(TAG, "Start Interval");
         working = true;
         startTime = new Date().getTime();
-        String sleep = picmodule.cameraUiWrapper.GetParameterHandler().IntervalShutterSleep.GetValue();
+        String sleep = picmodule.cameraUiWrapper.getParameterHandler().IntervalShutterSleep.GetValue();
         if (sleep.contains(" sec"))
             intervalDuration = Integer.parseInt(sleep.replace(" sec",""))*1000;
         if (sleep.contains(" min"))
             intervalDuration = Integer.parseInt(sleep.replace(" min",""))*60*1000;
 
-        String duration = picmodule.cameraUiWrapper.GetParameterHandler().IntervalDuration.GetValue();
+        String duration = picmodule.cameraUiWrapper.getParameterHandler().IntervalDuration.GetValue();
         if (duration.contains(" min"))
             intervalToEndDuration = Integer.parseInt(duration.replace(" min",""));
         else if (duration.contains(" h"))
@@ -91,7 +91,7 @@ class IntervalHandler
 
         String t = "Time:"+String.format("%.2f ", (double) (new Date().getTime() - startTime) /1000 / 60);
         t+= "/"+ intervalToEndDuration + " NextIn:" + shuttercounter +"/" + intervalDuration /1000;
-        picmodule.cameraUiWrapper.GetCameraHolder().SendUIMessage(t);
+        picmodule.cameraUiWrapper.getCameraHolder().SendUIMessage(t);
 
     }
 
@@ -103,8 +103,8 @@ class IntervalHandler
         if (min >= intervalToEndDuration)
         {
             Log.d(TAG, "Finished Interval");
-            picmodule.cameraUiWrapper.GetParameterHandler().IntervalCaptureFocusSet = false;
-            picmodule.cameraUiWrapper.GetParameterHandler().IntervalCapture = false;
+            picmodule.cameraUiWrapper.getParameterHandler().IntervalCaptureFocusSet = false;
+            picmodule.cameraUiWrapper.getParameterHandler().IntervalCapture = false;
             working = false;
             return;
         }
@@ -142,7 +142,7 @@ class IntervalHandler
 
     private void msg()
     {
-        picmodule.cameraUiWrapper.GetCameraHolder().SendUIMessage(shutterWaitCounter +"");
+        picmodule.cameraUiWrapper.getCameraHolder().SendUIMessage(shutterWaitCounter +"");
     }
 
     private int shutterWaitCounter;

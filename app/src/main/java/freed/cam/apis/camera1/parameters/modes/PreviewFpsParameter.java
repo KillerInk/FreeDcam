@@ -39,8 +39,8 @@ public class PreviewFpsParameter extends  BaseModeParameter
     {
         super.SetValue(valueToSet, setToCam);
         if (setToCam) {
-            cameraUiWrapper.StopPreview();
-            cameraUiWrapper.StartPreview();
+            cameraUiWrapper.stopPreview();
+            cameraUiWrapper.startPreview();
         }
     }
 

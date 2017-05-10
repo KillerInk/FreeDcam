@@ -125,7 +125,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.GetParameterHandler().Horizont.addEventListner(this);
+        cameraUiWrapper.getParameterHandler().Horizont.addEventListner(this);
     }
     private void startSensorListing()
     {

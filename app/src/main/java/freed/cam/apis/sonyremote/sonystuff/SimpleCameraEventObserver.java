@@ -6,7 +6,6 @@ package freed.cam.apis.sonyremote.sonystuff;
 
 import android.content.Context;
 import android.os.Handler;
-import freed.utils.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 
 /**
  * A simple observer class for some status values in Camera. This class supports

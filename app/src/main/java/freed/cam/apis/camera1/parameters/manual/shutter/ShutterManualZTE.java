@@ -21,13 +21,13 @@ package freed.cam.apis.camera1.parameters.manual.shutter;
 
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.utils.Log;
 
 /**
  * Created by troop on 25.11.2015.
@@ -43,7 +43,7 @@ public class ShutterManualZTE extends AbstractManualShutter
     public ShutterManualZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         this.parameters = parameters;
-        stringvalues = cameraUiWrapper.GetAppSettingsManager().manualExposureTime.getValues();
+        stringvalues = cameraUiWrapper.getAppSettingsManager().manualExposureTime.getValues();
         isSupported = true;
     }
 
@@ -91,9 +91,9 @@ public class ShutterManualZTE extends AbstractManualShutter
             Handler handler = new Handler();
             Runnable r = new Runnable() {
                 public void run() {
-                    ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetZTE_AE();
-                    cameraUiWrapper.StopPreview();
-                    cameraUiWrapper.StartPreview();
+                    ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_AE();
+                    cameraUiWrapper.stopPreview();
+                    cameraUiWrapper.startPreview();
                 }
             };
             //handler.postDelayed(r, 1);
@@ -116,11 +116,11 @@ public class ShutterManualZTE extends AbstractManualShutter
 
                     parameters.set("slow_shutter", shutterstring);
                     parameters.set("slow_shutter_addition", "1");
-                    ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+                    ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
 
                     if(Double.parseDouble(shutterstring) < 1.0 ){
-                        cameraUiWrapper.StopPreview();
-                        cameraUiWrapper.StartPreview();
+                        cameraUiWrapper.stopPreview();
+                        cameraUiWrapper.startPreview();
                     }
                 }
             };

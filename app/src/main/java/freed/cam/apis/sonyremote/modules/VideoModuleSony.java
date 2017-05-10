@@ -37,10 +37,10 @@ public class VideoModuleSony extends ModuleAbstract implements I_CameraStatusCha
     private final String TAG = VideoModuleSony.class.getSimpleName();
     private final CameraHolderSony cameraHolder;
 
-    public VideoModuleSony(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler) {
-        super(cameraUiWrapper,mBackgroundHandler);
+    public VideoModuleSony(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+        super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_video);
-        cameraHolder = (CameraHolderSony)cameraUiWrapper.GetCameraHolder();
+        cameraHolder = (CameraHolderSony)cameraUiWrapper.getCameraHolder();
 
     }
 
@@ -66,8 +66,8 @@ public class VideoModuleSony extends ModuleAbstract implements I_CameraStatusCha
 
     @Override
     public void InitModule() {
-        ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).CameraStatusListner = this;
-        onCameraStatusChanged(((ParameterHandler)cameraUiWrapper.GetParameterHandler()).GetCameraStatus());
+        ((ParameterHandler)cameraUiWrapper.getParameterHandler()).CameraStatusListner = this;
+        onCameraStatusChanged(((ParameterHandler)cameraUiWrapper.getParameterHandler()).GetCameraStatus());
     }
 
     @Override

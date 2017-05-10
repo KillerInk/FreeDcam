@@ -37,7 +37,7 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if(cameraUiWrapper.GetAppSettingsManager().isZteAe())
+        if(cameraUiWrapper.getAppSettingsManager().isZteAe())
         {
             isSupported = true;
             isVisible = true;
@@ -59,7 +59,7 @@ public class FXManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (cameraUiWrapper.GetAppSettingsManager().isZteAe());
+            if (cameraUiWrapper.getAppSettingsManager().isZteAe());
                 i = 0;
         }
         catch (Exception ex)
@@ -74,7 +74,7 @@ public class FXManualParameter extends BaseManualParameter {
     public void SetValue(int valueToSet)
     {
         parameters.set(cameraUiWrapper.getResString(R.string.morpho_effect_type), String.valueOf(valueToSet));
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
 
     }
 

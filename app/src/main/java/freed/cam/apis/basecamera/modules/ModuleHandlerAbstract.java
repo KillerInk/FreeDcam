@@ -24,7 +24,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import freed.utils.Log;
 
 import com.troop.freedcam.R;
 
@@ -34,6 +33,7 @@ import java.util.HashMap;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 09.12.2014.
@@ -72,9 +72,9 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     private final ArrayList<ModuleChangedEvent> moduleChangedListner;
     //holds all listner for recorstatechanged
     private final ArrayList<I_RecorderStateChanged> RecorderStateListners;
-    private Handler uihandler;
     private HandlerThread mBackgroundThread;
     protected Handler mBackgroundHandler;
+    protected Handler mainHandler;
 
 
 
@@ -86,9 +86,9 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         moduleList = new HashMap<>();
         moduleChangedListner = new ArrayList<>();
         RecorderStateListners = new ArrayList<>();
-        this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
+        this.appSettingsManager = cameraUiWrapper.getAppSettingsManager();
         onCaptureStateChangedListners = new ArrayList<>();
-        uihandler = new Handler(Looper.getMainLooper());
+        mainHandler = new Handler(Looper.getMainLooper());
         startBackgroundThread();
 
         workerListner = new CaptureStateChanged() {
@@ -105,7 +105,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
                     else
                     {
                         final int pos = i;
-                        uihandler.post(new Runnable() {
+                        mainHandler.post(new Runnable() {
                             @Override
                             public void run() {
                                 onCaptureStateChangedListners.get(pos).onCaptureStateChanged(captureStates);
@@ -123,7 +123,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
      * @param name of the module to load
      */
     @Override
-    public void SetModule(String name) {
+    public void setModule(String name) {
         if (currentModule !=null) {
             currentModule.DestroyModule();
             currentModule.SetCaptureStateChangedListner(null);
@@ -137,21 +137,21 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     }
 
     @Override
-    public String GetCurrentModuleName() {
+    public String getCurrentModuleName() {
         if (currentModule != null)
             return currentModule.ModuleName();
         else return cameraUiWrapper.getResString(R.string.module_picture);
     }
 
     @Override
-    public @Nullable ModuleInterface GetCurrentModule() {
+    public @Nullable ModuleInterface getCurrentModule() {
         if (currentModule != null)
             return currentModule;
         return null;
     }
 
     @Override
-    public boolean DoWork() {
+    public boolean startWork() {
         if (currentModule != null) {
             currentModule.DoWork();
             return true;
@@ -161,7 +161,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     }
 
     @Override
-    public void SetWorkListner(CaptureStateChanged workerListner)
+    public void setWorkListner(CaptureStateChanged workerListner)
     {
         if (!onCaptureStateChangedListners.contains(workerListner))
             onCaptureStateChangedListners.add(workerListner);
@@ -201,7 +201,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             else
             {
                 final int toget = i;
-                uihandler.post(new Runnable() {
+                mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         if (moduleChangedListner.size() > 0)

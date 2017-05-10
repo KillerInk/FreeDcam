@@ -19,9 +19,6 @@
 
 package freed.cam.apis.camera2.parameters.manual;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
@@ -84,7 +81,7 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
 
     @Override
     public String[] getStringValues() {
-        return new String[] {"1","2","3","4","5"};
+        return new String[] {"1","2","3","4","5","6","7","8","9","10"};
     }
 
     @Override
@@ -95,9 +92,9 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
         h.post(new Runnable() {
             @Override
             public void run() {
-                cameraUiWrapper.StopPreview();
+                cameraUiWrapper.stopPreview();
                 //TODO FIX BURST
-                cameraUiWrapper.StartPreview();
+                cameraUiWrapper.startPreview();
             }
         });*/
 

@@ -22,7 +22,6 @@ package freed.cam.ui.themesample.handler;
 import android.view.View;
 import android.widget.TextView;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 
 import freed.utils.AppSettingsManager;

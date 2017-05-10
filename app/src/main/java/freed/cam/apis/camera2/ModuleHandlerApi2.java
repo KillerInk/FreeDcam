@@ -27,40 +27,35 @@ import freed.cam.apis.camera2.modules.AfBracketApi2;
 import freed.cam.apis.camera2.modules.IntervalApi2;
 import freed.cam.apis.camera2.modules.PictureModuleApi2;
 import freed.cam.apis.camera2.modules.VideoModuleApi2;
-import freed.utils.RenderScriptHandler;
 
 /**
  * Created by troop on 12.12.2014.
  */
 public class ModuleHandlerApi2 extends ModuleHandlerAbstract
 {
-    private final String TAG = "cam.ModuleHandler";
-
-
-    public  ModuleHandlerApi2 (CameraWrapperInterface cameraUiWrapper, RenderScriptHandler renderScriptHandler)
+    public  ModuleHandlerApi2 (CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
-        RenderScriptHandler renderScriptHandler1 = renderScriptHandler;
         initModules();
     }
 
     public void initModules()
     {
-        PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraUiWrapper,mBackgroundHandler);
+        PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);
-        IntervalModule intervalModule = new IntervalApi2(pictureModuleApi2, cameraUiWrapper,mBackgroundHandler);
+        IntervalModule intervalModule = new IntervalApi2(pictureModuleApi2, cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(intervalModule.ModuleName(), intervalModule);
-        VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraUiWrapper,mBackgroundHandler);
+        VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
-        AeBracketApi2 aeBracketApi2 = new AeBracketApi2(cameraUiWrapper,mBackgroundHandler);
+        AeBracketApi2 aeBracketApi2 = new AeBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
-        AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper,mBackgroundHandler);
+        AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(afBracketApi2.ModuleName(), afBracketApi2);
 
     }
 
     @Override
-    public String GetCurrentModuleName() {
-        return super.GetCurrentModuleName();
+    public String getCurrentModuleName() {
+        return super.getCurrentModuleName();
     }
 }

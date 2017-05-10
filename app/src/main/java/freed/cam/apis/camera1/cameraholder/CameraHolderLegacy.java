@@ -20,13 +20,13 @@
 package freed.cam.apis.camera1.cameraholder;
 
 import android.hardware.Camera;
-import freed.utils.Log;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.utils.Log;
 
 /**
  * Created by troop on 08.06.2016.
