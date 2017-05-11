@@ -221,6 +221,8 @@
     <string translatable="false" name="auto_hdr_supported">auto-hdr-supported</string>
     <string translatable="false" name="auto_hdr_enable">auto-hdr-enable</string>
 
+    <string translatable="false" name="auto_hdr">auto_hdr</string>
+
     <string translatable="false" name="morpho_hdr">morpho-hdr</string>
     <string translatable="false" name="morpho_hht">morpho-hht</string>
     <string translatable="false" name="morpho_effect_type">morpho-effect-type</string>
