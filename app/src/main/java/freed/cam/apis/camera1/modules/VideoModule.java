@@ -180,10 +180,11 @@ public class VideoModule extends AbstractVideoModule
             if (currentProfile.ProfileName.contains(VideoProfilesParameter._2160p) ||currentProfile.ProfileName.contains(VideoProfilesParameter._2160pDCI))
             {
 
-                if (appSettingsManager.digitalImageStabilisationMode.isSupported())
-                    cameraUiWrapper.getParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), true);
-                if (appSettingsManager.videoStabilisation.isSupported())
-                    cameraUiWrapper.getParameterHandler().VideoStabilization.SetValue(appSettingsManager.getResString(R.string.false_), true);
+                //if (appSettingsManager.digitalImageStabilisationMode.isSupported())
+                    //cameraUiWrapper.getParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), true);
+
+               // if (appSettingsManager.videoStabilisation.isSupported())
+                //    cameraUiWrapper.getParameterHandler().VideoStabilization.SetValue(appSettingsManager.getResString(R.string.false_), true);
 
                 if (!appSettingsManager.IsCamera2FullSupported())
                     cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
