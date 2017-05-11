@@ -2593,7 +2593,8 @@
         </models>
         <camera1>
             <!--<framework>0</framework>-->
-            <hdrmode supported="true">0</hdrmode>
+            <opencameralegacy>true</opencameralegacy>
+            <hdrmode supported="true">3</hdrmode>
             <dngmanual>true</dngmanual>
         </camera1>
         <opcode2></opcode2>
@@ -2617,6 +2618,7 @@
             <matrixset>S5K3P3</matrixset>
         </filesize>
     </device>
+
 
     <device name ="Xiaomi_Redmi_Note3">
         <models>
