@@ -901,8 +901,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             default:
             {
-                if (appSettingsManager.opencamera1Legacy.getBoolean())
-                {
+               // if (appSettingsManager.opencamera1Legacy.getBoolean())
+               // {
                     Log.d(TAG,"Open Try legacy Camera");
                     try {
                         camera = CameraHolderLegacy.openWrapper(currentcamera);
@@ -919,14 +919,14 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                         return parameters;
                     }
 
-                }
-                else {
-                    Log.d(TAG,"Open Normal Camera " + currentcamera);
-                    camera = Camera.open(currentcamera);
-                    Camera.Parameters parameters = camera.getParameters();
-                    camera.release();
-                    return parameters;
-                }
+             //   }
+              //  else {
+             //       Log.d(TAG,"Open Normal Camera " + currentcamera);
+            //        camera = Camera.open(currentcamera);
+             //       Camera.Parameters parameters = camera.getParameters();
+           //         camera.release();
+              //      return parameters;
+            //    }
             }
 
         }
