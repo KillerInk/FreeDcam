@@ -138,7 +138,14 @@ public class CameraHolder extends CameraHolderAbstract
 
     public void SetCameraParameters(Parameters parameters)
     {
-        mCamera.setParameters(parameters);
+        try {
+            mCamera.setParameters(parameters);
+        }
+        catch (Exception err)
+        {
+            err.printStackTrace();
+        }
+
     }
 
     @Override
