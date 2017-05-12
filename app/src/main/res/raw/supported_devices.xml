@@ -2599,24 +2599,17 @@
         </camera1>
         <opcode2></opcode2>
         <opcode3></opcode3>
-        <filesize size= "26023936">
+
+        <filesize size= "15482880">
             <blacklvl>64</blacklvl>
-            <width>4192</width>
-            <height>3104</height>
-            <rawtype>2</rawtype>
-            <colorpattern>gbrg</colorpattern>
-            <rowsize>0</rowsize>
-            <matrixset>Nexus6</matrixset>
-        </filesize>
-        <filesize size= "20389888">
-            <blacklvl>64</blacklvl>
-            <width>4632</width>
-            <height>3520</height>
+            <width>4032</width>
+            <height>3024</height>
             <rawtype>0</rawtype>
-            <colorpattern>grbg</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>S5K3P3</matrixset>
+            <matrixset>Imx362</matrixset>
         </filesize>
+
     </device>
 
 
