@@ -11,8 +11,8 @@ import android.util.Size;
 
 import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.troop.freedcam.R;
-
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
@@ -269,14 +269,22 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectColorcorrectionMode(CameraCharacteristics cameraCharacteristics)
     {
+        int[] colorcor = null;
+        if (cameraCharacteristics.get(CameraCharacteristics.COLOR_CORRECTION_AVAILABLE_ABERRATION_MODES) != null)
+            colorcor = cameraCharacteristics.get(CameraCharacteristics.COLOR_CORRECTION_AVAILABLE_ABERRATION_MODES);
+        else
+            colorcor = new int[]{ 0,1,2};
         String[] lookupar = appSettingsManager.getResources().getStringArray(R.array.colorcorrectionmodes);
+
         HashMap<String,Integer> map = new HashMap<>();
-        map.put(lookupar[0],0);
-        map.put(lookupar[1],1);
-        map.put(lookupar[2],2);
+        for (int i = 0;i< colorcor.length;i++)
+        {
+            map.put(lookupar[i],colorcor[i]);
+        }
         lookupar = StringUtils.IntHashmapToStringArray(map);
         appSettingsManager.colorCorrectionMode.setValues(lookupar);
         appSettingsManager.colorCorrectionMode.setIsSupported(true);
+        appSettingsManager.colorCorrectionMode.set(appSettingsManager.getResString(R.string.fast));
     }
 
     private void detectFlash(CameraCharacteristics characteristics) {
@@ -351,6 +359,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     {
         StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         Size[] size = smap.getOutputSizes(ImageFormat.JPEG);
+        java.util.Arrays.sort(size,new SizeComparer());
         String[] ar = new String[size.length];
         int i = 0;
         for (Size s : size)
@@ -362,6 +371,22 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         appSettingsManager.pictureSize.set(ar[0]);
         appSettingsManager.pictureSize.setValues(ar);
     }
+
+    private class SizeComparer implements Comparator<Size> {
+
+        @Override
+        public int compare(Size o1, Size o2) {
+            if (o1.getWidth()>= o2.getWidth() && o1.getHeight() >= o2.getHeight())
+                return 1;
+            else if (o1.getWidth()<=o2.getWidth() && o1.getHeight() <= o2.getHeight())
+                return 0;
+            else if (o1.getWidth()>=o2.getWidth() && o1.getHeight() <= o2.getHeight())
+                return 1;
+            else
+                return 0;
+        }
+    }
+
 
     private void detectIntMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
     {
@@ -380,6 +405,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             }
             lookupar = StringUtils.IntHashmapToStringArray(map);
             settingMode.setValues(lookupar);
+
         }
     }
 
