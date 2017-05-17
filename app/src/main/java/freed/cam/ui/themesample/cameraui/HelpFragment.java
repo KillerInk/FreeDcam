@@ -19,6 +19,7 @@
 
 package freed.cam.ui.themesample.cameraui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -112,6 +113,7 @@ public class HelpFragment extends Fragment
         animation.setFillAfter(true);
         finger.startAnimation(animation);
         description.setText("Swipe from left to right to open Settings");
+        description.setTextColor(Color.WHITE);
     }
 
     private void showCloseSettingsMenu()
@@ -124,6 +126,7 @@ public class HelpFragment extends Fragment
         animation.setFillAfter(true);
         finger.startAnimation(animation);
         description.setText("Swipe from right to left to close Settings");
+        description.setTextColor(Color.WHITE);
     }
 
     private void showOpenManualMenu()
@@ -136,6 +139,7 @@ public class HelpFragment extends Fragment
         animation.setFillAfter(true);
         finger.startAnimation(animation);
         description.setText("Swipe from bottom to top to open Manuals");
+        description.setTextColor(Color.WHITE);
     }
 
     private void showCloseManualMenu()
@@ -147,8 +151,10 @@ public class HelpFragment extends Fragment
         animation.setRepeatMode(Animation.INFINITE);
         animation.setFillAfter(true);
         finger.startAnimation(animation);
-        description.setText("Swipe from top to bottom to close Manuals\r\n\r\nif you can't the heat use Google camera :)");
+        description.setText("Swipe from top to bottom to close Manual)");
+        description.setTextColor(Color.WHITE);
         nextButton.setText("Close");
         dontshowagain.setVisibility(View.VISIBLE);
+        dontshowagain.setTextColor(Color.WHITE);
     }
 }

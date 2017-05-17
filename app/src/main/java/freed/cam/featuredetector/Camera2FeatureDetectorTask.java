@@ -31,6 +31,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private final String TAG = Camera2FeatureDetectorTask.class.getSimpleName();
     private Context context;
+    boolean fulldevice;
     public Camera2FeatureDetectorTask(ProgressUpdate progressUpdate, AppSettingsManager appSettingsManager, Context context) {
         super(progressUpdate, appSettingsManager);
         this.context = context;
@@ -60,9 +61,14 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
                 appSettingsManager.setIsFrontCamera(front);
                 int hwlvl = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
-                boolean fulldevice = false;
+
+                publishProgress("Camera 2 Level:" + hwlvl);
+
                 switch (hwlvl)
                 {
+                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3:
+                        fulldevice = true;
+
                     case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL:
                         fulldevice = true;
                         break;
@@ -72,8 +78,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY:
                         fulldevice = false;
                         break;
-                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3:
-                        fulldevice = false;
+
                 }
 
                 appSettingsManager.SetCamera2FullSupported(fulldevice);
@@ -84,65 +89,102 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
 
                 if (fulldevice) {
+try {
 
-                    detectFlash(characteristics);
-                    sendProgress(appSettingsManager.flashMode, "Flash");
 
-                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES,appSettingsManager.sceneMode, R.array.sceneModes);
-                    sendProgress(appSettingsManager.sceneMode, "Scene");
+    publishProgress("Detect Flash");
+    detectFlash(characteristics);
+    sendProgress(appSettingsManager.flashMode, "Flash");
 
-                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES,appSettingsManager.antiBandingMode,R.array.antibandingmodes);
-                    sendProgress(appSettingsManager.antiBandingMode, "Antibanding");
+    publishProgress("Detect Scene");
+    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES, appSettingsManager.sceneMode, R.array.sceneModes);
+    sendProgress(appSettingsManager.sceneMode, "Scene");
 
-                    detectIntMode(characteristics,CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, appSettingsManager.colorMode,R.array.colormodes);
-                    sendProgress(appSettingsManager.colorMode, "Color");
+    publishProgress("Detect Antibanding");
+    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES, appSettingsManager.antiBandingMode, R.array.antibandingmodes);
+    sendProgress(appSettingsManager.antiBandingMode, "Antibanding");
 
-                    detectControlMode(characteristics);
-                    sendProgress(appSettingsManager.controlMode, "ControlMode");
+    publishProgress("Detect Color");
+    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, appSettingsManager.colorMode, R.array.colormodes);
+    sendProgress(appSettingsManager.colorMode, "Color");
 
-                    detectIntMode(characteristics,CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, appSettingsManager.edgeMode,R.array.edgeModes);
-                    sendProgress(appSettingsManager.edgeMode, "EdgeMode");
+try {
+    publishProgress("Detect EdgeMode");
+    detectIntMode(characteristics, CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, appSettingsManager.edgeMode, R.array.edgeModes);
+    sendProgress(appSettingsManager.edgeMode, "EdgeMode");
+}
+catch (Exception err)
+{
+    publishProgress("Detect OIS" + err.getMessage());
+}
 
-                    detectIntMode(characteristics,CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, appSettingsManager.opticalImageStabilisation,R.array.digitalImageStabModes);
-                    sendProgress(appSettingsManager.opticalImageStabilisation, "OpticalImageStabilisationMode");
 
-                    detectIntMode(characteristics,CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES,appSettingsManager.focusMode,R.array.focusModes);
-                    sendProgress(appSettingsManager.focusMode, "FocusMode");
+    try {
+        publishProgress("Detect OpticalImageStabilisationMode");
+        detectIntMode(characteristics, CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, appSettingsManager.opticalImageStabilisation, R.array.digitalImageStabModes);
+        sendProgress(appSettingsManager.opticalImageStabilisation, "OpticalImageStabilisationMode");
 
-                    detectIntMode(characteristics,CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES,appSettingsManager.hotpixelMode,R.array.hotpixelmodes);
-                    sendProgress(appSettingsManager.hotpixelMode, "HotPixelMode");
+    }
+    catch (Exception err)
+    {
+        publishProgress("Detect OIS" + err.getMessage());
+    }
+    publishProgress("Detect FocusMode");
+    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, appSettingsManager.focusMode, R.array.focusModes);
+    sendProgress(appSettingsManager.focusMode, "FocusMode");
 
-                    detectIntMode(characteristics,CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES,appSettingsManager.denoiseMode,R.array.denoiseModes);
-                    sendProgress(appSettingsManager.denoiseMode, "Denoise");
 
-                    detectPictureFormats(characteristics);
-                    sendProgress(appSettingsManager.pictureFormat,"PictureFormat");
+    publishProgress("Detect HotPixelMode");
+    detectIntMode(characteristics, CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES, appSettingsManager.hotpixelMode, R.array.hotpixelmodes);
+    sendProgress(appSettingsManager.hotpixelMode, "HotPixelMode");
 
-                    detectManualFocus(characteristics);
-                    sendProgress(appSettingsManager.manualFocus,"Manual Focus");
+    publishProgress("Detect Denoise");
+    detectIntMode(characteristics, CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES, appSettingsManager.denoiseMode, R.array.denoiseModes);
+    sendProgress(appSettingsManager.denoiseMode, "Denoise");
 
-                    detectPictureSizes(characteristics);
-                    sendProgress(appSettingsManager.pictureSize,"PictureSizes:");
+    publishProgress("Detect PictureFormat");
+    detectPictureFormats(characteristics);
+    sendProgress(appSettingsManager.pictureFormat, "PictureFormat");
 
-                    detectVideoMediaProfiles(appSettingsManager.GetCurrentCamera());
+    publishProgress("Detect Manual Focus");
+    detectManualFocus(characteristics);
+    sendProgress(appSettingsManager.manualFocus, "Manual Focus");
 
-                    detectIntMode(characteristics,CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES,appSettingsManager.exposureMode,R.array.aemodes);
-                    sendProgress(appSettingsManager.exposureMode,"ExposureModes:");
+    publishProgress("Detect PictureSizes");
+    detectPictureSizes(characteristics);
+    sendProgress(appSettingsManager.pictureSize, "PictureSizes:");
 
-                    detectManualExposure(characteristics);
-                    sendProgress(appSettingsManager.manualExposureCompensation,"ExposureCompensation:");
+    publishProgress("Detect Curr Cam");
+    detectVideoMediaProfiles(appSettingsManager.GetCurrentCamera());
 
-                    detectManualexposureTime(characteristics);
-                    sendProgress(appSettingsManager.manualExposureTime,"ExposureTime:");
+    publishProgress("Detect ExposureModes");
+    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES, appSettingsManager.exposureMode, R.array.aemodes);
+    sendProgress(appSettingsManager.exposureMode, "ExposureModes:");
 
-                    detectManualIso(characteristics);
-                    sendProgress(appSettingsManager.manualIso,"Iso:");
+    publishProgress("Detect ExposureCompensation");
+    detectManualExposure(characteristics);
+    sendProgress(appSettingsManager.manualExposureCompensation, "ExposureCompensation:");
 
-                    detectColorcorrectionMode(characteristics);
-                    sendProgress(appSettingsManager.colorCorrectionMode, "ColorCorrection");
+    publishProgress("Detect ExposureTime");
+    detectManualexposureTime(characteristics);
+    sendProgress(appSettingsManager.manualExposureTime, "ExposureTime:");
 
-                    detectIntMode(characteristics,CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES,appSettingsManager.whiteBalanceMode,R.array.whitebalancemodes);
-                    sendProgress(appSettingsManager.whiteBalanceMode,"Whitebalance");
+    publishProgress("Detect Iso");
+    detectManualIso(characteristics);
+    sendProgress(appSettingsManager.manualIso, "Iso:");
+
+    publishProgress("Detect ColorCorrection");
+    detectColorcorrectionMode(characteristics);
+    sendProgress(appSettingsManager.colorCorrectionMode, "ColorCorrection");
+
+    publishProgress("Detect Whitebalance");
+    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES, appSettingsManager.whiteBalanceMode, R.array.whitebalancemodes);
+    sendProgress(appSettingsManager.whiteBalanceMode, "Whitebalance");
+
+    publishProgress("Detect ControlMode");
+    detectControlMode(characteristics);
+    sendProgress(appSettingsManager.controlMode, "ControlMode");
+
 
                     try {
                         detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, appSettingsManager.dualPrimaryCameraMode, R.array.dual_camera_mode);
@@ -241,10 +283,16 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     {
                         Log.e(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES false");
                     }
+}
+catch (IllegalArgumentException ex)
+{
+    Log.e(TAG, ex+"");
+}
+
                 }
             }
             appSettingsManager.SetCurrentCamera(0);
-            if (!appSettingsManager.IsCamera2FullSupported())
+            if (!fulldevice)
                 appSettingsManager.setCamApi(AppSettingsManager.API_1);
 
             if (appSettingsManager.IsCamera2FullSupported() && !appSettingsManager.opencamera1Legacy.isPresetted()) {
@@ -254,7 +302,11 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
         catch (Throwable ex) {
             Log.WriteEx(ex);
+            if (!fulldevice)
             appSettingsManager.SetCamera2FullSupported(false);
+            else
+                appSettingsManager.SetCamera2FullSupported(true);
+
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
         }
         return null;
@@ -319,7 +371,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 int[] full = null;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_MODES) != null)
                     full = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_MODES);
-                else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL || device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED) {
+                else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL || device==CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3 || device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED) {
                     full = new int[] {0,1,2,};
                 }
                 else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
@@ -390,6 +442,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectIntMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
     {
+        publishProgress("detectIntMode "+settingMode+" "+ressourceArray);
         if (appSettingsManager.IsCamera2FullSupported()) {
 
             int[]  scenes = characteristics.get(requestKey);

@@ -245,6 +245,7 @@ public class AppSettingsManager {
     public static final int HDR_MORPHO = 0;
     public static final int HDR_AUTO = 1;
     public static final int HDR_LG = 2;
+    public static final int HDR_MOTO = 3;
 
     public static final int ISOMANUAL_QCOM = 0;
     public static final int ISOMANUAL_SONY =1;

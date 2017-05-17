@@ -122,18 +122,29 @@ public class BaseCCTManual extends BaseManualParameter
 
     protected void set_manual()
     {
-        if (cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetValues().toString().contains("manual")&& parameters.get("manual-wb-modes")!=null)
-        {
-            cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
-            parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_type),0);
-            parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_value),stringvalues[currentInt]);
+        Log.d(TAG, cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetValues().toString());
+    try {
+        if (parameters.get("whitebalance-values").toString().contains("manual") && parameters.get("manual-wb-modes").toString().contains("color-temperature")) {
 
-        }
-        else {
+            cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
+            parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_type), 0);
+            parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_value), stringvalues[currentInt]);
+            Log.d(TAG, "NEW");
+
+        } else {
             if (!cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
                 cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
             parameters.set(key_value, stringvalues[currentInt]);
+            Log.d(TAG, "OLD");
         }
+    }
+    catch (Exception err )
+    {
+        if (!cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
+            cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
+        parameters.set(key_value, stringvalues[currentInt]);
+        err.printStackTrace();
+    }
         Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
 
     }

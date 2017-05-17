@@ -69,6 +69,7 @@ import freed.cam.apis.camera1.parameters.modes.ExposureLockParameter;
 import freed.cam.apis.camera1.parameters.modes.FocusPeakModeParameter;
 import freed.cam.apis.camera1.parameters.modes.LgHdrMode;
 import freed.cam.apis.camera1.parameters.modes.MorphoHdrModeParameters;
+import freed.cam.apis.camera1.parameters.modes.MotoHDR;
 import freed.cam.apis.camera1.parameters.modes.NightModeXiaomi;
 import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
@@ -277,6 +278,9 @@ public class ParametersHandler extends AbstractParameterHandler
                     break;
                 case AppSettingsManager.HDR_LG:
                     HDRMode = new LgHdrMode(cameraParameters,cameraUiWrapper,appS.hdrMode);
+                    break;
+                case AppSettingsManager.HDR_MOTO:
+                    HDRMode = new MotoHDR(cameraParameters,cameraUiWrapper,appS.hdrMode);
                     break;
             }
         }
