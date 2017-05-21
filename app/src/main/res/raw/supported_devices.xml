@@ -3356,6 +3356,16 @@
             <rowsize>0</rowsize>
             <matrixset>IMX135_Z5S_JB</matrixset>
         </filesize>
+        <!-- Redmi Note 4x
+        <filesize size= "16510976">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3136</height>
+            <rawtype>0</rawtype>
+            <colorpattern>grbg</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize> -->
     </device>
 
     <device name ="Xiaomi_Redmi_Pro">
