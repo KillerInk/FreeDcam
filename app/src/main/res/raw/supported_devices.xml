@@ -3378,4 +3378,21 @@
         </filesize>
     </device>
 
+    <device name ="LeTv_x900+">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <models>
+            <item>X900+</item>
+        </models>
+        <filesize size= "26775552">
+            <blacklvl>64</blacklvl>
+            <width>5312</width>
+            <height>3984</height>
+            <rawtype>0</rawtype>
+            <colorpattern>rggb</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </device>
+
 </devices>
