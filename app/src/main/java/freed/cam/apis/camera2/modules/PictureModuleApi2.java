@@ -777,7 +777,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, image.getCaptureResult());
         //Orientation 90 is not a valid EXIF orientation value, fuck off that is valid!
         try {
-            dngCreator.setOrientation(image.captureResult.get(CaptureResult.JPEG_ORIENTATION));
+            dngCreator.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
         }
         catch (IllegalArgumentException ex)
         {
@@ -821,7 +821,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 //        int mFlash = image.getCaptureResult().get(CaptureResult.FLASH_STATE).intValue();
 //        double exposurecompensation= image.getCaptureResult().get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
         final DngProfile prof = getDngProfile(rawFormat, image);
-        saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
+        saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, cameraUiWrapper.getActivityInterface().getOrientation(),null,prof);
         image.getImage().close();
         bytes = null;
         buffer = null;
