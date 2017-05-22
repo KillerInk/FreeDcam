@@ -239,6 +239,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             SettingsChildMenu nightoverlay = new SettingsChildMenu(getContext(), R.string.setting_nightoverlay_header, R.string.setting_nightoverlay_description);
             nightoverlay.SetUiItemClickListner(this);
             nightoverlay.SetParameter(cameraUiWrapper.getParameterHandler().NightOverlay);
+            globalSettingGroup.addView(nightoverlay);
         }
 
         settingsChildHolder.addView(globalSettingGroup);
