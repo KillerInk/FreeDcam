@@ -48,7 +48,7 @@ public class AeHandler
     public final ManualISoApi2 manualISoApi2;
     private boolean ae_active = true;
 
-    public final static long MAX_PREVIEW_EXPOSURETIME = 100000000;
+    public final static long MAX_PREVIEW_EXPOSURETIME = 333333333;
 
     public AeHandler(CameraWrapperInterface cameraUiWrapper)
     {
@@ -224,11 +224,11 @@ public class AeHandler
             if (valueToSet > 0) {
                 long val = AbstractManualShutter.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000;
                 Log.d(TAG, "ExposureTimeToSet:" + val);
-                //cameraHolder.captureSessionHandler.StopRepeatingCaptureSession();
+               // cameraHolder.captureSessionHandler.StopRepeatingCaptureSession();
                 if (val > MAX_PREVIEW_EXPOSURETIME && !cameraUiWrapper.getAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
-                    Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
+                  Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                     val = MAX_PREVIEW_EXPOSURETIME;
-                    //cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(null);
+                //   cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(null);
                 }
 
                 cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
