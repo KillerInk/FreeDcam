@@ -3333,6 +3333,27 @@
         </filesize>
     </device>
 
+    <device name ="Xiaomi_Redmi4A">
+        <models>
+            <item>Redmi 4A</item>
+        </models>
+        <camera1>
+            <dngmanual>true</dngmanual>
+            <manualiso supported="false"></manualiso>
+        </camera1>
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <filesize size= "16560128">
+            <blacklvl>10</blacklvl>
+            <width>4208</width>
+            <height>3136</height>
+            <rawtype>3</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize>5280</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+    </device>
+
     <device name ="Xiaomi_Redmi_Note_4">
         <models>
             <item>Redmi Note4---</item>
