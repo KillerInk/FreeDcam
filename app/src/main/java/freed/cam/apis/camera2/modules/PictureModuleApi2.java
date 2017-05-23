@@ -385,6 +385,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             changeCaptureState(CaptureStates.image_capture_start);
             for(CaptureRequest.Key<?> key : cameraHolder.captureSessionHandler.getKeys())
             {
+               Log.d(TAG,"Keys "+key.getName() );
+
                 CaptureRequest.Key k = key;
                 if (k == CaptureRequest.SENSOR_EXPOSURE_TIME)
                 {
@@ -777,10 +779,19 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, image.getCaptureResult());
         //Orientation 90 is not a valid EXIF orientation value, fuck off that is valid!
         try {
-            dngCreator.setOrientation(image.captureResult.get(CaptureResult.JPEG_ORIENTATION));
+
+            if(image.captureResult.get(CaptureResult.JPEG_ORIENTATION)!= null)
+            {
+                dngCreator.setOrientation(image.captureResult.get(CaptureResult.JPEG_ORIENTATION));
+            }
+            else
+                dngCreator.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+
+
         }
         catch (IllegalArgumentException ex)
         {
+            dngCreator.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
             Log.WriteEx(ex);
         }
 
@@ -821,7 +832,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 //        int mFlash = image.getCaptureResult().get(CaptureResult.FLASH_STATE).intValue();
 //        double exposurecompensation= image.getCaptureResult().get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
         final DngProfile prof = getDngProfile(rawFormat, image);
-        saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
+        if(image.captureResult.get(CaptureResult.JPEG_ORIENTATION)!= null)
+        {
+            saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, image.captureResult.get(CaptureResult.JPEG_ORIENTATION),null,prof);
+        }
+        else
+            saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, cameraUiWrapper.getActivityInterface().getOrientation(),null,prof);
+
         image.getImage().close();
         bytes = null;
         buffer = null;
@@ -830,12 +847,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     @NonNull
     private DngProfile getDngProfile(int rawFormat, ImageHolder image) {
-        int black  = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
-        int c= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
+        int black = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0, 0);
+        int c = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
         String colorpattern;
         int[] cfaOut = new int[4];
-        switch (c)
-        {
+        switch (c) {
             case 1:
                 colorpattern = DngProfile.GRBG;
                 cfaOut[0] = 1;
@@ -865,6 +881,44 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 cfaOut[3] = 2;
                 break;
         }
+
+
+     //   Log.d(TAG,"LENS_INFO_MINIMUM_FOCUS_DISTANCE "+ cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE));
+
+    //    Log.d(TAG,"LENS_INFO_AVAILABLE_APERTURES "+ cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_APERTURES).toString());
+
+    //    Log.d(TAG,"LENS_INFO_AVAILABLE_FILTER_DENSITIES "+ cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_FILTER_DENSITIES).toString());
+
+      //  Log.d(TAG,"LENS_INFO_AVAILABLE_FOCAL_LENGTHS "+ cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS).toString());
+
+     //   Log.d(TAG,"LENS_INFO_FOCUS_DISTANCE_CALIBRATION "+ cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_FOCUS_DISTANCE_CALIBRATION).toString());
+
+      //  Log.d(TAG,"LENS_INFO_HYPERFOCAL_DISTANCE "+ cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_HYPERFOCAL_DISTANCE).toString());
+
+
+       //Log.d(TAG,"KEYS "+cameraHolder.characteristics.getAvailableCaptureRequestKeys().toString());
+       // Log.d(TAG,"KEYS "+cameraHolder.characteristics.getAvailableCaptureResultKeys().toString());
+      //  Log.d(TAG,"KEYS "+cameraHolder.characteristics.getKeys().toString());
+
+
+      //  Log.d(TAG,"LENS_INFO_FOCUS_DISTANCE_CALIBRATION_APPROXIMATE "+ cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_FOCUS_DISTANCE_CALIBRATION_APPROXIMATE));
+
+       // Log.d(TAG,"LENS_INFO_FOCUS_DISTANCE_CALIBRATION_CALIBRATED "+ cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_FOCUS_DISTANCE_CALIBRATION_CALIBRATED));
+
+     //   Log.d(TAG,"LENS_INFO_FOCUS_DISTANCE_CALIBRATION_UNCALIBRATED "+ cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_FOCUS_DISTANCE_CALIBRATION_UNCALIBRATED));
+      //  if (appSettingsManager.isOverrideDngProfile())
+
+        float[] CameraCalibration_Override =
+                {
+                        (float) 1.000, (float) 0.000, (float) 0.000,
+                        (float) 0.000, (float) 1.000, (float) 0.000,
+                        (float) 0.000, (float) 0.000, (float) 1.000
+                };
+
+        double[] NoiseMatrix_Override =
+                {
+                        (double) 0, (double) 0, (double) 0, (double) 0, (double) 0, (double) 0
+                };
         float[] color2;
         float[] color1;
         float[] neutral = new float[3];
@@ -924,17 +978,19 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             //noise end
         }
 
-        return DngProfile.getProfile(black,image.getImage().getWidth(), image.getImage().getHeight(),rawFormat, colorpattern, 0,
-                color1,
-                color2,
-                neutral,
-                forward1,
-                forward2,
-                reduction1,
-                reduction2,
-                finalnoise,
-                cmat
-        );
+
+            return DngProfile.getProfile(black, image.getImage().getWidth(), image.getImage().getHeight(), rawFormat, colorpattern, 0,
+                    color1,
+                    color2,
+                    neutral,
+                    forward1,
+                    forward2,
+                    CameraCalibration_Override,
+                    CameraCalibration_Override,
+                    NoiseMatrix_Override,
+                    cmat
+            );
+
     }
 
     private void generateNoiseProfile(double[] perChannelNoiseProfile, int[] cfa,

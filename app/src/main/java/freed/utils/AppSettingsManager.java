@@ -528,6 +528,16 @@ public class AppSettingsManager {
         settings.edit().putBoolean("zteae",legacy).commit();
     }
 
+    public boolean isOverrideDngProfile()
+    {
+        return settings.getBoolean("overrideprofile", false);
+    }
+
+    private void setsOverrideDngProfile(boolean legacy)
+    {
+        settings.edit().putBoolean("overrideprofile",legacy).commit();
+    }
+
     public boolean isForceRawToDng()
     {
         return settings.getBoolean("forcerawtodng", false);
@@ -1018,6 +1028,9 @@ public class AppSettingsManager {
                                 Log.d(TAG,"Found Camera2 overrides");
                                 if (!camera2element.findChild("forcerawtodng").isEmpty())
                                     setForceRawToDng(camera2element.findChild("forcerawtodng").getBooleanValue());
+                                if (!camera2element.findChild("overrideprofile").isEmpty())
+                                    setsOverrideDngProfile(camera2element.findChild("overrideprofile").getBooleanValue());
+
                                 if (!camera2element.findChild("maxexposuretime").isEmpty())
                                 {
                                     setCamera2MaxExposureTime(camera2element.findChild("maxexposuretime").getLongValue());
