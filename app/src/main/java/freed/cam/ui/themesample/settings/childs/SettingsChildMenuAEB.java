@@ -48,8 +48,9 @@ public class SettingsChildMenuAEB extends LinearLayout {
     private AppSettingsManager appSettingsManager;
 
 
-    public SettingsChildMenuAEB(Context context) {
+    public SettingsChildMenuAEB(Context context,AppSettingsManager appSettingsManager) {
         super(context);
+        this.appSettingsManager = appSettingsManager;
         init(context);
     }
 

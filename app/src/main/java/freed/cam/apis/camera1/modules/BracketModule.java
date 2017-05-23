@@ -107,19 +107,19 @@ public class BracketModule extends PictureModule
     {
         int value = 0;
         if (hdrCount == 0) {
-            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB1));
+            value = 12;
         } else if (hdrCount == 1)
-            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB2));
+            value = 8;
         else if (hdrCount == 2)
-            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB3));
+            value = 4;
         else if (hdrCount == 3)
-            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB4));
+            value = 0;
         else if (hdrCount == 4)
-            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB5));
+            value = -4;
         else if (hdrCount == 5)
-            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB6));
+            value = -8;
         else if (hdrCount == 6)
-            value = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AEB7));
+            value = -12;
         else if (hdrCount == 7)
             value = 0;
 
