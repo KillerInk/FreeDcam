@@ -70,6 +70,11 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 {
     private final String TAG = CameraHolderApi2.class.getSimpleName();
 
+    //limits the preview to use maximal that size for preview
+    //when set to high it its possbile to get a laggy preview with active focuspeak
+    public static int MAX_PREVIEW_WIDTH = 1920;
+    public static int MAX_PREVIEW_HEIGHT = 1080;
+
     public interface AeCompensationListner
     {
         void onAeCompensationChanged(int aecompensation);
@@ -460,7 +465,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 4:
                         state = "FOCUSED_LOCKED";
-                        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                        //captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                         if (cameraUiWrapper.getFocusHandler().focusEvent != null)
                             cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(true);
 
@@ -542,11 +547,10 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     public Size getSizeForPreviewDependingOnImageSize(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
     {
         List<Size> sizes = new ArrayList<>();
-        Rect rect = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         double ratio = (double)mImageWidth/mImageHeight;
         for (Size s : choices)
         {
-            if (s.getWidth() <= 1280 && s.getHeight() <= 720 && (double)s.getWidth()/s.getHeight() == ratio)
+            if (s.getWidth() <= MAX_PREVIEW_WIDTH && s.getHeight() <= MAX_PREVIEW_HEIGHT && ratioMatch((double)s.getWidth()/s.getHeight(),ratio))
                 sizes.add(s);
 
         }
@@ -556,6 +560,16 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             Log.e(TAG, "Couldn't find any suitable previewSize size");
             return choices[0];
         }
+    }
+
+    private boolean ratioMatch(double preview, double image)
+    {
+        double rangelimter = 0.01;
+
+        if (preview+rangelimter >= image && preview -rangelimter <= image)
+            return true;
+        else
+            return false;
     }
 
 
