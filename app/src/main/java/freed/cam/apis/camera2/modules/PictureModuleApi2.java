@@ -77,7 +77,6 @@ import freed.utils.Log;
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class PictureModuleApi2 extends AbstractModuleApi2
 {
-
     private class ImageHolder
     {
         private CaptureResult captureResult;
@@ -391,7 +390,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     long val = 0;
                     if(!parameterHandler.ManualIso.GetStringValue().equals(cameraUiWrapper.getResString(R.string.auto_))) {
                         val = AbstractManualShutter.getMilliSecondStringFromShutterString(parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()]) * 1000;
-                        //cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
                     }
                     else
                         val= cameraHolder.captureSessionHandler.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
@@ -404,7 +402,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
             prepareCaptureBuilder(captureBuilder, imagecount);
             Log.d(CAPTURECYCLE, "CancelRepeatingCaptureSessoion set imageRdyCallback");
-            if (cameraHolder.captureSessionHandler.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF)
+            if (cameraHolder.captureSessionHandler.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF && cameraHolder.captureSessionHandler.get(CaptureRequest.SENSOR_EXPOSURE_TIME) >= 1000000000)
                 cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(imageCaptureRdyCallback);
             else {
                 cameraHolder.captureSessionHandler.StopRepeatingCaptureSession();
