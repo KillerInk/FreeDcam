@@ -466,13 +466,13 @@ public class SimpleCameraEventObserver {
         //36 zoom settings
         String zoomSetting = JsonUtils.findStringInformation(replyJson, 36, "zoomSetting", "zoom");
         if (zoomSetting != null && !zoomSetting.equals("")) {
-            this.sendLog("getEvent imageformat: " + zoomSetting);
+            this.sendLog("getEvent zoomSettings: " + zoomSetting);
             this.fireZoomSettingChangedListener(zoomSetting);
         }
         String[] zoomSettings = JsonUtils.findStringArrayInformation(replyJson, 36, "zoomSetting", "candidate");
         if (zoomSettings != null && zoomSettings.length > 0)
         {
-            this.sendLog("getEvent imageformats: " + Arrays.toString(zoomSettings));
+            this.sendLog("getEvent zoomSettings: " + Arrays.toString(zoomSettings));
             this.fireZoomSettingsChangedListener(zoomSettings);
         }
 
