@@ -2610,6 +2610,16 @@
             <matrixset>Imx362</matrixset>
         </filesize>
 
+        <filesize size= "3870720">
+            <blacklvl>64</blacklvl>
+            <width>2016</width>
+            <height>1512</height>
+            <rawtype>0</rawtype>
+            <colorpattern>rggb</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx362</matrixset>
+        </filesize>
+
     </device>
 
 
