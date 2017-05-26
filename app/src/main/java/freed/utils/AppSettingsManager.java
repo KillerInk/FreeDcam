@@ -430,15 +430,15 @@ public class AppSettingsManager {
         controlMode = new SettingMode(getResString(R.string.aps_controlmode));
         denoiseMode = new SettingMode(getResString(R.string.aps_denoisemode));
         //**********************************************QC PARAMS NEW HAL
-        temporal_nr = new SettingMode(getResString(R.string.aps_denoisemode));
-        temporal_video_nr = new SettingMode(getResString(R.string.aps_denoisemode));
-        seemore_tonemap = new SettingMode(getResString(R.string.aps_denoisemode));
-        pdafcontrol = new SettingMode(getResString(R.string.aps_denoisemode));
-        rawdumpinterface = new SettingMode(getResString(R.string.aps_denoisemode));
-        chromaflash = new SettingMode(getResString(R.string.aps_denoisemode));
-        optizoom = new SettingMode(getResString(R.string.aps_denoisemode));
-        refocus = new SettingMode(getResString(R.string.aps_denoisemode));
-        truepotrait = new SettingMode(getResString(R.string.aps_denoisemode));
+        temporal_nr = new SettingMode(getResString(R.string.aps_tnr));
+        temporal_video_nr = new SettingMode(getResString(R.string.aps_tnr_v));
+        seemore_tonemap = new SettingMode(getResString(R.string.aps_seemore));
+        pdafcontrol = new SettingMode(getResString(R.string.aps_pdaf));
+        rawdumpinterface = new SettingMode(getResString(R.string.aps_rdi));
+        chromaflash = new SettingMode(getResString(R.string.aps_chroma_flash));
+        optizoom = new SettingMode(getResString(R.string.aps_optizoom));
+        refocus = new SettingMode(getResString(R.string.aps_refocus));
+        truepotrait = new SettingMode(getResString(R.string.aps_truepotrait));
         //*******************************************************************
 
         edgeMode = new SettingMode(getResString(R.string.aps_edgemode));
