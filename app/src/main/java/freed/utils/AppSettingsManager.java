@@ -326,6 +326,16 @@ public class AppSettingsManager {
     public final SettingMode videoHDR;
     public final SettingMode videoHFR;
     public final SettingMode denoiseMode;
+    public final SettingMode temporal_nr;
+    public final SettingMode temporal_video_nr;
+    public final SettingMode seemore_tonemap;
+    public final SettingMode truepotrait;
+    public final SettingMode optizoom;
+    public final SettingMode chromaflash;
+    public final SettingMode rawdumpinterface;
+    public final SettingMode pdafcontrol;
+    public final SettingMode refocus;
+
     public final SettingMode controlMode;
     public final SettingMode edgeMode;
     public final SettingMode digitalImageStabilisationMode;
@@ -419,6 +429,18 @@ public class AppSettingsManager {
         videoHFR = new SettingMode(getResString(R.string.aps_videohfr));
         controlMode = new SettingMode(getResString(R.string.aps_controlmode));
         denoiseMode = new SettingMode(getResString(R.string.aps_denoisemode));
+        //**********************************************QC PARAMS NEW HAL
+        temporal_nr = new SettingMode(getResString(R.string.aps_denoisemode));
+        temporal_video_nr = new SettingMode(getResString(R.string.aps_denoisemode));
+        seemore_tonemap = new SettingMode(getResString(R.string.aps_denoisemode));
+        pdafcontrol = new SettingMode(getResString(R.string.aps_denoisemode));
+        rawdumpinterface = new SettingMode(getResString(R.string.aps_denoisemode));
+        chromaflash = new SettingMode(getResString(R.string.aps_denoisemode));
+        optizoom = new SettingMode(getResString(R.string.aps_denoisemode));
+        refocus = new SettingMode(getResString(R.string.aps_denoisemode));
+        truepotrait = new SettingMode(getResString(R.string.aps_denoisemode));
+        //*******************************************************************
+
         edgeMode = new SettingMode(getResString(R.string.aps_edgemode));
         digitalImageStabilisationMode = new SettingMode(getResString(R.string.aps_digitalimagestabmode));
         hotpixelMode = new SettingMode(getResString(R.string.aps_hotpixel));
