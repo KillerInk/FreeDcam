@@ -101,6 +101,18 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface ZSL;
     public ModeParameterInterface SceneDetect;
     public ModeParameterInterface Denoise;
+    //5/26/2017
+    public ModeParameterInterface PDAF;
+    public ModeParameterInterface TNR;
+    public ModeParameterInterface TNR_V;
+    public ModeParameterInterface RDI;
+    public ModeParameterInterface TruePotrait;
+    public ModeParameterInterface ReFocus;
+    public ModeParameterInterface SeeMore;
+    public ModeParameterInterface OptiZoom;
+    public ModeParameterInterface ChromaFlash;
+
+
     public ModeParameterInterface DigitalImageStabilization;
     public ModeParameterInterface VideoStabilization;
     public ModeParameterInterface MemoryColorEnhancement;

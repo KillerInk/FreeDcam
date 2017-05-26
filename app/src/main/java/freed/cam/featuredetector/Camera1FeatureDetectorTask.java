@@ -497,6 +497,21 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
     }
 
+    private void detectTNR(Camera.Parameters parameters)
+    {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            appSettingsManager.temporal_nr.setIsSupported(false);
+            appSettingsManager.temporal_video_nr.setIsSupported(false);
+            return;
+        }
+        else
+        {
+            detectMode(parameters,R.string.denoise,R.string.denoise_values,appSettingsManager.denoiseMode);
+        }
+
+    }
+
     private void detectDenoise(Camera.Parameters parameters)
     {
         Log.d(TAG, "Denoise is Presetted: "+appSettingsManager.denoiseMode.isPresetted());

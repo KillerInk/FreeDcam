@@ -297,6 +297,15 @@ public class ParametersHandler extends AbstractParameterHandler
         if(appS.nonZslManualMode.isSupported())
             NonZslManualMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.nonZslManualMode);
 
+        TNR = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.temporal_nr);
+        TNR_V = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.temporal_video_nr);
+        PDAF = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.pdafcontrol);
+        SeeMore = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.seemore_tonemap);
+        TruePotrait = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.truepotrait);
+        ReFocus = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.refocus);
+        OptiZoom = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.optizoom);
+        RDI = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.rawdumpinterface);
+        ChromaFlash = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.chromaflash);
 
         VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
 
