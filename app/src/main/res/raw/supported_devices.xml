@@ -2791,6 +2791,84 @@
         </filesize>
     </device>
 
+    <device name ="Sony_T2_Ultra">
+        <models>
+            <item>D5303</item>
+        </models>
+        <camera1>
+            <burst>7</burst>
+            <nightmode>1</nightmode>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual</mode>
+            </whiteblance>
+            <exposuretime>
+                <values>shutter_values_zte_z5s</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>9</type>
+            </exposuretime>
+            <virtuallensfilter>true</virtuallensfilter>
+            <manualfocus>
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>1</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
+        </camera1>
+        <opcode2></opcode2>
+        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
+        <filesize size= "6299648">
+            <blacklvl>16</blacklvl>
+            <width>2592</width>
+            <height>1944</height>
+            <rawtype>0</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>OV5648</matrixset>
+        </filesize>
+        <filesize size= "16424960">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>Imx135</matrixset>
+        </filesize>
+        <filesize size= "17522688">
+            <blacklvl>64</blacklvl>
+            <width>4212</width>
+            <height>3120</height>
+            <rawtype>1</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>IMX135_Z5S_JB</matrixset>
+        </filesize>
+        <filesize size= "12460032">
+            <blacklvl>64</blacklvl>
+            <width>4208</width>
+            <height>2367</height>
+            <rawtype>0</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>IMX135_Z5S_JB</matrixset>
+        </filesize>
+        <filesize size= "4108288">
+            <blacklvl>64</blacklvl>
+            <width>2104</width>
+            <height>1560</height>
+            <rawtype>3</rawtype>
+            <colorpattern>bggr</colorpattern>
+            <rowsize>5264</rowsize>
+            <matrixset>IMX135_Z5S_JB</matrixset>
+        </filesize>
+    </device>
+
     <device name ="ZTE_ADV">
         <models>
             <item>NX503A</item>
@@ -2900,7 +2978,7 @@
 
             <manualfocus>
                 <min>0</min>
-                <max>79</max>
+                <max>100</max>
                 <step>1</step>
                 <type>1</type>
                 <mode>manual</mode>
@@ -2923,7 +3001,7 @@
             <width>4208</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>bggr</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>5264</rowsize>
             <matrixset>G4</matrixset>
         </filesize>
@@ -2932,9 +3010,9 @@
             <width>4212</width>
             <height>3120</height>
             <rawtype>1</rawtype>
-            <colorpattern>bggr</colorpattern>
+            <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>G4</matrixset>
+            <matrixset>Nexus6</matrixset>
         </filesize>
     </device>
 
