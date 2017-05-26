@@ -147,6 +147,32 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectDenoise(parameters);
             sendProgress(appS.denoiseMode, "Denoise");
 
+            detectTNR(parameters);
+            sendProgress(appS.temporal_nr, "Temporoal_NR");
+            sendProgress(appS.temporal_video_nr, "Temporoal_VIDEO_NR");
+
+            detectPDAF(parameters);
+            sendProgress(appS.pdafcontrol, "PDAF");
+
+            detectSEEMoar(parameters);
+            sendProgress(appS.seemore_tonemap, "StillMoreToneMap");
+
+            detectTruePotrait(parameters);
+            sendProgress(appS.truepotrait, "TruePotrait");
+
+            detectRefocus(parameters);
+            sendProgress(appS.refocus, "ReFocus");
+
+            detectOptizoom(parameters);
+            sendProgress(appS.optizoom, "OptiZoom");
+
+            detectChromaFlash(parameters);
+            sendProgress(appS.chromaflash, "ChromaFlash");
+
+            detectRDI(parameters);
+            sendProgress(appS.rawdumpinterface, "RDI");
+
+
             detectNonZslmanual(parameters);
             sendProgress(appS.nonZslManualMode, "NonZslManual");
 
