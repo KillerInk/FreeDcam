@@ -65,6 +65,16 @@
     <string name="aps_previewfpsrange" translatable="false">previewfpsrange</string>
     <string name="aps_dualprimarycameramode" translatable="false">dualprimarycameramode</string>
 
+    <string name="aps_tnr" translatable="false">tnr</string>
+    <string name="aps_tnr_v" translatable="false">tnr_v</string>
+    <string name="aps_pdaf" translatable="false">pdafctrl</string>
+    <string name="aps_truepotrait" translatable="false">truepotrait</string>
+    <string name="aps_rdi" translatable="false">rdi</string>
+    <string name="aps_seemore" translatable="false">seemore</string>
+    <string name="aps_refocus" translatable="false">refous</string>
+    <string name="aps_optizoom" translatable="false">optizoom</string>
+    <string name="aps_chroma_flash" translatable="false">chromaflash</string>
+
 
     <string name="aps_manualfocus" translatable="false">mf</string>
     <string name="aps_manualexpocomp" translatable="false">expocomp</string>
