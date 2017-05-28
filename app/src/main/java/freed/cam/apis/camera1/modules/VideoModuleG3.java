@@ -153,9 +153,12 @@ public class VideoModuleG3 extends AbstractVideoModule
         }
         if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("2160p"))
         {
-            cameraUiWrapper.getParameterHandler().MemoryColorEnhancement.SetValue(appSettingsManager.getResString(R.string.disable_),false);
-            cameraUiWrapper.getParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), false);
-            cameraUiWrapper.getParameterHandler().Denoise.SetValue("denoise-off", false);
+            if(cameraUiWrapper.getParameterHandler().MemoryColorEnhancement != null && cameraUiWrapper.getParameterHandler().MemoryColorEnhancement.IsSupported())
+                cameraUiWrapper.getParameterHandler().MemoryColorEnhancement.SetValue(appSettingsManager.getResString(R.string.disable_),false);
+            if (cameraUiWrapper.getParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.getParameterHandler().DigitalImageStabilization.IsSupported())
+                cameraUiWrapper.getParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), false);
+            if (cameraUiWrapper.getParameterHandler().Denoise != null && cameraUiWrapper.getParameterHandler().Denoise.IsSupported())
+                cameraUiWrapper.getParameterHandler().Denoise.SetValue("denoise-off", false);
             if(!appSettingsManager.IsCamera2FullSupported())
                 cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("nv12-venus",false);
             if (currentProfile.Mode == VideoMode.Highspeed)

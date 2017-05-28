@@ -177,14 +177,15 @@ public class VideoModule extends AbstractVideoModule
                     cameraUiWrapper.getParameterHandler().PreviewFpsRange.SetValue(String.valueOf(currentProfile.videoFrameRate * 1000) + "," + String.valueOf(currentProfile.videoFrameRate * 1000),true);
                 }
             }
+            //TODO lookup width and height of profile instead of checking if "2160p" is contained in the profile namne
             if (currentProfile.ProfileName.contains(VideoProfilesParameter._2160p) ||currentProfile.ProfileName.contains(VideoProfilesParameter._2160pDCI))
             {
 
-                //if (appSettingsManager.digitalImageStabilisationMode.isSupported())
-                    //cameraUiWrapper.getParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), true);
+                if (cameraUiWrapper.getParameterHandler().DigitalImageStabilization != null && appSettingsManager.digitalImageStabilisationMode.isSupported())
+                    cameraUiWrapper.getParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), true);
 
-               // if (appSettingsManager.videoStabilisation.isSupported())
-                //    cameraUiWrapper.getParameterHandler().VideoStabilization.SetValue(appSettingsManager.getResString(R.string.false_), true);
+                if (cameraUiWrapper.getParameterHandler().VideoStabilization != null && appSettingsManager.videoStabilisation.isSupported())
+                    cameraUiWrapper.getParameterHandler().VideoStabilization.SetValue(appSettingsManager.getResString(R.string.false_), true);
 
                 if (!appSettingsManager.IsCamera2FullSupported())
                     cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
@@ -212,11 +213,11 @@ public class VideoModule extends AbstractVideoModule
 
     private void loadDefaultHighspeed() {
         //turn off all blocking/postprocessing parameters wich avoid highframes
-        if (appSettingsManager.memoryColorEnhancement.isSupported())
+        if (cameraUiWrapper.getParameterHandler().MemoryColorEnhancement != null && appSettingsManager.memoryColorEnhancement.isSupported())
             cameraUiWrapper.getParameterHandler().MemoryColorEnhancement.SetValue("disable", false);
-        if (appSettingsManager.digitalImageStabilisationMode.isSupported())
+        if (cameraUiWrapper.getParameterHandler().DigitalImageStabilization != null && appSettingsManager.digitalImageStabilisationMode.isSupported())
             cameraUiWrapper.getParameterHandler().DigitalImageStabilization.SetValue("disable", false);
-        if (appSettingsManager.videoStabilisation.isSupported())
+        if (cameraUiWrapper.getParameterHandler().VideoStabilization != null && appSettingsManager.videoStabilisation.isSupported())
             cameraUiWrapper.getParameterHandler().VideoStabilization.SetValue("false", false);
         if (cameraUiWrapper.getParameterHandler().Denoise != null && cameraUiWrapper.getParameterHandler().Denoise.IsSupported())
             cameraUiWrapper.getParameterHandler().Denoise.SetValue("denoise-off", false);
