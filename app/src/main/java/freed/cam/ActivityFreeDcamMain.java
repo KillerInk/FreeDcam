@@ -174,7 +174,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         mPager.setCurrentItem(1);
 
         nightoverlay = (LinearLayout) findViewById(id.nightoverlay);
-        getPermissionHandler().hasExternalSDPermission(onExtSDPermission);
+        if(getPermissionHandler().hasExternalSDPermission(onExtSDPermission))
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    LoadFreeDcamDCIMDirsFiles();
+                }
+            }).start();
         //listen to phone orientation changes
         orientationHandler = new OrientationHandler(this, this);
         orientationHandler.Start();
@@ -252,12 +258,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             return;
         loadCameraFragment();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                LoadFreeDcamDCIMDirsFiles();
-            }
-        }).start();
+
 
         if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)))
             getPermissionHandler().hasLocationPermission(onLocationPermission);
