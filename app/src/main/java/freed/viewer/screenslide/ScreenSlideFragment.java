@@ -352,21 +352,21 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         {
             filename.setText(file.getFile().getName());
             deleteButton.setVisibility(View.VISIBLE);
-            if (file.getFile().getName().endsWith(FileEnding.JPG) || file.getFile().getName().endsWith(FileEnding.JPS)) {
+            if (file.getFile().getName().toLowerCase().endsWith(FileEnding.JPG) || file.getFile().getName().toLowerCase().endsWith(FileEnding.JPS)) {
                 processExif(file.getFile());
                 exifinfo.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getFile().getName().endsWith(FileEnding.MP4)) {
+            if (file.getFile().getName().toLowerCase().endsWith(FileEnding.MP4)) {
                 exifinfo.setVisibility(View.GONE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getFile().getName().endsWith(FileEnding.DNG)) {
+            if (file.getFile().getName().toLowerCase().endsWith(FileEnding.DNG)) {
                 processExif(file.getFile());
                 exifinfo.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getFile().getName().endsWith(FileEnding.RAW) || file.getFile().getName().endsWith(FileEnding.BAYER)) {
+            if (file.getFile().getName().toLowerCase().endsWith(FileEnding.RAW) || file.getFile().getName().toLowerCase().endsWith(FileEnding.BAYER)) {
                 exifinfo.setVisibility(View.GONE);
                 play.setVisibility(View.GONE);
             }

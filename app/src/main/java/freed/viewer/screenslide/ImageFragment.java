@@ -146,13 +146,17 @@ public class ImageFragment extends Fragment
         @Override
         protected Bitmap doInBackground(File... params)
         {
-            if (getActivity() == null)
+            if (getActivity() == null) {
+                Log.e(TAG, "ImageLoaderTask: Activity is null");
                 return null;
+            }
+            Log.d(TAG, "ImageLoaderTask: LoadImage:" + file.getFile().getName());
             Bitmap response = ((ActivityInterface)getActivity()).getBitmapHelper().getBitmap(file,false);
             createHistogramm(response);
             if (waitForWorkFinish != null && position >-1)
                 waitForWorkFinish.HistograRdyToSet(histogramData, position);
             waitForWorkFinish = null;
+            Log.d(TAG, "ImageLoaderTask: LoadImage Done:" + file.getFile().getName());
             return response;
         }
 
@@ -160,11 +164,11 @@ public class ImageFragment extends Fragment
         protected void onPostExecute(Bitmap bitmap) {
             if (imageView != null && isAdded())
             {
-                progressBar.setVisibility(View.GONE);
                 imageView.setImageBitmap(bitmap);
             }
             else if (bitmap != null)
                 bitmap.recycle();
+            progressBar.setVisibility(View.GONE);
         }
     }
 
