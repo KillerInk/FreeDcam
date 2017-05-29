@@ -49,7 +49,8 @@ public class WifiUtils
     }
 
     public void StartScan() {
-        wifiManager.startScan();}
+        wifiManager.startScan();
+    }
 
     public String[] getNetworkSSIDs()
     {

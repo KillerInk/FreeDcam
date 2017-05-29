@@ -27,24 +27,23 @@ public class WifiHandler extends WifiUtils {
     }
 
     private final String TAG = WifiHandler.class.getSimpleName();
-    private WifiScanReceiver wifiReciever;
     private SimpleSsdpClient mSsdpClient;
     private ActivityInterface activityInterface;
     private WifiEvents eventsListner;
-    private boolean isWifiListnerRegistered = false;
     private Handler uiHandler;
+    private boolean resumed = false;
 
 
     public WifiHandler(ActivityInterface activityInterface) {
         super(activityInterface.getContext());
         this.activityInterface = activityInterface;
-        wifiReciever = new WifiScanReceiver();
         mSsdpClient = new SimpleSsdpClient();
         uiHandler = new Handler(Looper.getMainLooper());
     }
 
     public void onResume()
     {
+        resumed = true;
         if(activityInterface.getPermissionHandler().hasLocationPermission(null)) {
             activityInterface.getPermissionHandler().hasWifiPermission(onLocationPermission);
         }
@@ -57,17 +56,12 @@ public class WifiHandler extends WifiUtils {
         public void permissionGranted(boolean granted) {
             if (!granted)
                 return;
-            ((Activity)activityInterface).registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-            isWifiListnerRegistered = true;
         }
     };
 
     public void onPause()
     {
-        if (isWifiListnerRegistered) {
-            ((Activity)activityInterface).unregisterReceiver(wifiReciever);
-            isWifiListnerRegistered = false;
-        }
+        resumed = false;
     }
 
 
@@ -86,15 +80,6 @@ public class WifiHandler extends WifiUtils {
     {
         if (eventsListner != null)
             eventsListner.onDeviceFound(device);
-    }
-
-    class WifiScanReceiver extends BroadcastReceiver
-    {
-        public void onReceive(Context c, Intent intent)
-        {
-            Log.d(TAG, "WifiScanReceiver.onRecieve().StartLookup");
-            StartLookUp();
-        }
     }
 
     public void StartLookUp()
@@ -172,6 +157,7 @@ public class WifiHandler extends WifiUtils {
                 sendMessage("Pls enable Wifi");
             if (!isLocationServiceEnabled())
                 sendMessage("Pls enable LocationService");
+            postDelayed(500);
         }
     }
 
@@ -224,5 +210,13 @@ public class WifiHandler extends WifiUtils {
             }
         }
         return null;
+    }
+
+    @Override
+    public void StartScan() {
+        if (!resumed)
+            return;
+        super.StartScan();
+        postDelayed(500);
     }
 }
