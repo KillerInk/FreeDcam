@@ -60,7 +60,8 @@
                 <key></key>
             </manualfocus>
 
-            <rawformat></rawformat>
+            <rawformat></rawformat> //to set a default bayer profile wich is known to work on that device.
+            some device have more profiles in the parameters then are supported
 
             <opticalimagestab>
                 <key></key>
@@ -69,8 +70,13 @@
         </camera1>
 
         <camera2>
-            <forcerawtodng>true</forcerawtodng>
-            <maxexposuretime version="21">60000000</maxexposuretime> //ms =60sec
+            <forcerawtodng>true</forcerawtodng> //if true freedcam dng converter gets used
+
+            <maxexposuretime version="21">60000000</maxexposuretime> version = sdk when not set overwrite is used in all sdk,
+            used for g4(L supported 60sec, M only 45sec)
+            //ms =60sec, when empty values from camera characteristics gets used
+
+            <maxiso>34000</maxiso> overwrite max iso
         </camera2>
 
         <opcode2></opcode2> opcode2 url to download
