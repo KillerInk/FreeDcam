@@ -71,14 +71,14 @@ void DngWriter::writeIfd0(TIFF *tif) {
     }
     assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
     LOGD("planarconfig");
-    TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam 2016");
+    TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam DNG Writter 2017");
     if(_dateTime != NULL)
         TIFFSetField(tif,TIFFTAG_DATETIME, _dateTime);
     LOGD("software");
     TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
     TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
     LOGD("dngversion");
-    TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "FREEDCAM");
+    TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, _model);
     LOGD("CameraModel");
     TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, _imagedescription);
     LOGD("imagedescription");
