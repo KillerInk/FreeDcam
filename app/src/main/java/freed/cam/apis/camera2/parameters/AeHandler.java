@@ -225,13 +225,14 @@ public class AeHandler
                 long val = AbstractManualShutter.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000;
                 Log.d(TAG, "ExposureTimeToSet:" + val);
                // cameraHolder.captureSessionHandler.StopRepeatingCaptureSession();
-                if (val > MAX_PREVIEW_EXPOSURETIME && !cameraUiWrapper.getAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
-                  Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
-                    val = MAX_PREVIEW_EXPOSURETIME;
+                //if (val > MAX_PREVIEW_EXPOSURETIME && !cameraUiWrapper.getAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
+                 // Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
+                   // val = MAX_PREVIEW_EXPOSURETIME;
                 //   cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(null);
-                }
+               // }
 
                 cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
+                cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_FRAME_DURATION, val);
                 ThrowCurrentValueChanged(valueToSet);
             }
         }
