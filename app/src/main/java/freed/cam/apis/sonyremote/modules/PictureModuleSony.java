@@ -97,7 +97,19 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     {
         Log.d(TAG, "InitModule");
         ((ParameterHandler)cameraUiWrapper.getParameterHandler()).CameraStatusListner = this;
+
+        if(cameraUiWrapper.getParameterHandler().ContShootMode != null) {
+            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).ContShootMode.GetValue();
+            if (shootmode.equals("Single"))
+                changeCaptureState(CaptureStates.image_capture_stop);
+            else if (shootmode.equals("Spd Priority Cont.") || shootmode.equals("Continuous"))
+                changeCaptureState(CaptureStates.continouse_capture_work_stop);
+        }
+        else
+            changeCaptureState(CaptureStates.image_capture_stop);
+
         onCameraStatusChanged(((ParameterHandler)cameraUiWrapper.getParameterHandler()).GetCameraStatus());
+
     }
 
     @Override
@@ -185,14 +197,16 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             isWorking = false;
             if (currentWorkState == CaptureStates.image_capture_start)
                 changeCaptureState(CaptureStates.image_capture_stop);
-            else if (currentWorkState == CaptureStates.continouse_capture_work_start || currentWorkState == CaptureStates.continouse_capture_start)
+            else if (currentWorkState == CaptureStates.continouse_capture_work_start)
                 changeCaptureState(CaptureStates.continouse_capture_work_stop);
+            else if(currentWorkState == CaptureStates.cont_capture_stop_while_working)
+                changeCaptureState(CaptureStates.continouse_capture_stop);
         }
         else if ((status.equals("StillCapturing") || status.equals("StillSaving")) && !isWorking) {
             isWorking = true;
             if (currentWorkState == CaptureStates.image_capture_stop)
                 changeCaptureState(CaptureStates.image_capture_start);
-            else if (currentWorkState == CaptureStates.continouse_capture_work_stop || currentWorkState == CaptureStates.continouse_capture_stop)
+            else if (currentWorkState == CaptureStates.continouse_capture_work_stop)
                 changeCaptureState(CaptureStates.continouse_capture_work_start);
         }
 

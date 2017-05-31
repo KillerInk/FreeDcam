@@ -118,6 +118,11 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         };
     }
 
+    public void changeCaptureState(CaptureStates states)
+    {
+        workerListner.onCaptureStateChanged(states);
+    }
+
     /**
      * Load the new module
      * @param name of the module to load

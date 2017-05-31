@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.Log;
@@ -35,8 +36,10 @@ import freed.utils.Log;
 public class ContShootModeParameterSony extends BaseModeParameterSony
 {
     final String TAG = ContShootModeParameterSony.class.getSimpleName();
-    public ContShootModeParameterSony(SimpleRemoteApi mRemoteApi) {
+    private  ModuleHandlerAbstract moduleHandlerAbstract;
+    public ContShootModeParameterSony(SimpleRemoteApi mRemoteApi, ModuleHandlerAbstract moduleHandlerAbstract) {
         super("getContShootingMode", "setContShootingMode", "getAvailableContShootingMode", mRemoteApi);
+        this.moduleHandlerAbstract =moduleHandlerAbstract;
     }
 
     protected String[] processValuesToReturn() {
@@ -57,6 +60,10 @@ public class ContShootModeParameterSony extends BaseModeParameterSony
         try
         {
             try {
+                if (valueToSet.equals("Single"))
+                    moduleHandlerAbstract.changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
+                else if (valueToSet.equals("Spd Priority Cont.") || valueToSet.equals("Continuous"))
+                    moduleHandlerAbstract.changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_work_stop);
                 JSONObject contshot = new JSONObject().put("contShootingMode", valueToSet);
                 JSONArray array = new JSONArray().put(0, contshot);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);

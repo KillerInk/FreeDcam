@@ -31,6 +31,7 @@ import com.troop.freedcam.R;
 import java.io.File;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.utils.Log;
 
 /**
@@ -76,6 +77,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         cameraUiWrapper.getParameterHandler().Burst.ThrowBackgroundIsSetSupportedChanged(false);
         cameraUiWrapper.getParameterHandler().Burst.SetValue(2);
         maxiso = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
+        changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
     }
 
     @Override

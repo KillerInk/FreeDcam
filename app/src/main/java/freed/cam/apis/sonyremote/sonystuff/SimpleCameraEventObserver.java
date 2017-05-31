@@ -35,11 +35,21 @@ public class SimpleCameraEventObserver {
             Log.d(SimpleCameraEventObserver.TAG, msg);
     }
 
+
+    public interface CameraStatus{
+        /**
+         * Called when the value of "Camera Status" is changed.
+         *
+         * @param status camera status (ex."IDLE")
+         */
+        void onCameraStatusChanged(String status);
+    }
+
     /**
      * A listener interface to receive these changes. These methods will be
      * called by UI thread.
      */
-    public interface ChangeListener {
+    public interface ChangeListener extends CameraStatus {
 
         /**
          * Called when the list of available APIs is modified.
@@ -48,12 +58,6 @@ public class SimpleCameraEventObserver {
          */
         void onApiListModified(List<String> apis);
 
-        /**
-         * Called when the value of "Camera Status" is changed.
-         * 
-         * @param status camera status (ex."IDLE")
-         */
-        void onCameraStatusChanged(String status);
 
         /**
          * Called when the value of "Liveview Status" is changed.
@@ -127,6 +131,7 @@ public class SimpleCameraEventObserver {
     private final SimpleRemoteApi mRemoteApi;
 
     private ChangeListener mListener;
+    private CameraStatus mStateListener;
 
     private boolean mWhileEventMonitoring;
 
@@ -155,7 +160,7 @@ public class SimpleCameraEventObserver {
 
     private int mExposureCompMax;
     private int mExposureCompMin;
-    private String version;
+    private String version = "1.0";
 
 
     public String getVersion()
@@ -709,6 +714,15 @@ public class SimpleCameraEventObserver {
     }
 
     /**
+     * Sets a listener object.
+     *
+     * @param listener
+     */
+    public void setCameraStateChangedListener(CameraStatus listener) {
+        mStateListener = listener;
+    }
+
+    /**
      * Clears a listener object.
      */
     public void clearEventChangeListener() {
@@ -879,6 +893,9 @@ public class SimpleCameraEventObserver {
             public void run() {
                 if (mListener != null) {
                     mListener.onCameraStatusChanged(status);
+                }
+                if (mStateListener != null) {
+                    mStateListener.onCameraStatusChanged(status);
                 }
             }
         });

@@ -112,6 +112,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
     {
         super.InitModule();
         Log.d(TAG,"InitModule");
+        changeCaptureState(CaptureStates.image_capture_stop);
         if (cameraUiWrapper.getParameterHandler() == null)
             return;
         cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("yuv420sp",true);

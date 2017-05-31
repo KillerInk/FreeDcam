@@ -65,7 +65,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     /**
      * throw this when camera starts working to notify ui
      */
-    protected void changeCaptureState(final CaptureStates captureStates)
+    public void changeCaptureState(final CaptureStates captureStates)
     {
         Log.d(TAG, "work started");
         currentWorkState = captureStates;

@@ -53,6 +53,7 @@ public class IntervalApi2 extends IntervalModule implements I_PreviewWrapper
     public void InitModule()
     {
         picModule.InitModule();
+        changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_stop);
     }
 
     @Override

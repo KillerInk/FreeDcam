@@ -67,6 +67,7 @@ public class VideoModuleSony extends ModuleAbstract implements I_CameraStatusCha
     @Override
     public void InitModule() {
         ((ParameterHandler)cameraUiWrapper.getParameterHandler()).CameraStatusListner = this;
+        changeCaptureState(CaptureStates.video_recording_stop);
         onCameraStatusChanged(((ParameterHandler)cameraUiWrapper.getParameterHandler()).GetCameraStatus());
     }
 

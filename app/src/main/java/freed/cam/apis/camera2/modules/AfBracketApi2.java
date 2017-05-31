@@ -30,6 +30,7 @@ import com.troop.freedcam.R;
 import java.io.File;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.utils.AppSettingsManager;
 
 /**
@@ -69,6 +70,7 @@ public class AfBracketApi2 extends PictureModuleApi2
         focuslength = parameterHandler.ManualFocus.getStringValues().length -1;
         focusStep =  focuslength/PICSTOTAKE;
         currentFocusPos = 1;
+        changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
 
     }
 

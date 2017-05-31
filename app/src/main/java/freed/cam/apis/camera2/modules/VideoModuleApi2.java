@@ -106,6 +106,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     {
         Log.d(TAG, "InitModule");
         super.InitModule();
+        changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.VideoProfiles;
         currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.videoProfile.get());
         parameterHandler.VideoProfiles.onValueHasChanged(currentVideoProfile.ProfileName);

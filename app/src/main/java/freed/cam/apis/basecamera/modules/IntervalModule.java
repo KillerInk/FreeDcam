@@ -45,6 +45,7 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
         name = cameraUiWrapper.getResString(R.string.module_interval);
     }
 
+
     @Override
     public String ShortName() {
         return "Int";
@@ -84,8 +85,10 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
 
     @Override
     public void InitModule() {
+        super.InitModule();
         picModule.InitModule();
         picModule.SetCaptureStateChangedListner(this);
+        changeCaptureState(CaptureStates.continouse_capture_stop);
     }
 
     @Override

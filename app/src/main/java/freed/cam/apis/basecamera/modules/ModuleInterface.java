@@ -80,4 +80,6 @@ public interface ModuleInterface
      */
     void fireOnWorkFinish(File files[]);
 
+    void changeCaptureState(final ModuleHandlerAbstract.CaptureStates captureStates);
+
 }

@@ -319,6 +319,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         super.InitModule();
         Log.d(TAG, "InitModule");
+        changeCaptureState(CaptureStates.image_capture_stop);
         cameraUiWrapper.getParameterHandler().Burst.SetValue(0);
         startPreview();
     }

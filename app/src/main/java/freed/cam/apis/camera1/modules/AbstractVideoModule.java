@@ -59,6 +59,12 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     }
 
     @Override
+    public void InitModule() {
+        super.InitModule();
+        changeCaptureState(CaptureStates.video_recording_stop);
+    }
+
+    @Override
     public String ShortName() {
         return "Mov";
     }

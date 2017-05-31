@@ -125,7 +125,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
         ExposureMode = new BaseModeParameterSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony) ExposureMode);
 
-        ContShootMode = new ContShootModeParameterSony(mRemoteApi);
+        ContShootMode = new ContShootModeParameterSony(mRemoteApi, cameraUiWrapper.getModuleHandler());
         parametersChangedList.add((BaseModeParameterSony) ContShootMode);
 
         ContShootModeSpeed = new BaseModeParameterSony("getContShootingSpeed", "setContShootingSpeed", "getAvailableContShootingSpeed", mRemoteApi);

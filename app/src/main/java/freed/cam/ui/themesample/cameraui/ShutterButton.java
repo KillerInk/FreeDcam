@@ -47,7 +47,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 20.06.2015.
  */
-public class ShutterButton extends android.support.v7.widget.AppCompatButton implements ModuleChangedEvent, ModuleHandlerAbstract.CaptureStateChanged {
+public class ShutterButton extends android.support.v7.widget.AppCompatButton implements ModuleHandlerAbstract.CaptureStateChanged {
     private CameraWrapperInterface cameraUiWrapper;
 
     private final String TAG = ShutterButton.class.getSimpleName();
@@ -134,40 +134,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             return;
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.getModuleHandler().setWorkListner(this);
-        cameraUiWrapper.getModuleHandler().addListner(this);
-        if (cameraUiWrapper.getParameterHandler().ContShootMode != null)
-            cameraUiWrapper.getParameterHandler().ContShootMode.addEventListner(this.contshotListner);
-
-        this.onModuleChanged("");
         Log.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
-    }
-
-
-
-    @Override
-    public void onModuleChanged(String module) {
-
-        Log.d(this.TAG, "Module Changed");
-        if (this.cameraUiWrapper.getParameterHandler().ContShootMode != null && this.cameraUiWrapper.getParameterHandler().ContShootMode.IsSupported()) {
-            this.contshotListner.onParameterValueChanged(this.cameraUiWrapper.getParameterHandler().ContShootMode.GetValue());
-
-        }
-        post(new Runnable() {
-            @Override
-            public void run() {
-                if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video))) {
-                    switchBackground(CaptureStates.video_recording_stop, true);
-                } else if ((cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_picture))
-                        || cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_afbracket)))
-                        || cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_hdr))
-                        && !contshot) {
-                    switchBackground(CaptureStates.image_capture_stop, true);
-                } else if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_interval))
-                        || contshot)
-                    switchBackground(CaptureStates.continouse_capture_stop, false);
-
-            }
-        });
     }
 
     private void switchBackground(final CaptureStates showstate, final boolean animate) {
@@ -238,35 +205,6 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         stopTimer = true;
     }
 
-    private final AbstractModeParameter.I_ModeParameterEvent contshotListner = new AbstractModeParameter.I_ModeParameterEvent() {
-        @Override
-        public void onParameterValueChanged(String val) {
-            //Single","Continuous","Spd Priority Cont.
-            Log.d(ShutterButton.this.TAG, "contshot:" + val);
-            if (ShutterButton.this.cameraUiWrapper.getParameterHandler().ContShootMode.GetValue().contains("Single")) {
-                ShutterButton.this.switchBackground(CaptureStates.image_capture_stop, false);
-                ShutterButton.this.contshot = false;
-            } else {
-                ShutterButton.this.switchBackground(CaptureStates.continouse_capture_stop, false);
-                ShutterButton.this.contshot = true;
-            }
-        }
-
-        @Override
-        public void onParameterIsSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterValuesChanged(String[] values) {
-
-        }
-    };
 
     @Override
     protected void onDraw(Canvas canvas)
