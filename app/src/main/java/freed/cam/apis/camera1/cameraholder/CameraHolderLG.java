@@ -51,10 +51,17 @@ public class CameraHolderLG extends CameraHolder
             mCamera = lgCamera.getCamera();
             isRdy = true;
         }
-        catch (RuntimeException ex)
+        catch (RuntimeException  | NoClassDefFoundError ex)
         {
-            cameraUiWrapper.onCameraError("Fail to connect to camera service");
-            isRdy = false;
+            Log.WriteEx(ex);
+            try {
+                super.OpenCamera(camera);
+            }
+            catch (RuntimeException  | NoClassDefFoundError e) {
+                cameraUiWrapper.onCameraError("Fail to connect to camera service");
+                isRdy = false;
+                Log.WriteEx(e);
+            }
         }
 
         cameraUiWrapper.onCameraOpen("");
