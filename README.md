@@ -8,6 +8,7 @@ FreeDcam
 * [Camera Ui Icon](#camera-ui-icons)
 * [Camera1 Dng Supported Devices](#camera1-dng-supported-devices)
 * [How to create a Custom Matrix](#how-to-create-a-custom-matrix)
+* [MSM Camera Blobs Logging for Devs](#msm-camera-blobs-logging-for-devs)
 * [License](#license)
 
 <img src="/playstoreimages/freedcam.jpg" width="500" height="280">
@@ -331,7 +332,27 @@ NULL
 Copy that file now on your phones internalSD/DCIM/FreeDcam/config/matrix and you can select it inside Freedcam.  
 Its gets then applied to each new dng
 
-
+MSM Camera Blobs Logging for DEVS
+========================
+Create File in /data/misc/camera
+```
+ cam_dbglevel=debug
+ mct_dbglevel=debug
+ sensor_dbglevel=debug
+ iface_dbglevel=debug
+ isp_dbglevel=debug
+ stats_dbglevel=debug
+ pproc_dbglevel=debug
+ imglib_dbglevel=debug
+ cpp_dbglevel=debug
+ hal_dbglevel=debug
+ jpeg_dbglevel=debug
+ c2d_dbglevel=debug
+ ```
+ 
+ Permission #chmod 770   
+ persist.camera.global.debug 4  
+ persist.camera.debug.logfile 1
 
 License
 =======
