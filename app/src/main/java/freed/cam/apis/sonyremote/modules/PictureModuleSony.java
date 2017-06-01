@@ -200,7 +200,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             else if (currentWorkState == CaptureStates.continouse_capture_work_start)
                 changeCaptureState(CaptureStates.continouse_capture_work_stop);
             else if(currentWorkState == CaptureStates.cont_capture_stop_while_working)
-                changeCaptureState(CaptureStates.continouse_capture_stop);
+                changeCaptureState(CaptureStates.continouse_capture_work_stop);
         }
         else if ((status.equals("StillCapturing") || status.equals("StillSaving")) && !isWorking) {
             isWorking = true;
