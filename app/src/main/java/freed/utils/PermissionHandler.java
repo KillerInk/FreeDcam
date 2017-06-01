@@ -53,10 +53,13 @@ public class PermissionHandler
                 Log.d(TAG, "Request LocationPermission");
                 activity.requestPermissions(new String[]{
                         Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},1);
+                if (callbackToReturn != null)
+                    callbackToReturn.permissionGranted(false);
                 return false;
             }
-            return true;
         }
+        if (callbackToReturn != null)
+            callbackToReturn.permissionGranted(true);
         return true;
     }
 
@@ -70,10 +73,13 @@ public class PermissionHandler
                 Log.d(TAG, "Request wifiPermission");
                 activity.requestPermissions(new String[]{
                         Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE},1);
+                if (callbackToReturn != null)
+                    callbackToReturn.permissionGranted(false);
                 return false;
             }
-            return true;
         }
+        if (callbackToReturn != null)
+            callbackToReturn.permissionGranted(true);
         return true;
     }
 

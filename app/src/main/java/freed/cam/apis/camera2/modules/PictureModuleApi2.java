@@ -401,6 +401,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     captureBuilder.set(k, cameraHolder.captureSessionHandler.get(k));
             }
 
+            if (cameraUiWrapper.getParameterHandler().locationParameter.GetValue().equals(appSettingsManager.getResString(R.string.on_)))
+            {
+                captureBuilder.set(CaptureRequest.JPEG_GPS_LOCATION,cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
+            }
+
             prepareCaptureBuilder(captureBuilder, imagecount);
             Log.d(CAPTURECYCLE, "CancelRepeatingCaptureSessoion set imageRdyCallback");
             if (cameraHolder.captureSessionHandler.get(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF && cameraHolder.captureSessionHandler.get(CaptureRequest.SENSOR_EXPOSURE_TIME) >= 1000000000)
