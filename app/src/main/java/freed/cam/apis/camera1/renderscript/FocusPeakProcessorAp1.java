@@ -26,6 +26,8 @@ import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
 import android.os.Build.VERSION_CODES;
+import android.os.Handler;
+import android.os.Looper;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RSInvalidStateException;
@@ -176,14 +178,30 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     private void clear_preview(String from)
     {
         if (!doWork || !enable) {
-            output.setAlpha(0);
+            if(Thread.currentThread() == Looper.getMainLooper().getThread())
+                output.setAlpha(0);
+            else
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        output.setAlpha(0);
+                    }
+                });
             Log.d(TAG, "Preview cleared from:" + from);
         }
     }
     private void show_preview()
     {
         if (doWork && enable) {
-            output.setAlpha(1);
+            if(Thread.currentThread() == Looper.getMainLooper().getThread())
+                output.setAlpha(1);
+            else
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        output.setAlpha(1);
+                    }
+                });
             Log.d(TAG, "Preview show from:" + "setEnable");
         }
     }
