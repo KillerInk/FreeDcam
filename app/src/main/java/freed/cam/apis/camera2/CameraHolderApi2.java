@@ -458,7 +458,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 2:
                         state = "PASSIVE_FOCUSED";
-                        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+                        //captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
                         break;
                     case 3:
                         state="ACTIVE_SCAN";

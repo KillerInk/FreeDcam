@@ -62,6 +62,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     private LinearLayout settingsChildHolder;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -96,6 +97,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 SettingsChildMenuTimeLapseFrames timeLapseFrames = new SettingsChildMenuTimeLapseFrames(getContext(), apS);
                 timeLapseFrames.setVisibility(View.VISIBLE);
                 videoGroup.addView(timeLapseFrames);
+
 
                 SettingsChildMenu_VideoProfEditor videoProfileEditor = new SettingsChildMenu_VideoProfEditor(getContext(), R.string.setting_videoprofileeditor_header, R.string.setting_videoprofileeditor_description);
                 videoGroup.addView(videoProfileEditor);
@@ -244,77 +246,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
         settingsChildHolder.addView(globalSettingGroup);
 
-        ////////////////////////////////////////////////////////////////////////////////////////////
 
-        /*if (cameraUiWrapper instanceof Camera1Fragment) {
-
-            if (!(cameraUiWrapper.getCameraHolder() instanceof CameraHolderMTK)) {
-                AEB1.setVisibility(View.VISIBLE);
-                AEB1.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB1);
-                AEB1.SetCameraUIWrapper(cameraUiWrapper);
-
-                AEB2.setVisibility(View.VISIBLE);
-                AEB2.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB2);
-                AEB2.SetCameraUIWrapper(cameraUiWrapper);
-
-                AEB3.setVisibility(View.VISIBLE);
-                AEB3.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB3);
-                AEB3.SetCameraUIWrapper(cameraUiWrapper);
-
-                AEB4.setVisibility(View.VISIBLE);
-                AEB4.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB4);
-                AEB4.SetCameraUIWrapper(cameraUiWrapper);
-
-                AEB5.setVisibility(View.VISIBLE);
-                AEB5.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB5);
-                AEB5.SetCameraUIWrapper(cameraUiWrapper);
-
-                AEB6.setVisibility(View.VISIBLE);
-                AEB6.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB6);
-                AEB6.SetCameraUIWrapper(cameraUiWrapper);
-
-                AEB7.setVisibility(View.VISIBLE);
-                AEB7.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB7);
-                AEB7.SetCameraUIWrapper(cameraUiWrapper);
-            }
-        }
-        else if (cameraUiWrapper instanceof Camera2Fragment) {
-
-            AEB1.setVisibility(View.GONE);
-            AEB2.setVisibility(View.GONE);
-            AEB3.setVisibility(View.GONE);
-            AEB4.setVisibility(View.GONE);
-            AEB5.setVisibility(View.GONE);
-            AEB6.setVisibility(View.GONE);
-            AEB7.setVisibility(View.GONE);
-        } else {
-
-            AEB1.setVisibility(View.GONE);
-            AEB2.setVisibility(View.GONE);
-            AEB3.setVisibility(View.GONE);
-            AEB4.setVisibility(View.GONE);
-            AEB5.setVisibility(View.GONE);
-            AEB6.setVisibility(View.GONE);
-            AEB7.setVisibility(View.GONE);
-        }*/
-
-
-
-
-        /*if (DEBUG) {
-            PreviewFormat.SetStuff(fragment_activityInterface, "");
-            PreviewFormat.SetParameter(cameraUiWrapper.getParameterHandler().PreviewFormat);
-            PreviewFormat.SetUiItemClickListner(this);
-            PreviewFormat.setVisibility(View.VISIBLE);
-            PreviewSize.SetStuff(fragment_activityInterface, "");
-            PreviewSize.SetParameter(cameraUiWrapper.getParameterHandler().PreviewSize);
-            PreviewSize.SetUiItemClickListner(this);
-            PreviewSize.setVisibility(View.VISIBLE);
-        } else {
-            PreviewFormat.setVisibility(View.GONE);
-            PreviewSize.setVisibility(View.GONE);
-        }
-*/
 
     }
 

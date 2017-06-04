@@ -147,6 +147,32 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectDenoise(parameters);
             sendProgress(appS.denoiseMode, "Denoise");
 
+            detectTNR(parameters);
+            sendProgress(appS.temporal_nr, "Temporoal_NR");
+            sendProgress(appS.temporal_video_nr, "Temporoal_VIDEO_NR");
+
+            detectPDAF(parameters);
+            sendProgress(appS.pdafcontrol, "PDAF");
+
+            detectSEEMoar(parameters);
+            sendProgress(appS.seemore_tonemap, "StillMoreToneMap");
+
+            detectTruePotrait(parameters);
+            sendProgress(appS.truepotrait, "TruePotrait");
+
+            detectRefocus(parameters);
+            sendProgress(appS.refocus, "ReFocus");
+
+            detectOptizoom(parameters);
+            sendProgress(appS.optizoom, "OptiZoom");
+
+            detectChromaFlash(parameters);
+            sendProgress(appS.chromaflash, "ChromaFlash");
+
+            detectRDI(parameters);
+            sendProgress(appS.rawdumpinterface, "RDI");
+
+
             detectNonZslmanual(parameters);
             sendProgress(appS.nonZslManualMode, "NonZslManual");
 
@@ -495,6 +521,120 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             appSettingsManager.nonZslManualMode.setKEY("non-zsl-manual-mode");
             appSettingsManager.nonZslManualMode.setValues(new String[]{appSettingsManager.getResString(R.string.on_),appSettingsManager.getResString(R.string.off_)});
         }
+    }
+
+    private void detectTNR(Camera.Parameters parameters)
+    {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            appSettingsManager.temporal_nr.setIsSupported(false);
+            appSettingsManager.temporal_video_nr.setIsSupported(false);
+            return;
+        }
+        else
+        {
+            detectMode(parameters,R.string.tnr,R.string.tnr_mode,appSettingsManager.temporal_nr);
+            detectMode(parameters,R.string.tnr_v,R.string.tnr_mode_v,appSettingsManager.temporal_video_nr);
+        }
+
+    }
+
+    private void detectPDAF(Camera.Parameters parameters)
+    {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            appSettingsManager.pdafcontrol.setIsSupported(false);
+            return;
+        }
+        else
+        {
+            detectMode(parameters,R.string.pdaf,R.string.pdaf_mode,appSettingsManager.pdafcontrol);
+        }
+
+    }
+
+    private void detectSEEMoar(Camera.Parameters parameters)
+    {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            appSettingsManager.seemore_tonemap.setIsSupported(false);
+            return;
+        }
+        else
+        {
+            detectMode(parameters,R.string.seemore,R.string.seemore_mode,appSettingsManager.seemore_tonemap);
+        }
+
+    }
+
+    private void detectRefocus(Camera.Parameters parameters)
+    {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            appSettingsManager.refocus.setIsSupported(false);
+            return;
+        }
+        else
+        {
+            detectMode(parameters,R.string.refocus,R.string.refocus_mode,appSettingsManager.refocus);
+        }
+
+    }
+
+    private void detectRDI(Camera.Parameters parameters)
+    {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            appSettingsManager.rawdumpinterface.setIsSupported(false);
+            return;
+        }
+        else
+        {
+            detectMode(parameters,R.string.rdi,R.string.rdi_mode,appSettingsManager.rawdumpinterface);
+        }
+
+    }
+
+    private void detectOptizoom(Camera.Parameters parameters)
+    {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            appSettingsManager.optizoom.setIsSupported(false);
+            return;
+        }
+        else
+        {
+            detectMode(parameters,R.string.optizoom,R.string.optizoom_mode,appSettingsManager.optizoom);
+        }
+
+    }
+
+    private void detectChromaFlash(Camera.Parameters parameters)
+    {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            appSettingsManager.chromaflash.setIsSupported(false);
+            return;
+        }
+        else
+        {
+            detectMode(parameters,R.string.chroma,R.string.chroma_mode,appSettingsManager.chromaflash);
+        }
+
+    }
+
+    private void detectTruePotrait(Camera.Parameters parameters)
+    {
+        if (appSettingsManager.getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
+        {
+            appSettingsManager.truepotrait.setIsSupported(false);
+            return;
+        }
+        else
+        {
+            detectMode(parameters,R.string.truepotrait,R.string.truepotrait_mode,appSettingsManager.truepotrait);
+        }
+
     }
 
     private void detectDenoise(Camera.Parameters parameters)

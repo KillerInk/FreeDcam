@@ -122,6 +122,33 @@
     <string translatable="false" name="denoise">denoise</string>
     <string translatable="false" name="denoise_values">denoise-values</string>
 
+    <string translatable="false" name="tnr">tnr-mode</string>
+    <string translatable="false" name="tnr_mode">tnr-mode-values</string>
+
+    <string translatable="false" name="tnr_v">video-tnr-mode</string>
+    <string translatable="false" name="tnr_mode_v">video-tnr-mode-values</string>
+
+    <string translatable="false" name="rdi">rdi-mode</string>
+    <string translatable="false" name="rdi_mode">rdi-mode-values</string>
+
+    <string translatable="false" name="pdaf">pdaf-control-mode</string>
+    <string translatable="false" name="pdaf_mode">scene-detect-values</string>
+
+    <string translatable="false" name="seemore">still-more</string>
+    <string translatable="false" name="seemore_mode">still-more-values</string>
+
+    <string translatable="false" name="truepotrait">true-portrait</string>
+    <string translatable="false" name="truepotrait_mode">true-portrait-values</string>
+
+    <string translatable="false" name="chroma">chroma-flash</string>
+    <string translatable="false" name="chroma_mode">chroma-flash-values</string>
+
+    <string translatable="false" name="optizoom">opti-zoom</string>
+    <string translatable="false" name="optizoom_mode">opti-zoom-values</string>
+
+    <string translatable="false" name="refocus">re-focus</string>
+    <string translatable="false" name="refocus_mode">re-focus-values</string>
+
     <string translatable="false" name="dis">dis</string>
     <string translatable="false" name="dis_values">dis-values</string>
     <string translatable="false" name="mtk_3dnr_mode">3dnr-mode</string>

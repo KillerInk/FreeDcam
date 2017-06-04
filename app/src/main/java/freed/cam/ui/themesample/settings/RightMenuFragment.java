@@ -157,6 +157,64 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
                 ton.SetUiItemClickListner(this);
                 settingsgroup.addView(ton);
             }
+/////////////////////////////////////////////////
+            if (params.TNR != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.temporal_nr, params.TNR, R.string.setting_temporaldenoise_header, R.string.setting_temporaldenoise_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.TNR_V != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.temporal_video_nr, params.TNR_V, R.string.setting_temporaldenoiseV_header, R.string.setting_temporaldenoiseV_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.PDAF != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.pdafcontrol, params.PDAF, R.string.setting_pdaf_header, R.string.setting_pdaf_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.TruePotrait != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.truepotrait, params.TruePotrait, R.string.setting_truepotrait_header, R.string.setting_truepotrait_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.RDI != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.rawdumpinterface, params.RDI, R.string.setting_rdi_header, R.string.setting_rdi_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.ChromaFlash != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.chromaflash, params.ChromaFlash, R.string.setting_chroma_header, R.string.setting_chroma_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.OptiZoom != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.optizoom, params.OptiZoom, R.string.setting_optizoom_header, R.string.setting_optizoom_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+            if (params.ReFocus != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.refocus, params.ReFocus, R.string.setting_refocus_header, R.string.setting_refous_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+
+            if (params.SeeMore != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.seemore_tonemap, params.SeeMore, R.string.setting_seemore_header, R.string.setting_seemore_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+   ///////////////////////////////////////////////
+
             if (params.LensFilter != null)
             {
                 SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.virtualLensfilter, params.LensFilter, R.string.setting_lensfilter_header, R.string.setting_lensfilter_description);

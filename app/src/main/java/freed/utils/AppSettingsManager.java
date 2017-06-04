@@ -326,6 +326,16 @@ public class AppSettingsManager {
     public final SettingMode videoHDR;
     public final SettingMode videoHFR;
     public final SettingMode denoiseMode;
+    public final SettingMode temporal_nr;
+    public final SettingMode temporal_video_nr;
+    public final SettingMode seemore_tonemap;
+    public final SettingMode truepotrait;
+    public final SettingMode optizoom;
+    public final SettingMode chromaflash;
+    public final SettingMode rawdumpinterface;
+    public final SettingMode pdafcontrol;
+    public final SettingMode refocus;
+
     public final SettingMode controlMode;
     public final SettingMode edgeMode;
     public final SettingMode digitalImageStabilisationMode;
@@ -419,6 +429,18 @@ public class AppSettingsManager {
         videoHFR = new SettingMode(getResString(R.string.aps_videohfr));
         controlMode = new SettingMode(getResString(R.string.aps_controlmode));
         denoiseMode = new SettingMode(getResString(R.string.aps_denoisemode));
+        //**********************************************QC PARAMS NEW HAL
+        temporal_nr = new SettingMode(getResString(R.string.aps_tnr));
+        temporal_video_nr = new SettingMode(getResString(R.string.aps_tnr_v));
+        seemore_tonemap = new SettingMode(getResString(R.string.aps_seemore));
+        pdafcontrol = new SettingMode(getResString(R.string.aps_pdaf));
+        rawdumpinterface = new SettingMode(getResString(R.string.aps_rdi));
+        chromaflash = new SettingMode(getResString(R.string.aps_chroma_flash));
+        optizoom = new SettingMode(getResString(R.string.aps_optizoom));
+        refocus = new SettingMode(getResString(R.string.aps_refocus));
+        truepotrait = new SettingMode(getResString(R.string.aps_truepotrait));
+        //*******************************************************************
+
         edgeMode = new SettingMode(getResString(R.string.aps_edgemode));
         digitalImageStabilisationMode = new SettingMode(getResString(R.string.aps_digitalimagestabmode));
         hotpixelMode = new SettingMode(getResString(R.string.aps_hotpixel));
@@ -526,6 +548,16 @@ public class AppSettingsManager {
     private void setZteAe(boolean legacy)
     {
         settings.edit().putBoolean("zteae",legacy).commit();
+    }
+
+    public boolean isOverrideDngProfile()
+    {
+        return settings.getBoolean("overrideprofile", false);
+    }
+
+    private void setsOverrideDngProfile(boolean legacy)
+    {
+        settings.edit().putBoolean("overrideprofile",legacy).commit();
     }
 
     public boolean isForceRawToDng()
@@ -1018,6 +1050,9 @@ public class AppSettingsManager {
                                 Log.d(TAG,"Found Camera2 overrides");
                                 if (!camera2element.findChild("forcerawtodng").isEmpty())
                                     setForceRawToDng(camera2element.findChild("forcerawtodng").getBooleanValue());
+                                if (!camera2element.findChild("overrideprofile").isEmpty())
+                                    setsOverrideDngProfile(camera2element.findChild("overrideprofile").getBooleanValue());
+
                                 if (!camera2element.findChild("maxexposuretime").isEmpty())
                                 {
                                     setCamera2MaxExposureTime(camera2element.findChild("maxexposuretime").getLongValue());

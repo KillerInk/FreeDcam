@@ -19,6 +19,7 @@
     <string name="setting_picturesize_header">Size: </string>
     <string name="setting_raw_group_header">Raw Stuff </string>
 
+
     <string name="setting_video_group_header">Video Mode</string>
     <string name="setting_videoprofile_description">Media Profile used VideoRecording</string>
     <string name="setting_videoprofile_header">Video Profile: </string>
@@ -102,8 +103,27 @@
     <string name="setting_redeye_description">Emits a small pre-flash before the main flash</string>
     <string name="setting_scenedec_header">SceneDetection: </string>
     <string name="setting_scenedec_description">Auto Scene Mode Changer</string>
+
     <string name="setting_temporaldenoise_header">Temporal Denoise: </string>
-    <string name="setting_temporaldenoise_description">Denoise for Video, dont use it with wavelet!</string>
+    <string name="setting_temporaldenoise_description">Multi Frame 3D Noise Reduction</string>
+    <string name="setting_temporaldenoiseV_header">Temporal Video Denoise: </string>
+    <string name="setting_temporaldenoiseV_description">Multi Frame Video 3D Noise Reduction</string>
+    <string name="setting_pdaf_header">PDAF Control: </string>
+    <string name="setting_pdaf_description">Control Phase Detection Auto Focus</string>
+    <string name="setting_rdi_header">RDI: </string>
+    <string name="setting_rdi_description">Raw Dump Interface for Zero Lag Raws</string>
+    <string name="setting_seemore_header">StillMOre: </string>
+    <string name="setting_seemore_description">Tonemap LTM</string>
+    <string name="setting_refocus_header">Refocus: </string>
+    <string name="setting_refous_description">FAUX DOF</string>
+    <string name="setting_truepotrait_header">True Potrait: </string>
+    <string name="setting_truepotrait_description">Description pending</string>
+    <string name="setting_optizoom_header">Optizoom: </string>
+    <string name="setting_optizoom_description">Description pending</string>
+    <string name="setting_chroma_header">Optizoom: </string>
+    <string name="setting_chroma_description">MultiFRame flash image</string>
+
+
     <string name="setting_waveletdenoise_header">Wavelet Denoise: </string>
     <string name="setting_waveletdenoise_description">Turn off to disable the Jpeg PostProcess NoiseFilter,dont use it with temporal!</string>
     <string name="setting_zsl_header">Zero Shutter Lag: </string>

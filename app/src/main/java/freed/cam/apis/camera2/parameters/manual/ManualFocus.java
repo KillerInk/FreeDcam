@@ -76,7 +76,7 @@ public class ManualFocus extends AbstractManualParameter
         {
             if (!cameraUiWrapper.getParameterHandler().FocusMode.GetValue().equals(cameraUiWrapper.getContext().getString(R.string.off)))
             {
-                ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
                 cameraUiWrapper.getParameterHandler().FocusMode.SetValue(cameraUiWrapper.getContext().getString(R.string.off), true);
             }
             float valtoset= focusvalues.getValue(currentInt);
