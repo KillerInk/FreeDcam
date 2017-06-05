@@ -64,7 +64,6 @@
     <string name="aps_guide" translatable="false">guide</string>
     <string name="aps_previewfpsrange" translatable="false">previewfpsrange</string>
     <string name="aps_dualprimarycameramode" translatable="false">dualprimarycameramode</string>
-    <string name="aps_autofocusmode" translatable="false">autofocusmode</string>
 
     <string name="aps_tnr" translatable="false">tnr</string>
     <string name="aps_tnr_v" translatable="false">tnr_v</string>

@@ -287,13 +287,6 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
                 ton.SetUiItemClickListner(this);
                 settingsgroup.addView(ton);
             }
-            if (params.autoFocusMode != null)
-            {
-                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.autoFocusMode, params.autoFocusMode, R.string.setting_autofocusmode_header, R.string.setting_autofocusmode_description);
-                ton.SetUiItemClickListner(this);
-                settingsgroup.addView(ton);
-            }
-
             settingchildholder.addView(settingsgroup);
         }
 

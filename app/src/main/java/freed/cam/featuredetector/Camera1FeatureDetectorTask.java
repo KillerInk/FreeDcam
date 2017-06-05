@@ -225,8 +225,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 appSettingsManager.manualAperture.setValues(parameters.get("hw-supported-aperture-value").split(","));
                 appSettingsManager.manualAperture.setIsSupported(true);
             }
-
-            detectMode(parameters,R.string.hw_mmi_test_feature,R.string.hw_mmi_test_feature_supported,appS.autoFocusMode);
         }
 
         appS.SetCurrentCamera(0);

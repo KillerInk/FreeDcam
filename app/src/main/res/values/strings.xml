@@ -169,8 +169,6 @@
 
     <string name="setting_dualprimarycamera_header">Dual Camera</string>
     <string name="setting_dualprimarycamera_description">Switch the Camera</string>
-    <string name="setting_autofocusmode_header">Af Mode</string>
-    <string name="setting_autofocusmode_description">Choose wich af mode get used</string>
 
 
     <!-- cameraui  -->

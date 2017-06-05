@@ -143,7 +143,6 @@ public abstract class AbstractParameterHandler
 
     //huawei
     public ModeParameterInterface dualPrimaryCameraMode;
-    public ModeParameterInterface autoFocusMode;
 
     private boolean isDngActive;
     public boolean IsDngActive(){ return isDngActive; }
@@ -262,7 +261,6 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(matrixChooser, appSettingsManager.matrixset);
         setAppSettingsToCamera(dualPrimaryCameraMode, appSettingsManager.dualPrimaryCameraMode);
         setAppSettingsToCamera(RDI, appSettingsManager.rawdumpinterface);
-        setAppSettingsToCamera(autoFocusMode,appSettingsManager.autoFocusMode);
 
         //setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
         //setManualMode(ManualConvergence,AppSettingsManager.MCONVERGENCE);

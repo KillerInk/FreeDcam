@@ -257,7 +257,7 @@ public class ParametersHandler extends AbstractParameterHandler
                     break;
             }
         }
-
+        
         if (appS.hdrMode.isSupported()){
             switch (appS.hdrMode.getType())
             {
@@ -460,10 +460,6 @@ public class ParametersHandler extends AbstractParameterHandler
 
         if (appS.dualPrimaryCameraMode.isSupported())
             dualPrimaryCameraMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.dualPrimaryCameraMode);
-
-        if (appS.autoFocusMode.isSupported())
-            autoFocusMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.autoFocusMode);
-
 
 
         //set last used settings
