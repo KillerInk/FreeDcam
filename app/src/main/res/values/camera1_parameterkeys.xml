@@ -297,6 +297,8 @@
     <string name="hw_exposure_mode_values">metering-mode-values</string>
     <string name="hw_sensor_iso_range">hw-sensor-iso-range</string>
     <string name="hw_sensor_iso">hw-sensor-iso</string>
+    <string name="hw_mmi_test_feature_supported">hw-mmi-test-feature-supported</string>
+    <string name="hw_mmi_test_feature">mmiAfcMode</string>
 
 
 </resources>

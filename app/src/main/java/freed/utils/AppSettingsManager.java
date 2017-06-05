@@ -379,6 +379,7 @@ public class AppSettingsManager {
     public final SettingMode manualPreviewZoom;
 
     public final SettingMode dualPrimaryCameraMode;
+    public final SettingMode autoFocusMode;
     public final SettingMode manualAperture;
 
     public final TypeSettingsMode manualWhiteBalance;
@@ -487,6 +488,7 @@ public class AppSettingsManager {
 
         opencamera1Legacy = new BooleanSettingsMode(getResString(R.string.aps_opencamera1legacy));
         dualPrimaryCameraMode = new SettingMode(getResString(R.string.aps_dualprimarycameramode));
+        autoFocusMode = new SettingMode(getResString(R.string.aps_autofocusmode));
 
 
         //first time init

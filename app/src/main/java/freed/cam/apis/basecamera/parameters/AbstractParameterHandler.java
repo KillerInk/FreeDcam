@@ -143,6 +143,7 @@ public abstract class AbstractParameterHandler
 
     //huawei
     public ModeParameterInterface dualPrimaryCameraMode;
+    public ModeParameterInterface autoFocusMode;
 
     private boolean isDngActive;
     public boolean IsDngActive(){ return isDngActive; }
