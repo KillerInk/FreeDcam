@@ -334,14 +334,14 @@ Its gets then applied to each new dng
 
 MSM Camera Blobs Logging for DEVS
 ========================
-Create File in /data/misc/camera/camera_dbg.txt
-Valid values:
-none    - no logging
-error   - error message logging only, default
-high    - log high priority messages and up
-warn    - log warnings and higher
-low     - verbose logging
-debug   - debug logging level
+Create File in /data/misc/camera/camera_dbg.txt  
+Valid values:  
+none    - no logging  
+error   - error message logging only, default  
+high    - log high priority messages and up  
+warn    - log warnings and higher  
+low     - verbose logging  
+debug   - debug logging level  
 
 ```
  cam_dbglevel=debug
