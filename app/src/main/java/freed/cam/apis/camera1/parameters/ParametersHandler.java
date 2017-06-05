@@ -257,16 +257,7 @@ public class ParametersHandler extends AbstractParameterHandler
                     break;
             }
         }
-
-       /* switch (appS.getDevice())
-        {
-            case XiaomiMI5:
-            case XiaomiMI5s:
-                break;
-            default:
-                VideoStabilization = new VideoStabilizationParameter(cameraParameters,cameraUiWrapper);
-                break;
-        }*/
+        
         if (appS.hdrMode.isSupported()){
             switch (appS.hdrMode.getType())
             {
@@ -297,15 +288,24 @@ public class ParametersHandler extends AbstractParameterHandler
         if(appS.nonZslManualMode.isSupported())
             NonZslManualMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.nonZslManualMode);
 
-        TNR = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.temporal_nr);
-        TNR_V = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.temporal_video_nr);
-        PDAF = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.pdafcontrol);
-        SeeMore = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.seemore_tonemap);
-        TruePotrait = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.truepotrait);
-        ReFocus = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.refocus);
-        OptiZoom = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.optizoom);
-        RDI = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.rawdumpinterface);
-        ChromaFlash = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.chromaflash);
+        if (appS.temporal_nr.isSupported())
+            TNR = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.temporal_nr);
+        if (appS.temporal_video_nr.isSupported())
+            TNR_V = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.temporal_video_nr);
+        if (appS.pdafcontrol.isSupported())
+            PDAF = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.pdafcontrol);
+        if (appS.seemore_tonemap.isSupported())
+            SeeMore = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.seemore_tonemap);
+        if (appS.truepotrait.isSupported())
+            TruePotrait = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.truepotrait);
+        if (appS.refocus.isSupported())
+            ReFocus = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.refocus);
+        if (appS.optizoom.isSupported())
+            OptiZoom = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.optizoom);
+        if (appS.rawdumpinterface.isSupported())
+            RDI = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.rawdumpinterface);
+        if (appS.chromaflash.isSupported())
+            ChromaFlash = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.chromaflash);
 
         VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
 

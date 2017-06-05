@@ -83,204 +83,90 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
 
                 if (fulldevice) {
-                    try {
 
-                        publishProgress("Detect Flash");
-                        detectFlash(characteristics);
-                        sendProgress(appSettingsManager.flashMode, "Flash");
+                    publishProgress("Detect Flash");
+                    detectFlash(characteristics);
+                    sendProgress(appSettingsManager.flashMode, "Flash");
 
-                        publishProgress("Detect Scene");
-                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES, appSettingsManager.sceneMode, R.array.sceneModes);
-                        sendProgress(appSettingsManager.sceneMode, "Scene");
+                    publishProgress("Detect Scene");
+                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES, appSettingsManager.sceneMode, R.array.sceneModes);
+                    sendProgress(appSettingsManager.sceneMode, "Scene");
 
-                        publishProgress("Detect Antibanding");
-                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES, appSettingsManager.antiBandingMode, R.array.antibandingmodes);
-                        sendProgress(appSettingsManager.antiBandingMode, "Antibanding");
+                    publishProgress("Detect Antibanding");
+                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES, appSettingsManager.antiBandingMode, R.array.antibandingmodes);
+                    sendProgress(appSettingsManager.antiBandingMode, "Antibanding");
 
-                        publishProgress("Detect Color");
-                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, appSettingsManager.colorMode, R.array.colormodes);
-                        sendProgress(appSettingsManager.colorMode, "Color");
+                    publishProgress("Detect Color");
+                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, appSettingsManager.colorMode, R.array.colormodes);
+                    sendProgress(appSettingsManager.colorMode, "Color");
 
-                        try {
-                            publishProgress("Detect EdgeMode");
-                            detectIntMode(characteristics, CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, appSettingsManager.edgeMode, R.array.edgeModes);
-                            sendProgress(appSettingsManager.edgeMode, "EdgeMode");
-                        }
-                        catch (Exception err)
-                        {
-                            publishProgress("Detect Edge:" + err.getMessage());
-                        }
+                    publishProgress("Detect EdgeMode");
+                    detectIntMode(characteristics, CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, appSettingsManager.edgeMode, R.array.edgeModes);
+                    sendProgress(appSettingsManager.edgeMode, "EdgeMode");
 
 
-                        try {
-                            publishProgress("Detect OpticalImageStabilisationMode");
-                            detectIntMode(characteristics, CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, appSettingsManager.opticalImageStabilisation, R.array.digitalImageStabModes);
-                            sendProgress(appSettingsManager.opticalImageStabilisation, "OpticalImageStabilisationMode");
+                    publishProgress("Detect OpticalImageStabilisationMode");
+                    detectIntMode(characteristics, CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, appSettingsManager.opticalImageStabilisation, R.array.digitalImageStabModes);
+                    sendProgress(appSettingsManager.opticalImageStabilisation, "OpticalImageStabilisationMode");
 
-                        }
-                        catch (Exception err)
-                        {
-                            publishProgress("Detect OIS" + err.getMessage());
-                        }
-                        publishProgress("Detect FocusMode");
-                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, appSettingsManager.focusMode, R.array.focusModes);
-                        sendProgress(appSettingsManager.focusMode, "FocusMode");
+                    publishProgress("Detect FocusMode");
+                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, appSettingsManager.focusMode, R.array.focusModes);
+                    sendProgress(appSettingsManager.focusMode, "FocusMode");
 
 
-                        publishProgress("Detect HotPixelMode");
-                        detectIntMode(characteristics, CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES, appSettingsManager.hotpixelMode, R.array.hotpixelmodes);
-                        sendProgress(appSettingsManager.hotpixelMode, "HotPixelMode");
+                    publishProgress("Detect HotPixelMode");
+                    detectIntMode(characteristics, CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES, appSettingsManager.hotpixelMode, R.array.hotpixelmodes);
+                    sendProgress(appSettingsManager.hotpixelMode, "HotPixelMode");
 
-                        publishProgress("Detect Denoise");
-                        detectIntMode(characteristics, CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES, appSettingsManager.denoiseMode, R.array.denoiseModes);
-                        sendProgress(appSettingsManager.denoiseMode, "Denoise");
+                    publishProgress("Detect Denoise");
+                    detectIntMode(characteristics, CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES, appSettingsManager.denoiseMode, R.array.denoiseModes);
+                    sendProgress(appSettingsManager.denoiseMode, "Denoise");
 
-                        publishProgress("Detect PictureFormat");
-                        detectPictureFormats(characteristics);
-                        sendProgress(appSettingsManager.pictureFormat, "PictureFormat");
+                    publishProgress("Detect PictureFormat");
+                    detectPictureFormats(characteristics);
+                    sendProgress(appSettingsManager.pictureFormat, "PictureFormat");
 
-                        publishProgress("Detect Manual Focus");
-                        detectManualFocus(characteristics);
-                        sendProgress(appSettingsManager.manualFocus, "Manual Focus");
+                    publishProgress("Detect Manual Focus");
+                    detectManualFocus(characteristics);
+                    sendProgress(appSettingsManager.manualFocus, "Manual Focus");
 
-                        publishProgress("Detect PictureSizes");
-                        detectPictureSizes(characteristics);
-                        sendProgress(appSettingsManager.pictureSize, "PictureSizes:");
+                    publishProgress("Detect PictureSizes");
+                    detectPictureSizes(characteristics);
+                    sendProgress(appSettingsManager.pictureSize, "PictureSizes:");
 
-                        publishProgress("Detect Curr Cam");
-                        detectVideoMediaProfiles(appSettingsManager.GetCurrentCamera());
+                    publishProgress("Detect Curr Cam");
+                    detectVideoMediaProfiles(appSettingsManager.GetCurrentCamera());
 
-                        publishProgress("Detect ExposureModes");
-                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES, appSettingsManager.exposureMode, R.array.aemodes);
-                        sendProgress(appSettingsManager.exposureMode, "ExposureModes:");
+                    publishProgress("Detect ExposureModes");
+                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES, appSettingsManager.exposureMode, R.array.aemodes);
+                    sendProgress(appSettingsManager.exposureMode, "ExposureModes:");
 
-                        publishProgress("Detect ExposureCompensation");
-                        detectManualExposure(characteristics);
-                        sendProgress(appSettingsManager.manualExposureCompensation, "ExposureCompensation:");
+                    publishProgress("Detect ExposureCompensation");
+                    detectManualExposure(characteristics);
+                    sendProgress(appSettingsManager.manualExposureCompensation, "ExposureCompensation:");
 
-                        publishProgress("Detect ExposureTime");
-                        detectManualexposureTime(characteristics);
-                        sendProgress(appSettingsManager.manualExposureTime, "ExposureTime:");
+                    publishProgress("Detect ExposureTime");
+                    detectManualexposureTime(characteristics);
+                    sendProgress(appSettingsManager.manualExposureTime, "ExposureTime:");
 
-                        publishProgress("Detect Iso");
-                        detectManualIso(characteristics);
-                        sendProgress(appSettingsManager.manualIso, "Iso:");
+                    publishProgress("Detect Iso");
+                    detectManualIso(characteristics);
+                    sendProgress(appSettingsManager.manualIso, "Iso:");
 
-                        publishProgress("Detect ColorCorrection");
-                        detectColorcorrectionMode(characteristics);
-                        sendProgress(appSettingsManager.colorCorrectionMode, "ColorCorrection");
+                    publishProgress("Detect ColorCorrection");
+                    detectColorcorrectionMode(characteristics);
+                    sendProgress(appSettingsManager.colorCorrectionMode, "ColorCorrection");
 
-                        publishProgress("Detect Whitebalance");
-                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES, appSettingsManager.whiteBalanceMode, R.array.whitebalancemodes);
-                        sendProgress(appSettingsManager.whiteBalanceMode, "Whitebalance");
+                    publishProgress("Detect Whitebalance");
+                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES, appSettingsManager.whiteBalanceMode, R.array.whitebalancemodes);
+                    sendProgress(appSettingsManager.whiteBalanceMode, "Whitebalance");
 
-                        publishProgress("Detect ControlMode");
-                        detectControlMode(characteristics);
-                        sendProgress(appSettingsManager.controlMode, "ControlMode");
+                    publishProgress("Detect ControlMode");
+                    detectControlMode(characteristics);
+                    sendProgress(appSettingsManager.controlMode, "ControlMode");
 
 
-                        try {
-                            detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, appSettingsManager.dualPrimaryCameraMode, R.array.dual_camera_mode);
-                        }
-                        catch (IllegalArgumentException ex)
-                        {
-                            Log.e(TAG, "Unsupported HUAWEI_AVAILABLE_DUAL_PRIMARY  false");
-                        }
-                        try {
-                            int[] raw12 = characteristics.get(CameraCharacteristicsEx.HUAWEI_PROFESSIONAL_RAW12_SUPPORTED);
-                            Log.d(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED");
-                        }
-                        catch (IllegalArgumentException ex)
-                        {
-                            Log.e(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED false");
-                        }
-
-                        try {
-                            byte rawsupported = characteristics.get(CameraCharacteristicsEx.HUAWEI_RAW_IMAGE_SUPPORTED);
-                            Log.d(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED");
-                        }
-                        catch (NullPointerException | IllegalArgumentException ex)
-                        {
-                            Log.e(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED false");
-                        }
-                        try {
-                            int[] deepmap = characteristics.get(CameraCharacteristicsEx.HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS);
-                            Log.d(TAG,"HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS");
-                        }
-                        catch (IllegalArgumentException ex)
-                        {
-                            Log.e(TAG,"HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS false");
-                        }
-                        try {
-                            byte fastbinder = characteristics.get(CameraCharacteristicsEx.HUAWEI_FAST_NOTIFY_SUPPORTED);
-                            Log.d(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED");
-                        }
-                        catch (NullPointerException | IllegalArgumentException ex)
-                        {
-                            Log.e(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED false");
-                        }
-
-                        try {
-                            byte dualcamerareporcess = characteristics.get(CameraCharacteristicsEx.HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS);
-                            Log.d(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS");
-                        }
-                        catch (NullPointerException | IllegalArgumentException ex)
-                        {
-                            Log.e(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS false");
-                        }
-
-                        try {
-                            byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_PRE_CAPTURE_SUPPORTED);
-                            Log.d(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED");
-                        }
-                        catch (NullPointerException | IllegalArgumentException ex)
-                        {
-                            Log.e(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED false");
-                        }
-                        try {
-                            byte[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_HDC_CALIBRATE_DATA);
-                            Log.d(TAG,"HUAWEI_HDC_CALIBRATE_DATA");
-                        }
-                        catch (NullPointerException | IllegalArgumentException ex)
-                        {
-                            Log.e(TAG,"HUAWEI_HDC_CALIBRATE_DATA false");
-                        }
-                        try {
-                            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE);
-                            Log.d(TAG,"HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE");
-                        }
-                        catch (NullPointerException | IllegalArgumentException ex)
-                        {
-                            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE false");
-                        }
-                        try {
-                            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);
-                            Log.d(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE");
-                        }
-                        catch (NullPointerException | IllegalArgumentException ex)
-                        {
-                            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE false");
-                        }
-                        try {
-                            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_MULTICAP);
-                            Log.d(TAG,"HUAWEI_MULTICAP");
-                        }
-                        catch (NullPointerException | IllegalArgumentException ex)
-                        {
-                            Log.e(TAG,"HUAWEI_MULTICAP false");
-                        }try {
-                            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_AVAILIBLE_DEPTH_SIZES);
-                            Log.d(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES");
-                        }
-                        catch (NullPointerException | IllegalArgumentException ex)
-                        {
-                            Log.e(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES false");
-                        }
-                    }
-                    catch (IllegalArgumentException ex)
-                    {
-                        Log.e(TAG, ex+"");
-                    }
+                    detectHuaweiParameters(characteristics);
 
                 }
             }
@@ -303,6 +189,107 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
         }
         return null;
+    }
+
+    private void detectHuaweiParameters(CameraCharacteristics characteristics) {
+        try {
+            detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, appSettingsManager.dualPrimaryCameraMode, R.array.dual_camera_mode);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            Log.e(TAG, "Unsupported HUAWEI_AVAILABLE_DUAL_PRIMARY  false");
+        }
+        try {
+            int[] raw12 = characteristics.get(CameraCharacteristicsEx.HUAWEI_PROFESSIONAL_RAW12_SUPPORTED);
+            Log.d(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED false");
+        }
+
+        try {
+            byte rawsupported = characteristics.get(CameraCharacteristicsEx.HUAWEI_RAW_IMAGE_SUPPORTED);
+            Log.d(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED false");
+        }
+        try {
+            int[] deepmap = characteristics.get(CameraCharacteristicsEx.HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS);
+            Log.d(TAG,"HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS false");
+        }
+        try {
+            byte fastbinder = characteristics.get(CameraCharacteristicsEx.HUAWEI_FAST_NOTIFY_SUPPORTED);
+            Log.d(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED false");
+        }
+
+        try {
+            byte dualcamerareporcess = characteristics.get(CameraCharacteristicsEx.HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS);
+            Log.d(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS false");
+        }
+
+        try {
+            byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_PRE_CAPTURE_SUPPORTED);
+            Log.d(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED false");
+        }
+        try {
+            byte[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_HDC_CALIBRATE_DATA);
+            Log.d(TAG,"HUAWEI_HDC_CALIBRATE_DATA");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_HDC_CALIBRATE_DATA false");
+        }
+        try {
+            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE);
+            Log.d(TAG,"HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE false");
+        }
+        try {
+            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);
+            Log.d(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE false");
+        }
+        try {
+            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_MULTICAP);
+            Log.d(TAG,"HUAWEI_MULTICAP");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_MULTICAP false");
+        }
+        try {
+            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_AVAILIBLE_DEPTH_SIZES);
+            Log.d(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES false");
+        }
     }
 
     @Override
@@ -436,7 +423,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     private void detectIntMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
     {
         publishProgress("detectIntMode "+settingMode+" "+ressourceArray);
-        if (appSettingsManager.IsCamera2FullSupported() && characteristics.get(requestKey) == null) {
+        if (appSettingsManager.IsCamera2FullSupported() && characteristics.get(requestKey) != null) {
             int[]  scenes = characteristics.get(requestKey);
             if (scenes.length >0)
                 settingMode.setIsSupported(true);
