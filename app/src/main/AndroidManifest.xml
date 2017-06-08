@@ -12,6 +12,11 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.HW_CAMCFG_SERVICE" />
+
+    <uses-permission android:name="com.huawei.camera.permission.PRIVATE" />
+    <uses-permission android:name="huawei.android.permission.HW_SIGNATURE_OR_SYSTEM" />
     <!-- only for system apps
     <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" /> -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>

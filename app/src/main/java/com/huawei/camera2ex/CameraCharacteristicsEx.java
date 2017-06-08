@@ -181,6 +181,7 @@ public class CameraCharacteristicsEx
 
     public static final CameraCharacteristics.Key<int[]>HUAWEI_MULTICAP;
     public static final CameraCharacteristics.Key<int[]>HUAWEI_AVAILIBLE_DEPTH_SIZES;
+    public static final CameraCharacteristics.Key<int[]>HUAWEI_AVAILIBLE_PREVIEW_DEPTH_SIZES;
 
     static {
 
@@ -267,6 +268,7 @@ public class CameraCharacteristicsEx
         HUAWEI_PROFESSIONAL_RAW12_SUPPORTED = getKeyClass("com.huawei.device.capabilities.hw-professional-raw12-supported", int[].class);
         HUAWEI_MULTICAP = getKeyClass("com.huawei.device.capabilities.multiCameraCap",int[].class);
         HUAWEI_AVAILIBLE_DEPTH_SIZES = getKeyClass("com.huawei.device.capabilities.availableCaptureDepthSizes",int[].class);
+        HUAWEI_AVAILIBLE_PREVIEW_DEPTH_SIZES = getKeyClass("com.huawei.device.capabilities.availablePreviewDepthSizes",int[].class);
     }
 
 
