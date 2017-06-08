@@ -114,7 +114,11 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //ColorCorrectionMode = colorCorrectionMode;
 
         //AE mode start
-        AeHandler aeHandler = new AeHandler(cameraUiWrapper);
+        AeHandler aeHandler;
+        if (CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE != null)
+            aeHandler = new HuaweiAeHandler(cameraUiWrapper);
+        else
+            aeHandler = new AeHandler(cameraUiWrapper);
         //pass stuff to the parameterhandler that it get used by the ui
         ExposureMode = aeHandler.aeModeApi2;
         ManualShutter = aeHandler.manualExposureTimeApi2;

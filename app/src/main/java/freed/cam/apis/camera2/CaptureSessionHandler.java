@@ -350,6 +350,15 @@ public class CaptureSessionHandler
         }
     }
 
+    public void capture()
+    {
+        try {
+            mCaptureSession.capture(mPreviewRequestBuilder.build(),null,null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void StartImageCapture(@NonNull CaptureRequest.Builder request,
                                   @Nullable CameraCaptureSession.CaptureCallback listener, Handler handler)
     {

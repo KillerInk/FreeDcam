@@ -144,9 +144,16 @@ public class CaptureRequestEx {
     public static final CaptureRequest.Key<Byte> HUAWEI_PROFESSIONAL_ASSIST_FLASH_MODE;
     
     public static final CaptureRequest.Key<Byte> HUAWEI_PROFESSIONAL_FOCUS_MODE;
-    
+
+
+    public static final Byte HUAWEI_PROFESSIONAL_MODE_ISO_PRIORITY = (byte) 1;
+    public static final Byte HUAWEI_PROFESSIONAL_MODE_SHUTTER_PRIORITY = (byte)2;
+    public static final Byte HUAWEI_PROFESSIONAL_MODE_MANUAL = (byte)3;
+    public static final Byte HUAWEI_PROFESSIONAL_MODE_AE_ACTIVE = (byte)0;
+    //Controls the aestate
     public static final CaptureRequest.Key<Byte> HUAWEI_PROFESSIONAL_MODE;
-    
+
+    // Set the exposuretime as rational (1/33) for use case enable HUAWEI_PROFESSIONAL_MODE
     public static final CaptureRequest.Key<Rational> HUAWEI_PROF_EXPOSURE_TIME;
     
     public static final CaptureRequest.Key<int[]> HUAWEI_QUICKTHUMBNAIL_RESOLUTION;
@@ -157,7 +164,7 @@ public class CaptureRequestEx {
     public static final CaptureRequest.Key<Byte> HUAWEI_SATURATION_VALUE;
     
     public static final CaptureRequest.Key<Byte> HUAWEI_SCOPE_MODE;
-    
+    //gets used to set ExposureTime to auto? in hw app it gets set to 0
     public static final CaptureRequest.Key<Integer> HUAWEI_SENSOR_EXPOSURE_TIME;
     
     public static final CaptureRequest.Key<Integer> HUAWEI_SENSOR_ISO_VALUE;

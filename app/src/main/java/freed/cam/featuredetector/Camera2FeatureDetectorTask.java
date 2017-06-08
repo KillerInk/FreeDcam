@@ -7,6 +7,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.util.Size;
 import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.troop.freedcam.R;
@@ -199,6 +200,28 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         {
             Log.e(TAG, "Unsupported HUAWEI_AVAILABLE_DUAL_PRIMARY  false");
         }
+        try {
+            if (characteristics.get(CameraCharacteristicsEx.HUAWEI_PROFESSIONAL_MODE_SUPPORTED) == Byte.valueOf((byte)1))
+            {
+                int[] shutterminmax = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_EXPOSURETIME_RANGE);
+                int min = shutterminmax[0];
+                int max = shutterminmax[1];
+                ArrayList<String> tmp = getShutterStrings(max,min,true);
+                appSettingsManager.manualExposureTime.setIsSupported(tmp.size() > 0);
+                appSettingsManager.manualExposureTime.setValues(tmp.toArray(new String[tmp.size()]));
+
+                int[] isominmax = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_ISO_RANGE);
+                min = isominmax[0];
+                max = isominmax[1];
+                ArrayList<String> ar = getIsoStrings(max, min);
+                appSettingsManager.manualIso.setIsSupported(ar.size() > 0);
+                appSettingsManager.manualIso.setValues(ar.toArray(new String[ar.size()]));
+            }
+        }catch (IllegalArgumentException | NullPointerException ex)
+        {
+            Log.d(TAG, "No Huawei Pro mode");
+        }
+
         try {
             int[] raw12 = characteristics.get(CameraCharacteristicsEx.HUAWEI_PROFESSIONAL_RAW12_SUPPORTED);
             Log.d(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED");
@@ -519,10 +542,21 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         if (appSettingsManager.getCamera2MaxExposureTime() >0)
             max = appSettingsManager.getCamera2MaxExposureTime();
 
+        ArrayList<String> tmp = getShutterStrings(max, min,false);
+        appSettingsManager.manualExposureTime.setIsSupported(tmp.size() > 0);
+        appSettingsManager.manualExposureTime.setValues(tmp.toArray(new String[tmp.size()]));
+
+    }
+
+    @NonNull
+    private ArrayList<String> getShutterStrings(long max, long min,boolean withAutoMode) {
         String[] allvalues = appSettingsManager.getResources().getStringArray(R.array.shutter_values_autocreate);
         boolean foundmin = false;
         boolean foundmax = false;
+
         ArrayList<String> tmp = new ArrayList<>();
+        if (withAutoMode)
+            tmp.add(appSettingsManager.getResString(R.string.auto_));
         for (int i = 1; i< allvalues.length; i++ )
         {
             String s = allvalues[i];
@@ -548,9 +582,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             if (foundmax && foundmin)
                 break;
         }
-        appSettingsManager.manualExposureTime.setIsSupported(tmp.size() > 0);
-        appSettingsManager.manualExposureTime.setValues(tmp.toArray(new String[tmp.size()]));
-
+        return tmp;
     }
 
     private void detectManualIso(CameraCharacteristics characteristics)
@@ -560,8 +592,15 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             max = appSettingsManager.getCamera2MaxIso();
 
         int min = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower();
+        ArrayList<String> ar = getIsoStrings(max, min);
+        appSettingsManager.manualIso.setIsSupported(ar.size() > 0);
+        appSettingsManager.manualIso.setValues(ar.toArray(new String[ar.size()]));
+    }
+
+    @NonNull
+    private ArrayList<String> getIsoStrings(int max, int min) {
         ArrayList<String> ar = new ArrayList<>();
-        ar.add("auto");
+        ar.add(appSettingsManager.getResString(R.string.auto_));
         for (int i = min; i <= max; i += 50) {
             //double isostep when its bigger then 3200
             if(i > 3200)
@@ -573,8 +612,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             }
             ar.add(i + "");
         }
-        appSettingsManager.manualIso.setIsSupported(ar.size() > 0);
-        appSettingsManager.manualIso.setValues(ar.toArray(new String[ar.size()]));
+        return ar;
     }
 
     private void detectVideoMediaProfiles(int cameraid)

@@ -47,6 +47,7 @@ import android.util.Pair;
 import android.util.Size;
 import android.view.TextureView;
 
+import com.huawei.camera2ex.CaptureRequestEx;
 import com.troop.freedcam.R;
 
 import java.util.ArrayList;
@@ -402,7 +403,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 {
                     try
                     {
-                        if (!cameraUiWrapper.getParameterHandler().ExposureMode.GetValue().equals(cameraUiWrapper.getContext().getString(R.string.off)) && !cameraUiWrapper.getParameterHandler().ControlMode.equals(cameraUiWrapper.getContext().getString(R.string.off)))
+                        if (!cameraUiWrapper.getParameterHandler().ExposureMode.GetValue().equals(cameraUiWrapper.getContext().getString(R.string.off)) && !cameraUiWrapper.getParameterHandler().ControlMode.equals(cameraUiWrapper.getContext().getString(R.string.off)) || CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE != null)
                         {
                             try {
                                 long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
