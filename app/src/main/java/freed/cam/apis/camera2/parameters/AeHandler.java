@@ -147,9 +147,10 @@ public class AeHandler
             currentInt = valueToSet;
             if (expocompvalues == null || expocompvalues.getSize() == 0)
                 return;
-            int t = valueToSet - expocompvalues.getSize() / 2;
-            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
+            setExpoCompensation(valueToSet);
         }
+
+
 
         @Override
         public String GetStringValue() {
@@ -176,6 +177,11 @@ public class AeHandler
             return true;
         }
 
+    }
+
+    protected void setExpoCompensation(int valueToSet) {
+        int t = valueToSet - manualExposureApi2.getStringValues().length / 2;
+        cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
     }
 
     /**

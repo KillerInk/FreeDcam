@@ -127,4 +127,10 @@ public class HuaweiAeHandler extends AeHandler {
         }
         cameraHolder.captureSessionHandler.capture();
     }
+
+    @Override
+    protected void setExpoCompensation(int valueToSet) {
+        float t = Float.parseFloat(manualExposureApi2.getStringValues()[valueToSet].replace(",","."));
+        cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_EXPOSURE_COMP_VALUE, t);
+    }
 }
