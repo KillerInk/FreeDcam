@@ -60,6 +60,8 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import freed.cam.apis.camera2.CaptureSessionHandler;
+import freed.cam.apis.camera2.SimpleCaptureCallback;
+import freed.cam.apis.camera2.SimpleImageReaderListner;
 import freed.cam.apis.camera2.parameters.AeHandler;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
@@ -77,7 +79,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         private CaptureResult captureResult;
         private Image image;
-        private int acessCount = 0;
         public void SetCaptureResult(CaptureResult captureResult)
         {
             this.captureResult = captureResult;
@@ -91,15 +92,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         public synchronized boolean rdyToGetSaved()
         {
             return image != null && captureResult != null;
-        }
-
-        public boolean capturefailed()
-        {
-            return acessCount == 2;
-        }
-        public void hit()
-        {
-            acessCount++;
         }
 
         public synchronized Image getImage()
@@ -119,8 +111,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private int mImageWidth;
     private int mImageHeight;
     protected ImageReader mImageReader;
+    protected ImageReader mrawImageReader;
     protected int imagecount;
-    //protected Builder captureBuilder;
     private final int STATE_WAIT_FOR_PRECAPTURE = 0;
     private final int STATE_WAIT_FOR_NONPRECAPTURE = 1;
     private final int STATE_PICTURE_TAKEN = 2;
@@ -129,19 +121,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
     private boolean intervalCapture = false;
     protected Object captureLock = new Object();
-
-    /**
-     * A counter for tracking corresponding {@link CaptureRequest}s and {@link CaptureResult}s
-     * across the {@link CameraCaptureSession} capture callbacks.
-     */
-    protected final AtomicInteger mRequestCounter = new AtomicInteger();
-
-    private final TreeMap<Long, ImageHolder> resultQueue = new TreeMap<>();
+    private ImageHolder jpegHolder;
+    private ImageHolder rawHolder;
 
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_picture);
-
     }
 
     @Override
@@ -157,7 +142,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void DoWork()
     {
-
         Log.d(TAG, "startWork: start new progress");
         if(!isWorking)
             mBackgroundHandler.post(TakePicture);
@@ -224,19 +208,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
             cameraHolder.captureSessionHandler.AddSurface(camerasurface,true);
 
-            if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpeg)))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, 3);
-            else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng10)))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, 3);
-            else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng16)))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, 3);
-            else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng12)))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW12,3);
             cameraHolder.captureSessionHandler.AddSurface(mImageReader.getSurface(),false);
+            if (mrawImageReader != null)
+                cameraHolder.captureSessionHandler.AddSurface(mrawImageReader.getSurface(),false);
+
             cameraHolder.captureSessionHandler.CreateCaptureSession();
 
             cameraHolder.captureSessionHandler.createImageCaptureRequestBuilder();
             cameraHolder.captureSessionHandler.setImageCaptureSurface(mImageReader.getSurface());
+            if (mrawImageReader != null)
+                cameraHolder.captureSessionHandler.setImageCaptureSurface(mrawImageReader.getSurface());
         }
         catch(Exception ex)
         {
@@ -259,42 +240,38 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         }
 
-        if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpeg)))
+        String[] split = picSize.split("x");
+        if (split.length < 2)
         {
-            String[] split = picSize.split("x");
-            if (split.length < 2)
-            {
-                mImageWidth = largestImageSize.getWidth();
-                mImageHeight = largestImageSize.getHeight();
-            }
-            else
-            {
-                mImageWidth = Integer.parseInt(split[0]);
-                mImageHeight = Integer.parseInt(split[1]);
-            }
-            //create new ImageReader with the size and format for the image
-            Log.d(TAG, "ImageReader JPEG");
+            mImageWidth = largestImageSize.getWidth();
+            mImageHeight = largestImageSize.getHeight();
         }
-        else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng16)))
+        else
+        {
+            mImageWidth = Integer.parseInt(split[0]);
+            mImageHeight = Integer.parseInt(split[1]);
+        }
+        //create new ImageReader with the size and format for the image
+        mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, 3);
+        Log.d(TAG, "ImageReader JPEG");
+
+        if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng16)))
         {
             Log.d(TAG, "ImageReader RAW_SENOSR");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
-            mImageWidth = largestImageSize.getWidth();
-            mImageHeight = largestImageSize.getHeight();
+            mrawImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW_SENSOR, 3);
         }
         else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng10)))
         {
             Log.d(TAG, "ImageReader RAW10");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
-            mImageWidth = largestImageSize.getWidth();
-            mImageHeight = largestImageSize.getHeight();
+            mImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW10, 3);
         }
         else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng12)))
         {
             Log.d(TAG, "ImageReader RAW12");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW12)), new CompareSizesByArea());
-            mImageWidth = largestImageSize.getWidth();
-            mImageHeight = largestImageSize.getHeight();
+            mImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW12,3);
         }
     }
 
@@ -334,6 +311,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             imagecount = 0;
 
             mImageReader.setOnImageAvailableListener(mOnImageAvailableListener,mBackgroundHandler);
+            jpegHolder = new ImageHolder();
+            if (mrawImageReader != null)
+            {
+                rawHolder = new ImageHolder();
+                mrawImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,mBackgroundHandler);
+            }
+            else
+                rawHolder = null;
             onStartTakePicture();
 
             if (appSettingsManager.IsCamera2FullSupported() && cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
@@ -529,26 +514,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
             Log.d(CAPTURECYCLE, "onCaptureCompleted FrameNum:" +result.getFrameNumber());
             synchronized (captureLock) {
-                ImageHolder imageHolder = resultQueue.get(timestamp);
-                if (imageHolder != null)
-                    imageHolder.SetCaptureResult(result);
-                else
+                jpegHolder.SetCaptureResult(result);
+                if (jpegHolder.rdyToGetSaved())
+                    saveImage(jpegHolder);
+                if (rawHolder != null)
                 {
-                    imageHolder = new ImageHolder();
-                    imageHolder.SetCaptureResult(result);
-                    resultQueue.put(timestamp,imageHolder);
-                }
-
-                imageHolder.hit();
-
-                Log.d(CAPTURECYCLE, "############## onCaptureCompleted Rdy to save: " + imageHolder.rdyToGetSaved() + " ID: " +timestamp);
-                if (imageHolder.rdyToGetSaved()) {
-                    resultQueue.remove(timestamp);
-                    saveImage(imageHolder);
-                }
-                else if(imageHolder.capturefailed()) {
-                    resultQueue.remove(timestamp);
-                    Log.d(CAPTURECYCLE, "############## onCaptureCompleted failed to save" +timestamp);
+                    rawHolder.SetCaptureResult(result);
+                    if (rawHolder.rdyToGetSaved())
+                        saveImage(rawHolder);
                 }
 
                 Log.d(CAPTURECYCLE, "result AE Mode:" + result.get(CaptureResult.CONTROL_AE_MODE) + " Expotime:" + result.get(CaptureResult.SENSOR_EXPOSURE_TIME) + " iso:" + result.get(CaptureResult.SENSOR_SENSITIVITY));
@@ -560,16 +533,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         public void onCaptureFailed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull CaptureFailure failure) {
             super.onCaptureFailed(session, request, failure);
             Log.d(CAPTURECYCLE, "#################CAPTURE FAILED!###############");
-            int requestId = (int) request.getTag();
-            resultQueue.remove(requestId);
         }
 
         @Override
         public void onCaptureBufferLost(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull Surface target, long frameNumber) {
             super.onCaptureBufferLost(session, request, target, frameNumber);
             Log.d(CAPTURECYCLE, "#################CAPTURE BUFFER LOST!############### FrameNum:" +frameNumber);
-            int requestId = (int) request.getTag();
-            resultQueue.remove(requestId);
         }
 
         @Override
@@ -584,38 +553,27 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void onImageAvailable(final ImageReader reader)
         {
-            processImage(reader);
+            Image img = reader.acquireLatestImage();
+            jpegHolder.SetImage(img);
+            if (jpegHolder.rdyToGetSaved()) {
+                saveImage(jpegHolder);
+            }
         }
     };
 
-
-    protected void processImage(ImageReader reader)
+    private final OnImageAvailableListener mOnRawImageAvailableListener = new OnImageAvailableListener()
     {
-        synchronized (captureLock) {
+        @Override
+        public void onImageAvailable(final ImageReader reader)
+        {
             Image img = reader.acquireLatestImage();
-
-            ImageHolder imageHolder = resultQueue.get(img.getTimestamp());;
-            if (imageHolder != null)
-                imageHolder.SetImage(img);
-            else
-            {
-                imageHolder = new ImageHolder();
-                imageHolder.SetImage(img);
-                resultQueue.put((long)img.getTimestamp(), imageHolder);
-            }
-            imageHolder.hit();
-
-            Log.d(CAPTURECYCLE, "########## mOnImageAvailableListener Rdy to save Image : " + imageHolder.rdyToGetSaved() + " Time: " + imageHolder.getImage().getTimestamp());
-            if (imageHolder.rdyToGetSaved()) {
-                resultQueue.remove(img.getTimestamp());
-                saveImage(imageHolder);
-            }
-            else if (imageHolder.capturefailed()) {
-                Log.d(CAPTURECYCLE, "############## mOnImageAvailableListener failed to save" +img.getTimestamp());
-                resultQueue.remove(imageHolder.getImage().getTimestamp());
+            rawHolder.SetImage(img);
+            if (rawHolder.rdyToGetSaved()) {
+                saveImage(rawHolder);
             }
         }
-    }
+    };
+
 
     /**
      * Reset the capturesession to preview
@@ -793,8 +751,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         int mISO = image.getCaptureResult().get(CaptureResult.SENSOR_SENSITIVITY).intValue();
         double mExposuretime = image.getCaptureResult().get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
-//        int mFlash = image.getCaptureResult().get(CaptureResult.FLASH_STATE).intValue();
-//        double exposurecompensation= image.getCaptureResult().get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
         final DngProfile prof = getDngProfile(rawFormat, image);
         saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, cameraUiWrapper.getActivityInterface().getOrientation(),null,prof);
         image.getImage().close();
