@@ -110,8 +110,8 @@ public class AfBracketApi2 extends PictureModuleApi2
     }
 
     @Override
-    protected void prepareCaptureBuilder(Builder captureBuilder, int captureNum) {
-        captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float) currentFocusPos / 10);
+    protected void prepareCaptureBuilder(int captureNum) {
+        cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequest.LENS_FOCUS_DISTANCE, (float) currentFocusPos / 10);
         currentFocusPos +=focusStep;
         if (currentFocusPos > focuslength+min)
             currentFocusPos = focuslength+min;
@@ -119,8 +119,8 @@ public class AfBracketApi2 extends PictureModuleApi2
 
 
     @Override
-    protected void finishCapture(Builder captureBuilder,int burstcount) {
-        super.finishCapture(captureBuilder,burstcount);
+    protected void finishCapture(int burstcount) {
+        super.finishCapture(burstcount);
         if (burstcount == PICSTOTAKE)
             fireOnWorkFinish(savedFiles);
     }

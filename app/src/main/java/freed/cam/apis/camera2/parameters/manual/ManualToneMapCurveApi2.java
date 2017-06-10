@@ -163,7 +163,7 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
 
         @Override
         public boolean IsSupported() {
-            return !(cameraUiWrapper.getCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics == null) && ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null && ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            return !(cameraUiWrapper.getCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics == null) && ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null && ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.getPreviewParameter(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
 
         @Override
@@ -235,7 +235,7 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
         {
             if (cameraUiWrapper.getCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) == null )
                 return false;
-            return  ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE) == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            return  ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.getPreviewParameter(CaptureRequest.TONEMAP_MODE) == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.getPreviewParameter(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
 
         @Override

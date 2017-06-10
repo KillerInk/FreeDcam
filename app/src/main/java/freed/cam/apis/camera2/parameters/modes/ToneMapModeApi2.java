@@ -63,7 +63,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
     @Override
     public String GetValue()
     {
-        int i = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(CaptureRequest.TONEMAP_MODE);
+        int i = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.getPreviewParameter(CaptureRequest.TONEMAP_MODE);
         ToneMapModes sceneModes = ToneMapModes.values()[i];
         return sceneModes.toString();
 

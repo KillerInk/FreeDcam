@@ -29,6 +29,7 @@ import java.util.Map;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.utils.AppSettingsManager;
 import freed.utils.StringUtils;
 
@@ -44,10 +45,12 @@ public class BaseModeApi2 extends AbstractModeParameter
     protected AppSettingsManager.SettingMode settingMode;
     protected Key<Integer> parameterKey;
     boolean isSupported;
+    protected CaptureSessionHandler captureSessionHandler;
 
     public BaseModeApi2(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper =cameraUiWrapper;
+        this.captureSessionHandler = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler;
     }
 
     public BaseModeApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, Key<Integer> parameterKey)
@@ -71,7 +74,7 @@ public class BaseModeApi2 extends AbstractModeParameter
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         int toset = parameterValues.get(valueToSet);
-        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(parameterKey, toset);
+        captureSessionHandler.SetParameterRepeating(parameterKey, toset);
         onValueHasChanged(valueToSet);
 
     }
@@ -79,7 +82,7 @@ public class BaseModeApi2 extends AbstractModeParameter
     @Override
     public String GetValue()
     {
-        int i = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(parameterKey);
+        int i = captureSessionHandler.getPreviewParameter(parameterKey);
         for (Map.Entry s : parameterValues.entrySet())
             if (s.getValue().equals(i))
                 return s.getKey().toString();

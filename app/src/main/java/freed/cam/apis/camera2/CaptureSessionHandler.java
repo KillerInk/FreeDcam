@@ -12,6 +12,7 @@ import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.TotalCaptureResult;
+import android.media.ImageReader;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -40,6 +41,7 @@ public class CaptureSessionHandler
     private final List<Surface> surfaces;
     public final Point displaySize;
     private CaptureRequest.Builder mPreviewRequestBuilder;
+    private CaptureRequest.Builder mImageCaptureRequestBuilder;
     private CameraCaptureSession mCaptureSession;
     private CameraConstrainedHighSpeedCaptureSession mHighSpeedCaptureSession;
     private Camera2Fragment cameraUiWrapper;
@@ -152,6 +154,21 @@ public class CaptureSessionHandler
             Log.WriteEx(ex);
         }
     }
+    public void createImageCaptureRequestBuilder()
+    {
+        if (cameraHolderApi2 == null || cameraHolderApi2.mCameraDevice == null)
+            return;
+        try {
+            mImageCaptureRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+        } catch (CameraAccessException ex) {
+            Log.WriteEx(ex);
+        }
+    }
+
+    public void setImageCaptureSurface(Surface surface)
+    {
+        mImageCaptureRequestBuilder.addTarget(surface);
+    }
 
     public CameraCaptureSession GetActiveCameraCaptureSession()
     {
@@ -206,6 +223,9 @@ public class CaptureSessionHandler
         if (mPreviewRequestBuilder != null)
             for (Surface s: surfaces)
                 mPreviewRequestBuilder.removeTarget(s);
+        if (mImageCaptureRequestBuilder != null)
+            for (Surface s: surfaces)
+                mImageCaptureRequestBuilder.removeTarget(s);
         surfaces.clear();
 
     }
@@ -359,40 +379,16 @@ public class CaptureSessionHandler
         }
     }
 
-    public void StartImageCapture(@NonNull CaptureRequest.Builder request,
-                                  @Nullable CameraCaptureSession.CaptureCallback listener, Handler handler)
+    public void StartImageCapture(@Nullable CameraCaptureSession.CaptureCallback listener, Handler handler)
     {
-        //StopRepeatingCaptureSession();
-        //CancelRepeatingCaptureSession();
         try {
-            CaptureRequest request1 = request.build();
+            CaptureRequest request1 = mImageCaptureRequestBuilder.build();
             mCaptureSession.capture(request1,listener,handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }
     }
 
-    public void StartImageCapture(@NonNull CaptureRequest request,
-                                  @Nullable CameraCaptureSession.CaptureCallback listener, Handler handler)
-    {
-        //StopRepeatingCaptureSession();
-        //CancelRepeatingCaptureSession();
-        try {;
-
-            mCaptureSession.capture(request,listener,handler);
-        } catch (CameraAccessException ex) {
-            Log.WriteEx(ex);
-        }
-    }
-
-    public void prepareSurface(Surface surface)
-    {
-        try {
-            mCaptureSession.prepare(surface);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void cancelCapture()
     {
@@ -400,16 +396,6 @@ public class CaptureSessionHandler
             mCaptureSession.abortCaptures();
         } catch (CameraAccessException e) {
             Log.WriteEx(e);
-        }
-    }
-
-    public void StartCaptureBurst(@NonNull List<CaptureRequest>  request,
-                                  @Nullable CameraCaptureSession.CaptureCallback listener, Handler handler)
-    {
-        try {
-            mCaptureSession.captureBurst(request,listener,handler);
-        } catch (CameraAccessException ex) {
-            Log.WriteEx(ex);
         }
     }
 
@@ -427,9 +413,18 @@ public class CaptureSessionHandler
 
     }
 
-
-
     public <T> void SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value)
+    {
+        if (mPreviewRequestBuilder == null )
+            return;
+        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        mPreviewRequestBuilder.set(key,value);
+        if (mImageCaptureRequestBuilder != null)
+            mImageCaptureRequestBuilder.set(key,value);
+        StartRepeatingCaptureSession();
+    }
+
+    public <T> void SetPreviewParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value)
     {
         if (mPreviewRequestBuilder == null )
             return;
@@ -445,6 +440,8 @@ public class CaptureSessionHandler
             return;
         Log.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
+        if (mImageCaptureRequestBuilder != null)
+            mImageCaptureRequestBuilder.set(key,value);
         StartRepeatingCaptureSession(captureCallback);
     }
 
@@ -454,6 +451,8 @@ public class CaptureSessionHandler
             return;
         Log.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
+        if (mImageCaptureRequestBuilder != null)
+            mImageCaptureRequestBuilder.set(key,value);
         try {
             mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                     null);
@@ -462,11 +461,26 @@ public class CaptureSessionHandler
         }
     }
 
-    public <T> T get(CaptureRequest.Key<T> key)
+    public <T> void SetCaptureParameter(@NonNull CaptureRequest.Key<T> key, T value)
+    {
+        if (mImageCaptureRequestBuilder == null|| mCaptureSession == null)
+            return;
+        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        mImageCaptureRequestBuilder.set(key,value);
+    }
+
+    public <T> T getPreviewParameter(CaptureRequest.Key<T> key)
     {
         if (mPreviewRequestBuilder == null)
             return null;
         return mPreviewRequestBuilder.get(key);
+    }
+
+    public <T> T getImageCaptureParameter(CaptureRequest.Key<T> key)
+    {
+        if (mImageCaptureRequestBuilder == null)
+            return null;
+        return mImageCaptureRequestBuilder.get(key);
     }
 
     public void SetTextureViewSize(int w, int h, int orientation, int orientationWithHack,boolean video)

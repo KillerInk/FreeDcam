@@ -19,6 +19,9 @@
 
 package freed.cam.apis.camera2;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalModule;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
@@ -31,6 +34,7 @@ import freed.cam.apis.camera2.modules.VideoModuleApi2;
 /**
  * Created by troop on 12.12.2014.
  */
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ModuleHandlerApi2 extends ModuleHandlerAbstract
 {
     public  ModuleHandlerApi2 (CameraWrapperInterface cameraUiWrapper)

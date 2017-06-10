@@ -102,8 +102,6 @@ public class AeHandler
     @TargetApi(VERSION_CODES.LOLLIPOP)
     public class AeModeApi2 extends BaseModeApi2
     {
-        //private boolean isSupported;
-        //private final String[] aemodeStringValues;
         public AeModeApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper,cameraUiWrapper.getAppSettingsManager().exposureMode,CaptureRequest.CONTROL_AE_MODE);
         }
@@ -250,19 +248,16 @@ public class AeHandler
 
     protected void setExposureTime(int valueToSet)
     {
-
-
         if (valueToSet > 0) {
             long val = AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTimeApi2.getStringValues()[valueToSet]) * 1000;
             Log.d(manualExposureTimeApi2.TAG, "ExposureTimeToSet:" + val);
-            //cameraHolder.captureSessionHandler.StopRepeatingCaptureSession();
+            cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME,val);
             if (val > MAX_PREVIEW_EXPOSURETIME && !cameraUiWrapper.getAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
                 Log.d(manualExposureTimeApi2.TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                 val = MAX_PREVIEW_EXPOSURETIME;
-                //cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(null);
             }
 
-            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
+            cameraHolder.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
             manualExposureTimeApi2.ThrowCurrentValueChanged(valueToSet);
         }
     }

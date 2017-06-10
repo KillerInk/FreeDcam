@@ -31,7 +31,7 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
     {
         int r;
         try {
-            r  = (int) ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.get(CaptureRequest.JPEG_QUALITY);
+            r  = (int) ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.getPreviewParameter(CaptureRequest.JPEG_QUALITY);
         }
         catch (NullPointerException ex)
         {
