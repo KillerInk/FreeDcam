@@ -273,6 +273,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW12)), new CompareSizesByArea());
             mImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW12,3);
         }
+        else
+            mrawImageReader = null;
     }
 
 
@@ -516,12 +518,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             synchronized (captureLock) {
                 jpegHolder.SetCaptureResult(result);
                 if (jpegHolder.rdyToGetSaved())
+                {
                     saveImage(jpegHolder);
+                    jpegHolder = null;
+                }
                 if (rawHolder != null)
                 {
                     rawHolder.SetCaptureResult(result);
-                    if (rawHolder.rdyToGetSaved())
+                    if (rawHolder.rdyToGetSaved()) {
                         saveImage(rawHolder);
+                        rawHolder = null;
+                    }
                 }
 
                 Log.d(CAPTURECYCLE, "result AE Mode:" + result.get(CaptureResult.CONTROL_AE_MODE) + " Expotime:" + result.get(CaptureResult.SENSOR_EXPOSURE_TIME) + " iso:" + result.get(CaptureResult.SENSOR_SENSITIVITY));
@@ -553,10 +560,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void onImageAvailable(final ImageReader reader)
         {
-            Image img = reader.acquireLatestImage();
-            jpegHolder.SetImage(img);
-            if (jpegHolder.rdyToGetSaved()) {
-                saveImage(jpegHolder);
+            synchronized (captureLock) {
+                Image img = reader.acquireLatestImage();
+                jpegHolder.SetImage(img);
+                if (jpegHolder.rdyToGetSaved()) {
+                    saveImage(jpegHolder);
+                    jpegHolder = null;
+                }
             }
         }
     };
@@ -566,10 +576,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void onImageAvailable(final ImageReader reader)
         {
-            Image img = reader.acquireLatestImage();
-            rawHolder.SetImage(img);
-            if (rawHolder.rdyToGetSaved()) {
-                saveImage(rawHolder);
+            synchronized (captureLock)
+            {
+                Image img = reader.acquireLatestImage();
+                rawHolder.SetImage(img);
+                if (rawHolder.rdyToGetSaved()) {
+                    saveImage(rawHolder);
+                    rawHolder = null;
+                }
             }
         }
     };
