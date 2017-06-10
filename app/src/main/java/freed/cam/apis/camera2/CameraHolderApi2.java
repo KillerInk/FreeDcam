@@ -459,14 +459,14 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 2:
                         state = "PASSIVE_FOCUSED";
-                        //captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+                        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_STATE_FOCUSED_LOCKED);
                         break;
                     case 3:
                         state="ACTIVE_SCAN";
                         break;
                     case 4:
                         state = "FOCUSED_LOCKED";
-                        //captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_STATE_FOCUSED_LOCKED);
                         if (cameraUiWrapper.getFocusHandler().focusEvent != null)
                             cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(true);
 
@@ -478,7 +478,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 6:
                         state ="PASSIVE_UNFOCUSED";
-                        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+                        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_STATE_FOCUSED_LOCKED);
                         break;
                 }
                 Log.d(TAG, "new AF_STATE :"+state);
