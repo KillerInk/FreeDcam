@@ -42,7 +42,6 @@ public class AeBracketApi2 extends PictureModuleApi2
 {
 
     private final String TAG = AeBracketApi2.class.getSimpleName();
-    private int imagecount = 0;
 
     private final int WAIT_FOR_EXPO_SET = 2;
     private final int WAIT_NOTHING = 3;
@@ -75,7 +74,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     public void InitModule() {
         super.InitModule();
         cameraUiWrapper.getParameterHandler().Burst.ThrowBackgroundIsSetSupportedChanged(false);
-        cameraUiWrapper.getParameterHandler().Burst.SetValue(2);
+        cameraUiWrapper.getParameterHandler().Burst.SetValue(3);
         maxiso = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
     }
@@ -114,11 +113,11 @@ public class AeBracketApi2 extends PictureModuleApi2
             currentiso = 100;
         Log.d(TAG, "set iso to :" + currentiso);
         cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_SENSITIVITY, currentiso);
-        if (0 == captureNum)
+        if (1 == captureNum)
             expotimeToSet = currentExposureTime - exposureTimeStep;
-        else if (1== captureNum)
+        else if (2== captureNum)
             expotimeToSet = currentExposureTime;
-        else if (2 == captureNum)
+        else if (3 == captureNum)
             expotimeToSet = currentExposureTime + exposureTimeStep;
         Log.d(TAG,"Set shutter to:" + expotimeToSet);
         cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME,expotimeToSet);
@@ -128,11 +127,11 @@ public class AeBracketApi2 extends PictureModuleApi2
 
 
     @Override
-    protected void finishCapture(int burstcount) {
-        super.finishCapture(burstcount);
-        if (aeWasOn)
+    protected void finishCapture() {
+        super.finishCapture();
+        if (aeWasOn && parameterHandler.ExposureMode != null)
             parameterHandler.ExposureMode.SetValue(activityInterface.getContext().getString(R.string.on),true);
-        if (burstcount == 2)
+        if (imagecount == 3)
             fireOnWorkFinish(savedFiles);
     }
 

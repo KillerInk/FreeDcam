@@ -49,22 +49,20 @@ public class CaptureSessionHandler
     private CameraCaptureSession.CaptureCallback cameraBackroundValuesChangedListner;
     private CaptureEvent waitForRdyCallback;
 
+
+    private boolean captureSessionRdy = false;
+
     public interface CaptureEvent
     {
         void onRdy();
     }
-
-    public List<CaptureRequest.Key<?>> getKeys()
-    {
-        return mPreviewRequestBuilder.build().getKeys();
-    }
-
 
     CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
     {
         @Override
         public void onConfigured(CameraCaptureSession cameraCaptureSession)
         {
+            captureSessionRdy = false;
             Log.d(TAG, "onConfigured()");
             // The camera is already closed
             if (null == cameraHolderApi2.mCameraDevice)
@@ -87,11 +85,13 @@ public class CaptureSessionHandler
         public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
         {
             Log.d(TAG, "onConfigureFailed()");
+            captureSessionRdy = false;
         }
 
         @Override
         public void onReady(@NonNull CameraCaptureSession session) {
             super.onReady(session);
+            captureSessionRdy = true;
             Log.d(TAG, "onReady()");
             Log.d(TAG, "waitforCallBack:" + (waitForRdyCallback != null));
             if (waitForRdyCallback != null){
@@ -102,12 +102,14 @@ public class CaptureSessionHandler
 
         @Override
         public void onClosed(@NonNull CameraCaptureSession session) {
+            captureSessionRdy = false;
             super.onClosed(session);
             Log.d(TAG, "onClosed()");
         }
 
         @Override
         public void onActive(@NonNull CameraCaptureSession session) {
+            captureSessionRdy = false;
             super.onActive(session);
             Log.d(TAG, "onActive()");
         }
@@ -120,7 +122,10 @@ public class CaptureSessionHandler
     };
 
 
-
+    public boolean IsCaptureSessionRDY()
+    {
+        return captureSessionRdy;
+    }
 
     public CaptureSessionHandler(Camera2Fragment cameraUiWrapper,CameraCaptureSession.CaptureCallback cameraBackroundValuesChangedListner)
     {

@@ -66,7 +66,7 @@ public class HuaweiAeHandler extends AeHandler {
         cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
         if (valueToSet == 0)
         {
-            aeModeApi2.SetValue(cameraUiWrapper.getResString(R.string.on),true);
+            //aeModeApi2.SetValue(cameraUiWrapper.getResString(R.string.on),true);
             cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, 0);
         }
         else

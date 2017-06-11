@@ -115,12 +115,16 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         //AE mode start
         AeHandler aeHandler;
-        if (CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE != null)
+        if (appSettingsManager.useHuaweiCam2Extension.getBoolean())
             aeHandler = new HuaweiAeHandler(cameraUiWrapper);
-        else
+        else {
             aeHandler = new AeHandler(cameraUiWrapper);
+            //not used by huawei
+            ExposureMode = aeHandler.aeModeApi2;
+            ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
+        }
         //pass stuff to the parameterhandler that it get used by the ui
-        ExposureMode = aeHandler.aeModeApi2;
+
         ManualShutter = aeHandler.manualExposureTimeApi2;
         ManualExposure = aeHandler.manualExposureApi2;
         ManualIso = aeHandler.manualISoApi2;
@@ -145,7 +149,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ExposureLock = new AeLockModeApi2(cameraUiWrapper);
 
 
-        ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
+
 
         Burst = new BurstApi2(cameraUiWrapper);
         Focuspeak = new FocusPeakModeApi2(cameraUiWrapper);

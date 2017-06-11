@@ -316,6 +316,9 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 ArrayList<String> ar = getIsoStrings(max, min);
                 appSettingsManager.manualIso.setIsSupported(ar.size() > 0);
                 appSettingsManager.manualIso.setValues(ar.toArray(new String[ar.size()]));
+
+                appSettingsManager.exposureMode.setIsSupported(false);
+                appSettingsManager.useHuaweiCam2Extension.setBoolean(true);
             }
         }catch (IllegalArgumentException | NullPointerException ex)
         {

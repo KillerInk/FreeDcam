@@ -28,7 +28,7 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModePa
  */
 public class BurstApi2 extends AbstractManualParameter implements I_ModeParameterEvent
 {
-    int current = 0;
+    int current = 1;
 
     public BurstApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
@@ -87,17 +87,6 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
     @Override
     public void SetValue(int valueToSet)
     {
-        current = valueToSet;
-        /*Handler h = new Handler(Looper.getMainLooper());
-        h.post(new Runnable() {
-            @Override
-            public void run() {
-                cameraUiWrapper.stopPreview();
-                //TODO FIX BURST
-                cameraUiWrapper.startPreview();
-            }
-        });*/
-
-
+        current = valueToSet+1;
     }
 }

@@ -384,6 +384,7 @@ public class AppSettingsManager {
     public final TypeSettingsMode manualWhiteBalance;
 
     public final BooleanSettingsMode opencamera1Legacy;
+    public final BooleanSettingsMode useHuaweiCam2Extension;
 
     public String[] opcodeUrlList;
 
@@ -487,6 +488,7 @@ public class AppSettingsManager {
 
         opencamera1Legacy = new BooleanSettingsMode(getResString(R.string.aps_opencamera1legacy));
         dualPrimaryCameraMode = new SettingMode(getResString(R.string.aps_dualprimarycameramode));
+        useHuaweiCam2Extension = new BooleanSettingsMode(getResString(R.string.aps_usehuaweicam2));
 
 
         //first time init
