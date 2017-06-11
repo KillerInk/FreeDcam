@@ -201,6 +201,7 @@
         <item>@string/off</item>
         <item>@string/fast</item>
         <item>@string/highquality</item>
+        <item>@string/zeroshutterlag</item>
     </string-array>
 
     <string-array name="digitalImageStabModes"  translatable="false">

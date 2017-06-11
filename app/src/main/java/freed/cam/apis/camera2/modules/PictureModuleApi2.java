@@ -60,8 +60,6 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import freed.cam.apis.camera2.CaptureSessionHandler;
-import freed.cam.apis.camera2.SimpleCaptureCallback;
-import freed.cam.apis.camera2.SimpleImageReaderListner;
 import freed.cam.apis.camera2.parameters.AeHandler;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
