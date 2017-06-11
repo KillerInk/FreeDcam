@@ -85,86 +85,186 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                 if (fulldevice) {
 
-                    publishProgress("Detect Flash");
-                    detectFlash(characteristics);
-                    sendProgress(appSettingsManager.flashMode, "Flash");
+                    try {
+                        publishProgress("Detect Flash");
+                        detectFlash(characteristics);
+                        sendProgress(appSettingsManager.flashMode, "Flash");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Flash failed");
+                    }
 
-                    publishProgress("Detect Scene");
-                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES, appSettingsManager.sceneMode, R.array.sceneModes);
-                    sendProgress(appSettingsManager.sceneMode, "Scene");
+                    try {
+                        publishProgress("Detect Scene");
+                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES, appSettingsManager.sceneMode, R.array.sceneModes);
+                        sendProgress(appSettingsManager.sceneMode, "Scene");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Scene failed");
+                    }
 
-                    publishProgress("Detect Antibanding");
-                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES, appSettingsManager.antiBandingMode, R.array.antibandingmodes);
-                    sendProgress(appSettingsManager.antiBandingMode, "Antibanding");
+                    try {
+                        publishProgress("Detect Antibanding");
+                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES, appSettingsManager.antiBandingMode, R.array.antibandingmodes);
+                        sendProgress(appSettingsManager.antiBandingMode, "Antibanding");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Antibanding failed");
+                    }
 
-                    publishProgress("Detect Color");
-                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, appSettingsManager.colorMode, R.array.colormodes);
-                    sendProgress(appSettingsManager.colorMode, "Color");
+                    try {
+                        publishProgress("Detect Color");
+                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, appSettingsManager.colorMode, R.array.colormodes);
+                        sendProgress(appSettingsManager.colorMode, "Color");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Color failed");
+                    }
 
-                    publishProgress("Detect EdgeMode");
-                    detectIntMode(characteristics, CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, appSettingsManager.edgeMode, R.array.edgeModes);
-                    sendProgress(appSettingsManager.edgeMode, "EdgeMode");
+                    try {
+                        publishProgress("Detect EdgeMode");
+                        detectIntMode(characteristics, CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, appSettingsManager.edgeMode, R.array.edgeModes);
+                        sendProgress(appSettingsManager.edgeMode, "EdgeMode");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Edge failed");
+                    }
 
 
-                    publishProgress("Detect OpticalImageStabilisationMode");
-                    detectIntMode(characteristics, CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, appSettingsManager.opticalImageStabilisation, R.array.digitalImageStabModes);
-                    sendProgress(appSettingsManager.opticalImageStabilisation, "OpticalImageStabilisationMode");
+                    try {
+                        publishProgress("Detect OpticalImageStabilisationMode");
+                        detectIntMode(characteristics, CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, appSettingsManager.opticalImageStabilisation, R.array.digitalImageStabModes);
+                        sendProgress(appSettingsManager.opticalImageStabilisation, "OpticalImageStabilisationMode");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Ois failed");
+                    }
 
-                    publishProgress("Detect FocusMode");
-                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, appSettingsManager.focusMode, R.array.focusModes);
-                    sendProgress(appSettingsManager.focusMode, "FocusMode");
+                    try {
+                        publishProgress("Detect FocusMode");
+                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, appSettingsManager.focusMode, R.array.focusModes);
+                        sendProgress(appSettingsManager.focusMode, "FocusMode");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Focus failed");
+                    }
 
 
-                    publishProgress("Detect HotPixelMode");
-                    detectIntMode(characteristics, CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES, appSettingsManager.hotpixelMode, R.array.hotpixelmodes);
-                    sendProgress(appSettingsManager.hotpixelMode, "HotPixelMode");
+                    try {
+                        publishProgress("Detect HotPixelMode");
+                        detectIntMode(characteristics, CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES, appSettingsManager.hotpixelMode, R.array.hotpixelmodes);
+                        sendProgress(appSettingsManager.hotpixelMode, "HotPixelMode");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect HotPixel failed");
+                    }
 
-                    publishProgress("Detect Denoise");
-                    detectIntMode(characteristics, CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES, appSettingsManager.denoiseMode, R.array.denoiseModes);
-                    sendProgress(appSettingsManager.denoiseMode, "Denoise");
+                    try {
+                        publishProgress("Detect Denoise");
+                        detectIntMode(characteristics, CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES, appSettingsManager.denoiseMode, R.array.denoiseModes);
+                        sendProgress(appSettingsManager.denoiseMode, "Denoise");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Denoise failed");
+                    }
 
-                    publishProgress("Detect PictureFormat");
-                    detectPictureFormats(characteristics);
-                    sendProgress(appSettingsManager.pictureFormat, "PictureFormat");
+                    try {
+                        publishProgress("Detect PictureFormat");
+                        detectPictureFormats(characteristics);
+                        sendProgress(appSettingsManager.pictureFormat, "PictureFormat");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect PictureFormat failed");
+                    }
 
-                    publishProgress("Detect Manual Focus");
-                    detectManualFocus(characteristics);
-                    sendProgress(appSettingsManager.manualFocus, "Manual Focus");
+                    try {
+                        publishProgress("Detect Manual Focus");
+                        detectManualFocus(characteristics);
+                        sendProgress(appSettingsManager.manualFocus, "Manual Focus");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect MF failed");
+                    }
 
-                    publishProgress("Detect PictureSizes");
-                    detectPictureSizes(characteristics);
-                    sendProgress(appSettingsManager.pictureSize, "PictureSizes:");
+                    try {
+                        publishProgress("Detect PictureSizes");
+                        detectPictureSizes(characteristics);
+                        sendProgress(appSettingsManager.pictureSize, "PictureSizes:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect PictureSize failed");
+                    }
 
-                    publishProgress("Detect Curr Cam");
-                    detectVideoMediaProfiles(appSettingsManager.GetCurrentCamera());
+                    try {
+                        publishProgress("Detect Video Profiles");
+                        detectVideoMediaProfiles(appSettingsManager.GetCurrentCamera());
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Video Profiles failed");
+                    }
 
-                    publishProgress("Detect ExposureModes");
-                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES, appSettingsManager.exposureMode, R.array.aemodes);
-                    sendProgress(appSettingsManager.exposureMode, "ExposureModes:");
+                    try {
+                        publishProgress("Detect ExposureModes");
+                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES, appSettingsManager.exposureMode, R.array.aemodes);
+                        sendProgress(appSettingsManager.exposureMode, "ExposureModes:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect ExposureModes failed");
+                    }
 
-                    publishProgress("Detect ExposureCompensation");
-                    detectManualExposure(characteristics);
-                    sendProgress(appSettingsManager.manualExposureCompensation, "ExposureCompensation:");
+                    try {
+                        publishProgress("Detect ExposureCompensation");
+                        detectManualExposure(characteristics);
+                        sendProgress(appSettingsManager.manualExposureCompensation, "ExposureCompensation:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect ExpoCompensation failed");
+                    }
 
-                    publishProgress("Detect ExposureTime");
-                    detectManualexposureTime(characteristics);
-                    sendProgress(appSettingsManager.manualExposureTime, "ExposureTime:");
+                    try {
+                        publishProgress("Detect ExposureTime");
+                        detectManualexposureTime(characteristics);
+                        sendProgress(appSettingsManager.manualExposureTime, "ExposureTime:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect ExpoTime failed");
+                    }
 
-                    publishProgress("Detect Iso");
-                    detectManualIso(characteristics);
-                    sendProgress(appSettingsManager.manualIso, "Iso:");
+                    try {
+                        publishProgress("Detect Iso");
+                        detectManualIso(characteristics);
+                        sendProgress(appSettingsManager.manualIso, "Iso:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Iso failed");
+                    }
 
-                    publishProgress("Detect ColorCorrection");
-                    detectColorcorrectionMode(characteristics);
-                    sendProgress(appSettingsManager.colorCorrectionMode, "ColorCorrection");
+                    try {
+                        publishProgress("Detect ColorCorrection");
+                        detectColorcorrectionMode(characteristics);
+                        sendProgress(appSettingsManager.colorCorrectionMode, "ColorCorrection");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect ColorCorrection failed");
+                    }
 
-                    publishProgress("Detect Whitebalance");
-                    detectIntMode(characteristics, CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES, appSettingsManager.whiteBalanceMode, R.array.whitebalancemodes);
-                    sendProgress(appSettingsManager.whiteBalanceMode, "Whitebalance");
+                    try {
+                        publishProgress("Detect Whitebalance");
+                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES, appSettingsManager.whiteBalanceMode, R.array.whitebalancemodes);
+                        sendProgress(appSettingsManager.whiteBalanceMode, "Whitebalance");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect WB Mode failed");
+                    }
 
-                    publishProgress("Detect ControlMode");
-                    detectControlMode(characteristics);
-                    sendProgress(appSettingsManager.controlMode, "ControlMode");
+                    try {
+                        publishProgress("Detect ControlMode");
+                        detectControlMode(characteristics);
+                        sendProgress(appSettingsManager.controlMode, "ControlMode");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Control mode failed");
+                    }
 
 
                     detectHuaweiParameters(characteristics);
