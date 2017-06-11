@@ -74,7 +74,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     public void InitModule() {
         super.InitModule();
         cameraUiWrapper.getParameterHandler().Burst.ThrowBackgroundIsSetSupportedChanged(false);
-        cameraUiWrapper.getParameterHandler().Burst.SetValue(3);
+        cameraUiWrapper.getParameterHandler().Burst.SetValue(2);
         maxiso = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
     }
@@ -88,7 +88,11 @@ public class AeBracketApi2 extends PictureModuleApi2
 
     @Override
     protected void onStartTakePicture() {
-        savedFiles = new File[3];
+        //for dng capture double files are needed cause we save jpeg and dng
+        if (mrawImageReader != null)
+            savedFiles = new File[Integer.parseInt(parameterHandler.Burst.GetStringValue())*2];
+        else
+            savedFiles = new File[Integer.parseInt(parameterHandler.Burst.GetStringValue())];
         currentFileCount = 0;
         currentExposureTime = cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME);
         currentiso = cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_SENSITIVITY);

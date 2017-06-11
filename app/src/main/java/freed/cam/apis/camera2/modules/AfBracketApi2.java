@@ -66,7 +66,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
-        cameraUiWrapper.getParameterHandler().Burst.SetValue(PICSTOTAKE);
+        cameraUiWrapper.getParameterHandler().Burst.SetValue(PICSTOTAKE-1);
         focuslength = parameterHandler.ManualFocus.getStringValues().length -1;
         focusStep =  focuslength/PICSTOTAKE;
         currentFocusPos = 1;
@@ -82,7 +82,10 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     protected void onStartTakePicture() {
         super.onStartTakePicture();
-        savedFiles = new File[PICSTOTAKE];
+        if (mrawImageReader != null)
+            savedFiles = new File[PICSTOTAKE*2];
+        else
+            savedFiles = new File[PICSTOTAKE];
         currentFileCount = 0;
         int max  = 0;
         try {

@@ -136,6 +136,25 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     @Override
+    public void InitModule()
+    {
+        super.InitModule();
+        Log.d(TAG, "InitModule");
+        changeCaptureState(CaptureStates.image_capture_stop);
+        cameraUiWrapper.getParameterHandler().Burst.SetValue(0);
+        startPreview();
+    }
+
+    @Override
+    public void DestroyModule()
+    {
+        Log.d(TAG, "DestroyModule");
+        cameraHolder.captureSessionHandler.CloseCaptureSession();
+        cameraUiWrapper.getFocusPeakProcessor().kill();
+        super.DestroyModule();
+    }
+
+    @Override
     public void DoWork()
     {
         Log.d(TAG, "startWork: start new progress");
@@ -220,7 +239,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             Log.WriteEx(ex);
         }
         if (parameterHandler.Burst != null)
-            parameterHandler.Burst.ThrowCurrentValueChanged(parameterHandler.Burst.GetValue());
+            parameterHandler.Burst.ThrowCurrentValueStringCHanged(parameterHandler.Burst.GetStringValue());
     }
 
     private void setOutputSizes() {
@@ -278,25 +297,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public void stopPreview()
     {
         DestroyModule();
-    }
-
-    @Override
-    public void InitModule()
-    {
-        super.InitModule();
-        Log.d(TAG, "InitModule");
-        changeCaptureState(CaptureStates.image_capture_stop);
-        cameraUiWrapper.getParameterHandler().Burst.SetValue(1);
-        startPreview();
-    }
-
-    @Override
-    public void DestroyModule()
-    {
-        Log.d(TAG, "DestroyModule");
-        cameraHolder.captureSessionHandler.CloseCaptureSession();
-        cameraUiWrapper.getFocusPeakProcessor().kill();
-        super.DestroyModule();
     }
 
     private Runnable TakePicture = new Runnable()
@@ -566,7 +566,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     private String getFileString()
     {
-        if (parameterHandler.Burst.GetValue() > 1)
+        if (Integer.parseInt(parameterHandler.Burst.GetStringValue()) > 1)
             return cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount);
         else
             return cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(),"");
@@ -584,7 +584,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         {
             imagecount++;
             Log.d(CAPTURECYCLE, "CaptureDone");
-            if (parameterHandler.Burst.GetValue() > 1 && parameterHandler.Burst.GetValue() != imagecount) {
+            if (Integer.parseInt(parameterHandler.Burst.GetStringValue())  > 1 && Integer.parseInt(parameterHandler.Burst.GetStringValue())  != imagecount) {
                 captureStillPicture();
             }
             else if (cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF) {
