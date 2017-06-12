@@ -438,6 +438,14 @@ public class CaptureSessionHandler
         StartRepeatingCaptureSession();
     }
 
+    public <T> void SetPreviewParameter(@NonNull CaptureRequest.Key<T> key, T value)
+    {
+        if (mPreviewRequestBuilder == null )
+            return;
+        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        mPreviewRequestBuilder.set(key,value);
+    }
+
 
     public <T> void SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, CameraCaptureSession.CaptureCallback captureCallback)
     {

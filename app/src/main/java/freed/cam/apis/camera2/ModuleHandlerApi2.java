@@ -27,6 +27,7 @@ import freed.cam.apis.basecamera.modules.IntervalModule;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera2.modules.AeBracketApi2;
 import freed.cam.apis.camera2.modules.AfBracketApi2;
+import freed.cam.apis.camera2.modules.HuaweiAeBracketApi2;
 import freed.cam.apis.camera2.modules.IntervalApi2;
 import freed.cam.apis.camera2.modules.PictureModuleApi2;
 import freed.cam.apis.camera2.modules.VideoModuleApi2;
@@ -51,8 +52,15 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract
         moduleList.put(intervalModule.ModuleName(), intervalModule);
         VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
-        AeBracketApi2 aeBracketApi2 = new AeBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
+        if (!appSettingsManager.useHuaweiCam2Extension.getBoolean()){
+            AeBracketApi2 aeBracketApi2 = new AeBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
+            moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
+        }
+        else
+        {
+            AeBracketApi2 aeBracketApi2 = new HuaweiAeBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
+            moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
+        }
         AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(afBracketApi2.ModuleName(), afBracketApi2);
 

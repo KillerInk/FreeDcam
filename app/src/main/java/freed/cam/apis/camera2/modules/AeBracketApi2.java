@@ -46,13 +46,13 @@ public class AeBracketApi2 extends PictureModuleApi2
     private final int WAIT_FOR_EXPO_SET = 2;
     private final int WAIT_NOTHING = 3;
     private int WAIT_EXPOSURE_STATE = WAIT_NOTHING;
-    private long currentExposureTime = 0;
-    private long exposureTimeStep = 0;
+    protected long currentExposureTime = 0;
+    protected long exposureTimeStep = 0;
     private boolean aeWasOn = false;
-    private int maxiso;
-    private int currentiso;
-    private File[] savedFiles;
-    private int currentFileCount;
+    protected int maxiso;
+    protected int currentiso;
+    protected File[] savedFiles;
+    protected int currentFileCount;
 
 
     public AeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
@@ -75,7 +75,6 @@ public class AeBracketApi2 extends PictureModuleApi2
         super.InitModule();
         cameraUiWrapper.getParameterHandler().Burst.ThrowBackgroundIsSetSupportedChanged(false);
         cameraUiWrapper.getParameterHandler().Burst.SetValue(3-1);
-        maxiso = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
     }
 
@@ -94,6 +93,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         else
             savedFiles = new File[Integer.parseInt(parameterHandler.Burst.GetStringValue())];
         currentFileCount = 0;
+        maxiso = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
         currentExposureTime = cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME);
         currentiso = cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_SENSITIVITY);
         if (currentExposureTime == 0)
