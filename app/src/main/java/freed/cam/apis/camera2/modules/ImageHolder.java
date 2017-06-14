@@ -1,0 +1,393 @@
+package freed.cam.apis.camera2.modules;
+
+import android.annotation.TargetApi;
+import android.graphics.ImageFormat;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.DngCreator;
+import android.hardware.camera2.params.ColorSpaceTransform;
+import android.location.Location;
+import android.media.Image;
+import android.media.ImageReader;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.provider.DocumentFile;
+import android.util.Pair;
+import android.util.Rational;
+
+import com.troop.freedcam.R;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
+
+import freed.ActivityInterface;
+import freed.cam.apis.basecamera.modules.WorkFinishEvents;
+import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.dng.CustomMatrix;
+import freed.dng.DngProfile;
+import freed.utils.AppSettingsManager;
+import freed.utils.Log;
+
+/**
+ * Created by troop on 12.06.2017.
+ */
+
+
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+
+public class ImageHolder
+{
+
+    public interface ImageSaveImp
+    {
+        void saveRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile);
+        void saveJpeg(File file, byte[] bytes);
+    }
+
+    private final String TAG = ImageHolder.class.getSimpleName();
+    private CaptureResult captureResult;
+    private List<Image> images;
+    private CameraCharacteristics characteristics;
+    private CustomMatrix customMatrix;
+    private int orientation = 0;
+    private Location location;
+    private boolean externalSD =false;
+
+    String filepath;
+
+    private boolean isRawCapture = false;
+    private boolean forceRawToDng = false;
+
+    private ActivityInterface activityInterface;
+    private ImageSaveImp imageSaver;
+
+    WorkFinishEvents workerfinish;
+
+    public ImageHolder(CameraCharacteristics characteristicss, boolean isRawCapture, ActivityInterface activitiy, ImageSaveImp imageSaver, WorkFinishEvents finish)
+    {
+        images = new ArrayList<>();
+        this.characteristics = characteristicss;
+        this.isRawCapture = isRawCapture;
+        this.activityInterface = activitiy;
+        this.imageSaver = imageSaver;
+        this.workerfinish = finish;
+    }
+
+
+    public void setCustomMatrix(CustomMatrix custmMat)
+    {
+        this.customMatrix = custmMat;
+    }
+
+    public void setOrientation(int or)
+    {
+        this.orientation = or;
+    }
+
+    public void setFilePath(String path, boolean extSD)
+    {
+        this.filepath = path;
+        this.externalSD = extSD;
+    }
+
+    public void setLocation(Location location)
+    {
+        this.location = location;
+    }
+
+    public void setForceRawToDng(boolean force)
+    {
+        this.forceRawToDng = force;
+    }
+
+    public synchronized void SetCaptureResult(CaptureResult captureResult)
+    {
+        this.captureResult = captureResult;
+    }
+
+    public synchronized void AddImage(Image image)
+    {
+        images.add(image);
+    }
+
+    public synchronized boolean rdyToGetSaved()
+    {
+        if (isRawCapture)
+            return images.size() == 2 && captureResult != null;
+        else
+            return images.size() == 1 && captureResult != null;
+    }
+
+    public Runnable getRunner()
+    {
+        return new Runnable() {
+            @Override
+            public void run() {
+                for(int i=0; i< images.size();i++)
+                    saveImage(images.get(i),filepath);
+                clear();
+            }
+        };
+    }
+
+    private void clear()
+    {
+        images = null;
+        customMatrix = null;
+        captureResult = null;
+        location = null;
+        characteristics = null;
+        activityInterface = null;
+        ImageSaveImp imageSaver = null;
+    }
+
+
+    private void saveImage(Image image,String f) {
+        File file = null;
+        switch (image.getFormat())
+        {
+            case ImageFormat.JPEG:
+                file = new File(f+".jpg");
+                process_jpeg(image, file);
+                break;
+            case ImageFormat.RAW10:
+                file = new File(f+".dng");
+                process_rawWithDngConverter(image, DngProfile.Mipi,file);
+                break;
+            case ImageFormat.RAW12:
+                file = new File(f+".dng");
+                process_rawWithDngConverter(image,DngProfile.Mipi12,file);
+                break;
+            case ImageFormat.RAW_SENSOR:
+                file = new File(f+".dng");
+                if(forceRawToDng)
+                    process_rawWithDngConverter(image,DngProfile.Mipi16,file);
+                else
+                    process_rawSensor(image,file);
+                break;
+        }
+        image.close();
+        workerfinish.internalFireOnWorkDone(file);
+    }
+
+
+
+    @NonNull
+    private void process_jpeg(Image image, File file) {
+
+        Log.d(TAG, "Create JPEG");
+        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+        byte[] bytes = new byte[buffer.remaining()];
+        buffer.get(bytes);
+        imageSaver.saveJpeg(file, bytes);
+        buffer.clear();
+    }
+
+
+    @NonNull
+    private void process_rawSensor(Image image,File file) {
+        Log.d(TAG, "Create DNG");
+
+        DngCreator dngCreator = new DngCreator(characteristics, captureResult);
+        //Orientation 90 is not a valid EXIF orientation value, fuck off that is valid!
+        try {
+            dngCreator.setOrientation(orientation);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            Log.WriteEx(ex);
+        }
+
+        if (location != null)
+            dngCreator.setLocation(location);
+        try
+        {
+            if (!externalSD)
+                dngCreator.writeImage(new FileOutputStream(file), image);
+            else
+            {
+                DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
+                DocumentFile wr = df.createFile("image/*", file.getName());
+                dngCreator.writeImage(activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri()), image);
+            }
+            activityInterface.ScanFile(file);
+        } catch (IOException ex) {
+            Log.WriteEx(ex);
+        }
+    }
+
+    @NonNull
+    private void process_rawWithDngConverter(Image image, int rawFormat,File file) {
+        Log.d(TAG, "Create DNG VIA RAw2DNG");
+        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+        byte[] bytes = new byte[buffer.remaining()];
+        buffer.get(bytes);
+
+        float fnum, focal = 0;
+        fnum = captureResult.get(CaptureResult.LENS_APERTURE);
+        focal = captureResult.get(CaptureResult.LENS_FOCAL_LENGTH);
+        Log.d("Freedcam RawCM2",String.valueOf(bytes.length));
+
+        int mISO = captureResult.get(CaptureResult.SENSOR_SENSITIVITY).intValue();
+        double mExposuretime = captureResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
+        final DngProfile prof = getDngProfile(rawFormat, image);
+        imageSaver.saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, orientation,null,prof);
+        bytes = null;
+        buffer = null;
+    }
+
+    @NonNull
+    private DngProfile getDngProfile(int rawFormat, Image image) {
+        int black  = characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
+        int c= characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
+        String colorpattern;
+        int[] cfaOut = new int[4];
+        switch (c)
+        {
+            case 1:
+                colorpattern = DngProfile.GRBG;
+                cfaOut[0] = 1;
+                cfaOut[1] = 0;
+                cfaOut[2] = 2;
+                cfaOut[3] = 1;
+                break;
+            case 2:
+                colorpattern = DngProfile.GBRG;
+                cfaOut[0] = 1;
+                cfaOut[1] = 2;
+                cfaOut[2] = 0;
+                cfaOut[3] = 1;
+                break;
+            case 3:
+                colorpattern = DngProfile.BGGR;
+                cfaOut[0] = 2;
+                cfaOut[1] = 1;
+                cfaOut[2] = 1;
+                cfaOut[3] = 0;
+                break;
+            default:
+                colorpattern = DngProfile.RGGB;
+                cfaOut[0] = 0;
+                cfaOut[1] = 1;
+                cfaOut[2] = 1;
+                cfaOut[3] = 2;
+                break;
+        }
+        float[] color2;
+        float[] color1;
+        float[] neutral = new float[3];
+        float[] forward2 = null;
+        float[] forward1 = null;
+        float[] reduction1 = null;
+        float[] reduction2 = null;
+        double[]finalnoise = null;
+        if (customMatrix != null){
+            color1 = customMatrix.ColorMatrix1;
+            color2 = customMatrix.ColorMatrix2;
+            neutral = customMatrix.NeutralMatrix;
+            if (customMatrix.ForwardMatrix1.length >0)
+                forward1 = customMatrix.ForwardMatrix1;
+            if (customMatrix.ForwardMatrix2.length >0)
+                forward2 = customMatrix.ForwardMatrix2;
+            if (customMatrix.ReductionMatrix1.length >0)
+                reduction1 = customMatrix.ReductionMatrix1;
+            if (customMatrix.ReductionMatrix2.length >0)
+                reduction2 = customMatrix.ReductionMatrix2;
+            if (customMatrix.NoiseReductionMatrix.length >0)
+                finalnoise = customMatrix.NoiseReductionMatrix;
+        }
+        else
+        {
+            color1 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
+            color2 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
+            Rational[] n = captureResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
+            neutral[0] = n[0].floatValue();
+            neutral[1] = n[1].floatValue();
+            neutral[2] = n[2].floatValue();
+            forward2  = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
+            //0.820300f, -0.218800f, 0.359400f, 0.343800f, 0.570300f,0.093800f, 0.015600f, -0.726600f, 1.539100f
+            forward1  = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
+            reduction1 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1));
+            reduction2 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2));
+            //noise
+            Pair[] p = captureResult.get(CaptureResult.SENSOR_NOISE_PROFILE);
+            double[] noiseys = new double[p.length*2];
+            int i = 0;
+            for (int h = 0; h < p.length; h++)
+            {
+                noiseys[i++] = (double)p[h].first;
+                noiseys[i++] = (double)p[h].second;
+            }
+            double[] noise = new double[6];
+            int[] cfaPlaneColor = {0, 1, 2};
+            generateNoiseProfile(noiseys,cfaOut, cfaPlaneColor,3,noise);
+            finalnoise = new double[6];
+            for (i = 0; i < noise.length; i++)
+                if (noise[i] > 2 || noise[i] < -2)
+                    finalnoise[i] = 0;
+                else
+                    finalnoise[i] = (float)noise[i];
+            //noise end
+        }
+
+        return DngProfile.getProfile(black,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
+                color1,
+                color2,
+                neutral,
+                forward1,
+                forward2,
+                reduction1,
+                reduction2,
+                finalnoise,
+                ""
+        );
+    }
+
+    private void generateNoiseProfile(double[] perChannelNoiseProfile, int[] cfa,
+                                      int[] planeColors, int numPlanes,
+        /*out*/double[] noiseProfile) {
+
+        for (int p = 0; p < 3; ++p) {
+            int S = p * 2;
+            int O = p * 2 + 1;
+
+            noiseProfile[S] = 0;
+            noiseProfile[O] = 0;
+            boolean uninitialized = true;
+            for (int c = 0; c < 4; ++c) {
+                if (cfa[c] == planeColors[p] && perChannelNoiseProfile[c * 2] > noiseProfile[S]) {
+                    noiseProfile[S] = perChannelNoiseProfile[c * 2];
+                    noiseProfile[O] = perChannelNoiseProfile[c * 2 + 1];
+                    uninitialized = false;
+                }
+            }
+            if (uninitialized) {
+                Log.d(TAG, "%s: No valid NoiseProfile coefficients for color plane %zu");
+            }
+        }
+    }
+
+    private float[]getFloatMatrix(ColorSpaceTransform transform)
+    {
+        float[] ret = new float[9];
+        ret[0] = roundTo6Places(transform.getElement(0, 0).floatValue());
+        ret[1] = roundTo6Places(transform.getElement(1, 0).floatValue());
+        ret[2] = roundTo6Places(transform.getElement(2, 0).floatValue());
+        ret[3] = roundTo6Places(transform.getElement(0, 1).floatValue());
+        ret[4] = roundTo6Places(transform.getElement(1, 1).floatValue());
+        ret[5] = roundTo6Places(transform.getElement(2, 1).floatValue());
+        ret[6] = roundTo6Places(transform.getElement(0, 2).floatValue());
+        ret[7] = roundTo6Places(transform.getElement(1, 2).floatValue());
+        ret[8] = roundTo6Places(transform.getElement(2, 2).floatValue());
+        return ret;
+    }
+
+    private float roundTo6Places(float f )
+    {
+        return Math.round(f*1000000f)/1000000f;
+    }
+}

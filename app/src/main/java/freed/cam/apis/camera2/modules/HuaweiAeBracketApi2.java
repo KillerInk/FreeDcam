@@ -87,8 +87,5 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
     @Override
     protected void finishCapture() {
         super.finishCapture();
-        if (imagecount == 3) {
-            fireOnWorkFinish(savedFiles);
-        }
     }
 }

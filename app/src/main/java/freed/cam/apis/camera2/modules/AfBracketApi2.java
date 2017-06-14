@@ -129,7 +129,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     }
 
     @Override
-    protected void internalFireOnWorkDone(File file)
+    public void internalFireOnWorkDone(File file)
     {
         savedFiles[currentFileCount++] = file;
     }

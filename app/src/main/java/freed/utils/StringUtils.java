@@ -155,4 +155,14 @@ public class StringUtils
         return ret;
     }
 
+    public static boolean arrayContainsString(String[] ar, String name)
+    {
+        for (int i =0; i< ar.length;i++)
+        {
+            if (name.equals(ar[i]))
+                return true;
+        }
+        return false;
+    }
+
 }

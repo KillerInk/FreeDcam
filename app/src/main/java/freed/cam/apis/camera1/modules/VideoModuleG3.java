@@ -29,6 +29,8 @@ import android.os.Handler;
 import com.lge.media.MediaRecorderEx;
 import com.troop.freedcam.R;
 
+import java.io.File;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
@@ -178,5 +180,10 @@ public class VideoModuleG3 extends AbstractVideoModule
         cameraUiWrapper.getParameterHandler().VideoSize.SetValue(size,true);
         /*cameraUiWrapper.stopPreview();
         cameraUiWrapper.startPreview();*/
+    }
+
+    @Override
+    public void internalFireOnWorkDone(File file) {
+
     }
 }

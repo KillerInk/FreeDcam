@@ -17,6 +17,7 @@ import java.io.OutputStream;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.camera2.modules.ImageHolder;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
@@ -26,7 +27,9 @@ import freed.utils.Log;
  * Created by troop on 09.12.2016.
  */
 
-public class BasePictureModule extends ModuleAbstract {
+
+
+public class BasePictureModule extends ModuleAbstract implements ImageHolder.ImageSaveImp {
 
     private final String TAG = BasePictureModule.class.getSimpleName();
     protected ActivityInterface activityInterface;
@@ -71,7 +74,8 @@ public class BasePictureModule extends ModuleAbstract {
             }
     }
 
-    protected void saveRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile)
+    @Override
+    public void saveRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile)
     {
         Log.d(TAG,"saveDng");
         double Altitude = 0;
@@ -168,7 +172,8 @@ public class BasePictureModule extends ModuleAbstract {
         file = null;
     }
 
-    protected void saveJpeg(File file, byte[] bytes)
+    @Override
+    public void saveJpeg(File file, byte[] bytes)
     {
         Log.d(TAG, "Start Saving Bytes");
         OutputStream outStream = null;
@@ -200,4 +205,8 @@ public class BasePictureModule extends ModuleAbstract {
         file = null;
     }
 
+    @Override
+    public void internalFireOnWorkDone(File file) {
+
+    }
 }

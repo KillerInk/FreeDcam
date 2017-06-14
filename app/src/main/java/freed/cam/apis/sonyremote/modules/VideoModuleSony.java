@@ -23,6 +23,8 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
+import java.io.File;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
@@ -88,6 +90,11 @@ public class VideoModuleSony extends ModuleAbstract implements I_CameraStatusCha
             isWorking = true;
             changeCaptureState(CaptureStates.video_recording_start);
         }
+
+    }
+
+    @Override
+    public void internalFireOnWorkDone(File file) {
 
     }
 }

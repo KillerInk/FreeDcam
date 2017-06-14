@@ -141,11 +141,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             else
                 recorder.setOrientationHint(0);
 
-            // cameraHolder.stopPreview();
-            //parameterHandler.PreviewFormat.SetValue("nv12-venus", true);
-
             recorder.setPreviewDisplay(((CameraHolder) cameraUiWrapper.getCameraHolder()).getSurfaceHolder());
-            // cameraHolder.startPreview();
 
             try {
                 Log.d(TAG,"Preparing Recorder");

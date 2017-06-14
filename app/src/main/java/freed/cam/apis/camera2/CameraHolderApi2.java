@@ -84,7 +84,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     public CameraManager manager;
     public CameraDevice mCameraDevice;
-    //private final Semaphore mCameraOpenCloseLock = new Semaphore(1);
     public AutoFitTextureView textureView;
 
     public StreamConfigurationMap map;

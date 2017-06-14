@@ -23,6 +23,8 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
+import java.io.File;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
@@ -139,5 +141,10 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
     public boolean IsWorking()
     {
         return intervalHandler.IsWorking();
+    }
+
+    @Override
+    public void internalFireOnWorkDone(File file) {
+
     }
 }

@@ -370,6 +370,7 @@ public class ParametersHandler extends AbstractParameterHandler
             switch (type)
             {
                 case SHUTTER_HTC:
+                    //HTCVideoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-mode", "video-hfr-values");
                     ManualShutter = new ShutterManualParameterHTC(cameraParameters,cameraUiWrapper);
                     break;
                 case SHUTTER_QCOM_MICORSEC:

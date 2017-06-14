@@ -211,4 +211,9 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         }
 
     }
+
+    @Override
+    public void internalFireOnWorkDone(File file) {
+
+    }
 }

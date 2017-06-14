@@ -28,12 +28,16 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
+import java.io.File;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
+import freed.utils.StringUtils;
 
 
 /**
@@ -85,6 +89,7 @@ public class VideoModule extends AbstractVideoModule
         {
             recorder.reset();
             cameraUiWrapper.getCameraHolder().SendUIMessage("VideoCodec not Supported");
+            Log.WriteEx(ex);
         }
 
         switch (currentProfile.Mode)
@@ -103,6 +108,7 @@ public class VideoModule extends AbstractVideoModule
                     {
                         recorder.reset();
                         cameraUiWrapper.getCameraHolder().SendUIMessage("AudioCodec not Supported");
+                        Log.WriteEx(ex);
                     }
                 }
                 break;
@@ -144,6 +150,7 @@ public class VideoModule extends AbstractVideoModule
 
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.getParameterHandler().VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.videoProfile.get());
+        Log.d(TAG,"LoadProfile: " + currentProfile.ProfileName + " Size: " + currentProfile.videoFrameWidth+"/"+currentProfile.videoFrameHeight);
         if (currentProfile.Mode == VideoMode.Highspeed)
         {
             if(cameraUiWrapper.getParameterHandler().HTCVideoMode != null) {
@@ -177,17 +184,10 @@ public class VideoModule extends AbstractVideoModule
                     cameraUiWrapper.getParameterHandler().PreviewFpsRange.SetValue(String.valueOf(currentProfile.videoFrameRate * 1000) + "," + String.valueOf(currentProfile.videoFrameRate * 1000),true);
                 }
             }
-            //TODO lookup width and height of profile instead of checking if "2160p" is contained in the profile namne
-            if (currentProfile.ProfileName.contains(VideoProfilesParameter._2160p) ||currentProfile.ProfileName.contains(VideoProfilesParameter._2160pDCI))
+            if (currentProfile.videoFrameHeight >=2160)
             {
-
-                if (cameraUiWrapper.getParameterHandler().DigitalImageStabilization != null && appSettingsManager.digitalImageStabilisationMode.isSupported())
-                    cameraUiWrapper.getParameterHandler().DigitalImageStabilization.SetValue(appSettingsManager.getResString(R.string.disable_), true);
-
-                if (cameraUiWrapper.getParameterHandler().VideoStabilization != null && appSettingsManager.videoStabilisation.isSupported())
-                    cameraUiWrapper.getParameterHandler().VideoStabilization.SetValue(appSettingsManager.getResString(R.string.false_), true);
-
-                if (!appSettingsManager.IsCamera2FullSupported())
+                disable_mce_dis_vs_denoise();
+                if (!appSettingsManager.IsCamera2FullSupported() && StringUtils.arrayContainsString(appSettingsManager.previewFormat.getValues(), "nv12-venus"))
                     cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
             }
             else
@@ -212,6 +212,26 @@ public class VideoModule extends AbstractVideoModule
     }
 
     private void loadDefaultHighspeed() {
+        Log.d(TAG, "Load default higspeed");
+        //turn off all blocking/postprocessing parameters wich avoid highframes
+        disable_mce_dis_vs_denoise();
+        //full camera2 devices dont use hardware preview format so set it only for legacy devices
+        if (!appSettingsManager.IsCamera2FullSupported() && StringUtils.arrayContainsString(appSettingsManager.previewFormat.getValues(), "nv12-venus"))
+            cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("nv12-venus", false);
+
+
+        cameraUiWrapper.stopPreview();
+        //set the profile defined frames per seconds
+        if (appSettingsManager.videoHFR.isSupported()) {
+            cameraUiWrapper.getParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", false);
+        }
+        Log.d(TAG, "Load default highspeed done");
+        cameraUiWrapper.startPreview();
+    }
+
+    private void disable_mce_dis_vs_denoise()
+    {
+        Log.d(TAG, "disable_mce_dis_vs_denoise");
         //turn off all blocking/postprocessing parameters wich avoid highframes
         if (cameraUiWrapper.getParameterHandler().MemoryColorEnhancement != null && appSettingsManager.memoryColorEnhancement.isSupported())
             cameraUiWrapper.getParameterHandler().MemoryColorEnhancement.SetValue("disable", false);
@@ -221,17 +241,7 @@ public class VideoModule extends AbstractVideoModule
             cameraUiWrapper.getParameterHandler().VideoStabilization.SetValue("false", false);
         if (cameraUiWrapper.getParameterHandler().Denoise != null && cameraUiWrapper.getParameterHandler().Denoise.IsSupported())
             cameraUiWrapper.getParameterHandler().Denoise.SetValue("denoise-off", false);
-        //full camera2 devices dont use hardware preview format so set it only for legacy devices
-        if (!appSettingsManager.IsCamera2FullSupported())
-            cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("nv12-venus", false);
-
-
-        cameraUiWrapper.stopPreview();
-        //set the profile defined frames per seconds
-        if (appSettingsManager.videoHFR.isSupported()) {
-            cameraUiWrapper.getParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", false);
-        }
-        cameraUiWrapper.startPreview();
+        Log.d(TAG, "disable_mce_dis_vs_denoise done");
     }
 
     private void loadMtkHighspeed() {
@@ -248,13 +258,13 @@ public class VideoModule extends AbstractVideoModule
     }
 
     private void loadHtcHighspeed() {
-        if (currentProfile.ProfileName.equals("1080pHFR"))
+        if (currentProfile.videoFrameHeight == 1080 && currentProfile.Mode == VideoMode.Highspeed)
         {
             cameraUiWrapper.getParameterHandler().HTCVideoMode.SetValue("2",true);
             cameraUiWrapper.getParameterHandler().HTCVideoModeHSR.SetValue("60",true);
             cameraUiWrapper.getParameterHandler().VideoHighFramerateVideo.SetValue("60", true);
         }
-        else if (currentProfile.ProfileName.equals("720pHFR"))
+        else if (currentProfile.videoFrameHeight == 720 && currentProfile.Mode == VideoMode.Highspeed)
         {
             if (currentProfile.videoFrameRate < 120 && currentProfile.videoFrameRate >30 )
             {
@@ -268,4 +278,8 @@ public class VideoModule extends AbstractVideoModule
     }
 
 
+    @Override
+    public void internalFireOnWorkDone(File file) {
+
+    }
 }
