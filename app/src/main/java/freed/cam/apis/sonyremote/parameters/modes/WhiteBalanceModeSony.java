@@ -40,7 +40,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
     }
 
     @Override
-    public String[] GetValues()
+    public String[] getStringValues()
     {
         if(values == null || values.length == 0) {
             jsonObject = null;
@@ -50,7 +50,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
                     try {
                         jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         values = processValuesToReturn();
-                        onValuesHasChanged(values);
+                        fireStringValuesChanged(values);
                     } catch (IOException ex) {
                         Log.WriteEx(ex);
                     }

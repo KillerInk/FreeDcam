@@ -54,17 +54,17 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
         {
             cameraUiWrapper.getFocusPeakProcessor().Enable(true);
-            onValueHasChanged(cameraUiWrapper.getResString(R.string.true_));
+            fireStringValueChanged(cameraUiWrapper.getResString(R.string.true_));
         }
         else {
             cameraUiWrapper.getFocusPeakProcessor().Enable(false);
-            onValueHasChanged(cameraUiWrapper.getResString(R.string.false_));
+            fireStringValueChanged(cameraUiWrapper.getResString(R.string.false_));
         }
 
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
         if (cameraUiWrapper.getFocusPeakProcessor().isEnabled())
             return cameraUiWrapper.getResString(R.string.on_);
         else
@@ -72,32 +72,7 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return new String[] {cameraUiWrapper.getResString(R.string.on_), cameraUiWrapper.getResString(R.string.off_)};
-    }
-
-
-    @Override
-    public void onValueHasChanged(String value)
-    {
-        if (value.equals(cameraUiWrapper.getResString(R.string.true_)))
-            super.onValueHasChanged(cameraUiWrapper.getResString(R.string.on_));
-        else if (value.equals(cameraUiWrapper.getResString(R.string.false_)))
-            super.onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
-    }
-
-    @Override
-    public void onValuesHasChanged(String[] value) {
-
-    }
-
-    @Override
-    public void onIsSupportedChanged(boolean value) {
-
-    }
-
-    @Override
-    public void onSetIsSupportedHasChanged(boolean value) {
-
     }
 }

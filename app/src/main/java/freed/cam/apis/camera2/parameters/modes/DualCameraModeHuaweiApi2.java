@@ -7,7 +7,6 @@ import android.os.Build;
 import java.util.Map;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.utils.AppSettingsManager;
 import freed.utils.StringUtils;
 
@@ -43,19 +42,19 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
         int toset = parameterValues.get(valueToSet);
         captureSessionHandler.SetParameterRepeating(parameterKey, Byte.valueOf((byte)toset));
 
-        onValueHasChanged(valueToSet);
+        fireStringValueChanged(valueToSet);
 
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         if (parameterKey == null)
             return null;
         Byte b = captureSessionHandler.getPreviewParameter(parameterKey);
         if (b == null)
         {
-            onSetIsSupportedHasChanged(false);
+            fireIsSupportedChanged(false);
             return "";
         }
         int i = b.intValue();
@@ -66,7 +65,7 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return parameterValues.keySet().toArray(new String[parameterValues.size()]);
     }
 }

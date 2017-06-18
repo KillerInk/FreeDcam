@@ -24,13 +24,15 @@ import android.os.Build.VERSION_CODES;
 
 import java.io.File;
 
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.utils.AppSettingsManager;
 import freed.utils.StringUtils;
 
 /**
  * Created by troop on 21.07.2015.
  */
-public class SDModeParameter extends AbstractModeParameter
+public class SDModeParameter extends AbstractParameter
 {
     public static final String internal = "Internal";
     public static final String external ="External";
@@ -41,7 +43,7 @@ public class SDModeParameter extends AbstractModeParameter
     }
 
     @Override
-    public void addEventListner(I_ModeParameterEvent eventListner) {
+    public void addEventListner(ParameterEvents eventListner) {
         super.addEventListner(eventListner);
     }
 
@@ -70,7 +72,7 @@ public class SDModeParameter extends AbstractModeParameter
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         if (appSettingsManager.GetWriteExternal())
             return external;
@@ -79,13 +81,8 @@ public class SDModeParameter extends AbstractModeParameter
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return new String[] {internal, external};
-    }
-
-    @Override
-    public void onValueHasChanged(String value) {
-        super.onValueHasChanged(value);
     }
 
 }

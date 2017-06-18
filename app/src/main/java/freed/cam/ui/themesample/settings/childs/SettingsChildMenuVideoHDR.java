@@ -25,7 +25,7 @@ import android.util.AttributeSet;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.utils.AppSettingsManager;
 
 /**
@@ -35,7 +35,7 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
 {
     private CameraWrapperInterface cameraWrapperInterface;
 
-    public SettingsChildMenuVideoHDR(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter, int headerid, int descriptionid) {
+    public SettingsChildMenuVideoHDR(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid) {
         super(context, settingsMode, parameter, headerid, descriptionid);
     }
 
@@ -61,7 +61,7 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
                 fragment_activityInterface.getAppSettings().setApiString(key_appsettings, value);
             if (cameraWrapperInterface.getModuleHandler().getCurrentModule().ModuleName().equals(cameraWrapperInterface.getResString(R.string.module_video)))
                 parameter.SetValue(value, true);
-            onParameterValueChanged(value);
+            onStringValueChanged(value);
         }
     }
 

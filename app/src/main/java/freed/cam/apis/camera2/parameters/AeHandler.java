@@ -20,14 +20,13 @@
 package freed.cam.apis.camera2.parameters;
 
 import android.annotation.TargetApi;
-import android.graphics.Paint;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
@@ -70,31 +69,31 @@ public class AeHandler
         {
             ae_active = false;
             //hide manualexposuretime ui item
-            manualExposureApi2.ThrowBackgroundIsSupportedChanged(false);
+            manualExposureApi2.fireIsSupportedChanged(false);
             //turn flash off when ae is off. else on some devices it applys only manual stuff only for a few frames
             //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
             cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
             //hide flash ui item its not supported in manual mode
-            cameraUiWrapper.getParameterHandler().FlashMode.onIsSupportedChanged(false);
+            cameraUiWrapper.getParameterHandler().FlashMode.fireIsSupportedChanged(false);
             //enable manualiso item in ui
-            manualISoApi2.ThrowBackgroundIsSetSupportedChanged(true);
+            manualISoApi2.fireIsReadOnlyChanged(true);
             //enable manual exposuretime in ui
-            manualExposureTimeApi2.ThrowBackgroundIsSetSupportedChanged(true);
-            manualExposureTimeApi2.ThrowCurrentValueStringCHanged(manualExposureTimeApi2.GetStringValue());
+            manualExposureTimeApi2.fireIsReadOnlyChanged(true);
+            manualExposureTimeApi2.fireStringValueChanged(manualExposureTimeApi2.GetStringValue());
         }
         else
         {
             ae_active = true;
             //back in auto mode
             //set flash back to its old state
-            cameraUiWrapper.getParameterHandler().FlashMode.SetValue(cameraUiWrapper.getParameterHandler().FlashMode.GetValue(),true);
+            cameraUiWrapper.getParameterHandler().FlashMode.SetValue(cameraUiWrapper.getParameterHandler().FlashMode.GetStringValue(),true);
             //show flashmode ui item
-            cameraUiWrapper.getParameterHandler().FlashMode.onIsSupportedChanged(true);
+            cameraUiWrapper.getParameterHandler().FlashMode.fireIsSupportedChanged(true);
             //set exposure ui item to enable
-            manualExposureApi2.ThrowBackgroundIsSupportedChanged(true);
-            manualExposureApi2.ThrowBackgroundIsSetSupportedChanged(true);
-            manualISoApi2.ThrowBackgroundIsSetSupportedChanged(true);
-            manualExposureTimeApi2.ThrowBackgroundIsSetSupportedChanged(false);
+            manualExposureApi2.fireIsSupportedChanged(true);
+            manualExposureApi2.fireIsReadOnlyChanged(true);
+            manualISoApi2.fireIsReadOnlyChanged(true);
+            manualExposureTimeApi2.fireIsReadOnlyChanged(false);
         }
     }
 
@@ -116,12 +115,12 @@ public class AeHandler
             else {
                 setManualItemsSetSupport(false);
             }
-            aeModeApi2.onValueHasChanged(valueToSet);
+            aeModeApi2.fireStringValueChanged(valueToSet);
         }
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
-    public class ManualExposureApi2 extends AbstractManualParameter
+    public class ManualExposureApi2 extends AbstractParameter
     {
         final String TAG = ManualExposureApi2.class.getSimpleName();
         private StringFloatArray expocompvalues;
@@ -148,6 +147,10 @@ public class AeHandler
             setExpoCompensation(valueToSet);
         }
 
+        @Override
+        public void SetValue(String valueToSet, boolean setToCamera) {
+
+        }
 
 
         @Override
@@ -258,7 +261,7 @@ public class AeHandler
             }
 
             cameraHolder.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
-            manualExposureTimeApi2.ThrowCurrentValueChanged(valueToSet);
+            manualExposureTimeApi2.fireIntValueChanged(valueToSet);
         }
     }
 

@@ -45,11 +45,11 @@ public class MotoHDR extends BaseModeParameter
         else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.auto_)))
             parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.auto_hdr));
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        onValueHasChanged(valueToSet);
+        onStringValueChanged(valueToSet);
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
         if (parameters.get(cameraUiWrapper.getResString(R.string.scene_mode)) == null)
             return cameraUiWrapper.getResString(R.string.off_);
 
@@ -63,7 +63,7 @@ public class MotoHDR extends BaseModeParameter
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         List<String> hdrVals =  new ArrayList<>();
         hdrVals.add(cameraUiWrapper.getResString(R.string.off_));
         hdrVals.add(cameraUiWrapper.getResString(R.string.on_));
@@ -95,8 +95,13 @@ public class MotoHDR extends BaseModeParameter
     }
 
     @Override
-    public void onParameterValueChanged(String val)
+    public void onStringValuesChanged(String[] val)
     {
+
+    }
+
+    @Override
+    public void onStringValueChanged(String val) {
         format = val;
         if (val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&&!visible &&!curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
             Show();
@@ -108,17 +113,17 @@ public class MotoHDR extends BaseModeParameter
 
     private void Hide()
     {
-        state = GetValue();
+        state = GetStringValue();
         visible = false;
         SetValue(cameraUiWrapper.getResString(R.string.off_),true);
-        onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
+        onStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
         onIsSupportedChanged(visible);
     }
     private void Show()
     {
         visible = true;
         SetValue(state,true);
-        onValueHasChanged(state);
+        onStringValueChanged(state);
         onIsSupportedChanged(visible);
     }
 

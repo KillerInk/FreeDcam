@@ -47,14 +47,14 @@ public class PreviewSizeParameter extends BaseModeParameter
 
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
 
-        onValueHasChanged(valueToSet);
+        onStringValueChanged(valueToSet);
         if (setToCam) {
             cameraUiWrapper.startPreview();
         }
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return cameraUiWrapper.getAppSettingsManager().previewSize.getValues();
     }
 }

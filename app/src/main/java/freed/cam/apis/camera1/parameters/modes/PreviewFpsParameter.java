@@ -45,8 +45,8 @@ public class PreviewFpsParameter extends  BaseModeParameter
     }
 
     @Override
-    public String GetValue() {
-        return super.GetValue();
+    public String GetStringValue() {
+        return super.GetStringValue();
     }
 
 }

@@ -51,7 +51,6 @@ public class WbCTManualSony extends BaseManualParameterSony
     }
 
 
-    @Override
     public int GetValue()
     {
         if (currentInt == -200)
@@ -70,7 +69,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                             return;
                         }
 
-                        ThrowCurrentValueChanged(currentInt / step);
+                        fireIntValueChanged(currentInt / step);
                     } catch (JSONException ex) {
                         Log.WriteEx(ex);
                     }
@@ -115,7 +114,7 @@ public class WbCTManualSony extends BaseManualParameterSony
         super.onIsSupportedChanged(value);
         if (step != 0 && value)
         {
-            GetValue();
+            GetStringValue();
         }
 
 
@@ -133,8 +132,8 @@ public class WbCTManualSony extends BaseManualParameterSony
                 r.add(t* step +"");
             values =new String[r.size()];
             r.toArray(values);
-            ThrowBackgroundValuesChanged(values);
-            ThrowBackgroundIsSetSupportedChanged(true);
+            fireStringValuesChanged(values);
+            fireIsReadOnlyChanged(true);
         }
     }
 
@@ -147,9 +146,9 @@ public class WbCTManualSony extends BaseManualParameterSony
         }
         if (currentInt == -200)
             return;
-        ThrowCurrentValueStringCHanged(val+"");
+        fireStringValueChanged(val+"");
 
-        ThrowCurrentValueChanged(currentInt);
+        fireIntValueChanged(currentInt);
 
     }
 

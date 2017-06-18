@@ -98,7 +98,7 @@ public class DngConvertingFragment extends Fragment
         editTextblacklvl = (EditText) view.findViewById(id.editText_blacklevel);
         spinnerMatrixProfile = (Spinner) view.findViewById(id.spinner_MatrixProfile);
         matrixChooserParameter = new MatrixChooserParameter(appSettingsManager.getMatrixesMap());
-        String[] items = matrixChooserParameter.GetValues();
+        String[] items = matrixChooserParameter.getStringValues();
         ArrayAdapter<String> matrixadapter = new ArrayAdapter<>(getContext(), layout.simple_spinner_item, items);
         //ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),R.array.matrixes, android.R.layout.simple_spinner_item);
         matrixadapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
@@ -172,8 +172,8 @@ public class DngConvertingFragment extends Fragment
             else if (dngprofile.bayerPattern.equals(DngProfile.RGBW))
                 spinnerColorPattern.setSelection(4);
 
-            for (int i = 0; i< matrixChooserParameter.GetValues().length;i++)
-                if (matrixChooserParameter.GetValues()[i].equals(dngprofile.matrixName))
+            for (int i = 0; i< matrixChooserParameter.getStringValues().length; i++)
+                if (matrixChooserParameter.getStringValues()[i].equals(dngprofile.matrixName))
                     spinnerMatrixProfile.setSelection(i);
 
 

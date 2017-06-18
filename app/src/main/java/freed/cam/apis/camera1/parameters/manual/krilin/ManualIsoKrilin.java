@@ -3,13 +3,13 @@ package freed.cam.apis.camera1.parameters.manual.krilin;
 import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 
 /**
  * Created by troop on 27.03.2017.
  */
 
-public class ManualIsoKrilin extends AbstractManualParameter {
+public class ManualIsoKrilin extends AbstractParameter {
 
     private final Camera.Parameters parameters;
 
@@ -39,6 +39,11 @@ public class ManualIsoKrilin extends AbstractManualParameter {
             parameters.set("hw-professional-mode", "on");
             parameters.set(cameraUiWrapper.getAppSettingsManager().manualIso.getKEY(), stringvalues[currentInt]);
         }
-        ThrowCurrentValueStringCHanged(stringvalues[valueToSet]);
+        fireStringValueChanged(stringvalues[valueToSet]);
+    }
+
+    @Override
+    public void SetValue(String valueToSet, boolean setToCamera) {
+
     }
 }

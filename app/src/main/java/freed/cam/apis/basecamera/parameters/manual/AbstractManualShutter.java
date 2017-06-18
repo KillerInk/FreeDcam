@@ -24,11 +24,12 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 
 /**
  * Created by troop on 19.05.2016.
  */
-public abstract class AbstractManualShutter extends AbstractManualParameter
+public abstract class AbstractManualShutter extends AbstractParameter
 {
     public AbstractManualShutter(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
@@ -69,6 +70,11 @@ public abstract class AbstractManualShutter extends AbstractManualParameter
 
         }
         return tmp.toArray(new String[tmp.size()]);
+    }
+
+    @Override
+    public void SetValue(String valueToSet, boolean setToCamera) {
+
     }
 
     /**

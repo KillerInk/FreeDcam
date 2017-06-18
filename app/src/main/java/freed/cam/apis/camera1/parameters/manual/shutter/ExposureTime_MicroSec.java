@@ -5,7 +5,7 @@ import android.hardware.Camera;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.Log;
 
@@ -13,7 +13,7 @@ import freed.utils.Log;
  * Created by troop on 29.01.2017.
  */
 
-public class ExposureTime_MicroSec extends AbstractManualParameter {
+public class ExposureTime_MicroSec extends AbstractParameter {
     private final String TAG = ExposureTime_MicroSec.class.getSimpleName();
     private Camera.Parameters parameters;
     public ExposureTime_MicroSec(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters) {
@@ -56,5 +56,10 @@ public class ExposureTime_MicroSec extends AbstractManualParameter {
             Log.d(TAG, "set exposure time to auto");
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+    }
+
+    @Override
+    public void SetValue(String valueToSet, boolean setToCamera) {
+
     }
 }

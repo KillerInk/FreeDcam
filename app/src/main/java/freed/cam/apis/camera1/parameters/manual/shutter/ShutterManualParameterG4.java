@@ -82,7 +82,7 @@ public class ShutterManualParameterG4 extends AbstractManualShutter implements M
         {
             currentInt = value;
             parameters.set(cameraUiWrapper.getResString(R.string.lg_shutterspeed), stringvalues[value]);
-            ThrowCurrentValueStringCHanged(stringvalues[value]);
+            fireStringValueChanged(stringvalues[value]);
         }
 
     }

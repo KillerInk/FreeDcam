@@ -104,7 +104,7 @@ public class VirtualLensFilter extends  BaseModeParameter {
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         return "Off";
     }

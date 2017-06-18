@@ -66,7 +66,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     public void DoWork()
     {
         if (cameraUiWrapper.getParameterHandler().ContShootMode != null && cameraUiWrapper.getParameterHandler().ContShootMode.IsSupported()) {
-            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).ContShootMode.GetValue();
+            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).ContShootMode.GetStringValue();
             if (!isWorking && shootmode.equals("Single"))
             {
                 changeCaptureState(CaptureStates.image_capture_start);
@@ -99,7 +99,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         ((ParameterHandler)cameraUiWrapper.getParameterHandler()).CameraStatusListner = this;
 
         if(cameraUiWrapper.getParameterHandler().ContShootMode != null) {
-            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).ContShootMode.GetValue();
+            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).ContShootMode.GetStringValue();
             if (shootmode.equals("Single"))
                 changeCaptureState(CaptureStates.image_capture_stop);
             else if (shootmode.equals("Spd Priority Cont.") || shootmode.equals("Continuous"))

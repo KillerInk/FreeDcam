@@ -25,7 +25,7 @@ import android.view.MotionEvent;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.utils.Log;
 
@@ -44,10 +44,29 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         super(cameraUiWrapper);
     }
 
-    public I_ModeParameterEvent focusModeListner = new I_ModeParameterEvent() {
+    public ParameterEvents focusModeListner = new ParameterEvents() {
         @Override
-        public void onParameterValueChanged(String val)
-        {
+        public void onIsSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIntValueChanged(int current) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onStringValueChanged(String val) {
             if (((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != Frameworks.MTK) {
                 if (val.equals("auto") || val.equals("macro") || val.equals("touch")) {
                     if (focusEvent != null)
@@ -63,28 +82,38 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                     focusEvent.AEMeteringSupported(true);
                 }
             }
-
         }
 
         @Override
-        public void onParameterIsSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterValuesChanged(String[] values) {
-
-        }
-    };
-    public I_ModeParameterEvent aeModeListner = new I_ModeParameterEvent() {
-        @Override
-        public void onParameterValueChanged(String val)
+        public void onStringValuesChanged(String[] values)
         {
+        }
+
+    };
+
+    public ParameterEvents aeModeListner = new ParameterEvents() {
+        @Override
+        public void onIsSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIntValueChanged(int current) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onStringValueChanged(String val) {
             if(((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != Frameworks.MTK)
             {
                 if (val.contains("spot")) {
@@ -106,26 +135,13 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                     focusEvent.AEMeteringSupported(true);
                 }
             }
-
         }
 
         @Override
-        public void onParameterIsSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterValuesChanged(String[] values) {
-
+        public void onStringValuesChanged(String[] values)
+        {
         }
     };
-
-
 
     @Override
     public boolean isAeMeteringSupported()
@@ -167,7 +183,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
             return;
 
         Log.d(TAG, "start Touch X:Y " + x_input +":" + y_input);
-        String focusmode = cameraUiWrapper.getParameterHandler().FocusMode.GetValue();
+        String focusmode = cameraUiWrapper.getParameterHandler().FocusMode.GetStringValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
             Rect targetFocusRect = getFocusRect(x_input,y_input, width, height);

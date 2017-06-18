@@ -1,23 +1,7 @@
-/*
- *
- *     Copyright (C) 2015 Ingo Fuchs
- *     This program is free software; you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation; either version 2 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License along
- *     with this program; if not, write to the Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * /
- */
+package freed.cam.apis.basecamera.parameters;
 
-package freed.cam.apis.basecamera.parameters.manual;
+import android.os.Handler;
+import android.os.Looper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +9,15 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 
 /**
- * Created by troop on 17.12.2014.
+ * Created by troop on 18.06.2017.
  */
 
+public abstract class AbstractParameter implements ParameterInterface {
 
-public abstract class AbstractManualParameter implements ManualParameterInterface
-{
     /**
      * Listners that attached to that parameter
      */
-    private final List<I_ManualParameterEvent> listners;
+    private final List<ParameterEvents> listners;
     /**
      * the parameterhandler
      */
@@ -61,69 +44,45 @@ public abstract class AbstractManualParameter implements ManualParameterInterfac
      */
     protected boolean isVisible;
 
-    public AbstractManualParameter(CameraWrapperInterface cameraUiWrapper)
+    protected boolean isReadOnly;
+
+    private Handler mainHandler;
+
+    public AbstractParameter()
     {
-        this.cameraUiWrapper = cameraUiWrapper;
+        mainHandler = new Handler(Looper.getMainLooper());
         listners = new ArrayList<>();
     }
 
-    public interface I_ManualParameterEvent
-    {
-        /**
-         * Notify the listner that the parameter support state has changed
-         * freed.cam.ui.themesample.cameraui.ManualButton.java
-         * @param value if true the parameter shown in ui is visible
-         *              if false the parameter is hidden
-         */
-        void onIsSupportedChanged(boolean value);
-        /**
-         * Notify the listner that the parameter can changed/set state has changed
-         * freed.cam.ui.themesample.cameraui.ManualButton.java
-         * @param value if true the parameter shown in ui is accessible
-         *              if false the parameter is not accessible
-         */
-        void onIsSetSupportedChanged(boolean value);
-        /**
-         * Notify the listner that the parameter has changed in the background
-         * freed.cam.ui.themesample.cameraui.ManualButton.java
-         * @param current int key_value representing the array state
-         */
-        void onCurrentValueChanged(int current);
-        /**
-         * Notify the listner that the parameter has changed its values
-         * freed.cam.ui.themesample.cameraui.ManualButton.java
-         * @param values the new values
-         */
-        void onValuesChanged(String[] values);
-        /**
-         * Notify the listner that the parameter has changed its key_value
-         * freed.cam.ui.themesample.cameraui.ManualButton.java
-         * @param value the new string key_value
-         */
-        void onCurrentStringValueChanged(String value);
-    }
 
+    public AbstractParameter(CameraWrapperInterface cameraUiWrapper)
+    {
+        mainHandler = new Handler(Looper.getMainLooper());
+        listners = new ArrayList<>();
+        this.cameraUiWrapper = cameraUiWrapper;
+
+    }
 
     /**
      * Add and listner that get informed when somthings happen
      * @param eventListner that gets informed
      */
-    public void addEventListner(I_ManualParameterEvent eventListner)
+    public void addEventListner(ParameterEvents eventListner)
     {
         if (!listners.contains(eventListner))
             listners.add(eventListner);
     }
     /**
-    * Remove the listner
-    * @param eventListner that gets informed
-    */
-    public void removeEventListner(I_ManualParameterEvent eventListner)
+     * Remove the listner
+     * @param eventListner that gets informed
+     */
+    public void removeEventListner(ParameterEvents eventListner)
     {
         if (listners.contains(eventListner))
             listners.remove(eventListner);
     }
 
-    public void ThrowCurrentValueChanged(int current)
+    public void fireIntValueChanged(int current)
     {
         for (int i = 0; i< listners.size(); i ++)
         {
@@ -133,12 +92,21 @@ public abstract class AbstractManualParameter implements ManualParameterInterfac
                 i--;
 
             }
-            else
-                listners.get(i).onCurrentValueChanged(current);
+            else {
+                final ParameterEvents lis = listners.get(i);
+                final int cur = current;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        lis.onIntValueChanged(cur);
+                    }
+                });
+            }
+
         }
     }
 
-    public void ThrowCurrentValueStringCHanged(String value)
+    public void fireStringValueChanged(String value)
     {
         for (int i = 0; i< listners.size(); i ++)
         {
@@ -148,12 +116,20 @@ public abstract class AbstractManualParameter implements ManualParameterInterfac
                 i--;
 
             }
-            else
-                listners.get(i).onCurrentStringValueChanged(value);
+            else {
+                final ParameterEvents lis = listners.get(i);
+                final String cur = value;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        lis.onStringValueChanged(cur);
+                    }
+                });
+            }
         }
     }
 
-    public void ThrowBackgroundIsSupportedChanged(boolean value)
+    public void fireIsSupportedChanged(boolean value)
     {
         for (int i = 0; i< listners.size(); i ++)
         {
@@ -163,11 +139,19 @@ public abstract class AbstractManualParameter implements ManualParameterInterfac
                 i--;
 
             }
-            else
-                listners.get(i).onIsSupportedChanged(value);
+            else {
+                final ParameterEvents lis = listners.get(i);
+                final boolean cur = value;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        lis.onIsSupportedChanged(cur);
+                    }
+                });
+            }
         }
     }
-    public void ThrowBackgroundIsSetSupportedChanged(boolean value)
+    public void fireIsReadOnlyChanged(boolean value)
     {
         for (int i = 0; i< listners.size(); i ++)
         {
@@ -177,12 +161,20 @@ public abstract class AbstractManualParameter implements ManualParameterInterfac
                 i--;
 
             }
-            else
-                listners.get(i).onIsSetSupportedChanged(value);
+            else {
+            final ParameterEvents lis = listners.get(i);
+            final boolean cur = value;
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    lis.onIsSetSupportedChanged(cur);
+                }
+            });
+            }
         }
     }
 
-    public void ThrowBackgroundValuesChanged(String[] value)
+    public void fireStringValuesChanged(String[] value)
     {
         for (int i = 0; i< listners.size(); i ++)
         {
@@ -192,12 +184,18 @@ public abstract class AbstractManualParameter implements ManualParameterInterfac
                 i--;
 
             }
-            else
-                listners.get(i).onValuesChanged(value);
+            else {
+                final ParameterEvents lis = listners.get(i);
+                final String[] cur = value;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        lis.onStringValuesChanged(cur);
+                    }
+                });
+            }
         }
     }
-
-
 
     /**
      *
@@ -213,7 +211,7 @@ public abstract class AbstractManualParameter implements ManualParameterInterfac
      * if false the parameter is read only
      * @return  parameter can set
      */
-    public boolean IsSetSupported() {return false;}
+    public boolean IsSetSupported() {return isReadOnly;}
 
     /**
      *
@@ -259,7 +257,7 @@ public abstract class AbstractManualParameter implements ManualParameterInterfac
     public void SetValue(int valueToSet)
     {
 
-        //ThrowCurrentValueChanged(valueToSet);
+        //fireIntValueChanged(valueToSet);
     }
 
     /**

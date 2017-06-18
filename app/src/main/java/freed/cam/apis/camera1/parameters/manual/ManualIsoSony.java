@@ -3,14 +3,14 @@ package freed.cam.apis.camera1.parameters.manual;
 import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 
 /**
  * Created by troop on 18.03.2017.
  */
 
-public class ManualIsoSony extends AbstractManualParameter
+public class ManualIsoSony extends AbstractParameter
 {
     private final Camera.Parameters parameters;
 
@@ -29,7 +29,7 @@ public class ManualIsoSony extends AbstractManualParameter
 
     @Override
     public boolean IsSetSupported() {
-        return true;
+        return isReadOnly;
     }
 
     @Override
@@ -51,5 +51,10 @@ public class ManualIsoSony extends AbstractManualParameter
             parameters.set(cameraUiWrapper.getAppSettingsManager().manualIso.getKEY(), stringvalues[currentInt]);
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+    }
+
+    @Override
+    public void SetValue(String valueToSet, boolean setToCamera) {
+
     }
 }

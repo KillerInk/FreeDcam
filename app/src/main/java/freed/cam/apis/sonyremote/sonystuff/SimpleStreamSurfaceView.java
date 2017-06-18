@@ -41,7 +41,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
 import freed.utils.FreeDPool;
@@ -52,7 +52,7 @@ import freed.utils.RenderScriptHandler;
 /**
  * A SurfaceView based class to draw liveview frames serially.
  */
-public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback, AbstractModeParameter.I_ModeParameterEvent, JoyPad.NavigationClick {
+public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback, ParameterEvents, JoyPad.NavigationClick {
 
     private static final String TAG = SimpleStreamSurfaceView.class.getSimpleName();
 
@@ -107,6 +107,36 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     @Override
     public void onUp() {
         activityInterface.DisablePagerTouch(false);
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIntValueChanged(int current) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onStringValueChanged(String value) {
+
+    }
+
+    @Override
+    public void onStringValuesChanged(String[] values) {
+
     }
 
     public enum NightPreviewModes
@@ -714,26 +744,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
         canvas.drawRect(new Rect(0, 0, this.getWidth(), this.getHeight()), paint);
         this.getHolder().unlockCanvasAndPost(canvas);
-    }
-
-    @Override
-    public void onParameterValueChanged(String val) {
-
-    }
-
-    @Override
-    public void onParameterIsSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onParameterValuesChanged(String[] values) {
-
     }
 
     public interface StreamErrorListener {

@@ -152,19 +152,19 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
         {
             if (cameraUiWrapper.getParameterHandler().VideoProfiles != null)
-                size = cameraUiWrapper.getParameterHandler().VideoProfiles.GetValue();
+                size = cameraUiWrapper.getParameterHandler().VideoProfiles.GetStringValue();
             else
                 size = "";
         }
         else
         {
             if (cameraUiWrapper.getParameterHandler().PictureFormat != null)
-                format = cameraUiWrapper.getParameterHandler().PictureFormat.GetValue();
+                format = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
             else
                 format = "";
 
             if (cameraUiWrapper.getParameterHandler().PictureSize != null)
-                size = cameraUiWrapper.getParameterHandler().PictureSize.GetValue();
+                size = cameraUiWrapper.getParameterHandler().PictureSize.GetStringValue();
             else
                 size = "";
         }

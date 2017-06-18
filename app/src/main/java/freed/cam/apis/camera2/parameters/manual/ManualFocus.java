@@ -26,7 +26,7 @@ import android.os.Build.VERSION_CODES;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.utils.Log;
 import freed.utils.StringFloatArray;
@@ -35,7 +35,7 @@ import freed.utils.StringFloatArray;
  * Created by troop on 28.04.2015.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class ManualFocus extends AbstractManualParameter
+public class ManualFocus extends AbstractParameter
 {
     private final String TAG = ManualFocus.class.getSimpleName();
     private StringFloatArray focusvalues;
@@ -74,7 +74,7 @@ public class ManualFocus extends AbstractManualParameter
         }
         else
         {
-            if (!cameraUiWrapper.getParameterHandler().FocusMode.GetValue().equals(cameraUiWrapper.getContext().getString(R.string.off)))
+            if (!cameraUiWrapper.getParameterHandler().FocusMode.GetStringValue().equals(cameraUiWrapper.getContext().getString(R.string.off)))
             {
                 ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
                 cameraUiWrapper.getParameterHandler().FocusMode.SetValue(cameraUiWrapper.getContext().getString(R.string.off), true);
@@ -83,6 +83,11 @@ public class ManualFocus extends AbstractManualParameter
             Log.d(TAG, "Set MF TO: " + valtoset+ " ValueTOSET: " + valueToSet);
             ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, valtoset);
         }
+    }
+
+    @Override
+    public void SetValue(String valueToSet, boolean setToCamera) {
+
     }
 
 

@@ -60,7 +60,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     {
         if (parameter == null)
             return;
-        if (parameter.GetValue().equals(getResources().getString(R.string.on_))) {
+        if (parameter.GetStringValue().equals(getResources().getString(R.string.on_))) {
             parameter.SetValue(getResources().getString(R.string.off_), false);
         }
         else{

@@ -48,23 +48,19 @@ public class ExposureLockParameter extends BaseModeParameter
             parameters.setAutoExposureLock(Boolean.parseBoolean(valueToSet));
 
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-            onValueHasChanged(valueToSet);
+            onStringValueChanged(valueToSet);
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
 
         return parameters.getAutoExposureLock()+"";
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return new String[]{cameraUiWrapper.getResString(R.string.true_), cameraUiWrapper.getResString(R.string.false_)};
     }
 
-    @Override
-    public void onValueHasChanged(String value) {
-            super.onValueHasChanged(value);
-    }
 }

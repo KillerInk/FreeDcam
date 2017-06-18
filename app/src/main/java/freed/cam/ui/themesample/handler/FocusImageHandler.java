@@ -234,7 +234,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         public void IsMoving(boolean moving)
         {
             //disable exposure lock that metering can get applied
-            if (moving && wrapper.getParameterHandler().ExposureLock != null && wrapper.getParameterHandler().ExposureLock.IsSupported() && wrapper.getParameterHandler().ExposureLock.GetValue().equals("true"))
+            if (moving && wrapper.getParameterHandler().ExposureLock != null && wrapper.getParameterHandler().ExposureLock.IsSupported() && wrapper.getParameterHandler().ExposureLock.GetStringValue().equals("true"))
             {
                 wrapper.getParameterHandler().ExposureLock.SetValue("false",true);
             }

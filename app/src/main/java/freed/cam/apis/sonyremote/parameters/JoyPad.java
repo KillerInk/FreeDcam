@@ -8,13 +8,13 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 
 /**
  * Created by troop on 12.12.2016.
  */
 
-public class JoyPad extends View implements AbstractManualParameter.I_ManualParameterEvent
+public class JoyPad extends View implements ParameterEvents
 {
     private Paint backgroundDrawer;
     private Paint joypadDrawer;
@@ -34,7 +34,7 @@ public class JoyPad extends View implements AbstractManualParameter.I_ManualPara
     }
 
     @Override
-    public void onCurrentValueChanged(int current) {
+    public void onIntValueChanged(int current) {
         if (current > 1)
             this.setVisibility(VISIBLE);
         else
@@ -47,7 +47,12 @@ public class JoyPad extends View implements AbstractManualParameter.I_ManualPara
     }
 
     @Override
-    public void onCurrentStringValueChanged(String value) {
+    public void onStringValueChanged(String value) {
+
+    }
+
+    @Override
+    public void onStringValuesChanged(String[] values) {
 
     }
 

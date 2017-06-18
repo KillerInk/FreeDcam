@@ -28,8 +28,8 @@ import java.util.Arrays;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
@@ -40,7 +40,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 15.12.2014.
  */
-public class BaseManualParameterSony extends AbstractManualParameter implements I_SonyApi, I_ManualParameterEvent
+public class BaseManualParameterSony extends AbstractParameter implements I_SonyApi, ParameterEvents
 {
     protected String VALUE_TO_GET;
     protected String VALUES_TO_GET;
@@ -74,13 +74,13 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         {
             isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
         }
-        ThrowBackgroundIsSupportedChanged(isSupported);
-        ThrowBackgroundIsSetSupportedChanged(false);
+        fireIsSupportedChanged(isSupported);
+        fireIsReadOnlyChanged(false);
         if (isSetSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet))
         {
             isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
         }
-        ThrowBackgroundIsSetSupportedChanged(isSetSupported);
+        fireIsReadOnlyChanged(isSetSupported);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(1);
                         stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
-                        ThrowBackgroundValuesChanged(stringvalues);
+                        fireStringValuesChanged(stringvalues);
 
                     } catch (IOException | JSONException ex) {
                         Log.WriteEx(ex);
@@ -148,12 +148,17 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                 try {
                     array = new JSONArray().put(0, val);
                     JSONObject object = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-                    ThrowCurrentValueChanged(valueToSet);
+                    fireIntValueChanged(valueToSet);
                 } catch (JSONException | IOException ex) {
                     Log.WriteEx(ex);
                 }
             }
         });
+    }
+
+    @Override
+    public void SetValue(String valueToSet, boolean setToCamera) {
+
     }
 
     public String GetStringValue()
@@ -190,9 +195,9 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     }
 
     @Override
-    public void onCurrentValueChanged(int current)
+    public void onIntValueChanged(int current)
     {
-        sendLog("onCurrentValueChanged = "  +current);
+        sendLog("onIntValueChanged = "  +current);
         currentInt = current;
     }
 
@@ -204,7 +209,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     }
 
     @Override
-    public void onCurrentStringValueChanged(String value)
+    public void onStringValueChanged(String value)
     {
         this.value = value;
         if (stringvalues == null)
@@ -212,8 +217,13 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         for (int i = 0; i< stringvalues.length; i++)
         {
             if (value.equals(stringvalues[i]))
-                onCurrentValueChanged(i);
+                onIntValueChanged(i);
         }
+    }
+
+    @Override
+    public void onStringValuesChanged(String[] values) {
+
     }
 
     protected void sendLog(String log)

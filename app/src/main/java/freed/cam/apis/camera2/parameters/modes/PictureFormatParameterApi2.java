@@ -47,7 +47,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        onValueHasChanged(valueToSet);
+        fireStringValueChanged(valueToSet);
         format = valueToSet;
         if (setToCamera)
         {
@@ -57,13 +57,13 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
         return format;
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
     @Override
-    public String[] GetValues()
+    public String[] getStringValues()
     {
         return parameterValues.keySet().toArray(new String[parameterValues.size()]);
     }

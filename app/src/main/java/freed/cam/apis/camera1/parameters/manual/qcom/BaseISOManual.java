@@ -64,9 +64,9 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_manual()
     {
-        cur_iso_mode = cameraUiWrapper.getParameterHandler().IsoMode.GetValue();
+        cur_iso_mode = cameraUiWrapper.getParameterHandler().IsoMode.GetStringValue();
 
-        if (!cameraUiWrapper.getParameterHandler().IsoMode.GetValue().equals(cameraUiWrapper.getResString(R.string.manual)))
+        if (!cameraUiWrapper.getParameterHandler().IsoMode.GetStringValue().equals(cameraUiWrapper.getResString(R.string.manual)))
             cameraUiWrapper.getParameterHandler().IsoMode.SetValue(cameraUiWrapper.getResString(R.string.manual), true);
         parameters.set(key_value, stringvalues[currentInt]);
 
@@ -75,7 +75,7 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_to_auto()
     {
-        if (cameraUiWrapper.getParameterHandler().IsoMode.GetValue().equals(cameraUiWrapper.getResString(R.string.manual)))
+        if (cameraUiWrapper.getParameterHandler().IsoMode.GetStringValue().equals(cameraUiWrapper.getResString(R.string.manual)))
             cameraUiWrapper.getParameterHandler().IsoMode.SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
         cameraUiWrapper.getParameterHandler().IsoMode.SetValue(cur_iso_mode, true);
 

@@ -256,17 +256,17 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     @Override
     public void onIsoChanged(String iso)
     {
-        ManualIso.ThrowCurrentValueStringCHanged(iso);
+        ManualIso.fireStringValueChanged(iso);
     }
 
     @Override
     public void onIsoValuesChanged(String[] isovals) {
-        ManualIso.ThrowBackgroundValuesChanged(isovals);
+        ManualIso.fireStringValuesChanged(isovals);
     }
 
     @Override
     public void onFnumberValuesChanged(String[] fnumbervals) {
-        ManualFNumber.ThrowBackgroundValuesChanged(fnumbervals);
+        ManualFNumber.fireStringValuesChanged(fnumbervals);
     }
 
     @Override
@@ -281,24 +281,24 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onExposureCompensationChanged(int epxosurecomp) {
-        ManualExposure.ThrowCurrentValueChanged(epxosurecomp);
+        ManualExposure.fireIntValueChanged(epxosurecomp);
     }
 
     @Override
     public void onShutterSpeedChanged(String shutter) {
-        ManualShutter.ThrowCurrentValueStringCHanged(shutter);
+        ManualShutter.fireStringValueChanged(shutter);
     }
 
     @Override
     public void onShutterSpeedValuesChanged(String[] shuttervals) {
-        ManualShutter.ThrowBackgroundValuesChanged(shuttervals);
+        ManualShutter.fireStringValuesChanged(shuttervals);
     }
 
     @Override
     public void onFlashChanged(String flash)
     {
         Log.d(TAG, "Fire ONFLashCHanged");
-        FlashMode.onValueHasChanged(flash);
+        FlashMode.fireStringValueChanged(flash);
     }
 
     @Override
@@ -309,11 +309,11 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     @Override
     public void onWhiteBalanceValueChanged(String wb)
     {
-        WhiteBalanceMode.onValueHasChanged(wb);
-        if (WhiteBalanceMode.GetValue().equals("Color Temperature") && CCT != null)
-            CCT.ThrowBackgroundIsSupportedChanged(true);
+        WhiteBalanceMode.fireStringValueChanged(wb);
+        if (WhiteBalanceMode.GetStringValue().equals("Color Temperature") && CCT != null)
+            CCT.fireIsSupportedChanged(true);
         else
-            CCT.ThrowBackgroundIsSupportedChanged(false);
+            CCT.fireIsSupportedChanged(false);
     }
 
     @Override
@@ -339,7 +339,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onFnumberChanged(String fnumber) {
-        ManualFNumber.ThrowCurrentValueStringCHanged(fnumber);
+        ManualFNumber.fireStringValueChanged(fnumber);
     }
 
     @Override
@@ -355,81 +355,81 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     @Override
     public void onExposureModesChanged(String[] expomode)
     {
-        ExposureMode.onValuesHasChanged(expomode);
+        ExposureMode.fireStringValuesChanged(expomode);
     }
 
     @Override
     public void onImageFormatChanged(String imagesize) {
-        PictureFormat.onValueHasChanged(imagesize);
+        PictureFormat.fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onImageFormatsChanged(String[] imagesize) {
-        PictureFormat.onValuesHasChanged(imagesize);
+        PictureFormat.fireStringValuesChanged(imagesize);
     }
 
     @Override
     public void onImageSizeChanged(String imagesize) {
-        PictureSize.onValueHasChanged(imagesize);
+        PictureSize.fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onContshotModeChanged(String imagesize) {
-        ContShootMode.onValueHasChanged(imagesize);
+        ContShootMode.fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onContshotModesChanged(String[] imagesize) {
-        ContShootMode.onValuesHasChanged(imagesize);
+        ContShootMode.fireStringValuesChanged(imagesize);
     }
 
     @Override
     public void onFocusModeChanged(String imagesize) {
-        FocusMode.onValueHasChanged(imagesize);
+        FocusMode.fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onFocusModesChanged(String[] imagesize) {
-        FocusMode.onValuesHasChanged(imagesize);
+        FocusMode.fireStringValuesChanged(imagesize);
     }
 
     @Override
     public void onPostviewModeChanged(String imagesize) {
-        PostViewSize.onValueHasChanged(imagesize);
+        PostViewSize.fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onPostviewModesChanged(String[] imagesize) {
-        PostViewSize.onValuesHasChanged(imagesize);
+        PostViewSize.fireStringValuesChanged(imagesize);
     }
 
     @Override
     public void onTrackingFocusModeChanged(String imagesize) {
-        ObjectTracking.onValueHasChanged(imagesize);
+        ObjectTracking.fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onTrackingFocusModesChanged(String[] imagesize) {
-        ObjectTracking.onValuesHasChanged(imagesize);
+        ObjectTracking.fireStringValuesChanged(imagesize);
     }
 
     @Override
     public void onZoomSettingValueCHanged(String value) {
-        ZoomSetting.onValueHasChanged(value);
+        ZoomSetting.fireStringValueChanged(value);
     }
 
     @Override
     public void onZoomSettingsValuesCHanged(String[] values) {
-        ZoomSetting.onValuesHasChanged(values);
+        ZoomSetting.fireStringValuesChanged(values);
     }
 
     @Override
     public void onExposureModeChanged(String expomode) {
-        if (!ExposureMode.GetValue().equals(expomode))
-            ExposureMode.onValueHasChanged(expomode);
+        if (!ExposureMode.GetStringValue().equals(expomode))
+            ExposureMode.fireStringValueChanged(expomode);
         if (expomode.equals("Intelligent Auto")|| expomode.equals("Superior Auto"))
-            WhiteBalanceMode.onIsSupportedChanged(false);
+            WhiteBalanceMode.fireIsSupportedChanged(false);
         else
-            WhiteBalanceMode.onIsSupportedChanged(true);
+            WhiteBalanceMode.fireIsSupportedChanged(true);
     }
 }

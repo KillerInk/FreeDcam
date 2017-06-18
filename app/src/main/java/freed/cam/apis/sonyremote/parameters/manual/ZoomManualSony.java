@@ -52,8 +52,8 @@ public class ZoomManualSony extends BaseManualParameterSony
         //if (isSupported != JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet))
         //{
         isSupported = JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet);
-        ThrowBackgroundIsSupportedChanged(isSupported);
-        ThrowBackgroundIsSetSupportedChanged(isSupported);
+        fireIsSupportedChanged(isSupported);
+        fireIsReadOnlyChanged(isSupported);
         stringvalues = createStringArray(0,100,1);
         //}
 
@@ -65,7 +65,6 @@ public class ZoomManualSony extends BaseManualParameterSony
         return ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mAvailableCameraApiSet != null && JsonUtils.isCameraApiAvailable("actZoom", ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mAvailableCameraApiSet);
     }
 
-    @Override
     public int GetValue()
     {
         /*if (currentInt == -1) {
@@ -141,7 +140,7 @@ public class ZoomManualSony extends BaseManualParameterSony
         }
         else
             zoomToSet = currentInt;
-        ThrowCurrentValueChanged(zoom);
+        fireIntValueChanged(zoom);
     }
 
 
@@ -159,7 +158,7 @@ public class ZoomManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public void onCurrentValueChanged(int current)
+    public void onIntValueChanged(int current)
     {
 
     }

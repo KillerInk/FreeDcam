@@ -31,7 +31,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
 
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.utils.AppSettingsManager;
 
@@ -55,16 +55,16 @@ public class SettingsChildMenu extends UiSettingsChild
         description.setText(getResources().getText(descriptionid));
     }
 
-    public SettingsChildMenu(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter) {
+    public SettingsChildMenu(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
         super(context, settingsMode, parameter);
     }
 
-    public SettingsChildMenu(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter, int headerid, int descriptionid)
+    public SettingsChildMenu(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid)
     {
         super(context,settingsMode,parameter);
         headerText.setText(getResources().getText(headerid));
         description.setText(getResources().getText(descriptionid));
-        valueText.setText(parameter.GetValue());
+        valueText.setText(parameter.GetStringValue());
     }
 
     public SettingsChildMenu(Context context, AttributeSet attrs) {
@@ -111,8 +111,13 @@ public class SettingsChildMenu extends UiSettingsChild
     }
 
     @Override
-    public void onParameterValueChanged(String val)
+    public void onStringValuesChanged(String[] values)
     {
+
+    }
+
+    @Override
+    public void onStringValueChanged(String val) {
         sendLog("Set Value to:" + val);
         if (valueText != null)
             valueText.setText(val);
@@ -125,8 +130,7 @@ public class SettingsChildMenu extends UiSettingsChild
     }
 
     @Override
-    public void onParameterIsSupportedChanged(boolean isSupported)
-    {
+    public void onIsSupportedChanged(boolean isSupported) {
         sendLog("isSupported:" + isSupported);
         if (isSupported) {
             setVisibility(View.VISIBLE);

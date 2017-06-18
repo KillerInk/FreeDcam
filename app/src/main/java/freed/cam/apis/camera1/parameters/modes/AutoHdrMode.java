@@ -70,11 +70,11 @@ public class AutoHdrMode extends BaseModeParameter {
             parameters.set(cameraUiWrapper.getResString(R.string.auto_hdr_enable), cameraUiWrapper.getResString(R.string.enable_));
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        onValueHasChanged(valueToSet);
+        onStringValueChanged(valueToSet);
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
         if(parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_enable))!= null)
         {
             if (parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_enable)).equals(cameraUiWrapper.getResString(R.string.enable_))
@@ -91,7 +91,7 @@ public class AutoHdrMode extends BaseModeParameter {
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return valuesArray;
     }
 
@@ -119,8 +119,14 @@ public class AutoHdrMode extends BaseModeParameter {
     }
 
     @Override
-    public void onParameterValueChanged(String val)
+    public void onStringValuesChanged(String[] values)
     {
+
+    }
+
+
+    @Override
+    public void onStringValueChanged(String val) {
         format = val;
         if (val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&&!visible &&!curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
             Show();
@@ -132,17 +138,17 @@ public class AutoHdrMode extends BaseModeParameter {
 
     private void Hide()
     {
-        state = GetValue();
+        state = GetStringValue();
         visible = false;
         SetValue(cameraUiWrapper.getResString(R.string.off_),true);
-        onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
+        onStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
         onIsSupportedChanged(visible);
     }
     private void Show()
     {
         visible = true;
         SetValue(state,true);
-        onValueHasChanged(state);
+        onStringValueChanged(state);
         onIsSupportedChanged(visible);
     }
 }

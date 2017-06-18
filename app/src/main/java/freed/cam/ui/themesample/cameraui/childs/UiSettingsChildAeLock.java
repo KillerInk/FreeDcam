@@ -28,7 +28,7 @@ public class UiSettingsChildAeLock extends UiSettingsChild implements SettingsCh
     public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment) {
         if (parameter == null)
             return;
-        if (parameter.GetValue().equals(getResources().getString(R.string.true_))) {
+        if (parameter.GetStringValue().equals(getResources().getString(R.string.true_))) {
             parameter.SetValue(getResources().getString(R.string.false_), false);
         }
         else{

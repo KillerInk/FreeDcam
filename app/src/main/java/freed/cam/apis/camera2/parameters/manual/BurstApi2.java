@@ -20,13 +20,13 @@
 package freed.cam.apis.camera2.parameters.manual;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 
 /**
  * Created by troop on 10.09.2015.
  */
-public class BurstApi2 extends AbstractManualParameter implements I_ModeParameterEvent
+public class BurstApi2 extends AbstractParameter implements ParameterEvents
 {
     int current = 1;
 
@@ -36,25 +36,6 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
         stringvalues = new String[] {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"};
     }
 
-    @Override
-    public void onParameterValueChanged(String val) {
-
-    }
-
-    @Override
-    public void onParameterIsSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onParameterValuesChanged(String[] values) {
-
-    }
 
     @Override
     public boolean IsSupported() {
@@ -90,5 +71,40 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
+    }
+
+    @Override
+    public void SetValue(String valueToSet, boolean setToCamera) {
+
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIntValueChanged(int current) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onStringValueChanged(String value) {
+
+    }
+
+    @Override
+    public void onStringValuesChanged(String[] values) {
+
     }
 }

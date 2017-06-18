@@ -24,7 +24,7 @@ import android.hardware.Camera;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.FreeDPool;
@@ -70,12 +70,12 @@ public abstract class AE_Handler_Abstract
         this.cameraWrapper = cameraUiWrapper;
     }
 
-    public ManualParameterInterface getManualIso()
+    public ParameterInterface getManualIso()
     {
         return iso;
     }
 
-    public ManualParameterInterface getShutterManual()
+    public ParameterInterface getShutterManual()
     {
         return shutter;
     }
@@ -99,7 +99,7 @@ public abstract class AE_Handler_Abstract
                         case iso:
                             currentShutter = shutter.GetValue();
                             shutter.setValue(0);
-                            shutter.ThrowBackgroundIsSetSupportedChanged(false);
+                            shutter.fireIsReadOnlyChanged(false);
                             break;
                     }
                     resetManualMode();
@@ -116,7 +116,7 @@ public abstract class AE_Handler_Abstract
                             case iso:
                                 if (currentShutter == 0) currentShutter = 9;
                                 shutter.setValue(currentShutter);
-                                shutter.ThrowBackgroundIsSetSupportedChanged(true);
+                                shutter.fireIsReadOnlyChanged(true);
                                 break;
                         }
                         startReadingMeta();
@@ -138,7 +138,7 @@ public abstract class AE_Handler_Abstract
                 }
                 ((ParametersHandler) cameraWrapper.getParameterHandler()).SetParametersToCamera(parameters);
                 if (automode) {
-                    String t = cameraWrapper.getParameterHandler().IsoMode.GetValue();
+                    String t = cameraWrapper.getParameterHandler().IsoMode.GetStringValue();
                     if (!t.equals(cameraWrapper.getResString(R.string.iso100_)))
                         cameraWrapper.getParameterHandler().IsoMode.SetValue(cameraWrapper.getResString(R.string.iso100_), true);
                     else
@@ -166,8 +166,8 @@ public abstract class AE_Handler_Abstract
                 while (readMetaData && auto)
                 {
                     try {
-                        shutter.ThrowCurrentValueStringCHanged("1/"+(int) cameraWrapper.getParameterHandler().getCurrentExposuretime());
-                        iso.ThrowCurrentValueStringCHanged(cameraWrapper.getParameterHandler().getCurrentIso()+"");
+                        shutter.fireStringValueChanged("1/"+(int) cameraWrapper.getParameterHandler().getCurrentExposuretime());
+                        iso.fireStringValueChanged(cameraWrapper.getParameterHandler().getCurrentIso()+"");
                     }
                     catch (RuntimeException ex)
                     {

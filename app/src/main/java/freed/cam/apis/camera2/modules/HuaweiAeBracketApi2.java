@@ -1,7 +1,6 @@
 package freed.cam.apis.camera2.modules;
 
 import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
@@ -9,7 +8,6 @@ import android.util.Rational;
 
 import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.huawei.camera2ex.CaptureRequestEx;
-import com.troop.freedcam.R;
 
 import java.io.File;
 

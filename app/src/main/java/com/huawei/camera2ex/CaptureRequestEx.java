@@ -1,7 +1,6 @@
 package com.huawei.camera2ex;
 
 import android.annotation.TargetApi;
-import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.utils.TypeReference;
 import android.os.Build;

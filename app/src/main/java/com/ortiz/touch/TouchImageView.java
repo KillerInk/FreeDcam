@@ -27,7 +27,6 @@ import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import freed.utils.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -39,6 +38,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.OverScroller;
 import android.widget.Scroller;
+
+import freed.utils.Log;
 
 public class TouchImageView extends ImageView {
 

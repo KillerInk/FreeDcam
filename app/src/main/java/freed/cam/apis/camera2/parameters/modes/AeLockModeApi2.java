@@ -25,7 +25,7 @@ public class AeLockModeApi2 extends BaseModeApi2 {
 
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
         if (((CameraHolderApi2)cameraUiWrapper.getCameraHolder()).captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_LOCK))
             return cameraUiWrapper.getResString(R.string.true_);
         else
@@ -33,7 +33,7 @@ public class AeLockModeApi2 extends BaseModeApi2 {
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return new String[]{cameraUiWrapper.getResString(R.string.false_), cameraUiWrapper.getResString(R.string.true_)};
     }
 

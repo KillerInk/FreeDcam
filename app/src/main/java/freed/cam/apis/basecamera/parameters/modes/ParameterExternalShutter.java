@@ -19,12 +19,13 @@
 
 package freed.cam.apis.basecamera.parameters.modes;
 
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 21.07.2015.
  */
-public class ParameterExternalShutter extends AbstractModeParameter
+public class ParameterExternalShutter extends AbstractParameter
 {
     private static final String VoLP = "Vol+";
     private static final String VoLM = "Vol-";
@@ -48,7 +49,7 @@ public class ParameterExternalShutter extends AbstractModeParameter
         appSettingsManager.setApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER, valueToSet);
     }
 
-    public String GetValue()
+    public String GetStringValue()
     {
         if (appSettingsManager.getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
             return "Hook";
@@ -56,7 +57,7 @@ public class ParameterExternalShutter extends AbstractModeParameter
             return appSettingsManager.getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER);
     }
 
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return values;
     }
 }

@@ -22,13 +22,14 @@ package freed.cam.apis.sonyremote.parameters.modes;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 
 /**
  * Created by troop on 25.03.2016.
  */
-public class PreviewZoomSony extends AbstractModeParameter
+public class PreviewZoomSony extends AbstractParameter
 {
     private final SimpleStreamSurfaceView surfaceView;
     private int zoomFactor = 8;
@@ -49,23 +50,18 @@ public class PreviewZoomSony extends AbstractModeParameter
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
         return zoomFactor +"";
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return new String[] {"2","4","8","10","12","14","16","18","20"};
     }
 
     @Override
-    public void addEventListner(I_ModeParameterEvent eventListner) {
+    public void addEventListner(ParameterEvents eventListner) {
         super.addEventListner(eventListner);
-    }
-
-    @Override
-    public void onValueHasChanged(String value) {
-
     }
 
     @Override
@@ -73,18 +69,5 @@ public class PreviewZoomSony extends AbstractModeParameter
         return IsSupported();
     }
 
-    @Override
-    public void onValuesHasChanged(String[] value) {
 
-    }
-
-    @Override
-    public void onIsSupportedChanged(boolean value) {
-
-    }
-
-    @Override
-    public void onSetIsSupportedHasChanged(boolean value) {
-
-    }
 }

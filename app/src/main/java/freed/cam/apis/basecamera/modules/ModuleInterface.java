@@ -19,8 +19,6 @@
 
 package freed.cam.apis.basecamera.modules;
 
-import java.io.File;
-
 /**
  * Created by troop on 15.08.2014.
  */

@@ -41,7 +41,6 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
-import freed.utils.PermissionHandler;
 
 /**
  * Created by troop on 06.01.2016.

@@ -25,8 +25,8 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
@@ -34,7 +34,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 17.08.2014.
  */
-public class BaseManualParameter extends AbstractManualParameter
+public class BaseManualParameter extends AbstractParameter
 {
 
     private final String TAG = BaseManualParameter.class.getSimpleName();
@@ -69,7 +69,7 @@ public class BaseManualParameter extends AbstractManualParameter
         {
             Log.d(TAG,"Reset Back from:" + currentInt + " to:" + default_value);
             SetValue(default_value);
-            ThrowCurrentValueChanged(default_value);
+            fireIntValueChanged(default_value);
         }
     }
 
@@ -164,8 +164,8 @@ public class BaseManualParameter extends AbstractManualParameter
         if(stringvalues == null || stringvalues.length == 0)
             return;
         parameters.set(key_value, stringvalues[valueToset]);
-        ThrowCurrentValueChanged(valueToset);
-        ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
+        fireIntValueChanged(valueToset);
+        fireStringValueChanged(stringvalues[valueToset]);
         try
         {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
@@ -176,45 +176,59 @@ public class BaseManualParameter extends AbstractManualParameter
         }
     }
 
+    @Override
+    public void SetValue(String valueToSet, boolean setToCamera) {
 
-    public I_ModeParameterEvent GetPicFormatListner()
+    }
+
+
+    public ParameterEvents GetPicFormatListner()
     {
         return picformatListner;
     }
 
-    private final I_ModeParameterEvent picformatListner = new I_ModeParameterEvent()
+    private final ParameterEvents picformatListner = new ParameterEvents()
     {
 
         @Override
-        public void onParameterValueChanged(String val)
-        {
-           if (val.equals(cameraUiWrapper.getResString(R.string.jpeg_)) && isSupported)
-           {
-               isVisible = true;
-               ThrowBackgroundIsSupportedChanged(true);
-           }
+        public void onIsSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIntValueChanged(int current) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onStringValueChanged(String val) {
+            if (val.equals(cameraUiWrapper.getResString(R.string.jpeg_)) && isSupported)
+            {
+                isVisible = true;
+                fireIsSupportedChanged(true);
+            }
             else {
-               isVisible = false;
-               ThrowBackgroundIsSupportedChanged(false);
-               ResetToDefault();
-           }
+                isVisible = false;
+                fireIsSupportedChanged(false);
+                ResetToDefault();
+            }
         }
 
         @Override
-        public void onParameterIsSupportedChanged(boolean isSupported) {
+        public void onStringValuesChanged(String[] values)
+        {
 
         }
-
-        @Override
-        public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterValuesChanged(String[] values) {
-
-        }
-
     };
 
     public ModuleChangedEvent GetModuleListner()
@@ -227,12 +241,12 @@ public class BaseManualParameter extends AbstractManualParameter
         public void onModuleChanged(String module)
         {
             if (module.equals(cameraUiWrapper.getResString(R.string.module_video)) && isSupported)
-                ThrowBackgroundIsSupportedChanged(true);
+                fireIsSupportedChanged(true);
             else if (module.equals(cameraUiWrapper.getResString(R.string.module_picture))
                     || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
                     || module.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
             {
-                ThrowBackgroundIsSupportedChanged(isVisible);
+                fireIsSupportedChanged(isVisible);
             }
         }
     };

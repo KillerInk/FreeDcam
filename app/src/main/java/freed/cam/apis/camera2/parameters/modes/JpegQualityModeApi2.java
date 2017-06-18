@@ -27,7 +27,7 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
 
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         int r;
         try {
@@ -42,7 +42,7 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         List<String> values = new ArrayList<>();
         for (int i= 10; i <= 100; i+=10)
         {

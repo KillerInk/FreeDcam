@@ -17,13 +17,13 @@
  * /
  */
 
-package freed.cam.apis.basecamera.parameters.manual;
+package freed.cam.apis.basecamera.parameters;
 
 /**
  * Created by troop on 01.09.2014.
  * This class represent the basic ManualPrameter that get used in ManualcameraFragment
  */
-public interface ManualParameterInterface
+public interface ParameterInterface
 {
     /**
      * State of the parameter if its is supported
@@ -62,50 +62,57 @@ public interface ManualParameterInterface
     String[] getStringValues();
 
     /**
-     * Set the value to the parameters
+     * Set the int value to the parameters
      * @param valueToSet the int value to set
      */
     void SetValue(int valueToSet);
 
     /**
+     *
+     * @param valueToSet to the camera
+     * @param setToCamera not needed anymore?
+     */
+    void SetValue(String valueToSet, boolean setToCamera);
+
+    /**
      * add a listner to listne to background changes applied to the parameters
      * @param eventListner to notify when something got changed in background
      */
-    void addEventListner(AbstractManualParameter.I_ManualParameterEvent eventListner);
+    void addEventListner(ParameterEvents eventListner);
 
     /**
      * remove the listner
      * @param eventListner to remove
      */
-    void removeEventListner(AbstractManualParameter.I_ManualParameterEvent eventListner);
+    void removeEventListner(ParameterEvents eventListner);
 
     /**
      * notify the listners that the int value has changed in background
      * @param current
      */
-    void ThrowCurrentValueChanged(int current);
+    void fireIntValueChanged(int current);
 
     /**
      * notify the listner that the string value got changed in background
      * @param value
      */
-    void ThrowCurrentValueStringCHanged(String value);
+    void fireStringValueChanged(String value);
 
     /**
      * notfiy the listners that the parameter support state got changed
      * @param value
      */
-    void ThrowBackgroundIsSupportedChanged(boolean value);
+    void fireIsSupportedChanged(boolean value);
 
     /**
      * notify the listners that the parameter can get written or is read only
      * @param value when true its writeable, false its read only
      */
-    void ThrowBackgroundIsSetSupportedChanged(boolean value);
+    void fireIsReadOnlyChanged(boolean value);
 
     /**
      * notify the listners that string values have changed
      * @param value new values that are useable to get set
      */
-    void ThrowBackgroundValuesChanged(String[] value);
+    void fireStringValuesChanged(String[] value);
 }

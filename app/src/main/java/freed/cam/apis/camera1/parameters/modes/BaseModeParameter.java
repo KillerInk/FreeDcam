@@ -23,8 +23,8 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
@@ -36,7 +36,7 @@ import freed.utils.Log;
  * if one of the key is empty the parameters is set as unsupported
  * when extending that class make sure you set isSupported and isVisible
  */
-public class BaseModeParameter extends AbstractModeParameter implements ModuleChangedEvent, I_ModeParameterEvent
+public class BaseModeParameter extends AbstractParameter implements ModuleChangedEvent, ParameterEvents
 {
     /*
     The Key to set/get a value from the parameters
@@ -92,7 +92,7 @@ public class BaseModeParameter extends AbstractModeParameter implements ModuleCh
             return;
         parameters.set(key_value, valueToSet);
         Log.d(TAG, "set " + key_value + " to " + valueToSet);
-        onValueHasChanged(valueToSet);
+        onStringValueChanged(valueToSet);
         if (setToCam) {
 
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
@@ -101,12 +101,12 @@ public class BaseModeParameter extends AbstractModeParameter implements ModuleCh
 
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         return parameters.get(key_value);
     }
     @Override
-    public String[] GetValues()
+    public String[] getStringValues()
     {
         return valuesArray;
     }
@@ -117,22 +117,31 @@ public class BaseModeParameter extends AbstractModeParameter implements ModuleCh
     }
 
     @Override
-    public void onParameterValueChanged(String val) {
+    public void onIsSupportedChanged(boolean value) {
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean value) {
 
     }
 
     @Override
-    public void onParameterIsSupportedChanged(boolean isSupported) {
+    public void onIntValueChanged(int current) {
 
     }
 
     @Override
-    public void onParameterIsSetSupportedChanged(boolean isSupported) {
+    public void onValuesChanged(String[] values) {
 
     }
 
     @Override
-    public void onParameterValuesChanged(String[] values) {
+    public void onStringValueChanged(String value) {
+
+    }
+
+    @Override
+    public void onStringValuesChanged(String[] values) {
 
     }
 }

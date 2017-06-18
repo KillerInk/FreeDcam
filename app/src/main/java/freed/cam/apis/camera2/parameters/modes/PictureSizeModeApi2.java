@@ -42,7 +42,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        onValueHasChanged(valueToSet);
+        fireStringValueChanged(valueToSet);
         size = valueToSet;
         if (setToCamera)
         {
@@ -52,14 +52,14 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         return size;
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
     @Override
-    public String[] GetValues()
+    public String[] getStringValues()
     {
         return cameraUiWrapper.getAppSettingsManager().pictureSize.getValues();
     }

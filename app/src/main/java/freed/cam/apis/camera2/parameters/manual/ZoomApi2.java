@@ -26,14 +26,14 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 06.03.2015.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class ZoomApi2 extends AbstractManualParameter
+public class ZoomApi2 extends AbstractParameter
 {
     final String TAG = ZoomApi2.class.getSimpleName();
     public ZoomApi2(CameraWrapperInterface cameraUiWrapper)  {
@@ -83,6 +83,11 @@ public class ZoomApi2 extends AbstractManualParameter
         cropH -= cropH & 3;
         Rect zoom = new Rect(cropW, cropH,m.width()-cropW, m.height() - cropH);
         ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom);
+    }
+
+    @Override
+    public void SetValue(String valueToSet, boolean setToCamera) {
+
     }
 
     public Rect getZoomRect(float zoom, int imgWidth, int imgHeight)

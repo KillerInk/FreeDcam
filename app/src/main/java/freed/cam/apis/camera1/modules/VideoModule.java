@@ -245,7 +245,7 @@ public class VideoModule extends AbstractVideoModule
     }
 
     private void loadMtkHighspeed() {
-        if(cameraUiWrapper.getParameterHandler().PreviewFPS.GetValues().toString().contains(currentProfile.videoFrameRate+""))
+        if(cameraUiWrapper.getParameterHandler().PreviewFPS.getStringValues().toString().contains(currentProfile.videoFrameRate+""))
         {
             cameraUiWrapper.getParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate+"",false);
 

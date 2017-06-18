@@ -28,12 +28,12 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 
 /**
  * Created by troop on 13.11.2014.
  */
-public class VideoProfilesParameter extends AbstractModeParameter
+public class VideoProfilesParameter extends AbstractParameter
 {
     private final String TAG = VideoProfilesParameter.class.getSimpleName();
     protected HashMap<String, VideoMediaProfile> supportedProfiles;
@@ -68,7 +68,7 @@ public class VideoProfilesParameter extends AbstractModeParameter
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         if (profile == null && supportedProfiles != null)
         {
@@ -79,7 +79,7 @@ public class VideoProfilesParameter extends AbstractModeParameter
     }
 
     @Override
-    public String[] GetValues()
+    public String[] getStringValues()
     {
         List<String> keys = new ArrayList<>(supportedProfiles.keySet());
         Collections.sort(keys);

@@ -5,7 +5,6 @@ import android.os.Build;
 import android.util.Rational;
 
 import com.huawei.camera2ex.CaptureRequestEx;
-import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
@@ -17,7 +16,7 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 public class HuaweiAeHandler extends AeHandler {
     public HuaweiAeHandler(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
-        manualExposureTimeApi2.ThrowBackgroundIsSetSupportedChanged(true);
+        manualExposureTimeApi2.fireIsReadOnlyChanged(true);
     }
 
     @Override
@@ -49,7 +48,7 @@ public class HuaweiAeHandler extends AeHandler {
             int val = (int) AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTimeApi2.getStringValues()[valueToSet]);
             cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, val);
             cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, rational);
-            manualExposureTimeApi2.ThrowCurrentValueChanged(valueToSet);
+            manualExposureTimeApi2.fireIntValueChanged(valueToSet);
 
         }
         else

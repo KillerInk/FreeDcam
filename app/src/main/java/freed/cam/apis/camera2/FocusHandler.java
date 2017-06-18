@@ -31,7 +31,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.utils.Log;
 
 /**
@@ -50,10 +50,29 @@ public class FocusHandler extends AbstractFocusHandler
         super(cameraUiWrapper);
     }
 
-    public I_ModeParameterEvent focusModeListner = new I_ModeParameterEvent() {
+    public ParameterEvents focusModeListner = new ParameterEvents() {
         @Override
-        public void onParameterValueChanged(String val)
-        {
+        public void onIsSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIntValueChanged(int current) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onStringValueChanged(String val) {
             if (val.contains("Continous")|| val.equals(cameraUiWrapper.getContext().getString(R.string.off)))
             {
                 focusenabled = false;
@@ -69,17 +88,8 @@ public class FocusHandler extends AbstractFocusHandler
         }
 
         @Override
-        public void onParameterIsSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterValuesChanged(String[] values) {
+        public void onStringValuesChanged(String[] values)
+        {
 
         }
     };
@@ -140,10 +150,29 @@ public class FocusHandler extends AbstractFocusHandler
             focusEvent.FocusStarted(x,y);
     }
 
-    public I_ModeParameterEvent aeModeListner = new I_ModeParameterEvent() {
+    public ParameterEvents aeModeListner = new ParameterEvents() {
         @Override
-        public void onParameterValueChanged(String val)
-        {
+        public void onIsSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIntValueChanged(int current) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onStringValueChanged(String val) {
             if (val.equals("off"))
             {
                 if (focusEvent != null)
@@ -153,21 +182,12 @@ public class FocusHandler extends AbstractFocusHandler
                 if (focusEvent != null)
                     focusEvent.AEMeteringSupported(true);
             }
-
         }
 
         @Override
-        public void onParameterIsSupportedChanged(boolean isSupported) {
+        public void onStringValuesChanged(String[] values)
+        {
 
-        }
-
-        @Override
-        public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterValuesChanged(String[] values) {
 
         }
     };

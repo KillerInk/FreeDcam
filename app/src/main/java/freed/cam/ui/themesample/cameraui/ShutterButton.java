@@ -37,10 +37,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.utils.Log;
 

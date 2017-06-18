@@ -20,10 +20,12 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
 
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+
 /**
  * Created by Ar4eR on 14.01.16.
  */
-public class Horizont extends AbstractModeParameter {
+public class Horizont extends AbstractParameter {
 
     private String value;
 
@@ -41,11 +43,11 @@ public class Horizont extends AbstractModeParameter {
     public void SetValue(String valueToSet, boolean setToCam)
     {
         value = valueToSet;
-        onValueHasChanged(valueToSet);
+        fireStringValueChanged(valueToSet);
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         if (value == null || value.equals(""))
             return "Off";
@@ -54,7 +56,7 @@ public class Horizont extends AbstractModeParameter {
     }
 
     @Override
-    public String[] GetValues()
+    public String[] getStringValues()
     {
     return new String[]{"Off","On"};
     }

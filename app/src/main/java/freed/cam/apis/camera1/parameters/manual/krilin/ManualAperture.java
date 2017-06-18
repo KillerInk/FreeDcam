@@ -3,13 +3,13 @@ package freed.cam.apis.camera1.parameters.manual.krilin;
 import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 
 /**
  * Created by troop on 27.03.2017.
  */
 
-public class ManualAperture extends AbstractManualParameter
+public class ManualAperture extends AbstractParameter
 {
     private Camera.Parameters parameters;
     public ManualAperture(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters)
@@ -39,6 +39,11 @@ public class ManualAperture extends AbstractManualParameter
             parameters.set("hw-big-aperture-mode", "on");
             parameters.set(cameraUiWrapper.getAppSettingsManager().manualIso.getKEY(), stringvalues[currentInt]);
         }
-        ThrowCurrentValueStringCHanged(stringvalues[valueToSet]);
+        fireStringValueChanged(stringvalues[valueToSet]);
+    }
+
+    @Override
+    public void SetValue(String valueToSet, boolean setToCamera) {
+
     }
 }

@@ -73,8 +73,8 @@ public class ExposureManualParameter extends BaseManualParameter
         {
             Log.WriteEx(ex);
         }
-        ThrowCurrentValueChanged(currentInt);
-        ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
+        fireIntValueChanged(currentInt);
+        fireStringValueChanged(stringvalues[valueToset]);
     }
 
     @Override

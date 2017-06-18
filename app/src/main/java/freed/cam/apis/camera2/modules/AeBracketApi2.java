@@ -22,7 +22,6 @@ package freed.cam.apis.camera2.modules;
 import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.CaptureRequest.Builder;
 import android.os.Build;
 import android.os.Handler;
 
@@ -73,7 +72,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
-        cameraUiWrapper.getParameterHandler().Burst.ThrowBackgroundIsSetSupportedChanged(false);
+        cameraUiWrapper.getParameterHandler().Burst.fireIsReadOnlyChanged(false);
         cameraUiWrapper.getParameterHandler().Burst.SetValue(3-1);
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
     }
@@ -81,7 +80,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     public void DestroyModule() {
         super.DestroyModule();
-        cameraUiWrapper.getParameterHandler().Burst.ThrowBackgroundIsSetSupportedChanged(true);
+        cameraUiWrapper.getParameterHandler().Burst.fireIsReadOnlyChanged(true);
 
     }
 

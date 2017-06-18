@@ -50,7 +50,6 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.cam.apis.sonyremote.sonystuff.WifiHandler;
 import freed.utils.AppSettingsManager;
-import freed.utils.FreeDPool;
 import freed.utils.Log;
 
 /**
@@ -329,7 +328,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
             if(serverDevice != null &&(serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30"))
                     && JsonUtils.isApiSupported("setLiveviewFrameInfo", (mAvailableCameraApiSet)) && parametersHandler.FocusMode != null)
             {
-                if (!parametersHandler.FocusMode.GetValue().equals("MF"))
+                if (!parametersHandler.FocusMode.GetStringValue().equals("MF"))
                     ((CameraHolderSony) getCameraHolder()).SetLiveViewFrameInfo(true);
                 else
                     ((CameraHolderSony) getCameraHolder()).SetLiveViewFrameInfo(false);

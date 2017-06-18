@@ -100,7 +100,7 @@ public class BaseFocusManual extends BaseManualParameter
         }
         else
         {
-            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.getParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
+            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.getParameterHandler().FocusMode.GetStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 cameraUiWrapper.getParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
             if (manualFocusType > -1)
                 parameters.set(cameraUiWrapper.getResString(R.string.manual_focus_pos_type), manualFocusType +"");

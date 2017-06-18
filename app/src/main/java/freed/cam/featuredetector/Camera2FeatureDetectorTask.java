@@ -9,11 +9,14 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Size;
+
 import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.troop.freedcam.R;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;

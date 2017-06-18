@@ -23,14 +23,15 @@ import android.view.View;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 16.06.2016.
  */
-public interface SettingsChildInterface extends ModuleChangedEvent, AbstractModeParameter.I_ModeParameterEvent,View.OnClickListener
+public interface SettingsChildInterface extends ModuleChangedEvent, ParameterEvents,View.OnClickListener
 {
     /**
      * Set stuff that is needed to work
@@ -51,7 +52,7 @@ public interface SettingsChildInterface extends ModuleChangedEvent, AbstractMode
      *
      * @return the stored parameters
      */
-    ModeParameterInterface GetParameter();
+    ParameterInterface GetParameter();
 
     /**
      *

@@ -48,7 +48,7 @@ public class ScalePreviewModeSony extends BaseModeParameterSony {
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
         if (simpleStreamSurfaceView.isScalePreview())
             return simpleStreamSurfaceView.getResources().getString(R.string.on_);
         else
@@ -56,7 +56,7 @@ public class ScalePreviewModeSony extends BaseModeParameterSony {
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return new String[]{simpleStreamSurfaceView.getResources().getString(R.string.on_), simpleStreamSurfaceView.getResources().getString(R.string.off_)};
     }
 

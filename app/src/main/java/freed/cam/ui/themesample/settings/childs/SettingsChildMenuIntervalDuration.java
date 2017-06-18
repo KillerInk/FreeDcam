@@ -22,7 +22,7 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.utils.AppSettingsManager;
 
 /**
@@ -32,7 +32,7 @@ public class SettingsChildMenuIntervalDuration extends SettingsChildMenu
 {
     private CameraWrapperInterface cameraUiWrapper;
 
-    public SettingsChildMenuIntervalDuration(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter, int headerid, int descriptionid) {
+    public SettingsChildMenuIntervalDuration(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid) {
         super(context, settingsMode, parameter, headerid, descriptionid);
     }
 
@@ -40,14 +40,14 @@ public class SettingsChildMenuIntervalDuration extends SettingsChildMenu
     public String[] GetValues() {
 
         //return new String[] {StringUtils.ON, StringUtils.OFF};
-        return parameter.GetValues();
+        return parameter.getStringValues();
     }
 
     @Override
     public void SetValue(String value)
     {
         settingMode.set(value);
-        onParameterValueChanged(value);
+        onStringValueChanged(value);
         parameter.SetValue(value,true);
     }
 }

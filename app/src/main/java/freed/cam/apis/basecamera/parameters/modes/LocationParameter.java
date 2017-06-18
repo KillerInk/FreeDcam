@@ -22,6 +22,7 @@ package freed.cam.apis.basecamera.parameters.modes;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.utils.AppSettingsManager;
 import freed.utils.PermissionHandler;
 
@@ -30,7 +31,7 @@ import freed.utils.PermissionHandler;
  * if you get fine loaction error ignore it, permission are set in app project where everything
  * gets builded
  */
-public class LocationParameter extends AbstractModeParameter
+public class LocationParameter extends AbstractParameter
 {
     private final CameraWrapperInterface cameraUiWrapper;
 
@@ -46,7 +47,7 @@ public class LocationParameter extends AbstractModeParameter
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         if (cameraUiWrapper == null ||cameraUiWrapper.getAppSettingsManager() == null)
             return cameraUiWrapper.getResString(R.string.off_);
@@ -56,7 +57,7 @@ public class LocationParameter extends AbstractModeParameter
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return new String[] { cameraUiWrapper.getResString(R.string.off_), cameraUiWrapper.getResString(R.string.on_) };
     }
 
@@ -78,7 +79,7 @@ public class LocationParameter extends AbstractModeParameter
             else
             {
                 cameraUiWrapper.getAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
-                onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
+                fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
             }
         }
     };

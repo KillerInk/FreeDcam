@@ -8,14 +8,11 @@ import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.params.ColorSpaceTransform;
 import android.location.Location;
 import android.media.Image;
-import android.media.ImageReader;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.util.Pair;
 import android.util.Rational;
-
-import com.troop.freedcam.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,10 +23,8 @@ import java.util.List;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.WorkFinishEvents;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
-import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 
 /**

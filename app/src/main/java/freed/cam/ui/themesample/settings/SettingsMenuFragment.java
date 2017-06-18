@@ -162,7 +162,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
 
         ValuesMenuFragment valuesMenuFragment = new ValuesMenuFragment();
         if (item.GetValues() == null) {
-            item.onParameterIsSupportedChanged(false);
+            item.onIsSupportedChanged(false);
             value_menu_status = VALUE_MENU_CLOSED;
             if (fromLeftFragment)
                 loadRightFragment();

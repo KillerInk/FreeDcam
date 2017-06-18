@@ -77,7 +77,7 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
                 fragment_activityInterface.ChooseSDCard(this);
             } else {
                 fragment_activityInterface.getAppSettings().SetWriteExternal(false);
-                onParameterValueChanged(value);
+                onStringValueChanged(value);
             }
         }
     }
@@ -102,14 +102,14 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
             }
             if (canWriteExternal) {
                 fragment_activityInterface.getAppSettings().SetWriteExternal(true);
-                onParameterValueChanged(SDModeParameter.external);
+                onStringValueChanged(SDModeParameter.external);
             } else {
                 Toast.makeText(getContext(), "Cant write to External SD, pls insert SD or apply SD fix", Toast.LENGTH_LONG).show();
-                onParameterValueChanged(SDModeParameter.internal);
+                onStringValueChanged(SDModeParameter.internal);
             }
         } else {
             fragment_activityInterface.getAppSettings().SetWriteExternal(false);
-            onParameterValueChanged(value);
+            onStringValueChanged(value);
         }
     }
 
@@ -126,12 +126,12 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
         if (f.canWrite() && lastval.equals(SDModeParameter.external))
         {
             fragment_activityInterface.getAppSettings().SetWriteExternal(true);
-            onParameterValueChanged(SDModeParameter.external);
+            onStringValueChanged(SDModeParameter.external);
         }
         else
         {
             fragment_activityInterface.getAppSettings().SetWriteExternal(false);
-            onParameterValueChanged(SDModeParameter.internal);
+            onStringValueChanged(SDModeParameter.internal);
         }
         lastval = "";
     }

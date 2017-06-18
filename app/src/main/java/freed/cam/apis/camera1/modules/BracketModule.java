@@ -66,11 +66,11 @@ public class BracketModule extends PictureModule
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
                 files = new File[7];
                 hdrCount = 0;
-                String picformat = cameraUiWrapper.getParameterHandler().PictureFormat.GetValue();
+                String picformat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
                 if (picformat.equals(appSettingsManager.getResString(R.string.dng_)) ||picformat.equals(appSettingsManager.getResString(R.string.bayer_)))
                 {
                     if (cameraUiWrapper.getParameterHandler().ZSL != null && cameraUiWrapper.getParameterHandler().ZSL.IsSupported()
-                            && cameraUiWrapper.getParameterHandler().ZSL.GetValue().equals("on")
+                            && cameraUiWrapper.getParameterHandler().ZSL.GetStringValue().equals("on")
                             && ((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
                         cameraUiWrapper.getParameterHandler().ZSL.SetValue("off", true);
                 }
@@ -140,7 +140,7 @@ public class BracketModule extends PictureModule
             return;
         }
         hdrCount++;
-        String picFormat = cameraUiWrapper.getParameterHandler().PictureFormat.GetValue();
+        String picFormat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
         saveImage(data,picFormat);
         startPreview();
         if (hdrCount == 7)//handel normal capture

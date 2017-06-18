@@ -39,8 +39,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
-import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
@@ -48,12 +48,12 @@ import freed.utils.Log;
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualButton extends LinearLayout implements I_ManualParameterEvent
+public class ManualButton extends LinearLayout implements ParameterEvents
 {
 
     private final String TAG = ManualButton.class.getSimpleName();
     private String[] parameterValues;
-    private ManualParameterInterface parameter;
+    private ParameterInterface parameter;
     private TextView valueTextView;
     private ImageView imageView;
     private Handler handler;
@@ -67,7 +67,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
 
     private final BlockingQueue<Integer> valueQueue = new ArrayBlockingQueue<>(3);
 
-    public ManualButton(Context context, AppSettingsManager.SettingMode settingMode, ManualParameterInterface parameter, int drawableImg)
+    public ManualButton(Context context, AppSettingsManager.SettingMode settingMode, ParameterInterface parameter, int drawableImg)
     {
         super(context);
         init(context);
@@ -86,17 +86,17 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         imageView = (ImageView) findViewById(id.imageView_ManualButton);
     }
 
-    public void RemoveParameterListner( I_ManualParameterEvent t)
+    public void RemoveParameterListner( ParameterEvents t)
     {
         parameter.removeEventListner(t);
     }
 
-    public void SetParameterListner( I_ManualParameterEvent t)
+    public void SetParameterListner( ParameterEvents t)
     {
         parameter.addEventListner(t);
     }
 
-    public void SetManualParameter(@Nullable ManualParameterInterface parameter)
+    public void SetManualParameter(@Nullable ParameterInterface parameter)
     {
         this.parameter = parameter;
         if (parameter != null) {
@@ -124,7 +124,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
 
     }
 
-    private void createStringParametersStrings(ManualParameterInterface parameter) {
+    private void createStringParametersStrings(ParameterInterface parameter) {
         parameterValues = parameter.getStringValues();
     }
 
@@ -187,12 +187,12 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
 
 
     @Override
-    public void onCurrentValueChanged(int current)
+    public void onIntValueChanged(int current)
     {
 
         pos = current;
 
-        Log.d(TAG, "onCurrentValueChanged current:"+current +" pos:" + pos);
+        Log.d(TAG, "onIntValueChanged current:"+current +" pos:" + pos);
         setTextValue(current);
     }
 
@@ -202,13 +202,18 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     }
 
     @Override
-    public void onCurrentStringValueChanged(final String value) {
+    public void onStringValueChanged(final String value) {
         valueTextView.post(new Runnable() {
             @Override
             public void run() {
                 valueTextView.setText(value);
             }
         });
+    }
+
+    @Override
+    public void onStringValuesChanged(String[] values) {
+
     }
 
     private void setTextValue(final int current)

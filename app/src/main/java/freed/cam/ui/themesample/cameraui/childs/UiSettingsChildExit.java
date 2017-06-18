@@ -41,21 +41,9 @@ public class UiSettingsChildExit extends UiSettingsChild
     }
 
     @Override
-    public void onParameterValueChanged(String val) {
+    public void onStringValuesChanged(String[] values) {
         valueText.setText("");
     }
 
-    @Override
-    public void onParameterIsSupportedChanged(boolean isSupported) {
 
-    }
-
-    @Override
-    public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onModuleChanged(String module) {
-    }
 }

@@ -36,7 +36,7 @@ import com.troop.freedcam.R.layout;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.utils.AppSettingsManager;
@@ -45,7 +45,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualFragment extends AbstractFragment implements OnSeekBarChangeListener, I_ManualParameterEvent, ModuleChangedEvent
+public class ManualFragment extends AbstractFragment implements OnSeekBarChangeListener, ParameterEvents, ModuleChangedEvent
 {
     private int currentValuePos;
 
@@ -252,7 +252,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         currentValuePos = progress;
         if (!(cameraUiWrapper instanceof SonyCameraRemoteFragment)) {
             currentButton.setValueToParameters(progress);
-            currentButton.onCurrentValueChanged(progress);
+            currentButton.onIntValueChanged(progress);
 
         }
     }
@@ -266,7 +266,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     public void onStopTrackingTouch(SeekBar seekBar) {
         if (cameraUiWrapper instanceof SonyCameraRemoteFragment) {
             currentButton.setValueToParameters(currentValuePos);
-            currentButton.onCurrentValueChanged(currentValuePos);
+            currentButton.onIntValueChanged(currentValuePos);
         }
     }
 
@@ -296,7 +296,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
 
     @Override
-    public void onCurrentValueChanged(int current)
+    public void onIntValueChanged(int current)
     {
        /* if(!seekbar.IsAutoScrolling()&& !seekbar.IsMoving())
         {
@@ -311,7 +311,12 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     }
 
     @Override
-    public void onCurrentStringValueChanged(String value) {
+    public void onStringValueChanged(String value) {
+
+    }
+
+    @Override
+    public void onStringValuesChanged(String[] values) {
 
     }
 

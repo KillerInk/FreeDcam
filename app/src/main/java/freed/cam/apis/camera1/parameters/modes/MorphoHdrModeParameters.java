@@ -44,7 +44,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
     public void SetValue(String valueToSet, boolean setToCam) {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_))) {
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hht), cameraUiWrapper.getResString(R.string.false_));
-            cameraUiWrapper.getParameterHandler().NightMode.onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
+            cameraUiWrapper.getParameterHandler().NightMode.fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
             parameters.set("capture-burst-exposures","-10,0,10");
             cameraUiWrapper.getParameterHandler().AE_Bracket.SetValue(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket), true);
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hdr), cameraUiWrapper.getResString(R.string.true_));
@@ -54,34 +54,34 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
         }
 
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        onValueHasChanged(valueToSet);
+        onStringValueChanged(valueToSet);
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
 
         if(cameraUiWrapper == null) {
             Log.d(TAG, "cameraUiWrapper null");
             isSupported =false;
-            onParameterIsSupportedChanged(false);
+            onIsSupportedChanged(false);
             return cameraUiWrapper.getResString(R.string.off_);
         }
         if (parameters == null) {
             Log.d(TAG, "Parameters are null");
             isSupported =false;
-            onParameterIsSupportedChanged(false);
+            onIsSupportedChanged(false);
             return cameraUiWrapper.getResString(R.string.off_);
         }
         if (parameters.get(cameraUiWrapper.getResString(R.string.morpho_hdr)) == null) {
             Log.d(TAG, "MorphoHdr is null");
             isSupported =false;
-            onParameterIsSupportedChanged(false);
+            onIsSupportedChanged(false);
             return cameraUiWrapper.getResString(R.string.off_);
         }
         if (parameters.get(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr)) == null){
             Log.d(TAG, "Ae bracket is null");
             isSupported =false;
-            onParameterIsSupportedChanged(false);
+            onIsSupportedChanged(false);
             return cameraUiWrapper.getResString(R.string.off_);
         }
 
@@ -94,7 +94,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         List<String> hdrVals =  new ArrayList<>();
         hdrVals.add(cameraUiWrapper.getResString(R.string.off_));
         hdrVals.add(cameraUiWrapper.getResString(R.string.on_));
@@ -125,8 +125,13 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
     }
 
     @Override
-    public void onParameterValueChanged(String val)
+    public void onStringValuesChanged(String[] values)
     {
+
+    }
+
+    @Override
+    public void onStringValueChanged(String val) {
         format = val;
         if (val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&&!visible &&!curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
             Show();
@@ -138,17 +143,17 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
 
     private void Hide()
     {
-        state = GetValue();
+        state = GetStringValue();
         visible = false;
         SetValue(cameraUiWrapper.getResString(R.string.off_),true);
-        onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
+        onStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
         onIsSupportedChanged(visible);
     }
     private void Show()
     {
         visible = true;
         SetValue(state,true);
-        onValueHasChanged(state);
+        onStringValueChanged(state);
         onIsSupportedChanged(visible);
     }
 }

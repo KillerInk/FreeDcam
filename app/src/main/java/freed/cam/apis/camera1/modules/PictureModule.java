@@ -81,12 +81,12 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
             @Override
             public void run() {
                 isWorking = true;
-                String picformat = cameraUiWrapper.getParameterHandler().PictureFormat.GetValue();
+                String picformat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
                 Log.d(TAG,"startWork:picformat:" + picformat);
                 if (picformat.equals(appSettingsManager.getResString(R.string.dng_)) || picformat.equals(appSettingsManager.getResString(R.string.bayer_)))
                 {
                     if (cameraUiWrapper.getAppSettingsManager().zeroshutterlag.isSupported()
-                            && cameraUiWrapper.getParameterHandler().ZSL.GetValue().equals(cameraUiWrapper.getResString(R.string.on_)))
+                            && cameraUiWrapper.getParameterHandler().ZSL.GetStringValue().equals(cameraUiWrapper.getResString(R.string.on_)))
                     {
                         Log.d(TAG,"ZSL is on turning it off");
                         cameraUiWrapper.getParameterHandler().ZSL.SetValue(cameraUiWrapper.getResString(R.string.off_), true);
@@ -116,7 +116,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
         if (cameraUiWrapper.getParameterHandler() == null)
             return;
         cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("yuv420sp",true);
-        if (cameraUiWrapper.getAppSettingsManager().videoHDR.isSupported() && !cameraUiWrapper.getParameterHandler().VideoHDR.GetValue().equals(cameraUiWrapper.getResString(R.string.off_)))
+        if (cameraUiWrapper.getAppSettingsManager().videoHDR.isSupported() && !cameraUiWrapper.getParameterHandler().VideoHDR.GetStringValue().equals(cameraUiWrapper.getResString(R.string.off_)))
             cameraUiWrapper.getParameterHandler().VideoHDR.SetValue(cameraUiWrapper.getResString(R.string.off_), true);
         if(appSettingsManager.isZteAe()) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_AE();
@@ -138,7 +138,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
             return;
         }
         burstcount++;
-        String picFormat = cameraUiWrapper.getParameterHandler().PictureFormat.GetValue();
+        String picFormat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
         saveImage(data,picFormat);
         //Handel Burst capture
         if (cameraUiWrapper.getAppSettingsManager().manualBurst.isSupported() && cameraUiWrapper.getParameterHandler().Burst.GetValue() > 1)

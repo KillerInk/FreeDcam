@@ -25,46 +25,29 @@ import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.CaptureCallback;
 import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
-import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
-import android.hardware.camera2.params.ColorSpaceTransform;
 import android.media.Image;
 import android.media.ImageReader;
 import android.media.ImageReader.OnImageAvailableListener;
-import android.os.AsyncTask;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.v4.provider.DocumentFile;
-import android.util.Pair;
-import android.util.Rational;
 import android.util.Size;
 import android.view.Surface;
 
 import com.troop.freedcam.R;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.cam.apis.camera2.parameters.AeHandler;
-import freed.dng.CustomMatrix;
-import freed.dng.DngProfile;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 
@@ -215,7 +198,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             Log.WriteEx(ex);
         }
         if (parameterHandler.Burst != null)
-            parameterHandler.Burst.ThrowCurrentValueStringCHanged(parameterHandler.Burst.GetStringValue());
+            parameterHandler.Burst.fireStringValueChanged(parameterHandler.Burst.GetStringValue());
     }
 
     private void setOutputSizes() {
@@ -227,7 +210,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         if (picFormat.equals("")) {
             picFormat = appSettingsManager.getResString(R.string.pictureformat_jpeg);
             appSettingsManager.pictureFormat.set(picFormat);
-            parameterHandler.PictureFormat.onValueHasChanged(picFormat);
+            parameterHandler.PictureFormat.fireStringValueChanged(picFormat);
 
         }
 
@@ -335,7 +318,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             imageHolder.setForceRawToDng(appSettingsManager.isForceRawToDng());
 
 
-            if (cameraUiWrapper.getParameterHandler().locationParameter.GetValue().equals(appSettingsManager.getResString(R.string.on_)))
+            if (cameraUiWrapper.getParameterHandler().locationParameter.GetStringValue().equals(appSettingsManager.getResString(R.string.on_)))
             {
                 imageHolder.setLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
                 cameraHolder.captureSessionHandler.SetParameter(CaptureRequest.JPEG_GPS_LOCATION,cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());

@@ -41,7 +41,7 @@ public class PictureSizeSony extends BaseModeParameterSony
     }
 
     @Override
-    public String[] GetValues()
+    public String[] getStringValues()
     {
         jsonObject =null;
         if (values == null || values.length == 0) {
@@ -54,7 +54,7 @@ public class PictureSizeSony extends BaseModeParameterSony
                         try {
                             jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                             values = processValuesToReturn();
-                            onValuesHasChanged(values);
+                            fireStringValuesChanged(values);
                         } catch (IOException ex) {
                             Log.WriteEx(ex);
                         }

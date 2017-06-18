@@ -59,7 +59,6 @@ import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
-import freed.utils.PermissionHandler;
 
 /**
  * Created by troop on 26.11.2015.
@@ -109,7 +108,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.VideoProfiles;
         currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.videoProfile.get());
-        parameterHandler.VideoProfiles.onValueHasChanged(currentVideoProfile.ProfileName);
+        parameterHandler.VideoProfiles.fireStringValueChanged(currentVideoProfile.ProfileName);
         startPreview();
     }
 

@@ -37,6 +37,7 @@ import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.string;
 import com.troop.freedcam.R.styleable;
 
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.utils.AppSettingsManager;
@@ -60,7 +61,7 @@ public class UiSettingsChild extends SettingsChildAbstract
         init(context);
     }
 
-    public UiSettingsChild(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter) {
+    public UiSettingsChild(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
         super(context, settingsMode,parameter);
         init(context);
     }
@@ -128,38 +129,28 @@ public class UiSettingsChild extends SettingsChildAbstract
     }
 
     @Override
-    public void SetParameter(ModeParameterInterface parameter)
+    public void SetParameter(ParameterInterface parameter)
     {
         super.SetParameter(parameter);
         setTextToTextBox(parameter);
     }
 
-    protected void setTextToTextBox(ModeParameterInterface parameter)
+    protected void setTextToTextBox(ParameterInterface parameter)
     {
         if (parameter != null && parameter.IsSupported())
         {
-            onParameterIsSupportedChanged(true);
-            String campara = parameter.GetValue();
+            onIsSupportedChanged(true);
+            String campara = parameter.GetStringValue();
             if (campara != null && !campara.equals(""))
-                onParameterValueChanged(campara);
+                onStringValueChanged(campara);
         }
         else
-            onParameterIsSupportedChanged(false);
+            onIsSupportedChanged(false);
     }
 
 
-
-    //AbstractModeParameter.I_ModeParameterEvent implementation
     @Override
-    public void onParameterValueChanged(String val)
-    {
-        sendLog("Set Value to:" + val);
-        valueText.setText(val);
-    }
-
-    @Override
-    public void onParameterIsSupportedChanged(boolean isSupported)
-    {
+    public void onIsSupportedChanged(boolean isSupported) {
         sendLog("isSupported:" + isSupported);
         if (isSupported) {
             setVisibility(View.VISIBLE);
@@ -167,6 +158,45 @@ public class UiSettingsChild extends SettingsChildAbstract
         }
         else
             animate().setListener(hideListner).scaleY(0f).setDuration(300);
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+        if (this.getBackground() == null)
+            return;
+        sendLog("isSetSupported:" + isSupported);
+        if (isSupported) {
+            setEnabled(true);
+            this.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
+        } else {
+            setEnabled(false);
+            this.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+        }
+        setEnabled(isSupported);
+    }
+
+    @Override
+    public void onIntValueChanged(int current) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onStringValueChanged(String value) {
+        sendLog("Set Value to:" + value);
+        valueText.setText(value);
+    }
+
+    //AbstractModeParameter.I_ModeParameterEvent implementation
+    @Override
+    public void onStringValuesChanged(String[] values)
+    {
+
     }
 
     private final AnimatorListener hideListner = new AnimatorListener() {
@@ -192,25 +222,6 @@ public class UiSettingsChild extends SettingsChildAbstract
     };
 
     @Override
-    public void onParameterIsSetSupportedChanged(boolean isSupported)
-    {
-        sendLog("isSetSupported:" + isSupported);
-        if (isSupported) {
-            setEnabled(true);
-            this.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
-        } else {
-            setEnabled(false);
-            this.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-        }
-        setEnabled(isSupported);
-    }
-
-    @Override
-    public void onParameterValuesChanged(String[] values) {
-
-    }
-
-    @Override
     public void onModuleChanged(String module) {
     }
 
@@ -218,5 +229,10 @@ public class UiSettingsChild extends SettingsChildAbstract
     public void onClick(View v) {
         if (onItemClick != null)
             onItemClick.onSettingsChildClick(this, fromleft);
+    }
+
+    @Override
+    public void SetParameter(ModeParameterInterface parameter) {
+
     }
 }

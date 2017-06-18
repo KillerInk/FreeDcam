@@ -26,8 +26,8 @@ import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.utils.Log;
 
@@ -36,7 +36,7 @@ import freed.utils.Log;
  */
 //http://www.cambridgeincolour.com/tutorials/photoshop-curves.htm
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
+public class ManualToneMapCurveApi2 implements ParameterEvents
 {
     final String TAG = ManualToneMapCurveApi2.class.getSimpleName();
     //  linearcurve       x/y
@@ -56,11 +56,31 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
     }
 
     @Override
-    public void onParameterValueChanged(String val) {
+    public void onIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIntValueChanged(int current) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onStringValueChanged(String value) {
         boolean isSupported;
         boolean canSet;
         boolean visible;
-        if (val.equals("CONTRAST_CURVE"))
+        if (value.equals("CONTRAST_CURVE"))
         {
             canSet = true;
             isSupported = true;
@@ -71,28 +91,18 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
             isSupported = false;
             visible = false;
         }
-        contrast.ThrowBackgroundIsSetSupportedChanged(canSet);
-        contrast.ThrowBackgroundIsSupportedChanged(isSupported);
-        brightness.ThrowBackgroundIsSupportedChanged(isSupported);
-        brightness.ThrowBackgroundIsSetSupportedChanged(canSet);
+        contrast.fireIsReadOnlyChanged(canSet);
+        contrast.fireIsSupportedChanged(isSupported);
+        brightness.fireIsSupportedChanged(isSupported);
+        brightness.fireIsReadOnlyChanged(canSet);
     }
 
     @Override
-    public void onParameterIsSupportedChanged(boolean isSupported) {
+    public void onStringValuesChanged(String[] values) {
 
     }
 
-    @Override
-    public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onParameterValuesChanged(String[] values) {
-
-    }
-
-    public class Contrast extends AbstractManualParameter
+    public class Contrast extends AbstractParameter
     {
         boolean firststart = true;
         public Contrast(CameraWrapperInterface cameraUiWrapper) {
@@ -115,7 +125,7 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
             if (valueToSet == -1)
             {
                 Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().ToneMapMode.GetValue());
-                if (cameraUiWrapper.getParameterHandler().ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
+                if (cameraUiWrapper.getParameterHandler().ToneMapMode.GetStringValue().equals("CONTRAST_CURVE"))
                 {
                     cameraUiWrapper.getParameterHandler().ToneMapMode.SetValue("FAST", true);
                     Log.d(TAG, "Disabled Contrast Curve");
@@ -123,7 +133,7 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
             }
             else {
                 Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().ToneMapMode.GetValue());
-                if (!cameraUiWrapper.getParameterHandler().ToneMapMode.GetValue().equals("CONTRAST_CURVE") && !firststart)
+                if (!cameraUiWrapper.getParameterHandler().ToneMapMode.GetStringValue().equals("CONTRAST_CURVE") && !firststart)
                 {
                     cameraUiWrapper.getParameterHandler().ToneMapMode.SetValue("CONTRAST_CURVE", true);
                     Log.d(TAG, "Enabled Contrast Curve");
@@ -162,6 +172,11 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
         }
 
         @Override
+        public void SetValue(String valueToSet, boolean setToCamera) {
+
+        }
+
+        @Override
         public boolean IsSupported() {
             return !(cameraUiWrapper.getCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics == null) && ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null && ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.getPreviewParameter(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
@@ -182,7 +197,7 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
         }
     }
 
-    public class Brightness extends AbstractManualParameter
+    public class Brightness extends AbstractParameter
     {
 
         public Brightness(CameraWrapperInterface cameraUiWrapper) {
@@ -227,6 +242,11 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
             float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
             TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
             ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+
+        }
+
+        @Override
+        public void SetValue(String valueToSet, boolean setToCamera) {
 
         }
 

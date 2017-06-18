@@ -19,12 +19,12 @@
 
 package freed.cam.apis.camera1.parameters.manual;
 
-import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 
 /**
  * Created by troop on 13.06.2016.
  */
-public interface ManualParameterAEHandlerInterface extends ManualParameterInterface
+public interface ManualParameterAEHandlerInterface extends ParameterInterface
 {
     void setValue(int value);
 }

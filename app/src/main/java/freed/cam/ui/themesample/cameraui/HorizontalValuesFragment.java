@@ -31,15 +31,15 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.cameraui.childs.SimpleValueChild;
 
 /**
  * Created by troop on 16.06.2015.
  */
-public class HorizontalValuesFragment extends Fragment implements SettingsChildAbstract.CloseChildClick, I_ModeParameterEvent
+public class HorizontalValuesFragment extends Fragment implements SettingsChildAbstract.CloseChildClick, ParameterEvents
 {
     private LinearLayout valuesHolder;
     private String[] values;
@@ -98,7 +98,7 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
     }
 
 
-    public void ListenToParameter(ModeParameterInterface parameter)
+    public void ListenToParameter(ParameterInterface parameter)
     {
         parameter.addEventListner(this);
     }
@@ -114,25 +114,34 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
     }
 
     @Override
-    public void onParameterValueChanged(String val) {
+    public void onStringValuesChanged(String[] values) {
 
     }
 
     @Override
-    public void onParameterIsSupportedChanged(boolean isSupported) {
+    public void onIsSupportedChanged(boolean value) {
 
     }
 
     @Override
-    public void onParameterIsSetSupportedChanged(boolean isSupported) {
+    public void onIsSetSupportedChanged(boolean value) {
 
     }
 
     @Override
-    public void onParameterValuesChanged(String[] values)
-    {
+    public void onIntValueChanged(int current) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
         this.values = values;
         setValueToView();
+    }
+
+    @Override
+    public void onStringValueChanged(String value) {
+
     }
 
 }

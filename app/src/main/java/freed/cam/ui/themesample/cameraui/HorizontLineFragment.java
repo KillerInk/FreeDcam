@@ -37,14 +37,14 @@ import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.utils.AppSettingsManager;
 
 /**
  * Created by Ar4eR on 15.01.16.
  */
-public class HorizontLineFragment extends AbstractFragment implements I_ModeParameterEvent{
+public class HorizontLineFragment extends AbstractFragment implements ParameterEvents {
 
     private View view;
 
@@ -92,7 +92,32 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     }
 
     @Override
-    public void onParameterValueChanged(String val) {
+    public void onIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIntValueChanged(int current) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onStringValueChanged(String value) {
+
+    }
+
+    @Override
+    public void onStringValuesChanged(String[] values) {
         if(fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("On"))
         {
             startSensorListing();
@@ -103,21 +128,6 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
             stopSensorListing();
             view.setVisibility(View.GONE);
         }
-
-    }
-
-    @Override
-    public void onParameterIsSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onParameterValuesChanged(String[] values) {
 
     }
 

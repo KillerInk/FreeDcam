@@ -45,9 +45,9 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
         if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(""))
             fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_OrientationHack, getResources().getString(R.string.off_));
         if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(getResources().getString(R.string.on_)))
-            onParameterValueChanged(getResources().getString(R.string.on_));
+            onStringValueChanged(getResources().getString(R.string.on_));
         else
-            onParameterValueChanged(getResources().getString(R.string.off_));
+            onStringValueChanged(getResources().getString(R.string.off_));
     }
 
     @Override
@@ -69,11 +69,7 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
             ((Camera1Fragment) cameraUiWrapper).cameraHolder.StartPreview();
 
         }
-        onParameterValueChanged(value);
+        onStringValueChanged(value);
     }
 
-    @Override
-    public void onParameterValuesChanged(String[] values) {
-
-    }
 }

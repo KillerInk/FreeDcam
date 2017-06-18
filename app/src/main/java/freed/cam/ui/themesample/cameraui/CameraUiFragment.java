@@ -46,7 +46,7 @@ import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
@@ -106,7 +106,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     }
 
-    private void setUiItem(LinearLayout layout, ModeParameterInterface parameter, AppSettingsManager.SettingMode settingMode, int backgroundImg)
+    private void setUiItem(LinearLayout layout, ParameterInterface parameter, AppSettingsManager.SettingMode settingMode, int backgroundImg)
     {
         UiSettingsChild child = new UiSettingsChild(getContext());
         child.SetParameter(parameter);
@@ -116,7 +116,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         layout.addView(child);
     }
 
-    private void setUiItem(LinearLayout layout, ModeParameterInterface parameter, String settingMode, int backgroundImg)
+    private void setUiItem(LinearLayout layout, ParameterInterface parameter, String settingMode, int backgroundImg)
     {
         UiSettingsChild child = new UiSettingsChild(getContext());
         child.SetParameter(parameter);
@@ -130,7 +130,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     {
         UiSettingsChildExit exit = new UiSettingsChildExit(getContext());
         exit.SetStuff(fragment_activityInterface, "");
-        exit.onParameterValueChanged("");
+        exit.onStringValueChanged("");
         exit.setBackgroundResource(R.drawable.quck_set_exit);
         right_ui_items_top.addView(exit);
     }

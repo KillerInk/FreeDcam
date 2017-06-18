@@ -24,11 +24,12 @@ import android.text.TextUtils;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 
 /**
  * Created by troop on 08.01.2016.
  */
-public class IntervalShutterSleepParameter extends AbstractModeParameter
+public class IntervalShutterSleepParameter extends AbstractParameter
 {
     private String current = "1 sec";
     private CameraWrapperInterface cameraUiWrapper;
@@ -52,12 +53,12 @@ public class IntervalShutterSleepParameter extends AbstractModeParameter
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
         return current;
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return cameraUiWrapper.getContext().getResources().getStringArray(R.array.interval_shutter_sleep);
     }
 }

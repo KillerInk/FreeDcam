@@ -71,7 +71,7 @@ public class ShutterManualMtk extends AbstractManualShutter implements ManualPar
             }
             currentInt = value;
             parameters.set("m-ss", FLOATtoThirty(shutterstring));
-            ThrowCurrentValueStringCHanged(stringvalues[value]);
+            fireStringValueChanged(stringvalues[value]);
         }
 
     }

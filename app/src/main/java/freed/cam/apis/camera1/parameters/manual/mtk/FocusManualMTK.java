@@ -51,7 +51,7 @@ public class FocusManualMTK extends BaseFocusManual {
         }
         else
         {
-            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.getParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
+            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.getParameterHandler().FocusMode.GetStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 cameraUiWrapper.getParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
 
             parameters.set(key_value, stringvalues[currentInt]);

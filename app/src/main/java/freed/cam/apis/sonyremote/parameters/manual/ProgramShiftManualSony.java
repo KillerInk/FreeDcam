@@ -55,13 +55,13 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
         {
             isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
         }
-        ThrowBackgroundIsSupportedChanged(isSupported);
-        ThrowBackgroundIsSetSupportedChanged(true);
+        fireIsSupportedChanged(isSupported);
+        fireIsReadOnlyChanged(true);
         if (isSetSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet))
         {
             isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
         }
-        ThrowBackgroundIsSetSupportedChanged(isSetSupported);
+        fireIsReadOnlyChanged(isSetSupported);
 
     }
 
@@ -122,8 +122,8 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                             }
                         }
                         r.toArray(stringvalues);
-                        ThrowBackgroundValuesChanged(stringvalues);
-                        onCurrentValueChanged(currentInt);
+                        fireStringValuesChanged(stringvalues);
+                        onIntValueChanged(currentInt);
 
 
                     } catch (IOException | JSONException ex) {
@@ -154,7 +154,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                 try {
                     array = new JSONArray().put(0, Integer.parseInt(stringvalues[currentInt]));
                     JSONObject object = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-                    ThrowCurrentValueChanged(valueToSet);
+                    fireIntValueChanged(valueToSet);
                 } catch (JSONException | IOException ex) {
                     Log.WriteEx(ex);
                 }
@@ -165,7 +165,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
 
 
     @Override
-    public void onCurrentValueChanged(int current) {
+    public void onIntValueChanged(int current) {
         currentInt = current;
     }
 

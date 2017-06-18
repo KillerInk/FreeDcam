@@ -61,6 +61,6 @@ public class SettingsChildMenuTimer extends SettingsChildMenu
     public void SetValue(String value)
     {
         fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_TIMER, value);
-        onParameterValueChanged(value);
+        onStringValueChanged(value);
     }
 }

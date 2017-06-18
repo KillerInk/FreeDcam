@@ -26,7 +26,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Set;
 
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
@@ -35,7 +36,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 15.12.2014.
  */
-public class BaseModeParameterSony extends AbstractModeParameter implements I_SonyApi
+public class BaseModeParameterSony extends AbstractParameter implements I_SonyApi, ParameterEvents
 {
 
     protected String VALUE_TO_GET = "";
@@ -67,8 +68,8 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
         if (isSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
         {
             isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
-            onIsSupportedChanged(isSupported);
-            onValueHasChanged(GetValue());
+            fireIsSupportedChanged(isSupported);
+            onStringValueChanged(GetStringValue());
         }
 
     }
@@ -81,7 +82,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
         {
             boolean sup = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
             Log.d(TAG, VALUE_TO_GET + " is supported: " + sup);
-            onIsSupportedChanged(sup);
+            fireIsSupportedChanged(sup);
             return sup;
         }else
             return false;
@@ -95,7 +96,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             @Override
             public void run() {
                 processValuesToSet(valueToSet);
-                onValueHasChanged(valueToSet);
+                onStringValueChanged(valueToSet);
             }
         });
     }
@@ -120,7 +121,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
 
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         /*if (key_value == null || key_value.equals("")) {
             jsonObject = null;
@@ -154,7 +155,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     }
 
     @Override
-    public String[] GetValues()
+    public String[] getStringValues()
     {
         /*jsonObject =null;
         new Thread(new Runnable() {
@@ -194,17 +195,32 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     }
 
     @Override
-    public void onValueHasChanged(String value)
-    {
-        this.value = value;
-        super.onValueHasChanged(value);
+    public void onIsSupportedChanged(boolean value) {
 
     }
 
     @Override
-    public void onValuesHasChanged(String[] value)
-    {
-        values = value;
-        super.onValuesHasChanged(value);
+    public void onIsSetSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIntValueChanged(int current) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onStringValueChanged(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public void onStringValuesChanged(String[] values) {
+        this.values = values;
     }
 }

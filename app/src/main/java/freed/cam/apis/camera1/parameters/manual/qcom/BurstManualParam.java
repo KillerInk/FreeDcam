@@ -118,12 +118,12 @@ public class BurstManualParam extends BaseManualParameter
         public void onModuleChanged(String module)
         {
             if ((module.equals(cameraUiWrapper.getResString(R.string.module_video)) || module.equals(cameraUiWrapper.getResString(R.string.module_hdr))) && isSupported)
-                ThrowBackgroundIsSupportedChanged(false);
+                fireIsSupportedChanged(false);
             else if ((module.equals(cameraUiWrapper.getResString(R.string.module_picture))
                     || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
                     )&& isSupported)
             {
-                ThrowBackgroundIsSupportedChanged(true);
+                fireIsSupportedChanged(true);
             }
         }
     };

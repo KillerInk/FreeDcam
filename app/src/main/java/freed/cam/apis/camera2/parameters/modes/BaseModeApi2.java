@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.utils.AppSettingsManager;
@@ -37,7 +37,7 @@ import freed.utils.StringUtils;
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class BaseModeApi2 extends AbstractModeParameter
+public class BaseModeApi2 extends AbstractParameter
 {
     private final String TAG = BaseModeApi2.class.getSimpleName();
     protected CameraWrapperInterface cameraUiWrapper;
@@ -75,12 +75,12 @@ public class BaseModeApi2 extends AbstractModeParameter
     {
         int toset = parameterValues.get(valueToSet);
         captureSessionHandler.SetParameterRepeating(parameterKey, toset);
-        onValueHasChanged(valueToSet);
+        fireStringValueChanged(valueToSet);
 
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         int i = captureSessionHandler.getPreviewParameter(parameterKey);
         for (Map.Entry s : parameterValues.entrySet())
@@ -90,7 +90,7 @@ public class BaseModeApi2 extends AbstractModeParameter
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return parameterValues.keySet().toArray(new String[parameterValues.size()]);
     }
 }

@@ -59,7 +59,7 @@ public class ShutterManualKrilin extends AbstractManualShutter {
             parameters.set("hw-professional-mode", "on");
             parameters.set(cameraUiWrapper.getAppSettingsManager().manualExposureTime.getKEY(), stringvalues[currentInt]);
         }
-        ThrowCurrentValueStringCHanged(stringvalues[valueToSet]);
+        fireStringValueChanged(stringvalues[valueToSet]);
     }
 
 }

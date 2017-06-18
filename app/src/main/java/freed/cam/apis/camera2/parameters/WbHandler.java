@@ -27,7 +27,7 @@ import android.os.Build.VERSION_CODES;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 import freed.utils.Log;
@@ -69,15 +69,15 @@ public class WbHandler
             //if ON or any other preset set the colorcorrection to fast to let is use hal wb
             colorCorrectionMode.SetValue(cameraUiWrapper.getResString(R.string.fast),true);
             //hide manual wbct manualitem in ui
-            manualWbCt.ThrowBackgroundIsSupportedChanged(false);
+            manualWbCt.fireIsSupportedChanged(false);
         }
         else //if OFF
         {
             //set colorcorrection to TRANSFORMATRIX to have full control
             colorCorrectionMode.SetValue(cameraUiWrapper.getResString(R.string.colorcorrection_transform_matrix),true);
             //show wbct manual item in ui
-            manualWbCt.ThrowCurrentValueStringCHanged(manualWbCt.GetStringValue());
-            manualWbCt.ThrowBackgroundIsSupportedChanged(true);
+            manualWbCt.fireStringValueChanged(manualWbCt.GetStringValue());
+            manualWbCt.fireIsSupportedChanged(true);
         }
 
     }
@@ -101,7 +101,7 @@ public class WbHandler
             parameterKey = CaptureRequest.CONTROL_AWB_MODE;
             parameterValues = StringUtils.StringArrayToIntHashmap(cameraUiWrapper.getAppSettingsManager().whiteBalanceMode.getValues());
             if (colorCorrectionMode != null)
-                lastcctmode = colorCorrectionMode.GetValue();
+                lastcctmode = colorCorrectionMode.GetStringValue();
         }
 
         @Override
@@ -121,7 +121,7 @@ public class WbHandler
      * Created by troop on 01.05.2015.
      */
     @TargetApi(VERSION_CODES.LOLLIPOP)
-    public class ManualWbCtApi2  extends AbstractManualParameter
+    public class ManualWbCtApi2  extends AbstractParameter
     {
         private RggbChannelVector wbChannelVector;
         private boolean isSupported;
@@ -186,6 +186,11 @@ public class WbHandler
 
         }
 
+        @Override
+        public void SetValue(String valueToSet, boolean setToCamera) {
+
+        }
+
         private int checkminmax(int val)
         {
             if (val>255)
@@ -218,7 +223,7 @@ public class WbHandler
 
         @Override
         public boolean IsSupported() {
-            isSupported = cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetValue().equals("OFF");
+            isSupported = cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetStringValue().equals("OFF");
             return isSupported;
         }
 
@@ -251,7 +256,7 @@ public class WbHandler
         public void SetValue(String valueToSet, boolean setToCamera)
         {
             ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_MODE, parameterValues.get(valueToSet));
-            onValueHasChanged(valueToSet);
+            fireStringValueChanged(valueToSet);
         }
 
     }

@@ -157,7 +157,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         Log.d(TAG, "setEnable" + enabled);
         if (enabled)
         {
-            Size size = new Size(cameraUiWrapper.getParameterHandler().PreviewSize.GetValue());
+            Size size = new Size(cameraUiWrapper.getParameterHandler().PreviewSize.GetStringValue());
             reset(size.width, size.height);
             startPeak();
             Log.d(TAG, "Set PreviewCallback");
@@ -172,7 +172,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
 
         }
         if(cameraUiWrapper.getParameterHandler().Focuspeak != null && cameraUiWrapper.getParameterHandler().Focuspeak.IsSupported())
-            cameraUiWrapper.getParameterHandler().Focuspeak.onValueHasChanged(enabled +"");
+            cameraUiWrapper.getParameterHandler().Focuspeak.fireStringValueChanged(enabled +"");
     }
 
     private void clear_preview(String from)

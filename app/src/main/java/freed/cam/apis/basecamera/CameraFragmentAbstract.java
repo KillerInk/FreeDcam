@@ -19,10 +19,8 @@
 
 package freed.cam.apis.basecamera;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -38,7 +36,6 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.utils.AppSettingsManager;
-import freed.utils.Log;
 import freed.utils.RenderScriptHandler;
 
 /**

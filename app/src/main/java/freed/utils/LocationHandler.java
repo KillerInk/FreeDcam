@@ -26,8 +26,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import java.util.Date;
-
 import freed.ActivityInterface;
 
 /**

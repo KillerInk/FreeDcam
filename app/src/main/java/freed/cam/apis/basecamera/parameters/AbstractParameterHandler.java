@@ -24,13 +24,11 @@ import android.os.Handler;
 import android.os.Looper;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.GuideList;
 import freed.cam.apis.basecamera.parameters.modes.Horizont;
 import freed.cam.apis.basecamera.parameters.modes.IntervalDurationParameter;
 import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.utils.AppSettingsManager;
@@ -57,92 +55,92 @@ public abstract class AbstractParameterHandler
 
     protected CameraWrapperInterface cameraUiWrapper;
 
-    public ManualParameterInterface ManualBrightness;
-    public ManualParameterInterface ManualSharpness;
-    public ManualParameterInterface ManualContrast;
-    public ManualParameterInterface ManualSaturation;
-    public ManualParameterInterface ManualExposure;
-    public ManualParameterInterface ManualConvergence;
-    public ManualParameterInterface ManualFocus;
-    public ManualParameterInterface ManualShutter;
-    public ManualParameterInterface ManualFNumber;
-    public ManualParameterInterface Burst;
-    public ManualParameterInterface CCT;
-    public ManualParameterInterface FX;
-    public ManualParameterInterface ManualIso;
-    public ManualParameterInterface Zoom;
-    public ManualParameterInterface ProgramShift;
-    public ManualParameterInterface PreviewZoom;
+    public ParameterInterface ManualBrightness;
+    public ParameterInterface ManualSharpness;
+    public ParameterInterface ManualContrast;
+    public ParameterInterface ManualSaturation;
+    public ParameterInterface ManualExposure;
+    public ParameterInterface ManualConvergence;
+    public ParameterInterface ManualFocus;
+    public ParameterInterface ManualShutter;
+    public ParameterInterface ManualFNumber;
+    public ParameterInterface Burst;
+    public ParameterInterface CCT;
+    public ParameterInterface FX;
+    public ParameterInterface ManualIso;
+    public ParameterInterface Zoom;
+    public ParameterInterface ProgramShift;
+    public ParameterInterface PreviewZoom;
 
 
-    public ModeParameterInterface ColorMode;
-    public ModeParameterInterface ExposureMode;
-    public ModeParameterInterface AE_PriorityMode;
-    public ModeParameterInterface FlashMode;
-    public ModeParameterInterface IsoMode;
-    public ModeParameterInterface AntiBandingMode;
-    public ModeParameterInterface WhiteBalanceMode;
-    public ModeParameterInterface PictureSize;
-    public ModeParameterInterface PictureFormat;
-    public ModeParameterInterface HDRMode;
-    public ModeParameterInterface JpegQuality;
+    public ParameterInterface ColorMode;
+    public ParameterInterface ExposureMode;
+    public ParameterInterface AE_PriorityMode;
+    public ParameterInterface FlashMode;
+    public ParameterInterface IsoMode;
+    public ParameterInterface AntiBandingMode;
+    public ParameterInterface WhiteBalanceMode;
+    public ParameterInterface PictureSize;
+    public ParameterInterface PictureFormat;
+    public ParameterInterface HDRMode;
+    public ParameterInterface JpegQuality;
     //defcomg was here
-    public ModeParameterInterface GuideList;
+    public ParameterInterface GuideList;
     //done
-    public ModeParameterInterface ImagePostProcessing;
-    public ModeParameterInterface PreviewSize;
-    public ModeParameterInterface PreviewFPS;
-    public ModeParameterInterface PreviewFormat;
-    public ModeParameterInterface PreviewFpsRange;
-    public ModeParameterInterface SceneMode;
-    public ModeParameterInterface FocusMode;
-    public ModeParameterInterface RedEye;
-    public ModeParameterInterface LensShade;
-    public ModeParameterInterface ZSL;
-    public ModeParameterInterface SceneDetect;
-    public ModeParameterInterface Denoise;
+    public ParameterInterface ImagePostProcessing;
+    public ParameterInterface PreviewSize;
+    public ParameterInterface PreviewFPS;
+    public ParameterInterface PreviewFormat;
+    public ParameterInterface PreviewFpsRange;
+    public ParameterInterface SceneMode;
+    public ParameterInterface FocusMode;
+    public ParameterInterface RedEye;
+    public ParameterInterface LensShade;
+    public ParameterInterface ZSL;
+    public ParameterInterface SceneDetect;
+    public ParameterInterface Denoise;
     //5/26/2017
-    public ModeParameterInterface PDAF;
-    public ModeParameterInterface TNR;
-    public ModeParameterInterface TNR_V;
-    public ModeParameterInterface RDI;
-    public ModeParameterInterface TruePotrait;
-    public ModeParameterInterface ReFocus;
-    public ModeParameterInterface SeeMore;
-    public ModeParameterInterface OptiZoom;
-    public ModeParameterInterface ChromaFlash;
+    public ParameterInterface PDAF;
+    public ParameterInterface TNR;
+    public ParameterInterface TNR_V;
+    public ParameterInterface RDI;
+    public ParameterInterface TruePotrait;
+    public ParameterInterface ReFocus;
+    public ParameterInterface SeeMore;
+    public ParameterInterface OptiZoom;
+    public ParameterInterface ChromaFlash;
 
 
-    public ModeParameterInterface DigitalImageStabilization;
-    public ModeParameterInterface VideoStabilization;
-    public ModeParameterInterface MemoryColorEnhancement;
-    public ModeParameterInterface NightMode;
-    public ModeParameterInterface NonZslManualMode;
-    public ModeParameterInterface AE_Bracket;
-    public ModeParameterInterface ExposureLock;
-    public ModeParameterInterface CDS_Mode;
+    public ParameterInterface DigitalImageStabilization;
+    public ParameterInterface VideoStabilization;
+    public ParameterInterface MemoryColorEnhancement;
+    public ParameterInterface NightMode;
+    public ParameterInterface NonZslManualMode;
+    public ParameterInterface AE_Bracket;
+    public ParameterInterface ExposureLock;
+    public ParameterInterface CDS_Mode;
 
-    public ModeParameterInterface HTCVideoMode;
-    public ModeParameterInterface HTCVideoModeHSR;
-    public ModeParameterInterface VideoProfiles;
-    public ModeParameterInterface VideoSize;
-    public ModeParameterInterface VideoHDR;
-    public ModeParameterInterface VideoHighFramerateVideo;
-    public ModeParameterInterface LensFilter;
-    public ModeParameterInterface Horizont;
+    public ParameterInterface HTCVideoMode;
+    public ParameterInterface HTCVideoModeHSR;
+    public ParameterInterface VideoProfiles;
+    public ParameterInterface VideoSize;
+    public ParameterInterface VideoHDR;
+    public ParameterInterface VideoHighFramerateVideo;
+    public ParameterInterface LensFilter;
+    public ParameterInterface Horizont;
 
     //SonyApi
-    public ModeParameterInterface ContShootMode;
-    public ModeParameterInterface ContShootModeSpeed;
-    public ModeParameterInterface ObjectTracking;
-    public ModeParameterInterface PostViewSize;
-    public ModeParameterInterface Focuspeak;
-    public ModeParameterInterface Module;
-    public ModeParameterInterface ZoomSetting;
-    public ModeParameterInterface NightOverlay;
+    public ParameterInterface ContShootMode;
+    public ParameterInterface ContShootModeSpeed;
+    public ParameterInterface ObjectTracking;
+    public ParameterInterface PostViewSize;
+    public ParameterInterface Focuspeak;
+    public ParameterInterface Module;
+    public ParameterInterface ZoomSetting;
+    public ParameterInterface NightOverlay;
 
     //huawei
-    public ModeParameterInterface dualPrimaryCameraMode;
+    public ParameterInterface dualPrimaryCameraMode;
 
     private boolean isDngActive;
     public boolean IsDngActive(){ return isDngActive; }
@@ -152,28 +150,28 @@ public abstract class AbstractParameterHandler
 
 
     //camera2 modes
-    public ModeParameterInterface EdgeMode;
-    public ModeParameterInterface ColorCorrectionMode;
-    public ModeParameterInterface HotPixelMode;
-    public ModeParameterInterface ToneMapMode;
-    public ModeParameterInterface ControlMode;
+    public ParameterInterface EdgeMode;
+    public ParameterInterface ColorCorrectionMode;
+    public ParameterInterface HotPixelMode;
+    public ParameterInterface ToneMapMode;
+    public ParameterInterface ControlMode;
 
-    public ModeParameterInterface oismode;
+    public ParameterInterface oismode;
 
-    public ModeParameterInterface SdSaveLocation;
+    public ParameterInterface SdSaveLocation;
 
-    public ModeParameterInterface locationParameter;
+    public ParameterInterface locationParameter;
 
     public boolean IntervalCapture;
     public boolean IntervalCaptureFocusSet;
 
-    public ModeParameterInterface IntervalDuration;
-    public ModeParameterInterface IntervalShutterSleep;
+    public ParameterInterface IntervalDuration;
+    public ParameterInterface IntervalShutterSleep;
 
-    public ModeParameterInterface opcode;
-    public ModeParameterInterface bayerformat;
-    public ModeParameterInterface matrixChooser;
-    public ModeParameterInterface scalePreview;
+    public ParameterInterface opcode;
+    public ParameterInterface bayerformat;
+    public ParameterInterface matrixChooser;
+    public ParameterInterface scalePreview;
 
     public AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
@@ -279,14 +277,14 @@ public abstract class AbstractParameterHandler
     protected void SetParameters()
     {}
 
-    protected void setMode(ModeParameterInterface parameter, String settings_key)
+    protected void setMode(ParameterInterface parameter, String settings_key)
     {
         if (parameter != null && parameter.IsSupported() && settings_key != null && !settings_key.equals(""))
         {
             Log.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
             if (appSettingsManager.getApiString(settings_key).equals("") || appSettingsManager.getApiString(settings_key) == null)
             {
-                String tmp = parameter.GetValue();
+                String tmp = parameter.GetStringValue();
                 Log.d(TAG, settings_key + " is empty, set default from camera : " +tmp);
                 appSettingsManager.setApiString(settings_key, tmp);
             }
@@ -299,20 +297,20 @@ public abstract class AbstractParameterHandler
         }
     }
 
-    protected void setAppSettingsToCamera(ModeParameterInterface parameter, AppSettingsManager.SettingMode settingMode)
+    protected void setAppSettingsToCamera(ParameterInterface parameter, AppSettingsManager.SettingMode settingMode)
     {
-        if (settingMode.isSupported() && parameter != null && parameter.GetValues() != null)
+        if (settingMode.isSupported() && parameter != null && parameter.GetStringValue() != null)
         {
             String toset = settingMode.get();
             Log.d(TAG,"set to :" + toset);
             if (toset.equals("") || toset.equals("none"))
-                settingMode.set(parameter.GetValue());
+                settingMode.set(parameter.GetStringValue());
             else
                 parameter.SetValue(toset,true);
         }
     }
 
-    protected void setManualMode(ManualParameterInterface parameter, String settings_key)
+    protected void setManualMode(ParameterInterface parameter, String settings_key)
     {
         if (parameter != null && parameter.IsSupported() && settings_key != null && !settings_key.equals(""))
         {

@@ -237,7 +237,7 @@ public class CameraHolder extends CameraHolderAbstract
         try {
             if (!isRdy)
                 return;
-            Size s = new Size(cameraUiWrapper.getParameterHandler().PreviewSize.GetValue());
+            Size s = new Size(cameraUiWrapper.getParameterHandler().PreviewSize.GetStringValue());
             //Add 5 pre allocated buffers. that avoids that the camera create with each frame a new one
             for (int i = 0; i< BUFFERCOUNT; i++)
             {

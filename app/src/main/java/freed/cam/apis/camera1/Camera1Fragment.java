@@ -38,7 +38,7 @@ import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLG;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
@@ -267,27 +267,46 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     }
 
 
-    AbstractModeParameter.I_ModeParameterEvent onPreviewSizeShouldChange = new AbstractModeParameter.I_ModeParameterEvent() {
+    ParameterEvents onPreviewSizeShouldChange = new ParameterEvents() {
 
         @Override
-        public void onParameterValueChanged(String val)
-        {
+        public void onIsSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIntValueChanged(int current) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onStringValueChanged(String value) {
             if(moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_picture))
                     || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_hdr))
                     || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_interval)))
             {
-                Size sizefromCam = new Size(parametersHandler.PictureSize.GetValue());
+                Size sizefromCam = new Size(parametersHandler.PictureSize.GetStringValue());
                 List<Size> sizes = new ArrayList<>();
-                String[] stringsSizes = parametersHandler.PreviewSize.GetValues();
+                String[] stringsSizes = parametersHandler.PreviewSize.getStringValues();
                 final Size size;
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
-                if(val.equals(getResString(R.string.on_))) {
-                     size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
+                if(value.equals(getResString(R.string.on_))) {
+                    size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
                 }
                 else {
-                      size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, false);
+                    size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, false);
                 }
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
 
@@ -308,14 +327,14 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 Size sizefromCam = new Size("1920x1080");
 
                 List<Size> sizes = new ArrayList<>();
-                String[] stringsSizes = parametersHandler.PreviewSize.GetValues();
+                String[] stringsSizes = parametersHandler.PreviewSize.getStringValues();
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
                 final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height,false);
 
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
-                if (getAppSettingsManager().getApiString(AppSettingsManager.VIDEOPROFILE).contains("4k") &&parametersHandler.PreviewSize.GetValues().toString().contains("3840x"))
+                /*if (getAppSettingsManager().getApiString(AppSettingsManager.VIDEOPROFILE).contains("4k") &&parametersHandler.PreviewSize.GetValues().toString().contains("3840x"))
                 {
                     parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                     uiHandler.post(new Runnable() {
@@ -328,36 +347,28 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                         }
                     });
 
-                }else {
-                    parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
-                    uiHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (extendedSurfaceView != null)
-                                extendedSurfaceView.setAspectRatio(size.width, size.height);
-                            if (focusPeakProcessorAp1 != null)
-                                focusPeakProcessorAp1.SetAspectRatio(size.width, size.height);
-                        }
-                    });
-                }
+                }else {*/
+                parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                uiHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (extendedSurfaceView != null)
+                            extendedSurfaceView.setAspectRatio(size.width, size.height);
+                        if (focusPeakProcessorAp1 != null)
+                            focusPeakProcessorAp1.SetAspectRatio(size.width, size.height);
+                    }
+                });
+                //}
+
 
             }
         }
 
         @Override
-        public void onParameterIsSupportedChanged(boolean isSupported) {
+        public void onStringValuesChanged(String[] values) {
 
         }
 
-        @Override
-        public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterValuesChanged(String[] values) {
-
-        }
     };
 
     private Size getOptimalPreviewSize(List<Size> sizes, int w, int h,boolean FocusPeakClamp) {
@@ -422,7 +433,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public void onModuleChanged(String module)
     {
-        onPreviewSizeShouldChange.onParameterValueChanged(parametersHandler.Focuspeak.GetValue());
+        onPreviewSizeShouldChange.onStringValueChanged(parametersHandler.Focuspeak.GetStringValue());
     }
 
     @Override

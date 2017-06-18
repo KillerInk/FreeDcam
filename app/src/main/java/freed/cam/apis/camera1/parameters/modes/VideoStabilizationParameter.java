@@ -49,12 +49,12 @@ public class VideoStabilizationParameter extends  BaseModeParameter {
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return vs_values;
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         String vs = parameters.get(cameraUiWrapper.getResString(R.string.video_stabilization));
         if (vs != null && !vs.equals(""))

@@ -1,7 +1,7 @@
 package com.sonyericsson.cameracommon.device;
 
-import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;

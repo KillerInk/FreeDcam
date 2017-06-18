@@ -50,7 +50,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
         {
             //set foucs mode at same stage again else on some devices the camera preview gets green
-            cameraUiWrapper.getParameterHandler().FocusMode.SetValue(cameraUiWrapper.getParameterHandler().FocusMode.GetValue(),true);
+            cameraUiWrapper.getParameterHandler().FocusMode.SetValue(cameraUiWrapper.getParameterHandler().FocusMode.GetStringValue(),true);
             focusPeakProcessorAp1.Enable(true);
         }
         else
@@ -59,7 +59,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         if (focusPeakProcessorAp1 == null) {
             onIsSupportedChanged(false);
@@ -72,34 +72,10 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return new String[] {cameraUiWrapper.getResString(R.string.on_), cameraUiWrapper.getResString(R.string.off_)};
     }
 
-    @Override
-    public void addEventListner(I_ModeParameterEvent eventListner)
-    {
-        super.addEventListner(eventListner);
-    }
-
-    @Override
-    public void removeEventListner(I_ModeParameterEvent parameterEvent) {
-        super.removeEventListner(parameterEvent);
-    }
-
-    @Override
-    public void onValueHasChanged(String value)
-    {
-        if (value.equals(cameraUiWrapper.getResString(R.string.true_)))
-            super.onValueHasChanged(cameraUiWrapper.getResString(R.string.on));
-        else if (value.equals(cameraUiWrapper.getResString(R.string.false_)))
-            super.onValueHasChanged(cameraUiWrapper.getResString(R.string.off));
-    }
-
-    @Override
-    public void onValuesHasChanged(String[] value) {
-
-    }
 
     @Override
     public void onIsSupportedChanged(boolean value) {
@@ -107,7 +83,11 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     }
 
     @Override
-    public void onSetIsSupportedHasChanged(boolean value) {
-
+    public void onStringValueChanged(String value) {
+        super.onStringValueChanged(value);
+        if (value.equals(cameraUiWrapper.getResString(R.string.true_)))
+            super.onStringValueChanged(cameraUiWrapper.getResString(R.string.on));
+        else if (value.equals(cameraUiWrapper.getResString(R.string.false_)))
+            super.onStringValueChanged(cameraUiWrapper.getResString(R.string.off));
     }
 }

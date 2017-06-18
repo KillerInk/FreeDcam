@@ -47,7 +47,7 @@ public class FocusPeakSony extends BaseModeParameterSony {
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         if (simpleStreamSurfaceView.focuspeak)
             return simpleStreamSurfaceView.getResources().getString(R.string.on_);
@@ -56,7 +56,7 @@ public class FocusPeakSony extends BaseModeParameterSony {
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return new String[] { simpleStreamSurfaceView.getResources().getString(R.string.on_),  simpleStreamSurfaceView.getResources().getString(R.string.off_)};
     }
 

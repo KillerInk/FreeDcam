@@ -54,17 +54,17 @@ public class NightModeZTE extends BaseModeParameter
     {
         parameters.set(cameraUiWrapper.getResString(R.string.night_key), valueToSet);
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        onValueHasChanged(valueToSet);
+        onStringValueChanged(valueToSet);
 
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
             return parameters.get(cameraUiWrapper.getResString(R.string.night_key));
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         return new String[] {
                 cameraUiWrapper.getResString(R.string.off_),
                 cameraUiWrapper.getResString(R.string.on_),
@@ -72,8 +72,7 @@ public class NightModeZTE extends BaseModeParameter
     }
 
     @Override
-    public void onParameterValueChanged(String val)
-    {
-        String format = val;
+    public void onStringValueChanged(String value) {
+        String format = value;
     }
 }

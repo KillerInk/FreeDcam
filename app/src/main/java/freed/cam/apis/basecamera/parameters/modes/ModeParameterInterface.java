@@ -56,12 +56,6 @@ public interface ModeParameterInterface
      */
     boolean IsVisible();
 
-    /**
-     * add an listner that listen to value/s changes
-     * @param eventListner to notify when background changes happen
-     */
-    void addEventListner(AbstractModeParameter.I_ModeParameterEvent eventListner);
-    void removeEventListner(AbstractModeParameter.I_ModeParameterEvent parameterEvent);
 
     void onValueHasChanged(String value);
     void onValuesHasChanged(String[] value);

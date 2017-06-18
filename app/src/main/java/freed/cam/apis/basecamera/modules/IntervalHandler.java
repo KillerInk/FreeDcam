@@ -57,13 +57,13 @@ public class IntervalHandler
         Log.d(TAG, "Start Interval");
         working = true;
         startTime = new Date().getTime();
-        String sleep = picmodule.cameraUiWrapper.getParameterHandler().IntervalShutterSleep.GetValue();
+        String sleep = picmodule.cameraUiWrapper.getParameterHandler().IntervalShutterSleep.GetStringValue();
         if (sleep.contains(" sec"))
             intervalDuration = Integer.parseInt(sleep.replace(" sec",""))*1000;
         if (sleep.contains(" min"))
             intervalDuration = Integer.parseInt(sleep.replace(" min",""))*60*1000;
 
-        String duration = picmodule.cameraUiWrapper.getParameterHandler().IntervalDuration.GetValue();
+        String duration = picmodule.cameraUiWrapper.getParameterHandler().IntervalDuration.GetStringValue();
         if (duration.contains(" min"))
             intervalToEndDuration = Integer.parseInt(duration.replace(" min",""));
         else if (duration.contains(" h"))

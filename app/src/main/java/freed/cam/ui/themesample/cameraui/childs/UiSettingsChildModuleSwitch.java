@@ -47,7 +47,7 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         if (cameraUiWrapper.getModuleHandler() == null)
             return;
         if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
-            onParameterValueChanged(cameraUiWrapper.getModuleHandler().getCurrentModule().ShortName());
+            onStringValueChanged(cameraUiWrapper.getModuleHandler().getCurrentModule().ShortName());
     }
 
     @Override
@@ -62,8 +62,10 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         });
     }
 
+
     @Override
-    public void onParameterValueChanged(String val) {
-        onModuleChanged(val);
+    public void onStringValueChanged(String value) {
+
+            onModuleChanged(value);
     }
 }

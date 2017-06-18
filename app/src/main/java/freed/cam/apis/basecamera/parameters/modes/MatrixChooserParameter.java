@@ -21,13 +21,14 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import java.util.HashMap;
 
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.dng.CustomMatrix;
 import freed.utils.Log;
 
 /**
  * Created by troop on 02.05.2016.
  */
-public class MatrixChooserParameter extends AbstractModeParameter
+public class MatrixChooserParameter extends AbstractParameter
 {
     public static final String NEXUS6 = "Nexus6";
     public static final String G4 = "G4";
@@ -52,16 +53,16 @@ public class MatrixChooserParameter extends AbstractModeParameter
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         currentval = valueToSet;
-        onValueHasChanged(currentval);
+        fireStringValueChanged(currentval);
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
         return currentval;
     }
 
     @Override
-    public String[] GetValues()
+    public String[] getStringValues()
     {
         return custommatrixes.keySet().toArray(new String[custommatrixes.size()]);
     }

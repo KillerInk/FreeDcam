@@ -76,7 +76,7 @@ public class BaseCCTManual extends BaseManualParameter
                     isSupported = true;
                     isVisible = true;
                     key_value = wbcur;
-                    BaseCCTManual.this.ThrowBackgroundIsSupportedChanged(true);
+                    BaseCCTManual.this.fireIsSupportedChanged(true);
                 }
             }
         }, 800);
@@ -115,14 +115,14 @@ public class BaseCCTManual extends BaseManualParameter
         }
         catch (RuntimeException ex)
         {
-            ThrowBackgroundIsSupportedChanged(false);
+            fireIsSupportedChanged(false);
         }
 
     }
 
     protected void set_manual()
     {
-        Log.d(TAG, cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetValues().toString());
+        Log.d(TAG, cameraUiWrapper.getParameterHandler().WhiteBalanceMode.getStringValues().toString());
     try {
         if (parameters.get("whitebalance-values").toString().contains("manual") && parameters.get("manual-wb-modes").toString().contains("color-temperature")) {
 
@@ -132,7 +132,7 @@ public class BaseCCTManual extends BaseManualParameter
             Log.d(TAG, "NEW");
 
         } else {
-            if (!cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
+            if (!cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetStringValue().equals(manual_WbMode) && manual_WbMode != "")
                 cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "OLD");
@@ -140,7 +140,7 @@ public class BaseCCTManual extends BaseManualParameter
     }
     catch (Exception err )
     {
-        if (!cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
+        if (!cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetStringValue().equals(manual_WbMode) && manual_WbMode != "")
             cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
         parameters.set(key_value, stringvalues[currentInt]);
         err.printStackTrace();

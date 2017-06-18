@@ -12,14 +12,14 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 
 /**
  * Created by George on 1/19/2015.
  */
-public class GuideHandler extends Fragment implements I_ModeParameterEvent {
+public class GuideHandler extends Fragment implements ParameterEvents {
     private ImageView img;
     private CameraWrapperInterface cameraUiWrapper;
     private float quckRationMath;
@@ -47,7 +47,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
     public void onResume() {
         super.onResume();
         if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().PreviewSize != null)
-            previewSizeChanged.onParameterValueChanged(cameraUiWrapper.getParameterHandler().PreviewSize.GetValue());
+            previewSizeChanged.onStringValueChanged(cameraUiWrapper.getParameterHandler().PreviewSize.GetStringValue());
     }
     @Override
     public void onPause(){
@@ -185,29 +185,59 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
 
 
     @Override
-    public void onParameterValueChanged(String val) {
+    public void onIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIntValueChanged(int current) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onStringValueChanged(String value) {
         if (isAdded())
-            SetViewG(val);
+            SetViewG(value);
     }
 
     @Override
-    public void onParameterIsSupportedChanged(boolean isSupported) {
+    public void onStringValuesChanged(String[] values) {
 
     }
 
-    @Override
-    public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onParameterValuesChanged(String[] values) {
-
-    }
-
-    private final I_ModeParameterEvent previewSizeChanged = new I_ModeParameterEvent() {
+    private final ParameterEvents previewSizeChanged = new ParameterEvents() {
         @Override
-        public void onParameterValueChanged(String val) {
+        public void onIsSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean value) {
+
+        }
+
+        @Override
+        public void onIntValueChanged(int current) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onStringValueChanged(String val) {
             Log.d(TAG, "I_ModeParameterEvent SetViewG()");
             String img = appSettingsManager.guide.get();
             if (val != null && !val.equals("")&& img != null && !img.equals("") && !img.equals("None")) {
@@ -218,17 +248,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
         }
 
         @Override
-        public void onParameterIsSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterIsSetSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onParameterValuesChanged(String[] values) {
+        public void onStringValuesChanged(String[] values) {
 
         }
 

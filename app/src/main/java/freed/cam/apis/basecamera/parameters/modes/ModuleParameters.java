@@ -25,12 +25,13 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 04.01.2016.
  */
-public class ModuleParameters extends AbstractModeParameter {
+public class ModuleParameters extends AbstractParameter {
 
     private final CameraWrapperInterface cameraUiWrapper;
     private final AppSettingsManager appSettingsManager;
@@ -40,7 +41,7 @@ public class ModuleParameters extends AbstractModeParameter {
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         List<String> mods = new ArrayList<>();
         for (HashMap.Entry<String, ModuleInterface> module : cameraUiWrapper.getModuleHandler().moduleList.entrySet()) {
             mods.add(module.getValue().LongName());
@@ -49,7 +50,7 @@ public class ModuleParameters extends AbstractModeParameter {
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
         if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
             return cameraUiWrapper.getModuleHandler().getCurrentModule().ShortName();
         else return "";

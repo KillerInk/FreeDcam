@@ -80,7 +80,7 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
             currentInt = value;
             parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.lg_iso), stringvalues[value]);
         }
-        ThrowCurrentValueStringCHanged(stringvalues[value]);
+        fireStringValueChanged(stringvalues[value]);
     }
 
     @Override

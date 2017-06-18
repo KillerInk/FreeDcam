@@ -80,7 +80,7 @@ public class PictureFormatHandler extends BaseModeParameter
                 cameraUiWrapper.getParameterHandler().SetDngActive(true);
             }
         }
-        onValueHasChanged(valueToSet);
+        fireStringValueChanged(valueToSet);
     }
 
     private void setString(String val, boolean setTocam)
@@ -98,12 +98,12 @@ public class PictureFormatHandler extends BaseModeParameter
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
         return captureMode;
     }
 
     @Override
-    public String[] GetValues()
+    public String[] getStringValues()
     {
         return cameraUiWrapper.getAppSettingsManager().pictureFormat.getValues();
     }
@@ -121,11 +121,6 @@ public class PictureFormatHandler extends BaseModeParameter
         }
     }
 
-    @Override
-    public void onParameterValuesChanged(String[] values) {
-        super.onParameterValuesChanged(values);
-    }
-
     public class BayerFormat extends BaseModeParameter
     {
 
@@ -139,13 +134,13 @@ public class PictureFormatHandler extends BaseModeParameter
         }
 
         @Override
-        public String GetValue()
+        public String GetStringValue()
         {
             return rawFormat;
         }
 
         @Override
-        public String[] GetValues() {
+        public String[] getStringValues() {
             return rawFormats;
         }
 

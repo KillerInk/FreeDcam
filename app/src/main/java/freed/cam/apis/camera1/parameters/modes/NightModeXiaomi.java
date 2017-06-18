@@ -59,7 +59,7 @@ public class NightModeXiaomi extends BaseModeParameter
     {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_))) {
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hdr), cameraUiWrapper.getResString(R.string.false_));
-            cameraUiWrapper.getParameterHandler().HDRMode.onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
+            cameraUiWrapper.getParameterHandler().HDRMode.fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
             parameters.set("capture-burst-exposures","-10,0,10");
             parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr), cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket));
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hht), cameraUiWrapper.getResString(R.string.true_));
@@ -68,12 +68,12 @@ public class NightModeXiaomi extends BaseModeParameter
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hht), cameraUiWrapper.getResString(R.string.false_));
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        onValueHasChanged(valueToSet);
+        onStringValueChanged(valueToSet);
 
     }
 
     @Override
-    public String GetValue()
+    public String GetStringValue()
     {
         if (parameters.get(cameraUiWrapper.getResString(R.string.morpho_hht)).equals(cameraUiWrapper.getResString(R.string.true_))
                 && parameters.get(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr)).equals(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_off)))
@@ -83,7 +83,7 @@ public class NightModeXiaomi extends BaseModeParameter
     }
 
     @Override
-    public String[] GetValues()
+    public String[] getStringValues()
     {
         return new String[] {cameraUiWrapper.getResString(R.string.off_),cameraUiWrapper.getResString(R.string.on_)};
     }
@@ -104,8 +104,13 @@ public class NightModeXiaomi extends BaseModeParameter
     }
 
     @Override
-    public void onParameterValueChanged(String val)
+    public void onStringValuesChanged(String[] val)
     {
+
+    }
+
+    @Override
+    public void onStringValueChanged(String val) {
         format = val;
         if (val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&&!visible &&!curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
             Show();
@@ -117,10 +122,10 @@ public class NightModeXiaomi extends BaseModeParameter
 
     private void Hide()
     {
-        state = GetValue();
+        state = GetStringValue();
         visible = false;
         SetValue(cameraUiWrapper.getResString(R.string.off_),true);
-        onValueHasChanged(cameraUiWrapper.getResString(R.string.off_));
+        onStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
         onIsSupportedChanged(visible);
     }
 
@@ -128,7 +133,7 @@ public class NightModeXiaomi extends BaseModeParameter
     {
         visible = true;
         SetValue(state,true);
-        onValueHasChanged(state);
+        onStringValueChanged(state);
         onIsSupportedChanged(visible);
     }
 }

@@ -26,7 +26,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
@@ -34,7 +35,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 16.06.2016.
  */
-public abstract class SettingsChildAbstract extends LinearLayout implements SettingsChildInterface
+public abstract class SettingsChildAbstract extends LinearLayout implements SettingsChildInterface, ParameterEvents
 {
 
     public interface SettingsChildClick
@@ -47,7 +48,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         void onCloseClicked(String value);
     }
 
-    protected ModeParameterInterface parameter;
+    protected ParameterInterface parameter;
     protected ActivityInterface fragment_activityInterface;
     protected AppSettingsManager.SettingMode settingMode;
     protected String key_appsettings;
@@ -56,15 +57,15 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     protected SettingsChildClick onItemClick;
     protected boolean fromleft;
 
-    public SettingsChildAbstract(Context context, AppSettingsManager.SettingMode settingsMode, ModeParameterInterface parameter)
+    public SettingsChildAbstract(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter)
     {
         super(context);
         this.settingMode = settingsMode;
         this.parameter = parameter;
         if (parameter == null)
             return;
-        String value = parameter.GetValue();
-        onParameterValueChanged(value);
+        String value = parameter.GetStringValue();
+        parameter.fireStringValueChanged(value);
     }
 
 
@@ -81,7 +82,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         String value = settingMode.get();
         if (value.equals("") || value == null)
             value = settingMode.getValues()[0];
-        onParameterValueChanged(value);
+        onStringValueChanged(value);
     }
 
     public SettingsChildAbstract(Context context) {
@@ -108,11 +109,10 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         onItemClick = menuItemClick;
     }
 
-    @Override
-    public void SetParameter(ModeParameterInterface parameter) {
+    public void SetParameter(ParameterInterface parameter) {
         if (parameter == null || !parameter.IsSupported())
         {
-            onParameterIsSupportedChanged(false);
+            onIsSupportedChanged(false);
             sendLog("Paramters is null or Unsupported");
             if (parameter != null) {
                 parameter.addEventListner(this);
@@ -122,7 +122,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         }
         else
         {
-            onParameterIsSupportedChanged(parameter.IsVisible());
+            parameter.fireIsReadOnlyChanged(parameter.IsVisible());
             if (parameter != null) {
                 parameter.addEventListner(this);
                 this.parameter = parameter;
@@ -131,7 +131,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     }
 
     @Override
-    public ModeParameterInterface GetParameter()
+    public ParameterInterface GetParameter()
     {
         return parameter;
     }
@@ -140,7 +140,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     public String[] GetValues()
     {
         if (parameter != null && parameter.IsSupported())
-            return parameter.GetValues();
+            return parameter.getStringValues();
         else return null;
     }
 
@@ -160,7 +160,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
             {
                 Log.WriteEx(ex);
             }
-            onParameterValueChanged(value);
+            parameter.fireStringValueChanged(value);
         }
     }
 }

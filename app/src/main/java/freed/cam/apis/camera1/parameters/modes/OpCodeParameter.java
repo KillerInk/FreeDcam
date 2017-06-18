@@ -40,7 +40,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.utils.AppSettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
@@ -50,7 +50,7 @@ import freed.utils.StringUtils;
 /**
  * Created by troop on 28.04.2016.
  */
-public class OpCodeParameter extends AbstractModeParameter
+public class OpCodeParameter extends AbstractParameter
 {
     private final String TAG = OpCodeParameter.class.getSimpleName();
     private boolean hasOp2;
@@ -78,7 +78,7 @@ public class OpCodeParameter extends AbstractModeParameter
         if(valueToSet.equals("Download")) {
             if (hasOp2 || hasOp3) {
                 opcodeEnabled = true;
-                onValueHasChanged("Enabled");
+                fireStringValueChanged("Enabled");
                 return;
             }
             final String urlopc2 = appSettingsManager.opcodeUrlList[0];
@@ -113,12 +113,12 @@ public class OpCodeParameter extends AbstractModeParameter
     }
 
     @Override
-    public String GetValue() {
+    public String GetStringValue() {
         return (hasOp2 || hasOp3) +"";
     }
 
     @Override
-    public String[] GetValues() {
+    public String[] getStringValues() {
         List<String> list = new ArrayList<>();
         if (hasOp2 || hasOp3)
         {
@@ -202,7 +202,7 @@ public class OpCodeParameter extends AbstractModeParameter
             } catch (IOException e) {
                 Log.w(TAG, "IOException while closing InputStream");
             }
-            onValueHasChanged("true");
+            fireStringValueChanged("true");
         }
     }
 

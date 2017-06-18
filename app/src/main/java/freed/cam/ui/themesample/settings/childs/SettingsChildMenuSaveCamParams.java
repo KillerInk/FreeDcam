@@ -62,7 +62,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
     }
 
     @Override
-    public void onParameterValueChanged(String val) {
+    public void onStringValuesChanged(String[] values) {
     }
 
     @Override
@@ -94,10 +94,6 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
 
     }
 
-    @Override
-    public void setTextToTextBox(ModeParameterInterface parameter) {
-
-    }
 
     @Override
     public String[] GetValues() {
@@ -106,16 +102,6 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
 
     @Override
     public void SetValue(String value) {
-
-    }
-
-    @Override
-    public void onParameterIsSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onParameterIsSetSupportedChanged(boolean isSupported) {
 
     }
 
