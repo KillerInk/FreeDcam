@@ -98,8 +98,10 @@ public class Log
             Thread.setDefaultUncaughtExceptionHandler(uncaughtExceptionHandler);
             try {
                 File outfile = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeDcam/"+/*+ DateFormat.format("yyyy-mm-dd hh.mm.ss", Calendar.getInstance().getTime())*/ "log"+".txt");
-                if (outfile.getParent() == null)
-                    outfile.mkdirs();
+                if (!outfile.exists()) {
+                    outfile.getParentFile().mkdirs();
+                    outfile.mkdir();
+                }
                 /*if (!outfile.exists())
                     outfile.createNewFile();*/
                 fileWriter = new FileWriter(outfile,true);
