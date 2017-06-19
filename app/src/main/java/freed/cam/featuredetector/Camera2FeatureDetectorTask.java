@@ -647,10 +647,11 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             HashMap<String,Integer> map = new HashMap<>();
             for (int i = 0; i< scenes.length; i++)
             {
-                if (i <lookupar.length && i < scenes.length)
-                    map.put(lookupar[i], scenes[i]);
+                int t = scenes[i];
+                if (t <lookupar.length)
+                    map.put(lookupar[t], t);
                 else
-                    Log.d(TAG, "failed to get scene for int:" + i);
+                    Log.d(TAG, "failed to get scene for int:" + t);
             }
             lookupar = StringUtils.IntHashmapToStringArray(map);
             settingMode.setValues(lookupar);
