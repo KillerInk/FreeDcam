@@ -105,9 +105,10 @@ public class FocusHandler extends AbstractFocusHandler
         Log.d(TAG, "Width:" + width + "Height" + height + " X: " + x + "Y : "+y);
         if (!focusenabled)
             return;
-        int areasize = (width /8) /2;
+
         Rect m =  ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         logRect(m);
+        int areasize = (m.width() /8) /2;
         float xf = (float)x / width * m.right;
         float yf = (float)y / height * m.bottom;
         int x_c = (int)xf; //(int)((float)x/width * m.right);
@@ -217,7 +218,7 @@ public class FocusHandler extends AbstractFocusHandler
 
         MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_REGIONS, mre);
+        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_REGIONS, mre);
         ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 

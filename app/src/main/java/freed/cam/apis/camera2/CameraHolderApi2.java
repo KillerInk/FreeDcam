@@ -441,6 +441,9 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
             if (result.get(CaptureResult.LENS_FOCUS_RANGE) != null)
                 focusRanges = result.get(CaptureResult.LENS_FOCUS_RANGE);
+
+            //handel focus callback to ui if it was sucessfull. dont reset focusareas or trigger again afstate.
+            //else it could happen that it refocus
             if (result.get(CaptureResult.CONTROL_AF_STATE) != null && afState != result.get(CaptureResult.CONTROL_AF_STATE))
             {
                 afState =  result.get(CaptureResult.CONTROL_AF_STATE);
@@ -455,17 +458,14 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 2:
                         state = "PASSIVE_FOCUSED";
-                        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_STATE_FOCUSED_LOCKED);
                         break;
                     case 3:
                         state="ACTIVE_SCAN";
                         break;
                     case 4:
                         state = "FOCUSED_LOCKED";
-                        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_STATE_FOCUSED_LOCKED);
                         if (cameraUiWrapper.getFocusHandler().focusEvent != null)
                             cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(true);
-
                         break;
                     case 5:
                         state = "NOT_FOCUSED_LOCKED";
@@ -474,7 +474,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 6:
                         state ="PASSIVE_UNFOCUSED";
-                        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_STATE_FOCUSED_LOCKED);
                         break;
                 }
                 Log.d(TAG, "new AF_STATE :"+state);
