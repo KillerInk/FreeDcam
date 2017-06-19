@@ -89,17 +89,19 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 if (fulldevice) {
 
                     try {
-                        publishProgress("Detect Flash");
-                        detectFlash(characteristics);
-                        sendProgress(appSettingsManager.flashMode, "Flash");
-                    } catch (Exception e) {
-                        Log.WriteEx(e);
-                        publishProgress("Detect Flash failed");
-                    }
+                        if(!appSettingsManager.getIsFrontCamera()) {
+                            publishProgress("Detect Flash");
+                            detectFlash(characteristics);
+                            sendProgress(appSettingsManager.flashMode, "Flash");
+                        }
+                    } catch (Exception e){
+                            Log.WriteEx(e);
+                            publishProgress("Detect Flash failed");
+                        }
 
                     try {
                         publishProgress("Detect Scene");
-                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES, appSettingsManager.sceneMode, R.array.sceneModes);
+                        detectSceneModes(characteristics);
                         sendProgress(appSettingsManager.sceneMode, "Scene");
                     } catch (Exception e) {
                         Log.WriteEx(e);
@@ -553,6 +555,82 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             else
                 return 0;
         }
+    }
+
+    private void detectSceneModes(CameraCharacteristics characteristics){
+        String[] lookupar = appSettingsManager.getResources().getStringArray(R.array.sceneModes);
+        int[]  scenes = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES);
+        if (scenes.length > 1)
+            appSettingsManager.sceneMode.setIsSupported(true);
+        else
+            return;
+
+        HashMap<String,Integer> map = new HashMap<>();
+        for (int i = 0; i< scenes.length; i++)
+        {
+            switch (scenes[i])
+            {
+                case CameraCharacteristics.CONTROL_SCENE_MODE_DISABLED:
+                    map.put(lookupar[0], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_FACE_PRIORITY:
+                    map.put(lookupar[1], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_ACTION:
+                    map.put(lookupar[2], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_PORTRAIT:
+                    map.put(lookupar[3], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_LANDSCAPE:
+                    map.put(lookupar[4], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_NIGHT:
+                    map.put(lookupar[5], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_NIGHT_PORTRAIT:
+                    map.put(lookupar[6], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_THEATRE:
+                    map.put(lookupar[7], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_BEACH:
+                    map.put(lookupar[8], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_SNOW:
+                    map.put(lookupar[9], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_SUNSET:
+                    map.put(lookupar[10], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_STEADYPHOTO:
+                    map.put(lookupar[11], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_FIREWORKS:
+                    map.put(lookupar[12], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_SPORTS:
+                    map.put(lookupar[13], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_PARTY:
+                    map.put(lookupar[14], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_CANDLELIGHT:
+                    map.put(lookupar[15], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_BARCODE:
+                    map.put(lookupar[16], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_HIGH_SPEED_VIDEO:
+                    map.put(lookupar[17], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_HDR:
+                    map.put(lookupar[18], scenes[i]);
+                    break;
+            }
+        }
+        lookupar = StringUtils.IntHashmapToStringArray(map);
+        appSettingsManager.sceneMode.setValues(lookupar);
     }
 
 
