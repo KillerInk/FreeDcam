@@ -440,12 +440,14 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             colorcor = cameraCharacteristics.get(CameraCharacteristics.COLOR_CORRECTION_AVAILABLE_ABERRATION_MODES);
         else
             colorcor = new int[]{ 0,1,2};
+        Log.d(TAG, "colormodes:" + colorcor.toString());
         String[] lookupar = appSettingsManager.getResources().getStringArray(R.array.colorcorrectionmodes);
 
         HashMap<String,Integer> map = new HashMap<>();
         for (int i = 0;i< colorcor.length;i++)
         {
-            map.put(lookupar[i],colorcor[i]);
+            if(i < lookupar.length && i < colorcor.length)
+                map.put(lookupar[i],colorcor[i]);
         }
         lookupar = StringUtils.IntHashmapToStringArray(map);
         appSettingsManager.colorCorrectionMode.setValues(lookupar);
@@ -567,7 +569,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             HashMap<String,Integer> map = new HashMap<>();
             for (int i = 0; i< scenes.length; i++)
             {
-                map.put(lookupar[i], i);
+                if (i <lookupar.length && i < scenes.length)
+                    map.put(lookupar[i], scenes[i]);
+                else
+                    Log.d(TAG, "failed to get scene for int:" + i);
             }
             lookupar = StringUtils.IntHashmapToStringArray(map);
             settingMode.setValues(lookupar);
