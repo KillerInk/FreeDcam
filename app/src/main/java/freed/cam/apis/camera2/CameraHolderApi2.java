@@ -268,6 +268,8 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     public <T> void SetFocusArea(@NonNull Key<T> key, T value)
     {
+        captureSessionHandler.SetParameter(key,null);
+        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
         Log.d(TAG, "Set :" + key.getName() + " to " + value);
         captureSessionHandler.SetParameter(key,value);
         captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_START);
@@ -308,16 +310,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
 
     }
-
-
-    public Builder createCaptureRequestStillCapture() throws CameraAccessException {
-        CameraDevice device = mCameraDevice;
-        if (device == null) {
-            throw new IllegalStateException("Can't get requests when no camera is open");
-        }
-        return device.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-    }
-
 
     //###########################  CALLBACKS
     //###########################
