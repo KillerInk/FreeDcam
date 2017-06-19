@@ -132,4 +132,9 @@ public abstract class ModuleAbstract implements ModuleInterface
         }
         cameraUiWrapper.getActivityInterface().WorkHasFinished(fileHolders);
     }
+
+    @Override
+    public CaptureStates getCurrentCaptureState() {
+        return currentWorkState;
+    }
 }

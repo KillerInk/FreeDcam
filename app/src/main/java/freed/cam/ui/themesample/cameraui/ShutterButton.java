@@ -132,6 +132,8 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             return;
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.getModuleHandler().setWorkListner(this);
+        if(cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
+            onCaptureStateChanged(cameraUiWrapper.getModuleHandler().getCurrentModule().getCurrentCaptureState());
         Log.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
     }
 

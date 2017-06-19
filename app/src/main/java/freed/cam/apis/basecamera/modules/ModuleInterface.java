@@ -68,4 +68,6 @@ public interface ModuleInterface extends WorkFinishEvents
 
     void changeCaptureState(final ModuleHandlerAbstract.CaptureStates captureStates);
 
+    ModuleHandlerAbstract.CaptureStates getCurrentCaptureState();
+
 }
