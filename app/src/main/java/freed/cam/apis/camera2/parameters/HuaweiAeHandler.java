@@ -59,6 +59,11 @@ public class HuaweiAeHandler extends AeHandler {
     }
 
     @Override
+    protected boolean isExposureTimeSetSupported() {
+        return true;
+    }
+
+    @Override
     protected void setIso(int valueToSet) {
         if (cameraHolder == null || cameraHolder.captureSessionHandler.GetActiveCameraCaptureSession() == null)
             return;
@@ -79,5 +84,10 @@ public class HuaweiAeHandler extends AeHandler {
     protected void setExpoCompensation(int valueToSet) {
         float t = Float.parseFloat(manualExposureApi2.getStringValues()[valueToSet].replace(",","."));
         cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_EXPOSURE_COMP_VALUE, t);
+    }
+
+    @Override
+    protected boolean isExposureCompSetSupported() {
+        return true;
     }
 }

@@ -170,7 +170,7 @@ public class AeHandler
 
         @Override
         public boolean IsSetSupported() {
-            return ae_active;
+            return isExposureCompSetSupported();
         }
 
         @Override
@@ -183,6 +183,11 @@ public class AeHandler
     protected void setExpoCompensation(int valueToSet) {
         int t = valueToSet - manualExposureApi2.getStringValues().length / 2;
         cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
+    }
+
+    protected boolean isExposureCompSetSupported()
+    {
+        return ae_active;
     }
 
     /**
@@ -245,7 +250,7 @@ public class AeHandler
 
         @Override
         public boolean IsSetSupported() {
-            return true;
+            return isExposureTimeSetSupported();
         }
     }
 
@@ -263,6 +268,11 @@ public class AeHandler
             cameraHolder.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
             manualExposureTimeApi2.fireIntValueChanged(valueToSet);
         }
+    }
+
+    protected boolean isExposureTimeSetSupported()
+    {
+        return !ae_active;
     }
 
     /**
