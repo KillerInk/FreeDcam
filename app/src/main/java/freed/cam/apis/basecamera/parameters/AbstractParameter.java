@@ -44,7 +44,7 @@ public abstract class AbstractParameter implements ParameterInterface {
      */
     protected boolean isVisible;
 
-    protected boolean isReadOnly;
+    protected boolean isNotReadOnly;
 
     private Handler mainHandler;
 
@@ -57,8 +57,7 @@ public abstract class AbstractParameter implements ParameterInterface {
 
     public AbstractParameter(CameraWrapperInterface cameraUiWrapper)
     {
-        mainHandler = new Handler(Looper.getMainLooper());
-        listners = new ArrayList<>();
+        this();
         this.cameraUiWrapper = cameraUiWrapper;
 
     }
@@ -211,7 +210,7 @@ public abstract class AbstractParameter implements ParameterInterface {
      * if false the parameter is read only
      * @return  parameter can set
      */
-    public boolean IsSetSupported() {return isReadOnly;}
+    public boolean IsSetSupported() {return isNotReadOnly;}
 
     /**
      *

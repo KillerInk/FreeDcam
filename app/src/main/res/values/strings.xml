@@ -282,4 +282,10 @@
     <string name="customrowsize">Custom Row Size</string>
 
 
+    <!-- huawei dual camera  -->
+    <string name="hw_dualcamera_Primary">Color</string>
+    <string name="hw_dualcamera_Secondary">Mono</string>
+    <string name="hw_dualcamera_Dual">Dual</string>
+
+
 </resources>

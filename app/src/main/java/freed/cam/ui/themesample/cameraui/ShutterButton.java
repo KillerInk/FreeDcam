@@ -240,7 +240,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         }
 
         //frames to draw
-        private final int MAXFRAMES = 10;
+        private final int MAXFRAMES = 5;
         //holds the currentframe number
         private int currentframe = 0;
 

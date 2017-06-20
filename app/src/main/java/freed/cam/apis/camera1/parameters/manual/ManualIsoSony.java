@@ -29,7 +29,7 @@ public class ManualIsoSony extends AbstractParameter
 
     @Override
     public boolean IsSetSupported() {
-        return isReadOnly;
+        return isNotReadOnly;
     }
 
     @Override

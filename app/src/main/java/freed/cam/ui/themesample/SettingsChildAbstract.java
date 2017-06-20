@@ -65,6 +65,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         if (parameter == null)
             return;
         String value = parameter.GetStringValue();
+        parameter.addEventListner(this);
         parameter.fireStringValueChanged(value);
     }
 
@@ -122,8 +123,9 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         }
         else
         {
-            parameter.fireIsReadOnlyChanged(parameter.IsVisible());
+
             if (parameter != null) {
+                parameter.fireIsReadOnlyChanged(parameter.IsVisible());
                 parameter.addEventListner(this);
                 this.parameter = parameter;
             }
@@ -160,7 +162,6 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
             {
                 Log.WriteEx(ex);
             }
-            parameter.fireStringValueChanged(value);
         }
     }
 }

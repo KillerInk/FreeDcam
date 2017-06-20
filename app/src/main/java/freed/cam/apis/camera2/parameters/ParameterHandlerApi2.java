@@ -36,6 +36,7 @@ import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.FocusHandler;
+import freed.cam.apis.camera2.parameters.huawei.HuaweiAeHandler;
 import freed.cam.apis.camera2.parameters.manual.BurstApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
@@ -135,6 +136,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //MF
         ManualFocus mf = new ManualFocus(cameraUiWrapper);
         ManualFocus = mf;
+
         //MF END
 
         ManualToneMapCurveApi2 manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);

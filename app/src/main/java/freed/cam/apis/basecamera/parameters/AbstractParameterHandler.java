@@ -237,7 +237,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(NonZslManualMode, appSettingsManager.nonZslManualMode);
 
         //setMode(Histogram, AppSettingsManager.HISTOGRAM);
-        setMode(VideoProfiles, AppSettingsManager.VIDEOPROFILE);
+        setAppSettingsToCamera(VideoProfiles, appSettingsManager.videoProfile);
         setAppSettingsToCamera(VideoHDR, appSettingsManager.videoHDR);
         setAppSettingsToCamera(VideoSize, appSettingsManager.videoSize);
         setAppSettingsToCamera(VideoStabilization,appSettingsManager.videoStabilisation);

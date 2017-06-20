@@ -311,12 +311,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      */
     protected void captureStillPicture() {
         synchronized (captureLock) {
-
-
             imageHolder = new ImageHolder(cameraHolder.characteristics, mrawImageReader !=null, cameraUiWrapper.getActivityInterface(),this,this);
             imageHolder.setFilePath(getFileString(), appSettingsManager.GetWriteExternal());
             imageHolder.setForceRawToDng(appSettingsManager.isForceRawToDng());
-
 
             if (cameraUiWrapper.getParameterHandler().locationParameter.GetStringValue().equals(appSettingsManager.getResString(R.string.on_)))
             {
@@ -335,7 +332,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 cameraHolder.captureSessionHandler.StopRepeatingCaptureSession(imageCaptureRdyCallback);
             else
                 imageCaptureRdyCallback.onRdy();
-
         }
 
     }

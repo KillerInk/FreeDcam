@@ -38,7 +38,7 @@ import freed.utils.StringFloatArray;
 public class ManualFocus extends AbstractParameter
 {
     private final String TAG = ManualFocus.class.getSimpleName();
-    private StringFloatArray focusvalues;
+    protected StringFloatArray focusvalues;
 
     public ManualFocus(CameraWrapperInterface cameraUiWrapper)
     {

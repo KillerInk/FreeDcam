@@ -1,4 +1,4 @@
-package freed.cam.apis.camera2.parameters;
+package freed.cam.apis.camera2.parameters.huawei;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -8,6 +8,7 @@ import com.huawei.camera2ex.CaptureRequestEx;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
+import freed.cam.apis.camera2.parameters.AeHandler;
 
 /**
  * Created by troop on 08.06.2017.

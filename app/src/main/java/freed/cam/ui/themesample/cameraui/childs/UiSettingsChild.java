@@ -106,10 +106,6 @@ public class UiSettingsChild extends SettingsChildAbstract
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateTheme(inflater);
         laybg = (LinearLayout) findViewById(id.LAYbg);
-        if(context.getResources().getString(string.uisetting_wb_header) == headerText)
-        {
-            laybg.setBackgroundDrawable(context.getResources().getDrawable(drawable.quck_set_wb));
-        }
 
         valueText = (TextView) findViewById(id.textView2);
         valueText.setSelected(true);

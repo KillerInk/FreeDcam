@@ -232,13 +232,13 @@
         <item>@string/ae_mode_redeyefLash</item>
     </string-array>
 
-    <string-array name="colorcorrectionmodes">
+    <string-array name="colorcorrectionmodes" translatable="false">
         <item>@string/colorcorrection_transform_matrix</item>
         <item>@string/fast</item>
         <item>@string/highquality</item>
     </string-array>
 
-    <string-array name="whitebalancemodes">
+    <string-array name="whitebalancemodes" translatable="false">
         <item>@string/off</item>
         <item>@string/auto</item>
         <item>INCANDESCENT</item>
@@ -250,10 +250,10 @@
         <item>SHADE</item>
     </string-array>
 
-    <string-array name="dual_camera_mode">
-        <item>Primary</item>
-        <item>Secondary</item>
-        <item>Dual</item>
+    <string-array name="dual_camera_mode" translatable="false">
+        <item>@string/hw_dualcamera_Primary</item>
+        <item>@string/hw_dualcamera_Secondary</item>
+        <item>@string/hw_dualcamera_Dual</item>
     </string-array>
 
     <string-array name="guidelist"  translatable="false">
@@ -284,7 +284,7 @@
         <item>Square 16:9</item>
     </string-array>
 
-    <string-array name="wbct_lookup">
+    <string-array name="wbct_lookup" translatable="false">
         <item>1500,255,108,0</item>
         <item>1600,255,115,0</item>
         <item>1700,255,121,0</item>

@@ -31,6 +31,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 import freed.utils.StringUtils;
 
 /**
@@ -44,7 +45,6 @@ public class BaseModeApi2 extends AbstractParameter
     protected HashMap<String, Integer> parameterValues;
     protected AppSettingsManager.SettingMode settingMode;
     protected Key<Integer> parameterKey;
-    boolean isSupported;
     protected CaptureSessionHandler captureSessionHandler;
 
     public BaseModeApi2(CameraWrapperInterface cameraUiWrapper)
@@ -59,9 +59,16 @@ public class BaseModeApi2 extends AbstractParameter
         this.settingMode = settingMode;
         this.parameterKey = parameterKey;
         isSupported = settingMode.isSupported();
-        if (isSupported)
-            parameterValues = StringUtils.StringArrayToIntHashmap(settingMode.getValues());
-        else settingMode = null;
+        try {
+            if (isSupported)
+                parameterValues = StringUtils.StringArrayToIntHashmap(settingMode.getValues());
+            else settingMode = null;
+        }
+        catch (ArrayIndexOutOfBoundsException ex)
+        {
+            Log.WriteEx(ex);
+        }
+
     }
 
     @Override

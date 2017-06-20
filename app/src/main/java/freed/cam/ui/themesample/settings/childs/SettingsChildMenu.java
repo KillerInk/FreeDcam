@@ -64,7 +64,7 @@ public class SettingsChildMenu extends UiSettingsChild
         super(context,settingsMode,parameter);
         headerText.setText(getResources().getText(headerid));
         description.setText(getResources().getText(descriptionid));
-        valueText.setText(parameter.GetStringValue());
+        valueText.setText(settingsMode.get());
     }
 
     public SettingsChildMenu(Context context, AttributeSet attrs) {
