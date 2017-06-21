@@ -31,14 +31,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.troop.freedcam.R.drawable;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
-import com.troop.freedcam.R.string;
 import com.troop.freedcam.R.styleable;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
@@ -225,10 +222,5 @@ public class UiSettingsChild extends SettingsChildAbstract
     public void onClick(View v) {
         if (onItemClick != null)
             onItemClick.onSettingsChildClick(this, fromleft);
-    }
-
-    @Override
-    public void SetParameter(ModeParameterInterface parameter) {
-
     }
 }

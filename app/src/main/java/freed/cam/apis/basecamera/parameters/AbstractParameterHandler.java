@@ -306,7 +306,8 @@ public abstract class AbstractParameterHandler
             if (toset.equals("") || toset.equals("none"))
                 settingMode.set(parameter.GetStringValue());
             else
-                parameter.SetValue(toset,true);
+                parameter.SetValue(toset,false);
+            parameter.fireStringValueChanged(toset);
         }
     }
 

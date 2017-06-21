@@ -42,7 +42,7 @@ public abstract class AbstractParameter implements ParameterInterface {
     /**
      * holds the state if the parameter should be visible to ui
      */
-    protected boolean isVisible;
+    protected boolean isVisible = true;
 
     protected boolean isNotReadOnly;
 
@@ -237,12 +237,15 @@ public abstract class AbstractParameter implements ParameterInterface {
     @Override
     public String GetStringValue()
     {
-        if (stringvalues == null || stringvalues.length == 0)
+        /*if (stringvalues == null || stringvalues.length == 0)
             return null;
         if (currentInt > stringvalues.length)
             return stringvalues[currentInt - stringvalues.length/2];
         else
-            return stringvalues[currentInt];
+            return stringvalues[currentInt];*/
+        if (currentString == null)
+            return "";
+        return currentString;
     }
 
     /**
@@ -255,8 +258,14 @@ public abstract class AbstractParameter implements ParameterInterface {
     @Override
     public void SetValue(int valueToSet)
     {
+        fireIntValueChanged(valueToSet);
+        currentInt = valueToSet;
+    }
 
-        //fireIntValueChanged(valueToSet);
+    @Override
+    public void SetValue(String valueToSet, boolean setToCamera) {
+        currentString = valueToSet;
+        fireStringValueChanged(currentString);
     }
 
     /**

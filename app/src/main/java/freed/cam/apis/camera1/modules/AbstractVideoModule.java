@@ -131,6 +131,9 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             });
 
             mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".mp4");
+            File tosave = new File(mediaSavePath);
+            if (!tosave.getParentFile().exists())
+                tosave.getParentFile().mkdirs();
 
             setRecorderOutPutFile(mediaSavePath);
             recorder.setOnInfoListener(this);

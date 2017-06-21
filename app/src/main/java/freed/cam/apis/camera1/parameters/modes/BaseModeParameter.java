@@ -32,7 +32,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 17.08.2014.
  * That class handel basic parameter logic and
- * expect a key_value String like "antibanding" and a values String "antibanding-values"
+ * expect a value String like "antibanding" and a values String "antibanding-values"
  * if one of the key is empty the parameters is set as unsupported
  * when extending that class make sure you set isSupported and isVisible
  */
@@ -42,23 +42,11 @@ public class BaseModeParameter extends AbstractParameter implements ModuleChange
     The Key to set/get a value from the parameters
      */
     protected String key_value;
-    /*
-    The Key to get the supported values from the parameters
-     */
-    protected String key_values;
-    //if the parameter is supported
-    boolean isSupported;
-    //if the parameter is visibile to ui
-    boolean isVisible = true;
     //the parameters from the android.Camera
     protected Parameters  parameters;
     protected CameraWrapperInterface cameraUiWrapper;
     private final String TAG = BaseModeParameter.class.getSimpleName();
 
-    /*
-    The stored StringValues from the parameter
-     */
-    protected String[] valuesArray;
 
     public BaseModeParameter(Parameters  parameters, CameraWrapperInterface cameraUiWrapper)
     {
@@ -70,45 +58,22 @@ public class BaseModeParameter extends AbstractParameter implements ModuleChange
     {
         this(parameters,cameraUiWrapper);
         this.key_value = settingMode.getKEY();
-        this.valuesArray = settingMode.getValues();
-        isSupported = settingMode.isSupported();
-    }
-
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isVisible;
+        this.stringvalues = settingMode.getValues();
+        this.isSupported = settingMode.isSupported();
     }
 
     @Override
     public void SetValue(String valueToSet,  boolean setToCam)
     {
+        super.SetValue(valueToSet,setToCam);
         if (valueToSet == null)
             return;
         parameters.set(key_value, valueToSet);
         Log.d(TAG, "set " + key_value + " to " + valueToSet);
-        onStringValueChanged(valueToSet);
         if (setToCam) {
 
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         }
-    }
-
-
-    @Override
-    public String GetStringValue()
-    {
-        return parameters.get(key_value);
-    }
-    @Override
-    public String[] getStringValues()
-    {
-        return valuesArray;
     }
 
     @Override

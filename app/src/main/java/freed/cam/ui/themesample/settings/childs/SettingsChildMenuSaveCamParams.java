@@ -33,7 +33,7 @@ import java.util.Arrays;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.Log;
@@ -90,7 +90,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
     }
 
     @Override
-    public void SetParameter(ModeParameterInterface parameter) {
+    public void SetParameter(ParameterInterface parameter) {
 
     }
 

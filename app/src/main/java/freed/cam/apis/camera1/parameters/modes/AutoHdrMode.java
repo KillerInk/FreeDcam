@@ -91,28 +91,23 @@ public class AutoHdrMode extends BaseModeParameter {
     }
 
     @Override
-    public String[] getStringValues() {
-        return valuesArray;
-    }
-
-    @Override
     public void onModuleChanged(String module)
     {
         curmodule = module;
         if (curmodule.equals(cameraUiWrapper.getResString(R.string.module_video))|| curmodule.equals(cameraUiWrapper.getResString(R.string.module_video)))
         {
-            Hide();
+            hide();
             SetValue(cameraUiWrapper.getResString(R.string.off_),true);
         }
         else
         {
             if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_))) {
-                Show();
+                show();
                 onIsSupportedChanged(true);
             }
             else
             {
-                Hide();
+                hide();
                 SetValue(cameraUiWrapper.getResString(R.string.off_),true);
             }
         }
@@ -129,14 +124,14 @@ public class AutoHdrMode extends BaseModeParameter {
     public void onStringValueChanged(String val) {
         format = val;
         if (val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&&!visible &&!curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
-            Show();
+            show();
 
         else if (!val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&& visible) {
-            Hide();
+            hide();
         }
     }
 
-    private void Hide()
+    private void hide()
     {
         state = GetStringValue();
         visible = false;
@@ -144,7 +139,7 @@ public class AutoHdrMode extends BaseModeParameter {
         onStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
         onIsSupportedChanged(visible);
     }
-    private void Show()
+    private void show()
     {
         visible = true;
         SetValue(state,true);

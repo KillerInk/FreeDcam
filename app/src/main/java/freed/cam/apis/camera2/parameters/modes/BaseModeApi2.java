@@ -59,10 +59,15 @@ public class BaseModeApi2 extends AbstractParameter
         this.settingMode = settingMode;
         this.parameterKey = parameterKey;
         isSupported = settingMode.isSupported();
+
         try {
             if (isSupported)
+            {
                 parameterValues = StringUtils.StringArrayToIntHashmap(settingMode.getValues());
-            else settingMode = null;
+                stringvalues = new String[parameterValues.size()];
+                parameterValues.keySet().toArray(stringvalues);
+            }
+            else isSupported = false;
         }
         catch (ArrayIndexOutOfBoundsException ex)
         {
@@ -72,18 +77,11 @@ public class BaseModeApi2 extends AbstractParameter
     }
 
     @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
-    }
-
-    @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
+        super.SetValue(valueToSet,setToCamera);
         int toset = parameterValues.get(valueToSet);
         captureSessionHandler.SetParameterRepeating(parameterKey, toset);
-        fireStringValueChanged(valueToSet);
-
     }
 
     @Override
@@ -96,8 +94,4 @@ public class BaseModeApi2 extends AbstractParameter
         return "";
     }
 
-    @Override
-    public String[] getStringValues() {
-        return parameterValues.keySet().toArray(new String[parameterValues.size()]);
-    }
 }

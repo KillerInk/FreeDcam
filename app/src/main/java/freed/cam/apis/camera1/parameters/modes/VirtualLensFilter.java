@@ -40,13 +40,14 @@ public class VirtualLensFilter extends  BaseModeParameter {
         if (cameraUiWrapper.getAppSettingsManager().isZteAe())
             isSupported = true;
         this.cameraUiWrapper = cameraUiWrapper;
-        valuesArray = cameraUiWrapper.getContext().getResources().getStringArray(R.array.virtual_lensfilter_colors);
+        stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.virtual_lensfilter_colors);
         asU = cameraUiWrapper.getContext().getResources().getStringArray(R.array.virtual_lensfilter_asu);
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
+        super.SetValue(valueToSet,setToCam);
         switch (valueToSet)
         {
             case "Off":

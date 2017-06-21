@@ -100,6 +100,8 @@ public class WbHandler
             settingMode = cameraUiWrapper.getAppSettingsManager().whiteBalanceMode;
             parameterKey = CaptureRequest.CONTROL_AWB_MODE;
             parameterValues = StringUtils.StringArrayToIntHashmap(cameraUiWrapper.getAppSettingsManager().whiteBalanceMode.getValues());
+            stringvalues = new String[parameterValues.size()];
+            parameterValues.keySet().toArray(stringvalues);
             if (colorCorrectionMode != null)
                 lastcctmode = colorCorrectionMode.GetStringValue();
         }
@@ -161,6 +163,7 @@ public class WbHandler
         @Override
         public void SetValue(int valueToSet)
         {
+            super.SetValue(valueToSet);
             if (valueToSet == 0) // = auto
                 return;
             currentInt =valueToSet;
@@ -223,6 +226,8 @@ public class WbHandler
 
         @Override
         public boolean IsSupported() {
+            if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().WhiteBalanceMode == null)
+                return false;
             isSupported = cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetStringValue().equals("OFF");
             return isSupported;
         }
