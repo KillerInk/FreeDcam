@@ -8,6 +8,7 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.util.Range;
 import android.util.Size;
 
 import com.huawei.camera2ex.CameraCharacteristicsEx;
@@ -271,6 +272,17 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         publishProgress("Detect Control mode failed");
                     }
 
+                    Range[] aetargetfps = characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES);
+                    if (aetargetfps != null && aetargetfps.length>1)
+                    {
+                        String[] t = new String[aetargetfps.length];
+                        for (int i = 0;i < aetargetfps.length; i++)
+                        {
+                            t[i] = aetargetfps[i].getLower()+","+aetargetfps[i].getUpper();
+                        }
+                        appSettingsManager.ae_TagetFPS.setValues(t);
+                        appSettingsManager.ae_TagetFPS.setIsSupported(true);
+                    }
 
                     detectHuaweiParameters(characteristics);
 

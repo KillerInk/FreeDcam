@@ -169,6 +169,8 @@
 
     <string name="setting_dualprimarycamera_header">Dual Camera</string>
     <string name="setting_dualprimarycamera_description">Switch the Camera</string>
+    <string name="setting_aetargetfps_header">AE Frame Range</string>
+    <string name="setting_aetargetfps_description">The Frame Range that could get used by AE</string>
 
 
     <!-- cameraui  -->

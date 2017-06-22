@@ -380,6 +380,7 @@ public class AppSettingsManager {
 
     public final SettingMode dualPrimaryCameraMode;
     public final SettingMode manualAperture;
+    public final SettingMode ae_TagetFPS;
 
     public final TypeSettingsMode manualWhiteBalance;
 
@@ -489,6 +490,8 @@ public class AppSettingsManager {
         opencamera1Legacy = new BooleanSettingsMode(getResString(R.string.aps_opencamera1legacy));
         dualPrimaryCameraMode = new SettingMode(getResString(R.string.aps_dualprimarycameramode));
         useHuaweiCam2Extension = new BooleanSettingsMode(getResString(R.string.aps_usehuaweicam2));
+
+        ae_TagetFPS = new SettingMode(getResString(R.string.aps_ae_targetFPS));
 
 
         //first time init

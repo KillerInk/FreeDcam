@@ -113,11 +113,6 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
 
     @Override
     public void onStringValueChanged(String value) {
-
-    }
-
-    @Override
-    public void onStringValuesChanged(String[] values) {
         if(fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("On"))
         {
             startSensorListing();
@@ -128,6 +123,11 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
             stopSensorListing();
             view.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onStringValuesChanged(String[] values) {
+
 
     }
 

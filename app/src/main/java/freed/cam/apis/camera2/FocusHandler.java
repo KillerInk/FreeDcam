@@ -109,8 +109,8 @@ public class FocusHandler extends AbstractFocusHandler
         Rect m =  ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         logRect(m);
         int areasize = (m.width() /8) /2;
-        float xf = (float)x / width * m.right;
-        float yf = (float)y / height * m.bottom;
+        float xf = (float)x * m.width() / width ;
+        float yf = (float)y * m.height() / height;
         int x_c = (int)xf; //(int)((float)x/width * m.right);
         int y_C = (int) yf; //(int)((float)y/height * m.bottom);
         int left = x_c - areasize;
@@ -121,26 +121,22 @@ public class FocusHandler extends AbstractFocusHandler
 
         logFocusRect(targetFocusRect);
         if (targetFocusRect.left < 0) {
-            int dif = targetFocusRect.left + m.left;
-            targetFocusRect.left = m.left;
-            targetFocusRect.right -= dif;
+            targetFocusRect.left = 0;
+            targetFocusRect.right = areasize*2;
         }
         if (targetFocusRect.right > m.right) {
-            int dif = targetFocusRect.right - m.right;
-            targetFocusRect.right = m.right;
-            targetFocusRect.left -= dif;
+            targetFocusRect.right = m.width();
+            targetFocusRect.left = m.width() -areasize*2;
         }
         if (targetFocusRect.top < m.top) {
-            int dif = targetFocusRect.top + m.top;
-            targetFocusRect.top = m.top;
-            targetFocusRect.bottom -= dif;
+            targetFocusRect.top = 0;
+            targetFocusRect.bottom = areasize*2;
 
         }
         if (targetFocusRect.bottom > m.bottom)
         {
-            int dif = targetFocusRect.bottom - m.bottom;
-            targetFocusRect.bottom = m.bottom;
-            targetFocusRect.top -=dif;
+            targetFocusRect.bottom = m.height();
+            targetFocusRect.top = m.height() - areasize*2;
         }
 
         logFocusRect(targetFocusRect);

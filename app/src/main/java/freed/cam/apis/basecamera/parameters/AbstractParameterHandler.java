@@ -128,6 +128,7 @@ public abstract class AbstractParameterHandler
     public ParameterInterface VideoHighFramerateVideo;
     public ParameterInterface LensFilter;
     public ParameterInterface Horizont;
+    public ParameterInterface ae_TargetFPS;
 
     //SonyApi
     public ParameterInterface ContShootMode;
@@ -259,6 +260,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(matrixChooser, appSettingsManager.matrixset);
         setAppSettingsToCamera(dualPrimaryCameraMode, appSettingsManager.dualPrimaryCameraMode);
         setAppSettingsToCamera(RDI, appSettingsManager.rawdumpinterface);
+        setAppSettingsToCamera(ae_TargetFPS, appSettingsManager.ae_TagetFPS);
 
         //setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
         //setManualMode(ManualConvergence,AppSettingsManager.MCONVERGENCE);

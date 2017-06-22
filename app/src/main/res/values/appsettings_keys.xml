@@ -95,5 +95,6 @@
     <string name="aps_manualpreviewzoom" translatable="false">previewzoom</string>
     <string name="aps_unsupported">unsupported</string>
     <string name="aps_manualaperture">manualaperture</string>
+    <string name="aps_ae_targetFPS">ae_TargetFPS</string>
 
 </resources>

@@ -42,6 +42,7 @@ import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.camera2.parameters.manual.ZoomApi2;
 import freed.cam.apis.camera2.parameters.modes.AeLockModeApi2;
+import freed.cam.apis.camera2.parameters.modes.AeTargetRangeApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 import freed.cam.apis.camera2.parameters.modes.DualCameraModeHuaweiApi2;
 import freed.cam.apis.camera2.parameters.modes.FocusPeakModeApi2;
@@ -101,6 +102,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         }
         if (appSettingsManager.hotpixelMode.isSupported())
             HotPixelMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.hotpixelMode,CaptureRequest.HOT_PIXEL_MODE);
+        if (appSettingsManager.ae_TagetFPS.isSupported())
+            ae_TargetFPS = new AeTargetRangeApi2(cameraUiWrapper,appSettingsManager.ae_TagetFPS,CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE);
 
         if (appSettingsManager.dualPrimaryCameraMode.isSupported() && !appSettingsManager.getIsFrontCamera())
         {

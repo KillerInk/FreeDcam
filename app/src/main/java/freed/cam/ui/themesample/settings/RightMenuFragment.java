@@ -287,6 +287,13 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
                 ton.SetUiItemClickListner(this);
                 settingsgroup.addView(ton);
             }
+            if (params.ae_TargetFPS != null)
+            {
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.ae_TagetFPS, params.ae_TargetFPS, R.string.setting_aetargetfps_header, R.string.setting_aetargetfps_description);
+                ton.SetUiItemClickListner(this);
+                settingsgroup.addView(ton);
+            }
+
             settingchildholder.addView(settingsgroup);
         }
 
