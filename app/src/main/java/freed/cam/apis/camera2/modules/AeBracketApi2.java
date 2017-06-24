@@ -136,7 +136,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         if (imagecount == 3) {
             if (aeWasOn && parameterHandler.ExposureMode != null)
                 parameterHandler.ExposureMode.SetValue(activityInterface.getContext().getString(R.string.on),true);
-            fireOnWorkFinish(savedFiles);
+
         }
     }
 
@@ -144,5 +144,8 @@ public class AeBracketApi2 extends PictureModuleApi2
     public void internalFireOnWorkDone(File file)
     {
         savedFiles[currentFileCount++] = file;
+        if (imagecount == 3) {
+            fireOnWorkFinish(savedFiles);
+        }
     }
 }

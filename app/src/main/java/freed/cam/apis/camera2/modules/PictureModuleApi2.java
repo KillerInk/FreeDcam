@@ -31,6 +31,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.media.Image;
 import android.media.ImageReader;
 import android.media.ImageReader.OnImageAvailableListener;
+import android.os.AsyncTask;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -42,6 +43,10 @@ import com.troop.freedcam.R;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
@@ -56,12 +61,11 @@ import freed.utils.Log;
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class PictureModuleApi2 extends AbstractModuleApi2
+public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder.RdyToSaveImg
 {
 
 
     private final String TAG = PictureModuleApi2.class.getSimpleName();
-    private final String CAPTURECYCLE = "CAPTURECYCLE";
     private String picFormat;
     private int mImageWidth;
     private int mImageHeight;
@@ -75,12 +79,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
     private boolean intervalCapture = false;
-    protected Object captureLock = new Object();
-    private ImageHolder imageHolder;
+    //private ImageHolder imageHolder;
+    LinkedBlockingQueue<ImageHolder> imageSaveQueue;
+
+    private final int MAX_IMAGES = 5;
 
 
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
+        imageSaveQueue = new LinkedBlockingQueue<>(MAX_IMAGES);
         name = cameraUiWrapper.getResString(R.string.module_picture);
     }
 
@@ -226,7 +233,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             mImageHeight = Integer.parseInt(split[1]);
         }
         //create new ImageReader with the size and format for the image
-        mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, 3);
+        mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, MAX_IMAGES);
         Log.d(TAG, "ImageReader JPEG");
 
 
@@ -235,20 +242,20 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         {
             Log.d(TAG, "ImageReader RAW_SENOSR");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
-            mrawImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW_SENSOR, 3);
+            mrawImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW_SENSOR, MAX_IMAGES);
         }
         else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng10)))
         {
             Log.d(TAG, "ImageReader RAW10");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
-            mrawImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW10, 3);
+            mrawImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW10, MAX_IMAGES);
 
         }
         else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng12)))
         {
             Log.d(TAG, "ImageReader RAW12");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW12)), new CompareSizesByArea());
-            mImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW12,3);
+            mImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW12, MAX_IMAGES);
 
         }
         else
@@ -271,11 +278,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             Log.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
             imagecount = 0;
 
-            mImageReader.setOnImageAvailableListener(mOnImageAvailableListener,mBackgroundHandler);
-            if (mrawImageReader != null)
-            {
-                mrawImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,mBackgroundHandler);
-            }
+
             onStartTakePicture();
 
             if (appSettingsManager.IsCamera2FullSupported() && cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
@@ -310,40 +313,81 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      *
      */
     protected void captureStillPicture() {
-        synchronized (captureLock) {
-            imageHolder = new ImageHolder(cameraHolder.characteristics, mrawImageReader !=null, cameraUiWrapper.getActivityInterface(),this,this);
-            imageHolder.setFilePath(getFileString(), appSettingsManager.GetWriteExternal());
-            imageHolder.setForceRawToDng(appSettingsManager.isForceRawToDng());
 
-            if (cameraUiWrapper.getParameterHandler().locationParameter.GetStringValue().equals(appSettingsManager.getResString(R.string.on_)))
-            {
-                imageHolder.setLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
-                cameraHolder.captureSessionHandler.SetParameter(CaptureRequest.JPEG_GPS_LOCATION,cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
-            }
+        ImageHolder currentCaptureHolder = new ImageHolder(cameraHolder.characteristics, mrawImageReader !=null, cameraUiWrapper.getActivityInterface(),this,this, this);
+        currentCaptureHolder.setFilePath(getFileString(), appSettingsManager.GetWriteExternal());
+        currentCaptureHolder.setForceRawToDng(appSettingsManager.isForceRawToDng());
 
-            String cmat = appSettingsManager.getApiString(AppSettingsManager.CUSTOMMATRIX);
-            if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
-                imageHolder.setCustomMatrix(appSettingsManager.getMatrixesMap().get(cmat));
-            }
+        Log.d(TAG, "captureStillPicture ImgCount:"+ imagecount +  " ImageHolder Path:" + currentCaptureHolder.filepath);
 
-            prepareCaptureBuilder(imagecount);
-            Log.d(CAPTURECYCLE, "CancelRepeatingCaptureSessoion set imageRdyCallback");
-            if (!cameraHolder.captureSessionHandler.IsCaptureSessionRDY())
-                cameraHolder.captureSessionHandler.StopRepeatingCaptureSession(imageCaptureRdyCallback);
-            else
-                imageCaptureRdyCallback.onRdy();
+        if (cameraUiWrapper.getParameterHandler().locationParameter.GetStringValue().equals(appSettingsManager.getResString(R.string.on_)))
+        {
+            currentCaptureHolder.setLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
+            cameraHolder.captureSessionHandler.SetParameter(CaptureRequest.JPEG_GPS_LOCATION,cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         }
+
+        String cmat = appSettingsManager.getApiString(AppSettingsManager.CUSTOMMATRIX);
+        if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
+            currentCaptureHolder.setCustomMatrix(appSettingsManager.getMatrixesMap().get(cmat));
+        }
+
+        while (imageSaveQueue.size() == MAX_IMAGES) {
+            try {
+                Log.d(TAG,"Wait for free Queue");
+                Thread.sleep(5);
+                Log.d(TAG,"Wait for free Queue poll end");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        mImageReader.setOnImageAvailableListener(currentCaptureHolder.mOnRawImageAvailableListener,mBackgroundHandler);
+        if (mrawImageReader != null)
+        {
+            mrawImageReader.setOnImageAvailableListener(currentCaptureHolder.mOnRawImageAvailableListener,mBackgroundHandler);
+        }
+                /*try {
+                    Log.d(TAG, "ImageQueue limit reached drop image");
+                    ImageHolder toremove = imageSaveQueue.take();
+                    toremove.CLEAR();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }*/
+
+
+        Log.d(TAG, "Queue free add new Img");
+        synchronized (imageSaveQueue) {
+            imageSaveQueue.add(currentCaptureHolder);
+        }
+
+
+        prepareCaptureBuilder(imagecount);
+        Log.d(TAG, "CancelRepeatingCaptureSessoion set imageRdyCallback");
+        ImageCaptureRDYEvent imageCaptureRdyCallback = new ImageCaptureRDYEvent(currentCaptureHolder.imageCaptureMetaCallback);
+        if (!cameraHolder.captureSessionHandler.IsCaptureSessionRDY())
+            cameraHolder.captureSessionHandler.StopRepeatingCaptureSession(imageCaptureRdyCallback);
+        else
+            imageCaptureRdyCallback.onRdy();
+
 
     }
 
-    private CaptureSessionHandler.CaptureEvent imageCaptureRdyCallback = new CaptureSessionHandler.CaptureEvent() {
+    private class  ImageCaptureRDYEvent implements CaptureSessionHandler.CaptureEvent
+    {
+        private CameraCaptureSession.CaptureCallback captureCallback;
+        public ImageCaptureRDYEvent(CameraCaptureSession.CaptureCallback captureCallback)
+        {
+            this.captureCallback = captureCallback;
+        }
+
         @Override
         public void onRdy() {
             changeCaptureState(CaptureStates.image_capture_start);
-            Log.d(CAPTURECYCLE, "StartStillCapture");
-            cameraHolder.captureSessionHandler.StartImageCapture(imageCaptureMetaCallback, mBackgroundHandler);
+            Log.d(TAG, "StartStillCapture");
+            cameraHolder.captureSessionHandler.StartImageCapture(captureCallback, mBackgroundHandler);
         }
-    };
+    }
+
 
     protected void prepareCaptureBuilder(int captureNum)
     {
@@ -460,76 +504,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         return (SystemClock.elapsedRealtime() - mCaptureTimer) > PRECAPTURE_TIMEOUT_MS;
     }
 
-
-    protected final CaptureCallback imageCaptureMetaCallback = new CaptureCallback()
-    {
-        @Override
-        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
-            Log.d(CAPTURECYCLE, "onCaptureCompleted FrameNum:" +result.getFrameNumber());
-            synchronized (captureLock) {
-                Log.d(TAG, "OnCaptureResultAvailible");
-                imageHolder.SetCaptureResult(result);
-            }
-            checkRdyToSave();
-        }
-    };
-
-    private final OnImageAvailableListener mOnImageAvailableListener = new OnImageAvailableListener()
-    {
-        @Override
-        public void onImageAvailable(final ImageReader reader)
-        {
-            synchronized (captureLock) {
-                Log.d(TAG, "OnJpegAvailible");
-                Image img = null;
-                try {
-                    img = reader.acquireLatestImage();
-                    imageHolder.AddImage(img);
-                }
-                catch (IllegalStateException ex)
-                {
-                    if (img != null)
-                        img.close();
-                }
-
-            }
-            checkRdyToSave();
-        }
-    };
-
-    private final OnImageAvailableListener mOnRawImageAvailableListener = new OnImageAvailableListener()
-    {
-        @Override
-        public void onImageAvailable(final ImageReader reader)
-        {
-            synchronized (captureLock)
-            {
-                Image img = null;
-                Log.d(TAG, "OnRawAvailible");
-                try {
-                    img = reader.acquireNextImage();
-                    imageHolder.AddImage(img);
-                }
-                catch (IllegalStateException ex)
-                {
-                    if (img != null)
-                        img.close();
-                }
-            }
-            checkRdyToSave();
-        }
-    };
-
-    private void checkRdyToSave()
-    {
-        synchronized (captureLock) {
-            if (imageHolder.rdyToGetSaved())
-                imageHolder.getRunner().run();
-                //AsyncTask.THREAD_POOL_EXECUTOR.execute(imageHolder.getRunner());
-            finishCapture();
-        }
-    }
-
     private String getFileString()
     {
         if (Integer.parseInt(parameterHandler.Burst.GetStringValue()) > 1)
@@ -549,25 +523,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         try
         {
             imagecount++;
-            Log.d(CAPTURECYCLE, "CaptureDone");
-            if (Integer.parseInt(parameterHandler.Burst.GetStringValue())  > 1 && Integer.parseInt(parameterHandler.Burst.GetStringValue())  != imagecount) {
+            Log.d(TAG, "CaptureDone:" + imagecount + " Queue size: " + imageSaveQueue.size());
+            if (Integer.parseInt(parameterHandler.Burst.GetStringValue())  > imagecount) {
                 captureStillPicture();
             }
             else if (cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF) {
                 cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, AeHandler.MAX_PREVIEW_EXPOSURETIME);
                 cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_FRAME_DURATION, AeHandler.MAX_PREVIEW_EXPOSURETIME);
-                Log.d(CAPTURECYCLE, "CancelRepeatingCaptureSessoion set onSessionRdy");
+                Log.d(TAG, "CancelRepeatingCaptureSessoion set onSessionRdy");
                 cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(onSesssionRdy);
             }
             else {
-                cameraHolder.captureSessionHandler.StartRepeatingCaptureSession();
-                if (cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
-                        || cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO) {
-                    cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
-                            CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
-                    cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
-                            CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
-                }
+                onSesssionRdy.onRdy();
             }
 
         }
@@ -585,7 +552,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         public void onRdy() {
 
 
-            Log.d(CAPTURECYCLE, "onSessionRdy() Rdy to Start Preview");
+            Log.d(TAG, "onSessionRdy() Rdy to Start Preview");
             cameraHolder.captureSessionHandler.StartRepeatingCaptureSession();
             if (cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
                     || cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO) {
@@ -594,9 +561,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
                         CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
             }
-
-            isWorking = false;
-            changeCaptureState(CaptureStates.image_capture_stop);
         }
     };
 
@@ -611,4 +575,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         super.fireOnWorkFinish(files);
     }
 
+    @Override
+    public void onRdyToSaveImg(ImageHolder holder) {
+        imageSaveQueue.remove(holder);
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(holder.getRunner());
+        Log.d(TAG,"onRdyToSaveImg");
+        finishCapture();
+    }
 }

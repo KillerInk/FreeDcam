@@ -128,7 +128,8 @@ public abstract class ModuleAbstract implements ModuleInterface
         FileHolder[] fileHolders = new FileHolder[files.length];
         int i= 0;
         for (File f : files) {
-            fileHolders[i++] = new FileHolder(f, appSettingsManager.GetWriteExternal());
+            if (f != null)
+                fileHolders[i++] = new FileHolder(f, appSettingsManager.GetWriteExternal());
         }
         cameraUiWrapper.getActivityInterface().WorkHasFinished(fileHolders);
     }

@@ -2,12 +2,16 @@ package freed.cam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
+import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.DngCreator;
+import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.ColorSpaceTransform;
 import android.location.Location;
 import android.media.Image;
+import android.media.ImageReader;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
@@ -37,6 +41,11 @@ import freed.utils.Log;
 public class ImageHolder
 {
 
+    public interface RdyToSaveImg
+    {
+        void onRdyToSaveImg(ImageHolder holder);
+    }
+
     public interface ImageSaveImp
     {
         void saveRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile);
@@ -59,10 +68,11 @@ public class ImageHolder
 
     private ActivityInterface activityInterface;
     private ImageSaveImp imageSaver;
+    private RdyToSaveImg rdyToSaveImg;
 
     WorkFinishEvents workerfinish;
 
-    public ImageHolder(CameraCharacteristics characteristicss, boolean isRawCapture, ActivityInterface activitiy, ImageSaveImp imageSaver, WorkFinishEvents finish)
+    public ImageHolder(CameraCharacteristics characteristicss, boolean isRawCapture, ActivityInterface activitiy, ImageSaveImp imageSaver, WorkFinishEvents finish, RdyToSaveImg rdyToSaveImg)
     {
         images = new ArrayList<>();
         this.characteristics = characteristicss;
@@ -70,6 +80,7 @@ public class ImageHolder
         this.activityInterface = activitiy;
         this.imageSaver = imageSaver;
         this.workerfinish = finish;
+        this.rdyToSaveImg =rdyToSaveImg;
     }
 
 
@@ -117,6 +128,41 @@ public class ImageHolder
             return images.size() == 1 && captureResult != null;
     }
 
+    public final ImageReader.OnImageAvailableListener mOnRawImageAvailableListener = new ImageReader.OnImageAvailableListener()
+    {
+        @Override
+        public void onImageAvailable(final ImageReader reader)
+        {
+
+            Image img = null;
+            Log.d(TAG, "OnRawAvailible");
+            try {
+                img = reader.acquireLatestImage();
+                AddImage(img);
+            }
+            catch (IllegalStateException ex)
+            {
+                if (img != null)
+                    img.close();
+            }
+            if (rdyToGetSaved())
+                rdyToSaveImg.onRdyToSaveImg(ImageHolder.this);
+        }
+    };
+
+    public final CameraCaptureSession.CaptureCallback imageCaptureMetaCallback = new CameraCaptureSession.CaptureCallback()
+    {
+        @Override
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+            Log.d(TAG, "onCaptureCompleted FrameNum:" +result.getFrameNumber());
+
+            Log.d(TAG, "OnCaptureResultAvailible");
+            SetCaptureResult(result);
+            if (rdyToGetSaved())
+                rdyToSaveImg.onRdyToSaveImg(ImageHolder.this);
+        }
+    };
+
     public Runnable getRunner()
     {
         return new Runnable() {
@@ -127,6 +173,13 @@ public class ImageHolder
                 clear();
             }
         };
+    }
+
+    public void CLEAR()
+    {
+        for (Image img : images)
+            img.close();
+        clear();
     }
 
     private void clear()
