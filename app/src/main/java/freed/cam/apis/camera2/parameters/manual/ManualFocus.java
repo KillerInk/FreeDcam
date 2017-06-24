@@ -71,6 +71,7 @@ public class ManualFocus extends AbstractParameter
         if(valueToSet == 0)
         {
             cameraUiWrapper.getParameterHandler().FocusMode.SetValue(cameraUiWrapper.getContext().getString(R.string.auto), true);
+            ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
         }
         else
         {
