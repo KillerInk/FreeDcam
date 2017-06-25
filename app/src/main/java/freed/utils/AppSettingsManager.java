@@ -276,7 +276,7 @@ public class AppSettingsManager {
 
     public static final String APPVERSION = "appversion";
 
-    public static final String CAMERA2FULLSUPPORTED = "camera2fullsupport";
+    public static final String HAS_CAMERA2_FEATURES = "camera2fullsupport";
 
     public static final String SETTING_HORIZONT = "horizont";
 
@@ -737,12 +737,12 @@ public class AppSettingsManager {
         setBoolean(SETTING_EXTERNALSD, write);
     }
 
-    public void SetCamera2FullSupported(boolean value) {
-        settings.edit().putBoolean(CAMERA2FULLSUPPORTED, value).commit();
+    public void setHasCamera2Features(boolean value) {
+        settings.edit().putBoolean(HAS_CAMERA2_FEATURES, value).commit();
     }
 
-    public boolean IsCamera2FullSupported() {
-        return settings.getBoolean(CAMERA2FULLSUPPORTED,false);
+    public boolean hasCamera2Features() {
+        return settings.getBoolean(HAS_CAMERA2_FEATURES,false);
     }
 
     private String getApiString(String valueToGet, String defaultValue) {

@@ -187,7 +187,7 @@ public class VideoModule extends AbstractVideoModule
             if (currentProfile.videoFrameHeight >=2160)
             {
                 disable_mce_dis_vs_denoise();
-                if (!appSettingsManager.IsCamera2FullSupported() && StringUtils.arrayContainsString(appSettingsManager.previewFormat.getValues(), "nv12-venus"))
+                if (!appSettingsManager.hasCamera2Features() && StringUtils.arrayContainsString(appSettingsManager.previewFormat.getValues(), "nv12-venus"))
                     cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
             }
             else
@@ -216,7 +216,7 @@ public class VideoModule extends AbstractVideoModule
         //turn off all blocking/postprocessing parameters wich avoid highframes
         disable_mce_dis_vs_denoise();
         //full camera2 devices dont use hardware preview format so set it only for legacy devices
-        if (!appSettingsManager.IsCamera2FullSupported() && StringUtils.arrayContainsString(appSettingsManager.previewFormat.getValues(), "nv12-venus"))
+        if (!appSettingsManager.hasCamera2Features() && StringUtils.arrayContainsString(appSettingsManager.previewFormat.getValues(), "nv12-venus"))
             cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("nv12-venus", false);
 
 

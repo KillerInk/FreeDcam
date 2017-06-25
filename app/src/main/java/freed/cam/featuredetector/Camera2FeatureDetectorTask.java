@@ -34,7 +34,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private final String TAG = Camera2FeatureDetectorTask.class.getSimpleName();
     private Context context;
-    boolean fulldevice;
+    boolean hasCamera2Features;
     public Camera2FeatureDetectorTask(ProgressUpdate progressUpdate, AppSettingsManager appSettingsManager, Context context) {
         super(progressUpdate, appSettingsManager);
         this.context = context;
@@ -54,40 +54,40 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
             for (String s : cameras)
             {
-                appSettingsManager.modules.set(appSettingsManager.getResString(R.string.module_picture));
-                appSettingsManager.SetCurrentCamera(Integer.parseInt(s));
+
                 publishProgress("###################");
                 publishProgress("#####CameraID:"+s+"####");
                 publishProgress("###################");
                 publishProgress("Check camera features:" + s);
                 CameraCharacteristics characteristics = manager.getCameraCharacteristics(s);
                 boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
+                appSettingsManager.modules.set(appSettingsManager.getResString(R.string.module_picture));
+                appSettingsManager.SetCurrentCamera(Integer.parseInt(s));
                 appSettingsManager.setIsFrontCamera(front);
                 int hwlvl = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
 
                 publishProgress("Camera 2 Level:" + hwlvl);
 
-                switch (hwlvl)
-                {
-                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3:
-                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL:
-                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED:
-                        fulldevice = true;
-                        break;
-                    case CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY:
-                        fulldevice = false;
-                        break;
-
+                //check first if a already checked cam have camera2features and if its now the front cam that dont have a camera2feature.
+                //in that case set it to true
+                //else it would override the already detected featureset from last cam and disable api2
+                if (appSettingsManager.hasCamera2Features() && front && hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
+                    hasCamera2Features = true;
+                    Log.d(TAG,"Front cam has no camera2 featureset, try to find supported things anyway");
                 }
+                else if (hwlvl != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
+                    hasCamera2Features = true;
+                else
+                    hasCamera2Features = false;
 
-                appSettingsManager.SetCamera2FullSupported(fulldevice);
-                publishProgress("IsCamera2 Full Device:" + appSettingsManager.IsCamera2FullSupported() + " isFront:" +appSettingsManager.getIsFrontCamera());
+                appSettingsManager.setHasCamera2Features(hasCamera2Features);
+                publishProgress("IsCamera2 Full Device:" + appSettingsManager.hasCamera2Features() + " isFront:" +appSettingsManager.getIsFrontCamera());
 
                 appSettingsManager.guide.setValues(appSettingsManager.getResources().getStringArray(R.array.guidelist));
                 appSettingsManager.guide.set(appSettingsManager.guide.getValues()[0]);
 
 
-                if (fulldevice) {
+                if (hasCamera2Features) {
 
                     try {
                         if(!appSettingsManager.getIsFrontCamera()) {
@@ -289,20 +289,20 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
             }
             appSettingsManager.SetCurrentCamera(0);
-            if (!fulldevice)
+            if (!hasCamera2Features)
                 appSettingsManager.setCamApi(AppSettingsManager.API_1);
 
-            if (appSettingsManager.IsCamera2FullSupported() && !appSettingsManager.opencamera1Legacy.isPresetted()) {
+            if (appSettingsManager.hasCamera2Features() && !appSettingsManager.opencamera1Legacy.isPresetted()) {
                 appSettingsManager.opencamera1Legacy.setBoolean(true);
             }
             Log.d(TAG, "Can Open Legacy: " + appSettingsManager.opencamera1Legacy.getBoolean() + " was presetted: " + appSettingsManager.opencamera1Legacy.isPresetted());
         }
         catch (Throwable ex) {
             Log.WriteEx(ex);
-            if (!fulldevice)
-                appSettingsManager.SetCamera2FullSupported(false);
+            if (!hasCamera2Features)
+                appSettingsManager.setHasCamera2Features(false);
             else
-                appSettingsManager.SetCamera2FullSupported(true);
+                appSettingsManager.setHasCamera2Features(true);
 
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
         }
@@ -470,7 +470,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     }
 
     private void detectFlash(CameraCharacteristics characteristics) {
-        if (appSettingsManager.IsCamera2FullSupported()) {
+        if (appSettingsManager.hasCamera2Features()) {
             //flash mode
             boolean flashavail = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
             appSettingsManager.flashMode.setIsSupported(flashavail);
@@ -488,7 +488,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     }
 
     private void detectControlMode(CameraCharacteristics characteristics) {
-        if (appSettingsManager.IsCamera2FullSupported()) {
+        if (appSettingsManager.hasCamera2Features()) {
             //flash mode
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
@@ -649,7 +649,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     private void detectIntMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
     {
         publishProgress("detectIntMode "+settingMode+" "+ressourceArray);
-        if (appSettingsManager.IsCamera2FullSupported() && characteristics.get(requestKey) != null) {
+        if (appSettingsManager.hasCamera2Features() && characteristics.get(requestKey) != null) {
             int[]  scenes = characteristics.get(requestKey);
             if (scenes.length >0)
                 settingMode.setIsSupported(true);
@@ -673,7 +673,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectByteMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<byte[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
     {
-        if (appSettingsManager.IsCamera2FullSupported() && characteristics.get(requestKey) != null) {
+        if (appSettingsManager.hasCamera2Features() && characteristics.get(requestKey) != null) {
 
             byte[] scenes = characteristics.get(requestKey);
             if (scenes == null)

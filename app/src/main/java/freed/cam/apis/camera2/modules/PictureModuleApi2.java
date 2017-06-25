@@ -28,9 +28,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
-import android.media.Image;
 import android.media.ImageReader;
-import android.media.ImageReader.OnImageAvailableListener;
 import android.os.AsyncTask;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
@@ -43,10 +41,7 @@ import com.troop.freedcam.R;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
@@ -281,7 +276,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
 
             onStartTakePicture();
 
-            if (appSettingsManager.IsCamera2FullSupported() && cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
+            if (appSettingsManager.hasCamera2Features() && cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
                 PictureModuleApi2.this.setCaptureState(STATE_WAIT_FOR_PRECAPTURE);
                 Log.d(TAG,"Start AE Precapture");
                 startTimerLocked();

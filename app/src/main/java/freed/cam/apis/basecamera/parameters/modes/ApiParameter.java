@@ -42,7 +42,7 @@ public class ApiParameter extends AbstractParameter
     {
         if (VERSION.SDK_INT >= 21)
         {
-            if (fragment_activityInterface.getAppSettings().IsCamera2FullSupported())
+            if (fragment_activityInterface.getAppSettings().hasCamera2Features())
                 return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2, AppSettingsManager.API_1};
             else
                 return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_1};

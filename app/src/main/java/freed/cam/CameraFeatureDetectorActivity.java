@@ -117,7 +117,7 @@ public class CameraFeatureDetectorActivity extends ActivityAbstract
 
         @Override
         public void onTaskEnd(String msg) {
-            if(getAppSettings().IsCamera2FullSupported())
+            if(getAppSettings().hasCamera2Features())
                 getAppSettings().setCamApi(AppSettingsManager.API_2);
             startFreedcam();
         }
