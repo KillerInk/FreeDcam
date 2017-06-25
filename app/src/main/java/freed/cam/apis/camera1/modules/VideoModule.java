@@ -153,6 +153,7 @@ public class VideoModule extends AbstractVideoModule
         Log.d(TAG,"LoadProfile: " + currentProfile.ProfileName + " Size: " + currentProfile.videoFrameWidth+"/"+currentProfile.videoFrameHeight);
         if (currentProfile.Mode == VideoMode.Highspeed)
         {
+            Log.d(TAG, "prepareHighspeed");
             if(cameraUiWrapper.getParameterHandler().HTCVideoMode != null) {
                 loadHtcHighspeed();
             }
@@ -186,12 +187,19 @@ public class VideoModule extends AbstractVideoModule
             }
             if (currentProfile.videoFrameHeight >=2160)
             {
+                Log.d(TAG,"prepare 4k video");
                 disable_mce_dis_vs_denoise();
-                if (!appSettingsManager.hasCamera2Features() && StringUtils.arrayContainsString(appSettingsManager.previewFormat.getValues(), "nv12-venus"))
-                    cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
+                if (!appSettingsManager.hasCamera2Features() && StringUtils.arrayContainsString(appSettingsManager.previewFormat.getValues(), "nv12-venus")) {
+                    Log.d(TAG,"Set Preview format to nv12-venus");
+                    cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("nv12-venus", true);
+                    Log.d(TAG,"Set Preview format to nv12-venus done");
+                }
             }
-            else
+            else {
+                Log.d(TAG,"Set Preview format to yuv420sp");
                 cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("yuv420sp", true);
+                Log.d(TAG,"Set Preview format to yuv420sp done");
+            }
 
             if (appSettingsManager.videoHFR.isSupported())
             {
@@ -202,17 +210,23 @@ public class VideoModule extends AbstractVideoModule
 
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
         cameraUiWrapper.stopPreview();
-        if (appSettingsManager.previewSize.isSupported())
-            cameraUiWrapper.getParameterHandler().PreviewSize.SetValue(size,false);
+        if (appSettingsManager.previewSize.isSupported()) {
+            Log.d(TAG,"Set previewSize to:" + size);
+            cameraUiWrapper.getParameterHandler().PreviewSize.SetValue(size, true);
+            Log.d(TAG,"Set previewSize done");
+        }
         //video size applies the parameters to the camera
-        if (appSettingsManager.videoSize.isSupported())
+        if (appSettingsManager.videoSize.isSupported()) {
+            Log.d(TAG,"Set videoSize to:" + size);
             cameraUiWrapper.getParameterHandler().VideoSize.SetValue(size, true);
+            Log.d(TAG,"Set videoSize done");
+        }
 
         cameraUiWrapper.startPreview();
     }
 
     private void loadDefaultHighspeed() {
-        Log.d(TAG, "Load default higspeed");
+        Log.d(TAG, "prepare default higspeed");
         //turn off all blocking/postprocessing parameters wich avoid highframes
         disable_mce_dis_vs_denoise();
         //full camera2 devices dont use hardware preview format so set it only for legacy devices
@@ -233,18 +247,23 @@ public class VideoModule extends AbstractVideoModule
     {
         Log.d(TAG, "disable_mce_dis_vs_denoise");
         //turn off all blocking/postprocessing parameters wich avoid highframes
+        Log.d(TAG, "disable_mce");
         if (cameraUiWrapper.getParameterHandler().MemoryColorEnhancement != null && appSettingsManager.memoryColorEnhancement.isSupported())
             cameraUiWrapper.getParameterHandler().MemoryColorEnhancement.SetValue("disable", false);
+        Log.d(TAG, "disable_dis");
         if (cameraUiWrapper.getParameterHandler().DigitalImageStabilization != null && appSettingsManager.digitalImageStabilisationMode.isSupported())
             cameraUiWrapper.getParameterHandler().DigitalImageStabilization.SetValue("disable", false);
+        Log.d(TAG, "disable_vs");
         if (cameraUiWrapper.getParameterHandler().VideoStabilization != null && appSettingsManager.videoStabilisation.isSupported())
             cameraUiWrapper.getParameterHandler().VideoStabilization.SetValue("false", false);
+        Log.d(TAG, "disable_denoise");
         if (cameraUiWrapper.getParameterHandler().Denoise != null && cameraUiWrapper.getParameterHandler().Denoise.IsSupported())
             cameraUiWrapper.getParameterHandler().Denoise.SetValue("denoise-off", false);
         Log.d(TAG, "disable_mce_dis_vs_denoise done");
     }
 
     private void loadMtkHighspeed() {
+        Log.d(TAG, "prepare mtk highspeed");
         if(cameraUiWrapper.getParameterHandler().PreviewFPS.getStringValues().toString().contains(currentProfile.videoFrameRate+""))
         {
             cameraUiWrapper.getParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate+"",false);
@@ -258,6 +277,7 @@ public class VideoModule extends AbstractVideoModule
     }
 
     private void loadHtcHighspeed() {
+        Log.d(TAG, "prepare HTC Highpseed");
         if (currentProfile.videoFrameHeight == 1080 && currentProfile.Mode == VideoMode.Highspeed)
         {
             cameraUiWrapper.getParameterHandler().HTCVideoMode.SetValue("2",true);
