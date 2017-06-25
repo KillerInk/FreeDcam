@@ -223,12 +223,6 @@ public class BaseManualParameter extends AbstractParameter
                 ResetToDefault();
             }
         }
-
-        @Override
-        public void onStringValuesChanged(String[] values)
-        {
-
-        }
     };
 
     public ModuleChangedEvent GetModuleListner()

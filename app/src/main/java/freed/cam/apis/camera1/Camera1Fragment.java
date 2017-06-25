@@ -364,11 +364,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
             }
         }
 
-        @Override
-        public void onStringValuesChanged(String[] values) {
-
-        }
-
     };
 
     private Size getOptimalPreviewSize(List<Size> sizes, int w, int h,boolean FocusPeakClamp) {

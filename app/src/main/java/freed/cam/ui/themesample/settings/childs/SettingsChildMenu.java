@@ -111,12 +111,6 @@ public class SettingsChildMenu extends UiSettingsChild
     }
 
     @Override
-    public void onStringValuesChanged(String[] values)
-    {
-
-    }
-
-    @Override
     public void onStringValueChanged(String val) {
         sendLog("Set Value to:" + val);
         if (valueText != null)

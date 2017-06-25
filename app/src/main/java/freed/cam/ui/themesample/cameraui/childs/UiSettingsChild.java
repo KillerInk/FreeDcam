@@ -185,12 +185,6 @@ public class UiSettingsChild extends SettingsChildAbstract
         valueText.setText(value);
     }
 
-    //AbstractModeParameter.I_ModeParameterEvent implementation
-    @Override
-    public void onStringValuesChanged(String[] values)
-    {
-
-    }
 
     private final AnimatorListener hideListner = new AnimatorListener() {
         @Override

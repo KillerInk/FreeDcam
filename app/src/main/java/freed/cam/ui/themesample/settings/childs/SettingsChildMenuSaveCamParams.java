@@ -62,10 +62,6 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
     }
 
     @Override
-    public void onStringValuesChanged(String[] values) {
-    }
-
-    @Override
     public void onClick(View v)
     {
         try {

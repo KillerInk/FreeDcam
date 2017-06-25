@@ -97,11 +97,6 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         brightness.fireIsReadOnlyChanged(canSet);
     }
 
-    @Override
-    public void onStringValuesChanged(String[] values) {
-
-    }
-
     public class Contrast extends AbstractParameter
     {
         boolean firststart = true;

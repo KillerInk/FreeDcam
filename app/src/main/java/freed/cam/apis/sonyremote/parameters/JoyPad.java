@@ -51,11 +51,6 @@ public class JoyPad extends View implements ParameterEvents
 
     }
 
-    @Override
-    public void onStringValuesChanged(String[] values) {
-
-    }
-
     public interface NavigationClick
     {
         void onMove(int x,int y);

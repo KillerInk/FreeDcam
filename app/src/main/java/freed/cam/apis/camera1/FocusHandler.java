@@ -83,12 +83,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                 }
             }
         }
-
-        @Override
-        public void onStringValuesChanged(String[] values)
-        {
-        }
-
     };
 
     public ParameterEvents aeModeListner = new ParameterEvents() {
@@ -135,11 +129,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                     focusEvent.AEMeteringSupported(true);
                 }
             }
-        }
-
-        @Override
-        public void onStringValuesChanged(String[] values)
-        {
         }
     };
 

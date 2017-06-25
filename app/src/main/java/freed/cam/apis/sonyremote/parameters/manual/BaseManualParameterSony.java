@@ -221,11 +221,6 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
         }
     }
 
-    @Override
-    public void onStringValuesChanged(String[] values) {
-
-    }
-
     protected void sendLog(String log)
     {
         if (logging)

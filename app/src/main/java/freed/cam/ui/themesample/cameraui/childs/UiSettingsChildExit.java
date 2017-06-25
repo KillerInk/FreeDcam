@@ -41,9 +41,7 @@ public class UiSettingsChildExit extends UiSettingsChild
     }
 
     @Override
-    public void onStringValuesChanged(String[] values) {
+    public void onStringValueChanged(String value) {
         valueText.setText("");
     }
-
-
 }

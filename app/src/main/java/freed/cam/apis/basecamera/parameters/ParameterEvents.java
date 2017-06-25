@@ -39,9 +39,4 @@ public interface ParameterEvents
      */
     void onStringValueChanged(String value);
 
-    /**
-     * Gets fired when the parameter has changed in background
-     * @param values
-     */
-    void onStringValuesChanged(String[] values);
 }

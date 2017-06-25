@@ -114,11 +114,6 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
     }
 
     @Override
-    public void onStringValuesChanged(String[] values) {
-
-    }
-
-    @Override
     public void onIsSupportedChanged(boolean value) {
 
     }

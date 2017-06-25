@@ -125,13 +125,6 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
         }
     }
 
-    @Override
-    public void onStringValuesChanged(String[] values) {
-
-
-    }
-
-
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;

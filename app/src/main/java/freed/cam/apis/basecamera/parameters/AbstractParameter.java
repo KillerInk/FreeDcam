@@ -29,7 +29,7 @@ public abstract class AbstractParameter implements ParameterInterface {
     /**
      * the key_value that is currently in use by the parameters
      */
-    protected String currentString;
+    protected String currentString ="";
     /**
      * the true integer key_value that represents the the currentstring in the array stringvalues
      * so on negative values  -1 = stringarray[stringarray/2 + -1] must get used
@@ -83,6 +83,7 @@ public abstract class AbstractParameter implements ParameterInterface {
 
     public void fireIntValueChanged(int current)
     {
+        currentInt = current;
         for (int i = 0; i< listners.size(); i ++)
         {
             if (listners.get(i) == null)
@@ -107,6 +108,7 @@ public abstract class AbstractParameter implements ParameterInterface {
 
     public void fireStringValueChanged(String value)
     {
+        currentString = value;
         for (int i = 0; i< listners.size(); i ++)
         {
             if (listners.get(i) == null)
@@ -130,6 +132,7 @@ public abstract class AbstractParameter implements ParameterInterface {
 
     public void fireIsSupportedChanged(boolean value)
     {
+        isSupported = value;
         for (int i = 0; i< listners.size(); i ++)
         {
             if (listners.get(i) == null)
@@ -152,6 +155,7 @@ public abstract class AbstractParameter implements ParameterInterface {
     }
     public void fireIsReadOnlyChanged(boolean value)
     {
+        isNotReadOnly = value;
         for (int i = 0; i< listners.size(); i ++)
         {
             if (listners.get(i) == null)
@@ -175,6 +179,7 @@ public abstract class AbstractParameter implements ParameterInterface {
 
     public void fireStringValuesChanged(String[] value)
     {
+        stringvalues = value;
         for (int i = 0; i< listners.size(); i ++)
         {
             if (listners.get(i) == null)
@@ -189,7 +194,7 @@ public abstract class AbstractParameter implements ParameterInterface {
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        lis.onStringValuesChanged(cur);
+                        lis.onValuesChanged(cur);
                     }
                 });
             }

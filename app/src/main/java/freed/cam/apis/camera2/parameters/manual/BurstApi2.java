@@ -102,9 +102,4 @@ public class BurstApi2 extends AbstractParameter implements ParameterEvents
     public void onStringValueChanged(String value) {
 
     }
-
-    @Override
-    public void onStringValuesChanged(String[] values) {
-
-    }
 }

@@ -210,11 +210,6 @@ public class GuideHandler extends Fragment implements ParameterEvents {
             SetViewG(value);
     }
 
-    @Override
-    public void onStringValuesChanged(String[] values) {
-
-    }
-
     private final ParameterEvents previewSizeChanged = new ParameterEvents() {
         @Override
         public void onIsSupportedChanged(boolean value) {
@@ -245,11 +240,6 @@ public class GuideHandler extends Fragment implements ParameterEvents {
                 quckRationMath = Float.valueOf(size[0]) / Float.valueOf(size[1]);
                 SetViewG(img);
             }
-        }
-
-        @Override
-        public void onStringValuesChanged(String[] values) {
-
         }
 
     };

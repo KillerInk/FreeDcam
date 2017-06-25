@@ -86,12 +86,6 @@ public class FocusHandler extends AbstractFocusHandler
                     focusEvent.TouchToFocusSupported(true);
             }
         }
-
-        @Override
-        public void onStringValuesChanged(String[] values)
-        {
-
-        }
     };
 
     @Override
@@ -179,13 +173,6 @@ public class FocusHandler extends AbstractFocusHandler
                 if (focusEvent != null)
                     focusEvent.AEMeteringSupported(true);
             }
-        }
-
-        @Override
-        public void onStringValuesChanged(String[] values)
-        {
-
-
         }
     };
 

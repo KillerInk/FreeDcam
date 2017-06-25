@@ -148,6 +148,8 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
 
     @Override
     public void onCaptureStateChanged(CaptureStates mode) {
+        if(mode == null)
+            return;
         Log.d(this.TAG, "onCaptureStateChanged CurrentShow:" + this.currentShow + " Capturestate: " + mode.name());
         //first start shutter animation
         this.switchBackground(mode, true);

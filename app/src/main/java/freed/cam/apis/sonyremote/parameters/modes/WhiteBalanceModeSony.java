@@ -24,8 +24,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Set;
 
 import freed.cam.apis.sonyremote.parameters.manual.WbCTManualSony;
+import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
@@ -40,26 +42,35 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
     }
 
     @Override
+    public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
+    {
+        this.mAvailableCameraApiSet = mAvailableCameraApiSet;
+    }
+
+    /*@Override
     public String[] getStringValues()
     {
-        if(values == null || values.length == 0) {
+        if(stringvalues == null || stringvalues.length == 0) {
             jsonObject = null;
+            stringvalues = new String[0];
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
-                        values = processValuesToReturn();
-                        fireStringValuesChanged(values);
-                    } catch (IOException ex) {
-                        Log.WriteEx(ex);
-                    }
+                try {
+
+                    jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                    stringvalues = processValuesToReturn();
+
+                    fireStringValuesChanged(stringvalues);
+                } catch (IOException ex) {
+                    Log.WriteEx(ex);
+                }
                 }
             });
         }
 
-        return values;
-    }
+        return stringvalues;
+    }*/
 
     protected String[] processValuesToReturn() {
         String[] ret = null;

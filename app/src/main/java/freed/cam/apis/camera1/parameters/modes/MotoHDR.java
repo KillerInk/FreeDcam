@@ -95,12 +95,6 @@ public class MotoHDR extends BaseModeParameter
     }
 
     @Override
-    public void onStringValuesChanged(String[] val)
-    {
-
-    }
-
-    @Override
     public void onStringValueChanged(String val) {
         format = val;
         if (val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&&!visible &&!curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))

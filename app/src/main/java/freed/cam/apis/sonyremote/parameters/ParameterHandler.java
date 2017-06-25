@@ -360,7 +360,8 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onImageFormatChanged(String imagesize) {
-        PictureFormat.fireStringValueChanged(imagesize);
+        if (imagesize!= null && !imagesize.equals(""))
+            PictureFormat.fireStringValueChanged(imagesize);
     }
 
     @Override
@@ -370,12 +371,14 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onImageSizeChanged(String imagesize) {
-        PictureSize.fireStringValueChanged(imagesize);
+        if (imagesize!= null && !imagesize.equals(""))
+            PictureSize.fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onContshotModeChanged(String imagesize) {
-        ContShootMode.fireStringValueChanged(imagesize);
+        if (imagesize!= null && !imagesize.equals(""))
+            ContShootMode.fireStringValueChanged(imagesize);
     }
 
     @Override
@@ -385,7 +388,8 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onFocusModeChanged(String imagesize) {
-        FocusMode.fireStringValueChanged(imagesize);
+        if (imagesize!= null && !imagesize.equals(""))
+            FocusMode.fireStringValueChanged(imagesize);
     }
 
     @Override
@@ -395,7 +399,8 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onPostviewModeChanged(String imagesize) {
-        PostViewSize.fireStringValueChanged(imagesize);
+        if (imagesize!= null && !imagesize.equals(""))
+            PostViewSize.fireStringValueChanged(imagesize);
     }
 
     @Override
@@ -425,6 +430,8 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onExposureModeChanged(String expomode) {
+        if (expomode == null && expomode.equals(""))
+            return;
         if (!ExposureMode.GetStringValue().equals(expomode))
             ExposureMode.fireStringValueChanged(expomode);
         if (expomode.equals("Intelligent Auto")|| expomode.equals("Superior Auto"))

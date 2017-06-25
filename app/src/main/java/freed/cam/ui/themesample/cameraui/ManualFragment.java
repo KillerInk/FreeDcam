@@ -315,11 +315,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     }
 
-    @Override
-    public void onStringValuesChanged(String[] values) {
-
-    }
-
     /**
      * Gets called when the module has changed
      *

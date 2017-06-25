@@ -134,11 +134,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
     }
 
-    @Override
-    public void onStringValuesChanged(String[] values) {
-
-    }
-
     public enum NightPreviewModes
     {
         on,

@@ -211,11 +211,6 @@ public class ManualButton extends LinearLayout implements ParameterEvents
         });
     }
 
-    @Override
-    public void onStringValuesChanged(String[] values) {
-
-    }
-
     private void setTextValue(final int current)
     {
         valueTextView.post(new Runnable() {

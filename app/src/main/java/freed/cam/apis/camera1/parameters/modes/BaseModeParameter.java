@@ -105,8 +105,4 @@ public class BaseModeParameter extends AbstractParameter implements ModuleChange
 
     }
 
-    @Override
-    public void onStringValuesChanged(String[] values) {
-
-    }
 }

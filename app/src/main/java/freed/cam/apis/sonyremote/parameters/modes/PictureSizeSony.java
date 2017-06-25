@@ -44,17 +44,17 @@ public class PictureSizeSony extends BaseModeParameterSony
     public String[] getStringValues()
     {
         jsonObject =null;
-        if (values == null || values.length == 0) {
-            values = new String[0];
+        if (stringvalues == null || stringvalues.length == 0) {
+            stringvalues = new String[0];
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run()
                 {
-                    synchronized (values){
+                    synchronized (stringvalues){
                         try {
                             jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
-                            values = processValuesToReturn();
-                            fireStringValuesChanged(values);
+                            stringvalues = processValuesToReturn();
+                            fireStringValuesChanged(stringvalues);
                         } catch (IOException ex) {
                             Log.WriteEx(ex);
                         }
@@ -62,7 +62,7 @@ public class PictureSizeSony extends BaseModeParameterSony
                 }
             });
         }
-        return values;
+        return stringvalues;
     }
 
     @Override
@@ -95,6 +95,7 @@ public class PictureSizeSony extends BaseModeParameterSony
                 JSONObject size = subarray.getJSONObject(i);
                 ret[i] = size.getString("aspect") + "x" +size.getString("size");
             }
+            stringvalues = ret;
         } catch (JSONException ex) {
             Log.WriteEx(ex);
         }
@@ -113,6 +114,7 @@ public class PictureSizeSony extends BaseModeParameterSony
         {
             JSONObject size = array.getJSONObject(0);
             ret = size.getString("aspect") + "+" +size.getString("size");
+            currentString = ret;
         } catch (JSONException | NullPointerException ex)
         {
             Log.WriteEx(ex);

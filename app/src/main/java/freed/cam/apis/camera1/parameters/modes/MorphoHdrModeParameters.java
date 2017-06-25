@@ -125,12 +125,6 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
     }
 
     @Override
-    public void onStringValuesChanged(String[] values)
-    {
-
-    }
-
-    @Override
     public void onStringValueChanged(String val) {
         format = val;
         if (val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&&!visible &&!curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))

@@ -46,11 +46,6 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
     protected SimpleRemoteApi mRemoteApi;
     protected Set<String> mAvailableCameraApiSet;
     JSONObject jsonObject;
-
-    protected boolean isSupported;
-    protected boolean isSetSupported;
-    protected String value ="";
-    protected String[] values;
     private final String TAG = BaseModeParameterSony.class.getSimpleName();
 
     public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi)
@@ -78,20 +73,13 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
     @Override
     public boolean IsSupported()
     {
-        if (mAvailableCameraApiSet != null)
-        {
-            boolean sup = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
-            Log.d(TAG, VALUE_TO_GET + " is supported: " + sup);
-            fireIsSupportedChanged(sup);
-            return sup;
-        }else
-            return false;
+        return isSupported;
     }
 
     @Override
     public void SetValue(final String valueToSet, boolean setToCamera)
     {
-        value = valueToSet;
+        super.SetValue(valueToSet,setToCamera);
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
@@ -138,7 +126,7 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
                 }
             }).start();
         }*/
-            return value;
+            return currentString;
 
     }
 
@@ -179,7 +167,7 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
         }
         String[] ret = processValuesToReturn();*/
 
-        return values;
+        return stringvalues;
     }
 
     protected String[] processValuesToReturn() {
@@ -196,11 +184,12 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
 
     @Override
     public void onIsSupportedChanged(boolean value) {
-
+        isSupported = value;
     }
 
     @Override
     public void onIsSetSupportedChanged(boolean value) {
+        isNotReadOnly = value;
 
     }
 
@@ -211,16 +200,12 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
 
     @Override
     public void onValuesChanged(String[] values) {
-
+        this.stringvalues = values;
     }
 
     @Override
     public void onStringValueChanged(String value) {
-        this.value = value;
+        this.currentString = value;
     }
 
-    @Override
-    public void onStringValuesChanged(String[] values) {
-        this.values = values;
-    }
 }
