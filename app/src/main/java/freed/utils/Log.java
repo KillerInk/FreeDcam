@@ -98,12 +98,12 @@ public class Log
             Thread.setDefaultUncaughtExceptionHandler(uncaughtExceptionHandler);
             try {
                 File outfile = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeDcam/"+/*+ DateFormat.format("yyyy-mm-dd hh.mm.ss", Calendar.getInstance().getTime())*/ "log"+".txt");
-                if (!outfile.exists()) {
+                if (!outfile.getParentFile().exists()) {
                     outfile.getParentFile().mkdirs();
-                    outfile.mkdir();
                 }
-                /*if (!outfile.exists())
-                    outfile.createNewFile();*/
+
+                if (!outfile.exists())
+                    outfile.createNewFile();
                 fileWriter = new FileWriter(outfile,true);
                 outwriter = new BufferedWriter(fileWriter);
             } catch (IOException e) {
@@ -152,10 +152,8 @@ public class Log
         private Thread.UncaughtExceptionHandler uncaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
-
-                Log.WriteEx(e);
-                defaultUncaughtExHandler.uncaughtException(t,e);
-
+            Log.WriteEx(e);
+            defaultUncaughtExHandler.uncaughtException(t,e);
             }
         };
     }
