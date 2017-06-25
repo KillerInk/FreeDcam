@@ -21,30 +21,17 @@ package freed.utils;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.os.Build;
 import android.support.v4.util.LongSparseArray;
 import android.text.TextUtils;
 
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
-import freed.cam.apis.sonyremote.sonystuff.XmlElement;
-import freed.cam.featuredetector.Camera1FeatureDetectorTask;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 
@@ -494,19 +481,20 @@ public class AppSettingsManager {
         ae_TagetFPS = new SettingMode(getResString(R.string.aps_ae_targetFPS));
 
 
+        XmlParserWriter parser = new XmlParserWriter();
         //first time init
-        matrixes = getMatrixes();
+        matrixes = parser.getMatrixes(resources);
         mDevice = sharedPreferences.getString("DEVICE","");
         if (mDevice == null || TextUtils.isEmpty(mDevice))
         {
             Log.d(TAG, "Lookup ConfigFile");
-            parseAndFindSupportedDevice();
+            parser.parseAndFindSupportedDevice(resources,this,matrixes);
         }
         else //load only stuff for dng
         {
             Log.d(TAG, "load dngProfiles");
             opcodeUrlList = new String[2];
-            dngProfileHashMap = getDngProfiles();
+            dngProfileHashMap = parser.getDngProfiles(matrixes,this);
         }
 
 
@@ -550,7 +538,7 @@ public class AppSettingsManager {
         return settings.getBoolean("zteae", false);
     }
 
-    private void setZteAe(boolean legacy)
+    public void setZteAe(boolean legacy)
     {
         settings.edit().putBoolean("zteae",legacy).commit();
     }
@@ -560,7 +548,7 @@ public class AppSettingsManager {
         return settings.getBoolean("overrideprofile", false);
     }
 
-    private void setsOverrideDngProfile(boolean legacy)
+    public void setsOverrideDngProfile(boolean legacy)
     {
         settings.edit().putBoolean("overrideprofile",legacy).commit();
     }
@@ -570,7 +558,7 @@ public class AppSettingsManager {
         return settings.getBoolean("forcerawtodng", false);
     }
 
-    private void setForceRawToDng(boolean legacy)
+    public void setForceRawToDng(boolean legacy)
     {
         settings.edit().putBoolean("forcerawtodng",legacy).commit();
     }
@@ -585,7 +573,7 @@ public class AppSettingsManager {
         return settings.getBoolean("needrestartaftercapture", false);
     }
 
-    private void setNeedRestartAfterCapture(boolean legacy)
+    public void setNeedRestartAfterCapture(boolean legacy)
     {
         settings.edit().putBoolean("needrestartaftercapture",legacy).commit();
     }
@@ -606,7 +594,7 @@ public class AppSettingsManager {
         settings.edit().putInt(APPVERSION,version).commit();
     }
 
-    private void setDngManualsSupported(boolean supported)
+    public void setDngManualsSupported(boolean supported)
     {
         setBoolean("dngmanualSupported", supported);
     }
@@ -661,7 +649,7 @@ public class AppSettingsManager {
         settings.edit().putInt("camera2maxiso",max).commit();
     }
 
-    private void setDevice(String device) {
+    public void setDevice(String device) {
         this.mDevice = device;
         putString("DEVICE", mDevice);
     }
@@ -833,435 +821,6 @@ public class AppSettingsManager {
 
     ///XML STUFF
 
-    private void parseAndFindSupportedDevice()
-    {
-        try {
-            String xmlsource = getString(resources.openRawResource(R.raw.supported_devices));
-            XmlElement rootElement = XmlElement.parse(xmlsource);
-            if (rootElement.getTagName().equals("devices"))
-            {
-                List<XmlElement> devicesList = rootElement.findChildren("device");
-                Log.d(TAG, "Found " + devicesList.size() + " Devices in Xml");
 
-                for (XmlElement device_element: devicesList)
-                {
-                    List<XmlElement> models = device_element.findChild("models").findChildren("item");
-                    for (XmlElement mod : models)
-                    {
-                        if (mod.getValue().equals(Build.MODEL)) {
-
-                            setDevice(device_element.getAttribute("name",""));
-                            Log.d(TAG, "Found Device:" + getDeviceString());
-
-                            XmlElement camera1element = device_element.findChild("camera1");
-
-
-                            if (!camera1element.isEmpty()) {
-                                Log.d(TAG, "Found camera1 overrides");
-                                Log.v(TAG, camera1element.dumpChildElementsTagNames());
-                                if (!camera1element.findChild("framework").isEmpty())
-                                {
-                                    setFramework(Integer.parseInt(camera1element.findChild("framework").getValue()));
-                                }
-                                else
-                                    setFramework(Camera1FeatureDetectorTask.getFramework());
-
-                                if (!camera1element.findChild("dngmanual").isEmpty())
-                                    setDngManualsSupported(Boolean.parseBoolean(camera1element.findChild("dngmanual").getValue()));
-                                else
-                                    setDngManualsSupported(true);
-                                Log.d(TAG, "dng manual supported:" + getDngManualsSupported());
-
-                                if (!camera1element.findChild("opencameralegacy").isEmpty()) {
-                                    opencamera1Legacy.setBoolean(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
-                                    opencamera1Legacy.setIsPresetted(true);
-                                }
-
-                                Log.d(TAG, "OpenLegacy: " + opencamera1Legacy.getBoolean() + " isPresetted:" + opencamera1Legacy.isPresetted());
-
-                                if (!camera1element.findChild("zteae").isEmpty())
-                                    setZteAe(Boolean.parseBoolean(camera1element.findChild("zte").getValue()));
-                                else
-                                    setZteAe(false);
-
-                                Log.d(TAG, "isZteAE:" + isZteAe());
-
-                                if (!camera1element.findChild("needrestartaftercapture").isEmpty())
-                                    setNeedRestartAfterCapture(Boolean.parseBoolean(camera1element.findChild("needrestartaftercapture").getValue()));
-                                else
-                                    setNeedRestartAfterCapture(false);
-
-                                if (!camera1element.findChild("burst").isEmpty()) {
-                                    manualBurst.setIsSupported(true);
-                                    int max = Integer.parseInt(camera1element.findChild("burst").getValue());
-                                    manualBurst.setValues(createStringArray(1, max, 1));
-                                    manualBurst.set(1 + "");
-                                } else
-                                    manualBurst.setIsSupported(false);
-                                manualBurst.setIsPresetted(true);
-
-                                if (!camera1element.findChild("nightmode").isEmpty()) {
-                                    nightMode.setIsSupported(true);
-                                    int type = Integer.parseInt(camera1element.findChild("nightmode").getValue());
-                                    nightMode.setType(type);
-                                } else
-                                    nightMode.setIsSupported(false);
-                                nightMode.setIsPresetted(true);
-
-                                if (!camera1element.findChild("whitebalance").isEmpty())
-                                {
-                                    //TODO handel sdk specific
-                                    Log.d(TAG, "override manual whiteblalance");
-                                    int min = camera1element.findChild("whitebalance").findChild("min").getIntValue(2000);
-                                    int max  = camera1element.findChild("whitebalance").findChild("max").getIntValue(8000);
-                                    int step = camera1element.findChild("whitebalance").findChild("step").getIntValue(100);
-                                    manualWhiteBalance.setKEY(camera1element.findChild("whitebalance").findChild("key").getValue());
-                                    manualWhiteBalance.setMode(camera1element.findChild("whitebalance").findChild("mode").getValue());
-                                    manualWhiteBalance.setValues(Camera1FeatureDetectorTask.createWBStringArray(min,max,step,this));
-                                    manualWhiteBalance.setIsSupported(true);
-                                    manualWhiteBalance.setIsPresetted(true);
-                                }
-
-                                if (!camera1element.findChild("manualiso").isEmpty())
-                                {
-                                    Log.d(TAG, "override manual iso");
-                                    if (!camera1element.findChild("manualiso").getAttribute("supported","false").isEmpty())
-                                    {
-                                        if (camera1element.findChild("manualiso").getAttribute("supported","false").equals("false")) {
-                                            manualIso.setIsSupported(false);
-                                            manualIso.setIsPresetted(true);
-                                        }
-                                        else
-                                        {
-                                            manualIso.setIsSupported(true);
-                                            manualIso.setIsPresetted(true);
-                                            setManualIso(camera1element.findChild("manualiso"));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if(!camera1element.findChild("manualiso").findChildren("framework").isEmpty())
-                                        {
-                                            List<XmlElement> frameworksiso = camera1element.findChild("manualiso").findChildren("framework");
-                                            for(XmlElement framiso : frameworksiso)
-                                            {
-                                                if (Integer.parseInt(framiso.getAttribute("type","0")) == getFrameWork())
-                                                    setManualIso(framiso);
-                                            }
-                                        }
-                                        else
-                                            setManualIso(camera1element.findChild("manualiso"));
-                                        manualIso.setIsPresetted(true);
-                                    }
-                                }
-
-                                if (!camera1element.findChild("exposuretime").isEmpty())
-                                {
-                                    Log.d(TAG, "override manual exposuretime");
-                                    if (!camera1element.findChild("exposuretime").findChild("values").isEmpty())
-                                    {
-                                        String name = camera1element.findChild("exposuretime").findChild("values").getValue();
-                                        manualExposureTime.setValues(getResources().getStringArray(getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
-                                    }
-                                    if (!camera1element.findChild("exposuretime").findChild("key").isEmpty())
-                                    {
-                                        manualExposureTime.setKEY(camera1element.findChild("exposuretime").findChild("key").getValue());
-                                    }
-                                    if (!camera1element.findChild("exposuretime").findChild("key").isEmpty())
-                                    {
-                                        manualExposureTime.setType(camera1element.findChild("exposuretime").findChild("type").getIntValue(0));
-                                        manualExposureTime.setIsSupported(true);
-                                    }
-                                    else {
-                                        manualExposureTime.setIsSupported(false);
-                                        manualExposureTime.setKEY("unsupported");
-                                    }
-                                    manualExposureTime.setIsPresetted(true);
-                                }
-
-                                if (!camera1element.findChild("hdrmode").isEmpty())
-                                {
-                                    Log.d(TAG, "override hdr");
-                                    if (camera1element.findChild("hdrmode").getAttribute("supported","false") != null)
-                                    {
-                                        if (!Boolean.parseBoolean(camera1element.findChild("hdrmode").getAttribute("supported","false")))
-                                            hdrMode.setIsSupported(false);
-                                        else{
-                                            hdrMode.setIsSupported(true);
-                                            hdrMode.setType(camera1element.findChild("hdrmode").getIntValue(1));
-                                        }
-                                    }
-                                    hdrMode.setIsPresetted(true);
-                                }
-
-                                if (!camera1element.findChild("virtuallensfilter").isEmpty())
-                                {
-                                    virtualLensfilter.setIsSupported(true);
-                                }
-
-                                if (!camera1element.findChild("denoise").isEmpty())
-                                {
-                                    if (!camera1element.findChild("denoise").getBooleanValue())
-                                    {
-                                        denoiseMode.setIsSupported(false);
-                                        denoiseMode.setIsPresetted(true);
-                                    }
-                                }
-
-                                if (!camera1element.findChild("digitalimagestab").isEmpty())
-                                {
-                                    if (!camera1element.findChild("digitalimagestab").getBooleanValue())
-                                    {
-                                        digitalImageStabilisationMode.setIsSupported(false);
-                                        digitalImageStabilisationMode.setIsPresetted(true);
-                                    }
-                                }
-
-                                if (!camera1element.findChild("manualfocus").isEmpty())
-                                {
-                                    Log.d(TAG, "override manual focus");
-                                    List<XmlElement> mfs = camera1element.findChildren("manualfocus");
-                                    if (mfs.size() > 1) {
-                                        for (XmlElement mf : mfs) {
-                                            if (mf.getIntAttribute("version", 0) == Build.VERSION.SDK_INT) {
-                                                setManualFocus(mf);
-                                            }
-                                        }
-                                    }
-                                    else
-                                        setManualFocus(mfs.get(0));
-                                    manualFocus.setIsPresetted(true);
-                                }
-
-                                if (!camera1element.findChild("rawformat").isEmpty())
-                                {
-                                    Log.d(TAG, "override rawpictureformat");
-                                    rawPictureFormat.set(camera1element.findChild("rawformat").getValue());
-                                    rawPictureFormat.setIsPresetted(true);
-                                    rawPictureFormat.setIsSupported(true);
-                                }
-
-                                if (!camera1element.findChild("opticalimagestab").isEmpty())
-                                {
-                                    opticalImageStabilisation.set(camera1element.findChild("opticalimagestab").findChild("key").getValue());
-                                    opticalImageStabilisation.setValues(camera1element.findChild("opticalimagestab").findChild("values").getValue().split(","));
-                                    opticalImageStabilisation.setIsSupported(true);
-                                    opticalImageStabilisation.setIsPresetted(true);
-                                }
-                            }
-
-                            XmlElement camera2element = device_element.findChild("camera2");
-                            if (!camera2element.isEmpty()) {
-                                Log.d(TAG,"Found Camera2 overrides");
-                                if (!camera2element.findChild("forcerawtodng").isEmpty())
-                                    setForceRawToDng(camera2element.findChild("forcerawtodng").getBooleanValue());
-                                if (!camera2element.findChild("overrideprofile").isEmpty())
-                                    setsOverrideDngProfile(camera2element.findChild("overrideprofile").getBooleanValue());
-
-                                if (!camera2element.findChild("maxexposuretime").isEmpty())
-                                {
-                                    setCamera2MaxExposureTime(camera2element.findChild("maxexposuretime").getLongValue());
-                                }
-                                if (!camera2element.findChild("maxiso").isEmpty())
-                                    setCamera2MaxIso(camera2element.findChild("maxiso").getIntValue(0));
-                            }
-
-                            dngProfileHashMap = new LongSparseArray<>();
-                            getDngStuff(dngProfileHashMap, device_element);
-                            Log.d(TAG, "Save Dng Profiles:" + dngProfileHashMap.size());
-                            saveDngProfiles(dngProfileHashMap);
-
-                            break;
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-            Log.WriteEx(e);
-        }
-    }
-
-    private void setManualFocus(XmlElement element)
-    {
-        if (element.findChild("min") != null)
-        {
-            manualFocus.setMode(element.findChild("mode").getValue());
-            manualFocus.setType(element.findChild("type").getIntValue(-1));
-            manualFocus.setIsSupported(true);
-            manualFocus.setKEY(element.findChild("key").getValue());
-            manualFocus.setValues(Camera1FeatureDetectorTask.createManualFocusValues(element.findChild("min").getIntValue(0),element.findChild("max").getIntValue(0),element.findChild("step").getIntValue(0),this));
-        }
-        else
-            manualFocus.setIsSupported(false);
-    }
-
-    private void setManualIso(XmlElement element)
-    {
-        if (!element.findChild("min").isEmpty()) {
-            int min = element.findChild("min").getIntValue(100);
-            int max = element.findChild("max").getIntValue(1600);
-            int step = element.findChild("step").getIntValue(50);
-            int type = element.findChild("type").getIntValue(0);
-            manualIso.setType(type);
-            manualIso.setKEY(element.findChild("key").getValue());
-            manualIso.setValues(Camera1FeatureDetectorTask.createIsoValues(min, max, step, this));
-            manualIso.setIsSupported(true);
-            manualIso.setIsPresetted(true);
-        }
-        else if (!element.findChild("values").isEmpty())
-        {
-            String name = element.findChild("values").getValue();
-            manualIso.setValues(getResources().getStringArray(getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
-            manualIso.setKEY(element.findChild("key").getValue());
-            int type = element.findChild("type").getIntValue(0);
-            manualIso.setType(type);
-            manualIso.setIsSupported(true);
-            manualIso.setIsPresetted(true);
-        }
-    }
-
-    private String[] createStringArray(int min, int max, float step) {
-        ArrayList<String> ar = new ArrayList<>();
-        if (step == 0)
-            step = 1;
-        for (int i = min; i < max; i+=step)
-        {
-            ar.add(i+"");
-        }
-        return ar.toArray(new String[ar.size()]);
-    }
-
-    private LongSparseArray<DngProfile> getDngProfiles()
-    {
-        LongSparseArray<DngProfile> map = new LongSparseArray<>();
-        try {
-            File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
-            Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
-
-            String xmlsource = getString(new FileInputStream(configFile));
-            Log.d(TAG, xmlsource);
-            XmlElement rootElement = XmlElement.parse(xmlsource);
-            if (rootElement.getTagName().equals("devices"))
-            {
-                List<XmlElement> devicesList = rootElement.findChildren("device");
-                XmlElement device = devicesList.get(0);
-                getDngStuff(map, device);
-            }
-        } catch (IOException e) {
-            Log.WriteEx(e);
-        }
-        return map;
-    }
-
-    private void getDngStuff(LongSparseArray<DngProfile> map, XmlElement device_element) {
-        if (!device_element.getAttribute("opcode2", "").isEmpty())
-            opcodeUrlList[0] = device_element.getAttribute("opcode2", "");
-        if (!device_element.getAttribute("opcode3", "").isEmpty())
-            opcodeUrlList[1] = device_element.getAttribute("opcode3", "");
-
-        Log.d(TAG, device_element.dumpChildElementsTagNames());
-        List<XmlElement> fsizeList = device_element.findChildren("filesize");
-        Log.d(TAG, "Found Dng Profiles:" + fsizeList.size());
-        for (XmlElement filesize_element : fsizeList) {
-            long filesize = Long.parseLong(filesize_element.getAttribute("size", "0"));
-            Log.d(TAG, filesize_element.dumpChildElementsTagNames());
-            DngProfile profile = getProfile(filesize_element);
-            map.put(filesize, profile);
-        }
-    }
-
-    private DngProfile getProfile(XmlElement element)
-    {
-        int blacklvl = Integer.parseInt(element.findChild("blacklvl").getValue());
-        int width = Integer.parseInt(element.findChild("width").getValue());
-        int height = Integer.parseInt(element.findChild("height").getValue());
-        int rawType = Integer.parseInt(element.findChild("rawtype").getValue());
-        String colorpattern = element.findChild("colorpattern").getValue();
-        int rowsize = Integer.parseInt(element.findChild("rowsize").getValue());
-        String matrixset = element.findChild("matrixset").getValue();
-
-        return new DngProfile(blacklvl,width,height,rawType,colorpattern,rowsize,matrixes.get(matrixset), matrixset);
-    }
-
-    private HashMap<String, CustomMatrix> getMatrixes()
-    {
-        HashMap<String, CustomMatrix> matrixHashMap = new HashMap<>();
-        try {
-            String xmlsource = getString(resources.openRawResource(R.raw.matrixes));
-            XmlElement rootElement = XmlElement.parse(xmlsource);
-            if (rootElement.getTagName().equals("matrixes"))
-            {
-                List<XmlElement> profileElements = rootElement.findChildren("matrix");
-                for (XmlElement xmlElement: profileElements)
-                {
-                    String name  = xmlElement.getAttribute("name", "");
-                    String c1 = xmlElement.findChild("color1").getValue();
-                    String c2 = xmlElement.findChild("color2").getValue();
-                    String neut = xmlElement.findChild("neutral").getValue();
-                    String forward1 = xmlElement.findChild("forward1").getValue();
-                    String forward2 = xmlElement.findChild("forward2").getValue();
-                    String reduction1 = xmlElement.findChild("reduction1").getValue();
-                    String reduction2 = xmlElement.findChild("reduction2").getValue();
-                    String noise = xmlElement.findChild("noise").getValue();
-                    CustomMatrix mat = new CustomMatrix(c1,c2,neut,forward1,forward2,reduction1,reduction2,noise);
-                    matrixHashMap.put(name,mat);
-                }
-            }
-        } catch (IOException e) {
-            Log.WriteEx(e);
-        }
-        return matrixHashMap;
-    }
-
-    private String getString(InputStream inputStream) throws IOException {
-        BufferedInputStream bis = new BufferedInputStream(inputStream);
-        ByteArrayOutputStream buf = new ByteArrayOutputStream();
-        int result = bis.read();
-        while(result != -1) {
-            buf.write((byte) result);
-            result = bis.read();
-        }
-        return buf.toString();
-    }
-
-    public void saveDngProfiles(LongSparseArray<DngProfile> dngProfileList)
-    {
-        BufferedWriter writer = null;
-        try {
-
-            File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
-            Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
-            Log.d(TAG, configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
-            if (!configFile.getParentFile().exists())
-                configFile.getParentFile().mkdirs();
-            Log.d(TAG, configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
-            configFile.createNewFile();
-            writer = new BufferedWriter(new FileWriter(configFile));
-            writer.write("<devices>" + "\r\n");
-            writer.write("<device name = \""+ mDevice +"\">\r\n");
-
-            for (int i =0; i< dngProfileList.size();i++)
-            {
-                long t = dngProfileList.keyAt(i);
-                Log.d(TAG, "Write Profile: " + t);
-                writer.write(dngProfileList.get(t).getXmlString(t));
-            }
-
-            writer.write("</device>" + "\r\n");
-            writer.write("</devices>" + "\r\n");
-            writer.flush();
-
-        } catch (IOException e) {
-            Log.WriteEx(e);
-        }
-        finally {
-            if (writer != null)
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        }
-    }
 
 }

@@ -62,6 +62,7 @@ import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.jni.RawUtils;
 import freed.utils.AppSettingsManager;
+import freed.utils.XmlParserWriter;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
@@ -249,7 +250,7 @@ public class DngConvertingFragment extends Fragment
             dngprofile.rowsize = Integer.parseInt(editTextCusotmRowSize.getText().toString());
             long filesize = new File(filesToConvert[0]).length();
             appSettingsManager.getDngProfilesMap().append(filesize,dngprofile);
-            appSettingsManager.saveDngProfiles(appSettingsManager.getDngProfilesMap());
+            new XmlParserWriter().saveDngProfiles(appSettingsManager.getDngProfilesMap(),appSettingsManager.getDeviceString());
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };
