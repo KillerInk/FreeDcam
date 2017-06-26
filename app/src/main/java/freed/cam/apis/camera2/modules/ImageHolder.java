@@ -213,7 +213,7 @@ public class ImageHolder
             case ImageFormat.RAW_SENSOR:
                 file = new File(f+".dng");
                 if(forceRawToDng)
-                    process_rawWithDngConverter(image,DngProfile.Mipi16,file);
+                    process_rawWithDngConverter(image,DngProfile.Plain,file);
                 else
                     process_rawSensor(image,file);
                 break;
