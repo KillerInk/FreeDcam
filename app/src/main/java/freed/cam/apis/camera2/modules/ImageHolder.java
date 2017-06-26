@@ -280,8 +280,8 @@ public class ImageHolder
         focal = captureResult.get(CaptureResult.LENS_FOCAL_LENGTH);
         Log.d("Freedcam RawCM2",String.valueOf(bytes.length));
 
-        int mISO = captureResult.get(CaptureResult.SENSOR_SENSITIVITY).intValue();
-        double mExposuretime = captureResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
+        int mISO = captureResult.get(CaptureResult.SENSOR_SENSITIVITY);
+        double mExposuretime = captureResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue() / 1000000000;
         final DngProfile prof = getDngProfile(rawFormat, image);
         imageSaver.saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, orientation,null,prof);
         bytes = null;
