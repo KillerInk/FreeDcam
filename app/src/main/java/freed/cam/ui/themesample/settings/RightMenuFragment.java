@@ -32,11 +32,13 @@ import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
+import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
+import freed.cam.ui.themesample.settings.childs.SettingsChildMenuForceRawToDng;
 import freed.utils.AppSettingsManager;
 
 /**
@@ -292,6 +294,13 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
                 SettingsChildMenu ton = new SettingsChildMenu(getContext(), apS.ae_TagetFPS, params.ae_TargetFPS, R.string.setting_aetargetfps_header, R.string.setting_aetargetfps_description);
                 ton.SetUiItemClickListner(this);
                 settingsgroup.addView(ton);
+            }
+
+            if (cameraUiWrapper instanceof Camera2Fragment)
+            {
+                SettingsChildMenuForceRawToDng rawToDng = new SettingsChildMenuForceRawToDng(getContext(), R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description, apS);
+                rawToDng.SetUiItemClickListner(this);
+                settingsgroup.addView(rawToDng);
             }
 
             settingchildholder.addView(settingsgroup);
