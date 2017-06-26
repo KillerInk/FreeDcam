@@ -393,25 +393,54 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                         @Override
                         public void run() {
                             try {
-                                shutter.setText("S:" +exifInterface.getAttribute(ExifInterface.TAG_EXPOSURE_TIME));
+                                String expostring = exifInterface.getAttribute(ExifInterface.TAG_EXPOSURE_TIME);
+                                if (expostring == null)
+                                    shutter.setText("");
+                                else
+                                {
+                                    shutter.setText("S:" + getShutterStringSeconds(Double.parseDouble(expostring)));
+                                }
                             }catch (NullPointerException e){
-                                shutter.setVisibility(View.GONE);
+                                shutter.setText("");
                             }
                             try
                             {
-                                fnumber.setText("f~:" + exifInterface.getAttribute(ExifInterface.TAG_F_NUMBER));
+                                String fnums = exifInterface.getAttribute(ExifInterface.TAG_F_NUMBER);
+                                if (fnums != null)
+                                    fnumber.setText("f~:" + fnums);
+                                else
+                                    fnumber.setText("");
                             }catch (NullPointerException e){
-                                fnumber.setVisibility(View.GONE);
+                                fnumber.setText("");
                             }
                             try {
-                                focal.setText("A:" + exifInterface.getAttribute(ExifInterface.TAG_APERTURE_VALUE));
+                                String focs = exifInterface.getAttribute(ExifInterface.TAG_APERTURE_VALUE);
+                                if (focs == null)
+                                {
+                                    focal.setText("");
+                                }
+                                else {
+                                    if (focs.contains("/"))
+                                    {
+                                        String split[] = focs.split("/");
+                                        double numerator = Integer.parseInt(split[0]);
+                                        double denumerator = Integer.parseInt(split[1]);
+                                        double foc = numerator /denumerator;
+                                        focs = foc+"";
+                                    }
+                                    focal.setText("A:" + focs);
+                                }
                             }catch (NullPointerException e){
-                                focal.setVisibility(View.GONE);
+                                focal.setText("");
                             }
                             try {
-                                iso.setText("ISO:" + exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS));
+                                String isos = exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
+                                if (isos != null)
+                                    iso.setText("ISO:" + isos);
+                                else
+                                    iso.setText("");
                             }catch (NullPointerException e){
-                                iso.setVisibility(View.GONE);
+                                iso.setText("");
                             }
                         }
                     });
@@ -422,6 +451,15 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                 }
             }
         });
+    }
+
+    private String getShutterStringSeconds(double val)
+    {
+        if (val >= 1) {
+            return "" + (int)val;
+        }
+        int i = (int)(1 / val);
+        return "1/" + Integer.toString(i);
     }
 
     class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
