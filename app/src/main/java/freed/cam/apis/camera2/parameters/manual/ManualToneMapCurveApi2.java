@@ -104,6 +104,8 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
             super(cameraUiWrapper);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
+            isSupported = true;
+            isVisible = true;
         }
 
 
@@ -173,7 +175,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
 
         @Override
         public boolean IsSupported() {
-            return !(cameraUiWrapper.getCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics == null) && ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null && ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.getPreviewParameter(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            return isSupported;
         }
 
         @Override
@@ -199,6 +201,8 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
             super(cameraUiWrapper);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
+            isSupported = true;
+            isVisible = true;
         }
 
         @Override
@@ -248,9 +252,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         @Override
         public boolean IsSupported()
         {
-            if (cameraUiWrapper.getCameraHolder() == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) == null )
-                return false;
-            return  ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.getPreviewParameter(CaptureRequest.TONEMAP_MODE) == null || ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.getPreviewParameter(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            return isSupported;
         }
 
         @Override

@@ -17,6 +17,7 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.utils.AppSettingsManager;
@@ -252,6 +253,17 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect ColorCorrection failed");
+                    }
+
+                    try {
+                        publishProgress("Detect ToneMap");
+                        detectIntMode(characteristics, CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES, appSettingsManager.toneMapMode,R.array.tonemapmodes);
+                        sendProgress(appSettingsManager.toneMapMode, "Tonemap");
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.WriteEx(ex);
+                        publishProgress("Detect Tonemap Mode failed");
                     }
 
                     try {

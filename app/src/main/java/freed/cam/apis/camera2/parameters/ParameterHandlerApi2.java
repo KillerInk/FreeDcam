@@ -49,7 +49,6 @@ import freed.cam.apis.camera2.parameters.modes.FocusPeakModeApi2;
 import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
-import freed.cam.apis.camera2.parameters.modes.ToneMapModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
@@ -146,7 +145,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ManualContrast = manualToneMapCurveApi2.contrast;
         ManualBrightness = manualToneMapCurveApi2.brightness;
 
-        ToneMapMode = new ToneMapModeApi2(cameraUiWrapper);
+        ToneMapMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.toneMapMode,CaptureRequest.TONEMAP_MODE);
         ToneMapMode.addEventListner(manualToneMapCurveApi2);
 
         PictureFormat = new PictureFormatParameterApi2(cameraUiWrapper, appSettingsManager.pictureFormat, null);
