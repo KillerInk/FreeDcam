@@ -244,7 +244,6 @@ public class AppSettingsManager {
     public static final String CURRENTCAMERA = "currentcamera";
     public static final String NIGHTMODE = "nightmode";
     public static final String VIDEOPROFILE = "videoprofile";
-    public static final String CUSTOMMATRIX = "custommatrix";
     public static final String TIMELAPSEFRAME = "timelapseframe";
     public static final String SETTING_API = "sonyapi";
     public static final String SETTING_LOCATION = "location";
@@ -266,16 +265,6 @@ public class AppSettingsManager {
     public static final String HAS_CAMERA2_FEATURES = "camera2fullsupport";
 
     public static final String SETTING_HORIZONT = "horizont";
-
-    public static final String SETTING_AEB1 = "aeb1";
-    public static final String SETTING_AEB2 = "aeb2";
-    public static final String SETTING_AEB3 = "aeb3";
-
-    public static final String SETTING_AEB4 = "aeb4";
-
-    public static final String SETTING_AEB5 = "aeb5";
-    public static final String SETTING_AEB6 = "aeb6";
-    public static final String SETTING_AEB7 = "aeb7";
 
     public static final String SETTING_BASE_FOLDER = "base_folder";
 

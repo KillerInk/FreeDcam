@@ -54,6 +54,7 @@ public class MatrixChooserParameter extends AbstractParameter
     {
         currentval = valueToSet;
         fireStringValueChanged(currentval);
+        cameraUiWrapper.getAppSettingsManager().matrixset.set(valueToSet);
     }
 
     @Override

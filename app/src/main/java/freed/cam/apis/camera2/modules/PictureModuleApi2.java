@@ -320,7 +320,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             cameraHolder.captureSessionHandler.SetParameter(CaptureRequest.JPEG_GPS_LOCATION,cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         }
 
-        String cmat = appSettingsManager.getApiString(AppSettingsManager.CUSTOMMATRIX);
+        String cmat = appSettingsManager.matrixset.get();
         if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
             currentCaptureHolder.setCustomMatrix(appSettingsManager.getMatrixesMap().get(cmat));
         }

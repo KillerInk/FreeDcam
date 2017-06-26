@@ -296,12 +296,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
                 settingsgroup.addView(ton);
             }
 
-            if (cameraUiWrapper instanceof Camera2Fragment)
-            {
-                SettingsChildMenuForceRawToDng rawToDng = new SettingsChildMenuForceRawToDng(getContext(), R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description, apS);
-                rawToDng.SetUiItemClickListner(this);
-                settingsgroup.addView(rawToDng);
-            }
+
 
             settingchildholder.addView(settingsgroup);
         }

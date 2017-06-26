@@ -33,12 +33,14 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
+import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
+import freed.cam.ui.themesample.settings.childs.SettingsChildMenuForceRawToDng;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuGPS;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuInterval;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuIntervalDuration;
@@ -172,6 +174,12 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 SettingsChildMenu matrixChooser = new SettingsChildMenu(getContext(), apS.matrixset, params.matrixChooser, R.string.setting_matrixchooser_header, R.string.setting_matrixchooser_description);
                 matrixChooser.SetUiItemClickListner(this);
                 dngGroup.addView(matrixChooser);
+            }
+            if (cameraUiWrapper instanceof Camera2Fragment)
+            {
+                SettingsChildMenuForceRawToDng rawToDng = new SettingsChildMenuForceRawToDng(getContext(), R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description, apS);
+                rawToDng.SetUiItemClickListner(this);
+                dngGroup.addView(rawToDng);
             }
             if (dngGroup.childSize() > 0)
                 picGroup.addView(dngGroup);

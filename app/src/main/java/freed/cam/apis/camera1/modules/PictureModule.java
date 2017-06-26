@@ -271,6 +271,10 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
             Log.d(this.TAG,"Set Manual WhiteBalance:"+ wb);
         }
         DngProfile dngProfile = cameraUiWrapper.getAppSettingsManager().getDngProfilesMap().get((long)data.length);
+        String cmat = appSettingsManager.matrixset.get();
+        if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
+            dngProfile.matrixes = appSettingsManager.getMatrixesMap().get(cmat);
+        }
         Log.d(TAG, "found dngProfile:" + (dngProfile != null));
         int orientation = cameraUiWrapper.getActivityInterface().getOrientation();
         saveRawToDng(file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile);
