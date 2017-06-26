@@ -50,7 +50,6 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
 
     private final String TAG = ShutterButton.class.getSimpleName();
     private CaptureStates currentShow = CaptureStates.image_capture_stop;
-    private boolean contshot;
     private Paint transparent;
     private Paint red;
     private boolean shutteractive = false;

@@ -60,6 +60,8 @@ public abstract class ModuleAbstract implements ModuleInterface
     public void SetCaptureStateChangedListner(CaptureStateChanged captureStateChangedListner)
     {
         this.captureStateChangedListner = captureStateChangedListner;
+        if (captureStateChangedListner != null)
+            captureStateChangedListner.onCaptureStateChanged(currentWorkState);
     }
 
     /**
