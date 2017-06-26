@@ -33,6 +33,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
+import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
@@ -109,7 +110,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 videoGroup.addView(videoHDR);
             }
 
-            if (params.VideoSize != null) {
+            if (params.VideoSize != null && (cameraUiWrapper instanceof SonyCameraRemoteFragment)) {
 
                 SettingsChildMenu VideoSize = new SettingsChildMenu(getContext(), apS.videoSize, params.VideoSize, R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
                 VideoSize.SetUiItemClickListner(this);
