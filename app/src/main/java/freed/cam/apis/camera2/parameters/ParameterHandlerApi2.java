@@ -144,6 +144,11 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ManualToneMapCurveApi2 manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
         ManualContrast = manualToneMapCurveApi2.contrast;
         ManualBrightness = manualToneMapCurveApi2.brightness;
+        black = manualToneMapCurveApi2.black;
+        shadows = manualToneMapCurveApi2.shadowsp;
+        midtones = manualToneMapCurveApi2.midtonesp;
+        highlights = manualToneMapCurveApi2.highlightsp;
+        white = manualToneMapCurveApi2.whitep;
 
         ToneMapMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.toneMapMode,CaptureRequest.TONEMAP_MODE);
         ToneMapMode.addEventListner(manualToneMapCurveApi2);

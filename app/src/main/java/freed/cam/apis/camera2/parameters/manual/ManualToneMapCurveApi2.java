@@ -45,14 +45,25 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
     private final float[] midtones = {0.5f,0.5f};
     private final float[] highlights = { 0.75f,0.75f};
     private final float[] whitepoint = {1.0f,1.0f};
-    public final Contrast contrast;
-    public final Brightness brightness;
+    public  Contrast contrast;
+    public  Brightness brightness;
+    public  ColorParameter black;
+    public  ColorParameter shadowsp;
+    public  ColorParameter midtonesp;
+    public  ColorParameter highlightsp;
+    public  ColorParameter whitep;
+
 
 
     public ManualToneMapCurveApi2(CameraWrapperInterface cameraUiWrapper)
     {
-        contrast = new Contrast(cameraUiWrapper);
-        brightness = new Brightness(cameraUiWrapper);
+        /*contrast = new Contrast(cameraUiWrapper);
+        brightness = new Brightness(cameraUiWrapper);*/
+        black = new ColorParameter(cameraUiWrapper,blackpoint,0);
+        shadowsp = new ColorParameter(cameraUiWrapper,shadows,25);
+        midtonesp = new ColorParameter(cameraUiWrapper,midtones,50);
+        highlightsp = new ColorParameter(cameraUiWrapper,highlights,75);
+        whitep = new ColorParameter(cameraUiWrapper,whitepoint,100);
     }
 
     @Override
@@ -91,10 +102,24 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
             isSupported = false;
             visible = false;
         }
-        contrast.fireIsReadOnlyChanged(canSet);
-        contrast.fireIsSupportedChanged(isSupported);
-        brightness.fireIsSupportedChanged(isSupported);
-        brightness.fireIsReadOnlyChanged(canSet);
+        if (contrast != null) {
+            contrast.fireIsReadOnlyChanged(canSet);
+            contrast.fireIsSupportedChanged(isSupported);
+        }
+        if (brightness != null) {
+            brightness.fireIsSupportedChanged(isSupported);
+            brightness.fireIsReadOnlyChanged(canSet);
+        }
+        black.fireIsSupportedChanged(isSupported);
+        black.fireIsReadOnlyChanged(canSet);
+        shadowsp.fireIsSupportedChanged(isSupported);
+        shadowsp.fireIsReadOnlyChanged(canSet);
+        midtonesp.fireIsSupportedChanged(isSupported);
+        midtonesp.fireIsReadOnlyChanged(canSet);
+        highlightsp.fireIsSupportedChanged(isSupported);
+        highlightsp.fireIsReadOnlyChanged(canSet);
+        whitep.fireIsSupportedChanged(isSupported);
+        whitep.fireIsReadOnlyChanged(canSet);
     }
 
     public class Contrast extends AbstractParameter
@@ -268,6 +293,87 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         @Override
         public String GetStringValue() {
             return super.GetStringValue();
+        }
+    }
+
+    public class ColorParameter extends AbstractParameter
+    {
+        float[] color;
+        float currentfloat;
+        float defaultvalue;
+        public ColorParameter(CameraWrapperInterface cameraUiWrapper, float color[], float defaultvalue) {
+            super(cameraUiWrapper);
+            this.color = color;
+            stringvalues = createStringArray(0,100,1);
+            this.defaultvalue = defaultvalue;
+            currentfloat = defaultvalue;
+            currentInt = (int)defaultvalue;
+            color[0] = defaultvalue/100;
+            color[1] = defaultvalue/100;
+            isSupported = true;
+            isVisible = true;
+        }
+
+        @Override
+        public int GetValue() {
+            return currentInt;
+        }
+
+        @Override
+        public void SetValue(int valueToSet)
+        {
+            currentInt = valueToSet;
+            float toset = Float.parseFloat(stringvalues[valueToSet]) / 100;
+            color[0] = defaultvalue;
+            color[1] = toset;
+            if (color[0] < 0)
+                color[0] = 0;
+            if (color[1] < 0)
+                color[1] = 0;
+            if (color[0] > 1)
+                color[0] = 1;
+            if (color[1] > 1)
+                color[1] = 1;
+
+            Log.d(TAG, "toset:" + toset + " val:" + valueToSet+ " x:" + color[0] + " y:"+ color[1]);
+
+            float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
+            TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
+            ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+            fireStringValueChanged(stringvalues[valueToSet]);
+            fireIntValueChanged(valueToSet);
+
+        }
+
+        @Override
+        public void SetValue(String valueToSet, boolean setToCamera) {
+
+        }
+
+        @Override
+        public boolean IsSupported()
+        {
+            return isSupported;
+        }
+
+        @Override
+        public boolean IsVisible() {
+            return IsSupported();
+        }
+
+        @Override
+        public boolean IsSetSupported() {
+            return true;
+        }
+
+        @Override
+        public String GetStringValue() {
+            return stringvalues[currentInt]+"";
+        }
+
+        @Override
+        public String[] getStringValues() {
+            return stringvalues;
         }
     }
 }

@@ -155,6 +155,11 @@ public abstract class AbstractParameterHandler
     public ParameterInterface ColorCorrectionMode;
     public ParameterInterface HotPixelMode;
     public ParameterInterface ToneMapMode;
+    public ParameterInterface black;
+    public ParameterInterface shadows;
+    public ParameterInterface midtones;
+    public ParameterInterface highlights;
+    public ParameterInterface white;
     public ParameterInterface ControlMode;
 
     public ParameterInterface oismode;

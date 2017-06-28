@@ -185,6 +185,31 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
+            if (parms.black != null) {
+                ManualButton btn = new ManualButton(getContext(), null, parms.black, R.drawable.manual_contrast);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.shadows != null) {
+                ManualButton btn = new ManualButton(getContext(), null, parms.shadows, R.drawable.manual_contrast);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.midtones != null) {
+                ManualButton btn = new ManualButton(getContext(), null, parms.midtones, R.drawable.manual_contrast);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.highlights != null) {
+                ManualButton btn = new ManualButton(getContext(), null, parms.highlights, R.drawable.manual_contrast);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.white != null) {
+                ManualButton btn = new ManualButton(getContext(), null, parms.white, R.drawable.manual_contrast);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
 
             seekbar.setVisibility(View.GONE);
             afBracketSettingsView.SetCameraWrapper(cameraUiWrapper);
