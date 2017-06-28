@@ -291,7 +291,7 @@ public class ManualButton extends LinearLayout implements ParameterEvents
         if (runValue < 0 || runValue > parameterValues.length -1)
             return;
         parameter.SetValue(runValue);
-        if (!(parameter instanceof BaseManualParameterSony)) {
+        if (!(parameter instanceof BaseManualParameterSony) && settingMode != null) {
             settingMode.set(String.valueOf(runValue));
         }
         currentlysettingsparameter = false;
