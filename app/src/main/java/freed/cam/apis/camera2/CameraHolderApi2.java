@@ -38,6 +38,7 @@ import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.BlackLevelPattern;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.hardware.camera2.params.TonemapCurve;
 import android.location.Location;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -431,6 +432,16 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 }
             }
 
+            /*if (result.get(CaptureResult.TONEMAP_CURVE)!=null)
+            {
+
+                TonemapCurve curve = result.get(CaptureResult.TONEMAP_CURVE);
+                Log.d(TAG,"Curve:" +curve.toString());
+                Log.d(TAG,"Red count"+curve.getPointCount(0));
+                Log.d(TAG,"Green count"+curve.getPointCount(1));
+                Log.d(TAG,"Blue count"+curve.getPointCount(2));
+            }
+*/
             if (result.get(CaptureResult.LENS_FOCUS_RANGE) != null)
                 focusRanges = result.get(CaptureResult.LENS_FOCUS_RANGE);
 
@@ -456,11 +467,13 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 4:
                         state = "FOCUSED_LOCKED";
+                        captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                         if (cameraUiWrapper.getFocusHandler().focusEvent != null)
                             cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(true);
                         break;
                     case 5:
                         state = "NOT_FOCUSED_LOCKED";
+                        captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                         if (cameraUiWrapper.getFocusHandler().focusEvent != null)
                             cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(false);
                         break;
