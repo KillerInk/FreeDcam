@@ -52,11 +52,13 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
     public  ColorParameter midtonesp;
     public  ColorParameter highlightsp;
     public  ColorParameter whitep;
+    private CameraWrapperInterface cameraWrapperInterface;
 
 
 
     public ManualToneMapCurveApi2(CameraWrapperInterface cameraUiWrapper)
     {
+        this.cameraWrapperInterface = cameraUiWrapper;
         /*contrast = new Contrast(cameraUiWrapper);
         brightness = new Brightness(cameraUiWrapper);*/
         black = new ColorParameter(cameraUiWrapper,blackpoint,0);
@@ -96,6 +98,12 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
             canSet = true;
             isSupported = true;
             visible = true;
+            setTonemap();
+            black.fireStringValueChanged(black.GetStringValue());
+            shadowsp.fireStringValueChanged(shadowsp.GetStringValue());
+            midtonesp.fireStringValueChanged(midtonesp.GetStringValue());
+            highlightsp.fireStringValueChanged(highlightsp.GetStringValue());
+            whitep.fireStringValueChanged(whitep.GetStringValue());
         }
         else {
             canSet = false;
@@ -184,11 +192,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
                     shadows[1] = 0.25f - toset;
                 }
 
-                Log.d(TAG, "toset:" + toset + " val:" + valueToSet + " hx:" + highlights[0] + " hy:" + highlights[1] + " sx:" + shadows[0] + " sy:" + shadows[1]);
-
-                float[] tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
-                TonemapCurve tonemapCurve = new TonemapCurve(tonemap, tonemap, tonemap);
-                ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+               setTonemap();
             }
             firststart = false;
         }
@@ -261,11 +265,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
                 midtones[1] = 0.5f - toset;
             }
 
-            Log.d(TAG, "toset:" + toset + " val:" + valueToSet+ " x:" + midtones[0] + " y:"+ midtones[1]);
-
-            float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
-            TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
-            ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+            setTonemap();
 
         }
 
@@ -305,7 +305,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
             super(cameraUiWrapper);
             this.color = color;
             stringvalues = createStringArray(0,100,1);
-            this.defaultvalue = defaultvalue;
+            this.defaultvalue = defaultvalue /100;
             currentfloat = defaultvalue;
             currentInt = (int)defaultvalue;
             color[0] = defaultvalue/100;
@@ -337,13 +337,12 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
 
             Log.d(TAG, "toset:" + toset + " val:" + valueToSet+ " x:" + color[0] + " y:"+ color[1]);
 
-            float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
-            TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
-            ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+            setTonemap();
             fireStringValueChanged(stringvalues[valueToSet]);
             fireIntValueChanged(valueToSet);
 
         }
+
 
         @Override
         public void SetValue(String valueToSet, boolean setToCamera) {
@@ -375,5 +374,13 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         public String[] getStringValues() {
             return stringvalues;
         }
+    }
+
+    private void setTonemap()
+    {
+        float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
+        TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
+        Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
+        ((CameraHolderApi2) cameraWrapperInterface.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
     }
 }
