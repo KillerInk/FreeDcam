@@ -137,14 +137,13 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public void onPause() {
         super.onPause();
-        try {
-            if(moduleHandler.getCurrentModule().ModuleName().equals(getResString(R.string.module_video)) && moduleHandler.getCurrentModule().IsWorking())
-                moduleHandler.getCurrentModule().DoWork();
-        }
-        catch (NullPointerException ex)
-        {
-            Log.WriteEx(ex);
-        }
+
+        if(moduleHandler != null
+                && moduleHandler.getCurrentModule() != null
+                && moduleHandler.getCurrentModule().ModuleName() != null
+                && moduleHandler.getCurrentModule().ModuleName().equals(getResString(R.string.module_video))
+                && moduleHandler.getCurrentModule().IsWorking())
+            moduleHandler.getCurrentModule().DoWork();
     }
 
     @Override

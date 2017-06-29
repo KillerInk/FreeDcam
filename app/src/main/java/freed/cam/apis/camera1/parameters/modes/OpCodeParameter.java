@@ -66,7 +66,7 @@ public class OpCodeParameter extends AbstractParameter
         File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
         if (op3.exists())
             hasOp3 =true;
-        isSupported = hasOp2 || hasOp3 || appSettingsManager.opcodeUrlList[0] != null || appSettingsManager.opcodeUrlList[1] != null;
+        isSupported = hasOp2 || hasOp3 || appSettingsManager.opcodeUrlList != null || appSettingsManager.opcodeUrlList[0] != null || appSettingsManager.opcodeUrlList[1] != null;
 
     }
 
