@@ -186,27 +186,27 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 manualItemsHolder.addView(btn);
             }
             if (parms.black != null) {
-                ManualButton btn = new ManualButton(getContext(), null, parms.black, R.drawable.manual_contrast);
+                ManualButton btn = new ManualButton(getContext(), null, parms.black, R.drawable.manual_black);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
             if (parms.shadows != null) {
-                ManualButton btn = new ManualButton(getContext(), null, parms.shadows, R.drawable.manual_contrast);
+                ManualButton btn = new ManualButton(getContext(), null, parms.shadows, R.drawable.manual_shadows);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
             if (parms.midtones != null) {
-                ManualButton btn = new ManualButton(getContext(), null, parms.midtones, R.drawable.manual_contrast);
+                ManualButton btn = new ManualButton(getContext(), null, parms.midtones, R.drawable.manual_midtones);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
             if (parms.highlights != null) {
-                ManualButton btn = new ManualButton(getContext(), null, parms.highlights, R.drawable.manual_contrast);
+                ManualButton btn = new ManualButton(getContext(), null, parms.highlights, R.drawable.manual_highlights);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
             if (parms.white != null) {
-                ManualButton btn = new ManualButton(getContext(), null, parms.white, R.drawable.manual_contrast);
+                ManualButton btn = new ManualButton(getContext(), null, parms.white, R.drawable.manual_white);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
