@@ -55,12 +55,6 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     private UiSettingsChild currentOpendItem;
 
 
-    @Override
-    public void SetCameraUIWrapper(CameraWrapperInterface wrapper)
-    {
-        super.SetCameraUIWrapper(wrapper);
-        Log.d(TAG, "SetCameraUiWrapper");
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -80,19 +74,20 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     @Override
     public void onResume() {
         super.onResume();
-        setCameraUiWrapperToUi();
+        setCameraToUi(cameraUiWrapper);
     }
 
     @Override
-    protected void setCameraUiWrapperToUi()
+    public void setCameraToUi(CameraWrapperInterface wrapper)
     {
-        Log.d(TAG, "set CameraWrapper");
+        super.setCameraToUi(wrapper);
+        Log.d(TAG, "SetCameraUiWrapper");
         if (value_menu_status != VALUE_MENU_CLOSED)
             closeValueMenu();
         if (rightMenuFragment != null)
-            rightMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
+            rightMenuFragment.setCameraToUi(cameraUiWrapper);
         if (leftMenuFragment != null)
-            leftMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
+            leftMenuFragment.setCameraToUi(cameraUiWrapper);
         value_menu_status = VALUE_MENU_CLOSED;
     }
 

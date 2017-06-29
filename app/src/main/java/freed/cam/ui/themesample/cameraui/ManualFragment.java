@@ -34,6 +34,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
@@ -81,9 +82,9 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     }
 
     @Override
-    protected void setCameraUiWrapperToUi()
+    public void setCameraToUi(CameraWrapperInterface wrapper)
     {
-
+        super.setCameraToUi(wrapper);
         if (manualItemsHolder == null)
             return;
         //rest views to init state

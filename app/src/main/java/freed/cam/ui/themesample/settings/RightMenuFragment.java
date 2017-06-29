@@ -31,6 +31,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.ui.themesample.AbstractFragment;
@@ -64,12 +65,13 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         settingchildholder = (LinearLayout)view.findViewById(id.SettingChildHolder);
-        setCameraUiWrapperToUi();
+        setCameraToUi(cameraUiWrapper);
     }
 
     @Override
-    protected void setCameraUiWrapperToUi()
+    public void setCameraToUi(CameraWrapperInterface wrapper)
     {
+        super.setCameraToUi(wrapper);
         settingchildholder.removeAllViews();
         if (cameraUiWrapper != null)
         {

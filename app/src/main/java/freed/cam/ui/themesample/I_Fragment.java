@@ -25,6 +25,9 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
  */
 interface I_Fragment
 {
-    void SetCameraUIWrapper(CameraWrapperInterface wrapper);
-
+    /**
+     * Set the CameraWrapper to the UI, implementations must check if the wrapper is not null
+     * @param wrapper
+     */
+    void setCameraToUi(CameraWrapperInterface wrapper);
 }

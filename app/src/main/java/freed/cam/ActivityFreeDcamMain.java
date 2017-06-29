@@ -351,10 +351,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             transaction.commit();
             cameraFragment = null;
             if (cameraUiFragment != null) {
-                cameraUiFragment.SetCameraUIWrapper(null);
+                cameraUiFragment.setCameraToUi(null);
             }
             if (settingsMenuFragment != null)
-                settingsMenuFragment.SetCameraUIWrapper(null);
+                settingsMenuFragment.setCameraToUi(null);
         }
         Log.d(TAG, "destroyed cameraWrapper");
     }
@@ -527,10 +527,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void onCameraOpenFinish(String message) {
         //note the ui that cameraFragment is loaded
         if (cameraUiFragment != null) {
-            cameraUiFragment.SetCameraUIWrapper(cameraFragment);
+            cameraUiFragment.setCameraToUi(cameraFragment);
         }
         if (settingsMenuFragment != null)
-            settingsMenuFragment.SetCameraUIWrapper(cameraFragment);
+            settingsMenuFragment.setCameraToUi(cameraFragment);
         Log.d(TAG, "add events");
         //register timer to to moduleevent handler that it get shown/hidden when its video or not
         //and start/stop working when recording starts/stops
@@ -576,7 +576,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 if (settingsMenuFragment == null)
                     settingsMenuFragment = new SettingsMenuFragment();
                 if (settingsMenuFragment != null) {
-                    settingsMenuFragment.SetCameraUIWrapper(cameraFragment);
+                    settingsMenuFragment.setCameraToUi(cameraFragment);
                 }
                 return settingsMenuFragment;
             }
@@ -595,7 +595,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                     cameraUiFragment.thumbClick = onThumbClick;
                 }
                 if (cameraUiFragment != null)
-                    cameraUiFragment.SetCameraUIWrapper(cameraFragment);
+                    cameraUiFragment.setCameraToUi(cameraFragment);
                 return cameraUiFragment;
             }
         }

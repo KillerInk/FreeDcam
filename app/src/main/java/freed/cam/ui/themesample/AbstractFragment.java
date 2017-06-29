@@ -32,12 +32,10 @@ public abstract class AbstractFragment extends Fragment implements I_Fragment
     protected CameraWrapperInterface cameraUiWrapper;
     protected ActivityInterface fragment_activityInterface;
 
-    public void SetCameraUIWrapper(CameraWrapperInterface wrapper)
+    public void setCameraToUi(CameraWrapperInterface wrapper)
     {
         cameraUiWrapper = wrapper;
-        setCameraUiWrapperToUi();
     }
 
-    protected void setCameraUiWrapperToUi()
-    {}
+
 }

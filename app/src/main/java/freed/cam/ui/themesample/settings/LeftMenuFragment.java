@@ -30,6 +30,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
@@ -74,12 +75,12 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         View view = inflater.inflate(layout.settings_leftmenufragment, container, false);
 
         settingsChildHolder = (LinearLayout)view.findViewById(id.SettingChildHolder);
-        setCameraUiWrapperToUi();
+        setCameraToUi(cameraUiWrapper);
         return view;
     }
 
     @Override
-    protected void setCameraUiWrapperToUi() {
+    public void setCameraToUi(CameraWrapperInterface wrapper) {
 
         settingsChildHolder.removeAllViews();
         if (cameraUiWrapper != null) {
@@ -187,7 +188,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             settingsChildHolder.addView(picGroup);
 
         /*menuItemTimer.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_TIMER);
-        menuItemTimer.SetCameraUIWrapper(cameraUiWrapper);
+        menuItemTimer.setCameraToUi(cameraUiWrapper);
         menuItemTimer.SetUiItemClickListner(this);*/
         }
 

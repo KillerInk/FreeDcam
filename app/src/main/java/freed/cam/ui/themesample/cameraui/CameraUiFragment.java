@@ -44,6 +44,7 @@ import com.troop.freedcam.R.layout;
 
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
@@ -73,17 +74,31 @@ import freed.viewer.screenslide.ScreenSlideFragment.I_ThumbClick;
 public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener, ModuleHandlerAbstract.CaptureStateChanged
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
+    //button to switch between front and back cam
     private UiSettingsChildCameraSwitch cameraSwitch;
+    //hold the button wich opened the horizontalValuesFragment
     private UiSettingsChild currentOpendChild;
+    //Shows the values when a uibutton got clicked
     private HorizontalValuesFragment horizontalValuesFragment;
+    //there the horizontalValuesFragment gets inflated
+    private View camerauiValuesFragmentHolder;
+    //handels the touch events that happen on screen
     private SwipeMenuListner touchHandler;
+    //well that get clicked when we want to start an action
     private ShutterButton shutterButton;
+    //holds the manualButtons
     private ManualFragment manualModesFragment;
+    //used to inflate the manualsModesFragment
     private FrameLayout manualModes_holder;
+    //open state from manualModesFragment
     private boolean manualsettingsIsOpen;
+    //Handel the animation/visibility for focus trigger, meteringarea, manualwbarea
     private FocusImageHandler focusImageHandler;
+    //the activity interface that holds this fragment
     private ActivityInterface fragment_activityInterface;
+    //show the time,sdspace, pic/video size
     private SampleInfoOverlayHandler infoOverlayHandler;
+    //holds guide
     private GuideHandler guideHandler;
     private final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
     private SharedPreferences sharedPref;
@@ -94,8 +109,9 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private UserMessageHandler messageHandler;
 
     private HorizontLineFragment horizontLineFragment;
-    private View camerauiValuesFragmentHolder;
 
+
+    //get shown in sony api,when the preview gets zoomed to navigate through the img
     private JoyPad joyPad;
 
     private LinearLayout left_ui_items_holder;
@@ -106,6 +122,13 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     }
 
+    /**
+     * Creates and Add an Child to the CameraUi
+     * @param layout the layout where the child get added
+     * @param parameter to use
+     * @param settingMode to use
+     * @param backgroundImg id that get used
+     */
     private void setUiItem(LinearLayout layout, ParameterInterface parameter, AppSettingsManager.SettingMode settingMode, int backgroundImg)
     {
         UiSettingsChild child = new UiSettingsChild(getContext());
@@ -126,6 +149,9 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         layout.addView(child);
     }
 
+    /**
+     * add an exitbutton to the right top itemholder
+     */
     private void addexit()
     {
         UiSettingsChildExit exit = new UiSettingsChildExit(getContext());
@@ -136,7 +162,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     }
 
     @Override
-    protected void setCameraUiWrapperToUi() {
+    public void setCameraToUi(CameraWrapperInterface wrapper) {
+        super.setCameraToUi(wrapper);
         if (left_ui_items_holder != null) {
             left_ui_items_holder.removeAllViews();
             right_ui_items_top.removeAllViews();
@@ -219,15 +246,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 shutterButton.setVisibility(View.VISIBLE);
                 shutterButton.SetCameraUIWrapper(cameraUiWrapper, messageHandler);
 
-
-                //stuff todo
-
                 cameraUiWrapper.getModuleHandler().setWorkListner(this);
 
-
-
                 if (manualModesFragment != null)
-                    manualModesFragment.SetCameraUIWrapper(cameraUiWrapper);
+                    manualModesFragment.setCameraToUi(cameraUiWrapper);
 
                 guideHandler.setCameraUiWrapper(cameraUiWrapper);
 
@@ -333,7 +355,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             transaction.addToBackStack(null);
             transaction.commit();
         }
-        setCameraUiWrapperToUi();
+        setCameraToUi(cameraUiWrapper);
     }
 
     @Override
