@@ -82,6 +82,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     @Override
     public void setCameraToUi(CameraWrapperInterface wrapper) {
 
+        this.cameraUiWrapper = wrapper;
         settingsChildHolder.removeAllViews();
         if (cameraUiWrapper != null) {
 
