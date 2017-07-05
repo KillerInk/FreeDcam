@@ -498,40 +498,58 @@ public class CaptureSessionHandler
     public void SetTextureViewSize(int w, int h, int orientation, int orientationWithHack,boolean video)
     {
         Matrix matrix = new Matrix();
-        RectF bufferRect = new RectF(0, 0, w, h);
-        float xof = displaySize.x - bufferRect.width();
-        float yof = displaySize.y - bufferRect.height();
+        RectF inputRect = new RectF(0, 0, w, h);
+        float xof = displaySize.x - inputRect.width();
+        float yof = displaySize.y - inputRect.height();
         Log.d(TAG,"Video:"+video);
         Log.d(TAG, "PreviewSize:" + w +"x"+ h);
         Log.d(TAG,"DisplaySize:" + displaySize.x +"x"+ displaySize.y);
         Log.d(TAG, "margine x:" + xof +" margine y:" + yof);
-        RectF viewRect = new RectF(0, 0, displaySize.x - xof, displaySize.y - yof);
+        RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
+
+
         Log.d(TAG, "finalsize: " + viewRect.width()+"x"+viewRect.height());
 
 
         float centerX = viewRect.centerX();
         float centerY = viewRect.centerY();
         if (orientation == 90|| orientation == 270) {
-            bufferRect = new RectF(0, 0, h, w);
-            //center buffer to screen
-            bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
 
-            float scale = Math.max(
-                    (float) displaySize.x / h,
-                    (float) displaySize.y / w);
-            matrix.postScale(scale,scale);
+            /**
+             * input is like that when holding device in landscape
+             *
+             *   ________
+             *   |      |                               _____________________
+             *   |      |                               |                   |
+             *   |      |  need to get transformed to:  |                   | viewrect
+             *   |      |                               |___________________|
+             *   ________
+             */
+            inputRect = new RectF(0, 0, w, h);
+            //center input relative to viewrect
+            inputRect.offset(centerX - inputRect.centerX(), centerY - inputRect.centerY());
 
-            cameraHolderApi2.textureView.setAspectRatio((int)viewRect.width(), (int)viewRect.height());
 
-            matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
+            //set the rectangles for the matrix rotation and scale(inputRect is the startpostion in portrait, viewRect is the end postion landscape)
+            matrix.setRectToRect(inputRect, viewRect, Matrix.ScaleToFit.FILL);
+            cameraHolderApi2.textureView.setAspectRatio((int)inputRect.width(), (int)inputRect.height());
+
+
+            //get scalefactor for the height from portrait to landscape
+            float scY = inputRect.width() / viewRect.height();
+            //get scalefactor for the width from portrait to landscape;
+            float scX = inputRect.height() / viewRect.width();
+
+            matrix.postScale(scX,scY,centerX,centerY);
 
             if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.on_)))
                 matrix.postRotate(orientationWithHack, centerX, centerY);
             else
                 matrix.postRotate(orientation, centerX,centerY);
+
         }
         else
-            cameraHolderApi2.textureView.setAspectRatio((int)bufferRect.width(), (int)bufferRect.height());
+            cameraHolderApi2.textureView.setAspectRatio((int)inputRect.width(), (int)inputRect.height());
 
         cameraHolderApi2.textureView.setTransform(matrix);
     }
