@@ -100,6 +100,11 @@ public class WbHandler
             settingMode = cameraUiWrapper.getAppSettingsManager().whiteBalanceMode;
             parameterKey = CaptureRequest.CONTROL_AWB_MODE;
             parameterValues = StringUtils.StringArrayToIntHashmap(cameraUiWrapper.getAppSettingsManager().whiteBalanceMode.getValues());
+            if (parameterValues == null)
+            {
+                isSupported = false;
+                return;
+            }
             stringvalues = new String[parameterValues.size()];
             parameterValues.keySet().toArray(stringvalues);
             if (colorCorrectionMode != null)

@@ -122,15 +122,22 @@ public class StringUtils
 
     public static HashMap<String, Integer> StringArrayToIntHashmap(String[] t)
     {
-        HashMap<String, Integer> out = new HashMap<>();
-        for (String e : t)
-        {
-            if (!e.equals("")) {
-                String[] en = e.split(";");
-                out.put(en[0], Integer.parseInt(en[1]));
+        try {
+            HashMap<String, Integer> out = new HashMap<>();
+            for (String e : t)
+            {
+                if (!e.equals("")) {
+                    String[] en = e.split(";");
+                    out.put(en[0], Integer.parseInt(en[1]));
+                }
             }
+            return out;
         }
-        return out;
+        catch (ArrayIndexOutOfBoundsException ex)
+        {
+            Log.WriteEx(ex);
+            return null;
+        }
     }
 
     public static String getMeterString(float f)
