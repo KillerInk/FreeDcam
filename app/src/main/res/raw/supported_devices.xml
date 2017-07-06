@@ -3383,7 +3383,7 @@
         </models>
         <camera2>
             <maxexposuretime>32000000</maxexposuretime>
-            <maxiso>34000</maxiso>
+            <maxiso>68000</maxiso>
         </camera2>
     </device>
 
@@ -3470,6 +3470,15 @@
             <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>IMX135_Z5S_JB</matrixset>
+        </filesize>
+        <filesize size= "16560128"> <!-- redmin note4x omnivision -->
+            <blacklvl>64</blacklvl>
+            <width>4224</width>
+            <height>3136</height>
+            <rawtype>0</rawtype>
+            <colorpattern>rggb</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
         </filesize>
         <!-- Redmi Note 4x
         <filesize size= "16510976">
