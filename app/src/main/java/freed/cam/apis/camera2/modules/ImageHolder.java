@@ -113,11 +113,35 @@ public class ImageHolder
     public synchronized void SetCaptureResult(CaptureResult captureResult)
     {
         this.captureResult = captureResult;
+
+        try {
+            Log.d(TAG, "ColorMatrix1:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1).toString());
+            Log.d(TAG, "ColorMatrix2:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2).toString());
+            logNeutralMatrix();
+            Log.d(TAG, "Transform1:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1).toString());
+            Log.d(TAG, "Transform2:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2).toString());
+            Log.d(TAG, "Foward1:" + characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1).toString());
+            Log.d(TAG, "Foward2:" + characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2).toString());
+            Log.d(TAG, "Reduction1:" + characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1).toString());
+            Log.d(TAG, "Reduction2:" + characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2).toString());
+            logColorPattern();
+            Log.d(TAG, "Blacklvl:" + characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0));
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
+
+
+
     }
 
     public synchronized void AddImage(Image image)
     {
         images.add(image);
+        Log.d(TAG, "ImageSize:" + image.getPlanes()[0].getBuffer().remaining());
+
+
     }
 
     public synchronized boolean rdyToGetSaved()
@@ -361,25 +385,9 @@ public class ImageHolder
             forward1  = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
             reduction1 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1));
             reduction2 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2));
-            //noise
-            Pair[] p = captureResult.get(CaptureResult.SENSOR_NOISE_PROFILE);
-            double[] noiseys = new double[p.length*2];
-            int i = 0;
-            for (int h = 0; h < p.length; h++)
-            {
-                noiseys[i++] = (double)p[h].first;
-                noiseys[i++] = (double)p[h].second;
-            }
-            double[] noise = new double[6];
-            int[] cfaPlaneColor = {0, 1, 2};
-            generateNoiseProfile(noiseys,cfaOut, cfaPlaneColor,3,noise);
             finalnoise = new double[6];
-            for (i = 0; i < noise.length; i++)
-                if (noise[i] > 2 || noise[i] < -2)
-                    finalnoise[i] = 0;
-                else
-                    finalnoise[i] = (float)noise[i];
-            //noise end
+            getNoiseMatrix(cfaOut, finalnoise);
+
         }
 
         return DngProfile.getProfile(black,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
@@ -393,6 +401,28 @@ public class ImageHolder
                 finalnoise,
                 ""
         );
+    }
+
+    private void getNoiseMatrix(int[] cfaOut, double[] finalnoise) {
+        //noise
+        Pair[] p = captureResult.get(CaptureResult.SENSOR_NOISE_PROFILE);
+        double[] noiseys = new double[p.length*2];
+        int i = 0;
+        for (int h = 0; h < p.length; h++)
+        {
+            noiseys[i++] = (double)p[h].first;
+            noiseys[i++] = (double)p[h].second;
+        }
+        double[] noise = new double[6];
+        int[] cfaPlaneColor = {0, 1, 2};
+        generateNoiseProfile(noiseys,cfaOut, cfaPlaneColor,3,noise);
+
+        for (i = 0; i < noise.length; i++)
+            if (noise[i] > 2 || noise[i] < -2)
+                finalnoise[i] = 0;
+            else
+                finalnoise[i] = (float)noise[i];
+        //noise end
     }
 
     private void generateNoiseProfile(double[] perChannelNoiseProfile, int[] cfa,
@@ -437,5 +467,32 @@ public class ImageHolder
     private float roundTo6Places(float f )
     {
         return Math.round(f*1000000f)/1000000f;
+    }
+
+
+    private void logColorPattern()
+    {
+        int c= characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
+        switch (c)
+        {
+            case 1:
+                Log.d(TAG, "ColorPattern: GRBG");
+                break;
+            case 2:
+                Log.d(TAG, "ColorPattern: GBRG");
+                break;
+            case 3:
+                Log.d(TAG, "ColorPattern: BGGR");
+                break;
+            default:
+                Log.d(TAG, "ColorPattern: RGGB");
+                break;
+        }
+    }
+
+    private void logNeutralMatrix()
+    {
+        Rational[] n = captureResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
+        Log.d(TAG,"NeutralMatrix:" + n[0].floatValue() + ","+ n[1].floatValue()+","+n[2].floatValue());
     }
 }
