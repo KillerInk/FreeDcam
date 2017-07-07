@@ -3471,7 +3471,7 @@
             <rowsize>0</rowsize>
             <matrixset>IMX135_Z5S_JB</matrixset>
         </filesize>
-        <filesize size= "16560128"> <!-- redmin note4x omnivision -->
+        <filesize size= "16560128"> <!-- redmi note4x omnivision -->
             <blacklvl>64</blacklvl>
             <width>4224</width>
             <height>3136</height>
@@ -3480,8 +3480,18 @@
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
         </filesize>
-        <!-- Redmi Note 4x
-        <filesize size= "16510976">
+		<filesize size= "26492928"> <!-- redmi note4x omnivision cam2-->
+            <blacklvl>64</blacklvl>
+            <width>4160</width>
+            <height>3120</height>
+            <rawtype>2</rawtype>
+            <colorpattern>rggb</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Nexus6</matrixset>
+        </filesize>
+		
+        <!-- Redmi Note 4x Samsung cam1 -->
+        <!--> <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <width>4208</width>
             <height>3136</height>
