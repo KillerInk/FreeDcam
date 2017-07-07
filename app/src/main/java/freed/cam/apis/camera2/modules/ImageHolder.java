@@ -131,17 +131,14 @@ public class ImageHolder
         {
             Log.WriteEx(ex);
         }
-
-
-
     }
 
     public synchronized void AddImage(Image image)
     {
         images.add(image);
         Log.d(TAG, "ImageSize:" + image.getPlanes()[0].getBuffer().remaining());
-
-
+        logImageFormat(image);
+        Log.d(TAG,"WxH:" + image.getWidth() +"x"+image.getHeight());
     }
 
     public synchronized boolean rdyToGetSaved()
@@ -495,4 +492,24 @@ public class ImageHolder
         Rational[] n = captureResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
         Log.d(TAG,"NeutralMatrix:" + n[0].floatValue() + ","+ n[1].floatValue()+","+n[2].floatValue());
     }
+
+    private void logImageFormat(Image image)
+    {
+        switch (image.getFormat())
+        {
+            case ImageFormat.RAW10:
+                Log.d(TAG,"ImageFormat:RAW10");
+                break;
+            case ImageFormat.RAW12:
+                Log.d(TAG,"ImageFormat:RAW12");
+                break;
+            case ImageFormat.RAW_SENSOR:
+                Log.d(TAG,"ImageFormat:RAW_SENSOR");
+                break;
+            case ImageFormat.JPEG:
+                Log.d(TAG,"ImageFormat:JPEG");
+                break;
+        }
+    }
+
 }
