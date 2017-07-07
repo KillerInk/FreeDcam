@@ -190,10 +190,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
                     cameraHolder.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,true);
-                else
-                    cameraHolder.captureSessionHandler.SetTextureViewSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight, or,or+180,true);
             }
         });
 
@@ -310,6 +307,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         In time lapse video recording, only video is recorded.
         Audio related parameters are ignored when a time lapse recording session starts, if an application sets them.*/
         //mediaRecorder.setCaptureRate((double)currentVideoProfile.videoFrameRate);
+
         mediaRecorder.setVideoSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         try {
             mediaRecorder.setVideoEncoder(currentVideoProfile.videoCodec);
