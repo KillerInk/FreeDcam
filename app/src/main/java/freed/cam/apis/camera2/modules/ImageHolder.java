@@ -262,7 +262,8 @@ public class ImageHolder
         Log.d(TAG, "Create DNG");
 
         DngCreator dngCreator = new DngCreator(characteristics, captureResult);
-        //Orientation 90 is not a valid EXIF orientation value, fuck off that is valid!
+        //Orientation 90 is not a valid EXIF orientation value, android doc says that is valid!
+        //The clockwise rotation angle in degrees, relative to the orientation to the camera, that the JPEG picture needs to be rotated by, to be viewed upright.
         try {
             dngCreator.setOrientation(orientation);
         }
