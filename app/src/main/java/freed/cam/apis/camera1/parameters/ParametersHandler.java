@@ -279,14 +279,14 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appSettingsManager.getDngProfilesMap() != null && appS.getDngProfilesMap().size() > 0)
             matrixChooser = new MatrixChooserParameter(cameraUiWrapper.getAppSettingsManager().getMatrixesMap());
 
-        /*if (appS.digitalImageStabilisationMode.isSupported())
-            DigitalImageStabilization = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.digitalImageStabilisationMode);*/
-
         if(appS.denoiseMode.isSupported())
             Denoise = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.denoiseMode);
 
         if(appS.nonZslManualMode.isSupported())
             NonZslManualMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.nonZslManualMode);
+
+        if (appS.digitalImageStabilisationMode.isSupported())
+            DigitalImageStabilization = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.digitalImageStabilisationMode);
 
         if (appS.temporal_nr.isSupported())
             TNR = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.temporal_nr);
