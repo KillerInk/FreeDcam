@@ -389,29 +389,39 @@ public class XmlParserWriter
         HashMap<String, CustomMatrix> matrixHashMap = new HashMap<>();
         try {
             String xmlsource = getString(resources.openRawResource(R.raw.matrixes));
-            XmlElement rootElement = XmlElement.parse(xmlsource);
-            if (rootElement.getTagName().equals("matrixes"))
+            parseMatrixeXml(matrixHashMap, xmlsource);
+            File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"matrixes.xml");
+            if (configFile.exists())
             {
-                List<XmlElement> profileElements = rootElement.findChildren("matrix");
-                for (XmlElement xmlElement: profileElements)
-                {
-                    String name  = xmlElement.getAttribute("name", "");
-                    String c1 = xmlElement.findChild("color1").getValue();
-                    String c2 = xmlElement.findChild("color2").getValue();
-                    String neut = xmlElement.findChild("neutral").getValue();
-                    String forward1 = xmlElement.findChild("forward1").getValue();
-                    String forward2 = xmlElement.findChild("forward2").getValue();
-                    String reduction1 = xmlElement.findChild("reduction1").getValue();
-                    String reduction2 = xmlElement.findChild("reduction2").getValue();
-                    String noise = xmlElement.findChild("noise").getValue();
-                    CustomMatrix mat = new CustomMatrix(c1,c2,neut,forward1,forward2,reduction1,reduction2,noise);
-                    matrixHashMap.put(name,mat);
-                }
+                xmlsource = getString(new FileInputStream(configFile));
+                parseMatrixeXml(matrixHashMap,xmlsource);
             }
         } catch (IOException e) {
             Log.WriteEx(e);
         }
         return matrixHashMap;
+    }
+
+    private void parseMatrixeXml(HashMap<String, CustomMatrix> matrixHashMap, String xmlsource) {
+        XmlElement rootElement = XmlElement.parse(xmlsource);
+        if (rootElement.getTagName().equals("matrixes"))
+        {
+            List<XmlElement> profileElements = rootElement.findChildren("matrix");
+            for (XmlElement xmlElement: profileElements)
+            {
+                String name  = xmlElement.getAttribute("name", "");
+                String c1 = xmlElement.findChild("color1").getValue();
+                String c2 = xmlElement.findChild("color2").getValue();
+                String neut = xmlElement.findChild("neutral").getValue();
+                String forward1 = xmlElement.findChild("forward1").getValue();
+                String forward2 = xmlElement.findChild("forward2").getValue();
+                String reduction1 = xmlElement.findChild("reduction1").getValue();
+                String reduction2 = xmlElement.findChild("reduction2").getValue();
+                String noise = xmlElement.findChild("noise").getValue();
+                CustomMatrix mat = new CustomMatrix(c1,c2,neut,forward1,forward2,reduction1,reduction2,noise);
+                matrixHashMap.put(name,mat);
+            }
+        }
     }
 
     private String getString(InputStream inputStream) throws IOException {
