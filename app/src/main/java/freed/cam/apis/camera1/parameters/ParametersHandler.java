@@ -277,7 +277,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         if (appSettingsManager.getDngProfilesMap() != null && appS.getDngProfilesMap().size() > 0)
-            matrixChooser = new MatrixChooserParameter(cameraUiWrapper.getAppSettingsManager().getMatrixesMap());
+            matrixChooser = new MatrixChooserParameter(cameraUiWrapper.getAppSettingsManager().getMatrixesMap(),appS);
 
         if(appS.denoiseMode.isSupported())
             Denoise = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.denoiseMode);

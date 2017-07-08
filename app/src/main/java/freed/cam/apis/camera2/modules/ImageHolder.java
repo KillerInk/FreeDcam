@@ -359,15 +359,15 @@ public class ImageHolder
             color1 = customMatrix.ColorMatrix1;
             color2 = customMatrix.ColorMatrix2;
             neutral = customMatrix.NeutralMatrix;
-            if (customMatrix.ForwardMatrix1.length >0)
+            if (customMatrix.ForwardMatrix1 != null && customMatrix.ForwardMatrix1.length >0)
                 forward1 = customMatrix.ForwardMatrix1;
-            if (customMatrix.ForwardMatrix2.length >0)
+            if (customMatrix.ForwardMatrix2 != null && customMatrix.ForwardMatrix2.length >0)
                 forward2 = customMatrix.ForwardMatrix2;
-            if (customMatrix.ReductionMatrix1.length >0)
+            if (customMatrix.ReductionMatrix1 != null &&  customMatrix.ReductionMatrix1.length >0)
                 reduction1 = customMatrix.ReductionMatrix1;
-            if (customMatrix.ReductionMatrix2.length >0)
+            if (customMatrix.ReductionMatrix2 != null && customMatrix.ReductionMatrix2.length >0)
                 reduction2 = customMatrix.ReductionMatrix2;
-            if (customMatrix.NoiseReductionMatrix.length >0)
+            if (customMatrix.NoiseReductionMatrix != null && customMatrix.NoiseReductionMatrix.length >0)
                 finalnoise = customMatrix.NoiseReductionMatrix;
         }
         else

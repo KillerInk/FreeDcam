@@ -163,7 +163,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         Burst = new BurstApi2(cameraUiWrapper);
         Focuspeak = new FocusPeakModeApi2(cameraUiWrapper);
         VideoProfiles = new VideoProfilesApi2(cameraUiWrapper);
-        matrixChooser = new MatrixChooserParameter(appSettingsManager.getMatrixesMap());
+        matrixChooser = new MatrixChooserParameter(appSettingsManager.getMatrixesMap(),appSettingsManager);
         Zoom = new ZoomApi2(cameraUiWrapper);
         SetAppSettingsToParameters();
     }

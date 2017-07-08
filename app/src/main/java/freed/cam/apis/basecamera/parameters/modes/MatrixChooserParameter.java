@@ -23,6 +23,7 @@ import java.util.HashMap;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.dng.CustomMatrix;
+import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -35,13 +36,16 @@ public class MatrixChooserParameter extends AbstractParameter
     private final HashMap<String, CustomMatrix> custommatrixes;
     private String currentval = "off";
     private boolean isSupported;
+    private AppSettingsManager appSettingsManager;
 
     final String TAG = MatrixChooserParameter.class.getSimpleName();
 
-    public MatrixChooserParameter(HashMap<String, CustomMatrix> matrixHashMap)
+    public MatrixChooserParameter(HashMap<String, CustomMatrix> matrixHashMap, AppSettingsManager appSettingsManager)
     {
+        this.appSettingsManager = appSettingsManager;
         this.custommatrixes = matrixHashMap;
         isSupported = true;
+        currentval = appSettingsManager.matrixset.get();
     }
 
     @Override
@@ -54,7 +58,7 @@ public class MatrixChooserParameter extends AbstractParameter
     {
         currentval = valueToSet;
         fireStringValueChanged(currentval);
-        cameraUiWrapper.getAppSettingsManager().matrixset.set(valueToSet);
+        appSettingsManager.matrixset.set(valueToSet);
     }
 
     @Override
@@ -76,10 +80,7 @@ public class MatrixChooserParameter extends AbstractParameter
     public CustomMatrix GetCustomMatrix(String key)
     {
         Log.d(TAG, "Key: " +key + " Currentvalue: " + currentval);
-        if (currentval.equals("off"))
-            return custommatrixes.get(key);
-        else
-            return custommatrixes.get(currentval);
+        return custommatrixes.get(currentval);
     }
 
     public CustomMatrix GetCustomMatrixNotOverWritten(String key)

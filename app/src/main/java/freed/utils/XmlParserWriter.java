@@ -388,6 +388,7 @@ public class XmlParserWriter
     {
         HashMap<String, CustomMatrix> matrixHashMap = new HashMap<>();
         try {
+            matrixHashMap.put("off", null);
             String xmlsource = getString(resources.openRawResource(R.raw.matrixes));
             parseMatrixeXml(matrixHashMap, xmlsource);
             File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"matrixes.xml");
