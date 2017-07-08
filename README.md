@@ -308,28 +308,21 @@ Select there the created dcp profile and click on *Save Image...* and save the D
 Open the saved Dng now into exiftools or a simliar tool, wich can read metadata, and copy out the matrixes into a txt file in the bottom order.
 
 ```
-0.9581,0.0274,-0.1154,-0.3463,1.2258,0.1311,-0.0565,0.2411,0.2431 colormatrix1 is needed
-0.6291,0.018,-0.0758,-0.3463,1.2258,0.1311,-0.0887,0.3788,0.3819  colormatrix2 is needed
-0.581421,1,0.565397                                               neutral matrix is needed
-0.6328,0.0469,0.2813,0.1641,0.7578,0.0781,-0.0469,-0.6406,1.5078  forwardmatrix1 is optional
-0.7578,0.0859,0.1172,0.2734,0.8281,-0.1016,0.0156,-0.2813,1.0859  forwardmatrix2 is optional
-NULL                                                              reductionmatrix1 is optional
-NULL                                                              reductionmatrix2 is optional
-NULL                                                              noise reduction is optional
-```
-  Thats how the final file should look like fill not used Matrixes with NULL
-```
-1.1407,-0.4022,-0.234,-0.4314,1.404,0.0146,-0.0439,0.2047,0.5704
-0.7228,-0.0893,-0.0975,-0.4792,1.3481,0.1381,-0.1137,0.268,0.5604
-0.5391,1,0.6641
-0.6328,0.0469,0.2813,0.1641,0.7578 0.0781,-0.0469,-0.6406,1.5078
-0.7578,0.0859,0.1172,0.2734,0.8281,-0.1016,0.0156,-0.2813,1.0859
-NULL
-NULL
-0.00051471478,0,0.00051471478,0,0.00051471478,0
+<matrixes>
+    <matrix name="G4">
+        <color1>1.15625, -0.2890625, -0.3203125, -0.53125, 1.5625f, 0.0625, -0.078125, 0.28125, 0.5625</color1>
+        <color2>0.5859375, 0.0546875, -0.125, -0.6484375, 1.5546875, 0.0546875, -0.2421875, 0.5625, 0.390625</color2>
+        <neutral>0.53125, 1, 0.640625</neutral>
+        <forward1>0.820300, -0.218800, 0.359400, 0.343800, 0.570300,0.093800, 0.015600, -0.726600, 1.539100</forward1>
+        <forward2>0.679700, -0.078100, 0.359400, 0.210900, 0.703100,0.085900, -0.046900, -0.828100, 1.695300</forward2>
+        <reduction1>0.9921875, 0, 0, 0, 1, 0, 0, 0, 1.015625</reduction1>
+        <reduction2>0.9921875, 0, 0, 0, 1, 0, 0, 0, 1.015625</reduction2>
+        <noise>0.8853462669953089, 0,  0.8853462669953089f, 0, 0.8853462669953089f,0</noise>
+    </matrix> 
+</matrixes>
 ```
 
-Copy that file now on your phones internalSD/DCIM/FreeDcam/config/matrix and you can select it inside Freedcam.  
+Copy that file now on your phones internalSD/DCIM/FreeDcam/config/matrixes.xml and you can select it inside Freedcam.  
 Its gets then applied to each new dng
 
 MSM Camera Blobs Logging for DEVS
