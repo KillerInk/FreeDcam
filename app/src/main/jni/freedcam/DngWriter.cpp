@@ -104,6 +104,11 @@ void DngWriter::writeIfd0(TIFF *tif) {
 
     if(noiseMatrix != NULL)
         TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  noiseMatrix);
+    if(tonecurve != NULL)
+    {
+
+        TIFFSetField(tif,TIFFTAG_PROFILETONECURVE, tonecurvesize,tonecurve);
+    }
     LOGD("colormatrix2");
 }
 

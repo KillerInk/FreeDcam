@@ -65,6 +65,7 @@ public class RawToDng
 
     private native void SetDateTime(String datetime);
 
+    public native void SetToneCurve(float tonecurve[]);
     public static RawToDng GetInstance()
     {
         return new RawToDng();

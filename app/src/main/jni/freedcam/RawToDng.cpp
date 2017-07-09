@@ -67,6 +67,8 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
                                                             jint height);
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetDateTime(JNIEnv *env, jobject thiz, jstring datetime);
+
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetToneCurve(JNIEnv *env, jobject thiz,jfloatArray tonecurve);
 }
 
 
@@ -223,6 +225,12 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_WriteDNG(JNIEnv *env, jobject thiz)
 {
     writer.WriteDNG();
+}
+
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetToneCurve(JNIEnv *env, jobject thiz,jfloatArray tonecurve)
+{
+    writer.tonecurve = env->GetFloatArrayElements(tonecurve, 0);
+    writer.tonecurvesize = env->GetArrayLength(tonecurve);
 }
 
 
