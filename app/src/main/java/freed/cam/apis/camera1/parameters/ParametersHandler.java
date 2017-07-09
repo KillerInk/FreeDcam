@@ -89,7 +89,7 @@ import static freed.utils.AppSettingsManager.ISOMANUAL_KRILLIN;
 import static freed.utils.AppSettingsManager.ISOMANUAL_MTK;
 import static freed.utils.AppSettingsManager.ISOMANUAL_QCOM;
 import static freed.utils.AppSettingsManager.ISOMANUAL_SONY;
-import static freed.utils.AppSettingsManager.SETTING_OrientationHack;
+
 import static freed.utils.AppSettingsManager.SHUTTER_G2PRO;
 import static freed.utils.AppSettingsManager.SHUTTER_HTC;
 import static freed.utils.AppSettingsManager.SHUTTER_KRILLIN;
@@ -501,7 +501,7 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-        if (appSettingsManager.getApiString(SETTING_OrientationHack).equals(appSettingsManager.getResString(R.string.on_)))
+        if (appSettingsManager.orientationhack.getBoolean())
         {
             int or = orientation +180;
             if (or >360)
@@ -592,11 +592,8 @@ public class ParametersHandler extends AbstractParameterHandler
 
     public void SetCameraRotation()
     {
-        if (appSettingsManager.getApiString(SETTING_OrientationHack).equals(""))
-        {
-            appSettingsManager.setApiString(SETTING_OrientationHack , cameraUiWrapper.getResString(R.string.off_));
-        }
-        if (appSettingsManager.getApiString(SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.off_)))
+
+        if (!appSettingsManager.orientationhack.getBoolean())
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetCameraRotation(0);
         else
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetCameraRotation(180);

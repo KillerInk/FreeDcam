@@ -138,7 +138,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             setRecorderOutPutFile(mediaSavePath);
             recorder.setOnInfoListener(this);
 
-            if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
+            if (appSettingsManager.orientationhack.getBoolean())
                 recorder.setOrientationHint(180);
             else
                 recorder.setOrientationHint(0);

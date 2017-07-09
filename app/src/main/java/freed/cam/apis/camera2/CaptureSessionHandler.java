@@ -21,12 +21,9 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
-import com.troop.freedcam.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -158,6 +155,7 @@ public class CaptureSessionHandler
             Log.WriteEx(ex);
         }
     }
+
     public void createImageCaptureRequestBuilder()
     {
         if (cameraHolderApi2 == null || cameraHolderApi2.mCameraDevice == null)
@@ -542,7 +540,7 @@ public class CaptureSessionHandler
 
             matrix.postScale(scX,scY,centerX,centerY);
 
-            if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.on_)))
+            if (cameraUiWrapper.getAppSettingsManager().orientationhack.getBoolean())
                 matrix.postRotate(orientationWithHack, centerX, centerY);
             else
                 matrix.postRotate(orientation, centerX,centerY);

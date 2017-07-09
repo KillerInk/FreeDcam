@@ -48,7 +48,6 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.cam.apis.camera2.parameters.AeHandler;
-import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 
 
@@ -137,7 +136,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
 
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         int orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation)%360;
-        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.on_)))
+        if (appSettingsManager.orientationhack.getBoolean())
             orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation+180)%360;
         cameraHolder.captureSessionHandler.SetParameter(CaptureRequest.JPEG_ORIENTATION, orientationToSet);
 
@@ -178,7 +177,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             Surface previewsurface = new Surface(texture);
 
             cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight());
-            Log.d(TAG, "Previewsurface vailid:" + previewsurface.isValid());
+            //Log.d(TAG, "Previewsurface vailid:" + previewsurface.isValid());
             cameraUiWrapper.getFocusPeakProcessor().setOutputSurface(previewsurface);
             Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
             cameraHolder.captureSessionHandler.AddSurface(camerasurface,true);

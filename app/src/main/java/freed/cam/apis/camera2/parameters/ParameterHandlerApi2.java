@@ -26,7 +26,6 @@ import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
 import com.huawei.camera2ex.CaptureRequestEx;
-import com.troop.freedcam.R;
 
 import java.util.List;
 
@@ -50,7 +49,6 @@ import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
-import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -178,7 +176,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-        if (appSettingsManager.getApiString(AppSettingsManager.SETTING_OrientationHack).equals(cameraUiWrapper.getResString(R.string.on_)))
+        if (appSettingsManager.orientationhack.getBoolean())
         {
             int or = orientation +180;
             if (or >360)

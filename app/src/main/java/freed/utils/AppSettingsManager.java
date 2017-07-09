@@ -248,7 +248,7 @@ public class AppSettingsManager {
     public static final String SETTING_API = "sonyapi";
     public static final String SETTING_LOCATION = "location";
     public static final String SETTING_EXTERNALSHUTTER = "externalShutter";
-    public static final String SETTING_OrientationHack = "orientationHack";
+
     public static final String SETTING_TIMER = "timer";
 
     public static final String SETTING_FOCUSPEAK = "focuspeak";
@@ -362,6 +362,7 @@ public class AppSettingsManager {
 
     public final BooleanSettingsMode opencamera1Legacy;
     public final BooleanSettingsMode useHuaweiCam2Extension;
+    public final BooleanSettingsMode orientationhack;
 
     public String[] opcodeUrlList;
 
@@ -468,6 +469,8 @@ public class AppSettingsManager {
         useHuaweiCam2Extension = new BooleanSettingsMode(getResString(R.string.aps_usehuaweicam2));
 
         ae_TagetFPS = new SettingMode(getResString(R.string.aps_ae_targetFPS));
+
+        orientationhack = new BooleanSettingsMode(getResString(R.string.aps_orientationHack));
 
 
         XmlParserWriter parser = new XmlParserWriter();

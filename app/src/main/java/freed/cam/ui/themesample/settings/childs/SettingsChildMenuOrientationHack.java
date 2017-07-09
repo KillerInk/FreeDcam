@@ -26,7 +26,6 @@ import com.troop.freedcam.R;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 21.07.2015.
@@ -42,9 +41,7 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(""))
-            fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_OrientationHack, getResources().getString(R.string.off_));
-        if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_OrientationHack).equals(getResources().getString(R.string.on_)))
+        if (fragment_activityInterface.getAppSettings().orientationhack.getBoolean())
             onStringValueChanged(getResources().getString(R.string.on_));
         else
             onStringValueChanged(getResources().getString(R.string.off_));
@@ -58,7 +55,10 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_OrientationHack, value);
+        if (value.equals(fragment_activityInterface.getAppSettings().getResString(R.string.on)))
+            fragment_activityInterface.getAppSettings().orientationhack.setBoolean(true);
+        else
+            fragment_activityInterface.getAppSettings().orientationhack.setBoolean(false);
         if (cameraUiWrapper instanceof Camera1Fragment) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetCameraRotation();
             cameraUiWrapper.getParameterHandler().SetPictureOrientation(0);
