@@ -50,14 +50,32 @@ public class PictureFormatHandler extends BaseModeParameter
         super(parameters, cameraUiWrapper);
         ParametersHandler parametersHandler1 = parametersHandler;
         isSupported = cameraUiWrapper.getAppSettingsManager().pictureFormat.isSupported();
-        boolean rawSupported = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.isSupported();
+        boolean rawSupported = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.isSupported() || cameraUiWrapper.getAppSettingsManager().getDngProfilesMap().size() > 0;
         if (rawSupported) {
             rawFormat = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.get();
             rawFormats = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.getValues();
             BayerFormat bayerFormats = new BayerFormat(parameters, cameraUiWrapper, "");
             parametersHandler.bayerformat = bayerFormats;
+            if (!contains(cameraUiWrapper.getAppSettingsManager().rawPictureFormat.getValues(), cameraUiWrapper.getAppSettingsManager().getResString(R.string.dng_))
+                    && cameraUiWrapper.getAppSettingsManager().getDngProfilesMap().size() > 0)
+            cameraUiWrapper.getAppSettingsManager().pictureFormat.setValues(new String[]
+                        {
+                                cameraUiWrapper.getAppSettingsManager().getResString(R.string.jpeg_),
+                                cameraUiWrapper.getAppSettingsManager().getResString(R.string.dng_),
+                                cameraUiWrapper.getAppSettingsManager().getResString(R.string.bayer_)
+                        });
         }
         Log.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+ isSupported);
+    }
+
+    private boolean contains(String[] arr, String tofind)
+    {
+        for (int i = 0; i< arr.length; i++)
+        {
+            if (arr[i].equals(tofind))
+                return true;
+        }
+        return false;
     }
 
     @Override
