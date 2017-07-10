@@ -106,8 +106,19 @@ void DngWriter::writeIfd0(TIFF *tif) {
         TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  noiseMatrix);
     if(tonecurve != NULL)
     {
-
         TIFFSetField(tif,TIFFTAG_PROFILETONECURVE, tonecurvesize,tonecurve);
+    }
+    if(huesatmapdims != NULL)
+    {
+        TIFFSetField(tif, TIFFTAG_PROFILEHUESATMAPDIMS, 3, huesatmapdims);
+    }
+    if(huesatmapdata1_size > 0)
+    {
+        TIFFSetField(tif,TIFFTAG_PROFILEHUESATMAPDATA1, huesatmapdata1_size,huesatmapdata1);
+    }
+    if(huesatmapdata2_size > 0)
+    {
+        TIFFSetField(tif,TIFFTAG_PROFILEHUESATMAPDATA2, huesatmapdata2_size,huesatmapdata2);
     }
     LOGD("colormatrix2");
 }

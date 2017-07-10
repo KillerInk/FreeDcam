@@ -30,7 +30,7 @@ import freed.cam.apis.basecamera.modules.WorkFinishEvents;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.utils.Log;
-import freed.utils.ToneMapProfile;
+import freed.dng.ToneMapProfile;
 
 /**
  * Created by troop on 12.06.2017.

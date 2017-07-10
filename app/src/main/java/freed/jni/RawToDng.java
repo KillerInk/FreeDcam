@@ -65,7 +65,10 @@ public class RawToDng
 
     private native void SetDateTime(String datetime);
 
-    public native void SetToneCurve(float tonecurve[]);
+    private native void SetToneCurve(float tonecurve[]);
+    private native void SetHueSatMapData1(float tonecurve[]);
+    private native void SetHueSatMapData2(float tonecurve[]);
+    private native void SetHueSatMapDims(int[] dims);
     public static RawToDng GetInstance()
     {
         return new RawToDng();
@@ -269,7 +272,17 @@ public class RawToDng
         if (profile == null)
             return;
         SetModelAndMake(Build.MANUFACTURER);
-        SetToneCurve(profile.toneMapProfile.getToneCurve());
+        if (profile.toneMapProfile != null)
+        {
+            if (profile.toneMapProfile.getToneCurve() != null)
+                SetToneCurve(profile.toneMapProfile.getToneCurve());
+            if (profile.toneMapProfile.getHueSatMapData1() != null)
+                SetHueSatMapData1(profile.toneMapProfile.getHueSatMapData1());
+            //SetHueSatMapData2(profile.toneMapProfile.getHueSatMapData2());
+            if (profile.toneMapProfile.getHueSatMapDims() != null)
+                SetHueSatMapDims(profile.toneMapProfile.getHueSatMapDims());
+        }
+
         SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,
                 profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
                 profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.bayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);

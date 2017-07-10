@@ -19,8 +19,6 @@
 
 package freed.dng;
 
-import freed.utils.ToneMapProfile;
-
 /**
  * Created by troop on 01.06.2016.
  */

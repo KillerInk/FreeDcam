@@ -69,6 +69,12 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetDateTime(JNIEnv *env, jobject thiz, jstring datetime);
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetToneCurve(JNIEnv *env, jobject thiz,jfloatArray tonecurve);
+
+
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapDims(JNIEnv *env, jobject thiz,jintArray huesatmapdims);
+
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapData1(JNIEnv *env, jobject thiz,jfloatArray huesatmapdata);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapData2(JNIEnv *env, jobject thiz,jfloatArray huesatmapdata);
 }
 
 
@@ -233,4 +239,21 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetToneCurve(JNIEnv *env, jobject
     writer.tonecurvesize = env->GetArrayLength(tonecurve);
 }
 
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapDims(JNIEnv *env, jobject thiz,jintArray huesatmapdims)
+{
+    writer.huesatmapdims =  env->GetIntArrayElements(huesatmapdims, 0);
+}
+
+
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapData1(JNIEnv *env, jobject thiz,jfloatArray tonecurve)
+{
+    writer.huesatmapdata1 = env->GetFloatArrayElements(tonecurve, 0);
+    writer.huesatmapdata1_size = env->GetArrayLength(tonecurve);
+}
+
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapData2(JNIEnv *env, jobject thiz,jfloatArray tonecurve)
+{
+    writer.huesatmapdata1 = env->GetFloatArrayElements(tonecurve, 0);
+    writer.huesatmapdata1_size = env->GetArrayLength(tonecurve);
+}
 

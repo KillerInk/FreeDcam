@@ -33,6 +33,7 @@ import java.util.Set;
 
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
+import freed.dng.ToneMapProfile;
 
 /**
  * Created by troop on 19.08.2014.

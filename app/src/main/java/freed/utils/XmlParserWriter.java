@@ -23,6 +23,7 @@ import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.cam.featuredetector.Camera1FeatureDetectorTask;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
+import freed.dng.ToneMapProfile;
 
 /**
  * Created by troop on 25.06.2017.

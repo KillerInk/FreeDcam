@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.utils.AppSettingsManager;
-import freed.utils.ToneMapProfile;
+import freed.dng.ToneMapProfile;
 
 /**
  * Created by troop on 10.07.2017.

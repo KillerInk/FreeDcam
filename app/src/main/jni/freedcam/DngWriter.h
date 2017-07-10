@@ -64,6 +64,12 @@ public:
     float *reductionMatrix2;
     float *tonecurve;
     int tonecurvesize;
+    float *huesatmapdata1;
+    int huesatmapdata1_size;
+    float *huesatmapdata2;
+    int huesatmapdata2_size;
+
+    int *huesatmapdims;
     double *noiseMatrix;
     char* bayerformat;
     int rawType;
