@@ -177,6 +177,11 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 matrixChooser.SetUiItemClickListner(this);
                 dngGroup.addView(matrixChooser);
             }
+            if (params.tonemapChooser != null) {
+                SettingsChildMenu matrixChooser = new SettingsChildMenu(getContext(), apS.tonemapProfilesSettings, params.tonemapChooser, R.string.setting_tonemapchooser_header, R.string.setting_tonemapchooser_description);
+                matrixChooser.SetUiItemClickListner(this);
+                dngGroup.addView(matrixChooser);
+            }
             if (cameraUiWrapper instanceof Camera2Fragment)
             {
                 SettingsChildMenuForceRawToDng rawToDng = new SettingsChildMenuForceRawToDng(getContext(), R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description, apS);

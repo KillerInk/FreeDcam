@@ -198,6 +198,7 @@ public class AppSettingsManager {
    /* private Devices device;*/
     private String mDevice;
     private HashMap<String, CustomMatrix> matrixes;
+    private HashMap<String, ToneMapProfile> tonemapProfiles;
     private LongSparseArray<DngProfile> dngProfileHashMap;
 
     private final String FEATUREDETECTED = "featuredetected";
@@ -336,6 +337,7 @@ public class AppSettingsManager {
     public final SettingMode scalePreview;
     public final SettingMode guide;
     public final SettingMode previewFpsRange;
+    public final SettingMode tonemapProfilesSettings;
 
     public final TypeSettingsMode manualFocus;
     public final SettingMode manualExposureCompensation;
@@ -470,12 +472,14 @@ public class AppSettingsManager {
         ae_TagetFPS = new SettingMode(getResString(R.string.aps_ae_targetFPS));
 
         orientationhack = new BooleanSettingsMode(getResString(R.string.aps_orientationHack));
+        tonemapProfilesSettings = new SettingMode(getResString(R.string.aps_tonemapProfile));
 
 
         XmlParserWriter parser = new XmlParserWriter();
         //first time init
         matrixes = parser.getMatrixes(resources);
         mDevice = sharedPreferences.getString("DEVICE","");
+        tonemapProfiles = parser.getToneMapProfiles(this);
         if (mDevice == null || TextUtils.isEmpty(mDevice))
         {
             Log.d(TAG, "Lookup ConfigFile");
@@ -512,6 +516,11 @@ public class AppSettingsManager {
     public HashMap<String, CustomMatrix> getMatrixesMap()
     {
         return matrixes;
+    }
+
+    public HashMap<String, ToneMapProfile> getToneMapProfiles()
+    {
+        return tonemapProfiles;
     }
 
     public boolean areFeaturesDetected()

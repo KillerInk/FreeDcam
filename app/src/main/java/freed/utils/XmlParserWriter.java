@@ -516,4 +516,51 @@ public class XmlParserWriter
             map.put(videoMediaProfile.ProfileName, videoMediaProfile);
         }
     }
+
+
+    /**
+     * Read the tonemap profiles from toneMapProfiles.xml
+     * @param appSettingsManager
+     * @return
+     */
+    public HashMap<String,ToneMapProfile> getToneMapProfiles(AppSettingsManager appSettingsManager)
+    {
+        HashMap<String,ToneMapProfile>  hashMap = new HashMap<>();
+        hashMap.put("off", null);
+
+        try {
+            String xmlsource = getString(appSettingsManager.getResources().openRawResource(R.raw.tonemapprofiles));
+            XmlElement xmlElement = XmlElement.parse(xmlsource);
+            getTonemapProfiles(hashMap, xmlElement);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"tonemapprofiles.xml");
+        if (configFile.exists())
+        {
+            try {
+                String xmlsource = getString(new FileInputStream(configFile));
+                XmlElement xmlElement = XmlElement.parse(xmlsource);
+                getTonemapProfiles(hashMap, xmlElement);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return hashMap;
+    }
+
+    private void getTonemapProfiles(HashMap<String, ToneMapProfile> hashMap, XmlElement xmlElement) {
+
+        List<XmlElement> tonemapchilds = xmlElement.findChildren("tonemapprofile");
+        if (tonemapchilds.size() > 0){
+            for (XmlElement element : tonemapchilds)
+            {
+                ToneMapProfile profile = new ToneMapProfile(element);
+                hashMap.put(profile.getName(), profile);
+            }
+        }
+    }
 }

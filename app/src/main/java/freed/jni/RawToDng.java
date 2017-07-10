@@ -269,6 +269,7 @@ public class RawToDng
         if (profile == null)
             return;
         SetModelAndMake(Build.MANUFACTURER);
+        SetToneCurve(profile.toneMapProfile.getToneCurve());
         SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,
                 profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
                 profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.bayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);

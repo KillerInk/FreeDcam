@@ -13,6 +13,8 @@
     <string name="setting_opcode_header">Raw Flat Field: </string>
     <string name="setting_matrixchooser_description">Choose Custom ColorMatrix, when off default get used</string>
     <string name="setting_matrixchooser_header">CustomMatrix: </string>
+    <string name="setting_tonemapchooser_description">Tonemap curve that get applied to the dng</string>
+    <string name="setting_tonemapchooser_header">ToneMapProfile: </string>
     <string name="setting_jpegquality_description">Quality Value in % </string>
     <string name="setting_jpegquality_header">JPEG Quality: </string>
     <string name="setting_picturesize_description">Picture Size : </string>

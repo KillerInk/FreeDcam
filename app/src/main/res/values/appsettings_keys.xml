@@ -97,5 +97,6 @@
     <string name="aps_manualaperture">manualaperture</string>
     <string name="aps_ae_targetFPS">ae_TargetFPS</string>
     <string name="aps_orientationHack">orientationHack</string>
+    <string name="aps_tonemapProfile">tonemapProfile</string>
 
 </resources>

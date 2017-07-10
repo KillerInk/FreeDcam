@@ -30,6 +30,7 @@ import freed.cam.apis.basecamera.modules.WorkFinishEvents;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.utils.Log;
+import freed.utils.ToneMapProfile;
 
 /**
  * Created by troop on 12.06.2017.
@@ -57,6 +58,7 @@ public class ImageHolder
     private List<Image> images;
     private CameraCharacteristics characteristics;
     private CustomMatrix customMatrix;
+    private ToneMapProfile toneMapProfile;
     private int orientation = 0;
     private Location location;
     private boolean externalSD =false;
@@ -87,6 +89,11 @@ public class ImageHolder
     public void setCustomMatrix(CustomMatrix custmMat)
     {
         this.customMatrix = custmMat;
+    }
+
+    public void setToneMapProfile(ToneMapProfile toneMapProfile)
+    {
+        this.toneMapProfile = toneMapProfile;
     }
 
     public void setOrientation(int or)
@@ -305,6 +312,7 @@ public class ImageHolder
         int mISO = captureResult.get(CaptureResult.SENSOR_SENSITIVITY);
         double mExposuretime = captureResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue() / 1000000000;
         final DngProfile prof = getDngProfile(rawFormat, image);
+        prof.toneMapProfile = toneMapProfile;
         imageSaver.saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, orientation,null,prof);
         bytes = null;
         buffer = null;

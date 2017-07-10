@@ -177,6 +177,7 @@ public abstract class AbstractParameterHandler
     public ParameterInterface opcode;
     public ParameterInterface bayerformat;
     public ParameterInterface matrixChooser;
+    public ParameterInterface tonemapChooser;
     public ParameterInterface scalePreview;
 
     public AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {

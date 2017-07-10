@@ -1,0 +1,9 @@
+<tonemapprofiles>
+    <tonemapprofile name="linear">
+        <tonecurve>0 0 0.25 0.25 0.5 0.5 0.75 0.75 1 1</tonecurve>
+    </tonemapprofile>
+
+    <tonemapprofile name="sRGB">
+        <tonecurve>0.0000 0.0000 0.0667 0.2864 0.1333 0.4007 0.2000 0.4845 0.2667 0.5532 0.3333 0.6125 0.4000 0.6652 0.4667 0.7130 0.5333 0.7569 0.6000 0.7977 0.6667 0.8360 0.7333 0.8721 0.8000 0.9063 0.8667 0.9389 0.9333 0.9701 1.0000 1.0000</tonecurve>
+    </tonemapprofile>
+</tonemapprofiles>

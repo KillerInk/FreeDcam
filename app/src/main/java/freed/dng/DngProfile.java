@@ -19,6 +19,8 @@
 
 package freed.dng;
 
+import freed.utils.ToneMapProfile;
+
 /**
  * Created by troop on 01.06.2016.
  */
@@ -50,6 +52,8 @@ public class DngProfile
     public int rowsize;
     public CustomMatrix matrixes;
     public String matrixName;
+
+    public ToneMapProfile toneMapProfile;
 
     public DngProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, String matrixName)
     {

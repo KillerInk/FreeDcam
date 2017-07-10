@@ -33,6 +33,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
+import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.FocusHandler;
 import freed.cam.apis.camera2.parameters.huawei.HuaweiAeHandler;
@@ -162,6 +163,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         Focuspeak = new FocusPeakModeApi2(cameraUiWrapper);
         VideoProfiles = new VideoProfilesApi2(cameraUiWrapper);
         matrixChooser = new MatrixChooserParameter(appSettingsManager.getMatrixesMap(),appSettingsManager);
+        tonemapChooser = new ToneMapChooser(appSettingsManager.getToneMapProfiles(), appSettingsManager);
         Zoom = new ZoomApi2(cameraUiWrapper);
         SetAppSettingsToParameters();
     }
