@@ -21,6 +21,7 @@ package freed.cam.apis.basecamera.modules;
 
 import android.media.CamcorderProfile;
 
+import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 
@@ -131,6 +132,8 @@ public class VideoMediaProfile
         Log.d(TAG, "VBitrate:" + videoBitRate + "VCodec:" + videoCodec + "VFrameRate:" + videoFrameRate + "VWidth:" + videoFrameWidth + "Vheight:" + videoFrameHeight);
     }
 
+
+
     public String GetString()
     {
         String b = audioBitRate + " " +
@@ -149,6 +152,44 @@ public class VideoMediaProfile
                 Mode + " " +
                 isAudioActive + " ";
         return b;
+    }
+
+    public VideoMediaProfile(XmlElement xmlElement)
+    {
+        ProfileName = xmlElement.getAttribute("name", "");
+        audioChannels = xmlElement.findChild("audioChannels").getIntValue(0);
+        audioCodec = xmlElement.findChild("audioCodec").getIntValue(0);
+        audioSampleRate = xmlElement.findChild("audioSampleRate").getIntValue(0);
+        duration = xmlElement.findChild("duration").getIntValue(0);
+        fileFormat = xmlElement.findChild("fileFormat").getIntValue(0);
+        quality = xmlElement.findChild("quality").getIntValue(0);
+        videoBitRate = xmlElement.findChild("videoBitRate").getIntValue(0);
+        videoCodec = xmlElement.findChild("videoCodec").getIntValue(0);
+        videoFrameRate = xmlElement.findChild("videoFrameRate").getIntValue(0);
+        videoFrameHeight = xmlElement.findChild("videoFrameHeight").getIntValue(0);
+        videoFrameWidth = xmlElement.findChild("videoFrameWidth").getIntValue(0);
+        isAudioActive = xmlElement.findChild("isAudioActive").getBooleanValue();
+        Mode = VideoMode.valueOf(xmlElement.findChild("Mode").getValue());
+    }
+    public String getXmlString()
+    {
+        String t = new String();
+        t += "<mediaprofile name= " +String.valueOf("\"") +String.valueOf(ProfileName) +String.valueOf("\"")  +">" + "\r\n";
+        t += "<audioChannels>" + audioChannels + "</audioChannels>" + "\r\n";
+        t += "<audioCodec>" + audioCodec + "</audioCodec>" + "\r\n";
+        t += "<audioSampleRate>" + audioSampleRate + "</audioSampleRate>" + "\r\n";
+        t += "<duration>" + duration + "</duration>" + "\r\n";
+        t += "<fileFormat>" + fileFormat + "</fileFormat>" + "\r\n";
+        t += "<quality>" + quality + "</quality>" + "\r\n";
+        t += "<videoBitRate>" + videoBitRate + "</videoBitRate>" + "\r\n";
+        t += "<videoCodec>" + videoCodec + "</videoCodec>" + "\r\n";
+        t += "<videoFrameRate>" + videoFrameRate + "</videoFrameRate>" + "\r\n";
+        t += "<videoFrameHeight>" + videoFrameHeight + "</videoFrameHeight>" + "\r\n";
+        t += "<videoFrameWidth>" + videoFrameWidth + "</videoFrameWidth>" + "\r\n";
+        t += "<isAudioActive>" + isAudioActive + "</isAudioActive>" + "\r\n";
+        t += "<Mode>" + Mode.toString() + "</Mode>" + "\r\n";
+        t += "</mediaprofile>"  + "\r\n";
+        return t;
     }
 
     public VideoMediaProfile clone()

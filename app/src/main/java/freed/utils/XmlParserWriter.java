@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.cam.featuredetector.Camera1FeatureDetectorTask;
 import freed.dng.CustomMatrix;
@@ -473,6 +474,47 @@ public class XmlParserWriter
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+        }
+    }
+
+    public HashMap<String,VideoMediaProfile> getMediaProfiles(AppSettingsManager appSettingsManager)
+    {
+        HashMap<String,VideoMediaProfile>  hashMap = new HashMap<>();
+        File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"videoProfiles.xml");
+        if (configFile.exists())
+        {
+            try {
+                String xmlsource = getString(new FileInputStream(configFile));
+                XmlElement xmlElement = XmlElement.parse(xmlsource);
+                if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1)){
+                    XmlElement camera1node = xmlElement.findChild("camera1");
+                    if (appSettingsManager.getIsFrontCamera())
+                    {
+                        XmlElement frontnode = camera1node.findChild("front");
+                        getMediaProfilesFromXmlNode(hashMap,frontnode);
+                    }
+                    else
+                    {
+                        XmlElement backnode = camera1node.findChild("back");
+                        getMediaProfilesFromXmlNode(hashMap,backnode);
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return hashMap;
+    }
+
+    private void getMediaProfilesFromXmlNode(HashMap<String,VideoMediaProfile> map,XmlElement element)
+    {
+        List<XmlElement> xmlprofiles = element.findChildren("mediaprofile");
+        for (XmlElement profile : xmlprofiles)
+        {
+            VideoMediaProfile videoMediaProfile = new VideoMediaProfile(profile);
+            map.put(videoMediaProfile.ProfileName, videoMediaProfile);
         }
     }
 }

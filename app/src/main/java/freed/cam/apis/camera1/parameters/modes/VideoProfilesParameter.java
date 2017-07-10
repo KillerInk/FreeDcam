@@ -38,9 +38,6 @@ public class VideoProfilesParameter extends AbstractParameter
     private final String TAG = VideoProfilesParameter.class.getSimpleName();
     protected HashMap<String, VideoMediaProfile> supportedProfiles;
     protected String profile;
-    private static final String _720phfr = "720HFR";
-    public static final String _2160p = "2160p";
-    public static final String _2160pDCI = "2160pDCI";
     protected CameraWrapperInterface cameraUiWrapper;
     protected boolean isSupported;
 
