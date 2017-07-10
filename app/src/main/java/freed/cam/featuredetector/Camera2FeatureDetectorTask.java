@@ -17,9 +17,8 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
 
-import freed.cam.apis.basecamera.modules.VideoMediaProfile;
+import freed.utils.VideoMediaProfile;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 import freed.utils.StringFloatArray;

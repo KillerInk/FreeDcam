@@ -7,7 +7,7 @@ import com.lge.media.CamcorderProfileEx;
 
 import java.util.HashMap;
 
-import freed.cam.apis.basecamera.modules.VideoMediaProfile;
+import freed.utils.VideoMediaProfile;
 import freed.cam.apis.camera1.modules.VideoMediaProfileLG;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;

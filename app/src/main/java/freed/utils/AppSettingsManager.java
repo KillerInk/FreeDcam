@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 

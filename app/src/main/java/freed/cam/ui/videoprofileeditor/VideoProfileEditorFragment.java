@@ -43,8 +43,8 @@ import com.troop.freedcam.R.layout;
 import java.util.HashMap;
 
 import freed.SettingsApplication;
-import freed.cam.apis.basecamera.modules.VideoMediaProfile;
-import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
+import freed.utils.VideoMediaProfile;
+import freed.utils.VideoMediaProfile.VideoMode;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 

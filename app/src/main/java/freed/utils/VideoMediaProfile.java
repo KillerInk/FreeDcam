@@ -17,13 +17,11 @@
  * /
  */
 
-package freed.cam.apis.basecamera.modules;
+package freed.utils;
 
 import android.media.CamcorderProfile;
 
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
-import freed.utils.Log;
-import freed.utils.StringUtils;
 
 /**
  * Created by troop on 04.02.2016.

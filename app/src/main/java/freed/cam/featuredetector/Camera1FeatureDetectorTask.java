@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import freed.cam.apis.basecamera.modules.VideoMediaProfile;
+import freed.utils.VideoMediaProfile;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.utils.AppSettingsManager;

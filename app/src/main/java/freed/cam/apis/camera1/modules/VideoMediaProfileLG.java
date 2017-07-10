@@ -21,7 +21,7 @@ package freed.cam.apis.camera1.modules;
 
 import com.lge.media.CamcorderProfileEx;
 
-import freed.cam.apis.basecamera.modules.VideoMediaProfile;
+import freed.utils.VideoMediaProfile;
 
 /**
  * Created by troop on 24.02.2016.
