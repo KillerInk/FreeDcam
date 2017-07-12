@@ -75,7 +75,7 @@ public class BasePictureModule extends ModuleAbstract implements ImageHolder.Ima
     }
 
     @Override
-    public void saveRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile)
+    public void saveRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile, float expoindex)
     {
         Log.d(TAG,"saveDng");
         double Altitude = 0;
@@ -97,7 +97,8 @@ public class BasePictureModule extends ModuleAbstract implements ImageHolder.Ima
                 dngConverter.SetGpsData(Altitude, Latitude, Longitude, Provider, gpsTime);
             }
         }
-        dngConverter.setExifData(iso, exposuretime, 0, fnumber, focal, "0", orientation + "", 0);
+        Log.d(TAG,"setExifData expoindex: "+expoindex);
+        dngConverter.setExifData(iso, exposuretime, 0, fnumber, focal, "0", orientation + "", expoindex);
         if (wb != null)
             dngConverter.SetWBCT(wb);
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !activityInterface.getAppSettings().GetWriteExternal())

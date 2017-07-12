@@ -49,7 +49,7 @@ public class ImageHolder
 
     public interface ImageSaveImp
     {
-        void saveRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile);
+        void saveRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile,float expoindex);
         void saveJpeg(File file, byte[] bytes);
     }
 
@@ -143,7 +143,6 @@ public class ImageHolder
     public synchronized void AddImage(Image image)
     {
         images.add(image);
-        Log.d(TAG, "ImageSize:" + image.getPlanes()[0].getBuffer().remaining());
         logImageFormat(image);
         Log.d(TAG,"WxH:" + image.getWidth() +"x"+image.getHeight());
     }
@@ -313,7 +312,8 @@ public class ImageHolder
         double mExposuretime = captureResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue() / 1000000000;
         final DngProfile prof = getDngProfile(rawFormat, image);
         prof.toneMapProfile = toneMapProfile;
-        imageSaver.saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, orientation,null,prof);
+        float expoindex = captureResult.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION) * characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
+        imageSaver.saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, orientation,null,prof,expoindex);
         bytes = null;
         buffer = null;
     }

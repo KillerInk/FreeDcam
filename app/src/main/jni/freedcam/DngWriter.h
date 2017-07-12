@@ -40,7 +40,7 @@ public:
     char* _dateTime;
     char* _orientation;
     float _fnumber, _focallength;
-    double _exposureIndex;
+    float _exposureIndex;
 
     double Altitude;
     float *Latitude;

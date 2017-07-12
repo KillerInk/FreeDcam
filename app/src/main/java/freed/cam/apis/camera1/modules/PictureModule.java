@@ -277,7 +277,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
         }
         Log.d(TAG, "found dngProfile:" + (dngProfile != null));
         int orientation = cameraUiWrapper.getActivityInterface().getOrientation();
-        saveRawToDng(file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile);
+        saveRawToDng(file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile,0);
         data = null;
 
     }

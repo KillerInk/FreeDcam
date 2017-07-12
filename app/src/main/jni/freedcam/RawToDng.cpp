@@ -34,7 +34,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject 
                                                            jfloat focalL,
                                                            jstring imagedescription,
                                                            jstring orientation,
-                                                           jdouble exposureIndex);
+                                                           jfloat exposureIndex);
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime);
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetThumbData(JNIEnv *env, jobject thiz,  jbyteArray mThumb, jint widht, jint height);
@@ -114,7 +114,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject 
                                                            jfloat focalL,
                                                            jstring imagedescription,
                                                            jstring orientation,
-                                                           jdouble exposureIndex)
+                                                           jfloat exposureIndex)
 {
     writer._iso = iso;
     writer._exposure =expo;
@@ -122,7 +122,9 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject 
     writer._imagedescription = (char*) env->GetStringUTFChars(imagedescription,NULL);
     writer._orientation = (char*) env->GetStringUTFChars(orientation,NULL);
     writer._fnumber = fNum;
+    LOGD("fnum jni: %9.6f", fNum);
     writer._focallength = focalL;
+    LOGD("expoindex jni: %9.6f", exposureIndex);
     writer._exposureIndex = exposureIndex;
 }
 

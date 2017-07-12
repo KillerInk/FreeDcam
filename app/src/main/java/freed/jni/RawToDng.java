@@ -61,7 +61,7 @@ public class RawToDng
                                            float focalL,
                                            String imagedescription,
                                            String orientation,
-                                           double exposureIndex);
+                                           float exposureIndex);
 
     private native void SetDateTime(String datetime);
 
@@ -185,7 +185,7 @@ public class RawToDng
                             float focalL,
                             String imagedescription,
                             String orientation,
-                            double exposureIndex)
+                            float exposureIndex)
     {
         SetExifData(iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
         SetDateTime(StorageFileHandler.getStringExifPattern().format(new Date()));

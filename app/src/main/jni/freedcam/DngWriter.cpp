@@ -195,6 +195,9 @@ void DngWriter::writeExifIfd(TIFF *tif) {
     if (!TIFFSetField( tif, EXIFTAG_FNUMBER, _fnumber)) {
         LOGD("Can't write FNum" );
     }
+
+    if(!TIFFSetField(tif,EXIFTAG_EXPOSUREINDEX, _exposureIndex))
+        LOGD("Cant write expoindex");
     LOGD("fnumber");
 }
 
