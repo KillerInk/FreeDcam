@@ -53,38 +53,39 @@ public class BaseModeApi2 extends AbstractParameter
         this.captureSessionHandler = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler;
     }
 
-    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, Key<Integer> parameterKey)
-    {
+    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, Key<Integer> parameterKey) {
         this(cameraUiWrapper);
         this.settingMode = settingMode;
         this.parameterKey = parameterKey;
         isSupported = settingMode.isSupported();
 
         try {
-            if (isSupported)
-            {
-                parameterValues = StringUtils.StringArrayToIntHashmap(settingMode.getValues());
-                if (parameterValues == null){
-                    isSupported =false;
+            if (isSupported) {
+                String values[] = settingMode.getValues();
+                if (values == null) {
+                    Log.d(TAG, "Values are null set to unsupported");
+                    parameterValues = null;
+                    isSupported = false;
+                    return;
+                }
+                parameterValues = StringUtils.StringArrayToIntHashmap(values);
+                if (parameterValues == null) {
+                    isSupported = false;
                     return;
                 }
                 stringvalues = new String[parameterValues.size()];
                 parameterValues.keySet().toArray(stringvalues);
-            }
-            else isSupported = false;
-        }
-        catch (ArrayIndexOutOfBoundsException ex)
-        {
-            isSupported =false;
+            } else isSupported = false;
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            isSupported = false;
             Log.WriteEx(ex);
         }
-
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        super.SetValue(valueToSet,setToCamera);
+        super.SetValue(valueToSet, setToCamera);
         if (parameterValues == null)
             return;
         int toset = parameterValues.get(valueToSet);
