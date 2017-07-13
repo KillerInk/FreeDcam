@@ -298,7 +298,11 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     public void AddFiles(FileHolder[] fil)
     {
         synchronized (files) {
-            Collections.addAll(files, fil);
+            for (FileHolder fh : fil)
+            {
+                if (fh != null)
+                    files.add(fh);
+            }
             SortFileHolder(files);
         }
     }
