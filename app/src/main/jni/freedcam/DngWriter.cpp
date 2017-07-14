@@ -120,6 +120,12 @@ void DngWriter::writeIfd0(TIFF *tif) {
     {
         TIFFSetField(tif,TIFFTAG_PROFILEHUESATMAPDATA2, huesatmapdata2_size,huesatmapdata2);
     }
+    if(baselineExposure != NULL)
+        TIFFSetField(tif,TIFFTAG_BASELINEEXPOSURE, baselineExposure);
+    if(baselineExposureOffset != NULL)
+    {
+        TIFFSetField(tif,TIFFTAG_BASELINEEXPOSUREOFFSET, baselineExposureOffset);
+    }
     LOGD("colormatrix2");
 }
 

@@ -504,8 +504,9 @@ typedef enum {
 #define TIFFTAG_ASSHOTWHITEXY		50729	/* &selected white balance in
 						   x-y chromaticity
 						   coordinates */
-#define TIFFTAG_BASELINEEXPOSURE	50730	/* &how much to move the zero
-						   point */
+#define TIFFTAG_BASELINEEXPOSURE	50730	/* &how much to move the zero point */
+#define TIFFTAG_BASELINEEXPOSUREOFFSET	51109
+
 #define TIFFTAG_BASELINENOISE		50731	/* &relative noise level */
 #define TIFFTAG_BASELINESHARPNESS	50732	/* &relative amount of
 						   sharpening */

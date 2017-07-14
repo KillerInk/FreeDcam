@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <android/bitmap.h>
+#include <libraw_types.h>
 
 #include "../libraw/libraw.h"
 #include "../libraw/libraw_types.h"
@@ -58,6 +59,8 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_freed_jni_RawUtils_BitmapExtractor(
 //	OUT.user_black = kv;
 	OUT.user_qual = 0;
 	OUT.half_size=1;
+	OUT.use_camera_matrix = 1;
+	OUT.use_camera_wb =1;
 
 //	OUT.use_auto_wb = 1;
 //	OUT.android_raw = 1;

@@ -69,6 +69,8 @@ public class RawToDng
     private native void SetHueSatMapData1(float tonecurve[]);
     private native void SetHueSatMapData2(float tonecurve[]);
     private native void SetHueSatMapDims(int[] dims);
+    private native void SetBaselineExposure(float baselineexposure);
+    private native void SetBaselineExposureOffset(float baselineexposureoffset);
     public static RawToDng GetInstance()
     {
         return new RawToDng();
@@ -189,6 +191,7 @@ public class RawToDng
     {
         SetExifData(iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
         SetDateTime(StorageFileHandler.getStringExifPattern().format(new Date()));
+        SetBaselineExposureOffset(exposureIndex);
     }
 
     private float[] parseGpsvalue(double val)
@@ -281,6 +284,10 @@ public class RawToDng
             //SetHueSatMapData2(profile.toneMapProfile.getHueSatMapData2());
             if (profile.toneMapProfile.getHueSatMapDims() != null)
                 SetHueSatMapDims(profile.toneMapProfile.getHueSatMapDims());
+            if (profile.toneMapProfile.getBaselineExposure() != null)
+                SetBaselineExposure(profile.toneMapProfile.getBaselineExposure());
+            /*if (profile.toneMapProfile.getBaselineExposureOffset() != null)
+                SetBaselineExposureOffset(profile);*/
         }
 
         SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,

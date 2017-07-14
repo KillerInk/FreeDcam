@@ -68,6 +68,8 @@ public:
     int huesatmapdata1_size;
     float *huesatmapdata2;
     int huesatmapdata2_size;
+    float baselineExposure;
+    float baselineExposureOffset;
 
     int *huesatmapdims;
     double *noiseMatrix;
