@@ -44,14 +44,13 @@ public class BaseModeParameter extends AbstractParameter implements ModuleChange
     protected String key_value;
     //the parameters from the android.Camera
     protected Parameters  parameters;
-    protected CameraWrapperInterface cameraUiWrapper;
     private final String TAG = BaseModeParameter.class.getSimpleName();
 
 
     public BaseModeParameter(Parameters  parameters, CameraWrapperInterface cameraUiWrapper)
     {
+        super(cameraUiWrapper);
         this.parameters = parameters;
-        this.cameraUiWrapper = cameraUiWrapper;
     }
 
     public BaseModeParameter(Parameters  parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode)

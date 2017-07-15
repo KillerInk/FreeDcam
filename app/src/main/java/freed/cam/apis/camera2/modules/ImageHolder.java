@@ -311,7 +311,7 @@ public class ImageHolder
         int mISO = captureResult.get(CaptureResult.SENSOR_SENSITIVITY);
         double mExposuretime = captureResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue() / 1000000000;
         final DngProfile prof = getDngProfile(rawFormat, image);
-        prof.toneMapProfile = toneMapProfile;
+        prof.toneMapProfile = this.toneMapProfile;
         float expoindex = captureResult.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION) * characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
         imageSaver.saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, orientation,null,prof,expoindex);
         bytes = null;
