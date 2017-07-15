@@ -27,9 +27,7 @@ import java.io.IOException;
 import java.util.Set;
 
 import freed.cam.apis.sonyremote.parameters.manual.WbCTManualSony;
-import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.utils.FreeDPool;
 import freed.utils.Log;
 
 public class WhiteBalanceModeSony extends BaseModeParameterSony

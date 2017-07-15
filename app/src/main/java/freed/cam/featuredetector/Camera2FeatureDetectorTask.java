@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
-import freed.utils.VideoMediaProfile;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 import freed.utils.StringFloatArray;
 import freed.utils.StringUtils;
+import freed.utils.VideoMediaProfile;
 
 
 /**

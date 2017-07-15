@@ -29,8 +29,8 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.WorkFinishEvents;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
-import freed.utils.Log;
 import freed.dng.ToneMapProfile;
+import freed.utils.Log;
 
 /**
  * Created by troop on 12.06.2017.

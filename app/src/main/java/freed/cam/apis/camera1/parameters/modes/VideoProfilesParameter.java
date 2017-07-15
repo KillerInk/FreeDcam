@@ -27,8 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.utils.VideoMediaProfile;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.utils.VideoMediaProfile;
 
 /**
  * Created by troop on 13.11.2014.

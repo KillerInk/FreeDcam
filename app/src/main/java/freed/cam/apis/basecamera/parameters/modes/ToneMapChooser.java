@@ -3,8 +3,8 @@ package freed.cam.apis.basecamera.parameters.modes;
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.utils.AppSettingsManager;
 import freed.dng.ToneMapProfile;
+import freed.utils.AppSettingsManager;
 
 /**
  * Created by troop on 10.07.2017.

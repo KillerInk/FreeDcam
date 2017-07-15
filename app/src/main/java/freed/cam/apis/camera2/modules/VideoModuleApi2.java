@@ -54,11 +54,11 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.utils.VideoMediaProfile;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
+import freed.utils.VideoMediaProfile;
 
 /**
  * Created by troop on 26.11.2015.

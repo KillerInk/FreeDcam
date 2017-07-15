@@ -62,10 +62,10 @@ import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.jni.RawUtils;
 import freed.utils.AppSettingsManager;
-import freed.utils.XmlParserWriter;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
+import freed.utils.XmlParserWriter;
 
 /**
  * Created by troop on 22.12.2015.

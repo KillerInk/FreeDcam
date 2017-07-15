@@ -43,10 +43,10 @@ import com.troop.freedcam.R.layout;
 import java.util.HashMap;
 
 import freed.SettingsApplication;
-import freed.utils.VideoMediaProfile;
-import freed.utils.VideoMediaProfile.VideoMode;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
+import freed.utils.VideoMediaProfile;
+import freed.utils.VideoMediaProfile.VideoMode;
 
 /**
  * Created by troop on 15.02.2016.

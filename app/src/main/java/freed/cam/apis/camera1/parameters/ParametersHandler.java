@@ -89,7 +89,6 @@ import static freed.utils.AppSettingsManager.ISOMANUAL_KRILLIN;
 import static freed.utils.AppSettingsManager.ISOMANUAL_MTK;
 import static freed.utils.AppSettingsManager.ISOMANUAL_QCOM;
 import static freed.utils.AppSettingsManager.ISOMANUAL_SONY;
-
 import static freed.utils.AppSettingsManager.SHUTTER_G2PRO;
 import static freed.utils.AppSettingsManager.SHUTTER_HTC;
 import static freed.utils.AppSettingsManager.SHUTTER_KRILLIN;

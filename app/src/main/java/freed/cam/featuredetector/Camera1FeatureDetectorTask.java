@@ -11,11 +11,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import freed.utils.VideoMediaProfile;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
+import freed.utils.VideoMediaProfile;
 
 
 /**
