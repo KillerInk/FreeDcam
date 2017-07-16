@@ -8,6 +8,7 @@ FreeDcam
 * [Camera Ui Icon](#camera-ui-icons)
 * [Camera1 Dng Supported Devices](#camera1-dng-supported-devices)
 * [How to create a Custom Matrix](#how-to-create-a-custom-matrix)
+* [How to create a ToneMapProfile](#how-to-create-a-tonemapprofile)
 * [MSM Camera Blobs Logging for Devs](#msm-camera-blobs-logging-for-devs)
 * [License](#license)
 
@@ -320,6 +321,38 @@ Open the saved Dng now into exiftools or a simliar tool, wich can read metadata,
         <noise>0.8853462669953089, 0,  0.8853462669953089f, 0, 0.8853462669953089f,0</noise>
     </matrix> 
 </matrixes>
+```
+
+How to create a ToneMapProfile
+=============================
+Can get used to apply custom profiles direct to a dng.  
+data can get created with various tools.  
+like from a dcp with dcamprof or dcptools.  
+or extracted from a existing dng with exiftools.
+
+tonemapprofiles.xml
+```
+<tonemapprofiles>
+
+<!-- thats the first profile -->
+    <tonemapprofile name="linear">
+        <tonecurve>0,0,0.25,0.25,0.5,0.5,0.75,0.75,1,1</tonecurve> use "," to split. ignores whitespace and line breaks,
+    
+    <baselineexposure>0.35</baselineexposure> set to avoid the hidden exposure
+    <huesatmapdims>90 25 1</huesatmapdims> should only contain whitespaces for splitting no line breaks!
+    <huesatmapdata1>0 0 .... 1 1</huesatmapdata1> should only contain whitespaces for splitting no line breaks!
+    </tonemapprofile>
+</tonemapprofiles>
+
+<!-- next profile -->
+<tonemapprofile name="srgb">
+    <tonecurve>0,0,......,1,1</tonecurve>
+</tonemapprofile>
+
+<tonemapprofile name="iso100">
+    <baselineexposure>-0.35</baselineexposure>
+</tonemapprofile>
+
 ```
 
 Copy that file now on your phones internalSD/DCIM/FreeDcam/config/matrixes.xml and you can select it inside Freedcam.  
