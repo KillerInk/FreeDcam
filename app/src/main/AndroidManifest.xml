@@ -129,13 +129,5 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="freed.cam.CameraFeatureDetectorActivity"
-            android:label="CameraFeatureDetectorActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-
     </application>
 </manifest>

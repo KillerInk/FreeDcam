@@ -50,7 +50,9 @@ public class PictureFormatHandler extends BaseModeParameter
         super(parameters, cameraUiWrapper);
         ParametersHandler parametersHandler1 = parametersHandler;
         isSupported = cameraUiWrapper.getAppSettingsManager().pictureFormat.isSupported();
-        boolean rawSupported = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.isSupported() || cameraUiWrapper.getAppSettingsManager().getDngProfilesMap().size() > 0;
+        boolean rawpicformatsupported = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.isSupported();
+        boolean dngprofilessupported = cameraUiWrapper.getAppSettingsManager().getDngProfilesMap() != null && cameraUiWrapper.getAppSettingsManager().getDngProfilesMap().size() > 0;
+        boolean rawSupported = rawpicformatsupported || dngprofilessupported;
         if (rawSupported) {
             rawFormat = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.get();
             rawFormats = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.getValues();

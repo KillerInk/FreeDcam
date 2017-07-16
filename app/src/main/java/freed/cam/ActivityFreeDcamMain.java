@@ -49,6 +49,8 @@ import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.featuredetector.CameraFeatureDetectorFragment;
+import freed.cam.featuredetector.CameraFeatureDetectorFragment.FeatureDetectorEvents;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.handler.I_orientation;
 import freed.cam.ui.handler.OrientationHandler;
@@ -96,6 +98,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private SecureCamera mSecureCamera = new SecureCamera(this);
 
     private LinearLayout nightoverlay;
+    private CameraFeatureDetectorFragment fd;
 
     protected Object cameraLock = new Object();
     protected HandlerThread mBackgroundThread;
@@ -204,12 +207,21 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         public void permissionGranted(boolean granted) {
             Log.d(TAG, "cameraPermission Granted:" + granted);
             if (granted) {
-                loadcam();
+                if ((!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion()) && fd == null)
+                {
+                    Log.d(TAG,"Start FeatureDetector");
+                    getAppSettings().RESET();
+                    fd = new CameraFeatureDetectorFragment();
+                    fd.setAppSettingsManagerAndListner(getAppSettings(),fdevent);
+                    replaceCameraFragment(fd,"FeatureDetector");
+                }
+                else if(fd == null)
+                    loadcam();
             }
-            else {
+            /*else if (fd == null){
                 Toast.makeText(getApplicationContext(),"Great wanna use a camera app but dont grant the permission.. hero...",Toast.LENGTH_LONG).show();
                 finish();
-            }
+            }*/
         }
     };
 
@@ -239,16 +251,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = true;
         if (getAppSettings() == null)
             return;
-        if (!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion())
-        {
-            getAppSettings().RESET();
-            Intent intent = new Intent(this,CameraFeatureDetectorActivity.class);
-            startActivity(intent);
-        }
-        /*if (!initDone)
-            return;*/
-        else
-            getPermissionHandler().hasCameraPermission(onCameraPermission);
+        getPermissionHandler().hasCameraPermission(onCameraPermission);
     }
 
     private void loadcam()
@@ -256,8 +259,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (getAppSettings() == null)
             return;
         loadCameraFragment();
-
-
 
         if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)))
             getPermissionHandler().hasLocationPermission(onLocationPermission);
@@ -284,6 +285,20 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             locationHandler.stopLocationListining();
         activityIsResumed = false;
     }
+
+    private FeatureDetectorEvents fdevent = new FeatureDetectorEvents()
+    {
+        @Override
+        public void featuredetectorDone() {
+            Log.d(TAG,"FD done, load cameraFragment");
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
+            transaction.remove(fd);
+            transaction.commit();
+            fd = null;
+            loadCameraFragment();
+        }
+    };
 
     /*
     load the camerafragment to ui
@@ -320,16 +335,21 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             //load the cameraFragment to ui
             //that starts the camera represent by that fragment when the surface/textureviews
             //are created and calls then onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
-            transaction.replace(id.cameraFragmentHolder, cameraFragment, "CameraFragment");
-            transaction.commit();
+            replaceCameraFragment(cameraFragment,"CameraFragment");
             Log.d(TAG, "loaded cameraWrapper");
         }
         else { //resuse fragments
             cameraFragment.startCamera();
 
         }
+    }
+
+    private void replaceCameraFragment(Fragment fragment, String id)
+    {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
+        transaction.replace(R.id.cameraFragmentHolder, fragment, id);
+        transaction.commit();
     }
 
     /**

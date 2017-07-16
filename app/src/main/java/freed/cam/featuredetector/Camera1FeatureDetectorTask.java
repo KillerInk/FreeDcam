@@ -1006,7 +1006,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private Camera.Parameters getParameters(int currentcamera)
     {
-        Camera camera;
+        Camera camera = null;
         switch (appSettingsManager.getFrameWork())
         {
             case AppSettingsManager.FRAMEWORK_LG:
@@ -1052,21 +1052,25 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     }
                     catch (NullPointerException ex)
                     {
+                        if (camera != null)
+                            camera.release();
                         Log.d(TAG,"Failes to open Legacy");
                         camera = Camera.open(currentcamera);
                         Camera.Parameters parameters = camera.getParameters();
                         camera.release();
                         return parameters;
                     }
+                    catch(RuntimeException ex2)
+                {
+                    if (camera != null)
+                        camera.release();
+                    Log.d(TAG,"Failes to open Legacy");
+                    camera = Camera.open(currentcamera);
+                    Camera.Parameters parameters = camera.getParameters();
+                    camera.release();
+                    return parameters;
+                }
 
-             //   }
-              //  else {
-             //       Log.d(TAG,"Open Normal Camera " + currentcamera);
-            //        camera = Camera.open(currentcamera);
-             //       Camera.Parameters parameters = camera.getParameters();
-           //         camera.release();
-              //      return parameters;
-            //    }
             }
 
         }
