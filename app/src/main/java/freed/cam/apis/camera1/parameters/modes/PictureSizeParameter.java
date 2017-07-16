@@ -23,6 +23,7 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.utils.Log;
 
 /**
  * Created by troop on 18.08.2014.
@@ -41,6 +42,7 @@ public class PictureSizeParameter extends BaseModeParameter
     {
         parameters.set("picture-size" , valueToSet);
         currentString = valueToSet;
+        Log.d(TAG, "SetValue : picture-size");
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         fireStringValueChanged(valueToSet);
 

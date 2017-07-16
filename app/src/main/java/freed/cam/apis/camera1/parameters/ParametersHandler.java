@@ -479,6 +479,7 @@ public class ParametersHandler extends AbstractParameterHandler
         int half = (focusRect.left - focusRect.right)/2;
         cameraParameters.set("touch-aec", "on");
         cameraParameters.set("touch-index-af", focusRect.left +half + "," +focusRect.top +half);
+        Log.d(TAG,"setQcomFocus");
         SetParametersToCamera(cameraParameters);
     }
 
@@ -506,6 +507,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         cameraParameters.setRotation(orientation);
+        Log.d(TAG, "SetPictureOrientation");
         SetParametersToCamera(cameraParameters);
 
     }
@@ -622,6 +624,7 @@ public class ParametersHandler extends AbstractParameterHandler
     {
         cameraParameters.set("slow_shutter", "-1");
         //cameraParameters.set("slow_shutter_addition", "0");
+        Log.d(TAG,"SetZte_Ae");
         SetParametersToCamera(cameraParameters);
 
 
@@ -634,6 +637,7 @@ public class ParametersHandler extends AbstractParameterHandler
         cameraUiWrapper.startPreview();
         cameraParameters.set("slow_shutter",Shutter);
         cameraParameters.set("slow_shutter_addition", "1");
+        Log.d(TAG,"SetZTE_RESET_AE_SETSHUTTER");
         SetParametersToCamera(cameraParameters);
 
 

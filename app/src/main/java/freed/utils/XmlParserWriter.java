@@ -290,6 +290,7 @@ public class XmlParserWriter
             appSettingsManager.manualFocus.setMode(element.findChild("mode").getValue());
             appSettingsManager.manualFocus.setType(element.findChild("type").getIntValue(-1));
             appSettingsManager.manualFocus.setIsSupported(true);
+            appSettingsManager.manualFocus.setIsPresetted(true);
             appSettingsManager.manualFocus.setKEY(element.findChild("key").getValue());
             appSettingsManager.manualFocus.setValues(Camera1FeatureDetectorTask.createManualFocusValues(element.findChild("min").getIntValue(0),element.findChild("max").getIntValue(0),element.findChild("step").getIntValue(0),appSettingsManager));
         }

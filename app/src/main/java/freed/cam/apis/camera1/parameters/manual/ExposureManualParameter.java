@@ -32,6 +32,8 @@ import freed.utils.Log;
  */
 public class ExposureManualParameter extends BaseManualParameter
 {
+
+    private final String TAG = ExposureManualParameter.class.getSimpleName();
     public ExposureManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, float step) {
         super(parameters,cameraUiWrapper,step);
         stringvalues = createStringArray(parameters.getMinExposureCompensation(),parameters.getMaxExposureCompensation(),parameters.getExposureCompensationStep());
@@ -67,6 +69,7 @@ public class ExposureManualParameter extends BaseManualParameter
         parameters.setExposureCompensation(currentInt);
         try
         {
+            Log.d(TAG,"SetValue  setExposureCompensation");
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         }
         catch (Exception ex)

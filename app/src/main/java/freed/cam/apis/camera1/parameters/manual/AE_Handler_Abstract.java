@@ -136,6 +136,7 @@ public abstract class AE_Handler_Abstract
                     }
                     resetManualMode();
                 }
+                Log.d(TAG,"AeManualEvent aeevent");
                 ((ParametersHandler) cameraWrapper.getParameterHandler()).SetParametersToCamera(parameters);
                 if (automode) {
                     String t = cameraWrapper.getParameterHandler().IsoMode.GetStringValue();

@@ -11,6 +11,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.AppSettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 24.02.2017.
@@ -69,6 +70,7 @@ public class AutoHdrMode extends BaseModeParameter {
             parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.scene_mode_asd));
             parameters.set(cameraUiWrapper.getResString(R.string.auto_hdr_enable), cameraUiWrapper.getResString(R.string.enable_));
         }
+        Log.d(TAG, "set auto hdr");
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         onStringValueChanged(valueToSet);
     }

@@ -207,16 +207,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         public void permissionGranted(boolean granted) {
             Log.d(TAG, "cameraPermission Granted:" + granted);
             if (granted) {
-                if ((!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion()) && fd == null)
-                {
-                    Log.d(TAG,"Start FeatureDetector");
-                    getAppSettings().RESET();
-                    fd = new CameraFeatureDetectorFragment();
-                    fd.setAppSettingsManagerAndListner(getAppSettings(),fdevent);
-                    replaceCameraFragment(fd,"FeatureDetector");
-                }
-                else if(fd == null)
-                    loadcam();
+
             }
             /*else if (fd == null){
                 Toast.makeText(getApplicationContext(),"Great wanna use a camera app but dont grant the permission.. hero...",Toast.LENGTH_LONG).show();
@@ -251,7 +242,17 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = true;
         if (getAppSettings() == null)
             return;
-        getPermissionHandler().hasCameraPermission(onCameraPermission);
+        if (getPermissionHandler().hasCameraPermission(onCameraPermission)) {
+            if ((!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion()) && fd == null) {
+                Log.d(TAG, "Start FeatureDetector");
+                getAppSettings().RESET();
+                fd = new CameraFeatureDetectorFragment();
+                fd.setAppSettingsManagerAndListner(getAppSettings(), fdevent);
+                replaceCameraFragment(fd, "FeatureDetector");
+            } else if (fd == null)
+                loadcam();
+        }
+        //getPermissionHandler().hasCameraPermission(onCameraPermission);
     }
 
     private void loadcam()

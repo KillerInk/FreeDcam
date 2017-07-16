@@ -1078,7 +1078,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectMode(Camera.Parameters parameters, int key, int keyvalues, AppSettingsManager.SettingMode mode)
     {
-        if (parameters.get(camstring(keyvalues)) == null)
+        if (parameters.get(camstring(keyvalues)) == null || parameters.get(camstring(key)) == null)
         {
             mode.setIsSupported(false);
             return;

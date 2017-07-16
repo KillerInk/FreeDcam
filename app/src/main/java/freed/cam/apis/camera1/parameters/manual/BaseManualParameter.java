@@ -169,6 +169,7 @@ public class BaseManualParameter extends AbstractParameter
         fireStringValueChanged(stringvalues[valueToset]);
         try
         {
+            Log.d(TAG,"SetValue " + key_value);
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         }
         catch (Exception ex)
