@@ -14,7 +14,10 @@ import android.util.Size;
 import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.troop.freedcam.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -543,6 +546,27 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng12), ImageFormat.RAW12);
         if (smap.isOutputSupportedFor(ImageFormat.JPEG))
             hmap.put(appSettingsManager.getResString(R.string.pictureformat_jpeg), ImageFormat.JPEG);
+        if (smap.isOutputSupportedFor(ImageFormat.NV16))
+            Log.d(TAG,"Support NV16");
+        if (smap.isOutputSupportedFor(ImageFormat.NV21))
+            Log.d(TAG,"Support NV21");
+        if (smap.isOutputSupportedFor(ImageFormat.YUV_420_888))
+            Log.d(TAG,"Support YUV_420_888");
+        if (smap.isOutputSupportedFor(ImageFormat.YUV_422_888))
+            Log.d(TAG,"Support YUV_422_888");
+        if (smap.isOutputSupportedFor(ImageFormat.YUV_444_888))
+            Log.d(TAG,"Support YUV_444_888");
+        if (smap.isOutputSupportedFor(ImageFormat.YV12))
+            Log.d(TAG,"Support YV12");
+        if (smap.isOutputSupportedFor(ImageFormat.DEPTH16))
+            Log.d(TAG,"Support DEPTH16");
+        if (smap.isOutputSupportedFor(ImageFormat.DEPTH_POINT_CLOUD))
+            Log.d(TAG,"Support DEPTH_POINT_CLOUD");
+        if (smap.isOutputSupportedFor(ImageFormat.RAW_PRIVATE))
+            Log.d(TAG,"Support RAW_PRIVATE");
+        if (smap.isOutputSupportedFor(ImageFormat.PRIVATE))
+            Log.d(TAG,"Support PRIVATE");
+
         appSettingsManager.pictureFormat.setIsSupported(true);
         appSettingsManager.pictureFormat.set(appSettingsManager.getResString(R.string.pictureformat_jpeg));
         appSettingsManager.pictureFormat.setValues(StringUtils.IntHashmapToStringArray(hmap));
@@ -560,6 +584,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             ar[i++] = s.getWidth()+"x"+s.getHeight();
         }
 
+        Arrays.sort(ar);
         appSettingsManager.pictureSize.setIsSupported(true);
         appSettingsManager.pictureSize.set(ar[0]);
         appSettingsManager.pictureSize.setValues(ar);
