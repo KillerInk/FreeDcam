@@ -79,7 +79,9 @@ public class ToneMapProfile {
         name = element.getAttribute("name", "");
         String split[] = null;
         if (!element.findChild("tonecurve").isEmpty()) {
-            split = element.findChild("tonecurve").getValue().split(" ");
+            String curve = element.findChild("tonecurve").getValue();
+            curve = curve.replace("\n","").replace(" ","");
+            split = curve.split(",");
             toneCurve = new float[split.length];
             for (int i = 0; i < split.length; i++) {
                 if (!split[i].equals("")) {
