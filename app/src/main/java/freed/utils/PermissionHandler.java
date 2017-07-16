@@ -94,8 +94,6 @@ public class PermissionHandler
                 Log.d(TAG, "Request Permission:"+permission);
                 activity.requestPermissions(new String[]{
                         permission},1);
-                if (callbackToReturn != null)
-                    callbackToReturn.permissionGranted(false);
                 return false;
             }
         }

@@ -69,13 +69,17 @@ public class LocationParameter extends AbstractParameter
             cameraUiWrapper.getActivityInterface().getLocationHandler().stopLocationListining();
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
             cameraUiWrapper.getActivityInterface().getPermissionHandler().hasLocationPermission(onLocationPermission);
+        fireStringValueChanged(valueToSet);
     }
 
     private PermissionHandler.PermissionCallback onLocationPermission = new PermissionHandler.PermissionCallback() {
         @Override
         public void permissionGranted(boolean granted) {
             if (granted)
-                cameraUiWrapper.getActivityInterface().getLocationHandler().startLocationListing();
+                if (cameraUiWrapper != null && cameraUiWrapper.getActivityInterface() != null && cameraUiWrapper.getActivityInterface().getLocationHandler() != null) {
+                    cameraUiWrapper.getActivityInterface().getLocationHandler().startLocationListing();
+                    fireStringValueChanged(cameraUiWrapper.getResString(R.string.on_));
+                }
             else
             {
                 cameraUiWrapper.getAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));

@@ -308,9 +308,6 @@ public class ParametersHandler extends AbstractParameterHandler
 
         VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
 
-
-        locationParameter = new LocationParameter(cameraUiWrapper);
-
         ExposureLock = new ExposureLockParameter(cameraParameters, cameraUiWrapper);
 
         Focuspeak = new FocusPeakModeParameter(cameraUiWrapper,((Camera1Fragment) cameraUiWrapper).focusPeakProcessorAp1);
