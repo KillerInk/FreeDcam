@@ -338,6 +338,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                 int min = shutterminmax[0];
                 int max = shutterminmax[1];
+                long maxs = appSettingsManager.getCamera2MaxExposureTime();
                 if (appSettingsManager.getCamera2MaxExposureTime() > 0)
                     max = (int)appSettingsManager.getCamera2MaxExposureTime();
                 ArrayList<String> tmp = getShutterStrings(max,min,true);
@@ -347,7 +348,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 int[] isominmax = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_ISO_RANGE);
                 min = isominmax[0];
                 max = isominmax[1];
-                if (appSettingsManager.getCamera2MaxIso() > 0)
+                int maxiso = appSettingsManager.getCamera2MaxIso();
+                if (maxiso > 0)
                     max = (int)appSettingsManager.getCamera2MaxIso();
                 ArrayList<String> ar = getIsoStrings(max, min);
                 appSettingsManager.manualIso.setIsSupported(ar.size() > 0);

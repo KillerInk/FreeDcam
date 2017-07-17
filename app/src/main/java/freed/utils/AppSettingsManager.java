@@ -476,6 +476,12 @@ public class AppSettingsManager {
         tonemapProfilesSettings = new SettingMode(getResString(R.string.aps_tonemapProfile));
 
 
+        parseXml(sharedPreferences, resources);
+
+
+    }
+
+    private void parseXml(SharedPreferences sharedPreferences, Resources resources) {
         XmlParserWriter parser = new XmlParserWriter();
         //first time init
         matrixes = parser.getMatrixes(resources);
@@ -492,13 +498,12 @@ public class AppSettingsManager {
             opcodeUrlList = new String[2];
             dngProfileHashMap = parser.getDngProfiles(matrixes,this);
         }
-
-
     }
 
     public void RESET()
     {
         settings.edit().clear().commit();
+        parseXml(settings, resources);
     }
 
     public String getResString(int id)
@@ -637,7 +642,10 @@ public class AppSettingsManager {
 
     public void setCamera2MaxExposureTime(long max)
     {
-        settings.edit().putLong("camera2maxexposuretime",max).commit();
+        SharedPreferences.Editor editor =  settings.edit();
+        editor.putLong("camera2maxexposuretime",max);
+        editor.commit();
+        Log.d(TAG,"Override max expotime:" +settings.getLong("camera2maxexposuretime",0));
     }
 
     public int getCamera2MaxIso()
@@ -647,7 +655,10 @@ public class AppSettingsManager {
 
     public void setCamera2MaxIso(int max)
     {
-        settings.edit().putInt("camera2maxiso",max).commit();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("camera2maxiso",max);
+        editor.commit();
+        Log.d(TAG,"Override max iso:" +settings.getInt("camera2maxiso",0));
     }
 
     public void setDevice(String device) {

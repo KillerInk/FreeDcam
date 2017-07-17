@@ -3383,7 +3383,7 @@
         </models>
         <camera2>
             <maxexposuretime>32000000</maxexposuretime>
-            <maxiso>68000</maxiso>
+            <maxiso>52000</maxiso>
         </camera2>
     </device>
 
