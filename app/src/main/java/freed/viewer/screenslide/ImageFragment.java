@@ -190,8 +190,8 @@ public class ImageFragment extends Fragment
         int h = bitmap.getHeight ();
         int [] pixels = new int [ w * h ];
         bitmap.getPixels(pixels, 0, w, 0, 0, w, h);
-        for ( int i = 0 ; i < w ; i ++) {
-            for ( int j = 0 ; j < h ; j ++) {
+        for ( int i = 0 ; i < w ; i+=4) {
+            for ( int j = 0 ; j < h ; j+=4) {
                 int index = j * w + i ;
                 int r = Color.red ( pixels [ index ]);
                 int g = Color.green ( pixels [ index ]);

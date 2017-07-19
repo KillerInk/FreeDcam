@@ -586,7 +586,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             ar[i++] = s.getWidth()+"x"+s.getHeight();
         }
 
-        Arrays.sort(ar);
         appSettingsManager.pictureSize.setIsSupported(true);
         appSettingsManager.pictureSize.set(ar[0]);
         appSettingsManager.pictureSize.setValues(ar);
@@ -596,14 +595,16 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
         @Override
         public int compare(Size o1, Size o2) {
-            if (o1.getWidth()>= o2.getWidth() && o1.getHeight() >= o2.getHeight())
-                return 1;
-            else if (o1.getWidth()<=o2.getWidth() && o1.getHeight() <= o2.getHeight())
+
+            if (o1.getWidth() > o2.getWidth())
                 return 0;
-            else if (o1.getWidth()>=o2.getWidth() && o1.getHeight() <= o2.getHeight())
-                return 1;
-            else
-                return 0;
+            else if (o1.getWidth() == o2.getWidth()) {
+                if (o1.getHeight() >= o2.getHeight())
+                    return 0;
+                else
+                    return 1;
+            }
+            return 1;
         }
     }
 

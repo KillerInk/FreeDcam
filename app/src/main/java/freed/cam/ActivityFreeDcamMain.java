@@ -208,11 +208,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = true;
         if (getAppSettings() == null)
             return;
-        if (getPermissionHandler().hasCameraPermission(null)) {
-            if ((!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion()) && fd == null) {
-                loadFeatureDetector();
-            } else if (fd == null)
-                loadcam();
+        if (getPermissionHandler().hasExternalSDPermission(null)) {
+            if (getPermissionHandler().hasCameraPermission(null)) {
+                if ((!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion()) && fd == null) {
+                    loadFeatureDetector();
+                } else if (fd == null)
+                    loadcam();
+            }
         }
     }
 
