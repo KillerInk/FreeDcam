@@ -215,18 +215,19 @@ public class StorageFileHandler
                 String filename = file.getName();
                 if (filename.toLowerCase().equals("emulated")) {
                     internalSD = new File(file.getAbsolutePath() + "/0/");
-                    internalfound = true;
+                    if (internalSD.exists())
+                        internalfound = true;
                     File extDcim = new File(file.getAbsolutePath() + "/1/");
                     if (extDcim.exists() && !externalfound) {
                         externalfound = true;
                         externalSD = extDcim;
                     }
                 }
-                if (filename.toLowerCase().equals("sdcard0") && !internalfound) {
+                if (filename.toLowerCase().equals("sdcard0") && !internalfound && file.exists()) {
                     internalSD = new File(file.getAbsolutePath());
                     internalfound = true;
                 }
-                if (filename.toLowerCase().equals("sdcard1") && !externalfound) {
+                if (filename.toLowerCase().equals("sdcard1") && !externalfound && file.exists()) {
                     File extDcim = new File(file.getAbsolutePath());
                     if (extDcim.exists()) {
 
@@ -239,10 +240,9 @@ public class StorageFileHandler
                         && !filename.toLowerCase().equals("sdcard0")
                         && !filename.toLowerCase().equals("sdcard1")
                         && !filename.toLowerCase().equals("self")) {
-                    File extDcim = new File(file.getAbsolutePath());
-                    if (extDcim.exists()) {
+                    if (file.exists()) {
                         externalfound = true;
-                        externalSD = extDcim;
+                        externalSD = file;
                     }
                 }
             }
