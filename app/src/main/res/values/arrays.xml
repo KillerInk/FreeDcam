@@ -159,7 +159,7 @@
 
     <string-array name="flashModes"  translatable="false">
         <item>@string/off</item>
-        <item>@string/flash_singel</item>
+        <item>@string/flash_single</item>
         <item>@string/flash_torch</item>
         </string-array>
 

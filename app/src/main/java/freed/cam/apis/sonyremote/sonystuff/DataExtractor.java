@@ -42,7 +42,7 @@ public class DataExtractor
     public String version;
 
     public int frameDataSize;
-    public int singelFrameDataSize;
+    public int singleFrameDataSize;
 
     public DataExtractor(InputStream mInputStream) throws IOException {
         ExtractData(mInputStream);
@@ -105,11 +105,11 @@ public class DataExtractor
         if (commonHeader.PayloadType == 2)
         {
             frameInfoList = new ArrayList<>();
-            //int framC = frameDataSize /singelFrameDataSize;
+            //int framC = frameDataSize /singleFrameDataSize;
             for (int i = 0; i< frameCount; i++)
             {
-                byte[] framebytes = SimpleLiveviewSlicer.readBytes(mInputStream, singelFrameDataSize);
-                if (framebytes.length == singelFrameDataSize)
+                byte[] framebytes = SimpleLiveviewSlicer.readBytes(mInputStream, singleFrameDataSize);
+                if (framebytes.length == singleFrameDataSize)
                     frameInfoList.add(new FrameInfo(framebytes));
             }
         }
@@ -158,9 +158,9 @@ public class DataExtractor
                 frameCount = SimpleLiveviewSlicer.bytesToInt(bytes, 10, 2);
                 //Log.d(TAG, "FrameCount:" + frameCount);
                 if (version.equals("1.0"))
-                    singelFrameDataSize = 16;
+                    singleFrameDataSize = 16;
                 else
-                    singelFrameDataSize = SimpleLiveviewSlicer.bytesToInt(bytes, 12,2);
+                    singleFrameDataSize = SimpleLiveviewSlicer.bytesToInt(bytes, 12,2);
             }
 
         }

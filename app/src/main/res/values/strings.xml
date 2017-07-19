@@ -248,7 +248,7 @@
     <string name="scene_hdr">HDR</string>
 
     <!-- flashmodes -->
-    <string name="flash_singel">Singel</string>
+    <string name="flash_single">Single</string>
     <string name="flash_torch">Torch</string>
 
     <!-- antibanding -->

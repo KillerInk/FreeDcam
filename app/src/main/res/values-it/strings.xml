@@ -23,7 +23,7 @@
     <string name="failed_to_load">Impossibile caricare:</string>
     <string name="fast">Veloce</string>
     <string name="files_selected">File selezionati:</string>
-    <string name="flash_singel">Singolo</string>
+    <string name="flash_single">Singolo</string>
     <string name="flash_torch">Torcia</string>
     <string name="focus_mode_edof">Profondità di campo estesa</string>
     <string name="focus_mode_macro">Macro</string>
