@@ -4,6 +4,14 @@
     android:layout_height="match_parent">
 
     <view
+        android:id="@+id/hisotview"
+        class="freed.viewer.screenslide.MyHistogram"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/cameraui_manualbuttonholder_margin_left"
+        android:background="@color/uiSettingsBackground" />
+
+    <view
         android:id="@+id/autofitview"
         class="freed.cam.apis.camera2.AutoFitTextureView"
         android:layout_width="match_parent"

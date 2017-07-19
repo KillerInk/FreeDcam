@@ -27,6 +27,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
+import android.renderscript.Allocation;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -127,6 +128,25 @@ public class MyHistogram extends View {
         invalidate();
     }
 
+    public void SetLumaHistogramData(Allocation histo)
+    {
+        if (histo == null)
+            return;
+        histo.copyTo(redHistogram);
+        greenHistogram = redHistogram;
+        blueHistogram = redHistogram;
+        post(redrawHisto);
+
+    }
+
+
+    private Runnable redrawHisto = new Runnable() {
+        @Override
+        public void run() {
+            bringToFront();
+            invalidate();
+        }
+    };
 
 
     public void onDraw (Canvas canvas)

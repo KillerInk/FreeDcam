@@ -34,6 +34,7 @@ import android.view.Surface;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.utils.Log;
 import freed.utils.RenderScriptHandler;
+import freed.viewer.screenslide.MyHistogram;
 
 /**
  * Renderscript-based Focus peaking viewfinder
@@ -50,12 +51,18 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     private boolean peak;
     private final RenderScriptHandler renderScriptHandler;
     private final Object workLock = new Object();
+    private final MyHistogram histogram;
+    private final Allocation histodata;
+    private final int emptydata[];
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-    public FocuspeakProcessorApi2(RenderScriptHandler renderScriptHandler)
+    public FocuspeakProcessorApi2(RenderScriptHandler renderScriptHandler, MyHistogram histogram)
     {
         Log.d(TAG, "Ctor");
+        this.histogram = histogram;
         this.renderScriptHandler = renderScriptHandler;
+        histodata = Allocation.createSized(renderScriptHandler.GetRS(), Element.U32(renderScriptHandler.GetRS()), 256);
+        emptydata = new int[256];
         HandlerThread mProcessingThread = new HandlerThread("ViewfinderProcessor");
         mProcessingThread.start();
         mProcessingHandler = new Handler(mProcessingThread.getLooper());
@@ -97,6 +104,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
         renderScriptHandler.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder, Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT,  Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
         renderScriptHandler.freedcamScript.set_gCurrentFrame(renderScriptHandler.GetIn());
         renderScriptHandler.yuvToRgbIntrinsic.setInput(renderScriptHandler.GetIn());
+        renderScriptHandler.freedcamScript.bind_histodata(histodata);
 
         if (mProcessingTask != null) {
 
@@ -177,14 +185,17 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                 mCount++;
                 if (renderScriptHandler.GetOut() == null)
                     return;
+                histodata.copyFrom(emptydata);
                 if (peak) {
 
                     // Run processing pass
                     renderScriptHandler.freedcamScript.forEach_focuspeakcam2(renderScriptHandler.GetOut());
                 } else {
-
-                    renderScriptHandler.yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOut());
+                    renderScriptHandler.freedcamScript.forEach_nv21torgb(renderScriptHandler.GetOut());
+                    //renderScriptHandler.yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOut());
                 }
+
+                histogram.SetLumaHistogramData(histodata);
                 renderScriptHandler.GetOut().ioSend();
                 working = false;
             }

@@ -29,6 +29,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -39,6 +40,7 @@ import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.apis.camera2.renderscript.FocuspeakProcessorApi2;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
+import freed.viewer.screenslide.MyHistogram;
 
 
 /**
@@ -48,6 +50,7 @@ import freed.utils.Log;
 public class Camera2Fragment extends CameraFragmentAbstract implements TextureView.SurfaceTextureListener
 {
     private AutoFitTextureView textureView;
+    private MyHistogram histogram;
     private final String TAG = Camera2Fragment.class.getSimpleName();
     private FocuspeakProcessorApi2 mProcessor;
     private boolean cameraIsOpen = false;
@@ -66,6 +69,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         view = inflater.inflate(layout.cameraholder2, container, false);
         textureView = (AutoFitTextureView) view.findViewById(id.autofitview);
         this.textureView.setSurfaceTextureListener(this);
+        this.histogram = (MyHistogram)view.findViewById(id.hisotview);
 
         mBackgroundHandler.post(new Runnable() {
             @Override
@@ -77,7 +81,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
                     Focus = new FocusHandler(Camera2Fragment.this);
                     cameraHolder = new CameraHolderApi2(Camera2Fragment.this);
                     ((CameraHolderApi2)cameraHolder).captureSessionHandler = new CaptureSessionHandler(Camera2Fragment.this, ((CameraHolderApi2)cameraHolder).cameraBackroundValuesChangedListner);
-                    mProcessor = new FocuspeakProcessorApi2(renderScriptHandler);
+                    mProcessor = new FocuspeakProcessorApi2(renderScriptHandler,histogram);
                 }
             }
         });
