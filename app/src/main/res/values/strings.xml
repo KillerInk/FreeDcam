@@ -99,8 +99,8 @@
     <string name="setting_lensshade_description">Reduces Vignetting on the edges </string>
     <string name="setting_chromaflash.header">Chroma Flash:</string>
     <string name="setting_chromaflash.description">Flash technology from Qualcomm</string>
-    <string name="setting_mce_header">Memory Color Enhacement: </string>
-    <string name="setting_mce_description">Boosts Colors equivelant to adobe vibrance</string>
+    <string name="setting_mce_header">Memory Color Enhancement: </string>
+    <string name="setting_mce_description">Boosts Colors equivalent to adobe vibrance</string>
     <string name="setting_redeye_header">Red-Eye Reduction: </string>
     <string name="setting_redeye_description">Emits a small pre-flash before the main flash</string>
     <string name="setting_scenedec_header">SceneDetection: </string>
