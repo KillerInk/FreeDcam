@@ -79,7 +79,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
     private OrientationHandler orientationHandler;
-    private TimerHandler timerHandler;
+
     //holds the current api camerafragment
     private CameraFragmentAbstract cameraFragment;
     //private SampleThemeFragment sampleThemeFragment;
@@ -180,9 +180,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //listen to phone orientation changes
         orientationHandler = new OrientationHandler(this, this);
         orientationHandler.Start();
-        //used for videorecording timer
-        //TODO move that into camerauifragment
-        timerHandler = new TimerHandler(this);
+
     }
 
     private PermissionHandler.PermissionCallback onExtSDPermission = new PermissionHandler.PermissionCallback() {
@@ -554,10 +552,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (settingsMenuFragment != null)
             settingsMenuFragment.setCameraToUi(cameraFragment);
         Log.d(TAG, "add events");
-        //register timer to to moduleevent handler that it get shown/hidden when its video or not
-        //and start/stop working when recording starts/stops
-        cameraFragment.getModuleHandler().AddRecoderChangedListner(timerHandler);
-        cameraFragment.getModuleHandler().addListner(timerHandler);
+
     }
 
     @Override

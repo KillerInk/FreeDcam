@@ -16,31 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/cameraFragmentHolder"></LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/counter"
-        android:gravity="center_horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="0:00:00:000"
-            android:id="@+id/textView_RecCounter"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentTop="false"
-            android:rotation="0"
-            android:textSize="20dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
-            android:paddingTop="3.5dp"
-            android:textColor="#ffffff"
-            android:autoText="false"
-            android:background="#086c6c6c" />
-
-    </LinearLayout>
 
 
 

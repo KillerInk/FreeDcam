@@ -35,6 +35,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
@@ -54,6 +55,7 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
 import freed.cam.ui.guide.GuideHandler;
+import freed.cam.ui.handler.TimerHandler;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
@@ -113,6 +115,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     //get shown in sony api,when the preview gets zoomed to navigate through the img
     private JoyPad joyPad;
+
+    private TimerHandler timerHandler;
 
     private LinearLayout left_ui_items_holder;
     private LinearLayout right_ui_items_top;
@@ -273,6 +277,11 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                     joyPad.setNavigationClickListner((SimpleStreamSurfaceView) cameraUiWrapper.getSurfaceView());
                 } else
                     joyPad.setVisibility(View.GONE);
+
+                //register timer to to moduleevent handler that it get shown/hidden when its video or not
+                //and start/stop working when recording starts/stops
+                cameraUiWrapper.getModuleHandler().AddRecoderChangedListner(timerHandler);
+                cameraUiWrapper.getModuleHandler().addListner(timerHandler);
             }
         }
     }
@@ -282,12 +291,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     {
         super.onCreateView(inflater,container,savedInstanceState);
         Log.d(TAG, "####################ONCREATEDVIEW####################");
-
         fragment_activityInterface = (ActivityInterface)getActivity();
         touchHandler = new SwipeMenuListner(this);
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
-
         return inflater.inflate(layout.cameraui_fragment, container, false);
     }
 
@@ -296,6 +303,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         super.onViewCreated(view, savedInstanceState);
         manualModes_holder = (FrameLayout) view.findViewById(id.manualModesHolder);
         messageHandler = new UserMessageHandler(view);
+        timerHandler = new TimerHandler((TextView) view.findViewById(id.textView_RecCounter), fragment_activityInterface.getAppSettings());
 
         left_ui_items_holder = (LinearLayout)view.findViewById(id.left_ui_holder);
 
