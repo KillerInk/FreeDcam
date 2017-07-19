@@ -167,7 +167,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
         if (VERSION.SDK_INT >= VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
-        //bitmapHelper.SetWorkDoneListner(cacheImageRdy);
         locationHandler = new LocationHandler(this);
         mPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -182,31 +181,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         orientationHandler.Start();
 
     }
-
-    private PermissionHandler.PermissionCallback onExtSDPermission = new PermissionHandler.PermissionCallback() {
-        @Override
-        public void permissionGranted(boolean granted) {
-            /*if (granted)
-                LoadFreeDcamDCIMDirsFiles();
-            else {
-                finish();
-            }*/
-        }
-    };
-
-    private PermissionHandler.PermissionCallback onCameraPermission = new PermissionHandler.PermissionCallback() {
-        @Override
-        public void permissionGranted(boolean granted) {
-            Log.d(TAG, "cameraPermission Granted:" + granted);
-            if (granted) {
-
-            }
-            /*else if (fd == null){
-                Toast.makeText(getApplicationContext(),"Great wanna use a camera app but dont grant the permission.. hero...",Toast.LENGTH_LONG).show();
-                finish();
-            }*/
-        }
-    };
 
     private PermissionHandler.PermissionCallback onLocationPermission = new PermissionHandler.PermissionCallback() {
         @Override
@@ -234,17 +208,20 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = true;
         if (getAppSettings() == null)
             return;
-        if (getPermissionHandler().hasCameraPermission(onCameraPermission)) {
+        if (getPermissionHandler().hasCameraPermission(null)) {
             if ((!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion()) && fd == null) {
-                Log.d(TAG, "Start FeatureDetector");
-                getAppSettings().RESET();
-                fd = new CameraFeatureDetectorFragment();
-                fd.setAppSettingsManagerAndListner(getAppSettings(), fdevent);
-                replaceCameraFragment(fd, "FeatureDetector");
+                loadFeatureDetector();
             } else if (fd == null)
                 loadcam();
         }
-        //getPermissionHandler().hasCameraPermission(onCameraPermission);
+    }
+
+    private void loadFeatureDetector() {
+        Log.d(TAG, "Start FeatureDetector");
+        getAppSettings().RESET();
+        fd = new CameraFeatureDetectorFragment();
+        fd.setAppSettingsManagerAndListner(getAppSettings(), fdevent);
+        replaceCameraFragment(fd, "FeatureDetector");
     }
 
     private void loadcam()
@@ -256,7 +233,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)))
             getPermissionHandler().hasLocationPermission(onLocationPermission);
         SetNightOverlay();
-        if(getPermissionHandler().hasExternalSDPermission(onExtSDPermission))
+        if(getPermissionHandler().hasExternalSDPermission(null))
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -333,8 +310,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
             cameraFragment.setCameraStateChangedListner(this);
             //load the cameraFragment to ui
-            //that starts the camera represent by that fragment when the surface/textureviews
-            //are created and calls then onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
             replaceCameraFragment(cameraFragment,"CameraFragment");
             Log.d(TAG, "loaded cameraWrapper");
         }
@@ -491,20 +466,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         });
     }
 
-
-    private final ScreenSlideFragment.I_ThumbClick onThumbClick = new ScreenSlideFragment.I_ThumbClick() {
-        @Override
-        public void onThumbClick(int position,View view)
-        {
-            if (mPager != null)
-                mPager.setCurrentItem(2);
-        }
-    };
-
+    //get called when the back button from screenslidefragment gets clicked
     private final ScreenSlideFragment.I_ThumbClick onThumbBackClick = new ScreenSlideFragment.I_ThumbClick() {
         @Override
         public void onThumbClick(int position,View view)
         {
+            //show cameraui
             if (mPager != null)
                 mPager.setCurrentItem(1);
         }
@@ -609,7 +576,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             else {
                 if (cameraUiFragment == null) {
                     cameraUiFragment = new CameraUiFragment();
-                    cameraUiFragment.thumbClick = onThumbClick;
                 }
                 if (cameraUiFragment != null)
                     cameraUiFragment.setCameraToUi(cameraFragment);

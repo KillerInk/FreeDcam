@@ -104,7 +104,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private GuideHandler guideHandler;
     private final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
     private SharedPreferences sharedPref;
-    public I_ThumbClick thumbClick;
 
     private UiSettingsChild aelock;
 
