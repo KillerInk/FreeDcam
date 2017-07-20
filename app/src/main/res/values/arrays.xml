@@ -101,6 +101,7 @@
         <item>12 h</item>
         <item>24 h</item>
         <item>48 h</item>
+        <item>∞</item>
         </string-array>
 
     <string name="Off" translatable="false">Off</string >

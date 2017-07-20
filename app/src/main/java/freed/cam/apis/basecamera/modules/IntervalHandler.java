@@ -35,9 +35,11 @@ public class IntervalHandler
 
     private final String TAG = IntervalHandler.class.getSimpleName();
 
-    private int intervalDuration;
+    //the sleeptime how long the cam waits for the next capture in ms
+    private int sleepTimeBetweenCaptures;
     private int shutterDelay;
-    private int intervalToEndDuration;
+    //how long the interval should run, 0 = infinity, maybe its need a check if sd is full^^
+    private int fullIntervalCaptureDuration;
     private final Handler handler;
     private long startTime;
     private boolean working;
@@ -59,15 +61,17 @@ public class IntervalHandler
         startTime = new Date().getTime();
         String sleep = picmodule.cameraUiWrapper.getParameterHandler().IntervalShutterSleep.GetStringValue();
         if (sleep.contains(" sec"))
-            intervalDuration = Integer.parseInt(sleep.replace(" sec",""))*1000;
+            sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" sec",""))*1000;
         if (sleep.contains(" min"))
-            intervalDuration = Integer.parseInt(sleep.replace(" min",""))*60*1000;
+            sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" min",""))*60*1000;
 
         String duration = picmodule.cameraUiWrapper.getParameterHandler().IntervalDuration.GetStringValue();
-        if (duration.contains(" min"))
-            intervalToEndDuration = Integer.parseInt(duration.replace(" min",""));
+        if (duration.equals("∞"))
+            fullIntervalCaptureDuration = 0;
+        else if (duration.contains(" min"))
+            fullIntervalCaptureDuration = Integer.parseInt(duration.replace(" min",""));
         else if (duration.contains(" h"))
-            intervalToEndDuration = Integer.parseInt(duration.replace(" h",""))*60;
+            fullIntervalCaptureDuration = Integer.parseInt(duration.replace(" h",""))*60;
 
         startShutterDelay();
     }
@@ -77,11 +81,11 @@ public class IntervalHandler
         Log.d(TAG, "Cancel Interval");
         handler.removeCallbacks(intervalDelayRunner);
         handler.removeCallbacks(shutterDelayRunner);
-        shuttercounter = 0;
-        intervalDuration = 0;
-        intervalToEndDuration = 0;
+        timeGoneTillNextCapture = 0;
+        sleepTimeBetweenCaptures = 0;
+        fullIntervalCaptureDuration = 0;
         intervalDelayCounter = 0;
-        shuttercounter = 0;
+        timeGoneTillNextCapture = 0;
         shutterWaitCounter = 0;
         working = false;
     }
@@ -90,17 +94,18 @@ public class IntervalHandler
     {
 
         String t = "Time:"+String.format("%.2f ", (double) (new Date().getTime() - startTime) /1000 / 60);
-        t+= "/"+ intervalToEndDuration + " NextIn:" + shuttercounter +"/" + intervalDuration /1000;
+        t+= "/"+ fullIntervalCaptureDuration + " NextIn:" + timeGoneTillNextCapture +"/" + sleepTimeBetweenCaptures /1000;
         picmodule.cameraUiWrapper.getCameraHolder().SendUIMessage(t);
 
     }
 
-    private int shuttercounter;
+    //holds the time that is gone bevor next capture happens in Sec
+    private int timeGoneTillNextCapture;
     public void DoNextInterval()
     {
         long dif = new Date().getTime() - startTime;
         double min = (double)(dif /1000) / 60;
-        if (min >= intervalToEndDuration)
+        if (min >= fullIntervalCaptureDuration && fullIntervalCaptureDuration > 0)
         {
             Log.d(TAG, "Finished Interval");
             picmodule.cameraUiWrapper.getParameterHandler().IntervalCaptureFocusSet = false;
@@ -108,7 +113,7 @@ public class IntervalHandler
             working = false;
             return;
         }
-        Log.d(TAG, "Start StartNext Interval in" + intervalDuration + " " + min + " " + intervalToEndDuration);
+        Log.d(TAG, "Start StartNext Interval in" + sleepTimeBetweenCaptures + " " + min + " " + fullIntervalCaptureDuration);
         intervalDelayCounter = 0;
         handler.post(intervalDelayRunner);
     }
@@ -118,15 +123,15 @@ public class IntervalHandler
         @Override
         public void run()
         {
-            if (intervalDelayCounter < intervalDuration /1000) {
+            if (intervalDelayCounter < sleepTimeBetweenCaptures /1000) {
                 handler.postDelayed(intervalDelayRunner, 1000);
                 sendMsg();
                 intervalDelayCounter++;
-                shuttercounter++;
+                timeGoneTillNextCapture++;
             }
             else {
                 picmodule.DoWork();
-                shuttercounter = 0;
+                timeGoneTillNextCapture = 0;
             }
         }
     };
