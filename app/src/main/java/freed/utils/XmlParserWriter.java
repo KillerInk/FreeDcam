@@ -264,6 +264,10 @@ public class XmlParserWriter
                                 {
                                     appSettingsManager.setCamera2MaxExposureTime(camera2element.findChild("maxexposuretime").getLongValue());
                                 }
+                                if (!camera2element.findChild("minexposuretime").isEmpty())
+                                {
+                                    appSettingsManager.setCamera2MinExposureTime(camera2element.findChild("minexposuretime").getLongValue());
+                                }
                                 if (!camera2element.findChild("maxiso").isEmpty())
                                     appSettingsManager.setCamera2MaxIso(camera2element.findChild("maxiso").getIntValue(0));
                             }

@@ -20,6 +20,7 @@
 
 <resources>
     <string name="shutter_auto" translatable="false">auto</string>
+    <string name="shutter_1_100000" translatable="false">1/100000</string>
     <string name="shutter_1_90000" translatable="false">1/90000</string>
     <string name="shutter_1_75000" translatable="false">1/75000</string>
     <string name="shutter_1_50000" translatable="false">1/50000</string>
@@ -147,6 +148,10 @@
 
     <string-array name="shutter_values_autocreate" translatable="false">
         <item>@string/shutter_auto</item>
+        <item>@string/shutter_1_100000</item>
+        <item>@string/shutter_1_90000</item>
+        <item>@string/shutter_1_75000</item>
+        <item>@string/shutter_1_50000</item>
         <item>@string/shutter_1_45000</item>
         <item>@string/shutter_1_30000</item>
         <item>@string/shutter_1_20000</item>

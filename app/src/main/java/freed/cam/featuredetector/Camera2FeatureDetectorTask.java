@@ -341,6 +341,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 long maxs = appSettingsManager.getCamera2MaxExposureTime();
                 if (appSettingsManager.getCamera2MaxExposureTime() > 0)
                     max = (int)appSettingsManager.getCamera2MaxExposureTime();
+                if (appSettingsManager.getCamera2MinExposureTime() >0)
+                    min = (int)appSettingsManager.getCamera2MinExposureTime();
                 ArrayList<String> tmp = getShutterStrings(max,min,true);
                 appSettingsManager.manualExposureTime.setIsSupported(tmp.size() > 0);
                 appSettingsManager.manualExposureTime.setValues(tmp.toArray(new String[tmp.size()]));
@@ -787,6 +789,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
         if (appSettingsManager.getCamera2MaxExposureTime() >0)
             max = appSettingsManager.getCamera2MaxExposureTime();
+        if (appSettingsManager.getCamera2MinExposureTime() >0)
+            min = appSettingsManager.getCamera2MinExposureTime();
 
         ArrayList<String> tmp = getShutterStrings(max, min,false);
         appSettingsManager.manualExposureTime.setIsSupported(tmp.size() > 0);

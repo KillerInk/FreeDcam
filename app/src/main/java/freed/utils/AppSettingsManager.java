@@ -648,6 +648,18 @@ public class AppSettingsManager {
         Log.d(TAG,"Override max expotime:" +settings.getLong("camera2maxexposuretime",0));
     }
 
+    public void setCamera2MinExposureTime(long min)
+    {
+        SharedPreferences.Editor editor =  settings.edit();
+        editor.putLong("camera2minexposuretime",min);
+        editor.commit();
+        Log.d(TAG,"Override min expotime:" +settings.getLong("camera2minexposuretime",0));
+    }
+    public long getCamera2MinExposureTime()
+    {
+        return settings.getLong("camera2minexposuretime",0);
+    }
+
     public int getCamera2MaxIso()
     {
         return settings.getInt("camera2maxiso",0);
