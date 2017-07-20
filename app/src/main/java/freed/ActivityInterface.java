@@ -82,6 +82,8 @@ public interface ActivityInterface extends I_WorkEvent
     void SetNightOverlay();
 
     void ScanFile(File file);
+
+    void runFeatureDetector();
 }
 
 

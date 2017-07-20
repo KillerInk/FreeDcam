@@ -599,4 +599,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         else
             nightoverlay.setVisibility(View.GONE);
     }
+
+    @Override
+    public void runFeatureDetector() {
+        unloadCameraFragment();
+        loadFeatureDetector();
+    }
 }

@@ -474,4 +474,9 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     public void ScanFile(File file) {
         MediaScannerManager.ScanMedia(getContext(),file);
     }
+
+    @Override
+    public void runFeatureDetector() {
+
+    }
 }

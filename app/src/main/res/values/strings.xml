@@ -60,6 +60,8 @@
     <string name="setting_nightoverlay_header">NightOverlay: </string>
     <string name="setting_orientation_header">Orientation Correction: </string>
     <string name="setting_orientation_description">Rotates the Camera 180° if ON</string>
+    <string name="setting_featuredetector_header">Run FeatureDetector</string>
+    <string name="setting_featuredetector_description"></string>
     <string name="setting_sdcard_header">Storage Location: </string>
     <string name="setting_sdcard_description">
         File save location.\n

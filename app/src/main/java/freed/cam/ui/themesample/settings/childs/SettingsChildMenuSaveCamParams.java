@@ -49,6 +49,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
     public SettingsChildMenuSaveCamParams(Context context, int headerid, int descriptionid, CameraWrapperInterface cameraUiWrapper) {
         super(context, headerid, descriptionid);
         this.cameraUiWrapper = cameraUiWrapper;
+        this.valueText.setText("");
     }
 
     @Override

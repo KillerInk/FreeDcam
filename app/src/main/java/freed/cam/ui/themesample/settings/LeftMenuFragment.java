@@ -40,6 +40,7 @@ import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
+import freed.cam.ui.themesample.settings.childs.SettingsChildFeatureDetect;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuForceRawToDng;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuGPS;
@@ -258,6 +259,12 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             nightoverlay.SetUiItemClickListner(this);
             nightoverlay.SetParameter(cameraUiWrapper.getParameterHandler().NightOverlay);
             globalSettingGroup.addView(nightoverlay);
+
+            if (!(cameraUiWrapper instanceof SonyCameraRemoteFragment))
+            {
+                SettingsChildFeatureDetect fd = new SettingsChildFeatureDetect(getContext(),R.string.setting_featuredetector_header,R.string.setting_featuredetector_description, fragment_activityInterface);
+                globalSettingGroup.addView(fd);
+            }
         }
 
         settingsChildHolder.addView(globalSettingGroup);
