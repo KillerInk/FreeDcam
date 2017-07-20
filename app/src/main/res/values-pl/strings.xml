@@ -12,7 +12,7 @@
     <string name="setting_Automation">Ustawienia trybu interwału</string>
     <string name="setting_bayerformat_description">Tryb RAW sensora do zakodowania jako DNG</string>
     <string name="setting_bayerformat_header">Format pliku Bayer: </string>
-    <string name="setting_opcode_description">Kliknij aby ściągnąć OPCode'y dla DNG. Używany do korekcji płaskiego pola</string>
+    <string name="setting_opcode_description">"Kliknij aby ściągnąć OPCode'y dla DNG. Używany do korekcji płaskiego pola"</string>
     <string name="setting_opcode_header">Pole płaskie RAW: </string>
     <string name="setting_matrixchooser_description">Wybierz niestandardowy ColorMatrix (domyślny gdy wyłączony)</string>
     <string name="setting_matrixchooser_header">Niestandardowy Matrix: </string>
