@@ -10,6 +10,7 @@ int Height;
 bool yuvinput;
 //BRIGHTNESS
 float brightness;
+bool processhisto;
 
 
 uchar4 __attribute__((kernel)) processBrightness(uint32_t x, uint32_t y) {
@@ -60,7 +61,7 @@ uchar4 __attribute__((kernel)) focuspeakcam2(uint32_t x, uint32_t y) {
     curPixel.g = rsGetElementAtYuv_uchar_U(gCurrentFrame, x, y);
     curPixel.b = rsGetElementAtYuv_uchar_V(gCurrentFrame, x, y);
     //set histo
-    if(x & 4 && y &4)
+    if(processhisto && x & 4 && y &4)
     {
         volatile int32_t *addr = &histodata[curPixel.r];
         rsAtomicInc(addr);
@@ -109,7 +110,7 @@ uchar4 __attribute__((kernel)) nv21torgb(uint32_t x, uint32_t y) {
     curPixel.g = rsGetElementAtYuv_uchar_U(gCurrentFrame, x, y);
     curPixel.b = rsGetElementAtYuv_uchar_V(gCurrentFrame, x, y);
     //set histo data
-    if(x & 4 && y &4)
+    if(processhisto && x & 4 && y &4)
     {
         volatile int32_t *addr = &histodata[curPixel.r];
         rsAtomicInc(addr);

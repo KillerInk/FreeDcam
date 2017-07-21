@@ -155,6 +155,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     class ProcessingTask implements Runnable, OnBufferAvailableListener {
         private int mPendingFrames;
         private boolean working;
+        private int framescount = 0;
         public ProcessingTask() {
             renderScriptHandler.GetIn().setOnBufferAvailableListener(this);
         }
@@ -183,6 +184,12 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                     renderScriptHandler.GetIn().ioReceive();
                 }
                 mCount++;
+                framescount++;
+                if (framescount % 10 ==0)
+                    renderScriptHandler.freedcamScript.set_processhisto(true);
+                else
+                    renderScriptHandler.freedcamScript.set_processhisto(false);
+
                 if (renderScriptHandler.GetOut() == null)
                     return;
                 histodata.copyFrom(emptydata);
@@ -194,8 +201,10 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                     renderScriptHandler.freedcamScript.forEach_nv21torgb(renderScriptHandler.GetOut());
                     //renderScriptHandler.yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOut());
                 }
-
-                histogram.SetLumaHistogramData(histodata);
+                if (framescount % 10 ==0) {
+                    histogram.SetLumaHistogramData(histodata);
+                    framescount = 0;
+                }
                 renderScriptHandler.GetOut().ioSend();
                 working = false;
             }
