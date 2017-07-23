@@ -50,6 +50,7 @@ public:
     bool gps;
 
 
+    long whitelevel;
     float *blacklevel;
     char *fileSavePath;
     long fileLength;

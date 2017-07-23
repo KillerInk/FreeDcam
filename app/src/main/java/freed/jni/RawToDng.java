@@ -50,6 +50,7 @@ public class RawToDng
                                      float[] reductionMatrix2,
                                      double[] noiseMatrix,
                                      int blacklevel,
+                                     int whitelevel,
                                      String bayerformat,
                                      int rowSize,
                                      String devicename,
@@ -252,14 +253,15 @@ public class RawToDng
                               float[] reductionMatrix2,
                               double[] noise,
                               int blacklevel,
+                              int whitelevel,
                               String bayerformat,
                               int rowSize,
                               int tight, int width, int height)
     {
         if (wbct.equals(""))
-            SetBayerInfo(colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
+            SetBayerInfo(colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
         else if (!wbct.equals(""))
-            SetBayerInfo(colorMatrix1, colorMatrix2, getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
+            SetBayerInfo(colorMatrix1, colorMatrix2, getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
 
     }
 
@@ -292,7 +294,7 @@ public class RawToDng
 
         SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,
                 profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
-                profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.bayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
+                profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.whitelevel, profile.bayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
         WriteDNG();
     }
 

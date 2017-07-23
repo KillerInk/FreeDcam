@@ -380,6 +380,10 @@ public class XmlParserWriter
     private DngProfile getProfile(XmlElement element,HashMap<String, CustomMatrix> matrixes )
     {
         int blacklvl = Integer.parseInt(element.findChild("blacklvl").getValue());
+        String whlvl = element.findChild("whitelvl").getValue();
+        if (whlvl.equals(""))
+            whlvl = 1023+"";
+        int whitelvl = Integer.parseInt(whlvl);
         int width = Integer.parseInt(element.findChild("width").getValue());
         int height = Integer.parseInt(element.findChild("height").getValue());
         int rawType = Integer.parseInt(element.findChild("rawtype").getValue());
@@ -387,7 +391,7 @@ public class XmlParserWriter
         int rowsize = Integer.parseInt(element.findChild("rowsize").getValue());
         String matrixset = element.findChild("matrixset").getValue();
 
-        return new DngProfile(blacklvl,width,height,rawType,colorpattern,rowsize,matrixes.get(matrixset), matrixset);
+        return new DngProfile(blacklvl,whitelvl,width,height,rawType,colorpattern,rowsize,matrixes.get(matrixset), matrixset);
     }
 
     protected HashMap<String, CustomMatrix> getMatrixes(Resources resources)

@@ -77,6 +77,7 @@ public class DngConvertingFragment extends Fragment
     private EditText editTextwidth;
     private EditText editTextheight;
     private EditText editTextblacklvl;
+    private EditText editTextwhitelvl;
     private Spinner spinnerMatrixProfile;
     private Spinner spinnerColorPattern;
     private Spinner spinnerrawFormat;
@@ -97,6 +98,7 @@ public class DngConvertingFragment extends Fragment
         editTextwidth = (EditText) view.findViewById(id.editText_width);
         editTextheight = (EditText) view.findViewById(id.editText_height);
         editTextblacklvl = (EditText) view.findViewById(id.editText_blacklevel);
+        editTextwhitelvl = (EditText) view.findViewById(id.editText_whitelevel);
         spinnerMatrixProfile = (Spinner) view.findViewById(id.spinner_MatrixProfile);
         matrixChooserParameter = new MatrixChooserParameter(appSettingsManager.getMatrixesMap(),appSettingsManager);
         String[] items = matrixChooserParameter.getStringValues();
@@ -146,14 +148,14 @@ public class DngConvertingFragment extends Fragment
         if (filesToConvert != null && filesToConvert.length > 0) {
             if (appSettingsManager.getDngProfilesMap() == null)
             {
-                dngprofile = new DngProfile(0,0,0,0,"bggr",0,
+                dngprofile = new DngProfile(0,0,0,0,0,"bggr",0,
                         matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6),MatrixChooserParameter.NEXUS6);
                 Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
             else
                 dngprofile = appSettingsManager.getDngProfilesMap().get( new File(filesToConvert[0]).length());
             if (dngprofile == null) {
-                dngprofile = new DngProfile(0,0,0,0,"bggr",0,
+                dngprofile = new DngProfile(0,0,0,0,0,"bggr",0,
                         matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6),MatrixChooserParameter.NEXUS6);
                 Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
@@ -161,6 +163,7 @@ public class DngConvertingFragment extends Fragment
             editTextwidth.setText(dngprofile.widht + "");
             editTextheight.setText(dngprofile.height + "");
             editTextblacklvl.setText(dngprofile.blacklevel + "");
+            editTextwhitelvl.setText(dngprofile.whitelevel + "");
 
             if (dngprofile.bayerPattern.equals(DngProfile.BGGR))
                 spinnerColorPattern.setSelection(0);
@@ -233,6 +236,7 @@ public class DngConvertingFragment extends Fragment
                 dngprofile.widht = Integer.parseInt(editTextwidth.getText().toString());
                 dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
                 dngprofile.blacklevel = Integer.parseInt(editTextblacklvl.getText().toString());
+                dngprofile.whitelevel = Integer.parseInt(editTextwhitelvl.getText().toString());
                 dngprofile.rowsize = Integer.parseInt(editTextCusotmRowSize.getText().toString());
                 new AsyncConverter().execute(filesToConvert);
 
@@ -247,6 +251,7 @@ public class DngConvertingFragment extends Fragment
             dngprofile.widht = Integer.parseInt(editTextwidth.getText().toString());
             dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
             dngprofile.blacklevel = Integer.parseInt(editTextblacklvl.getText().toString());
+            dngprofile.whitelevel = Integer.parseInt(editTextwhitelvl.getText().toString());
             dngprofile.rowsize = Integer.parseInt(editTextCusotmRowSize.getText().toString());
             long filesize = new File(filesToConvert[0]).length();
             appSettingsManager.getDngProfilesMap().append(filesize,dngprofile);

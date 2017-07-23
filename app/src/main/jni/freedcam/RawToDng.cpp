@@ -59,6 +59,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
                                                             jfloatArray reductionMatrix2,
                                                             jdoubleArray noiseMatrix,
                                                             jint blacklevel,
+                                                            jint whitelevel,
                                                             jstring bayerformat,
                                                             jint rowSize,
                                                             jstring devicename,
@@ -198,6 +199,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
                                                             jfloatArray reductionMatrix2,
                                                             jdoubleArray noiseMatrix,
                                                             jint blacklevel,
+                                                            jint whitelevel,
                                                             jstring bayerformat,
                                                             jint rowSize,
                                                             jstring devicename,
@@ -210,6 +212,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
     for (int i = 0; i < 4; ++i) {
         writer.blacklevel[i] = blacklevel;
     }
+    writer.whitelevel = whitelevel;
     writer.rawType = tight;
     writer.rowSize =rowSize;
     writer.colorMatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);

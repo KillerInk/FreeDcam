@@ -129,6 +129,33 @@
                 android:layout_alignParentRight="true"
                 android:layout_weight="1" />
         </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/textViewwhtlvl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="@string/whitelevel"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/editText_whitelevel"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
