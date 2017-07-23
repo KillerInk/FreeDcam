@@ -486,8 +486,8 @@ void DngWriter::writeRawStuff(TIFF *tif) {
     LOGD("cfa pattern %c%c&c&c", cfa[0],cfa[1],cfa[2],cfa[3]);
 
     TIFFSetField (tif, TIFFTAG_CFAPATTERN, cfa);
-    long white=0x3ff;
-    TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
+
+    TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &whitelevel);
 
     short CFARepeatPatternDim[] = { 2,2 };
     TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);

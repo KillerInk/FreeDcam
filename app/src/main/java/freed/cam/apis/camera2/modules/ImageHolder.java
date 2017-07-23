@@ -321,6 +321,7 @@ public class ImageHolder
     @NonNull
     private DngProfile getDngProfile(int rawFormat, Image image) {
         int black  = characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
+        int white = characteristics.get(CameraCharacteristics.SENSOR_INFO_WHITE_LEVEL);
         int c= characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
         String colorpattern;
         int[] cfaOut = new int[4];
@@ -396,7 +397,7 @@ public class ImageHolder
 
         }
 
-        return DngProfile.getProfile(black,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
+        return DngProfile.getProfile(black,white,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
                 color1,
                 color2,
                 neutral,

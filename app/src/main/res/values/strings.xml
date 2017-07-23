@@ -212,6 +212,7 @@
     <string name="width">Width:</string>
     <string name="height">Height:</string>
     <string name="blacklevel">Blacklevel:</string>
+    <string name="whitelevel">Whitelevel:</string>
     <string name="converttodng">Convert to DNG</string>
     <string name="no_sel_raw">No selected RAW file, pls return back and select it</string>
     <string name="files_selected">Files selected:</string>

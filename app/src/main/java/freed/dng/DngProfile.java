@@ -43,6 +43,7 @@ public class DngProfile
     public static final int XperiaL_rowSize = 4376;
 
     public int blacklevel;
+    public int whitelevel;
     public int widht;
     public int height;
     public int rawType;
@@ -53,9 +54,10 @@ public class DngProfile
 
     public ToneMapProfile toneMapProfile;
 
-    public DngProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, String matrixName)
+    public DngProfile(int blacklevel,int whitelevel,int widht, int height, int rawType, String bayerPattern, int rowsize, String matrixName)
     {
         this.blacklevel = blacklevel;
+        this.whitelevel =whitelevel;
         this.widht = widht;
         this.height = height;
         this.rawType = rawType;
@@ -64,16 +66,16 @@ public class DngProfile
         this.matrixName = matrixName;
     }
 
-    public DngProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, CustomMatrix matrixes, String matrixName)
+    public DngProfile(int blacklevel,int whitelevel,int widht, int height, int rawType, String bayerPattern, int rowsize, CustomMatrix matrixes, String matrixName)
     {
-        this(blacklevel,widht,height,rawType,bayerPattern,rowsize, matrixName);
+        this(blacklevel,whitelevel,widht,height,rawType,bayerPattern,rowsize, matrixName);
         this.matrixes = matrixes;
     }
 
 
-    public static DngProfile getProfile(int blacklevel, int widht, int height,int rawFormat, String bayerPattern, int rowsize, float[] matrix1, float[] matrix2, float[] neutral, float[] fmatrix1, float[] fmatrix2, float[] rmatrix1, float[] rmatrix2, double[] noise, String name)
+    public static DngProfile getProfile(int blacklevel,int whitelevel, int widht, int height,int rawFormat, String bayerPattern, int rowsize, float[] matrix1, float[] matrix2, float[] neutral, float[] fmatrix1, float[] fmatrix2, float[] rmatrix1, float[] rmatrix2, double[] noise, String name)
     {
-        return new DngProfile(blacklevel,widht,height, rawFormat,bayerPattern, 0,new CustomMatrix(matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise), name);
+        return new DngProfile(blacklevel,whitelevel,widht,height, rawFormat,bayerPattern, 0,new CustomMatrix(matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise), name);
     }
 
     public String getXmlString(long filesize)
@@ -90,6 +92,7 @@ public class DngProfile
         String t = new String();
         t += "<filesize size= " +String.valueOf("\"") +String.valueOf(filesize) +String.valueOf("\"")  +">" + "\r\n";
             t += "<blacklvl>" + blacklevel + "</blacklvl>" + "\r\n";
+            t += "<whitelvl>" + whitelevel + "</whitelvl>" + "\r\n";
             t += "<width>" + widht + "</width>" + "\r\n";
             t += "<height>" + height + "</height>" + "\r\n";
             t += "<rawtype>" + rawType + "</rawtype>" + "\r\n";
