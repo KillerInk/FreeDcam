@@ -53,6 +53,10 @@ public class MyHistogram extends View {
     private int [] blueHistogram = new int [ 256 ];
     private final Path mHistoPath = new Path ();
 
+    public int[] getRedHistogram(){return redHistogram;}
+    public int[] getGreenHistogram(){return greenHistogram;}
+    public int[] getBlueHistogram() {return blueHistogram;}
+
     private void drawHistogram(Canvas canvas, int[] histogram, int color) {
         int max = 0 ;
         for ( int i = 0 ; i < histogram . length ; i ++) {
@@ -128,15 +132,9 @@ public class MyHistogram extends View {
         invalidate();
     }
 
-    public void SetLumaHistogramData(Allocation histo)
+    public void redrawHistogram()
     {
-        if (histo == null)
-            return;
-        histo.copyTo(redHistogram);
-        greenHistogram = redHistogram;
-        blueHistogram = redHistogram;
         post(redrawHisto);
-
     }
 
 

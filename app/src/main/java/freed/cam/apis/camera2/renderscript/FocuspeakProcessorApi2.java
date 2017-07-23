@@ -28,8 +28,11 @@ import android.renderscript.Allocation;
 import android.renderscript.Allocation.OnBufferAvailableListener;
 import android.renderscript.Element;
 import android.renderscript.RenderScript.RSErrorHandler;
+import android.renderscript.ScriptGroup;
+import android.renderscript.Type;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
+import android.view.View;
 
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.utils.Log;
@@ -52,16 +55,25 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     private final RenderScriptHandler renderScriptHandler;
     private final Object workLock = new Object();
     private final MyHistogram histogram;
-    private final Allocation histodata;
+    private final Allocation histodataR;
+    private final Allocation histodataG;
+    private final Allocation histodataB;
+    private Allocation tmprgballoc;
     private final int emptydata[];
+    ScriptGroup fpGpup;
+
+    private ScriptGroup fpGroup;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     public FocuspeakProcessorApi2(RenderScriptHandler renderScriptHandler, MyHistogram histogram)
     {
         Log.d(TAG, "Ctor");
         this.histogram = histogram;
+        histogram.setVisibility(View.GONE);
         this.renderScriptHandler = renderScriptHandler;
-        histodata = Allocation.createSized(renderScriptHandler.GetRS(), Element.U32(renderScriptHandler.GetRS()), 256);
+        histodataR = Allocation.createSized(renderScriptHandler.GetRS(), Element.U32(renderScriptHandler.GetRS()), 256);
+        histodataG = Allocation.createSized(renderScriptHandler.GetRS(), Element.U32(renderScriptHandler.GetRS()), 256);
+        histodataB = Allocation.createSized(renderScriptHandler.GetRS(), Element.U32(renderScriptHandler.GetRS()), 256);
         emptydata = new int[256];
         HandlerThread mProcessingThread = new HandlerThread("ViewfinderProcessor");
         mProcessingThread.start();
@@ -82,6 +94,10 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     @Override
     public void Enable(boolean enable) {
         peak = enable;
+        if (peak)
+            histogram.setVisibility(View.VISIBLE);
+        else
+            histogram.setVisibility(View.GONE);
     }
 
     @Override
@@ -101,10 +117,25 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
         Builder rgbTypeBuilder = new Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
         rgbTypeBuilder.setX(width);
         rgbTypeBuilder.setY(height);
+        tmprgballoc = Allocation.createTyped(renderScriptHandler.GetRS(), rgbTypeBuilder.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
         renderScriptHandler.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder, Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT,  Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
-        renderScriptHandler.freedcamScript.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.freedcamScript.set_gCurrentFrame(tmprgballoc);
         renderScriptHandler.yuvToRgbIntrinsic.setInput(renderScriptHandler.GetIn());
-        renderScriptHandler.freedcamScript.bind_histodata(histodata);
+        renderScriptHandler.freedcamScript.bind_histodataR(histodataR);
+        renderScriptHandler.freedcamScript.bind_histodataG(histodataG);
+        renderScriptHandler.freedcamScript.bind_histodataB(histodataB);
+
+        ScriptGroup.Builder builder = new ScriptGroup.Builder(renderScriptHandler.GetRS());
+        builder.addKernel(renderScriptHandler.yuvToRgbIntrinsic.getKernelID());
+        builder.addKernel(renderScriptHandler.freedcamScript.getKernelID_focuspeaksony());
+
+        builder.addConnection(rgbTypeBuilder.create(), renderScriptHandler.yuvToRgbIntrinsic.getKernelID(), renderScriptHandler.freedcamScript.getFieldID_gCurrentFrame());
+
+        fpGpup = builder.create();
+        fpGpup.setInput(renderScriptHandler.yuvToRgbIntrinsic.getKernelID(), renderScriptHandler.GetIn());
+        fpGpup.setOutput(renderScriptHandler.freedcamScript.getKernelID_focuspeaksony(),renderScriptHandler.GetOut());
+
+
 
         if (mProcessingTask != null) {
 
@@ -192,17 +223,26 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
 
                 if (renderScriptHandler.GetOut() == null)
                     return;
-                histodata.copyFrom(emptydata);
+                histodataR.copyFrom(emptydata);
+                histodataG.copyFrom(emptydata);
+                histodataB.copyFrom(emptydata);
+
                 if (peak) {
 
                     // Run processing pass
-                    renderScriptHandler.freedcamScript.forEach_focuspeakcam2(renderScriptHandler.GetOut());
+                    /*renderScriptHandler.yuvToRgbIntrinsic.forEach(tmprgballoc);
+                    renderScriptHandler.freedcamScript.forEach_focuspeaksony(renderScriptHandler.GetOut());*/
+                    fpGpup.execute();
+                    //renderScriptHandler.freedcamScript.forEach_focuspeakcam2(renderScriptHandler.GetOut());
                 } else {
-                    renderScriptHandler.freedcamScript.forEach_nv21torgb(renderScriptHandler.GetOut());
-                    //renderScriptHandler.yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOut());
+                    //renderScriptHandler.freedcamScript.forEach_nv21torgb(renderScriptHandler.GetOut());
+                    renderScriptHandler.yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOut());
                 }
                 if (framescount % 10 ==0) {
-                    histogram.SetLumaHistogramData(histodata);
+                    histodataR.copyTo(histogram.getRedHistogram());
+                    histodataG.copyTo(histogram.getGreenHistogram());
+                    histodataB.copyTo(histogram.getBlueHistogram());
+                    histogram.redrawHistogram();
                     framescount = 0;
                 }
                 renderScriptHandler.GetOut().ioSend();

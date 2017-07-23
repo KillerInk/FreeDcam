@@ -4,7 +4,9 @@
 
 rs_allocation gCurrentFrame;
 rs_allocation gLastFrame;
-int32_t *histodata;
+int32_t *histodataR;
+int32_t *histodataG;
+int32_t *histodataB;
 int Width;
 int Height;
 bool yuvinput;
@@ -53,85 +55,6 @@ uchar4 __attribute__((kernel)) processContrast(uint32_t x, uint32_t y)
             return o;
 }
 
-//FOCUSPEAK
-
-uchar4 __attribute__((kernel)) focuspeakcam2(uint32_t x, uint32_t y) {
-    uchar4 curPixel;
-    curPixel.r = rsGetElementAtYuv_uchar_Y(gCurrentFrame, x, y);
-    curPixel.g = rsGetElementAtYuv_uchar_U(gCurrentFrame, x, y);
-    curPixel.b = rsGetElementAtYuv_uchar_V(gCurrentFrame, x, y);
-    //set histo
-    if(processhisto && x & 4 && y &4)
-    {
-        volatile int32_t *addr = &histodata[curPixel.r];
-        rsAtomicInc(addr);
-    }
-    //get x direction to lookup
-    int dx = x + ((x == 0) ? 1 : -1);
-    int sum = 0;
-    int tmp;
-    tmp = rsGetElementAtYuv_uchar_Y(gCurrentFrame, dx, y) - curPixel.r;
-    sum += tmp * tmp;
-    tmp = rsGetElementAtYuv_uchar_U(gCurrentFrame, dx, y) - curPixel.g;
-    sum += tmp * tmp;
-    tmp = rsGetElementAtYuv_uchar_V(gCurrentFrame, dx, y) - curPixel.b;
-    sum += tmp * tmp;
-    //get Y direction to lookup
-    int dy = y + ((y == 0) ? 1 : -1);
-    tmp = rsGetElementAtYuv_uchar_Y(gCurrentFrame, x, dy) - curPixel.r;
-    sum += tmp * tmp;
-    tmp = rsGetElementAtYuv_uchar_U(gCurrentFrame, x, dy) - curPixel.g;
-    sum += tmp * tmp;
-    tmp = rsGetElementAtYuv_uchar_V(gCurrentFrame, x, dy) - curPixel.b;
-    sum += tmp * tmp;
-    sum >>= 9;
-    sum *= sum * sum;
-    curPixel.a = 255;
-    //uchar4 mergedPixel = curPixel;
-    int4 rgb;
-    rgb.r = curPixel.r +
-            curPixel.b * 1436 / 1024 - 179 + sum;
-    rgb.g = curPixel.r -
-            curPixel.g * 46549 / 131072 + 44 -
-            curPixel.b * 93604 / 131072 + 91 + sum;
-    rgb.b = curPixel.r +
-            curPixel.g * 1814 / 1024 - 227;
-    rgb.a = 255;
-    // Write out merged HDR result
-    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
-    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
-    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
-    return convert_uchar4(rgb);
-}
-
-uchar4 __attribute__((kernel)) nv21torgb(uint32_t x, uint32_t y) {
-    uchar4 curPixel;
-    curPixel.r = rsGetElementAtYuv_uchar_Y(gCurrentFrame, x, y);
-    curPixel.g = rsGetElementAtYuv_uchar_U(gCurrentFrame, x, y);
-    curPixel.b = rsGetElementAtYuv_uchar_V(gCurrentFrame, x, y);
-    //set histo data
-    if(processhisto && x & 4 && y &4)
-    {
-        volatile int32_t *addr = &histodata[curPixel.r];
-        rsAtomicInc(addr);
-    }
-
-    //uchar4 mergedPixel = curPixel;
-    int4 rgb;
-    rgb.r = curPixel.r +
-            curPixel.b * 1436 / 1024 - 179;
-    rgb.g = curPixel.r -
-            curPixel.g * 46549 / 131072 + 44 -
-            curPixel.b * 93604 / 131072 + 91 ;
-    rgb.b = curPixel.r +
-            curPixel.g * 1814 / 1024 - 227;
-    rgb.a = 255;
-    // Write out merged HDR result
-    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
-    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
-    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
-    return convert_uchar4(rgb);
-}
 
 uchar4 __attribute__((kernel)) focuspeakcam1(uint32_t x, uint32_t y) {
     uchar4 curPixel;
@@ -189,6 +112,17 @@ uchar4 __attribute__((kernel)) focuspeakcam1(uint32_t x, uint32_t y) {
 uchar4 __attribute__((kernel)) focuspeaksony(uint32_t x, uint32_t y) {
     uchar4 curPixel;
     curPixel = rsGetElementAt_uchar4(gCurrentFrame, x, y);
+
+    //set histo data
+        if(processhisto && x & 4 && y &4)
+        {
+            volatile int32_t *addr = &histodataR[curPixel.r];
+            rsAtomicInc(addr);
+            addr = &histodataG[curPixel.g];
+            rsAtomicInc(addr);
+            addr = &histodataB[curPixel.b];
+            rsAtomicInc(addr);
+        }
     //rsDebug("CurPixel", curPixel);
 
     int dx = x + ((x == 0) ? 1 : -1);
