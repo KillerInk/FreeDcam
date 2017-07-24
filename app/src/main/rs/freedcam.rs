@@ -4,6 +4,8 @@
 
 rs_allocation gCurrentFrame;
 rs_allocation gLastFrame;
+rs_allocation medianStackMIN;
+rs_allocation medianStackMAX;
 int32_t *histodataR;
 int32_t *histodataG;
 int32_t *histodataB;
@@ -166,14 +168,6 @@ uchar4 __attribute__((kernel)) focuspeaksony(uint32_t x, uint32_t y) {
 
 
 //IMAGE STACK
-
-typedef struct MinMaxPixel
-{
-    uchar4 min;
-    uchar4 max;
-} MinMaxPixel_t;
-
-MinMaxPixel_t *medianMinMaxPixel;
 
 float4 __attribute__((kernel))getRgb(uint32_t x, uint32_t y)
 {
@@ -401,18 +395,61 @@ uchar4 __attribute__((kernel)) stackimage_lightenV(uint32_t x, uint32_t y)
 
 uchar4 __attribute__((kernel)) stackimage_median(uint32_t x, uint32_t y)
 {
-    uchar4 curPixel, lastPixel;
-    curPixel = getRgb_uchar4(x, y);
-    struct MinMaxPixel t = medianMinMaxPixel[x+y];
-    if(curPixel.r < t.min.r && curPixel.g < t.min.g && curPixel.b < t.min.b)
-        t.min = curPixel;
-    else if(curPixel.r > t.max.r && curPixel.g > t.max.g && curPixel.b > t.max.b)
-        t.max = curPixel;
-    uchar4 rgb = t.max - t.min;
-    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
-    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
-    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
-    return rgb;
+    uchar4 curPixel;
+    curPixel = rsGetElementAt_uchar4(gCurrentFrame,x, y);
+    uchar4 minPix = rsGetElementAt_uchar4(medianStackMIN,x, y);
+    uchar4 maxPix = rsGetElementAt_uchar4(medianStackMAX,x, y);
+
+    if(minPix.r == 0 && minPix.g == 0 && minPix.b == 0
+    && maxPix.r == 0 && maxPix.g == 0 && maxPix.b == 0)
+    {
+        if(x ==50 && y == 50)
+            rsDebug("min max empty set default: ",curPixel);
+        rsSetElementAt_uchar4(medianStackMIN, curPixel, x, y);
+        rsSetElementAt_uchar4(medianStackMAX, curPixel, x, y);
+    }
+    else if(maxPix.r < curPixel.r && maxPix.g < curPixel.g && maxPix.b < curPixel.b)
+    {
+        if(x ==50 && y == 50)
+            rsDebug("max < curpixel",maxPix);
+        rsSetElementAt_uchar4(medianStackMAX, curPixel, x, y);
+    }
+    else if(minPix.r > curPixel.r && minPix.g > curPixel.g && minPix.b > curPixel.b)
+    {
+        if(x ==50 && y == 50)
+            rsDebug("min > curpixel",curPixel);
+        rsSetElementAt_uchar4(medianStackMIN, curPixel, x, y);
+    }
+
+
+    return curPixel;
+}
+
+uchar4 __attribute__((kernel)) process_median(uint32_t x, uint32_t y)
+{
+    uchar4 curPixel;
+    uchar4 minPix = rsGetElementAt_uchar4(medianStackMIN,x, y);
+    if(x ==50 && y == 50)
+        rsDebug("minpix= ",minPix);
+    uchar4 maxPix = rsGetElementAt_uchar4(medianStackMAX,x, y);
+    if(x ==50 && y == 50)
+        rsDebug("maxpix= ",maxPix);
+    int p = (minPix.r+maxPix.r)/2;
+    if(x ==50 && y == 50)
+        rsDebug("calced r = ", p);
+    curPixel.r = p;
+    p = (minPix.g+maxPix.g)/2;
+    if(x ==50 && y == 50)
+        rsDebug("calced g = ", p);
+    curPixel.g = p;
+    p = (minPix.b+maxPix.b)/2;
+    if(x ==50 && y == 50)
+        rsDebug("calced b = ", p);
+    curPixel.b = p;
+    curPixel.a = 255;
+    if(x ==50 && y == 50)
+        rsDebug("finalpix", curPixel);
+    return curPixel;
 }
 
 

@@ -50,7 +50,6 @@ import freed.utils.FreeDPool;
 import freed.utils.LocationHandler;
 import freed.utils.Log;
 import freed.utils.RenderScriptHandler;
-import freed.utils.ScriptField_MinMaxPixel;
 import freed.utils.StorageFileHandler;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingFragment;
@@ -77,6 +76,9 @@ public class StackActivity extends ActivityAbstract
     public static String LIGHTEN_V = "lighten_v";
     public static String MEDIAN = "median";
     public static String EXPOSURE = "exposure";
+
+    private Allocation maxValues;
+    private Allocation minValues;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,8 +149,11 @@ public class StackActivity extends ActivityAbstract
         renderScriptHandler.freedcamScript.set_gLastFrame(renderScriptHandler.GetOut());
         if (stackMode ==  6)
         {
-            ScriptField_MinMaxPixel medianMinMax = new ScriptField_MinMaxPixel(renderScriptHandler.GetRS(), mWidth * mHeight);
-            renderScriptHandler.freedcamScript.bind_medianMinMaxPixel(medianMinMax);
+            minValues = Allocation.createTyped(renderScriptHandler.GetRS(), tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
+            maxValues = Allocation.createTyped(renderScriptHandler.GetRS(), tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
+            renderScriptHandler.freedcamScript.set_medianStackMAX(maxValues);
+            renderScriptHandler.freedcamScript.set_medianStackMIN(minValues);
+
         }
         FreeDPool.Execute(new Runnable()
         {
@@ -192,6 +197,16 @@ public class StackActivity extends ActivityAbstract
                     }
                     renderScriptHandler.GetOut().copyTo(outputBitmap);
                     setBitmapToImageView(outputBitmap);
+                }
+                if (stackMode ==  6)
+                {
+                    renderScriptHandler.freedcamScript.forEach_process_median(renderScriptHandler.GetOut());
+                    renderScriptHandler.GetOut().copyTo(outputBitmap);
+                    setBitmapToImageView(outputBitmap);
+                    renderScriptHandler.freedcamScript.set_medianStackMAX(null);
+                    renderScriptHandler.freedcamScript.set_medianStackMIN(null);
+                    minValues.destroy();
+                    maxValues.destroy();
                 }
                 File file = new File(filesToStack[0]);
                 String parent = file.getParent();
