@@ -542,34 +542,92 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     {
         StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         HashMap<String, Integer> hmap = new HashMap<>();
-        if (smap.isOutputSupportedFor(ImageFormat.RAW10))
-            hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng10), ImageFormat.RAW10);
-        if (smap.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
-            hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng16), ImageFormat.RAW_SENSOR);
-        if (smap.isOutputSupportedFor(ImageFormat.RAW12))
-            hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng12), ImageFormat.RAW12);
-        if (smap.isOutputSupportedFor(ImageFormat.JPEG))
-            hmap.put(appSettingsManager.getResString(R.string.pictureformat_jpeg), ImageFormat.JPEG);
-        if (smap.isOutputSupportedFor(ImageFormat.NV16))
-            Log.d(TAG,"Support NV16");
-        if (smap.isOutputSupportedFor(ImageFormat.NV21))
-            Log.d(TAG,"Support NV21");
-        if (smap.isOutputSupportedFor(ImageFormat.YUV_420_888))
-            Log.d(TAG,"Support YUV_420_888");
-        if (smap.isOutputSupportedFor(ImageFormat.YUV_422_888))
-            Log.d(TAG,"Support YUV_422_888");
-        if (smap.isOutputSupportedFor(ImageFormat.YUV_444_888))
-            Log.d(TAG,"Support YUV_444_888");
-        if (smap.isOutputSupportedFor(ImageFormat.YV12))
-            Log.d(TAG,"Support YV12");
-        if (smap.isOutputSupportedFor(ImageFormat.DEPTH16))
-            Log.d(TAG,"Support DEPTH16");
-        if (smap.isOutputSupportedFor(ImageFormat.DEPTH_POINT_CLOUD))
-            Log.d(TAG,"Support DEPTH_POINT_CLOUD");
-        if (smap.isOutputSupportedFor(ImageFormat.RAW_PRIVATE))
-            Log.d(TAG,"Support RAW_PRIVATE");
-        if (smap.isOutputSupportedFor(ImageFormat.PRIVATE))
-            Log.d(TAG,"Support PRIVATE");
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.RAW10))
+                hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng10), ImageFormat.RAW10);
+        } catch (Exception e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
+                hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng16), ImageFormat.RAW_SENSOR);
+        } catch (Exception e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.RAW12))
+                hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng12), ImageFormat.RAW12);
+        } catch (Exception e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.JPEG))
+                hmap.put(appSettingsManager.getResString(R.string.pictureformat_jpeg), ImageFormat.JPEG);
+        } catch (Exception e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.NV16))
+                Log.d(TAG, "Support NV16");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            Log.WriteEx(ex);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.NV21))
+                Log.d(TAG, "Support NV21");
+        } catch (IllegalArgumentException e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.YUV_420_888))
+                    Log.d(TAG, "Support YUV_420_888");
+        } catch (IllegalArgumentException e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.YUV_422_888))
+                    Log.d(TAG, "Support YUV_422_888");
+        } catch (IllegalArgumentException e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.YUV_444_888))
+                    Log.d(TAG, "Support YUV_444_888");
+        } catch (IllegalArgumentException e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.YV12))
+                    Log.d(TAG, "Support YV12");
+        } catch (IllegalArgumentException e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.DEPTH16))
+                    Log.d(TAG, "Support DEPTH16");
+        } catch (IllegalArgumentException e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.DEPTH_POINT_CLOUD))
+                    Log.d(TAG, "Support DEPTH_POINT_CLOUD");
+        } catch (IllegalArgumentException e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.RAW_PRIVATE))
+                    Log.d(TAG, "Support RAW_PRIVATE");
+        } catch (IllegalArgumentException e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.PRIVATE))
+                    Log.d(TAG, "Support PRIVATE");
+        } catch (IllegalArgumentException e) {
+            Log.WriteEx(e);
+        }
 
         appSettingsManager.pictureFormat.setIsSupported(true);
         appSettingsManager.pictureFormat.set(appSettingsManager.getResString(R.string.pictureformat_jpeg));
