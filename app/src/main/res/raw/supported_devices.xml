@@ -76,6 +76,8 @@
             used for g4(L supported 60sec, M only 45sec)
             //ms =60sec, when empty values from camera characteristics gets used
 
+            <minexposuretime></minexposuretime> in ms
+
             <maxiso>34000</maxiso> overwrite max iso
         </camera2>
 
@@ -3701,6 +3703,23 @@
             <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
+        </filesize>
+    </device>
+    <device name ="OnePlus5">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <models>
+            <item>ONEPLUS A5000</item>
+        </models>
+        <filesize size= "20500480">
+            <blacklvl>64</blacklvl>
+            <whitelvl>1023</whitelvl>
+            <width>4656</width>
+            <height>3496</height>
+            <rawtype>0</rawtype>
+            <colorpattern>rggb</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>OnePlus5</matrixset>
         </filesize>
     </device>
 

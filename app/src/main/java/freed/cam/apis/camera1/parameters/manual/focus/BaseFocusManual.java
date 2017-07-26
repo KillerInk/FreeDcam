@@ -44,49 +44,16 @@ public class BaseFocusManual extends BaseManualParameter
         super(parameters,cameraUiWrapper);
         this.settingMode = settingMode;
         manualFocusType = settingMode.getType();
+        Log.d(TAG,"mf type:" +manualFocusType);
         manualFocusModeString = settingMode.getMode();
+        Log.d(TAG,"mf focus mode:" +manualFocusModeString);
         stringvalues = settingMode.getValues();
         key_value = settingMode.getKEY();
+        Log.d(TAG,"mf key:" +key_value);
         isSupported =true;
         isVisible = isSupported;
     }
 
-
-    public BaseFocusManual(Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, CameraWrapperInterface cameraUiWrapper, float step, int manualFocusType) {
-        super(parameters, value, maxValue, MinValue, cameraUiWrapper, step);
-        this.manualFocusModeString = manualFocusModeString;
-        this.manualFocusType = manualFocusType;
-    }
-
-
-    /*public BaseFocusManual(Parameters parameters, String value, int min, int max, String manualFocusModeString, CameraWrapperInterface cameraUiWrapper, float step, int manualFocusType) {
-        super(parameters, value, "", "", cameraUiWrapper, step);
-
-        isSupported = true;
-        isVisible = true;
-        this.manualFocusModeString = manualFocusModeString;
-        if (cameraUiWrapper.getAppSettingsManager().manualFocus.getValues().length == 0) {
-            stringvalues = createStringArray(min, max, step);
-            cameraUiWrapper.getAppSettingsManager().manualFocus.setValues(stringvalues);
-        }
-        else
-            stringvalues = cameraUiWrapper.getAppSettingsManager().manualFocus.getValues();
-        this.manualFocusType = manualFocusType;
-    }*/
-
-
-   /* @Override
-    protected String[] createStringArray(int min, int max, float step) {
-        ArrayList<String> ar = new ArrayList<>();
-        ar.add(cameraUiWrapper.getResString(R.string.auto_));
-        if (step == 0)
-            step = 1;
-        for (int i = min; i < max; i+=step)
-        {
-            ar.add(i+"");
-        }
-        return ar.toArray(new String[ar.size()]);
-    }*/
 
     @Override
     public void SetValue(int valueToSet)
