@@ -172,7 +172,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
             cameraUiWrapper.getParameterHandler().ExposureLock.SetValue(cameraUiWrapper.getResString(R.string.false_),true);
             cameraUiWrapper.getParameterHandler().ExposureLock.SetValue(cameraUiWrapper.getResString(R.string.true_),true);
         }
-        if(cameraUiWrapper.getAppSettingsManager().needRestartAfterCapture())
+        if(cameraUiWrapper.getAppSettingsManager().needRestartAfterCapture.getBoolean())
         {
             MotoPreviewResetLogic();
 

@@ -468,7 +468,7 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public void SetFocusAREA(Rect focusAreas)
     {
-        if (appSettingsManager.useQcomFocus())
+        if (appSettingsManager.qcomAFocus.getBoolean())
             setQcomFocus(focusAreas);
         else
             setAndroidFocus(focusAreas);

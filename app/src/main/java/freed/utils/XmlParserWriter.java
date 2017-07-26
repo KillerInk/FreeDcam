@@ -69,10 +69,10 @@ public class XmlParserWriter
                                     appSettingsManager.setFramework(Camera1FeatureDetectorTask.getFramework());
 
                                 if (!camera1element.findChild("dngmanual").isEmpty())
-                                    appSettingsManager.setDngManualsSupported(Boolean.parseBoolean(camera1element.findChild("dngmanual").getValue()));
+                                    appSettingsManager.dngSupportManualModes.setBoolean(Boolean.parseBoolean(camera1element.findChild("dngmanual").getValue()));
                                 else
-                                    appSettingsManager.setDngManualsSupported(true);
-                                Log.d(TAG, "dng manual supported:" + appSettingsManager.getDngManualsSupported());
+                                    appSettingsManager.dngSupportManualModes.setBoolean(true);
+                                Log.d(TAG, "dng manual supported:" + appSettingsManager.dngSupportManualModes.getBoolean());
 
                                 if (!camera1element.findChild("opencameralegacy").isEmpty()) {
                                     appSettingsManager.opencamera1Legacy.setBoolean(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
@@ -89,9 +89,9 @@ public class XmlParserWriter
                                 Log.d(TAG, "isZteAE:" + appSettingsManager.isZteAe());
 
                                 if (!camera1element.findChild("needrestartaftercapture").isEmpty())
-                                    appSettingsManager.setNeedRestartAfterCapture(Boolean.parseBoolean(camera1element.findChild("needrestartaftercapture").getValue()));
+                                    appSettingsManager.needRestartAfterCapture.setBoolean(Boolean.parseBoolean(camera1element.findChild("needrestartaftercapture").getValue()));
                                 else
-                                    appSettingsManager.setNeedRestartAfterCapture(false);
+                                    appSettingsManager.needRestartAfterCapture.setBoolean(false);
 
                                 if (!camera1element.findChild("burst").isEmpty()) {
                                     appSettingsManager.manualBurst.setIsSupported(true);
@@ -256,7 +256,7 @@ public class XmlParserWriter
                             if (!camera2element.isEmpty()) {
                                 Log.d(TAG,"Found Camera2 overrides");
                                 if (!camera2element.findChild("forcerawtodng").isEmpty())
-                                    appSettingsManager.setForceRawToDng(camera2element.findChild("forcerawtodng").getBooleanValue());
+                                    appSettingsManager.forceRawToDng.setBoolean(camera2element.findChild("forcerawtodng").getBooleanValue());
                                 if (!camera2element.findChild("overrideprofile").isEmpty())
                                     appSettingsManager.setsOverrideDngProfile(camera2element.findChild("overrideprofile").getBooleanValue());
 

@@ -309,7 +309,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
 
         ImageHolder currentCaptureHolder = new ImageHolder(cameraHolder.characteristics, mrawImageReader !=null, cameraUiWrapper.getActivityInterface(),this,this, this);
         currentCaptureHolder.setFilePath(getFileString(), appSettingsManager.GetWriteExternal());
-        currentCaptureHolder.setForceRawToDng(appSettingsManager.isForceRawToDng());
+        currentCaptureHolder.setForceRawToDng(appSettingsManager.forceRawToDng.getBoolean());
         currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().tonemapChooser).getToneMap());
 
         Log.d(TAG, "captureStillPicture ImgCount:"+ imagecount +  " ImageHolder Path:" + currentCaptureHolder.filepath);

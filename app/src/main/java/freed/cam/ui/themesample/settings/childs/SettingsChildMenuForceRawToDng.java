@@ -16,7 +16,7 @@ public class SettingsChildMenuForceRawToDng extends SettingsChildMenu {
     public SettingsChildMenuForceRawToDng(Context context, int headerid, int descriptionid, AppSettingsManager appSettingsManager) {
         super(context, headerid, descriptionid);
         this.appSettingsManager = appSettingsManager;
-        if (appSettingsManager.isForceRawToDng())
+        if (appSettingsManager.forceRawToDng.getBoolean())
             SetValue(appSettingsManager.getResString(R.string.on));
         else
             SetValue(appSettingsManager.getResString(R.string.off));
@@ -30,9 +30,9 @@ public class SettingsChildMenuForceRawToDng extends SettingsChildMenu {
     @Override
     public void SetValue(String value) {
         if (value.equals(appSettingsManager.getResString(R.string.off)))
-            appSettingsManager.setForceRawToDng(false);
+            appSettingsManager.forceRawToDng.setBoolean(false);
         else
-            appSettingsManager.setForceRawToDng(true);
+            appSettingsManager.forceRawToDng.setBoolean(true);
         valueText.setText(value);
     }
 

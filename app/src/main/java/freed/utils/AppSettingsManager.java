@@ -365,6 +365,10 @@ public class AppSettingsManager {
     public final BooleanSettingsMode opencamera1Legacy;
     public final BooleanSettingsMode useHuaweiCam2Extension;
     public final BooleanSettingsMode orientationhack;
+    public final BooleanSettingsMode qcomAFocus;
+    public final BooleanSettingsMode dngSupportManualModes;
+    public final BooleanSettingsMode forceRawToDng;
+    public final BooleanSettingsMode needRestartAfterCapture;
 
     public String[] opcodeUrlList;
 
@@ -469,6 +473,10 @@ public class AppSettingsManager {
         opencamera1Legacy = new BooleanSettingsMode(getResString(R.string.aps_opencamera1legacy));
         dualPrimaryCameraMode = new SettingMode(getResString(R.string.aps_dualprimarycameramode));
         useHuaweiCam2Extension = new BooleanSettingsMode(getResString(R.string.aps_usehuaweicam2));
+        qcomAFocus = new BooleanSettingsMode(getResString(R.string.aps_qcomfocus));
+        dngSupportManualModes = new BooleanSettingsMode(getResString(R.string.aps_dngsupportmanualmodes));
+        forceRawToDng = new BooleanSettingsMode(getResString(R.string.aps_forcerawtondng));
+        needRestartAfterCapture = new BooleanSettingsMode(getResString(R.string.aps_needrestartaftercapture));
 
         ae_TagetFPS = new SettingMode(getResString(R.string.aps_ae_targetFPS));
 
@@ -559,37 +567,6 @@ public class AppSettingsManager {
         settings.edit().putBoolean("overrideprofile",legacy).commit();
     }
 
-    public boolean isForceRawToDng()
-    {
-        return settings.getBoolean("forcerawtodng", false);
-    }
-
-    public void setForceRawToDng(boolean legacy)
-    {
-        settings.edit().putBoolean("forcerawtodng",legacy).commit();
-    }
-
-    public boolean useQcomFocus()
-    {
-        return settings.getBoolean(getResString(R.string.aps_qcomfocus),false);
-    }
-
-    public boolean needRestartAfterCapture()
-    {
-        return settings.getBoolean("needrestartaftercapture", false);
-    }
-
-    public void setNeedRestartAfterCapture(boolean legacy)
-    {
-        settings.edit().putBoolean("needrestartaftercapture",legacy).commit();
-    }
-
-
-    public void setUseQcomFocus(boolean hasQcomFocus)
-    {
-        settings.edit().putBoolean(getResString(R.string.aps_qcomfocus),hasQcomFocus).commit();
-    }
-
     public int getAppVersion()
     {
         return settings.getInt(APPVERSION,0);
@@ -600,15 +577,6 @@ public class AppSettingsManager {
         settings.edit().putInt(APPVERSION,version).commit();
     }
 
-    public void setDngManualsSupported(boolean supported)
-    {
-        setBoolean("dngmanualSupported", supported);
-    }
-
-    public boolean getDngManualsSupported()
-    {
-        return getBoolean("dngmanualSupported", true);
-    }
 
     private void putString(String settingsval, String toSet)
     {

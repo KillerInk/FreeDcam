@@ -272,9 +272,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private void detectQcomFocus(Camera.Parameters parameters)
     {
         if (parameters.get(camstring(R.string.touch_af_aec))!= null)
-            appSettingsManager.setUseQcomFocus(true);
+            appSettingsManager.qcomAFocus.setBoolean(true);
         else
-            appSettingsManager.setUseQcomFocus(false);
+            appSettingsManager.qcomAFocus.setBoolean(false);
     }
 
 
