@@ -31,6 +31,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
 import android.view.LayoutInflater;
@@ -55,6 +56,7 @@ import com.troop.freedcam.R.string;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.StringWriter;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
@@ -79,6 +81,7 @@ public class DngConvertingFragment extends Fragment
     private EditText editTextblacklvl;
     private EditText editTextwhitelvl;
     private Spinner spinnerMatrixProfile;
+    private Spinner toneMapProfile;
     private Spinner spinnerColorPattern;
     private Spinner spinnerrawFormat;
     private String[] filesToConvert;
@@ -87,13 +90,20 @@ public class DngConvertingFragment extends Fragment
     private AppSettingsManager appSettingsManager;
     private MatrixChooserParameter matrixChooserParameter;
     private TouchImageView imageView;
+    private String tonemaps[];
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()),getResources());
-        View view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
+
+        return inflater.inflate(R.layout.dngconvertingfragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         editTextCusotmRowSize = (EditText) view.findViewById(id.editText_customrowsize);
         editTextwidth = (EditText) view.findViewById(id.editText_width);
         editTextheight = (EditText) view.findViewById(id.editText_height);
@@ -103,9 +113,14 @@ public class DngConvertingFragment extends Fragment
         matrixChooserParameter = new MatrixChooserParameter(appSettingsManager.getMatrixesMap(),appSettingsManager);
         String[] items = matrixChooserParameter.getStringValues();
         ArrayAdapter<String> matrixadapter = new ArrayAdapter<>(getContext(), layout.simple_spinner_item, items);
-        //ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),R.array.matrixes, android.R.layout.simple_spinner_item);
         matrixadapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
         spinnerMatrixProfile.setAdapter(matrixadapter);
+
+        toneMapProfile = (Spinner)view.findViewById(id.spinner_ToneMap);
+        tonemaps = new String[appSettingsManager.getToneMapProfiles().keySet().size()];
+        appSettingsManager.getToneMapProfiles().keySet().toArray(tonemaps);
+        ArrayAdapter<String> toneadapter = new ArrayAdapter<>(getContext(), layout.simple_spinner_item, tonemaps);
+        toneMapProfile.setAdapter(toneadapter);
 
 
         Button buttonconvertToDng = (Button) view.findViewById(id.button_convertDng);
@@ -138,12 +153,16 @@ public class DngConvertingFragment extends Fragment
         Button saveDngProfile = (Button)view.findViewById(id.button_saveProfile);
         saveDngProfile.setOnClickListener(saveDngProfileClick);
 
-        return view;
+        setDngProfileToUiItems();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+    }
+
+    private void setDngProfileToUiItems() {
         filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
         if (filesToConvert != null && filesToConvert.length > 0) {
             if (appSettingsManager.getDngProfilesMap() == null)
@@ -180,6 +199,15 @@ public class DngConvertingFragment extends Fragment
                 if (matrixChooserParameter.getStringValues()[i].equals(dngprofile.matrixName))
                     spinnerMatrixProfile.setSelection(i);
 
+            String tmp_name = null;
+            if (dngprofile.toneMapProfile != null)
+                tmp_name = dngprofile.toneMapProfile.getName();
+            if (tmp_name == null ||tmp_name.equals(""))
+                tmp_name = getString(string.off_);
+
+            for (int i = 0; i< tonemaps.length; i++)
+                if (tonemaps[i].equals(tmp_name))
+                    toneMapProfile.setSelection(i);
 
             spinnerrawFormat.setSelection(dngprofile.rawType);
             if (dngprofile != null){
@@ -211,6 +239,18 @@ public class DngConvertingFragment extends Fragment
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         dngprofile.rawType = position;
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+                toneMapProfile.setOnItemSelectedListener(new OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        dngprofile.toneMapProfile = appSettingsManager.getToneMapProfiles().get(toneMapProfile.getSelectedItem().toString());
                     }
 
                     @Override
