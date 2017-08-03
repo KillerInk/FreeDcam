@@ -22,7 +22,6 @@ public class DngStackActivity extends ActivityAbstract
 {
     private String[] filesToStack = null;
     private Button stackButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,15 +30,19 @@ public class DngStackActivity extends ActivityAbstract
         stackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DngStack stack = new DngStack(filesToStack);
-                stack.StartStack();
-                stackButton.setBackgroundResource(R.drawable.stack_done);
-                stackButton.setClickable(false);
+                if (filesToStack != null) {
+                    DngStack stack = new DngStack(filesToStack);
+                    stack.StartStack();
+                    stackButton.setBackgroundResource(R.drawable.stack_done);
+                    stackButton.setClickable(false);
+                }
             }
         });
         TouchImageView imageView = (TouchImageView) findViewById(R.id.imageview_dngstack);
         filesToStack = getIntent().getStringArrayExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT);
-        ((TextView)findViewById(R.id.rawList)).setText(filesToStack.length+"");
+        if (filesToStack != null)
+            ((TextView)findViewById(R.id.rawList)).setText(filesToStack.length+"");
+
 
     }
 

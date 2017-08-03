@@ -156,7 +156,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 synchronized (cameraLock)
                 {
                     cameraHolder.OpenCamera(getAppSettingsManager().GetCurrentCamera());
-                    Log.d(TAG, "opencamera");
+                    Log.d(TAG, "startCamera");
                 }
             }
         });
@@ -195,7 +195,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                         focusPeakProcessorAp1.kill();
                     cameraHolder.CloseCamera();
                     cameraHolder.OpenCamera(getAppSettingsManager().GetCurrentCamera());
-                    Log.d(TAG, "opencamera");
+                    Log.d(TAG, "startCamera");
                 }
             }
         });
