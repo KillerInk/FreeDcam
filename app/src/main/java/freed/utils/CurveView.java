@@ -23,11 +23,17 @@ import android.view.ViewGroup;
 public class CurveView extends View {
 
 
+    public interface CurveChangedEvent
+    {
+        void onCurveChanged(PointF[] pointFs);
+    }
+
     private PointF[] points;
     private PointF[] controlPoints;
     private Paint paint;
-    private final int BUTTON_SIZE = 15;
+    private final int BUTTON_SIZE = 20;
     private final Object drawLock = new Object();
+    private CurveChangedEvent curveChangedListner;
 
     private RectF drawPointsRects[];
 
@@ -56,6 +62,10 @@ public class CurveView extends View {
 
     }
 
+    public void setCurveChangedListner(CurveChangedEvent event)
+    {
+        this.curveChangedListner = event;
+    }
 
     public void setPoints(PointF[] points)
     {
@@ -187,10 +197,13 @@ public class CurveView extends View {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                if (curveChangedListner != null)
+                    curveChangedListner.onCurveChanged(points);
                 selectedPoint = -1;
                 return false;
         }
 
         return true;
     }
+
 }

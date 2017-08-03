@@ -19,6 +19,7 @@
 
 package freed.cam.ui.themesample.cameraui;
 
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -38,15 +39,18 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.AbstractFragment;
+import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
 import freed.utils.AppSettingsManager;
+import freed.utils.CurveView;
 import freed.utils.Log;
 
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualFragment extends AbstractFragment implements OnSeekBarChangeListener, ParameterEvents, ModuleChangedEvent
+public class ManualFragment extends AbstractFragment implements OnSeekBarChangeListener, ParameterEvents, ModuleChangedEvent, CurveView.CurveChangedEvent
 {
     private int currentValuePos;
 
@@ -54,6 +58,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     private ManualButton currentButton;
 
+    private CurveView curveView;
 
     private AfBracketSettingsView afBracketSettingsView;
 
@@ -74,6 +79,8 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         seekbar = (RotatingSeekbar)view.findViewById(id.seekbar);
         seekbar.setOnSeekBarChangeListener(this);
         seekbar.setVisibility(View.GONE);
+
+        curveView = (CurveView)view.findViewById(id.curveView);
 
         manualItemsHolder = (LinearLayout)view.findViewById(id.manualItemsHolder);
 
@@ -211,6 +218,14 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
+            if (parms.toneCurveParameter != null)
+            {
+                ManualButton btn = new ManualButtonToneCurve(getContext(), null, parms.toneCurveParameter, R.drawable.manual_midtones);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            curveView.setVisibility(View.GONE);
+            curveView.setCurveChangedListner(this);
 
             seekbar.setVisibility(View.GONE);
             afBracketSettingsView.SetCameraWrapper(cameraUiWrapper);
@@ -252,17 +267,26 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                     afBracketSettingsView.setVisibility(View.VISIBLE);
                 else
                     afBracketSettingsView.setVisibility(View.GONE);
-                String[]vals = currentButton.getStringValues();
-                if (vals == null || vals.length == 0) {
-                    currentButton.SetActive(false);
+
+                if (currentButton instanceof ManualButtonToneCurve)
+                {
                     seekbar.setVisibility(View.GONE);
-                    Log.e(TAG, "Values returned from currentButton are NULL!");
-                    return;
+                    curveView.setVisibility(View.VISIBLE);
                 }
-                seekbar.SetStringValues(vals);
-                seekbar.setProgress(currentButton.getCurrentItem(),false);
-                currentValuePos = currentButton.getCurrentItem();
-                Log.d(TAG, "CurrentvaluePos " + currentValuePos);
+                else {
+                    curveView.setVisibility(View.GONE);
+                    String[] vals = currentButton.getStringValues();
+                    if (vals == null || vals.length == 0) {
+                        currentButton.SetActive(false);
+                        seekbar.setVisibility(View.GONE);
+                        Log.e(TAG, "Values returned from currentButton are NULL!");
+                        return;
+                    }
+                    seekbar.SetStringValues(vals);
+                    seekbar.setProgress(currentButton.getCurrentItem(), false);
+                    currentValuePos = currentButton.getCurrentItem();
+                    Log.d(TAG, "CurrentvaluePos " + currentValuePos);
+                }
             }
 
         }
@@ -353,6 +377,18 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
             afBracketSettingsView.setVisibility(View.VISIBLE);
         else
             afBracketSettingsView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onCurveChanged(PointF[] pointFs) {
+        float[] ar = new float[pointFs.length*2];
+        int count = 0;
+        for (int i = 0; i< pointFs.length; i++)
+        {
+            ar[count++] = pointFs[i].x;
+            ar[count++] = pointFs[i].y;
+        }
+        cameraUiWrapper.getParameterHandler().toneCurveParameter.setCurveToCamera(ar);
     }
 
 }

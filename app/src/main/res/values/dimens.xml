@@ -40,4 +40,5 @@
     <dimen name="settings_menu_item_header_value">13dp</dimen>
     <dimen name="settings_menu_item_header">15dp</dimen>
     <dimen name="settingsmenu_groupchild_margin_left">5dp</dimen>
+    <dimen name="curveViewSize">180dp</dimen>
 </resources>

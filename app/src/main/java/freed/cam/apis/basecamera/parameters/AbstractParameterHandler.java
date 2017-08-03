@@ -31,6 +31,7 @@ import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
+import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 
@@ -160,6 +161,7 @@ public abstract class AbstractParameterHandler
     public ParameterInterface midtones;
     public ParameterInterface highlights;
     public ParameterInterface white;
+    public ManualToneMapCurveApi2.ToneCurveParameter toneCurveParameter;
     public ParameterInterface ControlMode;
 
     public ParameterInterface oismode;

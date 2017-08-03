@@ -148,6 +148,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         midtones = manualToneMapCurveApi2.midtonesp;
         highlights = manualToneMapCurveApi2.highlightsp;
         white = manualToneMapCurveApi2.whitep;
+        toneCurveParameter = manualToneMapCurveApi2.toneCurveParameter;
 
         ToneMapMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.toneMapMode,CaptureRequest.TONEMAP_MODE);
         ToneMapMode.addEventListner(manualToneMapCurveApi2);
