@@ -63,20 +63,15 @@ public class CurveView extends View {
             this.points = points;
             drawPointsRects = new RectF[points.length];
             controlPoints = new PointF[points.length];
+            for (int i = 0; i< drawPointsRects.length;i++) {
+                drawPointsRects[i] = new RectF();
+                controlPoints[i] = new PointF();
+            }
+
         }
         invalidate();
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
-        super.onWindowFocusChanged(hasWindowFocus);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-
-    }
 
     private void createControlPoints() {
 
@@ -86,11 +81,11 @@ public class CurveView extends View {
         {
             if (drawPointsRects[i] != null)  {
                 if (i == 0) {
-                    controlPoints[i] = new PointF((drawPointsRects[i].centerX() - drawPointsRects[i + 1].centerX()) / 3, (drawPointsRects[i].centerY() - drawPointsRects[i + 1].centerY()) / 3);
+                    controlPoints[i].set((drawPointsRects[i].centerX() - drawPointsRects[i + 1].centerX()) / 3, (drawPointsRects[i].centerY() - drawPointsRects[i + 1].centerY()) / 3);
                 } else if (i == drawPointsRects.length - 1) {
-                    controlPoints[i] = new PointF((drawPointsRects[i].centerX() - drawPointsRects[i - 1].centerX()) / 3, (drawPointsRects[i].centerY() - drawPointsRects[i - 1].centerY()) / 3);
+                    controlPoints[i].set((drawPointsRects[i].centerX() - drawPointsRects[i - 1].centerX()) / 3, (drawPointsRects[i].centerY() - drawPointsRects[i - 1].centerY()) / 3);
                 } else {
-                    controlPoints[i] = new PointF((drawPointsRects[i + 1].centerX() - drawPointsRects[i - 1].centerX()) / 3, (drawPointsRects[i + 1].centerY() - drawPointsRects[i - 1].centerY()) / 3);
+                    controlPoints[i].set((drawPointsRects[i + 1].centerX() - drawPointsRects[i - 1].centerX()) / 3, (drawPointsRects[i + 1].centerY() - drawPointsRects[i - 1].centerY()) / 3);
                 }
             }
         }
@@ -105,9 +100,12 @@ public class CurveView extends View {
             float cropwidth = width-BUTTON_SIZE;
             float cropheight = height -BUTTON_SIZE;
 
+            float x;
+            float y;
             for (int i = 0; i < points.length; i++) {
-                PointF drawPoints = new PointF((points[i].x * cropwidth)+BUTTON_SIZE, cropheight - (cropheight * points[i].y)+BUTTON_SIZE);
-                drawPointsRects[i] = new RectF(drawPoints.x - BUTTON_SIZE, drawPoints.y - BUTTON_SIZE, drawPoints.x + BUTTON_SIZE, drawPoints.y + BUTTON_SIZE);
+                x = (points[i].x * cropwidth)+BUTTON_SIZE;
+                y = cropheight - (cropheight * points[i].y)+BUTTON_SIZE;
+                drawPointsRects[i].set(x - BUTTON_SIZE, y - BUTTON_SIZE, x + BUTTON_SIZE, y + BUTTON_SIZE);
             }
             createControlPoints();
 
@@ -184,7 +182,6 @@ public class CurveView extends View {
                 if (selectedPoint != -1) {
                     points[selectedPoint].x = event.getX() / getWidth();
                     points[selectedPoint].y = (getHeight() - event.getY()) / getHeight();
-                    //drawPointsRects[selectedPoint].set(event.getX()-BUTTON_SIZE,event.getY() -BUTTON_SIZE, event.getX() + BUTTON_SIZE, event.getY()+BUTTON_SIZE);
                     invalidate();
                     return false;
                 }
