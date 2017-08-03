@@ -84,6 +84,7 @@ import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
+import static freed.utils.AppSettingsManager.FRAMEWORK_LG;
 import static freed.utils.AppSettingsManager.FRAMEWORK_MTK;
 import static freed.utils.AppSettingsManager.ISOMANUAL_KRILLIN;
 import static freed.utils.AppSettingsManager.ISOMANUAL_MTK;
@@ -360,6 +361,15 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appS.virtualLensfilter.isSupported())
             LensFilter = new VirtualLensFilter(cameraParameters,cameraUiWrapper);
 
+        if (appS.getFrameWork() == FRAMEWORK_LG)//its needed else cam ignores manuals like shutter and iso
+            cameraParameters.set("lge-camera","1");
+        else  if (appS.getFrameWork() == FRAMEWORK_MTK){
+            cameraParameters.set("afeng_raw_dump_flag", "1");
+            cameraParameters.set("rawsave-mode", "2");
+            cameraParameters.set("isp-mode", "1");
+            cameraParameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/test."+ FileEnding.BAYER);
+        }
+
         if (appS.manualExposureTime.isSupported())
         {
             int type = appS.manualExposureTime.getType();
@@ -376,17 +386,12 @@ public class ParametersHandler extends AbstractParameterHandler
                     ManualShutter = new ExposureTime_MilliSec(cameraUiWrapper,cameraParameters);
                     break;
                 case SHUTTER_MTK:
-                    cameraParameters.set("afeng_raw_dump_flag", "1");
-                    cameraParameters.set("rawsave-mode", "2");
-                    cameraParameters.set("isp-mode", "1");
-                    cameraParameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/test."+ FileEnding.BAYER);
+
                     aehandler = new AE_Handler_MTK(cameraParameters,cameraUiWrapper,1600);
                     ManualShutter = aehandler.getShutterManual();
                     ManualIso = aehandler.getManualIso();
                     break;
                 case SHUTTER_LG:
-                    //its needed else cam ignores manuals like shutter and iso
-                    cameraParameters.set("lge-camera","1");
                     aehandler = new AE_Handler_LGG4(cameraParameters,cameraUiWrapper);
                     ManualShutter = aehandler.getShutterManual();
                     ManualIso = aehandler.getManualIso();
@@ -476,9 +481,8 @@ public class ParametersHandler extends AbstractParameterHandler
 
     private void setQcomFocus(Rect focusRect)
     {
-        int half = (focusRect.left - focusRect.right)/2;
         cameraParameters.set("touch-aec", "on");
-        cameraParameters.set("touch-index-af", focusRect.left +half + "," +focusRect.top +half);
+        cameraParameters.set("touch-index-af", focusRect.centerX() + "," +focusRect.centerY());
         Log.d(TAG,"setQcomFocus");
         SetParametersToCamera(cameraParameters);
     }
@@ -487,7 +491,7 @@ public class ParametersHandler extends AbstractParameterHandler
     {
         if (focusAreas != null) {
             List<Camera.Area> l = new ArrayList<>();
-            l.add(new Camera.Area(new Rect(focusAreas.left, focusAreas.top, focusAreas.right, focusAreas.bottom), 1000));
+            l.add(new Camera.Area(focusAreas, 1000));
             cameraParameters.setFocusAreas(l);
         }
         else
