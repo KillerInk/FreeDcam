@@ -26,12 +26,14 @@ public class CurveView extends View {
     public interface CurveChangedEvent
     {
         void onCurveChanged(PointF[] pointFs);
+        void onTouchStart();
+        void onTouchEnd();
     }
 
     private PointF[] points;
     private PointF[] controlPoints;
     private Paint paint;
-    private final int BUTTON_SIZE = 20;
+    private final int BUTTON_SIZE = 30;
     private final Object drawLock = new Object();
     private CurveChangedEvent curveChangedListner;
 
@@ -184,22 +186,36 @@ public class CurveView extends View {
                 {
                     if (drawPointsRects[i] == null)
                         break;
-                    if (drawPointsRects[i].contains(event.getX(),event.getY()))
+                    if (drawPointsRects[i].contains(event.getX(),event.getY())) {
                         selectedPoint = i;
+                        if(curveChangedListner != null)
+                            curveChangedListner.onTouchStart();
+                    }
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (selectedPoint != -1) {
                     points[selectedPoint].x = event.getX() / getWidth();
+                    if (points[selectedPoint].x  > 1)
+                        points[selectedPoint].x = 1;
+                    if(points[selectedPoint].x < 0)
+                        points[selectedPoint].x = 0;
                     points[selectedPoint].y = (getHeight() - event.getY()) / getHeight();
+                    if (points[selectedPoint].y  > 1)
+                        points[selectedPoint].y = 1;
+                    if(points[selectedPoint].y < 0)
+                        points[selectedPoint].y = 0;
+                    if (curveChangedListner != null)
+                        curveChangedListner.onCurveChanged(points);
                     invalidate();
                     return false;
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (curveChangedListner != null)
-                    curveChangedListner.onCurveChanged(points);
+
                 selectedPoint = -1;
+                if (curveChangedListner != null)
+                    curveChangedListner.onTouchEnd();
                 return false;
         }
 

@@ -271,7 +271,10 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 if (currentButton instanceof ManualButtonToneCurve)
                 {
                     seekbar.setVisibility(View.GONE);
-                    curveView.setVisibility(View.VISIBLE);
+                    if (curveView.getVisibility() == View.GONE)
+                        curveView.setVisibility(View.VISIBLE);
+                    else
+                        curveView.setVisibility(View.GONE);
                 }
                 else {
                     curveView.setVisibility(View.GONE);
@@ -385,10 +388,20 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         int count = 0;
         for (int i = 0; i< pointFs.length; i++)
         {
-            ar[count++] = pointFs[i].x;
-            ar[count++] = pointFs[i].y;
+                ar[count++] = pointFs[i].x;
+                ar[count++] = pointFs[i].y;
         }
         cameraUiWrapper.getParameterHandler().toneCurveParameter.setCurveToCamera(ar);
+    }
+
+    @Override
+    public void onTouchStart() {
+        cameraUiWrapper.getActivityInterface().DisablePagerTouch(true);
+    }
+
+    @Override
+    public void onTouchEnd() {
+        cameraUiWrapper.getActivityInterface().DisablePagerTouch(false);
     }
 
 }
