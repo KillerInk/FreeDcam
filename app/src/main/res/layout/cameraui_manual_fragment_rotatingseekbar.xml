@@ -52,10 +52,10 @@
 
     <view
         android:id="@+id/curveView"
-        class="freed.utils.CurveView"
+        class="freed.utils.CurveViewControl"
         layout_width="match_parent"
-        android:layout_width="@dimen/curveViewSize"
-        android:layout_height="@dimen/curveViewSize"
+        android:layout_width="@dimen/curveViewWidth"
+        android:layout_height="@dimen/curveViewHeight"
         android:layout_above="@+id/horizontalScrollView2"
         android:layout_centerInParent="false"
         android:layout_marginRight="5dp"

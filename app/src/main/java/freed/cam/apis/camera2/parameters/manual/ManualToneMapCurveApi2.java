@@ -419,6 +419,13 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
             ((CameraHolderApi2) cameraWrapperInterface.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
         }
 
+        public void setCurveToCamera(float[] r, float[] g,float[] b)
+        {
+            TonemapCurve tonemapCurve = new TonemapCurve(r,g,b);
+            Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
+            ((CameraHolderApi2) cameraWrapperInterface.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+        }
+
         public float[] getToneCurve()
         {
             return toneCurve;

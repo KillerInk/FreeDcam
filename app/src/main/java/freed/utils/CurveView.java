@@ -26,9 +26,13 @@ public class CurveView extends View {
     public interface CurveChangedEvent
     {
         void onCurveChanged(PointF[] pointFs);
+        void onCurveChanged(PointF[] r,PointF[] g,PointF[] b);
         void onTouchStart();
         void onTouchEnd();
     }
+
+    private int lineColor = Color.WHITE;
+    private int gridColor = Color.RED;
 
     private PointF[] points;
     private PointF[] controlPoints;
@@ -56,10 +60,11 @@ public class CurveView extends View {
 
     private void init() {
         paint = new Paint();
-        paint.setColor(Color.WHITE);
+        paint.setColor(lineColor);
         paint.setStyle(Paint.Style.STROKE );
         paint.setAntiAlias(true);
-        paint.setStrokeWidth(3);
+        paint.setStrokeWidth(2);
+        paint.setTextSize(BUTTON_SIZE);
         setPoints(new PointF[]{new PointF(0,0),new PointF(0.25f,0.25f), new PointF(0.5f,0.5f),new PointF(0.75f,0.75f),new PointF(1,1)});
 
     }
@@ -84,6 +89,16 @@ public class CurveView extends View {
         invalidate();
     }
 
+    public void setLineColor(int color)
+    {
+        this.lineColor = color;
+    }
+
+    public void setGridColor(int color)
+    {
+        this.gridColor =color;
+    }
+
 
     private void createControlPoints() {
 
@@ -93,7 +108,7 @@ public class CurveView extends View {
         {
             if (drawPointsRects[i] != null)  {
                 if (i == 0) {
-                    controlPoints[i].set((drawPointsRects[i].centerX() - drawPointsRects[i + 1].centerX()) / 3, (drawPointsRects[i].centerY() - drawPointsRects[i + 1].centerY()) / 3);
+                    controlPoints[i].set((drawPointsRects[i + 1].centerX()-drawPointsRects[i].centerX()) / 3, (drawPointsRects[i + 1].centerY()-drawPointsRects[i].centerY()) / 3);
                 } else if (i == drawPointsRects.length - 1) {
                     controlPoints[i].set((drawPointsRects[i].centerX() - drawPointsRects[i - 1].centerX()) / 3, (drawPointsRects[i].centerY() - drawPointsRects[i - 1].centerY()) / 3);
                 } else {
@@ -122,11 +137,12 @@ public class CurveView extends View {
             createControlPoints();
 
             canvas.drawARGB(0, 0, 0, 0);
+
             if (points == null)
                 return;
 
-            paint.setColor(Color.RED);
-            paint.setStrokeWidth(3);
+            paint.setColor(gridColor);
+            paint.setStrokeWidth(2);
 
             //grid layout
             //diagonal line
@@ -146,13 +162,25 @@ public class CurveView extends View {
             //draw rect around
             canvas.drawRect(BUTTON_SIZE, BUTTON_SIZE, width, height, paint);
 
-            paint.setColor(Color.WHITE);
-            paint.setStrokeWidth(3);
+            paint.setColor(lineColor);
+            paint.setStrokeWidth(2);
+
+
+            paint.setStyle(Paint.Style.FILL_AND_STROKE);
+            if (selectedPoint != -1) {
+                canvas.drawText("x:" + points[selectedPoint].x, 0, BUTTON_SIZE-5, paint);
+                canvas.drawText("y:" + points[selectedPoint].y, getWidth()/2, BUTTON_SIZE-5, paint);
+            }
+            else
+            {
+                canvas.drawText("x:" , 0, BUTTON_SIZE-6, paint);
+                canvas.drawText("y:" , getWidth()/2, BUTTON_SIZE-6, paint);
+            }
 
             //draw spline through points
             if (drawPointsRects == null)
                 return;
-
+            paint.setStyle(Paint.Style.STROKE);
             Path path = new Path();
             path.moveTo(drawPointsRects[0].centerX(), drawPointsRects[0].centerY());
             canvas.drawRect(drawPointsRects[0], paint);

@@ -45,6 +45,7 @@ import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
 import freed.utils.AppSettingsManager;
 import freed.utils.CurveView;
+import freed.utils.CurveViewControl;
 import freed.utils.Log;
 
 /**
@@ -58,7 +59,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     private ManualButton currentButton;
 
-    private CurveView curveView;
+    private CurveViewControl curveView;
 
     private AfBracketSettingsView afBracketSettingsView;
 
@@ -80,7 +81,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         seekbar.setOnSeekBarChangeListener(this);
         seekbar.setVisibility(View.GONE);
 
-        curveView = (CurveView)view.findViewById(id.curveView);
+        curveView = (CurveViewControl) view.findViewById(id.curveView);
 
         manualItemsHolder = (LinearLayout)view.findViewById(id.manualItemsHolder);
 
@@ -394,6 +395,23 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 ar[count++] = pointFs[i].y;
         }
         cameraUiWrapper.getParameterHandler().toneCurveParameter.setCurveToCamera(ar);
+    }
+
+    private float[] pointFtoFloatArray(PointF[] pointFs)
+    {
+        float[] ar = new float[pointFs.length*2];
+        int count = 0;
+        for (int i = 0; i< pointFs.length; i++)
+        {
+            ar[count++] = pointFs[i].x;
+            ar[count++] = pointFs[i].y;
+        }
+        return ar;
+    }
+
+    @Override
+    public void onCurveChanged(PointF[] r, PointF[] g, PointF[] b) {
+        cameraUiWrapper.getParameterHandler().toneCurveParameter.setCurveToCamera(pointFtoFloatArray(r),pointFtoFloatArray(g),pointFtoFloatArray(b));
     }
 
     @Override
