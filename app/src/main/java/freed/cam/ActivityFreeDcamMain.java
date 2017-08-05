@@ -257,7 +257,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void onPauseTasks() {
         Log.d(TAG, "onPauseTasks()");
-        unloadCameraFragment();
         if(orientationHandler != null)
             orientationHandler.Stop();
         if (locationHandler != null)
@@ -415,7 +414,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void closeActivity()
     {
-        finish();//moveTaskToBack(true);
+        moveTaskToBack(true);
     }
 
     /**
