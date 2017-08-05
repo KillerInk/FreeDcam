@@ -273,8 +273,10 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                     seekbar.setVisibility(View.GONE);
                     if (curveView.getVisibility() == View.GONE)
                         curveView.setVisibility(View.VISIBLE);
-                    else
+                    else {
                         curveView.setVisibility(View.GONE);
+                        currentButton.SetActive(false);
+                    }
                 }
                 else {
                     curveView.setVisibility(View.GONE);
