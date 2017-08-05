@@ -65,11 +65,17 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     private ScriptGroup fpGroup;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-    public FocuspeakProcessorApi2(RenderScriptHandler renderScriptHandler, MyHistogram histogram)
+    public FocuspeakProcessorApi2(RenderScriptHandler renderScriptHandler,final MyHistogram histogram)
     {
         Log.d(TAG, "Ctor");
         this.histogram = histogram;
-        histogram.setVisibility(View.GONE);
+        histogram.post(new Runnable() {
+            @Override
+            public void run() {
+                histogram.setVisibility(View.GONE);
+            }
+        });
+
         this.renderScriptHandler = renderScriptHandler;
         histodataR = Allocation.createSized(renderScriptHandler.GetRS(), Element.U32(renderScriptHandler.GetRS()), 256);
         histodataG = Allocation.createSized(renderScriptHandler.GetRS(), Element.U32(renderScriptHandler.GetRS()), 256);
