@@ -428,6 +428,7 @@
             <item>HTC M8d</item>
             <item>HTC6525LVW</item>
             <item>m8</item>
+            <item>m8wl</item>
         </models>
         <camera1>
             <dngmanual>true</dngmanual>
@@ -451,6 +452,16 @@
             <rawtype>0</rawtype>
             <colorpattern>bggr</colorpattern>
             <rowsize>3360</rowsize>
+            <matrixset>OV4688</matrixset>
+        </filesize>
+        <filesize size= "5447680"> <!-- filesize <= 5382641 && filesize > 5000000 //M8 mipi -->
+            <blacklvl>0</blacklvl>
+            <whitelvl>1023</whitelvl>
+            <width>2688</width>
+            <height>1520</height>
+            <rawtype>0</rawtype>
+            <colorpattern>grbg</colorpattern>
+            <rowsize>0</rowsize>
             <matrixset>OV4688</matrixset>
         </filesize>
     </device>
