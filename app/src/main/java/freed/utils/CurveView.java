@@ -146,19 +146,16 @@ public class CurveView extends View {
 
             //grid layout
             //diagonal line
+            paint.setStyle(Paint.Style.STROKE);
             canvas.drawLine(BUTTON_SIZE, height, width, BUTTON_SIZE, paint);
-            //first line top  to bottom vertical
-            canvas.drawLine(cropwidth * 0.25f +BUTTON_SIZE, BUTTON_SIZE, (cropwidth * 0.25f)+BUTTON_SIZE, height, paint);
-            //mid line top to bottom vertical
-            canvas.drawLine((cropwidth * 0.5f)+BUTTON_SIZE, BUTTON_SIZE, (cropwidth * 0.5f)+BUTTON_SIZE, height, paint);
-            //last line top to bottom vertical
-            canvas.drawLine(cropwidth * 0.75f +BUTTON_SIZE, BUTTON_SIZE, cropwidth * 0.75f +BUTTON_SIZE, height, paint);
-            // top horizontal line
-            canvas.drawLine(BUTTON_SIZE, (cropheight * 0.25f)+BUTTON_SIZE, width, (cropheight * 0.25f)+BUTTON_SIZE, paint);
-            // mid horizontal line
-            canvas.drawLine(BUTTON_SIZE, (cropheight * 0.5f)+BUTTON_SIZE, width, (cropheight * 0.5f)+BUTTON_SIZE, paint);
-            //bottom horizontal line
-            canvas.drawLine(BUTTON_SIZE, (cropheight * 0.75f)+BUTTON_SIZE, width, (cropheight * 0.75f)+BUTTON_SIZE, paint);
+
+            //draw grid lines
+            for(float f =0.1f; f< 1; f+=0.1f)
+            {
+                canvas.drawLine(cropwidth * f +BUTTON_SIZE, BUTTON_SIZE, (cropwidth * f)+BUTTON_SIZE, height, paint);
+                canvas.drawLine(BUTTON_SIZE, (cropheight * f)+BUTTON_SIZE, width, (cropheight * f)+BUTTON_SIZE, paint);
+            }
+
             //draw rect around
             canvas.drawRect(BUTTON_SIZE, BUTTON_SIZE, width, height, paint);
 
@@ -168,8 +165,21 @@ public class CurveView extends View {
 
             paint.setStyle(Paint.Style.FILL_AND_STROKE);
             if (selectedPoint != -1) {
-                canvas.drawText("x:" + points[selectedPoint].x, 0, BUTTON_SIZE-5, paint);
-                canvas.drawText("y:" + points[selectedPoint].y, getWidth()/2, BUTTON_SIZE-5, paint);
+                //draw x y postition
+                canvas.drawText("x:" + points[selectedPoint].x, 0, BUTTON_SIZE-6, paint);
+                canvas.drawText("y:" + points[selectedPoint].y, getWidth()/2, BUTTON_SIZE-6, paint);
+
+                //draw axis guding lines to see where the selectedpoint moves
+                canvas.drawLine(BUTTON_SIZE,
+                        (cropheight- points[selectedPoint].y*cropheight)+BUTTON_SIZE,
+                        getWidth()-BUTTON_SIZE,
+                        (cropheight- points[selectedPoint].y*cropheight)+BUTTON_SIZE,
+                        paint);
+                canvas.drawLine((points[selectedPoint].x*cropwidth)+BUTTON_SIZE,
+                        BUTTON_SIZE,
+                        (points[selectedPoint].x*cropwidth)+BUTTON_SIZE,
+                        getHeight() -BUTTON_SIZE,
+                        paint);
             }
             else
             {
@@ -183,7 +193,7 @@ public class CurveView extends View {
             paint.setStyle(Paint.Style.STROKE);
             Path path = new Path();
             path.moveTo(drawPointsRects[0].centerX(), drawPointsRects[0].centerY());
-            canvas.drawRect(drawPointsRects[0], paint);
+            canvas.drawCircle(drawPointsRects[0].centerX(),drawPointsRects[0].centerY(),BUTTON_SIZE,paint);
             for (int i = 1; i < drawPointsRects.length; i++) {
                 if (drawPointsRects[i] != null) {
                     path.cubicTo(
@@ -191,7 +201,8 @@ public class CurveView extends View {
                             drawPointsRects[i].centerX() - controlPoints[i].x, drawPointsRects[i].centerY() - controlPoints[i].y,
                             drawPointsRects[i].centerX(), drawPointsRects[i].centerY());
 
-                    canvas.drawRect(drawPointsRects[i], paint);
+                    canvas.drawCircle(drawPointsRects[i].centerX(),drawPointsRects[i].centerY(),BUTTON_SIZE,paint);
+                    canvas.drawCircle(controlPoints[i].x, controlPoints[i].y, BUTTON_SIZE/2,paint);
                 }
             }
             canvas.drawPath(path, paint);
