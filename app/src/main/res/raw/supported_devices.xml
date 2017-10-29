@@ -178,7 +178,7 @@
 
     <device name ="Aquaris_E5">
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Aquaris_E5/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/Aquaris_E5/opc3.bin?raw=true</opcode3>
         <models>
             <item>Aquaris E5</item>
             <item>Aquaris_E5</item>
@@ -413,7 +413,7 @@
 
     <device name ="Htc_M8">
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Htc_M8/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/Htc_M8/opc3.bin?raw=true</opcode3>
         <models>
             <item>HTC One_M8"</item>
             <item>One M8</item>
@@ -559,7 +559,7 @@
     </device>
 
     <device name ="HTC_OneA9">
-        <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/HTC_OneA9/opc2.bin?raw=true</opcode2>
+        <opcode2>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/HTC_OneA9/opc2.bin?raw=true</opcode2>
         <opcode3></opcode3>
         <models>
             <item>HTC One A9</item>
@@ -670,7 +670,7 @@
 
     <device name ="Huawei_GX8">
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Huawei_GX8/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/Huawei_GX8/opc3.bin?raw=true</opcode3>
         <models>
             <item>HUAWEI RIO-L01</item>
             <item>HUAWEI RIO-L02</item>
@@ -723,7 +723,7 @@
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Huawei_HONOR5x/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/Huawei_HONOR5x/opc3.bin?raw=true</opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -799,7 +799,7 @@
         <camera1>
             <dngmanual>true</dngmanual>
         </camera1>
-        <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Jiayu_S3/opc2.bin?raw=true</opcode2>
+        <opcode2>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/Jiayu_S3/opc2.bin?raw=true</opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
@@ -1049,7 +1049,7 @@
 
     <device name ="LG_G2">
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/LG_G2/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/LG_G2/opc3.bin?raw=true</opcode3>
         <models>
             <item>LG-D800</item>
             <item>LG-D801</item>
@@ -1782,7 +1782,7 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/OnePlusOne/opc2.bin?raw=true</opcode2>
+        <opcode2>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/OnePlusOne/opc2.bin?raw=true</opcode2>
         <opcode3></opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
@@ -2089,7 +2089,7 @@
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/SonyM4_QC/opc2.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/SonyM4_QC/opc2.bin?raw=true</opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2423,7 +2423,7 @@
             </whiteblance>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI3W/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/XiaomiMI3W/opc3.bin?raw=true</opcode3>
         <filesize size= "17522688">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2496,7 +2496,7 @@
             </whiteblance>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI4W/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/XiaomiMI4W/opc3.bin?raw=true</opcode3>
         <filesize size= "17522688">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2977,7 +2977,7 @@
             </manualfocus>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
         <filesize size= "6299648">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3065,7 +3065,7 @@
             </manualfocus>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
         <filesize size= "6299648">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3220,7 +3220,7 @@
             </manualfocus>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTEADV234/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/ZTEADV234/opc3.bin?raw=true</opcode3>
         <filesize size= "20041728">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
