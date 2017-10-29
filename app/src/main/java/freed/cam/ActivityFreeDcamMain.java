@@ -306,7 +306,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 cameraFragment = new Camera1Fragment();
                 cameraFragment.SetRenderScriptHandler(renderScriptHandler);
             }
-            cameraFragment.setHandler(mBackgroundHandler,cameraLock);
+            cameraFragment.setHandler(mBackgroundThread,cameraLock);
             cameraFragment.SetAppSettingsManager(getAppSettings());
 
             cameraFragment.setCameraStateChangedListner(this);

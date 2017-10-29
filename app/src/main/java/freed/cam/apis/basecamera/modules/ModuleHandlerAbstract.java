@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 
 import com.troop.freedcam.R;
@@ -88,7 +89,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         RecorderStateListners = new ArrayList<>();
         this.appSettingsManager = cameraUiWrapper.getAppSettingsManager();
         onCaptureStateChangedListners = new ArrayList<>();
-        mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler = new UiHandler(Looper.getMainLooper());
         startBackgroundThread();
 
         workerListner = new CaptureStateChanged() {
@@ -104,14 +105,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
                     }
                     else
                     {
-                        final int pos = i;
-                        mainHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                onCaptureStateChangedListners.get(pos).onCaptureStateChanged(captureStates);
-                            }
-                        });
-
+                        mainHandler.sendMessage(mainHandler.obtainMessage(CAPTURE_STATE_CHANGED,i,0,captureStates));
                     }
                 }
             }
@@ -205,15 +199,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             }
             else
             {
-                final int toget = i;
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (moduleChangedListner.size() > 0)
-                            moduleChangedListner.get(toget).onModuleChanged(module);
-                    }
-                });
-
+                mainHandler.sendMessage(mainHandler.obtainMessage(MODULE_CHANGED,i,0, module));
             }
         }
     }
@@ -266,6 +252,30 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             mBackgroundHandler = null;
         } catch (InterruptedException e) {
             Log.WriteEx(e);
+        }
+    }
+
+    private final int MODULE_CHANGED= 0;
+    private final int CAPTURE_STATE_CHANGED = 1;
+    private class UiHandler extends Handler
+    {
+        public UiHandler(Looper mainLooper) {
+            super(mainLooper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MODULE_CHANGED:
+                if (moduleChangedListner.size() > 0)
+                    moduleChangedListner.get(msg.arg1).onModuleChanged((String)msg.obj);
+                break;
+                case CAPTURE_STATE_CHANGED:
+                    onCaptureStateChangedListners.get(msg.arg1).onCaptureStateChanged((CaptureStates)msg.obj);
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
         }
     }
 
