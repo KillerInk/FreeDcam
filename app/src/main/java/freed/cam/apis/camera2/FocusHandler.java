@@ -25,6 +25,8 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build.VERSION_CODES;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MotionEvent;
 
 import com.troop.freedcam.R;
@@ -44,6 +46,8 @@ public class FocusHandler extends AbstractFocusHandler
     private boolean focusenabled;
 
     private final String TAG = FocusHandler.class.getSimpleName();
+
+
 
     public FocusHandler(CameraWrapperInterface cameraUiWrapper)
     {
@@ -95,16 +99,23 @@ public class FocusHandler extends AbstractFocusHandler
     @Override
     public void StartTouchToFocus(int x, int y, int width, int height)
     {
+       super.StartTouchToFocus(x,y,width,height);
+        if (focusEvent != null)
+            focusEvent.FocusStarted(x,y);
+    }
+
+    @Override
+    protected void startTouchFocus(AbstractFocusHandler.FocusCoordinates obj) {
         //logFocusRect(rect);
-        Log.d(TAG, "Width:" + width + "Height" + height + " X: " + x + "Y : "+y);
+        Log.d(TAG, "Width:" + obj.width + "Height" + obj.height + " X: " + obj.x + "Y : "+obj.y);
         if (!focusenabled)
             return;
 
         Rect m =  ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         logRect(m);
         int areasize = (m.width() /8) /2;
-        float xf = (float)x * m.width() / width ;
-        float yf = (float)y * m.height() / height;
+        float xf = (float)obj.x * m.width() / obj.width ;
+        float yf = (float)obj.y * m.height() / obj.height;
         int x_c = (int)xf; //(int)((float)x/width * m.right);
         int y_C = (int) yf; //(int)((float)y/height * m.bottom);
         int left = x_c - areasize;
@@ -137,8 +148,6 @@ public class FocusHandler extends AbstractFocusHandler
         MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
         ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
-        if (focusEvent != null)
-            focusEvent.FocusStarted(x,y);
     }
 
     public ParameterEvents aeModeListner = new ParameterEvents() {

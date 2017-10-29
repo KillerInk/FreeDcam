@@ -20,6 +20,9 @@
 package freed.cam.apis.basecamera;
 
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.MotionEvent;
 
 import freed.utils.Log;
@@ -31,14 +34,52 @@ public abstract class AbstractFocusHandler
 {
     private final String TAG = AbstractFocusHandler.class.getSimpleName();
     protected CameraWrapperInterface cameraUiWrapper;
+    private Handler backgroundHandler;
+
+    public class FocusCoordinates
+    {
+        public int x;
+        public int y;
+        public int width;
+        public int height;
+    }
+
+    private final int MSG_SET_TOUCHTOFOCUS = 0;
+
+    private class BackgroundHandler extends Handler
+    {
+        public BackgroundHandler(Looper looper)
+        {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == MSG_SET_TOUCHTOFOCUS)
+                startTouchFocus((FocusCoordinates) msg.obj);
+            super.handleMessage(msg);
+        }
+    }
+
+    protected abstract void startTouchFocus(FocusCoordinates obj);
 
     public AbstractFocusHandler(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        backgroundHandler = new BackgroundHandler(cameraUiWrapper.getCameraHandlerThread().getLooper());
     }
 
     public abstract void StartFocus();
-    public abstract void StartTouchToFocus(int x, int y,int width, int height);
+    public void StartTouchToFocus(int x1, int y1,int width1, int height1)
+    {
+        FocusCoordinates focusCoordinates = new FocusCoordinates();
+        focusCoordinates.x = x1;
+        focusCoordinates.y = y1;
+        focusCoordinates.width = width1;
+        focusCoordinates.height = height1;
+        backgroundHandler.sendMessage(backgroundHandler.obtainMessage(MSG_SET_TOUCHTOFOCUS,focusCoordinates));
+    }
+
     public abstract void SetMeteringAreas(int x, int y, int width, int height);
     public FocusHandlerInterface focusEvent;
     public abstract boolean isAeMeteringSupported();
