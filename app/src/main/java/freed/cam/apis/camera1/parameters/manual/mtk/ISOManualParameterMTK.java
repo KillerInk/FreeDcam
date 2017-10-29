@@ -54,7 +54,7 @@ public class ISOManualParameterMTK extends BaseManualParameter implements Manual
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         currentInt = valueToSet;
         if (valueToSet == 0)
@@ -68,7 +68,7 @@ public class ISOManualParameterMTK extends BaseManualParameter implements Manual
     }
 
     @Override
-    public void setValue(int value)
+    public void SetValue(int value)
     {
 
         if (value == 0)

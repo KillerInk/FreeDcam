@@ -35,7 +35,7 @@ public class ExposureTime_MicroSec extends AbstractParameter {
     }
 
     @Override
-    public void SetValue(int valueToset)
+    public void setValue(int valueToset)
     {
         currentInt = valueToset;
         String shutterstring = stringvalues[currentInt];
@@ -56,10 +56,5 @@ public class ExposureTime_MicroSec extends AbstractParameter {
             Log.d(TAG, "set exposure time to auto");
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-    }
-
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
     }
 }

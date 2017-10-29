@@ -27,7 +27,7 @@ public class ManualAperture extends AbstractParameter
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         currentInt = valueToSet;
         if (valueToSet == 0) {
@@ -40,10 +40,5 @@ public class ManualAperture extends AbstractParameter
             parameters.set(cameraUiWrapper.getAppSettingsManager().manualIso.getKEY(), stringvalues[currentInt]);
         }
         fireStringValueChanged(stringvalues[valueToSet]);
-    }
-
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
     }
 }

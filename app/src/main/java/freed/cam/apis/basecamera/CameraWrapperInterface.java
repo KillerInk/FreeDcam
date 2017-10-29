@@ -20,6 +20,7 @@
 package freed.cam.apis.basecamera;
 
 import android.content.Context;
+import android.os.HandlerThread;
 import android.view.SurfaceView;
 
 import freed.ActivityInterface;
@@ -115,5 +116,7 @@ public interface CameraWrapperInterface extends CameraStateEvents
     ActivityInterface getActivityInterface();
 
     String getResString(int id);
+
+    HandlerThread getCameraHandlerThread();
 
 }

@@ -185,7 +185,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             }
         }
         else {
+
             AbstractParameterHandler parameterHandler = cameraUiWrapper.getParameterHandler();
+            if (parameterHandler == null)
+                return;
             AppSettingsManager appSettingsManager = cameraUiWrapper.getAppSettingsManager();
 
             //left cameraui items

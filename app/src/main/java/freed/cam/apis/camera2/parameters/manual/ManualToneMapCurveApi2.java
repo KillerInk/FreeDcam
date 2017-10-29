@@ -174,7 +174,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         }
 
         @Override
-        public void SetValue(int valueToSet)
+        public void setValue(int valueToSet)
         {
             Log.d(TAG, "Contrast value to set:" + valueToSet);
             if (valueToSet == -1)
@@ -223,11 +223,6 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         }
 
         @Override
-        public void SetValue(String valueToSet, boolean setToCamera) {
-
-        }
-
-        @Override
         public boolean IsSupported() {
             return isSupported;
         }
@@ -265,7 +260,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         }
 
         @Override
-        public void SetValue(int valueToSet)
+        public void setValue(int valueToSet)
         {
             valueToSet = valueToSet *4;
             currentInt = valueToSet;
@@ -294,10 +289,6 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
 
         }
 
-        @Override
-        public void SetValue(String valueToSet, boolean setToCamera) {
-
-        }
 
         @Override
         public boolean IsSupported()
@@ -345,7 +336,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         }
 
         @Override
-        public void SetValue(int valueToSet)
+        public void setValue(int valueToSet)
         {
             currentInt = valueToSet;
             float toset = Float.parseFloat(stringvalues[valueToSet]) / 100;
@@ -365,12 +356,6 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
             setTonemap();
             fireStringValueChanged(stringvalues[valueToSet]);
             fireIntValueChanged(valueToSet);
-
-        }
-
-
-        @Override
-        public void SetValue(String valueToSet, boolean setToCamera) {
 
         }
 

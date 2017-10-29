@@ -41,7 +41,6 @@ import freed.utils.StringUtils;
 public class BaseModeApi2 extends AbstractParameter
 {
     private final String TAG = BaseModeApi2.class.getSimpleName();
-    protected CameraWrapperInterface cameraUiWrapper;
     protected HashMap<String, Integer> parameterValues;
     protected AppSettingsManager.SettingMode settingMode;
     protected Key<Integer> parameterKey;
@@ -49,7 +48,7 @@ public class BaseModeApi2 extends AbstractParameter
 
     public BaseModeApi2(CameraWrapperInterface cameraUiWrapper)
     {
-        this.cameraUiWrapper =cameraUiWrapper;
+        super(cameraUiWrapper);
         this.captureSessionHandler = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler;
     }
 
@@ -83,11 +82,10 @@ public class BaseModeApi2 extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
-    {
-        super.SetValue(valueToSet, setToCamera);
+    protected void setValue(String valueToSet, boolean setToCamera) {
         if (parameterValues == null)
             return;
+        super.setValue(valueToSet, setToCamera);
         int toset = parameterValues.get(valueToSet);
         captureSessionHandler.SetParameterRepeating(parameterKey, toset);
     }

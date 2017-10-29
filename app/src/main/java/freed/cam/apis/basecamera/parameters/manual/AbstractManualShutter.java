@@ -72,11 +72,6 @@ public abstract class AbstractManualShutter extends AbstractParameter
         return tmp.toArray(new String[tmp.size()]);
     }
 
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
-    }
-
     /**
      * Checks if the the string looks like 1/50 and if yes it gets formated to double
      * @param shutterstring

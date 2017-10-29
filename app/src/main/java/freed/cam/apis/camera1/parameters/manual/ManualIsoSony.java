@@ -33,7 +33,7 @@ public class ManualIsoSony extends AbstractParameter
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         currentInt = valueToSet;
         if (currentInt == 0)
@@ -53,8 +53,4 @@ public class ManualIsoSony extends AbstractParameter
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
 
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
-    }
 }

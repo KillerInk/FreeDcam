@@ -49,7 +49,7 @@ public class BaseISOManual extends BaseManualParameter {
     }
 
     @Override
-    public void SetValue(int valueToSet) {
+    public void setValue(int valueToSet) {
         currentInt = valueToSet;
         //set to auto
         if (currentInt == 0) {

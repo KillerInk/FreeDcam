@@ -65,7 +65,7 @@ public class ManualFocus extends AbstractParameter
 
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         currentInt = valueToSet;
         if(valueToSet == 0)
@@ -85,12 +85,6 @@ public class ManualFocus extends AbstractParameter
             ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, valtoset);
         }
     }
-
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
-    }
-
 
     @Override
     public boolean IsSupported()

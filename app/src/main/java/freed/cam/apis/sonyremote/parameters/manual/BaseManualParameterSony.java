@@ -156,11 +156,6 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
         });
     }
 
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
-    }
-
     public String GetStringValue()
     {
         sendLog("GetStringValue");

@@ -38,7 +38,7 @@ public class AeLockModeApi2 extends BaseModeApi2 {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setValue(String valueToSet, boolean setToCamera) {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.true_)))
             ((CameraHolderApi2)cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true);
         else

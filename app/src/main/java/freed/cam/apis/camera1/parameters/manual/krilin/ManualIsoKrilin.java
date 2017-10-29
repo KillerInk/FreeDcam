@@ -27,7 +27,7 @@ public class ManualIsoKrilin extends AbstractParameter {
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         currentInt = valueToSet;
         if (valueToSet == 0) {
@@ -42,8 +42,4 @@ public class ManualIsoKrilin extends AbstractParameter {
         fireStringValueChanged(stringvalues[valueToSet]);
     }
 
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
-    }
 }

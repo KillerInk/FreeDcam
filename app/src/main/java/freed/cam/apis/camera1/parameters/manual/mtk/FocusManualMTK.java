@@ -41,7 +41,7 @@ public class FocusManualMTK extends BaseFocusManual {
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         currentInt = valueToSet;
 

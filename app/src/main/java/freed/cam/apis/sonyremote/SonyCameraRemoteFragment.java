@@ -20,6 +20,7 @@
 package freed.cam.apis.sonyremote;
 
 import android.os.Bundle;
+import android.os.HandlerThread;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -70,6 +71,10 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     private SimpleRemoteApi mRemoteApi;
     private SimpleCameraEventObserver mEventObserver;
     private final Set<String> mAvailableCameraApiSet = new HashSet<>();
+
+    public SonyCameraRemoteFragment(HandlerThread mBackgroundThread, Object cameraLock) {
+        super(mBackgroundThread,cameraLock);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

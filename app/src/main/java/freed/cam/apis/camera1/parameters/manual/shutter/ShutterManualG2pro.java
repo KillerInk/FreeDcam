@@ -61,7 +61,7 @@ public class ShutterManualG2pro extends BaseManualParameter
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         currentInt = valueToSet;
         String shutterstring = stringvalues[currentInt];

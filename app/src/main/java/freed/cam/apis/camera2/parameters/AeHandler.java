@@ -106,9 +106,9 @@ public class AeHandler
         }
 
         @Override
-        public void SetValue(String valueToSet, boolean setToCamera)
+        public void setValue(String valueToSet, boolean setToCamera)
         {
-            super.SetValue(valueToSet,setToCamera);
+            super.setValue(valueToSet,setToCamera);
             if (valueToSet.equals(cameraUiWrapper.getContext().getString(R.string.off))) {
                 setManualItemsSetSupport(true);
             }
@@ -138,7 +138,7 @@ public class AeHandler
 
         @TargetApi(VERSION_CODES.LOLLIPOP)
         @Override
-        public void SetValue(int valueToSet) {
+        public void setValue(int valueToSet) {
             if (cameraHolder == null || cameraHolder.captureSessionHandler.GetActiveCameraCaptureSession() == null)
                 return;
             currentInt = valueToSet;
@@ -146,12 +146,6 @@ public class AeHandler
                 return;
             setExpoCompensation(valueToSet);
         }
-
-        @Override
-        public void SetValue(String valueToSet, boolean setToCamera) {
-
-        }
-
 
         @Override
         public String GetStringValue() {
@@ -226,7 +220,7 @@ public class AeHandler
 
         @TargetApi(VERSION_CODES.LOLLIPOP)
         @Override
-        public void SetValue(int valueToSet)
+        public void setValue(int valueToSet)
         {
             if (cameraHolder == null)
                 return;
@@ -296,7 +290,7 @@ public class AeHandler
         }
 
         @Override
-        public void SetValue(int valueToSet)
+        public void setValue(int valueToSet)
         {
             //workaround when value was -1 to avoid outofarray ex
             Log.d(TAG, "set Manual Iso: " +valueToSet);

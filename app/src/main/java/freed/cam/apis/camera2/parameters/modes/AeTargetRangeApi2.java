@@ -28,7 +28,7 @@ public class AeTargetRangeApi2 extends BaseModeApi2 {
 
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setValue(String valueToSet, boolean setToCamera)
     {
         currentString = valueToSet;
         fireStringValueChanged(valueToSet);

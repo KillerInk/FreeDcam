@@ -104,16 +104,14 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     protected Object cameraLock;
     protected Handler mBackgroundHandler;
+    private HandlerThread handlerThread;
 
 
-    public CameraFragmentAbstract()
+    public CameraFragmentAbstract(HandlerThread handlerThread, Object cameraLock)
     {
         cameraChangedListners = new ArrayList<>();
         uiHandler = new UiHandler(Looper.getMainLooper());
-    }
-
-    public void setHandler(HandlerThread handlerThread, Object cameraLock)
-    {
+        this.handlerThread = handlerThread;
         this.mBackgroundHandler = new BackgroundHandler(handlerThread.getLooper());
         this.cameraLock = cameraLock;
     }
@@ -294,6 +292,11 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
         return moduleHandler;
     }
 
+    @Override
+    public HandlerThread getCameraHandlerThread() {
+        return handlerThread;
+    }
+
     private class UiHandler extends Handler
     {
         public UiHandler(Looper looper)
@@ -310,8 +313,10 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
                 case MSG_SET_CAMERASTAUSLISTNER:
                     cameraChangedListners.add((CameraStateEvents)msg.obj);
                     break;
+                default:
+                    CameraFragmentAbstract.this.handleUiMessage(msg);
             }
-            CameraFragmentAbstract.this.handleUiMessage(msg);
+
         }
     }
 

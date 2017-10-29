@@ -55,7 +55,7 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         currentInt = valueToSet;
         if (valueToSet == 0)
@@ -68,7 +68,7 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
         }
     }
 
-    public void setValue(int value)
+    public void SetValue(int value)
     {
 
         if (value == 0)

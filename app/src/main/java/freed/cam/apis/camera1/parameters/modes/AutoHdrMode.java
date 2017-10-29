@@ -53,7 +53,7 @@ public class AutoHdrMode extends BaseModeParameter {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam) {
+    public void setValue(String valueToSet, boolean setToCam) {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
         {
             parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.auto));

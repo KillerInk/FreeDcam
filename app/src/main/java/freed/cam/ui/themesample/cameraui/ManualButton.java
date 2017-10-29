@@ -56,7 +56,6 @@ public class ManualButton extends LinearLayout implements ParameterEvents
     private ParameterInterface parameter;
     private TextView valueTextView;
     private ImageView imageView;
-    private Handler handler;
     private final int backgroundColorActive = Color.parseColor("#46FFFFFF");
     private final int backgroundColor = Color.parseColor("#00000000");
     private final int stringColor = Color.parseColor("#FFFFFFFF");
@@ -78,7 +77,6 @@ public class ManualButton extends LinearLayout implements ParameterEvents
 
     private void init(Context context)
     {
-        handler = new Handler();
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layout.cameraui_manualbutton, this);
         valueTextView = (TextView) findViewById(id.manualbutton_valuetext);
@@ -254,47 +252,9 @@ public class ManualButton extends LinearLayout implements ParameterEvents
         return parameter.GetValue();
     }
 
-    public void setValueToParameters(int value)
+    public void setValueToParameters(final int value)
     {
-        if (valueQueue.size() == 3)
-            valueQueue.remove();
-        //Log.d(TAG, "add to queue:" + value);
-        valueQueue.add(value);
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                //setparameter();
-                while (valueQueue.size() >= 1) {
-                    setparameter();
-
-                }
-
-            }
-        });
-
-
-    }
-
-    private void setparameter()
-    {
-        boolean currentlysettingsparameter = true;
-        int runValue = 0;
-        try {
-            runValue = valueQueue.take();
-
-        } catch (InterruptedException e) {
-            Log.WriteEx(e);
-            currentlysettingsparameter = false;
-        }
-        pos = runValue;
-        if (runValue < 0 || runValue > parameterValues.length -1)
-            return;
-        parameter.SetValue(runValue);
-        if (!(parameter instanceof BaseManualParameterSony) && settingMode != null) {
-            settingMode.set(String.valueOf(runValue));
-        }
-        currentlysettingsparameter = false;
+        parameter.SetValue(value);
     }
 
     public void SetActive(boolean active) {

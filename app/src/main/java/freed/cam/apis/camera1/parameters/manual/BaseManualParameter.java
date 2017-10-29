@@ -158,7 +158,7 @@ public class BaseManualParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(int valueToset)
+    public void setValue(int valueToset)
     {
         currentInt = valueToset;
         Log.d(TAG, "set " + key_value + " to " + valueToset);
@@ -176,11 +176,6 @@ public class BaseManualParameter extends AbstractParameter
         {
             Log.WriteEx(ex);
         }
-    }
-
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
     }
 
 

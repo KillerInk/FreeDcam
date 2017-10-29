@@ -37,7 +37,7 @@ public class ExposureTime_MilliSec extends AbstractParameter {
     }
 
     @Override
-    public void SetValue(int valueToset)
+    public void setValue(int valueToset)
     {
         currentInt = valueToset;
         String shutterstring = stringvalues[currentInt];
@@ -63,10 +63,4 @@ public class ExposureTime_MilliSec extends AbstractParameter {
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
-
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
-    }
-
 }

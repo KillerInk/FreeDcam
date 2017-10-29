@@ -21,6 +21,7 @@ package freed.cam.apis.camera1;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.HandlerThread;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -59,6 +60,10 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     private final String TAG = Camera1Fragment.class.getSimpleName();
     public FocusPeakProcessorAp1 focusPeakProcessorAp1;
     boolean cameraRdy;
+
+    public Camera1Fragment(HandlerThread mBackgroundThread, Object cameraLock) {
+        super(mBackgroundThread,cameraLock);
+    }
 
     @Override
     public String CameraApiName() {

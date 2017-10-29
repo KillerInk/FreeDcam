@@ -48,7 +48,7 @@ public class ZoomManualParameter extends  BaseManualParameter
     }
 
     @Override
-    public void SetValue(int valueToset) {
+    public void setValue(int valueToset) {
         currentInt = valueToset;
         parameters.set(key_value, valueToset);
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);

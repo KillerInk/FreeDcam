@@ -74,11 +74,6 @@ public class BurstApi2 extends AbstractParameter implements ParameterEvents
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
-    }
-
-    @Override
     public void onIsSupportedChanged(boolean value) {
 
     }

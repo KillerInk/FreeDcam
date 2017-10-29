@@ -37,7 +37,7 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setValue(String valueToSet, boolean setToCamera)
     {
         int toset = parameterValues.get(valueToSet);
         captureSessionHandler.SetParameterRepeating(parameterKey, Byte.valueOf((byte)toset));

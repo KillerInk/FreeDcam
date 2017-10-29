@@ -81,7 +81,7 @@ public class ZoomApi2 extends AbstractParameter
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         zoom = valueToSet;
 
@@ -94,11 +94,6 @@ public class ZoomApi2 extends AbstractParameter
         cropH -= cropH & 3;*/
         Rect zoom = new Rect(cropW, cropH,sensorSize.width()-cropW, sensorSize.height() - cropH);
         ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom);
-    }
-
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
     }
 
     public Rect getZoomRect(float zoom, int imgWidth, int imgHeight)

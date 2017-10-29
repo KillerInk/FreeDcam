@@ -23,6 +23,7 @@ import android.annotation.TargetApi;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.HandlerThread;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
@@ -55,6 +56,10 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     private final String TAG = Camera2Fragment.class.getSimpleName();
     private FocuspeakProcessorApi2 mProcessor;
     private boolean cameraIsOpen = false;
+
+    public Camera2Fragment(HandlerThread mBackgroundThread, Object cameraLock) {
+        super(mBackgroundThread,cameraLock);
+    }
 
     public String CameraApiName() {
         return AppSettingsManager.API_2;

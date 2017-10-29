@@ -54,7 +54,7 @@ public class ShutterManualSony extends AbstractManualShutter
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         currentInt = valueToSet;
         if (currentInt == 0)
