@@ -9,8 +9,6 @@ import android.util.Rational;
 import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.huawei.camera2ex.CaptureRequestEx;
 
-import java.io.File;
-
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.Log;
 
@@ -29,18 +27,11 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
 
     @Override
     protected void onStartTakePicture() {
-        //for dng capture double files are needed cause we save jpeg and dng
-        if (mrawImageReader != null)
-            savedFiles = new File[Integer.parseInt(parameterHandler.Burst.GetStringValue())*2];
-        else
-            savedFiles = new File[Integer.parseInt(parameterHandler.Burst.GetStringValue())];
-        currentFileCount = 0;
         int isorange[] = cameraHolder.characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_ISO_RANGE);
         maxiso = isorange[1];
         currentExposureTime = cameraHolder.currentExposureTime;
         currentiso = cameraHolder.currentIso;
         exposureTimeStep = currentExposureTime/2;
-
     }
 
 

@@ -27,8 +27,6 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
-import java.io.File;
-
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.utils.Log;
@@ -50,8 +48,6 @@ public class AeBracketApi2 extends PictureModuleApi2
     private boolean aeWasOn = false;
     protected int maxiso;
     protected int currentiso;
-    protected File[] savedFiles;
-    protected int currentFileCount;
 
 
     public AeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
@@ -86,12 +82,6 @@ public class AeBracketApi2 extends PictureModuleApi2
 
     @Override
     protected void onStartTakePicture() {
-        //for dng capture double files are needed cause we save jpeg and dng
-        if (mrawImageReader != null)
-            savedFiles = new File[Integer.parseInt(parameterHandler.Burst.GetStringValue())*2];
-        else
-            savedFiles = new File[Integer.parseInt(parameterHandler.Burst.GetStringValue())];
-        currentFileCount = 0;
         maxiso = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
         currentExposureTime = cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME);
         currentiso = cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_SENSITIVITY);
@@ -140,12 +130,4 @@ public class AeBracketApi2 extends PictureModuleApi2
         }
     }
 
-    @Override
-    public void internalFireOnWorkDone(File file)
-    {
-        savedFiles[currentFileCount++] = file;
-        if (imagecount == 3) {
-            fireOnWorkFinish(savedFiles);
-        }
-    }
 }

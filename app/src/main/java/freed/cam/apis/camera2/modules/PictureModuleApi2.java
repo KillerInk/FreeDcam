@@ -39,8 +39,10 @@ import android.view.Surface;
 import com.troop.freedcam.R;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -74,15 +76,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
     private boolean intervalCapture = false;
-    LinkedBlockingQueue<ImageHolder> imageSaveQueue;
+    private ImageHolder currentCaptureHolder;
 
     private final int MAX_IMAGES = 5;
+    protected List<File> filesSaved;
 
 
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        imageSaveQueue = new LinkedBlockingQueue<>(MAX_IMAGES);
         name = cameraUiWrapper.getResString(R.string.module_picture);
+        filesSaved = new ArrayList<>();
     }
 
     @Override
@@ -307,7 +310,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
      */
     protected void captureStillPicture() {
 
-        ImageHolder currentCaptureHolder = new ImageHolder(cameraHolder.characteristics, mrawImageReader !=null, cameraUiWrapper.getActivityInterface(),this,this, this);
+        Log.d(TAG,"########### captureStillPicture ###########");
+        currentCaptureHolder = new ImageHolder(cameraHolder.characteristics, mrawImageReader !=null, cameraUiWrapper.getActivityInterface(),this,this, this);
         currentCaptureHolder.setFilePath(getFileString(), appSettingsManager.GetWriteExternal());
         currentCaptureHolder.setForceRawToDng(appSettingsManager.forceRawToDng.getBoolean());
         currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().tonemapChooser).getToneMap());
@@ -325,7 +329,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             currentCaptureHolder.setCustomMatrix(appSettingsManager.getMatrixesMap().get(cmat));
         }
 
-        while (imageSaveQueue.size() == MAX_IMAGES) {
+        /*while (imageSaveQueue.size() == MAX_IMAGES) {
             try {
                 Log.d(TAG,"Wait for free Queue");
                 Thread.sleep(5);
@@ -333,7 +337,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
         mImageReader.setOnImageAvailableListener(currentCaptureHolder.mOnRawImageAvailableListener,mBackgroundHandler);
         if (mrawImageReader != null)
@@ -349,10 +353,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
                 }*/
 
 
-        Log.d(TAG, "Queue free add new Img");
+       /* Log.d(TAG, "Queue free add new Img");
         synchronized (imageSaveQueue) {
             imageSaveQueue.add(currentCaptureHolder);
-        }
+        }*/
 
 
         prepareCaptureBuilder(imagecount);
@@ -517,7 +521,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         try
         {
             imagecount++;
-            Log.d(TAG, "CaptureDone:" + imagecount + " Queue size: " + imageSaveQueue.size());
+            //Log.d(TAG, "CaptureDone:" + imagecount + " Queue size: " + imageSaveQueue.size());
             if (Integer.parseInt(parameterHandler.Burst.GetStringValue())  > imagecount) {
                 captureStillPicture();
             }
@@ -561,7 +565,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     @Override
     public void internalFireOnWorkDone(File file)
     {
-        fireOnWorkFinish(file);
+        int burst = Integer.parseInt(parameterHandler.Burst.GetStringValue());
+        boolean burstactive = burst > 1;
+        if(burstactive && burst  >= imagecount)
+            filesSaved.add(file);
+        if (burstactive && burst  == imagecount)
+        {
+            fireOnWorkFinish(filesSaved.toArray(new File[filesSaved.size()]));
+            filesSaved.clear();
+        }
+        else if (!burstactive)
+            fireOnWorkFinish(file);
     }
 
     @Override
@@ -571,7 +585,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
 
     @Override
     public void onRdyToSaveImg(ImageHolder holder) {
-        imageSaveQueue.remove(holder);
+        //imageSaveQueue.remove(holder);
         AsyncTask.THREAD_POOL_EXECUTOR.execute(holder.getRunner());
         Log.d(TAG,"onRdyToSaveImg");
         finishCapture();
