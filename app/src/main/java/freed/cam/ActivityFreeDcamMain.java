@@ -20,7 +20,6 @@
 package freed.cam;
 
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -35,7 +34,6 @@ import android.support.v4.view.PagerAdapter;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
@@ -54,7 +52,6 @@ import freed.cam.featuredetector.CameraFeatureDetectorFragment.FeatureDetectorEv
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.handler.I_orientation;
 import freed.cam.ui.handler.OrientationHandler;
-import freed.cam.ui.handler.TimerHandler;
 import freed.cam.ui.themesample.PagingView;
 import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;

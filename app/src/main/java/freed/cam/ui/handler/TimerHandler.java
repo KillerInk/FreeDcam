@@ -1,13 +1,10 @@
 package freed.cam.ui.handler;
 
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
-import com.troop.freedcam.R.id;
 
-import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.utils.AppSettingsManager;

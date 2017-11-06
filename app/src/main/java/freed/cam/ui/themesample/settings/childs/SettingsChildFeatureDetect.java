@@ -2,12 +2,9 @@ package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Toast;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.utils.Log;
 
 /**
  * Created by troop on 20.07.2017.

@@ -29,7 +29,6 @@ import android.renderscript.Allocation.OnBufferAvailableListener;
 import android.renderscript.Element;
 import android.renderscript.RenderScript.RSErrorHandler;
 import android.renderscript.ScriptGroup;
-import android.renderscript.Type;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
 import android.view.View;

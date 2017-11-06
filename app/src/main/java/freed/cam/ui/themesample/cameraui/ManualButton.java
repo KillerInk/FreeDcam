@@ -24,7 +24,6 @@ import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +40,6 @@ import java.util.concurrent.BlockingQueue;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 

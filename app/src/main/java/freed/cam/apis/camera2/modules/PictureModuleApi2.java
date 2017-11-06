@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
@@ -60,8 +59,6 @@ import freed.utils.Log;
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder.RdyToSaveImg
 {
-
-
     private final String TAG = PictureModuleApi2.class.getSimpleName();
     private String picFormat;
     private int mImageWidth;
@@ -75,9 +72,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     private int mState = STATE_PICTURE_TAKEN;
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
-    private boolean intervalCapture = false;
     private ImageHolder currentCaptureHolder;
-
     private final int MAX_IMAGES = 5;
     protected List<File> filesSaved;
 
@@ -232,8 +227,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, MAX_IMAGES);
         Log.d(TAG, "ImageReader JPEG");
 
-
-
         if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng16)))
         {
             Log.d(TAG, "ImageReader RAW_SENOSR");
@@ -273,8 +266,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             Log.d(TAG, appSettingsManager.pictureFormat.get());
             Log.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
             imagecount = 0;
-
-
             onStartTakePicture();
 
             if (appSettingsManager.hasCamera2Features() && cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
@@ -282,7 +273,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
                 Log.d(TAG,"Start AE Precapture");
                 startTimerLocked();
                 cameraHolder.StartAePrecapture(aecallback);
-
             }
             else
             {
@@ -293,11 +283,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         }
 
     };
-
-    public void setIntervalCapture(boolean isInterval)
-    {
-        intervalCapture = isInterval;
-    }
 
     protected void onStartTakePicture()
     {
@@ -329,35 +314,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             currentCaptureHolder.setCustomMatrix(appSettingsManager.getMatrixesMap().get(cmat));
         }
 
-        /*while (imageSaveQueue.size() == MAX_IMAGES) {
-            try {
-                Log.d(TAG,"Wait for free Queue");
-                Thread.sleep(5);
-                Log.d(TAG,"Wait for free Queue poll end");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
-
         mImageReader.setOnImageAvailableListener(currentCaptureHolder.mOnRawImageAvailableListener,mBackgroundHandler);
         if (mrawImageReader != null)
         {
             mrawImageReader.setOnImageAvailableListener(currentCaptureHolder.mOnRawImageAvailableListener,mBackgroundHandler);
         }
-                /*try {
-                    Log.d(TAG, "ImageQueue limit reached drop image");
-                    ImageHolder toremove = imageSaveQueue.take();
-                    toremove.CLEAR();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }*/
-
-
-       /* Log.d(TAG, "Queue free add new Img");
-        synchronized (imageSaveQueue) {
-            imageSaveQueue.add(currentCaptureHolder);
-        }*/
-
 
         prepareCaptureBuilder(imagecount);
         Log.d(TAG, "CancelRepeatingCaptureSessoion set imageRdyCallback");
@@ -510,7 +471,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             return cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(),"");
     }
 
-
     /**
      * Reset the capturesession to preview
      *
@@ -521,7 +481,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         try
         {
             imagecount++;
-            //Log.d(TAG, "CaptureDone:" + imagecount + " Queue size: " + imageSaveQueue.size());
             if (Integer.parseInt(parameterHandler.Burst.GetStringValue())  > imagecount) {
                 captureStillPicture();
             }
@@ -534,7 +493,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             else {
                 onSesssionRdy.onRdy();
             }
-
         }
         catch (NullPointerException ex) {
             Log.WriteEx(ex);;
@@ -548,8 +506,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     {
         @Override
         public void onRdy() {
-
-
             Log.d(TAG, "onSessionRdy() Rdy to Start Preview");
             cameraHolder.captureSessionHandler.StartRepeatingCaptureSession();
             if (cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
@@ -585,7 +541,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
 
     @Override
     public void onRdyToSaveImg(ImageHolder holder) {
-        //imageSaveQueue.remove(holder);
         AsyncTask.THREAD_POOL_EXECUTOR.execute(holder.getRunner());
         Log.d(TAG,"onRdyToSaveImg");
         finishCapture();

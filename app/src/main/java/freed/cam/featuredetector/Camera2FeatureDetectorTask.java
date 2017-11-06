@@ -14,10 +14,7 @@ import android.util.Size;
 import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.troop.freedcam.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 

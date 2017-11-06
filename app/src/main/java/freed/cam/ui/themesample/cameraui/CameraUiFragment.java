@@ -68,7 +68,6 @@ import freed.cam.ui.themesample.handler.SampleInfoOverlayHandler;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
-import freed.viewer.screenslide.ScreenSlideFragment.I_ThumbClick;
 
 /**
  * Created by troop on 14.06.2015.

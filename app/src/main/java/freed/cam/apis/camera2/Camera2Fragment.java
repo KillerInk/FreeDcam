@@ -31,7 +31,6 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 

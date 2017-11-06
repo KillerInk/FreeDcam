@@ -56,7 +56,6 @@ import com.troop.freedcam.R.string;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.StringWriter;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
