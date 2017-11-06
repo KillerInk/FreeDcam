@@ -253,6 +253,8 @@ public class ManualButton extends LinearLayout implements ParameterEvents
     public void setValueToParameters(final int value)
     {
         parameter.SetValue(value);
+        if (settingMode != null)
+            settingMode.set(String.valueOf(value));
     }
 
     public void SetActive(boolean active) {

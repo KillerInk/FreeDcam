@@ -177,12 +177,12 @@ public class AppSettingsManager {
 
         public void setBoolean(boolean value)
         {
-            settings.edit().putBoolean(value_key, value).commit();
+            settings.edit().putBoolean(value_key, value).apply();
         }
 
         public void setIsPresetted(boolean preset)
         {
-            settings.edit().putBoolean(presetKey, preset).commit();
+            settings.edit().putBoolean(presetKey, preset).apply();
         }
 
         public boolean isPresetted()
@@ -544,7 +544,7 @@ public class AppSettingsManager {
 
     public void setAreFeaturesDetected(boolean detected)
     {
-        settings.edit().putBoolean(FEATUREDETECTED,detected).commit();
+        settings.edit().putBoolean(FEATUREDETECTED,detected).apply();
     }
 
     public boolean isZteAe()
@@ -554,7 +554,7 @@ public class AppSettingsManager {
 
     public void setZteAe(boolean legacy)
     {
-        settings.edit().putBoolean("zteae",legacy).commit();
+        settings.edit().putBoolean("zteae",legacy).apply();
     }
 
     public boolean isOverrideDngProfile()
@@ -564,7 +564,7 @@ public class AppSettingsManager {
 
     public void setsOverrideDngProfile(boolean legacy)
     {
-        settings.edit().putBoolean("overrideprofile",legacy).commit();
+        settings.edit().putBoolean("overrideprofile",legacy).apply();
     }
 
     public int getAppVersion()
@@ -580,7 +580,7 @@ public class AppSettingsManager {
 
     private void putString(String settingsval, String toSet)
     {
-        settings.edit().putString(settingsval,toSet).commit();
+        settings.edit().putString(settingsval,toSet).apply();
     }
 
     public boolean getBoolean(String settings_key, boolean defaultValue)
@@ -590,7 +590,7 @@ public class AppSettingsManager {
 
     public void setBoolean(String settings_key, boolean valuetoSet) {
 
-        settings.edit().putBoolean(getApiSettingString(settings_key), valuetoSet).commit();
+        settings.edit().putBoolean(getApiSettingString(settings_key), valuetoSet).apply();
     }
 
     public void setCamApi(String api) {
@@ -637,7 +637,7 @@ public class AppSettingsManager {
     {
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("camera2maxiso",max);
-        editor.commit();
+        editor.apply();
         Log.d(TAG,"Override max iso:" +settings.getInt("camera2maxiso",0));
     }
 
@@ -651,7 +651,7 @@ public class AppSettingsManager {
     }
 
     public void setshowHelpOverlay(boolean value) {
-        settings.edit().putBoolean("showhelpoverlay", value).commit();
+        settings.edit().putBoolean("showhelpoverlay", value).apply();
     }
 
     public boolean getShowHelpOverlay() {
@@ -668,7 +668,7 @@ public class AppSettingsManager {
 
     public void SetCurrentCamera(int currentcamera) {
         this.currentcamera = currentcamera;
-        settings.edit().putInt(CURRENTCAMERA, currentcamera).commit();
+        settings.edit().putInt(CURRENTCAMERA, currentcamera).apply();
     }
 
     public int GetCurrentCamera() {
@@ -776,7 +776,7 @@ public class AppSettingsManager {
     {
         SharedPreferences.Editor editor = settings.edit();
         editor.remove(getApiSettingString(SETTING_MEDIAPROFILES));
-        editor.commit();
+        editor.apply();
         Set<String> set =  new HashSet<String>();
         for (VideoMediaProfile profile : mediaProfileHashMap.values())
             set.add(profile.GetString());

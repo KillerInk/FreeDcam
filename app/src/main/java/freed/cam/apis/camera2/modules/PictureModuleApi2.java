@@ -197,6 +197,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         }
         if (parameterHandler.Burst != null)
             parameterHandler.Burst.fireStringValueChanged(parameterHandler.Burst.GetStringValue());
+        cameraUiWrapper.onPreviewOpen("");
     }
 
     private void setOutputSizes() {

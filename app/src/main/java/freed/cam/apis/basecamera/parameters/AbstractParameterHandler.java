@@ -243,7 +243,6 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(WhiteBalanceMode,appSettingsManager.whiteBalanceMode);
         setAppSettingsToCamera(ColorCorrectionMode, appSettingsManager.colorCorrectionMode);
         setAppSettingsToCamera(EdgeMode, appSettingsManager.edgeMode);
-        setAppSettingsToCamera(EdgeMode,appSettingsManager.edgeMode);
         setAppSettingsToCamera(HotPixelMode, appSettingsManager.hotpixelMode);
         setAppSettingsToCamera(ToneMapMode, appSettingsManager.toneMapMode);
         setAppSettingsToCamera(ControlMode, appSettingsManager.controlMode);
@@ -257,19 +256,20 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(dualPrimaryCameraMode, appSettingsManager.dualPrimaryCameraMode);
         setAppSettingsToCamera(RDI, appSettingsManager.rawdumpinterface);
         setAppSettingsToCamera(ae_TargetFPS, appSettingsManager.ae_TagetFPS);
+    }
 
-        //setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
-        //setManualMode(ManualConvergence,AppSettingsManager.MCONVERGENCE);
-        //setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
-        //setManualMode(ManualFocus, AppSettingsManager.MF);
-        //setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
-        //setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
-        //setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
-        //setManualMode(ManualIso, AppSettingsManager.MISO);
-        //setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
-        //setManualMode(CCT,AppSettingsManager.MWB);
-
-
+    public void setManualSettingsToParameters()
+    {
+        setManualMode(ManualContrast, appSettingsManager.manualContrast);
+        setManualMode(ManualConvergence,appSettingsManager.manualConvergence);
+        setManualMode(ManualExposure, appSettingsManager.manualExposureCompensation);
+        setManualMode(ManualFocus, appSettingsManager.manualFocus);
+        setManualMode(ManualSharpness,appSettingsManager.manualSharpness);
+        setManualMode(ManualShutter, appSettingsManager.manualExposureTime);
+        setManualMode(ManualBrightness, appSettingsManager.manualBrightness);
+        setManualMode(ManualIso, appSettingsManager.manualIso);
+        setManualMode(ManualSaturation, appSettingsManager.manualSaturation);
+        setManualMode(CCT,appSettingsManager.manualWhiteBalance);
     }
 
     protected void SetParameters()
@@ -309,22 +309,20 @@ public abstract class AbstractParameterHandler
         }
     }
 
-    protected void setManualMode(ParameterInterface parameter, String settings_key)
+    protected void setManualMode(ParameterInterface parameter, AppSettingsManager.SettingMode settingMode)
     {
-        if (parameter != null && parameter.IsSupported() && settings_key != null && !settings_key.equals(""))
+        if (parameter != null && parameter.IsSupported() && settingMode != null && settingMode.isSupported())
         {
-            Log.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
-            if (appSettingsManager.getApiString(settings_key).equals("") || appSettingsManager.getApiString(settings_key).equals(null))
+            Log.d(TAG, parameter.getClass().getSimpleName());
+            if (settingMode.get().equals("")||settingMode.get() == null)
             {
                 String tmp = parameter.GetValue()+"";
-                Log.d(TAG, settings_key + " is empty, set default from camera : " +tmp);
-                appSettingsManager.setApiString(settings_key, tmp);
+                settingMode.set(tmp);
             }
             else
             {
                 try {
-                    int tmp = Integer.parseInt(appSettingsManager.getApiString(settings_key));
-                    Log.d(TAG, "Found AppSetting: "+settings_key+" set to: " + tmp);
+                    int tmp = Integer.parseInt(settingMode.get());
                     parameter.SetValue(tmp);
                 }
                 catch (NumberFormatException ex)

@@ -137,7 +137,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public void onPreviewOpen(String message) {
         super.onPreviewOpen(message);
-
+        parametersHandler.setManualSettingsToParameters();
     }
 
     @Override
