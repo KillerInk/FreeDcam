@@ -222,6 +222,8 @@ Camera Ui Icons
 Camera1 Dng Supported Devices
 =============================
 
+List is not up to date
+
 KK = Kitkat,L = Lollipop , M = Marshmallow
 
 [true]: /playstoreimages/check.png
