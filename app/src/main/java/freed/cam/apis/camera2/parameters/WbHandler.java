@@ -168,7 +168,7 @@ public class WbHandler
         @Override
         public void setValue(int valueToSet)
         {
-            super.SetValue(valueToSet);
+            super.setValue(valueToSet);
             if (valueToSet == 0) // = auto
                 return;
             currentInt =valueToSet;
@@ -193,6 +193,7 @@ public class WbHandler
             ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector);
 
         }
+
 
         private int checkminmax(int val)
         {

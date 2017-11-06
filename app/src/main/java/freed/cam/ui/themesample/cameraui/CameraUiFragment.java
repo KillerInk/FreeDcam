@@ -354,8 +354,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         transaction.addToBackStack(null);
         transaction.commit();
 
-
-
         boolean showhelp = fragment_activityInterface.getAppSettings().getShowHelpOverlay();
         if (showhelp) {
             transaction = getChildFragmentManager().beginTransaction();
