@@ -145,14 +145,19 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
                 break;
             case MotionEvent.ACTION_UP:
 
-
+                recthalf = imageView.getWidth() /2;
+                x = imageView.getX() + recthalf;
+                y = imageView.getY() + recthalf;
+                if (x < cameraUiWrapper.getMargineLeft() || x > cameraUiWrapper.getMargineRight()
+                        || y < cameraUiWrapper.getMargineTop())
+                    return true;
+                x -= cameraUiWrapper.getMargineLeft();
+                y -= cameraUiWrapper.getMargineTop();
                 if (moving)
                 {
                     longClickHandler.removeCallbacks(longClickRunnable);
                     moving = false;
-                    recthalf = imageView.getWidth() /2;
-                    x = imageView.getX() + recthalf;
-                    y = imageView.getY() + recthalf;;
+
                     /*difx = 0;
                     dify = 0;
 
@@ -168,7 +173,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
                     if (!longClickHappen)
                     {
                         longClickHandler.removeCallbacks(longClickRunnable);
-                        touchListnerEvent.OnAreaClick((int) imageView.getX() + (int) event.getX(), (int) imageView.getY() + (int) event.getY());
+                        touchListnerEvent.OnAreaClick((int)x,  (int)y);
                     }
                 }
                 ret = false;

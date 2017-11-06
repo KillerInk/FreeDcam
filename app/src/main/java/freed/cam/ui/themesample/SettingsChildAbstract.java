@@ -80,10 +80,6 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     @Override
     public void SetStuff(AppSettingsManager.SettingMode settingMode) {
         this.settingMode = settingMode;
-        String value = settingMode.get();
-        if (value.equals("") || value == null)
-            value = settingMode.getValues()[0];
-        onStringValueChanged(value);
     }
 
     public SettingsChildAbstract(Context context) {

@@ -58,6 +58,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private final int recthalf;
     private final ImageView cancelFocus;
     private final ImageView meteringArea;
+    private boolean touchToFocusIsSupported = false;
+    private boolean meteringIsSupported = false;
 
 
     public FocusImageHandler(View view, ActivityAbstract fragment)
@@ -93,9 +95,11 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             if (wrapper.isAeMeteringSupported())
             {
                 meteringArea.setVisibility(View.VISIBLE);
+                meteringIsSupported = true;
             }
             else {
                 meteringArea.setVisibility(View.GONE);
+                meteringIsSupported = false;
 
             }
 
@@ -103,6 +107,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         else
         {
             meteringArea.setVisibility(View.GONE);
+            meteringIsSupported = false;
         }
         if (wrapper.getFocusHandler() != null)
             wrapper.getFocusHandler().focusEvent = this;
@@ -124,7 +129,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf,halfwidth,halfheight);
             }*/
             final LayoutParams mParams = (LayoutParams) focusImageView.getLayoutParams();
-            mParams.leftMargin = x +wrapper.getMargineLeft();
+            mParams.leftMargin = x;
             mParams.topMargin = y;
 
             focusImageView.post(new Runnable() {
@@ -181,6 +186,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void TouchToFocusSupported(boolean isSupported)
     {
+        touchToFocusIsSupported = isSupported;
         if (!isSupported)
             focusImageView.setVisibility(View.GONE);
     }
@@ -188,6 +194,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void AEMeteringSupported(final boolean isSupported)
     {
+        meteringIsSupported = isSupported;
         meteringArea.post(new Runnable() {
             @Override
             public void run() {
@@ -249,9 +256,13 @@ public class FocusImageHandler extends AbstractFocusImageHandler
      */
     public void OnClick(int x, int y)
     {
-        if (wrapper == null || wrapper.getFocusHandler() == null)
+        int width = wrapper.getPreviewWidth() + recthalf;
+        if (wrapper == null || wrapper.getFocusHandler() == null || !touchToFocusIsSupported
+                || x < wrapper.getMargineLeft() || x > width) {
+            focusImageView.setVisibility(View.GONE);
             return;
-        disWidth = wrapper.getPreviewWidth() - wrapper.getMargineLeft();
+        }
+        disWidth = wrapper.getPreviewWidth();
         disHeight = wrapper.getPreviewHeight();
 
         /*int marginLeft = wrapper.getMargineLeft();
@@ -269,7 +280,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
         }*/
 
-        x = x - wrapper.getMargineLeft();
         if (wrapper.getFocusHandler() != null)
             wrapper.getFocusHandler().StartTouchToFocus(x,y, disWidth, disHeight);
 

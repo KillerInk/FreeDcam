@@ -299,6 +299,8 @@ public abstract class AbstractParameterHandler
     {
         if (settingMode.isSupported() && parameter != null && parameter.GetStringValue() != null)
         {
+            if (settingMode.get().equals(""))
+                return;
             String toset = settingMode.get();
             Log.d(TAG,"set to :" + toset);
             if (toset.equals("") || toset.equals("none"))
