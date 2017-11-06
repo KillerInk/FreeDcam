@@ -26,6 +26,11 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -57,7 +62,6 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
     private boolean stopTimer = false;
     private String shutteropentime = "";
     private Paint shutteropentimePaint;
-    private TimerAsyncTask shutterTimer;
     private int MAX_SHUTTER_OPEN;
     private int MAX_RECORDING_OPEN;
     private int RECORDING_OPEN_STEP;
@@ -78,159 +82,122 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
     //holds the time from a capture start
     private long startime;
 
-    public ShutterButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        this.init(context);
+    protected HandlerThread mBackgroundThread;
+    protected AnimationHandler animationHandler;
+    private UIHandler uiHandler;
+
+    public final int MSG_START_ANIMATION = 0;
+    public final int MSG_PUBLISHPROGRESS = 1;
+    public final int MSG_INVALIDATE = 2;
+
+
+    /**
+     * Starts a background thread and its {@link Handler}.
+     */
+    private void startBackgroundThread() {
+        mBackgroundThread = new HandlerThread("ShutterDraw");
+        mBackgroundThread.start();
+        animationHandler = new AnimationHandler(mBackgroundThread.getLooper());
     }
 
-    public ShutterButton(Context context) {
-        super(context);
-        this.init(context);
-    }
-
-    private void init(Context context) {
-        //used to draw green timer inside the shutter button
-        shutteropentimePaint = new Paint();
-        shutteropentimePaint.setColor(Color.GREEN);
-        shutteropentimePaint.setTextSize(getResources().getDimension(R.dimen.cameraui_infooverlay_textsize));
-        shutteropentimePaint.setStyle(Paint.Style.FILL);
-        shutteropentimePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
-        shutteropentimePaint.setAntiAlias(true);
-
-        //set background img that get then overdrawn
-        setBackgroundResource(R.drawable.shutter5);
-
-        //used to open the shutter
-        transparent = new Paint();
-        transparent.setColor(Color.TRANSPARENT);
-        transparent.setStyle(Paint.Style.FILL);
-        transparent.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        transparent.setAntiAlias(true);
-
-        //used to for the recording button
-        red = new Paint();
-        red.setColor(Color.RED);
-        red.setStyle(Paint.Style.FILL);
-        red.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
-        red.setAntiAlias(true);
-        this.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (cameraUiWrapper == null || cameraUiWrapper.getModuleHandler() == null || cameraUiWrapper.getModuleHandler().getCurrentModule() == null)
-                    return;
-                cameraUiWrapper.getModuleHandler().getCurrentModule().DoWork();
-            }
-        });
-
-    }
-
-
-
-    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper, UserMessageHandler messageHandler) {
-        if (cameraUiWrapper.getModuleHandler() == null)
-            return;
-        this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.getModuleHandler().setWorkListner(this);
-        if(cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
-            onCaptureStateChanged(cameraUiWrapper.getModuleHandler().getCurrentModule().getCurrentCaptureState());
-        Log.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
-    }
-
-    private void switchBackground(final CaptureStates showstate, final boolean animate) {
-        if (currentShow != showstate) {
-            currentShow = showstate;
-            Log.d(TAG, "switchBackground:" + currentShow);
-            startShutterTimer();
-            //drawingLock.post(startAnimation);
-        }
-    }
-
-    @Override
-    public void onCaptureStateChanged(CaptureStates mode) {
-        if(mode == null)
-            return;
-        Log.d(this.TAG, "onCaptureStateChanged CurrentShow:" + this.currentShow + " Capturestate: " + mode.name());
-        //first start shutter animation
-        this.switchBackground(mode, true);
-
-        //set specfic mode overides like drawtimer,
-        //setting it that way shutter is already abit opend till the green timer gets visible
-        switch (mode) {
-            case video_recording_stop:
-                break;
-            case video_recording_start:
-                break;
-            case image_capture_stop:
-                drawTimer = false;
-                stopShutterTimer();
-                break;
-            case image_capture_start:
-                drawTimer = true;
-                break;
-            case continouse_capture_start:
-                break;
-            case continouse_capture_stop:
-                break;
-            case continouse_capture_work_start:
-                drawTimer = true;
-                break;
-            case continouse_capture_work_stop:
-                drawTimer = false;
-                break;
-            case cont_capture_stop_while_working:
-                break;
-            case cont_capture_stop_while_notworking:
-                drawTimer = false;
-                stopShutterTimer();
-                break;
-        }
-
-    }
-
-    private void startShutterTimer() {
-        shutteractive = true;
-        stopTimer = false;
-        if (shutterTimer != null && shutterTimer.isRunning()) {
-            Log.d(TAG,"Reuse ShutterTimer");
-            shutterTimer.setStartTime(System.currentTimeMillis());
-        }
-        else {
-            shutterTimer = new TimerAsyncTask();
-            Log.d(TAG,"Create new ShutterTimer");
-            shutterTimer.setStartTime(System.currentTimeMillis());
-            shutterTimer.execute(System.currentTimeMillis());
-        }
-    }
-
-    private void stopShutterTimer() {
-        stopTimer = true;
-    }
-
-
-    @Override
-    protected void onDraw(Canvas canvas)
+    /**
+     * Stops the background thread and its {@link Handler}.
+     */
+    private void stopBackgroundThread()
     {
-        super.onDraw(canvas);
-        int halfSize = canvas.getWidth()/2;
-        canvas.drawCircle(halfSize,halfSize, shutter_open_radius, transparent);
-        if (drawRecordingImage)
+        Log.d(TAG, "stopShutterDraw");
+        if (mBackgroundThread == null)
+            return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            mBackgroundThread.quitSafely();
+        } else
+            mBackgroundThread.quit();
+        try {
+            mBackgroundThread.join();
+            mBackgroundThread = null;
+            animationHandler = null;
+        } catch (InterruptedException e) {
+            Log.WriteEx(e);
+        }
+    }
+
+    private class UIHandler extends Handler
+    {
+        public UIHandler(Looper looper)
         {
-            canvas.drawCircle(halfSize,halfSize,recordingRadiusCircle/2, red);
-            int top = halfSize - recordingRadiusRectangle/2;
-            int bottom = halfSize + recordingRadiusRectangle/2;
-            int left = halfSize - recordingRadiusRectangle/2;
-            int right = halfSize + recordingRadiusRectangle/2;
-            canvas.drawRect(left,top,right,bottom,red);
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            switch (msg.what)
+            {
+                case MSG_INVALIDATE:
+                    ShutterButton.this.invalidate();
+                    break;
+                case MSG_PUBLISHPROGRESS:
+                   publishProgress((String)msg.obj);
+                   break;
+                default:
+                    super.handleMessage(msg);
+                    break;
+            }
 
         }
-        if (drawTimer && !TextUtils.isEmpty(shutteropentime))
-            canvas.drawText(shutteropentime,halfSize - shutteropentimePaint.measureText(shutteropentime)/2,halfSize,shutteropentimePaint);
+
+        private void publishProgress(String s)
+        {
+            shutteropentime = s;
+            ShutterButton.this.invalidate();
+        }
     }
 
-    private class TimerAsyncTask extends AsyncTask<Long, String, String>
+    private class AnimationHandler extends Handler
     {
-        private Object lock = new Object();
+
+
+        //frames to draw
+        private final int MAXFRAMES = 5;
+        //holds the currentframe number
+        private int currentframe = 0;
+
         private boolean running = false;
+
+        public boolean isRunning()
+        {
+            return running;
+        }
+
+        private Object lock = new Object();
+
+        private SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
+
+
+
+        public AnimationHandler(Looper looper)
+        {
+            super(looper);
+        }
+
+        public void startAnimation()
+        {
+            this.sendMessage(this.obtainMessage(MSG_START_ANIMATION));
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch(msg.what)
+            {
+                case MSG_START_ANIMATION:
+                    if (!isRunning())
+                        run();
+                    break;
+                default:
+                    super.handleMessage(msg);
+                    break;
+            }
+        }
 
         public void setStartTime(long startTime)
         {
@@ -240,28 +207,22 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             }
         }
 
-        //frames to draw
-        private final int MAXFRAMES = 5;
-        //holds the currentframe number
-        private int currentframe = 0;
-
-        public boolean isRunning()
-        {
-            return running;
+        private void stopShutterTimer() {
+            synchronized (lock) {
+                stopTimer = true;
+            }
         }
 
-        private String getTimeGoneString(long startime)
+        private void run()
         {
-            long now = System.currentTimeMillis();
-            long dif = now - startime;
-            dateFormat.setTimeZone(TimeZone.getDefault());
-            return dateFormat.format(new Date(dif));
+            MAX_SHUTTER_OPEN = (getWidth() - 100) / 2;
+            SHUTTER_OPEN_STEP = (MAX_SHUTTER_OPEN) / MAXFRAMES;
+            MAX_RECORDING_OPEN = getWidth() /4;
+            RECORDING_OPEN_STEP = MAX_RECORDING_OPEN/MAXFRAMES;
 
-        }
-
-        private SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
-        @Override
-        protected String doInBackground(Long... params) {
+            int recordingSize = MAX_RECORDING_OPEN;
+            recordingRadiusCircle = recordingSize;
+            recordingRadiusRectangle = 0;
             running = true;
             while (shutteractive)
             {
@@ -273,14 +234,14 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
                         draw();
                         currentframe = 0;
                         if (stopTimer) {
-                            publishProgress("");
+                            uiHandler.sendMessage(uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,""));
                             shutteractive = false;
                         }
                     }
                     if (drawTimer)
-                        publishProgress(getTimeGoneString(startime));
+                        uiHandler.sendMessage(uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,getTimeGoneString(startime)));
                     else
-                        publishProgress("");
+                        uiHandler.sendMessage(uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,""));
                     currentframe++;
                 }
                 try {
@@ -289,35 +250,20 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
                     Log.WriteEx(e);
                 }
             }
-
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            MAX_SHUTTER_OPEN = (getWidth() - 100) / 2;
-            SHUTTER_OPEN_STEP = (MAX_SHUTTER_OPEN) / MAXFRAMES;
-            MAX_RECORDING_OPEN = getWidth() /4;
-            RECORDING_OPEN_STEP = MAX_RECORDING_OPEN/MAXFRAMES;
-
-            int recordingSize = MAX_RECORDING_OPEN;
-            recordingRadiusCircle = recordingSize;
-            recordingRadiusRectangle = 0;
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            shutteropentime = values[0];
-            ShutterButton.this.invalidate();
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            Log.d(TAG, "Done ShutterTimer");
             running = false;
+
             shutteropentime = "";
-            ShutterButton.this.shutterTimer = null;
-            ShutterButton.this.invalidate();
+            uiHandler.sendMessage(obtainMessage(MSG_INVALIDATE));
+        }
+
+
+
+        private String getTimeGoneString(long startime)
+        {
+            long now = System.currentTimeMillis();
+            long dif = now - startime;
+            dateFormat.setTimeZone(TimeZone.getDefault());
+            return dateFormat.format(new Date(dif));
 
         }
 
@@ -415,7 +361,263 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             }
             //Log.d(TAG,"shutter_open:" + shutter_open_radius + " recCircle:" + recordingRadiusCircle + " recRect:" + recordingRadiusRectangle +  " captureState:" + currentShow);
         }
+    }
+
+    public ShutterButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.init(context);
+    }
+
+    public ShutterButton(Context context) {
+        super(context);
+        this.init(context);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        startBackgroundThread();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopBackgroundThread();
+    }
+
+    private void init(Context context) {
+        uiHandler = new UIHandler(Looper.getMainLooper());
+        //used to draw green timer inside the shutter button
+        shutteropentimePaint = new Paint();
+        shutteropentimePaint.setColor(Color.GREEN);
+        shutteropentimePaint.setTextSize(getResources().getDimension(R.dimen.cameraui_infooverlay_textsize));
+        shutteropentimePaint.setStyle(Paint.Style.FILL);
+        shutteropentimePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+        shutteropentimePaint.setAntiAlias(true);
+
+        //set background img that get then overdrawn
+        setBackgroundResource(R.drawable.shutter5);
+
+        //used to open the shutter
+        transparent = new Paint();
+        transparent.setColor(Color.TRANSPARENT);
+        transparent.setStyle(Paint.Style.FILL);
+        transparent.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        transparent.setAntiAlias(true);
+
+        //used to for the recording button
+        red = new Paint();
+        red.setColor(Color.RED);
+        red.setStyle(Paint.Style.FILL);
+        red.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+        red.setAntiAlias(true);
+        this.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cameraUiWrapper == null || cameraUiWrapper.getModuleHandler() == null || cameraUiWrapper.getModuleHandler().getCurrentModule() == null)
+                    return;
+                cameraUiWrapper.getModuleHandler().getCurrentModule().DoWork();
+            }
+        });
 
     }
+
+
+
+    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper, UserMessageHandler messageHandler) {
+        if (cameraUiWrapper.getModuleHandler() == null)
+            return;
+        this.cameraUiWrapper = cameraUiWrapper;
+        cameraUiWrapper.getModuleHandler().setWorkListner(this);
+        if(cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
+            onCaptureStateChanged(cameraUiWrapper.getModuleHandler().getCurrentModule().getCurrentCaptureState());
+        Log.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
+    }
+
+    private void switchBackground(final CaptureStates showstate, final boolean animate) {
+        if (currentShow != showstate) {
+            currentShow = showstate;
+            Log.d(TAG, "switchBackground:" + currentShow);
+            startShutterTimer();
+            //drawingLock.post(startAnimation);
+        }
+    }
+
+    @Override
+    public void onCaptureStateChanged(CaptureStates mode) {
+        if(mode == null)
+            return;
+        Log.d(this.TAG, "onCaptureStateChanged CurrentShow:" + this.currentShow + " Capturestate: " + mode.name());
+        //first start shutter animation
+        this.switchBackground(mode, true);
+
+        //set specfic mode overides like drawtimer,
+        //setting it that way shutter is already abit opend till the green timer gets visible
+        switch (mode) {
+            case video_recording_stop:
+                break;
+            case video_recording_start:
+                break;
+            case image_capture_stop:
+                drawTimer = false;
+                animationHandler.stopShutterTimer();
+                break;
+            case image_capture_start:
+                drawTimer = true;
+                break;
+            case continouse_capture_start:
+                break;
+            case continouse_capture_stop:
+                break;
+            case continouse_capture_work_start:
+                drawTimer = true;
+                break;
+            case continouse_capture_work_stop:
+                drawTimer = false;
+                break;
+            case cont_capture_stop_while_working:
+                break;
+            case cont_capture_stop_while_notworking:
+                drawTimer = false;
+                animationHandler.stopShutterTimer();
+                break;
+        }
+
+    }
+
+    private void startShutterTimer() {
+        shutteractive = true;
+        stopTimer = false;
+        if (animationHandler != null && animationHandler.isRunning()) {
+            animationHandler.setStartTime(System.currentTimeMillis());
+        }
+        else if (animationHandler != null){
+            animationHandler.setStartTime(System.currentTimeMillis());
+            animationHandler.startAnimation();
+        }
+    }
+
+
+
+
+    @Override
+    protected void onDraw(Canvas canvas)
+    {
+        super.onDraw(canvas);
+        int halfSize = canvas.getWidth()/2;
+        canvas.drawCircle(halfSize,halfSize, shutter_open_radius, transparent);
+        if (drawRecordingImage)
+        {
+            canvas.drawCircle(halfSize,halfSize,recordingRadiusCircle/2, red);
+            int top = halfSize - recordingRadiusRectangle/2;
+            int bottom = halfSize + recordingRadiusRectangle/2;
+            int left = halfSize - recordingRadiusRectangle/2;
+            int right = halfSize + recordingRadiusRectangle/2;
+            canvas.drawRect(left,top,right,bottom,red);
+
+        }
+        if (drawTimer && !TextUtils.isEmpty(shutteropentime))
+            canvas.drawText(shutteropentime,halfSize - shutteropentimePaint.measureText(shutteropentime)/2,halfSize,shutteropentimePaint);
+    }
+
+   /* private class TimerAsyncTask extends AsyncTask<Long, String, String>
+    {
+        private Object lock = new Object();
+        private boolean running = false;
+
+        public void setStartTime(long startTime)
+        {
+            synchronized (lock)
+            {
+                ShutterButton.this.startime = startTime;
+            }
+        }
+
+        //frames to draw
+        private final int MAXFRAMES = 5;
+        //holds the currentframe number
+        private int currentframe = 0;
+
+        public boolean isRunning()
+        {
+            return running;
+        }
+
+        private String getTimeGoneString(long startime)
+        {
+            long now = System.currentTimeMillis();
+            long dif = now - startime;
+            dateFormat.setTimeZone(TimeZone.getDefault());
+            return dateFormat.format(new Date(dif));
+
+        }
+
+        private SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
+        @Override
+        protected String doInBackground(Long... params) {
+            running = true;
+            while (shutteractive)
+            {
+                synchronized (lock) {
+
+                    if (currentframe < MAXFRAMES)
+                        draw();
+                    else {
+                        draw();
+                        currentframe = 0;
+                        if (stopTimer) {
+                            publishProgress("");
+                            shutteractive = false;
+                        }
+                    }
+                    if (drawTimer)
+                        publishProgress(getTimeGoneString(startime));
+                    else
+                        publishProgress("");
+                    currentframe++;
+                }
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    Log.WriteEx(e);
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            MAX_SHUTTER_OPEN = (getWidth() - 100) / 2;
+            SHUTTER_OPEN_STEP = (MAX_SHUTTER_OPEN) / MAXFRAMES;
+            MAX_RECORDING_OPEN = getWidth() /4;
+            RECORDING_OPEN_STEP = MAX_RECORDING_OPEN/MAXFRAMES;
+
+            int recordingSize = MAX_RECORDING_OPEN;
+            recordingRadiusCircle = recordingSize;
+            recordingRadiusRectangle = 0;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            shutteropentime = values[0];
+            ShutterButton.this.invalidate();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Log.d(TAG, "Done ShutterTimer");
+            running = false;
+            shutteropentime = "";
+            ShutterButton.this.shutterTimer = null;
+            ShutterButton.this.invalidate();
+
+        }
+
+
+
+    }*/
+
+
 
 }

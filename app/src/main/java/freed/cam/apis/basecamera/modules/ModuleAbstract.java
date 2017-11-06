@@ -21,6 +21,8 @@ package freed.cam.apis.basecamera.modules;
 
 
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 
 import java.io.File;
 
@@ -46,15 +48,39 @@ public abstract class ModuleAbstract implements ModuleInterface
     protected CaptureStates currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;
     protected Handler mBackgroundHandler;
-    protected Handler mainHandler;
+    protected UiHandler mainHandler;
 
+    private final int MSG_ONCAPTURESTATECHANGED = 0;
+
+    public class UiHandler extends Handler
+    {
+        UiHandler(Looper looper)
+        {
+            super(looper);
+        }
+
+
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_ONCAPTURESTATECHANGED:
+                    if (captureStateChangedListner != null)
+                        captureStateChangedListner.onCaptureStateChanged((CaptureStates)msg.obj);
+                    break;
+                default:
+                super.handleMessage(msg);
+            }
+        }
+
+    }
 
     public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = cameraUiWrapper.getAppSettingsManager();
         this.mBackgroundHandler = mBackgroundHandler;
-        this.mainHandler = mainHandler;
+        this.mainHandler = new UiHandler(Looper.getMainLooper());
     }
 
     public void SetCaptureStateChangedListner(CaptureStateChanged captureStateChangedListner)
@@ -71,13 +97,8 @@ public abstract class ModuleAbstract implements ModuleInterface
     {
         Log.d(TAG, "work started");
         currentWorkState = captureStates;
-        mainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (captureStateChangedListner != null)
-                    captureStateChangedListner.onCaptureStateChanged(captureStates);
-            }
-        });
+
+        mainHandler.sendMessage(mainHandler.obtainMessage(MSG_ONCAPTURESTATECHANGED, captureStates));
     }
 
     @Override
