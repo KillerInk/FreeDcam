@@ -267,8 +267,8 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     public <T> void SetFocusArea(@NonNull Key<T> key, T value)
     {
-        /*captureSessionHandler.SetParameter(key,null);
-        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);*/
+        captureSessionHandler.SetParameter(key,null);
+        /*captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);*/
         Log.d(TAG, "Set :" + key.getName() + " to " + value);
         captureSessionHandler.SetParameter(key,value);
         captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_START);
@@ -465,13 +465,13 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 4:
                         state = "FOCUSED_LOCKED";
-                        //captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                        captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                         if (cameraUiWrapper.getFocusHandler().focusEvent != null)
                             cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(true);
                         break;
                     case 5:
                         state = "NOT_FOCUSED_LOCKED";
-                        //captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                        captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                         if (cameraUiWrapper.getFocusHandler().focusEvent != null)
                             cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(false);
                         break;
