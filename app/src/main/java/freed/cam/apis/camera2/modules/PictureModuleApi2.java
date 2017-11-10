@@ -29,7 +29,6 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.media.ImageReader;
-import android.os.AsyncTask;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -75,6 +74,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     private ImageHolder currentCaptureHolder;
     private final int MAX_IMAGES = 5;
     protected List<File> filesSaved;
+
+    private boolean isBurstCapture = false;
+    private int burstCount = 1;
 
 
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
@@ -267,6 +269,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             Log.d(TAG, appSettingsManager.pictureFormat.get());
             Log.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
             imagecount = 0;
+            burstCount = Integer.parseInt(parameterHandler.Burst.GetStringValue());
+            if (burstCount > 1)
+                isBurstCapture = true;
+            else
+                isBurstCapture =false;
             onStartTakePicture();
 
             if (appSettingsManager.hasCamera2Features() && cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
@@ -321,9 +328,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             mrawImageReader.setOnImageAvailableListener(currentCaptureHolder.mOnRawImageAvailableListener,mBackgroundHandler);
         }
 
+        cameraHolder.captureSessionHandler.StopRepeatingCaptureSession(null);
         prepareCaptureBuilder(imagecount);
         Log.d(TAG, "CancelRepeatingCaptureSessoion set imageRdyCallback");
-        ImageCaptureRDYEvent imageCaptureRdyCallback = new ImageCaptureRDYEvent(currentCaptureHolder.imageCaptureMetaCallback);
+        CameraIsReadyToCaptureImage imageCaptureRdyCallback = new CameraIsReadyToCaptureImage(currentCaptureHolder.imageCaptureMetaCallback);
         if (!cameraHolder.captureSessionHandler.IsCaptureSessionRDY())
             cameraHolder.captureSessionHandler.StopRepeatingCaptureSession(imageCaptureRdyCallback);
         else
@@ -332,10 +340,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
 
     }
 
-    private class  ImageCaptureRDYEvent implements CaptureSessionHandler.CaptureEvent
+    private class CameraIsReadyToCaptureImage implements CaptureSessionHandler.CaptureEvent
     {
         private CameraCaptureSession.CaptureCallback captureCallback;
-        public ImageCaptureRDYEvent(CameraCaptureSession.CaptureCallback captureCallback)
+        public CameraIsReadyToCaptureImage(CameraCaptureSession.CaptureCallback captureCallback)
         {
             this.captureCallback = captureCallback;
         }
@@ -522,16 +530,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     @Override
     public void internalFireOnWorkDone(File file)
     {
-        int burst = Integer.parseInt(parameterHandler.Burst.GetStringValue());
-        boolean burstactive = burst > 1;
-        if(burstactive && burst  >= imagecount)
+        if(isBurstCapture && burstCount  >= imagecount)
             filesSaved.add(file);
-        if (burstactive && burst  == imagecount)
+        if (isBurstCapture && burstCount  == imagecount +1)
         {
             fireOnWorkFinish(filesSaved.toArray(new File[filesSaved.size()]));
             filesSaved.clear();
         }
-        else if (!burstactive)
+        else if (!isBurstCapture)
             fireOnWorkFinish(file);
     }
 
@@ -542,7 +548,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
 
     @Override
     public void onRdyToSaveImg(ImageHolder holder) {
-        AsyncTask.THREAD_POOL_EXECUTOR.execute(holder.getRunner());
+        holder.getRunner().run();
+
         Log.d(TAG,"onRdyToSaveImg");
         finishCapture();
     }

@@ -41,6 +41,7 @@ public class BasePictureModule extends ModuleAbstract implements ImageHolder.Ima
         name = cameraUiWrapper.getResString(R.string.module_picture);
         this.activityInterface = cameraUiWrapper.getActivityInterface();
         dngConverter = RawToDng.GetInstance();
+        dngConverter.loadOpCode();
     }
 
     @Override

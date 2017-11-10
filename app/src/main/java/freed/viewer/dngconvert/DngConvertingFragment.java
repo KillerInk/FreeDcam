@@ -365,6 +365,7 @@ public class DngConvertingFragment extends Fragment
         if (file.getName().endsWith(FileEnding.BAYER))
             out = file.getAbsolutePath().replace(FileEnding.BAYER, FileEnding.DNG);
         RawToDng dng = RawToDng.GetInstance();
+        dng.loadOpCode();
         String intsd = StringUtils.GetInternalSDCARD();
         if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
                 || file.getAbsolutePath().contains(intsd)) {

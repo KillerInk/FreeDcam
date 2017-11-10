@@ -30,18 +30,18 @@ public class RawToDng
     private byte[] opcode2;
     private byte[] opcode3;
 
-    private native long GetRawBytesSize();
-    private native int GetRawHeight();
-    private native void SetGPSData(double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
-    private native void SetThumbData(byte[] mThumb, int widht, int height);
-    private native void WriteDNG();
-    private native void SetOpCode3(byte[] opcode);
-    private native void SetOpCode2(byte[] opcode);
-    private native void SetRawHeight(int height);
-    private native void SetModelAndMake(String model, String make);
-    private native void SetBayerData(byte[] fileBytes, String fileout);
-    private native void SetBayerDataFD(byte[] fileBytes, int fileout, String filename);
-    private native void SetBayerInfo(float[] colorMatrix1,
+    private static native long GetRawBytesSize();
+    private static native int GetRawHeight();
+    private static native void SetGPSData(double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
+    private static native void SetThumbData(byte[] mThumb, int widht, int height);
+    private static native void WriteDNG();
+    private static native void SetOpCode3(byte[] opcode);
+    private static native void SetOpCode2(byte[] opcode);
+    private static native void SetRawHeight(int height);
+    private static native void SetModelAndMake(String model, String make);
+    private static native void SetBayerData(byte[] fileBytes, String fileout);
+    private static native void SetBayerDataFD(byte[] fileBytes, int fileout, String filename);
+    private static native void SetBayerInfo(float[] colorMatrix1,
                                      float[] colorMatrix2,
                                      float[] neutralColor,
                                      float[] fowardMatrix1,
@@ -55,7 +55,7 @@ public class RawToDng
                                      int rowSize,
                                      String devicename,
                                      int rawType,int width,int height);
-    private native void SetExifData(int iso,
+    private static native void SetExifData(int iso,
                                            double expo,
                                            int flash,
                                            float fNum,
@@ -64,20 +64,28 @@ public class RawToDng
                                            String orientation,
                                            float exposureIndex);
 
-    private native void SetDateTime(String datetime);
+    private static native void SetDateTime(String datetime);
 
-    private native void SetToneCurve(float tonecurve[]);
-    private native void SetHueSatMapData1(float tonecurve[]);
-    private native void SetHueSatMapData2(float tonecurve[]);
-    private native void SetHueSatMapDims(int[] dims);
-    private native void SetBaselineExposure(float baselineexposure);
-    private native void SetBaselineExposureOffset(float baselineexposureoffset);
+    private static native void SetToneCurve(float tonecurve[]);
+    private static native void SetHueSatMapData1(float tonecurve[]);
+    private static native void SetHueSatMapData2(float tonecurve[]);
+    private static native void SetHueSatMapDims(int[] dims);
+    private static native void SetBaselineExposure(float baselineexposure);
+    private static native void SetBaselineExposureOffset(float baselineexposureoffset);
+
+    private static RawToDng rawToDng = new RawToDng();
+
     public static RawToDng GetInstance()
     {
-        return new RawToDng();
+        return rawToDng;
     }
 
     private RawToDng()
+    {
+
+    }
+
+    public void loadOpCode()
     {
         wbct = "";
         File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
