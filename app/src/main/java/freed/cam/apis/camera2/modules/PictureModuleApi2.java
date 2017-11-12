@@ -49,6 +49,7 @@ import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.cam.apis.camera2.parameters.AeHandler;
+import freed.utils.ImageSaveManager;
 import freed.utils.Log;
 
 
@@ -490,6 +491,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         try
         {
             imagecount++;
+            Log.d(TAG,"finished Capture:" + imagecount);
             if (Integer.parseInt(parameterHandler.Burst.GetStringValue())  > imagecount) {
                 captureStillPicture();
             }
@@ -515,7 +517,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     {
         @Override
         public void onRdy() {
-            Log.d(TAG, "onSessionRdy() Rdy to Start Preview");
+            Log.d(TAG, "onSessionRdy() ######################### Rdy to Start Preview, CAPTURE CYCLE DONE #####################");
             cameraHolder.captureSessionHandler.StartRepeatingCaptureSession();
             if (cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
                     || cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO) {
@@ -548,7 +550,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
 
     @Override
     public void onRdyToSaveImg(ImageHolder holder) {
-        holder.getRunner().run();
+        ImageSaveManager.getInstance().put(holder.getRunner());
+        //holder.getRunner().run();
 
         Log.d(TAG,"onRdyToSaveImg");
         finishCapture();

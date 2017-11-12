@@ -9,7 +9,6 @@
 #include "../tiff/libtiff/tiffio.h"
 #include <android/log.h>
 #include <../tiff/libtiff/tif_dir.h>
-#include <assert.h>
 #include <stdlib.h>
 
 typedef unsigned long long uint64;

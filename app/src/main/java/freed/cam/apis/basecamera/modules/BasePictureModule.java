@@ -41,7 +41,6 @@ public class BasePictureModule extends ModuleAbstract implements ImageHolder.Ima
         name = cameraUiWrapper.getResString(R.string.module_picture);
         this.activityInterface = cameraUiWrapper.getActivityInterface();
         dngConverter = RawToDng.GetInstance();
-        dngConverter.loadOpCode();
     }
 
     @Override
@@ -110,6 +109,8 @@ public class BasePictureModule extends ModuleAbstract implements ImageHolder.Ima
             Log.d(TAG, "Write To internal or kitkat<");
             checkFileExists(fileName);
             dngConverter.setBayerData(bytes, fileName.getAbsolutePath());
+            dngConverter.setOpcode2(activityInterface.getAppSettings().getOpcode2());
+            dngConverter.setOpcode3(activityInterface.getAppSettings().getOpcode3());
             dngConverter.WriteDngWithProfile(dngProfile);
         }
         else

@@ -376,7 +376,7 @@ public class CaptureSessionHandler
     {
         try {
             mCaptureSession.capture(mPreviewRequestBuilder.build(),null,null);
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException | NullPointerException e) {
             e.printStackTrace();
         }
     }

@@ -47,6 +47,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
+import freed.utils.ImageSaveManager;
 import freed.utils.Log;
 import freed.utils.PermissionHandler;
 import freed.utils.StorageFileHandler;
@@ -91,6 +92,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ImageSaveManager.getInstance(); // init it
         setContentToView();
         permissionHandler =new PermissionHandler(this);
         if (LOG_TO_FILE && !Log.isLogToFileEnable()) {
@@ -133,6 +135,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
     @Override
     protected void onDestroy() {
+        ImageSaveManager.getInstance().cancel();
         super.onDestroy();
         /*if (Log.isLogToFileEnable())
             Log.destroy();*/

@@ -3,8 +3,6 @@
 //
 
 #include "DngWriter.h"
-
-
 #define  LOG_TAG    "freedcam.DngWriter"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
@@ -32,20 +30,20 @@ TIFF* DngWriter::openfTIFFFD(char *fileSavePath, int fd) {
 void DngWriter::writeIfd0(TIFF *tif) {
     TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
     LOGD("subfiletype");
-    assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, rawwidht) != 0);
+    TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, rawwidht);
     LOGD("width");
-    assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, rawheight) != 0);
+    TIFFSetField(tif, TIFFTAG_IMAGELENGTH, rawheight);
     LOGD("height");
     if(rawType == 1 || rawType == 3)
-        assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
+        TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16);
     else if (rawType == 4)
-        assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 12) != 0);
+        TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 12);
     else
-        assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 10) != 0);
+        TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 10);
     LOGD("bitspersample");
-    assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA) != 0);
+    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA);
     LOGD("PhotometricCFA");
-    assert(TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE) != 0);
+    TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
     LOGD("Compression");
     TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
     LOGD("sampelsperpixel");
@@ -69,7 +67,7 @@ void DngWriter::writeIfd0(TIFF *tif) {
     {
         LOGD("Caught NULL NOT SET Orientation");
     }
-    assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
+    TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
     LOGD("planarconfig");
     TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam DNG Writter 2017");
     if(_dateTime != NULL)
@@ -218,13 +216,8 @@ void DngWriter::processTight(TIFF *tif) {
     j=0;
     if(rowSize == 0)
         rowSize =  -(-5 * rawwidht >> 5) << 3;
-    buffer =(unsigned char *)malloc(rowSize);
-    memset( buffer, 0, rowSize);
-    if (buffer == NULL)
-    {
-        LOGD("allocating buffer failed try again");
-        buffer =(unsigned char *)malloc(rowSize);
-    }
+    buffer = new unsigned char[rowSize];
+
     LOGD("rowsize:%i", rowSize);
 
     for (row=0; row < rawheight; row ++)
@@ -248,7 +241,7 @@ void DngWriter::processTight(TIFF *tif) {
     if(buffer != NULL)
     {
         LOGD("Free Buffer");
-        free(buffer);
+        delete[] buffer;
         buffer = NULL;
         LOGD("Freed Buffer");
     }
@@ -283,15 +276,7 @@ void DngWriter::process10tight(TIFF *tif) {
     }
 
     int row = shouldberowsize;
-    out = (unsigned char *)malloc((int)shouldberowsize*rawheight);
-    if(out == NULL)
-    {
-        out = (unsigned char *)malloc((int)shouldberowsize*rawheight);
-        if (out == NULL)
-        {
-        LOGD("failed to set buffer");
-        return;}
-    }
+    out = new unsigned char[shouldberowsize*rawheight];
 
     int m = 0;
     for(int i =0; i< rawSize; i+=5)
@@ -324,7 +309,7 @@ void DngWriter::process12tight(TIFF *tif) {
         bytesToSkip = realrowsize - shouldberowsize;
     LOGD("bytesToSkip: %i", bytesToSkip);
     int row = shouldberowsize;
-    unsigned char* out = (unsigned char *)malloc((int)shouldberowsize*rawheight);;
+    unsigned char* out = new unsigned char[shouldberowsize*rawheight];
     int m = 0;
     for(int i =0; i< rawSize; i+=3)
     {
@@ -351,13 +336,7 @@ void DngWriter::processLoose(TIFF *tif) {
     uint64 colorchannel;
 
     rowSize= (rawwidht+5)/6 << 3;
-    buffer =(unsigned char *)malloc(rowSize);
-    memset( buffer, 0, rowSize);
-    if (buffer == NULL)
-    {
-        LOGD("allocating buffer failed try again");
-        buffer =(unsigned char *)malloc(rowSize);
-    }
+    buffer = new unsigned char[rowSize];
     for (row=0; row < rawheight; row ++)
     {
         i = 0;
@@ -389,7 +368,7 @@ void DngWriter::processLoose(TIFF *tif) {
     if(buffer != NULL)
     {
         LOGD("Free Buffer");
-        free(buffer);
+        delete[] buffer;
         buffer = NULL;
         LOGD("Freed Buffer");
     }
@@ -399,7 +378,7 @@ void DngWriter::processLoose(TIFF *tif) {
 
 void DngWriter::processSXXX16(TIFF *tif) {
     int j, row, col;
-    unsigned short pixel[rawwidht];
+    unsigned short *pixel = new unsigned short[rawwidht];
     unsigned short low, high;
     j=0;
     for (row=0; row < rawheight; row ++)
@@ -421,10 +400,11 @@ void DngWriter::processSXXX16(TIFF *tif) {
     }
     LOGD("Finalizng DNG");
     LOGD("Free Memory");
-    free(pixel);
+    delete[] pixel;
 }
 
 void DngWriter::process16to10(TIFF *tif) {
+    LOGD("process16to10");
     long j;
     int rowsizeInBytes= rawwidht*10/8;
     long finalsize = rowsizeInBytes * rawheight;
@@ -435,6 +415,7 @@ void DngWriter::process16to10(TIFF *tif) {
     unsigned char G2_ar[2];
     unsigned char R_ar[2];
     j=0;
+    LOGD("Start Convert");
     for (long i = 0; i < finalsize; i +=5)
     {
 
@@ -462,11 +443,12 @@ void DngWriter::process16to10(TIFF *tif) {
         pixel[i+3] = (G2_ar[0] & 0b00111111 ) << 2 | (R_ar[1] & 0b00000011);//333333 H44
         pixel[i+4] = R_ar[0]; //44444444
     }
-    TIFFWriteRawStrip(tif, 0, pixel, rawheight*rowsizeInBytes);
+    TIFFWriteRawStrip(tif, 0, pixel, finalsize);
     LOGD("Finalizng DNG");
 
     LOGD("Free Memory");
-    free(pixel);
+    delete[] pixel;
+    LOGD("Freed Memory");
 }
 
 void DngWriter::writeRawStuff(TIFF *tif) {
@@ -497,16 +479,21 @@ void DngWriter::writeRawStuff(TIFF *tif) {
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
     //**********************************************************************************
 
-    LOGD("Set OP or not");
     if(opcode2Size >0)
     {
         LOGD("Set OP2");
         TIFFSetField(tif, TIFFTAG_OPC2, opcode2Size, opcode2);
     }
+    else{
+        LOGD("No Opcode2");
+    }
     if(opcode3Size >0)
     {
         LOGD("Set OP3");
         TIFFSetField(tif, TIFFTAG_OPC3, opcode3Size, opcode3);
+    }
+    else{
+        LOGD("No Opcode3");
     }
     if(rawType == 0)
     {
@@ -561,10 +548,10 @@ void DngWriter::WriteDNG() {
         makeGPS_IFD(tif);        
         TIFFWriteCustomDirectory(tif, &gps_offset);	
         
-	// set GPSIFD tag
-	TIFFSetDirectory(tif, 0);
-	TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);    	
-	TIFFCheckpointDirectory(tif);    	        
+        // set GPSIFD tag
+        TIFFSetDirectory(tif, 0);
+        TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);
+        TIFFCheckpointDirectory(tif);
     }
     
     //set exififd tag
@@ -575,18 +562,20 @@ void DngWriter::WriteDNG() {
 
     TIFFRewriteDirectory(tif);
     TIFFClose(tif);
+    LOGD("Tiff closed, free opcode, bayerbytes");
     if(opcode2Size >0)
     {
-        free(opcode2);
+        delete[] opcode2;
         opcode2 = NULL;
     }
     if(opcode3Size >0)
     {
-        free(opcode3);
+        delete[] opcode3;
         opcode3 = NULL;
     }
     if (bayerBytes == NULL)
         return;
-    free(bayerBytes);
+    delete[] bayerBytes;
     bayerBytes = NULL;
+    LOGD("freed opcode, bayerbytes");
 }

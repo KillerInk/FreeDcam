@@ -26,6 +26,9 @@
 
 extern "C"
 {
+
+JNIEXPORT jobject JNICALL Java_freed_jni_RawToDng_init(JNIEnv * env, jobject obj);
+
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject thiz,
                                                            jint iso,
                                                            jdouble expo,
@@ -34,20 +37,20 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject 
                                                            jfloat focalL,
                                                            jstring imagedescription,
                                                            jstring orientation,
-                                                           jfloat exposureIndex);
+                                                           jfloat exposureIndex, jobject javaHandle);
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime);
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetThumbData(JNIEnv *env, jobject thiz,  jbyteArray mThumb, jint widht, jint height);
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_WriteDNG(JNIEnv *env, jobject thiz);
-JNIEXPORT jlong JNICALL Java_freed_jni_RawToDng_GetRawBytesSize(JNIEnv *env, jobject thiz);
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetRawHeight(JNIEnv *env, jobject thiz, jint height);
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerData(JNIEnv *env, jobject thiz,jbyteArray fileBytes, jstring fileout);
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerDataFD(JNIEnv *env, jobject thiz,jbyteArray fileBytes, jint fileDescriptor, jstring filename);
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_WriteDNG(JNIEnv *env, jobject thiz);
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jstring model, jstring make);
-JNIEXPORT jint JNICALL Java_freed_jni_RawToDng_GetRawHeight(JNIEnv *env, jobject thiz);
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode2(JNIEnv *env, jobject thiz, jbyteArray opcode);
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode3(JNIEnv *env, jobject thiz, jbyteArray opcode);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime,jobject javaHandle);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetThumbData(JNIEnv *env, jobject thiz,  jbyteArray mThumb, jint widht, jint height,jobject javaHandle);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_WriteDNG(JNIEnv *env, jobject thiz,jobject javaHandle);
+JNIEXPORT jlong JNICALL Java_freed_jni_RawToDng_GetRawBytesSize(JNIEnv *env, jobject thiz,jobject javaHandle);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetRawHeight(JNIEnv *env, jobject thiz, jint height,jobject javaHandle);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerData(JNIEnv *env, jobject thiz,jbyteArray fileBytes, jstring fileout,jobject javaHandle);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerDataFD(JNIEnv *env, jobject thiz,jbyteArray fileBytes, jint fileDescriptor, jstring filename,jobject javaHandle);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_WriteDNG(JNIEnv *env, jobject thiz,jobject javaHandle);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jstring model, jstring make,jobject javaHandle);
+JNIEXPORT jint JNICALL Java_freed_jni_RawToDng_GetRawHeight(JNIEnv *env, jobject thiz,jobject javaHandle);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode2(JNIEnv *env, jobject thiz, jbyteArray opcode,jobject javaHandle);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode3(JNIEnv *env, jobject thiz, jbyteArray opcode,jobject javaHandle);
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz,
                                                             jfloatArray colorMatrix1,
@@ -65,48 +68,57 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
                                                             jstring devicename,
                                                             jint tight,
                                                             jint width,
-                                                            jint height);
+                                                            jint height,jobject javaHandle);
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetDateTime(JNIEnv *env, jobject thiz, jstring datetime);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetDateTime(JNIEnv *env, jobject thiz, jstring datetime,jobject javaHandle);
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetToneCurve(JNIEnv *env, jobject thiz,jfloatArray tonecurve);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetToneCurve(JNIEnv *env, jobject thiz,jfloatArray tonecurve,jobject javaHandle);
 
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapDims(JNIEnv *env, jobject thiz,jintArray huesatmapdims);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapDims(JNIEnv *env, jobject thiz,jintArray huesatmapdims,jobject javaHandle);
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapData1(JNIEnv *env, jobject thiz,jfloatArray huesatmapdata);
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapData2(JNIEnv *env, jobject thiz,jfloatArray huesatmapdata);
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBaselineExposure(JNIEnv *env, jobject thiz,jfloat baselineexposure);
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBaselineExposureOffset(JNIEnv *env, jobject thiz,jfloat baselineexposureoffset);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapData1(JNIEnv *env, jobject thiz,jfloatArray huesatmapdata,jobject javaHandle);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapData2(JNIEnv *env, jobject thiz,jfloatArray huesatmapdata,jobject javaHandle);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBaselineExposure(JNIEnv *env, jobject thiz,jfloat baselineexposure,jobject javaHandle);
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBaselineExposureOffset(JNIEnv *env, jobject thiz,jfloat baselineexposureoffset,jobject javaHandle);
+}
+
+JNIEXPORT jobject JNICALL Java_freed_jni_RawToDng_init(JNIEnv * env, jobject obj)
+{
+    DngWriter *writer = new DngWriter();
+    return env->NewDirectByteBuffer(writer, 0);
+}
+
+JNIEXPORT jlong JNICALL Java_freed_jni_RawToDng_GetRawBytesSize(JNIEnv *env, jobject thiz,jobject javaHandle)
+{
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    return writer->rawSize;
+}
+
+JNIEXPORT jint JNICALL Java_freed_jni_RawToDng_GetRawHeight(JNIEnv *env, jobject thiz,jobject javaHandle)
+{
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    return writer->rawheight;
 }
 
 
-DngWriter writer;
-JNIEXPORT jlong JNICALL Java_freed_jni_RawToDng_GetRawBytesSize(JNIEnv *env, jobject thiz)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetRawHeight(JNIEnv *env, jobject thiz, jint height,jobject javaHandle)
 {
-    return writer.rawSize;
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->rawheight = (int) height;
 }
 
-JNIEXPORT jint JNICALL Java_freed_jni_RawToDng_GetRawHeight(JNIEnv *env, jobject thiz)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jstring model, jstring make,jobject javaHandle)
 {
-    return writer.rawheight;
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->_make = (char*) env->GetStringUTFChars(make,NULL);
+    writer->_model = (char*) env->GetStringUTFChars(model,NULL);
 }
 
-
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetRawHeight(JNIEnv *env, jobject thiz, jint height)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetDateTime(JNIEnv *env, jobject thiz, jstring datetime,jobject javaHandle)
 {
-    writer.rawheight = (int) height;
-}
-
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jstring model, jstring make)
-{
-    writer._make = (char*) env->GetStringUTFChars(make,NULL);
-    writer._model = (char*) env->GetStringUTFChars(model,NULL);
-}
-
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetDateTime(JNIEnv *env, jobject thiz, jstring datetime)
-{
-    writer._dateTime = (char*) env->GetStringUTFChars(datetime,NULL);
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->_dateTime = (char*) env->GetStringUTFChars(datetime,NULL);
 }
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject thiz,
@@ -117,76 +129,83 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject 
                                                            jfloat focalL,
                                                            jstring imagedescription,
                                                            jstring orientation,
-                                                           jfloat exposureIndex)
+                                                           jfloat exposureIndex,jobject javaHandle)
 {
-    writer._iso = iso;
-    writer._exposure =expo;
-    writer._flash = flash;
-    writer._imagedescription = (char*) env->GetStringUTFChars(imagedescription,NULL);
-    writer._orientation = (char*) env->GetStringUTFChars(orientation,NULL);
-    writer._fnumber = fNum;
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->_iso = iso;
+    writer->_exposure =expo;
+    writer->_flash = flash;
+    writer->_imagedescription = (char*) env->GetStringUTFChars(imagedescription,NULL);
+    writer->_orientation = (char*) env->GetStringUTFChars(orientation,NULL);
+    writer->_fnumber = fNum;
     LOGD("fnum jni: %9.6f", fNum);
-    writer._focallength = focalL;
+    writer->_focallength = focalL;
     LOGD("expoindex jni: %9.6f", exposureIndex);
-    writer._exposureIndex = exposureIndex;
+    writer->_exposureIndex = exposureIndex;
 }
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime,jobject javaHandle)
 {
-    writer.Altitude = (double)Altitude;
-    writer.Latitude =  env->GetFloatArrayElements(Latitude,NULL);
-    writer.Longitude = env->GetFloatArrayElements(Longitude,NULL);
-    writer.Provider = (char*) env->GetStringUTFChars(Provider,NULL);
-    writer.gpsTime = (long)(gpsTime);
-    writer.gps = true;
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->Altitude = (double)Altitude;
+    writer->Latitude =  env->GetFloatArrayElements(Latitude,NULL);
+    writer->Longitude = env->GetFloatArrayElements(Longitude,NULL);
+    writer->Provider = (char*) env->GetStringUTFChars(Provider,NULL);
+    writer->gpsTime = (long)(gpsTime);
+    writer->gps = true;
 }
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetThumbData(JNIEnv *env, jobject thiz,  jbyteArray mThumb, int widht, int height)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetThumbData(JNIEnv *env, jobject thiz,  jbyteArray mThumb, int widht, int height,jobject javaHandle)
 {
-    writer._thumbData = (unsigned char*) env->GetByteArrayElements(mThumb,NULL);
-    writer.thumbheight = (int) height;
-    writer.thumwidth = widht;
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->_thumbData = (unsigned char*) env->GetByteArrayElements(mThumb,NULL);
+    writer->thumbheight = (int) height;
+    writer->thumwidth = widht;
 }
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode2(JNIEnv *env, jobject thiz, jbyteArray opcode)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode2(JNIEnv *env, jobject thiz, jbyteArray opcode,jobject javaHandle)
 {
-    writer.opcode2Size = env->GetArrayLength(opcode);
-    writer.opcode2 = new unsigned char[writer.opcode2Size];
-    memcpy(writer.opcode2, env->GetByteArrayElements(opcode,NULL), writer.opcode2Size);
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->opcode2Size = env->GetArrayLength(opcode);
+    writer->opcode2 = new unsigned char[writer->opcode2Size];
+    memcpy(writer->opcode2, env->GetByteArrayElements(opcode,NULL), writer->opcode2Size);
 }
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode3(JNIEnv *env, jobject thiz, jbyteArray opcode)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode3(JNIEnv *env, jobject thiz, jbyteArray opcode,jobject javaHandle)
 {
-    writer.opcode3Size = env->GetArrayLength(opcode);
-    writer.opcode3 = new unsigned char[writer.opcode3Size];
-    memcpy(writer.opcode3, env->GetByteArrayElements(opcode,NULL), writer.opcode3Size);
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->opcode3Size = env->GetArrayLength(opcode);
+    writer->opcode3 = new unsigned char[writer->opcode3Size];
+    memcpy(writer->opcode3, env->GetByteArrayElements(opcode,NULL), writer->opcode3Size);
 }
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerData(JNIEnv *env, jobject thiz, jbyteArray fileBytes, jstring fileout)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerData(JNIEnv *env, jobject thiz, jbyteArray fileBytes, jstring fileout,jobject javaHandle)
 {
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
     LOGD("Try to set Bayerdata");
-    writer.bayerBytes = new unsigned char[env->GetArrayLength(fileBytes)];
+    writer->bayerBytes = new unsigned char[env->GetArrayLength(fileBytes)];
     LOGD("init bayerbytes");
-    //writer.bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
-    memcpy(writer.bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
+    //writer->bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
+    memcpy(writer->bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
     LOGD(" set Bayerdata");
-    writer.fileSavePath = (char*)  env->GetStringUTFChars(fileout,NULL);
-    writer.rawSize = env->GetArrayLength(fileBytes);
+    writer->fileSavePath = (char*)  env->GetStringUTFChars(fileout,NULL);
+    writer->rawSize = env->GetArrayLength(fileBytes);
 }
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerDataFD(JNIEnv *env, jobject thiz, jbyteArray fileBytes, jint fileDescriptor, jstring filename)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerDataFD(JNIEnv *env, jobject thiz, jbyteArray fileBytes, jint fileDescriptor, jstring filename,jobject javaHandle)
 {
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
     LOGD("Try to set SetBayerDataFD");
-    writer.bayerBytes = new unsigned char[env->GetArrayLength(fileBytes)];
+    writer->bayerBytes = new unsigned char[env->GetArrayLength(fileBytes)];
     LOGD("init bayerbytes");
-    //writer.bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
-    memcpy(writer.bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
+    //writer->bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
+    memcpy(writer->bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
     LOGD(" set Bayerdata");
-    writer.fileDes = (int)fileDescriptor;
-    writer.hasFileDes = true;
-    LOGD(" writer.fileDes : %d", writer.fileDes);
-    writer.fileSavePath = "";
-    writer.rawSize = env->GetArrayLength(fileBytes);
-    LOGD(" writer.rawsize : %d", writer.rawSize);
+    writer->fileDes = (int)fileDescriptor;
+    writer->hasFileDes = true;
+    LOGD(" writer->fileDes : %d", writer->fileDes);
+    writer->fileSavePath = "";
+    writer->rawSize = env->GetArrayLength(fileBytes);
+    LOGD(" writer->rawsize : %d", writer->rawSize);
 }
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz,
@@ -205,72 +224,79 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
                                                             jstring devicename,
                                                             jint tight,
                                                             jint width,
-                                                            jint height)
+                                                            jint height,jobject javaHandle)
 {
-
-    writer.blacklevel = new float[4];
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->blacklevel = new float[4];
     for (int i = 0; i < 4; ++i) {
-        writer.blacklevel[i] = blacklevel;
+        writer->blacklevel[i] = blacklevel;
     }
-    writer.whitelevel = whitelevel;
-    writer.rawType = tight;
-    writer.rowSize =rowSize;
-    writer.colorMatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);
-    writer.colorMatrix2 =env->GetFloatArrayElements(colorMatrix2, 0);
-    writer.neutralColorMatrix = env->GetFloatArrayElements(neutralColor, 0);
+    writer->whitelevel = whitelevel;
+    writer->rawType = tight;
+    writer->rowSize =rowSize;
+    writer->colorMatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);
+    writer->colorMatrix2 =env->GetFloatArrayElements(colorMatrix2, 0);
+    writer->neutralColorMatrix = env->GetFloatArrayElements(neutralColor, 0);
     if(fowardMatrix1 != NULL)
-        writer.fowardMatrix1 = env->GetFloatArrayElements(fowardMatrix1, 0);
+        writer->fowardMatrix1 = env->GetFloatArrayElements(fowardMatrix1, 0);
     if(fowardMatrix2 != NULL)
-        writer.fowardMatrix2 =env->GetFloatArrayElements(fowardMatrix2, 0);
+        writer->fowardMatrix2 =env->GetFloatArrayElements(fowardMatrix2, 0);
     if(reductionMatrix1 != NULL)
-        writer.reductionMatrix1 = env->GetFloatArrayElements(reductionMatrix1, 0);
+        writer->reductionMatrix1 = env->GetFloatArrayElements(reductionMatrix1, 0);
     if(reductionMatrix2 != NULL)
-        writer.reductionMatrix2 =env->GetFloatArrayElements(reductionMatrix2, 0);
+        writer->reductionMatrix2 =env->GetFloatArrayElements(reductionMatrix2, 0);
     if(noiseMatrix != NULL)
-        writer.noiseMatrix = env->GetDoubleArrayElements(noiseMatrix, 0);
+        writer->noiseMatrix = env->GetDoubleArrayElements(noiseMatrix, 0);
 
-    writer.bayerformat = (char*)  env->GetStringUTFChars(bayerformat,0);
-    writer.rawheight = height;
-    writer.rawwidht = width;
+    writer->bayerformat = (char*)  env->GetStringUTFChars(bayerformat,0);
+    writer->rawheight = height;
+    writer->rawwidht = width;
 
 }
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_WriteDNG(JNIEnv *env, jobject thiz)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_WriteDNG(JNIEnv *env, jobject thiz,jobject javaHandle)
 {
-    writer.WriteDNG();
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->WriteDNG();
 }
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetToneCurve(JNIEnv *env, jobject thiz,jfloatArray tonecurve)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetToneCurve(JNIEnv *env, jobject thiz,jfloatArray tonecurve,jobject javaHandle)
 {
-    writer.tonecurve = env->GetFloatArrayElements(tonecurve, 0);
-    writer.tonecurvesize = env->GetArrayLength(tonecurve);
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->tonecurve = env->GetFloatArrayElements(tonecurve, 0);
+    writer->tonecurvesize = env->GetArrayLength(tonecurve);
 }
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapDims(JNIEnv *env, jobject thiz,jintArray huesatmapdims)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapDims(JNIEnv *env, jobject thiz,jintArray huesatmapdims,jobject javaHandle)
 {
-    writer.huesatmapdims =  env->GetIntArrayElements(huesatmapdims, 0);
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->huesatmapdims =  env->GetIntArrayElements(huesatmapdims, 0);
 }
 
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapData1(JNIEnv *env, jobject thiz,jfloatArray tonecurve)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapData1(JNIEnv *env, jobject thiz,jfloatArray tonecurve,jobject javaHandle)
 {
-    writer.huesatmapdata1 = env->GetFloatArrayElements(tonecurve, 0);
-    writer.huesatmapdata1_size = env->GetArrayLength(tonecurve);
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->huesatmapdata1 = env->GetFloatArrayElements(tonecurve, 0);
+    writer->huesatmapdata1_size = env->GetArrayLength(tonecurve);
 }
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapData2(JNIEnv *env, jobject thiz,jfloatArray tonecurve)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetHueSatMapData2(JNIEnv *env, jobject thiz,jfloatArray tonecurve,jobject javaHandle)
 {
-    writer.huesatmapdata1 = env->GetFloatArrayElements(tonecurve, 0);
-    writer.huesatmapdata1_size = env->GetArrayLength(tonecurve);
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->huesatmapdata1 = env->GetFloatArrayElements(tonecurve, 0);
+    writer->huesatmapdata1_size = env->GetArrayLength(tonecurve);
 }
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBaselineExposure(JNIEnv *env, jobject thiz,jfloat baselineexposure)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBaselineExposure(JNIEnv *env, jobject thiz,jfloat baselineexposure,jobject javaHandle)
 {
-    writer.baselineExposure = baselineexposure;
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->baselineExposure = baselineexposure;
 }
 
-JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBaselineExposureOffset(JNIEnv *env, jobject thiz,jfloat baselineexposureoffset)
+JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBaselineExposureOffset(JNIEnv *env, jobject thiz,jfloat baselineexposureoffset,jobject javaHandle)
 {
-    writer.baselineExposureOffset = baselineexposureoffset;
+    DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
+    writer->baselineExposureOffset = baselineexposureoffset;
 }
 

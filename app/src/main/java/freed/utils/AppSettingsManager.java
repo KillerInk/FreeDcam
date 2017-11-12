@@ -27,6 +27,8 @@ import android.text.TextUtils;
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,6 +36,7 @@ import java.util.Set;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
+import freed.jni.RawToDng;
 
 /**
  * Created by troop on 19.08.2014.
@@ -201,6 +204,8 @@ public class AppSettingsManager {
     private HashMap<String, CustomMatrix> matrixes;
     private HashMap<String, ToneMapProfile> tonemapProfiles;
     private LongSparseArray<DngProfile> dngProfileHashMap;
+    private byte[] opcode2;
+    private byte[] opcode3;
 
     private final String FEATUREDETECTED = "featuredetected";
 
@@ -484,6 +489,8 @@ public class AppSettingsManager {
         tonemapProfilesSettings = new SettingMode(getResString(R.string.aps_tonemapProfile));
 
 
+        loadOpCodes();
+
         parseXml(sharedPreferences, resources);
 
 
@@ -506,6 +513,26 @@ public class AppSettingsManager {
             opcodeUrlList = new String[2];
             dngProfileHashMap = parser.getDngProfiles(matrixes,this);
         }
+    }
+
+    private void loadOpCodes()
+    {
+        File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
+        if (op2.exists())
+            try {
+                opcode2 = RawToDng.readFile(op2);
+                Log.d(TAG, "opcode2 size" + opcode2.length);
+            } catch (IOException e) {
+                Log.WriteEx(e);
+            }
+        File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
+        if (op3.exists())
+            try {
+                opcode3 = RawToDng.readFile(op3);
+                Log.d(TAG, "opcode3 size" + opcode3.length);
+            } catch (IOException e) {
+                Log.WriteEx(e);
+            }
     }
 
     public void RESET()
@@ -808,6 +835,16 @@ public class AppSettingsManager {
     public boolean getIsFrontCamera()
     {
         return settings.getBoolean(getApiSettingString(FRONTCAMERA), false);
+    }
+
+    public byte[] getOpcode2()
+    {
+        return opcode2;
+    }
+
+    public byte[] getOpcode3()
+    {
+        return opcode3;
     }
 
 
