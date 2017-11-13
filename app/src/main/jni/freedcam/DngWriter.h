@@ -30,6 +30,64 @@ private:
     void processSXXX16(TIFF *tif);
     void process16to10(TIFF *tif);
     void writeRawStuff(TIFF *tif);
+    void clear()
+    {
+        if(_make != NULL)
+            delete [] _make;
+        if(_model != NULL)
+            delete [] _model;
+        if(_imagedescription != NULL)
+            delete [] _imagedescription;
+        if(_dateTime != NULL)
+            delete [] _dateTime;
+        if(_orientation != NULL)
+            delete [] _orientation;
+        if(gps)
+        {
+            delete [] Latitude;
+            delete [] Longitude;
+            delete [] Provider;
+            delete [] fileSavePath;
+        }
+        if(blacklevel != NULL)
+            delete[] blacklevel;
+
+        if(bayerBytes != NULL)
+            free(bayerBytes);
+        
+        if(colorMatrix1 != NULL)
+            delete[] colorMatrix1;
+        if(colorMatrix2 != NULL)
+            delete[] colorMatrix2;
+        if(neutralColorMatrix != NULL)
+            delete[] neutralColorMatrix;
+        if(fowardMatrix1 != NULL)
+            delete[] fowardMatrix1;
+        if(fowardMatrix2 != NULL)
+            delete[] fowardMatrix2;
+        if(reductionMatrix1 != NULL)
+            delete[] reductionMatrix1;
+        if(reductionMatrix2 != NULL)
+            delete[] reductionMatrix2;
+        if(tonecurve != NULL)
+            delete[] tonecurve;
+        if(huesatmapdata1 != NULL)
+            delete[] huesatmapdata1;
+        if(huesatmapdata2 != NULL)
+            delete[] huesatmapdata2;
+        if(huesatmapdims != NULL)
+            delete[] huesatmapdims;
+        if (noiseMatrix != NULL)
+            delete []noiseMatrix;
+        if(_thumbData != NULL)
+            delete [] _thumbData;
+        if(opcode2 != NULL)
+            delete [] opcode2;
+        if(opcode3 != NULL)
+            delete [] opcode3;
+
+
+    }
 public:
     int _iso, _flash;
     double _exposure;
@@ -95,6 +153,7 @@ public:
         hasFileDes = false;
         opcode2Size =0;
         opcode3Size = 0;
+        fileSavePath = NULL;
     }
 
     void WriteDNG();

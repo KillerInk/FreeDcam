@@ -12,6 +12,7 @@ TIFF* DngWriter::openfTIFF(char *fileSavePath)
     if (!(tif = TIFFOpen (fileSavePath, "w")))
     {
         LOGD("openfTIFF:error while creating outputfile");
+        return NULL;
     }
     return tif;
 }
@@ -23,6 +24,7 @@ TIFF* DngWriter::openfTIFFFD(char *fileSavePath, int fd) {
     if (!(tif = TIFFFdOpen (fd,fileSavePath, "w")))
     {
         LOGD("openfTIFFFD:error while creating outputfile");
+        return NULL;
     }
     return tif;
 }
@@ -88,7 +90,7 @@ void DngWriter::writeIfd0(TIFF *tif) {
     //D65 21 Second According to DNG SPEC 1.4 this is the correct order
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
-
+    LOGD("colormatrix2");
     TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, colorMatrix2);
     if(fowardMatrix1 != NULL)
         TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  fowardMatrix1);
@@ -124,7 +126,7 @@ void DngWriter::writeIfd0(TIFF *tif) {
     {
         TIFFSetField(tif,TIFFTAG_BASELINEEXPOSUREOFFSET, baselineExposureOffset);
     }
-    LOGD("colormatrix2");
+
 }
 
 void DngWriter::makeGPS_IFD(TIFF *tif) {
@@ -326,6 +328,7 @@ void DngWriter::process12tight(TIFF *tif) {
     LOGD("Finalizng DNG");
     delete[] out;
     out = NULL;
+    ar = NULL;
 }
 
 void DngWriter::processLoose(TIFF *tif) {
@@ -527,6 +530,12 @@ void DngWriter::WriteDNG() {
     else
         tif = openfTIFF(fileSavePath);
 
+    if(tif == NULL){
+        LOGD("########## FAILED TO CREATE TIFF #############");
+        return;
+    }
+
+
     writeIfd0(tif);
     //allocate empty exifIFD tag
     TIFFSetField (tif, TIFFTAG_EXIFIFD, exif_offset);
@@ -562,20 +571,7 @@ void DngWriter::WriteDNG() {
 
     TIFFRewriteDirectory(tif);
     TIFFClose(tif);
-    LOGD("Tiff closed, free opcode, bayerbytes");
-    if(opcode2Size >0)
-    {
-        delete[] opcode2;
-        opcode2 = NULL;
-    }
-    if(opcode3Size >0)
-    {
-        delete[] opcode3;
-        opcode3 = NULL;
-    }
-    if (bayerBytes == NULL)
-        return;
-    delete[] bayerBytes;
-    bayerBytes = NULL;
-    LOGD("freed opcode, bayerbytes");
+    LOGD("Tiff closed, start clear");
+    clear();
+    LOGD("cleared");
 }

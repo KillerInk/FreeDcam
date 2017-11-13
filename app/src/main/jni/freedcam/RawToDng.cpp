@@ -83,6 +83,45 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBaselineExposure(JNIEnv *env, 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBaselineExposureOffset(JNIEnv *env, jobject thiz,jfloat baselineexposureoffset,jobject javaHandle);
 }
 
+/*void copy_uChars(JNIEnv *env, unsigned char* dest, jbyteArray src, int sizedst)
+{
+    sizedst =  env->GetArrayLength(src);
+    dest = new unsigned char[sizedst];
+    jbyte* data = env->GetByteArrayElements(src,NULL);
+    memcpy(dest, data, env->GetArrayLength(src));
+    env->ReleaseByteArrayElements(src, data, JNI_COMMIT);
+}*/
+
+/*void copy_String(JNIEnv *env, char* out ,jstring src)
+{
+    const char* fpath = env->GetStringUTFChars(src,NULL);
+    out = new char[env->GetStringLength(src)];
+    strcpy(out,fpath);
+    LOGD(" set filepath");
+    env->ReleaseStringUTFChars(src,fpath);
+}*/
+
+float* copyFloatArray(JNIEnv *env,jfloatArray src)
+{
+    int size = env->GetArrayLength((jarray)src);
+    float * out = new float[size];
+    jfloat * mat = env->GetFloatArrayElements(src, 0);
+    for (int i = 0; i < size; ++i) {
+        out[i] = mat[i];
+    }
+    env->ReleaseFloatArrayElements(src,mat,JNI_COMMIT);
+    return out;
+}
+
+/*void copyDoubleMatrix(JNIEnv *env, double* out, jdoubleArray src)
+{
+    int size = env->GetArrayLength((jarray)src);
+    out = new jdouble[size];
+    jdouble * mat = env->GetDoubleArrayElements(src, 0);
+    memcpy(out, mat,size);
+    env->ReleaseDoubleArrayElements(src,mat,JNI_COMMIT);
+}*/
+
 JNIEXPORT jobject JNICALL Java_freed_jni_RawToDng_init(JNIEnv * env, jobject obj)
 {
     DngWriter *writer = new DngWriter();
@@ -110,6 +149,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetRawHeight(JNIEnv *env, jobject
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jstring model, jstring make,jobject javaHandle)
 {
+    LOGD("Java_freed_jni_RawToDng_SetModelAndMake");
     DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
     writer->_make = (char*) env->GetStringUTFChars(make,NULL);
     writer->_model = (char*) env->GetStringUTFChars(model,NULL);
@@ -117,8 +157,13 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetModelAndMake(JNIEnv *env, jobj
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetDateTime(JNIEnv *env, jobject thiz, jstring datetime,jobject javaHandle)
 {
+    LOGD("Java_freed_jni_RawToDng_SetDateTime");
     DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
-    writer->_dateTime = (char*) env->GetStringUTFChars(datetime,NULL);
+    const char* fpath = env->GetStringUTFChars(datetime,NULL);
+    writer->_dateTime = new char[env->GetStringLength(datetime)];
+    strcpy(writer->_dateTime,fpath);
+    env->ReleaseStringUTFChars(datetime,fpath);
+    //copy_String(env,writer->_dateTime,datetime);
 }
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject thiz,
@@ -131,12 +176,22 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject 
                                                            jstring orientation,
                                                            jfloat exposureIndex,jobject javaHandle)
 {
+    LOGD("Java_freed_jni_RawToDng_SetExifData");
     DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
     writer->_iso = iso;
     writer->_exposure =expo;
     writer->_flash = flash;
-    writer->_imagedescription = (char*) env->GetStringUTFChars(imagedescription,NULL);
-    writer->_orientation = (char*) env->GetStringUTFChars(orientation,NULL);
+
+    const char* fpath = env->GetStringUTFChars(imagedescription,NULL);
+    writer->_imagedescription = new char[env->GetStringLength(imagedescription)];
+    strcpy(writer->_imagedescription,fpath);
+    env->ReleaseStringUTFChars(imagedescription,fpath);
+
+    fpath = env->GetStringUTFChars(orientation,NULL);
+    writer->_orientation = new char[env->GetStringLength(orientation)];
+    strcpy(writer->_orientation,fpath);
+    env->ReleaseStringUTFChars(orientation,fpath);
+
     writer->_fnumber = fNum;
     LOGD("fnum jni: %9.6f", fNum);
     writer->_focallength = focalL;
@@ -146,11 +201,29 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject 
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime,jobject javaHandle)
 {
+    LOGD("Java_freed_jni_RawToDng_SetGPSData");
     DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
     writer->Altitude = (double)Altitude;
-    writer->Latitude =  env->GetFloatArrayElements(Latitude,NULL);
-    writer->Longitude = env->GetFloatArrayElements(Longitude,NULL);
-    writer->Provider = (char*) env->GetStringUTFChars(Provider,NULL);
+    //copyFloatArray(env, writer->Latitude, Latitude);
+    int size = env->GetArrayLength((jarray)Latitude);
+    writer->Latitude = new float[size];
+    jfloat * mat = env->GetFloatArrayElements(Latitude, 0);
+    memcpy(writer->Latitude, mat,size);
+    env->ReleaseFloatArrayElements(Latitude,mat,JNI_COMMIT);
+
+    //copyFloatArray(env, writer->Longitude, Longitude);
+    size = env->GetArrayLength((jarray)Longitude);
+    writer->Longitude = new float[size];
+    mat = env->GetFloatArrayElements(Longitude, 0);
+    memcpy(writer->Longitude, mat,size);
+    env->ReleaseFloatArrayElements(Longitude,mat,JNI_COMMIT);
+    //copy_String(env,writer->Provider, Provider);
+
+    const char* fpath = env->GetStringUTFChars(Provider,NULL);
+    writer->Provider = new char[env->GetStringLength(Provider)];
+    strcpy(writer->Provider,fpath);
+    env->ReleaseStringUTFChars(Provider,fpath);
+
     writer->gpsTime = (long)(gpsTime);
     writer->gps = true;
 }
@@ -166,46 +239,69 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetThumbData(JNIEnv *env, jobject
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode2(JNIEnv *env, jobject thiz, jbyteArray opcode,jobject javaHandle)
 {
     DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
-    writer->opcode2Size = env->GetArrayLength(opcode);
+    writer->opcode2Size =  env->GetArrayLength(opcode);
     writer->opcode2 = new unsigned char[writer->opcode2Size];
-    memcpy(writer->opcode2, env->GetByteArrayElements(opcode,NULL), writer->opcode2Size);
+    jbyte* data = env->GetByteArrayElements(opcode,NULL);
+    memcpy(writer->opcode2, data, writer->opcode2Size);
+    env->ReleaseByteArrayElements(opcode, data, JNI_COMMIT);
+    //copy_uChars(env, writer->opcode2,opcode,writer->opcode2Size);
 }
+
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode3(JNIEnv *env, jobject thiz, jbyteArray opcode,jobject javaHandle)
 {
     DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
-    writer->opcode3Size = env->GetArrayLength(opcode);
+    writer->opcode3Size =  env->GetArrayLength(opcode);
     writer->opcode3 = new unsigned char[writer->opcode3Size];
-    memcpy(writer->opcode3, env->GetByteArrayElements(opcode,NULL), writer->opcode3Size);
+    jbyte* data = env->GetByteArrayElements(opcode,NULL);
+    memcpy(writer->opcode3, data, writer->opcode3Size);
+    env->ReleaseByteArrayElements(opcode, data, JNI_COMMIT);
+    //copy_uChars(env, writer->opcode3,opcode,writer->opcode3Size);
 }
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerData(JNIEnv *env, jobject thiz, jbyteArray fileBytes, jstring fileout,jobject javaHandle)
 {
+    LOGD("Java_freed_jni_RawToDng_SetBayerData");
     DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
-    LOGD("Try to set Bayerdata");
-    writer->bayerBytes = new unsigned char[env->GetArrayLength(fileBytes)];
-    LOGD("init bayerbytes");
-    //writer->bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
-    memcpy(writer->bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
-    LOGD(" set Bayerdata");
-    writer->fileSavePath = (char*)  env->GetStringUTFChars(fileout,NULL);
-    writer->rawSize = env->GetArrayLength(fileBytes);
+
+    writer->rawSize =  env->GetArrayLength(fileBytes);
+    writer->bayerBytes = new unsigned char[writer->rawSize];
+    jbyte* data = env->GetByteArrayElements(fileBytes,NULL);
+    memcpy(writer->bayerBytes, data, env->GetArrayLength(fileBytes));
+    env->ReleaseByteArrayElements(fileBytes, data, JNI_COMMIT);
+
+    //copy_uChars(env,writer->bayerBytes,fileBytes,writer->rawSize);
+    if(writer->bayerBytes != NULL)
+        LOGD("copied bayerdata");
+    else
+        LOGD("copied bayerdata FAILED!");
+
+    const char* fpath = env->GetStringUTFChars(fileout,NULL);
+    writer->fileSavePath = new char[env->GetStringLength(fileout)];
+    strcpy(writer->fileSavePath,fpath);
+    LOGD(" set filepath");
+    env->ReleaseStringUTFChars(fileout,fpath);
+    //copy_String(env,writer->fileSavePath, fileout);
+    if(writer->fileSavePath != NULL)
+        LOGD("copied filesavepath");
+    else
+        LOGD("copied filesavepath FAILED!");
 }
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerDataFD(JNIEnv *env, jobject thiz, jbyteArray fileBytes, jint fileDescriptor, jstring filename,jobject javaHandle)
 {
+    LOGD("Java_freed_jni_RawToDng_SetBayerDataFD");
     DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
-    LOGD("Try to set SetBayerDataFD");
-    writer->bayerBytes = new unsigned char[env->GetArrayLength(fileBytes)];
-    LOGD("init bayerbytes");
-    //writer->bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
-    memcpy(writer->bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
-    LOGD(" set Bayerdata");
+    writer->rawSize =  env->GetArrayLength(fileBytes);
+    writer->bayerBytes = new unsigned char[writer->rawSize];
+    jbyte* data = env->GetByteArrayElements(fileBytes,NULL);
+    memcpy(writer->bayerBytes, data, env->GetArrayLength(fileBytes));
+    env->ReleaseByteArrayElements(fileBytes, data, JNI_COMMIT);
+    //copy_uChars(env,writer->bayerBytes,fileBytes,writer->rawSize);
+    LOGD("copied Bayerdata");
     writer->fileDes = (int)fileDescriptor;
     writer->hasFileDes = true;
     LOGD(" writer->fileDes : %d", writer->fileDes);
     writer->fileSavePath = "";
-    writer->rawSize = env->GetArrayLength(fileBytes);
-    LOGD(" writer->rawsize : %d", writer->rawSize);
 }
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz,
@@ -226,6 +322,7 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
                                                             jint width,
                                                             jint height,jobject javaHandle)
 {
+    LOGD("Java_freed_jni_RawToDng_SetBayerInfo");
     DngWriter* writer= (DngWriter*) env->GetDirectBufferAddress(javaHandle);
     writer->blacklevel = new float[4];
     for (int i = 0; i < 4; ++i) {
@@ -234,21 +331,86 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject
     writer->whitelevel = whitelevel;
     writer->rawType = tight;
     writer->rowSize =rowSize;
-    writer->colorMatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);
-    writer->colorMatrix2 =env->GetFloatArrayElements(colorMatrix2, 0);
-    writer->neutralColorMatrix = env->GetFloatArrayElements(neutralColor, 0);
-    if(fowardMatrix1 != NULL)
-        writer->fowardMatrix1 = env->GetFloatArrayElements(fowardMatrix1, 0);
-    if(fowardMatrix2 != NULL)
-        writer->fowardMatrix2 =env->GetFloatArrayElements(fowardMatrix2, 0);
-    if(reductionMatrix1 != NULL)
-        writer->reductionMatrix1 = env->GetFloatArrayElements(reductionMatrix1, 0);
-    if(reductionMatrix2 != NULL)
-        writer->reductionMatrix2 =env->GetFloatArrayElements(reductionMatrix2, 0);
-    if(noiseMatrix != NULL)
-        writer->noiseMatrix = env->GetDoubleArrayElements(noiseMatrix, 0);
 
-    writer->bayerformat = (char*)  env->GetStringUTFChars(bayerformat,0);
+    LOGD("color1");
+    writer->colorMatrix1 = copyFloatArray(env, colorMatrix1);
+    /*int size = env->GetArrayLength((jarray)colorMatrix1);
+    writer->colorMatrix1 = new float[size];
+    jfloat * mat = env->GetFloatArrayElements(colorMatrix1, 0);
+    memcpy(writer->colorMatrix1, mat,size);
+    env->ReleaseFloatArrayElements(colorMatrix1,mat,JNI_COMMIT);*/
+
+    LOGD("color2");
+    writer->colorMatrix2 = copyFloatArray(env, colorMatrix2);
+    /*size = env->GetArrayLength((jarray)colorMatrix2);
+    writer->colorMatrix2 = new float[size];
+    mat = env->GetFloatArrayElements(colorMatrix2, 0);
+    memcpy(writer->colorMatrix2, mat,size);
+    env->ReleaseFloatArrayElements(colorMatrix2,mat,JNI_COMMIT);*/
+
+    LOGD("neutral");
+    writer->neutralColorMatrix = copyFloatArray(env,neutralColor);
+   /* size = env->GetArrayLength((jarray)neutralColor);
+    writer->neutralColorMatrix = new float[size];
+    mat = env->GetFloatArrayElements(neutralColor, 0);
+    memcpy(writer->neutralColorMatrix, mat,size);
+    env->ReleaseFloatArrayElements(neutralColor,mat,JNI_COMMIT);*/
+
+    if(fowardMatrix1 != NULL){
+        LOGD("forward1");
+        writer->fowardMatrix1 = copyFloatArray(env,fowardMatrix1);
+        /*size = env->GetArrayLength((jarray)fowardMatrix1);
+        writer->fowardMatrix1 = new float[size];
+        mat = env->GetFloatArrayElements(fowardMatrix1, 0);
+        memcpy(writer->fowardMatrix1, mat,size);
+        env->ReleaseFloatArrayElements(fowardMatrix1,mat,JNI_COMMIT);*/
+    }
+        //copyFloatArray(env, writer->fowardMatrix1, fowardMatrix1);
+    if(fowardMatrix2 != NULL){
+        LOGD("forward2");
+        writer->fowardMatrix2 = copyFloatArray(env, fowardMatrix2);
+        /*size = env->GetArrayLength((jarray)fowardMatrix2);
+        writer->fowardMatrix2 = new float[size];
+        mat = env->GetFloatArrayElements(fowardMatrix2, 0);
+        memcpy(writer->fowardMatrix2, mat,size);
+        env->ReleaseFloatArrayElements(fowardMatrix2,mat,JNI_COMMIT);*/
+    }
+
+    if(reductionMatrix1 != NULL){
+        LOGD("reduction1");
+        writer->reductionMatrix1 = copyFloatArray(env,reductionMatrix1);
+        /*size = env->GetArrayLength((jarray)reductionMatrix1);
+        writer->reductionMatrix1 = new float[size];
+        mat = env->GetFloatArrayElements(reductionMatrix1, 0);
+        memcpy(writer->reductionMatrix1, mat,size);
+        env->ReleaseFloatArrayElements(reductionMatrix1,mat,JNI_COMMIT);*/
+    }
+
+    if(reductionMatrix2 != NULL){
+        LOGD("reduction2");
+        writer->reductionMatrix2 = copyFloatArray(env,reductionMatrix2);
+       /* size = env->GetArrayLength((jarray)reductionMatrix2);
+        writer->reductionMatrix2 = new float[size];
+        mat = env->GetFloatArrayElements(reductionMatrix2, 0);
+        memcpy(writer->reductionMatrix2, mat,size);
+        env->ReleaseFloatArrayElements(reductionMatrix2,mat,JNI_COMMIT);*/
+    }
+
+    if(noiseMatrix != NULL){
+        LOGD("noise");
+        int size = env->GetArrayLength((jarray)noiseMatrix);
+        writer->noiseMatrix = new jdouble[size];
+        jdouble * mat = env->GetDoubleArrayElements(noiseMatrix, 0);
+        memcpy(writer->noiseMatrix, mat,size);
+        env->ReleaseDoubleArrayElements(noiseMatrix,mat,JNI_COMMIT);
+    }
+
+    LOGD(" set filepath");
+    const char* fpath = env->GetStringUTFChars(bayerformat,NULL);
+    writer->bayerformat = new char[env->GetStringLength(bayerformat)];
+    strcpy(writer->bayerformat,fpath);
+    env->ReleaseStringUTFChars(bayerformat,fpath);
+
     writer->rawheight = height;
     writer->rawwidht = width;
 

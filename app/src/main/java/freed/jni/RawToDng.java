@@ -88,6 +88,7 @@ public class RawToDng
     private RawToDng()
     {
         jniHandler = init();
+
         wbct = "";
     }
 
@@ -300,6 +301,7 @@ public class RawToDng
                 profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
                 profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.whitelevel, profile.bayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
         WriteDNG(jniHandler);
+        jniHandler.clear();
     }
 
     public static byte[] readFile(File file) throws IOException {
