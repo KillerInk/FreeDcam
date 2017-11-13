@@ -53,10 +53,10 @@ public class ImageSaveManager {
         {
             queueObserver1.interrupt();
         }
-        /*if (!queueObserver2.isInterrupted())
+        if (queueObserver2 != null && !queueObserver2.isInterrupted())
         {
             queueObserver2.interrupt();
-        }*/
+        }
         imageToSave.clear();
     }
 

@@ -30,6 +30,7 @@ import freed.cam.apis.basecamera.modules.WorkFinishEvents;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
+import freed.jni.RawToDng;
 import freed.utils.Log;
 
 /**
@@ -49,7 +50,7 @@ public class ImageHolder
 
     public interface ImageSaveImp
     {
-        void saveRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile,float expoindex);
+        void saveRawToDng(RawToDng dngwriter, File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile, float expoindex);
         void saveJpeg(File file, byte[] bytes);
     }
 
@@ -313,7 +314,7 @@ public class ImageHolder
         final DngProfile prof = getDngProfile(rawFormat, image);
         prof.toneMapProfile = this.toneMapProfile;
         float expoindex = captureResult.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION) * characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
-        imageSaver.saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, orientation,null,prof,expoindex);
+        imageSaver.saveRawToDng(RawToDng.GetInstance(),file, bytes, fnum,focal,(float)mExposuretime,mISO, orientation,null,prof,expoindex);
         bytes = null;
         buffer = null;
     }

@@ -33,14 +33,12 @@ public class BasePictureModule extends ModuleAbstract implements ImageHolder.Ima
 
     private final String TAG = BasePictureModule.class.getSimpleName();
     protected ActivityInterface activityInterface;
-    private RawToDng dngConverter;
 
     public BasePictureModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_picture);
         this.activityInterface = cameraUiWrapper.getActivityInterface();
-        dngConverter = RawToDng.GetInstance();
     }
 
     @Override
@@ -75,7 +73,7 @@ public class BasePictureModule extends ModuleAbstract implements ImageHolder.Ima
     }
 
     @Override
-    public void saveRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile, float expoindex)
+    public void saveRawToDng(RawToDng dngConverter,File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile, float expoindex)
     {
         Log.d(TAG,"saveDng");
         double Altitude = 0;

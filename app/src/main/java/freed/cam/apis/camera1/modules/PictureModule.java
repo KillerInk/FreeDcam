@@ -33,6 +33,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.dng.DngProfile;
+import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
@@ -277,7 +278,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
         }
         Log.d(TAG, "found dngProfile:" + (dngProfile != null));
         int orientation = cameraUiWrapper.getActivityInterface().getOrientation();
-        saveRawToDng(file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile,0);
+        saveRawToDng(RawToDng.GetInstance(), file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile,0);
         data = null;
 
     }
