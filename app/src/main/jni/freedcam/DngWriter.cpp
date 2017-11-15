@@ -577,16 +577,141 @@ void DngWriter::WriteDNG() {
     TIFFClose(tif);
     if(opcode2Size >0)
     {
-        free(opcode2);
+        delete[] opcode2;
+        opcode2Size = NULL;
         opcode2 = NULL;
     }
     if(opcode3Size >0)
     {
-        free(opcode3);
+        delete[] opcode3;
+        opcode2Size = 0;
         opcode3 = NULL;
     }
-    if (bayerBytes == NULL)
-        return;
-    free(bayerBytes);
-    bayerBytes = NULL;
+    if (bayerBytes != NULL){
+        delete [] bayerBytes;
+        rawSize = 0;
+        bayerBytes = NULL;
+    }
+    if(fileSavePath != NULL)
+    {
+        delete[] fileSavePath;
+        fileSavePath = NULL;
+    }
+    if(blacklevel != NULL){
+        delete[] blacklevel;
+        blacklevel = NULL;
+    }
+    if(colorMatrix1 != NULL)
+    {
+        delete[] colorMatrix1;
+        colorMatrix1 = NULL;
+    }
+    if(colorMatrix2 != NULL)
+    {
+        delete[] colorMatrix2;
+        colorMatrix2 = NULL;
+    }
+    if(neutralColorMatrix != NULL)
+    {
+        delete[] neutralColorMatrix;
+        neutralColorMatrix = NULL;
+    }
+    if(fowardMatrix1 != NULL)
+    {
+        delete[] fowardMatrix1;
+        fowardMatrix1 = NULL;
+    }
+    if(fowardMatrix2 != NULL)
+    {
+        delete[] fowardMatrix2;
+        fowardMatrix2 = NULL;
+    }
+    if(reductionMatrix1 != NULL)
+    {
+        delete[] reductionMatrix1;
+        reductionMatrix1 = NULL;
+    }
+    if(reductionMatrix2 != NULL)
+    {
+        delete[] reductionMatrix2;
+        reductionMatrix2 = NULL;
+    }
+    if(reductionMatrix2 != NULL)
+    {
+        delete[] reductionMatrix2;
+        reductionMatrix2 = NULL;
+    }
+    if(noiseMatrix != NULL)
+    {
+        delete[] noiseMatrix;
+        noiseMatrix = NULL;
+    }
+    if(bayerformat != NULL)
+    {
+        delete[] bayerformat;
+        bayerformat = NULL;
+    }
+    if(Longitude != NULL)
+    {
+        delete[] Longitude;
+        Longitude = NULL;
+    }
+    if(Latitude != NULL)
+    {
+        delete[] Latitude;
+        Latitude = NULL;
+    }
+    if(Provider != NULL)
+    {
+        delete[] Provider;
+        Provider = NULL;
+    }
+    if(_make != NULL)
+    {
+        delete[] _make;
+        _make = NULL;
+    }
+    if(_model != NULL)
+    {
+        delete[] _model;
+        _model = NULL;
+    }
+    if(_dateTime != NULL)
+    {
+        delete[] _dateTime;
+        _dateTime = NULL;
+    }
+    if(_imagedescription != NULL)
+    {
+        delete[] _imagedescription;
+        _imagedescription = NULL;
+    }
+    if(_orientation != NULL)
+    {
+        delete[] _orientation;
+        _orientation = NULL;
+    }
+    if(tonecurve != NULL)
+    {
+        delete[] tonecurve;
+        tonecurve == NULL;
+    }
+    if(huesatmapdata1 != NULL)
+    {
+        delete[] huesatmapdata1;
+        huesatmapdata1 == NULL;
+        huesatmapdata1_size =0;
+    }
+    if(huesatmapdata2 != NULL)
+    {
+        delete[] huesatmapdata2;
+        huesatmapdata2 == NULL;
+        huesatmapdata2_size =0;
+    }
+    if(huesatmapdims != NULL)
+    {
+        delete[] huesatmapdims;
+        huesatmapdims == NULL;
+    }
+
 }
