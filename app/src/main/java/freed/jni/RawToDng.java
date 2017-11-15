@@ -27,13 +27,22 @@ public class RawToDng
 
     private final String TAG = RawToDng.class.getSimpleName();
 
-    private final ByteBuffer jniHandler;
+    private ByteBuffer jniHandler;
 
     private String wbct;
     private byte[] opcode2;
     private byte[] opcode3;
+    private double Altitude, Latitude,Longitude;
+    private String Provider;
+    private long gpsTime;
+    private float[] colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2;
+    private double[] noise;
+    private int blacklevel, whitelevel,rowSize,tight, width, height;
+    private String bayerformat;
 
     private native ByteBuffer init();
+    private native void recycle(ByteBuffer jniHandler);
+
     private native long GetRawBytesSize(ByteBuffer jniHandler);
     private native int GetRawHeight(ByteBuffer jniHandler);
     private native void SetGPSData(double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime,ByteBuffer jniHandler);
@@ -177,11 +186,20 @@ public class RawToDng
 
     private long GetRawSize()
     {
+        if (jniHandler == null)
+            return 0;
         return GetRawBytesSize(jniHandler);
     }
 
     public void SetGpsData(double Altitude,double Latitude,double Longitude, String Provider, long gpsTime)
     {
+        if (jniHandler == null)
+            return;
+        this.Altitude = Altitude;
+        this.Latitude = Latitude;
+        this.Longitude = Longitude;
+        this.Provider = Provider;
+        this.gpsTime = gpsTime;
         Log.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
         SetGPSData(Altitude, parseGpsvalue(Latitude), parseGpsvalue(Longitude), Provider, gpsTime,jniHandler);
     }
@@ -263,10 +281,27 @@ public class RawToDng
                               int rowSize,
                               int tight, int width, int height)
     {
+        if (jniHandler == null)
+            return;
+        this.colorMatrix1 = colorMatrix1;
+        this.colorMatrix2 = colorMatrix2;
+        this.neutralColor = neutralColor;
+        this.fowardMatrix1 = fowardMatrix1;
+        this.fowardMatrix2 = fowardMatrix2;
+        this.reductionMatrix1 = reductionMatrix1;
+        this.reductionMatrix2 = reductionMatrix2;
+        this.noise = noise;
+        this.blacklevel = blacklevel;
+        this.whitelevel = whitelevel;
+        this.bayerformat = bayerformat;
+        this.rowSize =rowSize;
+        this.tight =tight;
+        this.width =width;
+        this.height =height;
         if (wbct == null || wbct.equals(""))
-            SetBayerInfo(colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height,jniHandler);
+            SetBayerInfo(this.colorMatrix1, this.colorMatrix2, this.neutralColor, this.fowardMatrix1, this.fowardMatrix2, this.reductionMatrix1, this.reductionMatrix2, this.noise, this.blacklevel,this.whitelevel, this.bayerformat, this.rowSize, Build.MODEL, this.tight, this.width, this.height,this.jniHandler);
         else if (!wbct.equals(""))
-            SetBayerInfo(colorMatrix1, colorMatrix2, getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height,jniHandler);
+            SetBayerInfo(this.colorMatrix1, this.colorMatrix2, getWbCtMatrix(wbct), this.fowardMatrix1, this.fowardMatrix2, this.reductionMatrix1, this.reductionMatrix2, this.noise, this.blacklevel,this.whitelevel, this.bayerformat, this.rowSize, Build.MODEL, this.tight, this.width, this.height,this.jniHandler);
 
     }
 
@@ -301,7 +336,6 @@ public class RawToDng
                 profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
                 profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.whitelevel, profile.bayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
         WriteDNG(jniHandler);
-        jniHandler.clear();
     }
 
     public static byte[] readFile(File file) throws IOException {
@@ -320,5 +354,15 @@ public class RawToDng
         } finally {
             f.close();
         }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+
+        if (jniHandler != null) {
+            recycle(jniHandler);
+            jniHandler = null;
+        }
+        super.finalize();
     }
 }
