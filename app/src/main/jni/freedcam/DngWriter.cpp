@@ -584,12 +584,12 @@ void DngWriter::WriteDNG() {
     if(opcode3Size >0)
     {
         delete[] opcode3;
-        opcode2Size = 0;
+        opcode2Size = NULL;
         opcode3 = NULL;
     }
     if (bayerBytes != NULL){
         delete [] bayerBytes;
-        rawSize = 0;
+        rawSize = NULL;
         bayerBytes = NULL;
     }
     if(fileSavePath != NULL)
@@ -694,24 +694,46 @@ void DngWriter::WriteDNG() {
     if(tonecurve != NULL)
     {
         delete[] tonecurve;
-        tonecurve == NULL;
+        tonecurvesize = NULL;
+        tonecurve = NULL;
     }
     if(huesatmapdata1 != NULL)
     {
         delete[] huesatmapdata1;
-        huesatmapdata1 == NULL;
-        huesatmapdata1_size =0;
+        huesatmapdata1 = NULL;
+        huesatmapdata1_size =NULL;
     }
     if(huesatmapdata2 != NULL)
     {
         delete[] huesatmapdata2;
-        huesatmapdata2 == NULL;
-        huesatmapdata2_size =0;
+        huesatmapdata2 = NULL;
+        huesatmapdata2_size =NULL;
     }
     if(huesatmapdims != NULL)
     {
         delete[] huesatmapdims;
-        huesatmapdims == NULL;
+        huesatmapdims = NULL;
     }
+    _iso = NULL;
+    _exposure = NULL;
+    _flash = NULL;
+    _fnumber = NULL;
+    _focallength = NULL;
+    _exposureIndex = NULL;
+    Altitude = NULL;
+    gpsTime = NULL;
+    gps = NULL;
+    whitelevel == NULL;
+    fileLength = NULL;
+    rawwidht = NULL;
+    rawheight = NULL;
+    rowSize = NULL;
+    baselineExposure = NULL;
+    baselineExposureOffset = NULL;
+    rawSize = NULL;
+    fileDes = NULL;
+    hasFileDes = NULL;
+    thumbheight = NULL;
+    thumwidth = NULL;
 
 }

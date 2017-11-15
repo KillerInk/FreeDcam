@@ -550,7 +550,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
 
     @Override
     public void onRdyToSaveImg(ImageHolder holder) {
-        ImageSaveManager.getInstance().put(holder.getRunner());
         //holder.getRunner().run();
 
         Log.d(TAG,"onRdyToSaveImg");

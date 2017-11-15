@@ -9,6 +9,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import freed.jni.RawToDng;
+
 public class ImageSaveManager {
 
     private static ImageSaveManager imageSaveManager = new ImageSaveManager();
@@ -17,7 +19,7 @@ public class ImageSaveManager {
     {
         return imageSaveManager;
     }
-    private LinkedBlockingQueue<Runnable> imageToSave;
+    private LinkedBlockingQueue<SaveTask> imageToSave;
     private boolean cancleThread = false;
     private ImageSaveThread queueObserver1;
     private ImageSaveThread queueObserver2;
@@ -30,12 +32,12 @@ public class ImageSaveManager {
         queueObserver1 = new ImageSaveThread();
         queueObserver1.setName("QueueObserver1");
         queueObserver1.start();
-        /*queueObserver2 = new ImageSaveThread();
+        queueObserver2 = new ImageSaveThread();
         queueObserver2.setName("QueueObserver2");
-        queueObserver2.start();*/
+        queueObserver2.start();
     }
 
-    public void put(Runnable runnable)
+    public void put(SaveTask runnable)
     {
         Log.d(TAG,"Put Runnable");
         try {
@@ -62,29 +64,40 @@ public class ImageSaveManager {
 
     private class ImageSaveThread extends Thread
     {
-        private Runnable runnable;
+        private SaveTask runnable;
+        private RawToDng rawToDng;
+
+        public ImageSaveThread()
+        {
+            rawToDng = RawToDng.GetInstance();
+        }
+
         @Override
         public void run() {
             Log.d(TAG,"run");
-            try {
+
                 while (!cancleThread)
                 {
-                    Log.d(TAG,"Wait for work");
-                    runnable = imageToSave.take();
-                    if (runnable != null) {
-                        Log.d(TAG, "Excute Runnable");
-                        runnable.run();
+                    try {
+                        Log.d(TAG,"Wait for work");
+                        runnable = imageToSave.take();
+
+                        if (runnable != null) {
+                            if (runnable instanceof ImageSaveTask)
+                                ((ImageSaveTask)runnable).setDngConverter(rawToDng);
+                            Log.d(TAG, "Excute Runnable");
+                            runnable.save();
+                        }
+                        else
+                            Log.d(TAG,"Runnable is null");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                    else
-                        Log.d(TAG,"Runnable is null");
+                    catch (NullPointerException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            catch (NullPointerException e)
-            {
-                e.printStackTrace();
-            }
         }
     }
 }

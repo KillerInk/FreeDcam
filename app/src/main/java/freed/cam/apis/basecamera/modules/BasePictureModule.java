@@ -29,7 +29,7 @@ import freed.utils.Log;
 
 
 
-public class BasePictureModule extends ModuleAbstract implements ImageHolder.ImageSaveImp {
+public class BasePictureModule extends  ModuleAbstract {
 
     private final String TAG = BasePictureModule.class.getSimpleName();
     protected ActivityInterface activityInterface;
@@ -72,7 +72,6 @@ public class BasePictureModule extends ModuleAbstract implements ImageHolder.Ima
             }
     }
 
-    @Override
     public void saveRawToDng(RawToDng dngConverter,File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile, float expoindex)
     {
         Log.d(TAG,"saveDng");
@@ -107,8 +106,8 @@ public class BasePictureModule extends ModuleAbstract implements ImageHolder.Ima
             Log.d(TAG, "Write To internal or kitkat<");
             checkFileExists(fileName);
             dngConverter.setBayerData(bytes, fileName.getAbsolutePath());
-            dngConverter.setOpcode2(activityInterface.getAppSettings().getOpcode2());
-            dngConverter.setOpcode3(activityInterface.getAppSettings().getOpcode3());
+            /*dngConverter.setOpcode2(activityInterface.getAppSettings().getOpcode2());
+            dngConverter.setOpcode3(activityInterface.getAppSettings().getOpcode3());*/
             dngConverter.WriteDngWithProfile(dngProfile);
         }
         else
@@ -173,7 +172,6 @@ public class BasePictureModule extends ModuleAbstract implements ImageHolder.Ima
         file = null;
     }
 
-    @Override
     public void saveJpeg(File file, byte[] bytes)
     {
         Log.d(TAG, "Start Saving Bytes");
