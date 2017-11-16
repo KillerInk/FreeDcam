@@ -65,6 +65,7 @@ public class ImageFragment extends Fragment
     private boolean isWorking;
     private I_WaitForWorkFinish waitForWorkFinish;
     private int position = -1;
+    private ImageLoaderTask imageLoaderTask;
 
     /**
      * Set the file to load by this fragment
@@ -119,7 +120,10 @@ public class ImageFragment extends Fragment
         imageView.setOnClickListener(onImageClick);
         progressBar.setVisibility(View.VISIBLE);
         if (file != null) {
-            new ImageLoaderTask().execute(file.getFile());
+            if (imageLoaderTask != null)
+                imageLoaderTask.cancel(true);
+            imageLoaderTask = new ImageLoaderTask();
+            imageLoaderTask.execute(file.getFile());
         }
 
         return view;

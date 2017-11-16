@@ -4,6 +4,8 @@ package freed.utils;
 import android.os.AsyncTask;
 
 import java.io.InterruptedIOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -21,20 +23,22 @@ public class ImageSaveManager {
     }
     private LinkedBlockingQueue<SaveTask> imageToSave;
     private boolean cancleThread = false;
-    private ImageSaveThread queueObserver1;
-    private ImageSaveThread queueObserver2;
     private final String TAG = ImageSaveManager.class.getSimpleName();
+    private List<ImageSaveThread> imageSaveManagerList;
+    private final int MAXTHREADS = 4;
 
     private ImageSaveManager()
     {
-        imageToSave = new LinkedBlockingQueue<>(2);
+        imageSaveManagerList = new ArrayList<>();
+        imageToSave = new LinkedBlockingQueue<>(MAXTHREADS);
         cancleThread = false;
-        queueObserver1 = new ImageSaveThread();
-        queueObserver1.setName("QueueObserver1");
-        queueObserver1.start();
-        queueObserver2 = new ImageSaveThread();
-        queueObserver2.setName("QueueObserver2");
-        queueObserver2.start();
+        for (int i = 0; i < MAXTHREADS; i++)
+        {
+            ImageSaveThread queueObserver = new ImageSaveThread();
+            imageSaveManagerList.add(queueObserver);
+            queueObserver.setName("QueueObserver" + i);
+            queueObserver.start();
+        }
     }
 
     public void put(SaveTask runnable)
@@ -51,13 +55,11 @@ public class ImageSaveManager {
     {
         Log.d(TAG,"cancel");
         cancleThread = true;
-        if (!queueObserver1.isInterrupted())
+        for (int i = 0; i< MAXTHREADS; i++)
         {
-            queueObserver1.interrupt();
-        }
-        if (queueObserver2 != null && !queueObserver2.isInterrupted())
-        {
-            queueObserver2.interrupt();
+            if (!imageSaveManagerList.get(i).isInterrupted())
+                imageSaveManagerList.get(i).interrupt();
+            imageSaveManagerList.remove(i);
         }
         imageToSave.clear();
     }
@@ -65,12 +67,6 @@ public class ImageSaveManager {
     private class ImageSaveThread extends Thread
     {
         private SaveTask runnable;
-        private RawToDng rawToDng;
-
-        public ImageSaveThread()
-        {
-            rawToDng = RawToDng.GetInstance();
-        }
 
         @Override
         public void run() {
@@ -83,8 +79,6 @@ public class ImageSaveManager {
                         runnable = imageToSave.take();
 
                         if (runnable != null) {
-                            if (runnable instanceof ImageSaveTask)
-                                ((ImageSaveTask)runnable).setDngConverter(rawToDng);
                             Log.d(TAG, "Excute Runnable");
                             runnable.save();
                         }

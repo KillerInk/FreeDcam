@@ -30,6 +30,39 @@ public class RawToDng
     private byte[] opcode2;
     private byte[] opcode3;
 
+    public static native void overloadWrite(int iso,
+                                 double expo,
+                                 int flash,
+                                 float fNum,
+                                 float focalL,
+                                 String imagedescription,
+                                 String orientation,
+                                 float exposureIndex,
+                                 double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime,
+                                 byte[] mThumb, int thumb_widht, int thumb_height,
+                                 byte[] fileBytes, String fileout,int filedescriptor,
+                                 String model, String make, byte[] opcode2, byte[]opcode3,
+                                 float[] colorMatrix1,
+                                 float[] colorMatrix2,
+                                 float[] neutralColor,
+                                 float[] fowardMatrix1,
+                                 float[] fowardMatrix2,
+                                 float[] reductionMatrix1,
+                                 float[] reductionMatrix2,
+                                 double[] noiseMatrix,
+                                 int blacklevel,
+                                 int whitelevel,
+                                 String bayerformat,
+                                 int rowSize,
+                                 int rawType,int width,int height,
+                                 String dateTime,
+                                 float tonecurve[],
+                                 int huesatmapdims[],
+                                 float huesatmapdata1[],
+                                 float huesatmapdata2[],
+                                 float baselineExposure,
+                                 float baselineExposureOffset);
+
     private native long GetRawBytesSize();
     private native int GetRawHeight();
     private native void SetGPSData(double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
@@ -195,7 +228,7 @@ public class RawToDng
         SetBaselineExposureOffset(exposureIndex);
     }
 
-    private float[] parseGpsvalue(double val)
+     public static float[] parseGpsvalue(double val)
     {
 
         String[] sec = Location.convert(val, Location.FORMAT_SECONDS).split(":");

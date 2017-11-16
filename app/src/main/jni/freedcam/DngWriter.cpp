@@ -90,43 +90,51 @@ void DngWriter::writeIfd0(TIFF *tif) {
     //D65 21 Second According to DNG SPEC 1.4 this is the correct order
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
-
+    LOGD("colormatrix2");
     TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, colorMatrix2);
+    LOGD("fowardMatrix1");
     if(fowardMatrix1 != NULL)
         TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  fowardMatrix1);
+    LOGD("fowardMatrix2");
     if(fowardMatrix2 != NULL)
         TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  fowardMatrix2);
-
+    LOGD("reductionMatrix1");
     if(reductionMatrix1 != NULL)
         TIFFSetField(tif, TIFFTAG_CAMERACALIBRATION1, 9,  reductionMatrix1);
+    LOGD("reductionMatrix2");
     if(reductionMatrix2 != NULL)
         TIFFSetField(tif, TIFFTAG_CAMERACALIBRATION2, 9,  reductionMatrix2);
 
+    LOGD("noiseMatrix");
     if(noiseMatrix != NULL)
         TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  noiseMatrix);
-    if(tonecurve != NULL)
+    LOGD("tonecurve");
+    /*if(tonecurve != NULL)
     {
         TIFFSetField(tif,TIFFTAG_PROFILETONECURVE, tonecurvesize,tonecurve);
     }
+    LOGD("huesatmapdims");
     if(huesatmapdims != NULL)
     {
         TIFFSetField(tif, TIFFTAG_PROFILEHUESATMAPDIMS, 3, huesatmapdims);
     }
-    if(huesatmapdata1_size > 0)
+    LOGD("huesatmapdata1");
+    if(huesatmapdata1 != NULL)
     {
         TIFFSetField(tif,TIFFTAG_PROFILEHUESATMAPDATA1, huesatmapdata1_size,huesatmapdata1);
     }
-    if(huesatmapdata2_size > 0)
+    LOGD("huesatmapdata2");
+    if(huesatmapdata2 != NULL)
     {
         TIFFSetField(tif,TIFFTAG_PROFILEHUESATMAPDATA2, huesatmapdata2_size,huesatmapdata2);
-    }
+    }*/
     if(baselineExposure != NULL)
         TIFFSetField(tif,TIFFTAG_BASELINEEXPOSURE, baselineExposure);
     if(baselineExposureOffset != NULL)
     {
         TIFFSetField(tif,TIFFTAG_BASELINEEXPOSUREOFFSET, baselineExposureOffset);
     }
-    LOGD("colormatrix2");
+
 }
 
 void DngWriter::makeGPS_IFD(TIFF *tif) {
@@ -540,6 +548,7 @@ void DngWriter::WriteDNG() {
     else
         tif = openfTIFF(fileSavePath);
 
+    LOGD("writeIfd0");
     writeIfd0(tif);
     //allocate empty exifIFD tag
     TIFFSetField (tif, TIFFTAG_EXIFIFD, exif_offset);
@@ -548,8 +557,10 @@ void DngWriter::WriteDNG() {
         TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);        
     }
     //save directory
+    LOGD("TIFFCheckpointDirectory");
     TIFFCheckpointDirectory(tif);
 
+    LOGD("writeExifIfd");
     //write and store exififd
     writeExifIfd(tif);    
     TIFFWriteCustomDirectory(tif, &exif_offset);    
@@ -575,32 +586,39 @@ void DngWriter::WriteDNG() {
 
     TIFFRewriteDirectory(tif);
     TIFFClose(tif);
-    if(opcode2Size >0)
+
+    LOGD("delete Opcode2");
+    if(opcode2 != NULL)
     {
         delete[] opcode2;
         opcode2Size = NULL;
         opcode2 = NULL;
     }
-    if(opcode3Size >0)
+    LOGD("delete Opcode3");
+    if(opcode3 != NULL)
     {
         delete[] opcode3;
         opcode2Size = NULL;
         opcode3 = NULL;
     }
+    LOGD("delete bayerbytes");
     if (bayerBytes != NULL){
         delete [] bayerBytes;
         rawSize = NULL;
         bayerBytes = NULL;
     }
+    LOGD("delete filesavepath");
     if(fileSavePath != NULL)
     {
         delete[] fileSavePath;
         fileSavePath = NULL;
     }
+    LOGD("delete blacklvl");
     if(blacklevel != NULL){
         delete[] blacklevel;
         blacklevel = NULL;
     }
+    LOGD("delete color1");
     if(colorMatrix1 != NULL)
     {
         delete[] colorMatrix1;
@@ -646,6 +664,7 @@ void DngWriter::WriteDNG() {
         delete[] noiseMatrix;
         noiseMatrix = NULL;
     }
+    LOGD("delete bayerformat");
     if(bayerformat != NULL)
     {
         delete[] bayerformat;
@@ -653,7 +672,7 @@ void DngWriter::WriteDNG() {
     }
     if(Longitude != NULL)
     {
-        delete[] Longitude;
+        delete Longitude;
         Longitude = NULL;
     }
     if(Latitude != NULL)
@@ -709,6 +728,7 @@ void DngWriter::WriteDNG() {
         huesatmapdata2 = NULL;
         huesatmapdata2_size =NULL;
     }
+    LOGD("delete husatmapdims");
     if(huesatmapdims != NULL)
     {
         delete[] huesatmapdims;
