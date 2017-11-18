@@ -36,8 +36,9 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import java.lang.ref.WeakReference;
-import java.util.concurrent.ExecutorService;
 
+import freed.image.ImageManager;
+import freed.image.ImageTask;
 import freed.utils.Log;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.BaseHolder;
@@ -56,8 +57,8 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
     private FileHolder fileHolder;
     private ProgressBar progressBar;
     private final String TAG = GridImageView.class.getSimpleName();
-    private ExecutorService executor;
     private BitmapHelper bitmapHelper;
+    private BitmapLoadRunnable bitmapLoadRunnable;
 
 
     public GridImageView(Context context) {
@@ -65,10 +66,10 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
         init(context);
     }
 
-    public GridImageView(Context context, ExecutorService executor, BitmapHelper bitmapHelper) {
+    public GridImageView(Context context,BitmapHelper bitmapHelper) {
         super(context);
+        this.bitmapHelper = bitmapHelper;
         init(context);
-        SetThreadPoolAndBitmapHelper(executor,bitmapHelper);
     }
 
     public GridImageView(Context context, AttributeSet attrs) {
@@ -94,10 +95,9 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
         progressBar = (ProgressBar) findViewById(id.progressBar_gridimageview);
     }
 
-    public void SetThreadPoolAndBitmapHelper(ExecutorService executor, BitmapHelper bitmapHelper)
+    public void SetBitmapHelper(BitmapHelper bitmapHelper)
     {
         this.bitmapHelper =bitmapHelper;
-        this.executor = executor;
     }
 
     public BaseHolder getFileHolder(){return fileHolder;}
@@ -182,6 +182,9 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
 
     public void loadFile(FileHolder fileHolder, int mImageThumbSize)
     {
+        if (this.fileHolder != fileHolder && bitmapLoadRunnable !=null)
+            ImageManager.removeImageLoadTask(bitmapLoadRunnable);
+
         this.fileHolder = fileHolder;
         int mImageThumbSize1 = mImageThumbSize;
         Log.d(TAG, "load file:" + fileHolder.getFile().getName());
@@ -191,7 +194,8 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
             imageView.setImageResource(drawable.noimage);
             progressBar.setVisibility(View.VISIBLE);
             try {
-                executor.execute(new BitmapLoadRunnable(this,fileHolder));
+                bitmapLoadRunnable = new BitmapLoadRunnable(this,fileHolder);
+                ImageManager.putImageLoadTask(bitmapLoadRunnable);
             }
             catch (NullPointerException ex)
             {
@@ -220,7 +224,7 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
 
     }
 
-    class BitmapLoadRunnable implements Runnable
+    class BitmapLoadRunnable extends ImageTask
     {
         private final String TAG = BitmapLoadRunnable.class.getSimpleName();
         WeakReference<GridImageView>imageviewRef;
@@ -233,8 +237,7 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
         }
 
         @Override
-        public void run()
-        {
+        public boolean process() {
             Log.d(TAG, "load file:" + fileHolder.getFile().getName());
             final Bitmap bitmap = bitmapHelper.getBitmap(fileHolder, true);
             if (imageviewRef != null && bitmap != null) {
@@ -264,6 +267,7 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
                     }
                 });
             }
+            return false;
         }
     }
 }

@@ -13,14 +13,12 @@ import android.location.Location;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
-import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.util.Pair;
 import android.util.Rational;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -33,11 +31,9 @@ import freed.cam.apis.basecamera.modules.WorkFinishEvents;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
-import freed.jni.RawToDng;
-import freed.utils.ImageSaveManager;
-import freed.utils.ImageSaveTask;
+import freed.image.ImageManager;
+import freed.image.ImageSaveTask;
 import freed.utils.Log;
-import freed.utils.SaveTask;
 
 /**
  * Created by troop on 12.06.2017.
@@ -260,7 +256,7 @@ public class ImageHolder
         buffer.clear();
         image.close();
         task.setFilePath(file,externalSD);
-        ImageSaveManager.getInstance().put(task);
+        ImageManager.putImageSaveTask(task);
     }
 
 
@@ -320,7 +316,7 @@ public class ImageHolder
         saveTask.setDngProfile(prof);
         saveTask.setFilePath(file, externalSD);
         saveTask.setOrientation(orientation);
-        ImageSaveManager.getInstance().put(saveTask);
+        ImageManager.putImageSaveTask(saveTask);
     }
 
     @NonNull

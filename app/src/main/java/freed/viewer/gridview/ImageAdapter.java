@@ -7,7 +7,6 @@ import android.widget.BaseAdapter;
 import com.troop.freedcam.R;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import freed.ActivityInterface;
 import freed.utils.Log;
@@ -31,28 +30,6 @@ class ImageAdapter extends BaseAdapter
 
     public ImageAdapter(ActivityInterface viewerActivityInterface) {
         this.viewerActivityInterface = viewerActivityInterface;
-        createExecutor();
-    }
-
-    public void Destroy()
-    {
-        shutdownExecutor();
-    }
-
-    public void shutdownExecutor()
-    {
-        if (executor != null)
-        {
-            executor.shutdown();
-            while (!executor.isShutdown())
-            {}
-            executor = null;
-        }
-    }
-
-    public void createExecutor()
-    {
-        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-1);
     }
 
     @Override
@@ -78,11 +55,11 @@ class ImageAdapter extends BaseAdapter
     public View getView(int position, View convertView, ViewGroup container) {
         final GridImageView imageView;
         if (convertView == null) { // if it's not recycled, initialize some attributes
-            imageView = new GridImageView(viewerActivityInterface.getContext(), executor, viewerActivityInterface.getBitmapHelper());
+            imageView = new GridImageView(viewerActivityInterface.getContext(),viewerActivityInterface.getBitmapHelper());
         } else {
             imageView = (GridImageView) convertView;
             //imageView.resetImg();
-            imageView.SetThreadPoolAndBitmapHelper(executor, viewerActivityInterface.getBitmapHelper());
+            imageView.SetBitmapHelper(viewerActivityInterface.getBitmapHelper());
         }
         Log.d(TAG, "filessize:" + viewerActivityInterface.getFiles().size() + " position:"+position);
         if (viewerActivityInterface.getFiles().size() <= position)

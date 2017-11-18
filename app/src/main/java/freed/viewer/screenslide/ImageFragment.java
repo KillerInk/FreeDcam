@@ -22,7 +22,6 @@ package freed.viewer.screenslide;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -36,9 +35,11 @@ import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import java.io.File;
+import java.lang.ref.WeakReference;
 
 import freed.ActivityInterface;
+import freed.image.ImageManager;
+import freed.image.ImageTask;
 import freed.utils.Log;
 import freed.viewer.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment.FragmentClickClistner;
@@ -65,7 +66,6 @@ public class ImageFragment extends Fragment
     private boolean isWorking;
     private I_WaitForWorkFinish waitForWorkFinish;
     private int position = -1;
-    private ImageLoaderTask imageLoaderTask;
 
     /**
      * Set the file to load by this fragment
@@ -74,6 +74,11 @@ public class ImageFragment extends Fragment
     public void SetFilePath(FileHolder filepath)
     {
         file = filepath;
+    }
+
+    public FileHolder getFile()
+    {
+        return file;
     }
 
     public boolean IsWorking()
@@ -120,10 +125,7 @@ public class ImageFragment extends Fragment
         imageView.setOnClickListener(onImageClick);
         progressBar.setVisibility(View.VISIBLE);
         if (file != null) {
-            if (imageLoaderTask != null)
-                imageLoaderTask.cancel(true);
-            imageLoaderTask = new ImageLoaderTask();
-            imageLoaderTask.execute(file.getFile());
+            ImageManager.putImageLoadTask(new BitmapLoader(file,this));
         }
 
         return view;
@@ -144,48 +146,58 @@ public class ImageFragment extends Fragment
         }
     };
 
-    private class ImageLoaderTask extends AsyncTask<File, Void, Bitmap>
+    private class BitmapLoader extends ImageTask
     {
+        private WeakReference<ImageFragment> imageviewRef;
+        private FileHolder file;
+
+        public BitmapLoader(FileHolder file, ImageFragment imageFragment)
+        {
+            this.file = file;
+            imageviewRef = new WeakReference<ImageFragment>(imageFragment);
+        }
 
         @Override
-        protected Bitmap doInBackground(File... params)
-        {
+        public boolean process() {
             if (getActivity() == null) {
                 Log.e(TAG, "ImageLoaderTask: Activity is null");
-                return null;
+                return false;
             }
             Log.d(TAG, "ImageLoaderTask: LoadImage:" + file.getFile().getName());
-            Bitmap response = ((ActivityInterface)getActivity()).getBitmapHelper().getBitmap(file,false);
+            final Bitmap response = ((ActivityInterface)getActivity()).getBitmapHelper().getBitmap(file,false);
             createHistogramm(response);
             if (waitForWorkFinish != null && position >-1)
                 waitForWorkFinish.HistograRdyToSet(histogramData, position);
             waitForWorkFinish = null;
             Log.d(TAG, "ImageLoaderTask: LoadImage Done:" + file.getFile().getName());
-            return response;
-        }
+            if (imageviewRef != null && response != null) {
+                final ImageFragment imageFragment = imageviewRef.get();
+                if (imageFragment != null && imageFragment.getFile() == file)
+                {
+                    Log.d(TAG, "set bitmap to imageview");
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            imageView.setImageBitmap(response);
+                        }
+                    });
 
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (imageView != null && isAdded())
-            {
-                imageView.setImageBitmap(bitmap);
+                }
+                else
+                    response.recycle();
             }
-            else if (bitmap != null)
-                bitmap.recycle();
-            progressBar.setVisibility(View.GONE);
+            else
+            {
+                if (response != null)
+                    response.recycle();
+            }
+            return true;
         }
     }
 
     private void createHistogramm(Bitmap bitmap)
     {
-        /*histogramData = new int [ 256*4];
-        RenderScript mRS = RenderScript.create(getContext());
-        ScriptIntrinsicHistogram histogram = ScriptIntrinsicHistogram.create(mRS,Element.U8_4(mRS));
-        Allocation mHistogramAllocation = Allocation.createSized(mRS, Element.I32_3(mRS), 256);
-        Allocation in = Allocation.createFromBitmap(mRS, bitmap);
-        histogram.setOutput(mHistogramAllocation);
-        histogram.forEach(in);
-        mHistogramAllocation.copyTo(histogramData);*/
         Log.d(TAG, "Histodata");
         if(bitmap == null || bitmap.isRecycled())
             return;

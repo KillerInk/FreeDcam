@@ -54,8 +54,8 @@ import java.util.List;
 import freed.ActivityAbstract.FormatTypes;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
+import freed.image.ImageManager;
 import freed.utils.FreeDPool;
-import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.dngconvert.DngConvertingActivity;
 import freed.viewer.dngconvert.DngConvertingFragment;
@@ -228,23 +228,17 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     @Override
     public void onResume() {
         super.onResume();
-        if (mPagerAdapter != null)
-            mPagerAdapter.createExecutor();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mPagerAdapter != null)
-            mPagerAdapter.Destroy();
+        ImageManager.cancelImageLoadTasks();
     }
 
     @Override
     public void onDestroyView()
     {
-        Log.d(TAG,"onDestroyView(): Destroy PagerAdapter");
-        if (mPagerAdapter != null)
-            mPagerAdapter.Destroy();
         super.onDestroyView();
     }
 
@@ -439,7 +433,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
 
     private void deleteFiles()
     {
-        mPagerAdapter.shutdownExecutor();
+        ImageManager.cancelImageLoadTasks();
         FreeDPool.Execute(new Runnable()
         {
             @Override
@@ -459,7 +453,6 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                 viewerActivityInterface.DeleteFiles(to_del);
             }
         });
-        mPagerAdapter.createExecutor();
     }
 
     private final OnClickListener onGobBackClick = new OnClickListener() {

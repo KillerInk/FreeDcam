@@ -1,11 +1,9 @@
-package freed.utils;
+package freed.image;
 
 import android.location.Location;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
-
-import com.troop.freedcam.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,16 +14,16 @@ import java.util.Date;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
-import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
-import freed.dng.ToneMapProfile;
 import freed.jni.RawToDng;
+import freed.utils.Log;
+import freed.utils.StorageFileHandler;
 
 /**
  * Created by KillerInk on 13.11.2017.
  */
 
-public class ImageSaveTask implements SaveTask
+public class ImageSaveTask extends ImageTask
 {
     private final String TAG = ImageSaveTask.class.getSimpleName();
 
@@ -51,6 +49,8 @@ public class ImageSaveTask implements SaveTask
     private String whitebalance;
     private ActivityInterface activityInterface;
     private ModuleInterface moduleInterface;
+
+    private Thread currentThread;
 
 
     public ImageSaveTask(ActivityInterface activityInterface, ModuleInterface moduleInterface)
@@ -135,8 +135,9 @@ public class ImageSaveTask implements SaveTask
     }
 
 
+
     @Override
-    public boolean save()
+    public boolean process()
     {
         if(imageFormat == RAW10 || (imageFormat == RAW_SENSOR && forceRawToDng)){
             Log.d(TAG, "saveRawToDng");
@@ -151,6 +152,11 @@ public class ImageSaveTask implements SaveTask
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Thread getThread() {
+        return currentThread;
     }
 
     private void saveRawToDng()
@@ -282,5 +288,4 @@ public class ImageSaveTask implements SaveTask
                 Log.WriteEx(e);
             }
     }
-
 }
