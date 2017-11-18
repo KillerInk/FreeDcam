@@ -333,7 +333,7 @@ public class RotatingSeekbar extends View
         {
             Log.d("RotatingSeekbar", "currentpos" + currentPosToDraw + "item " + item);
             currentValue = item;
-            if (currentValue > Values.length)
+            if (currentValue >= Values.length)
                 currentValue = Values.length-1;
             if (currentValue < 0)
                 currentValue = 0;
