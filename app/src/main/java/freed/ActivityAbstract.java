@@ -95,11 +95,14 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         ImageManager.getInstance(); // init it
         setContentToView();
         permissionHandler =new PermissionHandler(this);
-        if (LOG_TO_FILE && !Log.isLogToFileEnable()) {
-            permissionHandler.hasExternalSDPermission(logSDPermission);
+
+        if(getPermissionHandler().hasCameraAndSdPermission(logSDPermission))
+        {
+            if (LOG_TO_FILE && !Log.isLogToFileEnable()) {
+                permissionHandler.hasExternalSDPermission(logSDPermission);
+            } else
+                initOnCreate();
         }
-        else
-            initOnCreate();
     }
 
     protected void initOnCreate()

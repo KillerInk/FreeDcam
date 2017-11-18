@@ -175,7 +175,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
         //listen to phone orientation changes
         orientationHandler = new OrientationHandler(this, this);
-        orientationHandler.Start();
 
     }
 
@@ -205,13 +204,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = true;
         if (getAppSettings() == null)
             return;
-        if (getPermissionHandler().hasExternalSDPermission(null)) {
-            if (getPermissionHandler().hasCameraPermission(null)) {
-                if ((!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion()) && fd == null) {
-                    loadFeatureDetector();
-                } else if (fd == null)
-                    loadcam();
-            }
+        if(getPermissionHandler().hasCameraAndSdPermission(null)) {
+            if ((!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion()) && fd == null) {
+                loadFeatureDetector();
+            } else if (fd == null)
+                loadcam();
         }
     }
 

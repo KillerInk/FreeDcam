@@ -103,6 +103,40 @@ public class PermissionHandler
     }
 
 
+    public boolean hasCameraAndSdPermission(PermissionCallback callbackToReturn)
+    {
+        return hasPermission(callbackToReturn, new String[]{
+                Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE
+        });
+    }
+
+    private boolean hasPermission(PermissionCallback callbackToReturn, String[] permission)
+    {
+        this.callbackToReturn = callbackToReturn;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            boolean granted = true;
+            for (String s : permission)
+            {
+                if(activity.checkSelfPermission(s)!= PackageManager.PERMISSION_GRANTED) {
+                    granted = false;
+                    break;
+                }
+
+            }
+            if (!granted)
+            {
+                Log.d(TAG, "Request Permission:"+permission);
+                activity.requestPermissions(permission,1);
+                return false;
+            }
+        }
+        if (callbackToReturn != null)
+            callbackToReturn.permissionGranted(true);
+        return true;
+    }
+
+
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
         if (callbackToReturn == null)
