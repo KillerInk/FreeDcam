@@ -182,6 +182,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 cameraSwitch.setVisibility(View.GONE);
                 aelock.setVisibility(View.GONE);
                 shutterButton.setVisibility(View.GONE);
+                settingsChildSelfTimer.setVisibility(View.GONE);
                 if (isAdded())
                     hide_ManualSettings();
             }
@@ -267,6 +268,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 aelock.setVisibility(View.VISIBLE);
                 aelock.SetParameter(cameraUiWrapper.getParameterHandler().ExposureLock);
 
+
                 //restore view state for the manuals
                 if (manualsettingsIsOpen)
                     showManualSettings();
@@ -286,6 +288,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 //and start/stop working when recording starts/stops
                 cameraUiWrapper.getModuleHandler().AddRecoderChangedListner(timerHandler);
                 cameraUiWrapper.getModuleHandler().addListner(timerHandler);
+                cameraUiWrapper.getModuleHandler().addListner(settingsChildSelfTimer);
             }
         }
     }
