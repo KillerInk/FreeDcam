@@ -41,7 +41,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     }
 
     @Override
-    protected String doInBackground(String... params)
+    public void detect()
     {
         publishProgress("###################");
         publishProgress("#######Camera2#####");
@@ -317,7 +317,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
             appSettingsManager.setCamApi(AppSettingsManager.API_1);
         }
-        return null;
     }
 
     private void detectHuaweiParameters(CameraCharacteristics characteristics) {
@@ -453,13 +452,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         {
             Log.e(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES false");
         }
-    }
-
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        appSettingsManager.SetCurrentCamera(0);
-        //startFreedcam();
     }
 
     private void detectColorcorrectionMode(CameraCharacteristics cameraCharacteristics)

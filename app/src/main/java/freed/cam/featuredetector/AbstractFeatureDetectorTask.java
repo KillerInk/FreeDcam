@@ -16,7 +16,7 @@ import freed.utils.VideoMediaProfile;
  * Created by troop on 23.01.2017.
  */
 
-public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,String, String> {
+public abstract class AbstractFeatureDetectorTask {
 
     private final  String TAG = AbstractFeatureDetectorTask.class.getSimpleName();
     private ProgressUpdate progressUpdateListner;
@@ -45,14 +45,14 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
             publishProgress(name+" not supported");
     }
 
-    @Override
-    protected void onProgressUpdate(String... values) {
+    public abstract void detect();
+
+    protected void publishProgress(String value) {
         if (progressUpdateListner != null)
-            progressUpdateListner.onProgessUpdate(values[0]);
+            progressUpdateListner.onProgessUpdate(value);
     }
 
-    @Override
-    protected void onPostExecute(String s) {
+    public void onPostExecute(String s) {
         if (progressUpdateListner != null)
             progressUpdateListner.onTaskEnd(s);
     }

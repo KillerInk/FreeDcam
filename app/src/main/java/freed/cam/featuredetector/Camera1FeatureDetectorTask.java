@@ -36,8 +36,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         return appSettingsManager.getResString(id);
     }
 
-    @Override
-    protected String doInBackground(String... params)
+    public void detect()
     {
         publishProgress("###################");
         publishProgress("#######Camera1#####");
@@ -228,8 +227,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
 
         appS.SetCurrentCamera(0);
-
-        return null;
     }
 
     private void detectAutoHdr(Camera.Parameters parameters) {

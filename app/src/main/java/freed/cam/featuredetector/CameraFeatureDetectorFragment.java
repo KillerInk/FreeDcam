@@ -2,6 +2,8 @@ package freed.cam.featuredetector;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
+import freed.image.ImageManager;
+import freed.image.ImageTask;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 
@@ -31,6 +35,8 @@ public class CameraFeatureDetectorFragment extends Fragment {
     private AppSettingsManager appSettingsManager;
     private FeatureDetectorEvents featureDetectorEvents;
     private final String TAG = CameraFeatureDetectorFragment.class.getSimpleName();
+    private CameraFeatureRunner featureRunner;
+    private FdUiHandler handler = new FdUiHandler();
 
     public void setAppSettingsManagerAndListner(AppSettingsManager appSettingsManager, FeatureDetectorEvents events)
     {
@@ -56,11 +62,9 @@ public class CameraFeatureDetectorFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (Build.VERSION.SDK_INT >= 21) {
-            new Camera2FeatureDetectorTask(camera2Listner,appSettingsManager,getContext()).execute("");
-        }
-        else {
-            new Camera1FeatureDetectorTask(camera1Listner, appSettingsManager).execute("");
+        if (featureRunner == null){
+            featureRunner = new CameraFeatureRunner();
+            ImageManager.putImageLoadTask(featureRunner);
         }
     }
 
@@ -72,42 +76,61 @@ public class CameraFeatureDetectorFragment extends Fragment {
 
     private void startFreedcam()
     {
+        featureRunner = null;
         appSettingsManager.setAppVersion(BuildConfig.VERSION_CODE);
         appSettingsManager.setAreFeaturesDetected(true);
-       /* Intent intent = new Intent(this, ActivityFreeDcamMain.class);
-        startActivity(intent);*/
         featureDetectorEvents.featuredetectorDone();
         Log.d(TAG,"startFreeDcam");
     }
 
-    private AbstractFeatureDetectorTask.ProgressUpdate camera1Listner = new AbstractFeatureDetectorTask.ProgressUpdate() {
+
+
+    private AbstractFeatureDetectorTask.ProgressUpdate cameraListner = new AbstractFeatureDetectorTask.ProgressUpdate() {
         @Override
         public void onProgessUpdate(String msg) {
             Log.d(TAG, msg);
-            sendLog(msg);
+            handler.obtainMessage(MSG_SENDLOG, msg).sendToTarget();
+
         }
 
         @Override
         public void onTaskEnd(String msg) {
-            if(appSettingsManager.hasCamera2Features())
+        }
+    };
+
+    private class CameraFeatureRunner extends ImageTask
+    {
+        @Override
+        public boolean process() {
+            if (Build.VERSION.SDK_INT >= 21) {
+                new Camera2FeatureDetectorTask(cameraListner,appSettingsManager,getContext()).detect();
+            }
+            new Camera1FeatureDetectorTask(cameraListner, appSettingsManager).detect();
+            if (appSettingsManager.hasCamera2Features())
                 appSettingsManager.setCamApi(AppSettingsManager.API_2);
-            Log.d(TAG,"startFreeDcam from cam1Listner");
-            startFreedcam();
+            handler.obtainMessage(MSG_STARTFREEDCAM).sendToTarget();
+            return false;
         }
-    };
+    }
 
-    private AbstractFeatureDetectorTask.ProgressUpdate camera2Listner = new AbstractFeatureDetectorTask.ProgressUpdate() {
+
+    private final int MSG_STARTFREEDCAM = 0;
+    private final int MSG_SENDLOG = 1;
+
+    private class FdUiHandler extends Handler
+    {
         @Override
-        public void onProgessUpdate(String msg) {
-            Log.d(TAG, msg);
-            sendLog(msg);
-
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_STARTFREEDCAM:
+                    startFreedcam();
+                    break;
+                case MSG_SENDLOG:
+                    sendLog((String)msg.obj);
+                    break;
+                default:
+                super.handleMessage(msg);
+            }
         }
-
-        @Override
-        public void onTaskEnd(String msg) {
-            Log.d(TAG,"Camera2 featuresdetected, lookup cam1");
-            new Camera1FeatureDetectorTask(camera1Listner, appSettingsManager).execute("");
-        }
-    };
+    }
 }
