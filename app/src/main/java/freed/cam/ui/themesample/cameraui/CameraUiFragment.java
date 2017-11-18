@@ -62,6 +62,7 @@ import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildCameraSwitch;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildExit;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildModuleSwitch;
+import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildSelfTimer;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsFocusPeak;
 import freed.cam.ui.themesample.handler.FocusImageHandler;
 import freed.cam.ui.themesample.handler.SampleInfoOverlayHandler;
@@ -109,6 +110,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private UserMessageHandler messageHandler;
 
     private HorizontLineFragment horizontLineFragment;
+
+    private UiSettingsChildSelfTimer settingsChildSelfTimer;
 
 
     //get shown in sony api,when the preview gets zoomed to navigate through the img
@@ -326,6 +329,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         aelock = (UiSettingsChild)view.findViewById(id.ae_lock);
         aelock.SetUiItemClickListner(this);
         aelock.SetStuff(fragment_activityInterface, "");
+
+        settingsChildSelfTimer = (UiSettingsChildSelfTimer)view.findViewById(id.selftimer);
+        settingsChildSelfTimer.SetUiItemClickListner(this);
+        settingsChildSelfTimer.SetStuff(fragment_activityInterface.getAppSettings().selfTimer);
 
 
         manualModesFragment = new ManualFragment();

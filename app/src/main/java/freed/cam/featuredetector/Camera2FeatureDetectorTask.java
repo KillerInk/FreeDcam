@@ -66,6 +66,9 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 appSettingsManager.setIsFrontCamera(front);
                 int hwlvl = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
 
+                appSettingsManager.selfTimer.setValues(appSettingsManager.getResources().getStringArray(R.array.selftimervalues));
+                appSettingsManager.selfTimer.set(appSettingsManager.selfTimer.getValues()[0]);
+
                 publishProgress("Camera 2 Level:" + hwlvl);
 
                 //check first if a already checked cam have camera2features and if its now the front cam that dont have a camera2feature.

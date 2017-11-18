@@ -53,6 +53,8 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         continouse_capture_work_stop,
         cont_capture_stop_while_working,
         cont_capture_stop_while_notworking,
+        selftimerstart,
+        selftimerstop
     }
 
     public interface CaptureStateChanged

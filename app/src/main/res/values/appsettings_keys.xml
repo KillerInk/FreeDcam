@@ -101,5 +101,6 @@
     <string name="aps_dngsupportmanualmodes">dngsupportmanualmodes</string>
     <string name="aps_forcerawtondng">forcerawtodng</string>
     <string name="aps_needrestartaftercapture">needrestartaftercapture</string>
+    <string name="aps_selftimer">selftimer</string>
 
 </resources>

@@ -361,6 +361,8 @@ public class AppSettingsManager {
     public final SettingMode manualProgramShift;
     public final SettingMode manualPreviewZoom;
 
+    public final SettingMode selfTimer;
+
     public final SettingMode dualPrimaryCameraMode;
     public final SettingMode manualAperture;
     public final SettingMode ae_TagetFPS;
@@ -487,6 +489,7 @@ public class AppSettingsManager {
 
         orientationhack = new BooleanSettingsMode(getResString(R.string.aps_orientationHack));
         tonemapProfilesSettings = new SettingMode(getResString(R.string.aps_tonemapProfile));
+        selfTimer = new SettingMode(getResString(R.string.aps_selftimer));
 
 
         loadOpCodes();
