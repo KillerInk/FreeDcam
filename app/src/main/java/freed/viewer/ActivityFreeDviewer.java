@@ -68,7 +68,12 @@ public class ActivityFreeDviewer extends ActivityAbstract
     @Override
     protected void initOnCreate() {
         super.initOnCreate();
-        getPermissionHandler().hasExternalSDPermission(onExtSdCallback);
+        init();
+    }
+
+    @Override
+    protected void setContentToView() {
+        setContentView(R.layout.freedviewer_activity);
     }
 
     private PermissionHandler.PermissionCallback onExtSdCallback = new PermissionHandler.PermissionCallback() {
@@ -96,7 +101,6 @@ public class ActivityFreeDviewer extends ActivityAbstract
 
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
-        setContentView(R.layout.freedviewer_activity);
         gridViewFragment = (GridViewFragment) getSupportFragmentManager().findFragmentById(R.id.freedviewer_gridview);
         gridViewFragment.SetOnGridItemClick(onGridItemClick);
         screenSlideFragment = (ScreenSlideFragment)getSupportFragmentManager().findFragmentById(R.id.freedviewer_screenslide_fragment);
