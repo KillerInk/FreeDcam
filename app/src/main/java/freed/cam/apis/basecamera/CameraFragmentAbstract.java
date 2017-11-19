@@ -164,7 +164,8 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     @Override
     public void startCamera() {
-        mBackgroundHandler.sendMessage(mBackgroundHandler.obtainMessage(MSG_START_CAMERA));
+        cameraHolder.OpenCamera(getAppSettingsManager().GetCurrentCamera());
+        //mBackgroundHandler.sendMessage(mBackgroundHandler.obtainMessage(MSG_START_CAMERA));
     }
 
     @Override

@@ -92,12 +92,20 @@ public class CameraHolder extends CameraHolderAbstract
         {
             Log.d(TAG, "open camera");
             mCamera = Camera.open(camera);
+            mCamera.setErrorCallback(new Camera.ErrorCallback() {
+                @Override
+                public void onError(int error, Camera camera) {
+                    Log.e(TAG, "Error:" + error);
+                }
+            });
             isRdy = true;
             cameraUiWrapper.onCameraOpen("");
 
         } catch (Exception ex) {
             isRdy = false;
             Log.WriteEx(ex);
+            if (mCamera != null)
+                mCamera.release();
         }
         return isRdy;
     }
@@ -260,6 +268,11 @@ public class CameraHolder extends CameraHolderAbstract
         catch (NullPointerException ex)
         {
             Log.e(TAG,ex.getMessage());
+        }
+        catch (RuntimeException ex)
+        {
+            Log.d(TAG, "Camera was released");
+            Log.WriteEx(ex);
         }
 
     }

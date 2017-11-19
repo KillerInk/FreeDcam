@@ -30,6 +30,7 @@ import freed.utils.Log;
  */
 public class CameraHolderLG extends CameraHolder
 {
+    private LGCamera lgCamera;
     public CameraHolderLG(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper,frameworks);
     }
@@ -37,9 +38,8 @@ public class CameraHolderLG extends CameraHolder
     @Override
     public boolean OpenCamera(int camera)
     {
-
         try {
-            LGCamera lgCamera;
+
             if (appSettingsManager.opencamera1Legacy.getBoolean()) {
                 lgCamera = new LGCamera(camera, 256);
                 Log.d(CameraHolderLG.class.getSimpleName(), "open LG camera legacy");
