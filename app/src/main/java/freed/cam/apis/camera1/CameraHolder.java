@@ -209,7 +209,6 @@ public class CameraHolder extends CameraHolderAbstract
 
         } catch (Exception ex)
         {
-            cameraUiWrapper.onPreviewClose("");
             Log.d(TAG, "Camera was released");
             Log.WriteEx(ex);
         }
