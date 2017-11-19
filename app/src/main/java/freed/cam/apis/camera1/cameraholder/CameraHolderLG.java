@@ -67,4 +67,10 @@ public class CameraHolderLG extends CameraHolder
         cameraUiWrapper.onCameraOpen("");
         return isRdy;
     }
+
+    @Override
+    public void CloseCamera() {
+        super.CloseCamera();
+        lgCamera = null;
+    }
 }
