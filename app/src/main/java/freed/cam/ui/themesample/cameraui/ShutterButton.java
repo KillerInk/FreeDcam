@@ -415,7 +415,10 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             public void onClick(View v) {
                 if (cameraUiWrapper == null || cameraUiWrapper.getModuleHandler() == null || cameraUiWrapper.getModuleHandler().getCurrentModule() == null)
                     return;
-                int selftimer = Integer.parseInt(cameraUiWrapper.getAppSettingsManager().selfTimer.get());
+                String sf = cameraUiWrapper.getAppSettingsManager().selfTimer.get();
+                if (sf.equals(""))
+                    sf = "0";
+                int selftimer = Integer.parseInt(sf);
                 if(selftimer > 0) {
                     uiHandler.postDelayed(selftimerRunner, selftimer*1000);
                     onCaptureStateChanged(CaptureStates.selftimerstart);
