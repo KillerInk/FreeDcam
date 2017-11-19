@@ -9,7 +9,7 @@ android {
             storePassword 'freedcam'
         }
     }
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
         minSdkVersion 14
@@ -48,10 +48,8 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    provided files('libs/com.lge.frameworks.jar')
-    provided files('libs/libTypeReference.jar')
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    implementation 'com.android.support:appcompat-v7:27.0.1'
+    compileOnly files('libs/com.lge.frameworks.jar')
+    compileOnly files('libs/libTypeReference.jar')
 }
 
