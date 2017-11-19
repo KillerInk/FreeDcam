@@ -20,6 +20,7 @@
 package freed.cam.ui.themesample;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -147,7 +148,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     {
         if (parameter != null && parameter.IsSupported())
         {
-            if (key_appsettings != null && !key_appsettings.equals(""))
+            if (key_appsettings != null && !TextUtils.isEmpty(key_appsettings))
                 fragment_activityInterface.getAppSettings().setApiString(key_appsettings, value);
             if (settingMode != null)
                 settingMode.set(value);

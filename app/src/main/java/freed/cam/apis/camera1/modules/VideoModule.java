@@ -25,6 +25,7 @@ import android.media.MediaRecorder.AudioSource;
 import android.media.MediaRecorder.OutputFormat;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
@@ -114,7 +115,7 @@ public class VideoModule extends AbstractVideoModule
                 break;
             case Timelapse:
                 float frame = 60;
-                if(!appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME).equals(""))
+                if(!TextUtils.isEmpty(appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME)))
                     frame = Float.parseFloat(appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
                 else
                     appSettingsManager.setApiString(AppSettingsManager.TIMELAPSEFRAME, ""+frame);

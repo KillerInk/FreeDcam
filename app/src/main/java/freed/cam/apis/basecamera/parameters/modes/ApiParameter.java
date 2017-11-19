@@ -20,6 +20,7 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
 import android.os.Build.VERSION;
+import android.text.TextUtils;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -53,7 +54,7 @@ public class ApiParameter extends AbstractParameter
     @Override
     public String GetStringValue() {
         String ret = fragment_activityInterface.getAppSettings().getCamApi();
-        if (ret.equals(""))
+        if (TextUtils.isEmpty(ret))
             ret = AppSettingsManager.API_1;
         return ret;
     }

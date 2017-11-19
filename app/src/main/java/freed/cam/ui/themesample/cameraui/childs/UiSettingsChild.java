@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -134,7 +135,7 @@ public class UiSettingsChild extends SettingsChildAbstract
         {
             onIsSupportedChanged(true);
             String campara = parameter.GetStringValue();
-            if (campara != null && !campara.equals(""))
+            if (campara != null && !TextUtils.isEmpty(campara))
                 onStringValueChanged(campara);
         }
         else

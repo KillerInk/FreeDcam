@@ -3,6 +3,7 @@ package freed.jni;
 import android.location.Location;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
+import android.text.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -291,9 +292,9 @@ public class RawToDng
                               int rowSize,
                               int tight, int width, int height)
     {
-        if (wbct.equals(""))
+        if (TextUtils.isEmpty(wbct))
             SetBayerInfo(colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
-        else if (!wbct.equals(""))
+        else if (!TextUtils.isEmpty(wbct))
             SetBayerInfo(colorMatrix1, colorMatrix2, getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
 
     }

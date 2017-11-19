@@ -21,6 +21,7 @@ package freed.cam.apis.sonyremote.parameters;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.text.TextUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -360,7 +361,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onImageFormatChanged(String imagesize) {
-        if (imagesize!= null && !imagesize.equals(""))
+        if (imagesize!= null && !TextUtils.isEmpty(imagesize))
             PictureFormat.fireStringValueChanged(imagesize);
     }
 
@@ -371,13 +372,13 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onImageSizeChanged(String imagesize) {
-        if (imagesize!= null && !imagesize.equals(""))
+        if (imagesize!= null && !TextUtils.isEmpty(imagesize))
             PictureSize.fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onContshotModeChanged(String imagesize) {
-        if (imagesize!= null && !imagesize.equals(""))
+        if (imagesize!= null && !TextUtils.isEmpty(imagesize))
             ContShootMode.fireStringValueChanged(imagesize);
     }
 
@@ -388,7 +389,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onFocusModeChanged(String imagesize) {
-        if (imagesize!= null && !imagesize.equals(""))
+        if (imagesize!= null && !TextUtils.isEmpty(imagesize))
             FocusMode.fireStringValueChanged(imagesize);
     }
 
@@ -399,7 +400,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onPostviewModeChanged(String imagesize) {
-        if (imagesize!= null && !imagesize.equals(""))
+        if (imagesize!= null && !TextUtils.isEmpty(imagesize))
             PostViewSize.fireStringValueChanged(imagesize);
     }
 
@@ -430,7 +431,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onExposureModeChanged(String expomode) {
-        if (expomode == null && expomode.equals(""))
+        if (expomode == null && TextUtils.isEmpty(expomode))
             return;
         if (!ExposureMode.GetStringValue().equals(expomode))
             ExposureMode.fireStringValueChanged(expomode);

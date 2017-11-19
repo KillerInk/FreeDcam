@@ -416,7 +416,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
                 if (cameraUiWrapper == null || cameraUiWrapper.getModuleHandler() == null || cameraUiWrapper.getModuleHandler().getCurrentModule() == null)
                     return;
                 String sf = cameraUiWrapper.getAppSettingsManager().selfTimer.get();
-                if (sf.equals(""))
+                if (TextUtils.isEmpty(sf))
                     sf = "0";
                 int selftimer = Integer.parseInt(sf);
                 if(selftimer > 0) {

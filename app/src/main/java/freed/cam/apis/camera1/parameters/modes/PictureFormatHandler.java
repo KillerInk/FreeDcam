@@ -57,9 +57,13 @@ public class PictureFormatHandler extends BaseModeParameter
             rawFormat = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.get();
             rawFormats = cameraUiWrapper.getAppSettingsManager().rawPictureFormat.getValues();
             BayerFormat bayerFormats = new BayerFormat(parameters, cameraUiWrapper, "");
+            if (bayerFormats.getStringValues().length > 0)
+                bayerFormats.onIsSetSupportedChanged(true);
             parametersHandler.bayerformat = bayerFormats;
-            if (rawFormats.length >0)
+            if (rawFormats.length  == 0)
                 cameraUiWrapper.getAppSettingsManager().rawPictureFormat.setIsSupported(false);
+            else
+                cameraUiWrapper.getAppSettingsManager().rawPictureFormat.setIsSupported(true);
             boolean dngsupport = cameraUiWrapper.getAppSettingsManager().getDngProfilesMap() != null && cameraUiWrapper.getAppSettingsManager().getDngProfilesMap().size() > 0;
             if (!contains(cameraUiWrapper.getAppSettingsManager().rawPictureFormat.getValues(), cameraUiWrapper.getAppSettingsManager().getResString(R.string.dng_))
                     && dngsupport)

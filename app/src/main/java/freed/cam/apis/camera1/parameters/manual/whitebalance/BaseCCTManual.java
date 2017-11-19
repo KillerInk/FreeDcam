@@ -22,6 +22,7 @@ package freed.cam.apis.camera1.parameters.manual.whitebalance;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
@@ -51,7 +52,7 @@ public class BaseCCTManual extends BaseManualParameter
         isVisible = false;
 
         //wait 800ms to give awb a chance to set the ct value to the parameters
-        if (cameraUiWrapper.getAppSettingsManager().manualWhiteBalance.getKEY().equals(""))
+        if (TextUtils.isEmpty(cameraUiWrapper.getAppSettingsManager().manualWhiteBalance.getKEY()))
             new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -69,7 +70,7 @@ public class BaseCCTManual extends BaseManualParameter
                     wbcur = cameraUiWrapper.getResString(R.string.wb_manual_cct);
                 else if (parameters1.get(cameraUiWrapper.getResString(R.string.manual_wb_value)) != null)
                     wbcur = cameraUiWrapper.getResString(R.string.manual_wb_value);
-                if (wbcur != "")
+                if (!TextUtils.isEmpty(wbcur))
                 {
                     //update our stored parameters with ct
                     parameters.set(wbcur, parameters1.get(wbcur));

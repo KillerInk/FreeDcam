@@ -38,6 +38,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
+import android.text.TextUtils;
 import android.util.Range;
 import android.util.Size;
 import android.view.Surface;
@@ -339,7 +340,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
                 break;
             case Timelapse:
                 float frame = 30;
-                if (!appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME).equals(""))
+                if (!TextUtils.isEmpty(appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME)))
                     frame = Float.parseFloat(appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
                 else
                     appSettingsManager.setApiString(AppSettingsManager.TIMELAPSEFRAME, "" + frame);

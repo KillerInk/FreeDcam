@@ -19,6 +19,8 @@
 
 package freed.cam.apis.basecamera.parameters.modes;
 
+import android.text.TextUtils;
+
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -56,6 +58,8 @@ public class MatrixChooserParameter extends AbstractParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
+        if (TextUtils.isEmpty(valueToSet))
+            return;
         currentval = valueToSet;
         fireStringValueChanged(currentval);
         appSettingsManager.matrixset.set(valueToSet);

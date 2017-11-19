@@ -20,6 +20,7 @@
 package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,7 +100,7 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
         });
         settingsname = AppSettingsManager.TIMELAPSEFRAME;
         String fps = appSettingsManager.getApiString(settingsname);
-        if (fps == null || fps.equals(""))
+        if (fps == null || TextUtils.isEmpty(fps))
             fps = "30";
 
         Log.d(TAG, "set to " + fps);

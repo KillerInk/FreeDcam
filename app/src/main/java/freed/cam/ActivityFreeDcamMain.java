@@ -31,6 +31,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -358,7 +359,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
             else if (getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-            else if (getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
+            else if (getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || TextUtils.isEmpty(getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER)))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
 
             if (keyCode == KeyEvent.KEYCODE_3D_MODE

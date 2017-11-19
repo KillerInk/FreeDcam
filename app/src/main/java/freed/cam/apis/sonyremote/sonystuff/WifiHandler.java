@@ -2,6 +2,7 @@ package freed.cam.apis.sonyremote.sonystuff;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import freed.ActivityInterface;
 import freed.utils.Log;
@@ -120,7 +121,7 @@ public class WifiHandler extends WifiUtils {
                                 break;
                             }
                         }
-                        if (foundnet.equals(""))
+                        if (TextUtils.isEmpty(foundnet))
                         {
                             Log.d(TAG,"Not networkfound,Start Scan");
                             sendMessage("No Network found, Start Scan");

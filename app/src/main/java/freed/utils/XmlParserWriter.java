@@ -3,6 +3,7 @@ package freed.utils;
 import android.content.res.Resources;
 import android.os.Build;
 import android.support.v4.util.LongSparseArray;
+import android.text.TextUtils;
 
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
@@ -381,7 +382,7 @@ public class XmlParserWriter
     {
         int blacklvl = Integer.parseInt(element.findChild("blacklvl").getValue());
         String whlvl = element.findChild("whitelvl").getValue();
-        if (whlvl.equals(""))
+        if (TextUtils.isEmpty(whlvl))
             whlvl = 1023+"";
         int whitelvl = Integer.parseInt(whlvl);
         int width = Integer.parseInt(element.findChild("width").getValue());

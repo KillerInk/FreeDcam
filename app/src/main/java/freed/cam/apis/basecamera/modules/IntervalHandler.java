@@ -20,6 +20,7 @@
 package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
+import android.text.TextUtils;
 
 import java.util.Date;
 
@@ -171,7 +172,7 @@ public class IntervalHandler
     {
         String shutterdelay = appSettingsManager.getApiString(AppSettingsManager.SETTING_TIMER);
         try {
-            if (shutterdelay.equals(""))
+            if (TextUtils.isEmpty(shutterdelay))
                 shutterdelay = "0 sec";
             if (!shutterdelay.equals("0 sec"))
                 shutterDelay = Integer.parseInt(shutterdelay.replace(" sec", "")) * 1000;

@@ -1,6 +1,7 @@
 package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera;
+import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
@@ -30,7 +31,8 @@ public class AutoHdrMode extends BaseModeParameter {
         if (parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_supported))!=null)
             isSupported = false;
         String autohdr = parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_supported));
-        if (autohdr != null && !autohdr.equals("") && autohdr.equals(cameraUiWrapper.getResString(R.string.true_)) && parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_enable)) != null) {
+        if (autohdr != null && !TextUtils.isEmpty(autohdr) && autohdr.equals(cameraUiWrapper.getResString(R.string.true_))
+                && parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_enable)) != null) {
 
             List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(cameraUiWrapper.getAppSettingsManager().getResString(R.string.scene_mode_values)).split(",")));
             if (Scenes.contains(cameraUiWrapper.getResString(R.string.scene_mode_hdr))) {

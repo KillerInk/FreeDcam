@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
+import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
@@ -57,7 +58,7 @@ public class VideoStabilizationParameter extends  BaseModeParameter {
     public String GetStringValue()
     {
         String vs = parameters.get(cameraUiWrapper.getResString(R.string.video_stabilization));
-        if (vs != null && !vs.equals(""))
+        if (vs != null && !TextUtils.isEmpty(vs))
             return vs;
         else
             return "error";

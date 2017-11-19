@@ -373,7 +373,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     {
         DocumentFile sdDir = null;
         String extSdFolder =  appSettingsManager.GetBaseFolder();
-        if (extSdFolder == null || extSdFolder.equals(""))
+        if (extSdFolder == null || TextUtils.isEmpty(extSdFolder))
             return null;
         Uri uri = Uri.parse(extSdFolder);
         sdDir = DocumentFile.fromTreeUri(getContext(), uri);

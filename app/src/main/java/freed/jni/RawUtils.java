@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory.Options;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
+import android.text.TextUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,7 +54,7 @@ public class RawUtils {
 
     public Bitmap UnPackRAW(String file)
     {
-        if (file == null || file.equals(""))
+        if (file == null || TextUtils.isEmpty(file))
             return null;
         return unpackRAW(file);
     }

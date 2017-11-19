@@ -1,6 +1,7 @@
 package freed.cam.featuredetector;
 
 import android.hardware.Camera;
+import android.text.TextUtils;
 
 import com.lge.hardware.LGCamera;
 import com.troop.freedcam.R;
@@ -240,7 +241,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             return;
         }
         String autohdr = parameters.get(camstring(R.string.auto_hdr_supported));
-        if (autohdr != null && !autohdr.equals("") && autohdr.equals(camstring(R.string.true_)) && parameters.get(camstring(R.string.auto_hdr_enable)) != null) {
+        if (autohdr != null
+                && !TextUtils.isEmpty(autohdr)
+                && autohdr.equals(camstring(R.string.true_))
+                && parameters.get(camstring(R.string.auto_hdr_enable)) != null) {
 
             List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(appSettingsManager.getResString(R.string.scene_mode_values)).split(",")));
 
@@ -306,7 +310,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             else if (arrayContainsString(appSettingsManager.whiteBalanceMode.getValues(),appSettingsManager.getResString(R.string.manual_cct)))
                 wbModeval = appSettingsManager.getResString(R.string.manual_cct);
 
-            if (!wbmax.equals("") && !wbmin.equals("") && !wbModeval.equals("")) {
+            if (!TextUtils.isEmpty(wbmax) && !TextUtils.isEmpty(wbmin) && !TextUtils.isEmpty(wbModeval)) {
                 Log.d(TAG, "Found all wbct values:" +wbmax + " " + wbmin + " " +wbModeval);
                 appSettingsManager.manualWhiteBalance.setIsSupported(true);
                 appSettingsManager.manualWhiteBalance.setMode(wbModeval);
@@ -1159,6 +1163,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     appSettingsManager.rawPictureFormat.setValues(rawFormats);
                     if (rawFormats.length == 0)
                         appSettingsManager.rawPictureFormat.setIsSupported(false);
+                    else
+                        appSettingsManager.rawPictureFormat.setIsSupported(true);
                 }
             }
             appSettingsManager.pictureFormat.setIsSupported(true);
@@ -1222,7 +1228,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         else if (parameters.get(camstring(R.string.hw_exposure_mode_values)) != null)
             detectMode(parameters, R.string.hw_exposure_mode,R.string.hw_exposure_mode_values, appSettingsManager.exposureMode);
-        if (!appSettingsManager.exposureMode.getKEY().equals(""))
+        if (!TextUtils.isEmpty(appSettingsManager.exposureMode.getKEY()))
             appSettingsManager.exposureMode.setIsSupported(true);
         else
             appSettingsManager.exposureMode.setIsSupported(false);
@@ -1381,7 +1387,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             String hfrvals = parameters.get("video-hfr-values");
             if (!hfrvals.equals("off"))
             {
-                if (hfrvals.equals("")) {
+                if (TextUtils.isEmpty(hfrvals)) {
                     appSettingsManager.videoHFR.setValues("off,60,120".split(","));
                     appSettingsManager.videoHFR.setKEY("video-hfr");
                     appSettingsManager.videoHFR.setIsSupported(true);

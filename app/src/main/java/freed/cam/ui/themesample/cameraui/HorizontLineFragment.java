@@ -27,6 +27,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,7 +153,8 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     @Override
     public void onResume(){
         super.onResume();
-        if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("Off") || fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT).equals(""))
+        if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("Off")
+                || TextUtils.isEmpty(fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT)))
             view.setVisibility(View.GONE);
         else
             startSensorListing();

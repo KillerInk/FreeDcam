@@ -34,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -201,7 +202,7 @@ public class DngConvertingFragment extends Fragment
             String tmp_name = null;
             if (dngprofile.toneMapProfile != null)
                 tmp_name = dngprofile.toneMapProfile.getName();
-            if (tmp_name == null ||tmp_name.equals(""))
+            if (tmp_name == null || TextUtils.isEmpty(tmp_name))
                 tmp_name = getString(string.off_);
 
             for (int i = 0; i< tonemaps.length; i++)

@@ -20,6 +20,7 @@
 package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,7 +124,7 @@ public class SettingsChildMenuAEB extends LinearLayout {
         String exp="";
         if (appSettingsManager != null)
         exp = appSettingsManager.getApiString(settingsname);
-        if (exp == null || exp.equals("")) {
+        if (exp == null || TextUtils.isEmpty(exp)) {
             exp = "0";
             current = Integer.parseInt(exp);
             setCurrent(current);

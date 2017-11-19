@@ -25,6 +25,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -101,7 +102,7 @@ public class ManualButton extends LinearLayout implements ParameterEvents
             {
                 String txt = parameter.GetStringValue();
                 if (valueTextView != null) {
-                    if (txt != null && !txt.equals(""))
+                    if (txt != null && !TextUtils.isEmpty(txt))
                         valueTextView.setText(txt);
                     else
                         valueTextView.setText(parameter.GetValue() + "");
@@ -213,7 +214,7 @@ public class ManualButton extends LinearLayout implements ParameterEvents
             @Override
             public void run() {
                 String txt = getStringValue(current);
-                if (txt != null && !txt.equals("") && !txt.equals("null"))
+                if (txt != null && !TextUtils.isEmpty(txt) && !txt.equals("null"))
                     valueTextView.setText(txt);
                 else
                     valueTextView.setText(current+"");

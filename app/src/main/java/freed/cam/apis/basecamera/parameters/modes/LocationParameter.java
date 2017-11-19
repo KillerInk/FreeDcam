@@ -19,6 +19,8 @@
 
 package freed.cam.apis.basecamera.parameters.modes;
 
+import android.text.TextUtils;
+
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -51,7 +53,7 @@ public class LocationParameter extends AbstractParameter
     {
         if (cameraUiWrapper == null ||cameraUiWrapper.getAppSettingsManager() == null)
             return cameraUiWrapper.getResString(R.string.off_);
-        if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(""))
+        if (TextUtils.isEmpty(cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION)))
             cameraUiWrapper.getAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
         return cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION);
     }

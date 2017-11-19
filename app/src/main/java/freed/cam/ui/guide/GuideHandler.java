@@ -2,6 +2,7 @@ package freed.cam.ui.guide;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -235,7 +236,11 @@ public class GuideHandler extends Fragment implements ParameterEvents {
         public void onStringValueChanged(String val) {
             Log.d(TAG, "I_ModeParameterEvent SetViewG()");
             String img = appSettingsManager.guide.get();
-            if (val != null && !val.equals("")&& img != null && !img.equals("") && !img.equals("None")) {
+            if (val != null
+                    && !TextUtils.isEmpty(val)
+                    && img != null
+                    && !TextUtils.isEmpty(img)
+                    && !img.equals("None")) {
                 String[] size = val.split("x");
                 quckRationMath = Float.valueOf(size[0]) / Float.valueOf(size[1]);
                 SetViewG(img);

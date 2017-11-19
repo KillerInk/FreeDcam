@@ -22,6 +22,7 @@ package freed.cam.apis.basecamera.parameters;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.GuideList;
@@ -277,10 +278,10 @@ public abstract class AbstractParameterHandler
 
     protected void setMode(ParameterInterface parameter, String settings_key)
     {
-        if (parameter != null && parameter.IsSupported() && settings_key != null && !settings_key.equals(""))
+        if (parameter != null && parameter.IsSupported() && settings_key != null && !TextUtils.isEmpty(settings_key))
         {
             Log.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
-            if (appSettingsManager.getApiString(settings_key).equals("") || appSettingsManager.getApiString(settings_key) == null)
+            if (TextUtils.isEmpty(appSettingsManager.getApiString(settings_key)) || appSettingsManager.getApiString(settings_key) == null)
             {
                 String tmp = parameter.GetStringValue();
                 Log.d(TAG, settings_key + " is empty, set default from camera : " +tmp);
@@ -299,11 +300,11 @@ public abstract class AbstractParameterHandler
     {
         if (settingMode.isSupported() && parameter != null && parameter.GetStringValue() != null)
         {
-            if (settingMode.get().equals(""))
+            if (TextUtils.isEmpty(settingMode.get()))
                 return;
             String toset = settingMode.get();
             Log.d(TAG,"set to :" + toset);
-            if (toset.equals("") || toset.equals("none"))
+            if (TextUtils.isEmpty(toset) || toset.equals("none"))
                 settingMode.set(parameter.GetStringValue());
             else
                 parameter.SetValue(toset,false);
@@ -316,7 +317,7 @@ public abstract class AbstractParameterHandler
         if (parameter != null && parameter.IsSupported() && settingMode != null && settingMode.isSupported())
         {
             Log.d(TAG, parameter.getClass().getSimpleName());
-            if (settingMode.get().equals("")||settingMode.get() == null)
+            if (TextUtils.isEmpty(settingMode.get()) || settingMode.get() == null)
             {
                 String tmp = parameter.GetValue()+"";
                 settingMode.set(tmp);

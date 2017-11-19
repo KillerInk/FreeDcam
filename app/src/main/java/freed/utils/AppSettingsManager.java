@@ -711,7 +711,7 @@ public class AppSettingsManager {
 
     public String GetCurrentModule()
     {
-        if (modules.get().equals(""))
+        if (TextUtils.isEmpty(modules.get()))
             return getResString(R.string.module_picture);
         return modules.get();
     }

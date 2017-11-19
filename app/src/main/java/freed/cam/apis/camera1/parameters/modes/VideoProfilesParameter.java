@@ -19,6 +19,8 @@
 
 package freed.cam.apis.camera1.parameters.modes;
 
+import android.text.TextUtils;
+
 import com.troop.freedcam.R;
 
 import java.util.ArrayList;
@@ -72,7 +74,7 @@ public class VideoProfilesParameter extends AbstractParameter
     @Override
     public String GetStringValue()
     {
-        if ((profile == null || profile.equals("")) && supportedProfiles != null)
+        if ((profile == null || TextUtils.isEmpty(profile)) && supportedProfiles != null)
         {
             List<String> keys = new ArrayList<>(supportedProfiles.keySet());
             profile = keys.get(0);
@@ -90,7 +92,7 @@ public class VideoProfilesParameter extends AbstractParameter
 
     public VideoMediaProfile GetCameraProfile(String profile)
     {
-        if (profile == null || profile.equals(""))
+        if (profile == null || TextUtils.isEmpty(profile))
         {
             String[] t = supportedProfiles.keySet().toArray(new String[supportedProfiles.keySet().size()]);
             return supportedProfiles.get(t[0]);

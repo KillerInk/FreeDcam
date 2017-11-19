@@ -20,6 +20,8 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
 
+import android.text.TextUtils;
+
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 
 /**
@@ -49,7 +51,7 @@ public class Horizont extends AbstractParameter {
     @Override
     public String GetStringValue()
     {
-        if (value == null || value.equals(""))
+        if (value == null || TextUtils.isEmpty(value))
             return "Off";
         else
             return value;

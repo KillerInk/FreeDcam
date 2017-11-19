@@ -32,6 +32,7 @@ import android.media.ImageReader;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Size;
 import android.view.Surface;
 
@@ -208,7 +209,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
                 Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new CompareSizesByArea());
         picFormat = appSettingsManager.pictureFormat.get();
-        if (picFormat.equals("")) {
+        if (TextUtils.isEmpty(picFormat)) {
             picFormat = appSettingsManager.getResString(R.string.pictureformat_jpeg);
             appSettingsManager.pictureFormat.set(picFormat);
             parameterHandler.PictureFormat.fireStringValueChanged(picFormat);
@@ -318,7 +319,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         }
 
         String cmat = appSettingsManager.matrixset.get();
-        if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
+        if (cmat != null && !TextUtils.isEmpty(cmat) &&!cmat.equals("off")) {
             currentCaptureHolder.setCustomMatrix(appSettingsManager.getMatrixesMap().get(cmat));
         }
 

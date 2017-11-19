@@ -21,6 +21,7 @@ package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
@@ -273,7 +274,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
         }
         DngProfile dngProfile = cameraUiWrapper.getAppSettingsManager().getDngProfilesMap().get((long)data.length);
         String cmat = appSettingsManager.matrixset.get();
-        if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
+        if (cmat != null && !TextUtils.isEmpty(cmat)&&!cmat.equals("off")) {
             dngProfile.matrixes = appSettingsManager.getMatrixesMap().get(cmat);
         }
         Log.d(TAG, "found dngProfile:" + (dngProfile != null));
