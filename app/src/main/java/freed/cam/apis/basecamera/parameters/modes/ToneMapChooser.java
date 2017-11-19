@@ -1,5 +1,7 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
+import com.troop.freedcam.R;
+
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -19,6 +21,8 @@ public class ToneMapChooser extends AbstractParameter {
         this.toneMapProfileHashMap = toneMapProfileHashMap;
         isSupported = true;
         currentString = appSettingsManager.tonemapProfilesSettings.get();
+        if (currentString.equals(""))
+            currentString = appSettingsManager.getResString(R.string.off_);
     }
 
     @Override

@@ -168,17 +168,17 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 dngGroup.addView(opcode);
             }
 
-            if (params.bayerformat != null) {
+            if (params.bayerformat != null && params.bayerformat.IsSupported() && apS.rawPictureFormat.isSupported()) {
                 SettingsChildMenu bayerFormatItem = new SettingsChildMenu(getContext(), apS.rawPictureFormat, params.bayerformat, R.string.setting_bayerformat_header, R.string.setting_bayerformat_description);
                 bayerFormatItem.SetUiItemClickListner(this);
                 dngGroup.addView(bayerFormatItem);
             }
-            if (params.matrixChooser != null) {
+            if (params.matrixChooser != null && params.matrixChooser.IsSupported()) {
                 SettingsChildMenu matrixChooser = new SettingsChildMenu(getContext(), apS.matrixset, params.matrixChooser, R.string.setting_matrixchooser_header, R.string.setting_matrixchooser_description);
                 matrixChooser.SetUiItemClickListner(this);
                 dngGroup.addView(matrixChooser);
             }
-            if (params.tonemapChooser != null) {
+            if (params.tonemapChooser != null && params.tonemapChooser.IsSupported()) {
                 SettingsChildMenu matrixChooser = new SettingsChildMenu(getContext(), apS.tonemapProfilesSettings, params.tonemapChooser, R.string.setting_tonemapchooser_header, R.string.setting_tonemapchooser_description);
                 matrixChooser.SetUiItemClickListner(this);
                 dngGroup.addView(matrixChooser);

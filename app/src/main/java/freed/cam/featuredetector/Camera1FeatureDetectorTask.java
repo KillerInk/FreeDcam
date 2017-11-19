@@ -677,6 +677,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 appSettingsManager.manualSaturation.setValues(parameters.get(camstring(R.string.saturation_values)).split(","));
                 appSettingsManager.manualSaturation.setKEY(camstring(R.string.saturation));
                 appSettingsManager.manualSaturation.setIsSupported(true);
+                appSettingsManager.manualSaturation.set(parameters.get(camstring(R.string.saturation)));
             }
         }
         else {
@@ -687,17 +688,20 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 min = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.lg_color_adjust_min)));
                 max = Integer.parseInt(parameters.get(appSettingsManager.getResString(R.string.lg_color_adjust_max)));
                 appSettingsManager.manualSaturation.setKEY(appSettingsManager.getResString(R.string.lg_color_adjust));
+                appSettingsManager.manualSaturation.set(parameters.get(camstring(R.string.lg_color_adjust)));
             }
             else if (parameters.get(camstring(R.string.saturation_max)) != null) {
                 Log.d(TAG, "Saturation: Default");
                 min = Integer.parseInt(parameters.get(camstring(R.string.saturation_min)));
                 max = Integer.parseInt(parameters.get(camstring(R.string.saturation_max)));
                 appSettingsManager.manualSaturation.setKEY(camstring(R.string.saturation));
+                appSettingsManager.manualSaturation.set(parameters.get(camstring(R.string.saturation)));
             } else if (parameters.get(camstring(R.string.max_saturation)) != null) {
                 Log.d(TAG, "Saturation: Default");
                 min = Integer.parseInt(parameters.get(camstring(R.string.min_saturation)));
                 max = Integer.parseInt(parameters.get(camstring(R.string.max_saturation)));
                 appSettingsManager.manualSaturation.setKEY(camstring(R.string.saturation));
+                appSettingsManager.manualSaturation.set(parameters.get(camstring(R.string.saturation)));
             }
             Log.d(TAG, "Saturation Max:" +max);
             if (max > 0) {
@@ -715,6 +719,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 appSettingsManager.manualSharpness.setValues(parameters.get(camstring(R.string.edge_values)).split(","));
                 appSettingsManager.manualSharpness.setKEY(camstring(R.string.edge));
                 appSettingsManager.manualSharpness.setIsSupported(true);
+                appSettingsManager.manualSharpness.set(parameters.get(camstring(R.string.edge)));
             }
         }
         else {
@@ -724,11 +729,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 min = Integer.parseInt(parameters.get(camstring(R.string.sharpness_min)));
                 max = Integer.parseInt(parameters.get(camstring(R.string.sharpness_max)));
                 appSettingsManager.manualSharpness.setKEY(camstring(R.string.sharpness));
+                appSettingsManager.manualSharpness.set(parameters.get(camstring(R.string.sharpness)));
             } else if (parameters.get(camstring(R.string.max_sharpness)) != null) {
                 Log.d(TAG, "Sharpness: Default");
                 min = Integer.parseInt(parameters.get(camstring(R.string.min_sharpness)));
                 max = Integer.parseInt(parameters.get(camstring(R.string.max_sharpness)));
                 appSettingsManager.manualSharpness.setKEY(camstring(R.string.sharpness));
+                appSettingsManager.manualSharpness.set(parameters.get(camstring(R.string.sharpness)));
             }
             Log.d(TAG, "Sharpness Max:" +max);
             if (max > 0) {
@@ -746,6 +753,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 appSettingsManager.manualBrightness.setValues(parameters.get(camstring(R.string.brightness_values)).split(","));
                 appSettingsManager.manualBrightness.setKEY(camstring(R.string.brightness));
                 appSettingsManager.manualBrightness.setIsSupported(true);
+                appSettingsManager.manualBrightness.set(parameters.get(camstring(R.string.brightness)));
             }
         }
         else {
@@ -766,6 +774,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 else if (parameters.get(camstring(R.string.luma_adaptation))!= null)
                     appSettingsManager.manualBrightness.setKEY(camstring(R.string.luma_adaptation));
                 appSettingsManager.manualBrightness.setValues(createStringArray(min, max, 1));
+                appSettingsManager.manualBrightness.set(parameters.get(appSettingsManager.manualBrightness.getKEY()));
                 appSettingsManager.manualBrightness.setIsSupported(true);
             }
         }
@@ -778,6 +787,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 appSettingsManager.manualContrast.setValues(parameters.get(camstring(R.string.contrast_values)).split(","));
                 appSettingsManager.manualContrast.setKEY(camstring(R.string.contrast));
                 appSettingsManager.manualContrast.setIsSupported(true);
+                appSettingsManager.manualContrast.set(parameters.get(camstring(R.string.contrast)));
             }
         }
         else {
@@ -795,6 +805,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 appSettingsManager.manualContrast.setKEY(camstring(R.string.contrast));
                 appSettingsManager.manualContrast.setValues(createStringArray(min, max, 1));
                 appSettingsManager.manualContrast.setIsSupported(true);
+                appSettingsManager.manualContrast.set(parameters.get(camstring(R.string.contrast)));
             }
         }
     }
@@ -1146,6 +1157,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     String[] rawFormats = new String[tmp.size()];
                     tmp.toArray(rawFormats);
                     appSettingsManager.rawPictureFormat.setValues(rawFormats);
+                    if (rawFormats.length == 0)
+                        appSettingsManager.rawPictureFormat.setIsSupported(false);
                 }
             }
             appSettingsManager.pictureFormat.setIsSupported(true);
