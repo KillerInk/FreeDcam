@@ -33,6 +33,7 @@ import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
+import freed.image.ImageTaskDngConverter;
 import freed.utils.Log;
 
 /**
@@ -262,35 +263,8 @@ public class ImageHolder
 
     @NonNull
     private void process_rawSensor(Image image,File file) {
-        Log.d(TAG, "Create DNG");
-
-        DngCreator dngCreator = new DngCreator(characteristics, captureResult);
-        //Orientation 90 is not a valid EXIF orientation value, android doc says that is valid!
-        //The clockwise rotation angle in degrees, relative to the orientation to the camera, that the JPEG picture needs to be rotated by, to be viewed upright.
-        try {
-            dngCreator.setOrientation(orientation);
-        }
-        catch (IllegalArgumentException ex)
-        {
-            Log.WriteEx(ex);
-        }
-
-        if (location != null)
-            dngCreator.setLocation(location);
-        try
-        {
-            if (!externalSD)
-                dngCreator.writeImage(new FileOutputStream(file), image);
-            else
-            {
-                DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
-                DocumentFile wr = df.createFile("image/*", file.getName());
-                dngCreator.writeImage(activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri()), image);
-            }
-            activityInterface.ScanFile(file);
-        } catch (IOException ex) {
-            Log.WriteEx(ex);
-        }
+        ImageTaskDngConverter taskDngConverter = new ImageTaskDngConverter(captureResult,image,characteristics,file,activityInterface,orientation,location);
+        ImageManager.putImageLoadTask(taskDngConverter);
     }
 
     @NonNull
