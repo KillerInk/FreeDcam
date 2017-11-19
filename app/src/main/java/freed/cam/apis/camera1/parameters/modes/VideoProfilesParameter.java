@@ -38,13 +38,11 @@ public class VideoProfilesParameter extends AbstractParameter
     private final String TAG = VideoProfilesParameter.class.getSimpleName();
     protected HashMap<String, VideoMediaProfile> supportedProfiles;
     protected String profile;
-    protected CameraWrapperInterface cameraUiWrapper;
     protected boolean isSupported;
 
 
     public VideoProfilesParameter(CameraWrapperInterface cameraUiWrapper) {
-        super();
-        this.cameraUiWrapper = cameraUiWrapper;
+        super(cameraUiWrapper);
         isSupported =true;
         supportedProfiles = cameraUiWrapper.getAppSettingsManager().getMediaProfiles();
         profile = cameraUiWrapper.getAppSettingsManager().videoProfile.get();
@@ -74,7 +72,7 @@ public class VideoProfilesParameter extends AbstractParameter
     @Override
     public String GetStringValue()
     {
-        if (profile == null && supportedProfiles != null)
+        if ((profile == null || profile.equals("")) && supportedProfiles != null)
         {
             List<String> keys = new ArrayList<>(supportedProfiles.keySet());
             profile = keys.get(0);
