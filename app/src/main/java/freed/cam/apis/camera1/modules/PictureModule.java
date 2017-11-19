@@ -34,6 +34,8 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.dng.DngProfile;
+import freed.image.ImageManager;
+import freed.image.ImageSaveTask;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
@@ -214,24 +216,29 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
 
     protected void saveImage(byte[]data, String picFormat)
     {
-        File toSave = getFile(getFileEnding(picFormat));
+        final File toSave = getFile(getFileEnding(picFormat));
         Log.d(this.TAG, "saveImage:"+toSave.getName() + " Filesize: "+data.length);
         if (picFormat.equals(FileEnding.DNG))
             saveDng(data,toSave);
         else {
-
-            saveJpeg(toSave,data);
+            ImageSaveTask task = new ImageSaveTask(activityInterface,this);
+            task.setBytesTosave(data,ImageSaveTask.JPEG);
+            task.setFilePath(toSave,appSettingsManager.GetWriteExternal());
+            ImageManager.putImageSaveTask(task);
+            //saveJpeg(toSave,data);
         }
         if(appSettingsManager.isZteAe())
             ShutterResetLogic();
 
-        fireInternalOnWorkFinish(toSave);
+        //fireInternalOnWorkFinish(toSave);
     }
 
-    protected void fireInternalOnWorkFinish(File tosave)
-    {
-        fireOnWorkFinish(tosave);
+    @Override
+    public void internalFireOnWorkDone(File file) {
+        super.internalFireOnWorkDone(file);
+        fireOnWorkFinish(file);
     }
+
     private String getFileEnding(String picFormat)
     {
         if (picFormat.equals(cameraUiWrapper.getResString(R.string.jpeg_)))
@@ -255,15 +262,16 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
 
     protected void saveDng(byte[] data, File file)
     {
-
-        float fnum = ((ParametersHandler)cameraUiWrapper.getParameterHandler()).getFnumber();
-        float focal = ((ParametersHandler)cameraUiWrapper.getParameterHandler()).getFocal();
+        ImageSaveTask task = new ImageSaveTask(activityInterface,this);
+        task.setFnum(((ParametersHandler)cameraUiWrapper.getParameterHandler()).getFnumber());
+        task.setFocal(((ParametersHandler)cameraUiWrapper.getParameterHandler()).getFocal());
         float exposuretime = cameraUiWrapper.getParameterHandler().getCurrentExposuretime();
         if (exposuretime == 0 && startcapturetime != 0)
         {
             exposuretime = new Date().getTime() - startcapturetime;
         }
-        int iso = cameraUiWrapper.getParameterHandler().getCurrentIso();
+        task.setExposureTime(exposuretime);
+        task.setIso(cameraUiWrapper.getParameterHandler().getCurrentIso());
         String wb = null;
         if (cameraUiWrapper.getParameterHandler().CCT != null && cameraUiWrapper.getParameterHandler().CCT.IsSupported())
         {
@@ -271,16 +279,18 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
             if (wb.equals(cameraUiWrapper.getResString(R.string.auto_)))
                 wb = null;
             Log.d(this.TAG,"Set Manual WhiteBalance:"+ wb);
+            task.setWhiteBalance(wb);
         }
         DngProfile dngProfile = cameraUiWrapper.getAppSettingsManager().getDngProfilesMap().get((long)data.length);
         String cmat = appSettingsManager.matrixset.get();
         if (cmat != null && !TextUtils.isEmpty(cmat)&&!cmat.equals("off")) {
             dngProfile.matrixes = appSettingsManager.getMatrixesMap().get(cmat);
         }
+        task.setDngProfile(dngProfile);
         Log.d(TAG, "found dngProfile:" + (dngProfile != null));
-        int orientation = cameraUiWrapper.getActivityInterface().getOrientation();
-        saveRawToDng(RawToDng.GetInstance(), file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile,0);
-        data = null;
-
+        task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+        task.setFilePath(file,appSettingsManager.GetWriteExternal());
+        task.setBytesTosave(data,ImageSaveTask.RAW10);
+        ImageManager.putImageSaveTask(task);
     }
 }

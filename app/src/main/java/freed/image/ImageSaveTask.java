@@ -277,6 +277,8 @@ public class ImageSaveTask extends ImageTask
 
     protected void checkFileExists(File fileName)
     {
+        if (fileName == null)
+            return;
         if (fileName.getParentFile() == null)
             return;
         if(!fileName.getParentFile().exists())

@@ -37,8 +37,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 16.08.2014.
  */
-public class BracketModule extends PictureModule
-{
+public class BracketModule extends PictureModule {
 
     private final String TAG = BracketModule.class.getSimpleName();
 
@@ -46,7 +45,7 @@ public class BracketModule extends PictureModule
     private File[] files;
 
     public BracketModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
-        super(cameraUiWrapper,mBackgroundHandler,mainHandler);
+        super(cameraUiWrapper, mBackgroundHandler, mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_hdr);
     }
 
@@ -57,8 +56,7 @@ public class BracketModule extends PictureModule
     }
 
     @Override
-    public void DoWork()
-    {
+    public void DoWork() {
         mBackgroundHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -67,8 +65,7 @@ public class BracketModule extends PictureModule
                 files = new File[7];
                 hdrCount = 0;
                 String picformat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
-                if (picformat.equals(appSettingsManager.getResString(R.string.dng_)) ||picformat.equals(appSettingsManager.getResString(R.string.bayer_)))
-                {
+                if (picformat.equals(appSettingsManager.getResString(R.string.dng_)) || picformat.equals(appSettingsManager.getResString(R.string.bayer_))) {
                     if (cameraUiWrapper.getParameterHandler().ZSL != null && cameraUiWrapper.getParameterHandler().ZSL.IsSupported()
                             && cameraUiWrapper.getParameterHandler().ZSL.GetStringValue().equals("on")
                             && ((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
@@ -79,7 +76,7 @@ public class BracketModule extends PictureModule
 
                 setExposureToCamera();
                 sleep(400);
-                startcapturetime =new Date().getTime();
+                startcapturetime = new Date().getTime();
                 cameraHolder.TakePicture(BracketModule.this);
 
             }
@@ -103,8 +100,7 @@ public class BracketModule extends PictureModule
 
     //ModuleInterface END
 
-    private void setExposureToCamera()
-    {
+    private void setExposureToCamera() {
         int value = 0;
         if (hdrCount == 0) {
             value = 12;
@@ -124,24 +120,22 @@ public class BracketModule extends PictureModule
             value = 0;
 
         Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
-        int toset = value + cameraUiWrapper.getParameterHandler().ManualExposure.getStringValues().length/2;
+        int toset = value + cameraUiWrapper.getParameterHandler().ManualExposure.getStringValues().length / 2;
         cameraUiWrapper.getParameterHandler().ManualExposure.SetValue(toset);
         Log.d(TAG, "HDR Exposure SET");
     }
 
     @Override
-    public void onPictureTaken(byte[] data, Camera camera)
-    {
-        if(data == null)
+    public void onPictureTaken(byte[] data, Camera camera) {
+        if (data == null)
             return;
-        if (!waitForPicture)
-        {
+        if (!waitForPicture) {
             isWorking = false;
             return;
         }
         hdrCount++;
         String picFormat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
-        saveImage(data,picFormat);
+        saveImage(data, picFormat);
         startPreview();
         if (hdrCount == 7)//handel normal capture
         {
@@ -150,25 +144,21 @@ public class BracketModule extends PictureModule
             changeCaptureState(CaptureStates.image_capture_stop);
             setExposureToCamera();
             fireOnWorkFinish(files);
-        }
-        else
-        {
+        } else {
             setExposureToCamera();
             sleep(600);
-            startcapturetime =new Date().getTime();
+            startcapturetime = new Date().getTime();
             cameraHolder.TakePicture(BracketModule.this);
         }
         data = null;
     }
 
     @Override
-    protected File getFile(String fileending)
-    {
+    protected File getFile(String fileending) {
         return new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePathHDR(appSettingsManager.GetWriteExternal(), fileending, hdrCount));
     }
 
-    private void sleep(int time)
-    {
+    private void sleep(int time) {
         try {
             Thread.sleep(time);
         } catch (InterruptedException ex) {
@@ -177,7 +167,8 @@ public class BracketModule extends PictureModule
     }
 
     @Override
-    protected void fireInternalOnWorkFinish(File tosave) {
-        files[hdrCount-1] = tosave;
+    public void internalFireOnWorkDone(File file) {
+        files[hdrCount - 1] = file;
     }
+
 }
