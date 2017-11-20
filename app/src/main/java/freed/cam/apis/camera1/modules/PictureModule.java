@@ -29,7 +29,7 @@ import java.io.File;
 import java.util.Date;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.BasePictureModule;
+import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -44,7 +44,7 @@ import freed.utils.StringUtils.FileEnding;
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends BasePictureModule implements Camera.PictureCallback
+public class PictureModule extends ModuleAbstract implements Camera.PictureCallback
 {
 
     private final String TAG = PictureModule.class.getSimpleName();
@@ -134,6 +134,11 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
     }
 
     @Override
+    public void DestroyModule() {
+
+    }
+
+    @Override
     public void onPictureTaken(byte[] data, Camera camera)
     {
         if(data == null)
@@ -214,11 +219,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
         if (picFormat.equals(FileEnding.DNG))
             saveDng(data,toSave);
         else {
-            ImageSaveTask task = new ImageSaveTask(activityInterface,this);
-            task.setBytesTosave(data,ImageSaveTask.JPEG);
-            task.setFilePath(toSave,appSettingsManager.GetWriteExternal());
-            ImageManager.putImageSaveTask(task);
-            //saveJpeg(toSave,data);
+            saveJpeg(data,toSave);
         }
         if(appSettingsManager.isZteAe())
             ShutterResetLogic();
@@ -228,7 +229,6 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
 
     @Override
     public void internalFireOnWorkDone(File file) {
-        super.internalFireOnWorkDone(file);
         fireOnWorkFinish(file);
     }
 
@@ -253,9 +253,17 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
             return new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), fileending));
     }
 
+    protected void saveJpeg(byte[] data, File file)
+    {
+        ImageSaveTask task = new ImageSaveTask(cameraUiWrapper.getActivityInterface(),this);
+        task.setBytesTosave(data,ImageSaveTask.JPEG);
+        task.setFilePath(file,appSettingsManager.GetWriteExternal());
+        ImageManager.putImageSaveTask(task);
+    }
+
     protected void saveDng(byte[] data, File file)
     {
-        ImageSaveTask task = new ImageSaveTask(activityInterface,this);
+        ImageSaveTask task = new ImageSaveTask(cameraUiWrapper.getActivityInterface(),this);
         task.setFnum(((ParametersHandler)cameraUiWrapper.getParameterHandler()).getFnumber());
         task.setFocal(((ParametersHandler)cameraUiWrapper.getParameterHandler()).getFocal());
         float exposuretime = cameraUiWrapper.getParameterHandler().getCurrentExposuretime();

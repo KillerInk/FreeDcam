@@ -143,7 +143,6 @@ public class VideoModule extends AbstractVideoModule
             stopRecording();
         if (appSettingsManager.videoHDR.isSupported())
             cameraUiWrapper.getParameterHandler().VideoHDR.SetValue("off", true);
-        super.DestroyModule();
     }
 
     private void loadProfileSpecificParameters()

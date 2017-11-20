@@ -92,7 +92,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         if (currentiso == 0)
             currentiso = cameraHolder.currentIso;
         exposureTimeStep = currentExposureTime/2;
-        aeWasOn = !appSettingsManager.exposureMode.get().equals(activityInterface.getContext().getString(R.string.off));
+        aeWasOn = !appSettingsManager.exposureMode.get().equals(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.off));
     }
 
     @Override
@@ -125,7 +125,7 @@ public class AeBracketApi2 extends PictureModuleApi2
 
         if (imagecount == 3) {
             if (aeWasOn && parameterHandler.ExposureMode != null)
-                parameterHandler.ExposureMode.SetValue(activityInterface.getContext().getString(R.string.on),true);
+                parameterHandler.ExposureMode.SetValue(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.on),true);
 
         }
     }

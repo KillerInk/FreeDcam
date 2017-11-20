@@ -126,7 +126,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         Log.d(TAG, "DestroyModule");
         cameraHolder.captureSessionHandler.CloseCaptureSession();
         previewsurface = null;
-        super.DestroyModule();
     }
 
     @Override
@@ -420,4 +419,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             Log.d(TAG, "Failed to Config CaptureSession");
         }
     };
+
+    @Override
+    public void internalFireOnWorkDone(File file) {
+
+    }
 }

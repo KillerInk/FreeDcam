@@ -97,8 +97,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     {
         Log.d(TAG, "work started");
         currentWorkState = captureStates;
-
-        mainHandler.sendMessage(mainHandler.obtainMessage(MSG_ONCAPTURESTATECHANGED, captureStates));
+        mainHandler.obtainMessage(MSG_ONCAPTURESTATECHANGED, captureStates).sendToTarget();
     }
 
     @Override
@@ -108,8 +107,7 @@ public abstract class ModuleAbstract implements ModuleInterface
 
 
     @Override
-    public void DoWork() {
-    }
+    public abstract void DoWork();
 
     @Override
     public boolean IsWorking() {
@@ -129,10 +127,7 @@ public abstract class ModuleAbstract implements ModuleInterface
      * this gets called when module gets unloaded reset the parameters that where set on InitModule
      */
     @Override
-    public  void DestroyModule()
-    {
-
-    }
+    public abstract void DestroyModule();
 
     @Override
     public abstract String LongName();
@@ -140,11 +135,22 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public abstract String ShortName();
 
+    /**
+     * ts called when a saving task is done and the image/movie is rdy to get attached to the MainActivity/screenslideFragment
+     * @param file that is new
+     */
     @Override
     public void fireOnWorkFinish(File file) {
         cameraUiWrapper.getActivityInterface().WorkHasFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
     }
 
+
+
+    /**
+     * gets called when a capture session with more pics is done
+        and the images are rdy to to the MainActivity/screenslideFragment
+     * @param files that are new
+     */
     @Override
     public void fireOnWorkFinish(File files[])
     {

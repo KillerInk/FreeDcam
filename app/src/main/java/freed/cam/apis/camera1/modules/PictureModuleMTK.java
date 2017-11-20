@@ -87,7 +87,8 @@ public class PictureModuleMTK extends PictureModule
         Log.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
         if (picformat.equals(cameraUiWrapper.getResString(R.string.jpeg_)))
         {
-            saveJpeg(holdFile,data);
+
+            saveJpeg(data,holdFile);
             try {
                 DeviceSwitcher().delete();
             } catch (Exception ex) {
@@ -96,14 +97,13 @@ public class PictureModuleMTK extends PictureModule
         }
         else if (picformat.equals(cameraUiWrapper.getResString(R.string.dng_)))
         {
-            saveJpeg(holdFile,data);
+            saveJpeg(data,holdFile);
             CreateDNG_DeleteRaw();
         }
         else
         {
-            saveJpeg(holdFile,data);
+            saveJpeg(data,holdFile);
         }
-        fireOnWorkFinish(holdFile);
         waitForPicture = false;
         data = null;
         startPreview();
@@ -148,7 +148,6 @@ public class PictureModuleMTK extends PictureModule
         File dng = new File(holdFile.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
         saveDng(data,dng);
         data = null;
-        fireOnWorkFinish(dng);
     }
 
 

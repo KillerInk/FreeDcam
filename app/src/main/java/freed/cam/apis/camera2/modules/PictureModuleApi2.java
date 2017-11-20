@@ -112,7 +112,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         Log.d(TAG, "DestroyModule");
         cameraHolder.captureSessionHandler.CloseCaptureSession();
         cameraUiWrapper.getFocusPeakProcessor().kill();
-        super.DestroyModule();
     }
 
     @Override
@@ -536,6 +535,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             filesSaved.add(file);
         if (isBurstCapture && burstCount  == imagecount +1)
         {
+            Log.d(TAG,"Burst Done");
             fireOnWorkFinish(filesSaved.toArray(new File[filesSaved.size()]));
             filesSaved.clear();
         }
