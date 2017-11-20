@@ -59,7 +59,7 @@ import freed.viewer.holder.FileHolder;
  */
 public abstract class ActivityAbstract extends AppCompatActivity implements ActivityInterface, I_WorkEvent {
 
-    public static final boolean LOG_TO_FILE = true;
+    public static final boolean LOG_TO_FILE = false;
 
     protected boolean initDone = false;
 
@@ -98,10 +98,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
         if(getPermissionHandler().hasCameraAndSdPermission(logSDPermission))
         {
-            if (LOG_TO_FILE && !Log.isLogToFileEnable()) {
-                permissionHandler.hasExternalSDPermission(logSDPermission);
-            } else
-                initOnCreate();
+            initOnCreate();
         }
     }
 
