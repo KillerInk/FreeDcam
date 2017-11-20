@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import freed.ActivityInterface;
+import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.utils.Log;
 
 
@@ -25,10 +26,11 @@ public class ImageTaskDngConverter extends ImageTask {
     private ActivityInterface activityInterface;
     private int orientation;
     private Location location;
+    private ModuleInterface moduleInterface;
 
     private final String TAG = ImageTaskDngConverter.class.getSimpleName();
 
-    public ImageTaskDngConverter(CaptureResult captureResult, Image image,CameraCharacteristics characteristics, File file, ActivityInterface activityInterface, int orientation, Location location)
+    public ImageTaskDngConverter(CaptureResult captureResult, Image image, CameraCharacteristics characteristics, File file, ActivityInterface activityInterface, int orientation, Location location, ModuleInterface moduleInterface)
     {
         this.captureResult = captureResult;
         this.image = image;
@@ -37,6 +39,7 @@ public class ImageTaskDngConverter extends ImageTask {
         this.activityInterface = activityInterface;
         this.orientation = orientation;
         this.location = location;
+        this.moduleInterface = moduleInterface;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -67,6 +70,9 @@ public class ImageTaskDngConverter extends ImageTask {
                 DocumentFile wr = df.createFile("image/*", file.getName());
                 dngCreator.writeImage(activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri()), image);
             }
+            dngCreator.close();
+            image.close();
+            moduleInterface.internalFireOnWorkDone(file);
             activityInterface.ScanFile(file);
         } catch (IOException ex) {
             Log.WriteEx(ex);

@@ -263,7 +263,7 @@ public class ImageHolder
 
     @NonNull
     private void process_rawSensor(Image image,File file) {
-        ImageTaskDngConverter taskDngConverter = new ImageTaskDngConverter(captureResult,image,characteristics,file,activityInterface,orientation,location);
+        ImageTaskDngConverter taskDngConverter = new ImageTaskDngConverter(captureResult,image,characteristics,file,activityInterface,orientation,location,moduleInterface);
         ImageManager.putImageLoadTask(taskDngConverter);
     }
 
