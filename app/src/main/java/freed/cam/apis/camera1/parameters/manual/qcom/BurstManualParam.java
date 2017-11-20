@@ -78,10 +78,8 @@ public class BurstManualParam extends BaseManualParameter
 
         if (parameters.get(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter)) != null)
         {
-            if (currentInt == 0)
-                parameters.set(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter), 1+"");
-            else
-                parameters.set(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter), stringvalues[currentInt]);
+            parameters.set(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter), stringvalues[currentInt]);
+            parameters.set(cameraUiWrapper.getResString(R.string.snapshot_burst_num), stringvalues[currentInt]);
             Log.d(TAG, cameraUiWrapper.getResString(R.string.num_snaps_per_shutter)+ stringvalues[currentInt]);
 
         }
@@ -90,7 +88,7 @@ public class BurstManualParam extends BaseManualParameter
                 parameters.set(cameraUiWrapper.getResString(R.string.snapshot_burst_num), stringvalues[currentInt]);
             Log.d(TAG, cameraUiWrapper.getResString(R.string.snapshot_burst_num)+ stringvalues[currentInt]);
         }
-        else if(parameters.get(cameraUiWrapper.getResString(R.string.burst_num)) != null)
+        else if(parameters.get(cameraUiWrapper.getResString(R.string.burst_num)) != null) // mtk
         {
             if (valueToSet == 0)
                 parameters.set(cameraUiWrapper.getResString(R.string.burst_num), String.valueOf(0));

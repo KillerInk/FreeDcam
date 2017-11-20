@@ -1238,7 +1238,7 @@
         </models>
         <camera1>
             <dngmanual>false</dngmanual>
-            <burst>9</burst>
+            <burst>6</burst>
             <manualiso supported="false"></manualiso>
             <exposuretime></exposuretime>
             <hdrmode supported="true">2</hdrmode>
@@ -1247,7 +1247,7 @@
                 <min>0</min>
                 <max>1023</max>
                 <step>10</step>
-                <type>2</type>
+                <type>1</type>
                 <mode>manual</mode>
                 <key>manual-focus-position</key>
             </manualfocus>

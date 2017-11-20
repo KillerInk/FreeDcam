@@ -291,14 +291,11 @@ void DngWriter::process10tight(TIFF *tif) {
     }
 
     int row = shouldberowsize;
-    out = (unsigned char *)malloc((int)shouldberowsize*rawheight);
+    out = new unsigned char[shouldberowsize*rawheight];
     if(out == NULL)
     {
-        out = (unsigned char *)malloc((int)shouldberowsize*rawheight);
-        if (out == NULL)
-        {
         LOGD("failed to set buffer");
-        return;}
+        return;
     }
 
     int m = 0;

@@ -52,6 +52,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
     protected CameraHolder cameraHolder;
     protected boolean waitForPicture;
     protected long startcapturetime;
+    private boolean isBurstCapture = false;
 
 
     public PictureModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
@@ -101,7 +102,12 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
                 cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
                 changeCaptureState(CaptureStates.image_capture_start);
                 waitForPicture = true;
-                burstcount = 0;
+                if (cameraUiWrapper.getParameterHandler().Burst.IsSupported() && cameraUiWrapper.getParameterHandler().Burst.GetValue() > 0) {
+                    burstcount = cameraUiWrapper.getParameterHandler().Burst.GetValue()+1;
+                    isBurstCapture = true;
+                }
+                else
+                    burstcount = 1;
                 if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
                 startcapturetime =new Date().getTime();
@@ -141,31 +147,18 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
             startPreview();
             return;
         }
-        burstcount++;
+        burstcount--;
         String picFormat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
         saveImage(data,picFormat);
         //Handel Burst capture
-        if (cameraUiWrapper.getAppSettingsManager().manualBurst.isSupported() && cameraUiWrapper.getParameterHandler().Burst.GetValue() > 1)
-        {
-            Log.d(this.TAG, "BurstCapture Count:" + burstcount + "/"+ cameraUiWrapper.getParameterHandler().Burst.GetValue());
-            if (burstcount == cameraUiWrapper.getParameterHandler().Burst.GetValue())
-            {
-                Log.d(this.TAG, "BurstCapture done");
-                waitForPicture = false;
-                isWorking = false;
-                startPreview();
-                changeCaptureState(CaptureStates.image_capture_stop);
-            }
-        }
-        else //handel normal capture
+        if (burstcount == 0)
         {
             isWorking = false;
             waitForPicture = false;
-
+            isBurstCapture = false;
             startPreview();
             changeCaptureState(CaptureStates.image_capture_stop);
         }
-        data = null;
     }
 
     protected void startPreview()
@@ -254,7 +247,7 @@ public class PictureModule extends BasePictureModule implements Camera.PictureCa
 
     protected File getFile(String fileending)
     {
-        if (cameraUiWrapper.getAppSettingsManager().manualBurst.isSupported() && cameraUiWrapper.getParameterHandler().Burst.GetValue() > 1)
+        if (isBurstCapture)
             return new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePathBurst(appSettingsManager.GetWriteExternal(), fileending, burstcount));
         else
             return new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), fileending));
