@@ -21,6 +21,8 @@ public class ImageManager {
     private final ImageSaveManager imageSaveManager;
     private final ImageLoadManager imageLoadManager;
 
+    private final int KEEP_ALIVE_TIME = 500;
+
     private ImageManager()
     {
         imageSaveManager = new ImageSaveManager();
@@ -65,9 +67,9 @@ public class ImageManager {
             imagesToSaveQueue = new ArrayBlockingQueue<Runnable>(4);
 
             imageSaveExecutor = new ThreadPoolExecutor(
-                    2,       // Initial pool size
-                    2,       // Max pool size
-                    0,
+                    4,       // Initial pool size
+                    4,       // Max pool size
+                    KEEP_ALIVE_TIME,
                     TimeUnit.MILLISECONDS,
                     imagesToSaveQueue);
             //handel case that queue is full, and wait till its free
@@ -103,12 +105,12 @@ public class ImageManager {
         private final ThreadPoolExecutor imageLoadExecutor;
         private ImageLoadManager()
         {
-            int coreSize = Runtime.getRuntime().availableProcessors()-1;
+            int coreSize = Runtime.getRuntime().availableProcessors();
             imagesToLoadQueue = new LinkedBlockingDeque<>();
             imageLoadExecutor = new ThreadPoolExecutor(
                     coreSize,       // Initial pool size
                     coreSize,       // Max pool size
-                    0,
+                    KEEP_ALIVE_TIME,
                     TimeUnit.MILLISECONDS,
                     imagesToLoadQueue);
         }
