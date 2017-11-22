@@ -64,6 +64,7 @@ public class ImageHolder
     String filepath;
 
     private boolean isRawCapture = false;
+    private boolean isJpgCapture = false;
     private boolean forceRawToDng = false;
 
     private ActivityInterface activityInterface;
@@ -72,11 +73,12 @@ public class ImageHolder
 
     WorkFinishEvents workerfinish;
 
-    public ImageHolder(CameraCharacteristics characteristicss, boolean isRawCapture, ActivityInterface activitiy, ModuleInterface imageSaver, WorkFinishEvents finish, RdyToSaveImg rdyToSaveImg)
+    public ImageHolder(CameraCharacteristics characteristicss, boolean isRawCapture, boolean isJpgCapture, ActivityInterface activitiy, ModuleInterface imageSaver, WorkFinishEvents finish, RdyToSaveImg rdyToSaveImg)
     {
         images = new ArrayList<>();
         this.characteristics = characteristicss;
         this.isRawCapture = isRawCapture;
+        this.isJpgCapture = isJpgCapture;
         this.activityInterface = activitiy;
         this.moduleInterface = imageSaver;
         this.workerfinish = finish;
@@ -147,7 +149,7 @@ public class ImageHolder
 
     public synchronized boolean rdyToGetSaved()
     {
-        if (isRawCapture)
+        if (isRawCapture && isJpgCapture)
             return images.size() == 2 && captureResult != null;
         else
             return images.size() == 1 && captureResult != null;

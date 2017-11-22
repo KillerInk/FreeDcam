@@ -63,8 +63,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     private String picFormat;
     private int mImageWidth;
     private int mImageHeight;
-    protected ImageReader mImageReader;
-    protected ImageReader mrawImageReader;
+    protected ImageReader jpegReader;
+    protected ImageReader rawReader;
     protected int imagecount;
     private final int STATE_WAIT_FOR_PRECAPTURE = 0;
     private final int STATE_WAIT_FOR_NONPRECAPTURE = 1;
@@ -182,16 +182,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
             cameraHolder.captureSessionHandler.AddSurface(camerasurface,true);
 
-            cameraHolder.captureSessionHandler.AddSurface(mImageReader.getSurface(),false);
-            if (mrawImageReader != null)
-                cameraHolder.captureSessionHandler.AddSurface(mrawImageReader.getSurface(),false);
+            if (jpegReader != null)
+                cameraHolder.captureSessionHandler.AddSurface(jpegReader.getSurface(),false);
+            if (rawReader != null)
+                cameraHolder.captureSessionHandler.AddSurface(rawReader.getSurface(),false);
 
             cameraHolder.captureSessionHandler.CreateCaptureSession();
 
             cameraHolder.captureSessionHandler.createImageCaptureRequestBuilder();
-            cameraHolder.captureSessionHandler.setImageCaptureSurface(mImageReader.getSurface());
-            if (mrawImageReader != null)
-                cameraHolder.captureSessionHandler.setImageCaptureSurface(mrawImageReader.getSurface());
+            if (jpegReader != null)
+                cameraHolder.captureSessionHandler.setImageCaptureSurface(jpegReader.getSurface());
+            if (rawReader != null)
+                cameraHolder.captureSessionHandler.setImageCaptureSurface(rawReader.getSurface());
         }
         catch(Exception ex)
         {
@@ -227,31 +229,41 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             mImageHeight = Integer.parseInt(split[1]);
         }
         //create new ImageReader with the size and format for the image
-        mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, MAX_IMAGES);
-        Log.d(TAG, "ImageReader JPEG");
+        if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpeg)) || picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpg_p_dng))){
+            jpegReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, MAX_IMAGES);
+            Log.d(TAG, "ImageReader JPEG");
+        }
+        else {
+            if (jpegReader != null)
+                jpegReader.close();
+            jpegReader = null;
+        }
 
-        if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng16)))
+        if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng16)) || picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpg_p_dng)))
         {
-            Log.d(TAG, "ImageReader RAW_SENOSR");
+            Log.d(TAG, "ImageReader RAW_SENSOR");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
-            mrawImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW_SENSOR, MAX_IMAGES);
+            rawReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW_SENSOR, MAX_IMAGES);
         }
         else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng10)))
         {
             Log.d(TAG, "ImageReader RAW10");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
-            mrawImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW10, MAX_IMAGES);
+            rawReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW10, MAX_IMAGES);
 
         }
         else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng12)))
         {
             Log.d(TAG, "ImageReader RAW12");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW12)), new CompareSizesByArea());
-            mImageReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW12, MAX_IMAGES);
+            rawReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW12, MAX_IMAGES);
 
         }
-        else
-            mrawImageReader = null;
+        else {
+            if (rawReader != null)
+                rawReader.close();
+            rawReader = null;
+        }
     }
 
 
@@ -304,7 +316,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     protected void captureStillPicture() {
 
         Log.d(TAG,"########### captureStillPicture ###########");
-        currentCaptureHolder = new ImageHolder(cameraHolder.characteristics, mrawImageReader !=null, cameraUiWrapper.getActivityInterface(),this,this, this);
+        currentCaptureHolder = new ImageHolder(cameraHolder.characteristics, rawReader !=null, jpegReader != null, cameraUiWrapper.getActivityInterface(),this,this, this);
         currentCaptureHolder.setFilePath(getFileString(), appSettingsManager.GetWriteExternal());
         currentCaptureHolder.setForceRawToDng(appSettingsManager.forceRawToDng.getBoolean());
         currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().tonemapChooser).getToneMap());
@@ -321,11 +333,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         if (cmat != null && !TextUtils.isEmpty(cmat) &&!cmat.equals("off")) {
             currentCaptureHolder.setCustomMatrix(appSettingsManager.getMatrixesMap().get(cmat));
         }
-
-        mImageReader.setOnImageAvailableListener(currentCaptureHolder.mOnRawImageAvailableListener,mBackgroundHandler);
-        if (mrawImageReader != null)
+        if (jpegReader != null)
+            jpegReader.setOnImageAvailableListener(currentCaptureHolder.mOnRawImageAvailableListener,mBackgroundHandler);
+        if (rawReader != null)
         {
-            mrawImageReader.setOnImageAvailableListener(currentCaptureHolder.mOnRawImageAvailableListener,mBackgroundHandler);
+            rawReader.setOnImageAvailableListener(currentCaptureHolder.mOnRawImageAvailableListener,mBackgroundHandler);
         }
 
         cameraHolder.captureSessionHandler.StopRepeatingCaptureSession(null);

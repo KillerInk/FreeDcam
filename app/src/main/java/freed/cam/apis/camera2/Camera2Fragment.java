@@ -73,7 +73,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         this.textureView.setSurfaceTextureListener(this);
         this.histogram = (MyHistogram)view.findViewById(id.hisotview);
 
-        mBackgroundHandler.sendMessage(mBackgroundHandler.obtainMessage(MSG_CREATE_CAMERA));
+        mBackgroundHandler.obtainMessage(MSG_CREATE_CAMERA).sendToTarget();
 
         Log.d(TAG, "Constructor done");
         return view;

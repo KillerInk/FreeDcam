@@ -558,6 +558,13 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         } catch (Exception e) {
             Log.WriteEx(e);
         }
+        if (
+                hmap.containsKey(appSettingsManager.getResString(R.string.pictureformat_jpeg)) &&
+                (
+                        hmap.containsKey(appSettingsManager.getResString(R.string.pictureformat_dng10))
+                                || hmap.containsKey(appSettingsManager.getResString(R.string.pictureformat_dng16))))
+            hmap.put(appSettingsManager.getResString(R.string.pictureformat_jpg_p_dng), ImageFormat.JPEG);
+
         try {
             if (smap.isOutputSupportedFor(ImageFormat.NV16))
                 Log.d(TAG, "Support NV16");
