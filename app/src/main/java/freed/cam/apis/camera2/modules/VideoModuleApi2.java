@@ -398,13 +398,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         @Override
         public void onConfigured(CameraCaptureSession cameraCaptureSession)
         {
+            cameraHolder.captureSessionHandler.SetCaptureSession(cameraCaptureSession);
             if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
-                cameraHolder.captureSessionHandler.SetCaptureSession(cameraCaptureSession);
+
                 cameraHolder.captureSessionHandler.StartRepeatingCaptureSession();
             }
             else
             {
-                cameraHolder.captureSessionHandler.SetHighSpeedCaptureSession(cameraCaptureSession);
                 cameraHolder.captureSessionHandler.StartHighspeedCaptureSession();
             }
             mediaRecorder.start();
