@@ -506,7 +506,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             if (Integer.parseInt(parameterHandler.Burst.GetStringValue())  > imagecount) {
                 captureStillPicture();
             }
-            else if (cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF) {
+            else if (cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&
+                    cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME)> AeHandler.MAX_PREVIEW_EXPOSURETIME) {
                 cameraHolder.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME, AeHandler.MAX_PREVIEW_EXPOSURETIME);
                 cameraHolder.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_FRAME_DURATION, AeHandler.MAX_PREVIEW_EXPOSURETIME);
                 Log.d(TAG, "CancelRepeatingCaptureSessoion set onSessionRdy");
