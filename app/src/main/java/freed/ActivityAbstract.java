@@ -136,6 +136,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     protected void onDestroy() {
         ImageManager.cancelImageSaveTasks();
+        ImageManager.cancelImageLoadTasks();
         super.onDestroy();
         /*if (Log.isLogToFileEnable())
             Log.destroy();*/
