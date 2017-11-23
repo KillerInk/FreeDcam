@@ -258,7 +258,6 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
             }
             else {
                 Log.d(TAG, "Imageview or bitmap null");
-                progressBar.setVisibility(View.GONE);
                 if (handler != null)
                     handler.obtainMessage(MSG_SET_BITMAP, bitmap).sendToTarget();
             }
@@ -278,6 +277,8 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
                 progressBar.setVisibility(View.GONE);
                 imageView.setImageBitmap((Bitmap)msg.obj);
             }
+            else
+                super.handleMessage(msg);
         }
     }
 }
