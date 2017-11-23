@@ -81,6 +81,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         seekbar.setVisibility(View.GONE);
 
         curveView = (CurveViewControl) view.findViewById(id.curveView);
+        curveView.setVisibility(View.GONE);
 
         manualItemsHolder = (LinearLayout)view.findViewById(id.manualItemsHolder);
 
