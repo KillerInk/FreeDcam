@@ -164,28 +164,29 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     @Override
     public void startCamera() {
-        cameraHolder.OpenCamera(getAppSettingsManager().GetCurrentCamera());
-        //mBackgroundHandler.sendMessage(mBackgroundHandler.obtainMessage(MSG_START_CAMERA));
+       /* if (cameraHolder != null)
+            cameraHolder.OpenCamera(getAppSettingsManager().GetCurrentCamera());*/
+        mBackgroundHandler.obtainMessage(MSG_START_CAMERA).sendToTarget();
     }
 
     @Override
     public void stopCamera() {
-        mBackgroundHandler.sendMessage(mBackgroundHandler.obtainMessage(MSG_STOP_CAMERA));
+        mBackgroundHandler.obtainMessage(MSG_STOP_CAMERA).sendToTarget();
     }
 
     @Override
     public void restartCamera() {
-        mBackgroundHandler.sendMessage(mBackgroundHandler.obtainMessage(MSG_RESTART_CAMERA));
+        mBackgroundHandler.obtainMessage(MSG_RESTART_CAMERA).sendToTarget();
     }
 
     @Override
     public void startPreview() {
-        mBackgroundHandler.sendMessage(mBackgroundHandler.obtainMessage(MSG_START_PREVIEW));
+        mBackgroundHandler.obtainMessage(MSG_START_PREVIEW).sendToTarget();
     }
 
     @Override
     public void stopPreview() {
-        mBackgroundHandler.sendMessage(mBackgroundHandler.obtainMessage(MSG_STOP_PREVIEW));
+        mBackgroundHandler.obtainMessage(MSG_STOP_PREVIEW).sendToTarget();
     }
 
     /**
@@ -202,41 +203,41 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     @Override
     public void onCameraOpen(final String message)
     {
-        uiHandler.sendMessage(uiHandler.obtainMessage(MSG_ON_CAMERA_OPEN,message));
+        uiHandler.obtainMessage(MSG_ON_CAMERA_OPEN,message).sendToTarget();
     }
 
     @Override
     public void onCameraError(final String error) {
-        uiHandler.sendMessage(uiHandler.obtainMessage(MSG_ON_CAMERA_ERROR,error));
+        uiHandler.obtainMessage(MSG_ON_CAMERA_ERROR,error).sendToTarget();
     }
 
     @Override
     public void onCameraStatusChanged(final String status)
     {
-        uiHandler.sendMessage(uiHandler.obtainMessage(MSG_ON_CAMERA_STATUS_CHANGED, status));
+        uiHandler.obtainMessage(MSG_ON_CAMERA_STATUS_CHANGED, status).sendToTarget();
     }
 
     @Override
     public void onCameraClose(final String message)
     {
-        uiHandler.sendMessage(uiHandler.obtainMessage(MSG_ON_CAMERA_CLOSE, message));
+        uiHandler.obtainMessage(MSG_ON_CAMERA_CLOSE, message).sendToTarget();
     }
 
     @Override
     public void onPreviewOpen(final String message)
     {
-        uiHandler.sendMessage(uiHandler.obtainMessage(MSG_ON_PREVIEW_OPEN, message));
+        uiHandler.obtainMessage(MSG_ON_PREVIEW_OPEN, message).sendToTarget();
     }
 
     @Override
     public void onPreviewClose(final String message) {
-        uiHandler.sendMessage(uiHandler.obtainMessage(MSG_ON_PREVIEW_CLOSE, message));
+        uiHandler.obtainMessage(MSG_ON_PREVIEW_CLOSE, message).sendToTarget();
     }
 
     @Override
     public void onCameraOpenFinish(final String message)
     {
-        uiHandler.sendMessage(uiHandler.obtainMessage(MSG_ON_CAMERA_OPEN_FINISHED, message));
+        uiHandler.obtainMessage(MSG_ON_CAMERA_OPEN_FINISHED, message).sendToTarget();
     }
 
     public abstract int getMargineLeft();

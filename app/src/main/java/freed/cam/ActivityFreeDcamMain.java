@@ -26,6 +26,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -56,6 +57,8 @@ import freed.cam.ui.handler.OrientationHandler;
 import freed.cam.ui.themesample.PagingView;
 import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
+import freed.image.ImageManager;
+import freed.image.ImageTask;
 import freed.utils.AppSettingsManager;
 import freed.utils.LocationHandler;
 import freed.utils.Log;
@@ -72,19 +75,103 @@ import freed.viewer.screenslide.ScreenSlideFragment;
  */
 public class ActivityFreeDcamMain extends ActivityAbstract
         implements I_orientation,
-            SecureCamera.SecureCameraActivity, CameraStateEvents
+            SecureCamera.SecureCameraActivity, CameraStateEvents,FeatureDetectorEvents
 {
+
+    private class LoadFreeDcamDcimDirsFilesRunner extends ImageTask
+    {
+        @Override
+        public boolean process() {
+            LoadFreeDcamDCIMDirsFiles();
+            return false;
+        }
+    }
+
+
+    private final int MSG_UPDATE_SCREENSLIDE = 0;
+    private final int MSG_ADDFILES = 1;
+    private final int MSG_ADDFILE = 2;
+
+    private class UpdateScreenSlideHandler extends Handler
+    {
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_UPDATE_SCREENSLIDE:
+                    synchronized (files) {
+                        if (screenSlideFragment != null)
+                            screenSlideFragment.NotifyDATAhasChanged(files);
+                    }
+                    break;
+                case MSG_ADDFILE:
+                    AddFile((FileHolder)msg.obj);
+                    if (screenSlideFragment != null)
+                        screenSlideFragment.NotifyDATAhasChanged(files);
+                    break;
+                case  MSG_ADDFILES:
+                    AddFiles((FileHolder[])msg.obj);
+                    if (screenSlideFragment != null)
+                        screenSlideFragment.NotifyDATAhasChanged(files);
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                if (settingsMenuFragment == null)
+                    settingsMenuFragment = new SettingsMenuFragment();
+                if (settingsMenuFragment != null) {
+                    settingsMenuFragment.setCameraToUi(cameraFragment);
+                }
+                return settingsMenuFragment;
+            }
+            else if (position == 2) {
+                if (screenSlideFragment == null)
+                    screenSlideFragment = new ScreenSlideFragment();
+                if (screenSlideFragment != null) {
+
+                    screenSlideFragment.SetOnThumbClick(onThumbBackClick);
+                }
+                return screenSlideFragment;
+            }
+            else {
+                if (cameraUiFragment == null) {
+                    cameraUiFragment = new CameraUiFragment();
+                }
+                if (cameraUiFragment != null)
+                    cameraUiFragment.setCameraToUi(cameraFragment);
+                return cameraUiFragment;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+    }
+
+
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
     private OrientationHandler orientationHandler;
 
     //holds the current api camerafragment
     private CameraFragmentAbstract cameraFragment;
-    //private SampleThemeFragment sampleThemeFragment;
+
     private RenderScriptHandler renderScriptHandler;
 
-    private PagingView mPager;
-    private PagerAdapter mPagerAdapter;
+    private PagingView uiViewPager;
+    private PagerAdapter uiViewPagerAdapter;
     private CameraUiFragment cameraUiFragment;
     private SettingsMenuFragment settingsMenuFragment;
     private ScreenSlideFragment screenSlideFragment;
@@ -101,6 +188,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     protected Object cameraLock = new Object();
     protected HandlerThread mBackgroundThread;
     protected Handler mBackgroundHandler;
+
+    private UpdateScreenSlideHandler updateScreenSlideHandler;
 
     /**
      * Starts a background thread and its {@link Handler}.
@@ -159,35 +248,21 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     protected void initOnCreate() {
         super.initOnCreate();
 
-        bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
+        updateScreenSlideHandler = new UpdateScreenSlideHandler();
+        bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         storageHandler = new StorageFileHandler(this);
 
 
         if (VERSION.SDK_INT >= VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
         locationHandler = new LocationHandler(this);
-        mPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setOffscreenPageLimit(2);
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(1);
+        uiViewPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
 
         nightoverlay = (LinearLayout) findViewById(id.nightoverlay);
 
         //listen to phone orientation changes
         orientationHandler = new OrientationHandler(this, this);
-
     }
-
-    private PermissionHandler.PermissionCallback onLocationPermission = new PermissionHandler.PermissionCallback() {
-        @Override
-        public void permissionGranted(boolean granted) {
-            Log.d(TAG, "locationPermission Granted:" + granted);
-            if (granted) {
-                locationHandler.startLocationListing();
-            }
-        }
-    };
 
 
     @Override
@@ -208,35 +283,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if(getPermissionHandler().hasCameraAndSdPermission(null)) {
             if ((!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion()) && fd == null) {
                 loadFeatureDetector();
-            } else if (fd == null)
+            } else if (fd == null) {
                 loadcam();
+            }
         }
-    }
-
-    private void loadFeatureDetector() {
-        Log.d(TAG, "Start FeatureDetector");
-        getAppSettings().RESET();
-        fd = new CameraFeatureDetectorFragment();
-        fd.setAppSettingsManagerAndListner(getAppSettings(), fdevent);
-        replaceCameraFragment(fd, "FeatureDetector");
-    }
-
-    private void loadcam()
-    {
-        if (getAppSettings() == null)
-            return;
-        loadCameraFragment();
-
-        if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)))
-            getPermissionHandler().hasLocationPermission(onLocationPermission);
-        SetNightOverlay();
-        if(getPermissionHandler().hasExternalSDPermission(null))
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    LoadFreeDcamDCIMDirsFiles();
-                }
-            }).start();
     }
 
     @Override
@@ -259,19 +309,56 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = false;
     }
 
-    private FeatureDetectorEvents fdevent = new FeatureDetectorEvents()
+    private void loadFeatureDetector() {
+        Log.d(TAG, "Start FeatureDetector");
+        getAppSettings().RESET();
+        fd = new CameraFeatureDetectorFragment();
+        fd.setAppSettingsManagerAndListner(getAppSettings(), this);
+        replaceCameraFragment(fd, "FeatureDetector");
+    }
+
+    @Override
+    public void featuredetectorDone() {
+        Log.d(TAG,"FD done, load cameraFragment");
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
+        transaction.remove(fd);
+        transaction.commit();
+        fd = null;
+        loadcam();
+    }
+
+    private void loadcam()
     {
-        @Override
-        public void featuredetectorDone() {
-            Log.d(TAG,"FD done, load cameraFragment");
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
-            transaction.remove(fd);
-            transaction.commit();
-            fd = null;
-            loadCameraFragment();
-        }
-    };
+        if (getAppSettings() == null)
+            return;
+        if (uiViewPagerAdapter == null)
+            initScreenSlide();
+        loadCameraFragment();
+
+        if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)))
+            getPermissionHandler().hasLocationPermission(
+                    new PermissionHandler.PermissionCallback() {
+                        @Override
+                        public void permissionGranted(boolean granted) {
+                            Log.d(TAG, "locationPermission Granted:" + granted);
+                            if (granted) {
+                                locationHandler.startLocationListing();
+                            }
+                        }
+                    }
+            );
+        SetNightOverlay();
+        if(getPermissionHandler().hasExternalSDPermission(null))
+            ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
+    }
+
+    private void initScreenSlide() {
+        uiViewPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        uiViewPager.setOffscreenPageLimit(2);
+        uiViewPager.setAdapter(uiViewPagerAdapter);
+        uiViewPager.setCurrentItem(1);
+    }
 
     /*
     load the camerafragment to ui
@@ -420,20 +507,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void LoadFreeDcamDCIMDirsFiles() {
         Log.d(TAG, "LoadFreeDcamDCIMDirsFiles()");
         super.LoadFreeDcamDCIMDirsFiles();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (files) {
-                    if (screenSlideFragment != null)
-                        screenSlideFragment.NotifyDATAhasChanged(files);
-                }
-            }
-        });
+        updateScreenSlideHandler.obtainMessage(MSG_UPDATE_SCREENSLIDE).sendToTarget();
     }
 
     @Override
     public void DisablePagerTouch(boolean disable) {
-        mPager.EnableScroll(!disable);
+        uiViewPager.EnableScroll(!disable);
     }
 
     @Override
@@ -452,13 +531,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void LoadFolder(final FileHolder fileHolder, FormatTypes types) {
         super.LoadFolder(fileHolder, types);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (screenSlideFragment != null)
-                    screenSlideFragment.NotifyDATAhasChanged(files);
-            }
-        });
+        updateScreenSlideHandler.obtainMessage(MSG_UPDATE_SCREENSLIDE).sendToTarget();
     }
 
     //get called when the back button from screenslidefragment gets clicked
@@ -467,8 +540,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         public void onThumbClick(int position,View view)
         {
             //show cameraui
-            if (mPager != null)
-                mPager.setCurrentItem(1);
+            if (uiViewPager != null)
+                uiViewPager.setCurrentItem(1);
         }
 
     };
@@ -476,28 +549,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public void WorkHasFinished(final FileHolder fileHolder) {
+        updateScreenSlideHandler.obtainMessage(MSG_ADDFILE,fileHolder).sendToTarget();
         Log.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AddFile(fileHolder);
-                if (screenSlideFragment != null)
-                    screenSlideFragment.NotifyDATAhasChanged(files);
-            }
-        });
     }
 
     @Override
     public void WorkHasFinished(final FileHolder[] fileHolder) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        updateScreenSlideHandler.obtainMessage(MSG_ADDFILES,fileHolder).sendToTarget();
 
-                AddFiles(fileHolder);
-                if (screenSlideFragment != null)
-                    screenSlideFragment.NotifyDATAhasChanged(files);
-            }
-        });
     }
 
     @Override
@@ -543,47 +602,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     }
 
-
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            if (position == 0) {
-                if (settingsMenuFragment == null)
-                    settingsMenuFragment = new SettingsMenuFragment();
-                if (settingsMenuFragment != null) {
-                    settingsMenuFragment.setCameraToUi(cameraFragment);
-                }
-                return settingsMenuFragment;
-            }
-            else if (position == 2) {
-                if (screenSlideFragment == null)
-                    screenSlideFragment = new ScreenSlideFragment();
-                if (screenSlideFragment != null) {
-
-                    screenSlideFragment.SetOnThumbClick(onThumbBackClick);
-                }
-                return screenSlideFragment;
-            }
-            else {
-                if (cameraUiFragment == null) {
-                    cameraUiFragment = new CameraUiFragment();
-                }
-                if (cameraUiFragment != null)
-                    cameraUiFragment.setCameraToUi(cameraFragment);
-                return cameraUiFragment;
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-    }
 
     @Override
     public void SetNightOverlay() {
