@@ -46,6 +46,8 @@ import freed.utils.Log;
 public class ImageHolder
 {
 
+
+
     public interface RdyToSaveImg
     {
         void onRdyToSaveImg(ImageHolder holder);
@@ -66,6 +68,7 @@ public class ImageHolder
     private boolean isRawCapture = false;
     private boolean isJpgCapture = false;
     private boolean forceRawToDng = false;
+    private boolean support12bitRaw = false;
 
     private ActivityInterface activityInterface;
     private RdyToSaveImg rdyToSaveImg;
@@ -115,6 +118,11 @@ public class ImageHolder
     public void setForceRawToDng(boolean force)
     {
         this.forceRawToDng = force;
+    }
+
+    public void setSupport12bitRaw(boolean support12bitRaw)
+    {
+        this.support12bitRaw =support12bitRaw;
     }
 
     public synchronized void SetCaptureResult(CaptureResult captureResult)
@@ -238,7 +246,10 @@ public class ImageHolder
             case ImageFormat.RAW_SENSOR:
                 file = new File(f+".dng");
                 if(forceRawToDng)
-                    process_rawWithDngConverter(image,DngProfile.Plain,file);
+                    if (support12bitRaw)
+                        process_rawWithDngConverter(image,DngProfile.Pure16bit_To_12bit,file);
+                    else
+                        process_rawWithDngConverter(image,DngProfile.Plain,file);
                 else
                     process_rawSensor(image,file);
                 break;

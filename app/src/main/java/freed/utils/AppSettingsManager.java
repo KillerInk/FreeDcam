@@ -371,6 +371,7 @@ public class AppSettingsManager {
 
     public final BooleanSettingsMode opencamera1Legacy;
     public final BooleanSettingsMode useHuaweiCam2Extension;
+    public final BooleanSettingsMode support12bitRaw;
     public final BooleanSettingsMode orientationhack;
     public final BooleanSettingsMode qcomAFocus;
     public final BooleanSettingsMode dngSupportManualModes;
@@ -480,6 +481,7 @@ public class AppSettingsManager {
         opencamera1Legacy = new BooleanSettingsMode(getResString(R.string.aps_opencamera1legacy));
         dualPrimaryCameraMode = new SettingMode(getResString(R.string.aps_dualprimarycameramode));
         useHuaweiCam2Extension = new BooleanSettingsMode(getResString(R.string.aps_usehuaweicam2));
+        support12bitRaw = new BooleanSettingsMode(getResString(R.string.aps_support12bitraw));
         qcomAFocus = new BooleanSettingsMode(getResString(R.string.aps_qcomfocus));
         dngSupportManualModes = new BooleanSettingsMode(getResString(R.string.aps_dngsupportmanualmodes));
         forceRawToDng = new BooleanSettingsMode(getResString(R.string.aps_forcerawtondng));

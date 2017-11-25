@@ -25,11 +25,18 @@ package freed.dng;
 public class DngProfile
 {
 
+    //shift 10bit tight data into readable bitorder
     public static final int Mipi = 0;
+    //shift 10bit loose data into readable bitorder
     public static final int Qcom = 1;
+    //drops the 6 first bit from pure 16bit data(mtk soc, Camera2 RAW_SENSOR)
     public static final int Plain = 2;
+    //convert and shift 10bit tight data into 16bit pure
     public static final int Mipi16 = 3;
+    //shift 12bit data into readable bitorder
     public static final int Mipi12 = 4;
+    //shift 16bit data into readable 12bit order
+    public static final int Pure16bit_To_12bit = 5;
 
     public static final String BGGR = "bggr";
     public static final String RGGB = "rggb";

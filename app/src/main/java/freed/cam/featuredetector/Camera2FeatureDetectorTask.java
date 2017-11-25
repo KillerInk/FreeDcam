@@ -366,6 +366,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
         try {
             int[] raw12 = characteristics.get(CameraCharacteristicsEx.HUAWEI_PROFESSIONAL_RAW12_SUPPORTED);
+            if (raw12!= null)
+                appSettingsManager.support12bitRaw.setBoolean(true);
             Log.d(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED");
         }
         catch (IllegalArgumentException ex)

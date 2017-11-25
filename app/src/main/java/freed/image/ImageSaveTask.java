@@ -161,7 +161,6 @@ public class ImageSaveTask extends ImageTask
 
     private void saveRawToDng()
     {
-        //RawToDng rawToDng = RawToDng.GetInstance();
         double Altitude = 0;
         float[] Latitude = null;
         float[] Longitude = null;

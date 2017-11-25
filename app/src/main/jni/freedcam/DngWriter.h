@@ -30,6 +30,7 @@ private:
     void processLoose(TIFF *tif);
     void processSXXX16(TIFF *tif);
     void process16to10(TIFF *tif);
+    void process16to12(TIFF *tif);
     void writeRawStuff(TIFF *tif);
 public:
     int _iso, _flash;
