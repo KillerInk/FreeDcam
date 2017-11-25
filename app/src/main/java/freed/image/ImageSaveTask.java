@@ -212,7 +212,11 @@ public class ImageSaveTask extends ImageTask
             tonemap = profile.toneMapProfile.getToneCurve();
             huesatmapdim = profile.toneMapProfile.getHueSatMapDims();
             huesatmapdata1 = profile.toneMapProfile.getHueSatMapData1();
-            baselineExpo = profile.toneMapProfile.getBaselineExposure();
+            try {
+                baselineExpo = profile.toneMapProfile.getBaselineExposure();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
         RawToDng.overloadWrite(mISO,exposureTime,0,fnum,focal,"0",orientation+"",expoindex,
                 Altitude,Latitude,Longitude,gpsProvider,gpsTime,
