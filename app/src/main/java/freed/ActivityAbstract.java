@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -58,8 +59,6 @@ import freed.viewer.holder.FileHolder;
  * Created by troop on 28.03.2016.
  */
 public abstract class ActivityAbstract extends AppCompatActivity implements ActivityInterface, I_WorkEvent {
-
-    public static final boolean LOG_TO_FILE = false;
 
     protected boolean initDone = false;
 
@@ -104,6 +103,10 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
     protected void initOnCreate()
     {
+        File log = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeDcam/log.txt");
+        if (!Log.isLogToFileEnable() && log.exists()) {
+            new Log();
+        }
         initDone = true;
         Log.d(TAG, "initOnCreate()");
         SettingsApplication application = (SettingsApplication)getApplication();
@@ -120,9 +123,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         @Override
         public void permissionGranted(boolean granted) {
             if (granted) {
-                if (!Log.isLogToFileEnable() && LOG_TO_FILE) {
-                    new Log();
-                }
+
                 initOnCreate();
             }
         }
