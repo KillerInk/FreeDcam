@@ -221,6 +221,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
                 }
                 break;
             case MSG_INIT_CAMERA:
+                Log.d(TAG,"Init Camera");
                 ((ParameterHandlerApi2)parametersHandler).Init();
                 ((CameraHolderApi2)cameraHolder).SetSurface(textureView);
                 Log.d(TAG, "Camera Opened and Preview Started");
@@ -229,6 +230,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
                 Camera2Fragment.this.onCameraOpenFinish("");
                 break;
             case MSG_CREATE_CAMERA:
+                Log.d(TAG,"Create Camera");
                 parametersHandler = new ParameterHandlerApi2(Camera2Fragment.this);
                 moduleHandler = new ModuleHandlerApi2(Camera2Fragment.this);
                 Focus = new FocusHandler(Camera2Fragment.this);
