@@ -4,7 +4,7 @@
 
 #include "DngWriter.h"
 
-#define LOG_RAW_DATA 1
+//#define LOG_RAW_DATA
 
 #define  LOG_TAG    "freedcam.DngWriter"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
@@ -467,24 +467,24 @@ void DngWriter::process16to10(TIFF *tif) {
 
         B_ar[0] = byts[j];
         B_ar[1] = byts[j+1];
-#ifdef LOG_RAW_DATA == 1
+#ifdef LOG_RAW_DATA
         LOGD("P:%i B0:%s%s,B1:%s%s", i, bit_rep[B_ar[0] >> 4], bit_rep[B_ar[0] & 0x0F], bit_rep[B_ar[1] >> 4], bit_rep[B_ar[1] & 0x0F]);
 #endif
 
         G1_ar[0] = byts[j+2];
         G1_ar[1] = byts[j+3];
-#ifdef LOG_RAW_DATA == 1
+#ifdef LOG_RAW_DATA
         LOGD("P:%i G10:%s%s,G11:%s%s", i, bit_rep[G1_ar[0] >> 4], bit_rep[G1_ar[0] & 0x0F], bit_rep[G1_ar[1] >> 4], bit_rep[G1_ar[1] & 0x0F]);
 #endif
         G2_ar[0] = byts[j+4];
         G2_ar[1] = byts[j+5];
-#ifdef LOG_RAW_DATA == 1
+#ifdef LOG_RAW_DATA
         LOGD("P:%i G20:%s%s,G21:%s%s", i, bit_rep[G2_ar[0] >> 4], bit_rep[G2_ar[0] & 0x0F], bit_rep[G2_ar[1] >> 4], bit_rep[G2_ar[1] & 0x0F]);
 #endif
 
         R_ar[0] = byts[j+6];
         R_ar[1] = byts[j+7];
-#ifdef LOG_RAW_DATA == 1
+#ifdef LOG_RAW_DATA
         LOGD("P:%i R0:%s%s,R1:%s%s", i, bit_rep[R_ar[0] >> 4], bit_rep[R_ar[0] & 0x0F], bit_rep[R_ar[1] >> 4], bit_rep[R_ar[1] & 0x0F]);
 #endif
         j+=8;
@@ -518,29 +518,29 @@ void DngWriter::process16to12(TIFF *tif) {
     unsigned char G2_ar[3];
     unsigned char R_ar[3];
     j=0;
-    for (long i = 0; i < finalsize; i +=5)
+    for (long i = 0; i < finalsize; i +=6)
     {
 
         B_ar[0] = byts[j];
         B_ar[1] = byts[j+1];
-#ifdef LOG_RAW_DATA == 1
+#ifdef LOG_RAW_DATA
         LOGD("P:%i B0:%s%s,B1:%s%s", i, bit_rep[B_ar[0] >> 4], bit_rep[B_ar[0] & 0x0F], bit_rep[B_ar[1] >> 4], bit_rep[B_ar[1] & 0x0F]);
 #endif
 
         G1_ar[0] = byts[j+2];
         G1_ar[1] = byts[j+3];
-#ifdef LOG_RAW_DATA == 1
+#ifdef LOG_RAW_DATA
         LOGD("P:%i G10:%s%s,G11:%s%s", i, bit_rep[G1_ar[0] >> 4], bit_rep[G1_ar[0] & 0x0F], bit_rep[G1_ar[1] >> 4], bit_rep[G1_ar[1] & 0x0F]);
 #endif
         G2_ar[0] = byts[j+4];
         G2_ar[1] = byts[j+5];
-#ifdef LOG_RAW_DATA == 1
+#ifdef LOG_RAW_DATA
         LOGD("P:%i G20:%s%s,G21:%s%s", i, bit_rep[G2_ar[0] >> 4], bit_rep[G2_ar[0] & 0x0F], bit_rep[G2_ar[1] >> 4], bit_rep[G2_ar[1] & 0x0F]);
 #endif
 
         R_ar[0] = byts[j+6];
         R_ar[1] = byts[j+7];
-#ifdef LOG_RAW_DATA == 1
+#ifdef LOG_RAW_DATA
         LOGD("P:%i R0:%s%s,R1:%s%s", i, bit_rep[R_ar[0] >> 4], bit_rep[R_ar[0] & 0x0F], bit_rep[R_ar[1] >> 4], bit_rep[R_ar[1] & 0x0F]);
 #endif
         j+=8;
@@ -553,10 +553,11 @@ void DngWriter::process16to12(TIFF *tif) {
         //00001111 1111111      1111 1111
 
         pixel[i] = (B_ar[1] & 0b00001111) << 4 | (B_ar[0] & 0b11110000) >> 4;//B1111 1111
-        pixel[i+1] =  (B_ar[0] & 0b00001111 ) << 4 | (G1_ar[1] & 0b11110000) >> 4 ;//1111 G2222
-        pixel[i+2] =  (G1_ar[0] & 0b00001111 ) << 4 | (G2_ar[1] & 0b11110000) >> 4 ; //2222 2222
-        pixel[i+3] = (G2_ar[0] & 0b00001111 ) << 4 | (R_ar[1] & 0b00001111);//333333 H44
-        pixel[i+4] = R_ar[0]; //44444444
+        pixel[i+1] =  (B_ar[0] & 0b00001111 ) << 4 | (G1_ar[1] & 0b00001111);//1111 G2222
+        pixel[i+2] =  G1_ar[0];//2222 2222
+        pixel[i+3] = (G2_ar[1] & 0b00001111 ) << 4 | (G2_ar[0] & 0b11110000)>>4;//3333 3333
+        pixel[i+4] = (G2_ar[0] & 0b00001111 ) << 4 | (R_ar[1] &  0b00001111); //3333 4444
+        pixel[i+5] = R_ar[0]; //4444 4444
     }
     TIFFWriteRawStrip(tif, 0, pixel, rawheight*rowsizeInBytes);
     LOGD("Finalizng DNG");
@@ -616,14 +617,24 @@ void DngWriter::writeRawStuff(TIFF *tif) {
         processLoose(tif);
         LOGD("Done loose RAW data...");
     }
-    else if (rawType == RAW_16BIT_TO_10BIT)
+    else if (rawType == RAW_16BIT_TO_10BIT) {
+        LOGD("process16to10(tif);");
         process16to10(tif);
-    else if (rawType == RAW_10BIT_TO_16BIT)
+    }
+    else if (rawType == RAW_10BIT_TO_16BIT) {
+        LOGD("processTight(tif);");
         processTight(tif);
-    else if (rawType == RAW_12BIT_SHIFT)
+    }
+    else if (rawType == RAW_12BIT_SHIFT) {
+        LOGD("process12tight");
         process12tight(tif);
-    else if (rawType == RAW_16BIT_TO_12BIT)
+    }
+    else if (rawType == RAW_16BIT_TO_12BIT) {
+        LOGD("process16to12(tif);");
         process16to12(tif);
+    }
+    else
+        LOGD("rawType is not implented");
 }
 
 void DngWriter::WriteDNG() {
