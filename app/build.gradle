@@ -47,6 +47,12 @@ android {
     }
 }
 
+android.applicationVariants.all { variant ->
+    variant.outputs.all {
+        outputFileName = "FreeDcam_${variant.buildType.name}_${variant.versionName}.apk"
+    }
+}
+
 dependencies {
     implementation 'com.android.support:appcompat-v7:27.0.1'
     compileOnly files('libs/com.lge.frameworks.jar')
