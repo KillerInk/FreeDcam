@@ -12,6 +12,7 @@ import android.support.v4.provider.DocumentFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.utils.Log;

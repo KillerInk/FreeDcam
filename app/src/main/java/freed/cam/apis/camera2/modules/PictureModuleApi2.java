@@ -79,6 +79,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     private boolean isBurstCapture = false;
     private int burstCount = 1;
 
+    private boolean captureDng = false;
+    private boolean captureJpeg = false;
+
 
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
@@ -228,15 +231,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             mImageWidth = Integer.parseInt(split[0]);
             mImageHeight = Integer.parseInt(split[1]);
         }
-        //create new ImageReader with the size and format for the image
-        if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpeg)) || picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpg_p_dng))){
+        //create new ImageReader with the size and format for the image, its needed for p9 else dual or single cam ignores expotime on a dng only capture....
             jpegReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, MAX_IMAGES);
             Log.d(TAG, "ImageReader JPEG");
-        }
-        else {
-            if (jpegReader != null)
-                jpegReader.close();
-            jpegReader = null;
+        if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpeg)))
+        {
+            captureDng = false;
+            captureJpeg = true;
         }
 
         if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng16)) || picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_jpg_p_dng)))
@@ -244,12 +245,24 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             Log.d(TAG, "ImageReader RAW_SENSOR");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
             rawReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW_SENSOR, MAX_IMAGES);
+            if(picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng16)))
+            {
+                captureDng = true;
+                captureJpeg = false;
+            }
+            else
+            {
+                captureJpeg = true;
+                captureDng = true;
+            }
         }
         else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng10)))
         {
             Log.d(TAG, "ImageReader RAW10");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
             rawReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW10, MAX_IMAGES);
+            captureDng = true;
+            captureJpeg = false;
 
         }
         else if (picFormat.equals(appSettingsManager.getResString(R.string.pictureformat_dng12)))
@@ -257,12 +270,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             Log.d(TAG, "ImageReader RAW12");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW12)), new CompareSizesByArea());
             rawReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW12, MAX_IMAGES);
+            captureDng = true;
+            captureJpeg = false;
 
         }
         else {
             if (rawReader != null)
                 rawReader.close();
             rawReader = null;
+            captureDng = false;
         }
     }
 
@@ -316,7 +332,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     protected void captureStillPicture() {
 
         Log.d(TAG,"########### captureStillPicture ###########");
-        currentCaptureHolder = new ImageHolder(cameraHolder.characteristics, rawReader !=null, jpegReader != null, cameraUiWrapper.getActivityInterface(),this,this, this);
+        currentCaptureHolder = new ImageHolder(cameraHolder.characteristics, captureDng, captureJpeg, cameraUiWrapper.getActivityInterface(),this,this, this);
         currentCaptureHolder.setFilePath(getFileString(), appSettingsManager.GetWriteExternal());
         currentCaptureHolder.setForceRawToDng(appSettingsManager.forceRawToDng.getBoolean());
         currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().tonemapChooser).getToneMap());
@@ -335,10 +351,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             currentCaptureHolder.setCustomMatrix(appSettingsManager.getMatrixesMap().get(cmat));
         }
         if (jpegReader != null)
-            jpegReader.setOnImageAvailableListener(currentCaptureHolder.mOnRawImageAvailableListener,mBackgroundHandler);
+            jpegReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
         if (rawReader != null)
         {
-            rawReader.setOnImageAvailableListener(currentCaptureHolder.mOnRawImageAvailableListener,mBackgroundHandler);
+            rawReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
         }
 
         cameraHolder.captureSessionHandler.StopRepeatingCaptureSession(null);

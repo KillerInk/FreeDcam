@@ -1,7 +1,6 @@
 package freed.cam.featuredetector;
 
 import android.media.CamcorderProfile;
-import android.os.AsyncTask;
 
 import com.lge.media.CamcorderProfileEx;
 

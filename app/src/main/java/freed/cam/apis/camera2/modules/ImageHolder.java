@@ -6,7 +6,6 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
-import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.ColorSpaceTransform;
 import android.location.Location;
@@ -14,13 +13,10 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.provider.DocumentFile;
 import android.util.Pair;
 import android.util.Rational;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +39,8 @@ import freed.utils.Log;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 
-public class ImageHolder
+public class ImageHolder implements ImageReader.OnImageAvailableListener
 {
-
-
-
     public interface RdyToSaveImg
     {
         void onRdyToSaveImg(ImageHolder holder);
@@ -163,29 +156,29 @@ public class ImageHolder
             return images.size() == 1 && captureResult != null;
     }
 
-    public final ImageReader.OnImageAvailableListener mOnRawImageAvailableListener = new ImageReader.OnImageAvailableListener()
-    {
-        @Override
-        public void onImageAvailable(final ImageReader reader)
-        {
-
-            Image img = null;
-            Log.d(TAG, "OnRawAvailible");
-            try {
-                img = reader.acquireLatestImage();
+    @Override
+    public void onImageAvailable(ImageReader reader) {
+        Image img = null;
+        Log.d(TAG, "OnRawAvailible");
+        try {
+            img = reader.acquireLatestImage();
+            if (isJpgCapture && img.getFormat() == ImageFormat.JPEG)
                 AddImage(img);
-            }
-            catch (IllegalStateException ex)
-            {
-                if (img != null)
-                    img.close();
-            }
-            if (rdyToGetSaved()) {
-                save();
-                rdyToSaveImg.onRdyToSaveImg(ImageHolder.this);
-            }
+            else if (isRawCapture && (img.getFormat() == ImageFormat.RAW_SENSOR || img.getFormat() == ImageFormat.RAW10))
+                AddImage(img);
+            else
+                img.close();
         }
-    };
+        catch (IllegalStateException ex)
+        {
+            if (img != null)
+                img.close();
+        }
+        if (rdyToGetSaved()) {
+            save();
+            rdyToSaveImg.onRdyToSaveImg(ImageHolder.this);
+        }
+    }
 
     public final CameraCaptureSession.CaptureCallback imageCaptureMetaCallback = new CameraCaptureSession.CaptureCallback()
     {

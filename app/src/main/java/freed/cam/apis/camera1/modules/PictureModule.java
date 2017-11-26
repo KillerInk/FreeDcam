@@ -36,7 +36,6 @@ import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.dng.DngProfile;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
-import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;

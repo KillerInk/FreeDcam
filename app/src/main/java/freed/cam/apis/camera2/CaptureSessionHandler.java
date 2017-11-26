@@ -365,6 +365,8 @@ public class CaptureSessionHandler
 
     public void capture()
     {
+        if(isHighSpeedSession)
+            return;
         try {
             mCaptureSession.capture(mPreviewRequestBuilder.build(),null,null);
         } catch (CameraAccessException | NullPointerException e) {
