@@ -101,7 +101,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
                 cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
                 changeCaptureState(CaptureStates.image_capture_start);
                 waitForPicture = true;
-                if (cameraUiWrapper.getParameterHandler().Burst.IsSupported() && cameraUiWrapper.getParameterHandler().Burst.GetValue() > 0) {
+                if (cameraUiWrapper.getParameterHandler().Burst != null && cameraUiWrapper.getParameterHandler().Burst.IsSupported() && cameraUiWrapper.getParameterHandler().Burst.GetValue() > 0) {
                     burstcount = cameraUiWrapper.getParameterHandler().Burst.GetValue()+1;
                     isBurstCapture = true;
                 }
