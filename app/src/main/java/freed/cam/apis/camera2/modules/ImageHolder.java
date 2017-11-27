@@ -166,11 +166,16 @@ public class ImageHolder implements ImageReader.OnImageAvailableListener
                 AddImage(img);
             else if (isRawCapture && (img.getFormat() == ImageFormat.RAW_SENSOR || img.getFormat() == ImageFormat.RAW10))
                 AddImage(img);
-            else
+            else {
+                if (images.contains(img))
+                    images.remove(img);
                 img.close();
+            }
         }
         catch (IllegalStateException ex)
         {
+            if (images.contains(img))
+                images.remove(img);
             if (img != null)
                 img.close();
         }
@@ -199,6 +204,7 @@ public class ImageHolder implements ImageReader.OnImageAvailableListener
     {
         for(int i=0; i< images.size();i++)
             saveImage(images.get(i),filepath);
+        images.clear();
     }
 
     public void CLEAR()
