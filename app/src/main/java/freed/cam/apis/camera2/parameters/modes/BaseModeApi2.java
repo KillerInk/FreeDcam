@@ -23,6 +23,7 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,12 +62,13 @@ public class BaseModeApi2 extends AbstractParameter
         try {
             if (isSupported) {
                 String values[] = settingMode.getValues();
-                if (values == null) {
+                if (values == null || values.length == 0) {
                     Log.d(TAG, "Values are null set to unsupported");
                     parameterValues = null;
                     isSupported = false;
                     return;
                 }
+                Log.d(TAG, "array:" + Arrays.toString(values));
                 parameterValues = StringUtils.StringArrayToIntHashmap(values);
                 if (parameterValues == null) {
                     isSupported = false;
@@ -83,7 +85,7 @@ public class BaseModeApi2 extends AbstractParameter
 
     @Override
     protected void setValue(String valueToSet, boolean setToCamera) {
-        if (parameterValues == null)
+        if (parameterValues == null || parameterValues.size() == 0)
             return;
         super.setValue(valueToSet, setToCamera);
         try {
