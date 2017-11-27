@@ -72,9 +72,13 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     private SimpleCameraEventObserver mEventObserver;
     private final Set<String> mAvailableCameraApiSet = new HashSet<>();
 
-    public SonyCameraRemoteFragment(HandlerThread mBackgroundThread, Object cameraLock) {
-        super(mBackgroundThread,cameraLock);
+    public static SonyCameraRemoteFragment getInstance(HandlerThread mBackgroundThread, Object cameraLock)
+    {
+        SonyCameraRemoteFragment fragment = new SonyCameraRemoteFragment();
+        fragment.init(mBackgroundThread, cameraLock);
+        return fragment;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

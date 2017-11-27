@@ -56,9 +56,17 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     private FocuspeakProcessorApi2 mProcessor;
     private boolean cameraIsOpen = false;
 
-    public Camera2Fragment(HandlerThread mBackgroundThread, Object cameraLock) {
-        super(mBackgroundThread,cameraLock);
+    public static Camera2Fragment getInstance(HandlerThread mBackgroundThread, Object cameraLock)
+    {
+        Camera2Fragment fragment = new Camera2Fragment();
+        fragment.init(mBackgroundThread, cameraLock);
+        return fragment;
     }
+
+    public Camera2Fragment()
+    {}
+
+
 
     public String CameraApiName() {
         return AppSettingsManager.API_2;

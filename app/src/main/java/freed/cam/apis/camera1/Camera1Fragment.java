@@ -61,9 +61,13 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     public FocusPeakProcessorAp1 focusPeakProcessorAp1;
     boolean cameraRdy;
 
-    public Camera1Fragment(HandlerThread mBackgroundThread, Object cameraLock) {
-        super(mBackgroundThread,cameraLock);
+    public static Camera1Fragment getInstance(HandlerThread mBackgroundThread, Object cameraLock)
+    {
+        Camera1Fragment fragment = new Camera1Fragment();
+        fragment.init(mBackgroundThread, cameraLock);
+        return fragment;
     }
+
 
     @Override
     public String CameraApiName() {

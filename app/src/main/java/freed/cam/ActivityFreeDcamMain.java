@@ -373,19 +373,19 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             //get new cameraFragment
             if (getAppSettings().getCamApi().equals(AppSettingsManager.API_SONY))
             {
-                cameraFragment = new SonyCameraRemoteFragment(mBackgroundThread,cameraLock);
+                cameraFragment = SonyCameraRemoteFragment.getInstance(mBackgroundThread,cameraLock);
                 cameraFragment.SetRenderScriptHandler(renderScriptHandler);
 
             }
             //create Camera2Fragment
             else if (getAppSettings().getCamApi().equals(AppSettingsManager.API_2))
             {
-                cameraFragment = new Camera2Fragment(mBackgroundThread,cameraLock);
+                cameraFragment = Camera2Fragment.getInstance(mBackgroundThread,cameraLock);
                 cameraFragment.SetRenderScriptHandler(renderScriptHandler);
             }
             else //default is Camera1Fragment is supported by all devices
             {
-                cameraFragment = new Camera1Fragment(mBackgroundThread,cameraLock);
+                cameraFragment = Camera1Fragment.getInstance(mBackgroundThread,cameraLock);
                 cameraFragment.SetRenderScriptHandler(renderScriptHandler);
             }
             cameraFragment.SetAppSettingsManager(getAppSettings());

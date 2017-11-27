@@ -104,14 +104,22 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     protected Object cameraLock;
     protected Handler mBackgroundHandler;
-    private HandlerThread handlerThread;
+    protected HandlerThread handlerThread;
 
+    public static CameraFragmentAbstract getInstance(HandlerThread handlerThread, Object cameraLock)
+    {
+        return null;
+    }
 
-    public CameraFragmentAbstract(HandlerThread handlerThread, Object cameraLock)
+    public CameraFragmentAbstract()
     {
         cameraChangedListners = new ArrayList<>();
         uiHandler = new UiHandler(Looper.getMainLooper());
-        this.handlerThread = handlerThread;
+    }
+
+    protected void init(HandlerThread mBackgroundThread, Object cameraLock)
+    {
+        this.handlerThread = mBackgroundThread;
         this.mBackgroundHandler = new BackgroundHandler(handlerThread.getLooper());
         this.cameraLock = cameraLock;
     }
