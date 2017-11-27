@@ -62,7 +62,7 @@ public class BracketModule extends PictureModule {
             public void run() {
                 if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
-                files = new File[7];
+                files = new File[3];
                 hdrCount = 0;
                 String picformat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
                 if (picformat.equals(appSettingsManager.getResString(R.string.dng_)) || picformat.equals(appSettingsManager.getResString(R.string.bayer_))) {
@@ -103,21 +103,11 @@ public class BracketModule extends PictureModule {
     private void setExposureToCamera() {
         int value = 0;
         if (hdrCount == 0) {
-            value = 12;
+            value = -2;
         } else if (hdrCount == 1)
-            value = 8;
+            value = 0;
         else if (hdrCount == 2)
-            value = 4;
-        else if (hdrCount == 3)
-            value = 0;
-        else if (hdrCount == 4)
-            value = -4;
-        else if (hdrCount == 5)
-            value = -8;
-        else if (hdrCount == 6)
-            value = -12;
-        else if (hdrCount == 7)
-            value = 0;
+            value = 2;
 
         Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
         int toset = value + cameraUiWrapper.getParameterHandler().ManualExposure.getStringValues().length / 2;
@@ -137,7 +127,7 @@ public class BracketModule extends PictureModule {
         String picFormat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
         saveImage(data, picFormat);
         startPreview();
-        if (hdrCount == 7)//handel normal capture
+        if (hdrCount == 3)//handel normal capture
         {
             waitForPicture = false;
             isWorking = false;
