@@ -134,6 +134,11 @@ public class CaptureSessionHandler
         display.getRealSize(displaySize);
     }
 
+    public Point getDisplaySize()
+    {
+        return displaySize;
+    }
+
     public void SetCaptureSession(CameraCaptureSession cameraCaptureSession)
     {
         mCaptureSession = cameraCaptureSession;

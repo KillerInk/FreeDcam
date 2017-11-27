@@ -147,7 +147,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         // Here, we create a CameraCaptureSession for camera preview
 
         try {
-            Size previewSize = cameraHolder.getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
+            Size previewSize = cameraHolder.getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), mImageWidth, mImageHeight,cameraHolder.captureSessionHandler.getDisplaySize());
             if (cameraUiWrapper.getFocusPeakProcessor() != null)
             {
                 cameraUiWrapper.getFocusPeakProcessor().kill();
