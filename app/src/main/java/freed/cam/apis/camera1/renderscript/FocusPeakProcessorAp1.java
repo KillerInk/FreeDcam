@@ -33,6 +33,7 @@ import android.renderscript.Element;
 import android.renderscript.RSInvalidStateException;
 import android.renderscript.RSRuntimeException;
 import android.renderscript.Type.Builder;
+import android.text.TextUtils;
 import android.view.Surface;
 import android.view.TextureView.SurfaceTextureListener;
 
@@ -94,8 +95,11 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                         FocusPeakProcessorAp1.this.renderScriptHandler.GetOut().setSurface(mSurface);
                     else {
                         Log.d(TAG, "Allocout null or not USAGE_IO_OUTPUT");
-                        Size size = new Size(FocusPeakProcessorAp1.this.cameraUiWrapper.getAppSettingsManager().previewSize.get());
-                        reset(size.width, size.height);
+                        String s = FocusPeakProcessorAp1.this.cameraUiWrapper.getAppSettingsManager().previewSize.get();
+                        if (!TextUtils.isEmpty(s)) {
+                            Size size = new Size(s);
+                            reset(size.width, size.height);
+                        }
                     }
                 } catch (NullPointerException ex) {
                     Log.WriteEx(ex);

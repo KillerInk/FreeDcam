@@ -19,6 +19,8 @@
 
 package freed.cam.apis.basecamera;
 
+import freed.utils.Log;
+
 /**
  * Created by troop on 24.08.2015.
  */
@@ -34,8 +36,12 @@ public class Size
     public Size(String s)
     {
         String[] split = s.split("x");
-        height = Integer.parseInt(split[1]);
-        width = Integer.parseInt(split[0]);
+        if (split.length == 2) {
+            height = Integer.parseInt(split[1]);
+            width = Integer.parseInt(split[0]);
+        }
+        else
+            throw new ArrayIndexOutOfBoundsException();
     }
 
 }
