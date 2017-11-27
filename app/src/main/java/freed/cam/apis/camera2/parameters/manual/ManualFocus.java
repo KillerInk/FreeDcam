@@ -46,7 +46,14 @@ public class ManualFocus extends AbstractParameter
         if (cameraUiWrapper.getAppSettingsManager().manualFocus.isSupported())
         {
             isSupported = true;
-            focusvalues = new StringFloatArray(cameraUiWrapper.getAppSettingsManager().manualFocus.getValues());
+            String[] arr = cameraUiWrapper.getAppSettingsManager().manualFocus.getValues();
+            if (arr == null || arr.length == 0) {
+                isSupported = false;
+                fireIsSupportedChanged(false);
+                Log.d(TAG, "No mf values from Appsettings");
+            }
+            else
+                focusvalues = new StringFloatArray(arr);
             currentInt = 0;
         }
 
