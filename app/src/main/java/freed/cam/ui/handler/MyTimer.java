@@ -1,6 +1,7 @@
 package freed.cam.ui.handler;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.widget.TextView;
 
 /**
@@ -14,7 +15,7 @@ public class MyTimer
     private boolean stop;
 
     private final int interval = 1000/fps; // 1 Second
-    private final Handler handler = new Handler();
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable runnable = new Runnable()
     {
         public void run()

@@ -18,11 +18,9 @@ public class TimerHandler implements ModuleChangedEvent, I_RecorderStateChanged
 
     private final AppSettingsManager appSettingsManager;
     private final MyTimer timer;
-    private final View view;
 
     public TimerHandler(TextView view, AppSettingsManager appSettingsManager)
     {
-        this.view = view;
         this.appSettingsManager = appSettingsManager;
         timerText = view;
         timer = new MyTimer(timerText);
