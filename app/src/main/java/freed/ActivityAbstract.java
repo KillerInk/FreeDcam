@@ -109,7 +109,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         }
         initDone = true;
         Log.d(TAG, "initOnCreate()");
-        SettingsApplication application = (SettingsApplication)getApplication();
         if (!AppSettingsManager.getInstance().isInit()) {
            AppSettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
         }
