@@ -8,7 +8,7 @@ import android.view.View;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 public class UiSettingsChildSelfTimer extends UiSettingsChild {
     public UiSettingsChildSelfTimer(Context context) {

@@ -7,7 +7,7 @@ import com.lge.media.CamcorderProfileEx;
 import java.util.HashMap;
 
 import freed.cam.apis.camera1.modules.VideoMediaProfileLG;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 
@@ -19,11 +19,9 @@ public abstract class AbstractFeatureDetectorTask {
 
     private final  String TAG = AbstractFeatureDetectorTask.class.getSimpleName();
     private ProgressUpdate progressUpdateListner;
-    protected AppSettingsManager appSettingsManager;
-    public AbstractFeatureDetectorTask(ProgressUpdate progressUpdate, AppSettingsManager appSettingsManager)
+    public AbstractFeatureDetectorTask(ProgressUpdate progressUpdate)
     {
         this.progressUpdateListner = progressUpdate;
-        this.appSettingsManager = appSettingsManager;
     }
 
     public interface ProgressUpdate

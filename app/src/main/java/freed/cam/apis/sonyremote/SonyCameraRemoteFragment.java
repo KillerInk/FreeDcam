@@ -50,7 +50,7 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.cam.apis.sonyremote.sonystuff.WifiHandler;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -453,7 +453,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
     @Override
     public String getResString(int id) {
-        return getAppSettingsManager().getResString(id);
+        return AppSettingsManager.getInstance().getResString(id);
     }
 
     @Override

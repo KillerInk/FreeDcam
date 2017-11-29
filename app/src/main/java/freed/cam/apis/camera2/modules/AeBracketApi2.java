@@ -29,6 +29,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -92,7 +93,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         if (currentiso == 0)
             currentiso = cameraHolder.currentIso;
         exposureTimeStep = currentExposureTime/2;
-        aeWasOn = !appSettingsManager.exposureMode.get().equals(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.off));
+        aeWasOn = !AppSettingsManager.getInstance().exposureMode.get().equals(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.off));
     }
 
     @Override

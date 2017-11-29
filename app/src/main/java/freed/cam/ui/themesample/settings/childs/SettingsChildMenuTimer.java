@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by GeorgeKiarie on 10/4/2015.
@@ -48,7 +48,7 @@ public class SettingsChildMenuTimer extends SettingsChildMenu
     @Override
     public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue) {
         super.SetStuff(fragment_activityInterface, settingvalue);
-        //onParameterValueChanged(appSettingsManager.getApiString(AppSettingsManager.SETTING_TIMER));
+        //onParameterValueChanged(AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_TIMER));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class SettingsChildMenuTimer extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        fragment_activityInterface.getAppSettings().setApiString(AppSettingsManager.SETTING_TIMER, value);
+        AppSettingsManager.getInstance().setApiString(AppSettingsManager.SETTING_TIMER, value);
         onStringValueChanged(value);
     }
 }

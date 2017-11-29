@@ -7,7 +7,7 @@ import android.os.Build;
 import java.util.Map;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.StringUtils;
 
 /**

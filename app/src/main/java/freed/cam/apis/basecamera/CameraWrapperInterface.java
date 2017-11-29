@@ -26,7 +26,6 @@ import android.view.SurfaceView;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.utils.AppSettingsManager;
 import freed.utils.RenderScriptHandler;
 
 /**
@@ -64,10 +63,7 @@ public interface CameraWrapperInterface extends CameraStateEvents
      * @return
      */
     AbstractParameterHandler getParameterHandler();
-    /**
-     * get the appsettings
-     */
-    AppSettingsManager getAppSettingsManager();
+
     ModuleHandlerAbstract getModuleHandler();
     SurfaceView getSurfaceView();
     AbstractFocusHandler getFocusHandler();

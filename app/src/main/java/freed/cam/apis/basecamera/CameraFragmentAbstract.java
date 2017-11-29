@@ -37,7 +37,6 @@ import java.util.List;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.utils.AppSettingsManager;
 import freed.utils.RenderScriptHandler;
 
 /**
@@ -94,11 +93,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
      * holds handler to invoke stuff in ui thread
      */
     protected Handler uiHandler;
-    /**
-     * holds the appsettings for the current camera
-     */
-    private AppSettingsManager appSettingsManager;
-
 
     public abstract String CameraApiName();
 
@@ -144,11 +138,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     public void SetRenderScriptHandler(RenderScriptHandler renderScriptHandler)
     {
         this.renderScriptHandler = renderScriptHandler;
-    }
-
-    public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
-    {
-        this.appSettingsManager = appSettingsManager;
     }
 
     /**
@@ -254,13 +243,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     public abstract int getPreviewWidth();
     public abstract int getPreviewHeight();
     public abstract SurfaceView getSurfaceView();
-
-
-
-    @Override
-    public AppSettingsManager getAppSettingsManager() {
-        return appSettingsManager;
-    }
 
     @Override
     public RenderScriptHandler getRenderScriptHandler() {

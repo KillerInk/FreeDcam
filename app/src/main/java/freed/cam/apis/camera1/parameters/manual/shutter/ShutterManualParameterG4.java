@@ -28,6 +28,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import freed.cam.apis.camera1.parameters.manual.ManualParameterAEHandlerInterface;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 17.08.2014.
@@ -45,7 +46,7 @@ public class ShutterManualParameterG4 extends AbstractManualShutter implements M
         this.manualevent = manualevent;
         if (parameters.get(cameraUiWrapper.getResString(R.string.lg_shutterspeed)) != null) {
             isSupported = true;
-            stringvalues = cameraUiWrapper.getAppSettingsManager().manualExposureTime.getValues();
+            stringvalues = AppSettingsManager.getInstance().manualExposureTime.getValues();
         }
         else
             isSupported = false;

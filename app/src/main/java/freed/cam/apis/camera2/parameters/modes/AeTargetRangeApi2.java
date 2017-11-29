@@ -6,7 +6,7 @@ import android.support.annotation.RequiresApi;
 import android.util.Range;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 22.06.2017.

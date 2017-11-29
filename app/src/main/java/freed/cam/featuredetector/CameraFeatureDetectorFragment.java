@@ -17,7 +17,7 @@ import com.troop.freedcam.R;
 
 import freed.image.ImageManager;
 import freed.image.ImageTask;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -32,15 +32,13 @@ public class CameraFeatureDetectorFragment extends Fragment {
     }
 
     private TextView loggerview;
-    private AppSettingsManager appSettingsManager;
     private FeatureDetectorEvents featureDetectorEvents;
     private final String TAG = CameraFeatureDetectorFragment.class.getSimpleName();
     private CameraFeatureRunner featureRunner;
     private FdUiHandler handler = new FdUiHandler();
 
-    public void setAppSettingsManagerAndListner(AppSettingsManager appSettingsManager, FeatureDetectorEvents events)
+    public void setFeatureDetectorDoneListner(FeatureDetectorEvents events)
     {
-        this.appSettingsManager = appSettingsManager;
         this.featureDetectorEvents = events;
     }
 
@@ -77,8 +75,8 @@ public class CameraFeatureDetectorFragment extends Fragment {
     private void startFreedcam()
     {
         featureRunner = null;
-        appSettingsManager.setAppVersion(BuildConfig.VERSION_CODE);
-        appSettingsManager.setAreFeaturesDetected(true);
+        AppSettingsManager.getInstance().setAppVersion(BuildConfig.VERSION_CODE);
+        AppSettingsManager.getInstance().setAreFeaturesDetected(true);
         featureDetectorEvents.featuredetectorDone();
         Log.d(TAG,"startFreeDcam");
     }
@@ -102,12 +100,15 @@ public class CameraFeatureDetectorFragment extends Fragment {
     {
         @Override
         public boolean process() {
+            AbstractFeatureDetectorTask task  = null;
             if (Build.VERSION.SDK_INT >= 21) {
-                new Camera2FeatureDetectorTask(cameraListner,appSettingsManager,getContext()).detect();
+                task =  new Camera2FeatureDetectorTask(cameraListner,getContext());
+                task.detect();
             }
-            new Camera1FeatureDetectorTask(cameraListner, appSettingsManager).detect();
-            if (appSettingsManager.hasCamera2Features())
-                appSettingsManager.setCamApi(AppSettingsManager.API_2);
+            task = new Camera1FeatureDetectorTask(cameraListner);
+            task.detect();
+            if (AppSettingsManager.getInstance().hasCamera2Features())
+                AppSettingsManager.getInstance().setCamApi(AppSettingsManager.API_2);
             handler.obtainMessage(MSG_STARTFREEDCAM).sendToTarget();
             return false;
         }

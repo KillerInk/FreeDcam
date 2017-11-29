@@ -41,7 +41,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 import freed.utils.StringUtils;
@@ -56,17 +56,16 @@ public class OpCodeParameter extends AbstractParameter
     private boolean hasOp2;
     private boolean hasOp3;
     private final boolean isSupported;
-    private final AppSettingsManager appSettingsManager;
-    public OpCodeParameter(AppSettingsManager appSettingsManager)
+
+    public OpCodeParameter()
     {
-        this.appSettingsManager = appSettingsManager;
         File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
         if (op2.exists())
             hasOp2 =true;
         File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
         if (op3.exists())
             hasOp3 =true;
-        isSupported = hasOp2 || hasOp3 || appSettingsManager.opcodeUrlList != null || appSettingsManager.opcodeUrlList[0] != null || appSettingsManager.opcodeUrlList[1] != null;
+        isSupported = hasOp2 || hasOp3 || AppSettingsManager.getInstance().opcodeUrlList != null || AppSettingsManager.getInstance().opcodeUrlList[0] != null || AppSettingsManager.getInstance().opcodeUrlList[1] != null;
 
     }
 
@@ -81,8 +80,8 @@ public class OpCodeParameter extends AbstractParameter
                 fireStringValueChanged("Enabled");
                 return;
             }
-            final String urlopc2 = appSettingsManager.opcodeUrlList[0];
-            final String urlopc3 = appSettingsManager.opcodeUrlList[1];
+            final String urlopc2 = AppSettingsManager.getInstance().opcodeUrlList[0];
+            final String urlopc3 = AppSettingsManager.getInstance().opcodeUrlList[1];
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
@@ -125,7 +124,7 @@ public class OpCodeParameter extends AbstractParameter
             list.add("Enabled");
             list.add("Disabled");
         }
-        else if ((!hasOp2 && !hasOp3) && (appSettingsManager.opcodeUrlList[0] != null || appSettingsManager.opcodeUrlList[1] != null))
+        else if ((!hasOp2 && !hasOp3) && (AppSettingsManager.getInstance().opcodeUrlList[0] != null || AppSettingsManager.getInstance().opcodeUrlList[1] != null))
             list.add("Download");
         return list.toArray(new String[list.size()]);
     }

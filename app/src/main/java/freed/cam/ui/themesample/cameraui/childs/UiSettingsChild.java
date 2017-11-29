@@ -38,7 +38,7 @@ import com.troop.freedcam.R.styleable;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
 /**

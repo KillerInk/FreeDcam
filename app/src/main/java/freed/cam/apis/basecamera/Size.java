@@ -19,8 +19,6 @@
 
 package freed.cam.apis.basecamera;
 
-import freed.utils.Log;
-
 /**
  * Created by troop on 24.08.2015.
  */

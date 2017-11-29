@@ -30,6 +30,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 import freed.utils.StringFloatArray;
 
@@ -102,7 +103,7 @@ public class AeHandler
     public class AeModeApi2 extends BaseModeApi2
     {
         public AeModeApi2(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper,cameraUiWrapper.getAppSettingsManager().exposureMode,CaptureRequest.CONTROL_AE_MODE);
+            super(cameraUiWrapper, AppSettingsManager.getInstance().exposureMode,CaptureRequest.CONTROL_AE_MODE);
         }
 
         @Override
@@ -127,7 +128,7 @@ public class AeHandler
 
         public ManualExposureApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
-            expocompvalues = new StringFloatArray(cameraUiWrapper.getAppSettingsManager().manualExposureCompensation.getValues());
+            expocompvalues = new StringFloatArray(AppSettingsManager.getInstance().manualExposureCompensation.getValues());
             currentInt = expocompvalues.getSize() / 2;
         }
 
@@ -159,7 +160,7 @@ public class AeHandler
 
         @Override
         public boolean IsSupported() {
-            return cameraUiWrapper.getAppSettingsManager().manualExposureCompensation.isSupported();
+            return AppSettingsManager.getInstance().manualExposureCompensation.isSupported();
         }
 
         @Override
@@ -193,9 +194,9 @@ public class AeHandler
         public final String TAG = ManualExposureTimeApi2.class.getSimpleName();
         public ManualExposureTimeApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
-            isSupported = cameraUiWrapper.getAppSettingsManager().manualExposureTime.isSupported();
+            isSupported = AppSettingsManager.getInstance().manualExposureTime.isSupported();
             if (isSupported)
-                stringvalues = cameraUiWrapper.getAppSettingsManager().manualExposureTime.getValues();
+                stringvalues = AppSettingsManager.getInstance().manualExposureTime.getValues();
         }
 
         @Override
@@ -254,7 +255,7 @@ public class AeHandler
             long val = AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTimeApi2.getStringValues()[valueToSet]) * 1000;
             Log.d(manualExposureTimeApi2.TAG, "ExposureTimeToSet:" + val);
             cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME,val);
-            if (val > MAX_PREVIEW_EXPOSURETIME && !cameraUiWrapper.getAppSettingsManager().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
+            if (val > MAX_PREVIEW_EXPOSURETIME && !AppSettingsManager.getInstance().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
                 Log.d(manualExposureTimeApi2.TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                 val = MAX_PREVIEW_EXPOSURETIME;
             }
@@ -279,9 +280,9 @@ public class AeHandler
         public ManualISoApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
             currentInt = 0;
-            isSupported = cameraUiWrapper.getAppSettingsManager().manualIso.isSupported();
+            isSupported = AppSettingsManager.getInstance().manualIso.isSupported();
             if (isSupported)
-                stringvalues = cameraUiWrapper.getAppSettingsManager().manualIso.getValues();
+                stringvalues = AppSettingsManager.getInstance().manualIso.getValues();
         }
 
         @Override
@@ -313,7 +314,7 @@ public class AeHandler
             return;
         if (valueToSet == 0)
         {
-            aeModeApi2.SetValue(cameraUiWrapper.getAppSettingsManager().exposureMode.get(),true);
+            aeModeApi2.SetValue(AppSettingsManager.getInstance().exposureMode.get(),true);
         }
         else
         {

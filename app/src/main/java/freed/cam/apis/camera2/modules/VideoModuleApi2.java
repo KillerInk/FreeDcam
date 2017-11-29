@@ -57,7 +57,7 @@ import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 
@@ -108,10 +108,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         super.InitModule();
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.VideoProfiles;
-        currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.videoProfile.get());
+        currentVideoProfile = profilesApi2.GetCameraProfile(AppSettingsManager.getInstance().videoProfile.get());
         if (currentVideoProfile == null)
         {
-            currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.videoProfile.getValues()[0]);
+            currentVideoProfile = profilesApi2.GetCameraProfile(AppSettingsManager.getInstance().videoProfile.getValues()[0]);
         }
         parameterHandler.VideoProfiles.fireStringValueChanged(currentVideoProfile.ProfileName);
         startPreview();
@@ -232,7 +232,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @TargetApi(VERSION_CODES.LOLLIPOP)
     private void startPreviewVideo()
     {
-        recordingFile = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".mp4"));
+        recordingFile = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(AppSettingsManager.getInstance().GetWriteExternal(), ".mp4"));
         mediaRecorder = new MediaRecorder();
         mediaRecorder.reset();
         mediaRecorder.setMaxFileSize(3037822976L); //~2.8 gigabyte
@@ -260,7 +260,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             }
         });
 
-        if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
+        if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
             Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
             if (location != null)
                 mediaRecorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
@@ -339,10 +339,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
                 break;
             case Timelapse:
                 float frame = 30;
-                if (!TextUtils.isEmpty(appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME)))
-                    frame = Float.parseFloat(appSettingsManager.getApiString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
+                if (!TextUtils.isEmpty(AppSettingsManager.getInstance().getApiString(AppSettingsManager.TIMELAPSEFRAME)))
+                    frame = Float.parseFloat(AppSettingsManager.getInstance().getApiString(AppSettingsManager.TIMELAPSEFRAME).replace(",", "."));
                 else
-                    appSettingsManager.setApiString(AppSettingsManager.TIMELAPSEFRAME, "" + frame);
+                    AppSettingsManager.getInstance().setApiString(AppSettingsManager.TIMELAPSEFRAME, "" + frame);
                 mediaRecorder.setCaptureRate(frame);
                 break;
         }
@@ -364,12 +364,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     }
 
     private void setRecorderFilePath() {
-        if (!appSettingsManager.GetWriteExternal()) {
+        if (!AppSettingsManager.getInstance().GetWriteExternal()) {
             mediaRecorder.setOutputFile(recordingFile.getAbsolutePath());
         }
         else
         {
-            Uri uri = Uri.parse(appSettingsManager.GetBaseFolder());
+            Uri uri = Uri.parse(AppSettingsManager.getInstance().GetBaseFolder());
             DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
             DocumentFile wr = df.createFile("*/*", recordingFile.getName());
             ParcelFileDescriptor fileDescriptor = null;

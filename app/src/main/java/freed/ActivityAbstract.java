@@ -48,7 +48,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.image.ImageManager;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 import freed.utils.PermissionHandler;
 import freed.utils.StorageFileHandler;
@@ -74,7 +74,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     private final String TAG = ActivityAbstract.class.getSimpleName();
-    private AppSettingsManager appSettingsManager;
     protected BitmapHelper bitmapHelper;
     protected  List<FileHolder> files =  new ArrayList<>();
     protected StorageFileHandler storageHandler;
@@ -92,6 +91,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ImageManager.getInstance(); // init it
+        AppSettingsManager.getInstance();
         setContentToView();
         permissionHandler =new PermissionHandler(this);
 
@@ -110,12 +110,9 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         initDone = true;
         Log.d(TAG, "initOnCreate()");
         SettingsApplication application = (SettingsApplication)getApplication();
-        if (application.getAppSettingsManager() == null) {
-            appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
-            application.setAppSettingsManager(appSettingsManager);
+        if (!AppSettingsManager.getInstance().isInit()) {
+           AppSettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
         }
-        else
-            appSettingsManager = application.getAppSettingsManager();
     }
 
     private PermissionHandler.PermissionCallback logSDPermission = new PermissionHandler.PermissionCallback()
@@ -227,7 +224,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
 
                 getContentResolver().takePersistableUriPermission(uri,takeFlags);
-                appSettingsManager.SetBaseFolder(uri.toString());
+                AppSettingsManager.getInstance().SetBaseFolder(uri.toString());
                 if (resultCallback != null)
                 {
                     resultCallback.onActivityResultCallback(uri);
@@ -250,11 +247,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     public Context getContext() {
         return getApplicationContext();
-    }
-
-    @Override
-    public AppSettingsManager getAppSettings() {
-        return appSettingsManager;
     }
 
     @Override
@@ -371,7 +363,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     public DocumentFile getExternalSdDocumentFile()
     {
         DocumentFile sdDir = null;
-        String extSdFolder =  appSettingsManager.GetBaseFolder();
+        String extSdFolder =  AppSettingsManager.getInstance().GetBaseFolder();
         if (extSdFolder == null || TextUtils.isEmpty(extSdFolder))
             return null;
         Uri uri = Uri.parse(extSdFolder);

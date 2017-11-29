@@ -113,7 +113,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     private void createParameters()
     {
-        Module = new ModuleParameters(cameraUiWrapper, appSettingsManager);
+        Module = new ModuleParameters(cameraUiWrapper);
         PictureSize = new PictureSizeSony(mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony) PictureSize);
 

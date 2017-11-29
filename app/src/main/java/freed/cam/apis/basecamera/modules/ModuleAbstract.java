@@ -29,7 +29,7 @@ import java.io.File;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 import freed.viewer.holder.FileHolder;
 
@@ -44,7 +44,6 @@ public abstract class ModuleAbstract implements ModuleInterface
 
     protected CaptureStateChanged captureStateChangedListner;
     private final String TAG = ModuleAbstract.class.getSimpleName();
-    protected AppSettingsManager appSettingsManager;
     protected CaptureStates currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;
     protected Handler mBackgroundHandler;
@@ -78,7 +77,6 @@ public abstract class ModuleAbstract implements ModuleInterface
     public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.appSettingsManager = cameraUiWrapper.getAppSettingsManager();
         this.mBackgroundHandler = mBackgroundHandler;
         this.mainHandler = new UiHandler(Looper.getMainLooper());
     }
@@ -141,7 +139,7 @@ public abstract class ModuleAbstract implements ModuleInterface
      */
     @Override
     public void fireOnWorkFinish(File file) {
-        cameraUiWrapper.getActivityInterface().WorkHasFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
+        cameraUiWrapper.getActivityInterface().WorkHasFinished(new FileHolder(file, AppSettingsManager.getInstance().GetWriteExternal()));
     }
 
 
@@ -158,7 +156,7 @@ public abstract class ModuleAbstract implements ModuleInterface
         int i= 0;
         for (File f : files) {
             if (f != null)
-                fileHolders[i++] = new FileHolder(f, appSettingsManager.GetWriteExternal());
+                fileHolders[i++] = new FileHolder(f, AppSettingsManager.getInstance().GetWriteExternal());
         }
         cameraUiWrapper.getActivityInterface().WorkHasFinished(fileHolders);
     }

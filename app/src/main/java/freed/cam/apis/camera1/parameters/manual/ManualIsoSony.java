@@ -5,6 +5,7 @@ import android.hardware.Camera;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 18.03.2017.
@@ -17,7 +18,7 @@ public class ManualIsoSony extends AbstractParameter
     public ManualIsoSony(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters) {
         super(cameraUiWrapper);
         this.parameters = parameters;
-        stringvalues = cameraUiWrapper.getAppSettingsManager().manualIso.getValues();
+        stringvalues = AppSettingsManager.getInstance().manualIso.getValues();
         isSupported = true;
         isVisible = isSupported;
     }
@@ -48,7 +49,7 @@ public class ManualIsoSony extends AbstractParameter
                 parameters.set("sony-ae-mode", "iso-prio");
             else if (cameraUiWrapper.getParameterHandler().ManualShutter.GetValue() >0 && !parameters.get("sony-ae-mode").equals("manual"))
                 parameters.set("sony-ae-mode", "manual");
-            parameters.set(cameraUiWrapper.getAppSettingsManager().manualIso.getKEY(), stringvalues[currentInt]);
+            parameters.set(AppSettingsManager.getInstance().manualIso.getKEY(), stringvalues[currentInt]);
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }

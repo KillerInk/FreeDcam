@@ -27,7 +27,6 @@ import java.io.File;
 import java.util.List;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
-import freed.utils.AppSettingsManager;
 import freed.utils.LocationHandler;
 import freed.utils.PermissionHandler;
 import freed.utils.StorageFileHandler;
@@ -52,8 +51,6 @@ public interface ActivityInterface extends I_WorkEvent
     BitmapHelper getBitmapHelper();
 
     Context getContext();
-
-    AppSettingsManager getAppSettings();
 
     StorageFileHandler getStorageHandler();
 

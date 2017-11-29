@@ -30,7 +30,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -149,7 +149,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         if (parameter != null && parameter.IsSupported())
         {
             if (key_appsettings != null && !TextUtils.isEmpty(key_appsettings))
-                fragment_activityInterface.getAppSettings().setApiString(key_appsettings, value);
+                AppSettingsManager.getInstance().setApiString(key_appsettings, value);
             if (settingMode != null)
                 settingMode.set(value);
             try {

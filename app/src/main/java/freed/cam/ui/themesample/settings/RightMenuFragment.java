@@ -38,7 +38,7 @@ import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 15.06.2015.
@@ -73,7 +73,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         settingchildholder.removeAllViews();
         if (cameraUiWrapper != null)
         {
-            AppSettingsManager apS = cameraUiWrapper.getAppSettingsManager();
+            AppSettingsManager apS = AppSettingsManager.getInstance();
             AbstractParameterHandler params = cameraUiWrapper.getParameterHandler();
 
             GroupChild settingsgroup = new GroupChild(getContext(), getString(R.string.setting_camera_));

@@ -22,20 +22,16 @@ package freed.cam.apis.basecamera.parameters.modes;
 //defcomg was here
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by George on 1/19/2015.
  */
 public class GuideList extends AbstractParameter
 {
-
-    private AppSettingsManager appSettingsManager;
-    public GuideList(AppSettingsManager appSettingsManager) {
+    public GuideList() {
         super();
-        this.appSettingsManager = appSettingsManager;
     }
-
 
     @Override
     public boolean IsSupported() {
@@ -45,19 +41,19 @@ public class GuideList extends AbstractParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        appSettingsManager.guide.set(valueToSet);
+        AppSettingsManager.getInstance().guide.set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 
     @Override
     public String GetStringValue()
     {
-        return appSettingsManager.guide.get();
+        return AppSettingsManager.getInstance().guide.get();
     }
 
     @Override
     public String[] getStringValues() {
-        return appSettingsManager.guide.getValues();
+        return AppSettingsManager.getInstance().guide.getValues();
     }
 
 

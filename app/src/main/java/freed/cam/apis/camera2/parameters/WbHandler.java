@@ -30,6 +30,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 import freed.utils.StringIntArray;
 import freed.utils.StringUtils;
@@ -48,9 +49,9 @@ public class WbHandler
     {
         this.cameraUiWrapper= cameraUiWrapper;
 
-        if (cameraUiWrapper.getAppSettingsManager().colorCorrectionMode.isSupported())
+        if (AppSettingsManager.getInstance().colorCorrectionMode.isSupported())
             colorCorrectionMode = new ColorCorrectionModeApi2();
-        if (cameraUiWrapper.getAppSettingsManager().whiteBalanceMode.isSupported())
+        if (AppSettingsManager.getInstance().whiteBalanceMode.isSupported())
             whiteBalanceApi2 = new WhiteBalanceApi2();
 
         manualWbCt = new ManualWbCtApi2(cameraUiWrapper);
@@ -96,10 +97,10 @@ public class WbHandler
         public WhiteBalanceApi2()
         {
             super(WbHandler.this.cameraUiWrapper);
-            isSupported = cameraUiWrapper.getAppSettingsManager().whiteBalanceMode.isSupported();
-            settingMode = cameraUiWrapper.getAppSettingsManager().whiteBalanceMode;
+            isSupported = AppSettingsManager.getInstance().whiteBalanceMode.isSupported();
+            settingMode = AppSettingsManager.getInstance().whiteBalanceMode;
             parameterKey = CaptureRequest.CONTROL_AWB_MODE;
-            parameterValues = StringUtils.StringArrayToIntHashmap(cameraUiWrapper.getAppSettingsManager().whiteBalanceMode.getValues());
+            parameterValues = StringUtils.StringArrayToIntHashmap(AppSettingsManager.getInstance().whiteBalanceMode.getValues());
             if (parameterValues == null)
             {
                 isSupported = false;
@@ -139,7 +140,7 @@ public class WbHandler
 
         public ManualWbCtApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
-            lookupvalues = new StringIntArray(cameraUiWrapper.getAppSettingsManager().getResources().getStringArray(R.array.wbct_lookup));
+            lookupvalues = new StringIntArray(AppSettingsManager.getInstance().getResources().getStringArray(R.array.wbct_lookup));
             currentInt = 0;
         }
 
@@ -249,13 +250,13 @@ public class WbHandler
         public ColorCorrectionModeApi2() {
             super(WbHandler.this.cameraUiWrapper);
             parameterKey = CaptureRequest.COLOR_CORRECTION_MODE;
-            settingMode = cameraUiWrapper.getAppSettingsManager().colorCorrectionMode;
-            parameterValues = StringUtils.StringArrayToIntHashmap(cameraUiWrapper.getAppSettingsManager().colorCorrectionMode.getValues());
+            settingMode = AppSettingsManager.getInstance().colorCorrectionMode;
+            parameterValues = StringUtils.StringArrayToIntHashmap(AppSettingsManager.getInstance().colorCorrectionMode.getValues());
         }
 
         @Override
         public boolean IsSupported() {
-            return cameraUiWrapper.getAppSettingsManager().colorCorrectionMode.isSupported();
+            return AppSettingsManager.getInstance().colorCorrectionMode.isSupported();
         }
 
         @Override

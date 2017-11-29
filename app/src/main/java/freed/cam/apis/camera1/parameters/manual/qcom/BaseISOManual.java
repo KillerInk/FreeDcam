@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by GeorgeKiarie on 6/2/2016.
@@ -40,7 +41,7 @@ public class BaseISOManual extends BaseManualParameter {
         super(parameters, "", "", "", cameraUiWrapper, 0);
         isSupported = true;
         isVisible = true;
-        stringvalues = cameraUiWrapper.getAppSettingsManager().manualIso.getValues();
+        stringvalues = AppSettingsManager.getInstance().manualIso.getValues();
     }
 
     @Override

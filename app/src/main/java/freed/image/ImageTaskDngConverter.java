@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
 
@@ -63,7 +64,7 @@ public class ImageTaskDngConverter extends ImageTask {
             dngCreator.setLocation(location);
         try
         {
-            if (!activityInterface.getAppSettings().GetWriteExternal())
+            if (!AppSettingsManager.getInstance().GetWriteExternal())
                 dngCreator.writeImage(new FileOutputStream(file), image);
             else
             {

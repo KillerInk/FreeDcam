@@ -37,7 +37,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.cam.ui.themesample.cameraui.CameraUiFragment.i_HelpFragment;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 29.02.2016.
@@ -50,13 +50,11 @@ public class HelpFragment extends Fragment
     private int helpState;
     private i_HelpFragment closer;
     private CheckBox dontshowagain;
-    private AppSettingsManager appSettingsManager;
 
-    public static HelpFragment getFragment(i_HelpFragment closer, AppSettingsManager appSettingsManager)
+    public static HelpFragment getFragment(i_HelpFragment closer)
     {
         HelpFragment h = new HelpFragment();
         h.closer = closer;
-        h.appSettingsManager = appSettingsManager;
         return h;
     }
 
@@ -88,11 +86,11 @@ public class HelpFragment extends Fragment
                     case 4:
                         if (dontshowagain.isChecked())
                         {
-                            appSettingsManager.setshowHelpOverlay(false);
+                            AppSettingsManager.getInstance().setshowHelpOverlay(false);
                         }
                         else
                         {
-                            appSettingsManager.setshowHelpOverlay(true);
+                            AppSettingsManager.getInstance().setshowHelpOverlay(true);
                         }
                         closer.Close(HelpFragment.this);
                 }

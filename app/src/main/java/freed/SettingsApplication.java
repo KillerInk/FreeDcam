@@ -2,7 +2,7 @@ package freed;
 
 import android.app.Application;
 
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 04.04.2017.
@@ -19,6 +19,6 @@ public class SettingsApplication extends Application {
 
     public AppSettingsManager getAppSettingsManager()
     {
-        return appSettingsManager;
+        return AppSettingsManager.getInstance();
     }
 }

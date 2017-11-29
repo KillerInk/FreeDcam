@@ -24,8 +24,6 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R.id;
 
-import freed.utils.AppSettingsManager;
-
 /**
  * Created by troop on 14.06.2015.
  */
@@ -36,9 +34,9 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
     private final TextView tTime;
     private final TextView tStorage;
     TextView tappversion;
-    public SampleInfoOverlayHandler(View view, AppSettingsManager appSettingsManager)
+    public SampleInfoOverlayHandler(View view)
     {
-        super(view.getContext(),appSettingsManager);
+        super(view.getContext());
         tbattery = (TextView)view.findViewById(id.textView_battery);
         tsize = (TextView)view.findViewById(id.textView_size);
         TextView tformat = (TextView) view.findViewById(id.textView_format);
@@ -46,7 +44,7 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
         tStorage = (TextView)view.findViewById(id.textView_storage);
         TextView tdngsupported = (TextView) view.findViewById(id.textView_dngsupported);
         tdngsupported.setVisibility(View.GONE);
-        /* if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
+        /* if (AppSettingsManager.getInstance().getCamApi().equals(AppSettingsManager.API_1))
         {
             tdngsupported.setText("DNG:" + DeviceUtils.isCamera1DNGSupportedDevice());
             if (DeviceUtils.isCamera1DNGSupportedDevice())
@@ -60,8 +58,8 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
         /*tbuidlmodel.setText(Build.MODEL);
         tappversion = (TextView)view.findViewById(R.id.textView_appversion);
         try {
-            tappversion.setText(appSettingsManager.context.getPackageManager()
-                    .getPackageInfo(appSettingsManager.context.getPackageName(), 0).versionName);
+            tappversion.setText(AppSettingsManager.getInstance().context.getPackageManager()
+                    .getPackageInfo(AppSettingsManager.getInstance().context.getPackageName(), 0).versionName);
         } catch (PackageManager.NameNotFoundException e) {
             Log.exception(e);
         }*/

@@ -27,6 +27,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.AppSettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
@@ -84,7 +85,7 @@ public abstract class AE_Handler_Abstract
     protected final AeManualEvent aeevent =  new AeManualEvent() {
         @Override
         public void onManualChanged(AeManual fromManual, boolean automode, int value) {
-            if (shutter.IsSupported() && iso.IsSupported() && cameraWrapper.getAppSettingsManager().GetCurrentCamera() == 0)
+            if (shutter.IsSupported() && iso.IsSupported() && AppSettingsManager.getInstance().GetCurrentCamera() == 0)
             {
                 if (automode) {
                     Log.d(TAG, "AutomodeActive");

@@ -40,7 +40,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.ui.themesample.AbstractFragment;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by Ar4eR on 15.01.16.
@@ -114,7 +114,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
 
     @Override
     public void onStringValueChanged(String value) {
-        if(fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("On"))
+        if(AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("On"))
         {
             startSensorListing();
             view.setVisibility(View.VISIBLE);
@@ -133,7 +133,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     }
     private void startSensorListing()
     {
-        if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("On")) {
+        if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("On")) {
             sensorManager.registerListener(msl, accelerometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
             sensorManager.registerListener(msl, magnetometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
         }
@@ -153,8 +153,8 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     @Override
     public void onResume(){
         super.onResume();
-        if (fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("Off")
-                || TextUtils.isEmpty(fragment_activityInterface.getAppSettings().getApiString(AppSettingsManager.SETTING_HORIZONT)))
+        if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_HORIZONT).equals("Off")
+                || TextUtils.isEmpty(AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_HORIZONT)))
             view.setVisibility(View.GONE);
         else
             startSensorListing();

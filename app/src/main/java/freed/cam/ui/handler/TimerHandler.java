@@ -7,7 +7,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 26.11.2014.
@@ -16,12 +16,10 @@ public class TimerHandler implements ModuleChangedEvent, I_RecorderStateChanged
 {
     private final TextView timerText;
 
-    private final AppSettingsManager appSettingsManager;
     private final MyTimer timer;
 
-    public TimerHandler(TextView view, AppSettingsManager appSettingsManager)
+    public TimerHandler(TextView view)
     {
-        this.appSettingsManager = appSettingsManager;
         timerText = view;
         timer = new MyTimer(timerText);
         timerText.setVisibility(View.GONE);
@@ -33,7 +31,7 @@ public class TimerHandler implements ModuleChangedEvent, I_RecorderStateChanged
         timerText.post(new Runnable() {
             @Override
             public void run() {
-                if (module.equals(appSettingsManager.getResString(R.string.module_video)))
+                if (module.equals(AppSettingsManager.getInstance().getResString(R.string.module_video)))
                     timerText.setVisibility(View.VISIBLE);
                 else
                     timerText.setVisibility(View.GONE);

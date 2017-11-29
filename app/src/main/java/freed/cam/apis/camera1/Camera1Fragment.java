@@ -47,7 +47,7 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -331,7 +331,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Override
     public String getResString(int id) {
-        return getAppSettingsManager().getResString(id);
+        return AppSettingsManager.getInstance().getResString(id);
     }
 
     @Override
@@ -361,7 +361,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         switch (message.what)
         {
             case MSG_START_CAMERA:
-                cameraHolder.OpenCamera(getAppSettingsManager().GetCurrentCamera());
+                cameraHolder.OpenCamera(AppSettingsManager.getInstance().GetCurrentCamera());
                 Log.d(TAG, "startCamera");
                 break;
             case MSG_STOP_CAMERA:
@@ -375,7 +375,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 if (focusPeakProcessorAp1 != null)
                     focusPeakProcessorAp1.kill();
                 cameraHolder.CloseCamera();
-                cameraHolder.OpenCamera(getAppSettingsManager().GetCurrentCamera());
+                cameraHolder.OpenCamera(AppSettingsManager.getInstance().GetCurrentCamera());
                 Log.d(TAG, "startCamera");
                 break;
             case MSG_START_PREVIEW:
@@ -401,21 +401,21 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
                 Focus = new FocusHandler(Camera1Fragment.this);
 
-                Log.d(TAG,"FrameWork:" + getAppSettingsManager().getFrameWork() + " openlegacy:" + getAppSettingsManager().opencamera1Legacy.getBoolean());
+                Log.d(TAG,"FrameWork:" + AppSettingsManager.getInstance().getFrameWork() + " openlegacy:" + AppSettingsManager.getInstance().opencamera1Legacy.getBoolean());
 
-                if (getAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_LG) {
+                if (AppSettingsManager.getInstance().getFrameWork() == AppSettingsManager.FRAMEWORK_LG) {
                     cameraHolder = new CameraHolderLG(Camera1Fragment.this, CameraHolder.Frameworks.LG);
                     Log.d(TAG, "create LG camera");
                 }
-                else if (getAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_MOTO_EXT) {
+                else if (AppSettingsManager.getInstance().getFrameWork() == AppSettingsManager.FRAMEWORK_MOTO_EXT) {
                     cameraHolder = new CameraHolderMotoX(Camera1Fragment.this, CameraHolder.Frameworks.MotoX);
                     Log.d(TAG, "create MotoExt camera");
                 }
-                else if (getAppSettingsManager().getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
+                else if (AppSettingsManager.getInstance().getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
                     cameraHolder = new CameraHolderMTK(Camera1Fragment.this, CameraHolder.Frameworks.MTK);
                     Log.d(TAG, "create Mtk camera");
                 }
-                else if (getAppSettingsManager().opencamera1Legacy.getBoolean()) {
+                else if (AppSettingsManager.getInstance().opencamera1Legacy.getBoolean()) {
                     cameraHolder = new CameraHolderLegacy(Camera1Fragment.this, CameraHolder.Frameworks.Normal);
                     Log.d(TAG, "create Legacy camera");
                 }

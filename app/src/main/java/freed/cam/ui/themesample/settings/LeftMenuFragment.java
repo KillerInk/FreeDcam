@@ -53,7 +53,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimeLapseFrames
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoProfile;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEditor;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 15.06.2015.
@@ -87,7 +87,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         settingsChildHolder.removeAllViews();
         if (cameraUiWrapper != null) {
 
-            AppSettingsManager apS = cameraUiWrapper.getAppSettingsManager();
+            AppSettingsManager apS = AppSettingsManager.getInstance();
             AbstractParameterHandler params = cameraUiWrapper.getParameterHandler();
         /*
             VIDEOGROUP
@@ -100,7 +100,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 videoProfile.SetUiItemClickListner(this);
                 videoGroup.addView(videoProfile);
 
-                SettingsChildMenuTimeLapseFrames timeLapseFrames = new SettingsChildMenuTimeLapseFrames(getContext(), apS);
+                SettingsChildMenuTimeLapseFrames timeLapseFrames = new SettingsChildMenuTimeLapseFrames(getContext());
                 timeLapseFrames.setVisibility(View.VISIBLE);
                 videoGroup.addView(timeLapseFrames);
 
@@ -185,7 +185,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             }
             if (cameraUiWrapper instanceof Camera2Fragment)
             {
-                SettingsChildMenuForceRawToDng rawToDng = new SettingsChildMenuForceRawToDng(getContext(), R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description, apS);
+                SettingsChildMenuForceRawToDng rawToDng = new SettingsChildMenuForceRawToDng(getContext(), R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description);
                 rawToDng.SetUiItemClickListner(this);
                 dngGroup.addView(rawToDng);
             }
@@ -219,7 +219,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
             SettingsChildMenu externalShutter = new SettingsChildMenu(getContext(),R.string.setting_externalshutter_header, R.string.setting_externalshutter_description);
             externalShutter.SetStuff(fragment_activityInterface, "");
-            externalShutter.SetParameter(new ParameterExternalShutter(fragment_activityInterface.getAppSettings()));
+            externalShutter.SetParameter(new ParameterExternalShutter());
             externalShutter.SetUiItemClickListner(this);
             globalSettingGroup.addView(externalShutter);
 
@@ -241,7 +241,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             menuItemGPS.SetUiItemClickListner(this);
             globalSettingGroup.addView(menuItemGPS);
 
-            SettingsChildMenu guide = new SettingsChildMenu(getContext(),cameraUiWrapper.getAppSettingsManager().guide,cameraUiWrapper.getParameterHandler().GuideList, R.string.setting_guide_header, R.string.setting_guide_description);
+            SettingsChildMenu guide = new SettingsChildMenu(getContext(),AppSettingsManager.getInstance().guide,cameraUiWrapper.getParameterHandler().GuideList, R.string.setting_guide_header, R.string.setting_guide_description);
             guide.SetUiItemClickListner(this);
             globalSettingGroup.addView(guide);
 

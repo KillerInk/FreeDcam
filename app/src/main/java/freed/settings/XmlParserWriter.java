@@ -1,4 +1,4 @@
-package freed.utils;
+package freed.settings;
 
 import android.content.res.Resources;
 import android.os.Build;
@@ -25,6 +25,9 @@ import freed.cam.featuredetector.Camera1FeatureDetectorTask;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
+import freed.utils.Log;
+import freed.utils.StringUtils;
+import freed.utils.VideoMediaProfile;
 
 /**
  * Created by troop on 25.06.2017.
@@ -36,7 +39,7 @@ public class XmlParserWriter
 
 
 
-    public void parseAndFindSupportedDevice(Resources resources, AppSettingsManager appSettingsManager,HashMap<String, CustomMatrix> matrixHashMap)
+    public void parseAndFindSupportedDevice(Resources resources, HashMap<String, CustomMatrix> matrixHashMap)
     {
         try {
             String xmlsource = getString(resources.openRawResource(R.raw.supported_devices));
@@ -53,8 +56,8 @@ public class XmlParserWriter
                     {
                         if (mod.getValue().equals(Build.MODEL)) {
 
-                            appSettingsManager.setDevice(device_element.getAttribute("name",""));
-                            Log.d(TAG, "Found Device:" + appSettingsManager.getDeviceString());
+                            AppSettingsManager.getInstance().setDevice(device_element.getAttribute("name",""));
+                            Log.d(TAG, "Found Device:" + AppSettingsManager.getInstance().getDeviceString());
 
                             XmlElement camera1element = device_element.findChild("camera1");
 
@@ -64,52 +67,52 @@ public class XmlParserWriter
                                 Log.v(TAG, camera1element.dumpChildElementsTagNames());
                                 if (!camera1element.findChild("framework").isEmpty())
                                 {
-                                    appSettingsManager.setFramework(Integer.parseInt(camera1element.findChild("framework").getValue()));
+                                    AppSettingsManager.getInstance().setFramework(Integer.parseInt(camera1element.findChild("framework").getValue()));
                                 }
                                 else
-                                    appSettingsManager.setFramework(Camera1FeatureDetectorTask.getFramework());
+                                    AppSettingsManager.getInstance().setFramework(Camera1FeatureDetectorTask.getFramework());
 
                                 if (!camera1element.findChild("dngmanual").isEmpty())
-                                    appSettingsManager.dngSupportManualModes.setBoolean(Boolean.parseBoolean(camera1element.findChild("dngmanual").getValue()));
+                                    AppSettingsManager.getInstance().dngSupportManualModes.setBoolean(Boolean.parseBoolean(camera1element.findChild("dngmanual").getValue()));
                                 else
-                                    appSettingsManager.dngSupportManualModes.setBoolean(true);
-                                Log.d(TAG, "dng manual supported:" + appSettingsManager.dngSupportManualModes.getBoolean());
+                                    AppSettingsManager.getInstance().dngSupportManualModes.setBoolean(true);
+                                Log.d(TAG, "dng manual supported:" + AppSettingsManager.getInstance().dngSupportManualModes.getBoolean());
 
                                 if (!camera1element.findChild("opencameralegacy").isEmpty()) {
-                                    appSettingsManager.opencamera1Legacy.setBoolean(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
-                                    appSettingsManager.opencamera1Legacy.setIsPresetted(true);
+                                    AppSettingsManager.getInstance().opencamera1Legacy.setBoolean(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
+                                    AppSettingsManager.getInstance().opencamera1Legacy.setIsPresetted(true);
                                 }
 
-                                Log.d(TAG, "OpenLegacy: " + appSettingsManager.opencamera1Legacy.getBoolean() + " isPresetted:" + appSettingsManager.opencamera1Legacy.isPresetted());
+                                Log.d(TAG, "OpenLegacy: " + AppSettingsManager.getInstance().opencamera1Legacy.getBoolean() + " isPresetted:" + AppSettingsManager.getInstance().opencamera1Legacy.isPresetted());
 
                                 if (!camera1element.findChild("zteae").isEmpty())
-                                    appSettingsManager.setZteAe(Boolean.parseBoolean(camera1element.findChild("zte").getValue()));
+                                    AppSettingsManager.getInstance().setZteAe(Boolean.parseBoolean(camera1element.findChild("zte").getValue()));
                                 else
-                                    appSettingsManager.setZteAe(false);
+                                    AppSettingsManager.getInstance().setZteAe(false);
 
-                                Log.d(TAG, "isZteAE:" + appSettingsManager.isZteAe());
+                                Log.d(TAG, "isZteAE:" + AppSettingsManager.getInstance().isZteAe());
 
                                 if (!camera1element.findChild("needrestartaftercapture").isEmpty())
-                                    appSettingsManager.needRestartAfterCapture.setBoolean(Boolean.parseBoolean(camera1element.findChild("needrestartaftercapture").getValue()));
+                                    AppSettingsManager.getInstance().needRestartAfterCapture.setBoolean(Boolean.parseBoolean(camera1element.findChild("needrestartaftercapture").getValue()));
                                 else
-                                    appSettingsManager.needRestartAfterCapture.setBoolean(false);
+                                    AppSettingsManager.getInstance().needRestartAfterCapture.setBoolean(false);
 
                                 if (!camera1element.findChild("burst").isEmpty()) {
-                                    appSettingsManager.manualBurst.setIsSupported(true);
+                                    AppSettingsManager.getInstance().manualBurst.setIsSupported(true);
                                     int max = Integer.parseInt(camera1element.findChild("burst").getValue());
-                                    appSettingsManager.manualBurst.setValues(createStringArray(1, max, 1));
-                                    appSettingsManager.manualBurst.set(1 + "");
+                                    AppSettingsManager.getInstance().manualBurst.setValues(createStringArray(1, max, 1));
+                                    AppSettingsManager.getInstance().manualBurst.set(1 + "");
                                 } else
-                                    appSettingsManager.manualBurst.setIsSupported(false);
-                                appSettingsManager.manualBurst.setIsPresetted(true);
+                                    AppSettingsManager.getInstance().manualBurst.setIsSupported(false);
+                                AppSettingsManager.getInstance().manualBurst.setIsPresetted(true);
 
                                 if (!camera1element.findChild("nightmode").isEmpty()) {
-                                    appSettingsManager.nightMode.setIsSupported(true);
+                                    AppSettingsManager.getInstance().nightMode.setIsSupported(true);
                                     int type = Integer.parseInt(camera1element.findChild("nightmode").getValue());
-                                    appSettingsManager.nightMode.setType(type);
+                                    AppSettingsManager.getInstance().nightMode.setType(type);
                                 } else
-                                    appSettingsManager.nightMode.setIsSupported(false);
-                                appSettingsManager.nightMode.setIsPresetted(true);
+                                    AppSettingsManager.getInstance().nightMode.setIsSupported(false);
+                                AppSettingsManager.getInstance().nightMode.setIsPresetted(true);
 
                                 if (!camera1element.findChild("whitebalance").isEmpty())
                                 {
@@ -118,11 +121,11 @@ public class XmlParserWriter
                                     int min = camera1element.findChild("whitebalance").findChild("min").getIntValue(2000);
                                     int max  = camera1element.findChild("whitebalance").findChild("max").getIntValue(8000);
                                     int step = camera1element.findChild("whitebalance").findChild("step").getIntValue(100);
-                                    appSettingsManager.manualWhiteBalance.setKEY(camera1element.findChild("whitebalance").findChild("key").getValue());
-                                    appSettingsManager.manualWhiteBalance.setMode(camera1element.findChild("whitebalance").findChild("mode").getValue());
-                                    appSettingsManager.manualWhiteBalance.setValues(Camera1FeatureDetectorTask.createWBStringArray(min,max,step,appSettingsManager));
-                                    appSettingsManager.manualWhiteBalance.setIsSupported(true);
-                                    appSettingsManager.manualWhiteBalance.setIsPresetted(true);
+                                    AppSettingsManager.getInstance().manualWhiteBalance.setKEY(camera1element.findChild("whitebalance").findChild("key").getValue());
+                                    AppSettingsManager.getInstance().manualWhiteBalance.setMode(camera1element.findChild("whitebalance").findChild("mode").getValue());
+                                    AppSettingsManager.getInstance().manualWhiteBalance.setValues(Camera1FeatureDetectorTask.createWBStringArray(min,max,step));
+                                    AppSettingsManager.getInstance().manualWhiteBalance.setIsSupported(true);
+                                    AppSettingsManager.getInstance().manualWhiteBalance.setIsPresetted(true);
                                 }
 
                                 if (!camera1element.findChild("manualiso").isEmpty())
@@ -131,14 +134,14 @@ public class XmlParserWriter
                                     if (!camera1element.findChild("manualiso").getAttribute("supported","false").isEmpty())
                                     {
                                         if (camera1element.findChild("manualiso").getAttribute("supported","false").equals("false")) {
-                                            appSettingsManager.manualIso.setIsSupported(false);
-                                            appSettingsManager.manualIso.setIsPresetted(true);
+                                            AppSettingsManager.getInstance().manualIso.setIsSupported(false);
+                                            AppSettingsManager.getInstance().manualIso.setIsPresetted(true);
                                         }
                                         else
                                         {
-                                            appSettingsManager.manualIso.setIsSupported(true);
-                                            appSettingsManager.manualIso.setIsPresetted(true);
-                                            setManualIso(camera1element.findChild("manualiso"),appSettingsManager);
+                                            AppSettingsManager.getInstance().manualIso.setIsSupported(true);
+                                            AppSettingsManager.getInstance().manualIso.setIsPresetted(true);
+                                            setManualIso(camera1element.findChild("manualiso"));
                                         }
                                     }
                                     else
@@ -148,13 +151,13 @@ public class XmlParserWriter
                                             List<XmlElement> frameworksiso = camera1element.findChild("manualiso").findChildren("framework");
                                             for(XmlElement framiso : frameworksiso)
                                             {
-                                                if (Integer.parseInt(framiso.getAttribute("type","0")) == appSettingsManager.getFrameWork())
-                                                    setManualIso(framiso,appSettingsManager);
+                                                if (Integer.parseInt(framiso.getAttribute("type","0")) == AppSettingsManager.getInstance().getFrameWork())
+                                                    setManualIso(framiso);
                                             }
                                         }
                                         else
-                                            setManualIso(camera1element.findChild("manualiso"),appSettingsManager);
-                                        appSettingsManager.manualIso.setIsPresetted(true);
+                                            setManualIso(camera1element.findChild("manualiso"));
+                                        AppSettingsManager.getInstance().manualIso.setIsPresetted(true);
                                     }
                                 }
 
@@ -164,22 +167,22 @@ public class XmlParserWriter
                                     if (!camera1element.findChild("exposuretime").findChild("values").isEmpty())
                                     {
                                         String name = camera1element.findChild("exposuretime").findChild("values").getValue();
-                                        appSettingsManager.manualExposureTime.setValues(resources.getStringArray(resources.getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
+                                        AppSettingsManager.getInstance().manualExposureTime.setValues(resources.getStringArray(resources.getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
                                     }
                                     if (!camera1element.findChild("exposuretime").findChild("key").isEmpty())
                                     {
-                                        appSettingsManager.manualExposureTime.setKEY(camera1element.findChild("exposuretime").findChild("key").getValue());
+                                        AppSettingsManager.getInstance().manualExposureTime.setKEY(camera1element.findChild("exposuretime").findChild("key").getValue());
                                     }
                                     if (!camera1element.findChild("exposuretime").findChild("key").isEmpty())
                                     {
-                                        appSettingsManager.manualExposureTime.setType(camera1element.findChild("exposuretime").findChild("type").getIntValue(0));
-                                        appSettingsManager.manualExposureTime.setIsSupported(true);
+                                        AppSettingsManager.getInstance().manualExposureTime.setType(camera1element.findChild("exposuretime").findChild("type").getIntValue(0));
+                                        AppSettingsManager.getInstance().manualExposureTime.setIsSupported(true);
                                     }
                                     else {
-                                        appSettingsManager.manualExposureTime.setIsSupported(false);
-                                        appSettingsManager.manualExposureTime.setKEY("unsupported");
+                                        AppSettingsManager.getInstance().manualExposureTime.setIsSupported(false);
+                                        AppSettingsManager.getInstance().manualExposureTime.setKEY("unsupported");
                                     }
-                                    appSettingsManager.manualExposureTime.setIsPresetted(true);
+                                    AppSettingsManager.getInstance().manualExposureTime.setIsPresetted(true);
                                 }
 
                                 if (!camera1element.findChild("hdrmode").isEmpty())
@@ -188,26 +191,26 @@ public class XmlParserWriter
                                     if (camera1element.findChild("hdrmode").getAttribute("supported","false") != null)
                                     {
                                         if (!Boolean.parseBoolean(camera1element.findChild("hdrmode").getAttribute("supported","false")))
-                                            appSettingsManager.hdrMode.setIsSupported(false);
+                                            AppSettingsManager.getInstance().hdrMode.setIsSupported(false);
                                         else{
-                                            appSettingsManager.hdrMode.setIsSupported(true);
-                                            appSettingsManager.hdrMode.setType(camera1element.findChild("hdrmode").getIntValue(1));
+                                            AppSettingsManager.getInstance().hdrMode.setIsSupported(true);
+                                            AppSettingsManager.getInstance().hdrMode.setType(camera1element.findChild("hdrmode").getIntValue(1));
                                         }
                                     }
-                                    appSettingsManager.hdrMode.setIsPresetted(true);
+                                    AppSettingsManager.getInstance().hdrMode.setIsPresetted(true);
                                 }
 
                                 if (!camera1element.findChild("virtuallensfilter").isEmpty())
                                 {
-                                    appSettingsManager.virtualLensfilter.setIsSupported(true);
+                                    AppSettingsManager.getInstance().virtualLensfilter.setIsSupported(true);
                                 }
 
                                 if (!camera1element.findChild("denoise").isEmpty())
                                 {
                                     if (!camera1element.findChild("denoise").getBooleanValue())
                                     {
-                                        appSettingsManager.denoiseMode.setIsSupported(false);
-                                        appSettingsManager.denoiseMode.setIsPresetted(true);
+                                        AppSettingsManager.getInstance().denoiseMode.setIsSupported(false);
+                                        AppSettingsManager.getInstance().denoiseMode.setIsPresetted(true);
                                     }
                                 }
 
@@ -215,8 +218,8 @@ public class XmlParserWriter
                                 {
                                     if (!camera1element.findChild("digitalimagestab").getBooleanValue())
                                     {
-                                        appSettingsManager.digitalImageStabilisationMode.setIsSupported(false);
-                                        appSettingsManager.digitalImageStabilisationMode.setIsPresetted(true);
+                                        AppSettingsManager.getInstance().digitalImageStabilisationMode.setIsSupported(false);
+                                        AppSettingsManager.getInstance().digitalImageStabilisationMode.setIsPresetted(true);
                                     }
                                 }
 
@@ -227,29 +230,29 @@ public class XmlParserWriter
                                     if (mfs.size() > 1) {
                                         for (XmlElement mf : mfs) {
                                             if (mf.getIntAttribute("version", 0) == Build.VERSION.SDK_INT) {
-                                                setManualFocus(mf,appSettingsManager);
+                                                setManualFocus(mf);
                                             }
                                         }
                                     }
                                     else
-                                        setManualFocus(mfs.get(0),appSettingsManager);
-                                    appSettingsManager.manualFocus.setIsPresetted(true);
+                                        setManualFocus(mfs.get(0));
+                                    AppSettingsManager.getInstance().manualFocus.setIsPresetted(true);
                                 }
 
                                 if (!camera1element.findChild("rawformat").isEmpty())
                                 {
                                     Log.d(TAG, "override rawpictureformat");
-                                    appSettingsManager.rawPictureFormat.set(camera1element.findChild("rawformat").getValue());
-                                    appSettingsManager.rawPictureFormat.setIsPresetted(true);
-                                    appSettingsManager.rawPictureFormat.setIsSupported(true);
+                                    AppSettingsManager.getInstance().rawPictureFormat.set(camera1element.findChild("rawformat").getValue());
+                                    AppSettingsManager.getInstance().rawPictureFormat.setIsPresetted(true);
+                                    AppSettingsManager.getInstance().rawPictureFormat.setIsSupported(true);
                                 }
 
                                 if (!camera1element.findChild("opticalimagestab").isEmpty())
                                 {
-                                    appSettingsManager.opticalImageStabilisation.set(camera1element.findChild("opticalimagestab").findChild("key").getValue());
-                                    appSettingsManager.opticalImageStabilisation.setValues(camera1element.findChild("opticalimagestab").findChild("values").getValue().split(","));
-                                    appSettingsManager.opticalImageStabilisation.setIsSupported(true);
-                                    appSettingsManager.opticalImageStabilisation.setIsPresetted(true);
+                                    AppSettingsManager.getInstance().opticalImageStabilisation.set(camera1element.findChild("opticalimagestab").findChild("key").getValue());
+                                    AppSettingsManager.getInstance().opticalImageStabilisation.setValues(camera1element.findChild("opticalimagestab").findChild("values").getValue().split(","));
+                                    AppSettingsManager.getInstance().opticalImageStabilisation.setIsSupported(true);
+                                    AppSettingsManager.getInstance().opticalImageStabilisation.setIsPresetted(true);
                                 }
                             }
 
@@ -257,26 +260,26 @@ public class XmlParserWriter
                             if (!camera2element.isEmpty()) {
                                 Log.d(TAG,"Found Camera2 overrides");
                                 if (!camera2element.findChild("forcerawtodng").isEmpty())
-                                    appSettingsManager.forceRawToDng.setBoolean(camera2element.findChild("forcerawtodng").getBooleanValue());
+                                    AppSettingsManager.getInstance().forceRawToDng.setBoolean(camera2element.findChild("forcerawtodng").getBooleanValue());
                                 if (!camera2element.findChild("overrideprofile").isEmpty())
-                                    appSettingsManager.setsOverrideDngProfile(camera2element.findChild("overrideprofile").getBooleanValue());
+                                    AppSettingsManager.getInstance().setsOverrideDngProfile(camera2element.findChild("overrideprofile").getBooleanValue());
 
                                 if (!camera2element.findChild("maxexposuretime").isEmpty())
                                 {
-                                    appSettingsManager.setCamera2MaxExposureTime(camera2element.findChild("maxexposuretime").getLongValue());
+                                    AppSettingsManager.getInstance().setCamera2MaxExposureTime(camera2element.findChild("maxexposuretime").getLongValue());
                                 }
                                 if (!camera2element.findChild("minexposuretime").isEmpty())
                                 {
-                                    appSettingsManager.setCamera2MinExposureTime(camera2element.findChild("minexposuretime").getLongValue());
+                                    AppSettingsManager.getInstance().setCamera2MinExposureTime(camera2element.findChild("minexposuretime").getLongValue());
                                 }
                                 if (!camera2element.findChild("maxiso").isEmpty())
-                                    appSettingsManager.setCamera2MaxIso(camera2element.findChild("maxiso").getIntValue(0));
+                                    AppSettingsManager.getInstance().setCamera2MaxIso(camera2element.findChild("maxiso").getIntValue(0));
                             }
 
                             LongSparseArray<DngProfile> dngProfileHashMap = new LongSparseArray<>();
-                            getDngStuff(dngProfileHashMap, device_element,matrixHashMap,appSettingsManager);
+                            getDngStuff(dngProfileHashMap, device_element,matrixHashMap);
                             Log.d(TAG, "Save Dng Profiles:" + dngProfileHashMap.size());
-                            saveDngProfiles(dngProfileHashMap,appSettingsManager.getDeviceString());
+                            saveDngProfiles(dngProfileHashMap,AppSettingsManager.getInstance().getDeviceString());
 
                             break;
                         }
@@ -288,43 +291,43 @@ public class XmlParserWriter
         }
     }
 
-    private void setManualFocus(XmlElement element, AppSettingsManager appSettingsManager)
+    private void setManualFocus(XmlElement element)
     {
         if (element.findChild("min") != null)
         {
-            appSettingsManager.manualFocus.setMode(element.findChild("mode").getValue());
-            appSettingsManager.manualFocus.setType(element.findChild("type").getIntValue(-1));
-            appSettingsManager.manualFocus.setIsSupported(true);
-            appSettingsManager.manualFocus.setIsPresetted(true);
-            appSettingsManager.manualFocus.setKEY(element.findChild("key").getValue());
-            appSettingsManager.manualFocus.setValues(Camera1FeatureDetectorTask.createManualFocusValues(element.findChild("min").getIntValue(0),element.findChild("max").getIntValue(0),element.findChild("step").getIntValue(0),appSettingsManager));
+            AppSettingsManager.getInstance().manualFocus.setMode(element.findChild("mode").getValue());
+            AppSettingsManager.getInstance().manualFocus.setType(element.findChild("type").getIntValue(-1));
+            AppSettingsManager.getInstance().manualFocus.setIsSupported(true);
+            AppSettingsManager.getInstance().manualFocus.setIsPresetted(true);
+            AppSettingsManager.getInstance().manualFocus.setKEY(element.findChild("key").getValue());
+            AppSettingsManager.getInstance().manualFocus.setValues(Camera1FeatureDetectorTask.createManualFocusValues(element.findChild("min").getIntValue(0),element.findChild("max").getIntValue(0),element.findChild("step").getIntValue(0)));
         }
         else
-            appSettingsManager.manualFocus.setIsSupported(false);
+            AppSettingsManager.getInstance().manualFocus.setIsSupported(false);
     }
 
-    private void setManualIso(XmlElement element, AppSettingsManager appSettingsManager)
+    private void setManualIso(XmlElement element)
     {
         if (!element.findChild("min").isEmpty()) {
             int min = element.findChild("min").getIntValue(100);
             int max = element.findChild("max").getIntValue(1600);
             int step = element.findChild("step").getIntValue(50);
             int type = element.findChild("type").getIntValue(0);
-            appSettingsManager.manualIso.setType(type);
-            appSettingsManager.manualIso.setKEY(element.findChild("key").getValue());
-            appSettingsManager.manualIso.setValues(Camera1FeatureDetectorTask.createIsoValues(min, max, step, appSettingsManager));
-            appSettingsManager.manualIso.setIsSupported(true);
-            appSettingsManager.manualIso.setIsPresetted(true);
+            AppSettingsManager.getInstance().manualIso.setType(type);
+            AppSettingsManager.getInstance().manualIso.setKEY(element.findChild("key").getValue());
+            AppSettingsManager.getInstance().manualIso.setValues(Camera1FeatureDetectorTask.createIsoValues(min, max, step));
+            AppSettingsManager.getInstance().manualIso.setIsSupported(true);
+            AppSettingsManager.getInstance().manualIso.setIsPresetted(true);
         }
         else if (!element.findChild("values").isEmpty())
         {
             String name = element.findChild("values").getValue();
-            appSettingsManager.manualIso.setValues(appSettingsManager.getResources().getStringArray(appSettingsManager.getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
-            appSettingsManager.manualIso.setKEY(element.findChild("key").getValue());
+            AppSettingsManager.getInstance().manualIso.setValues(AppSettingsManager.getInstance().getResources().getStringArray(AppSettingsManager.getInstance().getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
+            AppSettingsManager.getInstance().manualIso.setKEY(element.findChild("key").getValue());
             int type = element.findChild("type").getIntValue(0);
-            appSettingsManager.manualIso.setType(type);
-            appSettingsManager.manualIso.setIsSupported(true);
-            appSettingsManager.manualIso.setIsPresetted(true);
+            AppSettingsManager.getInstance().manualIso.setType(type);
+            AppSettingsManager.getInstance().manualIso.setIsSupported(true);
+            AppSettingsManager.getInstance().manualIso.setIsPresetted(true);
         }
     }
 
@@ -339,7 +342,7 @@ public class XmlParserWriter
         return ar.toArray(new String[ar.size()]);
     }
 
-    protected LongSparseArray<DngProfile> getDngProfiles(HashMap<String, CustomMatrix> matrixHashMap, AppSettingsManager appSettingsManager)
+    protected LongSparseArray<DngProfile> getDngProfiles(HashMap<String, CustomMatrix> matrixHashMap)
     {
         LongSparseArray<DngProfile> map = new LongSparseArray<>();
         try {
@@ -353,7 +356,7 @@ public class XmlParserWriter
             {
                 List<XmlElement> devicesList = rootElement.findChildren("device");
                 XmlElement device = devicesList.get(0);
-                getDngStuff(map, device,matrixHashMap,appSettingsManager);
+                getDngStuff(map, device,matrixHashMap);
             }
         } catch (IOException e) {
             Log.WriteEx(e);
@@ -361,11 +364,11 @@ public class XmlParserWriter
         return map;
     }
 
-    private void getDngStuff(LongSparseArray<DngProfile> map, XmlElement device_element, HashMap<String, CustomMatrix> matrixHashMap,AppSettingsManager appSettingsManager) {
+    private void getDngStuff(LongSparseArray<DngProfile> map, XmlElement device_element, HashMap<String, CustomMatrix> matrixHashMap) {
         if (!device_element.getAttribute("opcode2", "").isEmpty())
-            appSettingsManager.opcodeUrlList[0] = device_element.getAttribute("opcode2", "");
+            AppSettingsManager.getInstance().opcodeUrlList[0] = device_element.getAttribute("opcode2", "");
         if (!device_element.getAttribute("opcode3", "").isEmpty())
-            appSettingsManager.opcodeUrlList[1] = device_element.getAttribute("opcode3", "");
+            AppSettingsManager.getInstance().opcodeUrlList[1] = device_element.getAttribute("opcode3", "");
 
         Log.d(TAG, device_element.dumpChildElementsTagNames());
         List<XmlElement> fsizeList = device_element.findChildren("filesize");
@@ -487,7 +490,7 @@ public class XmlParserWriter
         }
     }
 
-    public HashMap<String,VideoMediaProfile> getMediaProfiles(AppSettingsManager appSettingsManager)
+    public HashMap<String,VideoMediaProfile> getMediaProfiles()
     {
         HashMap<String,VideoMediaProfile>  hashMap = new HashMap<>();
         File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"videoProfiles.xml");
@@ -496,9 +499,9 @@ public class XmlParserWriter
             try {
                 String xmlsource = getString(new FileInputStream(configFile));
                 XmlElement xmlElement = XmlElement.parse(xmlsource);
-                if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1)){
+                if (AppSettingsManager.getInstance().getCamApi().equals(AppSettingsManager.API_1)){
                     XmlElement camera1node = xmlElement.findChild("camera1");
-                    if (appSettingsManager.getIsFrontCamera())
+                    if (AppSettingsManager.getInstance().getIsFrontCamera())
                     {
                         XmlElement frontnode = camera1node.findChild("front");
                         getMediaProfilesFromXmlNode(hashMap,frontnode);
@@ -531,16 +534,16 @@ public class XmlParserWriter
 
     /**
      * Read the tonemap profiles from toneMapProfiles.xml
-     * @param appSettingsManager
+     * @param
      * @return
      */
-    public HashMap<String,ToneMapProfile> getToneMapProfiles(AppSettingsManager appSettingsManager)
+    public HashMap<String,ToneMapProfile> getToneMapProfiles()
     {
         HashMap<String,ToneMapProfile>  hashMap = new HashMap<>();
         hashMap.put("off", null);
 
         try {
-            String xmlsource = getString(appSettingsManager.getResources().openRawResource(R.raw.tonemapprofiles));
+            String xmlsource = getString(AppSettingsManager.getInstance().getResources().openRawResource(R.raw.tonemapprofiles));
             XmlElement xmlElement = XmlElement.parse(xmlsource);
             getTonemapProfiles(hashMap, xmlElement);
         } catch (IOException e) {

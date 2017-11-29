@@ -59,7 +59,7 @@ import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.LocationHandler;
 import freed.utils.Log;
 import freed.utils.PermissionHandler;
@@ -278,10 +278,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void onResumeTasks() {
         Log.d(TAG, "onResumeTasks()");
         activityIsResumed = true;
-        if (getAppSettings() == null)
+        if (!AppSettingsManager.getInstance().isInit())
             return;
         if(getPermissionHandler().hasCameraAndSdPermission(null)) {
-            if ((!getAppSettings().areFeaturesDetected() || BuildConfig.VERSION_CODE != getAppSettings().getAppVersion()) && fd == null) {
+            if ((!AppSettingsManager.getInstance().areFeaturesDetected() || BuildConfig.VERSION_CODE != AppSettingsManager.getInstance().getAppVersion()) && fd == null) {
                 loadFeatureDetector();
             } else if (fd == null) {
                 loadcam();
@@ -311,9 +311,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     private void loadFeatureDetector() {
         Log.d(TAG, "Start FeatureDetector");
-        getAppSettings().RESET();
+        AppSettingsManager.getInstance().RESET();
         fd = new CameraFeatureDetectorFragment();
-        fd.setAppSettingsManagerAndListner(getAppSettings(), this);
+        fd.setFeatureDetectorDoneListner(this);
         replaceCameraFragment(fd, "FeatureDetector");
     }
 
@@ -330,13 +330,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     private void loadcam()
     {
-        if (getAppSettings() == null)
+        if (!AppSettingsManager.getInstance().isInit())
             return;
         if (uiViewPagerAdapter == null)
             initScreenSlide();
         loadCameraFragment();
 
-        if (getAppSettings().getApiString(AppSettingsManager.SETTING_LOCATION).equals(getAppSettings().getResString(R.string.on_)))
+        if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION).equals(AppSettingsManager.getInstance().getResString(R.string.on_)))
             getPermissionHandler().hasLocationPermission(
                     new PermissionHandler.PermissionCallback() {
                         @Override
@@ -371,14 +371,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
         if (cameraFragment == null) {
             //get new cameraFragment
-            if (getAppSettings().getCamApi().equals(AppSettingsManager.API_SONY))
+            if (AppSettingsManager.getInstance().getCamApi().equals(AppSettingsManager.API_SONY))
             {
                 cameraFragment = SonyCameraRemoteFragment.getInstance(mBackgroundThread,cameraLock);
                 cameraFragment.SetRenderScriptHandler(renderScriptHandler);
 
             }
             //create Camera2Fragment
-            else if (getAppSettings().getCamApi().equals(AppSettingsManager.API_2))
+            else if (AppSettingsManager.getInstance().getCamApi().equals(AppSettingsManager.API_2))
             {
                 cameraFragment = Camera2Fragment.getInstance(mBackgroundThread,cameraLock);
                 cameraFragment.SetRenderScriptHandler(renderScriptHandler);
@@ -388,7 +388,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 cameraFragment = Camera1Fragment.getInstance(mBackgroundThread,cameraLock);
                 cameraFragment.SetRenderScriptHandler(renderScriptHandler);
             }
-            cameraFragment.SetAppSettingsManager(getAppSettings());
 
             cameraFragment.setCameraStateChangedListner(this);
             //load the cameraFragment to ui
@@ -442,11 +441,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             Log.d(TAG, "KeyCode Pressed:" + keyCode);
             int appSettingsKeyShutter = 0;
 
-            if (getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
+            if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
-            else if (getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
+            else if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-            else if (getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || TextUtils.isEmpty(getAppSettings().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER)))
+            else if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook)
+                    || TextUtils.isEmpty(AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER)))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
 
             if (keyCode == KeyEvent.KEYCODE_3D_MODE
@@ -605,7 +605,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public void SetNightOverlay() {
-        if (getAppSettings().getBoolean(AppSettingsManager.SETTINGS_NIGHTOVERLAY, false))
+        if (AppSettingsManager.getInstance().getBoolean(AppSettingsManager.SETTINGS_NIGHTOVERLAY, false))
             nightoverlay.setVisibility(View.VISIBLE);
         else
             nightoverlay.setVisibility(View.GONE);

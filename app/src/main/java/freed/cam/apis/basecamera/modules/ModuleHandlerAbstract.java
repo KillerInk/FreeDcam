@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -79,17 +78,12 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
 
-
-
-    protected AppSettingsManager appSettingsManager;
-
     public ModuleHandlerAbstract(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();
         moduleChangedListner = new ArrayList<>();
         RecorderStateListners = new ArrayList<>();
-        this.appSettingsManager = cameraUiWrapper.getAppSettingsManager();
         onCaptureStateChangedListners = new ArrayList<>();
         mainHandler = new UiHandler(Looper.getMainLooper());
         startBackgroundThread();

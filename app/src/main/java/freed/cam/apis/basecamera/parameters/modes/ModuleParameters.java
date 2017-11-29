@@ -26,7 +26,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 04.01.2016.
@@ -34,10 +34,8 @@ import freed.utils.AppSettingsManager;
 public class ModuleParameters extends AbstractParameter {
 
     private final CameraWrapperInterface cameraUiWrapper;
-    private final AppSettingsManager appSettingsManager;
-    public ModuleParameters(CameraWrapperInterface cameraUiWrapper, AppSettingsManager appSettingsManager) {
+    public ModuleParameters(CameraWrapperInterface cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.appSettingsManager = appSettingsManager;
     }
 
     @Override
@@ -60,7 +58,7 @@ public class ModuleParameters extends AbstractParameter {
     public void SetValue(String valueToSet, boolean setToCamera) {
         for (HashMap.Entry<String, ModuleInterface> module : cameraUiWrapper.getModuleHandler().moduleList.entrySet()) {
             if (valueToSet.equals(module.getValue().LongName())) {
-                appSettingsManager.SetCurrentModule(module.getValue().ModuleName());
+                AppSettingsManager.getInstance().SetCurrentModule(module.getValue().ModuleName());
                 cameraUiWrapper.getModuleHandler().setModule(module.getValue().ModuleName());
                 break;
             }

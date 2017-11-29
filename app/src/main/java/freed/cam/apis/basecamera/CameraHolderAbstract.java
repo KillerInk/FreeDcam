@@ -24,8 +24,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.SurfaceHolder;
 
-import freed.utils.AppSettingsManager;
-
 /**
  * Created by troop on 12.12.2014.
  * holds the instance for the camera to work with
@@ -35,8 +33,6 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
     protected boolean isRdy;
     //handler wich runs in mainthread
     protected Handler UIHandler;
-    //holds the appsettings
-    protected AppSettingsManager appSettingsManager;
 
     protected CameraWrapperInterface cameraUiWrapper;
 
@@ -49,7 +45,6 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
     protected CameraHolderAbstract(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.appSettingsManager = cameraUiWrapper.getAppSettingsManager();
         //this.moduleHandler = cameraUiWrapper.getModuleHandler();
         UIHandler = new Handler(Looper.getMainLooper());
     }

@@ -25,6 +25,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 08.01.2016.
@@ -38,10 +39,10 @@ public class IntervalDurationParameter extends AbstractParameter
     public IntervalDurationParameter(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (TextUtils.isEmpty(cameraUiWrapper.getAppSettingsManager().intervalDuration.get()))
-            cameraUiWrapper.getAppSettingsManager().intervalDuration.set(current);
+        if (TextUtils.isEmpty(AppSettingsManager.getInstance().intervalDuration.get()))
+            AppSettingsManager.getInstance().intervalDuration.set(current);
         else
-            current = cameraUiWrapper.getAppSettingsManager().intervalDuration.get();
+            current = AppSettingsManager.getInstance().intervalDuration.get();
     }
 
     @Override

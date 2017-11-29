@@ -38,7 +38,7 @@ import java.util.Date;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -62,15 +62,13 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     protected String size;
 
     protected String storageSpace;
-    protected AppSettingsManager appSettingsManager;
     private DecimalFormat decimalFormat;
 
     private final String[] units = { "B", "KB", "MB", "GB", "TB" };
 
-    public AbstractInfoOverlayHandler(Context context, AppSettingsManager appSettingsManager)
+    public AbstractInfoOverlayHandler(Context context)
     {
         this.context = context;
-        this.appSettingsManager =appSettingsManager;
         handler = new Handler();
         batteryBroadCastListner = new BatteryBroadCastListner();
         decimalFormat = new DecimalFormat("#,##0.#");
@@ -205,9 +203,9 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     }
     private double Calc()
     {
-        String[] res = appSettingsManager.pictureSize.get().split("x");
+        String[] res = AppSettingsManager.getInstance().pictureSize.get().split("x");
 
-        if(appSettingsManager.pictureFormat.get().contains(appSettingsManager.getResString(R.string.bayer_)))
+        if(AppSettingsManager.getInstance().pictureFormat.get().contains(AppSettingsManager.getInstance().getResString(R.string.bayer_)))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;
@@ -221,7 +219,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     private long SDspace()
     {
         long bytesAvailable = 0;
-        if (!appSettingsManager.GetWriteExternal()) {
+        if (!AppSettingsManager.getInstance().GetWriteExternal()) {
             bytesAvailable = Environment.getExternalStorageDirectory().getUsableSpace();
         }
         else

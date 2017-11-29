@@ -9,7 +9,7 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by GeorgeKiarie on 5/11/2017.
@@ -39,11 +39,11 @@ public class MotoHDR extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam) {
 
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
-            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.scene_mode_hdr));
+            parameters.set(AppSettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.scene_mode_hdr));
         else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_)))
-            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.auto_));
+            parameters.set(AppSettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.auto_));
         else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.auto_)))
-            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.auto_hdr));
+            parameters.set(AppSettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.auto_hdr));
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         onStringValueChanged(valueToSet);
     }

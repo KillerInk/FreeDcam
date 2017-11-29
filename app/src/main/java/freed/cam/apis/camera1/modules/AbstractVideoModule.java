@@ -39,7 +39,7 @@ import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -103,7 +103,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     protected void startRecording()
     {
         if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(null)) {
-            if (cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+            if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
                 cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
             prepareRecorder();
         }
@@ -130,7 +130,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 }
             });
 
-            mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".mp4");
+            mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(AppSettingsManager.getInstance().GetWriteExternal(), ".mp4");
             File tosave = new File(mediaSavePath);
             if (!tosave.getParentFile().exists())
                 tosave.getParentFile().mkdirs();
@@ -138,7 +138,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             setRecorderOutPutFile(mediaSavePath);
             recorder.setOnInfoListener(this);
 
-            if (appSettingsManager.orientationhack.getBoolean())
+            if (AppSettingsManager.getInstance().orientationhack.getBoolean())
                 recorder.setOrientationHint(180);
             else
                 recorder.setOrientationHint(0);
@@ -231,7 +231,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     protected void setRecorderOutPutFile(String s)
     {
         if (VERSION.SDK_INT < VERSION_CODES.KITKAT
-                || !appSettingsManager.GetWriteExternal() && VERSION.SDK_INT >= VERSION_CODES.KITKAT)
+                || !AppSettingsManager.getInstance().GetWriteExternal() && VERSION.SDK_INT >= VERSION_CODES.KITKAT)
             recorder.setOutputFile(s);
         else
         {

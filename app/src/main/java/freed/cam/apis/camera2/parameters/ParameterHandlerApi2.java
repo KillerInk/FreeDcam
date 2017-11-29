@@ -50,6 +50,7 @@ import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -77,35 +78,35 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         {
             Log.d(TAG, keys.get(i).getName());
         }
-        Module = new ModuleParameters(cameraUiWrapper, appSettingsManager);
-        if (appSettingsManager.flashMode.isSupported())
-            FlashMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.flashMode,CaptureRequest.FLASH_MODE);
-        if (appSettingsManager.sceneMode.isSupported())
-            SceneMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.sceneMode,CaptureRequest.CONTROL_SCENE_MODE);
-        if (appSettingsManager.antiBandingMode.isSupported())
-            AntiBandingMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.antiBandingMode, CaptureRequest.CONTROL_AE_ANTIBANDING_MODE);
-        if (appSettingsManager.colorMode.isSupported())
-            ColorMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.colorMode,CaptureRequest.CONTROL_EFFECT_MODE);
-        if (appSettingsManager.controlMode.isSupported())
-            ControlMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.controlMode,CaptureRequest.CONTROL_MODE);
-        if (appSettingsManager.denoiseMode.isSupported())
-            Denoise = new BaseModeApi2(cameraUiWrapper,appSettingsManager.denoiseMode,CaptureRequest.NOISE_REDUCTION_MODE);
-        if (appSettingsManager.edgeMode.isSupported())
-            EdgeMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.edgeMode,CaptureRequest.EDGE_MODE);
-        if (appSettingsManager.opticalImageStabilisation.isSupported())
-            oismode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.opticalImageStabilisation,CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
-        if (appSettingsManager.focusMode.isSupported()) {
-            FocusMode = new BaseModeApi2(cameraUiWrapper, appSettingsManager.focusMode, CaptureRequest.CONTROL_AF_MODE);
+        Module = new ModuleParameters(cameraUiWrapper);
+        if (AppSettingsManager.getInstance().flashMode.isSupported())
+            FlashMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().flashMode,CaptureRequest.FLASH_MODE);
+        if (AppSettingsManager.getInstance().sceneMode.isSupported())
+            SceneMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().sceneMode,CaptureRequest.CONTROL_SCENE_MODE);
+        if (AppSettingsManager.getInstance().antiBandingMode.isSupported())
+            AntiBandingMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().antiBandingMode, CaptureRequest.CONTROL_AE_ANTIBANDING_MODE);
+        if (AppSettingsManager.getInstance().colorMode.isSupported())
+            ColorMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().colorMode,CaptureRequest.CONTROL_EFFECT_MODE);
+        if (AppSettingsManager.getInstance().controlMode.isSupported())
+            ControlMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().controlMode,CaptureRequest.CONTROL_MODE);
+        if (AppSettingsManager.getInstance().denoiseMode.isSupported())
+            Denoise = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().denoiseMode,CaptureRequest.NOISE_REDUCTION_MODE);
+        if (AppSettingsManager.getInstance().edgeMode.isSupported())
+            EdgeMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().edgeMode,CaptureRequest.EDGE_MODE);
+        if (AppSettingsManager.getInstance().opticalImageStabilisation.isSupported())
+            oismode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().opticalImageStabilisation,CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
+        if (AppSettingsManager.getInstance().focusMode.isSupported()) {
+            FocusMode = new BaseModeApi2(cameraUiWrapper, AppSettingsManager.getInstance().focusMode, CaptureRequest.CONTROL_AF_MODE);
             FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
         }
-        if (appSettingsManager.hotpixelMode.isSupported())
-            HotPixelMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.hotpixelMode,CaptureRequest.HOT_PIXEL_MODE);
-        if (appSettingsManager.ae_TagetFPS.isSupported())
-            ae_TargetFPS = new AeTargetRangeApi2(cameraUiWrapper,appSettingsManager.ae_TagetFPS,CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE);
+        if (AppSettingsManager.getInstance().hotpixelMode.isSupported())
+            HotPixelMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().hotpixelMode,CaptureRequest.HOT_PIXEL_MODE);
+        if (AppSettingsManager.getInstance().ae_TagetFPS.isSupported())
+            ae_TargetFPS = new AeTargetRangeApi2(cameraUiWrapper,AppSettingsManager.getInstance().ae_TagetFPS,CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE);
 
-        if (appSettingsManager.dualPrimaryCameraMode.isSupported() && !appSettingsManager.getIsFrontCamera())
+        if (AppSettingsManager.getInstance().dualPrimaryCameraMode.isSupported() && !AppSettingsManager.getInstance().getIsFrontCamera())
         {
-            dualPrimaryCameraMode = new DualCameraModeHuaweiApi2(cameraUiWrapper,appSettingsManager.dualPrimaryCameraMode, CaptureRequestEx.HUAWEI_DUAL_SENSOR_MODE);
+            dualPrimaryCameraMode = new DualCameraModeHuaweiApi2(cameraUiWrapper,AppSettingsManager.getInstance().dualPrimaryCameraMode, CaptureRequestEx.HUAWEI_DUAL_SENSOR_MODE);
         }
         JpegQuality = new JpegQualityModeApi2(cameraUiWrapper);
 
@@ -117,7 +118,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         //AE mode start
         AeHandler aeHandler;
-        if (appSettingsManager.useHuaweiCam2Extension.getBoolean())
+        if (AppSettingsManager.getInstance().useHuaweiCam2Extension.getBoolean())
             aeHandler = new HuaweiAeHandler(cameraUiWrapper);
         else {
             aeHandler = new AeHandler(cameraUiWrapper);
@@ -150,10 +151,10 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         white = manualToneMapCurveApi2.whitep;
         toneCurveParameter = manualToneMapCurveApi2.toneCurveParameter;
 
-        ToneMapMode = new BaseModeApi2(cameraUiWrapper,appSettingsManager.toneMapMode,CaptureRequest.TONEMAP_MODE);
+        ToneMapMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().toneMapMode,CaptureRequest.TONEMAP_MODE);
         ToneMapMode.addEventListner(manualToneMapCurveApi2);
 
-        PictureFormat = new PictureFormatParameterApi2(cameraUiWrapper, appSettingsManager.pictureFormat, null);
+        PictureFormat = new PictureFormatParameterApi2(cameraUiWrapper, AppSettingsManager.getInstance().pictureFormat, null);
 
         ExposureLock = new AeLockModeApi2(cameraUiWrapper);
 
@@ -163,8 +164,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         Burst = new BurstApi2(cameraUiWrapper);
         Focuspeak = new FocusPeakModeApi2(cameraUiWrapper);
         VideoProfiles = new VideoProfilesApi2(cameraUiWrapper);
-        matrixChooser = new MatrixChooserParameter(appSettingsManager.getMatrixesMap(),appSettingsManager);
-        tonemapChooser = new ToneMapChooser(appSettingsManager.getToneMapProfiles(), appSettingsManager);
+        matrixChooser = new MatrixChooserParameter(AppSettingsManager.getInstance().getMatrixesMap());
+        tonemapChooser = new ToneMapChooser(AppSettingsManager.getInstance().getToneMapProfiles());
         Zoom = new ZoomApi2(cameraUiWrapper);
         SetAppSettingsToParameters();
     }
@@ -179,7 +180,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-        if (appSettingsManager.orientationhack.getBoolean())
+        if (AppSettingsManager.getInstance().orientationhack.getBoolean())
         {
             int or = orientation +180;
             if (or >360)

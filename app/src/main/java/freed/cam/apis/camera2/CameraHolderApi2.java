@@ -56,6 +56,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 
@@ -374,7 +375,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         {
             if (result == null)
                 return;
-            if (appSettingsManager.useHuaweiCam2Extension.getBoolean())
+            if (AppSettingsManager.getInstance().useHuaweiCam2Extension.getBoolean())
             {
                 if (cameraUiWrapper.getParameterHandler().ManualShutter.GetValue() == 0) {
                     Long expoTime = result.get(CaptureResult.SENSOR_EXPOSURE_TIME);
@@ -538,9 +539,11 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     }
 
 
-    public Size getSizeForPreviewDependingOnImageSize(Size[] choices, int mImageWidth, int mImageHeight, Point displaysize)
+    public Size getSizeForPreviewDependingOnImageSize(int imageformat, int mImageWidth, int mImageHeight)
     {
         List<Size> sizes = new ArrayList<>();
+        Size[] choices = map.getOutputSizes(imageformat);
+        Point displaysize = captureSessionHandler.getDisplaySize();
         double ratio = (double)mImageWidth/mImageHeight;
         for (Size s : choices)
         {

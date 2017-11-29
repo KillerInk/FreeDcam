@@ -25,7 +25,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.PermissionHandler;
 
 /**
@@ -51,11 +51,11 @@ public class LocationParameter extends AbstractParameter
     @Override
     public String GetStringValue()
     {
-        if (cameraUiWrapper == null ||cameraUiWrapper.getAppSettingsManager() == null)
+        if (cameraUiWrapper == null)
             return cameraUiWrapper.getResString(R.string.off_);
-        if (TextUtils.isEmpty(cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION)))
-            cameraUiWrapper.getAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
-        return cameraUiWrapper.getAppSettingsManager().getApiString(AppSettingsManager.SETTING_LOCATION);
+        if (TextUtils.isEmpty(AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION)))
+            AppSettingsManager.getInstance().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
+        return AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class LocationParameter extends AbstractParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        cameraUiWrapper.getAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, valueToSet);
+        AppSettingsManager.getInstance().setApiString(AppSettingsManager.SETTING_LOCATION, valueToSet);
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_)))
             cameraUiWrapper.getActivityInterface().getLocationHandler().stopLocationListining();
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
@@ -84,7 +84,7 @@ public class LocationParameter extends AbstractParameter
                 }
             else
             {
-                cameraUiWrapper.getAppSettingsManager().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
+                AppSettingsManager.getInstance().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
                 fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
             }
         }

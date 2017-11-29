@@ -28,7 +28,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 18.08.2016.
@@ -79,8 +79,8 @@ public class AfBracketApi2 extends PictureModuleApi2
         super.onStartTakePicture();
         int max  = 0;
         try {
-            min = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AFBRACKETMIN));
-            max = Integer.parseInt(appSettingsManager.getApiString(AppSettingsManager.SETTING_AFBRACKETMAX));
+            min = Integer.parseInt(AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_AFBRACKETMIN));
+            max = Integer.parseInt(AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_AFBRACKETMAX));
         }
         catch (NumberFormatException ex)
         {

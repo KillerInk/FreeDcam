@@ -24,7 +24,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 12.12.2014.
@@ -41,7 +41,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
 
     @Override
     public boolean IsSupported() {
-        return cameraUiWrapper.getAppSettingsManager().pictureFormat.isSupported();
+        return AppSettingsManager.getInstance().pictureFormat.isSupported();
     }
 
     @Override

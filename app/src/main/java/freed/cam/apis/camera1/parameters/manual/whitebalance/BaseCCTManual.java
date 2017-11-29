@@ -32,6 +32,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -46,13 +47,13 @@ public class BaseCCTManual extends BaseManualParameter
 
     public BaseCCTManual(final Parameters parameters,final CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper, 0);
-        manual_WbMode = cameraUiWrapper.getAppSettingsManager().manualWhiteBalance.getMode();
-        stringvalues = cameraUiWrapper.getAppSettingsManager().manualWhiteBalance.getValues();
+        manual_WbMode = AppSettingsManager.getInstance().manualWhiteBalance.getMode();
+        stringvalues = AppSettingsManager.getInstance().manualWhiteBalance.getValues();
         isSupported = true;
         isVisible = false;
 
         //wait 800ms to give awb a chance to set the ct value to the parameters
-        if (TextUtils.isEmpty(cameraUiWrapper.getAppSettingsManager().manualWhiteBalance.getKEY()))
+        if (TextUtils.isEmpty(AppSettingsManager.getInstance().manualWhiteBalance.getKEY()))
             new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -82,7 +83,7 @@ public class BaseCCTManual extends BaseManualParameter
             }
         }, 800);
         else
-            key_value = cameraUiWrapper.getAppSettingsManager().manualWhiteBalance.getKEY();
+            key_value = AppSettingsManager.getInstance().manualWhiteBalance.getKEY();
     }
 
     /**

@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 17.08.2014.
@@ -34,10 +35,10 @@ public class FocusManualParameterHTC extends BaseManualParameter
 
     public FocusManualParameterHTC(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
-        isSupported = cameraUiWrapper.getAppSettingsManager().manualFocus.isSupported();
-        key_value = cameraUiWrapper.getAppSettingsManager().manualFocus.getKEY();
+        isSupported = AppSettingsManager.getInstance().manualFocus.isSupported();
+        key_value = AppSettingsManager.getInstance().manualFocus.getKEY();
         isVisible = isSupported;
-        stringvalues = cameraUiWrapper.getAppSettingsManager().manualFocus.getValues();
+        stringvalues = AppSettingsManager.getInstance().manualFocus.getValues();
     }
 
 

@@ -42,7 +42,7 @@ import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
-import freed.utils.AppSettingsManager;
+import freed.settings.AppSettingsManager;
 import freed.utils.CurveView;
 import freed.utils.CurveViewControl;
 import freed.utils.Log;
@@ -109,7 +109,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         if (cameraUiWrapper != null)
         {
             cameraUiWrapper.getModuleHandler().addListner(this);
-            AppSettingsManager aps = cameraUiWrapper.getAppSettingsManager();
+            AppSettingsManager aps = AppSettingsManager.getInstance();
             AbstractParameterHandler parms = cameraUiWrapper.getParameterHandler();
             if (parms.Zoom != null)
             {

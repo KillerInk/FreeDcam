@@ -28,6 +28,7 @@ import freed.cam.apis.basecamera.CameraHolderInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -46,7 +47,7 @@ public class ShutterManualG2pro extends BaseManualParameter
      */
     public ShutterManualG2pro(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
-        stringvalues = cameraUiWrapper.getAppSettingsManager().manualExposureTime.getValues();
+        stringvalues = AppSettingsManager.getInstance().manualExposureTime.getValues();
         isSupported = true;
     }
 

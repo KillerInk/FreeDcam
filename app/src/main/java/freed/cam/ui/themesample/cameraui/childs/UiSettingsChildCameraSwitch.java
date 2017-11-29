@@ -26,6 +26,7 @@ import android.view.View;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 13.06.2015.
@@ -58,7 +59,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue) {
         super.SetStuff(fragment_activityInterface, settingvalue);
 
-        currentCamera = fragment_activityInterface.getAppSettings().GetCurrentCamera();
+        currentCamera = AppSettingsManager.getInstance().GetCurrentCamera();
         valueText.setText(getCamera(currentCamera));
     }
 
@@ -80,7 +81,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         if (currentCamera++ >= maxcams - 1)
             currentCamera = 0;
 
-        fragment_activityInterface.getAppSettings().SetCurrentCamera(currentCamera);
+        AppSettingsManager.getInstance().SetCurrentCamera(currentCamera);
         sendLog("Stop Preview and Camera");
         cameraUiWrapper.restartCamera();
         valueText.setText(getCamera(currentCamera));

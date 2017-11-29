@@ -28,6 +28,7 @@ import com.troop.freedcam.R;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 import freed.utils.StringFloatArray;
 
@@ -43,10 +44,10 @@ public class ManualFocus extends AbstractParameter
     public ManualFocus(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
-        if (cameraUiWrapper.getAppSettingsManager().manualFocus.isSupported())
+        if (AppSettingsManager.getInstance().manualFocus.isSupported())
         {
             isSupported = true;
-            String[] arr = cameraUiWrapper.getAppSettingsManager().manualFocus.getValues();
+            String[] arr = AppSettingsManager.getInstance().manualFocus.getValues();
             if (arr == null || arr.length == 0) {
                 isSupported = false;
                 fireIsSupportedChanged(false);

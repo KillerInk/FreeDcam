@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.AppSettingsManager;
 
 /**
  * Created by troop on 21.02.2016.
@@ -39,7 +40,7 @@ public class ShutterManualSony extends AbstractManualShutter
     public ShutterManualSony(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         this.parameters = parameters;
-        stringvalues = cameraUiWrapper.getAppSettingsManager().manualExposureTime.getValues();
+        stringvalues = AppSettingsManager.getInstance().manualExposureTime.getValues();
         isSupported = true;
     }
 
@@ -69,7 +70,7 @@ public class ShutterManualSony extends AbstractManualShutter
                 parameters.set("sony-ae-mode", "shutter-prio");
             else if (cameraUiWrapper.getParameterHandler().ManualIso.GetValue() > 0 && !parameters.get("sony-ae-mode").equals("manual"))
                 parameters.set("sony-ae-mode", "manual");
-            parameters.set(cameraUiWrapper.getAppSettingsManager().manualExposureTime.getKEY(), currentInt-1);
+            parameters.set(AppSettingsManager.getInstance().manualExposureTime.getKEY(), currentInt-1);
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
