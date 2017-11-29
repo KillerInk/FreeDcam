@@ -42,7 +42,6 @@ import com.troop.freedcam.R.layout;
 
 import java.util.HashMap;
 
-import freed.SettingsApplication;
 import freed.settings.AppSettingsManager;
 import freed.utils.VideoMediaProfile;
 import freed.utils.VideoMediaProfile.VideoMode;
@@ -141,16 +140,16 @@ public class VideoProfileEditorFragment extends Fragment {
         button_delete.setOnClickListener(ondeleteButtonClick);
         videoMediaProfiles = new HashMap<>();
 
-        SettingsApplication settingsApplication = (SettingsApplication) getActivity().getApplication();
-        if (!settingsApplication.getAppSettingsManager() .isInit()){
+        if (!AppSettingsManager.getInstance().isInit()){
 
             AppSettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()), getResources());
-            settingsApplication.setAppSettingsManager(AppSettingsManager.getInstance());
         }
         AppSettingsManager.getInstance().getCamApi();
         videoMediaProfiles = AppSettingsManager.getInstance().getMediaProfiles();
-        if (videoMediaProfiles != null)
-            setMediaProfile(videoMediaProfiles.get(AppSettingsManager.getInstance().getApiString(AppSettingsManager.VIDEOPROFILE)));
+        if (videoMediaProfiles != null) {
+
+            setMediaProfile(videoMediaProfiles.get(AppSettingsManager.getInstance().videoProfile.get()));
+        }
     }
 
     private final OnClickListener profileClickListner = new OnClickListener() {
