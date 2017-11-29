@@ -107,7 +107,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         Log.d(TAG, "InitModule");
         changeCaptureState(CaptureStates.image_capture_stop);
         cameraUiWrapper.getParameterHandler().Burst.SetValue(0);
-        startPreview();
+        if (cameraHolder.captureSessionHandler.getSurfaceTexture() != null)
+            startPreview();
     }
 
     @Override

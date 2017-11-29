@@ -134,6 +134,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected void onDestroy() {
         ImageManager.cancelImageSaveTasks();
         ImageManager.cancelImageLoadTasks();
+        AppSettingsManager.getInstance().release();
         super.onDestroy();
         /*if (Log.isLogToFileEnable())
             Log.destroy();*/
@@ -144,6 +145,14 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus)
             HIDENAVBAR();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!AppSettingsManager.getInstance().isInit()) {
+            AppSettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
+        }
     }
 
     @Override
