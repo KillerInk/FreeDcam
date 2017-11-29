@@ -126,7 +126,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
     @Override
     protected void SetParameters() {
-        ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetCameraParameters(cameraParameters);
+        SetParametersToCamera(cameraParameters);
     }
 
     public void LoadParametersFromCamera()
@@ -261,7 +261,7 @@ public class ParametersHandler extends AbstractParameterHandler
             switch (appS.hdrMode.getType())
             {
                 case AppSettingsManager.HDR_MORPHO:
-                    HDRMode = new MorphoHdrModeParameters(cameraParameters,cameraUiWrapper,appS.hdrMode);
+                    //HDRMode = new MorphoHdrModeParameters(cameraParameters,cameraUiWrapper,appS.hdrMode);
                     break;
                 case AppSettingsManager.HDR_AUTO:
                     HDRMode = new AutoHdrMode(cameraParameters,cameraUiWrapper,appS.hdrMode);
