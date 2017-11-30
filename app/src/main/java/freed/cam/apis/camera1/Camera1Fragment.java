@@ -102,6 +102,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 && moduleHandler.getCurrentModule().ModuleName().equals(getResString(R.string.module_video))
                 && moduleHandler.getCurrentModule().IsWorking())
             moduleHandler.getCurrentModule().DoWork();
+        stopCamera();
     }
 
     @Override
