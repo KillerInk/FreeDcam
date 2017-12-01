@@ -185,6 +185,4 @@ public abstract class AE_Handler_Abstract
             }
         });
     }
-
-
 }

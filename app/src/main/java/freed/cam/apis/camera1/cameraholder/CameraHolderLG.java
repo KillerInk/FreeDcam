@@ -54,6 +54,8 @@ public class CameraHolderLG extends CameraHolder
         }
         catch (RuntimeException  | NoClassDefFoundError ex)
         {
+            if (mCamera != null)
+                mCamera.release();
             Log.WriteEx(ex);
             try {
                 super.OpenCamera(camera);
