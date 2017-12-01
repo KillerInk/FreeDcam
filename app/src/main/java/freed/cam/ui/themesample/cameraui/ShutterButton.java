@@ -55,33 +55,6 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
 
     private final String TAG = ShutterButton.class.getSimpleName();
     private CaptureStates currentShow = CaptureStates.image_capture_stop;
-    private Paint transparent;
-    private Paint red;
-    private boolean shutteractive = false;
-    private boolean drawTimer = false;
-    private boolean stopTimer = false;
-    private String shutteropentime = "";
-    private Paint shutteropentimePaint;
-    private int MAX_SHUTTER_OPEN;
-    private int MAX_RECORDING_OPEN;
-    private int RECORDING_OPEN_STEP;
-
-    //shutter_open_radius for the Transparent Radius to draw to simulate shutter open
-    private float shutter_open_radius = 0.0f;
-
-    //the step wich the shutter_open_radius gets increased/decrased
-    private int SHUTTER_OPEN_STEP;
-
-    //true when the red recording button should get shown, used for continouse capture and video
-    private boolean drawRecordingImage = false;
-    //current size of the red circle to draw
-    private int recordingRadiusCircle;
-    //current size of the red rectangle to draw
-    private int recordingRadiusRectangle;
-
-    //holds the time from a capture start
-    private long startime;
-
     protected HandlerThread mBackgroundThread;
     protected AnimationHandler animationHandler;
     private UIHandler uiHandler;
@@ -89,6 +62,8 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
     public final int MSG_START_ANIMATION = 0;
     public final int MSG_PUBLISHPROGRESS = 1;
     public final int MSG_INVALIDATE = 2;
+
+    private String shutteropentime = "";
 
 
     /**
@@ -156,13 +131,42 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
     private class AnimationHandler extends Handler
     {
 
-
+        //holds the time from a capture start
+        private long startime;
         //frames to draw
         private final int MAXFRAMES = 5;
         //holds the currentframe number
         private int currentframe = 0;
 
         private boolean running = false;
+
+        private boolean stopTimer = false;
+        private int MAX_SHUTTER_OPEN;
+        private int MAX_RECORDING_OPEN;
+        private int RECORDING_OPEN_STEP;
+
+        //the step wich the shutter_open_radius gets increased/decrased
+        private int SHUTTER_OPEN_STEP;
+        private boolean shutteractive = false;
+
+        private boolean drawTimer = false;
+        private Paint shutteropentimePaint;
+
+
+        //shutter_open_radius for the Transparent Radius to draw to simulate shutter open
+        private float shutter_open_radius = 0.0f;
+
+
+
+        //true when the red recording button should get shown, used for continouse capture and video
+        private boolean drawRecordingImage = false;
+        //current size of the red circle to draw
+        private int recordingRadiusCircle;
+        //current size of the red rectangle to draw
+        private int recordingRadiusRectangle;
+
+        private Paint transparent;
+        private Paint red;
 
         public boolean isRunning()
         {
@@ -178,11 +182,51 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         public AnimationHandler(Looper looper)
         {
             super(looper);
+            //used to draw green timer inside the shutter button
+            shutteropentimePaint = new Paint();
+            shutteropentimePaint.setColor(Color.GREEN);
+            shutteropentimePaint.setTextSize(getResources().getDimension(R.dimen.cameraui_infooverlay_textsize));
+            shutteropentimePaint.setStyle(Paint.Style.FILL);
+            shutteropentimePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+            shutteropentimePaint.setAntiAlias(true);
+
+            //used to open the shutter
+            transparent = new Paint();
+            transparent.setColor(Color.TRANSPARENT);
+            transparent.setStyle(Paint.Style.FILL);
+            transparent.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            transparent.setAntiAlias(true);
+
+            //used to for the recording button
+            red = new Paint();
+            red.setColor(Color.RED);
+            red.setStyle(Paint.Style.FILL);
+            red.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+            red.setAntiAlias(true);
         }
 
-        public void startAnimation()
+        private void startAnimation()
         {
-            this.sendMessage(this.obtainMessage(MSG_START_ANIMATION));
+            this.obtainMessage(MSG_START_ANIMATION).sendToTarget();
+        }
+
+        public void startDrawing() {
+            shutteractive = true;
+            stopTimer = false;
+            if (isRunning()) {
+                setStartTime(System.currentTimeMillis());
+            }
+            else {
+                setStartTime(System.currentTimeMillis());
+                startAnimation();
+            }
+        }
+
+        public void drawTimer(boolean drawTimer)
+        {
+            synchronized (lock) {
+                this.drawTimer = drawTimer;
+            }
         }
 
         @Override
@@ -203,7 +247,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         {
             synchronized (lock)
             {
-                ShutterButton.this.startime = startTime;
+                this.startime = startTime;
             }
         }
 
@@ -226,7 +270,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             running = true;
             while (shutteractive)
             {
-                synchronized (lock) {
+                //synchronized (lock) {
 
                     if (currentframe < MAXFRAMES)
                         draw();
@@ -234,16 +278,16 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
                         draw();
                         currentframe = 0;
                         if (stopTimer) {
-                            uiHandler.sendMessage(uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,""));
+                            uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,"").sendToTarget();
                             shutteractive = false;
                         }
                     }
                     if (drawTimer)
-                        uiHandler.sendMessage(uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,getTimeGoneString(startime)));
+                        uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,getTimeGoneString(startime)).sendToTarget();
                     else
-                        uiHandler.sendMessage(uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,""));
+                        uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,"").sendToTarget();
                     currentframe++;
-                }
+                //}
                 try {
                     Thread.sleep(2);
                 } catch (InterruptedException e) {
@@ -253,7 +297,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             running = false;
 
             shutteropentime = "";
-            uiHandler.sendMessage(obtainMessage(MSG_INVALIDATE));
+            uiHandler.obtainMessage(MSG_INVALIDATE).sendToTarget();
         }
 
 
@@ -361,6 +405,24 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             }
             //Log.d(TAG,"shutter_open:" + shutter_open_radius + " recCircle:" + recordingRadiusCircle + " recRect:" + recordingRadiusRectangle +  " captureState:" + currentShow);
         }
+
+        public void onDraw(Canvas canvas)
+        {
+            int halfSize = canvas.getWidth()/2;
+            canvas.drawCircle(halfSize,halfSize, shutter_open_radius, transparent);
+            if (drawRecordingImage)
+            {
+                canvas.drawCircle(halfSize,halfSize,recordingRadiusCircle/2, red);
+                int top = halfSize - recordingRadiusRectangle/2;
+                int bottom = halfSize + recordingRadiusRectangle/2;
+                int left = halfSize - recordingRadiusRectangle/2;
+                int right = halfSize + recordingRadiusRectangle/2;
+                canvas.drawRect(left,top,right,bottom,red);
+
+            }
+            if (drawTimer && !TextUtils.isEmpty(shutteropentime))
+                canvas.drawText(shutteropentime,halfSize - shutteropentimePaint.measureText(shutteropentime)/2,halfSize,shutteropentimePaint);
+        }
     }
 
     public ShutterButton(Context context, AttributeSet attrs) {
@@ -387,30 +449,11 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
 
     private void init(Context context) {
         uiHandler = new UIHandler(Looper.getMainLooper());
-        //used to draw green timer inside the shutter button
-        shutteropentimePaint = new Paint();
-        shutteropentimePaint.setColor(Color.GREEN);
-        shutteropentimePaint.setTextSize(getResources().getDimension(R.dimen.cameraui_infooverlay_textsize));
-        shutteropentimePaint.setStyle(Paint.Style.FILL);
-        shutteropentimePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
-        shutteropentimePaint.setAntiAlias(true);
+
 
         //set background img that get then overdrawn
         setBackgroundResource(R.drawable.shutter5);
 
-        //used to open the shutter
-        transparent = new Paint();
-        transparent.setColor(Color.TRANSPARENT);
-        transparent.setStyle(Paint.Style.FILL);
-        transparent.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        transparent.setAntiAlias(true);
-
-        //used to for the recording button
-        red = new Paint();
-        red.setColor(Color.RED);
-        red.setStyle(Paint.Style.FILL);
-        red.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
-        red.setAntiAlias(true);
         this.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -450,21 +493,18 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         Log.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
     }
 
-    private void switchBackground(final CaptureStates showstate, final boolean animate) {
-        if (currentShow != showstate) {
-            currentShow = showstate;
-            Log.d(TAG, "switchBackground:" + currentShow);
-            startShutterTimer();
-        }
-    }
-
     @Override
     public void onCaptureStateChanged(CaptureStates mode) {
-        if(mode == null)
+        if(mode == null) {
+            Log.d(TAG, "onCaptureStateChanged: Capture State is null");
             return;
+        }
         Log.d(this.TAG, "onCaptureStateChanged CurrentShow:" + this.currentShow + " Capturestate: " + mode.name());
         //first start shutter animation
-        this.switchBackground(mode, true);
+        currentShow = mode;
+        Log.d(TAG, "switchBackground:" + currentShow);
+        if (!animationHandler.isRunning())
+            animationHandler.startDrawing();
 
         //set specfic mode overides like drawtimer,
         //setting it that way shutter is already abit opend till the green timer gets visible
@@ -474,71 +514,43 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             case video_recording_start:
                 break;
             case image_capture_stop:
-                drawTimer = false;
+                animationHandler.drawTimer = false;
                 animationHandler.stopShutterTimer();
                 break;
             case image_capture_start:
-                drawTimer = true;
+                animationHandler.drawTimer(true);
                 break;
             case continouse_capture_start:
                 break;
             case continouse_capture_stop:
                 break;
             case continouse_capture_work_start:
-                drawTimer = true;
+                animationHandler.drawTimer(true);
                 break;
             case continouse_capture_work_stop:
-                drawTimer = false;
+                animationHandler.drawTimer(false);
                 break;
             case cont_capture_stop_while_working:
                 break;
             case cont_capture_stop_while_notworking:
-                drawTimer = false;
+                animationHandler.drawTimer(false);
                 animationHandler.stopShutterTimer();
                 break;
             case selftimerstart:
-                drawTimer = true;
+                animationHandler.drawTimer(true);
                 break;
             case selftimerstop:
-                drawTimer = false;
+                animationHandler.drawTimer(false);
                 animationHandler.stopShutterTimer();
         }
 
     }
-
-    private void startShutterTimer() {
-        shutteractive = true;
-        stopTimer = false;
-        if (animationHandler != null && animationHandler.isRunning()) {
-            animationHandler.setStartTime(System.currentTimeMillis());
-        }
-        else if (animationHandler != null){
-            animationHandler.setStartTime(System.currentTimeMillis());
-            animationHandler.startAnimation();
-        }
-    }
-
-
-
 
     @Override
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        int halfSize = canvas.getWidth()/2;
-        canvas.drawCircle(halfSize,halfSize, shutter_open_radius, transparent);
-        if (drawRecordingImage)
-        {
-            canvas.drawCircle(halfSize,halfSize,recordingRadiusCircle/2, red);
-            int top = halfSize - recordingRadiusRectangle/2;
-            int bottom = halfSize + recordingRadiusRectangle/2;
-            int left = halfSize - recordingRadiusRectangle/2;
-            int right = halfSize + recordingRadiusRectangle/2;
-            canvas.drawRect(left,top,right,bottom,red);
-
-        }
-        if (drawTimer && !TextUtils.isEmpty(shutteropentime))
-            canvas.drawText(shutteropentime,halfSize - shutteropentimePaint.measureText(shutteropentime)/2,halfSize,shutteropentimePaint);
+        animationHandler.onDraw(canvas);
     }
 
 }
