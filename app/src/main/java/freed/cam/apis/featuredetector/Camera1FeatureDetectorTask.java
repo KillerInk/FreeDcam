@@ -1,4 +1,4 @@
-package freed.cam.featuredetector;
+package freed.cam.apis.featuredetector;
 
 import android.hardware.Camera;
 import android.text.TextUtils;

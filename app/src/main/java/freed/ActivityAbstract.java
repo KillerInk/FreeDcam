@@ -95,10 +95,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         setContentToView();
         permissionHandler =new PermissionHandler(this);
 
-        if(getPermissionHandler().hasCameraAndSdPermission(logSDPermission))
-        {
-            initOnCreate();
-        }
+        getPermissionHandler().hasCameraAndSdPermission(logSDPermission);
     }
 
     protected void initOnCreate()

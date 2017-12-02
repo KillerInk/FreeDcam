@@ -103,9 +103,9 @@ public class PermissionHandler
     }
 
 
-    public boolean hasCameraAndSdPermission(PermissionCallback callbackToReturn)
+    public void hasCameraAndSdPermission(PermissionCallback callbackToReturn)
     {
-        return hasPermission(callbackToReturn, new String[]{
+        hasPermission(callbackToReturn, new String[]{
                 Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE
         });
     }

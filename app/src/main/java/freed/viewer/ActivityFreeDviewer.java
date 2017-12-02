@@ -91,7 +91,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     {
 
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
-        storageHandler = new StorageFileHandler(this);
+        storageHandler = new StorageFileHandler();
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {

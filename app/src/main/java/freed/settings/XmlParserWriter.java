@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import freed.cam.apis.featuredetector.Camera1FeatureDetectorTask;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
-import freed.cam.featuredetector.Camera1FeatureDetectorTask;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;

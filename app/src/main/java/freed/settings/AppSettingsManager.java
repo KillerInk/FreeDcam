@@ -401,8 +401,10 @@ public class AppSettingsManager {
         return appSettingsManager;
     }
 
-    public void init(SharedPreferences sharedPreferences, Resources resources)
+    public synchronized void init(SharedPreferences sharedPreferences, Resources resources)
     {
+        if (isInit)
+            return;
         settings = sharedPreferences;
         this.resources = resources;
         Log.d(TAG, "Version/Build:" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE + " Last Version: " + getAppVersion());
@@ -574,6 +576,11 @@ public class AppSettingsManager {
     {
         settings.edit().clear().commit();
         parseXml(settings, resources);
+    }
+
+    public boolean appVersionHasChanged()
+    {
+        return BuildConfig.VERSION_CODE != getAppVersion();
     }
 
     public String getResString(int id)

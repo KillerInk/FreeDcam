@@ -44,9 +44,8 @@ public class StorageFileHandler
     private File internalSD;
     private File externalSD;
 
-    public StorageFileHandler(ActivityAbstract activityAbstract)
+    public StorageFileHandler()
     {
-        ActivityAbstract activityAbstract1 = activityAbstract;
         findSdCards();
     }
 

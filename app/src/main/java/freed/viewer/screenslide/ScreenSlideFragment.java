@@ -71,7 +71,6 @@ import freed.viewer.screenslide.ImageFragment.I_WaitForWorkFinish;
  */
 public class ScreenSlideFragment extends Fragment implements OnPageChangeListener, I_OnActivityResultCallback, I_WaitForWorkFinish
 {
-
     public final String TAG = ScreenSlideFragment.class.getSimpleName();
     public interface I_ThumbClick
     {

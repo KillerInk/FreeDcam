@@ -67,7 +67,6 @@ import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.ExposureLockParameter;
 import freed.cam.apis.camera1.parameters.modes.FocusPeakModeParameter;
 import freed.cam.apis.camera1.parameters.modes.LgHdrMode;
-import freed.cam.apis.camera1.parameters.modes.MorphoHdrModeParameters;
 import freed.cam.apis.camera1.parameters.modes.MotoHDR;
 import freed.cam.apis.camera1.parameters.modes.NightModeXiaomi;
 import freed.cam.apis.camera1.parameters.modes.NightModeZTE;

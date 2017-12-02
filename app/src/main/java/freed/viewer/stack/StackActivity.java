@@ -91,7 +91,7 @@ public class StackActivity extends ActivityAbstract
         stackvaluesButton.setAdapter(stackadapter);
         filesToStack = getIntent().getStringArrayExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT);
         renderScriptHandler = new RenderScriptHandler(getContext());
-        storageHandler = new StorageFileHandler(this);
+        storageHandler = new StorageFileHandler();
 
         stackvaluesButton.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
