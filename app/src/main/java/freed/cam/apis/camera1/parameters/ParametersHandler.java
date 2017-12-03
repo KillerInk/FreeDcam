@@ -248,7 +248,7 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appS.nightMode.isSupported()) {
             switch (AppSettingsManager.getInstance().nightMode.getType()) {
                 case AppSettingsManager.NIGHTMODE_XIAOMI:
-                    NightMode = new NightModeXiaomi(cameraParameters, cameraUiWrapper);
+                    //NightMode = new NightModeXiaomi(cameraParameters, cameraUiWrapper);
                     break;
                 case AppSettingsManager.NIGHTMODE_ZTE:
                     NightMode = new NightModeZTE(cameraParameters, cameraUiWrapper);
