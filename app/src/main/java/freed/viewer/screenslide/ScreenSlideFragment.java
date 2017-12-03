@@ -44,6 +44,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -99,9 +100,10 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     private TextView focal;
     private TextView fnumber;
     private TextView filename;
-    private LinearLayout exifinfo;
+    private LinearLayout exifinfo_holder;
     private Button deleteButton;
     private Button play;
+    private Button infoButton;
     private LinearLayout bottombar;
     private MyHistogram histogram;
 
@@ -116,6 +118,8 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
     private ActivityInterface activityInterface;
     View view;
+
+    private boolean showExifInfo = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -147,8 +151,6 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
         bottombar =(LinearLayout)view.findViewById(id.bottom_bar);
 
-        exifinfo = (LinearLayout)view.findViewById(id.exif_info);
-        exifinfo.setVisibility(View.GONE);
         iso = (TextView)view.findViewById(id.textView_iso);
         iso.setText("");
         shutter = (TextView)view.findViewById(id.textView_shutter);
@@ -212,6 +214,29 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
             }
         });
+
+        infoButton = (Button)view.findViewById(id.button_info);
+        infoButton.setVisibility(View.GONE);
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (showExifInfo)
+                {
+                    showExifInfo = false;
+                    exifinfo_holder.setVisibility(View.GONE);
+                }
+                else
+                {
+                    showExifInfo = true;
+                    exifinfo_holder.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        exifinfo_holder = (LinearLayout)view.findViewById(id.screenslide_exif_holder);
+        exifinfo_holder.setVisibility(View.GONE);
+
+
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(2);
@@ -313,11 +338,14 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                 topbar.setVisibility(View.VISIBLE);
                 bottombar.setVisibility(View.VISIBLE);
                 histogram.setVisibility(View.VISIBLE);
+                if (showExifInfo)
+                    exifinfo_holder.setVisibility(View.VISIBLE);
             }
             else {
                 topbar.setVisibility(View.GONE);
                 bottombar.setVisibility(View.GONE);
                 histogram.setVisibility(View.GONE);
+                exifinfo_holder.setVisibility(View.GONE);
             }
         }
     };
@@ -352,22 +380,26 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         {
             filename.setText(file.getFile().getName());
             deleteButton.setVisibility(View.VISIBLE);
+            infoButton.setVisibility(View.VISIBLE);
             if (file.getFile().getName().toLowerCase().endsWith(FileEnding.JPG) || file.getFile().getName().toLowerCase().endsWith(FileEnding.JPS)) {
                 processExif(file.getFile());
-                exifinfo.setVisibility(View.VISIBLE);
+                if (showExifInfo)
+                    exifinfo_holder.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getFile().getName().toLowerCase().endsWith(FileEnding.MP4)) {
-                exifinfo.setVisibility(View.GONE);
+                exifinfo_holder.setVisibility(View.GONE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getFile().getName().toLowerCase().endsWith(FileEnding.DNG)) {
                 processExif(file.getFile());
-                exifinfo.setVisibility(View.VISIBLE);
+                if (showExifInfo)
+                    exifinfo_holder.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getFile().getName().toLowerCase().endsWith(FileEnding.RAW) || file.getFile().getName().toLowerCase().endsWith(FileEnding.BAYER)) {
-                exifinfo.setVisibility(View.GONE);
+                if (showExifInfo)
+                    exifinfo_holder.setVisibility(View.VISIBLE);
                 play.setVisibility(View.GONE);
             }
 
@@ -375,9 +407,10 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         else
         {
             filename.setText("No Files");
+            infoButton.setVisibility(View.GONE);
+            exifinfo_holder.setVisibility(View.GONE);
             histogram.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
-            exifinfo.setVisibility(View.GONE);
             play.setVisibility(View.GONE);
         }
     }

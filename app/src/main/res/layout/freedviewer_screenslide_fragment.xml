@@ -23,9 +23,12 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/screenslide_exif_holder"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#71000001">
+        android:layout_centerHorizontal="true"
+        android:background="#71000001"
+        android:orientation="vertical">
 
         <freed.viewer.screenslide.MyHistogram
             android:id="@+id/screenslide_histogram"
@@ -39,11 +42,10 @@
         <LinearLayout
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="5dp"
             android:layout_toEndOf="@+id/screenslide_histogram"
             android:layout_toRightOf="@+id/screenslide_histogram"
             android:background="#71000001"
@@ -133,6 +135,14 @@
         android:gravity="center_vertical"
         android:baselineAligned="false"
         android:layout_alignParentRight="true">
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="@dimen/freedviewer_topbar_height"
+            android:id="@+id/button_info"
+            android:textSize="10dp"
+            android:background="@drawable/info"
+            android:layout_marginBottom="@dimen/app_icon_size" />
 
         <Button
             android:layout_width="40dp"

@@ -31,8 +31,8 @@
     <dimen name="freedviewer_screenslide_exifInfoItemMargine">4dp</dimen>
     <dimen name="freedviewer_screenslide_bottomBarHeight">40dp</dimen>
     <dimen name="freedviewer_topbar_height">40dp</dimen>
-    <dimen name="freedviewer_screenslide_histogram_width">190dp</dimen>
-    <dimen name="freedviewer_screenslide_histogram_height">66dp</dimen>
+    <dimen name="freedviewer_screenslide_histogram_width">260dp</dimen>
+    <dimen name="freedviewer_screenslide_histogram_height">100dp</dimen>
     <dimen name="app_icon_size">30dp</dimen>
 
 
