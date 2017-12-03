@@ -76,17 +76,6 @@ public class ActivityFreeDviewer extends ActivityAbstract
         setContentView(R.layout.freedviewer_activity);
     }
 
-    private PermissionHandler.PermissionCallback onExtSdCallback = new PermissionHandler.PermissionCallback() {
-        @Override
-        public void permissionGranted(boolean granted) {
-            if (granted)
-                init();
-            else
-                finish();
-        }
-    };
-
-
     private void init()
     {
 
@@ -166,7 +155,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
             @Override
             public void run() {
                 gridViewFragment.NotifyDataSetChanged();
-                screenSlideFragment.NotifyDATAhasChanged(files);
+                screenSlideFragment.NotifyDATAhasChanged(getFiles());
             }
         });
     }
