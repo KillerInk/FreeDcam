@@ -97,7 +97,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     public abstract String CameraApiName();
 
     protected Object cameraLock;
-    protected Handler mBackgroundHandler;
+    protected BackgroundHandler mBackgroundHandler;
     protected HandlerThread handlerThread;
 
     public static CameraFragmentAbstract getInstance(HandlerThread handlerThread, Object cameraLock)
@@ -163,27 +163,27 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     public void startCamera() {
        /* if (cameraHolder != null)
             cameraHolder.OpenCamera(getAppSettingsManager().GetCurrentCamera());*/
-        mBackgroundHandler.obtainMessage(MSG_START_CAMERA).sendToTarget();
+        mBackgroundHandler.startCamera();
     }
 
     @Override
     public void stopCamera() {
-        mBackgroundHandler.obtainMessage(MSG_STOP_CAMERA).sendToTarget();
+        mBackgroundHandler.stopCamera();
     }
 
     @Override
     public void restartCamera() {
-        mBackgroundHandler.obtainMessage(MSG_RESTART_CAMERA).sendToTarget();
+        mBackgroundHandler.restartCamera();
     }
 
     @Override
     public void startPreview() {
-        mBackgroundHandler.obtainMessage(MSG_START_PREVIEW).sendToTarget();
+        mBackgroundHandler.startPreview();
     }
 
     @Override
     public void stopPreview() {
-        mBackgroundHandler.obtainMessage(MSG_STOP_PREVIEW).sendToTarget();
+        mBackgroundHandler.stopPreview();
     }
 
     /**
@@ -346,8 +346,44 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
         }
     }
 
-    private class BackgroundHandler extends Handler
+    public class BackgroundHandler extends Handler
     {
+        public void createCamera()
+        {
+            this.obtainMessage(MSG_CREATE_CAMERA).sendToTarget();
+        }
+
+        public void initCamera()
+        {
+            this.obtainMessage(MSG_INIT_CAMERA).sendToTarget();
+        }
+
+        public void startCamera()
+        {
+            this.obtainMessage(MSG_START_CAMERA).sendToTarget();
+        }
+
+        public void stopCamera()
+        {
+            this.obtainMessage(MSG_STOP_CAMERA).sendToTarget();
+        }
+
+        public void restartCamera()
+        {
+            this.obtainMessage(MSG_RESTART_CAMERA).sendToTarget();
+        }
+
+        public void startPreview()
+        {
+            this.obtainMessage(MSG_START_PREVIEW).sendToTarget();
+        }
+
+        public void stopPreview()
+        {
+            this.obtainMessage(MSG_STOP_PREVIEW).sendToTarget();
+        }
+
+
         public BackgroundHandler(Looper looper)
         {
             super(looper);

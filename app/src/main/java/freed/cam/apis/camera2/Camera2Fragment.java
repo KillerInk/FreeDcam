@@ -81,7 +81,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         this.textureView.setSurfaceTextureListener(this);
         this.histogram = (MyHistogram)view.findViewById(id.hisotview);
 
-        mBackgroundHandler.obtainMessage(MSG_CREATE_CAMERA).sendToTarget();
+        mBackgroundHandler.createCamera();
 
         Log.d(TAG, "Constructor done");
         return view;
@@ -90,14 +90,13 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void onResume() {
         super.onResume();
-        if (textureView.isAttachedToWindow())
+        if (textureView.isAttachedToWindow() && PreviewSurfaceRdy)
             startCamera();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        PreviewSurfaceRdy = false;
         stopPreview();
         stopCamera();
     }
@@ -105,7 +104,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void onCameraOpen(final String message)
     {
-        mBackgroundHandler.sendMessage(mBackgroundHandler.obtainMessage(MSG_INIT_CAMERA));
+        mBackgroundHandler.initCamera();
     }
 
     @Override
@@ -145,6 +144,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
     {
         Log.d(TAG, "Surface destroyed");
+        PreviewSurfaceRdy = false;
         return false;
     }
 
