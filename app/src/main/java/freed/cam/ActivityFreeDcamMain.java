@@ -366,9 +366,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     }
 
     //get called when the back button from screenslidefragment gets clicked
-    private final ScreenSlideFragment.I_ThumbClick onThumbBackClick = new ScreenSlideFragment.I_ThumbClick() {
+    private final ScreenSlideFragment.ButtonClick onThumbBackClick = new ScreenSlideFragment.ButtonClick() {
         @Override
-        public void onThumbClick(int position,View view)
+        public void onButtonClick(int position, View view)
         {
             //show cameraui
             if (uiViewPager != null)

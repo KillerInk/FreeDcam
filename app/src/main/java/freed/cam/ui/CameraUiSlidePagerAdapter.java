@@ -19,9 +19,9 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
     private CameraUiFragment cameraUiFragment = new CameraUiFragment();
 
     private CameraFragmentAbstract cameraFragment;
-    ScreenSlideFragment.I_ThumbClick click;
+    ScreenSlideFragment.ButtonClick click;
 
-    public CameraUiSlidePagerAdapter(FragmentManager fm, ScreenSlideFragment.I_ThumbClick click) {
+    public CameraUiSlidePagerAdapter(FragmentManager fm, ScreenSlideFragment.ButtonClick click) {
         super(fm);
         this.click = click;
     }
@@ -49,7 +49,7 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
         else if (position == 2) {
             if (screenSlideFragment != null) {
 
-                screenSlideFragment.SetOnThumbClick(click);
+                screenSlideFragment.setOnBackClickListner(click);
             }
             return screenSlideFragment;
         }

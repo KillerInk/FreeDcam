@@ -52,7 +52,7 @@ public class ImageFragment extends Fragment
 
     public interface I_WaitForWorkFinish
     {
-        void HistograRdyToSet(int[] histodata, int position);
+        void onHistogramData(int[] histodata, int position);
     }
 
     public int getPosition;
@@ -142,7 +142,7 @@ public class ImageFragment extends Fragment
         public void onClick(View v)
         {
             if (onClickListener != null)
-                onClickListener.onClick(ImageFragment.this);
+                onClickListener.onFragmentClick(ImageFragment.this);
         }
     };
 
@@ -167,7 +167,7 @@ public class ImageFragment extends Fragment
             final Bitmap response = ((ActivityInterface)getActivity()).getBitmapHelper().getBitmap(file,false);
             createHistogramm(response);
             if (waitForWorkFinish != null && position >-1)
-                waitForWorkFinish.HistograRdyToSet(histogramData, position);
+                waitForWorkFinish.onHistogramData(histogramData, position);
             waitForWorkFinish = null;
             Log.d(TAG, "ImageLoaderTask: LoadImage Done:" + file.getFile().getName());
             if (imageviewRef != null && response != null) {

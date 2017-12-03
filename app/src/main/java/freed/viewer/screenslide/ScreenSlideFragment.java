@@ -29,6 +29,9 @@ import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -44,7 +47,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -59,8 +61,9 @@ import freed.ActivityAbstract.FormatTypes;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.cam.ui.handler.MediaScannerManager;
+import freed.image.ImageManager;
+import freed.image.ImageTask;
 import freed.settings.AppSettingsManager;
-import freed.utils.FreeDPool;
 import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.holder.FileHolder;
@@ -73,14 +76,14 @@ import freed.viewer.screenslide.ImageFragment.I_WaitForWorkFinish;
 public class ScreenSlideFragment extends Fragment implements OnPageChangeListener, I_OnActivityResultCallback, I_WaitForWorkFinish
 {
     public final String TAG = ScreenSlideFragment.class.getSimpleName();
-    public interface I_ThumbClick
+    public interface ButtonClick
     {
-        void onThumbClick(int position,View view);
+        void onButtonClick(int position, View view);
     }
 
     public interface FragmentClickClistner
     {
-        void onClick(Fragment fragment);
+        void onFragmentClick(Fragment fragment);
     }
 
     /**
@@ -109,10 +112,11 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
     public int defitem = -1;
     public FormatTypes filestoshow = ActivityAbstract.FormatTypes.all;
-    private I_ThumbClick thumbclick;
+    private ButtonClick backClickListner;
     private LinearLayout topbar;
     //hold the showed folder_to_show
     private FileHolder folder_to_show;
+    private ExifHandler exifHandler;
 
     protected List<FileHolder> files =  new ArrayList<>();
 
@@ -129,6 +133,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
         int mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
         activityInterface = (ActivityInterface) getActivity();
+        exifHandler =new ExifHandler(Looper.getMainLooper());
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) view.findViewById(id.pager);
@@ -140,8 +145,8 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         {
             @Override
             public void onClick(View v) {
-                if (thumbclick != null) {
-                    thumbclick.onThumbClick(mPager.getCurrentItem(), view);
+                if (backClickListner != null) {
+                    backClickListner.onButtonClick(mPager.getCurrentItem(), view);
                     mPager.setCurrentItem(0);
                 } else
                     getActivity().finish();
@@ -266,9 +271,9 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         }
     }
 
-    public void SetOnThumbClick(I_ThumbClick thumbClick)
+    public void setOnBackClickListner(ButtonClick thumbClick)
     {
-        thumbclick = thumbClick;
+        backClickListner = thumbClick;
     }
 
     @Override
@@ -305,20 +310,9 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     }
 
     @Override
-    public void HistograRdyToSet(final int[] histodata, final int position)
+    public void onHistogramData(final int[] histodata, final int position)
     {
-        histogram.post(new Runnable() {
-            @Override
-            public void run() {
-                if (mPager.getCurrentItem() == position)
-                {
-                    if (topbar.getVisibility() == View.VISIBLE)
-                        histogram.setVisibility(View.VISIBLE);
-                    histogram.SetHistogramData(histodata);
-                    deleteButton.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+        exifHandler.setHistogram(histodata,position);
     }
 
     @Override
@@ -333,7 +327,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
     private final FragmentClickClistner fragmentclickListner = new FragmentClickClistner() {
         @Override
-        public void onClick(Fragment v) {
+        public void onFragmentClick(Fragment v) {
             if (topbar.getVisibility() == View.GONE) {
                 topbar.setVisibility(View.VISIBLE);
                 bottombar.setVisibility(View.VISIBLE);
@@ -417,73 +411,150 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
     private void processExif(final File file)
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    final ExifInterface exifInterface = new ExifInterface(file.getAbsolutePath());
-                    iso.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                String expostring = exifInterface.getAttribute(ExifInterface.TAG_EXPOSURE_TIME);
-                                if (expostring == null)
-                                    shutter.setText("");
-                                else
-                                {
-                                    shutter.setText("S:" + getShutterStringSeconds(Double.parseDouble(expostring)));
-                                }
-                            }catch (NullPointerException e){
-                                shutter.setText("");
-                            }
-                            try
-                            {
-                                String fnums = exifInterface.getAttribute(ExifInterface.TAG_F_NUMBER);
-                                if (fnums != null)
-                                    fnumber.setText("f~:" + fnums);
-                                else
-                                    fnumber.setText("");
-                            }catch (NullPointerException e){
-                                fnumber.setText("");
-                            }
-                            try {
-                                String focs = exifInterface.getAttribute(ExifInterface.TAG_APERTURE_VALUE);
-                                if (focs == null)
-                                {
-                                    focal.setText("");
-                                }
-                                else {
-                                    if (focs.contains("/"))
-                                    {
-                                        String split[] = focs.split("/");
-                                        double numerator = Integer.parseInt(split[0]);
-                                        double denumerator = Integer.parseInt(split[1]);
-                                        double foc = numerator /denumerator;
-                                        focs = foc+"";
-                                    }
-                                    focal.setText("A:" + focs);
-                                }
-                            }catch (NullPointerException e){
-                                focal.setText("");
-                            }
-                            try {
-                                String isos = exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
-                                if (isos != null)
-                                    iso.setText("ISO:" + isos);
-                                else
-                                    iso.setText("");
-                            }catch (NullPointerException e){
-                                iso.setText("");
-                            }
-                        }
-                    });
+        ImageManager.putImageLoadTask(new ExifLoader(file));
+    }
 
-                } catch (NullPointerException  | IOException ex)
-                {
-                    Log.d(TAG, "Failed to read Exif");
-                }
+    private class ExifLoader extends ImageTask {
+
+        private final File file;
+
+        public ExifLoader(File file)
+        {
+            this.file = file;
+        }
+
+        @Override
+        public boolean process() {
+            ExifInterface exifInterface = null;
+            try {
+                exifInterface = new ExifInterface(file.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+            if (exifInterface == null)
+                return false;
+            try {
+                String expostring = exifInterface.getAttribute(ExifInterface.TAG_EXPOSURE_TIME);
+                if (expostring == null)
+                    exifHandler.setSHUTTERSPEED("");
+                else
+                {
+                    exifHandler.setSHUTTERSPEED("S:" + getShutterStringSeconds(Double.parseDouble(expostring)));
+                }
+            }catch (NullPointerException e){
+                exifHandler.setSHUTTERSPEED("");
+            }
+            try
+            {
+                String fnums = exifInterface.getAttribute(ExifInterface.TAG_F_NUMBER);
+                if (fnums != null)
+                    exifHandler.setFNUM("f~:" + fnums);
+                else
+                    exifHandler.setFNUM("");
+            }catch (NullPointerException e){
+                exifHandler.setFNUM("");
+            }
+            try {
+                String focs = exifInterface.getAttribute(ExifInterface.TAG_APERTURE_VALUE);
+                if (focs == null)
+                {
+                    exifHandler.setFOCAL("");
+                }
+                else {
+                    if (focs.contains("/"))
+                    {
+                        String split[] = focs.split("/");
+                        double numerator = Integer.parseInt(split[0]);
+                        double denumerator = Integer.parseInt(split[1]);
+                        double foc = numerator /denumerator;
+                        focs = foc+"";
+                    }
+                    exifHandler.setFOCAL("A:" + focs);
+                }
+            }catch (NullPointerException e){
+                exifHandler.setFOCAL("");
+            }
+            try {
+                String isos = exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
+                if (isos != null)
+                    exifHandler.setISO("ISO:" + isos);
+                else
+                    exifHandler.setISO("");
+            }catch (NullPointerException e){
+                exifHandler.setISO("");
+            }
+            return true;
+        }
+    }
+
+    private class ExifHandler extends Handler
+    {
+        private final int MSG_ISO = 0;
+        private final int MSG_SHUTTERSPEED = 1;
+        private final int MSG_FOCAL = 2;
+        private final int MSG_FNUM = 3;
+        private final int MSG_HISTOGRAM = 4;
+
+        public ExifHandler(Looper looper)
+        {
+            super(looper);
+        }
+
+        public void setISO(String iso)
+        {
+            this.obtainMessage(MSG_ISO,iso).sendToTarget();
+        }
+
+        public void setSHUTTERSPEED(String iso)
+        {
+            this.obtainMessage(MSG_SHUTTERSPEED,iso).sendToTarget();
+        }
+
+        public void setFOCAL(String iso)
+        {
+            this.obtainMessage(MSG_FOCAL,iso).sendToTarget();
+        }
+
+        public void setFNUM(String iso)
+        {
+            this.obtainMessage(MSG_FNUM,iso).sendToTarget();
+        }
+
+        public void setHistogram(int[] histodata, final int position)
+        {
+            this.obtainMessage(MSG_HISTOGRAM,position,0,histodata).sendToTarget();
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what)
+            {
+                case MSG_ISO:
+                    iso.setText((String)msg.obj);
+                    break;
+                case MSG_FNUM:
+                    fnumber.setText((String)msg.obj);
+                    break;
+                case MSG_FOCAL:
+                    focal.setText((String)msg.obj);
+                    break;
+                case MSG_SHUTTERSPEED:
+                    shutter.setText((String)msg.obj);
+                    break;
+                case MSG_HISTOGRAM:
+                    int position = msg.arg1;
+                    if (mPager.getCurrentItem() == position)
+                    {
+                        if (topbar.getVisibility() == View.VISIBLE)
+                            histogram.setVisibility(View.VISIBLE);
+                        histogram.SetHistogramData((int[])msg.obj);
+                        deleteButton.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
     }
 
     private String getShutterStringSeconds(double val)
@@ -545,7 +616,6 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
             ImageFragment imageFragment = (ImageFragment) object;
             FileHolder file = imageFragment.GetFilePath();
             int position = files.indexOf(file);
-            //if (position >= 0) {
                 // The current data matches the data in this active fragment, so let it be as it is.
             if (position == imageFragment.getPosition){
                 return PagerAdapter.POSITION_UNCHANGED;

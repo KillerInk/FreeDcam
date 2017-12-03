@@ -38,7 +38,6 @@ import java.util.List;
 import freed.ActivityAbstract;
 import freed.utils.FreeDPool;
 import freed.utils.LocationHandler;
-import freed.utils.PermissionHandler;
 import freed.utils.StorageFileHandler;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;
@@ -93,7 +92,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
         gridViewFragment = (GridViewFragment) getSupportFragmentManager().findFragmentById(R.id.freedviewer_gridview);
         gridViewFragment.SetOnGridItemClick(onGridItemClick);
         screenSlideFragment = (ScreenSlideFragment)getSupportFragmentManager().findFragmentById(R.id.freedviewer_screenslide_fragment);
-        screenSlideFragment.SetOnThumbClick(onScreenSlideBackClick);
+        screenSlideFragment.setOnBackClickListner(onScreenSlideBackClick);
         slideholder = (FrameLayout) findViewById(R.id.freedviewer_screenslideholder);
         gridholder = (FrameLayout)findViewById(R.id.freedviewer_gridviewholder);
         slideholder.setVisibility(View.GONE);
@@ -169,17 +168,17 @@ public class ActivityFreeDviewer extends ActivityAbstract
         return del;
     }
 
-    private final ScreenSlideFragment.I_ThumbClick onScreenSlideBackClick = new ScreenSlideFragment.I_ThumbClick() {
+    private final ScreenSlideFragment.ButtonClick onScreenSlideBackClick = new ScreenSlideFragment.ButtonClick() {
         @Override
-        public void onThumbClick(int position,View view)
+        public void onButtonClick(int position, View view)
         {
             loadGridView(position,view);
         }
     };
 
-    private final ScreenSlideFragment.I_ThumbClick onGridItemClick = new ScreenSlideFragment.I_ThumbClick() {
+    private final ScreenSlideFragment.ButtonClick onGridItemClick = new ScreenSlideFragment.ButtonClick() {
         @Override
-        public void onThumbClick(int position, View view)
+        public void onButtonClick(int position, View view)
         {
             loadScreenSlide(position,view);
         }

@@ -116,7 +116,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     private boolean isRootDir = true;
 
     private ActivityInterface viewerActivityInterface;
-    private ScreenSlideFragment.I_ThumbClick onGridItemClick;
+    private ScreenSlideFragment.ButtonClick onGridItemClick;
     private FileHolder folderToShow;
 
     public int DEFAULT_ITEM_TO_SET = 0;
@@ -140,7 +140,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         dngstack,
     }
 
-    public void SetOnGridItemClick(ScreenSlideFragment.I_ThumbClick onGridItemClick)
+    public void SetOnGridItemClick(ScreenSlideFragment.ButtonClick onGridItemClick)
     {
         this.onGridItemClick = onGridItemClick;
     }
@@ -268,7 +268,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                 //handel normal griditem click to open screenslide when its not a folder
                 if (!viewerActivityInterface.getFiles().get(position).IsFolder())
                 {
-                    this.onGridItemClick.onThumbClick(position, view);
+                    this.onGridItemClick.onButtonClick(position, view);
                 }
                 else //handel folder click
                 {
