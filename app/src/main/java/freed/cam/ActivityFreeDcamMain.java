@@ -192,6 +192,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = true;
         if (!AppSettingsManager.getInstance().isInit() || cameraFragmentManager == null)
             return;
+        cameraFragmentManager.resume();
         //check if we have the permissions. its needed because onResume gets called while we ask in ActivityAbstract.onCreate().
         getPermissionHandler().hasCameraAndSdPermission(new PermissionHandler.PermissionCallback() {
             @Override

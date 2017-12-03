@@ -31,7 +31,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
 
     private Object cameraLock = new Object();
     private HandlerThread mBackgroundThread;
-    private Handler mBackgroundHandler;
     private CameraStateEvents cameraStateEventListner;
     private CameraFeatureDetectorFragment fd;
 
@@ -43,6 +42,12 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(context);
         startBackgroundThread();
+    }
+
+    public void resume()
+    {
+        if (mBackgroundThread == null || !mBackgroundThread.isAlive())
+            startBackgroundThread();
     }
 
     public void destroy()
@@ -62,7 +67,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         synchronized (cameraLock) {
             mBackgroundThread = new HandlerThread("CameraBackground");
             mBackgroundThread.start();
-            mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
         }
     }
 
@@ -82,7 +86,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
             try {
                 mBackgroundThread.join();
                 mBackgroundThread = null;
-                mBackgroundHandler = null;
             } catch (InterruptedException e) {
                 Log.WriteEx(e);
             }
