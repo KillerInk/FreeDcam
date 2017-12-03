@@ -33,13 +33,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.provider.DocumentFile;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +49,6 @@ import com.troop.freedcam.R.layout;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import freed.ActivityAbstract;
@@ -118,7 +113,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     private FileHolder folder_to_show;
     private ExifHandler exifHandler;
 
-    protected List<FileHolder> files =  new ArrayList<>();
+
 
     private ActivityInterface activityInterface;
     View view;
@@ -202,8 +197,8 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
             public void onClick(View view) {
                 if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !AppSettingsManager.getInstance().GetWriteExternal()) {
                     Builder builder = new Builder(getContext());
-                    builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
-                            .setNegativeButton("No", dialogClickListener).show();
+                    builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteButtonClick)
+                            .setNegativeButton("No", onDeleteButtonClick).show();
                 } else {
                     DocumentFile sdDir = activityInterface.getExternalSdDocumentFile();
                     if (sdDir == null) {
@@ -211,8 +206,8 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                         activityInterface.ChooseSDCard(ScreenSlideFragment.this);
                     } else {
                         Builder builder = new Builder(getContext());
-                        builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
-                                .setNegativeButton("No", dialogClickListener).show();
+                        builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteButtonClick)
+                                .setNegativeButton("No", onDeleteButtonClick).show();
                     }
                 }
 
@@ -242,7 +237,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         exifinfo_holder.setVisibility(View.GONE);
 
 
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner);
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(2);
         mPager.addOnPageChangeListener(this);
@@ -266,8 +261,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     {
         Log.d(TAG,"notifyDataHasChanged");
         if (mPagerAdapter != null && mPager != null) {
-            this.files = files;
-            mPagerAdapter.notifyDataSetChanged();
+            mPagerAdapter.setFiles(files);
         }
     }
 
@@ -290,13 +284,10 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         int[] histodata = fragment.GetHistogramData();
         if (histodata != null)
         {
-            if (topbar.getVisibility() == View.VISIBLE)
-                histogram.setVisibility(View.VISIBLE);
             histogram.SetHistogramData(histodata);
         }
         else
         {
-            histogram.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
             fragment.SetWaitForWorkFinishLisnter(this, position);
         }
@@ -325,6 +316,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
     }
 
+    //toggle ui items visibility when a single click from the ImageFragment happen
     private final FragmentClickClistner fragmentclickListner = new FragmentClickClistner() {
         @Override
         public void onFragmentClick(Fragment v) {
@@ -344,7 +336,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         }
     };
 
-    private final OnClickListener dialogClickListener = new OnClickListener() {
+    private final OnClickListener onDeleteButtonClick = new OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
@@ -566,82 +558,6 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         return "1/" + Integer.toString(i);
     }
 
-    class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
-    {
-        private final String TAG = ScreenSlidePagerAdapter.class.getSimpleName();
-        private final SparseArray<Fragment> registeredFragments;
 
-        public ScreenSlidePagerAdapter(FragmentManager fm)
-        {
-            super(fm);
-
-            registeredFragments = new SparseArray<>();
-        }
-
-        public FileHolder getCurrentFile()
-        {
-            if (activityInterface.getFiles() != null && activityInterface.getFiles().size()>0)
-                return activityInterface.getFiles().get(mPager.getCurrentItem());
-            else
-                return null;
-        }
-
-
-        //FragmentStatePagerAdapter implementation START
-
-        @Override
-        public Fragment getItem(int position)
-        {
-            ImageFragment  currentFragment = new ImageFragment();
-            if (files == null || files.size() == 0)
-                currentFragment.SetFilePath(null);
-            else
-                currentFragment.SetFilePath(files.get(position));
-            currentFragment.SetOnclickLisnter(fragmentclickListner);
-
-            return currentFragment;
-        }
-
-        @Override
-        public int getCount()
-        {
-            if(files != null && files.size() > 0)
-                return files.size();
-            else return 1;
-        }
-
-        @Override
-        public int getItemPosition(Object object)
-        {
-            ImageFragment imageFragment = (ImageFragment) object;
-            FileHolder file = imageFragment.GetFilePath();
-            int position = files.indexOf(file);
-                // The current data matches the data in this active fragment, so let it be as it is.
-            if (position == imageFragment.getPosition){
-                return PagerAdapter.POSITION_UNCHANGED;
-            } else {
-                // Returning POSITION_NONE means the current data does not matches the data this fragment is showing right now.  Returning POSITION_NONE constant will force the fragment to redraw its view layout all over again and show new data.
-                return PagerAdapter.POSITION_NONE;
-            }
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            ImageFragment fragment = (ImageFragment) super.instantiateItem(container, position);
-            fragment.getPosition = position;
-            registeredFragments.put(position, fragment);
-            return fragment;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            registeredFragments.remove(position);
-            super.destroyItem(container, position, object);
-        }
-
-        public Fragment getRegisteredFragment(int position) {
-            return registeredFragments.get(position);
-        }
-    }
 
 }
