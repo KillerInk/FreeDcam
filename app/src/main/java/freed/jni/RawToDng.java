@@ -12,7 +12,7 @@ import java.util.Date;
 
 import freed.dng.DngProfile;
 import freed.utils.Log;
-import freed.utils.StorageFileHandler;
+import freed.utils.StorageFileManager;
 import freed.utils.StringUtils;
 
 /**
@@ -225,7 +225,7 @@ public class RawToDng
                             float exposureIndex)
     {
         SetExifData(iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
-        SetDateTime(StorageFileHandler.getStringExifPattern().format(new Date()));
+        SetDateTime(StorageFileManager.getStringExifPattern().format(new Date()));
         SetBaselineExposureOffset(exposureIndex);
     }
 

@@ -102,9 +102,9 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     protected void startRecording()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(null)) {
+        if (cameraUiWrapper.getActivityInterface().getPermissionManager().hasRecordAudioPermission(null)) {
             if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
-                cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
+                cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             prepareRecorder();
         }
 

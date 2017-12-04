@@ -45,10 +45,6 @@ public class DngProfile
 
     public static final String RGBW =  "rgbw";
 
-    public static final int ROWSIZE = 5264;
-    public static final int HTCM8_rowSize = 3360;
-    public static final int XperiaL_rowSize = 4376;
-
     public int blacklevel;
     public int whitelevel;
     public int widht;
@@ -85,17 +81,17 @@ public class DngProfile
         return new DngProfile(blacklevel,whitelevel,widht,height, rawFormat,bayerPattern, 0,new CustomMatrix(matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise), name);
     }
 
+    /*
+       <filesize size= "XXX">
+           <width>2560</width>
+           <height>1920</height>
+           <rawtype>0</rawtype> // 0 = Mipi, 1 = qcom, 2 = Plain, 3 = mipi16, 4 = mipi12
+           <colorpattern>grbg</colorpattern>
+           <rowsize>0</rowsize>
+           <matrixset>Imx135</matrixset>
+       </filesize>*/
     public String getXmlString(long filesize)
     {
-        /*
-        <filesize size= "XXX">
-            <width>2560</width>
-            <height>1920</height>
-            <rawtype>0</rawtype> // 0 = Mipi, 1 = qcom, 2 = Plain, 3 = mipi16, 4 = mipi12
-            <colorpattern>grbg</colorpattern>
-            <rowsize>0</rowsize>
-            <matrixset>Imx135</matrixset>
-        </filesize>*/
         String t = new String();
         t += "<filesize size= " +String.valueOf("\"") +String.valueOf(filesize) +String.valueOf("\"")  +">" + "\r\n";
             t += "<blacklvl>" + blacklevel + "</blacklvl>" + "\r\n";

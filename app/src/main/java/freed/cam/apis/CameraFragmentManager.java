@@ -19,7 +19,7 @@ import freed.cam.apis.featuredetector.CameraFeatureDetectorFragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.settings.AppSettingsManager;
 import freed.utils.Log;
-import freed.utils.RenderScriptHandler;
+import freed.utils.RenderScriptManager;
 
 public class CameraFragmentManager implements CameraFeatureDetectorFragment.FeatureDetectorEvents {
     private final String TAG = CameraFragmentManager.class.getSimpleName();
@@ -27,7 +27,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     private int fragmentHolderId;
     private FragmentManager fragmentManager;
     private CameraFragmentAbstract cameraFragment;
-    private RenderScriptHandler renderScriptHandler;
+    private RenderScriptManager renderScriptManager;
 
     private Object cameraLock = new Object();
     private HandlerThread mBackgroundThread;
@@ -40,7 +40,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         this.fragmentHolderId = fragmentHolderId;
         this.cameraStateEventListner = cameraStateEventListner;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            renderScriptHandler = new RenderScriptHandler(context);
+            renderScriptManager = new RenderScriptManager(context);
         startBackgroundThread();
     }
 
@@ -136,7 +136,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
                 } else {
                     cameraFragment = Camera1Fragment.getInstance(mBackgroundThread, cameraLock);
                 }
-                cameraFragment.SetRenderScriptHandler(renderScriptHandler);
+                cameraFragment.SetRenderScriptHandler(renderScriptManager);
                 cameraFragment.setCameraStateChangedListner(cameraStateEventListner);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
             } else cameraFragment.startCamera();

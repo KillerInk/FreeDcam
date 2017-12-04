@@ -1,33 +1,30 @@
-package freed.cam.ui.handler;
+package freed.utils;
 
 import android.hardware.SensorManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.OrientationEventListener;
 
-import freed.utils.Log;
-
 /**
  * Created by troop on 17.09.2014.
  */
-public class OrientationHandler
+public class OrientationManager
 {
     private int currentOrientation;
     private final OrientationEventListener orientationEventListener;
 
-    public OrientationHandler(FragmentActivity activity, final I_orientation orientationListner)
+    public OrientationManager(FragmentActivity activity, final OrientationEvent orientationListner)
     {
-        I_orientation orientationListner1 = orientationListner;
-
         orientationEventListener = new OrientationEventListener(activity, SensorManager.SENSOR_DELAY_NORMAL) {
             @Override
             public void onOrientationChanged(int orientation)
             {
-                if (currentOrientation != calcCurrentOrientation(orientation))
+                int newOr = calcCurrentOrientation(orientation);
+                if (currentOrientation != newOr)
                 {
-                    currentOrientation = calcCurrentOrientation(orientation);
+                    currentOrientation = newOr;
                     if (orientationListner != null) {
                         try {
-                            orientationListner.OrientationChanged(currentOrientation);
+                            orientationListner.onOrientationChanged(currentOrientation);
                         }
                         catch (NullPointerException ex)
                         {

@@ -55,7 +55,6 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
 import freed.cam.ui.guide.GuideHandler;
-import freed.cam.ui.handler.TimerHandler;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
@@ -116,8 +115,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     //get shown in sony api,when the preview gets zoomed to navigate through the img
     private JoyPad joyPad;
-
-    private TimerHandler timerHandler;
 
     private LinearLayout left_ui_items_holder;
     private LinearLayout right_ui_items_top;
@@ -236,7 +233,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 moduleSwitch.setBackgroundResource(R.drawable.quck_set_mode);
                 right_ui_items_top.addView(moduleSwitch);
 
-                if (parameterHandler.Focuspeak != null && parameterHandler.Focuspeak.IsSupported() && cameraUiWrapper.getRenderScriptHandler().isSucessfullLoaded()) {
+                if (parameterHandler.Focuspeak != null && parameterHandler.Focuspeak.IsSupported() && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded()) {
                     UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
                     focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().Focuspeak);
                     focusPeak.SetCameraUiWrapper(cameraUiWrapper);
@@ -285,8 +282,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
                 //register timer to to moduleevent handler that it get shown/hidden when its video or not
                 //and start/stop working when recording starts/stops
-                cameraUiWrapper.getModuleHandler().AddRecoderChangedListner(timerHandler);
-                cameraUiWrapper.getModuleHandler().addListner(timerHandler);
                 cameraUiWrapper.getModuleHandler().addListner(settingsChildSelfTimer);
             }
         }
@@ -309,7 +304,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         super.onViewCreated(view, savedInstanceState);
         manualModes_holder = (FrameLayout) view.findViewById(id.manualModesHolder);
         messageHandler = new UserMessageHandler(view);
-        timerHandler = new TimerHandler((TextView) view.findViewById(id.textView_RecCounter));
 
         left_ui_items_holder = (LinearLayout)view.findViewById(id.left_ui_holder);
 

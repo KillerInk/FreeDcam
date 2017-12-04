@@ -41,8 +41,6 @@ import freed.utils.StringUtils;
  */
 public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnActivityResultCallback
 {
-    final String internal = "Internal";
-    final String external ="External";
     private String lastval;
 
     public SettingsChildMenuSDSave(Context context, int headerid, int descriptionid) {

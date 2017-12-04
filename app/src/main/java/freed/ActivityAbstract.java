@@ -46,12 +46,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
-import freed.cam.ui.handler.MediaScannerManager;
+import freed.utils.MediaScannerManager;
 import freed.image.ImageManager;
 import freed.settings.AppSettingsManager;
 import freed.utils.Log;
-import freed.utils.PermissionHandler;
-import freed.utils.StorageFileHandler;
+import freed.utils.PermissionManager;
+import freed.utils.StorageFileManager;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
 
@@ -76,8 +76,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     private final String TAG = ActivityAbstract.class.getSimpleName();
     protected BitmapHelper bitmapHelper;
     protected  List<FileHolder> files =  new ArrayList<>();
-    protected StorageFileHandler storageHandler;
-    private PermissionHandler permissionHandler;
+    protected StorageFileManager storageHandler;
+    private PermissionManager permissionManager;
 
 
     private final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -93,9 +93,9 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         ImageManager.getInstance(); // init it
         AppSettingsManager.getInstance();
         setContentToView();
-        permissionHandler =new PermissionHandler(this);
+        permissionManager =new PermissionManager(this);
 
-        getPermissionHandler().hasCameraAndSdPermission(logSDPermission);
+        getPermissionManager().hasCameraAndSdPermission(logSDPermission);
     }
 
     protected void initOnCreate()
@@ -111,7 +111,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         }
     }
 
-    private PermissionHandler.PermissionCallback logSDPermission = new PermissionHandler.PermissionCallback()
+    private PermissionManager.PermissionCallback logSDPermission = new PermissionManager.PermissionCallback()
     {
         @Override
         public void permissionGranted(boolean granted) {
@@ -240,8 +240,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     @Override
-    public PermissionHandler getPermissionHandler() {
-        return permissionHandler;
+    public PermissionManager getPermissionManager() {
+        return permissionManager;
     }
 
     @Override
@@ -255,7 +255,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     @Override
-    public StorageFileHandler getStorageHandler() {
+    public StorageFileManager getStorageHandler() {
         return this.storageHandler;
     }
 
@@ -457,7 +457,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
-        permissionHandler.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        permissionManager.onRequestPermissionsResult(requestCode,permissions,grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 

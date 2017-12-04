@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.io.File;
 
-import freed.cam.ui.handler.MediaScannerManager;
+import freed.utils.MediaScannerManager;
 
 /**
  * Created by troop on 25.10.2016.

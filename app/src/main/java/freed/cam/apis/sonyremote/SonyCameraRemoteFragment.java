@@ -86,7 +86,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(layout.cameraholdersony, container, false);
         surfaceView = (SimpleStreamSurfaceView) view.findViewById(id.view);
-        surfaceView.SetRenderScriptHandlerAndInterface(renderScriptHandler, (ActivityInterface) getActivity());
+        surfaceView.SetRenderScriptHandlerAndInterface(renderScriptManager, (ActivityInterface) getActivity());
 
         textView_wifi =(TextView) view.findViewById(id.textView_wificonnect);
 

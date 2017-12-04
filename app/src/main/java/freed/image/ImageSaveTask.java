@@ -17,7 +17,7 @@ import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.utils.Log;
-import freed.utils.StorageFileHandler;
+import freed.utils.StorageFileManager;
 
 /**
  * Created by KillerInk on 13.11.2017.
@@ -230,7 +230,7 @@ public class ImageSaveTask extends ImageTask
                 profile.matrixes.ReductionMatrix2,
                 profile.matrixes.NoiseReductionMatrix,
                 profile.blacklevel, profile.whitelevel, profile.bayerPattern,profile.rowsize,profile.rawType,profile.widht,profile.height,
-                StorageFileHandler.getStringExifPattern().format(new Date()),
+                StorageFileManager.getStringExifPattern().format(new Date()),
                 tonemap,
                 huesatmapdim,
                 huesatmapdata1,

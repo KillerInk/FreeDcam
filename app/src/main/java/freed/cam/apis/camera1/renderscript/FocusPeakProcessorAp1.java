@@ -51,7 +51,7 @@ import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.I_AspectRatio;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
-import freed.utils.RenderScriptHandler;
+import freed.utils.RenderScriptManager;
 
 
 /**
@@ -71,17 +71,17 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     private boolean enable;
     private boolean doWork;
     private boolean isWorking;
-    private final RenderScriptHandler renderScriptHandler;
+    private final RenderScriptManager renderScriptManager;
     private int expectedByteSize;
     private final BlockingQueue<byte[]> frameQueue = new ArrayBlockingQueue<>(2);
 
-    public FocusPeakProcessorAp1(I_AspectRatio output, CameraWrapperInterface cameraUiWrapper, Context context, RenderScriptHandler renderScriptHandler)
+    public FocusPeakProcessorAp1(I_AspectRatio output, CameraWrapperInterface cameraUiWrapper, Context context, RenderScriptManager renderScriptManager)
     {
         Log.d(TAG, "Ctor");
         this.output = output;
         this.cameraUiWrapper = cameraUiWrapper;
         Context context1 = context;
-        this.renderScriptHandler = renderScriptHandler;
+        this.renderScriptManager = renderScriptManager;
         this.cameraUiWrapper.getModuleHandler().addListner(this);
         SurfaceTextureListener previewSurfaceListner = new SurfaceTextureListener() {
             @Override
@@ -91,8 +91,8 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                 Log.d(TAG, "SurfaceSizeAvail");
                 mSurface = new Surface(surface);
                 try {
-                    if (FocusPeakProcessorAp1.this.renderScriptHandler.GetOut() != null && FocusPeakProcessorAp1.this.renderScriptHandler.GetOut().getUsage() == Allocation.USAGE_IO_OUTPUT)
-                        FocusPeakProcessorAp1.this.renderScriptHandler.GetOut().setSurface(mSurface);
+                    if (FocusPeakProcessorAp1.this.renderScriptManager.GetOut() != null && FocusPeakProcessorAp1.this.renderScriptManager.GetOut().getUsage() == Allocation.USAGE_IO_OUTPUT)
+                        FocusPeakProcessorAp1.this.renderScriptManager.GetOut().setSurface(mSurface);
                     else {
                         Log.d(TAG, "Allocout null or not USAGE_IO_OUTPUT");
                         String s = FocusPeakProcessorAp1.this.cameraUiWrapper.getParameterHandler().PreviewSize.GetStringValue();
@@ -113,8 +113,8 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                 Log.d(TAG, "SurfaceSizeChanged");
                 mSurface = new Surface(surface);
                 try {
-                    if (FocusPeakProcessorAp1.this.renderScriptHandler.GetOut() != null)
-                        FocusPeakProcessorAp1.this.renderScriptHandler.GetOut().setSurface(mSurface);
+                    if (FocusPeakProcessorAp1.this.renderScriptManager.GetOut() != null)
+                        FocusPeakProcessorAp1.this.renderScriptManager.GetOut().setSurface(mSurface);
                     else {
                         Log.d(TAG, "Allocout null");
 
@@ -222,10 +222,10 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                     try {
                         //take one stored frame for processing
                         tmp = frameQueue.take();
-                        renderScriptHandler.GetIn().copyFrom(tmp);
+                        renderScriptManager.GetIn().copyFrom(tmp);
 
-                        renderScriptHandler.freedcamScript.forEach_focuspeakcam1(renderScriptHandler.GetOut());
-                        renderScriptHandler.GetOut().ioSend();
+                        renderScriptManager.freedcamScript.forEach_focuspeakcam1(renderScriptManager.GetOut());
+                        renderScriptManager.GetOut().ioSend();
                         //pass frame back to camera that it get reused
                         ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().addCallbackBuffer(tmp);
                     } catch (InterruptedException | NullPointerException e) {
@@ -267,24 +267,24 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                 Log.WriteEx(ex);
             }
 
-            Builder tbIn = new Builder(renderScriptHandler.GetRS(), Element.U8(renderScriptHandler.GetRS()));
+            Builder tbIn = new Builder(renderScriptManager.GetRS(), Element.U8(renderScriptManager.GetRS()));
             tbIn.setX(mWidth);
             tbIn.setY(mHeight);
             tbIn.setYuvFormat(ImageFormat.NV21);
-            if (renderScriptHandler.GetOut()!= null)
-                renderScriptHandler.GetOut().setSurface(null);
+            if (renderScriptManager.GetOut()!= null)
+                renderScriptManager.GetOut().setSurface(null);
 
 
-            Builder tbOut = new Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
+            Builder tbOut = new Builder(renderScriptManager.GetRS(), Element.RGBA_8888(renderScriptManager.GetRS()));
             tbOut.setX(mWidth);
             tbOut.setY(mHeight);
-            renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT, Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
+            renderScriptManager.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT, Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
 
             if (mSurface != null)
-                renderScriptHandler.GetOut().setSurface(mSurface);
+                renderScriptManager.GetOut().setSurface(mSurface);
             else
                 Log.d(TAG, "surfaceNull");
-            renderScriptHandler.freedcamScript.set_gCurrentFrame(renderScriptHandler.GetIn());
+            renderScriptManager.freedcamScript.set_gCurrentFrame(renderScriptManager.GetIn());
             Log.d(TAG, "script done enabled: " + enable);
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetPreviewCallback(this);
         }

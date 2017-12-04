@@ -10,9 +10,9 @@ import android.support.annotation.NonNull;
  * Created by troop on 09.03.2017.
  */
 
-public class PermissionHandler
+public class PermissionManager
 {
-    private final String TAG = PermissionHandler.class.getSimpleName();
+    private final String TAG = PermissionManager.class.getSimpleName();
     private PermissionCallback callbackToReturn;
 
     public interface PermissionCallback
@@ -22,7 +22,7 @@ public class PermissionHandler
 
     Activity activity;
 
-    public PermissionHandler(Activity activity)
+    public PermissionManager(Activity activity)
     {
         this.activity = activity;
     }

@@ -26,7 +26,7 @@ import com.troop.freedcam.R;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.AppSettingsManager;
-import freed.utils.PermissionHandler;
+import freed.utils.PermissionManager;
 
 /**
  * Created by troop on 21.07.2015.
@@ -68,18 +68,18 @@ public class LocationParameter extends AbstractParameter
     {
         AppSettingsManager.getInstance().setApiString(AppSettingsManager.SETTING_LOCATION, valueToSet);
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_)))
-            cameraUiWrapper.getActivityInterface().getLocationHandler().stopLocationListining();
+            cameraUiWrapper.getActivityInterface().getLocationManager().stopLocationListining();
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
-            cameraUiWrapper.getActivityInterface().getPermissionHandler().hasLocationPermission(onLocationPermission);
+            cameraUiWrapper.getActivityInterface().getPermissionManager().hasLocationPermission(onLocationPermission);
         fireStringValueChanged(valueToSet);
     }
 
-    private PermissionHandler.PermissionCallback onLocationPermission = new PermissionHandler.PermissionCallback() {
+    private PermissionManager.PermissionCallback onLocationPermission = new PermissionManager.PermissionCallback() {
         @Override
         public void permissionGranted(boolean granted) {
             if (granted)
-                if (cameraUiWrapper != null && cameraUiWrapper.getActivityInterface() != null && cameraUiWrapper.getActivityInterface().getLocationHandler() != null) {
-                    cameraUiWrapper.getActivityInterface().getLocationHandler().startLocationListing();
+                if (cameraUiWrapper != null && cameraUiWrapper.getActivityInterface() != null && cameraUiWrapper.getActivityInterface().getLocationManager() != null) {
+                    cameraUiWrapper.getActivityInterface().getLocationManager().startLocationListing();
                     fireStringValueChanged(cameraUiWrapper.getResString(R.string.on_));
                 }
             else

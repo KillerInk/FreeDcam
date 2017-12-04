@@ -37,16 +37,16 @@ import freed.cam.apis.CameraFragmentManager;
 import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.SecureCamera;
-import freed.cam.ui.handler.I_orientation;
-import freed.cam.ui.handler.OrientationHandler;
+import freed.utils.OrientationEvent;
+import freed.utils.OrientationManager;
 import freed.cam.ui.themesample.PagingView;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.settings.AppSettingsManager;
-import freed.utils.LocationHandler;
+import freed.utils.LocationManager;
 import freed.utils.Log;
-import freed.utils.PermissionHandler;
-import freed.utils.StorageFileHandler;
+import freed.utils.PermissionManager;
+import freed.utils.StorageFileManager;
 import freed.utils.StringUtils;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
@@ -56,7 +56,7 @@ import freed.viewer.screenslide.ScreenSlideFragment;
  * Created by troop on 18.08.2014.
  */
 public class ActivityFreeDcamMain extends ActivityAbstract
-        implements I_orientation,
+        implements OrientationEvent,
             SecureCamera.SecureCameraActivity, CameraStateEvents
 {
 
@@ -123,11 +123,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
-    private OrientationHandler orientationHandler;
+    private OrientationManager orientationManager;
 
     private PagingView uiViewPager;
     private CameraUiSlidePagerAdapter uiViewPagerAdapter;
-    private LocationHandler locationHandler;
+    private LocationManager locationManager;
 
     private boolean activityIsResumed= false;
     private int currentorientation = 0;
@@ -167,13 +167,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     protected void initOnCreate() {
         super.initOnCreate();
         cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(), this);
-        storageHandler = new StorageFileHandler();
+        storageHandler = new StorageFileManager();
         updateScreenSlideHandler = new UpdateScreenSlideHandler();
         //listen to phone orientation changes
-        orientationHandler = new OrientationHandler(this, this);
+        orientationManager = new OrientationManager(this, this);
         bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
 
-        locationHandler = new LocationHandler(this);
+        locationManager = new LocationManager(this);
     }
 
 
@@ -194,7 +194,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             return;
         cameraFragmentManager.resume();
         //check if we have the permissions. its needed because onResume gets called while we ask in ActivityAbstract.onCreate().
-        getPermissionHandler().hasCameraAndSdPermission(new PermissionHandler.PermissionCallback() {
+        getPermissionManager().hasCameraAndSdPermission(new PermissionManager.PermissionCallback() {
             @Override
             public void permissionGranted(boolean granted) {
                 if (granted) {
@@ -224,10 +224,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void onPauseTasks() {
         Log.d(TAG, "onPauseTasks()");
-        if(orientationHandler != null)
-            orientationHandler.Stop();
-        if (locationHandler != null)
-            locationHandler.stopLocationListining();
+        if(orientationManager != null)
+            orientationManager.Stop();
+        if (locationManager != null)
+            locationManager.stopLocationListining();
         activityIsResumed = false;
     }
 
@@ -245,9 +245,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      */
     private void loadCameraFragment() {
         Log.d(TAG, "loading cameraWrapper");
-        if(orientationHandler == null)
+        if(orientationManager == null)
             return;
-        orientationHandler.Start();
+        orientationManager.Start();
 
         cameraFragmentManager.switchCameraFragment();
     }
@@ -257,8 +257,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      */
     private void unloadCameraFragment() {
         Log.d(TAG, "destroying cameraWrapper");
-        if(orientationHandler != null)
-            orientationHandler.Stop();
+        if(orientationManager != null)
+            orientationManager.Stop();
 
         cameraFragmentManager.unloadCameraFragment();
         if (uiViewPagerAdapter != null)
@@ -302,7 +302,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      * @param orientation the new phone orientation
      */
     @Override
-    public void OrientationChanged(int orientation) {
+    public void onOrientationChanged(int orientation) {
         if (orientation != currentorientation)
         {
             Log.d(TAG,"orientation changed to :" +orientation);
@@ -347,8 +347,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     }
 
     @Override
-    public LocationHandler getLocationHandler() {
-        return locationHandler;
+    public LocationManager getLocationManager() {
+        return locationManager;
     }
 
 
@@ -403,11 +403,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //note the ui that cameraFragment is loaded
         uiViewPagerAdapter.setCameraFragment(cameraFragmentManager.getCameraFragment());
         if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION).equals(AppSettingsManager.getInstance().getResString(R.string.on_))
-                && getPermissionHandler().hasLocationPermission(null))
-            locationHandler.startLocationListing();
+                && getPermissionManager().hasLocationPermission(null))
+            locationManager.startLocationListing();
 
         SetNightOverlay();
-        if(getPermissionHandler().hasExternalSDPermission(null))
+        if(getPermissionManager().hasExternalSDPermission(null))
             ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
 
     }

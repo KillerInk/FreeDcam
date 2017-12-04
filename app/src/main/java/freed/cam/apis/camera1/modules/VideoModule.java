@@ -61,7 +61,7 @@ public class VideoModule extends AbstractVideoModule
         recorder.reset();
         recorder.setCamera(((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera());
         if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
-            Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
+            Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
             if (location != null)
                 recorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
         }

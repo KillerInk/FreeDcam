@@ -10,7 +10,7 @@ import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
 import freed.jni.DngStack;
-import freed.utils.LocationHandler;
+import freed.utils.LocationManager;
 import freed.viewer.dngconvert.DngConvertingFragment;
 import freed.viewer.holder.FileHolder;
 
@@ -47,7 +47,7 @@ public class DngStackActivity extends ActivityAbstract
     }
 
     @Override
-    public LocationHandler getLocationHandler() {
+    public LocationManager getLocationManager() {
         return null;
     }
 

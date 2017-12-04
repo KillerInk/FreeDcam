@@ -1,4 +1,4 @@
-package freed.cam.ui.handler;
+package freed.utils;
 
 import android.content.Context;
 import android.content.Intent;

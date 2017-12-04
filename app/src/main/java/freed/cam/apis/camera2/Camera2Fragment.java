@@ -244,7 +244,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
                 Focus = new FocusHandler(Camera2Fragment.this);
                 cameraHolder = new CameraHolderApi2(Camera2Fragment.this);
                 ((CameraHolderApi2)cameraHolder).captureSessionHandler = new CaptureSessionHandler(Camera2Fragment.this, ((CameraHolderApi2)cameraHolder).cameraBackroundValuesChangedListner);
-                mProcessor = new FocuspeakProcessorApi2(renderScriptHandler,histogram);
+                mProcessor = new FocuspeakProcessorApi2(renderScriptManager,histogram);
                 break;
         }
 

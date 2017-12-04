@@ -55,7 +55,7 @@ import freed.ActivityAbstract;
 import freed.ActivityAbstract.FormatTypes;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
-import freed.cam.ui.handler.MediaScannerManager;
+import freed.utils.MediaScannerManager;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.settings.AppSettingsManager;

@@ -25,6 +25,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -131,10 +132,22 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
     private class AnimationHandler extends Handler
     {
 
+        int red_top, red_bottom, red_right,red_left, padding_red, red_radius, halfsize;
+        float txt_left, txt_right,txt_top,txt_bottom, txt_length,txt_height;
+
+        //shutter_open_radius for the Transparent Radius to draw to simulate shutter open
+        private float shutter_open_radius = 0.0f;
+        //true when the red recording button should get shown, used for continouse capture and video
+        private boolean drawRecordingImage = false;
+        //current size of the red circle to draw
+        private int recordingRadiusCircle;
+        //current size of the red rectangle to draw
+        private int recordingRadiusRectangle;
+
         //holds the time from a capture start
         private long startime;
         //frames to draw
-        private final int MAXFRAMES = 5;
+        private final int MAXFRAMES = 10;
         //holds the currentframe number
         private int currentframe = 0;
 
@@ -153,17 +166,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         private Paint shutteropentimePaint;
 
 
-        //shutter_open_radius for the Transparent Radius to draw to simulate shutter open
-        private float shutter_open_radius = 0.0f;
 
-
-
-        //true when the red recording button should get shown, used for continouse capture and video
-        private boolean drawRecordingImage = false;
-        //current size of the red circle to draw
-        private int recordingRadiusCircle;
-        //current size of the red rectangle to draw
-        private int recordingRadiusRectangle;
 
         private Paint transparent;
         private Paint red;
@@ -173,11 +176,9 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             return running;
         }
 
-        private Object lock = new Object();
-
         private SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
 
-
+        private final int FPS = 1000/ 30;
 
         public AnimationHandler(Looper looper)
         {
@@ -224,7 +225,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
 
         public void drawTimer(boolean drawTimer)
         {
-            synchronized (lock) {
+            synchronized (this) {
                 this.drawTimer = drawTimer;
             }
         }
@@ -245,20 +246,25 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
 
         public void setStartTime(long startTime)
         {
-            synchronized (lock)
+            synchronized (this)
             {
                 this.startime = startTime;
             }
         }
 
         private void stopShutterTimer() {
-            synchronized (lock) {
+            synchronized (this) {
                 stopTimer = true;
             }
         }
 
+
+        private long calcstartTime;
+
         private void run()
         {
+            calcstartTime = System.nanoTime();
+            halfsize = getWidth()/2;
             MAX_SHUTTER_OPEN = (getWidth() - 100) / 2;
             SHUTTER_OPEN_STEP = (MAX_SHUTTER_OPEN) / MAXFRAMES;
             MAX_RECORDING_OPEN = getWidth() /4;
@@ -270,26 +276,25 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             running = true;
             while (shutteractive)
             {
-                //synchronized (lock) {
-
-                    if (currentframe < MAXFRAMES)
-                        draw();
-                    else {
-                        draw();
-                        currentframe = 0;
-                        if (stopTimer) {
-                            uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,"").sendToTarget();
-                            shutteractive = false;
-                        }
-                    }
-                    if (drawTimer)
-                        uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,getTimeGoneString(startime)).sendToTarget();
-                    else
+                if (currentframe < MAXFRAMES)
+                    draw();
+                else {
+                    draw();
+                    currentframe = 0;
+                    if (stopTimer) {
                         uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,"").sendToTarget();
-                    currentframe++;
-                //}
+                        shutteractive = false;
+                    }
+                }
+                if (drawTimer)
+                    uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,getTimeGoneString(startime)).sendToTarget();
+                else
+                    uiHandler.obtainMessage(MSG_PUBLISHPROGRESS,"").sendToTarget();
+                currentframe++;
                 try {
-                    Thread.sleep(2);
+                    long sleep = FPS-((System.nanoTime()-calcstartTime)/1000000L);
+                    if (sleep > 0)
+                        Thread.sleep(sleep);
                 } catch (InterruptedException e) {
                     Log.WriteEx(e);
                 }
@@ -312,116 +317,144 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         }
 
         private void draw() {
-            switch (currentShow) {
-                case video_recording_stop:
-                    shutter_open_radius = 0;
-                    recordingRadiusCircle += RECORDING_OPEN_STEP;
-                    if (recordingRadiusCircle > MAX_RECORDING_OPEN || currentframe == MAXFRAMES)
-                        recordingRadiusCircle = MAX_RECORDING_OPEN;
-
-                    recordingRadiusRectangle -= RECORDING_OPEN_STEP;
-                    if (recordingRadiusRectangle <0 || currentframe == MAXFRAMES)
-                        recordingRadiusRectangle = 0;
-                    drawRecordingImage = true;
-                    break;
-                case video_recording_start:
-                    shutter_open_radius = 0;
-                    recordingRadiusCircle -= RECORDING_OPEN_STEP;
-                    if (recordingRadiusCircle < 0 || currentframe == MAXFRAMES)
-                        recordingRadiusCircle = 0;
-
-                    recordingRadiusRectangle += RECORDING_OPEN_STEP;
-                    if (recordingRadiusRectangle > MAX_RECORDING_OPEN || currentframe == MAXFRAMES)
-                        recordingRadiusRectangle = MAX_RECORDING_OPEN;
-                    drawRecordingImage = true;
-                    break;
-                case image_capture_stop:
-                    drawRecordingImage = false;
-                    shutter_open_radius -= SHUTTER_OPEN_STEP;
-                    if (shutter_open_radius < 0 || currentframe == MAXFRAMES)
+            synchronized (this) {
+                switch (currentShow) {
+                    case video_recording_stop:
                         shutter_open_radius = 0;
-                    break;
-                case image_capture_start:
-                    drawRecordingImage = false;
-                    shutter_open_radius += SHUTTER_OPEN_STEP;
-                    if (shutter_open_radius > MAX_SHUTTER_OPEN || currentframe == MAXFRAMES)
-                        shutter_open_radius = MAX_SHUTTER_OPEN;
-                    break;
-                case continouse_capture_start:
-                    drawRecordingImage = true;
-                    shutter_open_radius += SHUTTER_OPEN_STEP;
-                    if (shutter_open_radius > MAX_SHUTTER_OPEN || currentframe == MAXFRAMES)
-                        shutter_open_radius = MAX_SHUTTER_OPEN;
+                        recordingRadiusCircle += RECORDING_OPEN_STEP;
+                        if (recordingRadiusCircle > MAX_RECORDING_OPEN || currentframe == MAXFRAMES)
+                            recordingRadiusCircle = MAX_RECORDING_OPEN;
 
-                    recordingRadiusCircle -= RECORDING_OPEN_STEP;
-                    if (recordingRadiusCircle < 0 || currentframe == MAXFRAMES)
-                        recordingRadiusCircle = 0;
-                    recordingRadiusRectangle += RECORDING_OPEN_STEP;
-                    if (recordingRadiusRectangle > MAX_RECORDING_OPEN || currentframe == MAXFRAMES)
-                        recordingRadiusRectangle = MAX_RECORDING_OPEN;
-                    break;
-                case cont_capture_stop_while_working:
-                    drawRecordingImage = true;
-                    //shutter_open_radius += SHUTTER_OPEN_STEP;
-                    recordingRadiusCircle += RECORDING_OPEN_STEP;
-                    if (recordingRadiusCircle > MAX_RECORDING_OPEN || currentframe == MAXFRAMES)
-                        recordingRadiusCircle = MAX_RECORDING_OPEN;
-                    recordingRadiusRectangle -= RECORDING_OPEN_STEP;
-                    if (recordingRadiusRectangle < 0 || currentframe == MAXFRAMES)
-                        recordingRadiusRectangle = 0;
-                    break;
-                case cont_capture_stop_while_notworking:
-                    shutter_open_radius = 0;
-                    recordingRadiusCircle += RECORDING_OPEN_STEP;
-                    if (recordingRadiusCircle > MAX_RECORDING_OPEN || currentframe == MAXFRAMES)
-                        recordingRadiusCircle = MAX_RECORDING_OPEN;
-                    recordingRadiusRectangle -= RECORDING_OPEN_STEP;
-                    if (recordingRadiusRectangle < 0 || currentframe == MAXFRAMES)
-                        recordingRadiusRectangle = 0;
-                    drawRecordingImage = true;
-                    break;
-                case continouse_capture_stop:
-                    recordingRadiusCircle += RECORDING_OPEN_STEP;
-                    if (recordingRadiusCircle > MAX_RECORDING_OPEN || currentframe == MAXFRAMES)
-                        recordingRadiusCircle = MAX_RECORDING_OPEN;
-                    recordingRadiusRectangle -= RECORDING_OPEN_STEP;
-                    if (recordingRadiusRectangle < 0 || currentframe == MAXFRAMES)
-                        recordingRadiusRectangle = 0;
-                    drawRecordingImage = true;
-                    break;
-                case continouse_capture_work_start:
-                    drawRecordingImage = true;
-                    shutter_open_radius += SHUTTER_OPEN_STEP;
-                    if (shutter_open_radius > MAX_SHUTTER_OPEN)
-                        shutter_open_radius =MAX_SHUTTER_OPEN;
-
-                    break;
-                case continouse_capture_work_stop:
-                    drawRecordingImage = true;
-                    shutter_open_radius -= SHUTTER_OPEN_STEP;
-                    if (shutter_open_radius < 0|| currentframe == MAXFRAMES)
+                        recordingRadiusRectangle -= RECORDING_OPEN_STEP;
+                        if (recordingRadiusRectangle < 0 || currentframe == MAXFRAMES)
+                            recordingRadiusRectangle = 0;
+                        drawRecordingImage = true;
+                        break;
+                    case video_recording_start:
                         shutter_open_radius = 0;
-                    break;
+                        recordingRadiusCircle -= RECORDING_OPEN_STEP;
+                        if (recordingRadiusCircle < 0 || currentframe == MAXFRAMES)
+                            recordingRadiusCircle = 0;
+
+                        recordingRadiusRectangle += RECORDING_OPEN_STEP;
+                        if (recordingRadiusRectangle > MAX_RECORDING_OPEN || currentframe == MAXFRAMES)
+                            recordingRadiusRectangle = MAX_RECORDING_OPEN;
+                        drawRecordingImage = true;
+                        break;
+                    case image_capture_stop:
+                        drawRecordingImage = false;
+                        shutter_open_radius -= SHUTTER_OPEN_STEP;
+                        if (shutter_open_radius < 0 || currentframe == MAXFRAMES)
+                            shutter_open_radius = 0;
+                        break;
+                    case image_capture_start:
+                        drawRecordingImage = false;
+                        shutter_open_radius += SHUTTER_OPEN_STEP;
+                        if (shutter_open_radius > MAX_SHUTTER_OPEN || currentframe == MAXFRAMES)
+                            shutter_open_radius = MAX_SHUTTER_OPEN;
+                        break;
+                    case continouse_capture_start:
+                        drawRecordingImage = true;
+                        shutter_open_radius += SHUTTER_OPEN_STEP;
+                        if (shutter_open_radius > MAX_SHUTTER_OPEN || currentframe == MAXFRAMES)
+                            shutter_open_radius = MAX_SHUTTER_OPEN;
+
+                        recordingRadiusCircle -= RECORDING_OPEN_STEP;
+                        if (recordingRadiusCircle < 0 || currentframe == MAXFRAMES)
+                            recordingRadiusCircle = 0;
+                        recordingRadiusRectangle += RECORDING_OPEN_STEP;
+                        if (recordingRadiusRectangle > MAX_RECORDING_OPEN || currentframe == MAXFRAMES)
+                            recordingRadiusRectangle = MAX_RECORDING_OPEN;
+                        break;
+                    case cont_capture_stop_while_working:
+                        drawRecordingImage = true;
+                        //shutter_open_radius += SHUTTER_OPEN_STEP;
+                        recordingRadiusCircle += RECORDING_OPEN_STEP;
+                        if (recordingRadiusCircle > MAX_RECORDING_OPEN || currentframe == MAXFRAMES)
+                            recordingRadiusCircle = MAX_RECORDING_OPEN;
+                        recordingRadiusRectangle -= RECORDING_OPEN_STEP;
+                        if (recordingRadiusRectangle < 0 || currentframe == MAXFRAMES)
+                            recordingRadiusRectangle = 0;
+                        break;
+                    case cont_capture_stop_while_notworking:
+                        shutter_open_radius = 0;
+                        recordingRadiusCircle += RECORDING_OPEN_STEP;
+                        if (recordingRadiusCircle > MAX_RECORDING_OPEN || currentframe == MAXFRAMES)
+                            recordingRadiusCircle = MAX_RECORDING_OPEN;
+                        recordingRadiusRectangle -= RECORDING_OPEN_STEP;
+                        if (recordingRadiusRectangle < 0 || currentframe == MAXFRAMES)
+                            recordingRadiusRectangle = 0;
+                        drawRecordingImage = true;
+                        break;
+                    case continouse_capture_stop:
+                        recordingRadiusCircle += RECORDING_OPEN_STEP;
+                        if (recordingRadiusCircle > MAX_RECORDING_OPEN || currentframe == MAXFRAMES)
+                            recordingRadiusCircle = MAX_RECORDING_OPEN;
+                        recordingRadiusRectangle -= RECORDING_OPEN_STEP;
+                        if (recordingRadiusRectangle < 0 || currentframe == MAXFRAMES)
+                            recordingRadiusRectangle = 0;
+                        drawRecordingImage = true;
+                        break;
+                    case continouse_capture_work_start:
+                        drawRecordingImage = true;
+                        shutter_open_radius += SHUTTER_OPEN_STEP;
+                        if (shutter_open_radius > MAX_SHUTTER_OPEN)
+                            shutter_open_radius = MAX_SHUTTER_OPEN;
+
+                        break;
+                    case continouse_capture_work_stop:
+                        drawRecordingImage = true;
+                        shutter_open_radius -= SHUTTER_OPEN_STEP;
+                        if (shutter_open_radius < 0 || currentframe == MAXFRAMES)
+                            shutter_open_radius = 0;
+                        break;
+                }
+
+                padding_red = halfsize;
+                red_radius = recordingRadiusRectangle / 2;
+                if (drawRecordingImage) {
+                    red_top = padding_red - red_radius;
+                    red_bottom = padding_red + red_radius;
+                    red_left = padding_red - red_radius;
+                    red_right = padding_red + red_radius;
+                    padding_red = red_bottom + red_radius + space;
+                }
+                if (drawTimer && !TextUtils.isEmpty(shutteropentime)) {
+                    txt_length = shutteropentimePaint.measureText(shutteropentime);
+                    txt_height = shutteropentimePaint.getTextSize();
+                    txt_left = halfsize - (txt_length / 2);
+                    txt_top = padding_red - txt_height - space;
+                    txt_right = halfsize + (txt_length / 2) + space;
+                    txt_bottom = padding_red + txt_height / 2 + space;
+                }
             }
             //Log.d(TAG,"shutter_open:" + shutter_open_radius + " recCircle:" + recordingRadiusCircle + " recRect:" + recordingRadiusRectangle +  " captureState:" + currentShow);
         }
 
+
+        private final int space = 3;
+
         public void onDraw(Canvas canvas)
         {
-            int halfSize = canvas.getWidth()/2;
-            canvas.drawCircle(halfSize,halfSize, shutter_open_radius, transparent);
-            if (drawRecordingImage)
-            {
-                canvas.drawCircle(halfSize,halfSize,recordingRadiusCircle/2, red);
-                int top = halfSize - recordingRadiusRectangle/2;
-                int bottom = halfSize + recordingRadiusRectangle/2;
-                int left = halfSize - recordingRadiusRectangle/2;
-                int right = halfSize + recordingRadiusRectangle/2;
-                canvas.drawRect(left,top,right,bottom,red);
+            synchronized (this) {
+                canvas.drawCircle(halfsize, halfsize, shutter_open_radius, transparent);
+                if (drawRecordingImage) {
+                    canvas.drawCircle(halfsize, halfsize, recordingRadiusCircle / 2, red);
+                    canvas.drawRect(red_left, red_top, red_right, red_bottom, red);
 
+                }
+                if (drawTimer && !TextUtils.isEmpty(shutteropentime)) {
+
+                    shutteropentimePaint.setColor(Color.BLACK);
+                    shutteropentimePaint.setAlpha(125);
+
+                    canvas.drawRect(txt_left - space, txt_top, txt_right, txt_bottom, shutteropentimePaint);
+
+                    shutteropentimePaint.setColor(Color.GREEN);
+                    shutteropentimePaint.setAlpha(255);
+                    canvas.drawText(shutteropentime, txt_left, padding_red, shutteropentimePaint);
+                }
             }
-            if (drawTimer && !TextUtils.isEmpty(shutteropentime))
-                canvas.drawText(shutteropentime,halfSize - shutteropentimePaint.measureText(shutteropentime)/2,halfSize,shutteropentimePaint);
         }
     }
 
@@ -510,11 +543,14 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         //setting it that way shutter is already abit opend till the green timer gets visible
         switch (mode) {
             case video_recording_stop:
+                animationHandler.drawTimer(false);
+                animationHandler.stopShutterTimer();
                 break;
             case video_recording_start:
+                animationHandler.drawTimer(true);
                 break;
             case image_capture_stop:
-                animationHandler.drawTimer = false;
+                animationHandler.drawTimer(false);
                 animationHandler.stopShutterTimer();
                 break;
             case image_capture_start:

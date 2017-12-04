@@ -108,7 +108,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
                 else
                     burstcount = 1;
                 if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
-                    cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
+                    cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
                 startcapturetime =new Date().getTime();
                 cameraHolder.TakePicture(PictureModule.this);
                 Log.d(TAG,"TakePicture");

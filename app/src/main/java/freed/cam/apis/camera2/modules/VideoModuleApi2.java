@@ -89,7 +89,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void DoWork()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionHandler().hasRecordAudioPermission(null))
+        if (cameraUiWrapper.getActivityInterface().getPermissionManager().hasRecordAudioPermission(null))
             startStopRecording();
     }
 
@@ -261,7 +261,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         });
 
         if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
-            Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
+            Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
             if (location != null)
                 mediaRecorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
         }

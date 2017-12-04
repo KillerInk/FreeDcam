@@ -447,7 +447,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 Log.d(TAG, "Check Focuspeak");
                 if (Build.VERSION.SDK_INT >= 18) {
 
-                    focusPeakProcessorAp1 = new FocusPeakProcessorAp1(preview,Camera1Fragment.this, getContext(), renderScriptHandler);
+                    focusPeakProcessorAp1 = new FocusPeakProcessorAp1(preview,Camera1Fragment.this, getContext(), renderScriptManager);
                     setCameraStateChangedListner(focusPeakProcessorAp1);
                 }
                 else

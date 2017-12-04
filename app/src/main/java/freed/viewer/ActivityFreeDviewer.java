@@ -37,8 +37,8 @@ import java.util.List;
 
 import freed.ActivityAbstract;
 import freed.utils.FreeDPool;
-import freed.utils.LocationHandler;
-import freed.utils.StorageFileHandler;
+import freed.utils.LocationManager;
+import freed.utils.StorageFileManager;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
@@ -79,7 +79,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     {
 
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
-        storageHandler = new StorageFileHandler();
+        storageHandler = new StorageFileManager();
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
@@ -123,7 +123,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     }
 
     @Override
-    public LocationHandler getLocationHandler() {
+    public LocationManager getLocationManager() {
         return null;
     }
 

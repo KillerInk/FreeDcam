@@ -37,7 +37,7 @@ import java.util.List;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.utils.RenderScriptHandler;
+import freed.utils.RenderScriptManager;
 
 /**
  * Created by troop on 06.06.2015.
@@ -66,7 +66,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     protected View view;
     //holds the appsettings
-    protected RenderScriptHandler renderScriptHandler;
+    protected RenderScriptManager renderScriptManager;
 
     public ModuleHandlerAbstract moduleHandler;
     /**
@@ -135,9 +135,9 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     }
     
-    public void SetRenderScriptHandler(RenderScriptHandler renderScriptHandler)
+    public void SetRenderScriptHandler(RenderScriptManager renderScriptManager)
     {
-        this.renderScriptHandler = renderScriptHandler;
+        this.renderScriptManager = renderScriptManager;
     }
 
     /**
@@ -245,8 +245,8 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     public abstract SurfaceView getSurfaceView();
 
     @Override
-    public RenderScriptHandler getRenderScriptHandler() {
-        return renderScriptHandler;
+    public RenderScriptManager getRenderScriptManager() {
+        return renderScriptManager;
     }
 
     @Override
