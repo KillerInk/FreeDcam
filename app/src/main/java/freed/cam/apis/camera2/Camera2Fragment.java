@@ -81,7 +81,14 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         this.textureView.setSurfaceTextureListener(this);
         this.histogram = (MyHistogram)view.findViewById(id.hisotview);
 
-        mBackgroundHandler.createCamera();
+        //mBackgroundHandler.createCamera();
+        Log.d(TAG,"Create Camera");
+        parametersHandler = new ParameterHandlerApi2(Camera2Fragment.this);
+        moduleHandler = new ModuleHandlerApi2(Camera2Fragment.this);
+        Focus = new FocusHandler(Camera2Fragment.this);
+        cameraHolder = new CameraHolderApi2(Camera2Fragment.this);
+        ((CameraHolderApi2)cameraHolder).captureSessionHandler = new CaptureSessionHandler(Camera2Fragment.this, ((CameraHolderApi2)cameraHolder).cameraBackroundValuesChangedListner);
+        mProcessor = new FocuspeakProcessorApi2(renderScriptManager,histogram);
 
         Log.d(TAG, "Constructor done");
         return view;
@@ -238,13 +245,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
                 Camera2Fragment.this.onCameraOpenFinish("");
                 break;
             case MSG_CREATE_CAMERA:
-                Log.d(TAG,"Create Camera");
-                parametersHandler = new ParameterHandlerApi2(Camera2Fragment.this);
-                moduleHandler = new ModuleHandlerApi2(Camera2Fragment.this);
-                Focus = new FocusHandler(Camera2Fragment.this);
-                cameraHolder = new CameraHolderApi2(Camera2Fragment.this);
-                ((CameraHolderApi2)cameraHolder).captureSessionHandler = new CaptureSessionHandler(Camera2Fragment.this, ((CameraHolderApi2)cameraHolder).cameraBackroundValuesChangedListner);
-                mProcessor = new FocuspeakProcessorApi2(renderScriptManager,histogram);
+
                 break;
         }
 
