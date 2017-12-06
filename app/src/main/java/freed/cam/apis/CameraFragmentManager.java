@@ -44,12 +44,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         startBackgroundThread();
     }
 
-    public void resume()
-    {
-        if (mBackgroundThread == null || !mBackgroundThread.isAlive())
-            startBackgroundThread();
-    }
-
     public void destroy()
     {
         stopBackgroundThread();
