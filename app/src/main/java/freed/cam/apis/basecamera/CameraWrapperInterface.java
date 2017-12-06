@@ -46,11 +46,6 @@ public interface CameraWrapperInterface extends CameraStateEvents
 
     void startPreview();
     void stopPreview();
-    /**
-     * Starts a new work with the current active module
-     * the module must handle the workstate on its own if it gets hit twice while work is already in progress
-     */
-    void startWork();
 
     /**
      * Get the current active CameraHolderSony

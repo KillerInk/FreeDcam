@@ -72,8 +72,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
 
     //holds all listner for the modulechanged event
     private final ArrayList<ModuleChangedEvent> moduleChangedListner;
-    //holds all listner for recorstatechanged
-    private final ArrayList<I_RecorderStateChanged> RecorderStateListners;
+
     private HandlerThread mBackgroundThread;
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
@@ -83,7 +82,6 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();
         moduleChangedListner = new ArrayList<>();
-        RecorderStateListners = new ArrayList<>();
         onCaptureStateChangedListners = new ArrayList<>();
         mainHandler = new UiHandler(Looper.getMainLooper());
         startBackgroundThread();
@@ -101,7 +99,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
                     }
                     else
                     {
-                        mainHandler.sendMessage(mainHandler.obtainMessage(CAPTURE_STATE_CHANGED,i,0,captureStates));
+                        mainHandler.obtainMessage(CAPTURE_STATE_CHANGED,i,0,captureStates).sendToTarget();
                     }
                 }
             }
@@ -195,28 +193,15 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             }
             else
             {
-                mainHandler.sendMessage(mainHandler.obtainMessage(MODULE_CHANGED,i,0, module));
+                mainHandler.obtainMessage(MODULE_CHANGED,i,0, module).sendToTarget();
             }
         }
-    }
-
-
-    public void AddRecoderChangedListner(I_RecorderStateChanged recorderStateChanged)
-    {
-        RecorderStateListners.add(recorderStateChanged);
-    }
-
-    public void onRecorderstateChanged(int state)
-    {
-        for (I_RecorderStateChanged lisn : RecorderStateListners)
-            lisn.RecordingStateChanged(state);
     }
 
     //clears all listner this happens when the camera gets destroyed
     public void CLEAR()
     {
         moduleChangedListner.clear();
-        RecorderStateListners.clear();
         stopBackgroundThread();
     }
 

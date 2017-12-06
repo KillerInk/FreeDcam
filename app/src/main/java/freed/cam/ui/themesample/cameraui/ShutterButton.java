@@ -130,7 +130,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
                     onCaptureStateChanged(CaptureStates.selftimerstart);
                 }
                 else
-                    cameraUiWrapper.getModuleHandler().getCurrentModule().DoWork();
+                    cameraUiWrapper.getModuleHandler().startWork();
             }
         });
 
@@ -140,7 +140,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         @Override
         public void run() {
             onCaptureStateChanged(CaptureStates.selftimerstop);
-            cameraUiWrapper.getModuleHandler().getCurrentModule().DoWork();
+            cameraUiWrapper.getModuleHandler().startWork();
         }
     };
 

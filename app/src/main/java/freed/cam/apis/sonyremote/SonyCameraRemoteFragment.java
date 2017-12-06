@@ -414,11 +414,6 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
     }
 
-    @Override
-    public void startWork() {
-        moduleHandler.startWork();
-    }
-
     public void stopEventObserver()
     {
         mEventObserver.stop();

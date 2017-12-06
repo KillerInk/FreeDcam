@@ -6,13 +6,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.hardware.Camera;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
 import freed.utils.StringUtils;
 
-public class FocusSelector extends ImageView
+public class FocusSelector extends AppCompatImageView
 {
 
 	private Paint bracPaint, nfPaint, hypPaint;
@@ -93,9 +94,10 @@ public class FocusSelector extends ImageView
 		}
 	}
 
-
+	@Override
 	public void onDraw(Canvas c)
 	{
+		super.onDraw(c);
 		// startX, startY, stopX, stopY
 		//Left Side
 		c.drawLine(20,0,1,20,bracPaint);
@@ -111,7 +113,6 @@ public class FocusSelector extends ImageView
 		c.drawText("NEAR: " + nearF, 15,getHeight()/2 - (textsize+5), nfPaint);
 		c.drawText("OPT: " +  hypF, 15,getHeight()/2 , hypPaint);
 		c.drawText("FAR: " + farF, 15,getHeight()/2 +(textsize+5), nfPaint);
-		invalidate();
 	}
 
 }

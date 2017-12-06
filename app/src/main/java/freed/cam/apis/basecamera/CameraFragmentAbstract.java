@@ -141,16 +141,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     }
 
     /**
-     *
-     * @return the current instance of the cameruiwrapper
-     */
-    public CameraWrapperInterface GetCameraUiWrapper()
-    {
-        return this;
-    }
-
-
-    /**
      * adds a new listner for camera state changes
      * @param cameraChangedListner to add
      */
@@ -161,8 +151,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     @Override
     public void startCamera() {
-       /* if (cameraHolder != null)
-            cameraHolder.OpenCamera(getAppSettingsManager().GetCurrentCamera());*/
         mBackgroundHandler.startCamera();
     }
 
@@ -185,17 +173,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     public void stopPreview() {
         mBackgroundHandler.stopPreview();
     }
-
-    /**
-     * Starts a new work with the current active module
-     * the module must handle the workstate on its own if it gets hit twice while work is already in progress
-     */
-    @Override
-    public void startWork()
-    {
-        moduleHandler.startWork();
-    }
-
 
     @Override
     public void onCameraOpen(final String message)
