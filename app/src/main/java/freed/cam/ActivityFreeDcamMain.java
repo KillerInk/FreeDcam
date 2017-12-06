@@ -452,6 +452,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void runFeatureDetector() {
         unloadCameraFragment();
+        AppSettingsManager.getInstance().RESET();
         cameraFragmentManager.switchCameraFragment();
     }
 }

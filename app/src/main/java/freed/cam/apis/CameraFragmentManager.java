@@ -123,9 +123,11 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     {
         if ((!AppSettingsManager.getInstance().areFeaturesDetected() || AppSettingsManager.getInstance().appVersionHasChanged()) && fd == null)
         {
+            if (cameraFragment != null)
+                unloadCameraFragment();
             loadFeatureDetector();
         }
-        else
+        else if (fd == null)
         {
             if (cameraFragment == null) {
                 String api = AppSettingsManager.getInstance().getCamApi();
