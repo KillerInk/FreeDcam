@@ -47,7 +47,7 @@ import freed.utils.Log;
 public class CameraHolder extends CameraHolderAbstract
 {
     //frame count that get attached to the camera when using focuspeak
-    final int BUFFERCOUNT = 3;
+    public static final int BUFFERCOUNT = 5;
     //camera object
     protected Camera mCamera;
 
@@ -224,7 +224,14 @@ public class CameraHolder extends CameraHolderAbstract
 
     public Parameters GetCameraParameters()
     {
-        return mCamera.getParameters();
+        try {
+            return mCamera.getParameters();
+        }catch (NullPointerException ex)
+        {
+            return null;
+        }
+
+
     }
 
     public void TakePicture(PictureCallback picture)

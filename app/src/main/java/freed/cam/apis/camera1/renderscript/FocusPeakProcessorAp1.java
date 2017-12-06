@@ -348,7 +348,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
             return;
         }
         //if limit is reached pass one frame back to the camera that i can get resused
-        if (frameQueue.size() == 2)
+        if (frameQueue.size() == CameraHolder.BUFFERCOUNT)
         {
             try {
                 camera.addCallbackBuffer(frameQueue.take());
