@@ -27,7 +27,7 @@ import android.media.MediaRecorder.VideoSource;
 import android.os.Handler;
 import android.text.TextUtils;
 
-import com.lge.media.MediaRecorderEx;
+import com.lge.media.MediaRecorderExRef;
 import com.troop.freedcam.R;
 
 import java.io.File;
@@ -46,7 +46,7 @@ import freed.utils.VideoMediaProfile.VideoMode;
  */
 public class VideoModuleG3 extends AbstractVideoModule
 {
-    private MediaRecorderEx recorder;
+    private MediaRecorder recorder;
     private VideoMediaProfile currentProfile;
 
     private final String TAG = VideoModuleG3.class.getSimpleName();
@@ -58,7 +58,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     protected MediaRecorder initRecorder()
     {
         try {
-            recorder = new MediaRecorderEx();
+            recorder = new MediaRecorderExRef().getMediaRecorder();
             recorder.reset();
             recorder.setCamera(((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera());
             if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){

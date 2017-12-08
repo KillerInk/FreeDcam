@@ -3,7 +3,7 @@ package freed.cam.apis.featuredetector;
 import android.hardware.Camera;
 import android.text.TextUtils;
 
-import com.lge.hardware.LGCamera;
+import com.lge.hardware.LGCameraRef;
 import com.troop.freedcam.R;
 
 import java.lang.reflect.Method;
@@ -935,7 +935,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private static boolean hasLGFramework()
     {
         try {
-            Class c = Class.forName("com.lge.hardware.LGCamera");
+            Class c = Class.forName("com.lge.hardware.LGCameraRef");
             Log.d(TAG, "Has Lg Framework");
             c = Class.forName("com.lge.media.CamcorderProfileEx");
             Log.d(TAG, "Has Lg Framework");
@@ -1027,12 +1027,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             case AppSettingsManager.FRAMEWORK_LG:
             {
                 Log.d(TAG,"Open LG Camera");
-                LGCamera lgCamera;
+                LGCameraRef lgCamera;
                 if (AppSettingsManager.getInstance().opencamera1Legacy.getBoolean())
-                    lgCamera = new LGCamera(currentcamera, 256);
+                    lgCamera = new LGCameraRef(currentcamera, 256);
                 else
-                    lgCamera = new LGCamera(currentcamera);
-                return lgCamera.getLGParameters().getParameters();
+                    lgCamera = new LGCameraRef(currentcamera);
+                return lgCamera.getParameters();
             }
             case AppSettingsManager.FRAMEWORK_MOTO_EXT:
             {
@@ -1443,12 +1443,19 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
         if (supportedProfiles.get(_720phfr) == null && AppSettingsManager.getInstance().videoHFR.isSupported() && AppSettingsManager.getInstance().videoHFR.contains("120"))
         {
-            Log.d(TAG, "no 720phfr profile found, but hfr supported, try to add custom 720phfr");
-            VideoMediaProfile t = supportedProfiles.get("720p").clone();
-            t.videoFrameRate = 120;
-            t.Mode = VideoMediaProfile.VideoMode.Highspeed;
-            t.ProfileName = "720pHFR";
-            supportedProfiles.put("720pHFR",t);
+            try {
+                Log.d(TAG, "no 720phfr profile found, but hfr supported, try to add custom 720phfr");
+                VideoMediaProfile t = supportedProfiles.get("720p").clone();
+                t.videoFrameRate = 120;
+                t.Mode = VideoMediaProfile.VideoMode.Highspeed;
+                t.ProfileName = "720pHFR";
+                supportedProfiles.put("720pHFR",t);
+            }
+            catch (NullPointerException ex)
+            {
+                Log.WriteEx(ex);
+            }
+
         }
         if (AppSettingsManager.getInstance().videoSize.isSupported() && AppSettingsManager.getInstance().videoSize.contains("3840x2160")
                 && AppSettingsManager.getInstance().videoHFR.isSupported()&& AppSettingsManager.getInstance().videoHFR.contains("60")) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
