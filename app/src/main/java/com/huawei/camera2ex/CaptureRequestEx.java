@@ -2,7 +2,6 @@ package com.huawei.camera2ex;
 
 import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.utils.TypeReference;
 import android.os.Build;
 import android.util.Rational;
 
@@ -268,38 +267,13 @@ public class CaptureRequestEx {
 //0 = {Constructor@5072} "protected android.hardware.camera2.utils.TypeReference()"
 //1 = {Constructor@5073} "private android.hardware.camera2.utils.TypeReference(java.lang.reflect.Type)"
 //            2 = {Constructor@5061} "android.hardware.camera2.utils.TypeReference(java.lang.reflect.Type,android.hardware.camera2.utils.TypeReference)"
-    private static CaptureRequest.Key getKeyType(String string, Type typeReference)
+    private static CaptureRequest.Key getKeyType(String string, Type type)
     {
-        try {
-            TypeReference typeref = TypeReference.createSpecializedTypeReference(typeReference);
-            Constructor<?>[] ctors = CaptureRequest.Key.class.getDeclaredConstructors();
-            Constructor<CaptureRequest.Key> constructor = (Constructor<CaptureRequest.Key>) ctors[1];
-            constructor.setAccessible(true);
-            return constructor.newInstance(string, typeref);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return (CaptureRequest.Key) ReflectionHelper.getKeyType(string,type, CaptureRequest.Key.class);
     }
 
     private static <T> CaptureRequest.Key getKeyClass(String string, Class<T> type)
     {
-        try {
-            Constructor<?>[] ctors = CaptureRequest.Key.class.getDeclaredConstructors();
-            Constructor<CaptureRequest.Key> constructor = (Constructor<CaptureRequest.Key>) ctors[2];
-            constructor.setAccessible(true);
-            return constructor.newInstance(string,type);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return (CaptureRequest.Key) ReflectionHelper.getKeyClass(string,type, CaptureRequest.Key.class);
     }
 }

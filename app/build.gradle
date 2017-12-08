@@ -56,6 +56,5 @@ android.applicationVariants.all { variant ->
 dependencies {
     implementation 'com.android.support:appcompat-v7:27.0.1'
     compileOnly files('libs/com.lge.frameworks.jar')
-    compileOnly files('libs/libTypeReference.jar')
 }
 

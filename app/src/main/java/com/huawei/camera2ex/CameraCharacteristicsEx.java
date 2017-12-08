@@ -2,11 +2,12 @@ package com.huawei.camera2ex;
 
 import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.utils.TypeReference;
+import android.hardware.camera2.CaptureResult;
 import android.os.Build;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
 /**
@@ -275,40 +276,14 @@ public class CameraCharacteristicsEx
     //public android.hardware.camera2.CameraCharacteristics$Key(java.lang.String,android.hardware.camera2.utils.TypeReference)
     private static CameraCharacteristics.Key getKeyType(String string,  Type type)
     {
-        try {
-
-            TypeReference typeref = TypeReference.createSpecializedTypeReference(type);
-
-            Constructor<?>[] ctors = CameraCharacteristics.Key.class.getDeclaredConstructors();
-            Constructor<CameraCharacteristics.Key> constructor = (Constructor<CameraCharacteristics.Key>) ctors[1];
-            constructor.setAccessible(true);
-            return constructor.newInstance(string, typeref);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return (CameraCharacteristics.Key) ReflectionHelper.getKeyType(string,type,CameraCharacteristics.Key.class);
     }
 
     //public android.hardware.camera2.CameraCharacteristics$Key(java.lang.String,java.lang.Class)
     private static <T> CameraCharacteristics.Key getKeyClass(String string, Class<T> type)
     {
-        try {
-            Constructor<?>[] ctors = CameraCharacteristics.Key.class.getDeclaredConstructors();
-            Constructor<CameraCharacteristics.Key> constructor = (Constructor<CameraCharacteristics.Key>) ctors[2];
-            constructor.setAccessible(true);
-            return constructor.newInstance(string,type);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
+
+        return (CameraCharacteristics.Key) ReflectionHelper.getKeyClass(string,type,CameraCharacteristics.Key.class);
     }
 
 }

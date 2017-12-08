@@ -2,7 +2,6 @@ package com.huawei.camera2ex;
 
 import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureResult;
-import android.hardware.camera2.utils.TypeReference;
 import android.os.Build;
 
 import java.lang.reflect.Constructor;
@@ -68,39 +67,13 @@ public class CaptureResultEx {
 
     private static CaptureResult.Key getKeyType(String string, Type type)
     {
-        try {
-            TypeReference typeref = TypeReference.createSpecializedTypeReference(type);
-
-            Constructor<?>[] ctors = CaptureResult.Key.class.getDeclaredConstructors();
-            Constructor<CaptureResult.Key> constructor = (Constructor<CaptureResult.Key>) ctors[1];
-            constructor.setAccessible(true);
-            return constructor.newInstance(string, typeref);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return (CaptureResult.Key) ReflectionHelper.getKeyType(string,type,CaptureResult.Key.class);
     }
 
     //public android.hardware.camera2.CameraCharacteristics$Key(java.lang.String,java.lang.Class)
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private static <T> CaptureResult.Key getKeyClass(String string, Class<T> type)
     {
-        try {
-            Constructor<?>[] ctors = CaptureResult.Key.class.getDeclaredConstructors();
-            Constructor<CaptureResult.Key> constructor = (Constructor<CaptureResult.Key>) ctors[2];
-            constructor.setAccessible(true);
-            return constructor.newInstance(string,type);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return (CaptureResult.Key) ReflectionHelper.getKeyClass(string,type,CaptureResult.Key.class);
     }
 }
