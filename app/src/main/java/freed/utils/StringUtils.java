@@ -149,8 +149,10 @@ public class StringUtils
         if (t > 1000) {
             int meter = t / 1000;
             int cm = t - meter*1000;
-            if (meter > 100)
+            if (meter > 1000)
                 ret = "∞";
+            else if (meter > 3)
+                ret = meter +"m";
             else
                 ret = meter + "." + cm +"m";
         }

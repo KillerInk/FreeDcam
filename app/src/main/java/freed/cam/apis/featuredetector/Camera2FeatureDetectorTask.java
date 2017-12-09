@@ -17,6 +17,7 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 import freed.settings.AppSettingsManager;
 import freed.utils.Log;
@@ -803,16 +804,30 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             mf.setIsSupported(false);
             return;
         }
-        float step = 0.2f;
-        int count = (int)(maxfocusrange/step)+2;
-        StringFloatArray focusranges = new StringFloatArray(count);
-        focusranges.add(0,AppSettingsManager.getInstance().getResString(R.string.auto),0f);
-        focusranges.add(1,"∞", 0.01f);
-        int t = 2;
+        float step = 0.001f;
+        List<Float> floats = new ArrayList<>();
         for (float i = step; i < maxfocusrange; i += step)
         {
-            focusranges.add(t++,StringUtils.getMeterString(1/i),i);
+            floats.add(i);
+            if (i > 0.01f)
+                step = 0.02f;
+            if (i > 0.1f)
+                step = 0.1f;
+            if (i > 1)
+                step = 0.2f;
+            if (i + step > maxfocusrange)
+                floats.add(maxfocusrange);
         }
+
+        StringFloatArray focusranges = new StringFloatArray(floats.size() + 2);
+        focusranges.add(0,AppSettingsManager.getInstance().getResString(R.string.auto),0f);
+        focusranges.add(1,"∞", 0.0001f); //10000m
+        int t = 2;
+        for (int i = 0; i < floats.size(); i++)
+        {
+            focusranges.add(t++,StringUtils.getMeterString(1/floats.get(i)),floats.get(i));
+        }
+
         if (focusranges.getSize() > 0)
             mf.setIsSupported(true);
         else
