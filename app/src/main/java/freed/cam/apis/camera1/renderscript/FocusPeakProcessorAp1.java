@@ -74,7 +74,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     private boolean isWorking;
     private final RenderScriptManager renderScriptManager;
     private int expectedByteSize;
-    private final BlockingQueue<byte[]> frameQueue = new ArrayBlockingQueue<>(2);
+    private final BlockingQueue<byte[]> frameQueue = new ArrayBlockingQueue<>(CameraHolder.BUFFERCOUNT);
 
     public FocusPeakProcessorAp1(I_AspectRatio output, CameraWrapperInterface cameraUiWrapper, Context context, RenderScriptManager renderScriptManager)
     {
