@@ -163,7 +163,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         add(Parameters.VideoProfiles, new VideoProfilesApi2(cameraUiWrapper));
         add(Parameters.matrixChooser, new MatrixChooserParameter(AppSettingsManager.getInstance().getMatrixesMap()));
         add(Parameters.tonemapChooser, new ToneMapChooser(AppSettingsManager.getInstance().getToneMapProfiles()));
-        add(Parameters.ZoomSetting, new ZoomApi2(cameraUiWrapper));
+        add(Parameters.M_Zoom, new ZoomApi2(cameraUiWrapper));
         SetAppSettingsToParameters();
     }
 

@@ -456,7 +456,7 @@ public class ParametersHandler extends AbstractParameterHandler
             cameraUiWrapper.getModuleHandler().addListner(((BaseManualParameter) get(freed.cam.apis.basecamera.parameters.Parameters.M_Burst)).GetModuleListner());
         }
 
-        add(freed.cam.apis.basecamera.parameters.Parameters.ZoomSetting, new ZoomManualParameter(cameraParameters, cameraUiWrapper));
+        add(freed.cam.apis.basecamera.parameters.Parameters.M_Zoom, new ZoomManualParameter(cameraParameters, cameraUiWrapper));
 
         if (appS.dualPrimaryCameraMode.isSupported())
             add(freed.cam.apis.basecamera.parameters.Parameters.dualPrimaryCameraMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.dualPrimaryCameraMode));
