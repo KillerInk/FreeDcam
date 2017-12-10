@@ -38,6 +38,8 @@ import java.util.Date;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
@@ -149,20 +151,23 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     {
         if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
         {
-            if (cameraUiWrapper.getParameterHandler().VideoProfiles != null)
-                size = cameraUiWrapper.getParameterHandler().VideoProfiles.GetStringValue();
+            ParameterInterface videoprofile = cameraUiWrapper.getParameterHandler().get(Parameters.VideoProfiles);
+            if (videoprofile != null)
+                size = videoprofile.GetStringValue();
             else
                 size = "";
         }
         else
         {
-            if (cameraUiWrapper.getParameterHandler().PictureFormat != null)
-                format = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
+            ParameterInterface pictureFormat = cameraUiWrapper.getParameterHandler().get(Parameters.PictureFormat);
+            if (pictureFormat != null)
+                format = pictureFormat.GetStringValue();
             else
                 format = "";
 
-            if (cameraUiWrapper.getParameterHandler().PictureSize != null)
-                size = cameraUiWrapper.getParameterHandler().PictureSize.GetStringValue();
+            ParameterInterface pictureSize = cameraUiWrapper.getParameterHandler().get(Parameters.PictureSize);
+            if (pictureSize != null)
+                size = pictureSize.GetStringValue();
             else
                 size = "";
         }

@@ -39,6 +39,8 @@ import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
@@ -241,9 +243,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         public void IsMoving(boolean moving)
         {
             //disable exposure lock that metering can get applied
-            if (moving && wrapper.getParameterHandler().ExposureLock != null && wrapper.getParameterHandler().ExposureLock.IsSupported() && wrapper.getParameterHandler().ExposureLock.GetStringValue().equals("true"))
+            ParameterInterface expolock = wrapper.getParameterHandler().get(Parameters.ExposureLock);
+            if (moving && expolock != null && expolock.IsSupported() && expolock.GetStringValue().equals("true"))
             {
-                wrapper.getParameterHandler().ExposureLock.SetValue("false",true);
+                expolock.SetValue("false",true);
             }
             //enable/disable viewpager touch
             fragment.DisablePagerTouch(moving);

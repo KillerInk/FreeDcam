@@ -39,6 +39,8 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.apis.basecamera.parameters.Parameters;
+import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
@@ -111,90 +113,90 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
             cameraUiWrapper.getModuleHandler().addListner(this);
             AppSettingsManager aps = AppSettingsManager.getInstance();
             AbstractParameterHandler parms = cameraUiWrapper.getParameterHandler();
-            if (parms.Zoom != null)
+            if (parms.get(Parameters.M_Zoom) != null)
             {
-                ManualButton btn = new ManualButton(getContext(), aps.manualZoom, parms.Zoom, R.drawable.manual_zoom);
+                ManualButton btn = new ManualButton(getContext(), aps.manualZoom, parms.get(Parameters.M_Zoom), R.drawable.manual_zoom);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
 
-            if (parms.ManualFocus != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualFocus, parms.ManualFocus, R.drawable.manual_focus);
+            if (parms.get(Parameters.M_Focus) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualFocus, parms.get(Parameters.M_Focus), R.drawable.manual_focus);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.ManualIso != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualIso, parms.ManualIso, R.drawable.manual_iso);
+            if (parms.get(Parameters.M_ManualIso) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualIso, parms.get(Parameters.M_ManualIso), R.drawable.manual_iso);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.ManualShutter != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualExposureTime, parms.ManualShutter, R.drawable.manual_shutter);
+            if (parms.get(Parameters.M_ExposureTime) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualExposureTime, parms.get(Parameters.M_ExposureTime), R.drawable.manual_shutter);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.ManualFNumber != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualFnumber, parms.ManualFNumber, R.drawable.manual_fnum);
+            if (parms.get(Parameters.M_Fnumber) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualFnumber, parms.get(Parameters.M_Fnumber), R.drawable.manual_fnum);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.ManualExposure != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualExposureCompensation, parms.ManualExposure, R.drawable.manual_exposure);
+            if (parms.get(Parameters.M_ExposureCompensation) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualExposureCompensation, parms.get(Parameters.M_ExposureCompensation), R.drawable.manual_exposure);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.CCT != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualWhiteBalance, parms.CCT, R.drawable.manual_wb);
+            if (parms.get(Parameters.M_Whitebalance) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualWhiteBalance, parms.get(Parameters.M_Whitebalance), R.drawable.manual_wb);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
 
-            if (parms.Burst != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualBurst, parms.Burst, R.drawable.manual_burst);
+            if (parms.get(Parameters.M_Burst) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualBurst, parms.get(Parameters.M_Burst), R.drawable.manual_burst);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.ManualContrast != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualContrast, parms.ManualContrast, R.drawable.manual_contrast);
+            if (parms.get(Parameters.M_Contrast) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualContrast, parms.get(Parameters.M_Contrast), R.drawable.manual_contrast);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.ManualBrightness != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualBrightness, parms.ManualBrightness, R.drawable.brightness);
+            if (parms.get(Parameters.M_Brightness) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualBrightness, parms.get(Parameters.M_Brightness), R.drawable.brightness);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.ManualSaturation != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualSaturation, parms.ManualSaturation, R.drawable.manual_saturation);
+            if (parms.get(Parameters.M_Saturation) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualSaturation, parms.get(Parameters.M_Saturation), R.drawable.manual_saturation);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.ManualSharpness != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualSharpness, parms.ManualSharpness, R.drawable.manual_sharpness);
+            if (parms.get(Parameters.M_Shaprness) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualSharpness, parms.get(Parameters.M_Shaprness), R.drawable.manual_sharpness);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.ManualConvergence != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualConvergence, parms.ManualConvergence, R.drawable.manual_convergence);
+            if (parms.get(Parameters.M_3D_Convergence) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualConvergence, parms.get(Parameters.M_3D_Convergence), R.drawable.manual_convergence);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.FX != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualFx, parms.FX, R.drawable.manual_fx);
+            if (parms.get(Parameters.M_FX) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualFx, parms.get(Parameters.M_FX), R.drawable.manual_fx);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.ProgramShift != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualProgramShift, parms.ProgramShift, R.drawable.manual_shift);
+            if (parms.get(Parameters.M_ProgramShift) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualProgramShift, parms.get(Parameters.M_ProgramShift), R.drawable.manual_shift);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.PreviewZoom != null) {
-                ManualButton btn = new ManualButton(getContext(), aps.manualPreviewZoom, parms.PreviewZoom, R.drawable.manual_zoom);
+            if (parms.get(Parameters.scalePreview) != null) {
+                ManualButton btn = new ManualButton(getContext(), aps.manualPreviewZoom, parms.get(Parameters.scalePreview), R.drawable.manual_zoom);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.black != null) {
+            /*if (parms.black != null) {
                 ManualButton btn = new ManualButton(getContext(), null, parms.black, R.drawable.manual_black);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
@@ -218,10 +220,10 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 ManualButton btn = new ManualButton(getContext(), null, parms.white, R.drawable.manual_white);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
-            }
-            if (parms.toneCurveParameter != null)
+            }*/
+            if (parms.get(Parameters.M_ToneCurve) != null)
             {
-                ManualButton btn = new ManualButtonToneCurve(getContext(), null, parms.toneCurveParameter, R.drawable.manual_midtones);
+                ManualButton btn = new ManualButtonToneCurve(getContext(), null, parms.get(Parameters.M_ToneCurve), R.drawable.manual_midtones);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
@@ -394,7 +396,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 ar[count++] = pointFs[i].x;
                 ar[count++] = pointFs[i].y;
         }
-        cameraUiWrapper.getParameterHandler().toneCurveParameter.setCurveToCamera(ar);
+        ((ManualToneMapCurveApi2.ToneCurveParameter)cameraUiWrapper.getParameterHandler().get(Parameters.M_ToneCurve)).setCurveToCamera(ar);
     }
 
     private float[] pointFtoFloatArray(PointF[] pointFs)
@@ -411,7 +413,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     @Override
     public void onCurveChanged(PointF[] r, PointF[] g, PointF[] b) {
-        cameraUiWrapper.getParameterHandler().toneCurveParameter.setCurveToCamera(pointFtoFloatArray(r),pointFtoFloatArray(g),pointFtoFloatArray(b));
+        ((ManualToneMapCurveApi2.ToneCurveParameter)cameraUiWrapper.getParameterHandler().get(Parameters.M_ToneCurve)).setCurveToCamera(pointFtoFloatArray(r),pointFtoFloatArray(g),pointFtoFloatArray(b));
     }
 
     @Override

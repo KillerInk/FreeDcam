@@ -24,6 +24,7 @@ import android.text.TextUtils;
 
 import java.util.Date;
 
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
@@ -58,13 +59,13 @@ public class IntervalHandler
         Log.d(TAG, "Start Interval");
         working = true;
         startTime = new Date().getTime();
-        String sleep = picmodule.cameraUiWrapper.getParameterHandler().IntervalShutterSleep.GetStringValue();
+        String sleep = picmodule.cameraUiWrapper.getParameterHandler().get(Parameters.IntervalShutterSleep).GetStringValue();
         if (sleep.contains(" sec"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" sec",""))*1000;
         if (sleep.contains(" min"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" min",""))*60*1000;
 
-        String duration = picmodule.cameraUiWrapper.getParameterHandler().IntervalDuration.GetStringValue();
+        String duration = picmodule.cameraUiWrapper.getParameterHandler().get(Parameters.IntervalDuration).GetStringValue();
         if (duration.equals("∞"))
             fullIntervalCaptureDuration = 0;
         else if (duration.contains(" min"))
@@ -106,9 +107,6 @@ public class IntervalHandler
         double min = (double)(dif /1000) / 60;
         if (min >= fullIntervalCaptureDuration && fullIntervalCaptureDuration > 0)
         {
-            Log.d(TAG, "Finished Interval");
-            picmodule.cameraUiWrapper.getParameterHandler().IntervalCaptureFocusSet = false;
-            picmodule.cameraUiWrapper.getParameterHandler().IntervalCapture = false;
             working = false;
             return;
         }

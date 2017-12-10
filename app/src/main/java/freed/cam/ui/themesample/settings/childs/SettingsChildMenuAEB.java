@@ -32,6 +32,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.settings.AppSettingsManager;
 
 /**
@@ -96,9 +97,9 @@ public class SettingsChildMenuAEB extends LinearLayout {
         if (cameraUiWrapper == this.cameraUiWrapper)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().ManualExposure != null)
+        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().get(Parameters.M_ExposureCompensation) != null)
         {
-            String[] v = cameraUiWrapper.getParameterHandler().ManualExposure.getStringValues();
+            String[] v = cameraUiWrapper.getParameterHandler().get(Parameters.M_ExposureCompensation).getStringValues();
             int le = v.length;
             min = -(le/2);
             max = le/2;

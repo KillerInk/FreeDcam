@@ -46,6 +46,7 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import freed.cam.apis.camera2.CaptureSessionHandler;
@@ -106,7 +107,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         super.InitModule();
         Log.d(TAG, "InitModule");
         changeCaptureState(CaptureStates.image_capture_stop);
-        cameraUiWrapper.getParameterHandler().Burst.SetValue(0);
+        cameraUiWrapper.getParameterHandler().get(Parameters.M_Burst).SetValue(0);
         if (cameraHolder.captureSessionHandler.getSurfaceTexture() != null)
             startPreview();
     }
@@ -204,8 +205,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         {
             Log.WriteEx(ex);
         }
-        if (parameterHandler.Burst != null)
-            parameterHandler.Burst.fireStringValueChanged(parameterHandler.Burst.GetStringValue());
+        if (parameterHandler.get(Parameters.M_Burst) != null)
+            parameterHandler.get(Parameters.M_Burst).fireStringValueChanged(parameterHandler.get(Parameters.M_Burst).GetStringValue());
         cameraUiWrapper.onPreviewOpen("");
     }
 
@@ -218,7 +219,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         if (TextUtils.isEmpty(picFormat)) {
             picFormat = AppSettingsManager.getInstance().getResString(R.string.pictureformat_jpeg);
             AppSettingsManager.getInstance().pictureFormat.set(picFormat);
-            parameterHandler.PictureFormat.fireStringValueChanged(picFormat);
+            parameterHandler.get(Parameters.PictureFormat).fireStringValueChanged(picFormat);
 
         }
 
@@ -299,7 +300,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             Log.d(TAG, AppSettingsManager.getInstance().pictureFormat.get());
             Log.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
             imagecount = 0;
-            burstCount = Integer.parseInt(parameterHandler.Burst.GetStringValue());
+            burstCount = Integer.parseInt(parameterHandler.get(Parameters.M_Burst).GetStringValue());
             if (burstCount > 1)
                 isBurstCapture = true;
             else
@@ -337,12 +338,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         currentCaptureHolder = new ImageHolder(cameraHolder.characteristics, captureDng, captureJpeg, cameraUiWrapper.getActivityInterface(),this,this, this);
         currentCaptureHolder.setFilePath(getFileString(), AppSettingsManager.getInstance().GetWriteExternal());
         currentCaptureHolder.setForceRawToDng(AppSettingsManager.getInstance().forceRawToDng.getBoolean());
-        currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().tonemapChooser).getToneMap());
+        currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().get(Parameters.tonemapChooser)).getToneMap());
         currentCaptureHolder.setSupport12bitRaw(AppSettingsManager.getInstance().support12bitRaw.getBoolean());
 
         Log.d(TAG, "captureStillPicture ImgCount:"+ imagecount +  " ImageHolder Path:" + currentCaptureHolder.filepath);
 
-        if (cameraUiWrapper.getParameterHandler().locationParameter.GetStringValue().equals(AppSettingsManager.getInstance().getResString(R.string.on_)))
+        if (cameraUiWrapper.getParameterHandler().get(Parameters.locationParameter).GetStringValue().equals(AppSettingsManager.getInstance().getResString(R.string.on_)))
         {
             currentCaptureHolder.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             cameraHolder.captureSessionHandler.SetParameter(CaptureRequest.JPEG_GPS_LOCATION,cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
@@ -505,7 +506,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
 
     private String getFileString()
     {
-        if (Integer.parseInt(parameterHandler.Burst.GetStringValue()) > 1)
+        if (Integer.parseInt(parameterHandler.get(Parameters.M_Burst).GetStringValue()) > 1)
             return cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(AppSettingsManager.getInstance().GetWriteExternal(), "_" + imagecount);
         else
             return cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(AppSettingsManager.getInstance().GetWriteExternal(),"");
@@ -522,7 +523,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         {
             imagecount++;
             Log.d(TAG,"finished Capture:" + imagecount);
-            if (Integer.parseInt(parameterHandler.Burst.GetStringValue())  > imagecount) {
+            if (Integer.parseInt(parameterHandler.get(Parameters.M_Burst).GetStringValue())  > imagecount) {
                 captureStillPicture();
             }
             else if (cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&

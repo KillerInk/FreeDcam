@@ -14,6 +14,7 @@ import com.troop.freedcam.R.layout;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
@@ -45,8 +46,8 @@ public class GuideHandler extends Fragment implements ParameterEvents {
     @Override
     public void onResume() {
         super.onResume();
-        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().PreviewSize != null)
-            previewSizeChanged.onStringValueChanged(cameraUiWrapper.getParameterHandler().PreviewSize.GetStringValue());
+        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().get(Parameters.PreviewSize) != null)
+            previewSizeChanged.onStringValueChanged(cameraUiWrapper.getParameterHandler().get(Parameters.PreviewSize).GetStringValue());
     }
     @Override
     public void onPause(){
@@ -57,7 +58,7 @@ public class GuideHandler extends Fragment implements ParameterEvents {
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.getParameterHandler().GuideList.addEventListner(this);
+        cameraUiWrapper.getParameterHandler().get(Parameters.GuideList).addEventListner(this);
         Log.d(TAG, "setCameraUiWrapper SetViewG()");
         if (img != null)
             SetViewG(AppSettingsManager.getInstance().guide.get());

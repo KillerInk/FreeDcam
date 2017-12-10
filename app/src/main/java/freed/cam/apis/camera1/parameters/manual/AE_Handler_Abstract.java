@@ -25,6 +25,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.AppSettingsManager;
@@ -140,12 +141,12 @@ public abstract class AE_Handler_Abstract
                 Log.d(TAG,"AeManualEvent aeevent");
                 ((ParametersHandler) cameraWrapper.getParameterHandler()).SetParametersToCamera(parameters);
                 if (automode) {
-                    String t = cameraWrapper.getParameterHandler().IsoMode.GetStringValue();
+                    String t = cameraWrapper.getParameterHandler().get(Parameters.IsoMode).GetStringValue();
                     if (!t.equals(cameraWrapper.getResString(R.string.iso100_)))
-                        cameraWrapper.getParameterHandler().IsoMode.SetValue(cameraWrapper.getResString(R.string.iso100_), true);
+                        cameraWrapper.getParameterHandler().get(Parameters.IsoMode).SetValue(cameraWrapper.getResString(R.string.iso100_), true);
                     else
-                        cameraWrapper.getParameterHandler().IsoMode.SetValue(cameraWrapper.getResString(R.string.auto_), true);
-                    cameraWrapper.getParameterHandler().IsoMode.SetValue(t, true);
+                        cameraWrapper.getParameterHandler().get(Parameters.IsoMode).SetValue(cameraWrapper.getResString(R.string.auto_), true);
+                    cameraWrapper.getParameterHandler().get(Parameters.IsoMode).SetValue(t, true);
                 }
             }
         }

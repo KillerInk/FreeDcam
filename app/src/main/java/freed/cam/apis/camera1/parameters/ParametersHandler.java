@@ -158,92 +158,92 @@ public class ParametersHandler extends AbstractParameterHandler
 
         //setup first Pictureformat its needed for manual parameters to
         // register their listners there if its postprocessing parameter
-        PictureFormat = new PictureFormatHandler(cameraParameters, cameraUiWrapper, this);
+        add(freed.cam.apis.basecamera.parameters.Parameters.PictureFormat, new PictureFormatHandler(cameraParameters, cameraUiWrapper, this));
         if (AppSettingsManager.getInstance().getDngProfilesMap()!= null && AppSettingsManager.getInstance().getDngProfilesMap().size() > 0 && AppSettingsManager.getInstance().rawPictureFormat.isSupported())
-            opcode = new OpCodeParameter();
-        cameraUiWrapper.getModuleHandler().addListner((ModuleChangedEvent) PictureFormat);
+            add(freed.cam.apis.basecamera.parameters.Parameters.opcode, new OpCodeParameter());
+        cameraUiWrapper.getModuleHandler().addListner((ModuleChangedEvent) get(freed.cam.apis.basecamera.parameters.Parameters.PictureFormat));
         AppSettingsManager appS = AppSettingsManager.getInstance();
         if (appS.pictureSize.isSupported())
-            PictureSize = new PictureSizeParameter(cameraParameters, cameraUiWrapper);
+            add(freed.cam.apis.basecamera.parameters.Parameters.PictureSize ,new PictureSizeParameter(cameraParameters, cameraUiWrapper));
 
         if (appS.focusMode.isSupported()) {
-            FocusMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,appS.focusMode);
-            FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
+            add(freed.cam.apis.basecamera.parameters.Parameters.FocusMode,new BaseModeParameter(cameraParameters, cameraUiWrapper,appS.focusMode));
+            get(freed.cam.apis.basecamera.parameters.Parameters.FocusMode).addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
         }
 
         if (appS.whiteBalanceMode.isSupported())
-            WhiteBalanceMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,appS.whiteBalanceMode);
+            add(freed.cam.apis.basecamera.parameters.Parameters.WhiteBalanceMode, new BaseModeParameter(cameraParameters, cameraUiWrapper,appS.whiteBalanceMode));
 
         if (appS.exposureMode.isSupported()) {
-            ExposureMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, appS.exposureMode);
-            ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
+            add(freed.cam.apis.basecamera.parameters.Parameters.ExposureMode,new BaseModeParameter(cameraParameters, cameraUiWrapper, appS.exposureMode));
+            get(freed.cam.apis.basecamera.parameters.Parameters.ExposureMode).addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
         }
 
         if (appS.colorMode.isSupported())
-            ColorMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.colorMode);
+            add(freed.cam.apis.basecamera.parameters.Parameters.ColorMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.colorMode));
 
         if (appS.flashMode.isSupported())
-            FlashMode = new BaseModeParameter(cameraParameters,cameraUiWrapper, appS.flashMode);
+            add(freed.cam.apis.basecamera.parameters.Parameters.FlashMode, new BaseModeParameter(cameraParameters,cameraUiWrapper, appS.flashMode));
 
         if (appS.isoMode.isSupported())
-            IsoMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.isoMode);
+            add(freed.cam.apis.basecamera.parameters.Parameters.IsoMode ,new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.isoMode));
 
         if (appS.antiBandingMode.isSupported())
-            AntiBandingMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.antiBandingMode);
+            add(freed.cam.apis.basecamera.parameters.Parameters.AntiBandingMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.antiBandingMode));
 
         if (appS.imagePostProcessing.isSupported())
-            ImagePostProcessing = new BaseModeParameter(cameraParameters, cameraUiWrapper, appS.imagePostProcessing);
+            add(freed.cam.apis.basecamera.parameters.Parameters.ImagePostProcessing, new BaseModeParameter(cameraParameters, cameraUiWrapper, appS.imagePostProcessing));
 
         if (appS.jpegQuality.isSupported())
-            JpegQuality = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.jpegQuality);
+            add(freed.cam.apis.basecamera.parameters.Parameters.JpegQuality, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.jpegQuality));
 
         if (appS.aeBracket.isSupported())
-            AE_Bracket = new BaseModeParameter(cameraParameters, cameraUiWrapper, appS.aeBracket);
+            add(freed.cam.apis.basecamera.parameters.Parameters.AE_Bracket, new BaseModeParameter(cameraParameters, cameraUiWrapper, appS.aeBracket));
 
         if (appS.previewSize.isSupported())
-            PreviewSize =  new PreviewSizeParameter(cameraParameters,cameraUiWrapper,appS.previewSize);
+            add(freed.cam.apis.basecamera.parameters.Parameters.PreviewSize,  new PreviewSizeParameter(cameraParameters,cameraUiWrapper,appS.previewSize));
 
         if (appS.previewFps.isSupported())
-            PreviewFPS = new PreviewFpsParameter(cameraParameters,cameraUiWrapper,appS.previewFps);
+            add(freed.cam.apis.basecamera.parameters.Parameters.PreviewFPS, new PreviewFpsParameter(cameraParameters,cameraUiWrapper,appS.previewFps));
 
         if (appS.previewFpsRange.isSupported())
-            PreviewFpsRange = new BaseModeParameter(cameraParameters, cameraUiWrapper, appS.previewFpsRange);
+            add(freed.cam.apis.basecamera.parameters.Parameters.PreviewFPS, new BaseModeParameter(cameraParameters, cameraUiWrapper, appS.previewFpsRange));
 
         if (appS.previewFormat.isSupported())
-            PreviewFormat = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.previewFormat);
+            add(freed.cam.apis.basecamera.parameters.Parameters.PreviewFormat,  new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.previewFormat));
 
         if (appS.sceneMode.isSupported())
-            SceneMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.sceneMode);
+            add(freed.cam.apis.basecamera.parameters.Parameters.SceneMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.sceneMode));
 
         if (appS.redEyeMode.isSupported())
-            RedEye = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.redEyeMode);
+            add(freed.cam.apis.basecamera.parameters.Parameters.RedEye, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.redEyeMode));
 
         if (appS.lenshade.isSupported())
-            LensShade = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.lenshade);
+            add(freed.cam.apis.basecamera.parameters.Parameters.LensShade, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.lenshade));
 
         if (appS.zeroshutterlag.isSupported())
-            ZSL = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.zeroshutterlag);
+            add(freed.cam.apis.basecamera.parameters.Parameters.ZSL, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.zeroshutterlag));
 
         if (appS.sceneDetectMode.isSupported())
-            SceneDetect = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.sceneDetectMode);
+            add(freed.cam.apis.basecamera.parameters.Parameters.SceneDetect, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.sceneDetectMode));
 
         if (appS.memoryColorEnhancement.isSupported())
-            MemoryColorEnhancement = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.memoryColorEnhancement);
+            add(freed.cam.apis.basecamera.parameters.Parameters.MemoryColorEnhancement, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.memoryColorEnhancement));
 
         if (appS.videoSize.isSupported())
-            VideoSize = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.videoSize);
+            add(freed.cam.apis.basecamera.parameters.Parameters.VideoSize, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.videoSize));
 
         if (appS.correlatedDoubleSampling.isSupported())
-            CDS_Mode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.correlatedDoubleSampling);
+            add(freed.cam.apis.basecamera.parameters.Parameters.CDS_Mode, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.correlatedDoubleSampling));
 
         if (appS.opticalImageStabilisation.isSupported())
-            oismode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.opticalImageStabilisation);
+            add(freed.cam.apis.basecamera.parameters.Parameters.oismode, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.opticalImageStabilisation));
 
         if (appS.videoHDR.isSupported())
-            VideoHDR = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.videoHDR);
+            add(freed.cam.apis.basecamera.parameters.Parameters.VideoHDR, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.videoHDR));
 
         if (appS.videoHFR.isSupported())
-            VideoHighFramerateVideo = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.videoHFR);
+            add(freed.cam.apis.basecamera.parameters.Parameters.VideoHighFramerate, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.videoHFR));
 
         if (appS.nightMode.isSupported()) {
             switch (AppSettingsManager.getInstance().nightMode.getType()) {
@@ -251,7 +251,7 @@ public class ParametersHandler extends AbstractParameterHandler
                     //NightMode = new NightModeXiaomi(cameraParameters, cameraUiWrapper);
                     break;
                 case AppSettingsManager.NIGHTMODE_ZTE:
-                    NightMode = new NightModeZTE(cameraParameters, cameraUiWrapper);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.NightMode, new NightModeZTE(cameraParameters, cameraUiWrapper));
                     break;
             }
         }
@@ -263,59 +263,59 @@ public class ParametersHandler extends AbstractParameterHandler
                     //HDRMode = new MorphoHdrModeParameters(cameraParameters,cameraUiWrapper,appS.hdrMode);
                     break;
                 case AppSettingsManager.HDR_AUTO:
-                    HDRMode = new AutoHdrMode(cameraParameters,cameraUiWrapper,appS.hdrMode);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.HDRMode, new AutoHdrMode(cameraParameters,cameraUiWrapper,appS.hdrMode));
                     break;
                 case AppSettingsManager.HDR_LG:
-                    HDRMode = new LgHdrMode(cameraParameters,cameraUiWrapper,appS.hdrMode);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.HDRMode,new LgHdrMode(cameraParameters,cameraUiWrapper,appS.hdrMode));
                     break;
                 case AppSettingsManager.HDR_MOTO:
-                    HDRMode = new MotoHDR(cameraParameters,cameraUiWrapper,appS.hdrMode);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.HDRMode, new MotoHDR(cameraParameters,cameraUiWrapper,appS.hdrMode));
                     break;
             }
         }
 
         if (AppSettingsManager.getInstance().getDngProfilesMap() != null && appS.getDngProfilesMap().size() > 0 && appS.rawPictureFormat.isSupported())
-            matrixChooser = new MatrixChooserParameter(AppSettingsManager.getInstance().getMatrixesMap());
+            add(freed.cam.apis.basecamera.parameters.Parameters.matrixChooser, new MatrixChooserParameter(AppSettingsManager.getInstance().getMatrixesMap()));
 
         if(appS.denoiseMode.isSupported())
-            Denoise = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.denoiseMode);
+            add(freed.cam.apis.basecamera.parameters.Parameters.Denoise, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.denoiseMode));
 
         if(appS.nonZslManualMode.isSupported())
-            NonZslManualMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.nonZslManualMode);
+            add(freed.cam.apis.basecamera.parameters.Parameters.NonZslManualMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.nonZslManualMode));
 
         if (appS.digitalImageStabilisationMode.isSupported())
-            DigitalImageStabilization = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.digitalImageStabilisationMode);
+            add(freed.cam.apis.basecamera.parameters.Parameters.DigitalImageStabilization, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.digitalImageStabilisationMode));
 
         if (appS.temporal_nr.isSupported())
-            TNR = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.temporal_nr);
+            add(freed.cam.apis.basecamera.parameters.Parameters.TNR, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.temporal_nr));
         if (appS.temporal_video_nr.isSupported())
-            TNR_V = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.temporal_video_nr);
+            add(freed.cam.apis.basecamera.parameters.Parameters.TNR_V, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.temporal_video_nr));
         if (appS.pdafcontrol.isSupported())
-            PDAF = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.pdafcontrol);
+            add(freed.cam.apis.basecamera.parameters.Parameters.PDAF, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.pdafcontrol));
         if (appS.seemore_tonemap.isSupported())
-            SeeMore = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.seemore_tonemap);
+            add(freed.cam.apis.basecamera.parameters.Parameters.SeeMore, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.seemore_tonemap));
         if (appS.truepotrait.isSupported())
-            TruePotrait = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.truepotrait);
+            add(freed.cam.apis.basecamera.parameters.Parameters.TruePotrait, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.truepotrait));
         if (appS.refocus.isSupported())
-            ReFocus = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.refocus);
+            add(freed.cam.apis.basecamera.parameters.Parameters.ReFocus, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.refocus));
         if (appS.optizoom.isSupported())
-            OptiZoom = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.optizoom);
+            add(freed.cam.apis.basecamera.parameters.Parameters.OptiZoom, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.optizoom));
         if (appS.rawdumpinterface.isSupported())
-            RDI = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.rawdumpinterface);
+            add(freed.cam.apis.basecamera.parameters.Parameters.RDI, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.rawdumpinterface));
         if (appS.chromaflash.isSupported())
-            ChromaFlash = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.chromaflash);
+            add(freed.cam.apis.basecamera.parameters.Parameters.ChromaFlash, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.chromaflash));
 
-        VideoProfiles = new VideoProfilesParameter(cameraUiWrapper);
+        add(freed.cam.apis.basecamera.parameters.Parameters.VideoProfiles, new VideoProfilesParameter(cameraUiWrapper));
 
-        ExposureLock = new ExposureLockParameter(cameraParameters, cameraUiWrapper);
+        add(freed.cam.apis.basecamera.parameters.Parameters.ExposureLock, new ExposureLockParameter(cameraParameters, cameraUiWrapper));
 
-        Focuspeak = new FocusPeakModeParameter(cameraUiWrapper,((Camera1Fragment) cameraUiWrapper).focusPeakProcessorAp1);
+        add(freed.cam.apis.basecamera.parameters.Parameters.Focuspeak, new FocusPeakModeParameter(cameraUiWrapper,((Camera1Fragment) cameraUiWrapper).focusPeakProcessorAp1));
 
         SetCameraRotation();
 
         SetPictureOrientation(0);
 
-        Module = new ModuleParameters(cameraUiWrapper);
+        add(freed.cam.apis.basecamera.parameters.Parameters.Module, new ModuleParameters(cameraUiWrapper));
 
         /*
         MANUALSTUFF
@@ -325,39 +325,39 @@ public class ParametersHandler extends AbstractParameterHandler
         {
             if (AppSettingsManager.getInstance().getFrameWork() == FRAMEWORK_MTK)
             {
-                ManualFocus = new FocusManualMTK(cameraParameters, cameraUiWrapper,appS.manualFocus);
+                add(freed.cam.apis.basecamera.parameters.Parameters.M_Focus, new FocusManualMTK(cameraParameters, cameraUiWrapper,appS.manualFocus));
             }
             else
             {
                 //htc mf
                 if (AppSettingsManager.getInstance().manualFocus.getKEY().equals(cameraUiWrapper.getResString(R.string.focus)))
-                    ManualFocus = new FocusManualParameterHTC(cameraParameters,cameraUiWrapper);
+                     add(freed.cam.apis.basecamera.parameters.Parameters.M_Focus, new FocusManualParameterHTC(cameraParameters,cameraUiWrapper));
                     //huawai mf
                 else if (appS.manualFocus.getKEY().equals(AppSettingsManager.getInstance().getResString(R.string.hw_manual_focus_step_value)))
-                    ManualFocus = new FocusManualHuawei(cameraParameters, cameraUiWrapper, appS.manualFocus);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_Focus, new FocusManualHuawei(cameraParameters, cameraUiWrapper, appS.manualFocus));
                     //qcom
                 else
-                    ManualFocus = new BaseFocusManual(cameraParameters,cameraUiWrapper,appS.manualFocus);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_Focus, new BaseFocusManual(cameraParameters,cameraUiWrapper,appS.manualFocus));
             }
 
         }
 
         if (appS.manualSaturation.isSupported()) {
-            ManualSaturation = new BaseManualParameter(cameraParameters, cameraUiWrapper, appS.manualSaturation);
+            add(freed.cam.apis.basecamera.parameters.Parameters.M_Saturation, new BaseManualParameter(cameraParameters, cameraUiWrapper, appS.manualSaturation));
         }
 
         if (appS.manualSharpness.isSupported())
-            ManualSharpness = new BaseManualParameter(cameraParameters,cameraUiWrapper,appS.manualSharpness);
+            add(freed.cam.apis.basecamera.parameters.Parameters.M_Shaprness, new BaseManualParameter(cameraParameters,cameraUiWrapper,appS.manualSharpness));
 
         if (appS.manualBrightness.isSupported())
-            ManualBrightness = new BaseManualParameter(cameraParameters,cameraUiWrapper,appS.manualBrightness);
+            add(freed.cam.apis.basecamera.parameters.Parameters.M_Brightness, new BaseManualParameter(cameraParameters,cameraUiWrapper,appS.manualBrightness));
 
         if(appS.manualContrast.isSupported())
-            ManualContrast = new BaseManualParameter(cameraParameters,cameraUiWrapper,appS.manualContrast);
+            add(freed.cam.apis.basecamera.parameters.Parameters.M_Contrast, new BaseManualParameter(cameraParameters,cameraUiWrapper,appS.manualContrast));
 
 
         if (appS.virtualLensfilter.isSupported())
-            LensFilter = new VirtualLensFilter(cameraParameters,cameraUiWrapper);
+            add(freed.cam.apis.basecamera.parameters.Parameters.LensFilter, new VirtualLensFilter(cameraParameters,cameraUiWrapper));
 
         if (appS.getFrameWork() == FRAMEWORK_LG)//its needed else cam ignores manuals like shutter and iso
             cameraParameters.set("lge-camera","1");
@@ -375,39 +375,39 @@ public class ParametersHandler extends AbstractParameterHandler
             {
                 case SHUTTER_HTC:
                     //HTCVideoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-mode", "video-hfr-values");
-                    ManualShutter = new ShutterManualParameterHTC(cameraParameters,cameraUiWrapper);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ExposureTime, new ShutterManualParameterHTC(cameraParameters,cameraUiWrapper));
                     break;
                 case SHUTTER_QCOM_MICORSEC:
-                    ManualShutter = new ExposureTime_MicroSec(cameraUiWrapper,cameraParameters);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ExposureTime, new ExposureTime_MicroSec(cameraUiWrapper,cameraParameters));
                     break;
                 case SHUTTER_QCOM_MILLISEC:
-                    ManualShutter = new ExposureTime_MilliSec(cameraUiWrapper,cameraParameters);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ExposureTime, new ExposureTime_MilliSec(cameraUiWrapper,cameraParameters));
                     break;
                 case SHUTTER_MTK:
 
                     aehandler = new AE_Handler_MTK(cameraParameters,cameraUiWrapper,1600);
-                    ManualShutter = aehandler.getShutterManual();
-                    ManualIso = aehandler.getManualIso();
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ExposureTime, aehandler.getShutterManual());
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ManualIso, aehandler.getManualIso());
                     break;
                 case SHUTTER_LG:
                     aehandler = new AE_Handler_LGG4(cameraParameters,cameraUiWrapper);
-                    ManualShutter = aehandler.getShutterManual();
-                    ManualIso = aehandler.getManualIso();
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ExposureTime, aehandler.getShutterManual());
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ManualIso, aehandler.getManualIso());
                     break;
                 case SHUTTER_MEIZU:
-                    ManualShutter = new ShutterManualMeizu(cameraParameters,cameraUiWrapper);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ExposureTime, new ShutterManualMeizu(cameraParameters,cameraUiWrapper));
                     break;
                 case SHUTTER_KRILLIN:
-                    ManualShutter = new ShutterManualKrilin(cameraParameters,cameraUiWrapper);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ExposureTime, new ShutterManualKrilin(cameraParameters,cameraUiWrapper));
                     break;
                 case SHUTTER_SONY:
-                    ManualShutter = new ShutterManualSony(cameraParameters,cameraUiWrapper);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ExposureTime, new ShutterManualSony(cameraParameters,cameraUiWrapper));
                     break;
                 case SHUTTER_G2PRO:
-                    ManualShutter = new ShutterManualG2pro(cameraParameters,cameraUiWrapper);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ExposureTime, new ShutterManualG2pro(cameraParameters,cameraUiWrapper));
                     break;
                 case SHUTTER_ZTE:
-                    ManualShutter = new ShutterManualZTE(cameraParameters,cameraUiWrapper);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ExposureTime, new ShutterManualZTE(cameraParameters,cameraUiWrapper));
             }
 
         }
@@ -419,13 +419,13 @@ public class ParametersHandler extends AbstractParameterHandler
             switch (appS.manualIso.getType())
             {
                 case ISOMANUAL_QCOM:
-                    ManualIso = new BaseISOManual(cameraParameters,cameraUiWrapper);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ManualIso, new BaseISOManual(cameraParameters,cameraUiWrapper));
                     break;
                 case ISOMANUAL_SONY:
-                    ManualIso = new ManualIsoSony(cameraUiWrapper,cameraParameters);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ManualIso, new ManualIsoSony(cameraUiWrapper,cameraParameters));
                     break;
                 case ISOMANUAL_KRILLIN:
-                    ManualIso =  new ManualIsoKrilin(cameraParameters,cameraUiWrapper);
+                    add(freed.cam.apis.basecamera.parameters.Parameters.M_ManualIso,  new ManualIsoKrilin(cameraParameters,cameraUiWrapper));
                     break;
                 case ISOMANUAL_MTK: //get set due aehandler
                     break;
@@ -434,32 +434,32 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         if (appS.manualAperture.isSupported())
-            ManualFNumber = new ManualAperture(cameraUiWrapper,cameraParameters);
+            add(freed.cam.apis.basecamera.parameters.Parameters.M_Fnumber, new ManualAperture(cameraUiWrapper,cameraParameters));
 
         if (appS.manualWhiteBalance.isSupported())
-            CCT = new BaseCCTManual(cameraParameters,cameraUiWrapper);
+            add(freed.cam.apis.basecamera.parameters.Parameters.M_Whitebalance, new BaseCCTManual(cameraParameters,cameraUiWrapper));
 
-        ManualConvergence = new BaseManualParameter(cameraParameters,
+        add(freed.cam.apis.basecamera.parameters.Parameters.M_3D_Convergence, new BaseManualParameter(cameraParameters,
                 cameraUiWrapper.getResString(R.string.manual_convergence),
                 cameraUiWrapper.getResString(R.string.supported_manual_convergence_max),
                 cameraUiWrapper.getResString(R.string.supported_manual_convergence_min),
-                cameraUiWrapper,1);
+                cameraUiWrapper,1));
 
-        ManualExposure = new ExposureManualParameter(cameraParameters, cameraUiWrapper,1);
+        add(freed.cam.apis.basecamera.parameters.Parameters.M_ExposureCompensation, new ExposureManualParameter(cameraParameters, cameraUiWrapper,1));
 
-        FX = new FXManualParameter(cameraParameters, cameraUiWrapper);
-        PictureFormat.addEventListner(((BaseManualParameter) FX).GetPicFormatListner());
-        cameraUiWrapper.getModuleHandler().addListner(((BaseManualParameter)FX).GetModuleListner());
+        add(freed.cam.apis.basecamera.parameters.Parameters.M_FX, new FXManualParameter(cameraParameters, cameraUiWrapper));
+        get(freed.cam.apis.basecamera.parameters.Parameters.PictureFormat).addEventListner(((BaseManualParameter) get(freed.cam.apis.basecamera.parameters.Parameters.M_FX)).GetPicFormatListner());
+        cameraUiWrapper.getModuleHandler().addListner(((BaseManualParameter)get(freed.cam.apis.basecamera.parameters.Parameters.M_FX)).GetModuleListner());
 
         if (appS.manualBurst.isSupported()){
-            Burst = new BurstManualParam(cameraParameters, cameraUiWrapper);
-            cameraUiWrapper.getModuleHandler().addListner(((BaseManualParameter) Burst).GetModuleListner());
+            add(freed.cam.apis.basecamera.parameters.Parameters.M_Burst, new BurstManualParam(cameraParameters, cameraUiWrapper));
+            cameraUiWrapper.getModuleHandler().addListner(((BaseManualParameter) get(freed.cam.apis.basecamera.parameters.Parameters.M_Burst)).GetModuleListner());
         }
 
-        Zoom = new ZoomManualParameter(cameraParameters, cameraUiWrapper);
+        add(freed.cam.apis.basecamera.parameters.Parameters.ZoomSetting, new ZoomManualParameter(cameraParameters, cameraUiWrapper));
 
         if (appS.dualPrimaryCameraMode.isSupported())
-            dualPrimaryCameraMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.dualPrimaryCameraMode);
+            add(freed.cam.apis.basecamera.parameters.Parameters.dualPrimaryCameraMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.dualPrimaryCameraMode));
 
 
         //set last used settings

@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.AppSettingsManager;
 import freed.utils.Log;
@@ -50,7 +51,7 @@ public class AutoHdrMode extends BaseModeParameter {
 
         if (isSupported) {
             cameraUiWrapper.getModuleHandler().addListner(this);
-            cameraUiWrapper.getParameterHandler().PictureFormat.addEventListner(this);
+            cameraUiWrapper.getParameterHandler().get(Parameters.PictureFormat).addEventListner(this);
         }
     }
 

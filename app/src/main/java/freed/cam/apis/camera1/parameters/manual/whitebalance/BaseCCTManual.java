@@ -29,6 +29,7 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -124,36 +125,37 @@ public class BaseCCTManual extends BaseManualParameter
 
     protected void set_manual()
     {
-        Log.d(TAG, cameraUiWrapper.getParameterHandler().WhiteBalanceMode.getStringValues().toString());
-    try {
-        if (parameters.get("whitebalance-values").toString().contains("manual") && parameters.get("manual-wb-modes").toString().contains("color-temperature")) {
+        ParameterInterface wbm = cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.WhiteBalanceMode);
+        Log.d(TAG, wbm.getStringValues().toString());
+        try {
+            if (parameters.get("whitebalance-values").toString().contains("manual") && parameters.get("manual-wb-modes").toString().contains("color-temperature")) {
 
-            cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
-            parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_type), 0);
-            parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_value), stringvalues[currentInt]);
-            Log.d(TAG, "NEW");
+                wbm.SetValue(manual_WbMode, true);
+                parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_type), 0);
+                parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_value), stringvalues[currentInt]);
+                Log.d(TAG, "NEW");
 
-        } else {
-            if (!cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetStringValue().equals(manual_WbMode) && manual_WbMode != "")
-                cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
-            parameters.set(key_value, stringvalues[currentInt]);
-            Log.d(TAG, "OLD");
+            } else {
+                if (!wbm.GetStringValue().equals(manual_WbMode) && manual_WbMode != "")
+                    wbm.SetValue(manual_WbMode, true);
+                parameters.set(key_value, stringvalues[currentInt]);
+                Log.d(TAG, "OLD");
+            }
         }
-    }
-    catch (Exception err )
-    {
-        if (!cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetStringValue().equals(manual_WbMode) && manual_WbMode != "")
-            cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
-        parameters.set(key_value, stringvalues[currentInt]);
-        err.printStackTrace();
-    }
+        catch (Exception err )
+        {
+            if (!wbm.GetStringValue().equals(manual_WbMode) && manual_WbMode != "")
+                wbm.SetValue(manual_WbMode, true);
+            parameters.set(key_value, stringvalues[currentInt]);
+            err.printStackTrace();
+        }
         Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
 
     }
 
     protected void set_to_auto()
     {
-        cameraUiWrapper.getParameterHandler().WhiteBalanceMode.SetValue("auto", true);
+        cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.WhiteBalanceMode).SetValue("auto", true);
         Log.d(TAG, "Set  to : auto");
     }
 

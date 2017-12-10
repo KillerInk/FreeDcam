@@ -27,6 +27,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.settings.AppSettingsManager;
 import freed.utils.Log;
@@ -78,15 +79,15 @@ public class ManualFocus extends AbstractParameter
         currentInt = valueToSet;
         if(valueToSet == 0)
         {
-            cameraUiWrapper.getParameterHandler().FocusMode.SetValue(cameraUiWrapper.getContext().getString(R.string.auto), true);
+            cameraUiWrapper.getParameterHandler().get(Parameters.FocusMode).SetValue(cameraUiWrapper.getContext().getString(R.string.auto), true);
             ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
         }
         else
         {
-            if (!cameraUiWrapper.getParameterHandler().FocusMode.GetStringValue().equals(cameraUiWrapper.getContext().getString(R.string.off)))
+            if (!cameraUiWrapper.getParameterHandler().get(Parameters.FocusMode).GetStringValue().equals(cameraUiWrapper.getContext().getString(R.string.off)))
             {
                 ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
-                cameraUiWrapper.getParameterHandler().FocusMode.SetValue(cameraUiWrapper.getContext().getString(R.string.off), true);
+                cameraUiWrapper.getParameterHandler().get(Parameters.FocusMode).SetValue(cameraUiWrapper.getContext().getString(R.string.off), true);
             }
             if (currentInt > focusvalues.getSize())
                 currentInt = focusvalues.getSize() -1;

@@ -29,6 +29,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
@@ -69,15 +70,15 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
-        cameraUiWrapper.getParameterHandler().Burst.fireIsReadOnlyChanged(false);
-        cameraUiWrapper.getParameterHandler().Burst.SetValue(3-1);
+        cameraUiWrapper.getParameterHandler().get(Parameters.M_Burst).fireIsReadOnlyChanged(false);
+        cameraUiWrapper.getParameterHandler().get(Parameters.M_Burst).SetValue(3-1);
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
     }
 
     @Override
     public void DestroyModule() {
         super.DestroyModule();
-        cameraUiWrapper.getParameterHandler().Burst.fireIsReadOnlyChanged(true);
+        cameraUiWrapper.getParameterHandler().get(Parameters.M_Burst).fireIsReadOnlyChanged(true);
 
     }
 
@@ -125,8 +126,8 @@ public class AeBracketApi2 extends PictureModuleApi2
         super.finishCapture();
 
         if (imagecount == 3) {
-            if (aeWasOn && parameterHandler.ExposureMode != null)
-                parameterHandler.ExposureMode.SetValue(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.on),true);
+            if (aeWasOn && parameterHandler.get(Parameters.ExposureMode) != null)
+                parameterHandler.get(Parameters.ExposureMode).SetValue(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.on),true);
 
         }
     }

@@ -56,6 +56,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
@@ -375,52 +376,56 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         {
             if (result == null)
                 return;
+
+            ParameterInterface expotime = cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.M_ExposureTime);
+            ParameterInterface iso = cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.M_ManualIso);
             if (AppSettingsManager.getInstance().useHuaweiCam2Extension.getBoolean())
             {
-                if (cameraUiWrapper.getParameterHandler().ManualShutter.GetValue() == 0) {
+                if (expotime.GetValue() == 0) {
                     Long expoTime = result.get(CaptureResult.SENSOR_EXPOSURE_TIME);
                     if (expoTime != null) {
                         currentExposureTime = expoTime;
-                        cameraUiWrapper.getParameterHandler().ManualShutter.fireStringValueChanged(getShutterStringNS(expoTime));
+                        expotime.fireStringValueChanged(getShutterStringNS(expoTime));
                     }
                 }
-                if (cameraUiWrapper.getParameterHandler().ManualIso.GetValue() == 0)
+                if (iso.GetValue() == 0)
                 {
-                    Integer iso = result.get(CaptureResult.SENSOR_SENSITIVITY);
+                    Integer isova = result.get(CaptureResult.SENSOR_SENSITIVITY);
                     if(iso != null) {
-                        currentIso = iso;
-                        cameraUiWrapper.getParameterHandler().ManualIso.fireStringValueChanged(String.valueOf(iso));
+                        currentIso = isova;
+                        iso.fireStringValueChanged(String.valueOf(isova));
                     }
                 }
             }
             else {
-                if (cameraUiWrapper.getParameterHandler().ManualShutter != null && cameraUiWrapper.getParameterHandler().ManualShutter.IsSupported()) {
+                if (expotime != null && expotime.IsSupported()) {
                     if (result != null && result.getKeys().size() > 0) {
                         try {
-                            if (!cameraUiWrapper.getParameterHandler().ExposureMode.GetStringValue().equals(cameraUiWrapper.getContext().getString(R.string.off)) && !cameraUiWrapper.getParameterHandler().ControlMode.equals(cameraUiWrapper.getContext().getString(R.string.off))) {
+                            if (!cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.ExposureMode).GetStringValue().equals(cameraUiWrapper.getContext().getString(R.string.off))
+                                    && !cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.ControlMode).equals(cameraUiWrapper.getContext().getString(R.string.off))) {
                                 try {
                                     long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                                     currentExposureTime = expores;
                                     if (expores != 0) {
-                                        cameraUiWrapper.getParameterHandler().ManualShutter.fireStringValueChanged(getShutterStringNS(expores));
+                                        expotime.fireStringValueChanged(getShutterStringNS(expores));
                                     } else
-                                        cameraUiWrapper.getParameterHandler().ManualShutter.fireStringValueChanged("1/60");
+                                        expotime.fireStringValueChanged("1/60");
 
                                     //Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
                                 } catch (Exception ex) {
                                     Log.WriteEx(ex);
                                 }
                                 try {
-                                    int iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
-                                    currentIso = iso;
-                                    cameraUiWrapper.getParameterHandler().ManualIso.fireStringValueChanged("" + iso);
+                                    int isova = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
+                                    currentIso = isova;
+                                    iso.fireStringValueChanged("" + isova);
                                     //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
                                 } catch (NullPointerException ex) {
                                     Log.WriteEx(ex);
                                 }
                                 try {
                                     focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                                    cameraUiWrapper.getParameterHandler().ManualFocus.fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
+                                    cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.M_Focus).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
                                 } catch (NullPointerException ex) {
                                     Log.WriteEx(ex);
                                 }
@@ -520,10 +525,10 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 //Log.d(TAG,"ExpoCompensation:" + );
             }
 
-            if (cameraUiWrapper.getParameterHandler().ExposureLock != null && result.get(CaptureResult.CONTROL_AE_LOCK) != null) {
+            if (cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.ExposureLock) != null && result.get(CaptureResult.CONTROL_AE_LOCK) != null) {
                 String expolock = result.get(CaptureResult.CONTROL_AE_LOCK).toString();
                 if (expolock != null)
-                    cameraUiWrapper.getParameterHandler().ExposureLock.fireStringValueChanged(expolock);
+                    cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.ExposureLock).fireStringValueChanged(expolock);
             }
         }
 

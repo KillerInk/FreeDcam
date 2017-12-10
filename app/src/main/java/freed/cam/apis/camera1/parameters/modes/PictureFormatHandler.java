@@ -59,7 +59,7 @@ public class PictureFormatHandler extends BaseModeParameter
             BayerFormat bayerFormats = new BayerFormat(parameters, cameraUiWrapper, "");
             if (bayerFormats.getStringValues().length > 0)
                 bayerFormats.onIsSetSupportedChanged(true);
-            parametersHandler.bayerformat = bayerFormats;
+            parametersHandler.add(freed.cam.apis.basecamera.parameters.Parameters.bayerformat, bayerFormats);
             if (rawFormats.length  > 0 || AppSettingsManager.getInstance().getFrameWork() == AppSettingsManager.FRAMEWORK_MTK)
                 AppSettingsManager.getInstance().rawPictureFormat.setIsSupported(true);
             else

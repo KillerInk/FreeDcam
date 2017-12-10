@@ -40,7 +40,7 @@ public class NightModeZTE extends BaseModeParameter
         isSupported = true;
         isVisible =true;
         cameraUiWrapper.getModuleHandler().addListner(this);
-        cameraUiWrapper.getParameterHandler().PictureFormat.addEventListner(this);
+        cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.PictureFormat).addEventListner(this);
     }
 
     @Override

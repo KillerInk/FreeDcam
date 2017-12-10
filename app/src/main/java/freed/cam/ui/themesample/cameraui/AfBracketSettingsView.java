@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.settings.AppSettingsManager;
 
 /**
@@ -77,7 +78,7 @@ public class AfBracketSettingsView extends LinearLayout
     View.OnClickListener onSetMaxClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int max = cameraWrapperInterface.getParameterHandler().ManualFocus.GetValue();
+            int max = cameraWrapperInterface.getParameterHandler().get(Parameters.M_Focus).GetValue();
             AppSettingsManager.getInstance().setApiString(AppSettingsManager.SETTING_AFBRACKETMAX, max+"");
             textView_max.setText(max+"");
         }
@@ -86,7 +87,7 @@ public class AfBracketSettingsView extends LinearLayout
     View.OnClickListener onSetMinClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int min = cameraWrapperInterface.getParameterHandler().ManualFocus.GetValue();
+            int min = cameraWrapperInterface.getParameterHandler().get(Parameters.M_Focus).GetValue();
             AppSettingsManager.getInstance().setApiString(AppSettingsManager.SETTING_AFBRACKETMIN, min+"");
             textView_min.setText(min+"");
         }

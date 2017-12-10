@@ -41,6 +41,7 @@ import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLG;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
@@ -233,9 +234,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                     || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_hdr))
                     || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_interval)))
             {
-                Size sizefromCam = new Size(parametersHandler.PictureSize.GetStringValue());
+                Size sizefromCam = new Size(parametersHandler.get(Parameters.PictureSize).GetStringValue());
                 List<Size> sizes = new ArrayList<>();
-                String[] stringsSizes = parametersHandler.PreviewSize.getStringValues();
+                String[] stringsSizes = parametersHandler.get(Parameters.PreviewSize).getStringValues();
                 final Size size;
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
@@ -248,7 +249,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 }
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
 
-                parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                parametersHandler.get(Parameters.PreviewSize).SetValue(size.width + "x" + size.height, true);
                 uiHandler.obtainMessage(MSG_SET_ASPECTRATIO, size).sendToTarget();
 
             }
@@ -257,7 +258,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 Size sizefromCam = new Size("1920x1080");
 
                 List<Size> sizes = new ArrayList<>();
-                String[] stringsSizes = parametersHandler.PreviewSize.getStringValues();
+                String[] stringsSizes = parametersHandler.get(Parameters.PreviewSize).getStringValues();
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
@@ -278,7 +279,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                     });
 
                 }else {*/
-                parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                parametersHandler.get(Parameters.PreviewSize).SetValue(size.width + "x" + size.height, true);
                 uiHandler.obtainMessage(MSG_SET_ASPECTRATIO, size).sendToTarget();
                 //}
 
@@ -350,7 +351,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public void onModuleChanged(String module)
     {
-        onPreviewSizeShouldChange.onStringValueChanged(parametersHandler.Focuspeak.GetStringValue());
+        onPreviewSizeShouldChange.onStringValueChanged(parametersHandler.get(Parameters.Focuspeak).GetStringValue());
     }
 
     @Override
@@ -447,7 +448,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
             case MSG_INIT_CAMERA:
                 cameraRdy = true;
                 ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
-                parametersHandler.PictureSize.addEventListner(onPreviewSizeShouldChange);
+                parametersHandler.get(Parameters.PictureSize).addEventListner(onPreviewSizeShouldChange);
                 cameraHolder.SetSurface(extendedSurfaceView.getHolder());
                 cameraHolder.StartPreview();
                 this.onCameraOpenFinish("");

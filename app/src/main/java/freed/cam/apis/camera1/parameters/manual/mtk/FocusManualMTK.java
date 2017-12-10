@@ -48,13 +48,13 @@ public class FocusManualMTK extends BaseFocusManual {
 
         if (valueToSet == 0)
         {
-            cameraUiWrapper.getParameterHandler().FocusMode.SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
+            cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.FocusMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
         }
         else
         {
             if ((!TextUtils.isEmpty(manualFocusModeString) || manualFocusModeString == null)
-                    && !cameraUiWrapper.getParameterHandler().FocusMode.GetStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
-                cameraUiWrapper.getParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
+                    && !cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.FocusMode).GetStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
+                cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.FocusMode).SetValue(manualFocusModeString, false);
 
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);

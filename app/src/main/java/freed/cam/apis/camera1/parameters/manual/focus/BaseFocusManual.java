@@ -63,14 +63,14 @@ public class BaseFocusManual extends BaseManualParameter
 
         if (valueToSet == 0)
         {
-            cameraUiWrapper.getParameterHandler().FocusMode.SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
+            cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.FocusMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
             Log.d(TAG, "Set Focus to : auto");
         }
         else
         {
             if ((!TextUtils.isEmpty(manualFocusModeString) || manualFocusModeString == null)
-                    && !cameraUiWrapper.getParameterHandler().FocusMode.GetStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
-                cameraUiWrapper.getParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
+                    && !cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.FocusMode).GetStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
+                cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.FocusMode).SetValue(manualFocusModeString, false);
             if (manualFocusType > -1)
                 parameters.set(cameraUiWrapper.getResString(R.string.manual_focus_pos_type), manualFocusType +"");
 

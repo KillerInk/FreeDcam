@@ -57,9 +57,9 @@ public class SkintoneManualPrameter extends BaseManualParameter {
 
     @Override
     public void setValue(int valueToSet) {
-        cameraUiWrapper.getParameterHandler().SceneMode.SetValue("portrait", true);
+        cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.SceneMode).SetValue("portrait", true);
         parameters.set("skinToneEnhancement",valueToSet + "");
         if (valueToSet == 0)
-            cameraUiWrapper.getParameterHandler().SceneMode.SetValue("auto", true);
+            cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.SceneMode).SetValue("auto", true);
     }
 }

@@ -31,6 +31,7 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
@@ -78,41 +79,41 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         {
             Log.d(TAG, keys.get(i).getName());
         }
-        Module = new ModuleParameters(cameraUiWrapper);
+        add(Parameters.Module, new ModuleParameters(cameraUiWrapper));
         if (AppSettingsManager.getInstance().flashMode.isSupported())
-            FlashMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().flashMode,CaptureRequest.FLASH_MODE);
+            add(Parameters.FlashMode, new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().flashMode,CaptureRequest.FLASH_MODE));
         if (AppSettingsManager.getInstance().sceneMode.isSupported())
-            SceneMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().sceneMode,CaptureRequest.CONTROL_SCENE_MODE);
+            add(Parameters.SceneMode, new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().sceneMode,CaptureRequest.CONTROL_SCENE_MODE));
         if (AppSettingsManager.getInstance().antiBandingMode.isSupported())
-            AntiBandingMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().antiBandingMode, CaptureRequest.CONTROL_AE_ANTIBANDING_MODE);
+            add(Parameters.AntiBandingMode, new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().antiBandingMode, CaptureRequest.CONTROL_AE_ANTIBANDING_MODE));
         if (AppSettingsManager.getInstance().colorMode.isSupported())
-            ColorMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().colorMode,CaptureRequest.CONTROL_EFFECT_MODE);
+            add(Parameters.ColorMode, new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().colorMode,CaptureRequest.CONTROL_EFFECT_MODE));
         if (AppSettingsManager.getInstance().controlMode.isSupported())
-            ControlMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().controlMode,CaptureRequest.CONTROL_MODE);
+            add(Parameters.ControlMode, new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().controlMode,CaptureRequest.CONTROL_MODE));
         if (AppSettingsManager.getInstance().denoiseMode.isSupported())
-            Denoise = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().denoiseMode,CaptureRequest.NOISE_REDUCTION_MODE);
+            add(Parameters.Denoise, new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().denoiseMode,CaptureRequest.NOISE_REDUCTION_MODE));
         if (AppSettingsManager.getInstance().edgeMode.isSupported())
-            EdgeMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().edgeMode,CaptureRequest.EDGE_MODE);
+            add(Parameters.EdgeMode, new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().edgeMode,CaptureRequest.EDGE_MODE));
         if (AppSettingsManager.getInstance().opticalImageStabilisation.isSupported())
-            oismode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().opticalImageStabilisation,CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
+            add(Parameters.oismode, new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().opticalImageStabilisation,CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
         if (AppSettingsManager.getInstance().focusMode.isSupported()) {
-            FocusMode = new BaseModeApi2(cameraUiWrapper, AppSettingsManager.getInstance().focusMode, CaptureRequest.CONTROL_AF_MODE);
-            FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
+            add(Parameters.FocusMode, new BaseModeApi2(cameraUiWrapper, AppSettingsManager.getInstance().focusMode, CaptureRequest.CONTROL_AF_MODE));
+            get(Parameters.FocusMode).addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
         }
         if (AppSettingsManager.getInstance().hotpixelMode.isSupported())
-            HotPixelMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().hotpixelMode,CaptureRequest.HOT_PIXEL_MODE);
+            add(Parameters.HotPixelMode, new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().hotpixelMode,CaptureRequest.HOT_PIXEL_MODE));
         if (AppSettingsManager.getInstance().ae_TagetFPS.isSupported())
-            ae_TargetFPS = new AeTargetRangeApi2(cameraUiWrapper,AppSettingsManager.getInstance().ae_TagetFPS,CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE);
+            add(Parameters.Ae_TargetFPS, new AeTargetRangeApi2(cameraUiWrapper,AppSettingsManager.getInstance().ae_TagetFPS,CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE));
 
         if (AppSettingsManager.getInstance().dualPrimaryCameraMode.isSupported() && !AppSettingsManager.getInstance().getIsFrontCamera())
         {
-            dualPrimaryCameraMode = new DualCameraModeHuaweiApi2(cameraUiWrapper,AppSettingsManager.getInstance().dualPrimaryCameraMode, CaptureRequestEx.HUAWEI_DUAL_SENSOR_MODE);
+            add(Parameters.dualPrimaryCameraMode, new DualCameraModeHuaweiApi2(cameraUiWrapper,AppSettingsManager.getInstance().dualPrimaryCameraMode, CaptureRequestEx.HUAWEI_DUAL_SENSOR_MODE));
         }
-        JpegQuality = new JpegQualityModeApi2(cameraUiWrapper);
+        add(Parameters.JpegQuality, new JpegQualityModeApi2(cameraUiWrapper));
 
         WbHandler wbHandler = new WbHandler(cameraUiWrapper);
-        CCT = wbHandler.manualWbCt;
-        WhiteBalanceMode =wbHandler.whiteBalanceApi2;
+        add(Parameters.M_Whitebalance, wbHandler.manualWbCt);
+        add(Parameters.WhiteBalanceMode, wbHandler.whiteBalanceApi2);
         //dont make that avail for the ui its only internal used
         //ColorCorrectionMode = colorCorrectionMode;
 
@@ -123,50 +124,46 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         else {
             aeHandler = new AeHandler(cameraUiWrapper);
             //not used by huawei
-            ExposureMode = aeHandler.aeModeApi2;
-            ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
+            add(Parameters.ExposureMode, aeHandler.aeModeApi2);
+            get(Parameters.ExposureMode).addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
         }
         //pass stuff to the parameterhandler that it get used by the ui
 
-        ManualShutter = aeHandler.manualExposureTimeApi2;
-        ManualExposure = aeHandler.manualExposureApi2;
-        ManualIso = aeHandler.manualISoApi2;
+        add(Parameters.M_ExposureTime, aeHandler.manualExposureTimeApi2);
+        add(Parameters.M_ExposureCompensation, aeHandler.manualExposureApi2);
+        add(Parameters.M_ManualIso, aeHandler.manualISoApi2);
         //ae mode end
-        PictureSize = new PictureSizeModeApi2(cameraUiWrapper);
+        add(Parameters.PictureSize, new PictureSizeModeApi2(cameraUiWrapper));
 
 
         //MF
-        ManualFocus mf = new ManualFocus(cameraUiWrapper);
-        ManualFocus = mf;
+        add(Parameters.M_Focus,new ManualFocus(cameraUiWrapper)); ;
 
         //MF END
 
         ManualToneMapCurveApi2 manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
-        ManualContrast = manualToneMapCurveApi2.contrast;
+        /*ManualContrast = manualToneMapCurveApi2.contrast;
         ManualBrightness = manualToneMapCurveApi2.brightness;
         black = manualToneMapCurveApi2.black;
         shadows = manualToneMapCurveApi2.shadowsp;
         midtones = manualToneMapCurveApi2.midtonesp;
         highlights = manualToneMapCurveApi2.highlightsp;
-        white = manualToneMapCurveApi2.whitep;
-        toneCurveParameter = manualToneMapCurveApi2.toneCurveParameter;
+        white = manualToneMapCurveApi2.whitep;*/
+        add(Parameters.M_ToneCurve, manualToneMapCurveApi2.toneCurveParameter);
 
-        ToneMapMode = new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().toneMapMode,CaptureRequest.TONEMAP_MODE);
-        ToneMapMode.addEventListner(manualToneMapCurveApi2);
+        add(Parameters.ToneMapMode,new BaseModeApi2(cameraUiWrapper,AppSettingsManager.getInstance().toneMapMode,CaptureRequest.TONEMAP_MODE));
+        get(Parameters.ToneMapMode).addEventListner(manualToneMapCurveApi2);
 
-        PictureFormat = new PictureFormatParameterApi2(cameraUiWrapper, AppSettingsManager.getInstance().pictureFormat, null);
+        add(Parameters.PictureFormat, new PictureFormatParameterApi2(cameraUiWrapper, AppSettingsManager.getInstance().pictureFormat, null));
 
-        ExposureLock = new AeLockModeApi2(cameraUiWrapper);
+        add(Parameters.ExposureLock, new AeLockModeApi2(cameraUiWrapper));
 
-
-
-
-        Burst = new BurstApi2(cameraUiWrapper);
-        Focuspeak = new FocusPeakModeApi2(cameraUiWrapper);
-        VideoProfiles = new VideoProfilesApi2(cameraUiWrapper);
-        matrixChooser = new MatrixChooserParameter(AppSettingsManager.getInstance().getMatrixesMap());
-        tonemapChooser = new ToneMapChooser(AppSettingsManager.getInstance().getToneMapProfiles());
-        Zoom = new ZoomApi2(cameraUiWrapper);
+        add(Parameters.M_Burst, new BurstApi2(cameraUiWrapper));
+        add(Parameters.Focuspeak, new FocusPeakModeApi2(cameraUiWrapper));
+        add(Parameters.VideoProfiles, new VideoProfilesApi2(cameraUiWrapper));
+        add(Parameters.matrixChooser, new MatrixChooserParameter(AppSettingsManager.getInstance().getMatrixesMap()));
+        add(Parameters.tonemapChooser, new ToneMapChooser(AppSettingsManager.getInstance().getToneMapProfiles()));
+        add(Parameters.ZoomSetting, new ZoomApi2(cameraUiWrapper));
         SetAppSettingsToParameters();
     }
 

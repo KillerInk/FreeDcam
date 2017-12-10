@@ -39,6 +39,7 @@ import com.troop.freedcam.R.layout;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.settings.AppSettingsManager;
 
@@ -129,7 +130,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.getParameterHandler().Horizont.addEventListner(this);
+        cameraUiWrapper.getParameterHandler().get(Parameters.HorizontLvl).addEventListner(this);
     }
     private void startSensorListing()
     {

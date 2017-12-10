@@ -27,6 +27,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
@@ -75,7 +76,7 @@ public class AeHandler
             //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
             cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
             //hide flash ui item its not supported in manual mode
-            cameraUiWrapper.getParameterHandler().FlashMode.fireIsSupportedChanged(false);
+            cameraUiWrapper.getParameterHandler().get(Parameters.FlashMode).fireIsSupportedChanged(false);
             //enable manualiso item in ui
             manualISoApi2.fireIsReadOnlyChanged(true);
             //enable manual exposuretime in ui
@@ -87,9 +88,9 @@ public class AeHandler
             ae_active = true;
             //back in auto mode
             //set flash back to its old state
-            cameraUiWrapper.getParameterHandler().FlashMode.SetValue(cameraUiWrapper.getParameterHandler().FlashMode.GetStringValue(),true);
+            cameraUiWrapper.getParameterHandler().get(Parameters.FlashMode).SetValue(cameraUiWrapper.getParameterHandler().get(Parameters.FlashMode).GetStringValue(),true);
             //show flashmode ui item
-            cameraUiWrapper.getParameterHandler().FlashMode.fireIsSupportedChanged(true);
+            cameraUiWrapper.getParameterHandler().get(Parameters.FlashMode).fireIsSupportedChanged(true);
             //set exposure ui item to enable
             manualExposureApi2.fireIsSupportedChanged(true);
             manualExposureApi2.fireIsReadOnlyChanged(true);

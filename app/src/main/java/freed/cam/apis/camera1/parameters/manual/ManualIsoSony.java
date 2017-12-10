@@ -4,6 +4,7 @@ import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.AppSettingsManager;
 
@@ -39,15 +40,15 @@ public class ManualIsoSony extends AbstractParameter
         currentInt = valueToSet;
         if (currentInt == 0)
         {
-            if (cameraUiWrapper.getParameterHandler().ManualShutter.GetValue() == 0)
+            if (cameraUiWrapper.getParameterHandler().get(Parameters.M_ExposureTime).GetValue() == 0)
                 parameters.set("sony-ae-mode", "auto");
-            else if (cameraUiWrapper.getParameterHandler().ManualShutter.GetValue() >0)
+            else if (cameraUiWrapper.getParameterHandler().get(Parameters.M_ExposureTime).GetValue() >0)
                 parameters.set("sony-ae-mode", "shutter-prio");
         }
         else {
-            if (cameraUiWrapper.getParameterHandler().ManualShutter.GetValue() == 0 && !parameters.get("sony-ae-mode").equals("iso-prio"))
+            if (cameraUiWrapper.getParameterHandler().get(Parameters.M_ExposureTime).GetValue() == 0 && !parameters.get("sony-ae-mode").equals("iso-prio"))
                 parameters.set("sony-ae-mode", "iso-prio");
-            else if (cameraUiWrapper.getParameterHandler().ManualShutter.GetValue() >0 && !parameters.get("sony-ae-mode").equals("manual"))
+            else if (cameraUiWrapper.getParameterHandler().get(Parameters.M_ExposureTime).GetValue() >0 && !parameters.get("sony-ae-mode").equals("manual"))
                 parameters.set("sony-ae-mode", "manual");
             parameters.set(AppSettingsManager.getInstance().manualIso.getKEY(), stringvalues[currentInt]);
         }

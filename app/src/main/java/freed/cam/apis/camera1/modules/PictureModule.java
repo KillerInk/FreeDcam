@@ -31,6 +31,8 @@ import java.util.Date;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.dng.DngProfile;
@@ -85,24 +87,25 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             @Override
             public void run() {
                 isWorking = true;
-                String picformat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
+                String picformat = cameraUiWrapper.getParameterHandler().get(Parameters.PictureFormat).GetStringValue();
                 Log.d(TAG,"startWork:picformat:" + picformat);
                 if (picformat.equals(AppSettingsManager.getInstance().getResString(R.string.dng_)) || picformat.equals(AppSettingsManager.getInstance().getResString(R.string.bayer_)))
                 {
                     if (AppSettingsManager.getInstance().zeroshutterlag.isSupported()
-                            && cameraUiWrapper.getParameterHandler().ZSL.GetStringValue().equals(cameraUiWrapper.getResString(R.string.on_)))
+                            && cameraUiWrapper.getParameterHandler().get(Parameters.ZSL).GetStringValue().equals(cameraUiWrapper.getResString(R.string.on_)))
                     {
                         Log.d(TAG,"ZSL is on turning it off");
-                        cameraUiWrapper.getParameterHandler().ZSL.SetValue(cameraUiWrapper.getResString(R.string.off_), true);
-                        Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.getParameterHandler().ZSL.GetValue());
+                        cameraUiWrapper.getParameterHandler().get(Parameters.ZSL).SetValue(cameraUiWrapper.getResString(R.string.off_), true);
+                        Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.getParameterHandler().get(Parameters.ZSL).GetValue());
                     }
 
                 }
                 cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
                 changeCaptureState(CaptureStates.image_capture_start);
                 waitForPicture = true;
-                if (cameraUiWrapper.getParameterHandler().Burst != null && cameraUiWrapper.getParameterHandler().Burst.IsSupported() && cameraUiWrapper.getParameterHandler().Burst.GetValue() > 0) {
-                    burstcount = cameraUiWrapper.getParameterHandler().Burst.GetValue()+1;
+                ParameterInterface burst = cameraUiWrapper.getParameterHandler().get(Parameters.M_Burst);
+                if (burst != null && burst.IsSupported() && burst.GetValue() > 0) {
+                    burstcount = burst.GetValue();
                     isBurstCapture = true;
                 }
                 else
@@ -124,9 +127,10 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         changeCaptureState(CaptureStates.image_capture_stop);
         if (cameraUiWrapper.getParameterHandler() == null)
             return;
-        cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("yuv420sp",true);
-        if (AppSettingsManager.getInstance().videoHDR.isSupported() && !cameraUiWrapper.getParameterHandler().VideoHDR.GetStringValue().equals(cameraUiWrapper.getResString(R.string.off_)))
-            cameraUiWrapper.getParameterHandler().VideoHDR.SetValue(cameraUiWrapper.getResString(R.string.off_), true);
+        cameraUiWrapper.getParameterHandler().get(Parameters.PreviewFormat).SetValue("yuv420sp",true);
+        ParameterInterface videohdr = cameraUiWrapper.getParameterHandler().get(Parameters.VideoHDR);
+        if (AppSettingsManager.getInstance().videoHDR.isSupported() && !videohdr.GetStringValue().equals(cameraUiWrapper.getResString(R.string.off_)))
+            videohdr.SetValue(cameraUiWrapper.getResString(R.string.off_), true);
         if(AppSettingsManager.getInstance().isZteAe()) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_AE();
         }
@@ -152,7 +156,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             return;
         }
         burstcount--;
-        String picFormat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
+        String picFormat = cameraUiWrapper.getParameterHandler().get(Parameters.PictureFormat).GetStringValue();
         saveImage(data,picFormat);
         //Handel Burst capture
         if (burstcount == 0)
@@ -170,8 +174,8 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         //workaround to keep ae locked
         if (cameraHolder.GetCameraParameters().getAutoExposureLock())
         {
-            cameraUiWrapper.getParameterHandler().ExposureLock.SetValue(cameraUiWrapper.getResString(R.string.false_),true);
-            cameraUiWrapper.getParameterHandler().ExposureLock.SetValue(cameraUiWrapper.getResString(R.string.true_),true);
+            cameraUiWrapper.getParameterHandler().get(Parameters.ExposureLock).SetValue(cameraUiWrapper.getResString(R.string.false_),true);
+            cameraUiWrapper.getParameterHandler().get(Parameters.ExposureLock).SetValue(cameraUiWrapper.getResString(R.string.true_),true);
         }
         if(AppSettingsManager.getInstance().needRestartAfterCapture.getBoolean())
         {
@@ -206,9 +210,9 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
 
     private void ShutterResetLogic()
     {
-        System.out.println("BANKAI "+cameraUiWrapper.getParameterHandler().ManualShutter.GetStringValue());
-        if(!cameraUiWrapper.getParameterHandler().ManualShutter.GetStringValue().contains("/")&&!cameraUiWrapper.getParameterHandler().ManualShutter.GetStringValue().contains("auto"))
-            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_RESET_AE_SETSHUTTER(cameraUiWrapper.getParameterHandler().ManualShutter.GetStringValue());
+        ParameterInterface expotime = cameraUiWrapper.getParameterHandler().get(Parameters.M_ExposureTime);
+        if(!expotime.GetStringValue().contains("/") && !expotime.GetStringValue().contains("auto"))
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_RESET_AE_SETSHUTTER(expotime.GetStringValue());
     }
 
     protected void saveImage(byte[]data, String picFormat)
@@ -273,9 +277,11 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         task.setExposureTime(exposuretime);
         task.setIso(cameraUiWrapper.getParameterHandler().getCurrentIso());
         String wb = null;
-        if (cameraUiWrapper.getParameterHandler().CCT != null && cameraUiWrapper.getParameterHandler().CCT.IsSupported())
+
+        ParameterInterface wbct = cameraUiWrapper.getParameterHandler().get(Parameters.M_Whitebalance);
+        if (wbct != null && wbct.IsSupported())
         {
-            wb = cameraUiWrapper.getParameterHandler().CCT.GetStringValue();
+            wb = wbct.GetStringValue();
             if (wb.equals(cameraUiWrapper.getResString(R.string.auto_)))
                 wb = null;
             Log.d(this.TAG,"Set Manual WhiteBalance:"+ wb);

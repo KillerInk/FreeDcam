@@ -24,6 +24,7 @@ import android.hardware.Camera;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.AppSettingsManager;
 
@@ -45,7 +46,7 @@ public class NightModeXiaomi extends BaseModeParameter
             isSupported = true;
             isVisible = true;
             cameraUiWrapper.getModuleHandler().addListner(this);
-            cameraUiWrapper.getParameterHandler().PictureFormat.addEventListner(this);
+            cameraUiWrapper.getParameterHandler().get(Parameters.PictureFormat).addEventListner(this);
         }
     }
 
@@ -60,7 +61,7 @@ public class NightModeXiaomi extends BaseModeParameter
     {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_))) {
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hdr), cameraUiWrapper.getResString(R.string.false_));
-            cameraUiWrapper.getParameterHandler().HDRMode.fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
+            cameraUiWrapper.getParameterHandler().get(Parameters.HDRMode).fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
             parameters.set("capture-burst-exposures","-10,0,10");
             parameters.set(AppSettingsManager.getInstance().getResString(R.string.ae_bracket_hdr), AppSettingsManager.getInstance().getResString(R.string.ae_bracket_hdr_values_aebracket));
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hht), cameraUiWrapper.getResString(R.string.true_));

@@ -23,6 +23,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.Parameters;
 
 /**
  * Created by troop on 21.07.2015.
@@ -43,7 +44,7 @@ public class SettingsChildMenuGPS extends SettingsChildMenu
 
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        SetParameter(cameraUiWrapper.getParameterHandler().locationParameter);
+        SetParameter(cameraUiWrapper.getParameterHandler().get(Parameters.locationParameter));
 
     }
 }

@@ -28,6 +28,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 import freed.settings.AppSettingsManager;
@@ -228,9 +229,9 @@ public class WbHandler
 
         @Override
         public boolean IsSupported() {
-            if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().WhiteBalanceMode == null)
+            if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(Parameters.WhiteBalanceMode) == null)
                 return false;
-            isSupported = cameraUiWrapper.getParameterHandler().WhiteBalanceMode.GetStringValue().equals("OFF");
+            isSupported = cameraUiWrapper.getParameterHandler().get(Parameters.WhiteBalanceMode).GetStringValue().equals("OFF");
             return isSupported;
         }
 

@@ -33,6 +33,8 @@ import com.troop.freedcam.R;
 import java.io.File;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
@@ -147,7 +149,7 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     private void loadProfileSpecificParameters()
     {
-        VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.getParameterHandler().VideoProfiles;
+        VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.getParameterHandler().get(Parameters.VideoProfiles);
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(AppSettingsManager.getInstance().videoProfile.get());
         if (((ParametersHandler)cameraUiWrapper.getParameterHandler()).getParameters().get("preview-fps-range") != null) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).getParameters().set("preview-fps-range", "30000,30000");
@@ -155,29 +157,33 @@ public class VideoModuleG3 extends AbstractVideoModule
         }
         if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("2160p"))
         {
-            if(cameraUiWrapper.getParameterHandler().MemoryColorEnhancement != null && cameraUiWrapper.getParameterHandler().MemoryColorEnhancement.IsSupported())
-                cameraUiWrapper.getParameterHandler().MemoryColorEnhancement.SetValue(AppSettingsManager.getInstance().getResString(R.string.disable_),false);
-            if (cameraUiWrapper.getParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.getParameterHandler().DigitalImageStabilization.IsSupported())
-                cameraUiWrapper.getParameterHandler().DigitalImageStabilization.SetValue(AppSettingsManager.getInstance().getResString(R.string.disable_), false);
-            if (cameraUiWrapper.getParameterHandler().Denoise != null && cameraUiWrapper.getParameterHandler().Denoise.IsSupported())
-                cameraUiWrapper.getParameterHandler().Denoise.SetValue("denoise-off", false);
+            ParameterInterface mce = cameraUiWrapper.getParameterHandler().get(Parameters.MemoryColorEnhancement);
+            if(mce != null && mce.IsSupported())
+                mce.SetValue(AppSettingsManager.getInstance().getResString(R.string.disable_),false);
+            ParameterInterface dis = cameraUiWrapper.getParameterHandler().get(Parameters.DigitalImageStabilization);
+            if (dis!= null && dis.IsSupported())
+                dis.SetValue(AppSettingsManager.getInstance().getResString(R.string.disable_), false);
+            ParameterInterface denoise = cameraUiWrapper.getParameterHandler().get(Parameters.Denoise);
+            if (denoise != null && denoise.IsSupported())
+                denoise.SetValue("denoise-off", false);
             if(!AppSettingsManager.getInstance().hasCamera2Features())
-                cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("nv12-venus",false);
+                cameraUiWrapper.getParameterHandler().get(Parameters.PreviewFormat).SetValue("nv12-venus",false);
             if (currentProfile.Mode == VideoMode.Highspeed)
             {
-                if (cameraUiWrapper.getParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.getParameterHandler().VideoHighFramerateVideo.IsSupported())
+                ParameterInterface hfr = cameraUiWrapper.getParameterHandler().get(Parameters.VideoHighFramerate);
+                if (hfr != null && hfr.IsSupported())
                 {
-                    cameraUiWrapper.getParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", false);
+                    hfr.SetValue(currentProfile.videoFrameRate+"", false);
                 }
             }
         }
         else
         {
-            cameraUiWrapper.getParameterHandler().PreviewFormat.SetValue("yuv420sp", false);
+            cameraUiWrapper.getParameterHandler().get(Parameters.PreviewFormat).SetValue("yuv420sp", false);
         }
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
-        cameraUiWrapper.getParameterHandler().PreviewSize.SetValue(size,false);
-        cameraUiWrapper.getParameterHandler().VideoSize.SetValue(size,true);
+        cameraUiWrapper.getParameterHandler().get(Parameters.PreviewSize).SetValue(size,false);
+        cameraUiWrapper.getParameterHandler().get(Parameters.VideoSize).SetValue(size,true);
         /*cameraUiWrapper.stopPreview();
         cameraUiWrapper.startPreview();*/
     }

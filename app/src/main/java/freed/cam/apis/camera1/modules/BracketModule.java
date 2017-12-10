@@ -29,6 +29,8 @@ import java.util.Date;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.basecamera.parameters.Parameters;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.settings.AppSettingsManager;
 import freed.utils.Log;
@@ -64,12 +66,13 @@ public class BracketModule extends PictureModule {
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
                 files = new File[3];
                 hdrCount = 0;
-                String picformat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
+                String picformat = cameraUiWrapper.getParameterHandler().get(Parameters.PictureFormat).GetStringValue();
                 if (picformat.equals(AppSettingsManager.getInstance().getResString(R.string.dng_)) || picformat.equals(AppSettingsManager.getInstance().getResString(R.string.bayer_))) {
-                    if (cameraUiWrapper.getParameterHandler().ZSL != null && cameraUiWrapper.getParameterHandler().ZSL.IsSupported()
-                            && cameraUiWrapper.getParameterHandler().ZSL.GetStringValue().equals("on")
+                    ParameterInterface zsl = cameraUiWrapper.getParameterHandler().get(Parameters.ZSL);
+                    if (zsl != null && zsl.IsSupported()
+                            && zsl.GetStringValue().equals("on")
                             && ((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
-                        cameraUiWrapper.getParameterHandler().ZSL.SetValue("off", true);
+                        zsl.SetValue("off", true);
                 }
                 changeCaptureState(CaptureStates.image_capture_start);
                 waitForPicture = true;
@@ -110,8 +113,8 @@ public class BracketModule extends PictureModule {
             value = 2;
 
         Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
-        int toset = value + cameraUiWrapper.getParameterHandler().ManualExposure.getStringValues().length / 2;
-        cameraUiWrapper.getParameterHandler().ManualExposure.SetValue(toset);
+        int toset = value + cameraUiWrapper.getParameterHandler().get(Parameters.M_ExposureTime).getStringValues().length / 2;
+        cameraUiWrapper.getParameterHandler().get(Parameters.M_ExposureTime).SetValue(toset);
         Log.d(TAG, "HDR Exposure SET");
     }
 
@@ -124,7 +127,7 @@ public class BracketModule extends PictureModule {
             return;
         }
         hdrCount++;
-        String picFormat = cameraUiWrapper.getParameterHandler().PictureFormat.GetStringValue();
+        String picFormat = cameraUiWrapper.getParameterHandler().get(Parameters.PictureFormat).GetStringValue();
         saveImage(data, picFormat);
         startPreview();
         if (hdrCount == 3)//handel normal capture
