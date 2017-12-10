@@ -34,8 +34,6 @@ import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
-import freed.cam.apis.camera1.parameters.modes.PictureFormatHandler;
-import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.settings.AppSettingsManager;
 import freed.utils.Log;
 
@@ -61,133 +59,6 @@ public abstract class AbstractParameterHandler
 
     protected CameraWrapperInterface cameraUiWrapper;
 
-    /*public ParameterInterface ManualBrightness;
-    public ParameterInterface ManualSharpness;
-    public ParameterInterface ManualContrast;
-    public ParameterInterface ManualSaturation;
-    public ParameterInterface ManualExposure;
-    public ParameterInterface ManualConvergence;
-    public ParameterInterface ManualFocus;
-    public ParameterInterface ManualShutter;
-    public ParameterInterface ManualFNumber;
-    public ParameterInterface Burst;
-    public ParameterInterface CCT;
-    public ParameterInterface FX;
-    public ParameterInterface ManualIso;
-    public ParameterInterface Zoom;
-    public ParameterInterface ProgramShift;
-    public ParameterInterface PreviewZoom;
-
-
-    public ParameterInterface ColorMode;
-    public ParameterInterface ExposureMode;
-    public ParameterInterface AE_PriorityMode;
-    public ParameterInterface FlashMode;
-    public ParameterInterface IsoMode;
-    public ParameterInterface AntiBandingMode;
-    public ParameterInterface WhiteBalanceMode;
-    public ParameterInterface PictureSize;
-    public ParameterInterface PictureFormat;
-    public ParameterInterface HDRMode;
-    public ParameterInterface JpegQuality;
-    //defcomg was here
-    public ParameterInterface GuideList;
-    //done
-    public ParameterInterface ImagePostProcessing;
-    public ParameterInterface PreviewSize;
-    public ParameterInterface PreviewFPS;
-    public ParameterInterface PreviewFormat;
-    public ParameterInterface PreviewFpsRange;
-    public ParameterInterface SceneMode;
-    public ParameterInterface FocusMode;
-    public ParameterInterface RedEye;
-    public ParameterInterface LensShade;
-    public ParameterInterface ZSL;
-    public ParameterInterface SceneDetect;
-    public ParameterInterface Denoise;
-    //5/26/2017
-    public ParameterInterface PDAF;
-    public ParameterInterface TNR;
-    public ParameterInterface TNR_V;
-    public ParameterInterface RDI;
-    public ParameterInterface TruePotrait;
-    public ParameterInterface ReFocus;
-    public ParameterInterface SeeMore;
-    public ParameterInterface OptiZoom;
-    public ParameterInterface ChromaFlash;
-
-
-    public ParameterInterface DigitalImageStabilization;
-    public ParameterInterface VideoStabilization;
-    public ParameterInterface MemoryColorEnhancement;
-    public ParameterInterface NightMode;
-    public ParameterInterface NonZslManualMode;
-    public ParameterInterface AE_Bracket;
-    public ParameterInterface ExposureLock;
-    public ParameterInterface CDS_Mode;
-
-    public ParameterInterface HTCVideoMode;
-    public ParameterInterface HTCVideoModeHSR;
-    public ParameterInterface VideoProfiles;
-    public ParameterInterface VideoSize;
-    public ParameterInterface VideoHDR;
-    public ParameterInterface VideoHighFramerateVideo;
-    public ParameterInterface LensFilter;
-    public ParameterInterface Horizont;
-    public ParameterInterface ae_TargetFPS;
-
-    //SonyApi
-    public ParameterInterface ContShootMode;
-    public ParameterInterface ContShootModeSpeed;
-    public ParameterInterface ObjectTracking;
-    public ParameterInterface PostViewSize;
-    public ParameterInterface Focuspeak;
-    public ParameterInterface Module;
-    public ParameterInterface ZoomSetting;
-    public ParameterInterface NightOverlay;
-
-    //huawei
-    public ParameterInterface dualPrimaryCameraMode;
-
-
-
-
-
-    //camera2 modes
-    public ParameterInterface EdgeMode;
-    public ParameterInterface ColorCorrectionMode;
-    public ParameterInterface HotPixelMode;
-    public ParameterInterface ToneMapMode;
-    public ParameterInterface black;
-    public ParameterInterface shadows;
-    public ParameterInterface midtones;
-    public ParameterInterface highlights;
-    public ParameterInterface white;
-    public ManualToneMapCurveApi2.ToneCurveParameter toneCurveParameter;
-    public ParameterInterface ControlMode;
-
-    public ParameterInterface oismode;
-
-    public ParameterInterface SdSaveLocation;
-
-    public ParameterInterface locationParameter;
-
-    public boolean IntervalCapture;
-    public boolean IntervalCaptureFocusSet;
-
-    public ParameterInterface IntervalDuration;
-    public ParameterInterface IntervalShutterSleep;
-
-    public ParameterInterface opcode;
-    public ParameterInterface bayerformat;
-    public ParameterInterface matrixChooser;
-    public ParameterInterface tonemapChooser;
-    public ParameterInterface scalePreview;*/
-
-    private boolean isDngActive;
-    public boolean IsDngActive(){ return isDngActive; }
-    public void SetDngActive(boolean active) {
-        isDngActive = active;}
 
     public AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
@@ -203,8 +74,7 @@ public abstract class AbstractParameterHandler
 
     public void add(Parameters parameters, ParameterInterface parameterInterface)
     {
-        if (!parameterHashMap.containsKey(parameters))
-            parameterHashMap.put(parameters, parameterInterface);
+        parameterHashMap.put(parameters, parameterInterface);
     }
 
     public ParameterInterface get(Parameters parameters)
@@ -279,7 +149,7 @@ public abstract class AbstractParameterHandler
         setManualMode(get(Parameters.M_3D_Convergence),AppSettingsManager.getInstance().manualConvergence);
         setManualMode(get(Parameters.M_ExposureCompensation), AppSettingsManager.getInstance().manualExposureCompensation);
         setManualMode(get(Parameters.M_Focus), AppSettingsManager.getInstance().manualFocus);
-        setManualMode(get(Parameters.M_Shaprness),AppSettingsManager.getInstance().manualSharpness);
+        setManualMode(get(Parameters.M_Sharpness),AppSettingsManager.getInstance().manualSharpness);
         setManualMode(get(Parameters.M_ExposureTime), AppSettingsManager.getInstance().manualExposureTime);
         setManualMode(get(Parameters.M_Brightness), AppSettingsManager.getInstance().manualBrightness);
         setManualMode(get(Parameters.M_ManualIso), AppSettingsManager.getInstance().manualIso);

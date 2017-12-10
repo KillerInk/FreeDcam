@@ -298,7 +298,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         public void run() {
             isWorking = true;
             Log.d(TAG, AppSettingsManager.getInstance().pictureFormat.get());
-            Log.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
             imagecount = 0;
             burstCount = Integer.parseInt(parameterHandler.get(Parameters.M_Burst).GetStringValue());
             if (burstCount > 1)

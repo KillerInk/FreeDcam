@@ -99,12 +99,10 @@ public class PictureFormatHandler extends BaseModeParameter
             else if(valueToSet.equals(cameraUiWrapper.getResString(R.string.bayer_)))
             {
                 setString(rawFormat,setToCam);
-                cameraUiWrapper.getParameterHandler().SetDngActive(false);
             }
             else if(valueToSet.equals(cameraUiWrapper.getResString(R.string.dng_)))
             {
                 setString(rawFormat,setToCam);
-                cameraUiWrapper.getParameterHandler().SetDngActive(true);
             }
         }
         fireStringValueChanged(valueToSet);

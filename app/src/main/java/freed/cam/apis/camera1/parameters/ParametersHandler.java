@@ -68,7 +68,6 @@ import freed.cam.apis.camera1.parameters.modes.ExposureLockParameter;
 import freed.cam.apis.camera1.parameters.modes.FocusPeakModeParameter;
 import freed.cam.apis.camera1.parameters.modes.LgHdrMode;
 import freed.cam.apis.camera1.parameters.modes.MotoHDR;
-import freed.cam.apis.camera1.parameters.modes.NightModeXiaomi;
 import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.cam.apis.camera1.parameters.modes.PictureFormatHandler;
@@ -347,7 +346,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         if (appS.manualSharpness.isSupported())
-            add(freed.cam.apis.basecamera.parameters.Parameters.M_Shaprness, new BaseManualParameter(cameraParameters,cameraUiWrapper,appS.manualSharpness));
+            add(freed.cam.apis.basecamera.parameters.Parameters.M_Sharpness, new BaseManualParameter(cameraParameters,cameraUiWrapper,appS.manualSharpness));
 
         if (appS.manualBrightness.isSupported())
             add(freed.cam.apis.basecamera.parameters.Parameters.M_Brightness, new BaseManualParameter(cameraParameters,cameraUiWrapper,appS.manualBrightness));

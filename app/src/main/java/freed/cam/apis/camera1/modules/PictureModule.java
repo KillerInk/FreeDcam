@@ -241,9 +241,9 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             return ".jpg";
         else if (picFormat.equals("jps"))
             return  ".jps";
-        else if (!cameraUiWrapper.getParameterHandler().IsDngActive() && (picFormat.equals(FileEnding.BAYER) || picFormat.equals(FileEnding.RAW)))
+        else if ((picFormat.equals(FileEnding.BAYER) || picFormat.equals(FileEnding.RAW)))
             return ".bayer";
-        else if (cameraUiWrapper.getParameterHandler().IsDngActive() && picFormat.contains(FileEnding.DNG))
+        else if (picFormat.contains(FileEnding.DNG))
             return ".dng";
         return "";
     }

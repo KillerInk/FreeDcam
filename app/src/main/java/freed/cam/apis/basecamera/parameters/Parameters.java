@@ -4,7 +4,7 @@ package freed.cam.apis.basecamera.parameters;
 public enum Parameters
 {
     M_Brightness,
-    M_Shaprness,
+    M_Sharpness,
     M_Contrast,
     M_Saturation,
     M_ExposureCompensation,
@@ -108,5 +108,4 @@ public enum Parameters
     matrixChooser,
     tonemapChooser,
     scalePreview,
-
 }
