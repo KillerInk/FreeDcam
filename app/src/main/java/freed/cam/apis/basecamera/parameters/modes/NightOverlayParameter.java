@@ -4,7 +4,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by Ingo on 24.09.2016.
@@ -32,19 +32,19 @@ public class NightOverlayParameter extends AbstractParameter {
 
     @Override
     public String GetStringValue() {
-        boolean enable = AppSettingsManager.getInstance().getBoolean(AppSettingsManager.SETTINGS_NIGHTOVERLAY,false);
+        boolean enable = SettingsManager.getInstance().getBoolean(SettingsManager.SETTINGS_NIGHTOVERLAY,false);
         if (enable)
-            return AppSettingsManager.getInstance().getResString(R.string.on_);
+            return SettingsManager.getInstance().getResString(R.string.on_);
         else
-            return AppSettingsManager.getInstance().getResString(R.string.off_);
+            return SettingsManager.getInstance().getResString(R.string.off_);
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
         if (valueToSet.equals(cameraWrapperInterface.getResString(R.string.on_)))
-            AppSettingsManager.getInstance().setBoolean(AppSettingsManager.SETTINGS_NIGHTOVERLAY,true);
+            SettingsManager.getInstance().setBoolean(SettingsManager.SETTINGS_NIGHTOVERLAY,true);
         else
-            AppSettingsManager.getInstance().setBoolean(AppSettingsManager.SETTINGS_NIGHTOVERLAY,false);
+            SettingsManager.getInstance().setBoolean(SettingsManager.SETTINGS_NIGHTOVERLAY,false);
         cameraWrapperInterface.getActivityInterface().SetNightOverlay();
 
     }

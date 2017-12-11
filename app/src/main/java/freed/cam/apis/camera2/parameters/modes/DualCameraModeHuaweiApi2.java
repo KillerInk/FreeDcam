@@ -7,7 +7,7 @@ import android.os.Build;
 import java.util.Map;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.StringUtils;
 
 /**
@@ -20,7 +20,7 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
     protected CaptureRequest.Key<Byte> parameterKey;
 
 
-    public DualCameraModeHuaweiApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, CaptureRequest.Key<Byte> parameterKey) {
+    public DualCameraModeHuaweiApi2(CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode, CaptureRequest.Key<Byte> parameterKey) {
         super(cameraUiWrapper, settingMode, null);
         this.parameterKey = parameterKey;
         isSupported = settingMode.isSupported();

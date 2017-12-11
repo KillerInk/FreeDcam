@@ -22,14 +22,14 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 22.07.2015.
  */
 public class SettingsChildMenuVideoProfile extends SettingsChildMenu
 {
-    public SettingsChildMenuVideoProfile(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid) {
+    public SettingsChildMenuVideoProfile(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid) {
         super(context, settingsMode, parameter, headerid, descriptionid);
     }
 

@@ -41,14 +41,14 @@ import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
-import freed.cam.apis.basecamera.parameters.Parameters;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLG;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -73,7 +73,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Override
     public String CameraApiName() {
-        return AppSettingsManager.API_1;
+        return SettingsManager.API_1;
     }
 
 
@@ -96,21 +96,21 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
         Focus = new FocusHandler(Camera1Fragment.this);
 
-        Log.d(TAG,"FrameWork:" + AppSettingsManager.getInstance().getFrameWork() + " openlegacy:" + AppSettingsManager.getInstance().opencamera1Legacy.getBoolean());
+        Log.d(TAG,"FrameWork:" + SettingsManager.getInstance().getFrameWork() + " openlegacy:" + SettingsManager.get(Settings.openCamera1Legacy).getBoolean());
 
-        if (AppSettingsManager.getInstance().getFrameWork() == AppSettingsManager.FRAMEWORK_LG) {
+        if (SettingsManager.getInstance().getFrameWork() == SettingsManager.FRAMEWORK_LG) {
             cameraHolder = new CameraHolderLG(Camera1Fragment.this, CameraHolder.Frameworks.LG);
             Log.d(TAG, "create LG camera");
         }
-        else if (AppSettingsManager.getInstance().getFrameWork() == AppSettingsManager.FRAMEWORK_MOTO_EXT) {
+        else if (SettingsManager.getInstance().getFrameWork() == SettingsManager.FRAMEWORK_MOTO_EXT) {
             cameraHolder = new CameraHolderMotoX(Camera1Fragment.this, CameraHolder.Frameworks.MotoX);
             Log.d(TAG, "create MotoExt camera");
         }
-        else if (AppSettingsManager.getInstance().getFrameWork() == AppSettingsManager.FRAMEWORK_MTK) {
+        else if (SettingsManager.getInstance().getFrameWork() == SettingsManager.FRAMEWORK_MTK) {
             cameraHolder = new CameraHolderMTK(Camera1Fragment.this, CameraHolder.Frameworks.MTK);
             Log.d(TAG, "create Mtk camera");
         }
-        else if (AppSettingsManager.getInstance().opencamera1Legacy.getBoolean()) {
+        else if (SettingsManager.get(Settings.openCamera1Legacy).getBoolean()) {
             cameraHolder = new CameraHolderLegacy(Camera1Fragment.this, CameraHolder.Frameworks.Normal);
             Log.d(TAG, "create Legacy camera");
         }
@@ -234,9 +234,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                     || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_hdr))
                     || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_interval)))
             {
-                Size sizefromCam = new Size(parametersHandler.get(Parameters.PictureSize).GetStringValue());
+                Size sizefromCam = new Size(parametersHandler.get(Settings.PictureSize).GetStringValue());
                 List<Size> sizes = new ArrayList<>();
-                String[] stringsSizes = parametersHandler.get(Parameters.PreviewSize).getStringValues();
+                String[] stringsSizes = parametersHandler.get(Settings.PreviewSize).getStringValues();
                 final Size size;
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
@@ -249,7 +249,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 }
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
 
-                parametersHandler.get(Parameters.PreviewSize).SetValue(size.width + "x" + size.height, true);
+                parametersHandler.get(Settings.PreviewSize).SetValue(size.width + "x" + size.height, true);
                 uiHandler.obtainMessage(MSG_SET_ASPECTRATIO, size).sendToTarget();
 
             }
@@ -258,7 +258,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 Size sizefromCam = new Size("1920x1080");
 
                 List<Size> sizes = new ArrayList<>();
-                String[] stringsSizes = parametersHandler.get(Parameters.PreviewSize).getStringValues();
+                String[] stringsSizes = parametersHandler.get(Settings.PreviewSize).getStringValues();
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
@@ -279,7 +279,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                     });
 
                 }else {*/
-                parametersHandler.get(Parameters.PreviewSize).SetValue(size.width + "x" + size.height, true);
+                parametersHandler.get(Settings.PreviewSize).SetValue(size.width + "x" + size.height, true);
                 uiHandler.obtainMessage(MSG_SET_ASPECTRATIO, size).sendToTarget();
                 //}
 
@@ -351,7 +351,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public void onModuleChanged(String module)
     {
-        onPreviewSizeShouldChange.onStringValueChanged(parametersHandler.get(Parameters.Focuspeak).GetStringValue());
+        onPreviewSizeShouldChange.onStringValueChanged(parametersHandler.get(Settings.Focuspeak).GetStringValue());
     }
 
     @Override
@@ -386,7 +386,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Override
     public String getResString(int id) {
-        return AppSettingsManager.getInstance().getResString(id);
+        return SettingsManager.getInstance().getResString(id);
     }
 
     @Override
@@ -417,7 +417,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         {
             case MSG_START_CAMERA:
                 if (!cameraIsOpen)
-                    cameraIsOpen = cameraHolder.OpenCamera(AppSettingsManager.getInstance().GetCurrentCamera());
+                    cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
                 Log.d(TAG, "startCamera");
                 break;
             case MSG_STOP_CAMERA:
@@ -434,7 +434,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 cameraHolder.CloseCamera();
                 cameraIsOpen = false;
                 if (!cameraIsOpen)
-                    cameraIsOpen = cameraHolder.OpenCamera(AppSettingsManager.getInstance().GetCurrentCamera());
+                    cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
                 Log.d(TAG, "startCamera");
                 break;
             case MSG_START_PREVIEW:
@@ -448,7 +448,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
             case MSG_INIT_CAMERA:
                 cameraRdy = true;
                 ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
-                parametersHandler.get(Parameters.PictureSize).addEventListner(onPreviewSizeShouldChange);
+                parametersHandler.get(Settings.PictureSize).addEventListner(onPreviewSizeShouldChange);
                 cameraHolder.SetSurface(extendedSurfaceView.getHolder());
                 cameraHolder.StartPreview();
                 this.onCameraOpenFinish("");

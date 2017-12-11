@@ -24,8 +24,8 @@ import android.text.TextUtils;
 
 import java.util.Date;
 
-import freed.cam.apis.basecamera.parameters.Parameters;
-import freed.settings.AppSettingsManager;
+import freed.settings.Settings;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -59,13 +59,13 @@ public class IntervalHandler
         Log.d(TAG, "Start Interval");
         working = true;
         startTime = new Date().getTime();
-        String sleep = picmodule.cameraUiWrapper.getParameterHandler().get(Parameters.IntervalShutterSleep).GetStringValue();
+        String sleep = picmodule.cameraUiWrapper.getParameterHandler().get(Settings.IntervalShutterSleep).GetStringValue();
         if (sleep.contains(" sec"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" sec",""))*1000;
         if (sleep.contains(" min"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" min",""))*60*1000;
 
-        String duration = picmodule.cameraUiWrapper.getParameterHandler().get(Parameters.IntervalDuration).GetStringValue();
+        String duration = picmodule.cameraUiWrapper.getParameterHandler().get(Settings.IntervalDuration).GetStringValue();
         if (duration.equals("∞"))
             fullIntervalCaptureDuration = 0;
         else if (duration.contains(" min"))
@@ -166,7 +166,7 @@ public class IntervalHandler
 
     public void StartShutterTime()
     {
-        String shutterdelay = AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_TIMER);
+        String shutterdelay = SettingsManager.getInstance().getApiString(SettingsManager.SETTING_TIMER);
         try {
             if (TextUtils.isEmpty(shutterdelay))
                 shutterdelay = "0 sec";

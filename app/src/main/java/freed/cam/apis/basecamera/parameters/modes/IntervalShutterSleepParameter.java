@@ -25,7 +25,8 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.AppSettingsManager;
+import freed.settings.Settings;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 08.01.2016.
@@ -37,10 +38,10 @@ public class IntervalShutterSleepParameter extends AbstractParameter
     public IntervalShutterSleepParameter(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (TextUtils.isEmpty(AppSettingsManager.getInstance().interval.get()))
-            AppSettingsManager.getInstance().interval.set(current);
+        if (TextUtils.isEmpty(SettingsManager.get(Settings.IntervalShutterSleep).get()))
+            SettingsManager.get(Settings.IntervalShutterSleep).set(current);
         else
-            current = AppSettingsManager.getInstance().interval.get();
+            current = SettingsManager.get(Settings.IntervalShutterSleep).get();
     }
 
     @Override

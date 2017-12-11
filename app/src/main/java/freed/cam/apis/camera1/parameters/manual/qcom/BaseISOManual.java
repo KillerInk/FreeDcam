@@ -26,9 +26,10 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by GeorgeKiarie on 6/2/2016.
@@ -41,7 +42,7 @@ public class BaseISOManual extends BaseManualParameter {
         super(parameters, "", "", "", cameraUiWrapper, 0);
         isSupported = true;
         isVisible = true;
-        stringvalues = AppSettingsManager.getInstance().manualIso.getValues();
+        stringvalues = SettingsManager.get(Settings.M_ManualIso).getValues();
     }
 
     @Override
@@ -65,10 +66,10 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_manual()
     {
-        cur_iso_mode = cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.IsoMode).GetStringValue();
+        cur_iso_mode = cameraUiWrapper.getParameterHandler().get(Settings.IsoMode).GetStringValue();
 
-        if (!cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.IsoMode).GetStringValue().equals(cameraUiWrapper.getResString(R.string.manual)))
-            cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.IsoMode).SetValue(cameraUiWrapper.getResString(R.string.manual), true);
+        if (!cameraUiWrapper.getParameterHandler().get(Settings.IsoMode).GetStringValue().equals(cameraUiWrapper.getResString(R.string.manual)))
+            cameraUiWrapper.getParameterHandler().get(Settings.IsoMode).SetValue(cameraUiWrapper.getResString(R.string.manual), true);
         parameters.set(key_value, stringvalues[currentInt]);
 
 
@@ -76,9 +77,9 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_to_auto()
     {
-        if (cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.IsoMode).GetStringValue().equals(cameraUiWrapper.getResString(R.string.manual)))
-            cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.IsoMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
-        cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.IsoMode).SetValue(cur_iso_mode, true);
+        if (cameraUiWrapper.getParameterHandler().get(Settings.IsoMode).GetStringValue().equals(cameraUiWrapper.getResString(R.string.manual)))
+            cameraUiWrapper.getParameterHandler().get(Settings.IsoMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
+        cameraUiWrapper.getParameterHandler().get(Settings.IsoMode).SetValue(cur_iso_mode, true);
 
     }
 

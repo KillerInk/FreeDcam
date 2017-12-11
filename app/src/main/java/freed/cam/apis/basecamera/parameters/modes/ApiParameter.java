@@ -24,7 +24,7 @@ import android.text.TextUtils;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 21.07.2015.
@@ -43,25 +43,25 @@ public class ApiParameter extends AbstractParameter
     {
         if (VERSION.SDK_INT >= 21)
         {
-            if (AppSettingsManager.getInstance().hasCamera2Features())
-                return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2, AppSettingsManager.API_1};
+            if (SettingsManager.getInstance().hasCamera2Features())
+                return new String[]{SettingsManager.API_SONY, SettingsManager.API_2, SettingsManager.API_1};
             else
-                return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_1};
+                return new String[]{SettingsManager.API_SONY, SettingsManager.API_1};
         } else
-            return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_1};
+            return new String[]{SettingsManager.API_SONY, SettingsManager.API_1};
     }
 
     @Override
     public String GetStringValue() {
-        String ret = AppSettingsManager.getInstance().getCamApi();
+        String ret = SettingsManager.getInstance().getCamApi();
         if (TextUtils.isEmpty(ret))
-            ret = AppSettingsManager.API_1;
+            ret = SettingsManager.API_1;
         return ret;
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
-        AppSettingsManager.getInstance().setCamApi(valueToSet);
+        SettingsManager.getInstance().setCamApi(valueToSet);
         fragment_activityInterface.SwitchCameraAPI(valueToSet);
     }
 

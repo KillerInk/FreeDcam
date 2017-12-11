@@ -38,7 +38,7 @@ import com.troop.freedcam.R.styleable;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -59,7 +59,7 @@ public class UiSettingsChild extends SettingsChildAbstract
         init(context);
     }
 
-    public UiSettingsChild(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
+    public UiSettingsChild(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
         super(context, settingsMode,parameter);
         init(context);
     }

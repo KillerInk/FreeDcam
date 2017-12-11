@@ -22,7 +22,7 @@ package freed.cam.apis.basecamera.parameters.modes;
 import android.text.TextUtils;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 21.07.2015.
@@ -46,15 +46,15 @@ public class ParameterExternalShutter extends AbstractParameter
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        AppSettingsManager.getInstance().setApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER, valueToSet);
+        SettingsManager.getInstance().setApiString(SettingsManager.SETTING_EXTERNALSHUTTER, valueToSet);
     }
 
     public String GetStringValue()
     {
-        if (TextUtils.isEmpty(AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER)))
+        if (TextUtils.isEmpty(SettingsManager.getInstance().getApiString(SettingsManager.SETTING_EXTERNALSHUTTER)))
             return "Hook";
         else
-            return AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_EXTERNALSHUTTER);
+            return SettingsManager.getInstance().getApiString(SettingsManager.SETTING_EXTERNALSHUTTER);
     }
 
     public String[] getStringValues() {

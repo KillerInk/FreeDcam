@@ -31,10 +31,10 @@ import java.io.IOException;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.apis.basecamera.parameters.Parameters;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.jni.RawToDng;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
@@ -57,13 +57,13 @@ public class PictureModuleMTK extends PictureModule
         mBackgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+                if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
                     cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
 
                 cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
                 Log.d(TAG, "Start Take Picture");
                 waitForPicture = true;
-                ParameterInterface picformat = cameraUiWrapper.getParameterHandler().get(Parameters.PictureFormat);
+                ParameterInterface picformat = cameraUiWrapper.getParameterHandler().get(Settings.PictureFormat);
                 if (picformat.GetStringValue().equals(FileEnding.BAYER) || picformat.GetStringValue().equals(FileEnding.DNG)) {
                     String timestamp = String.valueOf(System.currentTimeMillis());
                     ((ParametersHandler)cameraUiWrapper.getParameterHandler()).Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
@@ -84,7 +84,7 @@ public class PictureModuleMTK extends PictureModule
             return;
         waitForPicture =false;
         Log.d(TAG, "Take Picture CallBack");
-        String picformat = cameraUiWrapper.getParameterHandler().get(Parameters.PictureFormat).GetStringValue();
+        String picformat = cameraUiWrapper.getParameterHandler().get(Settings.PictureFormat).GetStringValue();
         // must always be jpg ending. dng gets created based on that
         holdFile = getFile(".jpg");
         Log.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());

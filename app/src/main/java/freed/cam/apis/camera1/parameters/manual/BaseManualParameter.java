@@ -29,7 +29,7 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -80,7 +80,7 @@ public class BaseManualParameter extends AbstractParameter
         this.parameters = parameters;
     }
 
-    public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode)
+    public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode)
     {
         super(cameraUiWrapper);
         this.parameters = parameters;

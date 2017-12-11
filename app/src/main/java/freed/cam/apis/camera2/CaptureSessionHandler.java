@@ -24,7 +24,8 @@ import android.view.WindowManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
+import freed.settings.Settings;
 import freed.utils.Log;
 
 /**
@@ -548,7 +549,7 @@ public class CaptureSessionHandler
 
             matrix.postScale(scX,scY,centerX,centerY);
 
-            if (AppSettingsManager.getInstance().orientationhack.getBoolean())
+            if (SettingsManager.get(Settings.orientationHack).getBoolean())
                 matrix.postRotate(orientationWithHack, centerX, centerY);
             else
                 matrix.postRotate(orientation, centerX,centerY);

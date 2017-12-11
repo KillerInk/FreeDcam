@@ -31,7 +31,7 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -95,8 +95,8 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
 
             }
         });
-        settingsname = AppSettingsManager.TIMELAPSEFRAME;
-        String fps = AppSettingsManager.getInstance().getApiString(settingsname);
+        settingsname = SettingsManager.TIMELAPSEFRAME;
+        String fps = SettingsManager.getInstance().getApiString(settingsname);
         if (fps == null || TextUtils.isEmpty(fps))
             fps = "30";
 
@@ -119,7 +119,7 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
         {
             Log.WriteEx(ex);
         }
-        AppSettingsManager.getInstance().setApiString(settingsname, current + "");
+        SettingsManager.getInstance().setApiString(settingsname, current + "");
         if (current >= 1)
             editText.setText(current + " fps");
         else

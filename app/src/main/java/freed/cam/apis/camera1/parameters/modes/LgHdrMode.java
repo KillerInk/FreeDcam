@@ -9,7 +9,7 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 24.02.2017.
@@ -25,7 +25,7 @@ public class LgHdrMode extends BaseModeParameter
     private String format = "";
     private String curmodule = "";
 
-    public LgHdrMode(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode) {
+    public LgHdrMode(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode) {
         super(parameters, cameraUiWrapper, settingMode);
     }
 

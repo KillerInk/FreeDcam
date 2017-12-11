@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by GeorgeKiarie on 10/4/2015.
@@ -60,7 +60,7 @@ public class SettingsChildMenuTimer extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        AppSettingsManager.getInstance().setApiString(AppSettingsManager.SETTING_TIMER, value);
+        SettingsManager.getInstance().setApiString(SettingsManager.SETTING_TIMER, value);
         onStringValueChanged(value);
     }
 }

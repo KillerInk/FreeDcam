@@ -8,14 +8,14 @@ import android.view.View;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 public class UiSettingsChildSelfTimer extends UiSettingsChild {
     public UiSettingsChildSelfTimer(Context context) {
         super(context);
     }
 
-    public UiSettingsChildSelfTimer(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
+    public UiSettingsChildSelfTimer(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
         super(context, settingsMode, parameter);
     }
 
@@ -37,7 +37,7 @@ public class UiSettingsChildSelfTimer extends UiSettingsChild {
     }
 
     @Override
-    public void SetStuff(AppSettingsManager.SettingMode settingMode) {
+    public void SetStuff(SettingsManager.SettingMode settingMode) {
         super.SetStuff(settingMode);
         onStringValueChanged(settingMode.get());
     }

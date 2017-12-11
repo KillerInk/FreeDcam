@@ -26,7 +26,7 @@ import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
-import freed.cam.apis.basecamera.parameters.Parameters;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.utils.Log;
 
@@ -179,11 +179,11 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 
     @Override
     protected void startTouchFocus(FocusCoordinates obj) {
-        if (cameraUiWrapper == null|| cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(Parameters.FocusMode) == null)
+        if (cameraUiWrapper == null|| cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(Settings.FocusMode) == null)
             return;
 
         Log.d(TAG, "start Touch X:Y " + obj.x +":" + obj.y);
-        String focusmode = cameraUiWrapper.getParameterHandler().get(Parameters.FocusMode).GetStringValue();
+        String focusmode = cameraUiWrapper.getParameterHandler().get(Settings.FocusMode).GetStringValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
             Rect targetFocusRect = getFocusRect(obj.x,obj.y, obj.width, obj.height);

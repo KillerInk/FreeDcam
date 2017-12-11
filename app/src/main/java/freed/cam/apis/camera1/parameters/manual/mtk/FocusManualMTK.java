@@ -26,9 +26,10 @@ import android.text.TextUtils;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -37,7 +38,7 @@ import freed.utils.Log;
 public class FocusManualMTK extends BaseFocusManual {
 
     private final String TAG = FocusManualMTK.class.getSimpleName();
-    public FocusManualMTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager.TypeSettingsMode settingMode) {
+    public FocusManualMTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode) {
         super(parameters, cameraUiWrapper, settingMode);
     }
 
@@ -48,13 +49,13 @@ public class FocusManualMTK extends BaseFocusManual {
 
         if (valueToSet == 0)
         {
-            cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.FocusMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
+            cameraUiWrapper.getParameterHandler().get(Settings.FocusMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
         }
         else
         {
             if ((!TextUtils.isEmpty(manualFocusModeString) || manualFocusModeString == null)
-                    && !cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.FocusMode).GetStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
-                cameraUiWrapper.getParameterHandler().get(freed.cam.apis.basecamera.parameters.Parameters.FocusMode).SetValue(manualFocusModeString, false);
+                    && !cameraUiWrapper.getParameterHandler().get(Settings.FocusMode).GetStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
+                cameraUiWrapper.getParameterHandler().get(Settings.FocusMode).SetValue(manualFocusModeString, false);
 
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);

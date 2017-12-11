@@ -39,7 +39,7 @@ import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.apis.camera2.renderscript.FocuspeakProcessorApi2;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.screenslide.MyHistogram;
 
@@ -69,7 +69,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
 
 
     public String CameraApiName() {
-        return AppSettingsManager.API_2;
+        return SettingsManager.API_2;
     }
 
     @Override
@@ -192,7 +192,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
 
     @Override
     public String getResString(int id) {
-        return AppSettingsManager.getInstance().getResString(id);
+        return SettingsManager.getInstance().getResString(id);
     }
 
     @Override
@@ -207,7 +207,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         {
             case MSG_START_CAMERA:
                 if (!cameraIsOpen)
-                    cameraIsOpen = cameraHolder.OpenCamera(AppSettingsManager.getInstance().GetCurrentCamera());
+                    cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
                 break;
             case MSG_STOP_CAMERA:
                 Log.d(TAG, "Stop Camera");
@@ -219,7 +219,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
                 cameraHolder.CloseCamera();
                 cameraIsOpen = false;
                 if (!cameraIsOpen)
-                    cameraIsOpen = cameraHolder.OpenCamera(AppSettingsManager.getInstance().GetCurrentCamera());
+                    cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
                 break;
             case MSG_START_PREVIEW:
                 Log.d(TAG, "Start Preview");
@@ -241,7 +241,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
                 ((CameraHolderApi2)cameraHolder).SetSurface(textureView);
                 Log.d(TAG, "Camera Opened and Preview Started");
                 Camera2Fragment.super.onCameraOpen("");
-                moduleHandler.setModule(AppSettingsManager.getInstance().GetCurrentModule());
+                moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
                 Camera2Fragment.this.onCameraOpenFinish("");
                 break;
             case MSG_CREATE_CAMERA:

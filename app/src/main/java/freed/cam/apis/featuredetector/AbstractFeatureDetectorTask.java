@@ -6,7 +6,7 @@ import com.lge.media.CamcorderProfileExRef;
 
 import java.util.HashMap;
 
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 
@@ -29,7 +29,7 @@ public abstract class AbstractFeatureDetectorTask {
         void onTaskEnd(String msg);
     }
 
-    protected void sendProgress(AppSettingsManager.SettingMode settingMode, String name)
+    protected void sendProgress(SettingsManager.SettingMode settingMode, String name)
     {
         if (settingMode.isSupported()) {
             String[]ar = settingMode.getValues();
@@ -57,7 +57,7 @@ public abstract class AbstractFeatureDetectorTask {
     {
         String t = "";
         for (int i =0; i<arr.length;i++)
-            t+=arr[i]+ AppSettingsManager.SPLITTCHAR;
+            t+=arr[i]+ SettingsManager.SPLITTCHAR;
         return t;
     }
 

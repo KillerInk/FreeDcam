@@ -1,7 +1,7 @@
-package freed.cam.apis.basecamera.parameters;
+package freed.settings;
 
 
-public enum Parameters
+public enum Settings
 {
     M_Brightness,
     M_Sharpness,
@@ -20,6 +20,7 @@ public enum Parameters
     M_ProgramShift, //sony api
     M_PreviewZoom, //sony api
     M_ToneCurve,
+    M_Aperture,
 
     ColorMode,
     ExposureMode,
@@ -108,4 +109,15 @@ public enum Parameters
     matrixChooser,
     tonemapChooser,
     scalePreview,
+
+    rawPictureFormatSetting,
+    openCamera1Legacy,
+    useHuaweiCamera2Extension,
+    support12bitRaw,
+    useQcomFocus,
+    dngSupportManuals,
+    forceRawToDng,
+    needRestartAfterCapture,
+    orientationHack,
+    selfTimer,
 }

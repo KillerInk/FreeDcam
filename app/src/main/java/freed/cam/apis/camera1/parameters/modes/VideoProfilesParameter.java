@@ -30,7 +30,8 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
+import freed.settings.Settings;
 import freed.utils.VideoMediaProfile;
 
 /**
@@ -47,13 +48,13 @@ public class VideoProfilesParameter extends AbstractParameter
     public VideoProfilesParameter(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         isSupported =true;
-        supportedProfiles = AppSettingsManager.getInstance().getMediaProfiles();
-        profile = AppSettingsManager.getInstance().videoProfile.get();
+        supportedProfiles = SettingsManager.getInstance().getMediaProfiles();
+        profile = SettingsManager.get(Settings.VideoProfiles).get();
         if (profile == null)
         {
             List<String> keys = new ArrayList<>(supportedProfiles.keySet());
             profile = keys.get(0);
-            AppSettingsManager.getInstance().videoProfile.set(profile);
+            SettingsManager.get(Settings.VideoProfiles).set(profile);
         }
     }
 

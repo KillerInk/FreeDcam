@@ -22,8 +22,9 @@ package freed.cam.apis.camera1.cameraholder;
 import com.lge.hardware.LGCameraRef;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -41,7 +42,7 @@ public class CameraHolderLG extends CameraHolder
     {
         try {
 
-            if (AppSettingsManager.getInstance().opencamera1Legacy.getBoolean()) {
+            if (SettingsManager.get(Settings.openCamera1Legacy).getBoolean()) {
                 lgCamera = new LGCameraRef(camera, 256);
                 Log.d(CameraHolderLG.class.getSimpleName(), "open LG camera legacy");
             }

@@ -26,7 +26,7 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -53,7 +53,7 @@ public class BaseModeParameter extends AbstractParameter implements ModuleChange
         this.parameters = parameters;
     }
 
-    public BaseModeParameter(Parameters  parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode)
+    public BaseModeParameter(Parameters  parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode)
     {
         this(parameters,cameraUiWrapper);
         this.key_value = settingMode.getKEY();

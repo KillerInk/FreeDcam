@@ -33,7 +33,7 @@ import com.troop.freedcam.R.styleable;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 14.06.2015.
@@ -55,11 +55,11 @@ public class SettingsChildMenu extends UiSettingsChild
         description.setText(getResources().getText(descriptionid));
     }
 
-    public SettingsChildMenu(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
+    public SettingsChildMenu(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
         super(context, settingsMode, parameter);
     }
 
-    public SettingsChildMenu(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid)
+    public SettingsChildMenu(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid)
     {
         super(context,settingsMode,parameter);
         headerText.setText(getResources().getText(headerid));

@@ -24,7 +24,8 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
+import freed.settings.Settings;
 
 /**
  * Created by troop on 12.12.2014.
@@ -33,7 +34,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
 {
     private String format;
 
-    public PictureFormatParameterApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, CaptureRequest.Key<Integer> parameterKey)
+    public PictureFormatParameterApi2(CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode, CaptureRequest.Key<Integer> parameterKey)
     {
         super(cameraUiWrapper,settingMode,parameterKey);
         format = settingMode.get();
@@ -41,7 +42,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
 
     @Override
     public boolean IsSupported() {
-        return AppSettingsManager.getInstance().pictureFormat.isSupported();
+        return SettingsManager.get(Settings.PictureFormat).isSupported();
     }
 
     @Override

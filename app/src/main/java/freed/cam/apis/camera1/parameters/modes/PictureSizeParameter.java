@@ -23,7 +23,8 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
+import freed.settings.Settings;
 import freed.utils.Log;
 
 /**
@@ -51,11 +52,11 @@ public class PictureSizeParameter extends BaseModeParameter
 
     @Override
     public String GetStringValue() {
-        return AppSettingsManager.getInstance().pictureSize.get();
+        return SettingsManager.get(Settings.PictureSize).get();
     }
 
     @Override
     public String[] getStringValues() {
-        return AppSettingsManager.getInstance().pictureSize.getValues();
+        return SettingsManager.get(Settings.PictureSize).getValues();
     }
 }

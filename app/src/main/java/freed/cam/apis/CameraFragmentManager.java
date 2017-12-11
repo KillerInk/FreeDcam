@@ -17,7 +17,7 @@ import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.featuredetector.CameraFeatureDetectorFragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.RenderScriptManager;
 
@@ -96,7 +96,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
 
     private void loadFeatureDetector() {
         Log.d(TAG, "Start FeatureDetector");
-        AppSettingsManager.getInstance().RESET();
+        SettingsManager.getInstance().RESET();
         fd = new CameraFeatureDetectorFragment();
         fd.setFeatureDetectorDoneListner(this);
         replaceCameraFragment(fd, "FeatureDetector");
@@ -115,7 +115,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
 
     public void switchCameraFragment()
     {
-        if ((!AppSettingsManager.getInstance().areFeaturesDetected() || AppSettingsManager.getInstance().appVersionHasChanged()) && fd == null)
+        if ((!SettingsManager.getInstance().areFeaturesDetected() || SettingsManager.getInstance().appVersionHasChanged()) && fd == null)
         {
             if (cameraFragment != null)
                 unloadCameraFragment();
@@ -124,10 +124,10 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         else if (fd == null)
         {
             if (cameraFragment == null) {
-                String api = AppSettingsManager.getInstance().getCamApi();
-                if (api.equals(AppSettingsManager.API_SONY)) {
+                String api = SettingsManager.getInstance().getCamApi();
+                if (api.equals(SettingsManager.API_SONY)) {
                     cameraFragment = SonyCameraRemoteFragment.getInstance(mBackgroundThread, cameraLock);
-                } else if (api.equals(AppSettingsManager.API_2)) {
+                } else if (api.equals(SettingsManager.API_2)) {
                     cameraFragment = Camera2Fragment.getInstance(mBackgroundThread, cameraLock);
                 } else {
                     cameraFragment = Camera1Fragment.getInstance(mBackgroundThread, cameraLock);

@@ -4,7 +4,8 @@ import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.AppSettingsManager;
+import freed.settings.Settings;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 27.03.2017.
@@ -20,8 +21,8 @@ public class ManualIsoKrilin extends AbstractParameter {
         this.parameters =  parameters;
         isSupported = true;
         isVisible = isSupported;
-        stringvalues = AppSettingsManager.getInstance().manualIso.getValues();
-        key = AppSettingsManager.getInstance().manualIso.getKEY();
+        stringvalues = SettingsManager.get(Settings.M_ManualIso).getValues();
+        key = SettingsManager.get(Settings.M_ManualIso).getKEY();
     }
 
     @Override

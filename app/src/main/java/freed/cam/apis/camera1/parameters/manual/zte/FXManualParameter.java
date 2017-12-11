@@ -26,7 +26,7 @@ import com.troop.freedcam.R;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 public class FXManualParameter extends BaseManualParameter {
@@ -38,7 +38,7 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if(AppSettingsManager.getInstance().isZteAe())
+        if(SettingsManager.getInstance().isZteAe())
         {
             isSupported = true;
             isVisible = true;
@@ -60,7 +60,7 @@ public class FXManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (AppSettingsManager.getInstance().isZteAe());
+            if (SettingsManager.getInstance().isZteAe());
                 i = 0;
         }
         catch (Exception ex)

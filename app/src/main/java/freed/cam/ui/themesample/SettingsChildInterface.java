@@ -25,7 +25,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 16.06.2016.
@@ -39,7 +39,7 @@ public interface SettingsChildInterface extends ModuleChangedEvent, ParameterEve
      */
     void SetStuff(ActivityInterface fragment_activityInterface, String key_settingvalue);
 
-    void SetStuff(AppSettingsManager.SettingMode settingMode);
+    void SetStuff(SettingsManager.SettingMode settingMode);
 
     /**
      * Set the parameter to work with

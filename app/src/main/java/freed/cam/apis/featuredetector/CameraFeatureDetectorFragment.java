@@ -17,7 +17,7 @@ import com.troop.freedcam.R;
 
 import freed.image.ImageManager;
 import freed.image.ImageTask;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -75,8 +75,8 @@ public class CameraFeatureDetectorFragment extends Fragment {
     private void startFreedcam()
     {
         featureRunner = null;
-        AppSettingsManager.getInstance().setAppVersion(BuildConfig.VERSION_CODE);
-        AppSettingsManager.getInstance().setAreFeaturesDetected(true);
+        SettingsManager.getInstance().setAppVersion(BuildConfig.VERSION_CODE);
+        SettingsManager.getInstance().setAreFeaturesDetected(true);
         featureDetectorEvents.featuredetectorDone();
         Log.d(TAG,"startFreeDcam");
     }
@@ -107,8 +107,8 @@ public class CameraFeatureDetectorFragment extends Fragment {
             }
             task = new Camera1FeatureDetectorTask(cameraListner);
             task.detect();
-            if (AppSettingsManager.getInstance().hasCamera2Features())
-                AppSettingsManager.getInstance().setCamApi(AppSettingsManager.API_2);
+            if (SettingsManager.getInstance().hasCamera2Features())
+                SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
             handler.obtainMessage(MSG_STARTFREEDCAM).sendToTarget();
             return false;
         }

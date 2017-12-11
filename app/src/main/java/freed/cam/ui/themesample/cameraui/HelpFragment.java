@@ -37,7 +37,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.cam.ui.themesample.cameraui.CameraUiFragment.i_HelpFragment;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 29.02.2016.
@@ -86,11 +86,11 @@ public class HelpFragment extends Fragment
                     case 4:
                         if (dontshowagain.isChecked())
                         {
-                            AppSettingsManager.getInstance().setshowHelpOverlay(false);
+                            SettingsManager.getInstance().setshowHelpOverlay(false);
                         }
                         else
                         {
-                            AppSettingsManager.getInstance().setshowHelpOverlay(true);
+                            SettingsManager.getInstance().setshowHelpOverlay(true);
                         }
                         closer.Close(HelpFragment.this);
                 }

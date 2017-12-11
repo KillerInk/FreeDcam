@@ -24,8 +24,9 @@ import android.text.TextUtils;
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.settings.Settings;
 import freed.dng.CustomMatrix;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -45,7 +46,7 @@ public class MatrixChooserParameter extends AbstractParameter
     {
         this.custommatrixes = matrixHashMap;
         isSupported = true;
-        currentval = AppSettingsManager.getInstance().matrixset.get();
+        currentval = SettingsManager.get(Settings.matrixChooser).get();
     }
 
     @Override
@@ -60,7 +61,7 @@ public class MatrixChooserParameter extends AbstractParameter
             return;
         currentval = valueToSet;
         fireStringValueChanged(currentval);
-        AppSettingsManager.getInstance().matrixset.set(valueToSet);
+        SettingsManager.get(Settings.matrixChooser).set(valueToSet);
     }
 
     @Override

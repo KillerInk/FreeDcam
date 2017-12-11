@@ -31,7 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CaptureSessionHandler;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 
@@ -43,7 +43,7 @@ public class BaseModeApi2 extends AbstractParameter
 {
     private final String TAG = BaseModeApi2.class.getSimpleName();
     protected HashMap<String, Integer> parameterValues;
-    protected AppSettingsManager.SettingMode settingMode;
+    protected SettingsManager.SettingMode settingMode;
     protected Key<Integer> parameterKey;
     protected CaptureSessionHandler captureSessionHandler;
 
@@ -53,7 +53,7 @@ public class BaseModeApi2 extends AbstractParameter
         this.captureSessionHandler = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler;
     }
 
-    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, Key<Integer> parameterKey) {
+    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode, Key<Integer> parameterKey) {
         this(cameraUiWrapper);
         this.settingMode = settingMode;
         this.parameterKey = parameterKey;

@@ -25,10 +25,11 @@ import android.hardware.Camera.Parameters;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.Settings;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import freed.cam.apis.camera1.parameters.manual.ManualParameterAEHandlerInterface;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 17.08.2014.
@@ -46,7 +47,7 @@ public class ShutterManualParameterG4 extends AbstractManualShutter implements M
         this.manualevent = manualevent;
         if (parameters.get(cameraUiWrapper.getResString(R.string.lg_shutterspeed)) != null) {
             isSupported = true;
-            stringvalues = AppSettingsManager.getInstance().manualExposureTime.getValues();
+            stringvalues = SettingsManager.get(Settings.M_ExposureTime).getValues();
         }
         else
             isSupported = false;

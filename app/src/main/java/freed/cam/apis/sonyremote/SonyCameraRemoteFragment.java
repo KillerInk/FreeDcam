@@ -42,7 +42,7 @@ import java.util.Set;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.basecamera.parameters.Parameters;
+import freed.settings.Settings;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
@@ -51,7 +51,7 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.cam.apis.sonyremote.sonystuff.WifiHandler;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -150,7 +150,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     @Override
     public String CameraApiName() {
 
-        return AppSettingsManager.API_SONY;
+        return SettingsManager.API_SONY;
     }
 
     @Override
@@ -336,9 +336,9 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
             Log.d(TAG, "openConnection(): setLiveViewFrameInfo");
             if(serverDevice != null &&(serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30"))
-                    && JsonUtils.isApiSupported("setLiveviewFrameInfo", (mAvailableCameraApiSet)) && parametersHandler.get(Parameters.FocusMode) != null)
+                    && JsonUtils.isApiSupported("setLiveviewFrameInfo", (mAvailableCameraApiSet)) && parametersHandler.get(Settings.FocusMode) != null)
             {
-                if (!parametersHandler.get(Parameters.FocusMode).GetStringValue().equals("MF"))
+                if (!parametersHandler.get(Settings.FocusMode).GetStringValue().equals("MF"))
                     ((CameraHolderSony) getCameraHolder()).SetLiveViewFrameInfo(true);
                 else
                     ((CameraHolderSony) getCameraHolder()).SetLiveViewFrameInfo(false);
@@ -449,7 +449,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
     @Override
     public String getResString(int id) {
-        return AppSettingsManager.getInstance().getResString(id);
+        return SettingsManager.getInstance().getResString(id);
     }
 
     @Override

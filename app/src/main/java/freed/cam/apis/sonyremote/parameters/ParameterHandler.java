@@ -31,7 +31,7 @@ import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.cam.apis.basecamera.parameters.Parameters;
+import freed.settings.Settings;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.FocusHandler;
@@ -43,7 +43,6 @@ import freed.cam.apis.sonyremote.parameters.manual.ExposureCompManualParameterSo
 import freed.cam.apis.sonyremote.parameters.manual.PreviewZoomManual;
 import freed.cam.apis.sonyremote.parameters.manual.ProgramShiftManualSony;
 import freed.cam.apis.sonyremote.parameters.manual.WbCTManualSony;
-import freed.cam.apis.sonyremote.parameters.manual.ZoomManualSony;
 import freed.cam.apis.sonyremote.parameters.modes.BaseModeParameterSony;
 import freed.cam.apis.sonyremote.parameters.modes.ContShootModeParameterSony;
 import freed.cam.apis.sonyremote.parameters.modes.FocusModeSony;
@@ -114,73 +113,73 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     private void createParameters()
     {
-        add(Parameters.Module, new ModuleParameters(cameraUiWrapper));
-        add(Parameters.PictureSize, new PictureSizeSony(mRemoteApi));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.PictureSize));
+        add(Settings.Module, new ModuleParameters(cameraUiWrapper));
+        add(Settings.PictureSize, new PictureSizeSony(mRemoteApi));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.PictureSize));
 
-        add(Parameters.PictureFormat, new PictureFormatSony(mRemoteApi));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.PictureFormat));
+        add(Settings.PictureFormat, new PictureFormatSony(mRemoteApi));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.PictureFormat));
 
-        add(Parameters.FlashMode, new BaseModeParameterSony("getFlashMode", "setFlashMode", "getAvailableFlashMode", mRemoteApi));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.FlashMode));
+        add(Settings.FlashMode, new BaseModeParameterSony("getFlashMode", "setFlashMode", "getAvailableFlashMode", mRemoteApi));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.FlashMode));
 
-        add(Parameters.M_ExposureCompensation, new BaseModeParameterSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.M_ExposureCompensation));
+        add(Settings.M_ExposureCompensation, new BaseModeParameterSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.M_ExposureCompensation));
 
-        add(Parameters.ContShootMode, new ContShootModeParameterSony(mRemoteApi, cameraUiWrapper.getModuleHandler()));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.ContShootMode));
+        add(Settings.ContShootMode, new ContShootModeParameterSony(mRemoteApi, cameraUiWrapper.getModuleHandler()));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.ContShootMode));
 
-        add(Parameters.ContShootModeSpeed, new BaseModeParameterSony("getContShootingSpeed", "setContShootingSpeed", "getAvailableContShootingSpeed", mRemoteApi));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.ContShootModeSpeed));
+        add(Settings.ContShootModeSpeed, new BaseModeParameterSony("getContShootingSpeed", "setContShootingSpeed", "getAvailableContShootingSpeed", mRemoteApi));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.ContShootModeSpeed));
 
-        add(Parameters.FocusMode, new FocusModeSony("getFocusMode", "setFocusMode", "getAvailableFocusMode", mRemoteApi));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.FocusMode));
+        add(Settings.FocusMode, new FocusModeSony("getFocusMode", "setFocusMode", "getAvailableFocusMode", mRemoteApi));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.FocusMode));
 
-        add(Parameters.ObjectTracking, new ObjectTrackingSony(mRemoteApi));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.ObjectTracking));
+        add(Settings.ObjectTracking, new ObjectTrackingSony(mRemoteApi));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.ObjectTracking));
 
-        add(Parameters.ZoomSetting, new ZoomSettingSony(mRemoteApi));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.ZoomSetting));
+        add(Settings.ZoomSetting, new ZoomSettingSony(mRemoteApi));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.ZoomSetting));
 
 
         /*Zoom = new ZoomManualSony(cameraUiWrapper);
         parametersChangedList.add((ZoomManualSony) Zoom);*/
-        add(Parameters.M_ExposureTime, new BaseManualParameterSony("getShutterSpeed", "getAvailableShutterSpeed","setShutterSpeed", cameraUiWrapper));
-        parametersChangedList.add((BaseManualParameterSony) get(Parameters.M_ExposureTime));
+        add(Settings.M_ExposureTime, new BaseManualParameterSony("getShutterSpeed", "getAvailableShutterSpeed","setShutterSpeed", cameraUiWrapper));
+        parametersChangedList.add((BaseManualParameterSony) get(Settings.M_ExposureTime));
 
-        add(Parameters.M_Fnumber, new BaseManualParameterSony("getFNumber","getAvailableFNumber","setFNumber", cameraUiWrapper));
-        parametersChangedList.add((BaseManualParameterSony) get(Parameters.M_Fnumber));
+        add(Settings.M_Fnumber, new BaseManualParameterSony("getFNumber","getAvailableFNumber","setFNumber", cameraUiWrapper));
+        parametersChangedList.add((BaseManualParameterSony) get(Settings.M_Fnumber));
 
-        add(Parameters.M_ManualIso, new BaseManualParameterSony("getIsoSpeedRate", "getAvailableIsoSpeedRate","setIsoSpeedRate", cameraUiWrapper));
-        parametersChangedList.add((BaseManualParameterSony) get(Parameters.M_ManualIso));
+        add(Settings.M_ManualIso, new BaseManualParameterSony("getIsoSpeedRate", "getAvailableIsoSpeedRate","setIsoSpeedRate", cameraUiWrapper));
+        parametersChangedList.add((BaseManualParameterSony) get(Settings.M_ManualIso));
 
-        add(Parameters.M_ExposureCompensation, new ExposureCompManualParameterSony(cameraUiWrapper));
-        parametersChangedList.add((BaseManualParameterSony) get(Parameters.M_ExposureCompensation));
+        add(Settings.M_ExposureCompensation, new ExposureCompManualParameterSony(cameraUiWrapper));
+        parametersChangedList.add((BaseManualParameterSony) get(Settings.M_ExposureCompensation));
 
-        add(Parameters.M_ProgramShift, new ProgramShiftManualSony(cameraUiWrapper));
-        parametersChangedList.add((BaseManualParameterSony) get(Parameters.M_ProgramShift));
+        add(Settings.M_ProgramShift, new ProgramShiftManualSony(cameraUiWrapper));
+        parametersChangedList.add((BaseManualParameterSony) get(Settings.M_ProgramShift));
 
-        add(Parameters.M_Whitebalance, new WbCTManualSony(cameraUiWrapper));
-        parametersChangedList.add((BaseManualParameterSony) get(Parameters.M_Whitebalance));
+        add(Settings.M_Whitebalance, new WbCTManualSony(cameraUiWrapper));
+        parametersChangedList.add((BaseManualParameterSony) get(Settings.M_Whitebalance));
 
-        add(Parameters.WhiteBalanceMode, new WhiteBalanceModeSony(mRemoteApi, (WbCTManualSony) get(Parameters.M_Whitebalance)));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.WhiteBalanceMode));
+        add(Settings.WhiteBalanceMode, new WhiteBalanceModeSony(mRemoteApi, (WbCTManualSony) get(Settings.M_Whitebalance)));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.WhiteBalanceMode));
 
-        add(Parameters.PostViewSize, new BaseModeParameterSony("getPostviewImageSize","setPostviewImageSize","getAvailablePostviewImageSize", mRemoteApi));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.PostViewSize));
+        add(Settings.PostViewSize, new BaseModeParameterSony("getPostviewImageSize","setPostviewImageSize","getAvailablePostviewImageSize", mRemoteApi));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.PostViewSize));
 
-        add(Parameters.VideoSize, new BaseModeParameterSony("getMovieQuality", "setMovieQuality", "getAvailableMovieQuality", mRemoteApi));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.VideoSize));
+        add(Settings.VideoSize, new BaseModeParameterSony("getMovieQuality", "setMovieQuality", "getAvailableMovieQuality", mRemoteApi));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.VideoSize));
 
-        add(Parameters.Focuspeak, new FocusPeakSony(surfaceView));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.Focuspeak));
+        add(Settings.Focuspeak, new FocusPeakSony(surfaceView));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.Focuspeak));
 
-        add(Parameters.NightMode, new NightModeSony(surfaceView));
-        parametersChangedList.add((BaseModeParameterSony) get(Parameters.NightMode));
+        add(Settings.NightMode, new NightModeSony(surfaceView));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.NightMode));
 
-        add(Parameters.M_PreviewZoom, new PreviewZoomManual(surfaceView, cameraUiWrapper));
+        add(Settings.M_PreviewZoom, new PreviewZoomManual(surfaceView, cameraUiWrapper));
 
-        add(Parameters.scalePreview, new ScalePreviewModeSony(surfaceView));
+        add(Settings.scalePreview, new ScalePreviewModeSony(surfaceView));
 
     }
 
@@ -260,17 +259,17 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     @Override
     public void onIsoChanged(String iso)
     {
-        get(Parameters.M_ManualIso).fireStringValueChanged(iso);
+        get(Settings.M_ManualIso).fireStringValueChanged(iso);
     }
 
     @Override
     public void onIsoValuesChanged(String[] isovals) {
-        get(Parameters.M_ManualIso).fireStringValuesChanged(isovals);
+        get(Settings.M_ManualIso).fireStringValuesChanged(isovals);
     }
 
     @Override
     public void onFnumberValuesChanged(String[] fnumbervals) {
-        get(Parameters.M_Fnumber).fireStringValuesChanged(fnumbervals);
+        get(Settings.M_Fnumber).fireStringValuesChanged(fnumbervals);
     }
 
     @Override
@@ -285,24 +284,24 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onExposureCompensationChanged(int epxosurecomp) {
-        get(Parameters.M_ExposureCompensation).fireIntValueChanged(epxosurecomp);
+        get(Settings.M_ExposureCompensation).fireIntValueChanged(epxosurecomp);
     }
 
     @Override
     public void onShutterSpeedChanged(String shutter) {
-        get(Parameters.M_ExposureTime).fireStringValueChanged(shutter);
+        get(Settings.M_ExposureTime).fireStringValueChanged(shutter);
     }
 
     @Override
     public void onShutterSpeedValuesChanged(String[] shuttervals) {
-        get(Parameters.M_ExposureTime).fireStringValuesChanged(shuttervals);
+        get(Settings.M_ExposureTime).fireStringValuesChanged(shuttervals);
     }
 
     @Override
     public void onFlashChanged(String flash)
     {
         Log.d(TAG, "Fire ONFLashCHanged");
-        get(Parameters.FlashMode).fireStringValueChanged(flash);
+        get(Settings.FlashMode).fireStringValueChanged(flash);
     }
 
     @Override
@@ -313,11 +312,11 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     @Override
     public void onWhiteBalanceValueChanged(String wb)
     {
-        get(Parameters.WhiteBalanceMode).fireStringValueChanged(wb);
-        if (get(Parameters.WhiteBalanceMode).GetStringValue().equals("Color Temperature") && get(Parameters.M_Whitebalance) != null)
-            get(Parameters.M_Whitebalance).fireIsSupportedChanged(true);
+        get(Settings.WhiteBalanceMode).fireStringValueChanged(wb);
+        if (get(Settings.WhiteBalanceMode).GetStringValue().equals("Color Temperature") && get(Settings.M_Whitebalance) != null)
+            get(Settings.M_Whitebalance).fireIsSupportedChanged(true);
         else
-            get(Parameters.M_Whitebalance).fireIsSupportedChanged(false);
+            get(Settings.M_Whitebalance).fireIsSupportedChanged(false);
     }
 
     @Override
@@ -343,7 +342,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onFnumberChanged(String fnumber) {
-        get(Parameters.M_Fnumber).fireStringValueChanged(fnumber);
+        get(Settings.M_Fnumber).fireStringValueChanged(fnumber);
     }
 
     @Override
@@ -359,88 +358,88 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     @Override
     public void onExposureModesChanged(String[] expomode)
     {
-        get(Parameters.ExposureMode).fireStringValuesChanged(expomode);
+        get(Settings.ExposureMode).fireStringValuesChanged(expomode);
     }
 
     @Override
     public void onImageFormatChanged(String imagesize) {
         if (imagesize!= null && !TextUtils.isEmpty(imagesize))
-            get(Parameters.PictureFormat).fireStringValueChanged(imagesize);
+            get(Settings.PictureFormat).fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onImageFormatsChanged(String[] imagesize) {
-        get(Parameters.PictureFormat).fireStringValuesChanged(imagesize);
+        get(Settings.PictureFormat).fireStringValuesChanged(imagesize);
     }
 
     @Override
     public void onImageSizeChanged(String imagesize) {
         if (imagesize!= null && !TextUtils.isEmpty(imagesize))
-            get(Parameters.PictureSize).fireStringValueChanged(imagesize);
+            get(Settings.PictureSize).fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onContshotModeChanged(String imagesize) {
         if (imagesize!= null && !TextUtils.isEmpty(imagesize))
-            get(Parameters.ContShootMode).fireStringValueChanged(imagesize);
+            get(Settings.ContShootMode).fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onContshotModesChanged(String[] imagesize) {
-        get(Parameters.ContShootMode).fireStringValuesChanged(imagesize);
+        get(Settings.ContShootMode).fireStringValuesChanged(imagesize);
     }
 
     @Override
     public void onFocusModeChanged(String imagesize) {
         if (imagesize!= null && !TextUtils.isEmpty(imagesize))
-            get(Parameters.FocusMode).fireStringValueChanged(imagesize);
+            get(Settings.FocusMode).fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onFocusModesChanged(String[] imagesize) {
-        get(Parameters.FocusMode).fireStringValuesChanged(imagesize);
+        get(Settings.FocusMode).fireStringValuesChanged(imagesize);
     }
 
     @Override
     public void onPostviewModeChanged(String imagesize) {
         if (imagesize!= null && !TextUtils.isEmpty(imagesize))
-            get(Parameters.PostViewSize).fireStringValueChanged(imagesize);
+            get(Settings.PostViewSize).fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onPostviewModesChanged(String[] imagesize) {
-        get(Parameters.PostViewSize).fireStringValuesChanged(imagesize);
+        get(Settings.PostViewSize).fireStringValuesChanged(imagesize);
     }
 
     @Override
     public void onTrackingFocusModeChanged(String imagesize) {
-        get(Parameters.ObjectTracking).fireStringValueChanged(imagesize);
+        get(Settings.ObjectTracking).fireStringValueChanged(imagesize);
     }
 
     @Override
     public void onTrackingFocusModesChanged(String[] imagesize) {
-        get(Parameters.ObjectTracking).fireStringValuesChanged(imagesize);
+        get(Settings.ObjectTracking).fireStringValuesChanged(imagesize);
     }
 
     @Override
     public void onZoomSettingValueCHanged(String value) {
-        get(Parameters.ZoomSetting).fireStringValueChanged(value);
+        get(Settings.ZoomSetting).fireStringValueChanged(value);
     }
 
     @Override
     public void onZoomSettingsValuesCHanged(String[] values) {
-        get(Parameters.ZoomSetting).fireStringValuesChanged(values);
+        get(Settings.ZoomSetting).fireStringValuesChanged(values);
     }
 
     @Override
     public void onExposureModeChanged(String expomode) {
         if (expomode == null && TextUtils.isEmpty(expomode))
             return;
-        if (!get(Parameters.ExposureMode).GetStringValue().equals(expomode))
-            get(Parameters.ExposureMode).fireStringValueChanged(expomode);
+        if (!get(Settings.ExposureMode).GetStringValue().equals(expomode))
+            get(Settings.ExposureMode).fireStringValueChanged(expomode);
         if (expomode.equals("Intelligent Auto")|| expomode.equals("Superior Auto"))
-            get(Parameters.WhiteBalanceMode).fireIsSupportedChanged(false);
+            get(Settings.WhiteBalanceMode).fireIsSupportedChanged(false);
         else
-            get(Parameters.WhiteBalanceMode).fireIsSupportedChanged(true);
+            get(Settings.WhiteBalanceMode).fireIsSupportedChanged(true);
     }
 }

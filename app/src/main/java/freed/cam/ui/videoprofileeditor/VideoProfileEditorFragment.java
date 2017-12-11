@@ -42,7 +42,8 @@ import com.troop.freedcam.R.layout;
 
 import java.util.HashMap;
 
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
+import freed.settings.Settings;
 import freed.utils.VideoMediaProfile;
 import freed.utils.VideoMediaProfile.VideoMode;
 
@@ -140,15 +141,15 @@ public class VideoProfileEditorFragment extends Fragment {
         button_delete.setOnClickListener(ondeleteButtonClick);
         videoMediaProfiles = new HashMap<>();
 
-        if (!AppSettingsManager.getInstance().isInit()){
+        if (!SettingsManager.getInstance().isInit()){
 
-            AppSettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()), getResources());
+            SettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()), getResources());
         }
-        AppSettingsManager.getInstance().getCamApi();
-        videoMediaProfiles = AppSettingsManager.getInstance().getMediaProfiles();
+        SettingsManager.getInstance().getCamApi();
+        videoMediaProfiles = SettingsManager.getInstance().getMediaProfiles();
         if (videoMediaProfiles != null) {
 
-            setMediaProfile(videoMediaProfiles.get(AppSettingsManager.getInstance().videoProfile.get()));
+            setMediaProfile(videoMediaProfiles.get(SettingsManager.get(Settings.VideoProfiles).get()));
         }
     }
 
@@ -256,7 +257,7 @@ public class VideoProfileEditorFragment extends Fragment {
                 case DialogInterface.BUTTON_POSITIVE:
                     videoMediaProfiles.remove(currentProfile.ProfileName);
                     currentProfile = null;
-                    AppSettingsManager.getInstance().saveMediaProfiles(videoMediaProfiles);
+                    SettingsManager.getInstance().saveMediaProfiles(videoMediaProfiles);
                     clearProfileItems();
                     break;
 
@@ -362,7 +363,7 @@ public class VideoProfileEditorFragment extends Fragment {
                 p.ProfileName = editText_profilename.getText().toString().replace(" ","_");
                 videoMediaProfiles.put(p.ProfileName, p);
             }
-            AppSettingsManager.getInstance().saveMediaProfiles(videoMediaProfiles);
+            SettingsManager.getInstance().saveMediaProfiles(videoMediaProfiles);
             videoMediaProfiles.clear();
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }

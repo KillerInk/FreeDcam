@@ -48,7 +48,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.utils.MediaScannerManager;
 import freed.image.ImageManager;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
 import freed.utils.StorageFileManager;
@@ -91,7 +91,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ImageManager.getInstance(); // init it
-        AppSettingsManager.getInstance();
+        SettingsManager.getInstance();
         setContentToView();
         permissionManager =new PermissionManager(this);
 
@@ -106,8 +106,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         }
         initDone = true;
         Log.d(TAG, "initOnCreate()");
-        if (!AppSettingsManager.getInstance().isInit()) {
-           AppSettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
+        if (!SettingsManager.getInstance().isInit()) {
+           SettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
         }
     }
 
@@ -131,7 +131,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected void onDestroy() {
         ImageManager.cancelImageSaveTasks();
         ImageManager.cancelImageLoadTasks();
-        AppSettingsManager.getInstance().release();
+        SettingsManager.getInstance().release();
         super.onDestroy();
         /*if (Log.isLogToFileEnable())
             Log.destroy();*/
@@ -147,8 +147,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     protected void onResume() {
         super.onResume();
-        if (!AppSettingsManager.getInstance().isInit()) {
-            AppSettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
+        if (!SettingsManager.getInstance().isInit()) {
+            SettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
         }
     }
 
@@ -229,7 +229,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
 
                 getContentResolver().takePersistableUriPermission(uri,takeFlags);
-                AppSettingsManager.getInstance().SetBaseFolder(uri.toString());
+                SettingsManager.getInstance().SetBaseFolder(uri.toString());
                 if (resultCallback != null)
                 {
                     resultCallback.onActivityResultCallback(uri);
@@ -368,7 +368,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     public DocumentFile getExternalSdDocumentFile()
     {
         DocumentFile sdDir = null;
-        String extSdFolder =  AppSettingsManager.getInstance().GetBaseFolder();
+        String extSdFolder =  SettingsManager.getInstance().GetBaseFolder();
         if (extSdFolder == null || TextUtils.isEmpty(extSdFolder))
             return null;
         Uri uri = Uri.parse(extSdFolder);

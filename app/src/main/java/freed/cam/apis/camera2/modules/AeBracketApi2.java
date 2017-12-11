@@ -29,8 +29,8 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.basecamera.parameters.Parameters;
-import freed.settings.AppSettingsManager;
+import freed.settings.Settings;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -70,15 +70,15 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
-        cameraUiWrapper.getParameterHandler().get(Parameters.M_Burst).fireIsReadOnlyChanged(false);
-        cameraUiWrapper.getParameterHandler().get(Parameters.M_Burst).SetValue(3-1);
+        cameraUiWrapper.getParameterHandler().get(Settings.M_Burst).fireIsReadOnlyChanged(false);
+        cameraUiWrapper.getParameterHandler().get(Settings.M_Burst).SetValue(3-1);
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
     }
 
     @Override
     public void DestroyModule() {
         super.DestroyModule();
-        cameraUiWrapper.getParameterHandler().get(Parameters.M_Burst).fireIsReadOnlyChanged(true);
+        cameraUiWrapper.getParameterHandler().get(Settings.M_Burst).fireIsReadOnlyChanged(true);
 
     }
 
@@ -94,7 +94,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         if (currentiso == 0)
             currentiso = cameraHolder.currentIso;
         exposureTimeStep = currentExposureTime/2;
-        aeWasOn = !AppSettingsManager.getInstance().exposureMode.get().equals(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.off));
+        aeWasOn = !SettingsManager.get(Settings.ExposureMode).get().equals(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.off));
     }
 
     @Override
@@ -126,8 +126,8 @@ public class AeBracketApi2 extends PictureModuleApi2
         super.finishCapture();
 
         if (imagecount == 3) {
-            if (aeWasOn && parameterHandler.get(Parameters.ExposureMode) != null)
-                parameterHandler.get(Parameters.ExposureMode).SetValue(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.on),true);
+            if (aeWasOn && parameterHandler.get(Settings.ExposureMode) != null)
+                parameterHandler.get(Settings.ExposureMode).SetValue(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.on),true);
 
         }
     }

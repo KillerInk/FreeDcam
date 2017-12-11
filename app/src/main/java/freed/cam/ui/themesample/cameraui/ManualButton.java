@@ -38,13 +38,10 @@ import android.widget.TextView;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -146,10 +143,10 @@ public class ManualButton extends LinearLayout implements ParameterEvents
     private final int backgroundColor = Color.parseColor("#00000000");
     private int pos;
     protected ActivityInterface fragment_activityInterface;
-    private AppSettingsManager.SettingMode settingMode;
+    private SettingsManager.SettingMode settingMode;
     private UiHandler handler;
 
-    public ManualButton(Context context, AppSettingsManager.SettingMode settingMode, ParameterInterface parameter, int drawableImg)
+    public ManualButton(Context context, SettingsManager.SettingMode settingMode, ParameterInterface parameter, int drawableImg)
     {
         super(context);
         handler = new UiHandler();

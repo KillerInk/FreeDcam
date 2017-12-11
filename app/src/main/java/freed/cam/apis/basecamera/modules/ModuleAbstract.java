@@ -29,7 +29,7 @@ import java.io.File;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.holder.FileHolder;
 
@@ -139,7 +139,7 @@ public abstract class ModuleAbstract implements ModuleInterface
      */
     @Override
     public void fireOnWorkFinish(File file) {
-        cameraUiWrapper.getActivityInterface().WorkHasFinished(new FileHolder(file, AppSettingsManager.getInstance().GetWriteExternal()));
+        cameraUiWrapper.getActivityInterface().WorkHasFinished(new FileHolder(file, SettingsManager.getInstance().GetWriteExternal()));
     }
 
 
@@ -156,7 +156,7 @@ public abstract class ModuleAbstract implements ModuleInterface
         int i= 0;
         for (File f : files) {
             if (f != null)
-                fileHolders[i++] = new FileHolder(f, AppSettingsManager.getInstance().GetWriteExternal());
+                fileHolders[i++] = new FileHolder(f, SettingsManager.getInstance().GetWriteExternal());
         }
         cameraUiWrapper.getActivityInterface().WorkHasFinished(fileHolders);
     }

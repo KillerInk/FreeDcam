@@ -25,7 +25,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by GeorgeKiarie on 9/24/2015.
@@ -38,7 +38,7 @@ public class VirtualLensFilter extends  BaseModeParameter {
     {
         super(parameters, cameraUiWrapper);
 
-        if (AppSettingsManager.getInstance().isZteAe())
+        if (SettingsManager.getInstance().isZteAe())
             isSupported = true;
         this.cameraUiWrapper = cameraUiWrapper;
         stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.virtual_lensfilter_colors);

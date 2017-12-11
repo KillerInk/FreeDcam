@@ -30,7 +30,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -51,14 +51,14 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
 
     protected ParameterInterface parameter;
     protected ActivityInterface fragment_activityInterface;
-    protected AppSettingsManager.SettingMode settingMode;
+    protected SettingsManager.SettingMode settingMode;
     protected String key_appsettings;
     protected TextView valueText;
 
     protected SettingsChildClick onItemClick;
     protected boolean fromleft;
 
-    public SettingsChildAbstract(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter)
+    public SettingsChildAbstract(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter)
     {
         super(context);
         this.settingMode = settingsMode;
@@ -79,7 +79,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     }
 
     @Override
-    public void SetStuff(AppSettingsManager.SettingMode settingMode) {
+    public void SetStuff(SettingsManager.SettingMode settingMode) {
         this.settingMode = settingMode;
     }
 
@@ -149,7 +149,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         if (parameter != null && parameter.IsSupported())
         {
             if (key_appsettings != null && !TextUtils.isEmpty(key_appsettings))
-                AppSettingsManager.getInstance().setApiString(key_appsettings, value);
+                SettingsManager.getInstance().setApiString(key_appsettings, value);
             if (settingMode != null)
                 settingMode.set(value);
             try {

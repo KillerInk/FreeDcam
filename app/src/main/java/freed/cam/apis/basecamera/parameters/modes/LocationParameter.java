@@ -25,7 +25,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.PermissionManager;
 
 /**
@@ -53,9 +53,9 @@ public class LocationParameter extends AbstractParameter
     {
         if (cameraUiWrapper == null)
             return cameraUiWrapper.getResString(R.string.off_);
-        if (TextUtils.isEmpty(AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION)))
-            AppSettingsManager.getInstance().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
-        return AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_LOCATION);
+        if (TextUtils.isEmpty(SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION)))
+            SettingsManager.getInstance().setApiString(SettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
+        return SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class LocationParameter extends AbstractParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        AppSettingsManager.getInstance().setApiString(AppSettingsManager.SETTING_LOCATION, valueToSet);
+        SettingsManager.getInstance().setApiString(SettingsManager.SETTING_LOCATION, valueToSet);
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_)))
             cameraUiWrapper.getActivityInterface().getLocationManager().stopLocationListining();
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
@@ -84,7 +84,7 @@ public class LocationParameter extends AbstractParameter
                 }
             else
             {
-                AppSettingsManager.getInstance().setApiString(AppSettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
+                SettingsManager.getInstance().setApiString(SettingsManager.SETTING_LOCATION, cameraUiWrapper.getResString(R.string.off_));
                 fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
             }
         }

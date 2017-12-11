@@ -6,7 +6,7 @@ import android.support.annotation.RequiresApi;
 import android.util.Range;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 22.06.2017.
@@ -17,7 +17,7 @@ public class AeTargetRangeApi2 extends BaseModeApi2 {
 
     private CaptureRequest.Key<Range<Integer>> key;
 
-    public AeTargetRangeApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, CaptureRequest.Key<Range<Integer>> parameterKey) {
+    public AeTargetRangeApi2(CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode, CaptureRequest.Key<Range<Integer>> parameterKey) {
         super(cameraUiWrapper);
         this.settingMode = settingMode;
         this.key = parameterKey;

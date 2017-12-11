@@ -28,10 +28,10 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.Parameters;
+import freed.settings.Settings;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringIntArray;
 import freed.utils.StringUtils;
@@ -50,9 +50,9 @@ public class WbHandler
     {
         this.cameraUiWrapper= cameraUiWrapper;
 
-        if (AppSettingsManager.getInstance().colorCorrectionMode.isSupported())
+        if (SettingsManager.get(Settings.ColorCorrectionMode).isSupported())
             colorCorrectionMode = new ColorCorrectionModeApi2();
-        if (AppSettingsManager.getInstance().whiteBalanceMode.isSupported())
+        if (SettingsManager.get(Settings.WhiteBalanceMode).isSupported())
             whiteBalanceApi2 = new WhiteBalanceApi2();
 
         manualWbCt = new ManualWbCtApi2(cameraUiWrapper);
@@ -98,10 +98,10 @@ public class WbHandler
         public WhiteBalanceApi2()
         {
             super(WbHandler.this.cameraUiWrapper);
-            isSupported = AppSettingsManager.getInstance().whiteBalanceMode.isSupported();
-            settingMode = AppSettingsManager.getInstance().whiteBalanceMode;
+            isSupported = SettingsManager.get(Settings.WhiteBalanceMode).isSupported();
+            settingMode = SettingsManager.get(Settings.WhiteBalanceMode);
             parameterKey = CaptureRequest.CONTROL_AWB_MODE;
-            parameterValues = StringUtils.StringArrayToIntHashmap(AppSettingsManager.getInstance().whiteBalanceMode.getValues());
+            parameterValues = StringUtils.StringArrayToIntHashmap(SettingsManager.get(Settings.WhiteBalanceMode).getValues());
             if (parameterValues == null)
             {
                 isSupported = false;
@@ -141,7 +141,7 @@ public class WbHandler
 
         public ManualWbCtApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
-            lookupvalues = new StringIntArray(AppSettingsManager.getInstance().getResources().getStringArray(R.array.wbct_lookup));
+            lookupvalues = new StringIntArray(SettingsManager.getInstance().getResources().getStringArray(R.array.wbct_lookup));
             currentInt = 0;
         }
 
@@ -229,9 +229,9 @@ public class WbHandler
 
         @Override
         public boolean IsSupported() {
-            if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(Parameters.WhiteBalanceMode) == null)
+            if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(Settings.WhiteBalanceMode) == null)
                 return false;
-            isSupported = cameraUiWrapper.getParameterHandler().get(Parameters.WhiteBalanceMode).GetStringValue().equals("OFF");
+            isSupported = cameraUiWrapper.getParameterHandler().get(Settings.WhiteBalanceMode).GetStringValue().equals("OFF");
             return isSupported;
         }
 
@@ -251,13 +251,13 @@ public class WbHandler
         public ColorCorrectionModeApi2() {
             super(WbHandler.this.cameraUiWrapper);
             parameterKey = CaptureRequest.COLOR_CORRECTION_MODE;
-            settingMode = AppSettingsManager.getInstance().colorCorrectionMode;
-            parameterValues = StringUtils.StringArrayToIntHashmap(AppSettingsManager.getInstance().colorCorrectionMode.getValues());
+            settingMode = SettingsManager.get(Settings.ColorCorrectionMode);
+            parameterValues = StringUtils.StringArrayToIntHashmap(settingMode.getValues());
         }
 
         @Override
         public boolean IsSupported() {
-            return AppSettingsManager.getInstance().colorCorrectionMode.isSupported();
+            return SettingsManager.get(Settings.ColorCorrectionMode).isSupported();
         }
 
         @Override

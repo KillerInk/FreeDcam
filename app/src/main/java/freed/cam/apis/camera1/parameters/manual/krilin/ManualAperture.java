@@ -4,7 +4,8 @@ import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.AppSettingsManager;
+import freed.settings.Settings;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 27.03.2017.
@@ -19,7 +20,7 @@ public class ManualAperture extends AbstractParameter
         this.parameters = parameters;
         isSupported = true;
         isVisible = isSupported;
-        stringvalues = AppSettingsManager.getInstance().manualAperture.getValues();
+        stringvalues = SettingsManager.get(Settings.M_Aperture).getValues();
     }
 
     @Override
@@ -38,7 +39,7 @@ public class ManualAperture extends AbstractParameter
 
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-big-aperture-mode", "on");
-            parameters.set(AppSettingsManager.getInstance().manualIso.getKEY(), stringvalues[currentInt]);
+            parameters.set(SettingsManager.get(Settings.M_Aperture).getKEY(), stringvalues[currentInt]);
         }
         fireStringValueChanged(stringvalues[valueToSet]);
     }

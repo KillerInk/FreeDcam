@@ -22,7 +22,7 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by GeorgeKiarie on 10/4/2015.
@@ -30,7 +30,7 @@ import freed.settings.AppSettingsManager;
 public class SettingsChildMenuInterval extends SettingsChildMenu
 {
 
-    public SettingsChildMenuInterval(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid) {
+    public SettingsChildMenuInterval(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid) {
         super(context, settingsMode, parameter, headerid, descriptionid);
     }
 

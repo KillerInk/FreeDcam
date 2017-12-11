@@ -58,7 +58,7 @@ import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.utils.MediaScannerManager;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.holder.FileHolder;
@@ -195,7 +195,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !AppSettingsManager.getInstance().GetWriteExternal()) {
+                if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !SettingsManager.getInstance().GetWriteExternal()) {
                     Builder builder = new Builder(getContext());
                     builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteButtonClick)
                             .setNegativeButton("No", onDeleteButtonClick).show();

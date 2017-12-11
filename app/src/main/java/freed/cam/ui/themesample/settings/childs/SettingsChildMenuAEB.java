@@ -32,8 +32,8 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.Parameters;
-import freed.settings.AppSettingsManager;
+import freed.settings.Settings;
+import freed.settings.SettingsManager;
 
 /**
  * Created by Ar4eR on 05.02.16.
@@ -97,9 +97,9 @@ public class SettingsChildMenuAEB extends LinearLayout {
         if (cameraUiWrapper == this.cameraUiWrapper)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().get(Parameters.M_ExposureCompensation) != null)
+        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().get(Settings.M_ExposureCompensation) != null)
         {
-            String[] v = cameraUiWrapper.getParameterHandler().get(Parameters.M_ExposureCompensation).getStringValues();
+            String[] v = cameraUiWrapper.getParameterHandler().get(Settings.M_ExposureCompensation).getStringValues();
             int le = v.length;
             min = -(le/2);
             max = le/2;
@@ -112,15 +112,15 @@ public class SettingsChildMenuAEB extends LinearLayout {
 
     private void setCurrent(int current) {
         String tempcurrent = String.valueOf(current);
-        AppSettingsManager.getInstance().setApiString(settingsname, tempcurrent);
+        SettingsManager.getInstance().setApiString(settingsname, tempcurrent);
     }
 
     public void SetStuff(String settingvalue) {
 
         settingsname = settingvalue;
         String exp="";
-        if (AppSettingsManager.getInstance() != null)
-        exp = AppSettingsManager.getInstance().getApiString(settingsname);
+        if (SettingsManager.getInstance() != null)
+        exp = SettingsManager.getInstance().getApiString(settingsname);
         if (exp == null || TextUtils.isEmpty(exp)) {
             exp = "0";
             current = Integer.parseInt(exp);

@@ -21,31 +21,21 @@ package freed.cam.ui.themesample.cameraui;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.RectF;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Looper;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.troop.freedcam.R;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.settings.Settings;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.settings.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -121,7 +111,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             public void onClick(View v) {
                 if (cameraUiWrapper == null || cameraUiWrapper.getModuleHandler() == null || cameraUiWrapper.getModuleHandler().getCurrentModule() == null)
                     return;
-                String sf = AppSettingsManager.getInstance().selfTimer.get();
+                String sf = SettingsManager.get(Settings.selfTimer).get();
                 if (TextUtils.isEmpty(sf))
                     sf = "0";
                 int selftimer = Integer.parseInt(sf);

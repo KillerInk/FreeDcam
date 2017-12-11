@@ -39,8 +39,8 @@ import java.util.Date;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.apis.basecamera.parameters.Parameters;
-import freed.settings.AppSettingsManager;
+import freed.settings.Settings;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -151,7 +151,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     {
         if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
         {
-            ParameterInterface videoprofile = cameraUiWrapper.getParameterHandler().get(Parameters.VideoProfiles);
+            ParameterInterface videoprofile = cameraUiWrapper.getParameterHandler().get(Settings.VideoProfiles);
             if (videoprofile != null)
                 size = videoprofile.GetStringValue();
             else
@@ -159,13 +159,13 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         }
         else
         {
-            ParameterInterface pictureFormat = cameraUiWrapper.getParameterHandler().get(Parameters.PictureFormat);
+            ParameterInterface pictureFormat = cameraUiWrapper.getParameterHandler().get(Settings.PictureFormat);
             if (pictureFormat != null)
                 format = pictureFormat.GetStringValue();
             else
                 format = "";
 
-            ParameterInterface pictureSize = cameraUiWrapper.getParameterHandler().get(Parameters.PictureSize);
+            ParameterInterface pictureSize = cameraUiWrapper.getParameterHandler().get(Settings.PictureSize);
             if (pictureSize != null)
                 size = pictureSize.GetStringValue();
             else
@@ -208,9 +208,9 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     }
     private double Calc()
     {
-        String[] res = AppSettingsManager.getInstance().pictureSize.get().split("x");
+        String[] res = SettingsManager.get(Settings.PictureSize).get().split("x");
 
-        if(AppSettingsManager.getInstance().pictureFormat.get().contains(AppSettingsManager.getInstance().getResString(R.string.bayer_)))
+        if(SettingsManager.get(Settings.PictureFormat).get().contains(SettingsManager.getInstance().getResString(R.string.bayer_)))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;
@@ -224,7 +224,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     private long SDspace()
     {
         long bytesAvailable = 0;
-        if (!AppSettingsManager.getInstance().GetWriteExternal()) {
+        if (!SettingsManager.getInstance().GetWriteExternal()) {
             bytesAvailable = Environment.getExternalStorageDirectory().getUsableSpace();
         }
         else

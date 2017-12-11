@@ -44,8 +44,7 @@ import freed.utils.VideoMediaProfile;
 /**
  * Created by troop on 19.08.2014.
  */
-public class AppSettingsManager {
-
+public class SettingsManager {
 
     public class SettingMode
     {
@@ -60,6 +59,9 @@ public class AppSettingsManager {
 
         private String presetKey;
 
+        private String type;
+        private String mode;
+
         public SettingMode(String value_key)
         {
             this.value_key = value_key;
@@ -67,6 +69,18 @@ public class AppSettingsManager {
             this.supported_key= value_key + getResString(R.string.aps_supported);
             this.KEY_value = value_key + getResString(R.string.aps_key);
             this.presetKey = value_key + "preset";
+            this.type = value_key + getResString(R.string.aps_type);
+            this.mode = value_key + getResString(R.string.aps_mode);
+        }
+
+        public boolean getBoolean()
+        {
+            return settings.getBoolean(value_key, false);
+        }
+
+        public void setBoolean(boolean value)
+        {
+            settings.edit().putBoolean(value_key, value).commit();
         }
 
         public void setValues(String[] ar)
@@ -92,22 +106,22 @@ public class AppSettingsManager {
 
         public boolean isSupported()
         {
-            return getBoolean(supported_key,false);
+            return SettingsManager.this.getBoolean(supported_key,false);
         }
 
         public boolean isPresetted()
         {
-            return getBoolean(presetKey,false);
+            return SettingsManager.this.getBoolean(presetKey,false);
         }
 
         public void setIsSupported(boolean supported)
         {
-            setBoolean(supported_key, supported);
+            SettingsManager.this.setBoolean(supported_key, supported);
         }
 
         public void setIsPresetted(boolean preset)
         {
-            setBoolean(presetKey, preset);
+            SettingsManager.this.setBoolean(presetKey, preset);
         }
 
         public String get()
@@ -128,19 +142,6 @@ public class AppSettingsManager {
         public void setKEY(String KEY)
         {
             setApiString(KEY_value,KEY);
-        }
-
-    }
-
-    public class TypeSettingsMode extends SettingMode
-    {
-        private String type;
-        private String mode;
-
-        public TypeSettingsMode(String value_key) {
-            super(value_key);
-            this.type = value_key + getResString(R.string.aps_type);
-            this.mode = value_key + getResString(R.string.aps_mode);
         }
 
         public int getType()
@@ -164,44 +165,10 @@ public class AppSettingsManager {
         }
     }
 
-    public class BooleanSettingsMode
-    {
-        //String to get the value
-        private String value_key;
-        private String presetKey;
-
-        public BooleanSettingsMode(String value_key)
-        {
-            this.value_key = value_key;
-            this.presetKey = value_key + "preset";
-        }
-
-        public boolean getBoolean()
-        {
-            return settings.getBoolean(value_key, false);
-        }
-
-        public void setBoolean(boolean value)
-        {
-            settings.edit().putBoolean(value_key, value).commit();
-        }
-
-        public void setIsPresetted(boolean preset)
-        {
-            settings.edit().putBoolean(presetKey, preset).commit();
-        }
-
-        public boolean isPresetted()
-        {
-            return settings.getBoolean(presetKey, false);
-        }
-
-    }
-
-    private final String TAG = AppSettingsManager.class.getSimpleName();
+    private final String TAG = SettingsManager.class.getSimpleName();
 
     private int currentcamera;
-    private String camApiString = AppSettingsManager.API_1;
+    private String camApiString = SettingsManager.API_1;
    /* private Devices device;*/
     private String mDevice;
     private HashMap<String, CustomMatrix> matrixes;
@@ -283,103 +250,6 @@ public class AppSettingsManager {
     public static final String SETTING_AFBRACKETMIN = "afbracketmin";
     public static final String SETTINGS_NIGHTOVERLAY = "nighoverlay";
 
-    public SettingMode pictureFormat;
-    public SettingMode rawPictureFormat;
-    public SettingMode pictureSize;
-    public SettingMode focusMode;
-    public SettingMode exposureMode;
-    public SettingMode whiteBalanceMode;
-    public SettingMode colorMode;
-    public SettingMode flashMode;
-    public SettingMode isoMode;
-    public SettingMode antiBandingMode;
-    public SettingMode imagePostProcessing;
-    public SettingMode previewSize;
-    public SettingMode jpegQuality;
-    public SettingMode aeBracket;
-    public SettingMode previewFps;
-    public SettingMode previewFormat;
-    public SettingMode sceneMode;
-    public SettingMode redEyeMode;
-    public SettingMode lenshade;
-    public SettingMode zeroshutterlag;
-    public SettingMode sceneDetectMode;
-    public SettingMode memoryColorEnhancement;
-    public SettingMode videoSize;
-    public SettingMode correlatedDoubleSampling;
-    public SettingMode opticalImageStabilisation;
-    public SettingMode videoHDR;
-    public SettingMode videoHFR;
-    public SettingMode denoiseMode;
-    public SettingMode temporal_nr;
-    public SettingMode temporal_video_nr;
-    public SettingMode seemore_tonemap;
-    public SettingMode truepotrait;
-    public SettingMode optizoom;
-    public SettingMode chromaflash;
-    public SettingMode rawdumpinterface;
-    public SettingMode pdafcontrol;
-    public SettingMode refocus;
-
-    public SettingMode controlMode;
-    public SettingMode edgeMode;
-    public SettingMode digitalImageStabilisationMode;
-    public SettingMode hotpixelMode;
-    public SettingMode aePriorityMode;
-    public TypeSettingsMode hdrMode;
-    public SettingMode modules;
-    public SettingMode nonZslManualMode;
-    public SettingMode virtualLensfilter;
-    public TypeSettingsMode nightMode;
-    public SettingMode videoProfile;
-    public SettingMode videoStabilisation;
-    public SettingMode interval;
-    public SettingMode intervalDuration;
-    public SettingMode opcode;
-    public SettingMode matrixset;
-    public SettingMode sdcardlocation;
-    public SettingMode colorCorrectionMode;
-    public SettingMode objectTracking;
-    public SettingMode toneMapMode;
-    public SettingMode postviewSize;
-    public SettingMode zoommode;
-    public SettingMode scalePreview;
-    public SettingMode guide;
-    public SettingMode previewFpsRange;
-    public SettingMode tonemapProfilesSettings;
-
-    public TypeSettingsMode manualFocus;
-    public SettingMode manualExposureCompensation;
-    public TypeSettingsMode manualExposureTime;
-    public TypeSettingsMode manualIso;
-    public SettingMode manualSaturation;
-    public SettingMode manualSharpness;
-    public SettingMode manualBrightness;
-    public SettingMode manualContrast;
-    public SettingMode manualFnumber;
-    public SettingMode manualZoom;
-    public SettingMode manualBurst;
-    public SettingMode manualConvergence;
-    public SettingMode manualFx;
-    public SettingMode manualProgramShift;
-    public SettingMode manualPreviewZoom;
-
-    public SettingMode selfTimer;
-
-    public SettingMode dualPrimaryCameraMode;
-    public SettingMode manualAperture;
-    public SettingMode ae_TagetFPS;
-
-    public TypeSettingsMode manualWhiteBalance;
-
-    public BooleanSettingsMode opencamera1Legacy;
-    public BooleanSettingsMode useHuaweiCam2Extension;
-    public BooleanSettingsMode support12bitRaw;
-    public BooleanSettingsMode orientationhack;
-    public BooleanSettingsMode qcomAFocus;
-    public BooleanSettingsMode dngSupportManualModes;
-    public BooleanSettingsMode forceRawToDng;
-    public BooleanSettingsMode needRestartAfterCapture;
 
     public String[] opcodeUrlList;
 
@@ -389,16 +259,23 @@ public class AppSettingsManager {
 
     private boolean isInit =false;
 
-    private static AppSettingsManager appSettingsManager  = new AppSettingsManager();
+    private static SettingsManager settingsManager = new SettingsManager();
 
-    private AppSettingsManager()
+    private static HashMap<Settings, SettingMode> settingsmap = new HashMap<>();
+
+    private SettingsManager()
     {
 
     }
 
-    public static AppSettingsManager getInstance()
+    public static SettingsManager getInstance()
     {
-        return appSettingsManager;
+        return settingsManager;
+    }
+
+    public static SettingMode get(Settings key)
+    {
+        return settingsmap.get(key);
     }
 
     public synchronized void init(SharedPreferences sharedPreferences, Resources resources)
@@ -408,110 +285,97 @@ public class AppSettingsManager {
         settings = sharedPreferences;
         this.resources = resources;
         Log.d(TAG, "Version/Build:" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE + " Last Version: " + getAppVersion());
-
-       /* if (getdevice() == null)
-            SetDevice(new DeviceUtils().getDevice(getResources()));*/
-
-        pictureFormat = new SettingMode(getResString(R.string.aps_pictureformat));
-        rawPictureFormat = new SettingMode(getResString(R.string.aps_rawpictureformat));
-        pictureSize = new SettingMode(getResString(R.string.aps_picturesize));
-        focusMode = new SettingMode(getResString(R.string.aps_focusmode));
-        exposureMode = new SettingMode(getResString(R.string.aps_exposuremode));
-        whiteBalanceMode = new SettingMode(getResString(R.string.aps_whitebalancemode));
-        colorMode = new SettingMode(getResString(R.string.aps_colormode));
-        flashMode = new SettingMode(getResString(R.string.aps_flashmode));
-        isoMode = new SettingMode(getResString(R.string.aps_isomode));
-        antiBandingMode = new SettingMode(getResString(R.string.aps_antibandingmode));
-        imagePostProcessing = new SettingMode(getResString(R.string.aps_ippmode));
-        previewSize = new SettingMode(getResString(R.string.aps_previewsize));
-        jpegQuality = new SettingMode(getResString(R.string.aps_jpegquality));
-        aeBracket = new SettingMode(getResString(R.string.aps_aebrackethdr));
-        previewFps = new SettingMode(getResString(R.string.aps_previewfps));
-        previewFormat = new SettingMode(getResString(R.string.aps_previewformat));
-        sceneMode = new SettingMode(getResString(R.string.aps_scenemode));
-        redEyeMode = new SettingMode(getResString(R.string.aps_redeyemode));
-        lenshade = new SettingMode(getResString(R.string.aps_lenshademode));
-        zeroshutterlag = new SettingMode(getResString(R.string.aps_zslmode));
-        sceneDetectMode = new SettingMode(getResString(R.string.aps_scenedetectmode));
-        memoryColorEnhancement = new SettingMode(getResString(R.string.aps_memorycolorenhancementmode));
-        videoSize = new SettingMode(getResString(R.string.aps_videosize));
-        correlatedDoubleSampling = new SettingMode(getResString(R.string.aps_cds));
-        opticalImageStabilisation = new SettingMode(getResString(R.string.aps_ois));
-        videoHDR = new SettingMode(getResString(R.string.aps_videohdr));
-        videoHFR = new SettingMode(getResString(R.string.aps_videohfr));
-        controlMode = new SettingMode(getResString(R.string.aps_controlmode));
-        denoiseMode = new SettingMode(getResString(R.string.aps_denoisemode));
-        //**********************************************QC PARAMS NEW HAL
-        temporal_nr = new SettingMode(getResString(R.string.aps_tnr));
-        temporal_video_nr = new SettingMode(getResString(R.string.aps_tnr_v));
-        seemore_tonemap = new SettingMode(getResString(R.string.aps_seemore));
-        pdafcontrol = new SettingMode(getResString(R.string.aps_pdaf));
-        rawdumpinterface = new SettingMode(getResString(R.string.aps_rdi));
-        chromaflash = new SettingMode(getResString(R.string.aps_chroma_flash));
-        optizoom = new SettingMode(getResString(R.string.aps_optizoom));
-        refocus = new SettingMode(getResString(R.string.aps_refocus));
-        truepotrait = new SettingMode(getResString(R.string.aps_truepotrait));
-        //*******************************************************************
-
-        edgeMode = new SettingMode(getResString(R.string.aps_edgemode));
-        digitalImageStabilisationMode = new SettingMode(getResString(R.string.aps_digitalimagestabmode));
-        hotpixelMode = new SettingMode(getResString(R.string.aps_hotpixel));
-        aePriorityMode = new SettingMode(getResString(R.string.aps_ae_priortiy));
-        hdrMode = new TypeSettingsMode(getResString(R.string.aps_hdrmode));
-        modules = new SettingMode(getResString(R.string.aps_module));
-        nonZslManualMode = new SettingMode(getResString(R.string.aps_nonzslmanualmode));
-        virtualLensfilter = new SettingMode(getResString(R.string.aps_virtuallensfilter));
-        nightMode = new TypeSettingsMode(getResString(R.string.aps_nightmode));
-        videoProfile = new SettingMode(getResString(R.string.aps_videoProfile));
-        videoStabilisation = new SettingMode(getResString(R.string.aps_videoStabilisation));
-        interval = new SettingMode(getResString(R.string.aps_interval));
-        intervalDuration = new SettingMode(getResString(R.string.aps_interval_duration));
-        opcode = new SettingMode(getResString(R.string.aps_opcode));
-        matrixset = new SettingMode(getResString(R.string.aps_matrixset));
-        sdcardlocation = new SettingMode(getResString(R.string.aps_sdcard));
-        colorCorrectionMode = new SettingMode(getResString(R.string.aps_cctmode));
-        objectTracking = new SettingMode(getResString(R.string.aps_objecttracking));
-        toneMapMode = new SettingMode(getResString(R.string.aps_tonemapmode));
-        postviewSize = new SettingMode(getResString(R.string.aps_postviewsize));
-        zoommode = new SettingMode(getResString(R.string.aps_zoommode));
-        scalePreview = new SettingMode(getResString(R.string.aps_scalePreview));
-        guide = new SettingMode(getResString(R.string.aps_guide));
-        previewFpsRange = new SettingMode(getResString(R.string.aps_previewfpsrange));
-
-
-        manualFocus = new TypeSettingsMode(getResString(R.string.aps_manualfocus));
-        manualExposureCompensation = new SettingMode(getResString(R.string.aps_manualexpocomp));
-        manualExposureTime = new TypeSettingsMode(getResString(R.string.aps_manualexpotime));
-        manualWhiteBalance = new TypeSettingsMode(getResString(R.string.aps_manualwb));
-        manualIso = new TypeSettingsMode(getResString(R.string.aps_manualiso));
-        manualSaturation = new SettingMode(getResString(R.string.aps_manualsaturation));
-        manualSharpness = new SettingMode(getResString(R.string.aps_manualsharpness));
-        manualBrightness = new SettingMode(getResString(R.string.aps_manualbrightness));
-        manualContrast = new SettingMode(getResString(R.string.aps_manualcontrast));
-        manualFnumber = new SettingMode(getResString(R.string.aps_manualfnum));
-        manualZoom = new SettingMode(getResString(R.string.aps_manualzoom));
-        manualBurst = new SettingMode(getResString(R.string.aps_manualburst));
-        manualConvergence = new SettingMode(getResString(R.string.aps_manualconvergence));
-        manualFx = new SettingMode(getResString(R.string.aps_manualfx));
-        manualProgramShift = new SettingMode(getResString(R.string.aps_manualprogramshift));
-        manualPreviewZoom = new SettingMode(getResString(R.string.aps_manualpreviewzoom));
-        manualAperture = new SettingMode(getResString(R.string.aps_manualaperture));
-
-        opencamera1Legacy = new BooleanSettingsMode(getResString(R.string.aps_opencamera1legacy));
-        dualPrimaryCameraMode = new SettingMode(getResString(R.string.aps_dualprimarycameramode));
-        useHuaweiCam2Extension = new BooleanSettingsMode(getResString(R.string.aps_usehuaweicam2));
-        support12bitRaw = new BooleanSettingsMode(getResString(R.string.aps_support12bitraw));
-        qcomAFocus = new BooleanSettingsMode(getResString(R.string.aps_qcomfocus));
-        dngSupportManualModes = new BooleanSettingsMode(getResString(R.string.aps_dngsupportmanualmodes));
-        forceRawToDng = new BooleanSettingsMode(getResString(R.string.aps_forcerawtondng));
-        needRestartAfterCapture = new BooleanSettingsMode(getResString(R.string.aps_needrestartaftercapture));
-
-        ae_TagetFPS = new SettingMode(getResString(R.string.aps_ae_targetFPS));
-
-        orientationhack = new BooleanSettingsMode(getResString(R.string.aps_orientationHack));
-        tonemapProfilesSettings = new SettingMode(getResString(R.string.aps_tonemapProfile));
-        selfTimer = new SettingMode(getResString(R.string.aps_selftimer));
-
+        settingsmap.put(Settings.PictureFormat, new SettingMode(getResString(R.string.aps_pictureformat)));
+        settingsmap.put(Settings.rawPictureFormatSetting,new SettingMode(getResString(R.string.aps_rawpictureformat)));
+        settingsmap.put(Settings.PictureSize,new SettingMode(getResString(R.string.aps_picturesize)));
+        settingsmap.put(Settings.FocusMode,new SettingMode(getResString(R.string.aps_focusmode)));
+        settingsmap.put(Settings.ExposureMode,new SettingMode(getResString(R.string.aps_exposuremode)));
+        settingsmap.put(Settings.WhiteBalanceMode,new SettingMode(getResString(R.string.aps_whitebalancemode)));
+        settingsmap.put(Settings.ColorMode,new SettingMode(getResString(R.string.aps_colormode)));
+        settingsmap.put(Settings.FlashMode,new SettingMode(getResString(R.string.aps_flashmode)));
+        settingsmap.put(Settings.IsoMode,new SettingMode(getResString(R.string.aps_isomode)));
+        settingsmap.put(Settings.AntiBandingMode,new SettingMode(getResString(R.string.aps_antibandingmode)));
+        settingsmap.put(Settings.ImagePostProcessing,new SettingMode(getResString(R.string.aps_ippmode)));
+        settingsmap.put(Settings.PreviewSize,new SettingMode(getResString(R.string.aps_previewsize)));
+        settingsmap.put(Settings.JpegQuality,new SettingMode(getResString(R.string.aps_jpegquality)));
+        settingsmap.put(Settings.AE_Bracket,new SettingMode(getResString(R.string.aps_aebrackethdr)));
+        settingsmap.put(Settings.PreviewFPS,new SettingMode(getResString(R.string.aps_previewfps)));
+        settingsmap.put(Settings.PreviewFormat,new SettingMode(getResString(R.string.aps_previewformat)));
+        settingsmap.put(Settings.SceneMode,new SettingMode(getResString(R.string.aps_scenemode)));
+        settingsmap.put(Settings.RedEye,new SettingMode(getResString(R.string.aps_redeyemode)));
+        settingsmap.put(Settings.LensShade,new SettingMode(getResString(R.string.aps_lenshademode)));
+        settingsmap.put(Settings.ZSL,new SettingMode(getResString(R.string.aps_zslmode)));
+        settingsmap.put(Settings.SceneDetect,new SettingMode(getResString(R.string.aps_scenedetectmode)));
+        settingsmap.put(Settings.MemoryColorEnhancement,new SettingMode(getResString(R.string.aps_memorycolorenhancementmode)));
+        settingsmap.put(Settings.VideoSize,new SettingMode(getResString(R.string.aps_videosize)));
+        settingsmap.put(Settings.CDS_Mode,new SettingMode(getResString(R.string.aps_cds)));
+        settingsmap.put(Settings.oismode,new SettingMode(getResString(R.string.aps_ois)));
+        settingsmap.put(Settings.VideoHDR,new SettingMode(getResString(R.string.aps_videohdr)));
+        settingsmap.put(Settings.VideoHighFramerate,new SettingMode(getResString(R.string.aps_videohfr)));
+        settingsmap.put(Settings.ControlMode,new SettingMode(getResString(R.string.aps_controlmode)));
+        settingsmap.put(Settings.Denoise,new SettingMode(getResString(R.string.aps_denoisemode)));
+        settingsmap.put(Settings.TNR,new SettingMode(getResString(R.string.aps_tnr)));
+        settingsmap.put(Settings.TNR_V,new SettingMode(getResString(R.string.aps_tnr_v)));
+        settingsmap.put(Settings.SeeMore,new SettingMode(getResString(R.string.aps_seemore)));
+        settingsmap.put(Settings.PDAF,new SettingMode(getResString(R.string.aps_pdaf)));
+        settingsmap.put(Settings.RDI,new SettingMode(getResString(R.string.aps_rdi)));
+        settingsmap.put(Settings.ChromaFlash,new SettingMode(getResString(R.string.aps_chroma_flash)));
+        settingsmap.put(Settings.OptiZoom,new SettingMode(getResString(R.string.aps_optizoom)));
+        settingsmap.put(Settings.ReFocus,new SettingMode(getResString(R.string.aps_refocus)));
+        settingsmap.put(Settings.TruePotrait,new SettingMode(getResString(R.string.aps_truepotrait)));
+        settingsmap.put(Settings.EdgeMode,new SettingMode(getResString(R.string.aps_edgemode)));
+        settingsmap.put(Settings.DigitalImageStabilization,new SettingMode(getResString(R.string.aps_digitalimagestabmode)));
+        settingsmap.put(Settings.HotPixelMode,new SettingMode(getResString(R.string.aps_hotpixel)));
+        settingsmap.put(Settings.AE_PriorityMode,new SettingMode(getResString(R.string.aps_ae_priortiy)));
+        settingsmap.put(Settings.HDRMode,new SettingMode(getResString(R.string.aps_hdrmode)));
+        settingsmap.put(Settings.Module,new SettingMode(getResString(R.string.aps_module)));
+        settingsmap.put(Settings.NonZslManualMode,new SettingMode(getResString(R.string.aps_nonzslmanualmode)));
+        settingsmap.put(Settings.LensFilter,new SettingMode(getResString(R.string.aps_virtuallensfilter)));
+        settingsmap.put(Settings.NightMode,new SettingMode(getResString(R.string.aps_nightmode)));
+        settingsmap.put(Settings.VideoProfiles,new SettingMode(getResString(R.string.aps_videoProfile)));
+        settingsmap.put(Settings.VideoStabilization,new SettingMode(getResString(R.string.aps_videoStabilisation)));
+        settingsmap.put(Settings.IntervalShutterSleep,new SettingMode(getResString(R.string.aps_interval)));
+        settingsmap.put(Settings.IntervalDuration,new SettingMode(getResString(R.string.aps_interval_duration)));
+        settingsmap.put(Settings.opcode,new SettingMode(getResString(R.string.aps_opcode)));
+        settingsmap.put(Settings.matrixChooser,new SettingMode(getResString(R.string.aps_matrixset)));
+        settingsmap.put(Settings.SdSaveLocation,new SettingMode(getResString(R.string.aps_sdcard)));
+        settingsmap.put(Settings.ColorCorrectionMode,new SettingMode(getResString(R.string.aps_cctmode)));
+        settingsmap.put(Settings.ObjectTracking,new SettingMode(getResString(R.string.aps_objecttracking)));
+        settingsmap.put(Settings.ToneMapMode,new SettingMode(getResString(R.string.aps_tonemapmode)));
+        settingsmap.put(Settings.PostViewSize,new SettingMode(getResString(R.string.aps_postviewsize)));
+        settingsmap.put(Settings.ZoomSetting,new SettingMode(getResString(R.string.aps_zoommode)));
+        settingsmap.put(Settings.scalePreview,new SettingMode(getResString(R.string.aps_scalePreview)));
+        settingsmap.put(Settings.GuideList,new SettingMode(getResString(R.string.aps_guide)));
+        settingsmap.put(Settings.PreviewFpsRange,new SettingMode(getResString(R.string.aps_previewfpsrange)));
+        settingsmap.put(Settings.M_Focus,new SettingMode(getResString(R.string.aps_manualfocus)));
+        settingsmap.put(Settings.M_ExposureCompensation,new SettingMode(getResString(R.string.aps_manualexpocomp)));
+        settingsmap.put(Settings.M_ExposureTime,new SettingMode(getResString(R.string.aps_manualexpotime)));
+        settingsmap.put(Settings.M_Whitebalance,new SettingMode(getResString(R.string.aps_manualwb)));
+        settingsmap.put(Settings.M_ManualIso,new SettingMode(getResString(R.string.aps_manualiso)));
+        settingsmap.put(Settings.M_Saturation,new SettingMode(getResString(R.string.aps_manualsaturation)));
+        settingsmap.put(Settings.M_Sharpness,new SettingMode(getResString(R.string.aps_manualsharpness)));
+        settingsmap.put(Settings.M_Brightness,new SettingMode(getResString(R.string.aps_manualbrightness)));
+        settingsmap.put(Settings.M_Contrast,new SettingMode(getResString(R.string.aps_manualcontrast)));
+        settingsmap.put(Settings.M_Fnumber,new SettingMode(getResString(R.string.aps_manualfnum)));
+        settingsmap.put(Settings.M_Zoom,new SettingMode(getResString(R.string.aps_manualzoom)));
+        settingsmap.put(Settings.M_Burst,new SettingMode(getResString(R.string.aps_manualburst)));
+        settingsmap.put(Settings.M_3D_Convergence,new SettingMode(getResString(R.string.aps_manualconvergence)));
+        settingsmap.put(Settings.M_FX,new SettingMode(getResString(R.string.aps_manualfx)));
+        settingsmap.put(Settings.M_ProgramShift,new SettingMode(getResString(R.string.aps_manualprogramshift)));
+        settingsmap.put(Settings.M_PreviewZoom,new SettingMode(getResString(R.string.aps_manualpreviewzoom)));
+        settingsmap.put(Settings.M_Aperture,new SettingMode(getResString(R.string.aps_manualaperture)));
+        settingsmap.put(Settings.openCamera1Legacy,new SettingMode(getResString(R.string.aps_opencamera1legacy)));
+        settingsmap.put(Settings.dualPrimaryCameraMode,new SettingMode(getResString(R.string.aps_dualprimarycameramode)));
+        settingsmap.put(Settings.useHuaweiCamera2Extension,new SettingMode(getResString(R.string.aps_usehuaweicam2)));
+        settingsmap.put(Settings.support12bitRaw,new SettingMode(getResString(R.string.aps_support12bitraw)));
+        settingsmap.put(Settings.useQcomFocus,new SettingMode(getResString(R.string.aps_qcomfocus)));
+        settingsmap.put(Settings.dngSupportManuals,new SettingMode(getResString(R.string.aps_dngsupportmanualmodes)));
+        settingsmap.put(Settings.forceRawToDng,new SettingMode(getResString(R.string.aps_forcerawtondng)));
+        settingsmap.put(Settings.needRestartAfterCapture,new SettingMode(getResString(R.string.aps_needrestartaftercapture)));
+        settingsmap.put(Settings.Ae_TargetFPS,new SettingMode(getResString(R.string.aps_ae_targetFPS)));
+        settingsmap.put(Settings.orientationHack,new SettingMode(getResString(R.string.aps_orientationHack)));
+        settingsmap.put(Settings.tonemapChooser,new SettingMode(getResString(R.string.aps_tonemapProfile)));
+        settingsmap.put(Settings.selfTimer,new SettingMode(getResString(R.string.aps_selftimer)));
 
         loadOpCodes();
 
@@ -523,6 +387,7 @@ public class AppSettingsManager {
 
     public void release()
     {
+        settingsmap.clear();
         isInit = false;
         resources = null;
         settings = null;
@@ -626,10 +491,6 @@ public class AppSettingsManager {
         settings.edit().putBoolean("zteae",legacy).commit();
     }
 
-    public boolean isOverrideDngProfile()
-    {
-        return settings.getBoolean("overrideprofile", false);
-    }
 
     public void setsOverrideDngProfile(boolean legacy)
     {
@@ -745,14 +606,14 @@ public class AppSettingsManager {
     }
 
     public void SetCurrentModule(String modulename) {
-        modules.set(modulename);
+        settingsmap.get(Settings.Module).set(modulename);
     }
 
     public String GetCurrentModule()
     {
-        if (TextUtils.isEmpty(modules.get()))
+        if (TextUtils.isEmpty(settingsmap.get(Settings.Module).get()))
             return getResString(R.string.module_picture);
-        return modules.get();
+        return settingsmap.get(Settings.Module).get();
     }
 
     /**
