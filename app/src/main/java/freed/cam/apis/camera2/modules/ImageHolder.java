@@ -289,6 +289,7 @@ public class ImageHolder implements ImageReader.OnImageAvailableListener
         saveTask.setBytesTosave(bytes,ImageSaveTask.RAW_SENSOR);
         buffer.clear();
 
+        saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
         saveTask.setForceRawToDng(true);
         saveTask.setFocal(captureResult.get(CaptureResult.LENS_FOCAL_LENGTH));
         saveTask.setFnum(captureResult.get(CaptureResult.LENS_APERTURE));
