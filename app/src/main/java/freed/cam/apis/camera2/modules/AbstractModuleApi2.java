@@ -28,7 +28,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.BasePictureModule;
+import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 
@@ -36,7 +36,7 @@ import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 /**
  * Created by troop on 12.12.2014.
  */
-public abstract class AbstractModuleApi2 extends BasePictureModule implements I_PreviewWrapper
+public abstract class AbstractModuleApi2 extends ModuleAbstract implements I_PreviewWrapper
 {
     protected ParameterHandlerApi2 parameterHandler;
 

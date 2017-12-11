@@ -2,6 +2,7 @@ package freed.cam.apis.basecamera.parameters;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public abstract class AbstractParameter implements ParameterInterface {
     protected boolean isNotReadOnly;
 
     private Handler mainHandler;
+    protected Handler backHandler;
 
     public AbstractParameter()
     {
@@ -59,7 +61,36 @@ public abstract class AbstractParameter implements ParameterInterface {
     {
         this();
         this.cameraUiWrapper = cameraUiWrapper;
+        this.backHandler = new BackHandler(cameraUiWrapper.getCameraHandlerThread().getLooper());
+    }
 
+    private final int MSG_SET_INT =0;
+    private final int MSG_SET_STRING =1;
+
+    private class BackHandler extends Handler
+    {
+        public BackHandler(Looper looper)
+        {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            switch (msg.what)
+            {
+                case MSG_SET_INT:
+                    setValue(msg.arg1);
+                    break;
+                case MSG_SET_STRING:
+                    if (msg.arg1 == 1)
+                        setValue((String)msg.obj,true);
+                    else
+                        setValue((String)msg.obj,false);
+                    break;
+            }
+            super.handleMessage(msg);
+        }
     }
 
     /**
@@ -260,15 +291,53 @@ public abstract class AbstractParameter implements ParameterInterface {
     @Override
     public String[] getStringValues() { return stringvalues;}
 
+
+
+
+    /**
+     * set value to camera async
+       override that when you need dont need to run in it background
+     * @param valueToSet the int value to set
+     */
     @Override
     public void SetValue(int valueToSet)
+    {
+        backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_INT,valueToSet,0));
+    }
+
+    /**
+     * runs async gets called from SetValue
+     * override that when you want to set stuff in background
+     * @param valueToSet
+     */
+    protected void setValue(int valueToSet)
     {
         fireIntValueChanged(valueToSet);
         currentInt = valueToSet;
     }
 
+    /**
+     * set value to camera async
+     override that when you need dont need to run in it background
+     * @param valueToSet to the camera
+     * @param setToCamera not needed anymore?
+     */
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
+        if (setToCamera)
+            backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_STRING,1,0,valueToSet));
+        else
+            backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_STRING,0,0,valueToSet));
+    }
+
+    /**
+     * runs async gets called from SetValue
+     * override that when you want to set stuff in background
+     * @param valueToSet
+     * @param setToCamera
+     */
+    protected void setValue(String valueToSet, boolean setToCamera)
+    {
         currentString = valueToSet;
         fireStringValueChanged(currentString);
     }

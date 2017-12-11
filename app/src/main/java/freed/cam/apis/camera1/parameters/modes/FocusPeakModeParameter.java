@@ -24,6 +24,8 @@ import android.os.Build.VERSION;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 
@@ -42,7 +44,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
 
     @Override
     public boolean IsSupported() {
-        return VERSION.SDK_INT >= 18 && cameraUiWrapper.getRenderScriptHandler().isSucessfullLoaded();
+        return VERSION.SDK_INT >= 18 && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded();
     }
 
     @Override
@@ -50,7 +52,8 @@ public class FocusPeakModeParameter extends BaseModeParameter {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
         {
             //set foucs mode at same stage again else on some devices the camera preview gets green
-            cameraUiWrapper.getParameterHandler().FocusMode.SetValue(cameraUiWrapper.getParameterHandler().FocusMode.GetStringValue(),true);
+            ParameterInterface fm = cameraUiWrapper.getParameterHandler().get(Settings.FocusMode);
+            fm.SetValue(fm.GetStringValue(),true);
             focusPeakProcessorAp1.Enable(true);
         }
         else

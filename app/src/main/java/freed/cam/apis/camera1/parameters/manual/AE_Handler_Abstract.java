@@ -25,8 +25,10 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.SettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
@@ -84,7 +86,7 @@ public abstract class AE_Handler_Abstract
     protected final AeManualEvent aeevent =  new AeManualEvent() {
         @Override
         public void onManualChanged(AeManual fromManual, boolean automode, int value) {
-            if (shutter.IsSupported() && iso.IsSupported() && cameraWrapper.getAppSettingsManager().GetCurrentCamera() == 0)
+            if (shutter.IsSupported() && iso.IsSupported() && SettingsManager.getInstance().GetCurrentCamera() == 0)
             {
                 if (automode) {
                     Log.d(TAG, "AutomodeActive");
@@ -139,12 +141,12 @@ public abstract class AE_Handler_Abstract
                 Log.d(TAG,"AeManualEvent aeevent");
                 ((ParametersHandler) cameraWrapper.getParameterHandler()).SetParametersToCamera(parameters);
                 if (automode) {
-                    String t = cameraWrapper.getParameterHandler().IsoMode.GetStringValue();
+                    String t = cameraWrapper.getParameterHandler().get(Settings.IsoMode).GetStringValue();
                     if (!t.equals(cameraWrapper.getResString(R.string.iso100_)))
-                        cameraWrapper.getParameterHandler().IsoMode.SetValue(cameraWrapper.getResString(R.string.iso100_), true);
+                        cameraWrapper.getParameterHandler().get(Settings.IsoMode).SetValue(cameraWrapper.getResString(R.string.iso100_), true);
                     else
-                        cameraWrapper.getParameterHandler().IsoMode.SetValue(cameraWrapper.getResString(R.string.auto_), true);
-                    cameraWrapper.getParameterHandler().IsoMode.SetValue(t, true);
+                        cameraWrapper.getParameterHandler().get(Settings.IsoMode).SetValue(cameraWrapper.getResString(R.string.auto_), true);
+                    cameraWrapper.getParameterHandler().get(Settings.IsoMode).SetValue(t, true);
                 }
             }
         }
@@ -184,6 +186,4 @@ public abstract class AE_Handler_Abstract
             }
         });
     }
-
-
 }

@@ -393,7 +393,8 @@ extern "C" JNIEXPORT jobject JNICALL Java_freed_jni_RawUtils_unpackRAW(JNIEnv * 
     // will also call recycle(). If a fatal error has happened, it means that recycle()
     // has already been called (repeated call will not cause any harm either).
 	// we don't evoke recycle() or call the desctructor; C++ will do everything for us
-	//raw.recycle();
+	delete image;
+	raw.recycle();
 	LOGD("rawdata recycled");
 
     return newBitmap;

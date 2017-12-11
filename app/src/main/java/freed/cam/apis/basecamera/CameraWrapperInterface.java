@@ -20,13 +20,13 @@
 package freed.cam.apis.basecamera;
 
 import android.content.Context;
+import android.os.HandlerThread;
 import android.view.SurfaceView;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.utils.AppSettingsManager;
-import freed.utils.RenderScriptHandler;
+import freed.utils.RenderScriptManager;
 
 /**
  * Created by troop on 09.12.2014.
@@ -46,11 +46,6 @@ public interface CameraWrapperInterface extends CameraStateEvents
 
     void startPreview();
     void stopPreview();
-    /**
-     * Starts a new work with the current active module
-     * the module must handle the workstate on its own if it gets hit twice while work is already in progress
-     */
-    void startWork();
 
     /**
      * Get the current active CameraHolderSony
@@ -63,10 +58,7 @@ public interface CameraWrapperInterface extends CameraStateEvents
      * @return
      */
     AbstractParameterHandler getParameterHandler();
-    /**
-     * get the appsettings
-     */
-    AppSettingsManager getAppSettingsManager();
+
     ModuleHandlerAbstract getModuleHandler();
     SurfaceView getSurfaceView();
     AbstractFocusHandler getFocusHandler();
@@ -110,10 +102,12 @@ public interface CameraWrapperInterface extends CameraStateEvents
 
     FocuspeakProcessor getFocusPeakProcessor();
 
-    RenderScriptHandler getRenderScriptHandler();
+    RenderScriptManager getRenderScriptManager();
 
     ActivityInterface getActivityInterface();
 
     String getResString(int id);
+
+    HandlerThread getCameraHandlerThread();
 
 }

@@ -26,6 +26,7 @@ import com.troop.freedcam.R;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 public class FXManualParameter extends BaseManualParameter {
@@ -37,7 +38,7 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if(cameraUiWrapper.getAppSettingsManager().isZteAe())
+        if(SettingsManager.getInstance().isZteAe())
         {
             isSupported = true;
             isVisible = true;
@@ -59,7 +60,7 @@ public class FXManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (cameraUiWrapper.getAppSettingsManager().isZteAe());
+            if (SettingsManager.getInstance().isZteAe());
                 i = 0;
         }
         catch (Exception ex)
@@ -71,7 +72,7 @@ public class FXManualParameter extends BaseManualParameter {
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         parameters.set(cameraUiWrapper.getResString(R.string.morpho_effect_type), String.valueOf(valueToSet));
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);

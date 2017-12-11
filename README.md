@@ -14,7 +14,8 @@ FreeDcam
 
 <img src="/playstoreimages/freedcam.jpg" width="500" height="280">
 
-##Build
+Build
+=====
 To build use latest [Android Studio](http://developer.android.com/sdk/installing/studio.html)  
 Use NDK 12b!
 
@@ -25,7 +26,8 @@ For ndk build set in your *local.properties*
 Yes you need `\\` that for the folderpath
 
 
-##Supported Apis:  
+Supported Apis:
+===========
 [android.hardware.camera](http://developer.android.com/reference/android/hardware/Camera.html)  
 
 
@@ -220,6 +222,8 @@ Camera Ui Icons
 Camera1 Dng Supported Devices
 =============================
 
+List is not up to date
+
 KK = Kitkat,L = Lollipop , M = Marshmallow
 
 [true]: /playstoreimages/check.png
@@ -342,16 +346,17 @@ tonemapprofiles.xml
     <huesatmapdims>90 25 1</huesatmapdims> should only contain whitespaces for splitting no line breaks!
     <huesatmapdata1>0 0 .... 1 1</huesatmapdata1> should only contain whitespaces for splitting no line breaks!
     </tonemapprofile>
+
+
+    <!-- next profile -->
+    <tonemapprofile name="srgb">
+        <tonecurve>0,0,......,1,1</tonecurve>
+    </tonemapprofile>
+    
+    <tonemapprofile name="iso100">
+        <baselineexposure>-0.35</baselineexposure>
+    </tonemapprofile>
 </tonemapprofiles>
-
-<!-- next profile -->
-<tonemapprofile name="srgb">
-    <tonecurve>0,0,......,1,1</tonecurve>
-</tonemapprofile>
-
-<tonemapprofile name="iso100">
-    <baselineexposure>-0.35</baselineexposure>
-</tonemapprofile>
 
 ```
 

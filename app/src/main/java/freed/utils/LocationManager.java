@@ -22,7 +22,6 @@ package freed.utils;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -31,17 +30,17 @@ import freed.ActivityInterface;
 /**
  * Created by troop on 02.08.2016.
  */
-public class LocationHandler implements LocationListener
+public class LocationManager implements LocationListener
 {
-    private final String TAG = LocationHandler.class.getSimpleName();
-    private final LocationManager locationManager;
+    private final String TAG = LocationManager.class.getSimpleName();
+    private final android.location.LocationManager locationManager;
     private ActivityInterface activityInterface;
     private Location currentLocation;
 
-    public LocationHandler(ActivityInterface activityInterface)
+    public LocationManager(ActivityInterface activityInterface)
     {
         this.activityInterface = activityInterface;
-        locationManager = (LocationManager) activityInterface.getContext().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (android.location.LocationManager) activityInterface.getContext().getSystemService(Context.LOCATION_SERVICE);
     }
 
     public Location getCurrentLocation()
@@ -59,8 +58,8 @@ public class LocationHandler implements LocationListener
     public void startLocationListing()
     {
         Log.d(TAG, "start location");
-        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        boolean gps = locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
+        boolean network = locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER);
         Log.d(TAG, "Gps:"+gps + "Network:"+network);
         if (gps || network)
         {
@@ -71,19 +70,19 @@ public class LocationHandler implements LocationListener
             int updateTime = 60 * 1000;
             if (network)
             {
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                locationManager.requestLocationUpdates(android.location.LocationManager.NETWORK_PROVIDER,
                         updateTime,
                         updateDistance,
                         this);
-                locnet = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                locnet = locationManager.getLastKnownLocation(android.location.LocationManager.NETWORK_PROVIDER);
             }
             if(gps)
             {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                locationManager.requestLocationUpdates(android.location.LocationManager.GPS_PROVIDER,
                         updateTime,
                         updateDistance,
                         this);
-                locgps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                locgps = locationManager.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER);
             }
             if (locgps != null)
                 currentLocation = locgps;

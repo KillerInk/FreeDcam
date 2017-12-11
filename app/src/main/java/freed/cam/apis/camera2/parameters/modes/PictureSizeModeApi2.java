@@ -23,6 +23,8 @@ import android.annotation.TargetApi;
 import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.SettingsManager;
+import freed.settings.Settings;
 
 /**
  * Created by troop on 13.12.2014.
@@ -61,6 +63,6 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] getStringValues()
     {
-        return cameraUiWrapper.getAppSettingsManager().pictureSize.getValues();
+        return SettingsManager.get(Settings.PictureSize).getValues();
     }
 }

@@ -34,8 +34,12 @@ public class Size
     public Size(String s)
     {
         String[] split = s.split("x");
-        height = Integer.parseInt(split[1]);
-        width = Integer.parseInt(split[0]);
+        if (split.length == 2) {
+            height = Integer.parseInt(split[1]);
+            width = Integer.parseInt(split[0]);
+        }
+        else
+            throw new ArrayIndexOutOfBoundsException();
     }
 
 }

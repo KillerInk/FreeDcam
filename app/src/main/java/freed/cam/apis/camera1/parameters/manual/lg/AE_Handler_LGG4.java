@@ -26,6 +26,8 @@ import com.troop.freedcam.R;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualParameterG4;
+import freed.settings.SettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 27.01.2016.
@@ -34,11 +36,11 @@ public class AE_Handler_LGG4 extends AE_Handler_Abstract
 {
 
     final String TAG = AE_Handler_LGG4.class.getSimpleName();
-    private CameraWrapperInterface cameraUiWrapper;
 
     public AE_Handler_LGG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {
         super(parameters,cameraUiWrapper);
+        Log.d(TAG, "AE_Handler_LGG4");
         iso = new ISOManualParameterG4(parameters,cameraUiWrapper, aeevent);
         shutter = new ShutterManualParameterG4(parameters, cameraUiWrapper, aeevent);
     }
@@ -46,8 +48,8 @@ public class AE_Handler_LGG4 extends AE_Handler_Abstract
     @Override
     protected void resetManualMode() {
         if (!auto)
-            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.lg_manual_mode_reset), "1");
+            parameters.set(SettingsManager.getInstance().getResString(R.string.lg_manual_mode_reset), "1");
         else
-            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.lg_manual_mode_reset), "0");
+            parameters.set(SettingsManager.getInstance().getResString(R.string.lg_manual_mode_reset), "0");
     }
 }

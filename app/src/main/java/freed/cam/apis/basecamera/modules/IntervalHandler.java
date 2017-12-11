@@ -20,10 +20,12 @@
 package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
+import android.text.TextUtils;
 
 import java.util.Date;
 
-import freed.utils.AppSettingsManager;
+import freed.settings.Settings;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -43,15 +45,13 @@ public class IntervalHandler
     private final Handler handler;
     private long startTime;
     private boolean working;
-    private final AppSettingsManager appSettingsManager;
 
     public boolean IsWorking() {return working;}
 
-    public IntervalHandler(ModuleAbstract picmodule, AppSettingsManager appSettingsManager)
+    public IntervalHandler(ModuleAbstract picmodule)
     {
         this.picmodule = picmodule;
         handler = new Handler();
-        this.appSettingsManager = appSettingsManager;
     }
 
     public void StartInterval()
@@ -59,13 +59,13 @@ public class IntervalHandler
         Log.d(TAG, "Start Interval");
         working = true;
         startTime = new Date().getTime();
-        String sleep = picmodule.cameraUiWrapper.getParameterHandler().IntervalShutterSleep.GetStringValue();
+        String sleep = picmodule.cameraUiWrapper.getParameterHandler().get(Settings.IntervalShutterSleep).GetStringValue();
         if (sleep.contains(" sec"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" sec",""))*1000;
         if (sleep.contains(" min"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" min",""))*60*1000;
 
-        String duration = picmodule.cameraUiWrapper.getParameterHandler().IntervalDuration.GetStringValue();
+        String duration = picmodule.cameraUiWrapper.getParameterHandler().get(Settings.IntervalDuration).GetStringValue();
         if (duration.equals("∞"))
             fullIntervalCaptureDuration = 0;
         else if (duration.contains(" min"))
@@ -107,9 +107,6 @@ public class IntervalHandler
         double min = (double)(dif /1000) / 60;
         if (min >= fullIntervalCaptureDuration && fullIntervalCaptureDuration > 0)
         {
-            Log.d(TAG, "Finished Interval");
-            picmodule.cameraUiWrapper.getParameterHandler().IntervalCaptureFocusSet = false;
-            picmodule.cameraUiWrapper.getParameterHandler().IntervalCapture = false;
             working = false;
             return;
         }
@@ -169,9 +166,9 @@ public class IntervalHandler
 
     public void StartShutterTime()
     {
-        String shutterdelay = appSettingsManager.getApiString(AppSettingsManager.SETTING_TIMER);
+        String shutterdelay = SettingsManager.getInstance().getApiString(SettingsManager.SETTING_TIMER);
         try {
-            if (shutterdelay.equals(""))
+            if (TextUtils.isEmpty(shutterdelay))
                 shutterdelay = "0 sec";
             if (!shutterdelay.equals("0 sec"))
                 shutterDelay = Integer.parseInt(shutterdelay.replace(" sec", "")) * 1000;

@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,11 +46,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
-import freed.cam.ui.handler.MediaScannerManager;
-import freed.utils.AppSettingsManager;
+import freed.utils.MediaScannerManager;
+import freed.image.ImageManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
-import freed.utils.PermissionHandler;
-import freed.utils.StorageFileHandler;
+import freed.utils.PermissionManager;
+import freed.utils.StorageFileManager;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
 
@@ -57,8 +59,6 @@ import freed.viewer.holder.FileHolder;
  * Created by troop on 28.03.2016.
  */
 public abstract class ActivityAbstract extends AppCompatActivity implements ActivityInterface, I_WorkEvent {
-
-    public static final boolean LOG_TO_FILE = true;
 
     protected boolean initDone = false;
 
@@ -74,11 +74,10 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     private final String TAG = ActivityAbstract.class.getSimpleName();
-    private AppSettingsManager appSettingsManager;
     protected BitmapHelper bitmapHelper;
     protected  List<FileHolder> files =  new ArrayList<>();
-    protected StorageFileHandler storageHandler;
-    private PermissionHandler permissionHandler;
+    protected StorageFileManager storageHandler;
+    private PermissionManager permissionManager;
 
 
     private final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -91,36 +90,33 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ImageManager.getInstance(); // init it
+        SettingsManager.getInstance();
         setContentToView();
-        permissionHandler =new PermissionHandler(this);
-        if (LOG_TO_FILE && !Log.isLogToFileEnable()) {
-            permissionHandler.hasExternalSDPermission(logSDPermission);
-        }
-        else
-            initOnCreate();
+        permissionManager =new PermissionManager(this);
+
+        getPermissionManager().hasCameraAndSdPermission(logSDPermission);
     }
 
     protected void initOnCreate()
     {
+        File log = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeDcam/log.txt");
+        if (!Log.isLogToFileEnable() && log.exists()) {
+            new Log();
+        }
         initDone = true;
         Log.d(TAG, "initOnCreate()");
-        SettingsApplication application = (SettingsApplication)getApplication();
-        if (application.getAppSettingsManager() == null) {
-            appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
-            application.setAppSettingsManager(appSettingsManager);
+        if (!SettingsManager.getInstance().isInit()) {
+           SettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
         }
-        else
-            appSettingsManager = application.getAppSettingsManager();
     }
 
-    private PermissionHandler.PermissionCallback logSDPermission = new PermissionHandler.PermissionCallback()
+    private PermissionManager.PermissionCallback logSDPermission = new PermissionManager.PermissionCallback()
     {
         @Override
         public void permissionGranted(boolean granted) {
             if (granted) {
-                if (!Log.isLogToFileEnable() && LOG_TO_FILE) {
-                    new Log();
-                }
+
                 initOnCreate();
             }
         }
@@ -133,6 +129,9 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
     @Override
     protected void onDestroy() {
+        ImageManager.cancelImageSaveTasks();
+        ImageManager.cancelImageLoadTasks();
+        SettingsManager.getInstance().release();
         super.onDestroy();
         /*if (Log.isLogToFileEnable())
             Log.destroy();*/
@@ -143,6 +142,14 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus)
             HIDENAVBAR();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!SettingsManager.getInstance().isInit()) {
+            SettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
+        }
     }
 
     @Override
@@ -222,7 +229,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
 
                 getContentResolver().takePersistableUriPermission(uri,takeFlags);
-                appSettingsManager.SetBaseFolder(uri.toString());
+                SettingsManager.getInstance().SetBaseFolder(uri.toString());
                 if (resultCallback != null)
                 {
                     resultCallback.onActivityResultCallback(uri);
@@ -233,8 +240,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     @Override
-    public PermissionHandler getPermissionHandler() {
-        return permissionHandler;
+    public PermissionManager getPermissionManager() {
+        return permissionManager;
     }
 
     @Override
@@ -248,12 +255,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     @Override
-    public AppSettingsManager getAppSettings() {
-        return appSettingsManager;
-    }
-
-    @Override
-    public StorageFileHandler getStorageHandler() {
+    public StorageFileManager getStorageHandler() {
         return this.storageHandler;
     }
 
@@ -366,8 +368,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     public DocumentFile getExternalSdDocumentFile()
     {
         DocumentFile sdDir = null;
-        String extSdFolder =  appSettingsManager.GetBaseFolder();
-        if (extSdFolder == null || extSdFolder.equals(""))
+        String extSdFolder =  SettingsManager.getInstance().GetBaseFolder();
+        if (extSdFolder == null || TextUtils.isEmpty(extSdFolder))
             return null;
         Uri uri = Uri.parse(extSdFolder);
         sdDir = DocumentFile.fromTreeUri(getContext(), uri);
@@ -455,7 +457,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
-        permissionHandler.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        permissionManager.onRequestPermissionsResult(requestCode,permissions,grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 

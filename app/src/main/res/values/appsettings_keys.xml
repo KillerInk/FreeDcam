@@ -65,6 +65,7 @@
     <string name="aps_previewfpsrange" translatable="false">previewfpsrange</string>
     <string name="aps_dualprimarycameramode" translatable="false">dualprimarycameramode</string>
     <string name="aps_usehuaweicam2" translatable="false">usehuaweicam2</string>
+    <string name="aps_support12bitraw" translatable="false">support12bitraw</string>
 
     <string name="aps_tnr" translatable="false">tnr</string>
     <string name="aps_tnr_v" translatable="false">tnr_v</string>
@@ -98,5 +99,9 @@
     <string name="aps_ae_targetFPS">ae_TargetFPS</string>
     <string name="aps_orientationHack">orientationHack</string>
     <string name="aps_tonemapProfile">tonemapProfile</string>
+    <string name="aps_dngsupportmanualmodes">dngsupportmanualmodes</string>
+    <string name="aps_forcerawtondng">forcerawtodng</string>
+    <string name="aps_needrestartaftercapture">needrestartaftercapture</string>
+    <string name="aps_selftimer">selftimer</string>
 
 </resources>

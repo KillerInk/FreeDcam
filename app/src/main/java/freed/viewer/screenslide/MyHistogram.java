@@ -27,7 +27,6 @@ import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
-import android.renderscript.Allocation;
 import android.util.AttributeSet;
 import android.view.View;
 

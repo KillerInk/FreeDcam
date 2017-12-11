@@ -68,14 +68,12 @@ public class IntervalApi2 extends IntervalModule implements I_PreviewWrapper
         {
             Log.d(TAG, "StartInterval");
             isWorking = true;
-            picModule.setIntervalCapture(true);
             intervalHandler.StartInterval();
             changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_start);
             return;
         } else {
             Log.d(TAG, "Stop Interval");
             isWorking = false;
-            picModule.setIntervalCapture(false);
             intervalHandler.CancelInterval();
             if (picModule.isWorking)
             {

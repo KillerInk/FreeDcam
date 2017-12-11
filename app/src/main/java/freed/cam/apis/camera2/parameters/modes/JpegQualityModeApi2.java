@@ -54,8 +54,8 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-        super.SetValue(valueToSet,setToCamera);
+    public void setValue(String valueToSet, boolean setToCamera) {
         ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_QUALITY, (byte)Integer.parseInt(valueToSet));
+        fireStringValueChanged(valueToSet);
     }
 }

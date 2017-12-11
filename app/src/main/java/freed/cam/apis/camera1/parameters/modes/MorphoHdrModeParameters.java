@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -26,12 +27,12 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
     private String format = "";
     private String curmodule = "";
 
-    public MorphoHdrModeParameters(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode) {
+    public MorphoHdrModeParameters(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode) {
         super(parameters, cameraUiWrapper, settingMode);
         isSupported = settingMode.isSupported();
         isVisible = isSupported;
         cameraUiWrapper.getModuleHandler().addListner(this);
-        cameraUiWrapper.getParameterHandler().PictureFormat.addEventListner(this);
+        cameraUiWrapper.getParameterHandler().get(Settings.PictureFormat).addEventListner(this);
     }
 
     @Override
@@ -44,12 +45,12 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
     public void SetValue(String valueToSet, boolean setToCam) {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_))) {
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hht), cameraUiWrapper.getResString(R.string.false_));
-            cameraUiWrapper.getParameterHandler().NightMode.fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
+            cameraUiWrapper.getParameterHandler().get(Settings.NightMode).fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
             parameters.set("capture-burst-exposures","-10,0,10");
-            cameraUiWrapper.getParameterHandler().AE_Bracket.SetValue(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket), true);
+            cameraUiWrapper.getParameterHandler().get(Settings.AE_Bracket).SetValue(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr_values_aebracket), true);
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hdr), cameraUiWrapper.getResString(R.string.true_));
         } else {
-            cameraUiWrapper.getParameterHandler().AE_Bracket.SetValue(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_off), true);
+            cameraUiWrapper.getParameterHandler().get(Settings.AE_Bracket).SetValue(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr_values_off), true);
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hdr), cameraUiWrapper.getResString(R.string.false_));
         }
 
@@ -78,7 +79,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
             onIsSupportedChanged(false);
             return cameraUiWrapper.getResString(R.string.off_);
         }
-        if (parameters.get(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr)) == null){
+        if (parameters.get(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr)) == null){
             Log.d(TAG, "Ae bracket is null");
             isSupported =false;
             onIsSupportedChanged(false);
@@ -87,7 +88,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
 
 
         if (parameters.get(cameraUiWrapper.getResString(R.string.morpho_hdr)).equals(cameraUiWrapper.getResString(R.string.true_))
-                && parameters.get(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr)).equals(cameraUiWrapper.getAppSettingsManager().getResString(R.string.ae_bracket_hdr_values_aebracket)))
+                && parameters.get(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr)).equals(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr_values_aebracket)))
             return cameraUiWrapper.getResString(R.string.on_);
         else
             return cameraUiWrapper.getResString(R.string.off_);

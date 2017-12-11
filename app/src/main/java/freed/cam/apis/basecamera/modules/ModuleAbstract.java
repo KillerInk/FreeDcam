@@ -21,13 +21,15 @@ package freed.cam.apis.basecamera.modules;
 
 
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 
 import java.io.File;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.utils.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.holder.FileHolder;
 
@@ -42,19 +44,41 @@ public abstract class ModuleAbstract implements ModuleInterface
 
     protected CaptureStateChanged captureStateChangedListner;
     private final String TAG = ModuleAbstract.class.getSimpleName();
-    protected AppSettingsManager appSettingsManager;
     protected CaptureStates currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;
     protected Handler mBackgroundHandler;
-    protected Handler mainHandler;
+    protected UiHandler mainHandler;
 
+    private final int MSG_ONCAPTURESTATECHANGED = 0;
+
+    public class UiHandler extends Handler
+    {
+        UiHandler(Looper looper)
+        {
+            super(looper);
+        }
+
+
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_ONCAPTURESTATECHANGED:
+                    if (captureStateChangedListner != null)
+                        captureStateChangedListner.onCaptureStateChanged((CaptureStates)msg.obj);
+                    break;
+                default:
+                super.handleMessage(msg);
+            }
+        }
+
+    }
 
     public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.appSettingsManager = cameraUiWrapper.getAppSettingsManager();
         this.mBackgroundHandler = mBackgroundHandler;
-        this.mainHandler = mainHandler;
+        this.mainHandler = new UiHandler(Looper.getMainLooper());
     }
 
     public void SetCaptureStateChangedListner(CaptureStateChanged captureStateChangedListner)
@@ -71,13 +95,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     {
         Log.d(TAG, "work started");
         currentWorkState = captureStates;
-        mainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (captureStateChangedListner != null)
-                    captureStateChangedListner.onCaptureStateChanged(captureStates);
-            }
-        });
+        mainHandler.obtainMessage(MSG_ONCAPTURESTATECHANGED, captureStates).sendToTarget();
     }
 
     @Override
@@ -87,8 +105,7 @@ public abstract class ModuleAbstract implements ModuleInterface
 
 
     @Override
-    public void DoWork() {
-    }
+    public abstract void DoWork();
 
     @Override
     public boolean IsWorking() {
@@ -108,10 +125,7 @@ public abstract class ModuleAbstract implements ModuleInterface
      * this gets called when module gets unloaded reset the parameters that where set on InitModule
      */
     @Override
-    public  void DestroyModule()
-    {
-
-    }
+    public abstract void DestroyModule();
 
     @Override
     public abstract String LongName();
@@ -119,11 +133,22 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public abstract String ShortName();
 
+    /**
+     * ts called when a saving task is done and the image/movie is rdy to get attached to the MainActivity/screenslideFragment
+     * @param file that is new
+     */
     @Override
     public void fireOnWorkFinish(File file) {
-        cameraUiWrapper.getActivityInterface().WorkHasFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
+        cameraUiWrapper.getActivityInterface().WorkHasFinished(new FileHolder(file, SettingsManager.getInstance().GetWriteExternal()));
     }
 
+
+
+    /**
+     * gets called when a capture session with more pics is done
+        and the images are rdy to to the MainActivity/screenslideFragment
+     * @param files that are new
+     */
     @Override
     public void fireOnWorkFinish(File files[])
     {
@@ -131,7 +156,7 @@ public abstract class ModuleAbstract implements ModuleInterface
         int i= 0;
         for (File f : files) {
             if (f != null)
-                fileHolders[i++] = new FileHolder(f, appSettingsManager.GetWriteExternal());
+                fileHolders[i++] = new FileHolder(f, SettingsManager.getInstance().GetWriteExternal());
         }
         cameraUiWrapper.getActivityInterface().WorkHasFinished(fileHolders);
     }

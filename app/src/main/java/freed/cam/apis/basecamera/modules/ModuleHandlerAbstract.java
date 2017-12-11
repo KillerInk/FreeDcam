@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 
 import com.troop.freedcam.R;
@@ -32,7 +33,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.utils.AppSettingsManager;
 import freed.utils.Log;
 
 /**
@@ -52,6 +52,8 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         continouse_capture_work_stop,
         cont_capture_stop_while_working,
         cont_capture_stop_while_notworking,
+        selftimerstart,
+        selftimerstop
     }
 
     public interface CaptureStateChanged
@@ -70,25 +72,18 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
 
     //holds all listner for the modulechanged event
     private final ArrayList<ModuleChangedEvent> moduleChangedListner;
-    //holds all listner for recorstatechanged
-    private final ArrayList<I_RecorderStateChanged> RecorderStateListners;
+
     private HandlerThread mBackgroundThread;
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
-
-
-
-    protected AppSettingsManager appSettingsManager;
 
     public ModuleHandlerAbstract(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();
         moduleChangedListner = new ArrayList<>();
-        RecorderStateListners = new ArrayList<>();
-        this.appSettingsManager = cameraUiWrapper.getAppSettingsManager();
         onCaptureStateChangedListners = new ArrayList<>();
-        mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler = new UiHandler(Looper.getMainLooper());
         startBackgroundThread();
 
         workerListner = new CaptureStateChanged() {
@@ -104,14 +99,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
                     }
                     else
                     {
-                        final int pos = i;
-                        mainHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                onCaptureStateChangedListners.get(pos).onCaptureStateChanged(captureStates);
-                            }
-                        });
-
+                        mainHandler.obtainMessage(CAPTURE_STATE_CHANGED,i,0,captureStates).sendToTarget();
                     }
                 }
             }
@@ -205,36 +193,15 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             }
             else
             {
-                final int toget = i;
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (moduleChangedListner.size() > 0)
-                            moduleChangedListner.get(toget).onModuleChanged(module);
-                    }
-                });
-
+                mainHandler.obtainMessage(MODULE_CHANGED,i,0, module).sendToTarget();
             }
         }
-    }
-
-
-    public void AddRecoderChangedListner(I_RecorderStateChanged recorderStateChanged)
-    {
-        RecorderStateListners.add(recorderStateChanged);
-    }
-
-    public void onRecorderstateChanged(int state)
-    {
-        for (I_RecorderStateChanged lisn : RecorderStateListners)
-            lisn.RecordingStateChanged(state);
     }
 
     //clears all listner this happens when the camera gets destroyed
     public void CLEAR()
     {
         moduleChangedListner.clear();
-        RecorderStateListners.clear();
         stopBackgroundThread();
     }
 
@@ -266,6 +233,30 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             mBackgroundHandler = null;
         } catch (InterruptedException e) {
             Log.WriteEx(e);
+        }
+    }
+
+    private final int MODULE_CHANGED= 0;
+    private final int CAPTURE_STATE_CHANGED = 1;
+    private class UiHandler extends Handler
+    {
+        public UiHandler(Looper mainLooper) {
+            super(mainLooper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MODULE_CHANGED:
+                if (moduleChangedListner.size() > 0)
+                    moduleChangedListner.get(msg.arg1).onModuleChanged((String)msg.obj);
+                break;
+                case CAPTURE_STATE_CHANGED:
+                    onCaptureStateChangedListners.get(msg.arg1).onCaptureStateChanged((CaptureStates)msg.obj);
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
         }
     }
 

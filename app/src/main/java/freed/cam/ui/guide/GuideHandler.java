@@ -2,6 +2,7 @@ package freed.cam.ui.guide;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,8 @@ import com.troop.freedcam.R.layout;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
-import freed.utils.AppSettingsManager;
+import freed.settings.Settings;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -23,14 +25,12 @@ public class GuideHandler extends Fragment implements ParameterEvents {
     private ImageView img;
     private CameraWrapperInterface cameraUiWrapper;
     private float quckRationMath;
-    private AppSettingsManager appSettingsManager;
     private final String TAG = GuideHandler.class.getSimpleName();
 
 
-    public static GuideHandler GetInstance(AppSettingsManager appSettingsManager)
+    public static GuideHandler getInstance()
     {
         GuideHandler g = new GuideHandler();
-        g.appSettingsManager = appSettingsManager;
         return g;
     }
 
@@ -46,8 +46,8 @@ public class GuideHandler extends Fragment implements ParameterEvents {
     @Override
     public void onResume() {
         super.onResume();
-        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().PreviewSize != null)
-            previewSizeChanged.onStringValueChanged(cameraUiWrapper.getParameterHandler().PreviewSize.GetStringValue());
+        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().get(Settings.PreviewSize) != null)
+            previewSizeChanged.onStringValueChanged(cameraUiWrapper.getParameterHandler().get(Settings.PreviewSize).GetStringValue());
     }
     @Override
     public void onPause(){
@@ -58,10 +58,10 @@ public class GuideHandler extends Fragment implements ParameterEvents {
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.getParameterHandler().GuideList.addEventListner(this);
+        cameraUiWrapper.getParameterHandler().get(Settings.GuideList).addEventListner(this);
         Log.d(TAG, "setCameraUiWrapper SetViewG()");
         if (img != null)
-            SetViewG(cameraUiWrapper.getAppSettingsManager().guide.get());
+            SetViewG(SettingsManager.get(Settings.GuideList).get());
     }
 
     private void SetViewG(final String str)
@@ -234,8 +234,12 @@ public class GuideHandler extends Fragment implements ParameterEvents {
         @Override
         public void onStringValueChanged(String val) {
             Log.d(TAG, "I_ModeParameterEvent SetViewG()");
-            String img = appSettingsManager.guide.get();
-            if (val != null && !val.equals("")&& img != null && !img.equals("") && !img.equals("None")) {
+            String img = SettingsManager.get(Settings.GuideList).get();
+            if (val != null
+                    && !TextUtils.isEmpty(val)
+                    && img != null
+                    && !TextUtils.isEmpty(img)
+                    && !img.equals("None")) {
                 String[] size = val.split("x");
                 quckRationMath = Float.valueOf(size[0]) / Float.valueOf(size[1]);
                 SetViewG(img);

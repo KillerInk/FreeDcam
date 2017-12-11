@@ -45,12 +45,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import freed.ActivityAbstract;
-import freed.cam.ui.handler.MediaScannerManager;
+import freed.utils.MediaScannerManager;
 import freed.utils.FreeDPool;
-import freed.utils.LocationHandler;
+import freed.utils.LocationManager;
 import freed.utils.Log;
-import freed.utils.RenderScriptHandler;
-import freed.utils.StorageFileHandler;
+import freed.utils.RenderScriptManager;
+import freed.utils.StorageFileManager;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingFragment;
 import freed.viewer.holder.FileHolder;
@@ -62,7 +62,7 @@ import freed.viewer.holder.FileHolder;
 public class StackActivity extends ActivityAbstract
 {
     private String[] filesToStack = null;
-    private RenderScriptHandler renderScriptHandler;
+    private RenderScriptManager renderScriptManager;
     private int stackMode = 0;
     private TouchImageView imageView;
     private TextView stackcounter;
@@ -90,8 +90,8 @@ public class StackActivity extends ActivityAbstract
         ArrayAdapter<String> stackadapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, items);
         stackvaluesButton.setAdapter(stackadapter);
         filesToStack = getIntent().getStringArrayExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT);
-        renderScriptHandler = new RenderScriptHandler(getContext());
-        storageHandler = new StorageFileHandler(this);
+        renderScriptManager = new RenderScriptManager(getContext());
+        storageHandler = new StorageFileManager();
 
         stackvaluesButton.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -135,24 +135,24 @@ public class StackActivity extends ActivityAbstract
         BitmapFactory.decodeFile(filesToStack[0],options);
         final int mWidth = options.outWidth;
         final int mHeight = options.outHeight;
-        Type.Builder tbIn2 = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
+        Type.Builder tbIn2 = new Type.Builder(renderScriptManager.GetRS(), Element.RGBA_8888(renderScriptManager.GetRS()));
         tbIn2.setX(mWidth);
         tbIn2.setY(mHeight);
-        renderScriptHandler.SetAllocsTypeBuilder(tbIn2,tbIn2, Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
+        renderScriptManager.SetAllocsTypeBuilder(tbIn2,tbIn2, Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
 
         final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
 
-        renderScriptHandler.freedcamScript.set_Width(mWidth);
-        renderScriptHandler.freedcamScript.set_Height(mHeight);
-        renderScriptHandler.freedcamScript.set_yuvinput(false);
-        renderScriptHandler.freedcamScript.set_gCurrentFrame(renderScriptHandler.GetIn());
-        renderScriptHandler.freedcamScript.set_gLastFrame(renderScriptHandler.GetOut());
+        renderScriptManager.freedcamScript.set_Width(mWidth);
+        renderScriptManager.freedcamScript.set_Height(mHeight);
+        renderScriptManager.freedcamScript.set_yuvinput(false);
+        renderScriptManager.freedcamScript.set_gCurrentFrame(renderScriptManager.GetIn());
+        renderScriptManager.freedcamScript.set_gLastFrame(renderScriptManager.GetOut());
         if (stackMode ==  6)
         {
-            minValues = Allocation.createTyped(renderScriptHandler.GetRS(), tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
-            maxValues = Allocation.createTyped(renderScriptHandler.GetRS(), tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
-            renderScriptHandler.freedcamScript.set_medianStackMAX(maxValues);
-            renderScriptHandler.freedcamScript.set_medianStackMIN(minValues);
+            minValues = Allocation.createTyped(renderScriptManager.GetRS(), tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
+            maxValues = Allocation.createTyped(renderScriptManager.GetRS(), tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
+            renderScriptManager.freedcamScript.set_medianStackMAX(maxValues);
+            renderScriptManager.freedcamScript.set_medianStackMIN(minValues);
 
         }
         FreeDPool.Execute(new Runnable()
@@ -167,44 +167,44 @@ public class StackActivity extends ActivityAbstract
                     BitmapFactory.decodeFile(f,options);
                     if(mWidth != options.outWidth || mHeight != options.outHeight)
                         return;
-                    renderScriptHandler.GetIn().copyFrom(BitmapFactory.decodeFile(f));
+                    renderScriptManager.GetIn().copyFrom(BitmapFactory.decodeFile(f));
                     switch (stackMode)
                     {
                         case 0: //AVARAGE
-                            renderScriptHandler.freedcamScript.forEach_stackimage_avarage(renderScriptHandler.GetOut());
+                            renderScriptManager.freedcamScript.forEach_stackimage_avarage(renderScriptManager.GetOut());
                             break;
                         case 1: //AVARAGE1x2
-                            renderScriptHandler.freedcamScript.forEach_stackimage_avarage1x2(renderScriptHandler.GetOut());
+                            renderScriptManager.freedcamScript.forEach_stackimage_avarage1x2(renderScriptManager.GetOut());
                             break;
                         case 2: //AVARAGE1x3
-                            renderScriptHandler.freedcamScript.forEach_stackimage_avarage1x3(renderScriptHandler.GetOut());
+                            renderScriptManager.freedcamScript.forEach_stackimage_avarage1x3(renderScriptManager.GetOut());
                             break;
                         case 3: // AVARAGE3x3
-                            renderScriptHandler.freedcamScript.forEach_stackimage_avarage3x3(renderScriptHandler.GetOut());
+                            renderScriptManager.freedcamScript.forEach_stackimage_avarage3x3(renderScriptManager.GetOut());
                             break;
                         case 4: // LIGHTEN
-                            renderScriptHandler.freedcamScript.forEach_stackimage_lighten(renderScriptHandler.GetOut());
+                            renderScriptManager.freedcamScript.forEach_stackimage_lighten(renderScriptManager.GetOut());
                             break;
                         case 5: // LIGHTEN_V
-                            renderScriptHandler.freedcamScript.forEach_stackimage_lightenV(renderScriptHandler.GetOut());
+                            renderScriptManager.freedcamScript.forEach_stackimage_lightenV(renderScriptManager.GetOut());
                             break;
                         case 6: //MEDIAN
-                            renderScriptHandler.freedcamScript.forEach_stackimage_median(renderScriptHandler.GetOut());
+                            renderScriptManager.freedcamScript.forEach_stackimage_median(renderScriptManager.GetOut());
                             break;
                         case 7:
-                            renderScriptHandler.freedcamScript.forEach_stackimage_exposure(renderScriptHandler.GetOut());
+                            renderScriptManager.freedcamScript.forEach_stackimage_exposure(renderScriptManager.GetOut());
                             break;
                     }
-                    renderScriptHandler.GetOut().copyTo(outputBitmap);
+                    renderScriptManager.GetOut().copyTo(outputBitmap);
                     setBitmapToImageView(outputBitmap);
                 }
                 if (stackMode ==  6)
                 {
-                    renderScriptHandler.freedcamScript.forEach_process_median(renderScriptHandler.GetOut());
-                    renderScriptHandler.GetOut().copyTo(outputBitmap);
+                    renderScriptManager.freedcamScript.forEach_process_median(renderScriptManager.GetOut());
+                    renderScriptManager.GetOut().copyTo(outputBitmap);
                     setBitmapToImageView(outputBitmap);
-                    renderScriptHandler.freedcamScript.set_medianStackMAX(null);
-                    renderScriptHandler.freedcamScript.set_medianStackMIN(null);
+                    renderScriptManager.freedcamScript.set_medianStackMAX(null);
+                    renderScriptManager.freedcamScript.set_medianStackMIN(null);
                     minValues.destroy();
                     maxValues.destroy();
                 }
@@ -276,7 +276,7 @@ public class StackActivity extends ActivityAbstract
     }
 
     @Override
-    public LocationHandler getLocationHandler() {
+    public LocationManager getLocationManager() {
         return null;
     }
 

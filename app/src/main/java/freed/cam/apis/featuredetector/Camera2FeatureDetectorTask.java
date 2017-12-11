@@ -1,4 +1,4 @@
-package freed.cam.featuredetector;
+package freed.cam.apis.featuredetector;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -14,14 +14,13 @@ import android.util.Size;
 import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.troop.freedcam.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
-import freed.utils.AppSettingsManager;
+import freed.settings.SettingsManager;
+import freed.settings.Settings;
 import freed.utils.Log;
 import freed.utils.StringFloatArray;
 import freed.utils.StringUtils;
@@ -38,18 +37,18 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     private final String TAG = Camera2FeatureDetectorTask.class.getSimpleName();
     private Context context;
     boolean hasCamera2Features;
-    public Camera2FeatureDetectorTask(ProgressUpdate progressUpdate, AppSettingsManager appSettingsManager, Context context) {
-        super(progressUpdate, appSettingsManager);
+    public Camera2FeatureDetectorTask(ProgressUpdate progressUpdate, Context context) {
+        super(progressUpdate);
         this.context = context;
     }
 
     @Override
-    protected String doInBackground(String... params)
+    public void detect()
     {
         publishProgress("###################");
         publishProgress("#######Camera2#####");
         publishProgress("###################");
-        appSettingsManager.setCamApi(AppSettingsManager.API_2);
+        SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
         try {
             publishProgress("Check Camera2");
             CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
@@ -64,17 +63,20 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 publishProgress("Check camera features:" + s);
                 CameraCharacteristics characteristics = manager.getCameraCharacteristics(s);
                 boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
-                appSettingsManager.modules.set(appSettingsManager.getResString(R.string.module_picture));
-                appSettingsManager.SetCurrentCamera(Integer.parseInt(s));
-                appSettingsManager.setIsFrontCamera(front);
+                SettingsManager.get(Settings.Module).set(SettingsManager.getInstance().getResString(R.string.module_picture));
+                SettingsManager.getInstance().SetCurrentCamera(Integer.parseInt(s));
+                SettingsManager.getInstance().setIsFrontCamera(front);
                 int hwlvl = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+
+                SettingsManager.get(Settings.selfTimer).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.selftimervalues));
+                SettingsManager.get(Settings.selfTimer).set(SettingsManager.get(Settings.selfTimer).getValues()[0]);
 
                 publishProgress("Camera 2 Level:" + hwlvl);
 
                 //check first if a already checked cam have camera2features and if its now the front cam that dont have a camera2feature.
                 //in that case set it to true
                 //else it would override the already detected featureset from last cam and disable api2
-                if (appSettingsManager.hasCamera2Features() && front && hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
+                if (SettingsManager.getInstance().hasCamera2Features() && front && hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
                     hasCamera2Features = true;
                     Log.d(TAG,"Front cam has no camera2 featureset, try to find supported things anyway");
                 }
@@ -83,20 +85,20 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 else
                     hasCamera2Features = false;
 
-                appSettingsManager.setHasCamera2Features(hasCamera2Features);
-                publishProgress("IsCamera2 Full Device:" + appSettingsManager.hasCamera2Features() + " isFront:" +appSettingsManager.getIsFrontCamera());
+                SettingsManager.getInstance().setHasCamera2Features(hasCamera2Features);
+                publishProgress("IsCamera2 Full Device:" + SettingsManager.getInstance().hasCamera2Features() + " isFront:" + SettingsManager.getInstance().getIsFrontCamera());
 
-                appSettingsManager.guide.setValues(appSettingsManager.getResources().getStringArray(R.array.guidelist));
-                appSettingsManager.guide.set(appSettingsManager.guide.getValues()[0]);
+                SettingsManager.get(Settings.GuideList).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.guidelist));
+                SettingsManager.get(Settings.GuideList).set(SettingsManager.get(Settings.GuideList).getValues()[0]);
 
 
                 if (hasCamera2Features) {
 
                     try {
-                        if(!appSettingsManager.getIsFrontCamera()) {
+                        if(!SettingsManager.getInstance().getIsFrontCamera()) {
                             publishProgress("Detect Flash");
                             detectFlash(characteristics);
-                            sendProgress(appSettingsManager.flashMode, "Flash");
+                            sendProgress(SettingsManager.get(Settings.FlashMode), "Flash");
                         }
                     } catch (Exception e){
                             Log.WriteEx(e);
@@ -106,7 +108,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect Scene");
                         detectSceneModes(characteristics);
-                        sendProgress(appSettingsManager.sceneMode, "Scene");
+                        sendProgress(SettingsManager.get(Settings.SceneMode), "Scene");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect Scene failed");
@@ -114,8 +116,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect Antibanding");
-                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES, appSettingsManager.antiBandingMode, R.array.antibandingmodes);
-                        sendProgress(appSettingsManager.antiBandingMode, "Antibanding");
+                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES, SettingsManager.get(Settings.AntiBandingMode), R.array.antibandingmodes);
+                        sendProgress(SettingsManager.get(Settings.AntiBandingMode), "Antibanding");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect Antibanding failed");
@@ -123,8 +125,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect Color");
-                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, appSettingsManager.colorMode, R.array.colormodes);
-                        sendProgress(appSettingsManager.colorMode, "Color");
+                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, SettingsManager.get(Settings.ColorMode), R.array.colormodes);
+                        sendProgress(SettingsManager.get(Settings.ColorMode), "Color");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect Color failed");
@@ -132,8 +134,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect EdgeMode");
-                        detectIntMode(characteristics, CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, appSettingsManager.edgeMode, R.array.edgeModes);
-                        sendProgress(appSettingsManager.edgeMode, "EdgeMode");
+                        detectIntMode(characteristics, CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, SettingsManager.get(Settings.EdgeMode), R.array.edgeModes);
+                        sendProgress(SettingsManager.get(Settings.EdgeMode), "EdgeMode");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect Edge failed");
@@ -142,8 +144,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect OpticalImageStabilisationMode");
-                        detectIntMode(characteristics, CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, appSettingsManager.opticalImageStabilisation, R.array.digitalImageStabModes);
-                        sendProgress(appSettingsManager.opticalImageStabilisation, "OpticalImageStabilisationMode");
+                        detectIntMode(characteristics, CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, SettingsManager.get(Settings.oismode), R.array.digitalImageStabModes);
+                        sendProgress(SettingsManager.get(Settings.oismode), "OpticalImageStabilisationMode");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect Ois failed");
@@ -151,8 +153,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect FocusMode");
-                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, appSettingsManager.focusMode, R.array.focusModes);
-                        sendProgress(appSettingsManager.focusMode, "FocusMode");
+                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, SettingsManager.get(Settings.FocusMode), R.array.focusModes);
+                        sendProgress(SettingsManager.get(Settings.FocusMode), "FocusMode");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect Focus failed");
@@ -161,8 +163,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect HotPixelMode");
-                        detectIntMode(characteristics, CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES, appSettingsManager.hotpixelMode, R.array.hotpixelmodes);
-                        sendProgress(appSettingsManager.hotpixelMode, "HotPixelMode");
+                        detectIntMode(characteristics, CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES, SettingsManager.get(Settings.HotPixelMode), R.array.hotpixelmodes);
+                        sendProgress(SettingsManager.get(Settings.HotPixelMode), "HotPixelMode");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect HotPixel failed");
@@ -170,8 +172,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect Denoise");
-                        detectIntMode(characteristics, CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES, appSettingsManager.denoiseMode, R.array.denoiseModes);
-                        sendProgress(appSettingsManager.denoiseMode, "Denoise");
+                        detectIntMode(characteristics, CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES, SettingsManager.get(Settings.Denoise), R.array.denoiseModes);
+                        sendProgress(SettingsManager.get(Settings.Denoise), "Denoise");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect Denoise failed");
@@ -180,7 +182,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect PictureFormat");
                         detectPictureFormats(characteristics);
-                        sendProgress(appSettingsManager.pictureFormat, "PictureFormat");
+                        sendProgress(SettingsManager.get(Settings.PictureFormat), "PictureFormat");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect PictureFormat failed");
@@ -189,7 +191,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect Manual Focus");
                         detectManualFocus(characteristics);
-                        sendProgress(appSettingsManager.manualFocus, "Manual Focus");
+                        sendProgress(SettingsManager.get(Settings.M_Focus), "Manual Focus");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect MF failed");
@@ -198,7 +200,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect PictureSizes");
                         detectPictureSizes(characteristics);
-                        sendProgress(appSettingsManager.pictureSize, "PictureSizes:");
+                        sendProgress(SettingsManager.get(Settings.PictureSize), "PictureSizes:");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect PictureSize failed");
@@ -206,7 +208,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect Video Profiles");
-                        detectVideoMediaProfiles(appSettingsManager.GetCurrentCamera());
+                        detectVideoMediaProfiles(SettingsManager.getInstance().GetCurrentCamera());
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect Video Profiles failed");
@@ -214,8 +216,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect ExposureModes");
-                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES, appSettingsManager.exposureMode, R.array.aemodes);
-                        sendProgress(appSettingsManager.exposureMode, "ExposureModes:");
+                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES, SettingsManager.get(Settings.ExposureMode), R.array.aemodes);
+                        sendProgress(SettingsManager.get(Settings.ExposureMode), "ExposureModes:");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect ExposureModes failed");
@@ -224,7 +226,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect ExposureCompensation");
                         detectManualExposure(characteristics);
-                        sendProgress(appSettingsManager.manualExposureCompensation, "ExposureCompensation:");
+                        sendProgress(SettingsManager.get(Settings.M_ExposureCompensation), "ExposureCompensation:");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect ExpoCompensation failed");
@@ -233,7 +235,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect ExposureTime");
                         detectManualexposureTime(characteristics);
-                        sendProgress(appSettingsManager.manualExposureTime, "ExposureTime:");
+                        sendProgress(SettingsManager.get(Settings.M_ExposureTime), "ExposureTime:");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect ExpoTime failed");
@@ -242,7 +244,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect Iso");
                         detectManualIso(characteristics);
-                        sendProgress(appSettingsManager.manualIso, "Iso:");
+                        sendProgress(SettingsManager.get(Settings.M_ManualIso), "Iso:");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect Iso failed");
@@ -251,7 +253,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect ColorCorrection");
                         detectColorcorrectionMode(characteristics);
-                        sendProgress(appSettingsManager.colorCorrectionMode, "ColorCorrection");
+                        sendProgress(SettingsManager.get(Settings.ColorCorrectionMode), "ColorCorrection");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect ColorCorrection failed");
@@ -259,8 +261,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect ToneMap");
-                        detectIntMode(characteristics, CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES, appSettingsManager.toneMapMode,R.array.tonemapmodes);
-                        sendProgress(appSettingsManager.toneMapMode, "Tonemap");
+                        detectIntMode(characteristics, CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES, SettingsManager.get(Settings.ToneMapMode),R.array.tonemapmodes);
+                        sendProgress(SettingsManager.get(Settings.ToneMapMode), "Tonemap");
                     }
                     catch (Exception ex)
                     {
@@ -270,8 +272,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect Whitebalance");
-                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES, appSettingsManager.whiteBalanceMode, R.array.whitebalancemodes);
-                        sendProgress(appSettingsManager.whiteBalanceMode, "Whitebalance");
+                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES, SettingsManager.get(Settings.WhiteBalanceMode), R.array.whitebalancemodes);
+                        sendProgress(SettingsManager.get(Settings.WhiteBalanceMode), "Whitebalance");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect WB Mode failed");
@@ -280,7 +282,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect ControlMode");
                         detectControlMode(characteristics);
-                        sendProgress(appSettingsManager.controlMode, "ControlMode");
+                        sendProgress(SettingsManager.get(Settings.ControlMode), "ControlMode");
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect Control mode failed");
@@ -294,38 +296,37 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         {
                             t[i] = aetargetfps[i].getLower()+","+aetargetfps[i].getUpper();
                         }
-                        appSettingsManager.ae_TagetFPS.setValues(t);
-                        appSettingsManager.ae_TagetFPS.setIsSupported(true);
+                        SettingsManager.get(Settings.Ae_TargetFPS).setValues(t);
+                        SettingsManager.get(Settings.Ae_TargetFPS).setIsSupported(true);
                     }
 
                     detectHuaweiParameters(characteristics);
 
                 }
             }
-            appSettingsManager.SetCurrentCamera(0);
+            SettingsManager.getInstance().SetCurrentCamera(0);
             if (!hasCamera2Features)
-                appSettingsManager.setCamApi(AppSettingsManager.API_1);
+                SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
 
-            if (appSettingsManager.hasCamera2Features() && !appSettingsManager.opencamera1Legacy.isPresetted()) {
-                appSettingsManager.opencamera1Legacy.setBoolean(true);
+            if (SettingsManager.getInstance().hasCamera2Features() && !SettingsManager.get(Settings.openCamera1Legacy).isPresetted()) {
+                SettingsManager.get(Settings.openCamera1Legacy).setBoolean(true);
             }
-            Log.d(TAG, "Can Open Legacy: " + appSettingsManager.opencamera1Legacy.getBoolean() + " was presetted: " + appSettingsManager.opencamera1Legacy.isPresetted());
+            Log.d(TAG, "Can Open Legacy: " + SettingsManager.get(Settings.openCamera1Legacy).getBoolean() + " was presetted: " + SettingsManager.get(Settings.openCamera1Legacy).isPresetted());
         }
         catch (Throwable ex) {
             Log.WriteEx(ex);
             if (!hasCamera2Features)
-                appSettingsManager.setHasCamera2Features(false);
+                SettingsManager.getInstance().setHasCamera2Features(false);
             else
-                appSettingsManager.setHasCamera2Features(true);
+                SettingsManager.getInstance().setHasCamera2Features(true);
 
-            appSettingsManager.setCamApi(AppSettingsManager.API_1);
+            SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
         }
-        return null;
     }
 
     private void detectHuaweiParameters(CameraCharacteristics characteristics) {
         try {
-            detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, appSettingsManager.dualPrimaryCameraMode, R.array.dual_camera_mode);
+            detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, SettingsManager.get(Settings.dualPrimaryCameraMode), R.array.dual_camera_mode);
         }
         catch (IllegalArgumentException ex)
         {
@@ -338,27 +339,27 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                 int min = shutterminmax[0];
                 int max = shutterminmax[1];
-                long maxs = appSettingsManager.getCamera2MaxExposureTime();
-                if (appSettingsManager.getCamera2MaxExposureTime() > 0)
-                    max = (int)appSettingsManager.getCamera2MaxExposureTime();
-                if (appSettingsManager.getCamera2MinExposureTime() >0)
-                    min = (int)appSettingsManager.getCamera2MinExposureTime();
+                long maxs = SettingsManager.getInstance().getCamera2MaxExposureTime();
+                if (SettingsManager.getInstance().getCamera2MaxExposureTime() > 0)
+                    max = (int) SettingsManager.getInstance().getCamera2MaxExposureTime();
+                if (SettingsManager.getInstance().getCamera2MinExposureTime() >0)
+                    min = (int) SettingsManager.getInstance().getCamera2MinExposureTime();
                 ArrayList<String> tmp = getShutterStrings(max,min,true);
-                appSettingsManager.manualExposureTime.setIsSupported(tmp.size() > 0);
-                appSettingsManager.manualExposureTime.setValues(tmp.toArray(new String[tmp.size()]));
+                SettingsManager.get(Settings.M_ExposureTime).setIsSupported(tmp.size() > 0);
+                SettingsManager.get(Settings.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
 
                 int[] isominmax = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_ISO_RANGE);
                 min = isominmax[0];
                 max = isominmax[1];
-                int maxiso = appSettingsManager.getCamera2MaxIso();
+                int maxiso = SettingsManager.getInstance().getCamera2MaxIso();
                 if (maxiso > 0)
-                    max = (int)appSettingsManager.getCamera2MaxIso();
+                    max = (int) SettingsManager.getInstance().getCamera2MaxIso();
                 ArrayList<String> ar = getIsoStrings(max, min);
-                appSettingsManager.manualIso.setIsSupported(ar.size() > 0);
-                appSettingsManager.manualIso.setValues(ar.toArray(new String[ar.size()]));
+                SettingsManager.get(Settings.M_ManualIso).setIsSupported(ar.size() > 0);
+                SettingsManager.get(Settings.M_ManualIso).setValues(ar.toArray(new String[ar.size()]));
 
-                appSettingsManager.exposureMode.setIsSupported(false);
-                appSettingsManager.useHuaweiCam2Extension.setBoolean(true);
+                SettingsManager.get(Settings.ExposureMode).setIsSupported(false);
+                SettingsManager.get(Settings.useHuaweiCamera2Extension).setBoolean(true);
             }
         }catch (IllegalArgumentException | NullPointerException ex)
         {
@@ -367,6 +368,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
         try {
             int[] raw12 = characteristics.get(CameraCharacteristicsEx.HUAWEI_PROFESSIONAL_RAW12_SUPPORTED);
+            if (raw12!= null)
+                SettingsManager.get(Settings.support12bitRaw).setBoolean(true);
             Log.d(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED");
         }
         catch (IllegalArgumentException ex)
@@ -458,13 +461,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
     }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        appSettingsManager.SetCurrentCamera(0);
-        //startFreedcam();
-    }
-
     private void detectColorcorrectionMode(CameraCharacteristics cameraCharacteristics)
     {
         int[] colorcor = null;
@@ -473,7 +469,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         else
             colorcor = new int[]{ 0,1,2};
         Log.d(TAG, "colormodes:" + colorcor.toString());
-        String[] lookupar = appSettingsManager.getResources().getStringArray(R.array.colorcorrectionmodes);
+        String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(R.array.colorcorrectionmodes);
 
         HashMap<String,Integer> map = new HashMap<>();
         for (int i = 0;i< colorcor.length;i++)
@@ -482,40 +478,40 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 map.put(lookupar[i],colorcor[i]);
         }
         lookupar = StringUtils.IntHashmapToStringArray(map);
-        appSettingsManager.colorCorrectionMode.setValues(lookupar);
-        appSettingsManager.colorCorrectionMode.setIsSupported(true);
-        appSettingsManager.colorCorrectionMode.set(appSettingsManager.getResString(R.string.fast));
+        SettingsManager.get(Settings.ColorCorrectionMode).setValues(lookupar);
+        SettingsManager.get(Settings.ColorCorrectionMode).setIsSupported(true);
+        SettingsManager.get(Settings.ColorCorrectionMode).set(SettingsManager.getInstance().getResString(R.string.fast));
     }
 
     private void detectFlash(CameraCharacteristics characteristics) {
-        if (appSettingsManager.hasCamera2Features()) {
+        if (SettingsManager.getInstance().hasCamera2Features()) {
             //flash mode
             boolean flashavail = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
-            appSettingsManager.flashMode.setIsSupported(flashavail);
-            if (appSettingsManager.flashMode.isSupported()) {
-                String[] lookupar = appSettingsManager.getResources().getStringArray(R.array.flashModes);
+            SettingsManager.get(Settings.FlashMode).setIsSupported(flashavail);
+            if (SettingsManager.get(Settings.FlashMode).isSupported()) {
+                String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(R.array.flashModes);
                 HashMap<String,Integer> map = new HashMap<>();
                 for (int i = 0; i< lookupar.length; i++)
                 {
                     map.put(lookupar[i], i);
                 }
                 lookupar = StringUtils.IntHashmapToStringArray(map);
-                appSettingsManager.flashMode.setValues(lookupar);
+                SettingsManager.get(Settings.FlashMode).setValues(lookupar);
             }
         }
     }
 
     private void detectControlMode(CameraCharacteristics characteristics) {
-        if (appSettingsManager.hasCamera2Features()) {
+        if (SettingsManager.getInstance().hasCamera2Features()) {
             //flash mode
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
-                detectIntMode(characteristics,CameraCharacteristics.CONTROL_AVAILABLE_MODES,appSettingsManager.controlMode,R.array.controlModes);
+                detectIntMode(characteristics,CameraCharacteristics.CONTROL_AVAILABLE_MODES, SettingsManager.get(Settings.ControlMode),R.array.controlModes);
                 return;
             }
             else {
                 int device = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
-                String[] lookupar = appSettingsManager.getResources().getStringArray(R.array.controlModes);
+                String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(R.array.controlModes);
                 int[] full = null;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_MODES) != null)
                     full = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_MODES);
@@ -524,15 +520,15 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
                 else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
                     full = new int[] {1,2,};
-                appSettingsManager.controlMode.setIsSupported(true);
-                if (appSettingsManager.controlMode.isSupported()) {
+                SettingsManager.get(Settings.ControlMode).setIsSupported(true);
+                if (SettingsManager.get(Settings.ControlMode).isSupported()) {
                     HashMap<String, Integer> map = new HashMap<>();
                     for (int i = 0; i < full.length; i++) {
                         map.put(lookupar[i], full[i]);
                     }
                     lookupar = StringUtils.IntHashmapToStringArray(map);
-                    appSettingsManager.controlMode.setValues(lookupar);
-                    appSettingsManager.controlMode.set(appSettingsManager.getResString(R.string.auto));
+                    SettingsManager.get(Settings.ControlMode).setValues(lookupar);
+                    SettingsManager.get(Settings.ControlMode).set(SettingsManager.getInstance().getResString(R.string.auto));
                 }
             }
         }
@@ -544,28 +540,35 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         HashMap<String, Integer> hmap = new HashMap<>();
         try {
             if (smap.isOutputSupportedFor(ImageFormat.RAW10))
-                hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng10), ImageFormat.RAW10);
+                hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10), ImageFormat.RAW10);
         } catch (Exception e) {
             Log.WriteEx(e);
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
-                hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng16), ImageFormat.RAW_SENSOR);
+                hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16), ImageFormat.RAW_SENSOR);
         } catch (Exception e) {
             Log.WriteEx(e);
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.RAW12))
-                hmap.put(appSettingsManager.getResString(R.string.pictureformat_dng12), ImageFormat.RAW12);
+                hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_dng12), ImageFormat.RAW12);
         } catch (Exception e) {
             Log.WriteEx(e);
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.JPEG))
-                hmap.put(appSettingsManager.getResString(R.string.pictureformat_jpeg), ImageFormat.JPEG);
+                hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_jpeg), ImageFormat.JPEG);
         } catch (Exception e) {
             Log.WriteEx(e);
         }
+        if (
+                hmap.containsKey(SettingsManager.getInstance().getResString(R.string.pictureformat_jpeg)) &&
+                (
+                        hmap.containsKey(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10))
+                                || hmap.containsKey(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16))))
+            hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_jpg_p_dng), ImageFormat.JPEG);
+
         try {
             if (smap.isOutputSupportedFor(ImageFormat.NV16))
                 Log.d(TAG, "Support NV16");
@@ -629,9 +632,9 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.WriteEx(e);
         }
 
-        appSettingsManager.pictureFormat.setIsSupported(true);
-        appSettingsManager.pictureFormat.set(appSettingsManager.getResString(R.string.pictureformat_jpeg));
-        appSettingsManager.pictureFormat.setValues(StringUtils.IntHashmapToStringArray(hmap));
+        SettingsManager.get(Settings.PictureFormat).setIsSupported(true);
+        SettingsManager.get(Settings.PictureFormat).set(SettingsManager.getInstance().getResString(R.string.pictureformat_jpeg));
+        SettingsManager.get(Settings.PictureFormat).setValues(StringUtils.IntHashmapToStringArray(hmap));
     }
 
     private void detectPictureSizes(CameraCharacteristics characteristics)
@@ -646,9 +649,9 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             ar[i++] = s.getWidth()+"x"+s.getHeight();
         }
 
-        appSettingsManager.pictureSize.setIsSupported(true);
-        appSettingsManager.pictureSize.set(ar[0]);
-        appSettingsManager.pictureSize.setValues(ar);
+        SettingsManager.get(Settings.PictureSize).setIsSupported(true);
+        SettingsManager.get(Settings.PictureSize).set(ar[0]);
+        SettingsManager.get(Settings.PictureSize).setValues(ar);
     }
 
     private class SizeComparer implements Comparator<Size> {
@@ -669,10 +672,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     }
 
     private void detectSceneModes(CameraCharacteristics characteristics){
-        String[] lookupar = appSettingsManager.getResources().getStringArray(R.array.sceneModes);
+        String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(R.array.sceneModes);
         int[]  scenes = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES);
         if (scenes.length > 1)
-            appSettingsManager.sceneMode.setIsSupported(true);
+            SettingsManager.get(Settings.SceneMode).setIsSupported(true);
         else
             return;
 
@@ -741,20 +744,20 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             }
         }
         lookupar = StringUtils.IntHashmapToStringArray(map);
-        appSettingsManager.sceneMode.setValues(lookupar);
+        SettingsManager.get(Settings.SceneMode).setValues(lookupar);
     }
 
 
-    private void detectIntMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
+    private void detectIntMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, SettingsManager.SettingMode settingMode, int ressourceArray)
     {
         publishProgress("detectIntMode "+settingMode+" "+ressourceArray);
-        if (appSettingsManager.hasCamera2Features() && characteristics.get(requestKey) != null) {
+        if (SettingsManager.getInstance().hasCamera2Features() && characteristics.get(requestKey) != null) {
             int[]  scenes = characteristics.get(requestKey);
             if (scenes.length >0)
                 settingMode.setIsSupported(true);
             else
                 return;
-            String[] lookupar = appSettingsManager.getResources().getStringArray(ressourceArray);
+            String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(ressourceArray);
             HashMap<String,Integer> map = new HashMap<>();
             for (int i = 0; i< scenes.length; i++)
             {
@@ -770,9 +773,9 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
     }
 
-    private void detectByteMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<byte[]> requestKey, AppSettingsManager.SettingMode settingMode, int ressourceArray)
+    private void detectByteMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<byte[]> requestKey, SettingsManager.SettingMode settingMode, int ressourceArray)
     {
-        if (appSettingsManager.hasCamera2Features() && characteristics.get(requestKey) != null) {
+        if (SettingsManager.getInstance().hasCamera2Features() && characteristics.get(requestKey) != null) {
 
             byte[] scenes = characteristics.get(requestKey);
             if (scenes == null)
@@ -781,7 +784,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 settingMode.setIsSupported(true);
             else
                 return;
-            String[] lookupar = appSettingsManager.getResources().getStringArray(ressourceArray);
+            String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(ressourceArray);
             HashMap<String,Integer> map = new HashMap<>();
             for (int i = 0; i< scenes.length; i++)
             {
@@ -795,23 +798,37 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectManualFocus(CameraCharacteristics cameraCharacteristics)
     {
-        AppSettingsManager.SettingMode mf = appSettingsManager.manualFocus;
+        SettingsManager.SettingMode mf = SettingsManager.get(Settings.M_Focus);
         float maxfocusrange = cameraCharacteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
         if (maxfocusrange == 0)
         {
             mf.setIsSupported(false);
             return;
         }
-        float step = 0.2f;
-        int count = (int)(maxfocusrange/step)+2;
-        StringFloatArray focusranges = new StringFloatArray(count);
-        focusranges.add(0,appSettingsManager.getResString(R.string.auto),0f);
-        focusranges.add(1,"∞", 0.01f);
-        int t = 2;
+        float step = 0.001f;
+        List<Float> floats = new ArrayList<>();
         for (float i = step; i < maxfocusrange; i += step)
         {
-            focusranges.add(t++,StringUtils.getMeterString(1/i),i);
+            floats.add(i);
+            if (i > 0.01f)
+                step = 0.02f;
+            if (i > 0.1f)
+                step = 0.1f;
+            if (i > 1)
+                step = 0.2f;
+            if (i + step > maxfocusrange)
+                floats.add(maxfocusrange);
         }
+
+        StringFloatArray focusranges = new StringFloatArray(floats.size() + 2);
+        focusranges.add(0, SettingsManager.getInstance().getResString(R.string.auto),0f);
+        focusranges.add(1,"∞", 0.0001f); //10000m
+        int t = 2;
+        for (int i = 0; i < floats.size(); i++)
+        {
+            focusranges.add(t++,StringUtils.getMeterString(1/floats.get(i)),floats.get(i));
+        }
+
         if (focusranges.getSize() > 0)
             mf.setIsSupported(true);
         else
@@ -822,7 +839,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectManualExposure(CameraCharacteristics characteristics)
     {
-        AppSettingsManager.SettingMode exposure = appSettingsManager.manualExposureCompensation;
+        SettingsManager.SettingMode exposure = SettingsManager.get(Settings.M_ExposureCompensation);
         int max = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
         int min = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
         float step = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
@@ -845,26 +862,26 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         long max = characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper() / 1000;
         long min = characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower() / 1000;
 
-        if (appSettingsManager.getCamera2MaxExposureTime() >0)
-            max = appSettingsManager.getCamera2MaxExposureTime();
-        if (appSettingsManager.getCamera2MinExposureTime() >0)
-            min = appSettingsManager.getCamera2MinExposureTime();
+        if (SettingsManager.getInstance().getCamera2MaxExposureTime() >0)
+            max = SettingsManager.getInstance().getCamera2MaxExposureTime();
+        if (SettingsManager.getInstance().getCamera2MinExposureTime() >0)
+            min = SettingsManager.getInstance().getCamera2MinExposureTime();
 
         ArrayList<String> tmp = getShutterStrings(max, min,false);
-        appSettingsManager.manualExposureTime.setIsSupported(tmp.size() > 0);
-        appSettingsManager.manualExposureTime.setValues(tmp.toArray(new String[tmp.size()]));
+        SettingsManager.get(Settings.M_ExposureTime).setIsSupported(tmp.size() > 0);
+        SettingsManager.get(Settings.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
 
     }
 
     @NonNull
     private ArrayList<String> getShutterStrings(long max, long min,boolean withAutoMode) {
-        String[] allvalues = appSettingsManager.getResources().getStringArray(R.array.shutter_values_autocreate);
+        String[] allvalues = SettingsManager.getInstance().getResources().getStringArray(R.array.shutter_values_autocreate);
         boolean foundmin = false;
         boolean foundmax = false;
 
         ArrayList<String> tmp = new ArrayList<>();
         if (withAutoMode)
-            tmp.add(appSettingsManager.getResString(R.string.auto_));
+            tmp.add(SettingsManager.getInstance().getResString(R.string.auto_));
         for (int i = 1; i< allvalues.length; i++ )
         {
             String s = allvalues[i];
@@ -896,19 +913,19 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     private void detectManualIso(CameraCharacteristics characteristics)
     {
         int max  = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
-        if (appSettingsManager.getCamera2MaxIso() >0)
-            max = appSettingsManager.getCamera2MaxIso();
+        if (SettingsManager.getInstance().getCamera2MaxIso() >0)
+            max = SettingsManager.getInstance().getCamera2MaxIso();
 
         int min = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower();
         ArrayList<String> ar = getIsoStrings(max, min);
-        appSettingsManager.manualIso.setIsSupported(ar.size() > 0);
-        appSettingsManager.manualIso.setValues(ar.toArray(new String[ar.size()]));
+        SettingsManager.get(Settings.M_ManualIso).setIsSupported(ar.size() > 0);
+        SettingsManager.get(Settings.M_ManualIso).setValues(ar.toArray(new String[ar.size()]));
     }
 
     @NonNull
     private ArrayList<String> getIsoStrings(int max, int min) {
         ArrayList<String> ar = new ArrayList<>();
-        ar.add(appSettingsManager.getResString(R.string.auto_));
+        ar.add(SettingsManager.getInstance().getResString(R.string.auto_));
         for (int i = min; i <= max; i += 50) {
             //double isostep when its bigger then 3200
             if(i > 3200)
@@ -931,14 +948,14 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             supportedProfiles.put("2160p", new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 2160p Normal true"));
             supportedProfiles.put("2160p_Timelapse",new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 2160p_TimeLapse Timelapse true"));
         }
-        appSettingsManager.saveMediaProfiles(supportedProfiles);
+        SettingsManager.getInstance().saveMediaProfiles(supportedProfiles);
 
         publishProgress("VideoMediaProfiles:" + getStringFromArray(supportedProfiles.keySet().toArray(new String[supportedProfiles.size()])));
     }
 
     private boolean has2160pSize()
     {
-        String[] size = appSettingsManager.pictureSize.getValues();
+        String[] size = SettingsManager.get(Settings.PictureSize).getValues();
         for (String s: size) {
             if (s.matches("3840x2160"))
                 return true;

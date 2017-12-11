@@ -42,9 +42,8 @@ import com.troop.freedcam.R.layout;
 
 import java.util.HashMap;
 
-import freed.SettingsApplication;
-import freed.utils.AppSettingsManager;
-import freed.utils.Log;
+import freed.settings.SettingsManager;
+import freed.settings.Settings;
 import freed.utils.VideoMediaProfile;
 import freed.utils.VideoMediaProfile.VideoMode;
 
@@ -106,7 +105,6 @@ public class VideoProfileEditorFragment extends Fragment {
     private Button button_audioCodec;
     private VideoMediaProfile currentProfile;
     private Switch switch_Audio;
-    private AppSettingsManager appSettingsManager;
 
     private HashMap<String, VideoMediaProfile> videoMediaProfiles;
     @Nullable
@@ -143,21 +141,15 @@ public class VideoProfileEditorFragment extends Fragment {
         button_delete.setOnClickListener(ondeleteButtonClick);
         videoMediaProfiles = new HashMap<>();
 
-        SettingsApplication settingsApplication = (SettingsApplication) getActivity().getApplication();
-        if (settingsApplication.getAppSettingsManager() != null)
-            appSettingsManager = settingsApplication.getAppSettingsManager();
-        else {
-            appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()), getResources());
-            settingsApplication.setAppSettingsManager(appSettingsManager);
+        if (!SettingsManager.getInstance().isInit()){
+
+            SettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()), getResources());
         }
-        appSettingsManager.getCamApi();
-        videoMediaProfiles = appSettingsManager.getMediaProfiles();
-        try {
-            setMediaProfile(videoMediaProfiles.get(appSettingsManager.getApiString(AppSettingsManager.VIDEOPROFILE)));
-        }
-        catch (NullPointerException ex)
-        {
-            Log.WriteEx(ex);
+        SettingsManager.getInstance().getCamApi();
+        videoMediaProfiles = SettingsManager.getInstance().getMediaProfiles();
+        if (videoMediaProfiles != null) {
+
+            setMediaProfile(videoMediaProfiles.get(SettingsManager.get(Settings.VideoProfiles).get()));
         }
     }
 
@@ -265,7 +257,7 @@ public class VideoProfileEditorFragment extends Fragment {
                 case DialogInterface.BUTTON_POSITIVE:
                     videoMediaProfiles.remove(currentProfile.ProfileName);
                     currentProfile = null;
-                    appSettingsManager.saveMediaProfiles(videoMediaProfiles);
+                    SettingsManager.getInstance().saveMediaProfiles(videoMediaProfiles);
                     clearProfileItems();
                     break;
 
@@ -292,6 +284,9 @@ public class VideoProfileEditorFragment extends Fragment {
 
     private void setMediaProfile(VideoMediaProfile profile)
     {
+        if (profile == null){
+            clearProfileItems();
+            return;}
         currentProfile = profile.clone();
         button_profile.setText(profile.ProfileName);
         editText_profilename.setText(profile.ProfileName);
@@ -368,7 +363,7 @@ public class VideoProfileEditorFragment extends Fragment {
                 p.ProfileName = editText_profilename.getText().toString().replace(" ","_");
                 videoMediaProfiles.put(p.ProfileName, p);
             }
-            appSettingsManager.saveMediaProfiles(videoMediaProfiles);
+            SettingsManager.getInstance().saveMediaProfiles(videoMediaProfiles);
             videoMediaProfiles.clear();
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }

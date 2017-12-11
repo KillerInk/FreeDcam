@@ -76,6 +76,8 @@
             used for g4(L supported 60sec, M only 45sec)
             //ms =60sec, when empty values from camera characteristics gets used
 
+            <minexposuretime></minexposuretime> in ms
+
             <maxiso>34000</maxiso> overwrite max iso
         </camera2>
 
@@ -176,7 +178,7 @@
 
     <device name ="Aquaris_E5">
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Aquaris_E5/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/Aquaris_E5/opc3.bin?raw=true</opcode3>
         <models>
             <item>Aquaris E5</item>
             <item>Aquaris_E5</item>
@@ -411,7 +413,7 @@
 
     <device name ="Htc_M8">
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Htc_M8/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/Htc_M8/opc3.bin?raw=true</opcode3>
         <models>
             <item>HTC One_M8"</item>
             <item>One M8</item>
@@ -426,6 +428,7 @@
             <item>HTC M8d</item>
             <item>HTC6525LVW</item>
             <item>m8</item>
+            <item>m8wl</item>
         </models>
         <camera1>
             <dngmanual>true</dngmanual>
@@ -449,6 +452,16 @@
             <rawtype>0</rawtype>
             <colorpattern>bggr</colorpattern>
             <rowsize>3360</rowsize>
+            <matrixset>OV4688</matrixset>
+        </filesize>
+        <filesize size= "5447680"> <!-- filesize <= 5382641 && filesize > 5000000 //M8 mipi -->
+            <blacklvl>0</blacklvl>
+            <whitelvl>1023</whitelvl>
+            <width>2688</width>
+            <height>1520</height>
+            <rawtype>0</rawtype>
+            <colorpattern>grbg</colorpattern>
+            <rowsize>0</rowsize>
             <matrixset>OV4688</matrixset>
         </filesize>
     </device>
@@ -546,7 +559,7 @@
     </device>
 
     <device name ="HTC_OneA9">
-        <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/HTC_OneA9/opc2.bin?raw=true</opcode2>
+        <opcode2>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/HTC_OneA9/opc2.bin?raw=true</opcode2>
         <opcode3></opcode3>
         <models>
             <item>HTC One A9</item>
@@ -657,7 +670,7 @@
 
     <device name ="Huawei_GX8">
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Huawei_GX8/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/Huawei_GX8/opc3.bin?raw=true</opcode3>
         <models>
             <item>HUAWEI RIO-L01</item>
             <item>HUAWEI RIO-L02</item>
@@ -710,7 +723,7 @@
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Huawei_HONOR5x/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/Huawei_HONOR5x/opc3.bin?raw=true</opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -786,7 +799,7 @@
         <camera1>
             <dngmanual>true</dngmanual>
         </camera1>
-        <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/Jiayu_S3/opc2.bin?raw=true</opcode2>
+        <opcode2>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/Jiayu_S3/opc2.bin?raw=true</opcode2>
         <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
@@ -1036,7 +1049,7 @@
 
     <device name ="LG_G2">
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/LG_G2/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/LG_G2/opc3.bin?raw=true</opcode3>
         <models>
             <item>LG-D800</item>
             <item>LG-D801</item>
@@ -1225,7 +1238,7 @@
         </models>
         <camera1>
             <dngmanual>false</dngmanual>
-            <burst>9</burst>
+            <burst>6</burst>
             <manualiso supported="false"></manualiso>
             <exposuretime></exposuretime>
             <hdrmode supported="true">2</hdrmode>
@@ -1234,7 +1247,7 @@
                 <min>0</min>
                 <max>1023</max>
                 <step>10</step>
-                <type>2</type>
+                <type>1</type>
                 <mode>manual</mode>
                 <key>manual-focus-position</key>
             </manualfocus>
@@ -1769,7 +1782,7 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/OnePlusOne/opc2.bin?raw=true</opcode2>
+        <opcode2>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/OnePlusOne/opc2.bin?raw=true</opcode2>
         <opcode3></opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
@@ -2076,7 +2089,7 @@
             <dngmanual>false</dngmanual>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/SonyM4_QC/opc2.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/SonyM4_QC/opc2.bin?raw=true</opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2410,7 +2423,7 @@
             </whiteblance>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI3W/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/XiaomiMI3W/opc3.bin?raw=true</opcode3>
         <filesize size= "17522688">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2483,7 +2496,7 @@
             </whiteblance>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/XiaomiMI4W/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/XiaomiMI4W/opc3.bin?raw=true</opcode3>
         <filesize size= "17522688">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2964,7 +2977,7 @@
             </manualfocus>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
         <filesize size= "6299648">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3052,7 +3065,7 @@
             </manualfocus>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/ZTE_ADV/opc3.bin?raw=true</opcode3>
         <filesize size= "6299648">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3207,7 +3220,7 @@
             </manualfocus>
         </camera1>
         <opcode2></opcode2>
-        <opcode3>https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/ZTEADV234/opc3.bin?raw=true</opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/ZTEADV234/opc3.bin?raw=true</opcode3>
         <filesize size= "20041728">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3701,6 +3714,23 @@
             <colorpattern>rggb</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Nexus6</matrixset>
+        </filesize>
+    </device>
+    <device name ="OnePlus5">
+        <opcode2></opcode2>
+        <opcode3></opcode3>
+        <models>
+            <item>ONEPLUS A5000</item>
+        </models>
+        <filesize size= "20500480">
+            <blacklvl>64</blacklvl>
+            <whitelvl>1023</whitelvl>
+            <width>4656</width>
+            <height>3496</height>
+            <rawtype>0</rawtype>
+            <colorpattern>rggb</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>OnePlus5</matrixset>
         </filesize>
     </device>
 

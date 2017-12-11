@@ -26,8 +26,10 @@ import com.troop.freedcam.R;
 import java.text.DecimalFormat;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -41,7 +43,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
     public ShutterManualParameterHTC(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
         isSupported = true;
-        stringvalues = cameraUiWrapper.getAppSettingsManager().manualExposureTime.getValues();
+        stringvalues = SettingsManager.get(Settings.M_ExposureTime).getValues();
     }
 
     @Override
@@ -56,7 +58,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
 
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         currentInt = valueToSet;
         String shutterstring = stringvalues[currentInt];

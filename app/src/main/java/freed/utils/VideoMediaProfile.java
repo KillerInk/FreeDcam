@@ -85,7 +85,7 @@ public class VideoMediaProfile
         Log.d(TAG,"VBitrate:"+ videoBitRate +"VCodec:"+ videoCodec +"VFrameRate:"+ videoFrameRate +"VWidth:"+ videoFrameWidth +"Vheight:"+ videoFrameHeight);
     }
 
-    protected VideoMediaProfile(int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12, String ProfileName, VideoMode mode, boolean isAudioActive)
+    public VideoMediaProfile(int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12, String ProfileName, VideoMode mode, boolean isAudioActive)
     {
         audioBitRate = v1;
         audioChannels = v2;
@@ -195,55 +195,4 @@ public class VideoMediaProfile
         return new VideoMediaProfile(audioBitRate, audioChannels, audioCodec, audioSampleRate, duration, fileFormat, quality, videoBitRate, videoCodec, videoFrameRate, videoFrameHeight, videoFrameWidth, ProfileName, Mode, isAudioActive);
     }
 
-
-    public static final String MEDIAPROFILESPATH = StringUtils.GetFreeDcamConfigFolder+"CustomMediaProfiles.txt";
-
-    /*public static void loadCustomProfiles(HashMap<String, VideoMediaProfile> list) throws IOException
-    {
-        File mprof = new File(MEDIAPROFILESPATH);
-        if(mprof.exists())
-        {
-            Log.d(TAG, "CustomMediaProfile exists loading....");
-            BufferedReader br = new BufferedReader(new FileReader(mprof));
-            String line;
-
-            while ((line = br.readLine()) != null)
-            {
-                if (!line.startsWith("#")) {
-                    VideoMediaProfile m = new VideoMediaProfile(line);
-                    list.put(m.ProfileName, m);
-                }
-            }
-            br.close();
-        }
-        else
-            Log.d(TAG, "No CustomMediaProfiles found");
-
-    }
-
-    public static void saveCustomProfiles(HashMap<String, VideoMediaProfile> list)
-    {
-        File mprof = new File(MEDIAPROFILESPATH);
-        try {
-            if (!mprof.getParentFile().exists())
-                mprof.getParentFile().mkdirs();
-            mprof.createNewFile();
-            Log.d(TAG,"wrote MediaProfiles to txt");
-        } catch (IOException e) {
-            Log.exception(e);
-        }
-        if(mprof.exists()) {
-            try
-            {
-                BufferedWriter br = new BufferedWriter(new FileWriter(mprof));
-                br.write("#audiobitrate audiochannels audioCodec audiosamplerate duration fileFormat quality videoBitrate videoCodec videoFrameRate videoFrameHeight videoFrameWidth ProfileName RecordMode isAudioActive \n");
-                for (VideoMediaProfile profile : list.values())
-                    br.write(profile.GetString() +"\n");
-                br.close();
-            } catch (IOException e)
-            {
-                Log.exception(e);
-            }
-        }
-    }*/
 }

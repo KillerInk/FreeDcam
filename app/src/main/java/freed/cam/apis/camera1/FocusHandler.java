@@ -26,6 +26,7 @@ import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.utils.Log;
 
@@ -37,6 +38,8 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     final String TAG = FocusHandler.class.getSimpleName();
     private boolean aeMeteringSupported;
     private boolean isFocusing;
+
+
 
 
     public FocusHandler(CameraWrapperInterface cameraUiWrapper)
@@ -168,14 +171,22 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     @Override
     public void StartTouchToFocus(int x_input, int y_input,int width, int height)
     {
-        if (cameraUiWrapper == null|| cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().FocusMode == null)
+        super.StartTouchToFocus(x_input,y_input,width,height);
+        if (focusEvent != null)
+            focusEvent.FocusStarted(x_input,y_input);
+
+    }
+
+    @Override
+    protected void startTouchFocus(FocusCoordinates obj) {
+        if (cameraUiWrapper == null|| cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(Settings.FocusMode) == null)
             return;
 
-        Log.d(TAG, "start Touch X:Y " + x_input +":" + y_input);
-        String focusmode = cameraUiWrapper.getParameterHandler().FocusMode.GetStringValue();
+        Log.d(TAG, "start Touch X:Y " + obj.x +":" + obj.y);
+        String focusmode = cameraUiWrapper.getParameterHandler().get(Settings.FocusMode).GetStringValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
-            Rect targetFocusRect = getFocusRect(x_input,y_input, width, height);
+            Rect targetFocusRect = getFocusRect(obj.x,obj.y, obj.width, obj.height);
 
             if (targetFocusRect.left >= -1000
                     && targetFocusRect.top >= -1000
@@ -202,11 +213,9 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                     ((CameraHolder) cameraUiWrapper.getCameraHolder()).StartFocus(this);
                 this.isFocusing = true;
 
-                if (focusEvent != null)
-                    focusEvent.FocusStarted(x_input,y_input);
+
             }
         }
-
     }
 
     @Override

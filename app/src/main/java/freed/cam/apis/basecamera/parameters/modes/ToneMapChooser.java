@@ -1,24 +1,29 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
+import android.text.TextUtils;
+
+import com.troop.freedcam.R;
+
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.dng.ToneMapProfile;
-import freed.utils.AppSettingsManager;
+import freed.settings.SettingsManager;
+import freed.settings.Settings;
 
 /**
  * Created by troop on 10.07.2017.
  */
 
 public class ToneMapChooser extends AbstractParameter {
-    private AppSettingsManager appSettingsManager;
     private HashMap<String, ToneMapProfile> toneMapProfileHashMap;
-    public ToneMapChooser(HashMap<String, ToneMapProfile> toneMapProfileHashMap, AppSettingsManager appSettingsManager)
+    public ToneMapChooser(HashMap<String, ToneMapProfile> toneMapProfileHashMap)
     {
-        this.appSettingsManager = appSettingsManager;
         this.toneMapProfileHashMap = toneMapProfileHashMap;
         isSupported = true;
-        currentString = appSettingsManager.tonemapProfilesSettings.get();
+        currentString = SettingsManager.get(Settings.tonemapChooser).get();
+        if (TextUtils.isEmpty(currentString))
+            currentString = SettingsManager.getInstance().getResString(R.string.off_);
     }
 
     @Override
@@ -31,7 +36,7 @@ public class ToneMapChooser extends AbstractParameter {
     {
         currentString = valueToSet;
         fireStringValueChanged(currentString);
-        appSettingsManager.tonemapProfilesSettings.set(valueToSet);
+        SettingsManager.get(Settings.tonemapChooser).set(valueToSet);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package freed.dng;
 
+import android.text.TextUtils;
+
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 
 /**
@@ -84,7 +86,7 @@ public class ToneMapProfile {
             split = curve.split(",");
             toneCurve = new float[split.length];
             for (int i = 0; i < split.length; i++) {
-                if (!split[i].equals("")) {
+                if (!TextUtils.isEmpty(split[i])) {
                     toneCurve[i] = Float.parseFloat(split[i]);
                     //check if its in range 0-1 if not apply that range
                     //this happens when we extract it with exiftools. it shows it as 0-255 range

@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.parameters.manual;
 
 import android.hardware.Camera.Parameters;
+import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
@@ -28,7 +29,7 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.utils.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -79,7 +80,7 @@ public class BaseManualParameter extends AbstractParameter
         this.parameters = parameters;
     }
 
-    public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode)
+    public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode)
     {
         super(cameraUiWrapper);
         this.parameters = parameters;
@@ -109,12 +110,12 @@ public class BaseManualParameter extends AbstractParameter
         this.key_value = key_value;
         key_max_value = maxValue;
         key_min_value = MinValue;
-        if (!this.key_value.equals("") && !key_max_value.equals("") && !key_min_value.equals(""))
+        if (!TextUtils.isEmpty(this.key_value) && !TextUtils.isEmpty(key_max_value) && !TextUtils.isEmpty(key_min_value))
         {
             if (parameters.get(this.key_value) != null && parameters.get(key_max_value) != null && parameters.get(key_min_value) != null)
             {
                 Log.d(TAG, "parameters contains all 3 parameters " + key_value +" " + key_min_value +" " + key_max_value);
-                if (!parameters.get(key_min_value).equals("") && !parameters.get(key_max_value).equals(""))
+                if (!TextUtils.isEmpty(parameters.get(key_min_value)) && !TextUtils.isEmpty(parameters.get(key_max_value)))
                 {
                     Log.d(TAG, "parameters get "+key_min_value +"/" +key_max_value+" success");
                     stringvalues = createStringArray(Integer.parseInt(parameters.get(key_min_value)), Integer.parseInt(parameters.get(key_max_value)), step);
@@ -158,7 +159,7 @@ public class BaseManualParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(int valueToset)
+    public void setValue(int valueToset)
     {
         currentInt = valueToset;
         Log.d(TAG, "set " + key_value + " to " + valueToset);
@@ -176,11 +177,6 @@ public class BaseManualParameter extends AbstractParameter
         {
             Log.WriteEx(ex);
         }
-    }
-
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
     }
 
 

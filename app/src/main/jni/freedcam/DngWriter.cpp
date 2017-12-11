@@ -4,9 +4,31 @@
 
 #include "DngWriter.h"
 
+//#define LOG_RAW_DATA
 
 #define  LOG_TAG    "freedcam.DngWriter"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+
+//shift 10bit tight data into readable bitorder
+#define RAW_10BIT_TIGHT_SHIFT 0
+//shift 10bit loose data into readable bitorder
+#define RAW_10BIT_LOOSE_SHIFT 1
+//drops the 6 first bit from pure 16bit data(mtk soc, Camera2 RAW_SENSOR)
+#define RAW_16BIT_TO_10BIT 2
+//convert and shift 10bit tight data into 16bit pure
+#define RAW_10BIT_TO_16BIT 3
+//shift 12bit data into readable bitorder
+#define RAW_12BIT_SHIFT 4
+
+#define RAW_16BIT_TO_12BIT 5
+
+const char *bit_rep[16] = {
+        [ 0] = "0000", [ 1] = "0001", [ 2] = "0010", [ 3] = "0011",
+        [ 4] = "0100", [ 5] = "0101", [ 6] = "0110", [ 7] = "0111",
+        [ 8] = "1000", [ 9] = "1001", [10] = "1010", [11] = "1011",
+        [12] = "1100", [13] = "1101", [14] = "1110", [15] = "1111",
+};
+
 
 TIFF* DngWriter::openfTIFF(char *fileSavePath)
 {
@@ -36,9 +58,9 @@ void DngWriter::writeIfd0(TIFF *tif) {
     LOGD("width");
     assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, rawheight) != 0);
     LOGD("height");
-    if(rawType == 1 || rawType == 3)
+    if(rawType == RAW_10BIT_LOOSE_SHIFT || rawType == RAW_10BIT_TO_16BIT)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
-    else if (rawType == 4)
+    else if (rawType == RAW_12BIT_SHIFT || rawType == RAW_16BIT_TO_12BIT)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 12) != 0);
     else
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 10) != 0);
@@ -90,33 +112,41 @@ void DngWriter::writeIfd0(TIFF *tif) {
     //D65 21 Second According to DNG SPEC 1.4 this is the correct order
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
-
+    LOGD("colormatrix2");
     TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, colorMatrix2);
+    LOGD("fowardMatrix1");
     if(fowardMatrix1 != NULL)
         TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  fowardMatrix1);
+    LOGD("fowardMatrix2");
     if(fowardMatrix2 != NULL)
         TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  fowardMatrix2);
-
+    LOGD("reductionMatrix1");
     if(reductionMatrix1 != NULL)
         TIFFSetField(tif, TIFFTAG_CAMERACALIBRATION1, 9,  reductionMatrix1);
+    LOGD("reductionMatrix2");
     if(reductionMatrix2 != NULL)
         TIFFSetField(tif, TIFFTAG_CAMERACALIBRATION2, 9,  reductionMatrix2);
 
+    LOGD("noiseMatrix");
     if(noiseMatrix != NULL)
         TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  noiseMatrix);
+    LOGD("tonecurve");
     if(tonecurve != NULL)
     {
         TIFFSetField(tif,TIFFTAG_PROFILETONECURVE, tonecurvesize,tonecurve);
     }
+    LOGD("huesatmapdims");
     if(huesatmapdims != NULL)
     {
         TIFFSetField(tif, TIFFTAG_PROFILEHUESATMAPDIMS, 3, huesatmapdims);
     }
-    if(huesatmapdata1_size > 0)
+    LOGD("huesatmapdata1");
+    if(huesatmapdata1 != NULL)
     {
         TIFFSetField(tif,TIFFTAG_PROFILEHUESATMAPDATA1, huesatmapdata1_size,huesatmapdata1);
     }
-    if(huesatmapdata2_size > 0)
+    LOGD("huesatmapdata2");
+    if(huesatmapdata2 != NULL)
     {
         TIFFSetField(tif,TIFFTAG_PROFILEHUESATMAPDATA2, huesatmapdata2_size,huesatmapdata2);
     }
@@ -126,7 +156,7 @@ void DngWriter::writeIfd0(TIFF *tif) {
     {
         TIFFSetField(tif,TIFFTAG_BASELINEEXPOSUREOFFSET, baselineExposureOffset);
     }
-    LOGD("colormatrix2");
+
 }
 
 void DngWriter::makeGPS_IFD(TIFF *tif) {
@@ -283,14 +313,11 @@ void DngWriter::process10tight(TIFF *tif) {
     }
 
     int row = shouldberowsize;
-    out = (unsigned char *)malloc((int)shouldberowsize*rawheight);
+    out = new unsigned char[shouldberowsize*rawheight];
     if(out == NULL)
     {
-        out = (unsigned char *)malloc((int)shouldberowsize*rawheight);
-        if (out == NULL)
-        {
         LOGD("failed to set buffer");
-        return;}
+        return;
     }
 
     int m = 0;
@@ -324,7 +351,7 @@ void DngWriter::process12tight(TIFF *tif) {
         bytesToSkip = realrowsize - shouldberowsize;
     LOGD("bytesToSkip: %i", bytesToSkip);
     int row = shouldberowsize;
-    unsigned char* out = (unsigned char *)malloc((int)shouldberowsize*rawheight);;
+    unsigned char* out = new unsigned char[shouldberowsize*rawheight];
     int m = 0;
     for(int i =0; i< rawSize; i+=3)
     {
@@ -440,15 +467,26 @@ void DngWriter::process16to10(TIFF *tif) {
 
         B_ar[0] = byts[j];
         B_ar[1] = byts[j+1];
+#ifdef LOG_RAW_DATA
+        LOGD("P:%i B0:%s%s,B1:%s%s", i, bit_rep[B_ar[0] >> 4], bit_rep[B_ar[0] & 0x0F], bit_rep[B_ar[1] >> 4], bit_rep[B_ar[1] & 0x0F]);
+#endif
 
         G1_ar[0] = byts[j+2];
         G1_ar[1] = byts[j+3];
-
+#ifdef LOG_RAW_DATA
+        LOGD("P:%i G10:%s%s,G11:%s%s", i, bit_rep[G1_ar[0] >> 4], bit_rep[G1_ar[0] & 0x0F], bit_rep[G1_ar[1] >> 4], bit_rep[G1_ar[1] & 0x0F]);
+#endif
         G2_ar[0] = byts[j+4];
         G2_ar[1] = byts[j+5];
+#ifdef LOG_RAW_DATA
+        LOGD("P:%i G20:%s%s,G21:%s%s", i, bit_rep[G2_ar[0] >> 4], bit_rep[G2_ar[0] & 0x0F], bit_rep[G2_ar[1] >> 4], bit_rep[G2_ar[1] & 0x0F]);
+#endif
 
         R_ar[0] = byts[j+6];
         R_ar[1] = byts[j+7];
+#ifdef LOG_RAW_DATA
+        LOGD("P:%i R0:%s%s,R1:%s%s", i, bit_rep[R_ar[0] >> 4], bit_rep[R_ar[0] & 0x0F], bit_rep[R_ar[1] >> 4], bit_rep[R_ar[1] & 0x0F]);
+#endif
         j+=8;
 
         //00000011 1111111      H11 111111
@@ -466,7 +504,66 @@ void DngWriter::process16to10(TIFF *tif) {
     LOGD("Finalizng DNG");
 
     LOGD("Free Memory");
-    free(pixel);
+    delete[] pixel;
+}
+
+void DngWriter::process16to12(TIFF *tif) {
+    long j;
+    int rowsizeInBytes= rawwidht*12/8;
+    long finalsize = rowsizeInBytes * rawheight;
+    unsigned char* byts= bayerBytes;
+    unsigned char* pixel = new unsigned char[finalsize];
+    unsigned char B_ar[3];
+    unsigned char G1_ar[3];
+    unsigned char G2_ar[3];
+    unsigned char R_ar[3];
+    j=0;
+    for (long i = 0; i < finalsize; i +=6)
+    {
+
+        B_ar[0] = byts[j];
+        B_ar[1] = byts[j+1];
+#ifdef LOG_RAW_DATA
+        LOGD("P:%i B0:%s%s,B1:%s%s", i, bit_rep[B_ar[0] >> 4], bit_rep[B_ar[0] & 0x0F], bit_rep[B_ar[1] >> 4], bit_rep[B_ar[1] & 0x0F]);
+#endif
+
+        G1_ar[0] = byts[j+2];
+        G1_ar[1] = byts[j+3];
+#ifdef LOG_RAW_DATA
+        LOGD("P:%i G10:%s%s,G11:%s%s", i, bit_rep[G1_ar[0] >> 4], bit_rep[G1_ar[0] & 0x0F], bit_rep[G1_ar[1] >> 4], bit_rep[G1_ar[1] & 0x0F]);
+#endif
+        G2_ar[0] = byts[j+4];
+        G2_ar[1] = byts[j+5];
+#ifdef LOG_RAW_DATA
+        LOGD("P:%i G20:%s%s,G21:%s%s", i, bit_rep[G2_ar[0] >> 4], bit_rep[G2_ar[0] & 0x0F], bit_rep[G2_ar[1] >> 4], bit_rep[G2_ar[1] & 0x0F]);
+#endif
+
+        R_ar[0] = byts[j+6];
+        R_ar[1] = byts[j+7];
+#ifdef LOG_RAW_DATA
+        LOGD("P:%i R0:%s%s,R1:%s%s", i, bit_rep[R_ar[0] >> 4], bit_rep[R_ar[0] & 0x0F], bit_rep[R_ar[1] >> 4], bit_rep[R_ar[1] & 0x0F]);
+#endif
+        j+=8;
+
+        //00001111 1111111      H1111 1111
+        //00001111 1111111      1111 H1111
+        //00001111 1111111      1111 1111
+        //00001111 1111111      H1111 1111
+        //00001111 1111111      1111 H1111
+        //00001111 1111111      1111 1111
+
+        pixel[i] = (B_ar[1] & 0b00001111) << 4 | (B_ar[0] & 0b11110000) >> 4;//B1111 1111
+        pixel[i+1] =  (B_ar[0] & 0b00001111 ) << 4 | (G1_ar[1] & 0b00001111);//1111 G2222
+        pixel[i+2] =  G1_ar[0];//2222 2222
+        pixel[i+3] = (G2_ar[1] & 0b00001111 ) << 4 | (G2_ar[0] & 0b11110000)>>4;//3333 3333
+        pixel[i+4] = (G2_ar[0] & 0b00001111 ) << 4 | (R_ar[1] &  0b00001111); //3333 4444
+        pixel[i+5] = R_ar[0]; //4444 4444
+    }
+    TIFFWriteRawStrip(tif, 0, pixel, rawheight*rowsizeInBytes);
+    LOGD("Finalizng DNG");
+
+    LOGD("Free Memory");
+    delete[] pixel;
 }
 
 void DngWriter::writeRawStuff(TIFF *tif) {
@@ -508,24 +605,36 @@ void DngWriter::writeRawStuff(TIFF *tif) {
         LOGD("Set OP3");
         TIFFSetField(tif, TIFFTAG_OPC3, opcode3Size, opcode3);
     }
-    if(rawType == 0)
+    if(rawType == RAW_10BIT_TIGHT_SHIFT)
     {
         LOGD("Processing tight RAW data...");
         process10tight(tif);
         LOGD("Done tight RAW data...");
     }
-    else if (rawType == 1)
+    else if (rawType == RAW_10BIT_LOOSE_SHIFT)
     {
         LOGD("Processing loose RAW data...");
         processLoose(tif);
         LOGD("Done loose RAW data...");
     }
-    else if (rawType == 2)
+    else if (rawType == RAW_16BIT_TO_10BIT) {
+        LOGD("process16to10(tif);");
         process16to10(tif);
-    else if (rawType == 3)
+    }
+    else if (rawType == RAW_10BIT_TO_16BIT) {
+        LOGD("processTight(tif);");
         processTight(tif);
-    else if (rawType == 4)
+    }
+    else if (rawType == RAW_12BIT_SHIFT) {
+        LOGD("process12tight");
         process12tight(tif);
+    }
+    else if (rawType == RAW_16BIT_TO_12BIT) {
+        LOGD("process16to12(tif);");
+        process16to12(tif);
+    }
+    else
+        LOGD("rawType is not implented");
 }
 
 void DngWriter::WriteDNG() {
@@ -540,6 +649,7 @@ void DngWriter::WriteDNG() {
     else
         tif = openfTIFF(fileSavePath);
 
+    LOGD("writeIfd0");
     writeIfd0(tif);
     //allocate empty exifIFD tag
     TIFFSetField (tif, TIFFTAG_EXIFIFD, exif_offset);
@@ -548,8 +658,10 @@ void DngWriter::WriteDNG() {
         TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);        
     }
     //save directory
+    LOGD("TIFFCheckpointDirectory");
     TIFFCheckpointDirectory(tif);
 
+    LOGD("writeExifIfd");
     //write and store exififd
     writeExifIfd(tif);    
     TIFFWriteCustomDirectory(tif, &exif_offset);    
@@ -575,18 +687,174 @@ void DngWriter::WriteDNG() {
 
     TIFFRewriteDirectory(tif);
     TIFFClose(tif);
-    if(opcode2Size >0)
+
+    LOGD("delete Opcode2");
+    if(opcode2 != NULL)
     {
-        free(opcode2);
+        delete[] opcode2;
+        opcode2Size = NULL;
         opcode2 = NULL;
     }
-    if(opcode3Size >0)
+    LOGD("delete Opcode3");
+    if(opcode3 != NULL)
     {
-        free(opcode3);
+        delete[] opcode3;
+        opcode2Size = NULL;
         opcode3 = NULL;
     }
-    if (bayerBytes == NULL)
-        return;
-    free(bayerBytes);
-    bayerBytes = NULL;
+    LOGD("delete bayerbytes");
+    if (bayerBytes != NULL){
+        delete [] bayerBytes;
+        rawSize = NULL;
+        bayerBytes = NULL;
+    }
+    LOGD("delete filesavepath");
+    if(fileSavePath != NULL)
+    {
+        delete[] fileSavePath;
+        fileSavePath = NULL;
+    }
+    LOGD("delete blacklvl");
+    if(blacklevel != NULL){
+        delete[] blacklevel;
+        blacklevel = NULL;
+    }
+    LOGD("delete color1");
+    if(colorMatrix1 != NULL)
+    {
+        delete[] colorMatrix1;
+        colorMatrix1 = NULL;
+    }
+    if(colorMatrix2 != NULL)
+    {
+        delete[] colorMatrix2;
+        colorMatrix2 = NULL;
+    }
+    if(neutralColorMatrix != NULL)
+    {
+        delete[] neutralColorMatrix;
+        neutralColorMatrix = NULL;
+    }
+    if(fowardMatrix1 != NULL)
+    {
+        delete[] fowardMatrix1;
+        fowardMatrix1 = NULL;
+    }
+    if(fowardMatrix2 != NULL)
+    {
+        delete[] fowardMatrix2;
+        fowardMatrix2 = NULL;
+    }
+    if(reductionMatrix1 != NULL)
+    {
+        delete[] reductionMatrix1;
+        reductionMatrix1 = NULL;
+    }
+    if(reductionMatrix2 != NULL)
+    {
+        delete[] reductionMatrix2;
+        reductionMatrix2 = NULL;
+    }
+    if(reductionMatrix2 != NULL)
+    {
+        delete[] reductionMatrix2;
+        reductionMatrix2 = NULL;
+    }
+    if(noiseMatrix != NULL)
+    {
+        delete[] noiseMatrix;
+        noiseMatrix = NULL;
+    }
+    LOGD("delete bayerformat");
+    if(bayerformat != NULL)
+    {
+        delete[] bayerformat;
+        bayerformat = NULL;
+    }
+    if(Longitude != NULL)
+    {
+        delete Longitude;
+        Longitude = NULL;
+    }
+    if(Latitude != NULL)
+    {
+        delete[] Latitude;
+        Latitude = NULL;
+    }
+    if(Provider != NULL)
+    {
+        delete[] Provider;
+        Provider = NULL;
+    }
+    if(_make != NULL)
+    {
+        delete[] _make;
+        _make = NULL;
+    }
+    if(_model != NULL)
+    {
+        delete[] _model;
+        _model = NULL;
+    }
+    if(_dateTime != NULL)
+    {
+        delete[] _dateTime;
+        _dateTime = NULL;
+    }
+    if(_imagedescription != NULL)
+    {
+        delete[] _imagedescription;
+        _imagedescription = NULL;
+    }
+    if(_orientation != NULL)
+    {
+        delete[] _orientation;
+        _orientation = NULL;
+    }
+    if(tonecurve != NULL)
+    {
+        delete[] tonecurve;
+        tonecurvesize = NULL;
+        tonecurve = NULL;
+    }
+    if(huesatmapdata1 != NULL)
+    {
+        delete[] huesatmapdata1;
+        huesatmapdata1 = NULL;
+        huesatmapdata1_size =NULL;
+    }
+    if(huesatmapdata2 != NULL)
+    {
+        delete[] huesatmapdata2;
+        huesatmapdata2 = NULL;
+        huesatmapdata2_size =NULL;
+    }
+    LOGD("delete husatmapdims");
+    if(huesatmapdims != NULL)
+    {
+        delete[] huesatmapdims;
+        huesatmapdims = NULL;
+    }
+    _iso = NULL;
+    _exposure = NULL;
+    _flash = NULL;
+    _fnumber = NULL;
+    _focallength = NULL;
+    _exposureIndex = NULL;
+    Altitude = NULL;
+    gpsTime = NULL;
+    gps = NULL;
+    whitelevel == NULL;
+    fileLength = NULL;
+    rawwidht = NULL;
+    rawheight = NULL;
+    rowSize = NULL;
+    baselineExposure = NULL;
+    baselineExposureOffset = NULL;
+    rawSize = NULL;
+    fileDes = NULL;
+    hasFileDes = NULL;
+    thumbheight = NULL;
+    thumwidth = NULL;
+
 }

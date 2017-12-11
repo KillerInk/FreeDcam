@@ -28,6 +28,8 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Shader;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -41,6 +43,104 @@ import freed.utils.Log;
  */
 public class RotatingSeekbar extends View
 {
+
+    private class UiHandler extends Handler
+    {
+        private final int INVALIDATE = 0;
+        private final int ONPROGRESSCHANGED = 1;
+        private final int ONHANDELAUTOSCROLL = 2;
+
+
+        public void setINVALIDATE()
+        {
+            this.obtainMessage(INVALIDATE).sendToTarget();
+        }
+
+        public void setONHANDELAUTOSCROLL()
+        {
+            this.obtainMessage(ONHANDELAUTOSCROLL).sendToTarget();
+        }
+
+        public void setONPROGRESSCHANGED(int value)
+        {
+            this.obtainMessage(ONPROGRESSCHANGED,value,0).sendToTarget();
+        }
+
+        public UiHandler()
+        {
+            super(Looper.getMainLooper());
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch(msg.what)
+            {
+                case INVALIDATE:
+                    RotatingSeekbar.this.invalidate();
+                    break;
+                case ONPROGRESSCHANGED:
+                    if(mListener != null)
+                        mListener.onProgressChanged(null, msg.arg1, true);
+                    break;
+                case ONHANDELAUTOSCROLL:
+                    if (!autoscroll)
+                        return;
+                    int newpos = currentPosToDraw - distanceInPixelFromLastSwipe - scrollsubstract;
+                    int positivepos = newpos *-1;
+                    if (positivepos <= realMax && positivepos >= realMin)
+                    {
+                        log("scroll pos:" + newpos +" max:" + realMax + " min:" + realMin);
+                        boolean rerun = false;
+                        if (distanceInPixelFromLastSwipe < 0 && distanceInPixelFromLastSwipe + scrollsubstract < 0) {
+                            distanceInPixelFromLastSwipe += scrollsubstract;
+                            rerun = true;
+                            currentPosToDraw -= distanceInPixelFromLastSwipe;
+                            checkifCurrentValueHasChanged();
+                        } else if (distanceInPixelFromLastSwipe > 0 && distanceInPixelFromLastSwipe - scrollsubstract > 0) {
+                            distanceInPixelFromLastSwipe -= scrollsubstract;
+                            rerun = true;
+                            currentPosToDraw -= distanceInPixelFromLastSwipe;
+                            checkifCurrentValueHasChanged();
+                        }
+                        else
+                        {
+                            checkifCurrentValueHasChanged();
+                            distanceInPixelFromLastSwipe = 0;
+                            setProgress(currentValue,true);
+                            rerun = false;
+                        }
+                        if (rerun)
+                            handleAutoScroll();
+                    }
+                    else
+                    {
+                        autoscroll = false;
+                        distanceInPixelFromLastSwipe = 0;
+                        if(positivepos > realMax)
+                            setProgress(Values.length-1,true);
+                        else if (positivepos < realMin)
+                            setProgress(0,true);
+                        else {
+                            checkifCurrentValueHasChanged();
+                            if (currentValue > Values.length -1)
+                                currentValue = Values.length -1;
+                            if (currentValue < 0)
+                                currentValue = 0;
+                            setProgress(currentValue,true);
+
+                        }
+                        //log("scroll pos:" + newpos + " max:" + realMax + " min:" + realMin);
+                    }
+                    handler.setINVALIDATE();
+                    break;
+                default:
+                    super.handleMessage(msg);
+                    break;
+            }
+
+        }
+    }
+
     private String[] Values = "Auto,1/100000,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30,60,180".split(",");
     private int currentValue = 3;
     private Paint paint;
@@ -61,7 +161,7 @@ public class RotatingSeekbar extends View
     private final String TAG = RotatingSeekbar.class.getSimpleName();
     //this handels how much get added or substracted from @distanceInPixelFromLastSwipe when autoscroll = true
     private final int scrollsubstract = 1;
-    private Handler handler;
+    private UiHandler handler;
 
     //holds the position when user touched down
     private int startY;
@@ -93,7 +193,7 @@ public class RotatingSeekbar extends View
 
     private void init(Context context, AttributeSet attrs)
     {
-        handler = new Handler();
+        handler = new UiHandler();
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(textColor);
@@ -110,11 +210,6 @@ public class RotatingSeekbar extends View
         boolean debug = true;
         if (debug)
             Log.d(TAG, msg);
-    }
-
-    private void redraw()
-    {
-        invalidate();
     }
 
     @Override
@@ -137,7 +232,7 @@ public class RotatingSeekbar extends View
         realMax = allItemsHeight - viewHeight /2 - itemHeight *2;
         setProgress(currentValue, false);
 
-        redraw();
+        handler.setINVALIDATE();
     }
 
     @Override
@@ -221,7 +316,7 @@ public class RotatingSeekbar extends View
                 if (!sliderMoving)
                 {
                     disy = getSignedDistance(startY, (int) event.getY());
-                    if (disy > 40 || disy < -40) {
+                    if (disy > 20 || disy < -20) {
                         sliderMoving = true;
                         if (mListener != null)
                             mListener.onStartTrackingTouch(null);
@@ -261,68 +356,13 @@ public class RotatingSeekbar extends View
                 }
                 break;
         }
-        redraw();
+        handler.setINVALIDATE();
         return throwevent;
     }
 
     private void handleAutoScroll()
     {
-        handler.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                if (!autoscroll)
-                    return;
-                int newpos = currentPosToDraw - distanceInPixelFromLastSwipe - scrollsubstract;
-                int positivepos = newpos *-1;
-                if (positivepos <= realMax && positivepos >= realMin)
-                {
-                    log("scroll pos:" + newpos +" max:" + realMax + " min:" + realMin);
-                    boolean rerun = false;
-                    if (distanceInPixelFromLastSwipe < 0 && distanceInPixelFromLastSwipe + scrollsubstract < 0) {
-                        distanceInPixelFromLastSwipe += scrollsubstract;
-                        rerun = true;
-                        currentPosToDraw -= distanceInPixelFromLastSwipe;
-                        checkifCurrentValueHasChanged();
-                    } else if (distanceInPixelFromLastSwipe > 0 && distanceInPixelFromLastSwipe - scrollsubstract > 0) {
-                        distanceInPixelFromLastSwipe -= scrollsubstract;
-                        rerun = true;
-                        currentPosToDraw -= distanceInPixelFromLastSwipe;
-                        checkifCurrentValueHasChanged();
-                    }
-                    else
-                    {
-                        checkifCurrentValueHasChanged();
-                        distanceInPixelFromLastSwipe = 0;
-                        setProgress(currentValue,true);
-                        rerun = false;
-                    }
-                    if (rerun)
-                        handleAutoScroll();
-                }
-                else
-                {
-                    autoscroll = false;
-                    distanceInPixelFromLastSwipe = 0;
-                    if(positivepos > realMax)
-                        setProgress(Values.length-1,true);
-                    else if (positivepos < realMin)
-                        setProgress(0,true);
-                    else {
-                        checkifCurrentValueHasChanged();
-                        if (currentValue > Values.length -1)
-                            currentValue = Values.length -1;
-                        if (currentValue < 0)
-                            currentValue = 0;
-                        setProgress(currentValue,true);
-
-                    }
-                    log("scroll pos:" + newpos + " max:" + realMax + " min:" + realMin);
-                }
-                redraw();
-            }
-        });
+        handler.setONHANDELAUTOSCROLL();
     }
 
     private void checkifCurrentValueHasChanged() {
@@ -333,14 +373,11 @@ public class RotatingSeekbar extends View
         {
             Log.d("RotatingSeekbar", "currentpos" + currentPosToDraw + "item " + item);
             currentValue = item;
-            if (mListener != null)
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mListener.onProgressChanged(null, currentValue, true);
-                    }
-                });
-
+            if (currentValue >= Values.length)
+                currentValue = Values.length-1;
+            if (currentValue < 0)
+                currentValue = 0;
+            handler.setONPROGRESSCHANGED(currentValue);
         }
     }
 
@@ -360,14 +397,9 @@ public class RotatingSeekbar extends View
         currentValue = progress;
         Log.d("RotatingSeekbar", "setprogres" +progress);
         currentPosToDraw = (progress * itemHeight + itemHeight /2 + realMin) * -1;
-        redraw();
-        if (mListener != null && throwevent)
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.onProgressChanged(null, currentValue, true);
-                }
-            });
+        handler.setINVALIDATE();
+        if (throwevent)
+            handler.setONPROGRESSCHANGED(currentValue);
 
     }
     public String GetCurrentString()
@@ -382,7 +414,7 @@ public class RotatingSeekbar extends View
         allItemsHeight = itemHeight * Values.length + itemHeight;
         realMin = -viewHeight /2 - itemHeight /2;
         realMax = allItemsHeight - viewHeight /2;
-        redraw();
+        handler.setINVALIDATE();
     }
     public void setOnSeekBarChangeListener(OnSeekBarChangeListener mListener)
     {

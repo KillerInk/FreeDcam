@@ -31,8 +31,8 @@
     <dimen name="freedviewer_screenslide_exifInfoItemMargine">4dp</dimen>
     <dimen name="freedviewer_screenslide_bottomBarHeight">40dp</dimen>
     <dimen name="freedviewer_topbar_height">40dp</dimen>
-    <dimen name="freedviewer_screenslide_histogram_width">86dp</dimen>
-    <dimen name="freedviewer_screenslide_histogram_height">66dp</dimen>
+    <dimen name="freedviewer_screenslide_histogram_width">260dp</dimen>
+    <dimen name="freedviewer_screenslide_histogram_height">100dp</dimen>
     <dimen name="app_icon_size">30dp</dimen>
 
 
@@ -40,4 +40,7 @@
     <dimen name="settings_menu_item_header_value">13dp</dimen>
     <dimen name="settings_menu_item_header">15dp</dimen>
     <dimen name="settingsmenu_groupchild_margin_left">5dp</dimen>
+    <dimen name="curveViewWidth">180dp</dimen>
+    <dimen name="curveViewHeight">210dp</dimen>
+    <dimen name="curveViewButtonHeight">30dp</dimen>
 </resources>

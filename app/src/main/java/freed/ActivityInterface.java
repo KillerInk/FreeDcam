@@ -27,10 +27,9 @@ import java.io.File;
 import java.util.List;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
-import freed.utils.AppSettingsManager;
-import freed.utils.LocationHandler;
-import freed.utils.PermissionHandler;
-import freed.utils.StorageFileHandler;
+import freed.utils.LocationManager;
+import freed.utils.PermissionManager;
+import freed.utils.StorageFileManager;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
 
@@ -47,15 +46,13 @@ public interface ActivityInterface extends I_WorkEvent
         void onActivityResultCallback(Uri uri);
     }
 
-    PermissionHandler getPermissionHandler();
+    PermissionManager getPermissionManager();
 
     BitmapHelper getBitmapHelper();
 
     Context getContext();
 
-    AppSettingsManager getAppSettings();
-
-    StorageFileHandler getStorageHandler();
+    StorageFileManager getStorageHandler();
 
     boolean DeleteFile(FileHolder file);
     void DeleteFiles(List<FileHolder> files);
@@ -75,7 +72,7 @@ public interface ActivityInterface extends I_WorkEvent
     void DisablePagerTouch(boolean disable);
 
 
-    LocationHandler getLocationHandler();
+    LocationManager getLocationManager();
 
     int getOrientation();
 

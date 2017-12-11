@@ -25,11 +25,18 @@ package freed.dng;
 public class DngProfile
 {
 
+    //shift 10bit tight data into readable bitorder
     public static final int Mipi = 0;
+    //shift 10bit loose data into readable bitorder
     public static final int Qcom = 1;
+    //drops the 6 first bit from pure 16bit data(mtk soc, Camera2 RAW_SENSOR)
     public static final int Plain = 2;
+    //convert and shift 10bit tight data into 16bit pure
     public static final int Mipi16 = 3;
+    //shift 12bit data into readable bitorder
     public static final int Mipi12 = 4;
+    //shift 16bit data into readable 12bit order
+    public static final int Pure16bit_To_12bit = 5;
 
     public static final String BGGR = "bggr";
     public static final String RGGB = "rggb";
@@ -37,10 +44,6 @@ public class DngProfile
     public static final String GBRG =  "gbrg";
 
     public static final String RGBW =  "rgbw";
-
-    public static final int ROWSIZE = 5264;
-    public static final int HTCM8_rowSize = 3360;
-    public static final int XperiaL_rowSize = 4376;
 
     public int blacklevel;
     public int whitelevel;
@@ -78,17 +81,17 @@ public class DngProfile
         return new DngProfile(blacklevel,whitelevel,widht,height, rawFormat,bayerPattern, 0,new CustomMatrix(matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise), name);
     }
 
+    /*
+       <filesize size= "XXX">
+           <width>2560</width>
+           <height>1920</height>
+           <rawtype>0</rawtype> // 0 = Mipi, 1 = qcom, 2 = Plain, 3 = mipi16, 4 = mipi12
+           <colorpattern>grbg</colorpattern>
+           <rowsize>0</rowsize>
+           <matrixset>Imx135</matrixset>
+       </filesize>*/
     public String getXmlString(long filesize)
     {
-        /*
-        <filesize size= "XXX">
-            <width>2560</width>
-            <height>1920</height>
-            <rawtype>0</rawtype> // 0 = Mipi, 1 = qcom, 2 = Plain, 3 = mipi16, 4 = mipi12
-            <colorpattern>grbg</colorpattern>
-            <rowsize>0</rowsize>
-            <matrixset>Imx135</matrixset>
-        </filesize>*/
         String t = new String();
         t += "<filesize size= " +String.valueOf("\"") +String.valueOf(filesize) +String.valueOf("\"")  +">" + "\r\n";
             t += "<blacklvl>" + blacklevel + "</blacklvl>" + "\r\n";

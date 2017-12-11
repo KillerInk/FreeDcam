@@ -19,6 +19,8 @@
 
 package freed.cam.apis.sonyremote.parameters.manual;
 
+import android.text.TextUtils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -156,15 +158,10 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
         });
     }
 
-    @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-
-    }
-
     public String GetStringValue()
     {
         sendLog("GetStringValue");
-        if (value == null || value.equals("")) {
+        if (value == null || TextUtils.isEmpty(value)) {
             if (stringvalues == null) {
                 stringvalues = getStringValues();
 

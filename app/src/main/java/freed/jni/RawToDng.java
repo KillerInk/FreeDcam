@@ -3,6 +3,7 @@ package freed.jni;
 import android.location.Location;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
+import android.text.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.util.Date;
 
 import freed.dng.DngProfile;
 import freed.utils.Log;
-import freed.utils.StorageFileHandler;
+import freed.utils.StorageFileManager;
 import freed.utils.StringUtils;
 
 /**
@@ -29,6 +30,39 @@ public class RawToDng
     private String wbct;
     private byte[] opcode2;
     private byte[] opcode3;
+
+    public static native void overloadWrite(int iso,
+                                 double expo,
+                                 int flash,
+                                 float fNum,
+                                 float focalL,
+                                 String imagedescription,
+                                 String orientation,
+                                 float exposureIndex,
+                                 double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime,
+                                 byte[] mThumb, int thumb_widht, int thumb_height,
+                                 byte[] fileBytes, String fileout,int filedescriptor,
+                                 String model, String make, byte[] opcode2, byte[]opcode3,
+                                 float[] colorMatrix1,
+                                 float[] colorMatrix2,
+                                 float[] neutralColor,
+                                 float[] fowardMatrix1,
+                                 float[] fowardMatrix2,
+                                 float[] reductionMatrix1,
+                                 float[] reductionMatrix2,
+                                 double[] noiseMatrix,
+                                 int blacklevel,
+                                 int whitelevel,
+                                 String bayerformat,
+                                 int rowSize,
+                                 int rawType,int width,int height,
+                                 String dateTime,
+                                 float tonecurve[],
+                                 int huesatmapdims[],
+                                 float huesatmapdata1[],
+                                 float huesatmapdata2[],
+                                 float baselineExposure,
+                                 float baselineExposureOffset);
 
     private native long GetRawBytesSize();
     private native int GetRawHeight();
@@ -191,11 +225,11 @@ public class RawToDng
                             float exposureIndex)
     {
         SetExifData(iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
-        SetDateTime(StorageFileHandler.getStringExifPattern().format(new Date()));
+        SetDateTime(StorageFileManager.getStringExifPattern().format(new Date()));
         SetBaselineExposureOffset(exposureIndex);
     }
 
-    private float[] parseGpsvalue(double val)
+     public static float[] parseGpsvalue(double val)
     {
 
         String[] sec = Location.convert(val, Location.FORMAT_SECONDS).split(":");
@@ -258,9 +292,9 @@ public class RawToDng
                               int rowSize,
                               int tight, int width, int height)
     {
-        if (wbct.equals(""))
+        if (TextUtils.isEmpty(wbct))
             SetBayerInfo(colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
-        else if (!wbct.equals(""))
+        else if (!TextUtils.isEmpty(wbct))
             SetBayerInfo(colorMatrix1, colorMatrix2, getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
 
     }
@@ -288,8 +322,6 @@ public class RawToDng
                 SetHueSatMapDims(profile.toneMapProfile.getHueSatMapDims());
             if (profile.toneMapProfile.getBaselineExposure() != null)
                 SetBaselineExposure(profile.toneMapProfile.getBaselineExposure());
-            /*if (profile.toneMapProfile.getBaselineExposureOffset() != null)
-                SetBaselineExposureOffset(profile);*/
         }
 
         SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,

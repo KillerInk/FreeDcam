@@ -30,6 +30,7 @@ private:
     void processLoose(TIFF *tif);
     void processSXXX16(TIFF *tif);
     void process16to10(TIFF *tif);
+    void process16to12(TIFF *tif);
     void writeRawStuff(TIFF *tif);
 public:
     int _iso, _flash;
@@ -94,6 +95,31 @@ public:
         gps = false;
         fileDes = -1;
         hasFileDes = false;
+        opcode2 = NULL;
+        opcode3 = NULL;
+        tonecurve = NULL;
+        blacklevel = NULL;
+        fileSavePath = NULL;
+        fileLength = 0;
+        bayerBytes = NULL;
+        colorMatrix1 = NULL;
+        colorMatrix2 = NULL;
+        neutralColorMatrix = NULL;
+        fowardMatrix1 = NULL;
+        fowardMatrix2 = NULL;
+        reductionMatrix1 = NULL;
+        reductionMatrix2 = NULL;
+        noiseMatrix = NULL;
+        tonecurvesize = 0;
+        huesatmapdata1 = NULL;
+        huesatmapdata1_size = 0;
+        huesatmapdata2 = NULL;
+        huesatmapdata2_size = 0;
+        huesatmapdims = NULL;
+        Longitude = NULL;
+        Latitude = NULL;
+        Provider = NULL;
+
         opcode2Size =0;
         opcode3Size = 0;
     }

@@ -23,6 +23,7 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CaptureSessionHandler;
-import freed.utils.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 
@@ -41,19 +42,18 @@ import freed.utils.StringUtils;
 public class BaseModeApi2 extends AbstractParameter
 {
     private final String TAG = BaseModeApi2.class.getSimpleName();
-    protected CameraWrapperInterface cameraUiWrapper;
     protected HashMap<String, Integer> parameterValues;
-    protected AppSettingsManager.SettingMode settingMode;
+    protected SettingsManager.SettingMode settingMode;
     protected Key<Integer> parameterKey;
     protected CaptureSessionHandler captureSessionHandler;
 
     public BaseModeApi2(CameraWrapperInterface cameraUiWrapper)
     {
-        this.cameraUiWrapper =cameraUiWrapper;
+        super(cameraUiWrapper);
         this.captureSessionHandler = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler;
     }
 
-    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper, AppSettingsManager.SettingMode settingMode, Key<Integer> parameterKey) {
+    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode, Key<Integer> parameterKey) {
         this(cameraUiWrapper);
         this.settingMode = settingMode;
         this.parameterKey = parameterKey;
@@ -62,12 +62,13 @@ public class BaseModeApi2 extends AbstractParameter
         try {
             if (isSupported) {
                 String values[] = settingMode.getValues();
-                if (values == null) {
+                if (values == null || values.length == 0) {
                     Log.d(TAG, "Values are null set to unsupported");
                     parameterValues = null;
                     isSupported = false;
                     return;
                 }
+                Log.d(TAG, "array:" + Arrays.toString(values));
                 parameterValues = StringUtils.StringArrayToIntHashmap(values);
                 if (parameterValues == null) {
                     isSupported = false;
@@ -83,13 +84,18 @@ public class BaseModeApi2 extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
-    {
-        super.SetValue(valueToSet, setToCamera);
-        if (parameterValues == null)
+    protected void setValue(String valueToSet, boolean setToCamera) {
+        if (parameterValues == null || parameterValues.size() == 0)
             return;
-        int toset = parameterValues.get(valueToSet);
-        captureSessionHandler.SetParameterRepeating(parameterKey, toset);
+        super.setValue(valueToSet, setToCamera);
+        try {
+            int toset = parameterValues.get(valueToSet);
+            captureSessionHandler.SetParameterRepeating(parameterKey, toset);
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
     @Override

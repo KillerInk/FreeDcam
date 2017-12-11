@@ -391,5 +391,13 @@
         <item>10000,201,218,255</item>
     </string-array>
 
+    <string-array name="selftimervalues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
     <!-- DO NOT TRANSLATE END -->
 </resources>

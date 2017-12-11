@@ -9,8 +9,6 @@ import android.util.Rational;
 import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.huawei.camera2ex.CaptureRequestEx;
 
-import java.io.File;
-
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.Log;
 
@@ -29,18 +27,11 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
 
     @Override
     protected void onStartTakePicture() {
-        //for dng capture double files are needed cause we save jpeg and dng
-        if (mrawImageReader != null)
-            savedFiles = new File[Integer.parseInt(parameterHandler.Burst.GetStringValue())*2];
-        else
-            savedFiles = new File[Integer.parseInt(parameterHandler.Burst.GetStringValue())];
-        currentFileCount = 0;
         int isorange[] = cameraHolder.characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_ISO_RANGE);
         maxiso = isorange[1];
         currentExposureTime = cameraHolder.currentExposureTime;
         currentiso = cameraHolder.currentIso;
-        exposureTimeStep = currentExposureTime/2;
-
+        exposureTimeStep = currentExposureTime;
     }
 
 
@@ -53,8 +44,7 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
         if (currentiso == 0)
             currentiso = 100;
         Log.d(TAG, "set iso to :" + currentiso);
-        cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
-        cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, currentiso);
+
         if (0 == captureNum)
             expotimeToSet = currentExposureTime - exposureTimeStep;
         else if (1== captureNum)
@@ -63,7 +53,7 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
             expotimeToSet = currentExposureTime + exposureTimeStep;
         Log.d(TAG,"Set shutter to:" + expotimeToSet);
         int msexpo = (int)(expotimeToSet)/1000; //ns to ms
-        cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME,msexpo);
+
         Rational exporat;
         if (msexpo > 1000000)
         {
@@ -71,7 +61,10 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
         }
         else
             exporat = new Rational(1,(int)(0.5D + 1.0E9F / msexpo));
+        cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME,msexpo);
         cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
+        cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
+        cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, currentiso);
         cameraHolder.captureSessionHandler.SetPreviewParameter(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
         cameraHolder.captureSessionHandler.SetPreviewParameter(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME,msexpo);
         cameraHolder.captureSessionHandler.SetPreviewParameter(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);

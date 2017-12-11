@@ -11,13 +11,14 @@
         android:id="@+id/frameLayout">
 
         <freed.cam.ui.themesample.cameraui.RotatingSeekbar
+            android:id="@+id/seekbar"
             android:layout_width="@dimen/cameraui_manual_fragment_rotatingseekbar_width"
             android:layout_height="fill_parent"
-            android:id="@+id/seekbar"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/cameraui_manual_fragment_rotatingseekbar_margin_right"
-            android:layout_marginBottom="@dimen/cameraui_manual_fragment_rotatingseekbar_margin_right" />
+            android:layout_marginBottom="@dimen/cameraui_manual_fragment_rotatingseekbar_margin_right"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="@dimen/cameraui_manual_fragment_rotatingseekbar_margin_right" />
     </FrameLayout>
 
     <HorizontalScrollView
@@ -48,5 +49,18 @@
         android:layout_toLeftOf="@+id/frameLayout"
         android:layout_toStartOf="@+id/frameLayout"
         android:layout_marginRight="5dp" />
+
+    <view
+        android:id="@+id/curveView"
+        class="freed.utils.CurveViewControl"
+        layout_width="match_parent"
+        android:layout_width="@dimen/curveViewWidth"
+        android:layout_height="@dimen/curveViewHeight"
+        android:layout_above="@+id/horizontalScrollView2"
+        android:layout_centerInParent="false"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/frameLayout"
+        android:layout_toStartOf="@+id/frameLayout"
+        android:background="@color/uiSettingsBackground" />
 
 </RelativeLayout>

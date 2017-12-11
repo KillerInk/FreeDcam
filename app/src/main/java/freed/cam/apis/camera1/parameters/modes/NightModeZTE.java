@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 
 /**
@@ -40,7 +41,7 @@ public class NightModeZTE extends BaseModeParameter
         isSupported = true;
         isVisible =true;
         cameraUiWrapper.getModuleHandler().addListner(this);
-        cameraUiWrapper.getParameterHandler().PictureFormat.addEventListner(this);
+        cameraUiWrapper.getParameterHandler().get(Settings.PictureFormat).addEventListner(this);
     }
 
     @Override

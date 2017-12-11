@@ -24,6 +24,8 @@ import android.view.WindowManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.settings.SettingsManager;
+import freed.settings.Settings;
 import freed.utils.Log;
 
 /**
@@ -39,11 +41,11 @@ public class CaptureSessionHandler
     private CaptureRequest.Builder mPreviewRequestBuilder;
     private CaptureRequest.Builder mImageCaptureRequestBuilder;
     private CameraCaptureSession mCaptureSession;
-    private CameraConstrainedHighSpeedCaptureSession mHighSpeedCaptureSession;
     private Camera2Fragment cameraUiWrapper;
     private CameraHolderApi2 cameraHolderApi2;
     private CameraCaptureSession.CaptureCallback cameraBackroundValuesChangedListner;
     private CaptureEvent waitForRdyCallback;
+    private boolean isHighSpeedSession = false;
 
 
     private boolean captureSessionRdy = false;
@@ -134,15 +136,16 @@ public class CaptureSessionHandler
         display.getRealSize(displaySize);
     }
 
+    public Point getDisplaySize()
+    {
+        return displaySize;
+    }
+
     public void SetCaptureSession(CameraCaptureSession cameraCaptureSession)
     {
         mCaptureSession = cameraCaptureSession;
     }
 
-    public void SetHighSpeedCaptureSession(CameraCaptureSession cameraCaptureSession)
-    {
-        mHighSpeedCaptureSession = (CameraConstrainedHighSpeedCaptureSession)cameraCaptureSession;
-    }
 
 
     public void CreatePreviewRequestBuilder()
@@ -211,7 +214,6 @@ public class CaptureSessionHandler
         {
             if (null != mCaptureSession)
             {
-
                 mCaptureSession.stopRepeating();
                 mCaptureSession.abortCaptures();
                 mCaptureSession.close();
@@ -234,9 +236,12 @@ public class CaptureSessionHandler
 
     public void CreateCaptureSession()
     {
+        if (mCaptureSession != null)
+            mCaptureSession.close();
         if(cameraHolderApi2.mCameraDevice == null)
             return;
-        Log.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
+        isHighSpeedSession = false;
+        Log.d(TAG, "CreateCaptureSession:");
         try {
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
         } catch (CameraAccessException | SecurityException ex) {
@@ -247,8 +252,11 @@ public class CaptureSessionHandler
     @TargetApi(Build.VERSION_CODES.M)
     public void CreateHighSpeedCaptureSession(CameraCaptureSession.StateCallback customCallback)
     {
+        if (mCaptureSession != null)
+            mCaptureSession.close();
         if(cameraHolderApi2.mCameraDevice == null)
             return;
+        isHighSpeedSession = true;
         Log.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
         try {
             cameraHolderApi2.mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, null);
@@ -259,6 +267,9 @@ public class CaptureSessionHandler
 
     public void CreateCaptureSession(CameraCaptureSession.StateCallback customCallback)
     {
+        if (mCaptureSession != null)
+            mCaptureSession.close();
+        isHighSpeedSession = false;
         Log.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
         try {
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, customCallback, null);
@@ -336,47 +347,36 @@ public class CaptureSessionHandler
         }
     }
 
-    public void StopHighspeedCaptureSession()
-    {
-        if (mHighSpeedCaptureSession != null)
-            try {
-                mHighSpeedCaptureSession.stopRepeating();
-            } catch (CameraAccessException ex) {
-                Log.WriteEx(ex);
-            }
-            catch (IllegalStateException ex)
-            {
-                Log.WriteEx(ex);
-                mHighSpeedCaptureSession = null;
-            }
-    }
-
     @TargetApi(Build.VERSION_CODES.M)
     public void StartHighspeedCaptureSession()
     {
-        if (mHighSpeedCaptureSession == null)
+        if (mCaptureSession == null)
             return;
         try {
-            List<CaptureRequest> capList = mHighSpeedCaptureSession.createHighSpeedRequestList(mPreviewRequestBuilder.build());
+            List<CaptureRequest> capList =  ((CameraConstrainedHighSpeedCaptureSession)mCaptureSession).createHighSpeedRequestList(mPreviewRequestBuilder.build());
 
-            mHighSpeedCaptureSession.setRepeatingBurst(capList, new CameraCaptureSession.CaptureCallback() {
-                @Override
-                public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
-                    super.onCaptureCompleted(session, request, result);
-
-                    Log.d("Completed", "fps:" + result.getFrameNumber());
-                }
-            }, null);
+            mCaptureSession.setRepeatingBurst(capList, cameraBackroundValuesChangedListner, null);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }
     }
 
+    private CameraCaptureSession.CaptureCallback hfrcallback = new CameraCaptureSession.CaptureCallback()
+    {
+        @Override
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+            super.onCaptureCompleted(session, request, result);
+
+        }
+    };
+
     public void capture()
     {
+        if(isHighSpeedSession)
+            return;
         try {
             mCaptureSession.capture(mPreviewRequestBuilder.build(),null,null);
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException | NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -404,7 +404,6 @@ public class CaptureSessionHandler
     public void CloseCaptureSession()
     {
         Log.d(TAG, "CloseCaptureSession");
-        CancelRepeatingCaptureSession(null);
         Clear();
         if (mCaptureSession != null)
         {
@@ -423,7 +422,10 @@ public class CaptureSessionHandler
         mPreviewRequestBuilder.set(key,value);
         if (mImageCaptureRequestBuilder != null)
             mImageCaptureRequestBuilder.set(key,value);
-        StartRepeatingCaptureSession();
+        if (isHighSpeedSession)
+            StartHighspeedCaptureSession();
+        else
+            StartRepeatingCaptureSession();
     }
 
     public <T> void SetPreviewParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value)
@@ -432,7 +434,10 @@ public class CaptureSessionHandler
             return;
         Log.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
-        StartRepeatingCaptureSession();
+        if (isHighSpeedSession)
+            StartHighspeedCaptureSession();
+        else
+            StartRepeatingCaptureSession();
     }
 
     public <T> void SetPreviewParameter(@NonNull CaptureRequest.Key<T> key, T value)
@@ -461,13 +466,17 @@ public class CaptureSessionHandler
             return;
         Log.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
-        if (mImageCaptureRequestBuilder != null)
-            mImageCaptureRequestBuilder.set(key,value);
-        try {
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
-                    null);
-        } catch (CameraAccessException ex) {
-            Log.WriteEx(ex);
+        if (isHighSpeedSession)
+            StartHighspeedCaptureSession();
+        else {
+            if (mImageCaptureRequestBuilder != null)
+                mImageCaptureRequestBuilder.set(key, value);
+            try {
+                mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
+                        null);
+            } catch (CameraAccessException ex) {
+                Log.WriteEx(ex);
+            }
         }
     }
 
@@ -540,7 +549,7 @@ public class CaptureSessionHandler
 
             matrix.postScale(scX,scY,centerX,centerY);
 
-            if (cameraUiWrapper.getAppSettingsManager().orientationhack.getBoolean())
+            if (SettingsManager.get(Settings.orientationHack).getBoolean())
                 matrix.postRotate(orientationWithHack, centerX, centerY);
             else
                 matrix.postRotate(orientation, centerX,centerY);

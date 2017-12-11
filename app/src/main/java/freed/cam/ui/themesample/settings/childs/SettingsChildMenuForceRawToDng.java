@@ -4,35 +4,34 @@ import android.content.Context;
 
 import com.troop.freedcam.R;
 
-import freed.utils.AppSettingsManager;
+import freed.settings.SettingsManager;
+import freed.settings.Settings;
 
 /**
  * Created by troop on 26.06.2017.
  */
 
 public class SettingsChildMenuForceRawToDng extends SettingsChildMenu {
-    private AppSettingsManager appSettingsManager;
 
-    public SettingsChildMenuForceRawToDng(Context context, int headerid, int descriptionid, AppSettingsManager appSettingsManager) {
+    public SettingsChildMenuForceRawToDng(Context context, int headerid, int descriptionid) {
         super(context, headerid, descriptionid);
-        this.appSettingsManager = appSettingsManager;
-        if (appSettingsManager.isForceRawToDng())
-            SetValue(appSettingsManager.getResString(R.string.on));
+        if (SettingsManager.get(Settings.forceRawToDng).getBoolean())
+            SetValue(SettingsManager.getInstance().getResString(R.string.on));
         else
-            SetValue(appSettingsManager.getResString(R.string.off));
+            SetValue(SettingsManager.getInstance().getResString(R.string.off));
     }
 
     @Override
     public String[] GetValues() {
-        return new String[]{appSettingsManager.getResString(R.string.off), appSettingsManager.getResString(R.string.on)};
+        return new String[]{SettingsManager.getInstance().getResString(R.string.off), SettingsManager.getInstance().getResString(R.string.on)};
     }
 
     @Override
     public void SetValue(String value) {
-        if (value.equals(appSettingsManager.getResString(R.string.off)))
-            appSettingsManager.setForceRawToDng(false);
+        if (value.equals(SettingsManager.getInstance().getResString(R.string.off)))
+            SettingsManager.get(Settings.forceRawToDng).setBoolean(false);
         else
-            appSettingsManager.setForceRawToDng(true);
+            SettingsManager.get(Settings.forceRawToDng).setBoolean(true);
         valueText.setText(value);
     }
 

@@ -29,6 +29,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ManualParameterAEHandlerInterface;
+import freed.settings.SettingsManager;
 
 public class ISOManualParameterG4 extends BaseManualParameter implements ManualParameterAEHandlerInterface
 {
@@ -36,7 +37,7 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
 
     public ISOManualParameterG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AE_Handler_Abstract.AeManualEvent manualevent) {
         super(parameters, cameraUiWrapper,1);
-        if (parameters.get(cameraUiWrapper.getAppSettingsManager().getResString(R.string.lg_iso)) != null) {
+        if (parameters.get(SettingsManager.getInstance().getResString(R.string.lg_iso)) != null) {
             isSupported = true;
             isVisible = isSupported;
             ArrayList<String> s = new ArrayList<>();
@@ -55,7 +56,7 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         currentInt = valueToSet;
         if (valueToSet == 0)
@@ -68,17 +69,17 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
         }
     }
 
-    public void setValue(int value)
+    public void SetValue(int value)
     {
 
         if (value == 0)
         {
-            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.lg_iso), cameraUiWrapper.getResString(R.string.auto_));
+            parameters.set(SettingsManager.getInstance().getResString(R.string.lg_iso), cameraUiWrapper.getResString(R.string.auto_));
         }
         else
         {
             currentInt = value;
-            parameters.set(cameraUiWrapper.getAppSettingsManager().getResString(R.string.lg_iso), stringvalues[value]);
+            parameters.set(SettingsManager.getInstance().getResString(R.string.lg_iso), stringvalues[value]);
         }
         fireStringValueChanged(stringvalues[value]);
     }

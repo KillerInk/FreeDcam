@@ -34,20 +34,14 @@ import freed.utils.StringUtils;
  */
 public class CustomMatrix
 {
-    public float[] ColorMatrix1;
-    public float[] ColorMatrix2;
-    public float[] NeutralMatrix;
-    public float[] ForwardMatrix1;
-    public float[] ForwardMatrix2;
-    public float[] ReductionMatrix1;
-    public float[] ReductionMatrix2;
-    public double[] NoiseReductionMatrix;
-
-
-    public static final String MEDIAPROFILESPATH = StringUtils.GetFreeDcamConfigFolder+"matrix/";
-    private static final String TAG = CustomMatrix.class.getSimpleName();
-
-    private CustomMatrix(){}
+    public final float[] ColorMatrix1;
+    public final float[] ColorMatrix2;
+    public final float[] NeutralMatrix;
+    public final float[] ForwardMatrix1;
+    public final float[] ForwardMatrix2;
+    public final float[] ReductionMatrix1;
+    public final float[] ReductionMatrix2;
+    public final double[] NoiseReductionMatrix;
 
     public CustomMatrix(float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,double[]noise)
     {
@@ -71,43 +65,6 @@ public class CustomMatrix
         ReductionMatrix1 = getMatrixFromString(rmatrix1);
         ReductionMatrix2 = getMatrixFromString(rmatrix2);
         NoiseReductionMatrix = getDoubleMatrixFromString(noise);
-    }
-
-
-    public static CustomMatrix getMatrixFromStringArray(String[] ar)
-    {
-        CustomMatrix matrix = new CustomMatrix();
-        for (int i = 0; i < ar.length; i++)
-        {
-            switch (i)
-            {
-                case 0:
-                    matrix.ColorMatrix1 = getMatrixFromString(ar[i]);
-                    break;
-                case 1:
-                    matrix.ColorMatrix2 = getMatrixFromString(ar[i]);
-                    break;
-                case 2:
-                    matrix.NeutralMatrix = getMatrixFromString(ar[i]);
-                    break;
-                case 3:
-                    matrix.ForwardMatrix1 = getMatrixFromString(ar[i]);
-                    break;
-                case 4:
-                    matrix.ForwardMatrix2 = getMatrixFromString(ar[i]);
-                    break;
-                case 5:
-                    matrix.ReductionMatrix1 = getMatrixFromString(ar[i]);
-                    break;
-                case 6:
-                    matrix.ReductionMatrix2 = getMatrixFromString(ar[i]);
-                    break;
-                case 7:
-                    matrix.NoiseReductionMatrix =getDoubleMatrixFromString(ar[i]);
-                    break;
-            }
-        }
-        return matrix;
     }
 
 
@@ -154,60 +111,4 @@ public class CustomMatrix
         }
         return ar;
     }
-
-    public static CustomMatrix loadCustomMatrixFromFile(File customMAtrix)
-    {
-        CustomMatrix matrix = new CustomMatrix();
-        try
-        {
-            Log.d(TAG, "CustomMediaProfile exists loading....");
-            BufferedReader br = null;
-
-            br = new BufferedReader(new FileReader(customMAtrix));
-
-            String line;
-            int count = 0;
-            while ((line = br.readLine()) != null)
-            {
-                if (!line.startsWith("#"))
-                {
-                    if (!line.equals("NULL"))
-                        switch (count)
-                        {
-                            case 0:
-                                matrix.ColorMatrix1 = getMatrixFromString(line);
-                                break;
-                            case 1:
-                                matrix.ColorMatrix2 = getMatrixFromString(line);
-                                break;
-                            case 2:
-                                matrix.NeutralMatrix = getMatrixFromString(line);
-                                break;
-                            case 3:
-                                matrix.ForwardMatrix1 = getMatrixFromString(line);
-                                break;
-                            case 4:
-                                matrix.ForwardMatrix2 = getMatrixFromString(line);
-                                break;
-                            case 5:
-                                matrix.ReductionMatrix1 = getMatrixFromString(line);
-                                break;
-                            case 6:
-                                matrix.ReductionMatrix2 = getMatrixFromString(line);
-                                break;
-                            case 7:
-                                matrix.NoiseReductionMatrix = getDoubleMatrixFromString(line);
-                                break;
-                        }
-                    count++;
-                }
-            }
-            br.close();
-        } catch (IOException e) {
-            Log.WriteEx(e);
-        }
-        return matrix;
-    }
-
-
 }

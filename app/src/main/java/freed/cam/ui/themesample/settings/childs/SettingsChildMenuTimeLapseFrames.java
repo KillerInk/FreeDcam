@@ -20,6 +20,7 @@
 package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,7 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import freed.utils.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -47,12 +48,9 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
     private final float mover = (float)1/60;
     private final float bigmover = 1;
     private String settingsname;
-    private AppSettingsManager appSettingsManager;
 
-
-    public SettingsChildMenuTimeLapseFrames(Context context,AppSettingsManager appSettingsManager) {
+    public SettingsChildMenuTimeLapseFrames(Context context) {
         super(context);
-        this.appSettingsManager = appSettingsManager;
         init(context);
     }
 
@@ -97,9 +95,9 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
 
             }
         });
-        settingsname = AppSettingsManager.TIMELAPSEFRAME;
-        String fps = appSettingsManager.getApiString(settingsname);
-        if (fps == null || fps.equals(""))
+        settingsname = SettingsManager.TIMELAPSEFRAME;
+        String fps = SettingsManager.getInstance().getApiString(settingsname);
+        if (fps == null || TextUtils.isEmpty(fps))
             fps = "30";
 
         Log.d(TAG, "set to " + fps);
@@ -121,7 +119,7 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
         {
             Log.WriteEx(ex);
         }
-        appSettingsManager.setApiString(settingsname, current + "");
+        SettingsManager.getInstance().setApiString(settingsname, current + "");
         if (current >= 1)
             editText.setText(current + " fps");
         else

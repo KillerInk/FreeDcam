@@ -16,34 +16,6 @@
         android:layout_height="fill_parent"
         android:id="@+id/horHolder"></LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/counter"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="@dimen/cameraui_infooverlay_textsize"
-        android:gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/textView_RecCounter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentTop="false"
-            android:autoText="false"
-            android:background="#086c6c6c"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
-            android:paddingTop="3.5dp"
-            android:rotation="0"
-            android:text="0:00:00:000"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff"
-            android:textSize="20dp" />
-
-    </LinearLayout>
-
-
 
     <freed.cam.ui.themesample.cameraui.FocusSelector
         android:layout_width="70dp"
@@ -278,6 +250,17 @@
             android:layout_alignParentBottom="true"
             android:gravity="center|center_horizontal|bottom">
 
+            <freed.cam.ui.themesample.cameraui.childs.UiSettingsChildSelfTimer
+                android:layout_width="@dimen/ui_settings_item_height"
+                android:layout_height="@dimen/ui_settings_item_height"
+                android:id="@+id/selftimer"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/selftimer"
+                android:layout_marginTop="18dp"/>
+
+
             <freed.cam.ui.themesample.cameraui.childs.UiSettingsChildAeLock
                 android:layout_width="@dimen/ui_settings_item_width"
                 android:layout_height="@dimen/ui_settings_item_height"
@@ -286,7 +269,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/quck_set_ae_lock"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="5dp"/>
 
             <freed.cam.ui.themesample.cameraui.childs.UiSettingsChildCameraSwitch
                 android:layout_width="@dimen/ui_settings_item_width"
@@ -296,8 +279,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/quck_set_cswitch"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
 
         </LinearLayout>
 

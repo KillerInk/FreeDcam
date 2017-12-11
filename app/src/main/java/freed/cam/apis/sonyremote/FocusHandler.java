@@ -34,6 +34,11 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     private final String TAG = FocusHandler.class.getSimpleName();
     private boolean isFocusing;
 
+    @Override
+    protected void startTouchFocus(FocusCoordinates obj) {
+
+    }
+
     public FocusHandler(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);

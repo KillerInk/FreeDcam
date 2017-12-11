@@ -29,14 +29,13 @@ import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.provider.DocumentFile;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,15 +49,16 @@ import com.troop.freedcam.R.layout;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import freed.ActivityAbstract;
 import freed.ActivityAbstract.FormatTypes;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
-import freed.cam.ui.handler.MediaScannerManager;
-import freed.utils.FreeDPool;
+import freed.utils.MediaScannerManager;
+import freed.image.ImageManager;
+import freed.image.ImageTask;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.holder.FileHolder;
@@ -70,16 +70,15 @@ import freed.viewer.screenslide.ImageFragment.I_WaitForWorkFinish;
  */
 public class ScreenSlideFragment extends Fragment implements OnPageChangeListener, I_OnActivityResultCallback, I_WaitForWorkFinish
 {
-
     public final String TAG = ScreenSlideFragment.class.getSimpleName();
-    public interface I_ThumbClick
+    public interface ButtonClick
     {
-        void onThumbClick(int position,View view);
+        void onButtonClick(int position, View view);
     }
 
     public interface FragmentClickClistner
     {
-        void onClick(Fragment fragment);
+        void onFragmentClick(Fragment fragment);
     }
 
     /**
@@ -99,23 +98,27 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     private TextView focal;
     private TextView fnumber;
     private TextView filename;
-    private LinearLayout exifinfo;
+    private LinearLayout exifinfo_holder;
     private Button deleteButton;
     private Button play;
+    private Button infoButton;
     private LinearLayout bottombar;
     private MyHistogram histogram;
 
     public int defitem = -1;
     public FormatTypes filestoshow = ActivityAbstract.FormatTypes.all;
-    private I_ThumbClick thumbclick;
+    private ButtonClick backClickListner;
     private LinearLayout topbar;
     //hold the showed folder_to_show
     private FileHolder folder_to_show;
+    private ExifHandler exifHandler;
 
-    protected List<FileHolder> files =  new ArrayList<>();
+
 
     private ActivityInterface activityInterface;
     View view;
+
+    private boolean showExifInfo = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -125,6 +128,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
         int mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
         activityInterface = (ActivityInterface) getActivity();
+        exifHandler =new ExifHandler(Looper.getMainLooper());
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) view.findViewById(id.pager);
@@ -136,8 +140,8 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         {
             @Override
             public void onClick(View v) {
-                if (thumbclick != null) {
-                    thumbclick.onThumbClick(mPager.getCurrentItem(), view);
+                if (backClickListner != null) {
+                    backClickListner.onButtonClick(mPager.getCurrentItem(), view);
                     mPager.setCurrentItem(0);
                 } else
                     getActivity().finish();
@@ -147,8 +151,6 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
         bottombar =(LinearLayout)view.findViewById(id.bottom_bar);
 
-        exifinfo = (LinearLayout)view.findViewById(id.exif_info);
-        exifinfo.setVisibility(View.GONE);
         iso = (TextView)view.findViewById(id.textView_iso);
         iso.setText("");
         shutter = (TextView)view.findViewById(id.textView_shutter);
@@ -193,10 +195,10 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !activityInterface.getAppSettings().GetWriteExternal()) {
+                if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !SettingsManager.getInstance().GetWriteExternal()) {
                     Builder builder = new Builder(getContext());
-                    builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
-                            .setNegativeButton("No", dialogClickListener).show();
+                    builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteButtonClick)
+                            .setNegativeButton("No", onDeleteButtonClick).show();
                 } else {
                     DocumentFile sdDir = activityInterface.getExternalSdDocumentFile();
                     if (sdDir == null) {
@@ -204,15 +206,38 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                         activityInterface.ChooseSDCard(ScreenSlideFragment.this);
                     } else {
                         Builder builder = new Builder(getContext());
-                        builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
-                                .setNegativeButton("No", dialogClickListener).show();
+                        builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteButtonClick)
+                                .setNegativeButton("No", onDeleteButtonClick).show();
                     }
                 }
 
 
             }
         });
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
+
+        infoButton = (Button)view.findViewById(id.button_info);
+        infoButton.setVisibility(View.GONE);
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (showExifInfo)
+                {
+                    showExifInfo = false;
+                    exifinfo_holder.setVisibility(View.GONE);
+                }
+                else
+                {
+                    showExifInfo = true;
+                    exifinfo_holder.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        exifinfo_holder = (LinearLayout)view.findViewById(id.screenslide_exif_holder);
+        exifinfo_holder.setVisibility(View.GONE);
+
+
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner);
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(2);
         mPager.addOnPageChangeListener(this);
@@ -236,14 +261,13 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     {
         Log.d(TAG,"notifyDataHasChanged");
         if (mPagerAdapter != null && mPager != null) {
-            this.files = files;
-            mPagerAdapter.notifyDataSetChanged();
+            mPagerAdapter.setFiles(files);
         }
     }
 
-    public void SetOnThumbClick(I_ThumbClick thumbClick)
+    public void setOnBackClickListner(ButtonClick thumbClick)
     {
-        thumbclick = thumbClick;
+        backClickListner = thumbClick;
     }
 
     @Override
@@ -260,13 +284,10 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         int[] histodata = fragment.GetHistogramData();
         if (histodata != null)
         {
-            if (topbar.getVisibility() == View.VISIBLE)
-                histogram.setVisibility(View.VISIBLE);
             histogram.SetHistogramData(histodata);
         }
         else
         {
-            histogram.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
             fragment.SetWaitForWorkFinishLisnter(this, position);
         }
@@ -280,20 +301,9 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     }
 
     @Override
-    public void HistograRdyToSet(final int[] histodata, final int position)
+    public void onHistogramData(final int[] histodata, final int position)
     {
-        histogram.post(new Runnable() {
-            @Override
-            public void run() {
-                if (mPager.getCurrentItem() == position)
-                {
-                    if (topbar.getVisibility() == View.VISIBLE)
-                        histogram.setVisibility(View.VISIBLE);
-                    histogram.SetHistogramData(histodata);
-                    deleteButton.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+        exifHandler.setHistogram(histodata,position);
     }
 
     @Override
@@ -306,23 +316,27 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
     }
 
+    //toggle ui items visibility when a single click from the ImageFragment happen
     private final FragmentClickClistner fragmentclickListner = new FragmentClickClistner() {
         @Override
-        public void onClick(Fragment v) {
+        public void onFragmentClick(Fragment v) {
             if (topbar.getVisibility() == View.GONE) {
                 topbar.setVisibility(View.VISIBLE);
                 bottombar.setVisibility(View.VISIBLE);
                 histogram.setVisibility(View.VISIBLE);
+                if (showExifInfo)
+                    exifinfo_holder.setVisibility(View.VISIBLE);
             }
             else {
                 topbar.setVisibility(View.GONE);
                 bottombar.setVisibility(View.GONE);
                 histogram.setVisibility(View.GONE);
+                exifinfo_holder.setVisibility(View.GONE);
             }
         }
     };
 
-    private final OnClickListener dialogClickListener = new OnClickListener() {
+    private final OnClickListener onDeleteButtonClick = new OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
@@ -352,22 +366,26 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         {
             filename.setText(file.getFile().getName());
             deleteButton.setVisibility(View.VISIBLE);
+            infoButton.setVisibility(View.VISIBLE);
             if (file.getFile().getName().toLowerCase().endsWith(FileEnding.JPG) || file.getFile().getName().toLowerCase().endsWith(FileEnding.JPS)) {
                 processExif(file.getFile());
-                exifinfo.setVisibility(View.VISIBLE);
+                if (showExifInfo)
+                    exifinfo_holder.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getFile().getName().toLowerCase().endsWith(FileEnding.MP4)) {
-                exifinfo.setVisibility(View.GONE);
+                exifinfo_holder.setVisibility(View.GONE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getFile().getName().toLowerCase().endsWith(FileEnding.DNG)) {
                 processExif(file.getFile());
-                exifinfo.setVisibility(View.VISIBLE);
+                if (showExifInfo)
+                    exifinfo_holder.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getFile().getName().toLowerCase().endsWith(FileEnding.RAW) || file.getFile().getName().toLowerCase().endsWith(FileEnding.BAYER)) {
-                exifinfo.setVisibility(View.GONE);
+                if (showExifInfo)
+                    exifinfo_holder.setVisibility(View.VISIBLE);
                 play.setVisibility(View.GONE);
             }
 
@@ -375,82 +393,160 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         else
         {
             filename.setText("No Files");
+            infoButton.setVisibility(View.GONE);
+            exifinfo_holder.setVisibility(View.GONE);
             histogram.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
-            exifinfo.setVisibility(View.GONE);
             play.setVisibility(View.GONE);
         }
     }
 
     private void processExif(final File file)
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    final ExifInterface exifInterface = new ExifInterface(file.getAbsolutePath());
-                    iso.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                String expostring = exifInterface.getAttribute(ExifInterface.TAG_EXPOSURE_TIME);
-                                if (expostring == null)
-                                    shutter.setText("");
-                                else
-                                {
-                                    shutter.setText("S:" + getShutterStringSeconds(Double.parseDouble(expostring)));
-                                }
-                            }catch (NullPointerException e){
-                                shutter.setText("");
-                            }
-                            try
-                            {
-                                String fnums = exifInterface.getAttribute(ExifInterface.TAG_F_NUMBER);
-                                if (fnums != null)
-                                    fnumber.setText("f~:" + fnums);
-                                else
-                                    fnumber.setText("");
-                            }catch (NullPointerException e){
-                                fnumber.setText("");
-                            }
-                            try {
-                                String focs = exifInterface.getAttribute(ExifInterface.TAG_APERTURE_VALUE);
-                                if (focs == null)
-                                {
-                                    focal.setText("");
-                                }
-                                else {
-                                    if (focs.contains("/"))
-                                    {
-                                        String split[] = focs.split("/");
-                                        double numerator = Integer.parseInt(split[0]);
-                                        double denumerator = Integer.parseInt(split[1]);
-                                        double foc = numerator /denumerator;
-                                        focs = foc+"";
-                                    }
-                                    focal.setText("A:" + focs);
-                                }
-                            }catch (NullPointerException e){
-                                focal.setText("");
-                            }
-                            try {
-                                String isos = exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
-                                if (isos != null)
-                                    iso.setText("ISO:" + isos);
-                                else
-                                    iso.setText("");
-                            }catch (NullPointerException e){
-                                iso.setText("");
-                            }
-                        }
-                    });
+        ImageManager.putImageLoadTask(new ExifLoader(file));
+    }
 
-                } catch (NullPointerException  | IOException ex)
-                {
-                    Log.d(TAG, "Failed to read Exif");
-                }
+    private class ExifLoader extends ImageTask {
+
+        private final File file;
+
+        public ExifLoader(File file)
+        {
+            this.file = file;
+        }
+
+        @Override
+        public boolean process() {
+            ExifInterface exifInterface = null;
+            try {
+                exifInterface = new ExifInterface(file.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+            if (exifInterface == null)
+                return false;
+            try {
+                String expostring = exifInterface.getAttribute(ExifInterface.TAG_EXPOSURE_TIME);
+                if (expostring == null)
+                    exifHandler.setSHUTTERSPEED("");
+                else
+                {
+                    exifHandler.setSHUTTERSPEED("S:" + getShutterStringSeconds(Double.parseDouble(expostring)));
+                }
+            }catch (NullPointerException e){
+                exifHandler.setSHUTTERSPEED("");
+            }
+            try
+            {
+                String fnums = exifInterface.getAttribute(ExifInterface.TAG_F_NUMBER);
+                if (fnums != null)
+                    exifHandler.setFNUM("f~:" + fnums);
+                else
+                    exifHandler.setFNUM("");
+            }catch (NullPointerException e){
+                exifHandler.setFNUM("");
+            }
+            try {
+                String focs = exifInterface.getAttribute(ExifInterface.TAG_APERTURE_VALUE);
+                if (focs == null)
+                {
+                    exifHandler.setFOCAL("");
+                }
+                else {
+                    if (focs.contains("/"))
+                    {
+                        String split[] = focs.split("/");
+                        double numerator = Integer.parseInt(split[0]);
+                        double denumerator = Integer.parseInt(split[1]);
+                        double foc = numerator /denumerator;
+                        focs = foc+"";
+                    }
+                    exifHandler.setFOCAL("A:" + focs);
+                }
+            }catch (NullPointerException e){
+                exifHandler.setFOCAL("");
+            }
+            try {
+                String isos = exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
+                if (isos != null)
+                    exifHandler.setISO("ISO:" + isos);
+                else
+                    exifHandler.setISO("");
+            }catch (NullPointerException e){
+                exifHandler.setISO("");
+            }
+            return true;
+        }
+    }
+
+    private class ExifHandler extends Handler
+    {
+        private final int MSG_ISO = 0;
+        private final int MSG_SHUTTERSPEED = 1;
+        private final int MSG_FOCAL = 2;
+        private final int MSG_FNUM = 3;
+        private final int MSG_HISTOGRAM = 4;
+
+        public ExifHandler(Looper looper)
+        {
+            super(looper);
+        }
+
+        public void setISO(String iso)
+        {
+            this.obtainMessage(MSG_ISO,iso).sendToTarget();
+        }
+
+        public void setSHUTTERSPEED(String iso)
+        {
+            this.obtainMessage(MSG_SHUTTERSPEED,iso).sendToTarget();
+        }
+
+        public void setFOCAL(String iso)
+        {
+            this.obtainMessage(MSG_FOCAL,iso).sendToTarget();
+        }
+
+        public void setFNUM(String iso)
+        {
+            this.obtainMessage(MSG_FNUM,iso).sendToTarget();
+        }
+
+        public void setHistogram(int[] histodata, final int position)
+        {
+            this.obtainMessage(MSG_HISTOGRAM,position,0,histodata).sendToTarget();
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what)
+            {
+                case MSG_ISO:
+                    iso.setText((String)msg.obj);
+                    break;
+                case MSG_FNUM:
+                    fnumber.setText((String)msg.obj);
+                    break;
+                case MSG_FOCAL:
+                    focal.setText((String)msg.obj);
+                    break;
+                case MSG_SHUTTERSPEED:
+                    shutter.setText((String)msg.obj);
+                    break;
+                case MSG_HISTOGRAM:
+                    int position = msg.arg1;
+                    if (mPager.getCurrentItem() == position)
+                    {
+                        if (topbar.getVisibility() == View.VISIBLE)
+                            histogram.setVisibility(View.VISIBLE);
+                        histogram.SetHistogramData((int[])msg.obj);
+                        deleteButton.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
     }
 
     private String getShutterStringSeconds(double val)
@@ -462,83 +558,6 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         return "1/" + Integer.toString(i);
     }
 
-    class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
-    {
-        private final String TAG = ScreenSlidePagerAdapter.class.getSimpleName();
-        private final SparseArray<Fragment> registeredFragments;
 
-        public ScreenSlidePagerAdapter(FragmentManager fm)
-        {
-            super(fm);
-
-            registeredFragments = new SparseArray<>();
-        }
-
-        public FileHolder getCurrentFile()
-        {
-            if (activityInterface.getFiles() != null && activityInterface.getFiles().size()>0)
-                return activityInterface.getFiles().get(mPager.getCurrentItem());
-            else
-                return null;
-        }
-
-
-        //FragmentStatePagerAdapter implementation START
-
-        @Override
-        public Fragment getItem(int position)
-        {
-            ImageFragment  currentFragment = new ImageFragment();
-            if (files == null || files.size() == 0)
-                currentFragment.SetFilePath(null);
-            else
-                currentFragment.SetFilePath(files.get(position));
-            currentFragment.SetOnclickLisnter(fragmentclickListner);
-
-            return currentFragment;
-        }
-
-        @Override
-        public int getCount()
-        {
-            if(files != null && files.size() > 0)
-                return files.size();
-            else return 1;
-        }
-
-        @Override
-        public int getItemPosition(Object object)
-        {
-            ImageFragment imageFragment = (ImageFragment) object;
-            FileHolder file = imageFragment.GetFilePath();
-            int position = files.indexOf(file);
-            //if (position >= 0) {
-                // The current data matches the data in this active fragment, so let it be as it is.
-            if (position == imageFragment.getPosition){
-                return PagerAdapter.POSITION_UNCHANGED;
-            } else {
-                // Returning POSITION_NONE means the current data does not matches the data this fragment is showing right now.  Returning POSITION_NONE constant will force the fragment to redraw its view layout all over again and show new data.
-                return PagerAdapter.POSITION_NONE;
-            }
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            ImageFragment fragment = (ImageFragment) super.instantiateItem(container, position);
-            fragment.getPosition = position;
-            registeredFragments.put(position, fragment);
-            return fragment;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            registeredFragments.remove(position);
-            super.destroyItem(container, position, object);
-        }
-
-        public Fragment getRegisteredFragment(int position) {
-            return registeredFragments.get(position);
-        }
-    }
 
 }

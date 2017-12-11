@@ -36,17 +36,16 @@ import freed.viewer.holder.FileHolder;
 /**
  * Created by troop on 01.08.2016.
  */
-public class StorageFileHandler
+public class StorageFileManager
 {
     public static String freedcamFolder = "/DCIM/FreeDcam/";
 
-    private final String TAG = StorageFileHandler.class.getSimpleName();
+    private final String TAG = StorageFileManager.class.getSimpleName();
     private File internalSD;
     private File externalSD;
 
-    public StorageFileHandler(ActivityAbstract activityAbstract)
+    public StorageFileManager()
     {
-        ActivityAbstract activityAbstract1 = activityAbstract;
         findSdCards();
     }
 

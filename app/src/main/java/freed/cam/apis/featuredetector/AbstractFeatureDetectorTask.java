@@ -1,14 +1,12 @@
-package freed.cam.featuredetector;
+package freed.cam.apis.featuredetector;
 
 import android.media.CamcorderProfile;
-import android.os.AsyncTask;
 
-import com.lge.media.CamcorderProfileEx;
+import com.lge.media.CamcorderProfileExRef;
 
 import java.util.HashMap;
 
-import freed.cam.apis.camera1.modules.VideoMediaProfileLG;
-import freed.utils.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 
@@ -16,15 +14,13 @@ import freed.utils.VideoMediaProfile;
  * Created by troop on 23.01.2017.
  */
 
-public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,String, String> {
+public abstract class AbstractFeatureDetectorTask {
 
     private final  String TAG = AbstractFeatureDetectorTask.class.getSimpleName();
     private ProgressUpdate progressUpdateListner;
-    protected AppSettingsManager appSettingsManager;
-    public AbstractFeatureDetectorTask(ProgressUpdate progressUpdate, AppSettingsManager appSettingsManager)
+    public AbstractFeatureDetectorTask(ProgressUpdate progressUpdate)
     {
         this.progressUpdateListner = progressUpdate;
-        this.appSettingsManager = appSettingsManager;
     }
 
     public interface ProgressUpdate
@@ -33,7 +29,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
         void onTaskEnd(String msg);
     }
 
-    protected void sendProgress(AppSettingsManager.SettingMode settingMode, String name)
+    protected void sendProgress(SettingsManager.SettingMode settingMode, String name)
     {
         if (settingMode.isSupported()) {
             String[]ar = settingMode.getValues();
@@ -45,14 +41,14 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
             publishProgress(name+" not supported");
     }
 
-    @Override
-    protected void onProgressUpdate(String... values) {
+    public abstract void detect();
+
+    protected void publishProgress(String value) {
         if (progressUpdateListner != null)
-            progressUpdateListner.onProgessUpdate(values[0]);
+            progressUpdateListner.onProgessUpdate(value);
     }
 
-    @Override
-    protected void onPostExecute(String s) {
+    public void onPostExecute(String s) {
         if (progressUpdateListner != null)
             progressUpdateListner.onTaskEnd(s);
     }
@@ -61,7 +57,7 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
     {
         String t = "";
         for (int i =0; i<arr.length;i++)
-            t+=arr[i]+ AppSettingsManager.SPLITTCHAR;
+            t+=arr[i]+ SettingsManager.SPLITTCHAR;
         return t;
     }
 
@@ -241,20 +237,20 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
         HashMap<String, VideoMediaProfile> supportedProfiles = new HashMap<>();
 
         try {
-            if (CamcorderProfileEx.hasProfile(camera_id, CamcorderProfileEx.QUALITY_480P))
-                supportedProfiles.put("480p", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CamcorderProfileEx.QUALITY_480P), "480p", VideoMediaProfile.VideoMode.Normal,true));
+            if (CamcorderProfileExRef.hasProfile(camera_id, CamcorderProfileExRef.QUALITY_480P))
+                supportedProfiles.put("480p", CamcorderProfileExRef.getProfile(camera_id, CamcorderProfileExRef.QUALITY_480P, "480p", VideoMediaProfile.VideoMode.Normal,true));
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(camera_id, CamcorderProfileEx.QUALITY_720P))
-                supportedProfiles.put("720p", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CamcorderProfileEx.QUALITY_720P),"720p", VideoMediaProfile.VideoMode.Normal,true));
+            if (CamcorderProfileExRef.hasProfile(camera_id, CamcorderProfileExRef.QUALITY_720P))
+                supportedProfiles.put("720p", CamcorderProfileExRef.getProfile(camera_id, CamcorderProfileExRef.QUALITY_720P,"720p", VideoMediaProfile.VideoMode.Normal,true));
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(camera_id, CamcorderProfileEx.QUALITY_1080P)) {
-                supportedProfiles.put("1080p", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CamcorderProfileEx.QUALITY_1080P), "1080p", VideoMediaProfile.VideoMode.Normal,true));
+            if (CamcorderProfileExRef.hasProfile(camera_id, CamcorderProfileExRef.QUALITY_1080P)) {
+                supportedProfiles.put("1080p", CamcorderProfileExRef.getProfile(camera_id, CamcorderProfileExRef.QUALITY_1080P, "1080p", VideoMediaProfile.VideoMode.Normal,true));
                 VideoMediaProfile p108060fps = supportedProfiles.get("1080p").clone();
                 p108060fps.videoFrameRate = 60;
                 p108060fps.ProfileName = "1080p@60";
@@ -265,63 +261,61 @@ public abstract class AbstractFeatureDetectorTask extends AsyncTask<String,Strin
             Log.WriteEx(ex);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(camera_id, CamcorderProfileEx.QUALITY_TIME_LAPSE_480P))
-                supportedProfiles.put("Timelapse480p", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CamcorderProfileEx.QUALITY_TIME_LAPSE_480P), "Timelapse480p", VideoMediaProfile.VideoMode.Timelapse,false));
+            if (CamcorderProfileExRef.hasProfile(camera_id, CamcorderProfileExRef.QUALITY_TIME_LAPSE_480P))
+                supportedProfiles.put("Timelapse480p", CamcorderProfileExRef.getProfile(camera_id, CamcorderProfileExRef.QUALITY_TIME_LAPSE_480P, "Timelapse480p", VideoMediaProfile.VideoMode.Timelapse,false));
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(camera_id, CamcorderProfileEx.QUALITY_TIME_LAPSE_720P))
-                supportedProfiles.put("Timelapse720p", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CamcorderProfileEx.QUALITY_TIME_LAPSE_720P),"Timelapse720p", VideoMediaProfile.VideoMode.Timelapse,false));
+            if (CamcorderProfileExRef.hasProfile(camera_id, CamcorderProfileExRef.QUALITY_TIME_LAPSE_720P))
+                supportedProfiles.put("Timelapse720p", CamcorderProfileExRef.getProfile(camera_id, CamcorderProfileExRef.QUALITY_TIME_LAPSE_720P,"Timelapse720p", VideoMediaProfile.VideoMode.Timelapse,false));
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(camera_id, CamcorderProfileEx.QUALITY_TIME_LAPSE_1080P))
-                supportedProfiles.put("Timelapse1080p", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CamcorderProfileEx.QUALITY_TIME_LAPSE_1080P),"Timelapse1080p", VideoMediaProfile.VideoMode.Timelapse,false));
+            if (CamcorderProfileExRef.hasProfile(camera_id, CamcorderProfileExRef.QUALITY_TIME_LAPSE_1080P))
+                supportedProfiles.put("Timelapse1080p", CamcorderProfileExRef.getProfile(camera_id, CamcorderProfileExRef.QUALITY_TIME_LAPSE_1080P,"Timelapse1080p", VideoMediaProfile.VideoMode.Timelapse,false));
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(camera_id, CAMCORDER_QUALITY_2160pDCI))
-                supportedProfiles.put("2160pDCI", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CAMCORDER_QUALITY_2160pDCI),"2160pDCI", VideoMediaProfile.VideoMode.Normal,true));
+            if (CamcorderProfileExRef.hasProfile(camera_id, CAMCORDER_QUALITY_2160pDCI))
+                supportedProfiles.put("2160pDCI", CamcorderProfileExRef.getProfile(camera_id, CAMCORDER_QUALITY_2160pDCI,"2160pDCI", VideoMediaProfile.VideoMode.Normal,true));
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(camera_id, CAMCORDER_QUALITY_2160p))
+            if (CamcorderProfileExRef.hasProfile(camera_id, CAMCORDER_QUALITY_2160p))
             {
-                CamcorderProfileEx fourk = CamcorderProfileEx.get(camera_id, CAMCORDER_QUALITY_2160p);
-                supportedProfiles.put("2160p", new VideoMediaProfileLG(fourk,"2160p", VideoMediaProfile.VideoMode.Normal,true));
+                supportedProfiles.put("2160p", CamcorderProfileExRef.getProfile(camera_id, CAMCORDER_QUALITY_2160p,"2160p", VideoMediaProfile.VideoMode.Normal,true));
             }
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(camera_id, QUALITY_2160p))
+            if (CamcorderProfileExRef.hasProfile(camera_id, QUALITY_2160p))
             {
-                CamcorderProfileEx fourk = CamcorderProfileEx.get(camera_id, QUALITY_2160p);
-                supportedProfiles.put("2160p", new VideoMediaProfileLG(fourk,"2160p", VideoMediaProfile.VideoMode.Normal,true));
+                supportedProfiles.put("2160p", CamcorderProfileExRef.getProfile(camera_id, QUALITY_2160p,"2160p", VideoMediaProfile.VideoMode.Normal,true));
             }
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(camera_id, CAMCORDER_QUALITY_720p_HFR))
-                supportedProfiles.put("720pHFR", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, CAMCORDER_QUALITY_720p_HFR),"720pHFR", VideoMediaProfile.VideoMode.Highspeed,true));
+            if (CamcorderProfileExRef.hasProfile(camera_id, CAMCORDER_QUALITY_720p_HFR))
+                supportedProfiles.put("720pHFR", CamcorderProfileExRef.getProfile(camera_id, CAMCORDER_QUALITY_720p_HFR,"720pHFR", VideoMediaProfile.VideoMode.Highspeed,true));
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }
         try {
-            if (CamcorderProfileEx.hasProfile(camera_id, QUALITY_HFR720P))
-                supportedProfiles.put("720pHFR", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, QUALITY_HFR720P),"720pHFR", VideoMediaProfile.VideoMode.Highspeed,true));
+            if (CamcorderProfileExRef.hasProfile(camera_id, QUALITY_HFR720P))
+                supportedProfiles.put("720pHFR", CamcorderProfileExRef.getProfile(camera_id, QUALITY_HFR720P,"720pHFR", VideoMediaProfile.VideoMode.Highspeed,true));
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }
 
         try {
-            if (CamcorderProfileEx.hasProfile(camera_id, QUALITY_HIGH_SPEED_1080P))
-                supportedProfiles.put("1080pHFR", new VideoMediaProfileLG(CamcorderProfileEx.get(camera_id, QUALITY_HIGH_SPEED_1080P), "1080pHFR", VideoMediaProfile.VideoMode.Highspeed,true));
+            if (CamcorderProfileExRef.hasProfile(camera_id, QUALITY_HIGH_SPEED_1080P))
+                supportedProfiles.put("1080pHFR", CamcorderProfileExRef.getProfile(camera_id, QUALITY_HIGH_SPEED_1080P, "1080pHFR", VideoMediaProfile.VideoMode.Highspeed,true));
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }

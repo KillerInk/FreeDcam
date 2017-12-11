@@ -43,7 +43,7 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
         super(cameraUiWrapper, mBackgroundHandler,mainHandler);
         this.picModule = picModule;
 
-        intervalHandler = new IntervalHandler(picModule, appSettingsManager);
+        intervalHandler = new IntervalHandler(picModule);
         name = cameraUiWrapper.getResString(R.string.module_interval);
     }
 

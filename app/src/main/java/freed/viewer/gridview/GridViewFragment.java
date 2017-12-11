@@ -54,8 +54,8 @@ import java.util.List;
 import freed.ActivityAbstract.FormatTypes;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
+import freed.image.ImageManager;
 import freed.utils.FreeDPool;
-import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.dngconvert.DngConvertingActivity;
 import freed.viewer.dngconvert.DngConvertingFragment;
@@ -116,7 +116,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     private boolean isRootDir = true;
 
     private ActivityInterface viewerActivityInterface;
-    private ScreenSlideFragment.I_ThumbClick onGridItemClick;
+    private ScreenSlideFragment.ButtonClick onGridItemClick;
     private FileHolder folderToShow;
 
     public int DEFAULT_ITEM_TO_SET = 0;
@@ -140,7 +140,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         dngstack,
     }
 
-    public void SetOnGridItemClick(ScreenSlideFragment.I_ThumbClick onGridItemClick)
+    public void SetOnGridItemClick(ScreenSlideFragment.ButtonClick onGridItemClick)
     {
         this.onGridItemClick = onGridItemClick;
     }
@@ -228,23 +228,17 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     @Override
     public void onResume() {
         super.onResume();
-        if (mPagerAdapter != null)
-            mPagerAdapter.createExecutor();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mPagerAdapter != null)
-            mPagerAdapter.Destroy();
+        ImageManager.cancelImageLoadTasks();
     }
 
     @Override
     public void onDestroyView()
     {
-        Log.d(TAG,"onDestroyView(): Destroy PagerAdapter");
-        if (mPagerAdapter != null)
-            mPagerAdapter.Destroy();
         super.onDestroyView();
     }
 
@@ -274,7 +268,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                 //handel normal griditem click to open screenslide when its not a folder
                 if (!viewerActivityInterface.getFiles().get(position).IsFolder())
                 {
-                    this.onGridItemClick.onThumbClick(position, view);
+                    this.onGridItemClick.onButtonClick(position, view);
                 }
                 else //handel folder click
                 {
@@ -439,7 +433,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
 
     private void deleteFiles()
     {
-        mPagerAdapter.shutdownExecutor();
+        ImageManager.cancelImageLoadTasks();
         FreeDPool.Execute(new Runnable()
         {
             @Override
@@ -459,7 +453,6 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                 viewerActivityInterface.DeleteFiles(to_del);
             }
         });
-        mPagerAdapter.createExecutor();
     }
 
     private final OnClickListener onGobBackClick = new OnClickListener() {

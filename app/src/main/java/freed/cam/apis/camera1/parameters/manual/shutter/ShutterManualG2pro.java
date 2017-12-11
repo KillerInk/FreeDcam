@@ -26,8 +26,10 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraHolderInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.Settings;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -46,7 +48,7 @@ public class ShutterManualG2pro extends BaseManualParameter
      */
     public ShutterManualG2pro(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
-        stringvalues = cameraUiWrapper.getAppSettingsManager().manualExposureTime.getValues();
+        stringvalues = SettingsManager.get(Settings.M_ExposureTime).getValues();
         isSupported = true;
     }
 
@@ -61,7 +63,7 @@ public class ShutterManualG2pro extends BaseManualParameter
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void setValue(int valueToSet)
     {
         currentInt = valueToSet;
         String shutterstring = stringvalues[currentInt];

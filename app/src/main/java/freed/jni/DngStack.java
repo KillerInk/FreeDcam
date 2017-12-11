@@ -1,6 +1,10 @@
 package freed.jni;
 
+import android.content.Context;
+
 import java.io.File;
+
+import freed.utils.MediaScannerManager;
 
 /**
  * Created by troop on 25.10.2016.
@@ -22,11 +26,12 @@ public class DngStack
         this.dngToStack = dngs_to_stack;
     }
 
-    public void StartStack()
+    public void StartStack(Context context)
     {
         File file = new File(dngToStack[0]);
         File out = file.getParentFile();
         out = new File(out.getAbsolutePath() + "/" + file.getName() + "_Stack.dng");
         startStack(dngToStack,out.getAbsolutePath());
+        MediaScannerManager.ScanMedia(context,out);
     }
 }

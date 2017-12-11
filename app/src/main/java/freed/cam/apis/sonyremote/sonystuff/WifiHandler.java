@@ -2,10 +2,11 @@ package freed.cam.apis.sonyremote.sonystuff;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import freed.ActivityInterface;
 import freed.utils.Log;
-import freed.utils.PermissionHandler;
+import freed.utils.PermissionManager;
 
 /**
  * Created by troop on 12.01.2017.
@@ -38,14 +39,14 @@ public class WifiHandler extends WifiUtils {
     public void onResume()
     {
         resumed = true;
-        if(activityInterface.getPermissionHandler().hasLocationPermission(null)) {
-            activityInterface.getPermissionHandler().hasWifiPermission(onLocationPermission);
+        if(activityInterface.getPermissionManager().hasLocationPermission(null)) {
+            activityInterface.getPermissionManager().hasWifiPermission(onLocationPermission);
         }
         else
             sendMessage("Location Permission is needed to find the camera!");
     }
 
-    private PermissionHandler.PermissionCallback onLocationPermission = new PermissionHandler.PermissionCallback() {
+    private PermissionManager.PermissionCallback onLocationPermission = new PermissionManager.PermissionCallback() {
         @Override
         public void permissionGranted(boolean granted) {
             if (!granted)
@@ -120,7 +121,7 @@ public class WifiHandler extends WifiUtils {
                                 break;
                             }
                         }
-                        if (foundnet.equals(""))
+                        if (TextUtils.isEmpty(foundnet))
                         {
                             Log.d(TAG,"Not networkfound,Start Scan");
                             sendMessage("No Network found, Start Scan");

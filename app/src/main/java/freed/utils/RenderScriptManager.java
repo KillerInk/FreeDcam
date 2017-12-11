@@ -39,7 +39,7 @@ import android.view.Surface;
  * Created by troop on 23.05.2016.
  */
 @TargetApi(VERSION_CODES.KITKAT)
-public class RenderScriptHandler
+public class RenderScriptManager
 {
     private Allocation mAllocationOut;
     private Allocation mAllocationIn;
@@ -65,7 +65,7 @@ public class RenderScriptHandler
         return this.sucessfullLoaded;
     }
 
-    public RenderScriptHandler(Context context)
+    public RenderScriptManager(Context context)
     {
         mRS = RenderScript.create(context);
         mRS.setPriority(Priority.LOW);

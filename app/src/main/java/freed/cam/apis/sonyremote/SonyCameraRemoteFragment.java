@@ -20,6 +20,7 @@
 package freed.cam.apis.sonyremote;
 
 import android.os.Bundle;
+import android.os.HandlerThread;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -41,6 +42,7 @@ import java.util.Set;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.settings.Settings;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
@@ -49,7 +51,7 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.cam.apis.sonyremote.sonystuff.WifiHandler;
-import freed.utils.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -71,13 +73,21 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     private SimpleCameraEventObserver mEventObserver;
     private final Set<String> mAvailableCameraApiSet = new HashSet<>();
 
+    public static SonyCameraRemoteFragment getInstance(HandlerThread mBackgroundThread, Object cameraLock)
+    {
+        SonyCameraRemoteFragment fragment = new SonyCameraRemoteFragment();
+        fragment.init(mBackgroundThread, cameraLock);
+        return fragment;
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(layout.cameraholdersony, container, false);
         surfaceView = (SimpleStreamSurfaceView) view.findViewById(id.view);
-        surfaceView.SetRenderScriptHandlerAndInterface(renderScriptHandler, (ActivityInterface) getActivity());
+        surfaceView.SetRenderScriptHandlerAndInterface(renderScriptManager, (ActivityInterface) getActivity());
 
         textView_wifi =(TextView) view.findViewById(id.textView_wificonnect);
 
@@ -140,7 +150,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     @Override
     public String CameraApiName() {
 
-        return AppSettingsManager.API_SONY;
+        return SettingsManager.API_SONY;
     }
 
     @Override
@@ -326,9 +336,9 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
             Log.d(TAG, "openConnection(): setLiveViewFrameInfo");
             if(serverDevice != null &&(serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30"))
-                    && JsonUtils.isApiSupported("setLiveviewFrameInfo", (mAvailableCameraApiSet)) && parametersHandler.FocusMode != null)
+                    && JsonUtils.isApiSupported("setLiveviewFrameInfo", (mAvailableCameraApiSet)) && parametersHandler.get(Settings.FocusMode) != null)
             {
-                if (!parametersHandler.FocusMode.GetStringValue().equals("MF"))
+                if (!parametersHandler.get(Settings.FocusMode).GetStringValue().equals("MF"))
                     ((CameraHolderSony) getCameraHolder()).SetLiveViewFrameInfo(true);
                 else
                     ((CameraHolderSony) getCameraHolder()).SetLiveViewFrameInfo(false);
@@ -405,11 +415,6 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
     }
 
-    @Override
-    public void startWork() {
-        moduleHandler.startWork();
-    }
-
     public void stopEventObserver()
     {
         mEventObserver.stop();
@@ -444,7 +449,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
     @Override
     public String getResString(int id) {
-        return getAppSettingsManager().getResString(id);
+        return SettingsManager.getInstance().getResString(id);
     }
 
     @Override

@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,7 @@ import com.troop.freedcam.R.styleable;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
-import freed.utils.AppSettingsManager;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -58,7 +59,7 @@ public class UiSettingsChild extends SettingsChildAbstract
         init(context);
     }
 
-    public UiSettingsChild(Context context, AppSettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
+    public UiSettingsChild(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
         super(context, settingsMode,parameter);
         init(context);
     }
@@ -134,7 +135,7 @@ public class UiSettingsChild extends SettingsChildAbstract
         {
             onIsSupportedChanged(true);
             String campara = parameter.GetStringValue();
-            if (campara != null && !campara.equals(""))
+            if (campara != null && !TextUtils.isEmpty(campara))
                 onStringValueChanged(campara);
         }
         else

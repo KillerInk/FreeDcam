@@ -37,8 +37,10 @@ import java.net.URL;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.settings.Settings;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -65,8 +67,8 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     @Override
     public void DoWork()
     {
-        if (cameraUiWrapper.getParameterHandler().ContShootMode != null && cameraUiWrapper.getParameterHandler().ContShootMode.IsSupported()) {
-            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).ContShootMode.GetStringValue();
+        if (cameraUiWrapper.getParameterHandler().get(Settings.ContShootMode) != null && cameraUiWrapper.getParameterHandler().get(Settings.ContShootMode).IsSupported()) {
+            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).get(Settings.ContShootMode).GetStringValue();
             if (!isWorking && shootmode.equals("Single"))
             {
                 changeCaptureState(CaptureStates.image_capture_start);
@@ -98,8 +100,8 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         Log.d(TAG, "InitModule");
         ((ParameterHandler)cameraUiWrapper.getParameterHandler()).CameraStatusListner = this;
 
-        if(cameraUiWrapper.getParameterHandler().ContShootMode != null) {
-            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).ContShootMode.GetStringValue();
+        if(cameraUiWrapper.getParameterHandler().get(Settings.ContShootMode) != null) {
+            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).get(Settings.ContShootMode).GetStringValue();
             if (shootmode.equals("Single"))
                 changeCaptureState(CaptureStates.image_capture_stop);
             else if (shootmode.equals("Spd Priority Cont.") || shootmode.equals("Continuous"))
@@ -137,7 +139,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     @Override
     public void onPictureTaken(URL url)
     {
-        File file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
+        File file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".jpg"));
         try {
             file.createNewFile();
         } catch (IOException ex) {
@@ -147,7 +149,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         OutputStream output = null;
         try {
             inputStream = new BufferedInputStream(url.openStream());
-            if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !appSettingsManager.GetWriteExternal())
+            if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !SettingsManager.getInstance().GetWriteExternal())
                 output = new FileOutputStream(file);
             else
             {

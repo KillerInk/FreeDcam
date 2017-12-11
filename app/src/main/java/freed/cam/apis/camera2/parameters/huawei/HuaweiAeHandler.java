@@ -56,7 +56,6 @@ public class HuaweiAeHandler extends AeHandler {
         {
             cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, 0);
         }
-        cameraHolder.captureSessionHandler.capture();
     }
 
     @Override
@@ -71,14 +70,12 @@ public class HuaweiAeHandler extends AeHandler {
         cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
         if (valueToSet == 0)
         {
-            //aeModeApi2.SetValue(cameraUiWrapper.getResString(R.string.on),true);
             cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, 0);
         }
         else
         {
             cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, Integer.parseInt(manualISoApi2.getStringValues()[valueToSet]));
         }
-        cameraHolder.captureSessionHandler.capture();
     }
 
     @Override

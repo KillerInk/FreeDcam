@@ -20,6 +20,7 @@
 package freed.utils;
 
 import android.os.Environment;
+import android.text.TextUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -126,7 +127,7 @@ public class StringUtils
             HashMap<String, Integer> out = new HashMap<>();
             for (String e : t)
             {
-                if (!e.equals("")) {
+                if (!TextUtils.isEmpty(e)) {
                     String[] en = e.split(";");
                     out.put(en[0], Integer.parseInt(en[1]));
                 }
@@ -148,8 +149,10 @@ public class StringUtils
         if (t > 1000) {
             int meter = t / 1000;
             int cm = t - meter*1000;
-            if (meter > 100)
+            if (meter > 1000)
                 ret = "∞";
+            else if (meter > 3)
+                ret = meter +"m";
             else
                 ret = meter + "." + cm +"m";
         }

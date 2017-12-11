@@ -37,9 +37,8 @@ import java.util.List;
 
 import freed.ActivityAbstract;
 import freed.utils.FreeDPool;
-import freed.utils.LocationHandler;
-import freed.utils.PermissionHandler;
-import freed.utils.StorageFileHandler;
+import freed.utils.LocationManager;
+import freed.utils.StorageFileManager;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
@@ -68,25 +67,19 @@ public class ActivityFreeDviewer extends ActivityAbstract
     @Override
     protected void initOnCreate() {
         super.initOnCreate();
-        getPermissionHandler().hasExternalSDPermission(onExtSdCallback);
+        init();
     }
 
-    private PermissionHandler.PermissionCallback onExtSdCallback = new PermissionHandler.PermissionCallback() {
-        @Override
-        public void permissionGranted(boolean granted) {
-            if (granted)
-                init();
-            else
-                finish();
-        }
-    };
-
+    @Override
+    protected void setContentToView() {
+        setContentView(R.layout.freedviewer_activity);
+    }
 
     private void init()
     {
 
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
-        storageHandler = new StorageFileHandler(this);
+        storageHandler = new StorageFileManager();
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
@@ -96,11 +89,10 @@ public class ActivityFreeDviewer extends ActivityAbstract
 
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
-        setContentView(R.layout.freedviewer_activity);
         gridViewFragment = (GridViewFragment) getSupportFragmentManager().findFragmentById(R.id.freedviewer_gridview);
         gridViewFragment.SetOnGridItemClick(onGridItemClick);
         screenSlideFragment = (ScreenSlideFragment)getSupportFragmentManager().findFragmentById(R.id.freedviewer_screenslide_fragment);
-        screenSlideFragment.SetOnThumbClick(onScreenSlideBackClick);
+        screenSlideFragment.setOnBackClickListner(onScreenSlideBackClick);
         slideholder = (FrameLayout) findViewById(R.id.freedviewer_screenslideholder);
         gridholder = (FrameLayout)findViewById(R.id.freedviewer_gridviewholder);
         slideholder.setVisibility(View.GONE);
@@ -131,7 +123,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     }
 
     @Override
-    public LocationHandler getLocationHandler() {
+    public LocationManager getLocationManager() {
         return null;
     }
 
@@ -162,7 +154,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
             @Override
             public void run() {
                 gridViewFragment.NotifyDataSetChanged();
-                screenSlideFragment.NotifyDATAhasChanged(files);
+                screenSlideFragment.NotifyDATAhasChanged(getFiles());
             }
         });
     }
@@ -176,17 +168,17 @@ public class ActivityFreeDviewer extends ActivityAbstract
         return del;
     }
 
-    private final ScreenSlideFragment.I_ThumbClick onScreenSlideBackClick = new ScreenSlideFragment.I_ThumbClick() {
+    private final ScreenSlideFragment.ButtonClick onScreenSlideBackClick = new ScreenSlideFragment.ButtonClick() {
         @Override
-        public void onThumbClick(int position,View view)
+        public void onButtonClick(int position, View view)
         {
             loadGridView(position,view);
         }
     };
 
-    private final ScreenSlideFragment.I_ThumbClick onGridItemClick = new ScreenSlideFragment.I_ThumbClick() {
+    private final ScreenSlideFragment.ButtonClick onGridItemClick = new ScreenSlideFragment.ButtonClick() {
         @Override
-        public void onThumbClick(int position, View view)
+        public void onButtonClick(int position, View view)
         {
             loadScreenSlide(position,view);
         }

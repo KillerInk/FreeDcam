@@ -6,7 +6,6 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
-import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.ColorSpaceTransform;
 import android.location.Location;
@@ -14,22 +13,23 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.provider.DocumentFile;
 import android.util.Pair;
 import android.util.Rational;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import freed.ActivityInterface;
+import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.modules.WorkFinishEvents;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
+import freed.image.ImageManager;
+import freed.image.ImageSaveTask;
+import freed.image.ImageTaskDngConverter;
 import freed.utils.Log;
 
 /**
@@ -39,18 +39,11 @@ import freed.utils.Log;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 
-public class ImageHolder
+public class ImageHolder implements ImageReader.OnImageAvailableListener
 {
-
     public interface RdyToSaveImg
     {
         void onRdyToSaveImg(ImageHolder holder);
-    }
-
-    public interface ImageSaveImp
-    {
-        void saveRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile,float expoindex);
-        void saveJpeg(File file, byte[] bytes);
     }
 
     private final String TAG = ImageHolder.class.getSimpleName();
@@ -66,21 +59,24 @@ public class ImageHolder
     String filepath;
 
     private boolean isRawCapture = false;
+    private boolean isJpgCapture = false;
     private boolean forceRawToDng = false;
+    private boolean support12bitRaw = false;
 
     private ActivityInterface activityInterface;
-    private ImageSaveImp imageSaver;
     private RdyToSaveImg rdyToSaveImg;
+    private ModuleInterface moduleInterface;
 
     WorkFinishEvents workerfinish;
 
-    public ImageHolder(CameraCharacteristics characteristicss, boolean isRawCapture, ActivityInterface activitiy, ImageSaveImp imageSaver, WorkFinishEvents finish, RdyToSaveImg rdyToSaveImg)
+    public ImageHolder(CameraCharacteristics characteristicss, boolean isRawCapture, boolean isJpgCapture, ActivityInterface activitiy, ModuleInterface imageSaver, WorkFinishEvents finish, RdyToSaveImg rdyToSaveImg)
     {
         images = new ArrayList<>();
         this.characteristics = characteristicss;
         this.isRawCapture = isRawCapture;
+        this.isJpgCapture = isJpgCapture;
         this.activityInterface = activitiy;
-        this.imageSaver = imageSaver;
+        this.moduleInterface = imageSaver;
         this.workerfinish = finish;
         this.rdyToSaveImg =rdyToSaveImg;
     }
@@ -117,6 +113,11 @@ public class ImageHolder
         this.forceRawToDng = force;
     }
 
+    public void setSupport12bitRaw(boolean support12bitRaw)
+    {
+        this.support12bitRaw =support12bitRaw;
+    }
+
     public synchronized void SetCaptureResult(CaptureResult captureResult)
     {
         this.captureResult = captureResult;
@@ -149,33 +150,40 @@ public class ImageHolder
 
     public synchronized boolean rdyToGetSaved()
     {
-        if (isRawCapture)
+        if (isRawCapture && isJpgCapture)
             return images.size() == 2 && captureResult != null;
         else
             return images.size() == 1 && captureResult != null;
     }
 
-    public final ImageReader.OnImageAvailableListener mOnRawImageAvailableListener = new ImageReader.OnImageAvailableListener()
-    {
-        @Override
-        public void onImageAvailable(final ImageReader reader)
-        {
-
-            Image img = null;
-            Log.d(TAG, "OnRawAvailible");
-            try {
-                img = reader.acquireLatestImage();
+    @Override
+    public void onImageAvailable(ImageReader reader) {
+        Image img = null;
+        Log.d(TAG, "OnRawAvailible");
+        try {
+            img = reader.acquireLatestImage();
+            if (isJpgCapture && img.getFormat() == ImageFormat.JPEG)
                 AddImage(img);
+            else if (isRawCapture && (img.getFormat() == ImageFormat.RAW_SENSOR || img.getFormat() == ImageFormat.RAW10))
+                AddImage(img);
+            else {
+                if (images.contains(img))
+                    images.remove(img);
+                img.close();
             }
-            catch (IllegalStateException ex)
-            {
-                if (img != null)
-                    img.close();
-            }
-            if (rdyToGetSaved())
-                rdyToSaveImg.onRdyToSaveImg(ImageHolder.this);
         }
-    };
+        catch (IllegalStateException ex)
+        {
+            if (images.contains(img))
+                images.remove(img);
+            if (img != null)
+                img.close();
+        }
+        if (rdyToGetSaved()) {
+            save();
+            rdyToSaveImg.onRdyToSaveImg(ImageHolder.this);
+        }
+    }
 
     public final CameraCaptureSession.CaptureCallback imageCaptureMetaCallback = new CameraCaptureSession.CaptureCallback()
     {
@@ -185,21 +193,18 @@ public class ImageHolder
 
             Log.d(TAG, "OnCaptureResultAvailible");
             SetCaptureResult(result);
-            if (rdyToGetSaved())
+            if (rdyToGetSaved()) {
+                save();
                 rdyToSaveImg.onRdyToSaveImg(ImageHolder.this);
+            }
         }
     };
 
-    public Runnable getRunner()
+    private void save()
     {
-        return new Runnable() {
-            @Override
-            public void run() {
-                for(int i=0; i< images.size();i++)
-                    saveImage(images.get(i),filepath);
-                clear();
-            }
-        };
+        for(int i=0; i< images.size();i++)
+            saveImage(images.get(i),filepath);
+        images.clear();
     }
 
     public void CLEAR()
@@ -217,7 +222,7 @@ public class ImageHolder
         location = null;
         characteristics = null;
         activityInterface = null;
-        ImageSaveImp imageSaver = null;
+        moduleInterface = null;
     }
 
 
@@ -240,13 +245,14 @@ public class ImageHolder
             case ImageFormat.RAW_SENSOR:
                 file = new File(f+".dng");
                 if(forceRawToDng)
-                    process_rawWithDngConverter(image,DngProfile.Plain,file);
+                    if (support12bitRaw)
+                        process_rawWithDngConverter(image,DngProfile.Pure16bit_To_12bit,file);
+                    else
+                        process_rawWithDngConverter(image,DngProfile.Plain,file);
                 else
                     process_rawSensor(image,file);
                 break;
         }
-        image.close();
-        workerfinish.internalFireOnWorkDone(file);
     }
 
 
@@ -258,64 +264,46 @@ public class ImageHolder
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
-        imageSaver.saveJpeg(file, bytes);
+        ImageSaveTask task = new ImageSaveTask(activityInterface,moduleInterface);
+        task.setBytesTosave(bytes, ImageSaveTask.JPEG);
         buffer.clear();
+        image.close();
+        task.setFilePath(file,externalSD);
+        ImageManager.putImageSaveTask(task);
     }
 
 
     @NonNull
     private void process_rawSensor(Image image,File file) {
-        Log.d(TAG, "Create DNG");
-
-        DngCreator dngCreator = new DngCreator(characteristics, captureResult);
-        //Orientation 90 is not a valid EXIF orientation value, android doc says that is valid!
-        //The clockwise rotation angle in degrees, relative to the orientation to the camera, that the JPEG picture needs to be rotated by, to be viewed upright.
-        try {
-            dngCreator.setOrientation(orientation);
-        }
-        catch (IllegalArgumentException ex)
-        {
-            Log.WriteEx(ex);
-        }
-
-        if (location != null)
-            dngCreator.setLocation(location);
-        try
-        {
-            if (!externalSD)
-                dngCreator.writeImage(new FileOutputStream(file), image);
-            else
-            {
-                DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
-                DocumentFile wr = df.createFile("image/*", file.getName());
-                dngCreator.writeImage(activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri()), image);
-            }
-            activityInterface.ScanFile(file);
-        } catch (IOException ex) {
-            Log.WriteEx(ex);
-        }
+        ImageTaskDngConverter taskDngConverter = new ImageTaskDngConverter(captureResult,image,characteristics,file,activityInterface,orientation,location,moduleInterface);
+        ImageManager.putImageLoadTask(taskDngConverter);
     }
 
     @NonNull
     private void process_rawWithDngConverter(Image image, int rawFormat,File file) {
+        ImageSaveTask saveTask = new ImageSaveTask(activityInterface,moduleInterface);
         Log.d(TAG, "Create DNG VIA RAw2DNG");
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
+        saveTask.setBytesTosave(bytes,ImageSaveTask.RAW_SENSOR);
+        buffer.clear();
 
-        float fnum, focal = 0;
-        fnum = captureResult.get(CaptureResult.LENS_APERTURE);
-        focal = captureResult.get(CaptureResult.LENS_FOCAL_LENGTH);
-        Log.d("Freedcam RawCM2",String.valueOf(bytes.length));
-
-        int mISO = captureResult.get(CaptureResult.SENSOR_SENSITIVITY);
+        saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
+        saveTask.setForceRawToDng(true);
+        saveTask.setFocal(captureResult.get(CaptureResult.LENS_FOCAL_LENGTH));
+        saveTask.setFnum(captureResult.get(CaptureResult.LENS_APERTURE));
+        saveTask.setIso(captureResult.get(CaptureResult.SENSOR_SENSITIVITY));
         double mExposuretime = captureResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue() / 1000000000;
+        saveTask.setExposureTime((float) mExposuretime);
+        saveTask.setExposureIndex(captureResult.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION) * characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue());
         final DngProfile prof = getDngProfile(rawFormat, image);
+        image.close();
         prof.toneMapProfile = this.toneMapProfile;
-        float expoindex = captureResult.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION) * characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
-        imageSaver.saveRawToDng(file, bytes, fnum,focal,(float)mExposuretime,mISO, orientation,null,prof,expoindex);
-        bytes = null;
-        buffer = null;
+        saveTask.setDngProfile(prof);
+        saveTask.setFilePath(file, externalSD);
+        saveTask.setOrientation(orientation);
+        ImageManager.putImageSaveTask(saveTask);
     }
 
     @NonNull

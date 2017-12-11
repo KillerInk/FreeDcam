@@ -39,6 +39,7 @@ import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.Size;
+import freed.settings.Settings;
 import freed.utils.Log;
 
 /**
@@ -47,7 +48,7 @@ import freed.utils.Log;
 public class CameraHolder extends CameraHolderAbstract
 {
     //frame count that get attached to the camera when using focuspeak
-    final int BUFFERCOUNT = 3;
+    public static final int BUFFERCOUNT = 5;
     //camera object
     protected Camera mCamera;
 
@@ -92,12 +93,20 @@ public class CameraHolder extends CameraHolderAbstract
         {
             Log.d(TAG, "open camera");
             mCamera = Camera.open(camera);
+            mCamera.setErrorCallback(new Camera.ErrorCallback() {
+                @Override
+                public void onError(int error, Camera camera) {
+                    Log.e(TAG, "Error:" + error);
+                }
+            });
             isRdy = true;
             cameraUiWrapper.onCameraOpen("");
 
         } catch (Exception ex) {
             isRdy = false;
             Log.WriteEx(ex);
+            if (mCamera != null)
+                mCamera.release();
         }
         return isRdy;
     }
@@ -209,7 +218,6 @@ public class CameraHolder extends CameraHolderAbstract
 
         } catch (Exception ex)
         {
-            cameraUiWrapper.onPreviewClose("");
             Log.d(TAG, "Camera was released");
             Log.WriteEx(ex);
         }
@@ -217,7 +225,14 @@ public class CameraHolder extends CameraHolderAbstract
 
     public Parameters GetCameraParameters()
     {
-        return mCamera.getParameters();
+        try {
+            return mCamera.getParameters();
+        }catch (NullPointerException ex)
+        {
+            return null;
+        }
+
+
     }
 
     public void TakePicture(PictureCallback picture)
@@ -237,7 +252,7 @@ public class CameraHolder extends CameraHolderAbstract
         try {
             if (!isRdy)
                 return;
-            Size s = new Size(cameraUiWrapper.getParameterHandler().PreviewSize.GetStringValue());
+            Size s = new Size(cameraUiWrapper.getParameterHandler().get(Settings.PreviewSize).GetStringValue());
             //Add 5 pre allocated buffers. that avoids that the camera create with each frame a new one
             for (int i = 0; i< BUFFERCOUNT; i++)
             {
@@ -261,6 +276,11 @@ public class CameraHolder extends CameraHolderAbstract
         catch (NullPointerException ex)
         {
             Log.e(TAG,ex.getMessage());
+        }
+        catch (RuntimeException ex)
+        {
+            Log.d(TAG, "Camera was released");
+            Log.WriteEx(ex);
         }
 
     }
