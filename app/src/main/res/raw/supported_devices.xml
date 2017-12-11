@@ -2689,6 +2689,36 @@
         </filesize>
     </device>
 
+    <device name ="XiaomiMI6">
+        <models><item>MI 6</item></models>
+        <camera1>
+            <dngmanual>false</dngmanual>
+            <digitalimagestab>false</digitalimagestab>
+        </camera1>
+        <opcode2>https://github.com/Theliel/FreeDcam/blob/master/camera1_opcodes/XiaomiMi6/opc2.bin?raw=true</opcode2>
+        <opcode3>https://github.com/Theliel/FreeDcam/blob/master/camera1_opcodes/XiaomiMi6/opc3.bin?raw=true</opcode3>
+        <filesize size= "15482880">
+            <blacklvl>64</blacklvl>
+            <whitelvl>1023</whitelvl>
+            <width>4032</width>
+            <height>3016</height>
+            <rawtype>0</rawtype>
+            <colorpattern>rggb</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx386</matrixset>
+        </filesize>
+        <filesize size= "10842112">
+            <blacklvl>64</blacklvl>
+            <whitelvl>1023</whitelvl>
+            <width>3872</width>
+            <height>2192</height>
+            <rawtype>0</rawtype>
+            <colorpattern>rggb</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx386</matrixset>
+        </filesize>
+    </device>	
+
     <device name ="XiaomiMI_Note_Pro">
         <models>
             <item>MI NOTE Pro</item>
