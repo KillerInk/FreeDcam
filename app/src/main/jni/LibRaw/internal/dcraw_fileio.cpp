@@ -1,17 +1,14 @@
 /* 
-  Copyright 2008-2013 LibRaw LLC (info@libraw.org)
+  Copyright 2008-2017 LibRaw LLC (info@libraw.org)
 
 LibRaw is free software; you can redistribute it and/or modify
-it under the terms of the one of three licenses as you choose:
+it under the terms of the one of two licenses as you choose:
 
 1. GNU LESSER GENERAL PUBLIC LICENSE version 2.1
    (See file LICENSE.LGPL provided in LibRaw distribution archive for details).
 
 2. COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
    (See file LICENSE.CDDL provided in LibRaw distribution archive for details).
-
-3. LibRaw Software License 27032010
-   (See file LICENSE.LibRaw.pdf provided in LibRaw distribution archive for details).
 
    This file is generated from Dave Coffin's dcraw.c
    dcraw.c -- Dave Coffin's raw photo decoder
@@ -102,7 +99,7 @@ void CLASS subtract (const char *fname)
 
   if (!(fp = fopen (fname, "rb"))) {
 #ifdef DCRAW_VERBOSE
-    perror (fname); 
+    perror (fname);
 #endif
 #ifdef LIBRAW_LIBRARY_BUILD
     imgdata.process_warnings |= LIBRAW_WARN_BAD_DARKFRAME_FILE;
@@ -160,9 +157,6 @@ void CLASS apply_profile (const char *input, const char *output)
   FILE *fp;
   unsigned size;
 
-#ifndef USE_LCMS2
-  cmsErrorAction (LCMS_ERROR_SHOW);
-#endif
   if (strcmp (input, "embed"))
     hInProfile = cmsOpenProfileFromFile (input, "r");
   else if (profile_length) {

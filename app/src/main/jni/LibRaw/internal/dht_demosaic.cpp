@@ -3,16 +3,13 @@
  * Copyright 2013 Anton Petrusevich
  * Created: Tue Apr  9, 2013
  *
- * This code is licensed under one of three licenses as you choose:
+ * This code is licensed under one of two licenses as you choose:
  *
  * 1. GNU LESSER GENERAL PUBLIC LICENSE version 2.1
  *    (See file LICENSE.LGPL provided in LibRaw distribution archive for details).
  *
  * 2. COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
  *    (See file LICENSE.CDDL provided in LibRaw distribution archive for details).
- *
- * 3. LibRaw Software License 27032010
- *    (See file LICENSE.LibRaw.pdf provided in LibRaw distribution archive for details).
  *
  */
 
@@ -257,7 +254,7 @@ void DHT::hide_hots() {
 				float avg = 0;
 				for (int k = -2; k < 3; k += 2)
 					for (int m = -2; m < 3; m += 2)
-						if (m == 0 && m == 0)
+						if (m == 0 && k == 0)
 							continue;
 						else
 							avg += nraw[nr_offset(y + k, x + m)][kc];
@@ -668,7 +665,7 @@ void DHT::illustrate_dline(int i) {
 		int y = i + nr_topmargin;
 		nraw[nr_offset(y, x)][0] = nraw[nr_offset(y, x)][1] = nraw[nr_offset(y, x)][2] = 0.5;
 		int l = ndir[nr_offset(y, x)] & 8;
-		l >>= 3;
+		// l >>= 3; // WTF?
 		l = 1;
 		if (ndir[nr_offset(y, x)] & HOT)
 			nraw[nr_offset(y, x)][0] = l * channel_maximum[0] / 4 + channel_maximum[0] / 4;

@@ -1,19 +1,16 @@
 /* -*- C++ -*-
  * File: libraw_const.h
- * Copyright 2008-2013 LibRaw LLC (info@libraw.org)
+ * Copyright 2008-2017 LibRaw LLC (info@libraw.org)
  * Created: Sat Mar  8 , 2008
  * LibRaw error codes
 LibRaw is free software; you can redistribute it and/or modify
-it under the terms of the one of three licenses as you choose:
+it under the terms of the one of two licenses as you choose:
 
 1. GNU LESSER GENERAL PUBLIC LICENSE version 2.1
    (See file LICENSE.LGPL provided in LibRaw distribution archive for details).
 
 2. COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
    (See file LICENSE.CDDL provided in LibRaw distribution archive for details).
-
-3. LibRaw Software License 27032010
-   (See file LICENSE.LibRaw.pdf provided in LibRaw distribution archive for details).
 
  */
 
@@ -23,15 +20,138 @@ it under the terms of the one of three licenses as you choose:
 #define LIBRAW_DEFAULT_ADJUST_MAXIMUM_THRESHOLD 0.75
 #define LIBRAW_DEFAULT_AUTO_BRIGHTNESS_THRESHOLD 0.01
 
+enum LibRaw_whitebalance_code
+{
+/*
+    EXIF light sources
+    12 = FL-D; Daylight fluorescent (D 5700K – 7100K) (F1,F5)
+    13 = FL-N; Day white fluorescent (N 4600K – 5400K) (F7,F8)
+    14 = FL-W; Cool white fluorescent (W 3900K – 4500K) (F2,F6, office, store, warehouse)
+    15 = FL-WW; White fluorescent (WW 3200K – 3700K) (F3, residential)
+    16 = FL-L; Soft/Warm white fluorescent (L 2600K - 3250K) (F4, kitchen, bath)
+*/
+LIBRAW_WBI_Unknown=0,
+LIBRAW_WBI_Daylight=1,
+LIBRAW_WBI_Fluorescent=2,
+LIBRAW_WBI_Tungsten=3,
+LIBRAW_WBI_Flash=4,
+LIBRAW_WBI_FineWeather=9,
+LIBRAW_WBI_Cloudy=10,
+LIBRAW_WBI_Shade=11,
+LIBRAW_WBI_FL_D=12,
+LIBRAW_WBI_FL_N=13,
+LIBRAW_WBI_FL_W=14,
+LIBRAW_WBI_FL_WW=15,
+LIBRAW_WBI_FL_L=16,
+LIBRAW_WBI_Ill_A=17,
+LIBRAW_WBI_Ill_B=18,
+LIBRAW_WBI_Ill_C=19,
+LIBRAW_WBI_D55=20,
+LIBRAW_WBI_D65=21,
+LIBRAW_WBI_D75=22,
+LIBRAW_WBI_D50=23,
+LIBRAW_WBI_StudioTungsten=24,
+LIBRAW_WBI_Sunset=64,
+LIBRAW_WBI_Other=255
+};
+
+enum LibRaw_dng_processing
+{
+	LIBRAW_DNG_NONE=0,
+	LIBRAW_DNG_FLOAT=1,
+	LIBRAW_DNG_LINEAR=2,
+	LIBRAW_DNG_DEFLATE=4,
+	LIBRAW_DNG_XTRANS=8,
+	LIBRAW_DNG_OTHER=16,
+	LIBRAW_DNG_8BIT=32,
+	/*LIBRAW_DNG_LARGERANGE=64,*/ /* more than 16 bit integer */
+	LIBRAW_DNG_ALL = LIBRAW_DNG_FLOAT|LIBRAW_DNG_LINEAR|LIBRAW_DNG_XTRANS|LIBRAW_DNG_8BIT|LIBRAW_DNG_OTHER /* |LIBRAW_DNG_LARGERANGE */,
+	LIBRAW_DNG_DEFAULT=LIBRAW_DNG_FLOAT|LIBRAW_DNG_LINEAR|LIBRAW_DNG_DEFLATE|LIBRAW_DNG_8BIT
+};
+
+enum LibRaw_runtime_capabilities
+{
+	LIBRAW_CAPS_RAWSPEED=1,
+	LIBRAW_CAPS_DNGSDK=2,
+	LIBRAW_CAPS_DEMOSAICSGPL2=4,
+	LIBRAW_CAPS_DEMOSAICSGPL3=8
+};
+
+enum LibRaw_camera_mounts
+  {
+    LIBRAW_MOUNT_Unknown=0,
+    LIBRAW_MOUNT_Minolta_A=1,
+    LIBRAW_MOUNT_Sony_E=2,
+    LIBRAW_MOUNT_Canon_EF=3,
+    LIBRAW_MOUNT_Canon_EF_S=4,
+    LIBRAW_MOUNT_Canon_EF_M=5,
+    LIBRAW_MOUNT_Nikon_F=6,
+    LIBRAW_MOUNT_Nikon_CX=7,	/* used in Nikon 1 series */
+    LIBRAW_MOUNT_FT=8,	/* original 4/3 */
+    LIBRAW_MOUNT_mFT=9,	/* micro 4/3 */
+    LIBRAW_MOUNT_Pentax_K=10,
+    LIBRAW_MOUNT_Pentax_Q=11,
+    LIBRAW_MOUNT_Pentax_645=12,
+    LIBRAW_MOUNT_Fuji_X=13,
+    LIBRAW_MOUNT_Leica_M=14,
+    LIBRAW_MOUNT_Leica_R=15,
+    LIBRAW_MOUNT_Leica_S=16,
+    LIBRAW_MOUNT_Samsung_NX=17,
+    LIBRAW_MOUNT_RicohModule=18,
+    LIBRAW_MOUNT_Samsung_NX_M=19,
+    LIBRAW_MOUNT_Leica_T=20,
+    LIBRAW_MOUNT_Contax_N=21,
+    LIBRAW_MOUNT_Sigma_X3F=22,
+    LIBRAW_MOUNT_Leica_SL=23,
+    LIBRAW_MOUNT_FixedLens=99
+  };
+
+enum LibRaw_camera_formats
+  {
+    LIBRAW_FORMAT_APSC=1,
+    LIBRAW_FORMAT_FF=2,
+    LIBRAW_FORMAT_MF=3,
+    LIBRAW_FORMAT_APSH=4,
+    LIBRAW_FORMAT_1INCH=5,
+    LIBRAW_FORMAT_FT=8
+  };
+
+enum LibRaw_sony_cameratypes
+  {
+    LIBRAW_SONY_DSC=1,
+    LIBRAW_SONY_DSLR=2,
+    LIBRAW_SONY_NEX=3,
+    LIBRAW_SONY_SLT=4,
+    LIBRAW_SONY_ILCE=5,
+    LIBRAW_SONY_ILCA=6
+  };
+
+enum LibRaw_processing_options
+  {
+    LIBRAW_PROCESSING_SONYARW2_NONE=0,
+    LIBRAW_PROCESSING_SONYARW2_BASEONLY=1,
+    LIBRAW_PROCESSING_SONYARW2_DELTAONLY=1<<1,
+    LIBRAW_PROCESSING_SONYARW2_DELTAZEROBASE=1<<2,
+    LIBRAW_PROCESSING_SONYARW2_DELTATOVALUE=1<<3,
+    LIBRAW_PROCESSING_SONYARW2_ALLFLAGS = LIBRAW_PROCESSING_SONYARW2_BASEONLY + LIBRAW_PROCESSING_SONYARW2_DELTAONLY + LIBRAW_PROCESSING_SONYARW2_DELTAZEROBASE + LIBRAW_PROCESSING_SONYARW2_DELTATOVALUE,
+    LIBRAW_PROCESSING_DP2Q_INTERPOLATERG=1<<4,
+    LIBRAW_PROCESSING_DP2Q_INTERPOLATEAF=1<<5,
+    LIBRAW_PROCESSING_PENTAX_PS_ALLFRAMES=1<<6,
+    LIBRAW_PROCESSING_CONVERTFLOAT_TO_INT=1<<7,
+    LIBRAW_PROCESSING_SRAW_NO_RGB=1<<8,
+    LIBRAW_PROCESSING_SRAW_NO_INTERPOLATE=1<<9,
+    LIBRAW_PROCESSING_FORCE_FOVEON_X3F=1<<10
+  };
+
 enum LibRaw_decoder_flags
 {
-    LIBRAW_DECODER_LEGACY = 1,      
-    LIBRAW_DECODER_FLATFIELD = 1<<1,
-    LIBRAW_DECODER_USEBAYER2 = 1<<3,
     LIBRAW_DECODER_HASCURVE = 1<<4,
-    LIBRAW_DECODER_ITSASONY = 1<<5,
+    LIBRAW_DECODER_SONYARW2 = 1<<5,
     LIBRAW_DECODER_TRYRAWSPEED = 1<<6,
     LIBRAW_DECODER_OWNALLOC = 1<<7,
+    LIBRAW_DECODER_FIXEDMAXC = 1<<8,
+	LIBRAW_DECODER_ADOBECOPYPIXEL = 1<<9,
+	LIBRAW_DECODER_LEGACY_WITH_MARGINS = 1<<10,
     LIBRAW_DECODER_NOTSET = 1<<15
 };
 
@@ -61,7 +181,8 @@ enum LibRaw_warnings
     LIBRAW_WARN_NO_JASPER = 1<<11,
     LIBRAW_WARN_RAWSPEED_PROBLEM = 1<<12,
     LIBRAW_WARN_RAWSPEED_UNSUPPORTED = 1<<13,
-    LIBRAW_WARN_RAWSPEED_PROCESSED = 1<<14
+    LIBRAW_WARN_RAWSPEED_PROCESSED = 1<<14,
+    LIBRAW_WARN_FALLBACK_TO_AHD = 1<<15
 };
 
 enum LibRaw_exceptions
@@ -78,19 +199,6 @@ enum LibRaw_exceptions
     LIBRAW_EXCEPTION_DECODE_JPEG2000=9
 };
 
-
-enum LibRaw_colorstate
-{
-    LIBRAW_COLORSTATE_UNKNOWN   =0,
-    LIBRAW_COLORSTATE_INIT      =1,
-    LIBRAW_COLORSTATE_CONST     =2,
-    LIBRAW_COLORSTATE_LOADED    =3,
-    LIBRAW_COLORSTATE_CALCULATED=4,
-    LIBRAW_COLORSTATE_RESERVED1 =5,
-    LIBRAW_COLORSTATE_RESERVED2 =6,
-    LIBRAW_COLORSTATE_RESERVED3 =7
-};
-
 enum LibRaw_progress
 {
     LIBRAW_PROGRESS_START               = 0,
@@ -98,7 +206,7 @@ enum LibRaw_progress
     LIBRAW_PROGRESS_IDENTIFY            = 1<<1,
     LIBRAW_PROGRESS_SIZE_ADJUST         = 1<<2,
     LIBRAW_PROGRESS_LOAD_RAW            = 1<<3,
-	LIBRAW_PROGRESS_RAW2_IMAGE			= 1<<4,
+    LIBRAW_PROGRESS_RAW2_IMAGE		= 1<<4,
     LIBRAW_PROGRESS_REMOVE_ZEROES       = 1<<5,
     LIBRAW_PROGRESS_BAD_PIXELS          = 1<<6,
     LIBRAW_PROGRESS_DARK_FRAME          = 1<<7,
@@ -141,6 +249,7 @@ enum LibRaw_errors
     LIBRAW_NO_THUMBNAIL=-5,
     LIBRAW_UNSUPPORTED_THUMBNAIL=-6,
     LIBRAW_INPUT_CLOSED=-7,
+    LIBRAW_NOT_IMPLEMENTED=-8,
     LIBRAW_UNSUFFICIENT_MEMORY=-100007,
     LIBRAW_DATA_ERROR=-100008,
     LIBRAW_IO_ERROR=-100009,

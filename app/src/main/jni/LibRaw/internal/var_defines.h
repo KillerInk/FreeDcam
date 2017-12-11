@@ -1,12 +1,12 @@
 /* -*- C++ -*-
  * File: var_defines.h
- * Copyright 2008-2013 LibRaw LLC (info@libraw.org)
+ * Copyright 2008-2017 LibRaw LLC (info@libraw.org)
  * Created: Sat Mar  8, 2008
  *
  * LibRaw redefinitions of dcraw internal variables
 
 LibRaw is free software; you can redistribute it and/or modify
-it under the terms of the one of three licenses as you choose:
+it under the terms of the one of two licenses as you choose:
 
 1. GNU LESSER GENERAL PUBLIC LICENSE version 2.1
    (See file LICENSE.LGPL provided in LibRaw distribution archive for details).
@@ -14,24 +14,26 @@ it under the terms of the one of three licenses as you choose:
 2. COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
    (See file LICENSE.CDDL provided in LibRaw distribution archive for details).
 
-3. LibRaw Software License 27032010
-   (See file LICENSE.LibRaw.pdf provided in LibRaw distribution archive for details).
  */
 
 #ifndef VAR_DEFINES_H
 #define VAR_DEFINES_H
 
+
 // imgdata.idata
 #define make            (imgdata.idata.make)
 #define model           (imgdata.idata.model)
+#define software        (imgdata.idata.software)
 #define is_raw          (imgdata.idata.raw_count)
 #define dng_version     (imgdata.idata.dng_version)
 #define is_foveon       (imgdata.idata.is_foveon)
 #define colors          (imgdata.idata.colors)
 #define cdesc           (imgdata.idata.cdesc)
 #define filters         (imgdata.idata.filters)
-#define xtrans         (imgdata.idata.xtrans)
-
+#define xtrans          (imgdata.idata.xtrans)
+#define xtrans_abs      (imgdata.idata.xtrans_abs)
+#define xmpdata			(imgdata.idata.xmpdata)
+#define xmplen			(imgdata.idata.xmplen)
 //imgdata image
 #define image           (imgdata.image)
 #define raw_image       (imgdata.rawdata.raw_image)
@@ -74,6 +76,7 @@ it under the terms of the one of three licenses as you choose:
 #define flash_used      (imgdata.color.flash_used)
 #define canon_ev        (imgdata.color.canon_ev)
 #define model2          (imgdata.color.model2)
+#define baseline_exposure  (imgdata.color.baseline_exposure)
 
 //imgdata.thumbnail
 
@@ -115,21 +118,9 @@ it under the terms of the one of three licenses as you choose:
 #define output_tiff     (imgdata.params.output_tiff)
 #define med_passes      (imgdata.params.med_passes)
 #define no_auto_bright  (imgdata.params.no_auto_bright)
+#define auto_bright_thr  (imgdata.params.auto_bright_thr)
 #define use_fuji_rotate (imgdata.params.use_fuji_rotate)
 #define filtering_mode (imgdata.params.filtering_mode)
-
-//New Android Camera Paramaters As Raw Is Headerless for now they Are Just too feed the Tiff Image
-#define android_raw (imgdata.params.android_raw)
-#define android_aperture (imgdata.params.android_aperture)
-#define android_focal (imgdata.params.android_focal)
-#define android_iso (imgdata.params.android_iso)
-#define android_shutter (imgdata.params.android_shutter)
-#define android_make (imgdata.params.android_make)
-#define android_model (imgdata.params.android_model)
-#define android_gpsdata (imgdata.params.android_gpsdata)
-#define android_artist (imgdata.params.android_artist)
-#define android_description (imgdata.params.android_description)
-#define android_timeStamp (imgdata.params.android_timeStamp)
 
 // Demosaic packs
 //AFD
@@ -159,6 +150,7 @@ it under the terms of the one of three licenses as you choose:
 #define ofp             libraw_internal_data.internal_data.output
 #define profile_offset  (libraw_internal_data.internal_data.profile_offset)
 #define thumb_offset    (libraw_internal_data.internal_data.toffset)
+#define pana_black		(libraw_internal_data.internal_data.pana_black)
 
 //libraw_internal_data.internal_output_params
 #define mix_green       (libraw_internal_data.internal_output_params.mix_green)
@@ -208,6 +200,7 @@ it under the terms of the one of three licenses as you choose:
 #define fseeko(stream,o,w)	 stream->seek(o,w)
 #define ftell(stream)		 stream->tell()
 #define ftello(stream)		 stream->tell()
+#define feof(stream)		 stream->eof()
 #ifdef getc
 #undef getc
 #endif

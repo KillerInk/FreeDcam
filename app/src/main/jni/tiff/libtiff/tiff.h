@@ -1,4 +1,4 @@
-/* $Id$ */
+/* $Id: tiff.h,v 1.70 2016-01-23 21:20:34 erouault Exp $ */
 
 /*
  * Copyright (c) 1988-1997 Sam Leffler
@@ -201,7 +201,7 @@ typedef enum {
 #define	    PHOTOMETRIC_CIELAB		8	/* !1976 CIE L*a*b* */
 #define	    PHOTOMETRIC_ICCLAB		9	/* ICC L*a*b* [Adobe TIFF Technote 4] */
 #define	    PHOTOMETRIC_ITULAB		10	/* ITU L*a*b* */
-#define 	PHOTOMETRIC_CFA 		32803 /* color filter array */
+#define	    PHOTOMETRIC_CFA		32803	/* color filter array */
 #define     PHOTOMETRIC_LOGL		32844	/* CIE Log2(L) */
 #define     PHOTOMETRIC_LOGLUV		32845	/* CIE Log2(L) (u',v') */
 #define	TIFFTAG_THRESHHOLDING		263	/* +thresholding used on data */
@@ -279,7 +279,7 @@ typedef enum {
 #define     PREDICTOR_FLOATINGPOINT	3	/* floating point predictor */
 #define	TIFFTAG_WHITEPOINT		318	/* image white point */
 #define	TIFFTAG_PRIMARYCHROMATICITIES	319	/* !primary chromaticities */
-#define	TIFFTAG_COLORMAP		320	/* RGB map for pallette image */
+#define	TIFFTAG_COLORMAP		320	/* RGB map for palette image */
 #define	TIFFTAG_HALFTONEHINTS		321	/* !highlight+shadow info */
 #define	TIFFTAG_TILEWIDTH		322	/* !tile width in pixels */
 #define	TIFFTAG_TILELENGTH		323	/* !tile height in pixels */
@@ -358,7 +358,7 @@ typedef enum {
 #define	TIFFTAG_JPEGRESTARTINTERVAL	515	/* !restart interval length */
 #define	TIFFTAG_JPEGLOSSLESSPREDICTORS	517	/* !lossless proc predictor */
 #define	TIFFTAG_JPEGPOINTTRANSFORM	518	/* !lossless point transform */
-#define	TIFFTAG_JPEGQTABLES		519	/* !Q matrice offsets */
+#define	TIFFTAG_JPEGQTABLES		519	/* !Q matrix offsets */
 #define	TIFFTAG_JPEGDCTABLES		520	/* !DCT table offsets */
 #define	TIFFTAG_JPEGACTABLES		521	/* !AC coefficient offsets */
 #define	TIFFTAG_YCBCRCOEFFICIENTS	529	/* !RGB -> YCbCr transform */
@@ -403,8 +403,8 @@ typedef enum {
 #define TIFFTAG_PIXAR_MATRIX_WORLDTOCAMERA 33306
 /* tag 33405 is a private tag registered to Eastman Kodak */
 #define TIFFTAG_WRITERSERIALNUMBER      33405   /* device serial number */
-#define TIFFTAG_CFAREPEATPATTERNDIM 33421 /* dimensions of CFA pattern */
-#define TIFFTAG_CFAPATTERN 33422 /* color filter array pattern */
+#define TIFFTAG_CFAREPEATPATTERNDIM	33421	/* dimensions of CFA pattern */
+#define TIFFTAG_CFAPATTERN		33422	/* color filter array pattern */
 #define TIFFTAG_OPC2 51009 /* OpCode 2 lens shit */
 #define TIFFTAG_OPC3 51022 /* OpCode 3 lens shit */
 /* tag 33432 is listed in the 6.0 spec w/ unknown ownership */
@@ -495,18 +495,17 @@ typedef enum {
 #define TIFFTAG_PROFILEHUESATMAPDATA1 50938
 #define TIFFTAG_PROFILEHUESATMAPDATA2 50939
 #define TIFFTAG_PROFILENAME 50936;
-
+//////////////////////////////////////////////////						   
 #define TIFFTAG_ANALOGBALANCE		50727	/* &gain applied the stored raw
 						   values*/
-//////////////////////////////////////////////////////////////////////////////////
 #define TIFFTAG_ASSHOTNEUTRAL		50728	/* &selected white balance in
 						   linear reference space */
 #define TIFFTAG_ASSHOTWHITEXY		50729	/* &selected white balance in
 						   x-y chromaticity
 						   coordinates */
-#define TIFFTAG_BASELINEEXPOSURE	50730	/* &how much to move the zero point */
-#define TIFFTAG_BASELINEEXPOSUREOFFSET	51109
-
+#define TIFFTAG_BASELINEEXPOSURE	50730	/* &how much to move the zero
+						   point */
+#define TIFFTAG_BASELINEEXPOSUREOFFSET	51109						   
 #define TIFFTAG_BASELINENOISE		50731	/* &relative noise level */
 #define TIFFTAG_BASELINESHARPNESS	50732	/* &relative amount of
 						   sharpening */
@@ -617,6 +616,7 @@ typedef enum {
 #define TIFFTAG_PERSAMPLE       65563	/* interface for per sample tags */
 #define     PERSAMPLE_MERGED        0	/* present as a single value */
 #define     PERSAMPLE_MULTI         1	/* present as multiple values */
+
 //////////////////////////////////////////////////////////////////////////////////////GPS Tags 09-02-2015/////////////////////////////////////////////
 #define GPSTAG_GPSVersionID		0
 #define GPSTAG_GPSLatitudeRef		1
@@ -647,10 +647,8 @@ typedef enum {
 #define GPSTAG_GPSDestDistance		26
 #define GPSTAG_GPSProccesingMethod		27
 #define GPSTAG_GPSAreaInformation		28
-#define GPSTAG_GPSDatestamp		29
+#define GPSTAG_GPSDateStamp		29
 #define GPSTAG_GPSDifferential		30
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 

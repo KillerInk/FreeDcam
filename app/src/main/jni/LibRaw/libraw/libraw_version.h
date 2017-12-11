@@ -1,13 +1,13 @@
 /* -*- C++ -*-
  * File: libraw_version.h
- * Copyright 2008-2013 LibRaw LLC (info@libraw.org)
+ * Copyright 2008-2017 LibRaw LLC (info@libraw.org)
  * Created: Mon Sept  8, 2008 
  *
  * LibRaw C++ interface
  *
 
 LibRaw is free software; you can redistribute it and/or modify
-it under the terms of the one of three licenses as you choose:
+it under the terms of the one of two licenses as you choose:
 
 1. GNU LESSER GENERAL PUBLIC LICENSE version 2.1
 (See the file LICENSE.LGPL provided in LibRaw distribution archive for details).
@@ -15,20 +15,17 @@ it under the terms of the one of three licenses as you choose:
 2. COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
 (See the file LICENSE.CDDL provided in LibRaw distribution archive for details).
 
-3. LibRaw Software License 27032010
-  (See the file LICENSE.LibRaw.pdf provided in LibRaw distribution archive for details).
-
  */
 
 #ifndef __VERSION_H
 #define __VERSION_H
 
 #define LIBRAW_MAJOR_VERSION  0
-#define LIBRAW_MINOR_VERSION  16
-#define LIBRAW_PATCH_VERSION  0
+#define LIBRAW_MINOR_VERSION  18
+#define LIBRAW_PATCH_VERSION  5
 #define LIBRAW_VERSION_TAIL   Release
 
-#define LIBRAW_SHLIB_CURRENT  	10
+#define LIBRAW_SHLIB_CURRENT  	16
 #define LIBRAW_SHLIB_REVISION 	0
 #define LIBRAW_SHLIB_AGE     	0
 

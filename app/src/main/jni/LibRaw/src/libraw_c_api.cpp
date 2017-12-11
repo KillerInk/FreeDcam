@@ -1,13 +1,13 @@
 /* -*- C++ -*-
  * File: libraw_c_api.cpp
- * Copyright 2008-2013 LibRaw LLC (info@libraw.org)
+ * Copyright 2008-2017 LibRaw LLC (info@libraw.org)
  * Created: Sat Mar  8 , 2008
  *
  * LibRaw C interface 
 
 
 LibRaw is free software; you can redistribute it and/or modify
-it under the terms of the one of three licenses as you choose:
+it under the terms of the one of two licenses as you choose:
 
 1. GNU LESSER GENERAL PUBLIC LICENSE version 2.1
    (See file LICENSE.LGPL provided in LibRaw distribution archive for details).
@@ -15,8 +15,6 @@ it under the terms of the one of three licenses as you choose:
 2. COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
    (See file LICENSE.CDDL provided in LibRaw distribution archive for details).
 
-3. LibRaw Software License 27032010
-   (See file LICENSE.LibRaw.pdf provided in LibRaw distribution archive for details).
  */
 
 #include <math.h>
@@ -42,6 +40,7 @@ extern "C"
         return &(ret->imgdata);
     }
 
+	unsigned libraw_capabilities() { return LibRaw::capabilities();}
     const char*   libraw_version() { return LibRaw::version();}
     const char*   libraw_strprogress(enum LibRaw_progress p) { return LibRaw::strprogress(p);}
     int     libraw_versionNumber() { return LibRaw::versionNumber();}
@@ -126,6 +125,14 @@ extern "C"
         LibRaw *ip = (LibRaw*) lr->parent_class;
         delete ip;
     }
+
+	void  libraw_set_exifparser_handler(libraw_data_t* lr, exif_parser_callback cb,void *data)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->set_exifparser_handler(cb,data);
+
+	}
 
     void  libraw_set_memerror_handler(libraw_data_t* lr, memory_callback cb,void *data)
     {
@@ -217,6 +224,161 @@ extern "C"
         LibRaw *ip = (LibRaw*) lr->parent_class;
         return ip->COLOR(row,col);
     }
+
+	/* getters/setters used by 3DLut Creator */
+DllDef void libraw_set_demosaic(libraw_data_t *lr,int value)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.user_qual = value;
+	}
+
+DllDef void libraw_set_output_color(libraw_data_t *lr,int value)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.output_color = value;
+	}
+
+DllDef void libraw_set_output_bps(libraw_data_t *lr,int value)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.output_bps = value;
+	}
+
+#define MIN(a,b) ((a) < (b) ? (a) : (b))
+#define MAX(a,b) ((a) > (b) ? (a) : (b))
+#define LIM(x,min,max) MAX(min,MIN(x,max))
+
+DllDef void libraw_set_user_mul(libraw_data_t *lr,int index, float val)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.user_mul[LIM(index,0,3)]=val;
+	}
+
+DllDef void libraw_set_gamma(libraw_data_t *lr,int index, float value)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.gamm[LIM(index,0,5)] = value;
+	}
+
+DllDef void libraw_set_no_auto_bright(libraw_data_t *lr,int value)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.no_auto_bright = value;
+	}
+
+DllDef void libraw_set_bright(libraw_data_t *lr,float value)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.bright = value;
+	}
+
+DllDef void libraw_set_highlight(libraw_data_t *lr,int value)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.highlight = value;
+	}
+
+DllDef void libraw_set_fbdd_noiserd(libraw_data_t *lr,int value)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.fbdd_noiserd = value;
+	}
+
+DllDef int libraw_get_raw_height(libraw_data_t *lr)
+    {
+        if(!lr) return EINVAL;
+        return lr->sizes.raw_height;
+    }
+
+DllDef int libraw_get_raw_width(libraw_data_t *lr)
+    {
+        if(!lr) return EINVAL;
+        return lr->sizes.raw_width;
+    }
+
+DllDef int libraw_get_iheight(libraw_data_t *lr)
+    {
+        if(!lr) return EINVAL;
+        return lr->sizes.iheight;
+    }
+
+DllDef int libraw_get_iwidth(libraw_data_t *lr)
+    {
+        if(!lr) return EINVAL;
+        return lr->sizes.iwidth;
+    }
+
+
+DllDef float libraw_get_cam_mul(libraw_data_t *lr,int index)
+	{
+		if(!lr) return EINVAL;
+		return lr->color.cam_mul[LIM(index,0,3)];
+	}
+
+DllDef float libraw_get_pre_mul(libraw_data_t *lr,int index)
+	{
+		if(!lr) return EINVAL;
+		return lr->color.pre_mul[LIM(index,0,3)];
+	}
+
+DllDef float libraw_get_rgb_cam(libraw_data_t *lr,int index1, int index2)
+	{
+		if(!lr) return EINVAL;
+		return lr->color.rgb_cam[LIM(index1,0,2)][LIM(index2,0,3)];
+	}
+
+DllDef int libraw_get_color_maximum(libraw_data_t *lr)
+    {
+        if(!lr) return EINVAL;
+        return lr->color.maximum;
+    }
+
+DllDef void libraw_set_ca_correction(libraw_data_t *lr,int ca_correc, float ca_red, float ca_blue)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.ca_correc = ca_correc;
+		ip->imgdata.params.cared = ca_red;
+		ip->imgdata.params.cablue = ca_blue;
+	}
+
+DllDef void libraw_set_cfalinenoise(libraw_data_t *lr,int cfaline, float linenoise)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.cfaline = cfaline;
+		ip->imgdata.params.linenoise = linenoise;
+	}
+
+DllDef void libraw_set_wf_debanding(libraw_data_t *lr, int wf_debanding, float wfd0, float wfd1, float wfd2, float wfd3)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.wf_debanding = wf_debanding;
+		ip->imgdata.params.wf_deband_treshold[0] = wfd0;
+		ip->imgdata.params.wf_deband_treshold[1] = wfd1;
+		ip->imgdata.params.wf_deband_treshold[2] = wfd2;
+		ip->imgdata.params.wf_deband_treshold[3] = wfd3;
+	}
+
+DllDef void libraw_set_interpolation_passes(libraw_data_t *lr,int passes)
+	{
+		if(!lr) return;
+		LibRaw *ip = (LibRaw*) lr->parent_class;
+		ip->imgdata.params.med_passes = passes;
+		ip->imgdata.params.es_med_passes = passes;
+		ip->imgdata.params.dcb_iterations = passes;
+	}
+
 #ifdef __cplusplus
 }
 #endif
