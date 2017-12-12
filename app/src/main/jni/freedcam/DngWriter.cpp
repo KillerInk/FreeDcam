@@ -165,6 +165,13 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
     {
         LOGD("TIFFCreateGPSDirectory() failed" );
     }
+
+    if (!TIFFSetField( tif, GPSTAG_GPSVersionID, "\002\003\0\0"))
+    {
+        LOGD("Can't write GPSVersionID" );
+    }
+    LOGD("Wrote GPSVersionID" );
+
     const char* longitudeRef = Longitude  < 0 ? "W" : "E";
     if (!TIFFSetField( tif, GPSTAG_GPSLongitudeRef, longitudeRef))
     {
