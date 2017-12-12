@@ -2,6 +2,8 @@
 // Created by troop on 23.10.2016.
 //
 
+#include <string.h>
+#include <math.h>
 #include "DngWriter.h"
 
 //#define LOG_RAW_DATA
@@ -165,7 +167,11 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
     {
         LOGD("TIFFCreateGPSDirectory() failed" );
     }
-    const char* longitudeRef = Longitude  < 0 ? "W" : "E";
+    const char* longitudeRef = "E";
+    if (Longitude[0] < 0) {
+        longitudeRef = "W";
+        Longitude[0] = fabsf(Longitude[0]);
+    }
     if (!TIFFSetField( tif, GPSTAG_GPSLongitudeRef, longitudeRef))
     {
         LOGD("Can't write LongitudeRef" );
@@ -177,7 +183,11 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
         LOGD("Can't write Longitude" );
     }
     LOGD("Longitude Written");
-    const char* latitudeRef = Latitude < 0 ? "S" : "N";
+    const char* latitudeRef = "N";
+    if (Latitude[0] < 0) {
+        latitudeRef = "S";
+        Latitude[0] = fabsf(Latitude[0]);
+    }
     LOGD("PMETH Written");
     if (!TIFFSetField( tif, GPSTAG_GPSLatitudeRef, latitudeRef)) {
         LOGD("Can't write LAti REf" );

@@ -1,20 +1,17 @@
 /* -*- C++ -*-
  * File: libraw_datastream.cpp
- * Copyright 2008-2013 LibRaw LLC (info@libraw.org)
+ * Copyright 2008-2017 LibRaw LLC (info@libraw.org)
  *
  * LibRaw C++ interface (implementation)
 
  LibRaw is free software; you can redistribute it and/or modify
- it under the terms of the one of three licenses as you choose:
+ it under the terms of the one of two licenses as you choose:
 
 1. GNU LESSER GENERAL PUBLIC LICENSE version 2.1
    (See file LICENSE.LGPL provided in LibRaw distribution archive for details).
 
 2. COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
    (See file LICENSE.CDDL provided in LibRaw distribution archive for details).
-
-3. LibRaw Software License 27032010
-   (See file LICENSE.LibRaw.pdf provided in LibRaw distribution archive for details).
 
 */
 
@@ -64,10 +61,11 @@ LibRaw_file_datastream::~LibRaw_file_datastream()
 
 LibRaw_file_datastream::LibRaw_file_datastream(const char *fname)
     :filename(fname)
+    ,_fsize(0)
 #ifdef WIN32
     ,wfilename()
 #endif
-    ,jas_file(NULL),_fsize(0)
+    ,jas_file(NULL)
 {
   if (filename.size()>0) 
     {
@@ -122,9 +120,9 @@ int LibRaw_file_datastream::read(void * ptr,size_t size, size_t nmemb)
     
 /* Visual Studio 2008 marks sgetn as insecure, but VS2010 does not. */
 #if defined(WIN32SECURECALLS) && (_MSC_VER < 1600)
-    LR_STREAM_CHK(); return int(f->_Sgetn_s(static_cast<char*>(ptr), nmemb * size,nmemb * size) / size); 
+    LR_STREAM_CHK(); return int(f->_Sgetn_s(static_cast<char*>(ptr), nmemb * size,nmemb * size) / (size>0?size:1)); 
 #else
-    LR_STREAM_CHK(); return int(f->sgetn(static_cast<char*>(ptr), std::streamsize(nmemb * size)) / size); 
+    LR_STREAM_CHK(); return int(f->sgetn(static_cast<char*>(ptr), std::streamsize(nmemb * size)) / (size>0?size:1)); 
 #endif
 }
 
@@ -306,7 +304,7 @@ int LibRaw_buffer_datastream::read(void * ptr,size_t sz, size_t nmemb)
         return 0;
     memmove(ptr,buf+streampos,to_read);
     streampos+=to_read;
-    return int((to_read+sz-1)/sz);
+    return int((to_read+sz-1)/(sz>0?sz:1));
 }
 
 int LibRaw_buffer_datastream::seek(INT64 o, int whence)
@@ -433,7 +431,7 @@ void * LibRaw_buffer_datastream::make_jas_stream()
 
 int LibRaw_buffer_datastream::jpeg_src(void *jpegdata)
 {
-#if defined(NO_JPEG) || !defined (USE_JPEG8)
+#if defined(NO_JPEG) || !defined (USE_JPEG)
   return -1;
 #else
   j_decompress_ptr cinfo = (j_decompress_ptr) jpegdata;

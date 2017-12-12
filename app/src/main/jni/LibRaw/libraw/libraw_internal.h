@@ -1,21 +1,18 @@
 /* -*- C++ -*-
  * File: libraw_internal.h
- * Copyright 2008-2013 LibRaw LLC (info@libraw.org)
+ * Copyright 2008-2017 LibRaw LLC (info@libraw.org)
  * Created: Sat Mar  8 , 2008
  *
  * LibRaw internal data structures (not visible outside)
 
 LibRaw is free software; you can redistribute it and/or modify
-it under the terms of the one of three licenses as you choose:
+it under the terms of the one of two licenses as you choose:
 
 1. GNU LESSER GENERAL PUBLIC LICENSE version 2.1
    (See file LICENSE.LGPL provided in LibRaw distribution archive for details).
 
 2. COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
    (See file LICENSE.CDDL provided in LibRaw distribution archive for details).
-
-3. LibRaw Software License 27032010
-   (See file LICENSE.LibRaw.pdf provided in LibRaw distribution archive for details).
 
  */
 
@@ -51,7 +48,7 @@ public:
          unsigned bitbuf;
          int vbits, reset;
     }getbits;
-    struct 
+    struct
     {
          UINT64 bitbuf;
          int vbits;
@@ -67,12 +64,12 @@ public:
         int vbits, padding;
     }pana_bits;
     uchar jpeg_buffer[4096];
-    struct 
+    struct
     {
       float cbrt[0x10000], xyz_cam[3][4];
     }ahd_data;
-    void init() 
-        { 
+    void init()
+        {
             getbits.bitbuf = 0; getbits.vbits = getbits.reset = 0;
             ph1_bits.bitbuf = 0; ph1_bits.vbits = 0;
             pana_bits.vbits = 0;
@@ -96,11 +93,12 @@ typedef struct
     struct
 #endif
     LibRaw_abstract_datastream *input;
-    FILE        *output;
-    int         input_internal;
-    char        *meta_data;
-    INT64       profile_offset;
-    INT64       toffset;
+  FILE        *output;
+  int         input_internal;
+  char        *meta_data;
+  INT64       profile_offset;
+  INT64       toffset;
+  unsigned    pana_black[4];
 
 } internal_data_t;
 
@@ -122,7 +120,7 @@ typedef struct
 
 typedef struct
 {
-    short       order; 
+    short       order;
     ushort      sraw_mul[4],cr2_slice[3];
     unsigned    kodak_cbpp;
     INT64       strip_offset, data_offset;
@@ -137,37 +135,42 @@ typedef struct
     unsigned    zero_after_ff;
     unsigned    tile_width, tile_length,load_flags;
     unsigned    data_error;
+	int			hasselblad_parser_flag;
+  long long posRAFData;
+  unsigned lenRAFData;
+  int fuji_total_lines, fuji_total_blocks, fuji_block_width, fuji_bits;
 }unpacker_data_t;
-
-
 
 typedef struct
 {
     internal_data_t internal_data;
-    libraw_internal_output_params_t internal_output_params;    
+    libraw_internal_output_params_t internal_output_params;
     output_data_t output_data;
     identify_data_t identify_data;
     unpacker_data_t unpacker_data;
 } libraw_internal_data_t;
 
 
-struct decode 
+struct decode
 {
     struct decode *branch[2];
     int leaf;
 };
 
-struct tiff_ifd_t 
-{
-    int t_width, t_height, bps, comp, phint, offset, t_flip, samples, bytes,tile_maxbytes;
-    int t_tile_width, t_tile_length;
+struct tiff_ifd_t {
+  int t_width, t_height, bps, comp, phint, offset, t_flip, samples, bytes;
+  int t_tile_width, t_tile_length,sample_format,predictor;
+  int rows_per_strip;
+  int *strip_offsets,strip_offsets_count;
+  int *strip_byte_counts,strip_byte_counts_count;
+  float t_shutter;
 };
-
 
 struct jhead {
-  int bits, high, wide, clrs, sraw, psv, restart, vpred[6];
-    ushort *huff[6], *free[4], *row;
+  int algo, bits, high, wide, clrs, sraw, psv, restart, vpred[6];
+  ushort quant[64], idct[64], *huff[20], *free[20], *row;
 };
+
 struct tiff_tag {
   ushort tag, type;
   int count;
