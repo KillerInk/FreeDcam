@@ -1,4 +1,4 @@
-/* $Id$ */
+/* $Id: tiffconf.wince.h,v 1.3 2010-03-10 18:56:49 bfriesen Exp $ */
 
 /*
  * Windows CE platform tiffconf.wince.h

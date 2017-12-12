@@ -1,4 +1,4 @@
-/* $Id$ */
+/* $Id: tif_dir.h,v 1.54 2011-02-18 20:53:05 fwarmerdam Exp $ */
 
 /*
  * Copyright (c) 1988-1997 Sam Leffler
@@ -257,6 +257,7 @@ extern const TIFFFieldArray* _TIFFGetFields(void);
 extern const TIFFFieldArray* _TIFFGetExifFields(void);
 ////////////GPS/////////////////////
 extern const TIFFFieldArray* _TIFFGetGPSFields(void);
+///////////GPS/////////////////////
 extern void _TIFFSetupFields(TIFF* tif, const TIFFFieldArray* infoarray);
 extern void _TIFFPrintFieldInfo(TIFF*, FILE*);
 

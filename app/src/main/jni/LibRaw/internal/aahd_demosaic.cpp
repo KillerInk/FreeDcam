@@ -3,16 +3,13 @@
  * Copyright 2013 Anton Petrusevich
  * Created: Wed May  15, 2013
  *
- * This code is licensed under one of three licenses as you choose:
+ * This code is licensed under one of two licenses as you choose:
  *
  * 1. GNU LESSER GENERAL PUBLIC LICENSE version 2.1
  *    (See file LICENSE.LGPL provided in LibRaw distribution archive for details).
  *
  * 2. COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
  *    (See file LICENSE.CDDL provided in LibRaw distribution archive for details).
- *
- * 3. LibRaw Software License 27032010
- *    (See file LICENSE.LibRaw.pdf provided in LibRaw distribution archive for details).
  *
  */
 
@@ -196,7 +193,7 @@ void AAHD::hide_hots() {
 				int avg = 0;
 				for (int k = -2; k < 3; k += 2)
 					for (int m = -2; m < 3; m += 2)
-						if (m == 0 && m == 0)
+						if (m == 0 && k == 0)
 							continue;
 						else
 							avg += rgb[nr_offset(k, m)][kc];
