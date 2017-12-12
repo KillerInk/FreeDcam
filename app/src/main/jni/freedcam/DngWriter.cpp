@@ -304,8 +304,10 @@ void DngWriter::process10tight(TIFF *tif) {
     unsigned char* out;
     LOGD("writer-RowSize: %d  rawheight:%d ,rawwidht: %d", rawSize, rawheight,
          rawwidht);
-    if (rowSize == 0) {
-        realrowsize = rawSize / rawheight;
+
+        if (rowSize == 0) {
+        //realrowsize = rawSize / rawheight;
+        realrowsize = rawwidht * 10 / 8;
         shouldberowsize = realrowsize;
         if (realrowsize % 5 > 0) {
             shouldberowsize = rawwidht * 10 / 8;
