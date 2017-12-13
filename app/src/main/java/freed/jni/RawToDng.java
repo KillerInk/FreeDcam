@@ -34,45 +34,12 @@ public class RawToDng
     private byte[] opcode2;
     private byte[] opcode3;
 
-    public static native void overloadWrite(int iso,
-                                 double expo,
-                                 int flash,
-                                 float fNum,
-                                 float focalL,
-                                 String imagedescription,
-                                 String orientation,
-                                 float exposureIndex,
-                                 double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime,
-                                 byte[] mThumb, int thumb_widht, int thumb_height,
-                                 byte[] fileBytes, String fileout,int filedescriptor,
-                                 String model, String make, byte[] opcode2, byte[]opcode3,
-                                 float[] colorMatrix1,
-                                 float[] colorMatrix2,
-                                 float[] neutralColor,
-                                 float[] fowardMatrix1,
-                                 float[] fowardMatrix2,
-                                 float[] reductionMatrix1,
-                                 float[] reductionMatrix2,
-                                 double[] noiseMatrix,
-                                 int blacklevel,
-                                 int whitelevel,
-                                 String bayerformat,
-                                 int rowSize,
-                                 int rawType,int width,int height,
-                                 String dateTime,
-                                 float tonecurve[],
-                                 int huesatmapdims[],
-                                 float huesatmapdata1[],
-                                 float huesatmapdata2[],
-                                 float baselineExposure,
-                                 float baselineExposureOffset);
-
     private native ByteBuffer init();
     private native void recycle(ByteBuffer byteBuffer);
     private native long GetRawBytesSize(ByteBuffer byteBuffer);
     private native int GetRawHeight(ByteBuffer byteBuffer);
     private native void SetGPSData(double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime,ByteBuffer byteBuffer);
-    private native void SetThumbData(byte[] mThumb, int widht, int height);
+    private native void SetThumbData(byte[] mThumb, int widht, int height,ByteBuffer byteBuffer);
     private native void WriteDNG(ByteBuffer byteBuffer);
     private native void SetOpCode3(byte[] opcode,ByteBuffer byteBuffer);
     private native void SetOpCode2(byte[] opcode,ByteBuffer byteBuffer);
@@ -111,6 +78,7 @@ public class RawToDng
     private native void SetHueSatMapDims(int[] dims,ByteBuffer byteBuffer);
     private native void SetBaselineExposure(float baselineexposure,ByteBuffer byteBuffer);
     private native void SetBaselineExposureOffset(float baselineexposureoffset,ByteBuffer byteBuffer);
+
     public static RawToDng GetInstance()
     {
         return new RawToDng();
@@ -120,22 +88,6 @@ public class RawToDng
     {
         byteBuffer = init();
         wbct = "";
-        /*File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
-        if (op2.exists())
-            try {
-                opcode2 = readFile(op2);
-                Log.d(TAG, "opcode2 size" + opcode2.length);
-            } catch (IOException e) {
-                Log.WriteEx(e);
-            }
-        File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
-        if (op3.exists())
-            try {
-                opcode3 = readFile(op3);
-                Log.d(TAG, "opcode3 size" + opcode3.length);
-            } catch (IOException e) {
-                Log.WriteEx(e);
-            }*/
     }
 
     @Override
@@ -268,7 +220,7 @@ public class RawToDng
 
     public void setThumbData(byte[] mThumb, int widht, int height)
     {
-        SetThumbData(mThumb, widht,height);
+        SetThumbData(mThumb, widht,height,byteBuffer);
     }
 
     private void SetModelAndMake(String make)
