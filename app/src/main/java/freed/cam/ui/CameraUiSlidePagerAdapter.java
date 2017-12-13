@@ -31,6 +31,9 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
         this.cameraFragment = cameraFragment;
         settingsMenuFragment.setCameraToUi(cameraFragment);
         cameraUiFragment.setCameraToUi(cameraFragment);
+
+        if (cameraFragment != null)
+            cameraFragment.getModuleHandler().ModuleHasChanged(cameraFragment.getModuleHandler().getCurrentModuleName());
     }
 
     public void updateScreenSlideFile(List<FileHolder> files)

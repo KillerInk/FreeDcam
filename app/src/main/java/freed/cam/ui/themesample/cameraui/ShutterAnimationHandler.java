@@ -86,7 +86,9 @@ public class ShutterAnimationHandler extends Handler
 
     public ShutterAnimationHandler(Looper looper, Resources resources,ShutterButton shutterButton)
     {
+
         super(looper);
+        halfsize = resources.getDimensionPixelSize(R.dimen.cameraui_shuttericon_size) /2;
         uiHandler = new UIHandler(Looper.getMainLooper());
         this.shutterButton = shutterButton;
         //used to draw green timer inside the shutter button
@@ -174,7 +176,6 @@ public class ShutterAnimationHandler extends Handler
     private void run()
     {
         calcstartTime = System.nanoTime();
-        halfsize = shutterButton.getWidth()/2;
         MAX_SHUTTER_OPEN = (shutterButton.getWidth() - 100) / 2;
         SHUTTER_OPEN_STEP = (MAX_SHUTTER_OPEN) / MAXFRAMES;
         MAX_RECORDING_OPEN = shutterButton.getWidth() /4;
