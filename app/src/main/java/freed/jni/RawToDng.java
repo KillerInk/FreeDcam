@@ -120,7 +120,7 @@ public class RawToDng
     {
         byteBuffer = init();
         wbct = "";
-        File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
+        /*File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
         if (op2.exists())
             try {
                 opcode2 = readFile(op2);
@@ -135,7 +135,7 @@ public class RawToDng
                 Log.d(TAG, "opcode3 size" + opcode3.length);
             } catch (IOException e) {
                 Log.WriteEx(e);
-            }
+            }*/
     }
 
     @Override
@@ -145,6 +145,16 @@ public class RawToDng
             return;
         recycle(byteBuffer);
         byteBuffer = null;
+    }
+
+    public void setOpcode2(byte[] opcode2)
+    {
+        this.opcode2 = opcode2;
+    }
+
+    public void setOpcode3(byte[] opcode3)
+    {
+        this.opcode3 = opcode3;
     }
 
     public void SetWBCT(String wbct)
@@ -244,7 +254,7 @@ public class RawToDng
         SetBaselineExposureOffset(exposureIndex,byteBuffer);
     }
 
-     public static float[] parseGpsvalue(double val)
+    public static float[] parseGpsvalue(double val)
     {
 
         String[] sec = Location.convert(val, Location.FORMAT_SECONDS).split(":");

@@ -16,6 +16,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StorageFileManager;
 
@@ -134,6 +135,16 @@ public class ImageSaveTask extends ImageTask
         this.whitebalance = wb;
     }
 
+    public void setOpcode2(byte[] opcode2)
+    {
+        this.opcode2 = opcode2;
+    }
+
+    public void setOpcode3(byte[] opcode3)
+    {
+        this.opcode3 = opcode3;
+    }
+
 
 
     @Override
@@ -172,8 +183,8 @@ public class ImageSaveTask extends ImageTask
 //        if (whitebalance != null)
 //            rawToDng.SetWBCT(whitebalance);
 
-        //rawToDng.setOpcode2(opcode2);
-        //rawToDng.setOpcode3(opcode3);
+        rawToDng.setOpcode2(opcode2);
+        rawToDng.setOpcode3(opcode3);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !externalSD)
         {
