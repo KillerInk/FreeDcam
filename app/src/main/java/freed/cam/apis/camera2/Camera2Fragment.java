@@ -97,6 +97,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume");
         if (textureView.isAttachedToWindow() && PreviewSurfaceRdy)
             startCamera();
     }
@@ -104,6 +105,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(TAG, "onPause");
         stopPreview();
         stopCamera();
     }
@@ -111,24 +113,30 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void onCameraOpen(final String message)
     {
+        Log.d(TAG, "onCameraOpen, initCamera");
         mBackgroundHandler.initCamera();
     }
 
     @Override
     public void onCameraClose(String message)
     {
+        Log.d(TAG, "onCameraClose");
+        cameraIsOpen = false;
         mProcessor.kill();
         super.onCameraClose(message);
     }
 
     @Override
     public void onPreviewOpen(String message) {
-        parametersHandler.setManualSettingsToParameters();
+        Log.d(TAG, "onPreviewOpen");
+        //workaround, that seem to kill front camera when switching picformat
+        if (!SettingsManager.getInstance().getIsFrontCamera())
+            parametersHandler.setManualSettingsToParameters();
     }
 
     @Override
     public void onPreviewClose(String message) {
-
+        Log.d(TAG, "onPreviewClose");
     }
 
     @Override
@@ -206,8 +214,11 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         switch (message.what)
         {
             case MSG_START_CAMERA:
-                if (!cameraIsOpen)
+                if (!cameraIsOpen) {
+                    Log.d(TAG, "Start Camera");
                     cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
+                } else
+                    Log.d(TAG, "Camera is already open");
                 break;
             case MSG_STOP_CAMERA:
                 Log.d(TAG, "Stop Camera");
@@ -215,7 +226,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
                 cameraIsOpen = false;
                 break;
             case MSG_RESTART_CAMERA:
-                Log.d(TAG, "Stop Camera");
+                Log.d(TAG, "Restart Camera");
                 cameraHolder.CloseCamera();
                 cameraIsOpen = false;
                 if (!cameraIsOpen)

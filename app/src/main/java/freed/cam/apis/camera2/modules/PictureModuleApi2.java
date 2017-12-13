@@ -118,6 +118,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         Log.d(TAG, "DestroyModule");
         cameraHolder.captureSessionHandler.CloseCaptureSession();
         cameraUiWrapper.getFocusPeakProcessor().kill();
+        if (rawReader != null){
+            rawReader.close();
+            rawReader = null;
+        }
+        if (jpegReader != null){
+            jpegReader.close();
+            jpegReader = null;
+        }
     }
 
     @Override
@@ -128,6 +136,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             mBackgroundHandler.post(TakePicture);
         else if (isWorking)
         {
+            Log.d(TAG, "cancel capture");
             cameraHolder.captureSessionHandler.cancelCapture();
             finishCapture();
             changeCaptureState(CaptureStates.image_capture_stop);
@@ -145,66 +154,61 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         int orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation)%360;
         if (SettingsManager.get(Settings.orientationHack).getBoolean())
             orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation+180)%360;
+        Log.d(TAG, "orientation to set :" +orientationToSet);
         cameraHolder.captureSessionHandler.SetParameter(CaptureRequest.JPEG_ORIENTATION, orientationToSet);
 
         // Here, we create a CameraCaptureSession for camera preview
 
-        try {
-            Size previewSize = cameraHolder.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, mImageWidth, mImageHeight);
-            if (cameraUiWrapper.getFocusPeakProcessor() != null)
-            {
-                cameraUiWrapper.getFocusPeakProcessor().kill();
-            }
-            int orientation = 0;
-            switch (sensorOrientation)
-            {
-                case 90:
-                    orientation = 0;
-                    break;
-                case 180:
-                    orientation =90;
-                    break;
-                case 270: orientation = 180;
-                    break;
-                case 0: orientation = 270;
-                    break;
-            }
-            final int w = previewSize.getWidth();
-            final int h = previewSize.getHeight();
-            final int or = orientation;
-            mainHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    cameraHolder.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,false);
-                }
-            });
-
-            SurfaceTexture texture = cameraHolder.captureSessionHandler.getSurfaceTexture();
-            texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
-            Surface previewsurface = new Surface(texture);
-
-            cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight());
-            cameraUiWrapper.getFocusPeakProcessor().setOutputSurface(previewsurface);
-            Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
-            cameraHolder.captureSessionHandler.AddSurface(camerasurface,true);
-
-            if (jpegReader != null)
-                cameraHolder.captureSessionHandler.AddSurface(jpegReader.getSurface(),false);
-            if (rawReader != null)
-                cameraHolder.captureSessionHandler.AddSurface(rawReader.getSurface(),false);
-
-            cameraHolder.captureSessionHandler.CreateCaptureSession();
-
-            cameraHolder.captureSessionHandler.createImageCaptureRequestBuilder();
-            if (jpegReader != null)
-                cameraHolder.captureSessionHandler.setImageCaptureSurface(jpegReader.getSurface());
-            if (rawReader != null)
-                cameraHolder.captureSessionHandler.setImageCaptureSurface(rawReader.getSurface());
-        }
-        catch(Exception ex)
+        Size previewSize = cameraHolder.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, mImageWidth, mImageHeight);
+        if (cameraUiWrapper.getFocusPeakProcessor() != null)
         {
-            Log.WriteEx(ex);
+            cameraUiWrapper.getFocusPeakProcessor().kill();
         }
+        int orientation = 0;
+        switch (sensorOrientation)
+        {
+            case 90:
+                orientation = 0;
+                break;
+            case 180:
+                orientation =90;
+                break;
+            case 270: orientation = 180;
+                break;
+            case 0: orientation = 270;
+                break;
+        }
+        final int w = previewSize.getWidth();
+        final int h = previewSize.getHeight();
+        final int or = orientation;
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                cameraHolder.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,false);
+            }
+        });
+
+        SurfaceTexture texture = cameraHolder.captureSessionHandler.getSurfaceTexture();
+        texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
+        Surface previewsurface = new Surface(texture);
+
+        cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight());
+        cameraUiWrapper.getFocusPeakProcessor().setOutputSurface(previewsurface);
+        Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
+        cameraHolder.captureSessionHandler.AddSurface(camerasurface,true);
+
+        if (jpegReader != null)
+            cameraHolder.captureSessionHandler.AddSurface(jpegReader.getSurface(),false);
+        if (rawReader != null)
+            cameraHolder.captureSessionHandler.AddSurface(rawReader.getSurface(),false);
+
+        cameraHolder.captureSessionHandler.CreateCaptureSession();
+
+        cameraHolder.captureSessionHandler.createImageCaptureRequestBuilder();
+        if (jpegReader != null)
+            cameraHolder.captureSessionHandler.setImageCaptureSurface(jpegReader.getSurface());
+        if (rawReader != null)
+            cameraHolder.captureSessionHandler.setImageCaptureSurface(rawReader.getSurface());
         if (parameterHandler.get(Settings.M_Burst) != null)
             parameterHandler.get(Settings.M_Burst).fireStringValueChanged(parameterHandler.get(Settings.M_Burst).GetStringValue());
         cameraUiWrapper.onPreviewOpen("");
@@ -278,8 +282,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
 
         }
         else {
-            if (rawReader != null)
+            if (rawReader != null) {
                 rawReader.close();
+                rawReader = null;
+            }
             rawReader = null;
             captureDng = false;
         }

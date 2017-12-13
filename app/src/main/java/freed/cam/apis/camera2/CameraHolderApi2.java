@@ -146,6 +146,10 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
+            if (mCameraDevice != null) {
+                mCameraDevice.close();
+                mCameraDevice = null;
+            }
             return false;
         }
         return true;
@@ -342,8 +346,9 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         {
             Log.d(TAG,"Camera Disconnected");
 //            mCameraOpenCloseLock.release();
-            cameraDevice.close();
-            mCameraDevice = null;
+            if (mCameraDevice != null) {
+                mCameraDevice.close();
+            }
             if (UIHandler != null)
                 UIHandler.post(new Runnable() {
                     @Override
@@ -358,6 +363,11 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         {
             Log.d(TAG, "Camera Error" + error);
 //            mCameraOpenCloseLock.release();
+            if (mCameraDevice != null) {
+                mCameraDevice.close();
+                mCameraDevice = null;
+
+            }
             errorRecieved = true;
             UIHandler.post(new Runnable() {
                 @Override
