@@ -68,7 +68,7 @@ public class BurstApi2 extends AbstractParameter implements ParameterEvents
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void SetValue(int valueToSet, boolean setToCamera)
     {
         current = valueToSet;
     }

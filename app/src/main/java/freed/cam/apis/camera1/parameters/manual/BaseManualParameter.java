@@ -69,7 +69,7 @@ public class BaseManualParameter extends AbstractParameter
         if (isSupported)
         {
             Log.d(TAG,"Reset Back from:" + currentInt + " to:" + default_value);
-            SetValue(default_value);
+            SetValue(default_value, true);
             fireIntValueChanged(default_value);
         }
     }
@@ -159,7 +159,7 @@ public class BaseManualParameter extends AbstractParameter
     }
 
     @Override
-    public void setValue(int valueToset)
+    public void setValue(int valueToset, boolean setToCamera)
     {
         currentInt = valueToset;
         Log.d(TAG, "set " + key_value + " to " + valueToset);

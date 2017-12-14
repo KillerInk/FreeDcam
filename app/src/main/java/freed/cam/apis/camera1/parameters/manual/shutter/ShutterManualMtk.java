@@ -49,12 +49,12 @@ public class ShutterManualMtk extends AbstractManualShutter implements ManualPar
 
 
     @Override
-    public void SetValue(int valueToSet)
+    public void SetValue(int valueToSet, boolean setToCamera)
     {
         manualevent.onManualChanged(AE_Handler_Abstract.AeManual.shutter, false, valueToSet);
     }
     @Override
-    public void setValue(int value)
+    public void setValue(int value, boolean setToCamera)
     {
 
         if (value == 0)

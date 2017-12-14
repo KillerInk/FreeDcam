@@ -48,7 +48,7 @@ import freed.viewer.screenslide.MyHistogram;
  * Created by troop on 06.06.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class Camera2Fragment extends CameraFragmentAbstract implements TextureView.SurfaceTextureListener
+public class Camera2Fragment extends CameraFragmentAbstract implements TextureView.SurfaceTextureListener, CameraHolderApi2.WaitForFirstFrameCallback
 {
     private AutoFitTextureView textureView;
     private MyHistogram histogram;
@@ -87,6 +87,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         moduleHandler = new ModuleHandlerApi2(Camera2Fragment.this);
         Focus = new FocusHandler(Camera2Fragment.this);
         cameraHolder = new CameraHolderApi2(Camera2Fragment.this);
+        ((CameraHolderApi2)cameraHolder).setWaitForFirstFrameCallback(this);
         ((CameraHolderApi2)cameraHolder).captureSessionHandler = new CaptureSessionHandler(Camera2Fragment.this, ((CameraHolderApi2)cameraHolder).cameraBackroundValuesChangedListner);
         mProcessor = new FocuspeakProcessorApi2(renderScriptManager,histogram);
 
@@ -129,9 +130,6 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void onPreviewOpen(String message) {
         Log.d(TAG, "onPreviewOpen");
-        //workaround, that seem to kill front camera when switching picformat
-        if (!SettingsManager.getInstance().getIsFrontCamera())
-            parametersHandler.setManualSettingsToParameters();
     }
 
     @Override
@@ -260,5 +258,13 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
                 break;
         }
 
+    }
+
+    @Override
+    public void onFirstFrame() {
+        Log.d(TAG,"onFirstFrame");
+        //workaround, that seem to kill front camera when switching picformat
+        if (!SettingsManager.getInstance().getIsFrontCamera())
+            parametersHandler.setManualSettingsToParameters();
     }
 }

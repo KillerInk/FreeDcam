@@ -67,7 +67,7 @@ public class PreviewZoomManual extends BaseManualParameterSony
     }
 
     @Override
-    public void SetValue(int valueToSet) {
+    public void SetValue(int valueToSet, boolean setToCamera) {
         int zoomFactor = Integer.parseInt(stringvalues[valueToSet]);
         surfaceView.PreviewZOOMFactor = zoomFactor;
         fireIntValueChanged(valueToSet);

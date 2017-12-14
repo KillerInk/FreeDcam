@@ -75,6 +75,7 @@ public abstract class AbstractParameterHandler
 
     public void add(Settings parameters, ParameterInterface parameterInterface)
     {
+        Log.d(TAG, "add "+parameters.name());
         parameterHashMap.put(parameters, parameterInterface);
     }
 
@@ -96,66 +97,67 @@ public abstract class AbstractParameterHandler
     public void SetAppSettingsToParameters()
     {
         setMode(get(Settings.locationParameter), SettingsManager.getInstance().SETTING_LOCATION);
-        setAppSettingsToCamera(Settings.ColorMode);
-        setAppSettingsToCamera(Settings.ExposureMode);
-        setAppSettingsToCamera(Settings.FlashMode);
-        setAppSettingsToCamera(Settings.IsoMode);
-        setAppSettingsToCamera(Settings.AntiBandingMode);
-        setAppSettingsToCamera(Settings.WhiteBalanceMode);
-        setAppSettingsToCamera(Settings.PictureSize);
-        setAppSettingsToCamera(Settings.PictureFormat);
-        setAppSettingsToCamera(Settings.bayerformat);
-        setAppSettingsToCamera(Settings.oismode);
-        setAppSettingsToCamera(Settings.JpegQuality);
-        setAppSettingsToCamera(Settings.GuideList);
-        setAppSettingsToCamera(Settings.ImagePostProcessing);
-        setAppSettingsToCamera(Settings.SceneMode);
-        setAppSettingsToCamera(Settings.FocusMode);
-        setAppSettingsToCamera(Settings.RedEye);
-        setAppSettingsToCamera(Settings.LensShade);
-        setAppSettingsToCamera(Settings.ZSL);
-        setAppSettingsToCamera(Settings.SceneDetect);
-        setAppSettingsToCamera(Settings.Denoise);
-        setAppSettingsToCamera(Settings.DigitalImageStabilization);
-        setAppSettingsToCamera(Settings.MemoryColorEnhancement);
+        setAppSettingsToCamera(Settings.ColorMode,false);
+        setAppSettingsToCamera(Settings.FlashMode,false);
+        setAppSettingsToCamera(Settings.IsoMode,false);
+        setAppSettingsToCamera(Settings.AntiBandingMode,false);
+        setAppSettingsToCamera(Settings.WhiteBalanceMode,false);
+        setAppSettingsToCamera(Settings.PictureSize,false);
+        setAppSettingsToCamera(Settings.PictureFormat,false);
+        setAppSettingsToCamera(Settings.bayerformat,false);
+        setAppSettingsToCamera(Settings.oismode,false);
+        setAppSettingsToCamera(Settings.JpegQuality,false);
+        setAppSettingsToCamera(Settings.GuideList,false);
+        setAppSettingsToCamera(Settings.ImagePostProcessing,false);
+        setAppSettingsToCamera(Settings.SceneMode,false);
+        setAppSettingsToCamera(Settings.FocusMode,false);
+        setAppSettingsToCamera(Settings.RedEye,false);
+        setAppSettingsToCamera(Settings.LensShade,false);
+        setAppSettingsToCamera(Settings.ZSL,false);
+        setAppSettingsToCamera(Settings.SceneDetect,false);
+        setAppSettingsToCamera(Settings.Denoise,false);
+        setAppSettingsToCamera(Settings.DigitalImageStabilization,false);
+        setAppSettingsToCamera(Settings.MemoryColorEnhancement,false);
         setMode(get(Settings.NightMode), SettingsManager.getInstance().NIGHTMODE);
-        setAppSettingsToCamera(Settings.NonZslManualMode);
+        setAppSettingsToCamera(Settings.NonZslManualMode,false);
 
-        setAppSettingsToCamera(Settings.VideoProfiles);
-        setAppSettingsToCamera(Settings.VideoHDR);
-        setAppSettingsToCamera(Settings.VideoSize);
-        setAppSettingsToCamera(Settings.VideoStabilization);
-        setAppSettingsToCamera(Settings.VideoHighFramerate);
-        setAppSettingsToCamera(Settings.WhiteBalanceMode);
-        setAppSettingsToCamera(Settings.ColorCorrectionMode);
-        setAppSettingsToCamera(Settings.EdgeMode);
-        setAppSettingsToCamera(Settings.HotPixelMode);
-        setAppSettingsToCamera(Settings.ToneMapMode);
-        setAppSettingsToCamera(Settings.ControlMode);
-        setAppSettingsToCamera(Settings.IntervalDuration);
-        setAppSettingsToCamera(Settings.IntervalShutterSleep);
+        setAppSettingsToCamera(Settings.VideoProfiles,false);
+        setAppSettingsToCamera(Settings.VideoHDR,false);
+        setAppSettingsToCamera(Settings.VideoSize,false);
+        setAppSettingsToCamera(Settings.VideoStabilization,false);
+        setAppSettingsToCamera(Settings.VideoHighFramerate,false);
+        setAppSettingsToCamera(Settings.WhiteBalanceMode,false);
+        setAppSettingsToCamera(Settings.ColorCorrectionMode,false);
+        setAppSettingsToCamera(Settings.EdgeMode,false);
+        setAppSettingsToCamera(Settings.HotPixelMode,false);
+        setAppSettingsToCamera(Settings.ToneMapMode,false);
+        setAppSettingsToCamera(Settings.ControlMode,false);
+        setAppSettingsToCamera(Settings.IntervalDuration,false);
+        setAppSettingsToCamera(Settings.IntervalShutterSleep,false);
         setMode(get(Settings.HorizontLvl), SettingsManager.getInstance().SETTING_HORIZONT);
 
-        setAppSettingsToCamera(Settings.HDRMode);
+        setAppSettingsToCamera(Settings.HDRMode,false);
 
-        setAppSettingsToCamera(Settings.matrixChooser);
-        setAppSettingsToCamera(Settings.dualPrimaryCameraMode);
-        setAppSettingsToCamera(Settings.RDI);
-        setAppSettingsToCamera(Settings.Ae_TargetFPS);
+        setAppSettingsToCamera(Settings.matrixChooser,false);
+        setAppSettingsToCamera(Settings.dualPrimaryCameraMode,false);
+        setAppSettingsToCamera(Settings.RDI,false);
+        setAppSettingsToCamera(Settings.Ae_TargetFPS,false);
+
+        setAppSettingsToCamera(Settings.ExposureMode,true);
     }
 
     public void setManualSettingsToParameters()
     {
-        setManualMode(Settings.M_Contrast);
-        setManualMode(Settings.M_3D_Convergence);
-        setManualMode(Settings.M_ExposureCompensation);
-        setManualMode(Settings.M_Focus);
-        setManualMode(Settings.M_Sharpness);
-        setManualMode(Settings.M_ExposureTime);
-        setManualMode(Settings.M_Brightness);
-        setManualMode(Settings.M_ManualIso);
-        setManualMode(Settings.M_Saturation);
-        setManualMode(Settings.M_Whitebalance);
+        setManualMode(Settings.M_Contrast,false);
+        setManualMode(Settings.M_3D_Convergence,false);
+        setManualMode(Settings.M_Focus,false);
+        setManualMode(Settings.M_Sharpness,false);
+        setManualMode(Settings.M_ExposureTime,false);
+        setManualMode(Settings.M_Brightness,false);
+        setManualMode(Settings.M_ManualIso,false);
+        setManualMode(Settings.M_Saturation,false);
+        setManualMode(Settings.M_Whitebalance,false);
+        setManualMode(Settings.M_ExposureCompensation,true);
     }
 
     protected void SetParameters()
@@ -181,7 +183,7 @@ public abstract class AbstractParameterHandler
         }
     }
 
-    protected void setAppSettingsToCamera(Settings parametertolook)
+    protected void setAppSettingsToCamera(Settings parametertolook, boolean setToCamera)
     {
         ParameterInterface parameter = get(parametertolook);
         SettingsManager.SettingMode settingMode = SettingsManager.get(parametertolook);
@@ -194,12 +196,12 @@ public abstract class AbstractParameterHandler
             if (TextUtils.isEmpty(toset) || toset.equals("none"))
                 settingMode.set(parameter.GetStringValue());
             else
-                parameter.SetValue(toset,false);
+                parameter.SetValue(toset,setToCamera);
             parameter.fireStringValueChanged(toset);
         }
     }
 
-    protected void setManualMode(Settings parametertolook)
+    protected void setManualMode(Settings parametertolook, boolean setToCamera)
     {
         ParameterInterface parameter = get(parametertolook);
         SettingsManager.SettingMode settingMode = SettingsManager.get(parametertolook);
@@ -215,7 +217,7 @@ public abstract class AbstractParameterHandler
             {
                 try {
                     int tmp = Integer.parseInt(settingMode.get());
-                    parameter.SetValue(tmp);
+                    parameter.SetValue(tmp, setToCamera);
                 }
                 catch (NumberFormatException ex)
                 {

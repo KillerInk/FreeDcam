@@ -54,7 +54,7 @@ public class ISOManualParameterMTK extends BaseManualParameter implements Manual
     }
 
     @Override
-    public void setValue(int valueToSet)
+    public void setValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
         if (valueToSet == 0)
@@ -68,7 +68,7 @@ public class ISOManualParameterMTK extends BaseManualParameter implements Manual
     }
 
     @Override
-    public void SetValue(int value)
+    public void SetValue(int value, boolean setToCamera)
     {
 
         if (value == 0)

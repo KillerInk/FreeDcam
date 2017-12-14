@@ -90,7 +90,7 @@ public class BaseModeApi2 extends AbstractParameter
         super.setValue(valueToSet, setToCamera);
         try {
             int toset = parameterValues.get(valueToSet);
-            captureSessionHandler.SetParameterRepeating(parameterKey, toset);
+            captureSessionHandler.SetParameterRepeating(parameterKey, toset,setToCamera);
         }
         catch (NullPointerException ex)
         {

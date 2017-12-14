@@ -64,8 +64,9 @@ public interface ParameterInterface
     /**
      * Set the int value to the parameters
      * @param valueToSet the int value to set
+     * @param setToCamera
      */
-    void SetValue(int valueToSet);
+    void SetValue(int valueToSet, boolean setToCamera);
 
     /**
      *

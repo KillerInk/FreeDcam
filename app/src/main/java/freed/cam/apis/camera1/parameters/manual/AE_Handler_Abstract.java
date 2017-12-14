@@ -96,11 +96,11 @@ public abstract class AE_Handler_Abstract
                     switch (fromManual) {
                         case shutter:
                             currentIso = iso.GetValue();
-                            iso.setValue(0);
+                            iso.setValue(0, true);
                             break;
                         case iso:
                             currentShutter = shutter.GetValue();
-                            shutter.setValue(0);
+                            shutter.setValue(0,true);
                             shutter.fireIsReadOnlyChanged(false);
                             break;
                     }
@@ -113,11 +113,11 @@ public abstract class AE_Handler_Abstract
                         auto = false;
                         switch (fromManual) {
                             case shutter:
-                                iso.setValue(currentIso);
+                                iso.setValue(currentIso,true);
                                 break;
                             case iso:
                                 if (currentShutter == 0) currentShutter = 9;
-                                shutter.setValue(currentShutter);
+                                shutter.setValue(currentShutter,true);
                                 shutter.fireIsReadOnlyChanged(true);
                                 break;
                         }
@@ -127,11 +127,11 @@ public abstract class AE_Handler_Abstract
                         Log.d(TAG, "Automode Deactivated, set UserValues");
                         switch (fromManual) {
                             case shutter:
-                                shutter.setValue(value);
+                                shutter.setValue(value,true);
 
                                 break;
                             case iso:
-                                iso.setValue(value);
+                                iso.setValue(value,true);
 
                                 break;
                         }

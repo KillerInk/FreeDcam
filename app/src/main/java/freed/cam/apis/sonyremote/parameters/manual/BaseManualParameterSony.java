@@ -134,7 +134,7 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
 
 
     @Override
-    public void SetValue(final int valueToSet)
+    public void SetValue(final int valueToSet, boolean setToCamera)
     {
         sendLog("Set Value to " + valueToSet);
         currentInt = valueToSet;

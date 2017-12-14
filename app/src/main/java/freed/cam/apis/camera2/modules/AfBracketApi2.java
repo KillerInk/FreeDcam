@@ -62,7 +62,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
-        cameraUiWrapper.getParameterHandler().get(Settings.M_Burst).SetValue(PICSTOTAKE-1);
+        cameraUiWrapper.getParameterHandler().get(Settings.M_Burst).SetValue(PICSTOTAKE-1, true);
         focuslength = parameterHandler.get(Settings.M_Focus).getStringValues().length -1;
         focusStep =  focuslength/PICSTOTAKE;
         currentFocusPos = 1;

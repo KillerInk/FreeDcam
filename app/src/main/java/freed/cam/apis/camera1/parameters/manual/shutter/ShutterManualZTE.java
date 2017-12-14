@@ -60,7 +60,7 @@ public class ShutterManualZTE extends AbstractManualShutter
     }
 
     @Override
-    public void setValue(int valueToSet)
+    public void setValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
         String shutterstring = stringvalues[currentInt];

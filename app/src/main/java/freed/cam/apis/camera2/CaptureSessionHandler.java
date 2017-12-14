@@ -242,6 +242,7 @@ public class CaptureSessionHandler
             return;
         isHighSpeedSession = false;
         Log.d(TAG, "CreateCaptureSession:");
+        cameraHolderApi2.setWaitForFirstFrame();
         try {
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
         } catch (CameraAccessException | SecurityException ex) {
@@ -257,6 +258,7 @@ public class CaptureSessionHandler
         if(cameraHolderApi2.mCameraDevice == null)
             return;
         isHighSpeedSession = true;
+        cameraHolderApi2.setWaitForFirstFrame();
         Log.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
         try {
             cameraHolderApi2.mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, null);
@@ -414,7 +416,7 @@ public class CaptureSessionHandler
 
     }
 
-    public <T> void SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value)
+    public <T> void SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean setToCamera)
     {
         if (mPreviewRequestBuilder == null )
             return;
@@ -422,22 +424,27 @@ public class CaptureSessionHandler
         mPreviewRequestBuilder.set(key,value);
         if (mImageCaptureRequestBuilder != null)
             mImageCaptureRequestBuilder.set(key,value);
-        if (isHighSpeedSession)
-            StartHighspeedCaptureSession();
-        else
-            StartRepeatingCaptureSession();
+        if (setToCamera)
+        {
+            if (isHighSpeedSession)
+                StartHighspeedCaptureSession();
+            else
+                StartRepeatingCaptureSession();
+        }
     }
 
-    public <T> void SetPreviewParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value)
+    public <T> void SetPreviewParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean apply)
     {
         if (mPreviewRequestBuilder == null )
             return;
         Log.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
-        if (isHighSpeedSession)
-            StartHighspeedCaptureSession();
-        else
-            StartRepeatingCaptureSession();
+        if (apply) {
+            if (isHighSpeedSession)
+                StartHighspeedCaptureSession();
+            else
+                StartRepeatingCaptureSession();
+        }
     }
 
     public <T> void SetPreviewParameter(@NonNull CaptureRequest.Key<T> key, T value)

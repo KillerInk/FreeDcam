@@ -42,7 +42,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     }
 
     @Override
-    public void SetValue(final int valueToSet)
+    public void SetValue(final int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
         FreeDPool.Execute(new Runnable() {

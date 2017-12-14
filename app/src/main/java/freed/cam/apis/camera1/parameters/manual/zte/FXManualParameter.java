@@ -72,7 +72,7 @@ public class FXManualParameter extends BaseManualParameter {
     }
 
     @Override
-    public void setValue(int valueToSet)
+    public void setValue(int valueToSet, boolean setToCamera)
     {
         parameters.set(cameraUiWrapper.getResString(R.string.morpho_effect_type), String.valueOf(valueToSet));
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
