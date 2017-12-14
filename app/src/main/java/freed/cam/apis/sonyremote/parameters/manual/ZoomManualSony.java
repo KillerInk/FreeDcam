@@ -96,7 +96,7 @@ public class ZoomManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void SetValue(int valueToSet, boolean setToCamera)
     {
         zoomToSet = valueToSet;
         if (!isZooming)
@@ -132,7 +132,7 @@ public class ZoomManualSony extends BaseManualParameterSony
         if (zoomToSet != currentInt && fromUser)
         {
             if (!checkIfIntIsInRange(zoomToSet, currentInt))
-                SetValue(zoomToSet);
+                SetValue(zoomToSet, true);
             else {
                 zoomToSet = currentInt;
                 fromUser = false;

@@ -74,7 +74,7 @@ public class AeHandler
             manualExposureApi2.fireIsSupportedChanged(false);
             //turn flash off when ae is off. else on some devices it applys only manual stuff only for a few frames
             //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
-            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
+            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF,true);
             //hide flash ui item its not supported in manual mode
             cameraUiWrapper.getParameterHandler().get(Settings.FlashMode).fireIsSupportedChanged(false);
             //enable manualiso item in ui
@@ -140,13 +140,13 @@ public class AeHandler
 
         @TargetApi(VERSION_CODES.LOLLIPOP)
         @Override
-        public void setValue(int valueToSet) {
+        public void setValue(int valueToSet, boolean setToCamera) {
             if (cameraHolder == null || cameraHolder.captureSessionHandler.GetActiveCameraCaptureSession() == null)
                 return;
             currentInt = valueToSet;
             if (expocompvalues == null || expocompvalues.getSize() == 0)
                 return;
-            setExpoCompensation(valueToSet);
+            setExpoCompensation(valueToSet,setToCamera);
         }
 
         @Override
@@ -176,9 +176,9 @@ public class AeHandler
 
     }
 
-    protected void setExpoCompensation(int valueToSet) {
+    protected void setExpoCompensation(int valueToSet,boolean setToCamera) {
         int t = valueToSet - manualExposureApi2.getStringValues().length / 2;
-        cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
+        cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t,setToCamera);
     }
 
     protected boolean isExposureCompSetSupported()
@@ -222,14 +222,14 @@ public class AeHandler
 
         @TargetApi(VERSION_CODES.LOLLIPOP)
         @Override
-        public void setValue(int valueToSet)
+        public void setValue(int valueToSet, boolean setToCamera)
         {
             if (cameraHolder == null)
                 return;
             if (valueToSet >= manualExposureTimeApi2.getStringValues().length)
                 valueToSet = manualExposureTimeApi2.getStringValues().length - 1;
             currentInt = valueToSet;
-            setExposureTime(valueToSet);
+            setExposureTime(valueToSet,setToCamera);
 
         }
 
@@ -250,7 +250,7 @@ public class AeHandler
         }
     }
 
-    protected void setExposureTime(int valueToSet)
+    protected void setExposureTime(int valueToSet,boolean setToCamera)
     {
         if (valueToSet > 0) {
             long val = AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTimeApi2.getStringValues()[valueToSet]) * 1000;
@@ -261,7 +261,7 @@ public class AeHandler
                 val = MAX_PREVIEW_EXPOSURETIME;
             }
 
-            cameraHolder.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
+            cameraHolder.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val,setToCamera);
             manualExposureTimeApi2.fireIntValueChanged(valueToSet);
         }
     }
@@ -292,7 +292,7 @@ public class AeHandler
         }
 
         @Override
-        public void setValue(int valueToSet)
+        public void setValue(int valueToSet, boolean setToCamera)
         {
             //workaround when value was -1 to avoid outofarray ex
             Log.d(TAG, "set Manual Iso: " +valueToSet);
@@ -300,7 +300,7 @@ public class AeHandler
                 valueToSet = 0;
             //////////////////////
             currentInt = valueToSet;
-            setIso(valueToSet);
+            setIso(valueToSet,setToCamera);
         }
 
         @Override
@@ -309,19 +309,19 @@ public class AeHandler
         }
     }
 
-    protected void setIso(int valueToSet)
+    protected void setIso(int valueToSet,boolean setToCamera)
     {
         if (cameraHolder == null || cameraHolder.captureSessionHandler.GetActiveCameraCaptureSession() == null)
             return;
         if (valueToSet == 0)
         {
-            aeModeApi2.SetValue(SettingsManager.get(Settings.ExposureMode).get(),true);
+            aeModeApi2.SetValue(SettingsManager.get(Settings.ExposureMode).get(),setToCamera);
         }
         else
         {
             if (ae_active)
-                aeModeApi2.SetValue(cameraUiWrapper.getContext().getString(R.string.off),true);
-            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(manualISoApi2.getStringValues()[valueToSet]));
+                aeModeApi2.SetValue(cameraUiWrapper.getContext().getString(R.string.off),setToCamera);
+            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(manualISoApi2.getStringValues()[valueToSet]),setToCamera);
         }
     }
 

@@ -57,7 +57,7 @@ public class ShutterManualSony extends AbstractManualShutter
     }
 
     @Override
-    public void setValue(int valueToSet)
+    public void setValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
         ParameterInterface miso =cameraUiWrapper.getParameterHandler().get(Settings.M_ManualIso);

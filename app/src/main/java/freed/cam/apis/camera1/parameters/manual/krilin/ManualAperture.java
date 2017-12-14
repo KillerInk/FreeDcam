@@ -29,7 +29,7 @@ public class ManualAperture extends AbstractParameter
     }
 
     @Override
-    public void setValue(int valueToSet)
+    public void setValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
         if (valueToSet == 0) {

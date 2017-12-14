@@ -83,7 +83,7 @@ public class WbCTManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public void SetValue(int valueToSet)
+    public void SetValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
         if (valueToSet > values.length)

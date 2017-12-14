@@ -80,7 +80,10 @@ public abstract class AbstractParameter implements ParameterInterface {
             switch (msg.what)
             {
                 case MSG_SET_INT:
-                    setValue(msg.arg1);
+                    if (msg.arg2 == 0)
+                        setValue(msg.arg1, false);
+                    else
+                        setValue(msg.arg1, true);
                     break;
                 case MSG_SET_STRING:
                     if (msg.arg1 == 1)
@@ -298,19 +301,24 @@ public abstract class AbstractParameter implements ParameterInterface {
      * set value to camera async
        override that when you need dont need to run in it background
      * @param valueToSet the int value to set
+     * @param setToCamera
      */
     @Override
-    public void SetValue(int valueToSet)
+    public void SetValue(int valueToSet, boolean setToCamera)
     {
-        backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_INT,valueToSet,0));
+        if (setToCamera)
+            backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_INT,valueToSet,1));
+        else
+            backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_INT,valueToSet,0));
     }
 
     /**
      * runs async gets called from SetValue
      * override that when you want to set stuff in background
      * @param valueToSet
+     * @param setToCamera
      */
-    protected void setValue(int valueToSet)
+    protected void setValue(int valueToSet, boolean setToCamera)
     {
         fireIntValueChanged(valueToSet);
         currentInt = valueToSet;

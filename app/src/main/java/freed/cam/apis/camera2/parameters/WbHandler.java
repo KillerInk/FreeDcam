@@ -168,9 +168,9 @@ public class WbHandler
         //rgb 255,255,255   6000k
         //rgb(181,205, 255) 15000k
         @Override
-        public void setValue(int valueToSet)
+        public void setValue(int valueToSet, boolean setToCamera)
         {
-            super.setValue(valueToSet);
+            super.setValue(valueToSet, setToCamera);
             if (valueToSet == 0) // = auto
                 return;
             currentInt =valueToSet;
@@ -192,7 +192,7 @@ public class WbHandler
             Log.d(TAG, "r:" +rgb[0] +" g:"+rgb[1] +" b:"+rgb[2]);
             Log.d(TAG, "ColorTemp=" + valueToSet + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
             wbChannelVector =  new RggbChannelVector(rf,gf,gf,bf);
-            ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector);
+            ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector,setToCamera);
 
         }
 
@@ -263,7 +263,7 @@ public class WbHandler
         @Override
         public void setValue(String valueToSet, boolean setToCamera)
         {
-            ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_MODE, parameterValues.get(valueToSet));
+            ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_MODE, parameterValues.get(valueToSet),setToCamera);
             fireStringValueChanged(valueToSet);
         }
 

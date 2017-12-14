@@ -107,7 +107,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         super.InitModule();
         Log.d(TAG, "InitModule");
         changeCaptureState(CaptureStates.image_capture_stop);
-        cameraUiWrapper.getParameterHandler().get(Settings.M_Burst).SetValue(0);
+        cameraUiWrapper.getParameterHandler().get(Settings.M_Burst).SetValue(0, true);
         if (cameraHolder.captureSessionHandler.getSurfaceTexture() != null)
             startPreview();
     }
@@ -559,9 +559,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             if (cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
                     || cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO) {
                 cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
-                        CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
+                        CaptureRequest.CONTROL_AF_TRIGGER_CANCEL,true);
                 cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
-                        CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                        CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
             }
         }
     };

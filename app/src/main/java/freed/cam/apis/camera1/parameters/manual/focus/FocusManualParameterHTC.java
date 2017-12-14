@@ -44,7 +44,7 @@ public class FocusManualParameterHTC extends BaseManualParameter
 
 
     @Override
-    public void setValue(int valueToSet)
+    public void setValue(int valueToSet, boolean setToCamera)
     {
         parameters.set(key_value, valueToSet+"");
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);

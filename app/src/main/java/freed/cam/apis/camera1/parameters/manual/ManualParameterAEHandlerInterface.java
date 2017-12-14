@@ -26,5 +26,5 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
  */
 public interface ManualParameterAEHandlerInterface extends ParameterInterface
 {
-    void setValue(int value);
+    void setValue(int value, boolean setToCamera);
 }

@@ -39,7 +39,7 @@ public class FocusManualHuawei extends BaseFocusManual
     }
 
     @Override
-    public void setValue(int valueToSet)
+    public void setValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
 

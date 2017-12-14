@@ -71,7 +71,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     public void InitModule() {
         super.InitModule();
         cameraUiWrapper.getParameterHandler().get(Settings.M_Burst).fireIsReadOnlyChanged(false);
-        cameraUiWrapper.getParameterHandler().get(Settings.M_Burst).SetValue(3-1);
+        cameraUiWrapper.getParameterHandler().get(Settings.M_Burst).SetValue(3-1, true);
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
     }
 

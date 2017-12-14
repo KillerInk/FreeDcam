@@ -80,6 +80,11 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         void onAeCompensationChanged(int aecompensation);
     }
 
+    public interface WaitForFirstFrameCallback
+    {
+        void onFirstFrame();
+    }
+
     public boolean isWorking;
 
     public CameraManager manager;
@@ -99,6 +104,9 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     private Pair<Float,Float> focusRanges;
     private float focus_distance;
 
+    private boolean waitForFirstFrame = false;
+    private WaitForFirstFrameCallback waitForFirstFrameCallback;
+
     boolean errorRecieved;
 
     public void SetAeCompensationListner(AeCompensationListner aeCompensationListner)
@@ -115,6 +123,17 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         super(cameraUiWrapper);
         manager = (CameraManager) cameraUiWrapper.getContext().getSystemService(Context.CAMERA_SERVICE);
 
+     }
+
+
+     public void setWaitForFirstFrame()
+     {
+         waitForFirstFrame = true;
+     }
+
+     public void setWaitForFirstFrameCallback(WaitForFirstFrameCallback callback)
+     {
+         this.waitForFirstFrameCallback = callback;
      }
 
     //###########################  public camera methods
@@ -387,6 +406,12 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         {
             if (result == null)
                 return;
+            if (waitForFirstFrame)
+            {
+                if (waitForFirstFrameCallback != null)
+                    waitForFirstFrameCallback.onFirstFrame();
+                waitForFirstFrame = false;
+            }
 
             ParameterInterface expotime = cameraUiWrapper.getParameterHandler().get(Settings.M_ExposureTime);
             ParameterInterface iso = cameraUiWrapper.getParameterHandler().get(Settings.M_ManualIso);
@@ -483,13 +508,13 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 4:
                         state = "FOCUSED_LOCKED";
-                        captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                        captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
                         if (cameraUiWrapper.getFocusHandler().focusEvent != null)
                             cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(true);
                         break;
                     case 5:
                         state = "NOT_FOCUSED_LOCKED";
-                        captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                        captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
                         if (cameraUiWrapper.getFocusHandler().focusEvent != null)
                             cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(false);
                         break;

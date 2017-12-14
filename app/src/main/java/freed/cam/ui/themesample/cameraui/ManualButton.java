@@ -289,7 +289,7 @@ public class ManualButton extends LinearLayout implements ParameterEvents
 
     public void setValueToParameters(final int value)
     {
-        parameter.SetValue(value);
+        parameter.SetValue(value, true);
         handler.setON_UPDATE_SETTING(value);
     }
 

@@ -56,7 +56,7 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
     }
 
     @Override
-    public void setValue(int valueToSet)
+    public void setValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
         if (valueToSet == 0)
@@ -69,7 +69,7 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
         }
     }
 
-    public void SetValue(int value)
+    public void SetValue(int value, boolean setToCamera)
     {
 
         if (value == 0)

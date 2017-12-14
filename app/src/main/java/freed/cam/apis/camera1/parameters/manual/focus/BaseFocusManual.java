@@ -58,7 +58,7 @@ public class BaseFocusManual extends BaseManualParameter
 
 
     @Override
-    public void setValue(int valueToSet)
+    public void setValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
 

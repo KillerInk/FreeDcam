@@ -26,8 +26,8 @@ public class HuaweiAeHandler extends AeHandler {
 
 
     @Override
-    protected void setExposureTime(int valueToSet) {
-        cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
+    protected void setExposureTime(int valueToSet,boolean setToCamera) {
+        cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED,setToCamera);
         if (valueToSet > 0) {
             String shutter = manualExposureTimeApi2.getStringValues()[valueToSet];
             Rational rational;
@@ -47,14 +47,14 @@ public class HuaweiAeHandler extends AeHandler {
                 rational = new Rational(Integer.parseInt(shutter),1);
             }
             int val = (int) AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTimeApi2.getStringValues()[valueToSet]);
-            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, val);
-            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, rational);
+            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, val,setToCamera);
+            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, rational,setToCamera);
             manualExposureTimeApi2.fireIntValueChanged(valueToSet);
 
         }
         else
         {
-            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, 0);
+            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, 0,setToCamera);
         }
     }
 
@@ -64,24 +64,24 @@ public class HuaweiAeHandler extends AeHandler {
     }
 
     @Override
-    protected void setIso(int valueToSet) {
+    protected void setIso(int valueToSet,boolean setToCamera) {
         if (cameraHolder == null || cameraHolder.captureSessionHandler.GetActiveCameraCaptureSession() == null)
             return;
-        cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
+        cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED,setToCamera);
         if (valueToSet == 0)
         {
-            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, 0);
+            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, 0,setToCamera);
         }
         else
         {
-            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, Integer.parseInt(manualISoApi2.getStringValues()[valueToSet]));
+            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, Integer.parseInt(manualISoApi2.getStringValues()[valueToSet]),setToCamera);
         }
     }
 
     @Override
-    protected void setExpoCompensation(int valueToSet) {
+    protected void setExpoCompensation(int valueToSet,boolean setToCamera) {
         float t = Float.parseFloat(manualExposureApi2.getStringValues()[valueToSet].replace(",","."));
-        cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_EXPOSURE_COMP_VALUE, t);
+        cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_EXPOSURE_COMP_VALUE, t,setToCamera);
     }
 
     @Override
