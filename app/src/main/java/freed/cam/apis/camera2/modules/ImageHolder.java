@@ -30,6 +30,7 @@ import freed.dng.ToneMapProfile;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTaskDngConverter;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -303,6 +304,8 @@ public class ImageHolder implements ImageReader.OnImageAvailableListener
         saveTask.setDngProfile(prof);
         saveTask.setFilePath(file, externalSD);
         saveTask.setOrientation(orientation);
+        saveTask.setOpcode2(SettingsManager.getInstance().getOpcode2());
+        saveTask.setOpcode3(SettingsManager.getInstance().getOpcode3());
         ImageManager.putImageSaveTask(saveTask);
     }
 

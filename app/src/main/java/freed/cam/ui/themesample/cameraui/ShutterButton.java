@@ -31,6 +31,7 @@ import android.view.View;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.settings.Settings;
@@ -41,7 +42,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 20.06.2015.
  */
-public class ShutterButton extends android.support.v7.widget.AppCompatButton implements ModuleHandlerAbstract.CaptureStateChanged {
+public class ShutterButton extends android.support.v7.widget.AppCompatButton implements ModuleHandlerAbstract.CaptureStateChanged, ModuleChangedEvent {
     private CameraWrapperInterface cameraUiWrapper;
 
     private final String TAG = ShutterButton.class.getSimpleName();
@@ -53,9 +54,11 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
      * Starts a background thread and its {@link Handler}.
      */
     private void startBackgroundThread() {
-        mBackgroundThread = new HandlerThread("ShutterDraw");
-        mBackgroundThread.start();
-        animationHandler = new ShutterAnimationHandler(mBackgroundThread.getLooper(),getResources(),this);
+        if (mBackgroundThread ==  null || !mBackgroundThread.isAlive()) {
+            mBackgroundThread = new HandlerThread("ShutterDraw");
+            mBackgroundThread.start();
+            animationHandler = new ShutterAnimationHandler(mBackgroundThread.getLooper(), getResources(), this);
+        }
     }
 
     /**
@@ -103,6 +106,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
 
     private void init(Context context) {
 
+        startBackgroundThread();
         //set background img that get then overdrawn
         setBackgroundResource(R.drawable.shutter5);
 
@@ -139,9 +143,12 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         if (cameraUiWrapper.getModuleHandler() == null)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
+        cameraUiWrapper.getModuleHandler().addListner(this);
         cameraUiWrapper.getModuleHandler().setWorkListner(this);
-        if(cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
+        if(cameraUiWrapper.getModuleHandler().getCurrentModule() != null) {
             onCaptureStateChanged(cameraUiWrapper.getModuleHandler().getCurrentModule().getCurrentCaptureState());
+
+        }
         Log.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
     }
 
@@ -207,4 +214,10 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         animationHandler.onDraw(canvas);
     }
 
+    @Override
+    public void onModuleChanged(String module) {
+        if(cameraUiWrapper.getModuleHandler().getCurrentModule() != null) {
+            onCaptureStateChanged(cameraUiWrapper.getModuleHandler().getCurrentModule().getCurrentCaptureState());
+        }
+    }
 }

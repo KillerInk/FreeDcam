@@ -16,6 +16,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StorageFileManager;
 
@@ -134,6 +135,16 @@ public class ImageSaveTask extends ImageTask
         this.whitebalance = wb;
     }
 
+    public void setOpcode2(byte[] opcode2)
+    {
+        this.opcode2 = opcode2;
+    }
+
+    public void setOpcode3(byte[] opcode3)
+    {
+        this.opcode3 = opcode3;
+    }
+
 
 
     @Override
@@ -161,28 +172,19 @@ public class ImageSaveTask extends ImageTask
 
     private void saveRawToDng()
     {
-        double Altitude = 0;
-        float[] Latitude = null;
-        float[] Longitude = null;
-        String gpsProvider = null;
-        long gpsTime = 0;
+        RawToDng rawToDng = RawToDng.GetInstance();
         ParcelFileDescriptor pfd = null;
         int pfdint = -1;
         if (location != null)
         {
-            Altitude = location.getAltitude();
-            Latitude = RawToDng.parseGpsvalue(location.getLatitude());
-            Longitude = RawToDng.parseGpsvalue(location.getLongitude());
-            gpsProvider = location.getProvider();
-            gpsTime = location.getTime();
-            //rawToDng.SetGpsData(Altitude, Latitude, Longitude, Provider, gpsTime);
+            rawToDng.SetGpsData(location.getAltitude(), location.getLatitude(), location.getLongitude(), location.getProvider(), location.getTime());
         }
-        //rawToDng.setExifData(mISO, exposureTime, 0, fnum, focal, "0", orientation + "", expoindex);
+        rawToDng.setExifData(mISO, exposureTime, 0, fnum, focal, "0", orientation + "", expoindex);
 //        if (whitebalance != null)
 //            rawToDng.SetWBCT(whitebalance);
 
-       /* rawToDng.setOpcode2(opcode2);
-        rawToDng.setOpcode3(opcode3);*/
+        rawToDng.setOpcode2(opcode2);
+        rawToDng.setOpcode3(opcode3);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !externalSD)
         {
@@ -203,38 +205,12 @@ public class ImageSaveTask extends ImageTask
                 Log.WriteEx(e);
             }
         }
-        float tonemap[] = null;
-        float huesatmapdata1[] = null;
-        int huesatmapdim[] = null;
-        float baselineExpo =0;
-        if (profile.toneMapProfile != null)
-        {
-            tonemap = profile.toneMapProfile.getToneCurve();
-            huesatmapdim = profile.toneMapProfile.getHueSatMapDims();
-            huesatmapdata1 = profile.toneMapProfile.getHueSatMapData1();
-            try {
-                baselineExpo = profile.toneMapProfile.getBaselineExposure();
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
-        RawToDng.overloadWrite(mISO,exposureTime,0,fnum,focal,"0",orientation+"",expoindex,
-                Altitude,Latitude,Longitude,gpsProvider,gpsTime,
-                null,0,0,bytesTosave, filename.getAbsolutePath(),pfdint,Build.MODEL, Build.MANUFACTURER,opcode2,opcode3,
-                profile.matrixes.ColorMatrix1,
-                profile.matrixes.ColorMatrix2,
-                profile.matrixes.NeutralMatrix,
-                profile.matrixes.ForwardMatrix1,
-                profile.matrixes.ForwardMatrix2,
-                profile.matrixes.ReductionMatrix1,
-                profile.matrixes.ReductionMatrix2,
-                profile.matrixes.NoiseReductionMatrix,
-                profile.blacklevel, profile.whitelevel, profile.bayerPattern,profile.rowsize,profile.rawType,profile.widht,profile.height,
-                StorageFileManager.getStringExifPattern().format(new Date()),
-                tonemap,
-                huesatmapdim,
-                huesatmapdata1,
-                null,baselineExpo,expoindex);
+        if (pfd == null)
+            rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath());
+        else
+            rawToDng.SetBayerDataFD(bytesTosave,pfd,filename.getAbsolutePath());
+
+        rawToDng.WriteDngWithProfile(profile);
         if (pfd != null)
             try {
                 pfd.close();

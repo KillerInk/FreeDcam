@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
 import java.util.Date;
 
 import freed.dng.DngProfile;
@@ -27,54 +28,25 @@ public class RawToDng
 
     private final String TAG = RawToDng.class.getSimpleName();
 
+    private ByteBuffer byteBuffer;
+
     private String wbct;
     private byte[] opcode2;
     private byte[] opcode3;
 
-    public static native void overloadWrite(int iso,
-                                 double expo,
-                                 int flash,
-                                 float fNum,
-                                 float focalL,
-                                 String imagedescription,
-                                 String orientation,
-                                 float exposureIndex,
-                                 double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime,
-                                 byte[] mThumb, int thumb_widht, int thumb_height,
-                                 byte[] fileBytes, String fileout,int filedescriptor,
-                                 String model, String make, byte[] opcode2, byte[]opcode3,
-                                 float[] colorMatrix1,
-                                 float[] colorMatrix2,
-                                 float[] neutralColor,
-                                 float[] fowardMatrix1,
-                                 float[] fowardMatrix2,
-                                 float[] reductionMatrix1,
-                                 float[] reductionMatrix2,
-                                 double[] noiseMatrix,
-                                 int blacklevel,
-                                 int whitelevel,
-                                 String bayerformat,
-                                 int rowSize,
-                                 int rawType,int width,int height,
-                                 String dateTime,
-                                 float tonecurve[],
-                                 int huesatmapdims[],
-                                 float huesatmapdata1[],
-                                 float huesatmapdata2[],
-                                 float baselineExposure,
-                                 float baselineExposureOffset);
-
-    private native long GetRawBytesSize();
-    private native int GetRawHeight();
-    private native void SetGPSData(double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
-    private native void SetThumbData(byte[] mThumb, int widht, int height);
-    private native void WriteDNG();
-    private native void SetOpCode3(byte[] opcode);
-    private native void SetOpCode2(byte[] opcode);
-    private native void SetRawHeight(int height);
-    private native void SetModelAndMake(String model, String make);
-    private native void SetBayerData(byte[] fileBytes, String fileout);
-    private native void SetBayerDataFD(byte[] fileBytes, int fileout, String filename);
+    private native ByteBuffer init();
+    private native void recycle(ByteBuffer byteBuffer);
+    private native long GetRawBytesSize(ByteBuffer byteBuffer);
+    private native int GetRawHeight(ByteBuffer byteBuffer);
+    private native void SetGPSData(double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime,ByteBuffer byteBuffer);
+    private native void SetThumbData(byte[] mThumb, int widht, int height,ByteBuffer byteBuffer);
+    private native void WriteDNG(ByteBuffer byteBuffer);
+    private native void SetOpCode3(byte[] opcode,ByteBuffer byteBuffer);
+    private native void SetOpCode2(byte[] opcode,ByteBuffer byteBuffer);
+    private native void SetRawHeight(int height,ByteBuffer byteBuffer);
+    private native void SetModelAndMake(String model, String make,ByteBuffer byteBuffer);
+    private native void SetBayerData(byte[] fileBytes, String fileout,ByteBuffer byteBuffer);
+    private native void SetBayerDataFD(byte[] fileBytes, int fileout, String filename,ByteBuffer byteBuffer);
     private native void SetBayerInfo(float[] colorMatrix1,
                                      float[] colorMatrix2,
                                      float[] neutralColor,
@@ -88,7 +60,7 @@ public class RawToDng
                                      String bayerformat,
                                      int rowSize,
                                      String devicename,
-                                     int rawType,int width,int height);
+                                     int rawType,int width,int height,ByteBuffer byteBuffer);
     private native void SetExifData(int iso,
                                            double expo,
                                            int flash,
@@ -96,16 +68,17 @@ public class RawToDng
                                            float focalL,
                                            String imagedescription,
                                            String orientation,
-                                           float exposureIndex);
+                                           float exposureIndex,ByteBuffer byteBuffer);
 
-    private native void SetDateTime(String datetime);
+    private native void SetDateTime(String datetime,ByteBuffer byteBuffer);
 
-    private native void SetToneCurve(float tonecurve[]);
-    private native void SetHueSatMapData1(float tonecurve[]);
-    private native void SetHueSatMapData2(float tonecurve[]);
-    private native void SetHueSatMapDims(int[] dims);
-    private native void SetBaselineExposure(float baselineexposure);
-    private native void SetBaselineExposureOffset(float baselineexposureoffset);
+    private native void SetToneCurve(float tonecurve[],ByteBuffer byteBuffer);
+    private native void SetHueSatMapData1(float tonecurve[],ByteBuffer byteBuffer);
+    private native void SetHueSatMapData2(float tonecurve[],ByteBuffer byteBuffer);
+    private native void SetHueSatMapDims(int[] dims,ByteBuffer byteBuffer);
+    private native void SetBaselineExposure(float baselineexposure,ByteBuffer byteBuffer);
+    private native void SetBaselineExposureOffset(float baselineexposureoffset,ByteBuffer byteBuffer);
+
     public static RawToDng GetInstance()
     {
         return new RawToDng();
@@ -113,23 +86,27 @@ public class RawToDng
 
     private RawToDng()
     {
+        byteBuffer = init();
         wbct = "";
-        File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
-        if (op2.exists())
-            try {
-                opcode2 = readFile(op2);
-                Log.d(TAG, "opcode2 size" + opcode2.length);
-            } catch (IOException e) {
-                Log.WriteEx(e);
-            }
-        File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
-        if (op3.exists())
-            try {
-                opcode3 = readFile(op3);
-                Log.d(TAG, "opcode3 size" + opcode3.length);
-            } catch (IOException e) {
-                Log.WriteEx(e);
-            }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        if (byteBuffer == null)
+            return;
+        recycle(byteBuffer);
+        byteBuffer = null;
+    }
+
+    public void setOpcode2(byte[] opcode2)
+    {
+        this.opcode2 = opcode2;
+    }
+
+    public void setOpcode3(byte[] opcode3)
+    {
+        this.opcode3 = opcode3;
     }
 
     public void SetWBCT(String wbct)
@@ -206,13 +183,13 @@ public class RawToDng
 
     private long GetRawSize()
     {
-        return GetRawBytesSize();
+        return GetRawBytesSize(byteBuffer);
     }
 
     public void SetGpsData(double Altitude,double Latitude,double Longitude, String Provider, long gpsTime)
     {
         Log.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
-        SetGPSData(Altitude, parseGpsvalue(Latitude), parseGpsvalue(Longitude), Provider, gpsTime);
+        SetGPSData(Altitude, parseGpsvalue(Latitude), parseGpsvalue(Longitude), Provider, gpsTime,byteBuffer);
     }
 
     public void setExifData(int iso,
@@ -224,12 +201,12 @@ public class RawToDng
                             String orientation,
                             float exposureIndex)
     {
-        SetExifData(iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
-        SetDateTime(StorageFileManager.getStringExifPattern().format(new Date()));
-        SetBaselineExposureOffset(exposureIndex);
+        SetExifData(iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex,byteBuffer);
+        SetDateTime(StorageFileManager.getStringExifPattern().format(new Date()),byteBuffer);
+        SetBaselineExposureOffset(exposureIndex,byteBuffer);
     }
 
-     public static float[] parseGpsvalue(double val)
+    public static float[] parseGpsvalue(double val)
     {
 
         String[] sec = Location.convert(val, Location.FORMAT_SECONDS).split(":");
@@ -243,12 +220,12 @@ public class RawToDng
 
     public void setThumbData(byte[] mThumb, int widht, int height)
     {
-        SetThumbData(mThumb, widht,height);
+        SetThumbData(mThumb, widht,height,byteBuffer);
     }
 
     private void SetModelAndMake(String make)
     {
-        SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
+        SetModelAndMake(Build.MODEL, Build.MANUFACTURER,byteBuffer);
     }
 
     public void setBayerData(byte[] fileBytes, String fileout) throws NullPointerException
@@ -256,11 +233,11 @@ public class RawToDng
         if (fileBytes == null) {
             throw new NullPointerException();
         }
-        SetBayerData(fileBytes, fileout);
+        SetBayerData(fileBytes, fileout,byteBuffer);
         if (opcode2 != null)
-            SetOpCode2(opcode2);
+            SetOpCode2(opcode2,byteBuffer);
         if (opcode3 != null)
-            SetOpCode3(opcode3);
+            SetOpCode3(opcode3,byteBuffer);
 
     }
 
@@ -270,11 +247,11 @@ public class RawToDng
             throw new NullPointerException();
         }
 
-        SetBayerDataFD(fileBytes, fileout.getFd(), filename);
+        SetBayerDataFD(fileBytes, fileout.getFd(), filename,byteBuffer);
         if (opcode2 != null)
-            SetOpCode2(opcode2);
+            SetOpCode2(opcode2,byteBuffer);
         if (opcode3 != null)
-            SetOpCode3(opcode3);
+            SetOpCode3(opcode3,byteBuffer);
     }
 
 
@@ -293,16 +270,16 @@ public class RawToDng
                               int tight, int width, int height)
     {
         if (TextUtils.isEmpty(wbct))
-            SetBayerInfo(colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
+            SetBayerInfo(colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height,byteBuffer);
         else if (!TextUtils.isEmpty(wbct))
-            SetBayerInfo(colorMatrix1, colorMatrix2, getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
+            SetBayerInfo(colorMatrix1, colorMatrix2, getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height,byteBuffer);
 
     }
 
 
     private void setRawHeight(int height)
     {
-        SetRawHeight(height);
+        SetRawHeight(height,byteBuffer);
     }
 
 
@@ -314,20 +291,22 @@ public class RawToDng
         if (profile.toneMapProfile != null)
         {
             if (profile.toneMapProfile.getToneCurve() != null)
-                SetToneCurve(profile.toneMapProfile.getToneCurve());
+                SetToneCurve(profile.toneMapProfile.getToneCurve(),byteBuffer);
             if (profile.toneMapProfile.getHueSatMapData1() != null)
-                SetHueSatMapData1(profile.toneMapProfile.getHueSatMapData1());
+                SetHueSatMapData1(profile.toneMapProfile.getHueSatMapData1(),byteBuffer);
             //SetHueSatMapData2(profile.toneMapProfile.getHueSatMapData2());
             if (profile.toneMapProfile.getHueSatMapDims() != null)
-                SetHueSatMapDims(profile.toneMapProfile.getHueSatMapDims());
+                SetHueSatMapDims(profile.toneMapProfile.getHueSatMapDims(),byteBuffer);
             if (profile.toneMapProfile.getBaselineExposure() != null)
-                SetBaselineExposure(profile.toneMapProfile.getBaselineExposure());
+                SetBaselineExposure(profile.toneMapProfile.getBaselineExposure(),byteBuffer);
         }
 
         SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,
                 profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
                 profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.whitelevel, profile.bayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
-        WriteDNG();
+        WriteDNG(byteBuffer);
+        recycle(byteBuffer);
+        byteBuffer = null;
     }
 
     public static byte[] readFile(File file) throws IOException {

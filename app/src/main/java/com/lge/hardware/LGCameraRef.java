@@ -93,9 +93,9 @@ public class LGCameraRef
     private void init_classes() throws ClassNotFoundException, NoSuchMethodException {
         CLASS_LGCAMERA =  Class.forName("com.lge.hardware.LGCamera");
         CLASS_LGPARAMETERS = Class.forName("com.lge.hardware.LGCamera$LGParameters");
-        METHOD_getCamera = CLASS_LGCAMERA.getMethod("getCamera",null);
-        METHOD_getLGParameters = CLASS_LGCAMERA.getMethod("getLGParameters",null);
-        METHOD_LGParameters_getParameters = CLASS_LGPARAMETERS.getMethod("getParameters", null);
+        METHOD_getCamera = CLASS_LGCAMERA.getMethod("getCamera");
+        METHOD_getLGParameters = CLASS_LGCAMERA.getMethod("getLGParameters");
+        METHOD_LGParameters_getParameters = CLASS_LGPARAMETERS.getMethod("getParameters");
     }
 
     //public android.hardware.Camera getCamera() {  }
@@ -103,7 +103,7 @@ public class LGCameraRef
     public Camera getCamera()
     {
         try {
-            return (Camera) METHOD_getCamera.invoke(lgCamera,null);
+            return (Camera) METHOD_getCamera.invoke(lgCamera);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
