@@ -281,6 +281,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
             captureJpeg = false;
 
         }
+        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer)))
+        {
+            Log.d(TAG, "ImageReader RAW12");
+            largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
+            rawReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW_SENSOR, MAX_IMAGES);
+            captureDng = false;
+            captureJpeg = false;
+
+        }
         else {
             if (rawReader != null) {
                 rawReader.close();

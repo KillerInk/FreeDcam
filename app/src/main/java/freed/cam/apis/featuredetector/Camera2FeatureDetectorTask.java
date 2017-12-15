@@ -545,8 +545,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.WriteEx(e);
         }
         try {
-            if (smap.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
+            if (smap.isOutputSupportedFor(ImageFormat.RAW_SENSOR)) {
                 hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16), ImageFormat.RAW_SENSOR);
+                hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer), ImageFormat.RAW_SENSOR);
+            }
         } catch (Exception e) {
             Log.WriteEx(e);
         }
