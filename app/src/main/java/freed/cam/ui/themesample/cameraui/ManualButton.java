@@ -80,7 +80,7 @@ public class ManualButton extends LinearLayout implements ParameterEvents
 
         public void setON_INT_VALUE_CHANGED(int val)
         {
-            this.obtainMessage(ON_STRING_VALUE_CHANGED,val).sendToTarget();
+            this.obtainMessage(ON_INT_VALUE_CHANGED,val).sendToTarget();
         }
 
         public void setON_UPDATE_SETTING(int val)

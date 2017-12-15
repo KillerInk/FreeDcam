@@ -190,7 +190,7 @@ public class AeHandler
      * Created by troop on 06.03.2015.
      */
     @TargetApi(VERSION_CODES.LOLLIPOP)
-    public class ManualExposureTimeApi2 extends AbstractManualShutter
+    public class ManualExposureTimeApi2 extends AbstractParameter
     {
         public final String TAG = ManualExposureTimeApi2.class.getSimpleName();
         public ManualExposureTimeApi2(CameraWrapperInterface cameraUiWrapper) {
@@ -230,7 +230,6 @@ public class AeHandler
                 valueToSet = manualExposureTimeApi2.getStringValues().length - 1;
             currentInt = valueToSet;
             setExposureTime(valueToSet,setToCamera);
-
         }
 
         @Override
@@ -322,6 +321,7 @@ public class AeHandler
             if (ae_active)
                 aeModeApi2.SetValue(cameraUiWrapper.getContext().getString(R.string.off),setToCamera);
             cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(manualISoApi2.getStringValues()[valueToSet]),setToCamera);
+            manualISoApi2.fireIntValueChanged(valueToSet);
         }
     }
 

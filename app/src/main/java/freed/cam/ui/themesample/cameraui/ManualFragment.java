@@ -311,7 +311,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         if (!(cameraUiWrapper instanceof SonyCameraRemoteFragment)) {
             currentButton.setValueToParameters(progress);
             currentButton.onIntValueChanged(progress);
-
         }
     }
 
