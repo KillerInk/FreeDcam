@@ -94,7 +94,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     public StreamConfigurationMap map;
     public int CurrentCamera;
     public CameraCharacteristics characteristics;
-    public String VideoSize;
     public CaptureSessionHandler captureSessionHandler;
     public boolean flashRequired = false;
     int afState;
@@ -367,6 +366,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 //            mCameraOpenCloseLock.release();
             if (mCameraDevice != null) {
                 mCameraDevice.close();
+                mCameraDevice = null;
             }
             if (UIHandler != null)
                 UIHandler.post(new Runnable() {

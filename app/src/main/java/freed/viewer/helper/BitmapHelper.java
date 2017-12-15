@@ -133,6 +133,10 @@ public class BitmapHelper
                 {
                     Log.WriteEx(ex);
 
+                }catch (UnsatisfiedLinkError ex)
+                {
+                    Log.WriteEx(ex);
+
                 }
             }
             if (response != null && CACHE != null)

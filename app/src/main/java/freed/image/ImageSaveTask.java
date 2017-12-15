@@ -32,6 +32,7 @@ public class ImageSaveTask extends ImageTask
     public final static int RAW10 = 1;
     public final static int RAW12 = 2;
     public final static int RAW_SENSOR = 3;
+    public final static int DUMP_RAWDATA = 4;
 
 
     private byte[] bytesTosave, opcode2, opcode3;
@@ -161,6 +162,10 @@ public class ImageSaveTask extends ImageTask
             saveJpeg();
             clear();
             return true;
+        }
+        else if (imageFormat == DUMP_RAWDATA){
+            saveJpeg();
+            clear();
         }
         return false;
     }

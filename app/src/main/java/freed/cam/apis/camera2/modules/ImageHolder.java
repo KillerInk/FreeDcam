@@ -167,6 +167,8 @@ public class ImageHolder implements ImageReader.OnImageAvailableListener
                 AddImage(img);
             else if (isRawCapture && (img.getFormat() == ImageFormat.RAW_SENSOR || img.getFormat() == ImageFormat.RAW10))
                 AddImage(img);
+            else if (!isJpgCapture && !isRawCapture)
+                AddImage(img);
             else {
                 if (images.contains(img))
                     images.remove(img);
@@ -244,14 +246,21 @@ public class ImageHolder implements ImageReader.OnImageAvailableListener
                 process_rawWithDngConverter(image,DngProfile.Mipi12,file);
                 break;
             case ImageFormat.RAW_SENSOR:
-                file = new File(f+".dng");
-                if(forceRawToDng)
-                    if (support12bitRaw)
-                        process_rawWithDngConverter(image,DngProfile.Pure16bit_To_12bit,file);
+                if (!isRawCapture && !isJpgCapture)
+                {
+                    file = new File(f + ".bayer");
+                    process_jpeg(image,file);
+                }
+                else {
+                    file = new File(f + ".dng");
+                    if (forceRawToDng)
+                        if (support12bitRaw)
+                            process_rawWithDngConverter(image, DngProfile.Pure16bit_To_12bit, file);
+                        else
+                            process_rawWithDngConverter(image, DngProfile.Plain, file);
                     else
-                        process_rawWithDngConverter(image,DngProfile.Plain,file);
-                else
-                    process_rawSensor(image,file);
+                        process_rawSensor(image, file);
+                }
                 break;
         }
     }
