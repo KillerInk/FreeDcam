@@ -280,6 +280,7 @@ public class SettingsManager {
 
     public synchronized void init(SharedPreferences sharedPreferences, Resources resources)
     {
+        //check if its not already init while a other task waited for it
         if (isInit)
             return;
         settings = sharedPreferences;
@@ -376,6 +377,10 @@ public class SettingsManager {
         settingsmap.put(Settings.orientationHack,new SettingMode(getResString(R.string.aps_orientationHack)));
         settingsmap.put(Settings.tonemapChooser,new SettingMode(getResString(R.string.aps_tonemapProfile)));
         settingsmap.put(Settings.selfTimer,new SettingMode(getResString(R.string.aps_selftimer)));
+
+        camApiString = settings.getString(SETTING_API, API_1);
+        //get last used camera, without it default camera is always 0
+        currentcamera = GetCurrentCamera();
 
         loadOpCodes();
 
@@ -529,7 +534,6 @@ public class SettingsManager {
     }
 
     public String getCamApi() {
-        camApiString = settings.getString(SETTING_API, API_1);
         return camApiString;
     }
 
