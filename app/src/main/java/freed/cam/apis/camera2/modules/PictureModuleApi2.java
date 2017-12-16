@@ -59,7 +59,7 @@ import freed.utils.Log;
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder.RdyToSaveImg
+public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptureHolder.RdyToSaveImg
 {
     private final String TAG = PictureModuleApi2.class.getSimpleName();
     private String picFormat;
@@ -74,7 +74,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     private int mState = STATE_PICTURE_TAKEN;
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
-    private ImageHolder currentCaptureHolder;
+    private ImageCaptureHolder currentCaptureHolder;
     private final int MAX_IMAGES = 5;
     protected List<File> filesSaved;
 
@@ -349,13 +349,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     protected void captureStillPicture() {
 
         Log.d(TAG,"########### captureStillPicture ###########");
-        currentCaptureHolder = new ImageHolder(cameraHolder.characteristics, captureDng, captureJpeg, cameraUiWrapper.getActivityInterface(),this,this, this);
+        currentCaptureHolder = new ImageCaptureHolder(cameraHolder.characteristics, captureDng, captureJpeg, cameraUiWrapper.getActivityInterface(),this,this, this);
         currentCaptureHolder.setFilePath(getFileString(), SettingsManager.getInstance().GetWriteExternal());
         currentCaptureHolder.setForceRawToDng(SettingsManager.get(Settings.forceRawToDng).getBoolean());
         currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().get(Settings.tonemapChooser)).getToneMap());
         currentCaptureHolder.setSupport12bitRaw(SettingsManager.get(Settings.support12bitRaw).getBoolean());
 
-        Log.d(TAG, "captureStillPicture ImgCount:"+ imagecount +  " ImageHolder Path:" + currentCaptureHolder.filepath);
+        Log.d(TAG, "captureStillPicture ImgCount:"+ imagecount +  " ImageCaptureHolder Path:" + currentCaptureHolder.filepath);
 
         if (cameraUiWrapper.getParameterHandler().get(Settings.locationParameter).GetStringValue().equals(SettingsManager.getInstance().getResString(R.string.on_)))
         {
@@ -377,7 +377,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
         cameraHolder.captureSessionHandler.StopRepeatingCaptureSession(null);
         prepareCaptureBuilder(imagecount);
         Log.d(TAG, "CancelRepeatingCaptureSessoion set imageRdyCallback");
-        CameraIsReadyToCaptureImage imageCaptureRdyCallback = new CameraIsReadyToCaptureImage(currentCaptureHolder.imageCaptureMetaCallback);
+        CameraIsReadyToCaptureImage imageCaptureRdyCallback = new CameraIsReadyToCaptureImage(currentCaptureHolder);
         if (!cameraHolder.captureSessionHandler.IsCaptureSessionRDY())
             cameraHolder.captureSessionHandler.StopRepeatingCaptureSession(imageCaptureRdyCallback);
         else
@@ -596,7 +596,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageHolder
     }
 
     @Override
-    public void onRdyToSaveImg(ImageHolder holder) {
+    public void onRdyToSaveImg(ImageCaptureHolder holder) {
         //holder.getRunner().run();
 
         Log.d(TAG,"onRdyToSaveImg");
