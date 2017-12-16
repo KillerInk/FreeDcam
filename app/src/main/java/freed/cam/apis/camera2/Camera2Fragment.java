@@ -264,7 +264,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public void onFirstFrame() {
         Log.d(TAG,"onFirstFrame");
         //workaround, that seem to kill front camera when switching picformat
-        if (!SettingsManager.getInstance().getIsFrontCamera())
+        //if (!SettingsManager.getInstance().getIsFrontCamera())
             parametersHandler.setManualSettingsToParameters();
     }
 }
