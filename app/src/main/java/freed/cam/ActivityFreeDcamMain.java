@@ -406,7 +406,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             locationManager.startLocationListing();
 
         SetNightOverlay();
-        if(getPermissionManager().hasExternalSDPermission(null))
+        if(getPermissionManager().hasExternalSDPermission(null) && (files == null || files.size() == 0))
             ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
 
     }

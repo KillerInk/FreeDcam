@@ -46,6 +46,64 @@ import freed.utils.VideoMediaProfile;
  */
 public class SettingsManager {
 
+
+    public static final int JPEG= 0;
+    public static final int RAW = 1;
+    public static final int DNG = 2;
+
+    public static final int SHUTTER_HTC =0;
+    public static final int SHUTTER_LG = 1;
+    public static final int SHUTTER_MTK = 2;
+    public static final int SHUTTER_QCOM_MILLISEC = 3;
+    public static final int SHUTTER_QCOM_MICORSEC = 4;
+    public static final int SHUTTER_MEIZU = 5;
+    public static final int SHUTTER_KRILLIN = 6;
+    public static final int SHUTTER_SONY = 7;
+    public static final int SHUTTER_G2PRO = 8;
+    public static final int SHUTTER_ZTE = 9;
+
+    public static final int FRAMEWORK_NORMAL = 0;
+    public static final int FRAMEWORK_LG = 1;
+    public static final int FRAMEWORK_MTK = 2;
+    public static final int FRAMEWORK_MOTO_EXT = 3;
+    public static final int FRAMEWORK_SONY_CAMERAEXTENSION = 4;
+    public static final String FRAMEWORK = "framework";
+
+    public static final int NIGHTMODE_XIAOMI = 0;
+    public static final int NIGHTMODE_ZTE = 1;
+
+    public static final int HDR_MORPHO = 0;
+    public static final int HDR_AUTO = 1;
+    public static final int HDR_LG = 2;
+    public static final int HDR_MOTO = 3;
+
+    public static final int ISOMANUAL_QCOM = 0;
+    public static final int ISOMANUAL_SONY =1;
+    public static final int ISOMANUAL_MTK =2;
+    public static final int ISOMANUAL_KRILLIN =3;
+
+    public static final String CURRENTCAMERA = "currentcamera";
+    public static final String NIGHTMODE = "nightmode";
+    public static final String VIDEOPROFILE = "videoprofile";
+    public static final String TIMELAPSEFRAME = "timelapseframe";
+    public static final String SETTING_API = "sonyapi";
+    public static final String SETTING_LOCATION = "location";
+    public static final String SETTING_EXTERNALSHUTTER = "externalShutter";
+    public static final String SETTING_TIMER = "timer";
+    public static final String SETTING_FOCUSPEAK = "focuspeak";
+    public static final String SETTING_EXTERNALSD = "extSD";
+    public static final String API_SONY = "playmemories";
+    public static final String API_1 = "camera1";
+    public static final String API_2 = "camera2";
+    public static final String APPVERSION = "appversion";
+    public static final String HAS_CAMERA2_FEATURES = "camera2fullsupport";
+    public static final String SETTING_HORIZONT = "horizont";
+    public static final String SETTING_BASE_FOLDER = "base_folder";
+    public static final String SETTING_MEDIAPROFILES = "media_profiles";
+    public static final String SETTING_AFBRACKETMAX = "afbracketmax";
+    public static final String SETTING_AFBRACKETMIN = "afbracketmin";
+    public static final String SETTINGS_NIGHTOVERLAY = "nighoverlay";
+
     public class SettingMode
     {
         //String to get if supported
@@ -169,7 +227,6 @@ public class SettingsManager {
 
     private int currentcamera;
     private String camApiString = SettingsManager.API_1;
-   /* private Devices device;*/
     private String mDevice;
     private HashMap<String, CustomMatrix> matrixes;
     private HashMap<String, ToneMapProfile> tonemapProfiles;
@@ -179,76 +236,7 @@ public class SettingsManager {
 
     private final String FEATUREDETECTED = "featuredetected";
 
-    public static final int JPEG= 0;
-    public static final int RAW = 1;
-    public static final int DNG = 2;
 
-
-    public static final int SHUTTER_HTC =0;
-    public static final int SHUTTER_LG = 1;
-    public static final int SHUTTER_MTK = 2;
-    public static final int SHUTTER_QCOM_MILLISEC = 3;
-    public static final int SHUTTER_QCOM_MICORSEC = 4;
-    public static final int SHUTTER_MEIZU = 5;
-    public static final int SHUTTER_KRILLIN = 6;
-    public static final int SHUTTER_SONY = 7;
-    public static final int SHUTTER_G2PRO = 8;
-    public static final int SHUTTER_ZTE = 9;
-
-    public static final int FRAMEWORK_NORMAL = 0;
-    public static final int FRAMEWORK_LG = 1;
-    public static final int FRAMEWORK_MTK = 2;
-    public static final int FRAMEWORK_MOTO_EXT = 3;
-    public static final int FRAMEWORK_SONY_CAMERAEXTENSION = 4;
-    public static final String FRAMEWORK = "framework";
-
-    public static final int NIGHTMODE_XIAOMI = 0;
-    public static final int NIGHTMODE_ZTE = 1;
-
-    public static final int HDR_MORPHO = 0;
-    public static final int HDR_AUTO = 1;
-    public static final int HDR_LG = 2;
-    public static final int HDR_MOTO = 3;
-
-    public static final int ISOMANUAL_QCOM = 0;
-    public static final int ISOMANUAL_SONY =1;
-    public static final int ISOMANUAL_MTK =2;
-    public static final int ISOMANUAL_KRILLIN =3;
-
-
-
-    public static final String CURRENTCAMERA = "currentcamera";
-    public static final String NIGHTMODE = "nightmode";
-    public static final String VIDEOPROFILE = "videoprofile";
-    public static final String TIMELAPSEFRAME = "timelapseframe";
-    public static final String SETTING_API = "sonyapi";
-    public static final String SETTING_LOCATION = "location";
-    public static final String SETTING_EXTERNALSHUTTER = "externalShutter";
-
-    public static final String SETTING_TIMER = "timer";
-
-    public static final String SETTING_FOCUSPEAK = "focuspeak";
-
-    public static final String SETTING_EXTERNALSD = "extSD";
-
-    public static final String API_SONY = "playmemories";
-    public static final String API_1 = "camera1";
-    public static final String API_2 = "camera2";
-
-
-    public static final String APPVERSION = "appversion";
-
-    public static final String HAS_CAMERA2_FEATURES = "camera2fullsupport";
-
-    public static final String SETTING_HORIZONT = "horizont";
-
-    public static final String SETTING_BASE_FOLDER = "base_folder";
-
-    public static final String SETTING_MEDIAPROFILES = "media_profiles";
-
-    public static final String SETTING_AFBRACKETMAX = "afbracketmax";
-    public static final String SETTING_AFBRACKETMIN = "afbracketmin";
-    public static final String SETTINGS_NIGHTOVERLAY = "nighoverlay";
 
 
     public String[] opcodeUrlList;
@@ -280,6 +268,7 @@ public class SettingsManager {
 
     public synchronized void init(SharedPreferences sharedPreferences, Resources resources)
     {
+        //check if its not already init while a other task waited for it
         if (isInit)
             return;
         settings = sharedPreferences;
@@ -376,6 +365,10 @@ public class SettingsManager {
         settingsmap.put(Settings.orientationHack,new SettingMode(getResString(R.string.aps_orientationHack)));
         settingsmap.put(Settings.tonemapChooser,new SettingMode(getResString(R.string.aps_tonemapProfile)));
         settingsmap.put(Settings.selfTimer,new SettingMode(getResString(R.string.aps_selftimer)));
+
+        camApiString = settings.getString(SETTING_API, API_1);
+        //get last used camera, without it default camera is always 0
+        currentcamera = GetCurrentCamera();
 
         loadOpCodes();
 
@@ -529,7 +522,6 @@ public class SettingsManager {
     }
 
     public String getCamApi() {
-        camApiString = settings.getString(SETTING_API, API_1);
         return camApiString;
     }
 
@@ -628,14 +620,7 @@ public class SettingsManager {
      * @return
      */
     private String getApiSettingString(String settingsName) {
-        StringBuilder newstring = new StringBuilder();
-        if (API_SONY.equals(camApiString))
-            newstring.append(API_SONY).append(settingsName);
-        else if (API_1.equals(camApiString))
-            newstring.append(API_1).append(settingsName).append(currentcamera);
-        else
-            newstring.append(API_2).append(settingsName).append(currentcamera);
-        return newstring.toString();
+        return camApiString+settingsName+currentcamera;
     }
 
 

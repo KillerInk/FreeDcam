@@ -40,14 +40,13 @@ import freed.utils.Log;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 
-public class ImageHolder implements ImageReader.OnImageAvailableListener
-{
+public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback implements ImageReader.OnImageAvailableListener {
     public interface RdyToSaveImg
     {
-        void onRdyToSaveImg(ImageHolder holder);
+        void onRdyToSaveImg(ImageCaptureHolder holder);
     }
 
-    private final String TAG = ImageHolder.class.getSimpleName();
+    private final String TAG = ImageCaptureHolder.class.getSimpleName();
     private CaptureResult captureResult;
     private List<Image> images;
     private CameraCharacteristics characteristics;
@@ -70,7 +69,7 @@ public class ImageHolder implements ImageReader.OnImageAvailableListener
 
     WorkFinishEvents workerfinish;
 
-    public ImageHolder(CameraCharacteristics characteristicss, boolean isRawCapture, boolean isJpgCapture, ActivityInterface activitiy, ModuleInterface imageSaver, WorkFinishEvents finish, RdyToSaveImg rdyToSaveImg)
+    public ImageCaptureHolder(CameraCharacteristics characteristicss, boolean isRawCapture, boolean isJpgCapture, ActivityInterface activitiy, ModuleInterface imageSaver, WorkFinishEvents finish, RdyToSaveImg rdyToSaveImg)
     {
         images = new ArrayList<>();
         this.characteristics = characteristicss;
@@ -184,24 +183,21 @@ public class ImageHolder implements ImageReader.OnImageAvailableListener
         }
         if (rdyToGetSaved()) {
             save();
-            rdyToSaveImg.onRdyToSaveImg(ImageHolder.this);
+            rdyToSaveImg.onRdyToSaveImg(ImageCaptureHolder.this);
         }
     }
 
-    public final CameraCaptureSession.CaptureCallback imageCaptureMetaCallback = new CameraCaptureSession.CaptureCallback()
-    {
-        @Override
-        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
-            Log.d(TAG, "onCaptureCompleted FrameNum:" +result.getFrameNumber());
+    @Override
+    public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+        Log.d(TAG, "onCaptureCompleted FrameNum:" +result.getFrameNumber());
 
-            Log.d(TAG, "OnCaptureResultAvailible");
-            SetCaptureResult(result);
-            if (rdyToGetSaved()) {
-                save();
-                rdyToSaveImg.onRdyToSaveImg(ImageHolder.this);
-            }
+        Log.d(TAG, "OnCaptureResultAvailible");
+        SetCaptureResult(result);
+        if (rdyToGetSaved()) {
+            save();
+            rdyToSaveImg.onRdyToSaveImg(ImageCaptureHolder.this);
         }
-    };
+    }
 
     private void save()
     {
@@ -301,12 +297,35 @@ public class ImageHolder implements ImageReader.OnImageAvailableListener
 
         saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
         saveTask.setForceRawToDng(true);
-        saveTask.setFocal(captureResult.get(CaptureResult.LENS_FOCAL_LENGTH));
-        saveTask.setFnum(captureResult.get(CaptureResult.LENS_APERTURE));
-        saveTask.setIso(captureResult.get(CaptureResult.SENSOR_SENSITIVITY));
-        double mExposuretime = captureResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue() / 1000000000;
-        saveTask.setExposureTime((float) mExposuretime);
-        saveTask.setExposureIndex(captureResult.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION) * characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue());
+        try {
+            saveTask.setFocal(captureResult.get(CaptureResult.LENS_FOCAL_LENGTH));
+        } catch (NullPointerException e) {
+            Log.WriteEx(e);
+        }
+        try {
+            saveTask.setFnum(captureResult.get(CaptureResult.LENS_APERTURE));
+        } catch (NullPointerException e) {
+            Log.WriteEx(e);
+        }
+        try {
+            saveTask.setIso(captureResult.get(CaptureResult.SENSOR_SENSITIVITY));
+        } catch (NullPointerException e) {
+            Log.WriteEx(e);
+            saveTask.setIso(100);
+        }
+        try {
+            double mExposuretime = captureResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue() / 1000000000;
+            saveTask.setExposureTime((float) mExposuretime);
+        } catch (NullPointerException e) {
+            Log.WriteEx(e);
+            saveTask.setExposureTime(0);
+        }
+        try {
+            saveTask.setExposureIndex(captureResult.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION) * characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue());
+        } catch (NullPointerException e) {
+            Log.WriteEx(e);
+            saveTask.setExposureIndex(0);
+        }
         final DngProfile prof = getDngProfile(rawFormat, image);
         image.close();
         prof.toneMapProfile = this.toneMapProfile;
@@ -320,9 +339,25 @@ public class ImageHolder implements ImageReader.OnImageAvailableListener
 
     @NonNull
     private DngProfile getDngProfile(int rawFormat, Image image) {
-        int black  = characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
-        int white = characteristics.get(CameraCharacteristics.SENSOR_INFO_WHITE_LEVEL);
-        int c= characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
+        int black, white,c;
+        try {
+            black = characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
+        } catch (NullPointerException e) {
+            Log.WriteEx(e);
+            black = 64;
+        }
+        try {
+            white = characteristics.get(CameraCharacteristics.SENSOR_INFO_WHITE_LEVEL);
+        } catch (Exception e) {
+            Log.WriteEx(e);
+            white = 1023;
+        }
+        try {
+            c = characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
+        } catch (Exception e) {
+            Log.WriteEx(e);
+            c = 0;
+        }
         String colorpattern;
         int[] cfaOut = new int[4];
         switch (c)
@@ -381,19 +416,44 @@ public class ImageHolder implements ImageReader.OnImageAvailableListener
         }
         else
         {
+            //dont catch errors on cc1 cc2 and neutral, these 3 are needed and that case should never happen
             color1 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
             color2 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
             Rational[] n = captureResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
             neutral[0] = n[0].floatValue();
             neutral[1] = n[1].floatValue();
             neutral[2] = n[2].floatValue();
-            forward2  = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
-            //0.820300f, -0.218800f, 0.359400f, 0.343800f, 0.570300f,0.093800f, 0.015600f, -0.726600f, 1.539100f
-            forward1  = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
-            reduction1 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1));
-            reduction2 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2));
-            finalnoise = new double[6];
-            getNoiseMatrix(cfaOut, finalnoise);
+            try {
+                forward2  = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
+            } catch (NullPointerException e) {
+                Log.WriteEx(e);
+                forward2 = null;
+            }
+            try {
+                forward1  = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
+            } catch (Exception e) {
+                Log.WriteEx(e);
+                forward1 = null;
+            }
+            try {
+                reduction1 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1));
+            } catch (Exception e) {
+                Log.WriteEx(e);
+                reduction1 = null;
+            }
+            try {
+                reduction2 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2));
+            } catch (Exception e) {
+                Log.WriteEx(e);
+                reduction2 = null;
+            }
+            try {
+                finalnoise = new double[6];
+                getNoiseMatrix(cfaOut, finalnoise);
+            } catch (Exception e) {
+                Log.WriteEx(e);
+                finalnoise = null;
+            }
 
         }
 
