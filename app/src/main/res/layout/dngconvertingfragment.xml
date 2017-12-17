@@ -14,7 +14,6 @@
             android:id="@+id/button_goback_from_conv"
             android:background="@drawable/go_back"
             android:layout_marginLeft="10dp"
-            android:layout_alignParentLeft="true"
             android:layout_marginTop="4dp"
             />
     </LinearLayout>
@@ -31,11 +30,8 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="@string/customrowsize"
@@ -45,7 +41,6 @@
                 android:id="@+id/editText_customrowsize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="number" />
@@ -57,11 +52,8 @@
             android:layout_marginLeft="5dp">
 
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
                 android:layout_weight="1"
                 android:text="@string/width"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -70,7 +62,6 @@
                 android:id="@+id/editText_width"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="number" />
@@ -82,11 +73,8 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="@string/height"
@@ -98,23 +86,17 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/editText_height"
-                android:layout_alignParentRight="true"
                 android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true">
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="@string/blacklevel"
@@ -126,22 +108,17 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/editText_blacklevel"
-                android:layout_alignParentRight="true"
                 android:layout_weight="1" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textViewwhtlvl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="@string/whitelevel"
@@ -153,7 +130,6 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/editText_whitelevel"
-                android:layout_alignParentRight="true"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -176,7 +152,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_MatrixProfile"
                 android:spinnerMode="dropdown"
-                android:layout_alignParentLeft="true"
                 android:layout_weight="1" />
         </LinearLayout>
         <LinearLayout
@@ -198,7 +173,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_ToneMap"
                 android:spinnerMode="dropdown"
-                android:layout_alignParentLeft="true"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -221,8 +195,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/spinner_ColorPattern"
             android:spinnerMode="dropdown"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -245,9 +217,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/spinner_rawFormat"
             android:spinnerMode="dropdown"
-                android:layout_alignParentRight="true"
                 android:layout_weight="1" />
-    </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -271,8 +242,6 @@
             android:id="@+id/button_convertDng"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="false"
-            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"

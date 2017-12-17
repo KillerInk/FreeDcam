@@ -254,8 +254,6 @@
                 android:layout_width="@dimen/ui_settings_item_height"
                 android:layout_height="@dimen/ui_settings_item_height"
                 android:id="@+id/selftimer"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentTop="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/selftimer"
                 android:layout_marginTop="18dp"/>
@@ -265,8 +263,6 @@
                 android:layout_width="@dimen/ui_settings_item_width"
                 android:layout_height="@dimen/ui_settings_item_height"
                 android:id="@+id/ae_lock"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentTop="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/quck_set_ae_lock"
                 android:layout_marginTop="5dp"/>
@@ -275,8 +271,6 @@
                 android:layout_width="@dimen/ui_settings_item_width"
                 android:layout_height="@dimen/ui_settings_item_height"
                 android:id="@+id/camera_switch"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentTop="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/quck_set_cswitch"
                 android:layout_marginTop="5dp"

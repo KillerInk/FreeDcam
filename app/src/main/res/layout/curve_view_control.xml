@@ -47,9 +47,5 @@
         layout_width="match_parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/horizontalScrollView2"
-        android:layout_centerInParent="false"
-        android:layout_toLeftOf="@+id/frameLayout"
-        android:layout_toStartOf="@+id/frameLayout"
         android:background="@color/uiSettingsBackground" />
 </LinearLayout>

@@ -112,7 +112,7 @@
                 android:layout_height="fill_parent" >
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Audio Capture:"

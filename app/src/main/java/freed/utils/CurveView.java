@@ -39,6 +39,7 @@ public class CurveView extends View {
     private CurveChangedEvent curveChangedListner;
 
     private RectF drawPointsRects[];
+    Path path = new Path();
 
     public CurveView(Context context) {
         super(context);
@@ -188,7 +189,7 @@ public class CurveView extends View {
             if (drawPointsRects == null)
                 return;
             paint.setStyle(Paint.Style.STROKE);
-            Path path = new Path();
+            path.reset();
             path.moveTo(drawPointsRects[0].centerX(), drawPointsRects[0].centerY());
             canvas.drawCircle(drawPointsRects[0].centerX(),drawPointsRects[0].centerY(),BUTTON_SIZE,paint);
             for (int i = 1; i < drawPointsRects.length; i++) {

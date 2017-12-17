@@ -117,7 +117,7 @@ public class ParametersHandler extends AbstractParameterHandler
         super(cameraUiWrapper);
     }
 
-    public void SetParametersToCamera(Parameters params)
+    public synchronized void SetParametersToCamera(Parameters params)
     {
         Log.d(TAG, "SetParametersToCam");
         ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetCameraParameters(params);

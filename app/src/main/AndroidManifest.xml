@@ -35,7 +35,8 @@
         android:supportsRtl="false"
         android:theme="@style/FullscreenTheme"
         android:hardwareAccelerated="true"
-        android:largeHeap="true">
+        android:largeHeap="true"
+        android:extractNativeLibs="false">
 
         <activity
             android:name="freed.cam.ActivityFreeDcamMain"

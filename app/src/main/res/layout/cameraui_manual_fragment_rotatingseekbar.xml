@@ -14,8 +14,6 @@
             android:id="@+id/seekbar"
             android:layout_width="@dimen/cameraui_manual_fragment_rotatingseekbar_width"
             android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/cameraui_manual_fragment_rotatingseekbar_margin_right"
             android:layout_marginRight="5dp"
             android:layout_marginTop="@dimen/cameraui_manual_fragment_rotatingseekbar_margin_right" />
@@ -30,10 +28,8 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/cameraui_manualbuttonholder_height"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="70dp"
             android:id="@+id/manualItemsHolder">

@@ -70,7 +70,7 @@ class ImageAdapter extends BaseAdapter
             //imageView.resetImg();
             imageView.SetEventListner(viewerActivityInterface.getFiles().get(position));
             imageView.SetViewState(currentViewState);
-            imageView.loadFile(viewerActivityInterface.getFiles().get(position), SettingsManager.getInstance().getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
+            imageView.loadFile(viewerActivityInterface.getFiles().get(position), viewerActivityInterface.getContext().getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
         }
         return imageView;
     }
