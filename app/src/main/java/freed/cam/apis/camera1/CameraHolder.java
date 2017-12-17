@@ -353,7 +353,7 @@ public class CameraHolder extends CameraHolderAbstract
             paras.setGpsLatitude(loc.getLatitude());
             paras.setGpsLongitude(loc.getLongitude());
             paras.setGpsProcessingMethod(loc.getProvider());
-            paras.setGpsTimestamp(loc.getTime());
+            paras.setGpsTimestamp(loc.getTime()/1000);
             try {
                 mCamera.setParameters(paras);
             }
