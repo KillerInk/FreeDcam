@@ -467,6 +467,10 @@ public class XmlParserWriter
             writer = new BufferedWriter(new FileWriter(configFile));
             writer.write("<devices>" + "\r\n");
             writer.write("<device name = \""+ mDevice +"\">\r\n");
+            if (SettingsManager.getInstance().opcodeUrlList[0] != null &&  TextUtils.isEmpty(SettingsManager.getInstance().opcodeUrlList[0]))
+                writer.write("<opcode2>"+ SettingsManager.getInstance().opcodeUrlList[0]+"</opcode2>");
+            if (SettingsManager.getInstance().opcodeUrlList[1] != null &&  TextUtils.isEmpty(SettingsManager.getInstance().opcodeUrlList[1]))
+                writer.write("<opcode3>"+ SettingsManager.getInstance().opcodeUrlList[1]+"</opcode3>");
 
             for (int i =0; i< dngProfileList.size();i++)
             {
