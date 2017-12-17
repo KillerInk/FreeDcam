@@ -98,14 +98,15 @@ extern "C"
         writer->_exposureIndex = exposureIndex;
     }
 
-    JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jlong gpsTime,jobject javaHandler)
+    JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jfloatArray gpsTime, jstring gpsDate, jobject javaHandler)
     {
         DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
         writer->Altitude = (double)Altitude;
         writer->Latitude =  copyfloatArray(env, Latitude);
         writer->Longitude = copyfloatArray(env, Longitude);
-        writer->Provider = copyString(env,Provider);
-        writer->gpsTime = (long)(gpsTime);
+        writer->Provider = copyString(env, Provider);
+        writer->gpsTime = copyfloatArray(env, gpsTime);
+        writer->gpsDate = copyString(env, gpsDate);
         writer->gps = true;
     }
     JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetThumbData(JNIEnv *env, jobject thiz,  jbyteArray mThumb, jint widht, jint height,jobject javaHandler)

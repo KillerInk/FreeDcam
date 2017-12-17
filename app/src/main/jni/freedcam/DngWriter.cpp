@@ -213,6 +213,18 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
         LOGD("Can't write Altitude" );
     }
     LOGD("Altitude Written");
+
+    if (!TIFFSetField( tif, GPSTAG_GPSTimeStamp, gpsTime))
+        {
+            LOGD("Can't write gpsTime" );
+        }
+    LOGD("GPSTimeStamp Written");
+
+    if (!TIFFSetField( tif, GPSTAG_GPSDateStamp, gpsDate))
+        {
+            LOGD("Can't write gpsTime" );
+        }
+    LOGD("GPSTimeDate Written");
 }
 
 void DngWriter::writeExifIfd(TIFF *tif) {
@@ -314,24 +326,15 @@ void DngWriter::process10tight(TIFF *tif) {
     LOGD("writer-RowSize: %d  rawheight:%d ,rawwidht: %d", rawSize, rawheight,
          rawwidht);
 
-        if (rowSize == 0) {
-        //realrowsize = rawSize / rawheight;
-        realrowsize = rawwidht * 10 / 8;
-        shouldberowsize = realrowsize;
-        if (realrowsize % 5 > 0) {
-            shouldberowsize = rawwidht * 10 / 8;
-            bytesToSkip = realrowsize - shouldberowsize;
-        }
-        LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
-        LOGD("width: %i height: %i", rawwidht, rawheight);
-        LOGD("bytesToSkip: %i", bytesToSkip);
-    }
-    else{
-        realrowsize = rawSize / rawheight;
-        shouldberowsize = rowSize;
+    realrowsize = -(-5 * rawwidht >> 5) << 3;
+    shouldberowsize = realrowsize;
+    if (realrowsize % 5 > 0) {
+        shouldberowsize = rawwidht * 10 / 8;
         bytesToSkip = realrowsize - shouldberowsize;
-        LOGD("realrowsize:%i shouldbe:%i bytestoskip: %i", realrowsize, shouldberowsize, bytesToSkip);
     }
+    LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
+    LOGD("width: %i height: %i", rawwidht, rawheight);
+    LOGD("bytesToSkip: %i", bytesToSkip);
 
     int row = shouldberowsize;
     out = new unsigned char[shouldberowsize*rawheight];
@@ -864,6 +867,7 @@ void DngWriter::WriteDNG() {
     _exposureIndex = NULL;
     Altitude = NULL;
     gpsTime = NULL;
+    gpsDate = NULL;
     gps = NULL;
     whitelevel == NULL;
     fileLength = NULL;

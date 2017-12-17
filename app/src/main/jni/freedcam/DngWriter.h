@@ -47,7 +47,8 @@ public:
     float *Latitude;
     float *Longitude;
     char* Provider;
-    long gpsTime;
+    float *gpsTime;
+    char* gpsDate;
     bool gps;
 
 
@@ -119,6 +120,8 @@ public:
         Longitude = NULL;
         Latitude = NULL;
         Provider = NULL;
+        gpsTime = NULL;
+        gpsDate = NULL;
 
         opcode2Size =0;
         opcode3Size = 0;

@@ -16,6 +16,8 @@ import freed.utils.Log;
 import freed.utils.StorageFileManager;
 import freed.utils.StringUtils;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by troop on 15.02.2015.
  */
@@ -38,7 +40,7 @@ public class RawToDng
     private native void recycle(ByteBuffer byteBuffer);
     private native long GetRawBytesSize(ByteBuffer byteBuffer);
     private native int GetRawHeight(ByteBuffer byteBuffer);
-    private native void SetGPSData(double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime,ByteBuffer byteBuffer);
+    private native void SetGPSData(double Altitude,float[] Latitude,float[] Longitude, String Provider, float[] gpsTime, String gpsDate,ByteBuffer byteBuffer);
     private native void SetThumbData(byte[] mThumb, int widht, int height,ByteBuffer byteBuffer);
     private native void WriteDNG(ByteBuffer byteBuffer);
     private native void SetOpCode3(byte[] opcode,ByteBuffer byteBuffer);
@@ -189,7 +191,7 @@ public class RawToDng
     public void SetGpsData(double Altitude,double Latitude,double Longitude, String Provider, long gpsTime)
     {
         Log.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
-        SetGPSData(Altitude, parseGpsvalue(Latitude), parseGpsvalue(Longitude), Provider, gpsTime,byteBuffer);
+        SetGPSData(Altitude, parseGpsvalue(Latitude), parseGpsvalue(Longitude), Provider, parseGPStime(gpsTime), parseGPSdate(gpsTime), byteBuffer);
     }
 
     public void setExifData(int iso,
@@ -216,6 +218,25 @@ public class RawToDng
         double ds = Double.parseDouble(sec[2].replace(",","."));
 
         return new float[]{ (float)dd ,(float)dm,(float)ds};
+    }
+
+    public static float[] parseGPStime(long val)
+    {
+        SimpleDateFormat simpledatetime = new SimpleDateFormat("kk:mm:ss");
+        String[] mytime = simpledatetime.format(val).split(":");
+
+        double hh = Double.parseDouble(mytime[0]);
+        double mm = Double.parseDouble(mytime[1]);
+        double ss = Double.parseDouble(mytime[2]);
+
+        return new float[] {(float)hh , (float)mm, (float)ss};
+    }
+
+    public static String parseGPSdate(long val)
+    {
+        SimpleDateFormat simpledatetime = new SimpleDateFormat("yyyy:MM:dd");
+        String mydate = simpledatetime.format(val);
+        return mydate;
     }
 
     public void setThumbData(byte[] mThumb, int widht, int height)

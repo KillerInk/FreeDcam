@@ -1110,7 +1110,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private void detectedPictureFormats(Camera.Parameters parameters)
     {
         //drop raw for front camera
-        if (SettingsManager.getInstance().getIsFrontCamera())
+        if (false)
         {
             SettingsManager.get(Settings.PictureFormat).setIsSupported(false);
             SettingsManager.get(Settings.rawPictureFormatSetting).setIsSupported(false);
