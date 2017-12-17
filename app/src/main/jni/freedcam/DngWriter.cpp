@@ -213,6 +213,18 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
         LOGD("Can't write Altitude" );
     }
     LOGD("Altitude Written");
+
+    if (!TIFFSetField( tif, GPSTAG_GPSTimeStamp, gpsTime))
+        {
+            LOGD("Can't write gpsTime" );
+        }
+    LOGD("GPSTimeStamp Written");
+
+    if (!TIFFSetField( tif, GPSTAG_GPSDateStamp, gpsDate))
+        {
+            LOGD("Can't write gpsTime" );
+        }
+    LOGD("GPSTimeDate Written");
 }
 
 void DngWriter::writeExifIfd(TIFF *tif) {
@@ -855,6 +867,7 @@ void DngWriter::WriteDNG() {
     _exposureIndex = NULL;
     Altitude = NULL;
     gpsTime = NULL;
+    gpsDate = NULL;
     gps = NULL;
     whitelevel == NULL;
     fileLength = NULL;
