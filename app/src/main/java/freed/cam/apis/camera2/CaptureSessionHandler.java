@@ -562,8 +562,14 @@ public class CaptureSessionHandler
                 matrix.postRotate(orientation, centerX,centerY);
 
         }
-        else
-            cameraHolderApi2.textureView.setAspectRatio((int)inputRect.width(), (int)inputRect.height());
+        else {
+            if (SettingsManager.get(Settings.orientationHack).getBoolean()) {
+                if (orientationWithHack >= 360)
+                    orientationWithHack -= 180;
+                matrix.postRotate(orientationWithHack, inputRect.centerX(), inputRect.centerY());
+            }
+            cameraHolderApi2.textureView.setAspectRatio((int) inputRect.width(), (int) inputRect.height());
+        }
 
         cameraHolderApi2.textureView.setTransform(matrix);
     }
