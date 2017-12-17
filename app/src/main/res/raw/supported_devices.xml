@@ -1211,7 +1211,7 @@
 
     <device name ="LG_G3">
         <opcode2></opcode2>
-        <opcode3></opcode3>
+        <opcode3>https://github.com/KillerInk/FreeDcam/blob/master/camera1_opcodes/LG_G3/opc3.bin?raw=true</opcode3>
         <models>
             <item>AS985</item>
             <item>LG-AS990</item>

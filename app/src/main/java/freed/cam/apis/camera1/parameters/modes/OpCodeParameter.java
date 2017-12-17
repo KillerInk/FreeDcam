@@ -19,6 +19,8 @@
 
 package freed.cam.apis.camera1.parameters.modes;
 
+import android.text.TextUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -82,26 +84,28 @@ public class OpCodeParameter extends AbstractParameter
             }
             final String urlopc2 = SettingsManager.getInstance().opcodeUrlList[0];
             final String urlopc3 = SettingsManager.getInstance().opcodeUrlList[1];
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        httpsGet(urlopc2, "opc2.bin");
-                    } catch (IOException ex) {
-                        Log.WriteEx(ex);
+            if (!TextUtils.isEmpty(urlopc2))
+                FreeDPool.Execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            httpsGet(urlopc2, "opc2.bin");
+                        } catch (IOException ex) {
+                            Log.WriteEx(ex);
+                        }
                     }
-                }
-            });
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        httpsGet(urlopc3, "opc3.bin");
-                    } catch (IOException ex) {
-                        Log.WriteEx(ex);
+                });
+            if(!TextUtils.isEmpty(urlopc3))
+                FreeDPool.Execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            httpsGet(urlopc3, "opc3.bin");
+                        } catch (IOException ex) {
+                            Log.WriteEx(ex);
+                        }
                     }
-                }
-            });
+                });
         }
         else opcodeEnabled = !valueToSet.equals("Disabled");
     }

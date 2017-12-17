@@ -365,10 +365,12 @@ public class XmlParserWriter
     }
 
     private void getDngStuff(LongSparseArray<DngProfile> map, XmlElement device_element, HashMap<String, CustomMatrix> matrixHashMap) {
-        if (!device_element.getAttribute("opcode2", "").isEmpty())
-            SettingsManager.getInstance().opcodeUrlList[0] = device_element.getAttribute("opcode2", "");
-        if (!device_element.getAttribute("opcode3", "").isEmpty())
-            SettingsManager.getInstance().opcodeUrlList[1] = device_element.getAttribute("opcode3", "");
+        XmlElement op2 = device_element.findChild("opcode2");
+        if (!TextUtils.isEmpty(op2.getValue()))
+            SettingsManager.getInstance().opcodeUrlList[0] = op2.getValue();
+        XmlElement op3 = device_element.findChild("opcode3");
+        if (!TextUtils.isEmpty(op3.getValue()))
+            SettingsManager.getInstance().opcodeUrlList[1] = op3.getValue();
 
         Log.d(TAG, device_element.dumpChildElementsTagNames());
         List<XmlElement> fsizeList = device_element.findChildren("filesize");
