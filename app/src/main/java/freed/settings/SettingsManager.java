@@ -29,8 +29,10 @@ import com.troop.freedcam.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import freed.dng.CustomMatrix;
@@ -239,7 +241,7 @@ public class SettingsManager {
 
 
 
-    public String[] opcodeUrlList;
+    public List<OpCodeUrl> opcodeUrlList;
 
 
     private SharedPreferences settings;
@@ -405,14 +407,14 @@ public class SettingsManager {
         else //load only stuff for dng
         {
             Log.d(TAG, "load dngProfiles");
-            opcodeUrlList = new String[2];
+            opcodeUrlList = new ArrayList<>();
             dngProfileHashMap = parser.getDngProfiles(matrixes);
         }
     }
 
     private void loadOpCodes()
     {
-        File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
+        File op2 = new File(StringUtils.GetFreeDcamConfigFolder+ currentcamera+"opc2.bin");
         if (op2.exists())
             try {
                 opcode2 = RawToDng.readFile(op2);
@@ -420,7 +422,7 @@ public class SettingsManager {
             } catch (IOException e) {
                 Log.WriteEx(e);
             }
-        File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
+        File op3 = new File(StringUtils.GetFreeDcamConfigFolder+currentcamera+"opc3.bin");
         if (op3.exists())
             try {
                 opcode3 = RawToDng.readFile(op3);
@@ -591,6 +593,7 @@ public class SettingsManager {
     public void SetCurrentCamera(int currentcamera) {
         this.currentcamera = currentcamera;
         settings.edit().putInt(CURRENTCAMERA, currentcamera).commit();
+        loadOpCodes();
     }
 
     public int GetCurrentCamera() {

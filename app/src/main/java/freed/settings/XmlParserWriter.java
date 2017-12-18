@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.support.v4.util.LongSparseArray;
 import android.text.TextUtils;
+import android.util.Xml;
 
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
@@ -365,12 +366,16 @@ public class XmlParserWriter
     }
 
     private void getDngStuff(LongSparseArray<DngProfile> map, XmlElement device_element, HashMap<String, CustomMatrix> matrixHashMap) {
-        XmlElement op2 = device_element.findChild("opcode2");
-        if (!TextUtils.isEmpty(op2.getValue()))
-            SettingsManager.getInstance().opcodeUrlList[0] = op2.getValue();
-        XmlElement op3 = device_element.findChild("opcode3");
-        if (!TextUtils.isEmpty(op3.getValue()))
-            SettingsManager.getInstance().opcodeUrlList[1] = op3.getValue();
+        XmlElement opcodesList = device_element.findChild("opcodes");
+        List<XmlElement> opcodes = device_element.findChildren("camera");
+        for (XmlElement opcodeItem : opcodes)
+        {
+            int camid = opcodeItem.getIntAttribute("id", 0);
+            String op2url = opcodeItem.findChild("opcode2").getValue();
+            String op3url = opcodeItem.findChild("opcode3").getValue();
+            OpCodeUrl url =new OpCodeUrl(camid,op2url,op3url);
+            SettingsManager.getInstance().opcodeUrlList.add(url);
+        }
 
         Log.d(TAG, device_element.dumpChildElementsTagNames());
         List<XmlElement> fsizeList = device_element.findChildren("filesize");
@@ -467,10 +472,13 @@ public class XmlParserWriter
             writer = new BufferedWriter(new FileWriter(configFile));
             writer.write("<devices>" + "\r\n");
             writer.write("<device name = \""+ mDevice +"\">\r\n");
-            if (SettingsManager.getInstance().opcodeUrlList[0] != null &&  TextUtils.isEmpty(SettingsManager.getInstance().opcodeUrlList[0]))
-                writer.write("<opcode2>"+ SettingsManager.getInstance().opcodeUrlList[0]+"</opcode2>");
-            if (SettingsManager.getInstance().opcodeUrlList[1] != null &&  TextUtils.isEmpty(SettingsManager.getInstance().opcodeUrlList[1]))
-                writer.write("<opcode3>"+ SettingsManager.getInstance().opcodeUrlList[1]+"</opcode3>");
+
+            writer.write("<opcodes>");
+            for (OpCodeUrl url : SettingsManager.getInstance().opcodeUrlList)
+            {
+                writer.write(url.getXml());
+            }
+            writer.write("</opcodes>");
 
             for (int i =0; i< dngProfileList.size();i++)
             {

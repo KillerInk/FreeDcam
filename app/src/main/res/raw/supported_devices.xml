@@ -84,6 +84,13 @@
         <opcode2></opcode2> opcode2 url to download
         <opcode3></opcode3> opcode3 url to download
 
+        <opcodes> //used to remove vignett on dngs
+            <camera id="0">  0 = back, 1 = front, 2 = nextcamera etc
+                <opcode2></opcode2>
+                <opcode3></opcode3>
+            <camera>
+        </opcodes>
+
         <filesize size= "6144000"> holds an dngprofile
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -98,8 +105,6 @@
     -->
 
     <device name ="Alcatel_985n">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>"Vodafone 985N"</item>
         </models>
@@ -119,8 +124,6 @@
     </device>
 
     <device name ="Asus_Zenfone_Go">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>ASUS_X014D</item>
             <item>ASUS_Z00VD</item>
@@ -150,8 +153,6 @@
     </device>
 
     <device name ="Blackberry_Priv">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>STV100</item>
             <item>STV100-0</item>
@@ -177,8 +178,14 @@
     </device>
 
     <device name ="Aquaris_E5">
-        <opcode2></opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/Aquaris_E5/opc3.bin?raw=true</opcode3>
+
+        <opcodes>
+            <camera id="0">
+                <opcode2></opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/Aquaris_E5/opc3.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
+
         <models>
             <item>Aquaris E5</item>
             <item>Aquaris_E5</item>
@@ -211,8 +218,6 @@
     </device>
 
     <device name ="Aquaris_M5">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>Aquaris M5</item>
         </models>
@@ -231,8 +236,6 @@
         </filesize>
     </device>
     <device name ="Alcatel_Idol3">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models><item>6045Y</item>
             <item>6045B</item>
             <item>6045F</item>
@@ -265,8 +268,6 @@
     </device>
 
     <device name ="Alcatel_Idol3_small">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>6039Y</item>
         </models>
@@ -286,8 +287,6 @@
     </device>
 
     <device name ="Elephone_P9000">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>P9000</item>
         </models>
@@ -327,8 +326,6 @@
     </device>
 
     <device name ="GioneE7">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>E7</item>
         </models>
@@ -378,8 +375,6 @@
     </device>
 
     <device name ="ForwardArt_MTK">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>Forward_Art</item>
             <item>Primo GH2 By NFS GHOST</item>
@@ -412,8 +407,13 @@
     </device>
 
     <device name ="Htc_M8">
-        <opcode2></opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/Htc_M8/opc3.bin?raw=true</opcode3>
+        <opcodes>
+            <camera id="0">
+                <opcode2></opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/Htc_M8/opc3.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
+
         <models>
             <item>HTC One_M8"</item>
             <item>One M8</item>
@@ -467,8 +467,6 @@
     </device>
 
     <device name ="Htc_M9">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>HTC One_M9"</item>
             <item>HTC One M9</item>
@@ -517,8 +515,6 @@
     </device>
 
     <device name ="Htc_One_Sv">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>HTC One SV</item>
         </models>
@@ -538,8 +534,6 @@
     </device>
 
     <device name ="Htc_One_Xl">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>one xl</item>
         </models>
@@ -559,8 +553,12 @@
     </device>
 
     <device name ="HTC_OneA9">
-        <opcode2>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/HTC_OneA9/opc2.bin?raw=true</opcode2>
-        <opcode3></opcode3>
+        <opcodes>
+            <camera id="0">
+                <opcode2>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/HTC_OneA9/opc2.bin?raw=true</opcode2>
+                <opcode3></opcode3>
+            </camera>
+        </opcodes>
         <models>
             <item>HTC One A9</item>
             <item>HTC One_A9</item>
@@ -584,8 +582,6 @@
     </device>
 
     <device name ="HTC_OneE8">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>HTC One_E8</item>
         </models>
@@ -605,8 +601,6 @@
     </device>
 
     <device name ="HTC_Desire500">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>HTC Desire 500</item>
         </models>
@@ -626,8 +620,6 @@
     </device>
 
     <device name ="HTC_Desire830">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>HTC Desire 830</item>
             <item>unknown</item>
@@ -648,8 +640,6 @@
     </device>
 
     <device name ="HTC_OneMini2">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>HTC One mini 2</item>
         </models>
@@ -669,8 +659,13 @@
     </device>
 
     <device name ="Huawei_GX8">
-        <opcode2></opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/Huawei_GX8/opc3.bin?raw=true</opcode3>
+        <opcodes>
+            <camera id="0">
+                <opcode2></opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/Huawei_GX8/opc3.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
+
         <models>
             <item>HUAWEI RIO-L01</item>
             <item>HUAWEI RIO-L02</item>
@@ -722,8 +717,14 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/Huawei_HONOR5x/opc3.bin?raw=true</opcode3>
+
+        <opcodes>
+            <camera id="0">
+                <opcode2></opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/Huawei_HONOR5x/opc3.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
+
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -743,8 +744,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "9631728">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -764,8 +763,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -799,8 +796,14 @@
         <camera1>
             <dngmanual>true</dngmanual>
         </camera1>
-        <opcode2>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/Jiayu_S3/opc2.bin?raw=true</opcode2>
-        <opcode3></opcode3>
+
+        <opcodes>
+            <camera id="0">
+                <opcode2>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/Jiayu_S3/opc2.bin?raw=true</opcode2>
+                <opcode3></opcode3>
+            </camera>
+        </opcodes>
+
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -820,8 +823,7 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
+
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -872,8 +874,7 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
+
         <filesize size= "6721536">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -916,8 +917,7 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
+
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -937,8 +937,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "19992576">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -959,8 +957,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -981,8 +977,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1002,8 +996,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "19992576">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1023,8 +1015,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26935296">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1048,8 +1038,13 @@
     </device>
 
     <device name ="LG_G2">
-        <opcode2></opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/LG_G2/opc3.bin?raw=true</opcode3>
+        <opcodes>
+            <camera id="0">
+                <opcode2></opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/LG_G2/opc3.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
+
         <models>
             <item>LG-D800</item>
             <item>LG-D801</item>
@@ -1115,8 +1110,6 @@
     </device>
 
     <device name ="LG_G2pro">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>LG-D838</item>
         </models>
@@ -1155,8 +1148,6 @@
     </device>
 
     <device name ="LG_G4">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>LG-AS986</item>
             <item>LG-AS811</item>
@@ -1210,8 +1201,13 @@
     </device>
 
     <device name ="LG_G3">
-        <opcode2></opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/LG_G3/opc3.bin?raw=true</opcode3>
+        <opcodes>
+            <camera id="0">
+                <opcode2></opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/LG_G3/opc3.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
+
         <models>
             <item>AS985</item>
             <item>LG-AS990</item>
@@ -1339,8 +1335,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "6659840">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1356,8 +1350,6 @@
     <!--- missing filesize
 
     <device name ="LG_V20">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models><item>LG-H918</item></models>
         <camera1>
             <dngmanual>false</dngmanual>
@@ -1389,8 +1381,6 @@
 
     <device name ="Lumigon_T3">
     <models><item>Lumigon_T3</item></models>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "6659840">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1410,8 +1400,6 @@
         <camera1>
             <dngmanual>true</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1431,8 +1419,6 @@
         <camera1>
             <dngmanual>true</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26492928">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1452,8 +1438,6 @@
         <camera1>
             <dngmanual>true</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26492928">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1473,8 +1457,6 @@
         <camera1>
             <dngmanual>true</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "41312256">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1494,8 +1476,6 @@
         <camera1>
             <dngmanual>true</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "41312256">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1516,8 +1496,6 @@
         <camera1>
             <dngmanual>true</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1537,8 +1515,6 @@
         <camera1>
             <dngmanual>true</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "15980544">
             <blacklvl>65</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1578,8 +1554,6 @@
         <camera2>
             <maxexposuretime>10000000</maxexposuretime>
         </camera2>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "42923008">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1623,8 +1597,6 @@
                 <type>4</type>
             </exposuretime>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "17326080">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1646,8 +1618,6 @@
             <needrestartaftercapture>true</needrestartaftercapture>
             <rawformat>bayer-qcom-10rggb</rawformat>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "17326080">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1670,8 +1640,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "19906560">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1729,8 +1697,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "9990144">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1760,8 +1726,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "15980544">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1782,8 +1746,14 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/OnePlusOne/opc2.bin?raw=true</opcode2>
-        <opcode3></opcode3>
+
+        <opcodes>
+            <camera id="0">
+                <opcode2>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/OnePlusOne/opc2.bin?raw=true</opcode2>
+                <opcode3></opcode3>
+            </camera>
+        </opcodes>
+
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1834,8 +1804,7 @@
             <forcerawtodng>true</forcerawtodng>
             <maxexposuretime>32000000</maxexposuretime>
         </camera2>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
+
         <filesize size= "26357760">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1857,8 +1826,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "9990144">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1898,8 +1865,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "3763584">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1919,8 +1884,7 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
+
         <filesize size= "26023936">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1942,8 +1906,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "42923008">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1965,8 +1927,14 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/SonyM4_QC/opc2.bin?raw=true</opcode3>
+
+        <opcodes>
+            <camera id="0">
+                <opcode2></opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/SonyM4_QC/opc2.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
+
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1988,8 +1956,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2010,8 +1976,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2032,8 +1996,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "10788864">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2047,8 +2009,6 @@
     </device>
 
     <device name ="Sony_Z5C">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>E5823</item>
         </models>
@@ -2088,8 +2048,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2109,8 +2067,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2130,8 +2086,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "15360000">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2153,8 +2107,6 @@
             <manualfocus>
             </manualfocus>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2184,8 +2136,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2215,8 +2165,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2236,8 +2184,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2267,8 +2213,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "20557824">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2299,8 +2243,14 @@
                 <mode>manual-cct</mode>
             </whiteblance>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/XiaomiMI3W/opc3.bin?raw=true</opcode3>
+
+        <opcodes>
+            <camera id="0">
+                <opcode2></opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/XiaomiMI3W/opc3.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
+
         <filesize size= "17522688">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2373,8 +2323,13 @@
                 <mode>manual-cct</mode>
             </whiteblance>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/XiaomiMI4W/opc3.bin?raw=true</opcode3>
+
+        <opcodes>
+            <camera id="0">
+                <opcode2></opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/XiaomiMI4W/opc3.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
         <filesize size= "17522688">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2454,8 +2409,6 @@
                 <mode>manual-cct</mode>
             </whiteblance>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "17522688">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2526,8 +2479,6 @@
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2553,8 +2504,6 @@
                 <values>enable,disable</values>
             </opticalimagestab>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "20500480">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2583,8 +2532,6 @@
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "15581184">
             <blacklvl>50</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2613,8 +2560,6 @@
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "16510976">
             <blacklvl>50</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2646,8 +2591,6 @@
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "15728640">
             <blacklvl>50</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2676,8 +2619,14 @@
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
-        <opcode2>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/XiaomiMi6/opc2.bin?raw=true</opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/XiaomiMi6/opc3.bin?raw=true</opcode3>
+
+        <opcodes>
+            <camera id="0">
+                <opcode2>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/XiaomiMi6/opc2.bin?raw=true</opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/XiaomiMi6/opc3.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
+
         <filesize size= "15482880">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2720,8 +2669,6 @@
             <nightmode>0</nightmode>
             <burst>5</burst>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "17612800">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2784,8 +2731,6 @@
             <nightmode>0</nightmode>
             <burst>5</burst>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "10842112">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2804,8 +2749,6 @@
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "15482880">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2837,8 +2780,6 @@
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "20389888">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2879,8 +2820,6 @@
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "15482880">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2921,8 +2860,6 @@
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "20557824">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2951,8 +2888,6 @@
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "15482880">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3019,8 +2954,6 @@
                 <key>manual-focus-position</key>
             </manualfocus>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "9990144">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3053,8 +2986,6 @@
             <hdrmode supported="true">0</hdrmode>
             <nightmode>0</nightmode>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3096,8 +3027,6 @@
             <dngmanual>false</dngmanual>
             <manualiso supported="false"></manualiso>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3130,8 +3059,6 @@
             <dngmanual>true</dngmanual>
             <manualiso supported="false"></manualiso>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3162,8 +3089,6 @@
             <dngmanual>true</dngmanual>
             <manualiso supported="false"></manualiso>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "16560128">
             <blacklvl>10</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3195,8 +3120,6 @@
             <dngmanual>true</dngmanual>
             <manualiso supported="false"></manualiso>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "15728640">
             <blacklvl>50</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3227,8 +3150,6 @@
             <dngmanual>true</dngmanual>
             <manualiso supported="false"></manualiso>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3264,8 +3185,6 @@
             <burst>5</burst>
             <manualiso supported="false"></manualiso>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3302,8 +3221,6 @@
         <models>
             <item>Redmi Note 2</item>
         </models>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3344,8 +3261,6 @@
                 </framework>
             </manualiso>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3391,8 +3306,6 @@
             <hdrmode supported="true">0</hdrmode>
             <nightmode>0</nightmode>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3456,8 +3369,6 @@
             <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3477,8 +3388,6 @@
         <camera1>
             <manualiso supported="false"></manualiso>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3501,8 +3410,6 @@
             <hdrmode supported="true">3</hdrmode>
             <dngmanual>true</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
 
         <filesize size= "15482880">
             <blacklvl>64</blacklvl>
@@ -3535,8 +3442,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "15980544">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3557,8 +3462,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "9990144">
             <blacklvl>5</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3582,8 +3485,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3625,8 +3526,14 @@
                 <key>manual-focus-position</key>
             </manualfocus>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/ZTE_ADV/opc3.bin?raw=true</opcode3>
+
+        <opcodes>
+            <camera id="0">
+                <opcode2></opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/ZTE_ADV/opc3.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
+
         <filesize size= "6299648">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3713,8 +3620,14 @@
                 <key>manual-focus-position</key>
             </manualfocus>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/ZTE_ADV/opc3.bin?raw=true</opcode3>
+
+        <opcodes>
+            <camera id="0">
+                <opcode2></opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/ZTE_ADV/opc3.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
+
         <filesize size= "6299648">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3800,8 +3713,6 @@
                 <key>manual-focus-position</key>
             </manualfocus>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "6721536">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3868,8 +3779,14 @@
                 <key>manual-focus-position</key>
             </manualfocus>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/ZTEADV234/opc3.bin?raw=true</opcode3>
+
+        <opcodes>
+            <camera id="0">
+                <opcode2></opcode2>
+                <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/ZTEADV234/opc3.bin?raw=true</opcode3>
+            </camera>
+        </opcodes>
+
         <filesize size= "20041728">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3916,8 +3833,6 @@
                 <key>manual-focus-position</key>
             </manualfocus>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "20500480">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3939,8 +3854,6 @@
             <nightmode>1</nightmode>
             <virtuallensfilter>true</virtuallensfilter>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "17522688"> <!-- filesize could be wrong -->
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3971,8 +3884,6 @@
             <dngmanual>false</dngmanual>
             <nightmode>1</nightmode>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "16510976"> <!-- filesize could be wrong -->
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -4001,8 +3912,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "15428880"> <!-- filesize could be wrong -->
             <blacklvl>52</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -4022,8 +3931,6 @@
         <camera1>
             <dngmanual>false</dngmanual>
         </camera1>
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <filesize size= "15428880"> <!-- filesize could be wrong -->
             <blacklvl>52</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -4226,8 +4133,6 @@
     </device>
 
     <device name ="LeTv_x900+">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>X900+</item>
         </models>
@@ -4243,8 +4148,6 @@
         </filesize>
     </device>
     <device name ="OnePlus5">
-        <opcode2></opcode2>
-        <opcode3></opcode3>
         <models>
             <item>ONEPLUS A5000</item>
         </models>

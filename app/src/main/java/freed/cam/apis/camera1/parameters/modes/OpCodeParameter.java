@@ -43,6 +43,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.settings.OpCodeUrl;
 import freed.settings.SettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
@@ -82,30 +83,30 @@ public class OpCodeParameter extends AbstractParameter
                 fireStringValueChanged("Enabled");
                 return;
             }
-            final String urlopc2 = SettingsManager.getInstance().opcodeUrlList[0];
-            final String urlopc3 = SettingsManager.getInstance().opcodeUrlList[1];
-            if (!TextUtils.isEmpty(urlopc2))
+            for (final OpCodeUrl url : SettingsManager.getInstance().opcodeUrlList)
+            {
                 FreeDPool.Execute(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            httpsGet(urlopc2, "opc2.bin");
+                            httpsGet(url.getOpcode2Url(), url.getID() + "opc2.bin");
                         } catch (IOException ex) {
                             Log.WriteEx(ex);
                         }
                     }
                 });
-            if(!TextUtils.isEmpty(urlopc3))
+
                 FreeDPool.Execute(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            httpsGet(urlopc3, "opc3.bin");
+                            httpsGet(url.getOpcode3Url(), url.getID() + "opc3.bin");
                         } catch (IOException ex) {
                             Log.WriteEx(ex);
                         }
                     }
                 });
+            }
         }
         else opcodeEnabled = !valueToSet.equals("Disabled");
     }
