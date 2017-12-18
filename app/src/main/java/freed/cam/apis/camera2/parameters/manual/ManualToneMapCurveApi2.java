@@ -27,8 +27,8 @@ import android.os.Build.VERSION_CODES;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
-import freed.settings.Settings;
 import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.settings.Settings;
 import freed.utils.Log;
 
 /**

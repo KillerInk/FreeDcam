@@ -5,8 +5,6 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.util.Rational;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 
 /**

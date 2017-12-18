@@ -23,8 +23,8 @@ package freed.cam.apis.camera1.parameters.manual.krilin;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.Settings;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
+import freed.settings.Settings;
 import freed.settings.SettingsManager;
 
 /**

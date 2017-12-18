@@ -31,8 +31,8 @@ import freed.cam.apis.camera2.modules.HuaweiAeBracketApi2;
 import freed.cam.apis.camera2.modules.IntervalApi2;
 import freed.cam.apis.camera2.modules.PictureModuleApi2;
 import freed.cam.apis.camera2.modules.VideoModuleApi2;
-import freed.settings.SettingsManager;
 import freed.settings.Settings;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 12.12.2014.

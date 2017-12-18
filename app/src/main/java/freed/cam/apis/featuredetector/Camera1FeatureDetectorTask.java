@@ -14,8 +14,8 @@ import java.util.List;
 
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
-import freed.settings.SettingsManager;
 import freed.settings.Settings;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 
@@ -52,6 +52,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
 
         int cameraCounts = Camera.getNumberOfCameras();
+        SettingsManager.getInstance().setCamerasCount(cameraCounts);
         Log.d(TAG, "Cameras Found: " + cameraCounts);
         SettingsManager appS = SettingsManager.getInstance();
         for (int i = 0; i < cameraCounts; i++)

@@ -653,6 +653,16 @@ public class SettingsManager {
         return settings.getBoolean(HAS_CAMERA2_FEATURES,false);
     }
 
+    public void setCamerasCount(int count)
+    {
+        setApiInt("camerascount",count);
+    }
+
+    public int getCamerasCount()
+    {
+        return getApiInt("camerascount");
+    }
+
     private String getApiString(String valueToGet, String defaultValue) {
         return settings.getString(getApiSettingString(valueToGet), defaultValue);
     }

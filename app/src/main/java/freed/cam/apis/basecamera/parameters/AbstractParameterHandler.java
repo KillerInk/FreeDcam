@@ -34,8 +34,8 @@ import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
-import freed.settings.SettingsManager;
 import freed.settings.Settings;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**

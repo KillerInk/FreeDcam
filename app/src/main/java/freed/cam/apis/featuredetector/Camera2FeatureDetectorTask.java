@@ -19,8 +19,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import freed.settings.SettingsManager;
 import freed.settings.Settings;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringFloatArray;
 import freed.utils.StringUtils;
@@ -53,6 +53,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             publishProgress("Check Camera2");
             CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
             String cameras[] = manager.getCameraIdList();
+            SettingsManager.getInstance().setCamerasCount(cameras.length);
 
             for (String s : cameras)
             {

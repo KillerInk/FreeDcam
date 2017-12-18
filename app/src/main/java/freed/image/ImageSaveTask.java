@@ -10,15 +10,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Date;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
-import freed.utils.StorageFileManager;
 
 /**
  * Created by KillerInk on 13.11.2017.

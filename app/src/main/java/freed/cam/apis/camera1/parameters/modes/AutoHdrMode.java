@@ -10,8 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.Settings;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 

@@ -37,9 +37,9 @@ import java.net.URL;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.settings.Settings;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
+import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 

@@ -1,8 +1,5 @@
 package com.huawei.camera2ex;
 
-import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.CaptureResult;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

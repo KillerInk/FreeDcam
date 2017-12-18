@@ -26,9 +26,9 @@ import android.text.TextUtils;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.Settings;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
+import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 

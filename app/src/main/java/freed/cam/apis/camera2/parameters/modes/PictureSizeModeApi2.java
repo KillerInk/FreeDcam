@@ -23,8 +23,8 @@ import android.annotation.TargetApi;
 import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.SettingsManager;
 import freed.settings.Settings;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 13.12.2014.

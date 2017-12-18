@@ -4,8 +4,6 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureResult;
 import android.os.Build;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 
 /**

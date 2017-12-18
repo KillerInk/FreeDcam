@@ -21,14 +21,6 @@ package freed.dng;
 
 import android.text.TextUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-
-import freed.utils.Log;
-import freed.utils.StringUtils;
-
 /**
  * Created by troop on 02.05.2016.
  */

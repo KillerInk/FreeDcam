@@ -26,8 +26,8 @@ import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
-import freed.settings.Settings;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
+import freed.settings.Settings;
 import freed.utils.Log;
 
 /**

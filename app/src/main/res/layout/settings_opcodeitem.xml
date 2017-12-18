@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/uiSettingsBackground"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/opcodeitem_cameraid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/uiSettingsTextColor" />
+
+    <CheckBox
+        android:id="@+id/opcodeitem_downloadable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="Download avail"
+        android:textColor="@color/uiSettingsTextColor"
+        tools:clickable="false" />
+
+    <CheckBox
+        android:id="@+id/opcodeitem_Downloaded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Downloaded"
+        android:textColor="@color/uiSettingsTextColor"
+        tools:clickable="false" />
+</LinearLayout>

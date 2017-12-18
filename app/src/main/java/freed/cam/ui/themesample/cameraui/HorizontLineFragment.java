@@ -39,8 +39,8 @@ import com.troop.freedcam.R.layout;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
-import freed.settings.Settings;
 import freed.cam.ui.themesample.AbstractFragment;
+import freed.settings.Settings;
 import freed.settings.SettingsManager;
 
 /**

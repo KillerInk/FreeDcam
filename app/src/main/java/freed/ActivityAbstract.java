@@ -46,10 +46,10 @@ import java.util.Comparator;
 import java.util.List;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
-import freed.utils.MediaScannerManager;
 import freed.image.ImageManager;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.MediaScannerManager;
 import freed.utils.PermissionManager;
 import freed.utils.StorageFileManager;
 import freed.viewer.helper.BitmapHelper;

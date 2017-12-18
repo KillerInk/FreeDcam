@@ -25,9 +25,9 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.settings.Settings;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;

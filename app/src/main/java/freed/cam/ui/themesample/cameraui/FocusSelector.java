@@ -9,7 +9,6 @@ import android.hardware.Camera;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.widget.ImageView;
 
 import freed.utils.StringUtils;
 

@@ -24,8 +24,8 @@ import android.text.TextUtils;
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.Settings;
 import freed.dng.CustomMatrix;
+import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 

@@ -22,9 +22,9 @@ package freed.cam.apis.camera1.parameters.manual.focus;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.Settings;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.settings.Settings;
 import freed.settings.SettingsManager;
 
 /**

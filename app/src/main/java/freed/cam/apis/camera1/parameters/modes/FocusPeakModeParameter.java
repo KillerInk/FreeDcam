@@ -25,9 +25,9 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.settings.Settings;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
+import freed.settings.Settings;
 
 
 /**

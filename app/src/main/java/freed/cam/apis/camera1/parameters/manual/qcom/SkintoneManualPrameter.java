@@ -22,8 +22,8 @@ package freed.cam.apis.camera1.parameters.manual.qcom;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.Settings;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.settings.Settings;
 
 /**
  * Created by troop on 12.04.2015.

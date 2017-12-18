@@ -31,8 +31,8 @@ import java.io.File;
 
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.Settings;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
+import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;

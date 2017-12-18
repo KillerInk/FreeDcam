@@ -32,7 +32,6 @@ import com.troop.freedcam.R.layout;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.settings.Settings;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.camera2.Camera2Fragment;
@@ -54,6 +53,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimeLapseFrames
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoProfile;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEditor;
+import freed.settings.Settings;
 import freed.settings.SettingsManager;
 
 /**

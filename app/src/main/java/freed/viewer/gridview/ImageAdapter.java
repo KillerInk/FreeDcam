@@ -9,7 +9,6 @@ import com.troop.freedcam.R;
 import java.util.concurrent.ExecutorService;
 
 import freed.ActivityInterface;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.holder.FileHolder;
 

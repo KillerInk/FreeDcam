@@ -32,9 +32,9 @@ import com.troop.freedcam.R;
 import java.io.File;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.Settings;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
+import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;

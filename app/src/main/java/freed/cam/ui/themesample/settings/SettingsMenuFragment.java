@@ -31,10 +31,12 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.CloseChildClick;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
+import freed.cam.ui.themesample.settings.opcode.OpCodeFragment;
 import freed.utils.Log;
 
 /**
@@ -155,35 +157,46 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
         }
         currentOpendItem = item;
 
-        ValuesMenuFragment valuesMenuFragment = new ValuesMenuFragment();
-        if (item.GetValues() == null) {
-            item.onIsSupportedChanged(false);
-            value_menu_status = VALUE_MENU_CLOSED;
-            if (fromLeftFragment)
-                loadRightFragment();
-            else
-                loadLeftFragment();
-            return;
-        }
-        valuesMenuFragment.SetMenuItem(item.GetValues(), this);
 
-        if (fromLeftFragment)
-        {
+        boolean loadopCodeFragment = item.GetParameter() instanceof OpCodeParameter;
+        if (loadopCodeFragment){
             value_menu_status = VALUE_MENU_RIGHT_OPEN;
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
-            transaction.replace(id.right_holder, valuesMenuFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
-        else
-        {
-            value_menu_status = VALUE_MENU_LEFT_OPEN;
+            OpCodeFragment opCodeFragment = new OpCodeFragment();
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
-            transaction.replace(id.left_holder, valuesMenuFragment);
+            transaction.replace(id.right_holder, opCodeFragment);
             transaction.addToBackStack(null);
             transaction.commit();
+        }
+        else {
+
+            ValuesMenuFragment valuesMenuFragment = new ValuesMenuFragment();
+            if (item.GetValues() == null) {
+                item.onIsSupportedChanged(false);
+                value_menu_status = VALUE_MENU_CLOSED;
+                if (fromLeftFragment)
+                    loadRightFragment();
+                else
+                    loadLeftFragment();
+                return;
+            }
+            valuesMenuFragment.SetMenuItem(item.GetValues(), this);
+
+            if (fromLeftFragment) {
+                value_menu_status = VALUE_MENU_RIGHT_OPEN;
+                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
+                transaction.replace(id.right_holder, valuesMenuFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            } else {
+                value_menu_status = VALUE_MENU_LEFT_OPEN;
+                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
+                transaction.replace(id.left_holder, valuesMenuFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
         }
     }
 }

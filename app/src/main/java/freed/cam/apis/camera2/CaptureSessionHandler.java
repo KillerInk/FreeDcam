@@ -24,8 +24,8 @@ import android.view.WindowManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.settings.SettingsManager;
 import freed.settings.Settings;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**

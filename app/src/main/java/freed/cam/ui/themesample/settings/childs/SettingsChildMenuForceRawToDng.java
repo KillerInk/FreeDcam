@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.troop.freedcam.R;
 
-import freed.settings.SettingsManager;
 import freed.settings.Settings;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 26.06.2017.

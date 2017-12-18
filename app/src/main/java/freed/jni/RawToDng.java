@@ -9,14 +9,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import freed.dng.DngProfile;
 import freed.utils.Log;
 import freed.utils.StorageFileManager;
-import freed.utils.StringUtils;
-
-import java.text.SimpleDateFormat;
 
 /**
  * Created by troop on 15.02.2015.

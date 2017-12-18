@@ -8,8 +8,8 @@ import java.util.HashMap;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.dng.ToneMapProfile;
-import freed.settings.SettingsManager;
 import freed.settings.Settings;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 10.07.2017.

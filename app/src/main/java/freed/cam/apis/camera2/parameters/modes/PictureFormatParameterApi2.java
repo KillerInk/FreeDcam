@@ -24,8 +24,8 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.SettingsManager;
 import freed.settings.Settings;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 12.12.2014.

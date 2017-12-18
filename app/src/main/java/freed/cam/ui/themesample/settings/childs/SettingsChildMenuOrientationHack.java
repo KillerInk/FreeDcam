@@ -27,8 +27,8 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera2.Camera2Fragment;
-import freed.settings.SettingsManager;
 import freed.settings.Settings;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 21.07.2015.
