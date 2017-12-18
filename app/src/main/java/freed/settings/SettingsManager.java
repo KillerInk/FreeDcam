@@ -425,6 +425,8 @@ public class SettingsManager {
                     } catch (IOException e) {
                         Log.WriteEx(e);
                     }
+                    else
+                        opcode2 = null;
                 File op3 = new File(StringUtils.GetFreeDcamConfigFolder+currentcamera+"opc3.bin");
                 if (op3.exists())
                     try {
@@ -433,6 +435,8 @@ public class SettingsManager {
                     } catch (IOException e) {
                         Log.WriteEx(e);
                     }
+                    else
+                        opcode3 = null;
             }
         }).start();
 
