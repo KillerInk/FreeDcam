@@ -56,59 +56,44 @@ import freed.utils.StringUtils;
 public class OpCodeParameter extends AbstractParameter
 {
     private final String TAG = OpCodeParameter.class.getSimpleName();
-    private boolean hasOp2;
-    private boolean hasOp3;
     private final boolean isSupported;
 
     public OpCodeParameter()
     {
-        File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
-        if (op2.exists())
-            hasOp2 =true;
-        File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
-        if (op3.exists())
-            hasOp3 =true;
-        isSupported = hasOp2 || hasOp3 || SettingsManager.getInstance().opcodeUrlList != null || SettingsManager.getInstance().opcodeUrlList[0] != null || SettingsManager.getInstance().opcodeUrlList[1] != null;
-
+        isSupported = SettingsManager.getInstance().opcodeUrlList.size() > 0;
     }
 
     //https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/HTC_OneA9/opc2.bin?raw=true
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        boolean opcodeEnabled = true;
         if(valueToSet.equals("Download")) {
-            if (hasOp2 || hasOp3) {
-                opcodeEnabled = true;
-                fireStringValueChanged("Enabled");
-                return;
-            }
             for (final OpCodeUrl url : SettingsManager.getInstance().opcodeUrlList)
             {
-                FreeDPool.Execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            httpsGet(url.getOpcode2Url(), url.getID() + "opc2.bin");
-                        } catch (IOException ex) {
-                            Log.WriteEx(ex);
+                if (!TextUtils.isEmpty(url.getOpcode2Url()))
+                    FreeDPool.Execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                httpsGet(url.getOpcode2Url(), url.getID() + "opc2.bin");
+                            } catch (IOException ex) {
+                                Log.WriteEx(ex);
+                            }
                         }
-                    }
-                });
-
-                FreeDPool.Execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            httpsGet(url.getOpcode3Url(), url.getID() + "opc3.bin");
-                        } catch (IOException ex) {
-                            Log.WriteEx(ex);
+                    });
+                if (!TextUtils.isEmpty(url.getOpcode3Url()))
+                    FreeDPool.Execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                httpsGet(url.getOpcode3Url(), url.getID() + "opc3.bin");
+                            } catch (IOException ex) {
+                                Log.WriteEx(ex);
+                            }
                         }
-                    }
-                });
+                    });
             }
         }
-        else opcodeEnabled = !valueToSet.equals("Disabled");
     }
 
     @Override
@@ -118,19 +103,16 @@ public class OpCodeParameter extends AbstractParameter
 
     @Override
     public String GetStringValue() {
-        return (hasOp2 || hasOp3) +"";
+        return "true";
     }
 
     @Override
     public String[] getStringValues() {
         List<String> list = new ArrayList<>();
-        if (hasOp2 || hasOp3)
-        {
-            list.add("Enabled");
-            list.add("Disabled");
-        }
-        else if ((!hasOp2 && !hasOp3) && (SettingsManager.getInstance().opcodeUrlList[0] != null || SettingsManager.getInstance().opcodeUrlList[1] != null))
+
+        if (SettingsManager.getInstance().opcodeUrlList.size() >0)
             list.add("Download");
+        else list.add("No Opcode avail");
         return list.toArray(new String[list.size()]);
     }
 

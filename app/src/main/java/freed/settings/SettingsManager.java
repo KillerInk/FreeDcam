@@ -414,22 +414,28 @@ public class SettingsManager {
 
     private void loadOpCodes()
     {
-        File op2 = new File(StringUtils.GetFreeDcamConfigFolder+ currentcamera+"opc2.bin");
-        if (op2.exists())
-            try {
-                opcode2 = RawToDng.readFile(op2);
-                Log.d(TAG, "opcode2 size" + opcode2.length);
-            } catch (IOException e) {
-                Log.WriteEx(e);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                File op2 = new File(StringUtils.GetFreeDcamConfigFolder+ currentcamera+"opc2.bin");
+                if (op2.exists())
+                    try {
+                        opcode2 = RawToDng.readFile(op2);
+                        Log.d(TAG, "opcode2 size" + opcode2.length);
+                    } catch (IOException e) {
+                        Log.WriteEx(e);
+                    }
+                File op3 = new File(StringUtils.GetFreeDcamConfigFolder+currentcamera+"opc3.bin");
+                if (op3.exists())
+                    try {
+                        opcode3 = RawToDng.readFile(op3);
+                        Log.d(TAG, "opcode3 size" + opcode3.length);
+                    } catch (IOException e) {
+                        Log.WriteEx(e);
+                    }
             }
-        File op3 = new File(StringUtils.GetFreeDcamConfigFolder+currentcamera+"opc3.bin");
-        if (op3.exists())
-            try {
-                opcode3 = RawToDng.readFile(op3);
-                Log.d(TAG, "opcode3 size" + opcode3.length);
-            } catch (IOException e) {
-                Log.WriteEx(e);
-            }
+        }).start();
+
     }
 
     public void RESET()

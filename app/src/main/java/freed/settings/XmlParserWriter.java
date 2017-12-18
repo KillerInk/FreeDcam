@@ -367,7 +367,8 @@ public class XmlParserWriter
 
     private void getDngStuff(LongSparseArray<DngProfile> map, XmlElement device_element, HashMap<String, CustomMatrix> matrixHashMap) {
         XmlElement opcodesList = device_element.findChild("opcodes");
-        List<XmlElement> opcodes = device_element.findChildren("camera");
+        List<XmlElement> opcodes = opcodesList.findChildren("camera");
+        SettingsManager.getInstance().opcodeUrlList = new ArrayList<>();
         for (XmlElement opcodeItem : opcodes)
         {
             int camid = opcodeItem.getIntAttribute("id", 0);
@@ -473,12 +474,12 @@ public class XmlParserWriter
             writer.write("<devices>" + "\r\n");
             writer.write("<device name = \""+ mDevice +"\">\r\n");
 
-            writer.write("<opcodes>");
+            writer.write("<opcodes>\r\n");
             for (OpCodeUrl url : SettingsManager.getInstance().opcodeUrlList)
             {
                 writer.write(url.getXml());
             }
-            writer.write("</opcodes>");
+            writer.write("</opcodes>\r\n");
 
             for (int i =0; i< dngProfileList.size();i++)
             {

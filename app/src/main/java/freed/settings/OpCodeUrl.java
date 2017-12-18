@@ -37,7 +37,7 @@ public class OpCodeUrl {
         String t = "<camera id=" +String.valueOf("\"") +String.valueOf(ID) +String.valueOf("\"")  +">" + "\r\n";
         t += "<opcode2>"+opcode2Url+"</opcode2>"+ "\r\n";
         t += "<opcode3>"+opcode3Url+"</opcode3>"+ "\r\n";
-        t += "<camera>\r\n";
+        t += "</camera>\r\n";
         return t;
     }
 }
