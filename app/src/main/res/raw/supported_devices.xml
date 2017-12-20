@@ -81,9 +81,6 @@
             <maxiso>34000</maxiso> overwrite max iso
         </camera2>
 
-        <opcode2></opcode2> opcode2 url to download
-        <opcode3></opcode3> opcode3 url to download
-
         <opcodes> //used to remove vignett on dngs
             <camera id="0">  0 = back, 1 = front, 2 = nextcamera etc
                 <opcode2></opcode2>
@@ -2624,6 +2621,12 @@
             <camera id="0">
                 <opcode2>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/XiaomiMi6/opc2.bin?raw=true</opcode2>
                 <opcode3>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/XiaomiMi6/opc3.bin?raw=true</opcode3>
+            </camera>
+            <camera id="1">
+                <opcode2>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/XiaomiMi6/opc2_front.bin?raw=true</opcode2>
+            </camera>
+            <camera id="2">
+                <opcode2>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/XiaomiMi6/opc2_aux.bin?raw=true</opcode2>
             </camera>
         </opcodes>
 
