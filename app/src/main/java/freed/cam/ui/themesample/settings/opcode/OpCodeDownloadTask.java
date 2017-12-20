@@ -21,6 +21,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.image.ImageTask;
 import freed.settings.OpCodeUrl;
 import freed.utils.Log;
@@ -56,12 +57,14 @@ public class OpCodeDownloadTask extends ImageTask {
                 httpsGet(url.getOpcode2Url(), url.getID() + "opc2.bin");
             } catch (IOException ex) {
                 Log.WriteEx(ex);
+                UserMessageHandler.sendMSG(ex.getLocalizedMessage(),true);
             }
         if (!TextUtils.isEmpty(url.getOpcode3Url()))
             try {
                 httpsGet(url.getOpcode3Url(), url.getID() + "opc3.bin");
             } catch (IOException ex) {
                 Log.WriteEx(ex);
+                UserMessageHandler.sendMSG(ex.getLocalizedMessage(),true);
             }
             if (eventslistner != null)
                 eventslistner.onComplete();

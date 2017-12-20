@@ -32,6 +32,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.jni.RawToDng;
 import freed.settings.Settings;
 import freed.settings.SettingsManager;
@@ -129,7 +130,7 @@ public class PictureModuleMTK extends PictureModule
                 }
                 else {
                     Log.d(TAG,"############ Failed to read Raw #########" );
-                    cameraUiWrapper.getCameraHolder().SendUIMessage("Timout:Failed to read Raw");
+                    UserMessageHandler.sendMSG("Timout:Failed to read Raw",false);
                     return;
                 }
             }

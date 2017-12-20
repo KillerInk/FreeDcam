@@ -39,6 +39,7 @@ import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.Size;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Settings;
 import freed.utils.Log;
 
@@ -190,7 +191,7 @@ public class CameraHolder extends CameraHolderAbstract
     {
         if (mCamera == null)
         {
-            SendUIMessage("Failed to Start Preview, Camera is null");
+            UserMessageHandler.sendMSG("Failed to Start Preview, Camera is null",false);
             return;
         }
         try
@@ -201,7 +202,7 @@ public class CameraHolder extends CameraHolderAbstract
 
         } catch (Exception ex) {
             Log.WriteEx(ex);
-            SendUIMessage("Failed to Start Preview");
+            UserMessageHandler.sendMSG("Failed to Start Preview",false);
         }
     }
 
@@ -242,7 +243,7 @@ public class CameraHolder extends CameraHolderAbstract
         }
         catch (RuntimeException ex)
         {
-            SendUIMessage("Picture Taking failed, What a Terrible Failure!!");
+            UserMessageHandler.sendMSG("Picture Taking failed, What a Terrible Failure!!",false);
             Log.WriteEx(ex);
         }
     }
@@ -359,14 +360,10 @@ public class CameraHolder extends CameraHolderAbstract
             }
             catch (RuntimeException ex)
             {
-                SendUIMessage("Set Location failed");
+                UserMessageHandler.sendMSG("Set Location failed",false);
+
             }
         }
-    }
-
-    @Override
-    public void StartFocus() {
-        cameraUiWrapper.getFocusHandler().StartFocus();
     }
 
     public void SetCameraRotation(int rotation)

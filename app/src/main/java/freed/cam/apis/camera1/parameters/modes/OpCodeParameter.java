@@ -43,6 +43,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.OpCodeUrl;
 import freed.settings.SettingsManager;
 import freed.utils.FreeDPool;
@@ -78,6 +79,7 @@ public class OpCodeParameter extends AbstractParameter
                                 httpsGet(url.getOpcode2Url(), url.getID() + "opc2.bin");
                             } catch (IOException ex) {
                                 Log.WriteEx(ex);
+                                UserMessageHandler.sendMSG(ex.getLocalizedMessage(),true);
                             }
                         }
                     });
@@ -89,6 +91,7 @@ public class OpCodeParameter extends AbstractParameter
                                 httpsGet(url.getOpcode3Url(), url.getID() + "opc3.bin");
                             } catch (IOException ex) {
                                 Log.WriteEx(ex);
+                                UserMessageHandler.sendMSG(ex.getLocalizedMessage(),true);
                             }
                         }
                     });

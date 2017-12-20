@@ -37,6 +37,7 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.VideoMediaProfile;
@@ -91,7 +92,7 @@ public class VideoModuleG3 extends AbstractVideoModule
             catch (IllegalArgumentException ex)
             {
                 recorder.reset();
-                cameraUiWrapper.getCameraHolder().SendUIMessage("VideoCodec not Supported");
+                UserMessageHandler.sendMSG("VideoCodec not Supported",false);
             }
 
 
@@ -129,7 +130,7 @@ public class VideoModuleG3 extends AbstractVideoModule
         catch (IllegalArgumentException ex)
         {
             recorder.reset();
-            cameraUiWrapper.getCameraHolder().SendUIMessage("AudioCodec not Supported");
+            UserMessageHandler.sendMSG("AudioCodec not Supported",false);
         }
 
     }

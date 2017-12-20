@@ -24,6 +24,7 @@ import android.text.TextUtils;
 
 import java.util.Date;
 
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -94,8 +95,9 @@ public class IntervalHandler
     {
 
         String t = "Time:"+String.format("%.2f ", (double) (new Date().getTime() - startTime) /1000 / 60);
-        t+= "/"+ fullIntervalCaptureDuration + " NextIn:" + timeGoneTillNextCapture +"/" + sleepTimeBetweenCaptures /1000;
-        picmodule.cameraUiWrapper.getCameraHolder().SendUIMessage(t);
+        t+= "/"+ fullIntervalCaptureDuration + " NextIn:" + ((sleepTimeBetweenCaptures /1000) - timeGoneTillNextCapture);
+        UserMessageHandler.sendMSG(t,false);
+        //picmodule.cameraUiWrapper.getCameraHolder().SendUIMessage(t);
 
     }
 
@@ -144,7 +146,8 @@ public class IntervalHandler
 
     private void msg()
     {
-        picmodule.cameraUiWrapper.getCameraHolder().SendUIMessage(shutterWaitCounter +"");
+        UserMessageHandler.sendMSG(shutterWaitCounter +"",false);
+        //picmodule.cameraUiWrapper.getCameraHolder().SendUIMessage(shutterWaitCounter +"");
     }
 
     private int shutterWaitCounter;

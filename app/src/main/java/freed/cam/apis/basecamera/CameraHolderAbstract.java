@@ -49,16 +49,6 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
         UIHandler = new Handler(Looper.getMainLooper());
     }
 
-    /**
-     * Send message to UI
-     * @param msg to send
-     */
-    public void SendUIMessage(String msg)
-    {
-        if (cameraUiWrapper != null)
-            cameraUiWrapper.onCameraError(msg);
-    }
-
     @Override
     public abstract boolean OpenCamera(int camera);
 

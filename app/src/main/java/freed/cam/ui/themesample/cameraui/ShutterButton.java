@@ -34,7 +34,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -139,7 +138,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
     };
 
 
-    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper, UserMessageHandler messageHandler) {
+    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper) {
         if (cameraUiWrapper.getModuleHandler() == null)
             return;
         this.cameraUiWrapper = cameraUiWrapper;

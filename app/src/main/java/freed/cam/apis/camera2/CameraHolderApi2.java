@@ -308,11 +308,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     }
 
     @Override
-    public void StartFocus() {
-        cameraUiWrapper.getFocusHandler().StartFocus();
-    }
-
-    @Override
     public void ResetPreviewCallback() {
 
     }

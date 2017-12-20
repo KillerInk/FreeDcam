@@ -38,6 +38,7 @@ import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.settings.SettingsManager;
@@ -147,6 +148,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UserMessageHandler.setContext(getContext());
         mSecureCamera.onCreate();
     }
 
@@ -154,6 +156,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void onDestroy() {
         cameraFragmentManager.destroy();
+        UserMessageHandler.setContext(null);
         super.onDestroy();
     }
 
@@ -429,7 +432,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public void onCameraError(String error) {
-
     }
 
     @Override

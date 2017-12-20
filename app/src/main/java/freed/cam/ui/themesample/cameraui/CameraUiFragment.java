@@ -35,6 +35,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
@@ -105,8 +106,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private SharedPreferences sharedPref;
 
     private UiSettingsChild aelock;
-
-    private UserMessageHandler messageHandler;
 
     private HorizontLineFragment horizontLineFragment;
 
@@ -247,9 +246,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
                 focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
 
-                messageHandler.SetCameraUiWrapper(cameraUiWrapper);
                 shutterButton.setVisibility(View.VISIBLE);
-                shutterButton.SetCameraUIWrapper(cameraUiWrapper, messageHandler);
+                shutterButton.SetCameraUIWrapper(cameraUiWrapper);
 
                 cameraUiWrapper.getModuleHandler().setWorkListner(this);
 
@@ -302,11 +300,9 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        UserMessageHandler.setMessageTextView((TextView)view.findViewById(id.textView_usermessage),(LinearLayout)view.findViewById(id.userMessageHolder));
         manualModes_holder = (FrameLayout) view.findViewById(id.manualModesHolder);
-        messageHandler = new UserMessageHandler(view);
-
         left_ui_items_holder = (LinearLayout)view.findViewById(id.left_ui_holder);
-
         right_ui_items_top = (LinearLayout)view.findViewById(id.right_ui_holder_top);
         addexit();
 
@@ -366,6 +362,12 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             transaction.commit();
         }
         setCameraToUi(cameraUiWrapper);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        UserMessageHandler.setMessageTextView(null,null);
     }
 
     @Override

@@ -48,7 +48,7 @@ public class OpcodeItem extends LinearLayout implements OpCodeDownloadTask.Downl
         isDownloaded.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
         update();

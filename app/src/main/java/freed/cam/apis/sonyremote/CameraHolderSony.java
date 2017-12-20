@@ -450,11 +450,6 @@ public class CameraHolderSony extends CameraHolderAbstract
 
     }
 
-    @Override
-    public void StartFocus() {
-        cameraUiWrapper.getFocusHandler().StartFocus();
-    }
-
     public boolean canCancelFocus()
     {
         if (((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("cancelTouchAFPosition") || ((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("cancelTrackingFocus"))

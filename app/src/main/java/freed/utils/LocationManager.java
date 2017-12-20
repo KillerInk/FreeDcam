@@ -23,9 +23,9 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import freed.ActivityInterface;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 
 /**
  * Created by troop on 02.08.2016.
@@ -91,8 +91,8 @@ public class LocationManager implements LocationListener
         }
         else
         {
-            Toast.makeText(activityInterface.getContext(), "Gps and Network are deactivated", Toast.LENGTH_LONG).show();
-            Log.d("Location", "Gps and Network are deactivated");
+            UserMessageHandler.sendMSG("Gps and Network are deactivated",true);
+            Log.d(TAG, "Gps and Network are deactivated");
         }
     }
 

@@ -38,6 +38,7 @@ import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -155,7 +156,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             } catch (Exception ex)
             {
                 Log.e(TAG,"Recording failed");
-                cameraUiWrapper.getCameraHolder().SendUIMessage("Start Recording failed");
+                UserMessageHandler.sendMSG("Start Recording failed",false);
                 Log.WriteEx(ex);
                 recorder.reset();
                 isWorking = false;
@@ -168,7 +169,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
-            cameraUiWrapper.getCameraHolder().SendUIMessage("Start Recording failed");
+            UserMessageHandler.sendMSG("Start Recording failed",false);
             recorder.reset();
             isWorking = false;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
@@ -200,7 +201,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         catch (Exception ex)
         {
             Log.e(TAG, "Stop Recording failed, was called bevor start");
-            cameraUiWrapper.getCameraHolder().SendUIMessage("Stop Recording failed, was called bevor start");
+            UserMessageHandler.sendMSG("Stop Recording failed, was called bevor start",false);
             Log.e(TAG,ex.getMessage());
             isWorking = false;
         }

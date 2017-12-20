@@ -42,7 +42,7 @@ public interface CameraHolderInterface
     boolean IsRdy();
 
     /**
-     * The the surface to camera
+     * Set the surface to camera
      * @param texture to set
      * @return
      */
@@ -50,9 +50,7 @@ public interface CameraHolderInterface
     void StartPreview();
     void StopPreview();
     void SetLocation(Location location);
-    void StartFocus();
     void CancelFocus();
     void ResetPreviewCallback();
-    void SendUIMessage(String msg);
 
 }

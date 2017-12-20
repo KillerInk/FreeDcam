@@ -56,6 +56,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -312,7 +313,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         catch (IllegalArgumentException ex)
         {
             mediaRecorder.reset();
-            cameraUiWrapper.getCameraHolder().SendUIMessage("VideoCodec not Supported");
+            UserMessageHandler.sendMSG("VideoCodec not Supported",false);
         }
 
         switch (currentVideoProfile.Mode)
@@ -327,7 +328,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
                     catch (IllegalArgumentException ex)
                     {
                         mediaRecorder.reset();
-                        cameraUiWrapper.getCameraHolder().SendUIMessage("AudioCodec not Supported");
+                        UserMessageHandler.sendMSG("AudioCodec not Supported",false);
                     }
                     mediaRecorder.setAudioChannels(currentVideoProfile.audioChannels);
                     mediaRecorder.setAudioEncodingBitRate(currentVideoProfile.audioBitRate);

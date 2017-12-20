@@ -19,57 +19,97 @@
 
 package freed.cam.ui.themesample.handler;
 
+import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.troop.freedcam.R.id;
+import android.widget.Toast;
 
 import freed.cam.apis.basecamera.CameraStateEvents;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.utils.Log;
 
 
 /**
  * Created by troop on 04.10.2015.
  */
-public class UserMessageHandler implements CameraStateEvents
+public class UserMessageHandler extends Handler implements CameraStateEvents , Runnable
 {
-    private final LinearLayout messageHolder;
-    private final TextView messageTextView;
-    private final Handler handler;
+    private static LinearLayout messageHolder;
+    private static TextView messageTextView;
 
-    public UserMessageHandler(View view)
+    private static UserMessageHandler handler = new UserMessageHandler(Looper.getMainLooper());
+    private static Context context;
+
+    private UserMessageHandler(Looper looper)
     {
-        messageHolder = (LinearLayout)view.findViewById(id.userMessageHolder);
-        messageTextView = (TextView)view.findViewById(id.textView_usermessage);
-
-        handler = new Handler();
-
+        super(looper);
     }
 
-    public void SetCameraUiWrapper(CameraWrapperInterface wrapper)
+    public static void setContext(Context contextt)
     {
-        CameraWrapperInterface cameraUiWrapper = wrapper;
-        cameraUiWrapper.setCameraStateChangedListner(this);
+        context = contextt;
     }
 
-    private void SetUserMessage(String msg)
+    public static void setMessageTextView(TextView messageTextView1, LinearLayout messageHolder1)
     {
-        handler.removeCallbacks(hideTextView);
-        messageHolder.setVisibility(View.VISIBLE);
-        messageTextView.setText(/*messageTextView.getText() + "\n" + */msg);
-        handler.postDelayed(hideTextView, 3000);
+        messageHolder = messageHolder1;
+        messageTextView = messageTextView1;
     }
 
-    private final Runnable hideTextView = new Runnable() {
-        @Override
-        public void run()
+    public static void sendMSG(String msg,boolean asToast)
+    {
+        if (asToast)
+            handler.obtainMessage(MSG_SEND_MESSAGE_TO_USER,1,0, msg).sendToTarget();
+        else
+            handler.obtainMessage(MSG_SEND_MESSAGE_TO_USER,0,0, msg).sendToTarget();
+    }
+
+    public final static int MSG_SEND_MESSAGE_TO_USER = 0;
+    @Override
+    public void handleMessage(Message msg) {
+        switch (msg.what)
         {
-            messageTextView.setText("");
-            messageHolder.setVisibility(View.GONE);
+            case MSG_SEND_MESSAGE_TO_USER:
+                try {
+                    if (msg.arg1 == 1)
+                        setUserMessage((String)msg.obj,true);
+                    else
+                        setUserMessage((String)msg.obj,false);
+                }
+                catch (NullPointerException ex)
+                {
+                    Log.WriteEx(ex);
+                }
+                break;
+            default:
+                super.handleMessage(msg);
         }
-    };
+
+    }
+
+
+    private void setUserMessage(String msg,boolean asToast)
+    {
+        if (asToast) {
+            if (context != null)
+                Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+        }
+        else {
+            if (messageHolder != null) {
+                handler.removeCallbacks(this);
+                messageHolder.setVisibility(View.VISIBLE);
+                messageTextView.setText(/*messageTextView.getText() + "\n" + */msg);
+                handler.postDelayed(this, 3000);
+            }
+        }
+        /*handler.removeCallbacks(hideTextView);
+        messageHolder.setVisibility(View.VISIBLE);
+        messageTextView.setText(msg);
+        handler.postDelayed(hideTextView, 3000);*/
+    }
 
     @Override
     public void onCameraOpen(String message) {
@@ -99,16 +139,19 @@ public class UserMessageHandler implements CameraStateEvents
     @Override
     public void onCameraError(final String error)
     {
-        messageTextView.post(new Runnable() {
-            @Override
-            public void run() {
-                SetUserMessage(error);
-            }
-        });
+        sendMSG(error,true);
     }
 
     @Override
     public void onCameraStatusChanged(String status) {
 
+    }
+
+    @Override
+    public void run() {
+        if (messageHolder != null && messageTextView !=null) {
+            messageTextView.setText("");
+            messageHolder.setVisibility(View.GONE);
+        }
     }
 }
