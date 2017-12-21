@@ -14,7 +14,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 130
+        versionCode 131
         versionName '4.1'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 18
@@ -24,7 +24,7 @@ android {
                 abiFilters 'armeabi-v7a','arm64-v8a'
             }
         }
-        versionNameSuffix 'alpha28'
+        versionNameSuffix 'beta1'
     }
     lintOptions { checkReleaseBuilds false }
     buildTypes {
