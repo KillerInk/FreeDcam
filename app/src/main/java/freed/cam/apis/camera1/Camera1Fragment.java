@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import freed.cam.apis.basecamera.CameraToMainHandler;
+import freed.cam.apis.basecamera.MainToCameraHandler;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
@@ -89,7 +91,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     {
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(id.exSurface);
         preview = (TextureViewRatio) view.findViewById(id.textureView_preview);
-        //mBackgroundHandler.createCamera();
+        //mainToCameraHandler.createCamera();
         parametersHandler = new ParametersHandler(Camera1Fragment.this);
         moduleHandler = new ModuleHandler(Camera1Fragment.this);
         moduleHandler.addListner(Camera1Fragment.this);
@@ -163,7 +165,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         if (!cameraIsOpen)
             startCamera();
         else
-            mBackgroundHandler.initCamera();
+            mainToCameraHandler.initCamera();
 
     }
 
@@ -183,7 +185,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public void onCameraOpen(String message)
     {
-        mBackgroundHandler.initCamera();
+        mainToCameraHandler.initCamera();
     }
 
     @Override
@@ -250,7 +252,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
 
                 parametersHandler.get(Settings.PreviewSize).SetValue(size.width + "x" + size.height, true);
-                uiHandler.obtainMessage(MSG_SET_ASPECTRATIO, size).sendToTarget();
+                cameraToMainHandler.obtainMessage(CameraToMainHandler.MSG_SET_ASPECTRATIO, size).sendToTarget();
 
             }
             else if (moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_video)))
@@ -268,7 +270,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 /*if (getAppSettingsManager().getApiString(AppSettingsManager.VIDEOPROFILE).contains("4k") &&parametersHandler.PreviewSize.GetValues().toString().contains("3840x"))
                 {
                     parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
-                    uiHandler.post(new Runnable() {
+                    cameraToMainHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             if (extendedSurfaceView != null)
@@ -280,7 +282,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
                 }else {*/
                 parametersHandler.get(Settings.PreviewSize).SetValue(size.width + "x" + size.height, true);
-                uiHandler.obtainMessage(MSG_SET_ASPECTRATIO, size).sendToTarget();
+                cameraToMainHandler.obtainMessage(CameraToMainHandler.MSG_SET_ASPECTRATIO, size).sendToTarget();
                 //}
 
 
@@ -396,38 +398,39 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
 
     @Override
-    protected void handleUiMessage(Message msg) {
-        super.handleUiMessage(msg);
+    public void handelMainMessage(Message msg) {
+
         switch (msg.what)
         {
-            case MSG_SET_ASPECTRATIO:
+            case CameraToMainHandler.MSG_SET_ASPECTRATIO:
                 Size size = (Size)msg.obj;
                 if (extendedSurfaceView != null)
                     extendedSurfaceView.setAspectRatio(size.width, size.height);
                 if (focusPeakProcessorAp1 != null)
                     focusPeakProcessorAp1.SetAspectRatio(size.width, size.height);
                 break;
+            default:
+                super.handelMainMessage(msg);
         }
     }
 
     @Override
-    protected void handleBackgroundMessage(Message message) {
-        super.handleBackgroundMessage(message);
+    public void handelCameraMessage(Message message) {
         switch (message.what)
         {
-            case MSG_START_CAMERA:
+            case MainToCameraHandler.MSG_START_CAMERA:
                 if (!cameraIsOpen)
                     cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
                 Log.d(TAG, "startCamera");
                 break;
-            case MSG_STOP_CAMERA:
+            case MainToCameraHandler.MSG_STOP_CAMERA:
                 Log.d(TAG, "Stop Camera");
                 if (focusPeakProcessorAp1 != null)
                     focusPeakProcessorAp1.kill();
                 cameraHolder.CloseCamera();
                 cameraIsOpen = false;
                 break;
-            case MSG_RESTART_CAMERA:
+            case MainToCameraHandler.MSG_RESTART_CAMERA:
                 Log.d(TAG, "Stop Camera");
                 if (focusPeakProcessorAp1 != null)
                     focusPeakProcessorAp1.kill();
@@ -437,15 +440,15 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                     cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
                 Log.d(TAG, "startCamera");
                 break;
-            case MSG_START_PREVIEW:
+            case MainToCameraHandler.MSG_START_PREVIEW:
                 Log.d(TAG, "Start Preview");
                 cameraHolder.StartPreview();
                 break;
-            case MSG_STOP_PREVIEW:
+            case MainToCameraHandler.MSG_STOP_PREVIEW:
                 Log.d(TAG, "Stop Preview");
                 cameraHolder.StopPreview();
                 break;
-            case MSG_INIT_CAMERA:
+            case MainToCameraHandler.MSG_INIT_CAMERA:
                 cameraRdy = true;
                 ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
                 parametersHandler.get(Settings.PictureSize).addEventListner(onPreviewSizeShouldChange);
@@ -453,7 +456,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 cameraHolder.StartPreview();
                 this.onCameraOpenFinish("");
                 break;
-            case MSG_CREATE_CAMERA:
+            case MainToCameraHandler.MSG_CREATE_CAMERA:
 
                 break;
         }

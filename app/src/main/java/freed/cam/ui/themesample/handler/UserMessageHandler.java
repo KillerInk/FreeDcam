@@ -28,6 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
+
 import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.utils.Log;
 
@@ -37,11 +39,11 @@ import freed.utils.Log;
  */
 public class UserMessageHandler extends Handler implements CameraStateEvents , Runnable
 {
-    private static LinearLayout messageHolder;
-    private static TextView messageTextView;
+    private static WeakReference<LinearLayout> messageHolderRef;
+    private static WeakReference<TextView> messageTextViewRef;
 
     private static UserMessageHandler handler = new UserMessageHandler(Looper.getMainLooper());
-    private static Context context;
+    private static WeakReference<Context> contextref;
 
     private UserMessageHandler(Looper looper)
     {
@@ -50,13 +52,22 @@ public class UserMessageHandler extends Handler implements CameraStateEvents , R
 
     public static void setContext(Context contextt)
     {
-        context = contextt;
+        if (contextt == null)
+            contextref = null;
+        else
+            contextref = new WeakReference<Context>(contextt);
     }
 
     public static void setMessageTextView(TextView messageTextView1, LinearLayout messageHolder1)
     {
-        messageHolder = messageHolder1;
-        messageTextView = messageTextView1;
+        if (messageHolder1 == null)
+            messageHolderRef = null;
+        else
+            messageHolderRef = new WeakReference<LinearLayout>(messageHolder1);
+        if (messageTextView1 == null)
+            messageTextViewRef = null;
+        else
+            messageTextViewRef = new WeakReference<TextView>(messageTextView1);
     }
 
     public static void sendMSG(String msg,boolean asToast)
@@ -94,21 +105,21 @@ public class UserMessageHandler extends Handler implements CameraStateEvents , R
     private void setUserMessage(String msg,boolean asToast)
     {
         if (asToast) {
+            Context context = contextref.get();
             if (context != null)
                 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
         }
         else {
+            LinearLayout messageHolder = messageHolderRef.get();
+            TextView messageTextView = messageTextViewRef.get();
             if (messageHolder != null) {
                 handler.removeCallbacks(this);
                 messageHolder.setVisibility(View.VISIBLE);
-                messageTextView.setText(/*messageTextView.getText() + "\n" + */msg);
+                if (messageTextView != null)
+                    messageTextView.setText(msg);
                 handler.postDelayed(this, 3000);
             }
         }
-        /*handler.removeCallbacks(hideTextView);
-        messageHolder.setVisibility(View.VISIBLE);
-        messageTextView.setText(msg);
-        handler.postDelayed(hideTextView, 3000);*/
     }
 
     @Override
@@ -148,7 +159,10 @@ public class UserMessageHandler extends Handler implements CameraStateEvents , R
     }
 
     @Override
-    public void run() {
+    public void run()
+    {
+        LinearLayout messageHolder = messageHolderRef.get();
+        TextView messageTextView = messageTextViewRef.get();
         if (messageHolder != null && messageTextView !=null) {
             messageTextView.setText("");
             messageHolder.setVisibility(View.GONE);

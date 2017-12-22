@@ -21,6 +21,7 @@ package freed.cam.apis.sonyremote;
 
 import android.os.Bundle;
 import android.os.HandlerThread;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -164,7 +165,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         }
         Log.d(TAG,"startCamera");
 
-        mBackgroundHandler.post(new Runnable() {
+        mainToCameraHandler.post(new Runnable() {
             @Override
             public void run() {
                 synchronized (cameraLock)
@@ -373,7 +374,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     @Override
     public void stopCamera()
     {
-        mBackgroundHandler.post(new Runnable() {
+        mainToCameraHandler.post(new Runnable() {
             @Override
             public void run() {
                 synchronized (cameraLock)
@@ -389,7 +390,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
     @Override
     public void restartCamera() {
-        mBackgroundHandler.post(new Runnable() {
+        mainToCameraHandler.post(new Runnable() {
             @Override
             public void run() {
                 synchronized (cameraLock){
@@ -525,7 +526,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         mEventObserver.stop();
         surfaceView.stop();
         //setCameraStateChangedListner(SonyCameraRemoteFragment.this);
-        mBackgroundHandler.postDelayed(new Runnable() {
+        mainToCameraHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 startCamera();
@@ -542,5 +543,10 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     @Override
     public void onApiSetChanged(Set<String> mAvailableCameraApiSet) {
         ((ParameterHandler)parametersHandler).SetCameraApiSet(mAvailableCameraApiSet);
+    }
+
+    @Override
+    public void handelCameraMessage(Message msg) {
+
     }
 }

@@ -13,6 +13,7 @@ import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -31,7 +32,7 @@ public class ShutterAnimationHandler extends Handler
     float txt_left, txt_right,txt_top,txt_bottom, txt_length,txt_height;
 
     private final int MSG_START_ANIMATION = 0;
-    private final int MSG_INVALIDATE = 2;
+
 
     //shutter_open_radius for the Transparent Radius to draw to simulate shutter open
     private float shutter_open_radius = 0.0f;
@@ -89,7 +90,7 @@ public class ShutterAnimationHandler extends Handler
 
         super(looper);
         halfsize = resources.getDimensionPixelSize(R.dimen.cameraui_shuttericon_size) /2;
-        uiHandler = new UIHandler(Looper.getMainLooper());
+        uiHandler = new UIHandler(shutterButton);
         this.shutterButton = shutterButton;
         //used to draw green timer inside the shutter button
         shutteropentimePaint = new Paint();
@@ -219,7 +220,7 @@ public class ShutterAnimationHandler extends Handler
     private void sendMsgToSButton(String s)
     {
         shutteropentime = s;
-        uiHandler.obtainMessage(MSG_INVALIDATE).sendToTarget();
+        uiHandler.obtainMessage(UIHandler.MSG_INVALIDATE).sendToTarget();
     }
 
     private String getTimeGoneString(long startime)
@@ -369,11 +370,14 @@ public class ShutterAnimationHandler extends Handler
         }
     }
 
-    private class UIHandler extends Handler
+    private static class UIHandler extends Handler
     {
-        public UIHandler(Looper looper)
+        public static final int MSG_INVALIDATE = 2;
+        private WeakReference<ShutterButton> shutterButtonWeakReference;
+        public UIHandler(ShutterButton shutterButton)
         {
-            super(looper);
+            super(Looper.getMainLooper());
+            shutterButtonWeakReference = new WeakReference<ShutterButton>(shutterButton);
         }
 
         @Override
@@ -382,7 +386,9 @@ public class ShutterAnimationHandler extends Handler
             switch (msg.what)
             {
                 case MSG_INVALIDATE:
-                    shutterButton.invalidate();
+                    ShutterButton button = shutterButtonWeakReference.get();
+                    if (button != null)
+                        button.invalidate();
                     break;
                 default:
                     super.handleMessage(msg);

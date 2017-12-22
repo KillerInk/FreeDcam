@@ -24,8 +24,6 @@ import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -44,96 +42,12 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
+
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualButton extends LinearLayout implements ParameterEvents
+public class ManualButton extends LinearLayout implements ParameterEvents, ManualButtonHandler.ManualMessageEvent
 {
-
-    private class UiHandler extends Handler
-    {
-        private final int ONISSUPPRTEDCHANGED = 0;
-        private final int ON_IS_SET_SUPPORTED_CHANGED = 1;
-        private final int ON_STRING_VALUE_CHANGED = 2;
-        private final int ON_INT_VALUE_CHANGED = 3;
-        private final int ON_UPDATE_SETTING = 4;
-
-        public UiHandler()
-        {
-            super(Looper.getMainLooper());
-        }
-
-        public void setON_IS_SUPPORTED_CHANGED(boolean val)
-        {
-            this.obtainMessage(ONISSUPPRTEDCHANGED,val).sendToTarget();
-        }
-
-        public void setON_IS_SET_SUPPORTED_CHANGED(boolean val)
-        {
-            this.obtainMessage(ON_IS_SET_SUPPORTED_CHANGED,val).sendToTarget();
-        }
-
-        public void setON_STRING_VALUE_CHANGED(String val)
-        {
-            this.obtainMessage(ON_STRING_VALUE_CHANGED,val).sendToTarget();
-        }
-
-        public void setON_INT_VALUE_CHANGED(int val)
-        {
-            this.obtainMessage(ON_INT_VALUE_CHANGED,val).sendToTarget();
-        }
-
-        public void setON_UPDATE_SETTING(int val)
-        {
-            this.obtainMessage(ON_UPDATE_SETTING,val).sendToTarget();
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what)
-            {
-                case ONISSUPPRTEDCHANGED:
-                    if ((boolean)msg.obj) {
-                        setVisibility(View.VISIBLE);
-                        animate().setListener(null).scaleX(1f).setDuration(300);
-                    }
-                    else
-                    {
-                        animate().setListener(hideListner).scaleX(0f).setDuration(300);
-                    }
-                    break;
-                case ON_IS_SET_SUPPORTED_CHANGED:
-                    if ((boolean)msg.obj) {
-                        setEnabled(true);
-                        imageView.getDrawable().setColorFilter(Color.TRANSPARENT, Mode.SRC_ATOP);
-                    } else {
-                        setEnabled(false);
-                        imageView.getDrawable().setColorFilter(Color.GRAY, Mode.SRC_ATOP);
-                    }
-                    break;
-                case ON_STRING_VALUE_CHANGED:
-                    valueTextView.setText(String.valueOf(msg.obj));
-                    break;
-                case ON_INT_VALUE_CHANGED:
-                    String txt = getStringValue((int)msg.obj);
-                    if (txt != null && !TextUtils.isEmpty(txt) && !txt.equals("null"))
-                        valueTextView.setText(txt);
-                    else
-                        valueTextView.setText((int)msg.obj);
-                    //Log.d(TAG, "setTextValue:" + valueTextView.getText());
-                    break;
-                case ON_UPDATE_SETTING:
-                    if (settingMode != null)
-                        settingMode.set(String.valueOf((int)msg.obj));
-                    break;
-                default:
-                    super.handleMessage(msg);
-                    break;
-            }
-
-        }
-    }
-
     private final String TAG = ManualButton.class.getSimpleName();
     private String[] parameterValues;
     private ParameterInterface parameter;
@@ -144,12 +58,12 @@ public class ManualButton extends LinearLayout implements ParameterEvents
     private int pos;
     protected ActivityInterface fragment_activityInterface;
     private SettingsManager.SettingMode settingMode;
-    private UiHandler handler;
+    private ManualButtonHandler handler;
 
     public ManualButton(Context context, SettingsManager.SettingMode settingMode, ParameterInterface parameter, int drawableImg)
     {
         super(context);
-        handler = new UiHandler();
+        handler = new ManualButtonHandler(this);
         init(context);
         this.settingMode = settingMode;
         SetManualParameter(parameter);
@@ -298,6 +212,47 @@ public class ManualButton extends LinearLayout implements ParameterEvents
             setBackgroundColor(backgroundColorActive);
         } else {
             setBackgroundColor(backgroundColor);
+        }
+    }
+
+    @Override
+    public void handelMainMessage(Message msg) {
+        switch (msg.what)
+        {
+            case ManualButtonHandler.ONISSUPPRTEDCHANGED:
+                if ((boolean)msg.obj) {
+                    setVisibility(View.VISIBLE);
+                    animate().setListener(null).scaleX(1f).setDuration(300);
+                }
+                else
+                {
+                    animate().setListener(hideListner).scaleX(0f).setDuration(300);
+                }
+                break;
+            case ManualButtonHandler.ON_IS_SET_SUPPORTED_CHANGED:
+                if ((boolean)msg.obj) {
+                    setEnabled(true);
+                    imageView.getDrawable().setColorFilter(Color.TRANSPARENT, Mode.SRC_ATOP);
+                } else {
+                    setEnabled(false);
+                    imageView.getDrawable().setColorFilter(Color.GRAY, Mode.SRC_ATOP);
+                }
+                break;
+            case ManualButtonHandler.ON_STRING_VALUE_CHANGED:
+                valueTextView.setText(String.valueOf(msg.obj));
+                break;
+            case ManualButtonHandler.ON_INT_VALUE_CHANGED:
+                String txt = getStringValue((int)msg.obj);
+                if (txt != null && !TextUtils.isEmpty(txt) && !txt.equals("null"))
+                    valueTextView.setText(txt);
+                else
+                    valueTextView.setText((int)msg.obj);
+                //Log.d(TAG, "setTextValue:" + valueTextView.getText());
+                break;
+            case ManualButtonHandler.ON_UPDATE_SETTING:
+                if (settingMode != null)
+                    settingMode.set(String.valueOf((int)msg.obj));
+                break;
         }
     }
 
