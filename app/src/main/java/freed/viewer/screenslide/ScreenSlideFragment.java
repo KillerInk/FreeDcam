@@ -434,6 +434,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                     exifHandler.setSHUTTERSPEED("S:" + getShutterStringSeconds(Double.parseDouble(expostring)));
                 }
             }catch (NullPointerException e){
+                Log.WriteEx(e);
                 exifHandler.setSHUTTERSPEED("");
             }
             try
@@ -445,6 +446,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                     exifHandler.setFNUM("");
             }catch (NullPointerException e){
                 exifHandler.setFNUM("");
+                Log.WriteEx(e);
             }
             try {
                 String focs = exifInterface.getAttribute(ExifInterface.TAG_APERTURE_VALUE);
@@ -465,6 +467,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                 }
             }catch (NullPointerException e){
                 exifHandler.setFOCAL("");
+                Log.WriteEx(e);
             }
             try {
                 String isos = exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
@@ -474,6 +477,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                     exifHandler.setISO("");
             }catch (NullPointerException e){
                 exifHandler.setISO("");
+                Log.WriteEx(e);
             }
             return true;
         }

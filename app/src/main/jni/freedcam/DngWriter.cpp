@@ -229,10 +229,6 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
 
 void DngWriter::writeExifIfd(TIFF *tif) {
     /////////////////////////////////// EXIF IFD //////////////////////////////
-    LOGD("EXIF IFD DATA");
-    if (TIFFCreateEXIFDirectory(tif) != 0) {
-        LOGD("TIFFCreateEXIFDirectory() failed" );
-    }
     short iso[] = {_iso};
     LOGD("EXIF dir created");
     if (!TIFFSetField( tif, EXIFTAG_ISOSPEEDRATINGS,1, iso)) {
@@ -663,7 +659,6 @@ void DngWriter::writeRawStuff(TIFF *tif) {
 
 void DngWriter::WriteDNG() {
     uint64 gps_offset = 0;
-    uint64 exif_offset = 0;
     TIFF *tif;
     LOGD("has file description: %b", hasFileDes);
     if(hasFileDes == true)
@@ -675,8 +670,7 @@ void DngWriter::WriteDNG() {
 
     LOGD("writeIfd0");
     writeIfd0(tif);
-    //allocate empty exifIFD tag
-    TIFFSetField (tif, TIFFTAG_EXIFIFD, exif_offset);
+    writeExifIfd(tif);
     if(gps == true)
     {   //allocate empty GPSIFD tag
         TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);        
@@ -684,28 +678,19 @@ void DngWriter::WriteDNG() {
     //save directory
     LOGD("TIFFCheckpointDirectory");
     TIFFCheckpointDirectory(tif);
-
-    LOGD("writeExifIfd");
-    //write and store exififd
-    writeExifIfd(tif);    
-    TIFFWriteCustomDirectory(tif, &exif_offset);    
     
     LOGD("set exif");
 
     if(gps == true)
     {
         makeGPS_IFD(tif);        
-        TIFFWriteCustomDirectory(tif, &gps_offset);	
-        
-	// set GPSIFD tag
-	TIFFSetDirectory(tif, 0);
-	TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);    	
-	TIFFCheckpointDirectory(tif);    	        
+        TIFFWriteCustomDirectory(tif, &gps_offset);
+        // set GPSIFD tag
+        TIFFSetDirectory(tif, 0);
+        TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);
+        TIFFCheckpointDirectory(tif);
+        TIFFSetDirectory(tif, 0);
     }
-    
-    //set exififd tag
-    TIFFSetDirectory(tif, 0);
-    TIFFSetField (tif, TIFFTAG_EXIFIFD, exif_offset);        
     
     writeRawStuff(tif);
 
