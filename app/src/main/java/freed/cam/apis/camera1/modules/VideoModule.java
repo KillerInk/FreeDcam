@@ -181,7 +181,7 @@ public class VideoModule extends AbstractVideoModule
                 }
             }
 
-            if (SettingsManager.getInstance().get(Settings.PreviewFpsRange).isSupported()) {
+            if (SettingsManager.get(Settings.PreviewFpsRange).isSupported()) {
 
                 if (currentProfile.videoFrameRate <= 30) {
                     cameraUiWrapper.getParameterHandler().get(Settings.PreviewFpsRange).SetValue(String.valueOf(currentProfile.videoFrameRate * 1000) + "," + String.valueOf(currentProfile.videoFrameRate * 1000),true);

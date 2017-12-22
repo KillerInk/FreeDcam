@@ -210,7 +210,7 @@ public class ParametersHandler extends AbstractParameterHandler
             add(Settings.PreviewFPS, new PreviewFpsParameter(cameraParameters,cameraUiWrapper,appS.get(Settings.PreviewFPS)));
 
         if (appS.get(Settings.PreviewFpsRange).isSupported())
-            add(Settings.PreviewFPS, new BaseModeParameter(cameraParameters, cameraUiWrapper, appS.get(Settings.PreviewFpsRange)));
+            add(Settings.PreviewFpsRange, new BaseModeParameter(cameraParameters, cameraUiWrapper, appS.get(Settings.PreviewFpsRange)));
 
         if (appS.get(Settings.PreviewFormat).isSupported())
             add(Settings.PreviewFormat,  new BaseModeParameter(cameraParameters,cameraUiWrapper,appS.get(Settings.PreviewFormat)));
