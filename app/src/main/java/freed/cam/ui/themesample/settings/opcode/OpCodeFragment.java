@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.troop.freedcam.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import freed.image.ImageManager;
@@ -41,6 +42,8 @@ public class OpCodeFragment extends Fragment implements ListView.OnItemClickList
         if (itemsholder.getChildCount() > 0)
             itemsholder.removeAllViews();
         List<OpCodeUrl> list = SettingsManager.getInstance().opcodeUrlList;
+        if (list == null)
+            list = new ArrayList<>();
         int camercount = SettingsManager.getInstance().getCamerasCount();
         for (int i = 0; i< camercount;i++)
         {
