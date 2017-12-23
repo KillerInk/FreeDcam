@@ -181,12 +181,20 @@ public class VideoModule extends AbstractVideoModule
                 }
             }
 
-            if (SettingsManager.get(Settings.PreviewFpsRange).isSupported()) {
+            try {
+                if (SettingsManager.get(Settings.PreviewFpsRange).isSupported()) {
 
-                if (currentProfile.videoFrameRate <= 30) {
-                    cameraUiWrapper.getParameterHandler().get(Settings.PreviewFpsRange).SetValue(String.valueOf(currentProfile.videoFrameRate * 1000) + "," + String.valueOf(currentProfile.videoFrameRate * 1000),true);
+                    if (currentProfile.videoFrameRate <= 30) {
+                        cameraUiWrapper.getParameterHandler().get(Settings.PreviewFpsRange).SetValue(String.valueOf(currentProfile.videoFrameRate * 1000) + "," + String.valueOf(currentProfile.videoFrameRate * 1000),true);
+                    }
                 }
             }
+            catch (NullPointerException ex)
+            {
+                Log.d(TAG, "Preview Fps throws NullPointer");
+                Log.WriteEx(ex);
+            }
+
             if (currentProfile.videoFrameHeight >=2160)
             {
                 Log.d(TAG,"prepare 4k video");
