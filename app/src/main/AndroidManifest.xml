@@ -3,7 +3,7 @@
     package="com.troop.freedcam"
     android:installLocation="auto">
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="com.sonyericsson.permission.CAMERA_EXTENDED" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -14,12 +14,13 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <uses-permission android:name="android.permission.HW_CAMCFG_SERVICE" />
-
     <uses-permission android:name="com.huawei.camera.permission.PRIVATE" />
     <uses-permission android:name="huawei.android.permission.HW_SIGNATURE_OR_SYSTEM" />
+
+    <uses-permission android:name="com.sonyericsson.permission.CAMERA_EXTENDED" />
     <!-- only for system apps
     <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" /> -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
 
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>

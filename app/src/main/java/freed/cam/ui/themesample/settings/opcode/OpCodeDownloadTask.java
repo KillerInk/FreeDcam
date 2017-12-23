@@ -52,20 +52,22 @@ public class OpCodeDownloadTask extends ImageTask {
 
     @Override
     public boolean process() {
-        if (!TextUtils.isEmpty(url.getOpcode2Url()))
-            try {
-                httpsGet(url.getOpcode2Url(), url.getID() + "opc2.bin");
-            } catch (IOException ex) {
-                Log.WriteEx(ex);
-                UserMessageHandler.sendMSG(ex.getLocalizedMessage(),true);
-            }
-        if (!TextUtils.isEmpty(url.getOpcode3Url()))
-            try {
-                httpsGet(url.getOpcode3Url(), url.getID() + "opc3.bin");
-            } catch (IOException ex) {
-                Log.WriteEx(ex);
-                UserMessageHandler.sendMSG(ex.getLocalizedMessage(),true);
-            }
+        if (url != null) {
+            if (!TextUtils.isEmpty(url.getOpcode2Url()))
+                try {
+                    httpsGet(url.getOpcode2Url(), url.getID() + "opc2.bin");
+                } catch (IOException ex) {
+                    Log.WriteEx(ex);
+                    UserMessageHandler.sendMSG(ex.getLocalizedMessage(), true);
+                }
+            if (!TextUtils.isEmpty(url.getOpcode3Url()))
+                try {
+                    httpsGet(url.getOpcode3Url(), url.getID() + "opc3.bin");
+                } catch (IOException ex) {
+                    Log.WriteEx(ex);
+                    UserMessageHandler.sendMSG(ex.getLocalizedMessage(), true);
+                }
+        }
             if (eventslistner != null)
                 eventslistner.onComplete();
         return false;

@@ -95,6 +95,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         startBackgroundThread();
+        invalidate();
     }
 
     @Override

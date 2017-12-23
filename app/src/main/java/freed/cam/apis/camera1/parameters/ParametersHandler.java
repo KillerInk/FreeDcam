@@ -140,10 +140,18 @@ public class ParametersHandler extends AbstractParameterHandler
         Log.d(TAG, "Model:" + Build.MODEL);
         Log.d(TAG, "Product:" + Build.PRODUCT);
         Log.d(TAG, "OS:" + System.getProperty("os.version"));
-        String[] split = parameters.flatten().split(";");
-        for(String e : split)
-        {
-            Log.d(TAG,e);
+        if (parameters != null) {
+            try {
+                String[] split = parameters.flatten().split(";");
+                for (String e : split) {
+                    Log.d(TAG, e);
+                }
+            }
+            catch (NullPointerException ex)
+            {
+                Log.WriteEx(ex);
+            }
+
         }
     }
 

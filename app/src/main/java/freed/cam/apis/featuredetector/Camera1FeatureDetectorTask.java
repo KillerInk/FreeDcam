@@ -764,11 +764,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         else {
             int min = 0, max = 0;
-            if (parameters.get(camstring(R.string.brightness_max)) != null) {
+            if (parameters.get(camstring(R.string.brightness_max)) != null && parameters.get(camstring(R.string.brightness_min)) != null) {
                 Log.d(TAG, "Brightness: Default");
                 min = Integer.parseInt(parameters.get(camstring(R.string.brightness_min)));
                 max = Integer.parseInt(parameters.get(camstring(R.string.brightness_max)));
-            } else if (parameters.get(camstring(R.string.max_brightness)) != null) {
+            } else if (parameters.get(camstring(R.string.max_brightness)) != null && parameters.get(camstring(R.string.min_brightness)) != null) {
                 min = Integer.parseInt(parameters.get(camstring(R.string.min_brightness)));
                 max = Integer.parseInt(parameters.get(camstring(R.string.max_brightness)));
                 Log.d(TAG, "Brightness: Default");

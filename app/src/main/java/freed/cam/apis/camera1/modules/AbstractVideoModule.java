@@ -156,7 +156,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             } catch (Exception ex)
             {
                 Log.e(TAG,"Recording failed");
-                UserMessageHandler.sendMSG("Start Recording failed",false);
+                UserMessageHandler.sendMSG("Start Recording failed " + ex.getLocalizedMessage(),false);
                 Log.WriteEx(ex);
                 recorder.reset();
                 isWorking = false;
