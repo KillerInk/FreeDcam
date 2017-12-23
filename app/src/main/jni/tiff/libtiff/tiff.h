@@ -448,6 +448,7 @@ typedef enum {
 #define	TIFFTAG_FAXRECVTIME		34910	/* receive time (secs) */
 #define	TIFFTAG_FAXDCS			34911	/* encoded fax ses. params, Table 2/T.30 */
 /* tags 37439-37443 are registered to SGI <gregl@sgi.com> */
+#define     TIFFTAG_EP_STANDARD_ID         37398
 #define TIFFTAG_STONITS			37439	/* Sample value to Nits */
 /* tag 34929 is a private tag registered to FedEx */
 #define	TIFFTAG_FEDEX_EDR		34929	/* unknown use */
@@ -616,6 +617,7 @@ typedef enum {
 #define TIFFTAG_PERSAMPLE       65563	/* interface for per sample tags */
 #define     PERSAMPLE_MERGED        0	/* present as a single value */
 #define     PERSAMPLE_MULTI         1	/* present as multiple values */
+
 
 //////////////////////////////////////////////////////////////////////////////////////GPS Tags 09-02-2015/////////////////////////////////////////////
 #define GPSTAG_GPSVersionID		0

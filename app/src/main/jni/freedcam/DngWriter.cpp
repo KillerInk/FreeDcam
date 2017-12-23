@@ -101,7 +101,8 @@ void DngWriter::writeIfd0(TIFF *tif) {
     if(_dateTime != NULL)
         TIFFSetField(tif,TIFFTAG_DATETIME, _dateTime);
     LOGD("software");
-    TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
+    TIFFSetField(tif, TIFFTAG_EP_STANDARD_ID, "\001\000\0\0");
+    TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\004\0\0");
     TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
     LOGD("dngversion");
     TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, _model);
@@ -114,8 +115,8 @@ void DngWriter::writeIfd0(TIFF *tif) {
     LOGD("neutralMatrix");
     //STANDARD A = FIIRST 17
     //D65 21 Second According to DNG SPEC 1.4 this is the correct order
-    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 17);
-    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 21);
+    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
+    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
     LOGD("colormatrix2");
     TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, colorMatrix2);
     LOGD("fowardMatrix1");
