@@ -111,9 +111,17 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         }
         add(Settings.JpegQuality, new JpegQualityModeApi2(cameraUiWrapper));
 
-        WbHandler wbHandler = new WbHandler(cameraUiWrapper);
-        add(Settings.M_Whitebalance, wbHandler.manualWbCt);
-        add(Settings.WhiteBalanceMode, wbHandler.whiteBalanceApi2);
+        try {
+            WbHandler wbHandler = new WbHandler(cameraUiWrapper);
+            add(Settings.M_Whitebalance, wbHandler.manualWbCt);
+            add(Settings.WhiteBalanceMode, wbHandler.whiteBalanceApi2);
+        }
+        catch (NullPointerException ex)
+        {
+            Log.d(TAG, "seem whitebalance is unsupported");
+            Log.WriteEx(ex);
+        }
+
         //dont make that avail for the ui its only internal used
         //ColorCorrectionMode = colorCorrectionMode;
 

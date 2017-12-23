@@ -109,7 +109,7 @@ public class WbHandler
             }
             stringvalues = new String[parameterValues.size()];
             parameterValues.keySet().toArray(stringvalues);
-            if (colorCorrectionMode != null)
+            if (colorCorrectionMode != null && colorCorrectionMode.GetStringValue() != null)
                 lastcctmode = colorCorrectionMode.GetStringValue();
         }
 
