@@ -58,14 +58,15 @@ public class FocusPeakModeParameter extends BaseModeParameter {
         }
         else
             focusPeakProcessorAp1.Enable(false);
-        ((Camera1Fragment)cameraUiWrapper).onModuleChanged("");
+        fireStringValueChanged(GetStringValue());
+        //((Camera1Fragment)cameraUiWrapper).onModuleChanged("");
     }
 
     @Override
     public String GetStringValue()
     {
         if (focusPeakProcessorAp1 == null) {
-            onIsSupportedChanged(false);
+            fireIsSupportedChanged(false);
             return cameraUiWrapper.getResString(R.string.off_);
         }
         if (focusPeakProcessorAp1.isEnable())
@@ -89,8 +90,8 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     public void onStringValueChanged(String value) {
         super.onStringValueChanged(value);
         if (value.equals(cameraUiWrapper.getResString(R.string.true_)))
-            super.onStringValueChanged(cameraUiWrapper.getResString(R.string.on));
+            super.onStringValueChanged(cameraUiWrapper.getResString(R.string.on_));
         else if (value.equals(cameraUiWrapper.getResString(R.string.false_)))
-            super.onStringValueChanged(cameraUiWrapper.getResString(R.string.off));
+            super.onStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
     }
 }

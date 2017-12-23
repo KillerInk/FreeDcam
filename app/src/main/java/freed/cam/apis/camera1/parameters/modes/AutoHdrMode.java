@@ -75,7 +75,7 @@ public class AutoHdrMode extends BaseModeParameter {
         }
         Log.d(TAG, "set auto hdr");
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        onStringValueChanged(valueToSet);
+        fireStringValueChanged(valueToSet);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class AutoHdrMode extends BaseModeParameter {
         {
             if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_))) {
                 show();
-                onIsSupportedChanged(true);
+                fireIsSupportedChanged(true);
             }
             else
             {
@@ -134,14 +134,14 @@ public class AutoHdrMode extends BaseModeParameter {
         state = GetStringValue();
         visible = false;
         SetValue(cameraUiWrapper.getResString(R.string.off_),true);
-        onStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
-        onIsSupportedChanged(visible);
+        fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
+        fireIsSupportedChanged(visible);
     }
     private void show()
     {
         visible = true;
         SetValue(state,true);
-        onStringValueChanged(state);
-        onIsSupportedChanged(visible);
+        fireStringValueChanged(state);
+        fireIsSupportedChanged(visible);
     }
 }

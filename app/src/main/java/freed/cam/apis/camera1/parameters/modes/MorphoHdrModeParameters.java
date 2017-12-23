@@ -55,7 +55,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
         }
 
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        onStringValueChanged(valueToSet);
+        fireStringValueChanged(valueToSet);
     }
 
     @Override
@@ -64,25 +64,25 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
         if(cameraUiWrapper == null) {
             Log.d(TAG, "cameraUiWrapper null");
             isSupported =false;
-            onIsSupportedChanged(false);
+            fireIsSupportedChanged(false);
             return cameraUiWrapper.getResString(R.string.off_);
         }
         if (parameters == null) {
             Log.d(TAG, "Parameters are null");
             isSupported =false;
-            onIsSupportedChanged(false);
+            fireIsSupportedChanged(false);
             return cameraUiWrapper.getResString(R.string.off_);
         }
         if (parameters.get(cameraUiWrapper.getResString(R.string.morpho_hdr)) == null) {
             Log.d(TAG, "MorphoHdr is null");
             isSupported =false;
-            onIsSupportedChanged(false);
+            fireIsSupportedChanged(false);
             return cameraUiWrapper.getResString(R.string.off_);
         }
         if (parameters.get(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr)) == null){
             Log.d(TAG, "Ae bracket is null");
             isSupported =false;
-            onIsSupportedChanged(false);
+            fireIsSupportedChanged(false);
             return cameraUiWrapper.getResString(R.string.off_);
         }
 
@@ -115,7 +115,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
         {
             if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_))) {
                 Show();
-                onIsSupportedChanged(true);
+                fireIsSupportedChanged(true);
             }
             else
             {
@@ -141,14 +141,14 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
         state = GetStringValue();
         visible = false;
         SetValue(cameraUiWrapper.getResString(R.string.off_),true);
-        onStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
-        onIsSupportedChanged(visible);
+        fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
+        fireIsSupportedChanged(visible);
     }
     private void Show()
     {
         visible = true;
         SetValue(state,true);
-        onStringValueChanged(state);
-        onIsSupportedChanged(visible);
+        fireStringValueChanged(state);
+        fireIsSupportedChanged(visible);
     }
 }

@@ -74,6 +74,7 @@ public class BaseModeParameter extends AbstractParameter implements ModuleChange
             Log.d(TAG,"SetValue:" + key_value);
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         }
+        fireStringValueChanged(valueToSet);
     }
 
     @Override

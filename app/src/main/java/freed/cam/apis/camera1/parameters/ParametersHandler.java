@@ -274,13 +274,22 @@ public class ParametersHandler extends AbstractParameterHandler
                     //HDRMode = new MorphoHdrModeParameters(cameraParameters,cameraUiWrapper,appS.hdrMode);
                     break;
                 case SettingsManager.HDR_AUTO:
-                    add(Settings.HDRMode, new AutoHdrMode(cameraParameters,cameraUiWrapper,appS.get(Settings.HDRMode)));
+                    AutoHdrMode autoHdrMode = new AutoHdrMode(cameraParameters,cameraUiWrapper,appS.get(Settings.HDRMode));
+                    add(Settings.HDRMode, autoHdrMode);
+                    cameraUiWrapper.getModuleHandler().addListner(autoHdrMode);
+                    get(Settings.PictureFormat).addEventListner(autoHdrMode);
                     break;
                 case SettingsManager.HDR_LG:
-                    add(Settings.HDRMode,new LgHdrMode(cameraParameters,cameraUiWrapper,appS.get(Settings.HDRMode)));
+                    LgHdrMode lgHdrMode = new LgHdrMode(cameraParameters,cameraUiWrapper,appS.get(Settings.HDRMode));
+                    add(Settings.HDRMode,lgHdrMode);
+                    cameraUiWrapper.getModuleHandler().addListner(lgHdrMode);
+                    get(Settings.PictureFormat).addEventListner(lgHdrMode);
                     break;
                 case SettingsManager.HDR_MOTO:
-                    add(Settings.HDRMode, new MotoHDR(cameraParameters,cameraUiWrapper,appS.get(Settings.HDRMode)));
+                    MotoHDR motoHDR = new MotoHDR(cameraParameters,cameraUiWrapper,appS.get(Settings.HDRMode));
+                    add(Settings.HDRMode, motoHDR);
+                    cameraUiWrapper.getModuleHandler().addListner(motoHDR);
+                    get(Settings.PictureFormat).addEventListner(motoHDR);
                     break;
             }
         }

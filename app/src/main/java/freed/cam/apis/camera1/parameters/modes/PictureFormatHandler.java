@@ -139,11 +139,11 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         if (module.equals(cameraUiWrapper.getResString(R.string.module_video)))
         {
-            onIsSupportedChanged(false);
+            fireIsSupportedChanged(false);
         }
         else
         {
-            onIsSupportedChanged(true);
+            fireIsSupportedChanged(true);
         }
     }
 

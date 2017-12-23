@@ -130,7 +130,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
      * @param settingMode to use
      * @param backgroundImg id that get used
      */
-    private void setUiItem(LinearLayout layout, ParameterInterface parameter, SettingsManager.SettingMode settingMode, int backgroundImg)
+    private UiSettingsChild setUiItem(LinearLayout layout, ParameterInterface parameter, SettingsManager.SettingMode settingMode, int backgroundImg)
     {
         UiSettingsChild child = new UiSettingsChild(getContext());
         child.SetParameter(parameter);
@@ -138,6 +138,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         child.setBackgroundResource(backgroundImg);
         child.SetMenuItemClickListner(this,true);
         layout.addView(child);
+        return child;
     }
 
     private void setUiItem(LinearLayout layout, ParameterInterface parameter, String settingMode, int backgroundImg)
