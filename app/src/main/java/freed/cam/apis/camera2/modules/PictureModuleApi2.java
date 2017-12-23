@@ -47,6 +47,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
+import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.cam.apis.camera2.parameters.AeHandler;
@@ -83,10 +84,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
     private boolean captureDng = false;
     private boolean captureJpeg = false;
+    protected Camera2Fragment cameraUiWrapper;
 
 
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
+        this.cameraUiWrapper = (Camera2Fragment)cameraUiWrapper;
         name = cameraUiWrapper.getResString(R.string.module_picture);
         filesSaved = new ArrayList<>();
     }
@@ -108,7 +111,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         Log.d(TAG, "InitModule");
         changeCaptureState(CaptureStates.image_capture_stop);
         cameraUiWrapper.getParameterHandler().get(Settings.M_Burst).SetValue(0, true);
-        if (cameraHolder.captureSessionHandler.getSurfaceTexture() != null)
+        if (cameraUiWrapper.captureSessionHandler.getSurfaceTexture() != null)
             startPreview();
     }
 
@@ -116,7 +119,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     public void DestroyModule()
     {
         Log.d(TAG, "DestroyModule");
-        cameraHolder.captureSessionHandler.CloseCaptureSession();
+        cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         cameraUiWrapper.getFocusPeakProcessor().kill();
         if (rawReader != null){
             rawReader.close();
@@ -137,7 +140,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         else if (isWorking)
         {
             Log.d(TAG, "cancel capture");
-            cameraHolder.captureSessionHandler.cancelCapture();
+            cameraUiWrapper.captureSessionHandler.cancelCapture();
             finishCapture();
             changeCaptureState(CaptureStates.image_capture_stop);
         }
@@ -155,11 +158,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         if (SettingsManager.get(Settings.orientationHack).getBoolean())
             orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation+180)%360;
         Log.d(TAG, "orientation to set :" +orientationToSet);
-        cameraHolder.captureSessionHandler.SetParameter(CaptureRequest.JPEG_ORIENTATION, orientationToSet);
+        cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_ORIENTATION, orientationToSet);
 
         // Here, we create a CameraCaptureSession for camera preview
 
-        Size previewSize = cameraHolder.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, mImageWidth, mImageHeight);
+        Size previewSize = cameraUiWrapper.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, mImageWidth, mImageHeight);
         if (cameraUiWrapper.getFocusPeakProcessor() != null)
         {
             cameraUiWrapper.getFocusPeakProcessor().kill();
@@ -184,31 +187,31 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,false);
+                cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,false);
             }
         });
 
-        SurfaceTexture texture = cameraHolder.captureSessionHandler.getSurfaceTexture();
+        SurfaceTexture texture = cameraUiWrapper.captureSessionHandler.getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
         Surface previewsurface = new Surface(texture);
 
         cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight());
         cameraUiWrapper.getFocusPeakProcessor().setOutputSurface(previewsurface);
         Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
-        cameraHolder.captureSessionHandler.AddSurface(camerasurface,true);
+        cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface,true);
 
         if (jpegReader != null)
-            cameraHolder.captureSessionHandler.AddSurface(jpegReader.getSurface(),false);
+            cameraUiWrapper.captureSessionHandler.AddSurface(jpegReader.getSurface(),false);
         if (rawReader != null)
-            cameraHolder.captureSessionHandler.AddSurface(rawReader.getSurface(),false);
+            cameraUiWrapper.captureSessionHandler.AddSurface(rawReader.getSurface(),false);
 
-        cameraHolder.captureSessionHandler.CreateCaptureSession();
+        cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
 
-        cameraHolder.captureSessionHandler.createImageCaptureRequestBuilder();
+        cameraUiWrapper.captureSessionHandler.createImageCaptureRequestBuilder();
         if (jpegReader != null)
-            cameraHolder.captureSessionHandler.setImageCaptureSurface(jpegReader.getSurface());
+            cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(jpegReader.getSurface());
         if (rawReader != null)
-            cameraHolder.captureSessionHandler.setImageCaptureSurface(rawReader.getSurface());
+            cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(rawReader.getSurface());
         if (parameterHandler.get(Settings.M_Burst) != null)
             parameterHandler.get(Settings.M_Burst).fireStringValueChanged(parameterHandler.get(Settings.M_Burst).GetStringValue());
         cameraUiWrapper.onPreviewOpen("");
@@ -321,11 +324,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
                 isBurstCapture =false;
             onStartTakePicture();
 
-            if (SettingsManager.getInstance().hasCamera2Features() && cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
+            if (SettingsManager.getInstance().hasCamera2Features() && cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
                 PictureModuleApi2.this.setCaptureState(STATE_WAIT_FOR_PRECAPTURE);
                 Log.d(TAG,"Start AE Precapture");
                 startTimerLocked();
-                cameraHolder.StartAePrecapture(aecallback);
+                cameraUiWrapper.captureSessionHandler.StartAePrecapture(aecallback);
             }
             else
             {
@@ -360,7 +363,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         if (cameraUiWrapper.getParameterHandler().get(Settings.locationParameter).GetStringValue().equals(SettingsManager.getInstance().getResString(R.string.on_)))
         {
             currentCaptureHolder.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
-            cameraHolder.captureSessionHandler.SetParameter(CaptureRequest.JPEG_GPS_LOCATION,cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+            cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_GPS_LOCATION,cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
         }
 
         String cmat = SettingsManager.get(Settings.matrixChooser).get();
@@ -374,12 +377,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             rawReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
         }
 
-        cameraHolder.captureSessionHandler.StopRepeatingCaptureSession(null);
+        cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession(null);
         prepareCaptureBuilder(imagecount);
         Log.d(TAG, "CancelRepeatingCaptureSessoion set imageRdyCallback");
         CameraIsReadyToCaptureImage imageCaptureRdyCallback = new CameraIsReadyToCaptureImage(currentCaptureHolder);
-        if (!cameraHolder.captureSessionHandler.IsCaptureSessionRDY())
-            cameraHolder.captureSessionHandler.StopRepeatingCaptureSession(imageCaptureRdyCallback);
+        if (!cameraUiWrapper.captureSessionHandler.IsCaptureSessionRDY())
+            cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession(imageCaptureRdyCallback);
         else
             imageCaptureRdyCallback.onRdy();
 
@@ -398,7 +401,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         public void onRdy() {
             changeCaptureState(CaptureStates.image_capture_start);
             Log.d(TAG, "StartStillCapture");
-            cameraHolder.captureSessionHandler.StartImageCapture(captureCallback, mBackgroundHandler);
+            cameraUiWrapper.captureSessionHandler.StartImageCapture(captureCallback, mBackgroundHandler);
         }
     }
 
@@ -540,12 +543,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             if (Integer.parseInt(parameterHandler.get(Settings.M_Burst).GetStringValue())  > imagecount) {
                 captureStillPicture();
             }
-            else if (cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&
-                    cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME)> AeHandler.MAX_PREVIEW_EXPOSURETIME) {
-                cameraHolder.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME, AeHandler.MAX_PREVIEW_EXPOSURETIME);
-                cameraHolder.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_FRAME_DURATION, AeHandler.MAX_PREVIEW_EXPOSURETIME);
+            else if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&
+                    cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME)> AeHandler.MAX_PREVIEW_EXPOSURETIME) {
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME, AeHandler.MAX_PREVIEW_EXPOSURETIME);
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_FRAME_DURATION, AeHandler.MAX_PREVIEW_EXPOSURETIME);
                 Log.d(TAG, "CancelRepeatingCaptureSessoion set onSessionRdy");
-                cameraHolder.captureSessionHandler.CancelRepeatingCaptureSession(onSesssionRdy);
+                cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession(onSesssionRdy);
             }
             else {
                 onSesssionRdy.onRdy();
@@ -564,12 +567,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         @Override
         public void onRdy() {
             Log.d(TAG, "onSessionRdy() ######################### Rdy to Start Preview, CAPTURE CYCLE DONE #####################");
-            cameraHolder.captureSessionHandler.StartRepeatingCaptureSession();
-            if (cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
-                    || cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO) {
-                cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
+            cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
+            if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+                    || cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO) {
+                cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
                         CaptureRequest.CONTROL_AF_TRIGGER_CANCEL,true);
-                cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
+                cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
                         CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
             }
         }

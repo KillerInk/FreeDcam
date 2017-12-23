@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.cam.apis.camera2.Camera2Fragment;
 
 /**
  * Created by Ingo on 03.10.2016.
@@ -31,7 +31,7 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
     {
         int r;
         try {
-            r  = (int) ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.getPreviewParameter(CaptureRequest.JPEG_QUALITY);
+            r  = (int) ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.getPreviewParameter(CaptureRequest.JPEG_QUALITY);
         }
         catch (NullPointerException ex)
         {
@@ -55,7 +55,7 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
 
     @Override
     public void setValue(String valueToSet, boolean setToCamera) {
-        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_QUALITY, (byte)Integer.parseInt(valueToSet),setToCamera);
+        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_QUALITY, (byte)Integer.parseInt(valueToSet),setToCamera);
         fireStringValueChanged(valueToSet);
     }
 }

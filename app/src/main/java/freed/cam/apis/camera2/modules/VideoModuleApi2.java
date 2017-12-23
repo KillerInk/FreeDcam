@@ -54,6 +54,7 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -76,9 +77,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     private File recordingFile;
 
     private MediaRecorder mediaRecorder;
+    protected Camera2Fragment cameraUiWrapper;
 
     public VideoModuleApi2( CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
+        this.cameraUiWrapper = (Camera2Fragment)cameraUiWrapper;
         name = cameraUiWrapper.getResString(R.string.module_video);
     }
 
@@ -125,7 +128,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         if (isRecording)
             stopRecording();
         Log.d(TAG, "DestroyModule");
-        cameraHolder.captureSessionHandler.CloseCaptureSession();
+        cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         previewsurface = null;
     }
 
@@ -151,13 +154,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         Log.d(TAG, "stopRecording");
         mediaRecorder.stop();
         mediaRecorder.reset();
-        cameraHolder.captureSessionHandler.StopRepeatingCaptureSession();
-        cameraHolder.captureSessionHandler.RemoveSurface(recorderSurface);
+        cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
+        cameraUiWrapper.captureSessionHandler.RemoveSurface(recorderSurface);
         recorderSurface = null;
         isRecording = false;
 
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
-        cameraHolder.captureSessionHandler.CreateCaptureSession();
+        cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
         fireOnWorkFinish(recordingFile);
         cameraUiWrapper.getActivityInterface().ScanFile(recordingFile);
     }
@@ -189,18 +192,18 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                    cameraHolder.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,true);
+                cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,true);
             }
         });
 
-        SurfaceTexture texture = cameraHolder.captureSessionHandler.getSurfaceTexture();
+        SurfaceTexture texture = cameraUiWrapper.captureSessionHandler.getSurfaceTexture();
         if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
         else
             texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         previewsurface = new Surface(texture);
-        cameraHolder.captureSessionHandler.AddSurface(previewsurface,true);
-        cameraHolder.captureSessionHandler.CreateCaptureSession();
+        cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface,true);
+        cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
     }
 
     public Size getSizeForPreviewDependingOnImageSize(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
@@ -210,7 +213,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         double ratio = (double)mImageWidth/mImageHeight;
         for (Size s : choices)
         {
-            if (s.getWidth() <= cameraHolder.captureSessionHandler.displaySize.x && s.getHeight() <= cameraHolder.captureSessionHandler.displaySize.y && (double)s.getWidth()/s.getHeight() == ratio)
+            if (s.getWidth() <= cameraUiWrapper.captureSessionHandler.displaySize.x && s.getHeight() <= cameraUiWrapper.captureSessionHandler.displaySize.y && (double)s.getWidth()/s.getHeight() == ratio)
                 sizes.add(s);
 
         }
@@ -282,7 +285,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         mediaRecorder.setVideoEncodingBitRate(currentVideoProfile.videoBitRate);
 
         try {
-            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate),true);
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate),true);
         }catch (Exception e)
         {
             Log.WriteEx(e);
@@ -352,12 +355,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             return;
         }
         recorderSurface = mediaRecorder.getSurface();
-        cameraHolder.captureSessionHandler.AddSurface(recorderSurface,true);
+        cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface,true);
 
         if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
-            cameraHolder.captureSessionHandler.CreateCaptureSession(previewrdy);
+            cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewrdy);
         else
-            cameraHolder.captureSessionHandler.CreateHighSpeedCaptureSession(previewrdy);
+            cameraUiWrapper.captureSessionHandler.CreateHighSpeedCaptureSession(previewrdy);
     }
 
     private void setRecorderFilePath() {
@@ -395,14 +398,14 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         @Override
         public void onConfigured(CameraCaptureSession cameraCaptureSession)
         {
-            cameraHolder.captureSessionHandler.SetCaptureSession(cameraCaptureSession);
+            cameraUiWrapper.captureSessionHandler.SetCaptureSession(cameraCaptureSession);
             if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
 
-                cameraHolder.captureSessionHandler.StartRepeatingCaptureSession();
+                cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
             }
             else
             {
-                cameraHolder.captureSessionHandler.StartHighspeedCaptureSession();
+                cameraUiWrapper.captureSessionHandler.StartHighspeedCaptureSession();
             }
             mediaRecorder.start();
             isRecording = true;

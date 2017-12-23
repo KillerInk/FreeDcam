@@ -7,7 +7,7 @@ import android.os.Build;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.cam.apis.camera2.Camera2Fragment;
 
 /**
  * Created by Ingo on 03.10.2016.
@@ -26,7 +26,7 @@ public class AeLockModeApi2 extends BaseModeApi2 {
 
     @Override
     public String GetStringValue() {
-        if (((CameraHolderApi2)cameraUiWrapper.getCameraHolder()).captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_LOCK))
+        if (((Camera2Fragment)cameraUiWrapper).captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_LOCK))
             return cameraUiWrapper.getResString(R.string.true_);
         else
             return cameraUiWrapper.getResString(R.string.false_);
@@ -40,9 +40,9 @@ public class AeLockModeApi2 extends BaseModeApi2 {
     @Override
     public void setValue(String valueToSet, boolean setToCamera) {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.true_)))
-            ((CameraHolderApi2)cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true,setToCamera);
+            ((Camera2Fragment)cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true,setToCamera);
         else
-            ((CameraHolderApi2)cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,false,setToCamera);
+            ((Camera2Fragment)cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,false,setToCamera);
         //onValueHasChanged(valueToSet);
     }
 }

@@ -10,6 +10,7 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
 import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.TotalCaptureResult;
 import android.os.Build;
@@ -242,7 +243,7 @@ public class CaptureSessionHandler
             return;
         isHighSpeedSession = false;
         Log.d(TAG, "CreateCaptureSession:");
-        cameraHolderApi2.setWaitForFirstFrame();
+        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         try {
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
         } catch (CameraAccessException | SecurityException ex) {
@@ -258,7 +259,7 @@ public class CaptureSessionHandler
         if(cameraHolderApi2.mCameraDevice == null)
             return;
         isHighSpeedSession = true;
-        cameraHolderApi2.setWaitForFirstFrame();
+        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         Log.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
         try {
             cameraHolderApi2.mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, null);
@@ -572,6 +573,20 @@ public class CaptureSessionHandler
         }
 
         cameraHolderApi2.textureView.setTransform(matrix);
+    }
+
+    public void StartAePrecapture(CameraCaptureSession.CaptureCallback listener)
+    {
+        SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START,listener);
+    }
+
+    public <T> void SetFocusArea(@NonNull CaptureRequest.Key<T> key, T value)
+    {
+        SetParameter(key,null);
+        /*captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);*/
+        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        SetParameter(key,value);
+        SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
     }
 
 }

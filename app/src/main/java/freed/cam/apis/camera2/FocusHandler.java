@@ -145,7 +145,7 @@ public class FocusHandler extends AbstractFocusHandler
         logFocusRect(targetFocusRect);
         MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
+        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
     }
 
     public ParameterEvents aeModeListner = new ParameterEvents() {
@@ -208,8 +208,8 @@ public class FocusHandler extends AbstractFocusHandler
 
         MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_REGIONS, mre);
-        ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_REGIONS, mre);
+        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
     @Override

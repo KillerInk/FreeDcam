@@ -105,7 +105,7 @@ public class AfBracketApi2 extends PictureModuleApi2
 
     @Override
     protected void prepareCaptureBuilder(int captureNum) {
-        cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequest.LENS_FOCUS_DISTANCE, (float) currentFocusPos / 10);
+        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.LENS_FOCUS_DISTANCE, (float) currentFocusPos / 10);
         currentFocusPos +=focusStep;
         if (currentFocusPos > focuslength+min)
             currentFocusPos = focuslength+min;

@@ -85,14 +85,14 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     protected void onStartTakePicture() {
         maxiso = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
-        currentExposureTime = cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME);
-        currentiso = cameraHolder.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_SENSITIVITY);
+        currentExposureTime = cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME);
+        currentiso = cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_SENSITIVITY);
         if (currentExposureTime == 0)
         {
-            currentExposureTime = cameraHolder.currentExposureTime;
+            currentExposureTime = cameraUiWrapper.cameraBackroundValuesChangedListner.currentExposureTime;
         }
         if (currentiso == 0)
-            currentiso = cameraHolder.currentIso;
+            currentiso = cameraUiWrapper.cameraBackroundValuesChangedListner.currentIso;
         exposureTimeStep = currentExposureTime/2;
         aeWasOn = !SettingsManager.get(Settings.ExposureMode).get().equals(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.off));
     }
@@ -100,14 +100,14 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     protected void prepareCaptureBuilder(int captureNum) {
         long expotimeToSet = currentExposureTime;
-        cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF);
+        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF);
 
         if (currentiso >= maxiso)
             currentiso = maxiso;
         if (currentiso == 0)
             currentiso = 100;
         Log.d(TAG, "set iso to :" + currentiso);
-        cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_SENSITIVITY, currentiso);
+        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_SENSITIVITY, currentiso);
         if (0 == captureNum)
             expotimeToSet = currentExposureTime - exposureTimeStep;
         else if (1== captureNum)
@@ -115,9 +115,9 @@ public class AeBracketApi2 extends PictureModuleApi2
         else if (2 == captureNum)
             expotimeToSet = currentExposureTime + exposureTimeStep;
         Log.d(TAG,"Set shutter to:" + expotimeToSet);
-        cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME,expotimeToSet);
-        cameraHolder.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_FRAME_DURATION, expotimeToSet);
-        Log.d(TAG, "request: " +captureNum + " AE Mode:" + cameraHolder.captureSessionHandler.getImageCaptureParameter(CaptureRequest.CONTROL_AE_MODE) + " Expotime:" + cameraHolder.captureSessionHandler.getImageCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME) + " iso:" + cameraHolder.captureSessionHandler.getImageCaptureParameter(CaptureRequest.SENSOR_SENSITIVITY));
+        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME,expotimeToSet);
+        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_FRAME_DURATION, expotimeToSet);
+        Log.d(TAG, "request: " +captureNum + " AE Mode:" + cameraUiWrapper.captureSessionHandler.getImageCaptureParameter(CaptureRequest.CONTROL_AE_MODE) + " Expotime:" + cameraUiWrapper.captureSessionHandler.getImageCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME) + " iso:" + cameraUiWrapper.captureSessionHandler.getImageCaptureParameter(CaptureRequest.SENSOR_SENSITIVITY));
     }
 
 

@@ -38,8 +38,8 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraToMainHandler;
-import freed.cam.apis.basecamera.MainToCameraHandler;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
+import freed.cam.apis.basecamera.MainToCameraHandler;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;

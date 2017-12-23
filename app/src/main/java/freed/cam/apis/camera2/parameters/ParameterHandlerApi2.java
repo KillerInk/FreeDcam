@@ -34,6 +34,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
+import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.FocusHandler;
 import freed.cam.apis.camera2.parameters.huawei.HuaweiAeHandler;
@@ -64,10 +65,12 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
 
     private CameraHolderApi2 cameraHolder;
+    private Camera2Fragment camera2Fragment;
 
     public ParameterHandlerApi2(CameraWrapperInterface wrapper)
     {
         super(wrapper);
+        this.camera2Fragment = (Camera2Fragment) wrapper;
     }
 
 
@@ -197,7 +200,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         try
         {
             Log.d(TAG, "Set Orientation to:" + orientation);
-            cameraHolder.captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, orientation,true);
+            camera2Fragment.captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, orientation,true);
         }
         catch (NullPointerException ex)
         {
@@ -208,7 +211,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     @Override
     public float[] getFocusDistances()
     {
-        return cameraHolder.GetFocusRange();
+        return camera2Fragment.cameraBackroundValuesChangedListner.GetFocusRange();
     }
 
     @Override
@@ -220,6 +223,5 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     public int getCurrentIso() {
         return 0;
     }
-
 
 }

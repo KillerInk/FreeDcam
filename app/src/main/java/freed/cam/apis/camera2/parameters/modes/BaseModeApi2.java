@@ -29,7 +29,7 @@ import java.util.Map;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -50,7 +50,7 @@ public class BaseModeApi2 extends AbstractParameter
     public BaseModeApi2(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
-        this.captureSessionHandler = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler;
+        this.captureSessionHandler = ((Camera2Fragment) cameraUiWrapper).captureSessionHandler;
     }
 
     public BaseModeApi2(CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode, Key<Integer> parameterKey) {

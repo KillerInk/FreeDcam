@@ -27,7 +27,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.cam.apis.camera2.Camera2Fragment;
 import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -80,20 +80,20 @@ public class ManualFocus extends AbstractParameter
         if(valueToSet == 0)
         {
             cameraUiWrapper.getParameterHandler().get(Settings.FocusMode).SetValue(cameraUiWrapper.getContext().getString(R.string.auto), setToCamera);
-            ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,setToCamera);
+            ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,setToCamera);
         }
         else
         {
             if (!cameraUiWrapper.getParameterHandler().get(Settings.FocusMode).GetStringValue().equals(cameraUiWrapper.getContext().getString(R.string.off)))
             {
-                ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL,setToCamera);
+                ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL,setToCamera);
                 cameraUiWrapper.getParameterHandler().get(Settings.FocusMode).SetValue(cameraUiWrapper.getContext().getString(R.string.off), setToCamera);
             }
             if (currentInt > focusvalues.getSize())
                 currentInt = focusvalues.getSize() -1;
             float valtoset= focusvalues.getValue(currentInt);
             Log.d(TAG, "Set MF TO: " + valtoset+ " ValueTOSET: " + valueToSet);
-            ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).captureSessionHandler.SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, valtoset,setToCamera);
+            ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, valtoset,setToCamera);
         }
     }
 
