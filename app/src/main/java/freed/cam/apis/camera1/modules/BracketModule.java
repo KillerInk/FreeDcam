@@ -113,8 +113,8 @@ public class BracketModule extends PictureModule {
             value = 2;
 
         Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
-        int toset = value + cameraUiWrapper.getParameterHandler().get(Settings.M_ExposureTime).getStringValues().length / 2;
-        cameraUiWrapper.getParameterHandler().get(Settings.M_ExposureTime).SetValue(toset, true);
+        int toset = value + cameraUiWrapper.getParameterHandler().get(Settings.M_ExposureCompensation).getStringValues().length / 2;
+        cameraUiWrapper.getParameterHandler().get(Settings.M_ExposureCompensation).SetValue(toset, true);
         Log.d(TAG, "HDR Exposure SET");
     }
 
