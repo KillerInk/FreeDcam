@@ -467,9 +467,11 @@ public class ParametersHandler extends AbstractParameterHandler
 
         add(Settings.M_ExposureCompensation, new ExposureManualParameter(cameraParameters, cameraUiWrapper,1));
 
-        add(Settings.M_FX, new FXManualParameter(cameraParameters, cameraUiWrapper));
-        get(Settings.PictureFormat).addEventListner(((BaseManualParameter) get(Settings.M_FX)).GetPicFormatListner());
-        cameraUiWrapper.getModuleHandler().addListner(((BaseManualParameter)get(Settings.M_FX)).GetModuleListner());
+        if (appS.get(Settings.M_FX).isSupported()) {
+            add(Settings.M_FX, new FXManualParameter(cameraParameters, cameraUiWrapper));
+            get(Settings.PictureFormat).addEventListner(((BaseManualParameter) get(Settings.M_FX)).GetPicFormatListner());
+            cameraUiWrapper.getModuleHandler().addListner(((BaseManualParameter) get(Settings.M_FX)).GetModuleListner());
+        }
 
         if (appS.get(Settings.M_Burst).isSupported()){
             add(Settings.M_Burst, new BurstManualParam(cameraParameters, cameraUiWrapper));
