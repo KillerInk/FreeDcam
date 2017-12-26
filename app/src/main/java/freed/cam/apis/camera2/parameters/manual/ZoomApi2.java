@@ -37,28 +37,28 @@ import freed.utils.Log;
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class ZoomApi2 extends AbstractParameter
 {
-    final String TAG = ZoomApi2.class.getSimpleName();
+    private final String TAG = ZoomApi2.class.getSimpleName();
     private float maxzoom;
     private Rect sensorSize;
-    private int maxCropWidth;
-    private int maxCropHeight;
-    private int cropRangeWidth;
-    private int cropRangeHeight;
+    private int minCropWidth;
+    private int minCropHeight;
+    private int zoom;
+
+    private final int ZOOM_LIMITER = 100;
+
     public ZoomApi2(CameraWrapperInterface cameraUiWrapper)  {
         super(cameraUiWrapper);
         maxzoom = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
         sensorSize = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        maxCropWidth = (int) (sensorSize.width() / maxzoom);
-        maxCropHeight = (int) (sensorSize.height() / maxzoom);
+        //1000 - (1000 / 4) = 750 /100 = 7,5
+        int minCropW = (int)(sensorSize.width() - (sensorSize.width() / maxzoom));
+        int minCropH = (int)(sensorSize.height() - (sensorSize.height() / maxzoom));
 
-        cropRangeWidth = sensorSize.width() - maxCropWidth;
-        cropRangeHeight = sensorSize.height() - maxCropHeight;
+        minCropWidth =  (int) (minCropW/ZOOM_LIMITER);
+        minCropHeight = (int) (minCropH/ZOOM_LIMITER);
 
-        stringvalues = createStringArray(0,100,1);
+        stringvalues = createStringArray(0,ZOOM_LIMITER,1);
     }
-
-
-    private int zoom;
 
     @Override
     public boolean IsSupported() {
@@ -85,24 +85,12 @@ public class ZoomApi2 extends AbstractParameter
     public void setValue(int valueToSet, boolean setToCamera)
     {
         zoom = valueToSet;
-
-        int wstep = (int) (cropRangeWidth /100);
-        int hstep = (int)(cropRangeHeight /100);
-        int cropW = (int)(wstep * (zoom/maxzoom));
-        int cropH = (int)(hstep * (zoom/maxzoom));
-        Log.d(TAG, "maxZoomSize: " + maxCropWidth+"/"+ maxCropHeight + " cropSize: " + cropW+"/"+cropH);
-        /*cropW -= cropW & 3;
-        cropH -= cropH & 3;*/
+        // diff values /2 cause we set it foreach side.
+        int cropW = (int)((minCropWidth * zoom)/2);
+        int cropH = (int)((minCropHeight * zoom)/2);
+        Log.d(TAG, "maxZoomSize: " + minCropWidth +"/"+ minCropHeight + " cropSize: " + cropW+"/"+cropH);
         Rect zoom = new Rect(cropW, cropH,sensorSize.width()-cropW, sensorSize.height() - cropH);
         ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom,setToCamera);
     }
 
-    public Rect getZoomRect(float zoom, int imgWidth, int imgHeight)
-    {
-        int cropWidth = (int) ((imgWidth / 100) * zoom);
-        int cropHeight = (int) ((imgHeight / 100)* zoom);
-        int newW = imgWidth -cropWidth;
-        int newH = imgHeight-cropHeight;
-        return new Rect(cropWidth, cropHeight, newW,newH);
-    }
 }
