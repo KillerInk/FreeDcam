@@ -335,6 +335,10 @@ public class CaptureSessionHandler
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }
+        catch (IllegalArgumentException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
     public void StartRepeatingCaptureSession(CameraCaptureSession.CaptureCallback listener)
