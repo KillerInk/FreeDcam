@@ -360,7 +360,6 @@ public class SettingsManager {
         settingsmap.put(Settings.useHuaweiCamera2Extension,new SettingMode(getResString(R.string.aps_usehuaweicam2)));
         settingsmap.put(Settings.support12bitRaw,new SettingMode(getResString(R.string.aps_support12bitraw)));
         settingsmap.put(Settings.useQcomFocus,new SettingMode(getResString(R.string.aps_qcomfocus)));
-        settingsmap.put(Settings.dngSupportManuals,new SettingMode(getResString(R.string.aps_dngsupportmanualmodes)));
         settingsmap.put(Settings.forceRawToDng,new SettingMode(getResString(R.string.aps_forcerawtondng)));
         settingsmap.put(Settings.needRestartAfterCapture,new SettingMode(getResString(R.string.aps_needrestartaftercapture)));
         settingsmap.put(Settings.Ae_TargetFPS,new SettingMode(getResString(R.string.aps_ae_targetFPS)));

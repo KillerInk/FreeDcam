@@ -72,12 +72,6 @@ public class XmlParserWriter
                                 else
                                     SettingsManager.getInstance().setFramework(Camera1FeatureDetectorTask.getFramework());
 
-                                if (!camera1element.findChild("dngmanual").isEmpty())
-                                    SettingsManager.get(Settings.dngSupportManuals).setBoolean(Boolean.parseBoolean(camera1element.findChild("dngmanual").getValue()));
-                                else
-                                    SettingsManager.get(Settings.dngSupportManuals).setBoolean(true);
-                                Log.d(TAG, "dng manual supported:" + SettingsManager.get(Settings.dngSupportManuals).getBoolean());
-
                                 if (!camera1element.findChild("opencameralegacy").isEmpty()) {
                                     SettingsManager.get(Settings.openCamera1Legacy).setBoolean(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
                                     SettingsManager.get(Settings.openCamera1Legacy).setIsPresetted(true);

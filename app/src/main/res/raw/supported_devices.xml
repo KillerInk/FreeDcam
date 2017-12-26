@@ -11,8 +11,6 @@
         <camera1>//holds camera1 specfic stuff
             <framework>0</framework> // framework used by the device 0 = android, 1 = LG, 2 = MTK, 3 = Moto_ext
 
-            <dngmanual>false</dngmanual> false when the device dont support manual exposuretime and iso when shooting raw
-
             <opencameralegacy>true</opencameralegacy>//when empty/false default camera gets open
 
             <zteae>true</zteae>
@@ -105,9 +103,6 @@
         <models>
             <item>"Vodafone 985N"</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "9830400">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -125,9 +120,6 @@
             <item>ASUS_X014D</item>
             <item>ASUS_Z00VD</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "6144000">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -144,9 +136,6 @@
         <string-array>
             <item>ASUS_Z00ED</item>
         </string-array>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
     </device>
 
     <device name ="Blackberry_Priv">
@@ -159,9 +148,6 @@
             <item>STV100-4</item>
             <item>STV100-5</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "23472640">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -188,7 +174,6 @@
             <item>Aquaris_E5</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <manualiso>
                 <min>100</min>
                 <max>1600</max>
@@ -218,9 +203,6 @@
         <models>
             <item>Aquaris M5</item>
         </models>
-        <camera1>
-            <dngmanual>true</dngmanual>
-        </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -239,9 +221,6 @@
             <item>6045I</item>
             <item>6045K</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -268,9 +247,6 @@
         <models>
             <item>6039Y</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -287,9 +263,6 @@
         <models>
             <item>P9000</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -326,9 +299,6 @@
         <models>
             <item>E7</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "9990144">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -376,9 +346,6 @@
             <item>Forward_Art</item>
             <item>Primo GH2 By NFS GHOST</item>
         </models>
-        <camera1>
-            <dngmanual>true</dngmanual>
-        </camera1>
         <filesize size= "9830400">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -398,9 +365,6 @@
             <item>HTC ShooterU</item>
             <item>HTC Shooter</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
     </device>
 
     <device name ="Htc_M8">
@@ -428,7 +392,6 @@
             <item>m8wl</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <rawformat>bayer-qcom-10grbg</rawformat>
         </camera1>
         <filesize size= "5382641"> <!-- filesize < 6000000 && filesize > 5382641 //qcom -->
@@ -474,9 +437,6 @@
             <item>HTC6535LVW</item>
             <item>0PJA2</item>
         </models>
-        <camera1>
-            <dngmanual>true</dngmanual>
-        </camera1>
         <filesize size= "25677824">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -506,18 +466,12 @@
             <item>pmewl_00617</item>
             <item>htc_pmewl</item>
         </models>
-        <camera1>
-            <dngmanual>true</dngmanual>
-        </camera1>
     </device>
 
     <device name ="Htc_One_Sv">
         <models>
             <item>HTC One SV</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "6746112">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -534,9 +488,6 @@
         <models>
             <item>one xl</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "10782464">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -563,7 +514,6 @@
             <item>One_A9</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <rawformat>bayer-mipi-10bggr</rawformat>
         </camera1>
         <filesize size= "16424960">
@@ -582,9 +532,6 @@
         <models>
             <item>HTC One_E8</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "16560128">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -601,9 +548,6 @@
         <models>
             <item>HTC Desire 500</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "10782464">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -621,9 +565,6 @@
             <item>HTC Desire 830</item>
             <item>unknown</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "26257920">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -640,9 +581,6 @@
         <models>
             <item>HTC One mini 2</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "16560128">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -673,9 +611,6 @@
             <item>RIO-L03</item>
             <item>RIO-L04</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -711,9 +646,6 @@
             <item>HUAWEI KII-L23</item>
             <item>HUAWEI KII-L24</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
 
         <opcodes>
             <camera id="0">
@@ -738,9 +670,6 @@
         <models>
             <item>i-mobile i-STYLE Q6</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "9631728">
             <blacklvl>0</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -757,9 +686,6 @@
         <models>
             <item>InFocus M808</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "26023936">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -777,9 +703,6 @@
             <item>Pixel</item>
             <item>Pixel XL</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
     </device>
 
     <device name ="Jiayu_S3">
@@ -790,9 +713,6 @@
             <item>S3</item>
             <item>Jiayu_S3</item>
         </models>
-        <camera1>
-            <dngmanual>true</dngmanual>
-        </camera1>
 
         <opcodes>
             <camera id="0">
@@ -817,9 +737,6 @@
         <models>
             <item>C106</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
 
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
@@ -838,7 +755,6 @@
             <item>Lenovo X3a40</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
 
@@ -868,9 +784,6 @@
         <models>
             <item>Lenovo K910</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
 
         <filesize size= "6721536">
             <blacklvl>64</blacklvl>
@@ -911,9 +824,6 @@
             <item>K920 (ROW)</item>
             <item>K920 (CN)</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
 
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
@@ -931,9 +841,6 @@
         <models>
             <item>Lenovo A7010a48</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "19992576">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -951,9 +858,6 @@
             <item>Lenovo K50-t5</item>
             <item>K50-t5</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "26023936">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -971,9 +875,6 @@
             <item>Lenovo P1a42</item>
             <item>Lenovo_P1a42</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -990,9 +891,6 @@
         <models>
             <item>Lenovo Z90a40</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "19992576">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1009,9 +907,6 @@
         <models>
             <item>Lenovo Z90a40</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "26935296">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1065,7 +960,6 @@
             <item>VS980 4G</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <burst>7</burst>
             <hdrmode supported="true">2</hdrmode>
             <manualfocus>
@@ -1111,7 +1005,6 @@
             <item>LG-D838</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <exposuretime>
                 <values>shutter_lg_g2pro</values> <!-- see shutter_values.xml -->
                 <key>exposure-time</key>
@@ -1168,7 +1061,6 @@
             <item>VS986</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <opencameralegacy>true</opencameralegacy>
             <burst>6</burst>
             <manualfocus>
@@ -1230,7 +1122,6 @@
             <item>L-02F</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <burst>6</burst>
             <manualiso supported="false"></manualiso>
             <exposuretime></exposuretime>
@@ -1329,9 +1220,6 @@
         <models>
             <item>LG-E615</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "6659840">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1349,7 +1237,6 @@
     <device name ="LG_V20">
         <models><item>LG-H918</item></models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <manualfocus>
                 <min>0</min>
                 <max>60</max>
@@ -1394,9 +1281,6 @@
         <models>
             <item>U10</item>
         </models>
-        <camera1>
-            <dngmanual>true</dngmanual>
-        </camera1>
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1413,9 +1297,6 @@
         <models>
             <item>m1 metal</item>
         </models>
-        <camera1>
-            <dngmanual>true</dngmanual>
-        </camera1>
         <filesize size= "26492928">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1432,9 +1313,6 @@
         <models>
             <item>m3 note</item>
         </models>
-        <camera1>
-            <dngmanual>true</dngmanual>
-        </camera1>
         <filesize size= "26492928">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1451,9 +1329,6 @@
         <models>
             <item>MX4</item>
         </models>
-        <camera1>
-            <dngmanual>true</dngmanual>
-        </camera1>
         <filesize size= "41312256">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1470,9 +1345,6 @@
         <models>
             <item>MX5</item>
         </models>
-        <camera1>
-            <dngmanual>true</dngmanual>
-        </camera1>
         <filesize size= "41312256">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1490,9 +1362,6 @@
             <item>m2 note</item>
             <item>m2</item>
         </models>
-        <camera1>
-            <dngmanual>true</dngmanual>
-        </camera1>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1509,9 +1378,6 @@
         <models>
             <item>M52_Red_Note</item>
         </models>
-        <camera1>
-            <dngmanual>true</dngmanual>
-        </camera1>
         <filesize size= "15980544">
             <blacklvl>65</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1545,9 +1411,6 @@
             <item>XT1577</item>
             <item>XT1578</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <camera2>
             <maxexposuretime>10000000</maxexposuretime>
         </camera2>
@@ -1578,7 +1441,6 @@
             <item>MotoG3</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <needrestartaftercapture>true</needrestartaftercapture>
             <rawformat>bayer-qcom-10rggb</rawformat>
             <manualiso supported="true">
@@ -1611,7 +1473,6 @@
             <item>MotoG3-TE</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <needrestartaftercapture>true</needrestartaftercapture>
             <rawformat>bayer-qcom-10rggb</rawformat>
         </camera1>
@@ -1634,9 +1495,6 @@
             <item>XT1635-00</item>
             <item>XT1635</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "19906560">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1656,7 +1514,6 @@
             <item>SM-J710</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <manualfocus>
             </manualfocus>
         </camera1>
@@ -1676,7 +1533,6 @@
             <item>XT1095</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <manualfocus>
             </manualfocus>
         </camera1>
@@ -1691,9 +1547,6 @@
         <models>
             <item>Moto G 2014</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "9990144">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1720,9 +1573,6 @@
         <models>
             <item>INFINITY_II_S</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "15980544">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1740,10 +1590,6 @@
             <item>A0001</item>
             <item>One</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
-
         <opcodes>
             <camera id="0">
                 <opcode2>https://github.com/KillerInk/FreeDcam_opcodes/blob/master/OnePlusOne/opc2.bin?raw=true</opcode2>
@@ -1794,9 +1640,6 @@
             <item>A2005</item>
             <item>A2004</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <camera2>
             <forcerawtodng>true</forcerawtodng>
             <maxexposuretime>32000000</maxexposuretime>
@@ -1820,9 +1663,6 @@
             <item>ONE E1002</item>
             <item>ONE E1001</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "9990144">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1859,9 +1699,6 @@
         <models>
             <item>PMT5777_3G</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "3763584">
             <blacklvl>16</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1878,9 +1715,6 @@
         <models>
             <item>Retro</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
 
         <filesize size= "26023936">
             <blacklvl>0</blacklvl>
@@ -1900,9 +1734,6 @@
             <item>E5643</item>
             <item>E5663</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "42923008">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1921,9 +1752,6 @@
             <item>E2306</item>
             <item>E2353</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
 
         <opcodes>
             <camera id="0">
@@ -1950,9 +1778,7 @@
             <item>E5343</item>
             <item>E5363</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1970,9 +1796,7 @@
             <item>E5533</item>
             <item>E5563</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -1990,9 +1814,7 @@
             <item>C2104</item>
             <item>C2105</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "10788864">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2009,9 +1831,7 @@
         <models>
             <item>E5823</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "28721152">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2033,18 +1853,14 @@
             <item>D65</item>
             <item>D66</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
     </device>
 
     <device name ="THL100s_MTK">
         <models>
             <item>S5008</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2061,9 +1877,7 @@
         <models>
             <item>thl 5000</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2080,9 +1894,7 @@
         <models>
             <item>ROME_X</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "15360000">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2100,7 +1912,6 @@
             <item>vivo Xplay3S</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <manualfocus>
             </manualfocus>
         </camera1>
@@ -2130,9 +1941,7 @@
         <models>
             <item>vivo V3</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2159,9 +1968,7 @@
         <models>
             <item>STAIRWAY</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2178,9 +1985,7 @@
         <models>
             <item>Wileyfox Swift</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2207,9 +2012,7 @@
         <models>
             <item>MI MAX</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "20557824">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -2227,7 +2030,6 @@
             <item>MI 3W</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <burst>6</burst>
             <nightmode>0</nightmode>
             <hdrmode supported="true">0</hdrmode>
@@ -2473,7 +2275,6 @@
             <item>MI 4S</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
         <filesize size= "16510976">
@@ -2494,7 +2295,6 @@
             <item>MI_5</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
             <opticalimagestab>
                 <key>ois</key>
@@ -2526,7 +2326,6 @@
     <device name ="XiaomiMI5s">
         <models><item>MI 5s</item></models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
         <filesize size= "15581184">
@@ -2554,7 +2353,6 @@
     <device name ="XiaomiMI5s_plus">
         <models><item>MI 5s Plus</item></models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
         <filesize size= "16510976">
@@ -2585,7 +2383,6 @@
             <item>MI A1</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
         <filesize size= "15728640">
@@ -2613,7 +2410,6 @@
     <device name ="XiaomiMI6">
         <models><item>MI 6</item></models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
 
@@ -2749,7 +2545,6 @@
     <device name ="XiaomiMI_Note_3">
         <models><item>MI NOTE 3</item></models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
         <filesize size= "15482880">
@@ -2780,7 +2575,6 @@
             <item>MI MAX PRIME</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
         <filesize size= "20389888">
@@ -2820,7 +2614,6 @@
             <item>MI MAX 2</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
         <filesize size= "15482880">
@@ -2860,7 +2653,6 @@
             <item>MI MIX</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
         <filesize size= "20557824">
@@ -2888,7 +2680,6 @@
     <device name ="XiaomiMI_Mix_2">
         <models><item>MI MIX 2</item></models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
         <filesize size= "15482880">
@@ -2934,7 +2725,6 @@
             <item>2014819</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <manualiso supported="false"></manualiso>
             <whiteblance>
                 <min>2000</min>
@@ -2984,7 +2774,6 @@
             <item>Redmi 3</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <manualiso supported="false"></manualiso>
             <hdrmode supported="true">0</hdrmode>
             <nightmode>0</nightmode>
@@ -3027,7 +2816,6 @@
             <item>Redmi 3X</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <manualiso supported="false"></manualiso>
         </camera1>
         <filesize size= "16510976">
@@ -3059,7 +2847,6 @@
             <item>Redmi 4 Prime</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <manualiso supported="false"></manualiso>
         </camera1>
         <filesize size= "16510976">
@@ -3089,7 +2876,6 @@
             <item>Redmi 4A</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <manualiso supported="false"></manualiso>
         </camera1>
         <filesize size= "16560128">
@@ -3120,7 +2906,6 @@
             <item>Redmi 5 Plus</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <manualiso supported="false"></manualiso>
         </camera1>
         <filesize size= "15728640">
@@ -3150,7 +2935,6 @@
             <item>Redmi 5A</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <manualiso supported="false"></manualiso>
         </camera1>
         <filesize size= "16510976">
@@ -3251,7 +3035,6 @@
             <!--<framework>0</framework>-->
             <hdrmode supported="true">0</hdrmode>
             <nightmode>0</nightmode>
-            <dngmanual>false</dngmanual>
             <manualiso supported="true">
                 <framework type="2"> <!-- mtk support it -->
                     <min>100</min>
@@ -3304,7 +3087,6 @@
             <item>Redmi Note 4X</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <manualiso supported="true"></manualiso>
             <hdrmode supported="true">0</hdrmode>
             <nightmode>0</nightmode>
@@ -3369,7 +3151,6 @@
             <item>MI NOTE 5 Prime</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <digitalimagestab>false</digitalimagestab>
         </camera1>
         <filesize size= "16510976">
@@ -3411,7 +3192,6 @@
             <!--<framework>0</framework>-->
             <opencameralegacy>true</opencameralegacy>
             <hdrmode supported="true">3</hdrmode>
-            <dngmanual>true</dngmanual>
         </camera1>
 
         <filesize size= "15482880">
@@ -3442,9 +3222,7 @@
         <models>
             <item>Omega 5.0</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "15980544">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3462,9 +3240,7 @@
             <item>YU5010</item>
             <item>YU5010A</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "9990144">
             <blacklvl>5</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3485,9 +3261,7 @@
             <item>A05510</item>
             <item>YU5510</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3757,7 +3531,6 @@
             <item>NX512J</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <zteae>true</zteae>
             <burst>7</burst>
             <nightmode>1</nightmode>
@@ -3812,7 +3585,6 @@
             <item>NX5222</item>
         </models>
         <camera1>
-            <dngmanual>true</dngmanual>
             <nightmode>1</nightmode>
             <whiteblance>
                 <min>2000</min>
@@ -3853,7 +3625,6 @@
             <item>NX403A</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <nightmode>1</nightmode>
             <virtuallensfilter>true</virtuallensfilter>
         </camera1>
@@ -3874,7 +3645,6 @@
             <item>Z5</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <nightmode>1</nightmode>
         </camera1>
     </device>
@@ -3884,7 +3654,6 @@
             <item>Z981</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <nightmode>1</nightmode>
         </camera1>
         <filesize size= "16510976"> <!-- filesize could be wrong -->
@@ -3903,18 +3672,12 @@
         <models>
             <item>NX403oA</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
     </device>
 
     <device name ="Nexus6p">
         <models>
             <item>Nexus 6P</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <filesize size= "15428880"> <!-- filesize could be wrong -->
             <blacklvl>52</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3931,9 +3694,7 @@
         <models>
             <item>Nexus 5X</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
         <filesize size= "15428880"> <!-- filesize could be wrong -->
             <blacklvl>52</blacklvl>
             <whitelvl>1023</whitelvl>
@@ -3951,7 +3712,6 @@
             <item>hi6210sft</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
             <denoise>false</denoise>
             <opticalimagestab>
                 <key>hw_ois_enalbe</key>
@@ -3965,7 +3725,7 @@
             <item>hi6210sft</item>
         </models>
         <camera1>
-            <dngmanual>false</dngmanual>
+
             <denoise>false</denoise>
         </camera1>
     </device>
@@ -3974,9 +3734,6 @@
         <models>
             <item>hi6210sft</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
     </device>
 
     <device name="Huawei_Honor5X">
@@ -4002,9 +3759,6 @@
             <item>HUAWEI KII-L23</item>
             <item>HUAWEI KII-L24</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
     </device>
 
     <device name="Huawei_GX8">
@@ -4018,36 +3772,25 @@
             <item>RIO-L03</item>
             <item>RIO-L04</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
     </device>
 
     <device name="Philips_W8555">
         <models>
             <item>Philips W8555</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
     </device>
 
     <device name="Nexus4">
         <models>
             <item>Nexus 4</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
     </device>
 
     <device name="Nexus6">
         <models>
             <item>Nexus 6</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
     </device>
 
     <device name="Samsung_S6_edge_plus">
@@ -4070,9 +3813,6 @@
             <item>SM-G928T</item>
             <item>SM-G928V</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
         <camera2><camera2>
             <maxexposuretime>10000000</maxexposuretime>
         </camera2></camera2>
@@ -4082,27 +3822,20 @@
         <models>
             <item>SM-G925F</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
     </device>
 
     <device name="Zoppo_8speed">
         <models>
             <item>ZP955</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
     </device>
 
     <device name="VERNEE_APOLLO_Lite">
         <models>
             <item>Apollo Lite</item>
         </models>
-        <camera1>
-            <dngmanual>false</dngmanual>
-        </camera1>
+
     </device>
 
     <device name="Huawei_P9">

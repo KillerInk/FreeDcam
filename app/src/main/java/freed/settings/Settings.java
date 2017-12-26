@@ -115,7 +115,6 @@ public enum Settings
     useHuaweiCamera2Extension,
     support12bitRaw,
     useQcomFocus,
-    dngSupportManuals,
     forceRawToDng,
     needRestartAfterCapture,
     orientationHack,
