@@ -28,6 +28,7 @@ import android.support.annotation.Nullable;
 
 import com.troop.freedcam.R;
 
+import java.lang.ref.WeakReference;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,7 +84,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         moduleList = new HashMap<>();
         moduleChangedListner = new ArrayList<>();
         onCaptureStateChangedListners = new ArrayList<>();
-        mainHandler = new UiHandler(Looper.getMainLooper());
+        mainHandler = new UiHandler(Looper.getMainLooper(),moduleChangedListner,onCaptureStateChangedListners);
         startBackgroundThread();
 
         workerListner = new CaptureStateChanged() {
@@ -99,7 +100,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
                     }
                     else
                     {
-                        mainHandler.obtainMessage(CAPTURE_STATE_CHANGED,i,0,captureStates).sendToTarget();
+                        mainHandler.obtainMessage(UiHandler.CAPTURE_STATE_CHANGED,i,0,captureStates).sendToTarget();
                     }
                 }
             }
@@ -193,7 +194,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             }
             else
             {
-                mainHandler.obtainMessage(MODULE_CHANGED,i,0, module).sendToTarget();
+                mainHandler.obtainMessage(UiHandler.MODULE_CHANGED,i,0, module).sendToTarget();
             }
         }
     }
@@ -236,23 +237,35 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         }
     }
 
-    private final int MODULE_CHANGED= 0;
-    private final int CAPTURE_STATE_CHANGED = 1;
-    private class UiHandler extends Handler
+
+    private static class UiHandler extends Handler
     {
-        public UiHandler(Looper mainLooper) {
+        public static final int MODULE_CHANGED= 0;
+        public static final int CAPTURE_STATE_CHANGED = 1;
+        WeakReference<ArrayList<ModuleChangedEvent>> weakReferenceModuleChangedListners;
+        WeakReference<ArrayList<CaptureStateChanged>> weakReferenceCaptureStateChanged;
+
+        public UiHandler(Looper mainLooper,ArrayList<ModuleChangedEvent> moduleChangedListner,ArrayList<CaptureStateChanged> captureStateChanged) {
             super(mainLooper);
+            weakReferenceModuleChangedListners = new WeakReference<ArrayList<ModuleChangedEvent>>(moduleChangedListner);
+            weakReferenceCaptureStateChanged = new WeakReference<ArrayList<CaptureStateChanged>>(captureStateChanged);
         }
 
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(Message msg)
+        {
             switch (msg.what) {
                 case MODULE_CHANGED:
-                if (moduleChangedListner.size() > 0)
-                    moduleChangedListner.get(msg.arg1).onModuleChanged((String)msg.obj);
+                    ArrayList<ModuleChangedEvent> moduleChangedListners = weakReferenceModuleChangedListners.get();
+                    if (moduleChangedListners != null){
+                        if (moduleChangedListners.size() > 0)
+                            moduleChangedListners.get(msg.arg1).onModuleChanged((String)msg.obj);
+                    }
                 break;
                 case CAPTURE_STATE_CHANGED:
-                    onCaptureStateChangedListners.get(msg.arg1).onCaptureStateChanged((CaptureStates)msg.obj);
+                    ArrayList<CaptureStateChanged> onCaptureStateChangedListner = weakReferenceCaptureStateChanged.get();
+                if (onCaptureStateChangedListner != null)
+                    onCaptureStateChangedListner.get(msg.arg1).onCaptureStateChanged((CaptureStates)msg.obj);
                     break;
                 default:
                     super.handleMessage(msg);
