@@ -146,7 +146,7 @@ public class CameraHolder extends CameraHolderAbstract
         return isRdy;
     }
 
-    public synchronized void SetCameraParameters(Parameters parameters)
+    public void SetCameraParameters(Parameters parameters)
     {
         try {
             mCamera.setParameters(parameters);
