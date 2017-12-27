@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,35 +62,41 @@ public abstract class AbstractParameter implements ParameterInterface {
     {
         this();
         this.cameraUiWrapper = cameraUiWrapper;
-        this.backHandler = new BackHandler(cameraUiWrapper.getCameraHandlerThread().getLooper());
+        if (cameraUiWrapper != null)
+            this.backHandler = new BackHandler(cameraUiWrapper.getCameraHandlerThread().getLooper(),this);
     }
 
-    private final int MSG_SET_INT =0;
-    private final int MSG_SET_STRING =1;
+    private static final int MSG_SET_INT =0;
+    private static final int MSG_SET_STRING =1;
 
-    private class BackHandler extends Handler
+    private static class BackHandler extends Handler
     {
-        public BackHandler(Looper looper)
+        WeakReference<AbstractParameter> abstractParameterWeakReference;
+        public BackHandler(Looper looper, AbstractParameter abstractParameter)
         {
             super(looper);
+            abstractParameterWeakReference = new WeakReference<AbstractParameter>(abstractParameter);
         }
 
         @Override
         public void handleMessage(Message msg) {
 
+            AbstractParameter abstractParameter = abstractParameterWeakReference .get();
+            if(abstractParameter == null)
+                return;
             switch (msg.what)
             {
                 case MSG_SET_INT:
                     if (msg.arg2 == 0)
-                        setValue(msg.arg1, false);
+                        abstractParameter.setValue(msg.arg1, false);
                     else
-                        setValue(msg.arg1, true);
+                        abstractParameter.setValue(msg.arg1, true);
                     break;
                 case MSG_SET_STRING:
                     if (msg.arg1 == 1)
-                        setValue((String)msg.obj,true);
+                        abstractParameter.setValue((String)msg.obj,true);
                     else
-                        setValue((String)msg.obj,false);
+                        abstractParameter.setValue((String)msg.obj,false);
                     break;
             }
             super.handleMessage(msg);

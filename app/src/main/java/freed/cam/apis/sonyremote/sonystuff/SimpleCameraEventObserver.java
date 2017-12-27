@@ -31,7 +31,7 @@ public class SimpleCameraEventObserver {
 
     private void sendLog(String msg)
     {
-        boolean LOGGING = true;
+        boolean LOGGING = false;
         if (LOGGING)
             Log.d(SimpleCameraEventObserver.TAG, msg);
     }
@@ -229,6 +229,7 @@ public class SimpleCameraEventObserver {
                 SimpleCameraEventObserver.this.sendLog("start() exec.");
                 // Call getEvent API continuously.
                 boolean firstCall = true;
+                JSONObject replyJson;
                 while (mWhileEventMonitoring)
                 {
 
@@ -237,9 +238,9 @@ public class SimpleCameraEventObserver {
 
                     try {
                         // Call getEvent API.
-                        JSONObject replyJson;
-
                         replyJson = SimpleCameraEventObserver.this.mRemoteApi.getEvent(longPolling, SimpleCameraEventObserver.this.version);
+                        if (firstCall)
+                            Log.d(TAG,replyJson.toString());
 
                         // Check error code at first.
                         int errorCode = JsonUtils.findErrorCode(replyJson);
@@ -248,9 +249,17 @@ public class SimpleCameraEventObserver {
                         SimpleCameraEventObserver.this.processEvents(replyJson);
 
                     } catch (IOException e) {
-                        // Occurs when the server is not available now.
-                        SimpleCameraEventObserver.this.sendLog("getEvent timeout by client trigger.");
-                        SimpleCameraEventObserver.this.fireTimeoutListener();
+                        try {
+                            replyJson = SimpleCameraEventObserver.this.mRemoteApi.getEvent(false, SimpleCameraEventObserver.this.version);
+                            SimpleCameraEventObserver.this.processEvents(replyJson);
+                        }
+                        catch (IOException ex) {
+                            // Occurs when the server is not available now.
+                            SimpleCameraEventObserver.this.sendLog("getEvent timeout by client trigger.");
+                            SimpleCameraEventObserver.this.fireTimeoutListener();
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
 
                     } catch (JSONException e) {
                         SimpleCameraEventObserver.this.sendLog("getEvent: JSON format error. " + e.getMessage());

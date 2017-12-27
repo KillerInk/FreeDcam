@@ -36,7 +36,7 @@ public class FocusPeakSony extends BaseModeParameterSony {
 
 
     public FocusPeakSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {
-        super(null, null, null, null);
+        super(null, null, null, null,null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
         String currentval = simpleStreamSurfaceView.getResources().getString(R.string.off_);
     }

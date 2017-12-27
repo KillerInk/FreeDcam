@@ -21,6 +21,7 @@ package freed.cam.apis.sonyremote.parameters.modes;
 
 import java.io.IOException;
 
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.FreeDPool;
@@ -30,8 +31,8 @@ import freed.utils.Log;
  * Created by troop on 09.08.2016.
  */
 public class FocusModeSony extends BaseModeParameterSony {
-    public FocusModeSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi) {
-        super(VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi);
+    public FocusModeSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi, CameraWrapperInterface wrapperInterface) {
+        super(VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi,wrapperInterface);
     }
 
     @Override

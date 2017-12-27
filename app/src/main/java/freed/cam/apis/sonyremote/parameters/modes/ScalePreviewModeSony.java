@@ -35,7 +35,7 @@ public class ScalePreviewModeSony extends BaseModeParameterSony {
     private final SimpleStreamSurfaceView simpleStreamSurfaceView;
 
     public ScalePreviewModeSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {
-        super(null, null, null, null);
+        super(null, null, null, null,null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
     }
 

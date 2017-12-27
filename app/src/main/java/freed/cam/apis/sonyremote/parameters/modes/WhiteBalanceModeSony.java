@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Set;
 
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.parameters.manual.WbCTManualSony;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.utils.Log;
@@ -34,8 +35,8 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
 {
     final String TAG = WhiteBalanceModeSony.class.getSimpleName();
     private final WbCTManualSony wb;
-    public WhiteBalanceModeSony(SimpleRemoteApi mRemoteApi, WbCTManualSony wb) {
-        super("getWhiteBalance", "setWhiteBalance", "getAvailableWhiteBalance", mRemoteApi);
+    public WhiteBalanceModeSony(SimpleRemoteApi mRemoteApi, WbCTManualSony wb, CameraWrapperInterface wrapperInterface) {
+        super("getWhiteBalance", "setWhiteBalance", "getAvailableWhiteBalance", mRemoteApi,wrapperInterface);
         this.wb = wb;
     }
 

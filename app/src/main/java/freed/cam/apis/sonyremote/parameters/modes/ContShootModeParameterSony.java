@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
@@ -37,8 +38,8 @@ public class ContShootModeParameterSony extends BaseModeParameterSony
 {
     final String TAG = ContShootModeParameterSony.class.getSimpleName();
     private  ModuleHandlerAbstract moduleHandlerAbstract;
-    public ContShootModeParameterSony(SimpleRemoteApi mRemoteApi, ModuleHandlerAbstract moduleHandlerAbstract) {
-        super("getContShootingMode", "setContShootingMode", "getAvailableContShootingMode", mRemoteApi);
+    public ContShootModeParameterSony(SimpleRemoteApi mRemoteApi, ModuleHandlerAbstract moduleHandlerAbstract, CameraWrapperInterface wrapperInterface) {
+        super("getContShootingMode", "setContShootingMode", "getAvailableContShootingMode", mRemoteApi,wrapperInterface);
         this.moduleHandlerAbstract =moduleHandlerAbstract;
     }
 

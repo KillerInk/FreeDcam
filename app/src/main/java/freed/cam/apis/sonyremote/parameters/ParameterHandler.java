@@ -114,31 +114,31 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     private void createParameters()
     {
         add(Settings.Module, new ModuleParameters(cameraUiWrapper));
-        add(Settings.PictureSize, new PictureSizeSony(mRemoteApi));
+        add(Settings.PictureSize, new PictureSizeSony(mRemoteApi,cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(Settings.PictureSize));
 
-        add(Settings.PictureFormat, new PictureFormatSony(mRemoteApi));
+        add(Settings.PictureFormat, new PictureFormatSony(mRemoteApi,cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(Settings.PictureFormat));
 
-        add(Settings.FlashMode, new BaseModeParameterSony("getFlashMode", "setFlashMode", "getAvailableFlashMode", mRemoteApi));
+        add(Settings.FlashMode, new BaseModeParameterSony("getFlashMode", "setFlashMode", "getAvailableFlashMode", mRemoteApi,cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(Settings.FlashMode));
 
-        add(Settings.M_ExposureCompensation, new BaseModeParameterSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi));
-        parametersChangedList.add((BaseModeParameterSony) get(Settings.M_ExposureCompensation));
+        add(Settings.ExposureMode, new BaseModeParameterSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi,cameraUiWrapper));
+        parametersChangedList.add((BaseModeParameterSony) get(Settings.ExposureMode));
 
-        add(Settings.ContShootMode, new ContShootModeParameterSony(mRemoteApi, cameraUiWrapper.getModuleHandler()));
+        add(Settings.ContShootMode, new ContShootModeParameterSony(mRemoteApi, cameraUiWrapper.getModuleHandler(),cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(Settings.ContShootMode));
 
-        add(Settings.ContShootModeSpeed, new BaseModeParameterSony("getContShootingSpeed", "setContShootingSpeed", "getAvailableContShootingSpeed", mRemoteApi));
+        add(Settings.ContShootModeSpeed, new BaseModeParameterSony("getContShootingSpeed", "setContShootingSpeed", "getAvailableContShootingSpeed", mRemoteApi,cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(Settings.ContShootModeSpeed));
 
-        add(Settings.FocusMode, new FocusModeSony("getFocusMode", "setFocusMode", "getAvailableFocusMode", mRemoteApi));
+        add(Settings.FocusMode, new FocusModeSony("getFocusMode", "setFocusMode", "getAvailableFocusMode", mRemoteApi,cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(Settings.FocusMode));
 
-        add(Settings.ObjectTracking, new ObjectTrackingSony(mRemoteApi));
+        add(Settings.ObjectTracking, new ObjectTrackingSony(mRemoteApi,cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(Settings.ObjectTracking));
 
-        add(Settings.ZoomSetting, new ZoomSettingSony(mRemoteApi));
+        add(Settings.ZoomSetting, new ZoomSettingSony(mRemoteApi,cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(Settings.ZoomSetting));
 
 
@@ -162,13 +162,13 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
         add(Settings.M_Whitebalance, new WbCTManualSony(cameraUiWrapper));
         parametersChangedList.add((BaseManualParameterSony) get(Settings.M_Whitebalance));
 
-        add(Settings.WhiteBalanceMode, new WhiteBalanceModeSony(mRemoteApi, (WbCTManualSony) get(Settings.M_Whitebalance)));
+        add(Settings.WhiteBalanceMode, new WhiteBalanceModeSony(mRemoteApi, (WbCTManualSony) get(Settings.M_Whitebalance),cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(Settings.WhiteBalanceMode));
 
-        add(Settings.PostViewSize, new BaseModeParameterSony("getPostviewImageSize","setPostviewImageSize","getAvailablePostviewImageSize", mRemoteApi));
+        add(Settings.PostViewSize, new BaseModeParameterSony("getPostviewImageSize","setPostviewImageSize","getAvailablePostviewImageSize", mRemoteApi,cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(Settings.PostViewSize));
 
-        add(Settings.VideoSize, new BaseModeParameterSony("getMovieQuality", "setMovieQuality", "getAvailableMovieQuality", mRemoteApi));
+        add(Settings.VideoSize, new BaseModeParameterSony("getMovieQuality", "setMovieQuality", "getAvailableMovieQuality", mRemoteApi,cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(Settings.VideoSize));
 
         add(Settings.Focuspeak, new FocusPeakSony(surfaceView));

@@ -57,6 +57,7 @@ public class WifiHandler extends WifiUtils {
     public void onPause()
     {
         resumed = false;
+        uiHandler.removeCallbacks(startLookupRunner);
     }
 
 
@@ -158,13 +159,15 @@ public class WifiHandler extends WifiUtils {
 
     private void postDelayed(int ms)
     {
-        uiHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                StartLookUp();
-            }
-        },ms);
+        uiHandler.postDelayed(startLookupRunner,ms);
     }
+
+    private Runnable startLookupRunner = new Runnable() {
+        @Override
+        public void run() {
+            StartLookUp();
+        }
+    };
 
     private void searchSSDPClient()
     {

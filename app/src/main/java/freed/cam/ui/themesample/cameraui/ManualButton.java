@@ -246,7 +246,7 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
                 if (txt != null && !TextUtils.isEmpty(txt) && !txt.equals("null"))
                     valueTextView.setText(txt);
                 else
-                    valueTextView.setText((int)msg.obj);
+                    valueTextView.setText(String.valueOf(msg.obj));
                 //Log.d(TAG, "setTextValue:" + valueTextView.getText());
                 break;
             case ManualButtonHandler.ON_UPDATE_SETTING:

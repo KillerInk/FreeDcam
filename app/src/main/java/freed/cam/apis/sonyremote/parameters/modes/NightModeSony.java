@@ -38,7 +38,7 @@ public class NightModeSony extends BaseModeParameterSony
     final String ZOOMPREVIEW = "ZoomPreview";
 
     public NightModeSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {
-        super(null, null, null, null);
+        super(null, null, null, null,null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
     }
 
