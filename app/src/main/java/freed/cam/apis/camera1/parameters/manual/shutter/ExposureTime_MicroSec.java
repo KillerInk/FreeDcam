@@ -16,13 +16,15 @@ import freed.utils.Log;
  */
 
 public class ExposureTime_MicroSec extends AbstractParameter {
+
     private final String TAG = ExposureTime_MicroSec.class.getSimpleName();
     private Camera.Parameters parameters;
+
     public ExposureTime_MicroSec(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters) {
         super(cameraUiWrapper);
         stringvalues = SettingsManager.get(Settings.M_ExposureTime).getValues();
-        isSupported = true;
         isVisible = true;
+        isSupported = true;
         this.parameters = parameters;
     }
 
@@ -43,14 +45,18 @@ public class ExposureTime_MicroSec extends AbstractParameter {
         String shutterstring = stringvalues[currentInt];
         if(!shutterstring.equals(cameraUiWrapper.getResString(R.string.auto_)))
         {
-            if (stringvalues[currentInt].contains("/")) {
-                String[] split = stringvalues[currentInt].split("/");
+            if (shutterstring.contains("/")) {
+                String[] split = shutterstring.split("/");
                 Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
                 shutterstring = "" + a;
             }
-            shutterstring = Double.parseDouble(shutterstring) * 1000 +"";
-            Log.d(TAG, "set exposure time to " + shutterstring);
+            Log.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
+
+            float b =  Float.parseFloat(shutterstring);
+            float c = b * 1000000;
+            shutterstring = Math.round(c)+"";
             parameters.set(SettingsManager.get(Settings.M_ExposureTime).getKEY(), shutterstring);
+
         }
         else
         {

@@ -53,8 +53,8 @@ import freed.cam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
 import freed.cam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
 import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
 import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
+import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MS;
 import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MicroSec;
-import freed.cam.apis.camera1.parameters.manual.shutter.ExposureTime_MilliSec;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualG2pro;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualMeizu;
 import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualParameterHTC;
@@ -397,11 +397,11 @@ public class ParametersHandler extends AbstractParameterHandler
                     //HTCVideoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-mode", "video-hfr-values");
                     add(Settings.M_ExposureTime, new ShutterManualParameterHTC(cameraParameters,cameraUiWrapper));
                     break;
+                case SHUTTER_QCOM_MILLISEC:
+                    add(Settings.M_ExposureTime, new ExposureTime_MS(cameraUiWrapper,cameraParameters));
+                    break;
                 case SHUTTER_QCOM_MICORSEC:
                     add(Settings.M_ExposureTime, new ExposureTime_MicroSec(cameraUiWrapper,cameraParameters));
-                    break;
-                case SHUTTER_QCOM_MILLISEC:
-                    add(Settings.M_ExposureTime, new ExposureTime_MilliSec(cameraUiWrapper,cameraParameters));
                     break;
                 case SHUTTER_MTK:
 
