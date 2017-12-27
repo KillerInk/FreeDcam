@@ -212,8 +212,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        if (wrapper instanceof SonyCameraRemoteFragment)
-            wrapper.getFocusHandler().SetMotionEvent(event);
+        /*if (wrapper instanceof SonyCameraRemoteFragment)
+            wrapper.getFocusHandler().SetMotionEvent(event);*/
         return false;
     }
 

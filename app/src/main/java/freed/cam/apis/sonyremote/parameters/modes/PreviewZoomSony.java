@@ -47,6 +47,7 @@ public class PreviewZoomSony extends AbstractParameter
     {
         zoomFactor = Integer.parseInt(valueToSet);
         surfaceView.PreviewZOOMFactor = zoomFactor;
+        fireIntValueChanged(zoomFactor);
     }
 
     @Override
@@ -69,5 +70,8 @@ public class PreviewZoomSony extends AbstractParameter
         return IsSupported();
     }
 
-
+    @Override
+    public boolean IsSetSupported() {
+        return true;
+    }
 }

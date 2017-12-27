@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.Set;
 
@@ -35,11 +36,20 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.sonyremote.modules.I_PictureCallback;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
+import freed.cam.apis.sonyremote.runner.ActTakePictureRunner;
+import freed.cam.apis.sonyremote.runner.SetShootModeRunner;
+import freed.cam.apis.sonyremote.runner.StartBulbCaptureRunner;
+import freed.cam.apis.sonyremote.runner.StartContShotRunner;
+import freed.cam.apis.sonyremote.runner.StopBulbCaptureRunner;
+import freed.cam.apis.sonyremote.runner.StopContShotRunner;
+import freed.cam.apis.sonyremote.runner.StopPreviewRunner;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener;
+import freed.image.ImageManager;
+import freed.image.ImageTask;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
@@ -111,7 +121,10 @@ public class CameraHolderSony extends CameraHolderAbstract
     {
         try {
             JSONObject replyJson = null;
-            replyJson = mRemoteApi.startLiveview();
+            if (((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("startLiveviewWithSize"))
+                replyJson = mRemoteApi.startLiveviewWithSize("L");
+            else
+                replyJson = mRemoteApi.startLiveview();
 
             if (!SimpleRemoteApi.isErrorReply(replyJson)) {
                 JSONArray resultsObj = replyJson.getJSONArray("result");
@@ -143,19 +156,7 @@ public class CameraHolderSony extends CameraHolderAbstract
     @Override
     public void StopPreview()
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (mRemoteApi != null)
-                        mRemoteApi.stopLiveview();
-
-                } catch (IOException e) {
-                    Log.w(TAG, "stopLiveview IOException: " + e.getMessage());
-
-                }
-            }
-        });
+        ImageManager.putImageLoadTask(new StopPreviewRunner(mRemoteApi));
     }
 
     /**
@@ -187,17 +188,12 @@ public class CameraHolderSony extends CameraHolderAbstract
         // stopRecMode if necessary.
         if (JsonUtils.isCameraApiAvailable("stopRecMode", ((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet()))
         {
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d(TAG, "closeConnection(): stopRecMode()");
-                    try {
-                        mRemoteApi.stopRecMode();
-                    } catch (IOException e) {
-                        Log.w(TAG, "closeConnection: IOException: " + e.getMessage());
-                    }
-                }
-            });
+            Log.d(TAG, "closeConnection(): stopRecMode()");
+            try {
+                mRemoteApi.stopRecMode();
+            } catch (IOException e) {
+                Log.w(TAG, "closeConnection: IOException: " + e.getMessage());
+            }
         }
 
         Log.d(TAG, "closeConnection(): completed.");
@@ -206,148 +202,33 @@ public class CameraHolderSony extends CameraHolderAbstract
 
     public void TakePicture(I_PictureCallback pictureCallback)
     {
-        actTakePicture(pictureCallback);
+        ImageManager.putImageLoadTask(new ActTakePictureRunner(mRemoteApi,pictureCallback,((ParameterHandler)cameraUiWrapper.getParameterHandler())));
     }
 
     public void startContShoot(I_PictureCallback pictureCallback)
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject replyJson = mRemoteApi.startContShoot();
-                    JSONArray resultsObj = replyJson.getJSONArray("result");
-
-                } catch (IOException e) {
-                    Log.w(TAG, "IOException while closing slicer: " + e.getMessage());
-
-                } catch (JSONException e) {
-                    Log.w(TAG, "JSONException while closing slicer");
-
-                }
-            }
-        });
+        ImageManager.putImageLoadTask(new StartContShotRunner(mRemoteApi));
     }
 
     public void stopContShoot(I_PictureCallback pictureCallback)
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject replyJson = mRemoteApi.stopContShoot();
-                    JSONArray resultsObj = replyJson.getJSONArray("result");
-
-                } catch (IOException e) {
-                    Log.w(TAG, "IOException while closing slicer: " + e.getMessage());
-
-                } catch (JSONException e) {
-                    Log.w(TAG, "JSONException while closing slicer");
-
-                }
-            }
-        });
+        ImageManager.putImageLoadTask(new StopContShotRunner(mRemoteApi));
     }
 
-    private void actTakePicture(final I_PictureCallback pictureCallback)
+    public void startBulbCapture(I_PictureCallback pictureCallback)
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Log.d(TAG, "####################### ACT TAKE PICTURE");
-                    JSONObject replyJson = mRemoteApi.actTakePicture();
-                    Log.d(TAG, "####################### ACT TAKE PICTURE REPLY RECIEVED");
-                    Log.d(TAG, replyJson.toString());
-                    JSONArray resultsObj = replyJson.getJSONArray("result");
-                    Log.d(TAG, "####################### ACT TAKE PICTURE PARSED RESULT");
-                    JSONArray imageUrlsObj = resultsObj.getJSONArray(0);
-                    String postImageUrl = null;
-                    if (1 <= imageUrlsObj.length()) {
-                        postImageUrl = imageUrlsObj.getString(0);
-                    }
-                    if (postImageUrl == null) {
-                        Log.w(TAG, "takeAndFetchPicture: post image URL is null.");
-
-                        return;
-                    }
-                    // Show progress indicator
-
-
-                    URL url = new URL(postImageUrl);
-                    pictureCallback.onPictureTaken(url);
-                    //InputStream istream = new BufferedInputStream(url.openStream());
-
-
-                } catch (IOException ex)
-                {
-                    Log.WriteEx(ex);
-                    Log.w(TAG, "IOException while closing slicer: " + ex.getMessage());
-                    awaitTakePicture(pictureCallback);
-                } catch (JSONException e) {
-                    Log.w(TAG, "JSONException while closing slicer");
-                    //awaitTakePicture(pictureCallback);
-                }
-            }
-        });
+        ImageManager.putImageLoadTask(new StartBulbCaptureRunner(mRemoteApi));
     }
 
-
-    private void awaitTakePicture(I_PictureCallback pictureCallback)
+    public void stopBulbCapture(I_PictureCallback pictureCallback)
     {
-        Log.d(TAG, "Camerastatus:" + ((ParameterHandler)cameraUiWrapper.getParameterHandler()).GetCameraStatus());
-        if (((ParameterHandler)cameraUiWrapper.getParameterHandler()).GetCameraStatus().equals("StillCapturing")) {
-            try {
-                Log.d(TAG, "####################### AWAIT TAKE");
-                JSONObject replyJson = mRemoteApi.awaitTakePicture();
-                Log.d(TAG, "####################### AWAIT TAKE PICTURE RECIEVED RESULT");
-                JSONArray resultsObj = replyJson.getJSONArray("result");
-                Log.d(TAG, "####################### AWAIT TAKE PICTURE PARSED RESULT");
-                if (!resultsObj.isNull(0))
-                {
-                    Log.d(TAG, resultsObj.toString());
-                    JSONArray imageUrlsObj = resultsObj.getJSONArray(0);
-                    URL url = new URL(imageUrlsObj.getString(0));
-                    pictureCallback.onPictureTaken(url);
-                }
-            } catch (IOException e1)
-            {
-                awaitTakePicture(pictureCallback);
-                Log.WriteEx(e1);
-            } catch (JSONException e1) {
-                //awaitTakePicture(pictureCallback);
-                Log.WriteEx(e1);
-            }
-        }
+        ImageManager.putImageLoadTask(new StopBulbCaptureRunner(mRemoteApi));
     }
+
 
     public void SetShootMode(final String mode)
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject replyJson = mRemoteApi.setShootMode(mode);
-                    JSONArray resultsObj = replyJson.getJSONArray("result");
-                    int resultCode = resultsObj.getInt(0);
-                    if (resultCode == 0) {
-                        // Success, but no refresh UI at the point.
-                        Log.v(TAG, "setShootMode: success.");
-                    } else {
-                        Log.w(TAG, "setShootMode: error: " + resultCode);
-
-                    }
-                } catch (IOException e) {
-                    Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
-                } catch (JSONException e) {
-                    Log.w(TAG, "setShootMode: JSON format error.");
-                }
-                catch (NullPointerException e) {
-                    Log.w(TAG, "remote api null");
-                }
-            }
-        });
-
+        ImageManager.putImageLoadTask(new SetShootModeRunner(mRemoteApi,mode));
     }
 
     public void StartRecording()

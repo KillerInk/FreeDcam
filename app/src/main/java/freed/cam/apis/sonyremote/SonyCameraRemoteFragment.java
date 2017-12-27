@@ -45,6 +45,7 @@ import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.MainToCameraHandler;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
+import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
 import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
@@ -52,6 +53,7 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.cam.apis.sonyremote.sonystuff.WifiHandler;
+import freed.image.ImageManager;
 import freed.settings.Settings;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -98,6 +100,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
         moduleHandler = new ModuleHandlerSony(this);
         Focus = new FocusHandler(this);
+        ((ParameterHandler)parametersHandler).addApiChangedListner((I_SonyApi) Focus);
         cameraHolder = new CameraHolderSony(getContext(), surfaceView, this);
         moduleHandler.initModules();
 
@@ -290,6 +293,8 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         try {
             JSONObject replyJson = null;
 
+            replyJson = mRemoteApi.getCameraMethodTypes();
+            Log.d(TAG,replyJson.toString());
             //find api version for requests
             replyJson = mRemoteApi.getVersions();
             JSONArray array = replyJson.getJSONArray("result");

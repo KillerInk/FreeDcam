@@ -79,11 +79,6 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
         return isSupported;
     }
 
-    @Override
-    public void SetValue(final String valueToSet, boolean setToCamera)
-    {
-        super.SetValue(valueToSet,setToCamera);
-    }
 
     @Override
     protected void setValue(String valueToSet, boolean setToCamera) {

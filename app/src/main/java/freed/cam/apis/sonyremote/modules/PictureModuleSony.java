@@ -67,8 +67,18 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     @Override
     public void DoWork()
     {
-        if (cameraUiWrapper.getParameterHandler().get(Settings.ContShootMode) != null && cameraUiWrapper.getParameterHandler().get(Settings.ContShootMode).IsSupported()) {
-            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).get(Settings.ContShootMode).GetStringValue();
+        if (((ParameterHandler)cameraUiWrapper.getParameterHandler()).canStartBulbCapture())
+        {
+            changeCaptureState(CaptureStates.image_capture_start);
+            cameraHolder.startBulbCapture(this);
+        }
+        else if (((ParameterHandler)cameraUiWrapper.getParameterHandler()).canStopBulbCapture())
+        {
+            changeCaptureState(CaptureStates.image_capture_stop);
+            cameraHolder.stopBulbCapture(this);
+        }
+        else if (cameraUiWrapper.getParameterHandler().get(Settings.ContShootMode) != null && cameraUiWrapper.getParameterHandler().get(Settings.ContShootMode).IsSupported()) {
+            String shootmode = cameraUiWrapper.getParameterHandler().get(Settings.ContShootMode).GetStringValue();
             if (!isWorking && shootmode.equals("Single"))
             {
                 changeCaptureState(CaptureStates.image_capture_start);

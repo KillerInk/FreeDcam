@@ -65,7 +65,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     array = new JSONArray().put(0, Integer.parseInt(stringvalues[toset]));
                     JSONObject object =  ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
 
-                        //fireIntValueChanged(valueToSet);
+                        fireIntValueChanged(valueToSet);
                 } catch (JSONException ex) {
                     Log.WriteEx(ex);
                     Log.e(TAG, "Error SetValue " + valueToSet);
@@ -94,6 +94,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                         int min = array.getInt(2);
                         int max = array.getInt(1);
                         stringvalues = createStringArray(min,max,1);
+                        fireStringValuesChanged(stringvalues);
                     } catch (IOException | JSONException ex)
                     {
 
@@ -116,6 +117,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                         JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         currentInt = array.getInt(0);
+                        fireIntValueChanged(currentInt);
                         //onIntValueChanged(val);
                     } catch (IOException | JSONException ex) {
                         Log.WriteEx(ex);

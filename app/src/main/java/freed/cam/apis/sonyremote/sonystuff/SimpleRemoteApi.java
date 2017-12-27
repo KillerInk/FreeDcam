@@ -85,7 +85,8 @@ public class SimpleRemoteApi {
         try {
             JSONObject requestJson =
                     new JSONObject().put("method", method)
-                            .put("params", new JSONArray()).put("id", id())
+                            .put("params", new JSONArray())
+                            .put("id", id())
                             .put("version", "1.0");
             String url = findActionListUrl(service) + "/" + service;
 
@@ -278,6 +279,11 @@ public class SimpleRemoteApi {
         return executeGetMethod(service, "startLiveview");
     }
 
+    public JSONObject startLiveviewWithSize(String size) throws IOException {
+        String service = CAMERA;
+        return executeSetMethod(service, "startLiveviewWithSize",size);
+    }
+
     /**
      * Calls stopLiveview API to the target server. Request JSON data is such
      * like as below.
@@ -378,6 +384,16 @@ public class SimpleRemoteApi {
     public JSONObject stopContShoot() throws IOException {
         String service = CAMERA;
         return executeGetMethod(service,"stopContShooting");
+    }
+
+    public JSONObject startBulbCapture() throws IOException {
+        String service = CAMERA;
+        return executeGetMethod(service, "startBulbShooting");
+    }
+
+    public JSONObject stopBulbCapture() throws IOException {
+        String service = CAMERA;
+        return executeGetMethod(service,"stopBulbShooting");
     }
 
     /**
@@ -527,12 +543,26 @@ public class SimpleRemoteApi {
      */
     public JSONObject getCameraMethodTypes() throws IOException {
         String service = CAMERA;
-        return getMethodTypes(service);
+        return getMethodTypes(service,"1.4");
     }
 
-    private JSONObject getMethodTypes(String service) throws IOException
+    private JSONObject getMethodTypes(String service, String eventApi) throws IOException
     {
-        return executeGetMethod(service, "getMethodTypes");
+        try {
+            JSONObject requestJson =
+                    new JSONObject().put("method", "getMethodTypes")
+                            .put("params", new JSONArray().put(eventApi))
+                            .put("id", id())
+                            .put("version", eventApi);
+            String url = findActionListUrl(service) + "/" + service;
+
+            log("Request:  " + requestJson);
+            String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
+            log("Response: " + responseJson);
+            return new JSONObject(responseJson);
+        } catch (JSONException e) {
+            throw new IOException(e);
+        }
     }
 
 
@@ -558,7 +588,7 @@ public class SimpleRemoteApi {
      */
     public JSONObject getAvcontentMethodTypes() throws IOException {
         String service = AVCONTENT;
-        return getMethodTypes(service);
+        return getMethodTypes(service,"1.4");
     }
 
     /**

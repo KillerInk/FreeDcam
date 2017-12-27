@@ -273,8 +273,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
                 if (cameraUiWrapper instanceof SonyCameraRemoteFragment) {
                     joyPad.setVisibility(View.GONE);
-                    if (cameraUiWrapper.getParameterHandler().get(Settings.scalePreview) != null)
-                        cameraUiWrapper.getParameterHandler().get(Settings.scalePreview).addEventListner(joyPad);
+                    if (cameraUiWrapper.getParameterHandler().get(Settings.M_PreviewZoom) != null)
+                        cameraUiWrapper.getParameterHandler().get(Settings.M_PreviewZoom).addEventListner(joyPad);
                     joyPad.setNavigationClickListner((SimpleStreamSurfaceView) cameraUiWrapper.getSurfaceView());
                 } else
                     joyPad.setVisibility(View.GONE);

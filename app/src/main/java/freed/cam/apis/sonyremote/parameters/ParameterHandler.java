@@ -26,6 +26,7 @@ import android.text.TextUtils;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -89,10 +90,26 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     public void SetCameraApiSet(Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
+        logApiSet(mAvailableCameraApiSet);
 
         Log.d(TAG, "Throw parametersChanged");
         throwSonyApiChanged(mAvailableCameraApiSet);
 
+    }
+
+    private void logApiSet(Set<String> mAvailableCameraApiSet)
+    {
+        Log.d(TAG,Arrays.toString(mAvailableCameraApiSet.toArray()));
+    }
+
+    public boolean canStartBulbCapture()
+    {
+        return  mAvailableCameraApiSet.contains("startBulbShooting");
+    }
+
+    public boolean canStopBulbCapture()
+    {
+        return  mAvailableCameraApiSet.contains("stopBulbShooting");
     }
 
     public String GetCameraStatus()
@@ -109,6 +126,11 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
             else
                 parametersChangedList.get(i).SonyApiChanged(mAvailableCameraApiSet);
         }
+    }
+
+    public void addApiChangedListner(I_SonyApi sonyApi)
+    {
+        parametersChangedList.add(sonyApi);
     }
 
     private void createParameters()

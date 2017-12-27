@@ -430,8 +430,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             tbOut.setX(this.mPreviousWidth * SCALEFACTOR);
             tbOut.setY(this.mPreviousHeight * SCALEFACTOR);
             renderScriptManager.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
-            renderScriptManager.freedcamScript.set_Height(mPreviousHeight);
-            renderScriptManager.freedcamScript.set_Width(mPreviousWidth);
+            renderScriptManager.freedcamScript.set_Height(mPreviousHeight*SCALEFACTOR);
+            renderScriptManager.freedcamScript.set_Width(mPreviousWidth*SCALEFACTOR);
             renderScriptManager.freedcamScript.set_gCurrentFrame(mAllocationIn);
             renderScriptManager.freedcamScript.set_gLastFrame(renderScriptManager.GetIn());
             renderScriptManager.convolve3x3.setInput(renderScriptManager.GetIn());
@@ -480,6 +480,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             {
 
                 if (scalePreview) {
+                    renderScriptManager.freedcamScript.set_gCurrentFrame(mAllocationIn);
                     mAllocationIn.copyFrom(frame);
                     renderScriptManager.freedcamScript.forEach_clear(renderScriptManager.GetIn());
                     renderScriptManager.freedcamScript.forEach_fillPixelInterpolate(mAllocationIn);
@@ -490,14 +491,15 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     renderScriptManager.GetIn().copyFrom(renderScriptManager.GetOut());
                     frameWidth = frame.getWidth() * SCALEFACTOR;
                     frameHeight = frame.getHeight() * SCALEFACTOR;
-                    //renderScriptHandler.GetOut().copyFrom(renderScriptHandler.GetIn());
-
                 }
                 else
                 {
+
                     renderScriptManager.GetIn().copyFrom(frame);
                     renderScriptManager.GetOut().copyFrom(renderScriptManager.GetIn());
                 }
+
+                renderScriptManager.freedcamScript.set_gCurrentFrame(renderScriptManager.GetIn());
 
                 Rect src = new Rect(0, 0, frameWidth, frameHeight);
                 src = drawZoomPreview(frameWidth, frameHeight, src);
@@ -507,21 +509,21 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 int offsetX = (fragmentwidth - (int) (frameWidth * by)) / 2;
                 int offsetY = (fragmentheight - (int) (frameHeight * by)) / 2;
                 dst = new Rect(offsetX, offsetY, fragmentwidth - offsetX, fragmentheight - offsetY);
-                if (renderScriptManager.isSucessfullLoaded()) {
-                    if (nightmode == NightPreviewModes.on) {
-                        if (!drawNightPreview())
-                            return;
-                    } else if (nightmode == NightPreviewModes.grayscale) {
-                        drawGrayScale();
-                    } else if (nightmode == NightPreviewModes.exposure) {
-                        if (!drawExposureStack())
-                            return;
-                    }
-                    if (focuspeak) {
-                        renderScriptManager.freedcamScript.forEach_focuspeaksony(renderScriptManager.GetOut());
 
-                    }
+                if (nightmode == NightPreviewModes.on) {
+                    if (!drawNightPreview())
+                        return;
+                } else if (nightmode == NightPreviewModes.grayscale) {
+                    drawGrayScale();
+                } else if (nightmode == NightPreviewModes.exposure) {
+                    if (!drawExposureStack())
+                        return;
                 }
+                if (focuspeak) {
+                    renderScriptManager.freedcamScript.forEach_focuspeaksony(renderScriptManager.GetOut());
+
+                }
+
                 canvas = getHolder().lockCanvas();
                 if (canvas == null) {
                     return;
