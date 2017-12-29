@@ -20,11 +20,18 @@
 package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
+import android.hardware.Camera;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
 import android.os.Build;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
+
+import com.huawei.camera2ex.ReflectionHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -144,6 +151,17 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
             for (String s : paras)
             {
                 outputStream.write((s+"\r\n").getBytes());
+            }
+
+            outputStream.write(ReflectionHelper.dumpClass(Camera.class).getBytes());
+            outputStream.write(ReflectionHelper.dumpClass(Camera.Parameters.class).getBytes());
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
+                outputStream.write(ReflectionHelper.dumpClass(CameraDevice.class).getBytes());
+                outputStream.write(ReflectionHelper.dumpClass(CameraCharacteristics.class).getBytes());
+                outputStream.write(ReflectionHelper.dumpClass(CaptureRequest.class).getBytes());
+                outputStream.write(ReflectionHelper.dumpClass(CaptureResult.class).getBytes());
             }
 
             outputStream.close();
