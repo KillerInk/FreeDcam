@@ -863,7 +863,7 @@
             <width>4160</width>
             <height>3120</height>
             <rawtype>0</rawtype>
-            <colorpattern>gbrg</colorpattern>
+            <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
             <matrixset>Imx268</matrixset> <!-- Imx258 -->
         </filesize>
