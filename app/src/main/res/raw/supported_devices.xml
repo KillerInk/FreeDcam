@@ -853,6 +853,22 @@
         </filesize>
     </device>
 
+    <device name ="LenovoP2a42">
+        <models>
+            <item>Lenovo P2a42</item>
+        </models>
+        <filesize size= "16310272">
+            <blacklvl>64</blacklvl>
+            <whitelvl>1023</whitelvl>
+            <width>4160</width>
+            <height>3120</height>
+            <rawtype>0</rawtype>
+            <colorpattern>gbrg</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>Imx268</matrixset> <!-- Imx258 -->
+        </filesize>
+    </device>
+
     <device name ="Lenovo_K50_MTK">
         <models>
             <item>Lenovo K50-t5</item>
