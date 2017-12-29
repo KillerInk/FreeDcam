@@ -49,19 +49,19 @@ import freed.utils.Log;
  */
 public abstract class AbstractParameterHandler
 {
-    final String TAG = AbstractParameterHandler.class.getSimpleName();
+    private final String TAG = AbstractParameterHandler.class.getSimpleName();
 
     private final HashMap<Settings, ParameterInterface> parameterHashMap = new HashMap<>();
 
     /**
      * Holds the UI/Main Thread
      */
-    protected Handler uiHandler;
+    private Handler uiHandler;
 
     protected CameraWrapperInterface cameraUiWrapper;
 
 
-    public AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
+    protected AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
         uiHandler = new Handler(Looper.getMainLooper());
         add(Settings.GuideList, new GuideList());
@@ -94,9 +94,9 @@ public abstract class AbstractParameterHandler
 
     public abstract int getCurrentIso();
 
-    public void SetAppSettingsToParameters()
+    protected void SetAppSettingsToParameters()
     {
-        setMode(get(Settings.locationParameter), SettingsManager.getInstance().SETTING_LOCATION);
+        setMode(get(Settings.locationParameter), SettingsManager.SETTING_LOCATION);
         setAppSettingsToCamera(Settings.ColorMode,false);
         setAppSettingsToCamera(Settings.FlashMode,false);
         setAppSettingsToCamera(Settings.IsoMode,false);
@@ -118,7 +118,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(Settings.Denoise,false);
         setAppSettingsToCamera(Settings.DigitalImageStabilization,false);
         setAppSettingsToCamera(Settings.MemoryColorEnhancement,false);
-        setMode(get(Settings.NightMode), SettingsManager.getInstance().NIGHTMODE);
+        setMode(get(Settings.NightMode), SettingsManager.NIGHTMODE);
         setAppSettingsToCamera(Settings.NonZslManualMode,false);
 
         setAppSettingsToCamera(Settings.VideoProfiles,false);
@@ -134,7 +134,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(Settings.ControlMode,false);
         setAppSettingsToCamera(Settings.IntervalDuration,false);
         setAppSettingsToCamera(Settings.IntervalShutterSleep,false);
-        setMode(get(Settings.HorizontLvl), SettingsManager.getInstance().SETTING_HORIZONT);
+        setMode(get(Settings.HorizontLvl), SettingsManager.SETTING_HORIZONT);
 
         setAppSettingsToCamera(Settings.HDRMode,false);
 
@@ -163,7 +163,7 @@ public abstract class AbstractParameterHandler
     protected void SetParameters()
     {}
 
-    protected void setMode(ParameterInterface parameter, String settings_key)
+    private void setMode(ParameterInterface parameter, String settings_key)
     {
         if (parameter != null && parameter.IsSupported() && settings_key != null && !TextUtils.isEmpty(settings_key))
         {
@@ -183,7 +183,7 @@ public abstract class AbstractParameterHandler
         }
     }
 
-    protected void setAppSettingsToCamera(Settings parametertolook, boolean setToCamera)
+    private void setAppSettingsToCamera(Settings parametertolook, boolean setToCamera)
     {
         ParameterInterface parameter = get(parametertolook);
         SettingsManager.SettingMode settingMode = SettingsManager.get(parametertolook);
@@ -201,7 +201,7 @@ public abstract class AbstractParameterHandler
         }
     }
 
-    protected void setManualMode(Settings parametertolook, boolean setToCamera)
+    private void setManualMode(Settings parametertolook, boolean setToCamera)
     {
         ParameterInterface parameter = get(parametertolook);
         SettingsManager.SettingMode settingMode = SettingsManager.get(parametertolook);

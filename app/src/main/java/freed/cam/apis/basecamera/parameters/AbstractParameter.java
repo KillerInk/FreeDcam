@@ -49,7 +49,7 @@ public abstract class AbstractParameter implements ParameterInterface {
     protected boolean isNotReadOnly;
 
     private Handler mainHandler;
-    protected Handler backHandler;
+    private Handler backHandler;
 
     public AbstractParameter()
     {

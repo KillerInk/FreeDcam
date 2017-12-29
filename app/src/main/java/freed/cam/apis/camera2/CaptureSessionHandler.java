@@ -391,8 +391,7 @@ public class CaptureSessionHandler
     public void StartImageCapture(@Nullable CameraCaptureSession.CaptureCallback listener, Handler handler)
     {
         try {
-            CaptureRequest request1 = mImageCaptureRequestBuilder.build();
-            mCaptureSession.capture(request1,listener,handler);
+            mCaptureSession.capture(mImageCaptureRequestBuilder.build(),listener,handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }

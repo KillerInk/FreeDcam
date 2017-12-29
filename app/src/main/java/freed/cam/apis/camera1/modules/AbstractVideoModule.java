@@ -48,12 +48,12 @@ import freed.utils.Log;
  */
 public abstract class AbstractVideoModule extends ModuleAbstract implements MediaRecorder.OnInfoListener
 {
-    protected MediaRecorder recorder;
-    protected String mediaSavePath;
+    MediaRecorder recorder;
+    private String mediaSavePath;
     private final String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
 
-    public AbstractVideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    AbstractVideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_video);
     }
@@ -101,7 +101,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 //ModuleInterface END
 
 
-    protected void startRecording()
+    private void startRecording()
     {
         if (cameraUiWrapper.getActivityInterface().getPermissionManager().hasRecordAudioPermission(null)) {
             if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
@@ -111,7 +111,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     }
 
-    protected void prepareRecorder()
+    private void prepareRecorder()
     {
         try
         {
@@ -192,7 +192,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     protected abstract MediaRecorder initRecorder();
 
-    protected void stopRecording()
+    void stopRecording()
     {
         try {
             recorder.stop();
@@ -226,7 +226,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         }
     }
 
-    protected void setRecorderOutPutFile(String s)
+    private void setRecorderOutPutFile(String s)
     {
         if (VERSION.SDK_INT < VERSION_CODES.KITKAT
                 || !SettingsManager.getInstance().GetWriteExternal() && VERSION.SDK_INT >= VERSION_CODES.KITKAT)

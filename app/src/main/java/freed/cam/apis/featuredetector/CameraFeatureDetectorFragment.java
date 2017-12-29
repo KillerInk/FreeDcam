@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
+import java.lang.ref.WeakReference;
+
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.settings.SettingsManager;
@@ -24,7 +26,7 @@ import freed.utils.Log;
  * Created by troop on 16.07.2017.
  */
 
-public class CameraFeatureDetectorFragment extends Fragment {
+public class CameraFeatureDetectorFragment extends Fragment implements FeatureDetectorHandler.FdHandlerInterface {
 
     public interface FeatureDetectorEvents
     {
@@ -35,7 +37,7 @@ public class CameraFeatureDetectorFragment extends Fragment {
     private FeatureDetectorEvents featureDetectorEvents;
     private final String TAG = CameraFeatureDetectorFragment.class.getSimpleName();
     private CameraFeatureRunner featureRunner;
-    private FdUiHandler handler = new FdUiHandler();
+    private FeatureDetectorHandler handler = new FeatureDetectorHandler(this);
 
     public void setFeatureDetectorDoneListner(FeatureDetectorEvents events)
     {
@@ -66,13 +68,15 @@ public class CameraFeatureDetectorFragment extends Fragment {
         }
     }
 
-    private void sendLog(String log)
+    @Override
+    public void sendLog(String log)
     {
         String tmp = log + " \n"+ loggerview.getText().toString();
         loggerview.setText(tmp);
     }
 
-    private void startFreedcam()
+    @Override
+    public void startFreedcam()
     {
         featureRunner = null;
         SettingsManager.getInstance().setAppVersion(BuildConfig.VERSION_CODE);
@@ -87,7 +91,7 @@ public class CameraFeatureDetectorFragment extends Fragment {
         @Override
         public void onProgessUpdate(String msg) {
             Log.d(TAG, msg);
-            handler.obtainMessage(MSG_SENDLOG, msg).sendToTarget();
+            handler.obtainMessage(FeatureDetectorHandler.MSG_SENDLOG, msg).sendToTarget();
 
         }
 
@@ -109,29 +113,8 @@ public class CameraFeatureDetectorFragment extends Fragment {
             task.detect();
             if (SettingsManager.getInstance().hasCamera2Features())
                 SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
-            handler.obtainMessage(MSG_STARTFREEDCAM).sendToTarget();
+            handler.obtainMessage(FeatureDetectorHandler.MSG_STARTFREEDCAM).sendToTarget();
             return false;
-        }
-    }
-
-
-    private final int MSG_STARTFREEDCAM = 0;
-    private final int MSG_SENDLOG = 1;
-
-    private class FdUiHandler extends Handler
-    {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_STARTFREEDCAM:
-                    startFreedcam();
-                    break;
-                case MSG_SENDLOG:
-                    sendLog((String)msg.obj);
-                    break;
-                default:
-                super.handleMessage(msg);
-            }
         }
     }
 }

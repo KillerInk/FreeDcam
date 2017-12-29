@@ -60,7 +60,7 @@ public class VideoProfileEditorFragment extends Fragment {
         VP8(4),
         HEVC(5);
 
-        private VideoCodecs(int value)
+        VideoCodecs(int value)
         {
             this.value = value;
         }
@@ -80,7 +80,7 @@ public class VideoProfileEditorFragment extends Fragment {
         VORBIS(6);
 
 
-        private AudioCodecs(int value)
+        AudioCodecs(int value)
         {
             this.value = value;
         }

@@ -1,8 +1,12 @@
 package freed.cam.apis.camera2.modules;
 
+import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.TotalCaptureResult;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.util.Rational;
 
@@ -29,8 +33,8 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
     protected void onStartTakePicture() {
         int isorange[] = cameraHolder.characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_ISO_RANGE);
         maxiso = isorange[1];
-        currentExposureTime = cameraUiWrapper.cameraBackroundValuesChangedListner.currentExposureTime;
-        currentiso = cameraUiWrapper.cameraBackroundValuesChangedListner.currentIso;
+        currentExposureTime = cameraUiWrapper.captureSessionHandler.getImageCaptureParameter(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME).intValue() * 1000;
+        currentiso = cameraUiWrapper.captureSessionHandler.getImageCaptureParameter(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE).intValue();
         exposureTimeStep = currentExposureTime;
     }
 
@@ -70,8 +74,10 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, currentiso);
         //take Max latency frames to make sure full capture has correct values set. only full devices with latency 0 applys changes direct
-        for (int i = 0; i < cameraHolder.characteristics.get(CameraCharacteristics.SYNC_MAX_LATENCY);i++)
+        int fps = cameraHolder.characteristics.get(CameraCharacteristics.SYNC_MAX_LATENCY);
+        for (int i = 0; i < fps;i++)
             cameraUiWrapper.captureSessionHandler.capture();
+
     }
 
 
@@ -79,4 +85,5 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
     protected void finishCapture() {
         super.finishCapture();
     }
+
 }

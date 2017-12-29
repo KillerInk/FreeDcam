@@ -92,7 +92,7 @@ public class DngProfile
        </filesize>*/
     public String getXmlString(long filesize)
     {
-        String t = new String();
+        String t = "";
         t += "<filesize size= " +String.valueOf("\"") +String.valueOf(filesize) +String.valueOf("\"")  +">" + "\r\n";
             t += "<blacklvl>" + blacklevel + "</blacklvl>" + "\r\n";
             t += "<whitelvl>" + whitelevel + "</whitelvl>" + "\r\n";

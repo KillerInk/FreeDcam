@@ -38,14 +38,14 @@ import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
  */
 public abstract class AbstractModuleApi2 extends ModuleAbstract implements I_PreviewWrapper
 {
-    protected ParameterHandlerApi2 parameterHandler;
+    ParameterHandlerApi2 parameterHandler;
 
-    protected boolean isWorking;
-    protected CameraHolderApi2 cameraHolder;
-    protected Point displaySize;
+    boolean isWorking;
+    CameraHolderApi2 cameraHolder;
+    private Point displaySize;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-    public AbstractModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    AbstractModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         parameterHandler = (ParameterHandlerApi2) cameraUiWrapper.getParameterHandler();

@@ -49,7 +49,7 @@ public class AeHandler
     public final ManualExposureApi2 manualExposureApi2;
     public final ManualExposureTimeApi2 manualExposureTimeApi2;
     public final ManualISoApi2 manualISoApi2;
-    protected boolean ae_active = true;
+    private boolean ae_active = true;
 
     public final static long MAX_PREVIEW_EXPOSURETIME = 100000000;
 

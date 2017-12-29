@@ -63,7 +63,7 @@ public abstract class AbstractFocusHandler
 
     protected abstract void startTouchFocus(FocusCoordinates obj);
 
-    public AbstractFocusHandler(CameraWrapperInterface cameraUiWrapper)
+    protected AbstractFocusHandler(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         backgroundHandler = new BackgroundHandler(cameraUiWrapper.getCameraHandlerThread().getLooper());

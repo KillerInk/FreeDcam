@@ -421,7 +421,11 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
             try {
                 exifInterface = new ExifInterface(file.getAbsolutePath());
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.WriteEx(e);
+            }
+            catch (ArrayIndexOutOfBoundsException ex)
+            {
+                Log.WriteEx(ex);
             }
             if (exifInterface == null)
                 return false;

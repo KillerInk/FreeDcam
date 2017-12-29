@@ -55,18 +55,18 @@ public abstract class AE_Handler_Abstract
 
     private final String TAG = AE_Handler_Abstract.class.getSimpleName();
 
-    protected final CameraWrapperInterface cameraWrapper;
+    private final CameraWrapperInterface cameraWrapper;
     protected final Camera.Parameters parameters;
 
     protected ManualParameterAEHandlerInterface shutter;
     protected ManualParameterAEHandlerInterface iso;
-    protected int currentIso;
-    protected int currentShutter;
+    private int currentIso;
+    private int currentShutter;
 
     protected boolean auto = true;
     private boolean readMetaData;
 
-    public AE_Handler_Abstract(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper)
+    protected AE_Handler_Abstract(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {
         this.parameters = parameters;
         this.cameraWrapper = cameraUiWrapper;

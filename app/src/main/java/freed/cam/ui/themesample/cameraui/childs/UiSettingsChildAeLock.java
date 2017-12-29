@@ -29,9 +29,9 @@ public class UiSettingsChildAeLock extends UiSettingsChild implements SettingsCh
         if (parameter == null)
             return;
         if (parameter.GetStringValue().equals(getResources().getString(R.string.true_))) {
-            parameter.SetValue(getResources().getString(R.string.false_), false);
+            parameter.SetValue(getResources().getString(R.string.false_), true);
         }
         else{
-            parameter.SetValue(getResources().getString(R.string.true_),false);}
+            parameter.SetValue(getResources().getString(R.string.true_),true);}
     }
 }

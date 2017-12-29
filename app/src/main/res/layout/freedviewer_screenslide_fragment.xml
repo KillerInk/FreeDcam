@@ -34,20 +34,12 @@
             android:id="@+id/screenslide_histogram"
             android:layout_width="@dimen/freedviewer_screenslide_histogram_width"
             android:layout_height="@dimen/freedviewer_screenslide_histogram_height"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginLeft="2dp" />
 
         <LinearLayout
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/screenslide_histogram"
-            android:layout_toRightOf="@+id/screenslide_histogram"
             android:background="#71000001"
             android:orientation="vertical">
 
@@ -55,9 +47,6 @@
                 android:id="@+id/textView_filename"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/freedviewer_screenslide_exifInfoHeight"
-                android:layout_alignParentBottom="false"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="5dp"
                 android:text="Large Text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -67,7 +56,6 @@
                 android:id="@+id/exif_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -140,7 +128,7 @@
             android:layout_width="40dp"
             android:layout_height="@dimen/freedviewer_topbar_height"
             android:id="@+id/button_info"
-            android:textSize="10dp"
+            android:textSize="10sp"
             android:background="@drawable/info"
             android:layout_marginBottom="@dimen/app_icon_size" />
 
@@ -148,7 +136,7 @@
             android:layout_width="40dp"
             android:layout_height="@dimen/freedviewer_topbar_height"
             android:id="@+id/button_closeView"
-            android:textSize="10dp"
+            android:textSize="10sp"
             android:background="@drawable/go_back"
             android:layout_marginBottom="@dimen/app_icon_size" />
 
@@ -156,18 +144,15 @@
             android:layout_width="@dimen/freedviewer_topbar_height"
             android:layout_height="@dimen/freedviewer_topbar_height"
             android:id="@+id/button_play"
-            android:textSize="10dp"
-            android:background="@drawable/ic_play"
-            android:layout_alignParentTop="false" />
+            android:textSize="10sp"
+            android:background="@drawable/ic_play"/>
 
         <Button
             android:layout_width="@dimen/freedviewer_topbar_height"
             android:layout_height="@dimen/freedviewer_topbar_height"
             android:id="@+id/button_delete"
-            android:textSize="10dp"
+            android:textSize="10sp"
             android:background="@drawable/delete"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentEnd="false"
             android:layout_marginTop="@dimen/app_icon_size" />
     </LinearLayout>
 

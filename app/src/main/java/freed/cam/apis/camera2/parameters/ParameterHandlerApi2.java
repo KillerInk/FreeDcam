@@ -148,7 +148,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
 
         //MF
-        add(Settings.M_Focus,new ManualFocus(cameraUiWrapper)); ;
+        add(Settings.M_Focus,new ManualFocus(cameraUiWrapper));
 
         //MF END
 

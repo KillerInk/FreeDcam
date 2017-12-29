@@ -25,19 +25,19 @@ import freed.cam.apis.basecamera.FocusHandlerInterface;
 /**
  * Created by troop on 09.06.2015.
  */
-public abstract class AbstractFocusImageHandler implements FocusHandlerInterface
+abstract class AbstractFocusImageHandler implements FocusHandlerInterface
 {
     /**
      * Holds toplayerd fragment that has created this
      */
-    protected ActivityAbstract fragment;
+    ActivityAbstract fragment;
 
     /**
      *
      * @param view the view that contains the focus imageviews
      * @param fragment the toplayerd fragment wich create this
      */
-    protected AbstractFocusImageHandler(ActivityAbstract fragment)
+    AbstractFocusImageHandler(ActivityAbstract fragment)
     {
         this.fragment = fragment;
     }

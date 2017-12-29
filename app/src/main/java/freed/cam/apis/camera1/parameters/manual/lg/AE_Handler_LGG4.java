@@ -35,7 +35,7 @@ import freed.utils.Log;
 public class AE_Handler_LGG4 extends AE_Handler_Abstract
 {
 
-    final String TAG = AE_Handler_LGG4.class.getSimpleName();
+    private final String TAG = AE_Handler_LGG4.class.getSimpleName();
 
     public AE_Handler_LGG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {

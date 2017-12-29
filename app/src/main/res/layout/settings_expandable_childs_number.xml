@@ -36,7 +36,6 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/editText_number"
-        android:editable="false"
         android:clickable="false"
         android:enabled="false"
         android:digits="1"

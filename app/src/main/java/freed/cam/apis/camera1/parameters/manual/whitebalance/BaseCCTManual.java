@@ -27,6 +27,7 @@ import android.text.TextUtils;
 import com.troop.freedcam.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
@@ -127,9 +128,9 @@ public class BaseCCTManual extends BaseManualParameter
     protected void set_manual()
     {
         ParameterInterface wbm = cameraUiWrapper.getParameterHandler().get(Settings.WhiteBalanceMode);
-        Log.d(TAG, wbm.getStringValues().toString());
+        Log.d(TAG, Arrays.toString(wbm.getStringValues()));
         try {
-            if (parameters.get("whitebalance-values").toString().contains("manual") && parameters.get("manual-wb-modes").toString().contains("color-temperature")) {
+            if (parameters.get("whitebalance-values").contains("manual") && parameters.get("manual-wb-modes").contains("color-temperature")) {
 
                 wbm.SetValue(manual_WbMode, true);
                 parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_type), 0);
@@ -137,7 +138,7 @@ public class BaseCCTManual extends BaseManualParameter
                 Log.d(TAG, "NEW");
 
             } else {
-                if (!wbm.GetStringValue().equals(manual_WbMode) && manual_WbMode != "")
+                if (!wbm.GetStringValue().equals(manual_WbMode) && !TextUtils.isEmpty(manual_WbMode))
                     wbm.SetValue(manual_WbMode, true);
                 parameters.set(key_value, stringvalues[currentInt]);
                 Log.d(TAG, "OLD");
@@ -145,7 +146,7 @@ public class BaseCCTManual extends BaseManualParameter
         }
         catch (Exception err )
         {
-            if (!wbm.GetStringValue().equals(manual_WbMode) && manual_WbMode != "")
+            if (!wbm.GetStringValue().equals(manual_WbMode) && !TextUtils.isEmpty(manual_WbMode))
                 wbm.SetValue(manual_WbMode, true);
             parameters.set(key_value, stringvalues[currentInt]);
             err.printStackTrace();

@@ -27,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -265,9 +266,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
         synchronized (mAvailableCameraApiSet) {
             mAvailableCameraApiSet.clear();
-            for (String api : apis) {
-                mAvailableCameraApiSet.add(api);
-            }
+            mAvailableCameraApiSet.addAll(apis);
             SetCameraApiSet(mAvailableCameraApiSet);
         }
     }

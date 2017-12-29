@@ -14,11 +14,11 @@ import freed.utils.VideoMediaProfile;
  * Created by troop on 23.01.2017.
  */
 
-public abstract class AbstractFeatureDetectorTask {
+abstract class AbstractFeatureDetectorTask {
 
     private final  String TAG = AbstractFeatureDetectorTask.class.getSimpleName();
     private ProgressUpdate progressUpdateListner;
-    public AbstractFeatureDetectorTask(ProgressUpdate progressUpdate)
+    AbstractFeatureDetectorTask(ProgressUpdate progressUpdate)
     {
         this.progressUpdateListner = progressUpdate;
     }
@@ -29,7 +29,7 @@ public abstract class AbstractFeatureDetectorTask {
         void onTaskEnd(String msg);
     }
 
-    protected void sendProgress(SettingsManager.SettingMode settingMode, String name)
+    void sendProgress(SettingsManager.SettingMode settingMode, String name)
     {
         if (settingMode.isSupported()) {
             String[]ar = settingMode.getValues();
@@ -43,7 +43,7 @@ public abstract class AbstractFeatureDetectorTask {
 
     public abstract void detect();
 
-    protected void publishProgress(String value) {
+    void publishProgress(String value) {
         if (progressUpdateListner != null)
             progressUpdateListner.onProgessUpdate(value);
     }
@@ -53,7 +53,7 @@ public abstract class AbstractFeatureDetectorTask {
             progressUpdateListner.onTaskEnd(s);
     }
 
-    protected String getStringFromArray(String[] arr)
+    String getStringFromArray(String[] arr)
     {
         String t = "";
         for (int i =0; i<arr.length;i++)
@@ -61,7 +61,7 @@ public abstract class AbstractFeatureDetectorTask {
         return t;
     }
 
-    protected HashMap<String, VideoMediaProfile> getDefaultVideoMediaProfiles(int camera_id)
+    HashMap<String, VideoMediaProfile> getDefaultVideoMediaProfiles(int camera_id)
     {
 
         int CAMCORDER_QUALITY_2160p = 12;
@@ -212,7 +212,7 @@ public abstract class AbstractFeatureDetectorTask {
         return supportedProfiles;
     }
 
-    protected HashMap<String, VideoMediaProfile> getLGVideoMediaProfiles(int camera_id)
+    HashMap<String, VideoMediaProfile> getLGVideoMediaProfiles(int camera_id)
     {
         int CAMCORDER_QUALITY_2160p = 12;
         int CAMCORDER_QUALITY_2160pDCI = 13;

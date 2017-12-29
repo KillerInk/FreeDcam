@@ -93,8 +93,8 @@ public class ActivityFreeDviewer extends ActivityAbstract
         gridViewFragment.SetOnGridItemClick(onGridItemClick);
         screenSlideFragment = (ScreenSlideFragment)getSupportFragmentManager().findFragmentById(R.id.freedviewer_screenslide_fragment);
         screenSlideFragment.setOnBackClickListner(onScreenSlideBackClick);
-        slideholder = (FrameLayout) findViewById(R.id.freedviewer_screenslideholder);
-        gridholder = (FrameLayout)findViewById(R.id.freedviewer_gridviewholder);
+        slideholder =  findViewById(R.id.freedviewer_screenslideholder);
+        gridholder = findViewById(R.id.freedviewer_gridviewholder);
         slideholder.setVisibility(View.GONE);
     }
 

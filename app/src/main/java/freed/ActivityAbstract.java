@@ -60,7 +60,7 @@ import freed.viewer.holder.FileHolder;
  */
 public abstract class ActivityAbstract extends AppCompatActivity implements ActivityInterface, I_WorkEvent {
 
-    protected boolean initDone = false;
+    private boolean initDone = false;
 
 
     public enum FormatTypes
@@ -297,7 +297,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         }
     }
 
-    public void AddFiles(FileHolder[] fil)
+    protected void AddFiles(FileHolder[] fil)
     {
         synchronized (files) {
             for (FileHolder fh : fil)

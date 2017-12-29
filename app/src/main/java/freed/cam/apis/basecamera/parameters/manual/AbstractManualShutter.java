@@ -31,7 +31,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
  */
 public abstract class AbstractManualShutter extends AbstractParameter
 {
-    public AbstractManualShutter(CameraWrapperInterface cameraUiWrapper) {
+    protected AbstractManualShutter(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
 

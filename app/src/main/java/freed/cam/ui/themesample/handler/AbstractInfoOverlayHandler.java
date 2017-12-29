@@ -49,26 +49,26 @@ import freed.utils.Log;
 public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
 {
     private final Handler handler;
-    protected CameraWrapperInterface cameraUiWrapper;
-    boolean started;
+    private CameraWrapperInterface cameraUiWrapper;
+    private boolean started;
     private final Context context;
 
-    protected String batteryLevel;
+    String batteryLevel;
     private final BatteryBroadCastListner batteryBroadCastListner;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-    protected String timeString;
+    String timeString;
 
     //this holds the format for video or picture
-    protected String format;
+    private String format;
     //this holds the size for video/picture
-    protected String size;
+    String size;
 
-    protected String storageSpace;
+    String storageSpace;
     private DecimalFormat decimalFormat;
 
     private final String[] units = { "B", "KB", "MB", "GB", "TB" };
 
-    public AbstractInfoOverlayHandler(Context context)
+    AbstractInfoOverlayHandler(Context context)
     {
         this.context = context;
         handler = new Handler();
@@ -121,7 +121,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         }
     }
 
-    Runnable runner = new Runnable() {
+    private Runnable runner = new Runnable() {
         @Override
         public void run()
         {
@@ -142,7 +142,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
 
 
 
-    protected void UpdateViews()
+    void UpdateViews()
     {
 
     }
@@ -173,7 +173,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         }
     }
 
-    public void getStorageSpace()
+    private void getStorageSpace()
     {
         try
         {

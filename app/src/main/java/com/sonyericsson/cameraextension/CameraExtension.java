@@ -399,45 +399,45 @@ public class CameraExtension {
         }
     }
 
-    private final native void disableBurstShotCallback();
+    private native void disableBurstShotCallback();
 
-    private final native void enableBurstShotCallback();
+    private native void enableBurstShotCallback();
 
-    private final native boolean isBurstSavingTaskStackEmpty();
+    private native boolean isBurstSavingTaskStackEmpty();
 
-    private final native void native_deselectObject();
+    private native void native_deselectObject();
 
-    private final native String native_getParameters();
+    private native String native_getParameters();
 
-    private final native void native_release();
+    private native void native_release();
 
-    private final native void native_selectObject(int i, int i2);
+    private native void native_selectObject(int i, int i2);
 
-    private final native void native_setBurstShutterSoundFilePath(String str);
+    private native void native_setBurstShutterSoundFilePath(String str);
 
-    private final native void native_setSelectFacePos(int i, int i2);
+    private native void native_setSelectFacePos(int i, int i2);
 
-    private final native int native_setup(Object obj, int i, String str);
+    private native int native_setup(Object obj, int i, String str);
 
-    private final native void native_startAutoFocus(boolean z, boolean z2, boolean z3);
+    private native void native_startAutoFocus(boolean z, boolean z2, boolean z3);
 
-    private final native void native_startObjectTracking();
+    private native void native_startObjectTracking();
 
-    private final native void native_startSceneRecognition();
+    private native void native_startSceneRecognition();
 
-    private final native void native_startVideoMetadata();
+    private native void native_startVideoMetadata();
 
-    private final native void native_stopBurstShot();
+    private native void native_stopBurstShot();
 
-    private final native void native_stopObjectTracking();
+    private native void native_stopObjectTracking();
 
-    private final native void native_stopSceneRecognition();
+    private native void native_stopSceneRecognition();
 
-    private final native void native_stopVideoMetadata();
+    private native void native_stopVideoMetadata();
 
-    private final native void setObjectTrackingLowPassFilterPrameters(int i, int i2);
+    private native void setObjectTrackingLowPassFilterPrameters(int i, int i2);
 
-    private final native void startBurstShot(int i);
+    private native void startBurstShot(int i);
 
     public final native void native_stopAutoFocus();
 
@@ -583,7 +583,7 @@ public class CameraExtension {
         this.mErrorCallback = cb;
     }
 
-    public static final List<Rect> getFocusAreasOnPreview(Parameters parameters, Size previewSize) {
+    public static List<Rect> getFocusAreasOnPreview(Parameters parameters, Size previewSize) {
         List<Rect> result = new ArrayList();
         Size max = getMaxPictureSize(parameters);
         if (max != null) {

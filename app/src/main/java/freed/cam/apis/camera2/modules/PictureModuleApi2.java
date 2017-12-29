@@ -378,7 +378,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         }
 
         cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession(null);
-        prepareCaptureBuilder(imagecount);
+
         Log.d(TAG, "CancelRepeatingCaptureSessoion set imageRdyCallback");
         CameraIsReadyToCaptureImage imageCaptureRdyCallback = new CameraIsReadyToCaptureImage(currentCaptureHolder);
         if (!cameraUiWrapper.captureSessionHandler.IsCaptureSessionRDY())
@@ -399,6 +399,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
         @Override
         public void onRdy() {
+            prepareCaptureBuilder(imagecount);
             changeCaptureState(CaptureStates.image_capture_start);
             Log.d(TAG, "StartStillCapture");
             cameraUiWrapper.captureSessionHandler.StartImageCapture(captureCallback, mBackgroundHandler);
@@ -555,7 +556,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             }
         }
         catch (NullPointerException ex) {
-            Log.WriteEx(ex);;
+            Log.WriteEx(ex);
         }
     }
 

@@ -80,6 +80,8 @@ public class WifiHandler extends WifiUtils {
 
     public void StartLookUp()
     {
+        if (!resumed)
+            return;
         Log.d(TAG,"StartLookup");
         //check if Wifi is on and LocationService too, to lookup wifinetworks
         if (isWifiEnabled() && isLocationServiceEnabled())

@@ -153,22 +153,22 @@ public class ToneMapProfile {
 
     public String getXmlString()
     {
-        String tonecurve = new String();
+        String tonecurve = "";
         for (int i=0; i < toneCurve.length; i++)
         {
             tonecurve += toneCurve[i] + " ";
         }
-        String huesatmap = new String();
+        String huesatmap = "";
         for (int i=0; i < hueSatMap.length; i++)
         {
             huesatmap += hueSatMap[i] + " ";
         }
-        String huesatmapdim = new String();
+        String huesatmapdim = "";
         for (int i=0; i < hueSatMapDims.length; i++)
         {
             huesatmapdim += hueSatMapDims[i] + " ";
         }
-        String t = new String();
+        String t = "";
         t += "<tonemapprofile name= " +String.valueOf("\"") +String.valueOf(name) +String.valueOf("\"")  +">" + "\r\n";
         t += "<tonecurve>" + tonecurve + "</tonecurve>" + "\r\n";
         t += "<baselineexposure>" + baselineExposure + "</baselineexposure>" + "\r\n";

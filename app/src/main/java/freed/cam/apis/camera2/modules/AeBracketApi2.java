@@ -45,11 +45,11 @@ public class AeBracketApi2 extends PictureModuleApi2
     private final int WAIT_FOR_EXPO_SET = 2;
     private final int WAIT_NOTHING = 3;
     private int WAIT_EXPOSURE_STATE = WAIT_NOTHING;
-    protected long currentExposureTime = 0;
-    protected long exposureTimeStep = 0;
+    long currentExposureTime = 0;
+    long exposureTimeStep = 0;
     private boolean aeWasOn = false;
-    protected int maxiso;
-    protected int currentiso;
+    int maxiso;
+    int currentiso;
 
 
     public AeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
