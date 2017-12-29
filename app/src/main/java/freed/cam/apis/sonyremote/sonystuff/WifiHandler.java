@@ -57,7 +57,7 @@ public class WifiHandler extends WifiUtils {
     public void onPause()
     {
         resumed = false;
-        uiHandler.removeCallbacks(startLookupRunner);
+        uiHandler.removeCallbacksAndMessages(startLookupRunner);
     }
 
 
@@ -167,7 +167,8 @@ public class WifiHandler extends WifiUtils {
     private Runnable startLookupRunner = new Runnable() {
         @Override
         public void run() {
-            StartLookUp();
+            if (resumed)
+                StartLookUp();
         }
     };
 
