@@ -44,6 +44,7 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.Log;
+import freed.utils.MediaScannerManager;
 import freed.utils.StringUtils;
 
 /**
@@ -153,20 +154,23 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
                 outputStream.write((s+"\r\n").getBytes());
             }
 
-            outputStream.write(ReflectionHelper.dumpClass(Camera.class).getBytes());
-            outputStream.write(ReflectionHelper.dumpClass(Camera.Parameters.class).getBytes());
+            ReflectionHelper reflectionHelper = new ReflectionHelper();
+
+            reflectionHelper.dumpClass(Camera.class,outputStream,0);
+            reflectionHelper.dumpClass(Camera.Parameters.class,outputStream,0);
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             {
-                outputStream.write(ReflectionHelper.dumpClass(CameraDevice.class).getBytes());
-                outputStream.write(ReflectionHelper.dumpClass(CameraCharacteristics.class).getBytes());
-                outputStream.write(ReflectionHelper.dumpClass(CaptureRequest.class).getBytes());
-                outputStream.write(ReflectionHelper.dumpClass(CaptureResult.class).getBytes());
+                reflectionHelper.dumpClass(CameraDevice.class,outputStream,0);
+                reflectionHelper.dumpClass(CameraCharacteristics.class,outputStream,0);
+                reflectionHelper.dumpClass(CaptureRequest.class,outputStream,0);
+                reflectionHelper.dumpClass(CaptureResult.class,outputStream,0);
             }
 
             outputStream.close();
         } catch (Exception e) {
             Log.WriteEx(e);
         }
+        MediaScannerManager.ScanMedia(getContext(),file);
     }
 }

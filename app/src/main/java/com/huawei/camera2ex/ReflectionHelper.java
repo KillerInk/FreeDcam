@@ -1,5 +1,7 @@
 package com.huawei.camera2ex;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -70,24 +72,51 @@ public class ReflectionHelper {
         return null;
     }
 
-    public static String dumpClass(Class classtoDump)
+
+    private final String tab = "   ";
+
+    private String getTab(int depth)
     {
-        String ret = "############## " + classtoDump.getSimpleName() + " ##############\r\n";
-        Method[] m = classtoDump.getDeclaredMethods();
-        ret += "############## Methods ##############\r\n";
-        for (int i = 0; i < m.length; i++)
-            ret += createMethodLogString(m[i]) + "\r\n";
-        Field[] f = classtoDump.getDeclaredFields();
-        ret += "############## Fields ##############\r\n";
-        for (int i = 0; i < f.length; i++)
-            ret += createFieldLogString(f[i]) +"\r\n";
+        String ret = "";
+        for (int i =0; i< depth; i ++)
+            ret += tab;
         return ret;
     }
 
-    private static String createMethodLogString(Method method)
+    public void dumpClass(Class classtoDump, FileOutputStream outputStream, int depth) throws IOException {
+
+        outputStream.write((getTab(depth) + getAccessType(classtoDump.getModifiers()) + "class " + classtoDump.getSimpleName() + " {\r\n").getBytes());
+
+            Field[] f = classtoDump.getDeclaredFields();
+            if (f.length > 0) {
+                for (int i = 0; i < f.length; i++)
+                    outputStream.write((createFieldLogString(f[i], depth + 1) + "\r\n").getBytes());
+                outputStream.write("\r\n".getBytes());
+            }
+
+            Method[] m = classtoDump.getDeclaredMethods();
+            if (m.length > 0)
+            {
+                for (int i = 0; i < m.length; i++)
+                    outputStream.write((createMethodLogString(m[i],depth +1) + "\r\n").getBytes());
+                outputStream.write("\r\n".getBytes());
+            }
+
+            depth++;
+            Class[] classes = classtoDump.getClasses();
+            for (Class cls : classes) {
+                dumpClass(cls, outputStream, depth);
+            }
+            depth--;
+        outputStream.write((getTab(depth) +"}\r\n").getBytes());
+    }
+
+    private String createMethodLogString(Method method,int depth)
     {
         int mod = method.getModifiers();
-        String ret = getAccessType(mod);
+        String ret = getTab(depth);
+        ret += getAccessType(mod);
+
         ret += method.getReturnType().getSimpleName() + " ";
         ret +=  method.getName();
         Class[] parametertypes = method.getParameterTypes();
@@ -103,10 +132,11 @@ public class ReflectionHelper {
         return ret;
     }
 
-    private static String createFieldLogString(Field field)
+    private String createFieldLogString(Field field,int depth)
     {
         int mod = field.getModifiers();
-        String ret = getAccessType(mod);
+        String ret = getTab(depth);
+        ret += getAccessType(mod);
         ret += " " + field.getType().getSimpleName() + " ";
         ret += field.getName();
 
@@ -126,7 +156,7 @@ public class ReflectionHelper {
         return ret;
     }
 
-    private static String getAccessType(int mod)
+    private String getAccessType(int mod)
     {
         String ret = "";
         if (Modifier.isPrivate(mod))
