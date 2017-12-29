@@ -43,6 +43,7 @@ public class BaseISOManual extends BaseManualParameter {
         isSupported = true;
         isVisible = true;
         stringvalues = SettingsManager.get(Settings.M_ManualIso).getValues();
+        key_value = SettingsManager.get(Settings.M_ManualIso).getKEY();
     }
 
     @Override

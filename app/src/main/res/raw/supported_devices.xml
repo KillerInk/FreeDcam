@@ -2427,6 +2427,13 @@
         <models><item>MI 6</item></models>
         <camera1>
             <digitalimagestab>false</digitalimagestab>
+            <manualiso supported="true">
+                <min>100</min>
+                <max>1600</max>
+                <step>100</step>
+                <key>iso</key>
+                <type>0</type>
+            </manualiso>
         </camera1>
 
         <opcodes>

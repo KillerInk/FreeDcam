@@ -83,6 +83,7 @@ public class SettingsManager {
     public static final int ISOMANUAL_SONY =1;
     public static final int ISOMANUAL_MTK =2;
     public static final int ISOMANUAL_KRILLIN =3;
+    public static final int ISOMANUAL_LG =4;
 
     public static final String CURRENTCAMERA = "currentcamera";
     public static final String NIGHTMODE = "nightmode";

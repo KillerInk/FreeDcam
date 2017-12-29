@@ -376,7 +376,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     SettingsManager.get(Settings.M_ManualIso).setValues(createIsoValues(min, max, 50));
                     SettingsManager.get(Settings.M_ManualIso).setType(SettingsManager.ISOMANUAL_KRILLIN);
                     SettingsManager.get(Settings.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso));
-
+                }
+                else if (parameters.get(SettingsManager.getInstance().getResString(R.string.lg_iso)) != null) {
+                    SettingsManager.get(Settings.M_ManualIso).setIsSupported(true);
+                    SettingsManager.get(Settings.M_ManualIso).setValues(createIsoValues(0, 2700, 50));
+                    SettingsManager.get(Settings.M_ManualIso).setType(SettingsManager.ISOMANUAL_LG);
+                    SettingsManager.get(Settings.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.lg_iso));
                 }
             }
         }

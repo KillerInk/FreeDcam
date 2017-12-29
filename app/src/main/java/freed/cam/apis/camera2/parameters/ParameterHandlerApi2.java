@@ -37,7 +37,8 @@ import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.FocusHandler;
-import freed.cam.apis.camera2.parameters.huawei.HuaweiAeHandler;
+import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
+import freed.cam.apis.camera2.parameters.ae.AeManagerHuaweiCamera2;
 import freed.cam.apis.camera2.parameters.manual.BurstApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
@@ -129,20 +130,23 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //ColorCorrectionMode = colorCorrectionMode;
 
         //AE mode start
-        AeHandler aeHandler;
-        if (SettingsManager.get(Settings.useHuaweiCamera2Extension).getBoolean())
-            aeHandler = new HuaweiAeHandler(cameraUiWrapper);
+        if (SettingsManager.get(Settings.useHuaweiCamera2Extension).getBoolean()) {
+            AeManagerHuaweiCamera2 aeManager = new AeManagerHuaweiCamera2(camera2Fragment);
+            add(Settings.M_ExposureCompensation, aeManager.getExposureCompensation());
+            add(Settings.M_ManualIso, aeManager.getIso());
+            add(Settings.M_ExposureTime, aeManager.getExposureTime());
+        }
         else {
-            aeHandler = new AeHandler(cameraUiWrapper);
+            AeManagerCamera2 aeManager = new AeManagerCamera2(cameraUiWrapper);
+            add(Settings.M_ExposureCompensation, aeManager.getExposureCompensation());
+            add(Settings.M_ManualIso, aeManager.getIso());
+            add(Settings.M_ExposureTime, aeManager.getExposureTime());
             //not used by huawei
-            add(Settings.ExposureMode, aeHandler.aeModeApi2);
-            get(Settings.ExposureMode).addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
+            add(Settings.ExposureMode, aeManager.getAeMode());
+            //get(Settings.ExposureMode).addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
         }
         //pass stuff to the parameterhandler that it get used by the ui
 
-        add(Settings.M_ExposureTime, aeHandler.manualExposureTimeApi2);
-        add(Settings.M_ExposureCompensation, aeHandler.manualExposureApi2);
-        add(Settings.M_ManualIso, aeHandler.manualISoApi2);
         //ae mode end
         add(Settings.PictureSize, new PictureSizeModeApi2(cameraUiWrapper));
 

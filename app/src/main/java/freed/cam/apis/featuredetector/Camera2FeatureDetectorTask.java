@@ -849,17 +849,16 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         int min = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
         float step = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
 
-        StringFloatArray ranges = new StringFloatArray((max*2)+1);
+        List<String> strings = new ArrayList<>();
         int t = 0;
         for (int i = min; i <= max; i++) {
-            String s = String.format("%.1f", i * step);
-            ranges.add(t++,s,i);
+            strings.add(String.format("%.1f", i * step));
         }
-        if (ranges.getSize() > 0)
+        if (strings.size() > 0)
             exposure.setIsSupported(true);
         else
             exposure.setIsSupported(false);
-        exposure.setValues(ranges.getStringArray());
+        exposure.setValues(strings.toArray(new String[strings.size()]));
     }
 
     private void detectManualexposureTime(CameraCharacteristics characteristics)

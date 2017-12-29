@@ -37,7 +37,8 @@ import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.FocusHandler;
-import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
+import freed.cam.apis.camera1.parameters.ae.AeManagerLgCamera1;
+import freed.cam.apis.camera1.parameters.ae.AeManagerMtkCamera1;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ExposureManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ManualIsoSony;
@@ -48,8 +49,6 @@ import freed.cam.apis.camera1.parameters.manual.focus.FocusManualParameterHTC;
 import freed.cam.apis.camera1.parameters.manual.krilin.ManualAperture;
 import freed.cam.apis.camera1.parameters.manual.krilin.ManualIsoKrilin;
 import freed.cam.apis.camera1.parameters.manual.krilin.ShutterManualKrilin;
-import freed.cam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4;
-import freed.cam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
 import freed.cam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
 import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
 import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
@@ -109,7 +108,6 @@ public class ParametersHandler extends AbstractParameterHandler
     private final String TAG = ParametersHandler.class.getSimpleName();
 
     private Parameters cameraParameters;
-    private AE_Handler_Abstract aehandler;
     public Parameters getParameters(){return cameraParameters;}
 
     public ParametersHandler(CameraWrapperInterface cameraUiWrapper)
@@ -404,15 +402,14 @@ public class ParametersHandler extends AbstractParameterHandler
                     add(Settings.M_ExposureTime, new ExposureTime_MicroSec(cameraUiWrapper,cameraParameters));
                     break;
                 case SHUTTER_MTK:
-
-                    aehandler = new AE_Handler_MTK(cameraParameters,cameraUiWrapper,1600);
-                    add(Settings.M_ExposureTime, aehandler.getShutterManual());
-                    add(Settings.M_ManualIso, aehandler.getManualIso());
+                    AeManagerMtkCamera1 aeManagerMtkCamera1 = new AeManagerMtkCamera1(cameraUiWrapper,cameraParameters);
+                    add(Settings.M_ExposureTime, aeManagerMtkCamera1.getExposureTime());
+                    add(Settings.M_ManualIso, aeManagerMtkCamera1.getIso());
                     break;
                 case SHUTTER_LG:
-                    aehandler = new AE_Handler_LGG4(cameraParameters,cameraUiWrapper);
-                    add(Settings.M_ExposureTime, aehandler.getShutterManual());
-                    add(Settings.M_ManualIso, aehandler.getManualIso());
+                    AeManagerLgCamera1 aeManagerLgCamera1 = new AeManagerLgCamera1(cameraUiWrapper,cameraParameters);
+                    add(Settings.M_ExposureTime, aeManagerLgCamera1.getExposureTime());
+                    add(Settings.M_ManualIso, aeManagerLgCamera1.getIso());
                     break;
                 case SHUTTER_MEIZU:
                     add(Settings.M_ExposureTime, new ShutterManualMeizu(cameraParameters,cameraUiWrapper));
@@ -434,7 +431,10 @@ public class ParametersHandler extends AbstractParameterHandler
 
         //mtk and g4 aehandler set it already
         Log.d(TAG, "manual Iso supported:" + appS.get(Settings.M_ManualIso).isSupported());
-        if (appS.get(Settings.M_ManualIso).isSupported() && aehandler == null && appS.get(Settings.M_ManualIso).getValues() != null && appS.get(Settings.M_ManualIso).getValues().length > 0)
+        if (appS.get(Settings.M_ManualIso).isSupported()
+                && appS.get(Settings.M_ManualIso).getValues() != null
+                && appS.get(Settings.M_ManualIso).getValues().length > 0
+                && get(Settings.M_ManualIso) == null)
         {
             switch (appS.get(Settings.M_ManualIso).getType())
             {
