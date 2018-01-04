@@ -39,7 +39,7 @@ public class PermissionManager
 
     public boolean hasExternalSDPermission(PermissionCallback callbackToReturn)
     {
-        return hasPermission(callbackToReturn, Manifest.permission.READ_EXTERNAL_STORAGE);
+        return hasPermission(callbackToReturn, new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE});
     }
 
     public boolean hasLocationPermission(PermissionCallback callbackToReturn)
@@ -106,7 +106,7 @@ public class PermissionManager
     public void hasCameraAndSdPermission(PermissionCallback callbackToReturn)
     {
         hasPermission(callbackToReturn, new String[]{
-                Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
         });
     }
 
