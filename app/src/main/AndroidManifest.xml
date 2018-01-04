@@ -27,7 +27,7 @@
         android:name="com.oneplus.camera.CAMERA_SERVICE" />
     <permission
         android:name="com.oneplus.camera.AUTO_TEST"
-        android:protectionLevel="0x0" />
+        android:protectionLevel="signatureOrSystem" />
     <uses-permission
         android:name="com.oneplus.camera.PICTURE_PROCESS_SERVICE" />
     <!-- used on oneplus5 -->

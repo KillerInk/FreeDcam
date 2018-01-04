@@ -53,17 +53,11 @@ public abstract class AbstractParameterHandler
 
     private final HashMap<Settings, ParameterInterface> parameterHashMap = new HashMap<>();
 
-    /**
-     * Holds the UI/Main Thread
-     */
-    private Handler uiHandler;
-
     protected CameraWrapperInterface cameraUiWrapper;
 
 
     protected AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
-        uiHandler = new Handler(Looper.getMainLooper());
         add(Settings.GuideList, new GuideList());
         add(Settings.locationParameter, new LocationParameter(cameraUiWrapper));
         add(Settings.IntervalDuration, new IntervalDurationParameter(cameraUiWrapper));

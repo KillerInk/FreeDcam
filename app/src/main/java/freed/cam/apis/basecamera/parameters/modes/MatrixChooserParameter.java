@@ -35,7 +35,6 @@ import freed.utils.Log;
 public class MatrixChooserParameter extends AbstractParameter
 {
     public static final String NEXUS6 = "Nexus6";
-    public static final String G4 = "G4";
     private final HashMap<String, CustomMatrix> custommatrixes;
     private String currentval = "off";
     private boolean isSupported;
@@ -47,6 +46,8 @@ public class MatrixChooserParameter extends AbstractParameter
         this.custommatrixes = matrixHashMap;
         isSupported = true;
         currentval = SettingsManager.get(Settings.matrixChooser).get();
+        if (TextUtils.isEmpty(currentval))
+            currentval = "off";
     }
 
     @Override
