@@ -2,9 +2,11 @@ package freed.cam.apis.camera1.parameters.manual.krilin;
 
 import android.hardware.Camera;
 
+import java.util.Set;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -17,12 +19,12 @@ public class ManualIsoKrilin extends AbstractParameter {
     String key;
 
     public ManualIsoKrilin(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper, SettingKeys.M_ManualIso);
         this.parameters =  parameters;
         isSupported = true;
         isVisible = isSupported;
-        stringvalues = SettingsManager.get(Settings.M_ManualIso).getValues();
-        key = SettingsManager.get(Settings.M_ManualIso).getKEY();
+        stringvalues = SettingsManager.get(SettingKeys.M_ManualIso).getValues();
+        key = SettingsManager.get(SettingKeys.M_ManualIso).getKEY();
     }
 
     @Override

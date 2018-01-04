@@ -31,6 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CaptureSessionHandler;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
@@ -43,21 +44,18 @@ public class BaseModeApi2 extends AbstractParameter
 {
     private final String TAG = BaseModeApi2.class.getSimpleName();
     protected HashMap<String, Integer> parameterValues;
-    protected SettingsManager.SettingMode settingMode;
     protected Key<Integer> parameterKey;
     protected CaptureSessionHandler captureSessionHandler;
 
-    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper)
+    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode)
     {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,settingMode);
         this.captureSessionHandler = ((Camera2Fragment) cameraUiWrapper).captureSessionHandler;
     }
 
-    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode, Key<Integer> parameterKey) {
-        this(cameraUiWrapper);
-        this.settingMode = settingMode;
+    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key, Key<Integer> parameterKey) {
+        this(cameraUiWrapper,key);
         this.parameterKey = parameterKey;
-        isSupported = settingMode.isSupported();
 
         try {
             if (isSupported) {

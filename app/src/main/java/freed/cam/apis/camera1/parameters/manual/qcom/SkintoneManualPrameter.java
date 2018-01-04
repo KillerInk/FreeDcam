@@ -23,7 +23,7 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 12.04.2015.
@@ -58,9 +58,9 @@ public class SkintoneManualPrameter extends BaseManualParameter {
 
     @Override
     public void setValue(int valueToSet, boolean setToCamera) {
-        cameraUiWrapper.getParameterHandler().get(Settings.SceneMode).SetValue("portrait", true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.SceneMode).SetValue("portrait", true);
         parameters.set("skinToneEnhancement",valueToSet + "");
         if (valueToSet == 0)
-            cameraUiWrapper.getParameterHandler().get(Settings.SceneMode).SetValue("auto", true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.SceneMode).SetValue("auto", true);
     }
 }

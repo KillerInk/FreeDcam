@@ -36,8 +36,8 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
 {
     private CameraWrapperInterface cameraWrapperInterface;
 
-    public SettingsChildMenuVideoHDR(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid) {
-        super(context, settingsMode, parameter, headerid, descriptionid);
+    public SettingsChildMenuVideoHDR(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
+        super(context, parameter, headerid, descriptionid);
     }
 
     public SettingsChildMenuVideoHDR(Context context) {

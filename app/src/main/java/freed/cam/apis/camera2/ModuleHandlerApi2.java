@@ -31,7 +31,7 @@ import freed.cam.apis.camera2.modules.HuaweiAeBracketApi2;
 import freed.cam.apis.camera2.modules.IntervalApi2;
 import freed.cam.apis.camera2.modules.PictureModuleApi2;
 import freed.cam.apis.camera2.modules.VideoModuleApi2;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -54,7 +54,7 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract
         moduleList.put(intervalModule.ModuleName(), intervalModule);
         VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
-        if (!SettingsManager.get(Settings.useHuaweiCamera2Extension).getBoolean()){
+        if (!SettingsManager.get(SettingKeys.useHuaweiCamera2Extension).get()){
             AeBracketApi2 aeBracketApi2 = new AeBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
             moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
         }

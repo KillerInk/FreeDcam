@@ -40,7 +40,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.utils.Log;
 
 /**
@@ -253,7 +253,7 @@ public class CameraHolder extends CameraHolderAbstract
         try {
             if (!isRdy)
                 return;
-            Size s = new Size(cameraUiWrapper.getParameterHandler().get(Settings.PreviewSize).GetStringValue());
+            Size s = new Size(cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).GetStringValue());
             //Add 5 pre allocated buffers. that avoids that the camera create with each frame a new one
             for (int i = 0; i< BUFFERCOUNT; i++)
             {

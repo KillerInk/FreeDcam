@@ -55,16 +55,15 @@ public class SettingsChildMenu extends UiSettingsChild
         description.setText(getResources().getText(descriptionid));
     }
 
-    public SettingsChildMenu(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
-        super(context, settingsMode, parameter);
+    public SettingsChildMenu(Context context, ParameterInterface parameter) {
+        super(context, parameter);
     }
 
-    public SettingsChildMenu(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid)
+    public SettingsChildMenu(Context context, ParameterInterface parameter, int headerid, int descriptionid)
     {
-        super(context,settingsMode,parameter);
+        super(context,parameter);
         headerText.setText(getResources().getText(headerid));
         description.setText(getResources().getText(descriptionid));
-        valueText.setText(settingsMode.get());
     }
 
     public SettingsChildMenu(Context context, AttributeSet attrs) {

@@ -9,6 +9,7 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.Camera2Fragment;
+import freed.settings.SettingKeys;
 
 /**
  * Created by Ingo on 03.10.2016.
@@ -17,7 +18,7 @@ import freed.cam.apis.camera2.Camera2Fragment;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class JpegQualityModeApi2 extends BaseModeApi2 {
     public JpegQualityModeApi2(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper, SettingKeys.JpegQuality);
     }
 
     @Override

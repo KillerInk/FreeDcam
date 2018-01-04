@@ -30,10 +30,8 @@ import freed.settings.SettingsManager;
  */
 public class SettingsChildMenuIntervalDuration extends SettingsChildMenu
 {
-    private CameraWrapperInterface cameraUiWrapper;
-
-    public SettingsChildMenuIntervalDuration(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid) {
-        super(context, settingsMode, parameter, headerid, descriptionid);
+    public SettingsChildMenuIntervalDuration(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
+        super(context, parameter, headerid, descriptionid);
     }
 
     @Override
@@ -46,7 +44,6 @@ public class SettingsChildMenuIntervalDuration extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        settingMode.set(value);
         onStringValueChanged(value);
         parameter.SetValue(value,true);
     }

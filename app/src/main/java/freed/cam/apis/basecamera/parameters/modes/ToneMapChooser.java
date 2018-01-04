@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.dng.ToneMapProfile;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -19,9 +19,10 @@ public class ToneMapChooser extends AbstractParameter {
     private HashMap<String, ToneMapProfile> toneMapProfileHashMap;
     public ToneMapChooser(HashMap<String, ToneMapProfile> toneMapProfileHashMap)
     {
+        super(null);
         this.toneMapProfileHashMap = toneMapProfileHashMap;
         isSupported = true;
-        currentString = SettingsManager.get(Settings.tonemapChooser).get();
+        currentString = SettingsManager.get(SettingKeys.TONEMAP_SET).get();
         if (TextUtils.isEmpty(currentString))
             currentString = SettingsManager.getInstance().getResString(R.string.off_);
     }
@@ -36,7 +37,7 @@ public class ToneMapChooser extends AbstractParameter {
     {
         currentString = valueToSet;
         fireStringValueChanged(currentString);
-        SettingsManager.get(Settings.tonemapChooser).set(valueToSet);
+        SettingsManager.get(SettingKeys.TONEMAP_SET).set(valueToSet);
     }
 
     @Override

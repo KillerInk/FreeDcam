@@ -9,6 +9,7 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -25,7 +26,7 @@ public class MotoHDR extends BaseModeParameter
     private String format = "";
     private String curmodule = "";
 
-    public MotoHDR(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode) {
+    public MotoHDR(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
         super(parameters, cameraUiWrapper, settingMode);
     }
 

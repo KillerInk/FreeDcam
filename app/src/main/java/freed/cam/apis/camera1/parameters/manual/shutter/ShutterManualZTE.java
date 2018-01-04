@@ -25,16 +25,17 @@ import android.os.Handler;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
  * Created by troop on 25.11.2015.
  */
-public class ShutterManualZTE extends AbstractManualShutter
+public class ShutterManualZTE extends AbstractParameter
 {
     private final String TAG = ShutterManualZTE.class.getSimpleName();
     private Parameters parameters;
@@ -43,10 +44,8 @@ public class ShutterManualZTE extends AbstractManualShutter
      * @param cameraUiWrapper
      */
     public ShutterManualZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         this.parameters = parameters;
-        stringvalues = SettingsManager.get(Settings.M_ExposureTime).getValues();
-        isSupported = true;
     }
 
     @Override

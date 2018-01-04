@@ -13,8 +13,7 @@ import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
-import freed.cam.apis.sonyremote.parameters.ParameterHandler;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -59,14 +58,14 @@ public class AeManagerCamera2 extends AeManager {
     public void setIso(int valueToSet, boolean setToCamera) {
         if (valueToSet == 0)
         {
-            cameraUiWrapper.getParameterHandler().get(Settings.ExposureMode).SetValue(SettingsManager.get(Settings.ExposureMode).get(),setToCamera);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureMode).SetValue(cameraUiWrapper.getContext().getString(R.string.on),setToCamera);
             setAeMode(AeStates.auto);
         }
         else
         {
             if (activeAeState != AeStates.manual){
                 setAeMode(AeStates.manual);
-                cameraUiWrapper.getParameterHandler().get(Settings.ExposureMode).SetValue(cameraUiWrapper.getContext().getString(R.string.off),setToCamera);
+                cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureMode).SetValue(cameraUiWrapper.getContext().getString(R.string.off),setToCamera);
             }
             cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(manualIso.getStringValues()[valueToSet]),setToCamera);
             manualIso.fireIntValueChanged(valueToSet);
@@ -97,9 +96,9 @@ public class AeManagerCamera2 extends AeManager {
     {
         //back in auto mode
         //set flash back to its old state
-        cameraWrapperInterface.getParameterHandler().get(Settings.FlashMode).SetValue(cameraWrapperInterface.getParameterHandler().get(Settings.FlashMode).GetStringValue(),true);
+        cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).SetValue(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).GetStringValue(),true);
         //show flashmode ui item
-        cameraWrapperInterface.getParameterHandler().get(Settings.FlashMode).fireIsSupportedChanged(true);
+        cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).fireIsSupportedChanged(true);
         //set exposure ui item to enable
         exposureCompensation.fireIsSupportedChanged(true);
         exposureCompensation.fireIsReadOnlyChanged(true);
@@ -116,7 +115,7 @@ public class AeManagerCamera2 extends AeManager {
         //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
         cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF,true);
         //hide flash ui item its not supported in manual mode
-        cameraUiWrapper.getParameterHandler().get(Settings.FlashMode).fireIsSupportedChanged(false);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.FlashMode).fireIsSupportedChanged(false);
         //enable manualiso item in ui
         manualIso.fireIsReadOnlyChanged(true);
         //enable manual exposuretime in ui
@@ -127,7 +126,7 @@ public class AeManagerCamera2 extends AeManager {
     public class AeModeApi2 extends BaseModeApi2
     {
         public AeModeApi2(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper, SettingsManager.get(Settings.ExposureMode),CaptureRequest.CONTROL_AE_MODE);
+            super(cameraUiWrapper, SettingKeys.ExposureMode,CaptureRequest.CONTROL_AE_MODE);
         }
 
         @Override

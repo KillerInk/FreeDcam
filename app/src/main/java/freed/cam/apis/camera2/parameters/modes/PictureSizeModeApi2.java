@@ -23,7 +23,7 @@ import android.annotation.TargetApi;
 import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -33,7 +33,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2
 {
     private String size = "1920x1080";
     public PictureSizeModeApi2(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,SettingKeys.PictureSize);
     }
     boolean firststart = true;
     @Override
@@ -63,6 +63,6 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] getStringValues()
     {
-        return SettingsManager.get(Settings.PictureSize).getValues();
+        return SettingsManager.get(SettingKeys.PictureSize).getValues();
     }
 }

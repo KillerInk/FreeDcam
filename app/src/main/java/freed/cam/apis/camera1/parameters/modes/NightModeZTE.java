@@ -25,7 +25,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 26.09.2014.
@@ -37,11 +37,11 @@ public class NightModeZTE extends BaseModeParameter
     private final String state = "";
     private final String curmodule = "";
     public NightModeZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, cameraUiWrapper);
+        super(parameters, cameraUiWrapper,SettingKeys.NightMode);
         isSupported = true;
         isVisible =true;
         cameraUiWrapper.getModuleHandler().addListner(this);
-        cameraUiWrapper.getParameterHandler().get(Settings.PictureFormat).addEventListner(this);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
     }
 
     @Override

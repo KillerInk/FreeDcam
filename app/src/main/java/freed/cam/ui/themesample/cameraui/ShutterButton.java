@@ -34,7 +34,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -115,7 +115,7 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
             public void onClick(View v) {
                 if (cameraUiWrapper == null || cameraUiWrapper.getModuleHandler() == null || cameraUiWrapper.getModuleHandler().getCurrentModule() == null)
                     return;
-                String sf = SettingsManager.get(Settings.selfTimer).get();
+                String sf = SettingsManager.get(SettingKeys.selfTimer).get();
                 if (TextUtils.isEmpty(sf))
                     sf = "0";
                 int selftimer = Integer.parseInt(sf);

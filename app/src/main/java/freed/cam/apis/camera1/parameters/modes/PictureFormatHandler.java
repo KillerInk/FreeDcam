@@ -27,7 +27,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -49,26 +49,26 @@ public class PictureFormatHandler extends BaseModeParameter
      */
     public PictureFormatHandler(Parameters parameters, CameraWrapperInterface cameraUiWrapper, ParametersHandler parametersHandler)
     {
-        super(parameters, cameraUiWrapper);
-        isSupported = SettingsManager.get(Settings.PictureFormat).isSupported();
-        boolean rawpicformatsupported = SettingsManager.get(Settings.rawPictureFormatSetting).isSupported();
+        super(parameters, cameraUiWrapper,SettingKeys.PictureFormat);
+        isSupported = SettingsManager.get(SettingKeys.PictureFormat).isSupported();
+        boolean rawpicformatsupported = SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported();
         boolean dngprofilessupported = SettingsManager.getInstance().getDngProfilesMap() != null && SettingsManager.getInstance().getDngProfilesMap().size() > 0;
         boolean rawSupported = rawpicformatsupported || dngprofilessupported;
         if (rawSupported) {
-            rawFormat = SettingsManager.get(Settings.rawPictureFormatSetting).get();
-            rawFormats = SettingsManager.get(Settings.rawPictureFormatSetting).getValues();
+            rawFormat = SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).get();
+            rawFormats = SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues();
             BayerFormat bayerFormats = new BayerFormat(parameters, cameraUiWrapper, "");
             if (bayerFormats.getStringValues().length > 0)
                 bayerFormats.onIsSetSupportedChanged(true);
-            parametersHandler.add(Settings.bayerformat, bayerFormats);
+            parametersHandler.add(SettingKeys.BAYERFORMAT, bayerFormats);
             if (rawFormats.length  > 0 || SettingsManager.getInstance().getFrameWork() == SettingsManager.FRAMEWORK_MTK)
-                SettingsManager.get(Settings.rawPictureFormatSetting).setIsSupported(true);
+                SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(true);
             else
-                SettingsManager.get(Settings.rawPictureFormatSetting).setIsSupported(false);
+                SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(false);
             boolean dngsupport = SettingsManager.getInstance().getDngProfilesMap() != null && SettingsManager.getInstance().getDngProfilesMap().size() > 0;
-            if (!contains(SettingsManager.get(Settings.rawPictureFormatSetting).getValues(), SettingsManager.getInstance().getResString(R.string.dng_))
+            if (!contains(SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues(), SettingsManager.getInstance().getResString(R.string.dng_))
                     && dngsupport)
-            SettingsManager.get(Settings.PictureFormat).setValues(new String[]
+            SettingsManager.get(SettingKeys.PictureFormat).setValues(new String[]
                         {
                                 SettingsManager.getInstance().getResString(R.string.jpeg_),
                                 SettingsManager.getInstance().getResString(R.string.dng_),
@@ -131,7 +131,7 @@ public class PictureFormatHandler extends BaseModeParameter
     @Override
     public String[] getStringValues()
     {
-        return SettingsManager.get(Settings.PictureFormat).getValues();
+        return SettingsManager.get(SettingKeys.PictureFormat).getValues();
     }
 
     @Override
@@ -156,7 +156,7 @@ public class PictureFormatHandler extends BaseModeParameter
          * @param values
          */
         public BayerFormat(Parameters parameters, CameraWrapperInterface cameraHolder, String values) {
-            super(parameters, cameraHolder);
+            super(parameters, cameraHolder,SettingKeys.BAYERFORMAT);
         }
 
         @Override

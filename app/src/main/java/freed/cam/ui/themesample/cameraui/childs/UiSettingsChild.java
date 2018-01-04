@@ -59,8 +59,8 @@ public class UiSettingsChild extends SettingsChildAbstract
         init(context);
     }
 
-    public UiSettingsChild(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
-        super(context, settingsMode,parameter);
+    public UiSettingsChild(Context context, ParameterInterface parameter) {
+        super(context,parameter);
         init(context);
     }
 

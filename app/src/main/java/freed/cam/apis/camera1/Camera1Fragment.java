@@ -49,7 +49,7 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -197,9 +197,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                     || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_hdr))
                     || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_interval)))
             {
-                Size sizefromCam = new Size(parametersHandler.get(Settings.PictureSize).GetStringValue());
+                Size sizefromCam = new Size(parametersHandler.get(SettingKeys.PictureSize).GetStringValue());
                 List<Size> sizes = new ArrayList<>();
-                String[] stringsSizes = parametersHandler.get(Settings.PreviewSize).getStringValues();
+                String[] stringsSizes = parametersHandler.get(SettingKeys.PreviewSize).getStringValues();
                 final Size size;
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
@@ -212,7 +212,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 }
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
 
-                parametersHandler.get(Settings.PreviewSize).SetValue(size.width + "x" + size.height, true);
+                parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
                 cameraToMainHandler.obtainMessage(CameraToMainHandler.MSG_SET_ASPECTRATIO, size).sendToTarget();
 
             }
@@ -221,7 +221,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 Size sizefromCam = new Size("1920x1080");
 
                 List<Size> sizes = new ArrayList<>();
-                String[] stringsSizes = parametersHandler.get(Settings.PreviewSize).getStringValues();
+                String[] stringsSizes = parametersHandler.get(SettingKeys.PreviewSize).getStringValues();
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
@@ -242,7 +242,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                     });
 
                 }else {*/
-                parametersHandler.get(Settings.PreviewSize).SetValue(size.width + "x" + size.height, true);
+                parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
                 cameraToMainHandler.obtainMessage(CameraToMainHandler.MSG_SET_ASPECTRATIO, size).sendToTarget();
                 //}
 
@@ -314,7 +314,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public void onModuleChanged(String module)
     {
-        onPreviewSizeShouldChange.onStringValueChanged(parametersHandler.get(Settings.Focuspeak).GetStringValue());
+        onPreviewSizeShouldChange.onStringValueChanged(parametersHandler.get(SettingKeys.Focuspeak).GetStringValue());
     }
 
     @Override
@@ -412,7 +412,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
             case MainToCameraHandler.MSG_INIT_CAMERA:
                 cameraRdy = true;
                 ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
-                parametersHandler.get(Settings.PictureSize).addEventListner(onPreviewSizeShouldChange);
+                parametersHandler.get(SettingKeys.PictureSize).addEventListner(onPreviewSizeShouldChange);
                 cameraHolder.SetSurface(extendedSurfaceView.getHolder());
                 cameraHolder.StartPreview();
                 this.onCameraOpenFinish("");
@@ -424,7 +424,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
                 Focus = new FocusHandler(Camera1Fragment.this);
 
-                Log.d(TAG,"FrameWork:" + SettingsManager.getInstance().getFrameWork() + " openlegacy:" + SettingsManager.get(Settings.openCamera1Legacy).getBoolean());
+                Log.d(TAG,"FrameWork:" + SettingsManager.getInstance().getFrameWork() + " openlegacy:" + SettingsManager.get(SettingKeys.openCamera1Legacy).get());
 
                 if (SettingsManager.getInstance().getFrameWork() == SettingsManager.FRAMEWORK_LG) {
                     cameraHolder = new CameraHolderLG(Camera1Fragment.this, CameraHolder.Frameworks.LG);
@@ -438,7 +438,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                     cameraHolder = new CameraHolderMTK(Camera1Fragment.this, CameraHolder.Frameworks.MTK);
                     Log.d(TAG, "create Mtk camera");
                 }
-                else if (SettingsManager.get(Settings.openCamera1Legacy).getBoolean()) {
+                else if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
                     cameraHolder = new CameraHolderLegacy(Camera1Fragment.this, CameraHolder.Frameworks.Normal);
                     Log.d(TAG, "create Legacy camera");
                 }

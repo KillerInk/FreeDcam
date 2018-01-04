@@ -29,16 +29,13 @@ import freed.settings.SettingsManager;
  */
 public class SettingsChildMenuVideoProfile extends SettingsChildMenu
 {
-    public SettingsChildMenuVideoProfile(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid) {
-        super(context, settingsMode, parameter, headerid, descriptionid);
+    public SettingsChildMenuVideoProfile(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
+        super(context, parameter, headerid, descriptionid);
     }
 
     @Override
     public void SetValue(String value) {
-        settingMode.set(value);
         onStringValueChanged(value);
         parameter.SetValue(value, true);
     }
-
-
 }

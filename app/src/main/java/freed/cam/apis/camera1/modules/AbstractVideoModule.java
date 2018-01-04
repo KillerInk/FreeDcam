@@ -39,7 +39,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -138,7 +138,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             setRecorderOutPutFile(mediaSavePath);
             recorder.setOnInfoListener(this);
 
-            if (SettingsManager.get(Settings.orientationHack).getBoolean())
+            if (SettingsManager.get(SettingKeys.orientationHack).get())
                 recorder.setOrientationHint(180);
             else
                 recorder.setOrientationHint(0);

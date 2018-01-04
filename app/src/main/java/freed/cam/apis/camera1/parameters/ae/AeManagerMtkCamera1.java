@@ -8,8 +8,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ae.AeManager;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.Settings;
-import freed.settings.SettingsManager;
+import freed.settings.SettingKeys;
 
 /**
  * Created by KillerInk on 29.12.2017.
@@ -85,12 +84,12 @@ public class AeManagerMtkCamera1 extends AeManager
 
     private void setToAuto()
     {
-        String t = cameraWrapperInterface.getParameterHandler().get(Settings.IsoMode).GetStringValue();
+        String t = cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue();
         if (!t.equals(cameraWrapperInterface.getResString(R.string.iso100_)))
-            cameraWrapperInterface.getParameterHandler().get(Settings.IsoMode).SetValue(cameraWrapperInterface.getResString(R.string.iso100_), true);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraWrapperInterface.getResString(R.string.iso100_), true);
         else
-            cameraWrapperInterface.getParameterHandler().get(Settings.IsoMode).SetValue(cameraWrapperInterface.getResString(R.string.auto_), true);
-        cameraWrapperInterface.getParameterHandler().get(Settings.IsoMode).SetValue(t, true);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraWrapperInterface.getResString(R.string.auto_), true);
+        cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(t, true);
         //back in auto mode
         //set exposure ui item to enable
         /*exposureCompensation.fireIsSupportedChanged(true);

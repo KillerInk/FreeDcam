@@ -39,7 +39,6 @@ public interface SettingsChildInterface extends ModuleChangedEvent, ParameterEve
      */
     void SetStuff(ActivityInterface fragment_activityInterface, String key_settingvalue);
 
-    void SetStuff(SettingsManager.SettingMode settingMode);
 
     /**
      * Set the parameter to work with

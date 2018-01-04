@@ -47,7 +47,7 @@ public class ZoomApi2 extends AbstractParameter
     private final int ZOOM_LIMITER = 100;
 
     public ZoomApi2(CameraWrapperInterface cameraUiWrapper)  {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,null);
         maxzoom = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
         sensorSize = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         //1000 - (1000 / 4) = 750 /100 = 7,5

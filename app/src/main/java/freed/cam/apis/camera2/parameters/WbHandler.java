@@ -30,7 +30,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringIntArray;
@@ -50,9 +50,9 @@ public class WbHandler
     {
         this.cameraUiWrapper= cameraUiWrapper;
 
-        if (SettingsManager.get(Settings.ColorCorrectionMode).isSupported())
+        if (SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported())
             colorCorrectionMode = new ColorCorrectionModeApi2();
-        if (SettingsManager.get(Settings.WhiteBalanceMode).isSupported())
+        if (SettingsManager.get(SettingKeys.WhiteBalanceMode).isSupported())
             whiteBalanceApi2 = new WhiteBalanceApi2();
 
         manualWbCt = new ManualWbCtApi2(cameraUiWrapper);
@@ -97,11 +97,11 @@ public class WbHandler
 
         public WhiteBalanceApi2()
         {
-            super(WbHandler.this.cameraUiWrapper);
-            isSupported = SettingsManager.get(Settings.WhiteBalanceMode).isSupported();
-            settingMode = SettingsManager.get(Settings.WhiteBalanceMode);
+            super(WbHandler.this.cameraUiWrapper,SettingKeys.WhiteBalanceMode);
+            isSupported = SettingsManager.get(SettingKeys.WhiteBalanceMode).isSupported();
+            settingMode = SettingsManager.get(SettingKeys.WhiteBalanceMode);
             parameterKey = CaptureRequest.CONTROL_AWB_MODE;
-            parameterValues = StringUtils.StringArrayToIntHashmap(SettingsManager.get(Settings.WhiteBalanceMode).getValues());
+            parameterValues = StringUtils.StringArrayToIntHashmap(SettingsManager.get(SettingKeys.WhiteBalanceMode).getValues());
             if (parameterValues == null)
             {
                 isSupported = false;
@@ -140,7 +140,7 @@ public class WbHandler
         private final String TAG = ManualWbCtApi2.class.getSimpleName();
 
         public ManualWbCtApi2(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper);
+            super(cameraUiWrapper,SettingKeys.M_Whitebalance);
             lookupvalues = new StringIntArray(SettingsManager.getInstance().getResources().getStringArray(R.array.wbct_lookup));
             currentInt = 0;
         }
@@ -229,9 +229,9 @@ public class WbHandler
 
         @Override
         public boolean IsSupported() {
-            if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(Settings.WhiteBalanceMode) == null)
+            if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode) == null)
                 return false;
-            isSupported = cameraUiWrapper.getParameterHandler().get(Settings.WhiteBalanceMode).GetStringValue().equals("OFF");
+            isSupported = cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).GetStringValue().equals("OFF");
             return isSupported;
         }
 
@@ -249,15 +249,15 @@ public class WbHandler
     public class ColorCorrectionModeApi2 extends BaseModeApi2 {
 
         public ColorCorrectionModeApi2() {
-            super(WbHandler.this.cameraUiWrapper);
+            super(WbHandler.this.cameraUiWrapper, SettingKeys.COLOR_CORRECTION_MODE);
             parameterKey = CaptureRequest.COLOR_CORRECTION_MODE;
-            settingMode = SettingsManager.get(Settings.ColorCorrectionMode);
+            settingMode = SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE);
             parameterValues = StringUtils.StringArrayToIntHashmap(settingMode.getValues());
         }
 
         @Override
         public boolean IsSupported() {
-            return SettingsManager.get(Settings.ColorCorrectionMode).isSupported();
+            return SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported();
         }
 
         @Override

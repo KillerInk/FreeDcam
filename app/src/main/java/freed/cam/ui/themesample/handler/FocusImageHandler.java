@@ -45,7 +45,7 @@ import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 
 
 /**
@@ -243,7 +243,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         public void IsMoving(boolean moving)
         {
             //disable exposure lock that metering can get applied
-            ParameterInterface expolock = wrapper.getParameterHandler().get(Settings.ExposureLock);
+            ParameterInterface expolock = wrapper.getParameterHandler().get(SettingKeys.ExposureLock);
             if (moving && expolock != null && expolock.IsSupported() && expolock.GetStringValue().equals("true"))
             {
                 expolock.SetValue("false",true);

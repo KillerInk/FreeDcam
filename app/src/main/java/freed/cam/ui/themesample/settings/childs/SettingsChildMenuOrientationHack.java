@@ -27,7 +27,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera2.Camera2Fragment;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -44,7 +44,7 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (SettingsManager.get(Settings.orientationHack).getBoolean())
+        if (SettingsManager.get(SettingKeys.orientationHack).get())
             onStringValueChanged(getResources().getString(R.string.on_));
         else
             onStringValueChanged(getResources().getString(R.string.off_));
@@ -59,9 +59,9 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     public void SetValue(String value)
     {
         if (value.equals(SettingsManager.getInstance().getResString(R.string.on_)))
-            SettingsManager.get(Settings.orientationHack).setBoolean(true);
+            SettingsManager.get(SettingKeys.orientationHack).set(true);
         else
-            SettingsManager.get(Settings.orientationHack).setBoolean(false);
+            SettingsManager.get(SettingKeys.orientationHack).set(false);
         if (cameraUiWrapper instanceof Camera1Fragment) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetCameraRotation();
             cameraUiWrapper.getParameterHandler().SetPictureOrientation(0);

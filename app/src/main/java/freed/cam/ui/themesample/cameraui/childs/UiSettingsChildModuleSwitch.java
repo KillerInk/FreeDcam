@@ -23,7 +23,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 13.06.2015.
@@ -44,7 +44,7 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         this.cameraUiWrapper = cameraUiWrapper;
         if(cameraUiWrapper.getModuleHandler() != null)
             cameraUiWrapper.getModuleHandler().addListner(this);
-        SetParameter(cameraUiWrapper.getParameterHandler().get(Settings.Module));
+        SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.Module));
         if (cameraUiWrapper.getModuleHandler() == null)
             return;
         if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
@@ -62,7 +62,6 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
             }
         });
     }
-
 
     @Override
     public void onStringValueChanged(String value) {

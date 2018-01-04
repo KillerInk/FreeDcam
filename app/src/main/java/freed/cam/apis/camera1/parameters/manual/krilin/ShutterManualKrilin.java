@@ -23,24 +23,22 @@ package freed.cam.apis.camera1.parameters.manual.krilin;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
  * Created by GeorgeKiarie on 02/04/2016.
  */
-public class ShutterManualKrilin extends AbstractManualShutter {
+public class ShutterManualKrilin extends AbstractParameter {
 
     private final String TAG = ShutterManualKrilin.class.getSimpleName();
     private final Parameters parameters;
 
     public ShutterManualKrilin(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         this.parameters =  parameters;
-        isSupported = true;
-        isVisible = isSupported;
-        stringvalues = SettingsManager.get(Settings.M_ExposureTime).getValues();
     }
 
     @Override
@@ -51,6 +49,7 @@ public class ShutterManualKrilin extends AbstractManualShutter {
     @Override
     public void setValue(int valueToSet, boolean setToCamera)
     {
+        super.setValue(valueToSet,setToCamera);
         currentInt = valueToSet;
         if (valueToSet == 0) {
             parameters.set("hw-hwcamera-flag", "on");
@@ -59,7 +58,7 @@ public class ShutterManualKrilin extends AbstractManualShutter {
 
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-professional-mode", "on");
-            parameters.set(SettingsManager.get(Settings.M_ExposureTime).getKEY(), stringvalues[currentInt]);
+            parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getKEY(), stringvalues[currentInt]);
         }
         fireStringValueChanged(stringvalues[valueToSet]);
     }

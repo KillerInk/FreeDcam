@@ -22,6 +22,7 @@ package freed.cam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -30,7 +31,7 @@ import freed.settings.SettingsManager;
 public class PreviewFpsParameter extends  BaseModeParameter
 {
 
-    public PreviewFpsParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode) {
+    public PreviewFpsParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(parameters, cameraUiWrapper, settingMode);
     }
 

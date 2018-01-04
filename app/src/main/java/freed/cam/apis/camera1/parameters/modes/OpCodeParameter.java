@@ -45,6 +45,7 @@ import javax.net.ssl.X509TrustManager;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.OpCodeUrl;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
@@ -61,6 +62,7 @@ public class OpCodeParameter extends AbstractParameter
 
     public OpCodeParameter()
     {
+        super(SettingKeys.OPCODE);
         isSupported = SettingsManager.getInstance().opcodeUrlList.size() > 0;
     }
 
@@ -115,7 +117,7 @@ public class OpCodeParameter extends AbstractParameter
 
         if (SettingsManager.getInstance().opcodeUrlList.size() >0)
             list.add("Download");
-        else list.add("No Opcode avail");
+        else list.add("No OPCODE avail");
         return list.toArray(new String[list.size()]);
     }
 

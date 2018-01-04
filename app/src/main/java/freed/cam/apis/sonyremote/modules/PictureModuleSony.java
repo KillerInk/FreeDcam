@@ -39,7 +39,7 @@ import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -77,8 +77,8 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             changeCaptureState(CaptureStates.image_capture_stop);
             cameraHolder.stopBulbCapture(this);
         }
-        else if (cameraUiWrapper.getParameterHandler().get(Settings.ContShootMode) != null && cameraUiWrapper.getParameterHandler().get(Settings.ContShootMode).IsSupported()) {
-            String shootmode = cameraUiWrapper.getParameterHandler().get(Settings.ContShootMode).GetStringValue();
+        else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode) != null && cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode).IsSupported()) {
+            String shootmode = cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode).GetStringValue();
             if (!isWorking && shootmode.equals("Single"))
             {
                 changeCaptureState(CaptureStates.image_capture_start);
@@ -110,8 +110,8 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         Log.d(TAG, "InitModule");
         ((ParameterHandler)cameraUiWrapper.getParameterHandler()).CameraStatusListner = this;
 
-        if(cameraUiWrapper.getParameterHandler().get(Settings.ContShootMode) != null) {
-            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).get(Settings.ContShootMode).GetStringValue();
+        if(cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode) != null) {
+            String shootmode = ((ParameterHandler) cameraUiWrapper.getParameterHandler()).get(SettingKeys.ContShootMode).GetStringValue();
             if (shootmode.equals("Single"))
                 changeCaptureState(CaptureStates.image_capture_stop);
             else if (shootmode.equals("Spd Priority Cont.") || shootmode.equals("Continuous"))

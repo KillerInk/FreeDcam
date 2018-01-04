@@ -4,6 +4,7 @@ import android.content.Context;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.ManualButton;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -12,7 +13,7 @@ import freed.settings.SettingsManager;
 
 public class ManualButtonToneCurve extends ManualButton
 {
-    public ManualButtonToneCurve(Context context, SettingsManager.SettingMode settingMode, ParameterInterface parameter, int drawableImg) {
-        super(context, settingMode, parameter, drawableImg);
+    public ManualButtonToneCurve(Context context, ParameterInterface parameter, int drawableImg) {
+        super(context, parameter, drawableImg);
     }
 }

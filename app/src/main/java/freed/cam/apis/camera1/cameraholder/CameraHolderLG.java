@@ -23,7 +23,7 @@ import com.lge.hardware.LGCameraRef;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -42,7 +42,7 @@ public class CameraHolderLG extends CameraHolder
     {
         try {
 
-            if (SettingsManager.get(Settings.openCamera1Legacy).getBoolean()) {
+            if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
                 lgCamera = new LGCameraRef(camera, 256);
                 Log.d(CameraHolderLG.class.getSimpleName(), "open LG camera legacy");
             }

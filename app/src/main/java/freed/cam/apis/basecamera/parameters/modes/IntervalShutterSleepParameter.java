@@ -25,7 +25,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -37,11 +37,12 @@ public class IntervalShutterSleepParameter extends AbstractParameter
     private CameraWrapperInterface cameraUiWrapper;
     public IntervalShutterSleepParameter(CameraWrapperInterface cameraUiWrapper)
     {
+        super(null);
         this.cameraUiWrapper = cameraUiWrapper;
-        if (TextUtils.isEmpty(SettingsManager.get(Settings.IntervalShutterSleep).get()))
-            SettingsManager.get(Settings.IntervalShutterSleep).set(current);
+        if (TextUtils.isEmpty(SettingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).get()))
+            SettingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).set(current);
         else
-            current = SettingsManager.get(Settings.IntervalShutterSleep).get();
+            current = SettingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).get();
     }
 
     @Override

@@ -34,6 +34,7 @@ public class PreviewZoomSony extends AbstractParameter
     private final SimpleStreamSurfaceView surfaceView;
     private int zoomFactor = 8;
     public PreviewZoomSony( SimpleStreamSurfaceView surfaceView) {
+        super(null);
         this.surfaceView = surfaceView;
     }
 

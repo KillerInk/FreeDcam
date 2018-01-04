@@ -25,6 +25,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.PermissionManager;
 
@@ -40,6 +41,7 @@ public class LocationParameter extends AbstractParameter
 
     public LocationParameter(CameraWrapperInterface cameraUiWrapper)
     {
+        super(SettingKeys.LOCATION_MODE);
         this.cameraUiWrapper = cameraUiWrapper;
     }
 

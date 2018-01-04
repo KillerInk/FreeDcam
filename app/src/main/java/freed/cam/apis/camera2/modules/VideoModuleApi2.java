@@ -58,7 +58,7 @@ import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
@@ -111,13 +111,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         Log.d(TAG, "InitModule");
         super.InitModule();
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
-        VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.get(Settings.VideoProfiles);
-        currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(Settings.VideoProfiles).get());
+        VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.get(SettingKeys.VideoProfiles);
+        currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).get());
         if (currentVideoProfile == null)
         {
-            currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(Settings.VideoProfiles).getValues()[0]);
+            currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).getValues()[0]);
         }
-        parameterHandler.get(Settings.VideoProfiles).fireStringValueChanged(currentVideoProfile.ProfileName);
+        parameterHandler.get(SettingKeys.VideoProfiles).fireStringValueChanged(currentVideoProfile.ProfileName);
         startPreview();
     }
 

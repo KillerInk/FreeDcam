@@ -37,6 +37,7 @@ public class ParameterExternalShutter extends AbstractParameter
 
     public ParameterExternalShutter()
     {
+        super(null);
     }
 
     public boolean IsSupported()

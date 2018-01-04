@@ -26,6 +26,8 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.SettingKeys;
+import freed.settings.mode.SettingMode;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -47,27 +49,28 @@ public class BaseModeParameter extends AbstractParameter implements ModuleChange
     private final String TAG = BaseModeParameter.class.getSimpleName();
 
 
-    public BaseModeParameter(Parameters  parameters, CameraWrapperInterface cameraUiWrapper)
-    {
-        super(cameraUiWrapper);
-        this.parameters = parameters;
-    }
 
-    public BaseModeParameter(Parameters  parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode)
+    public BaseModeParameter(Parameters  parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key  settingMode)
     {
-        this(parameters,cameraUiWrapper);
-        this.key_value = settingMode.getKEY();
-        this.stringvalues = settingMode.getValues();
-        this.isSupported = settingMode.isSupported();
+        super(cameraUiWrapper,settingMode);
+        this.parameters = parameters;
+        if (settingMode == null ||SettingsManager.get(settingMode) == null)
+            return;
+        SettingMode mode = (SettingMode) SettingsManager.get(settingMode);
+        this.key_value = mode.getKEY();
+        this.stringvalues = mode.getValues();
+        this.isSupported = mode.isSupported();
+        this.isVisible = isSupported;
     }
 
     @Override
-    public void SetValue(String valueToSet,  boolean setToCam)
+    public void setValue(String valueToSet,  boolean setToCam)
     {
-        super.SetValue(valueToSet,setToCam);
+        super.setValue(valueToSet,setToCam);
         if (valueToSet == null)
             return;
         parameters.set(key_value, valueToSet);
+        ((SettingMode)SettingsManager.get(key)).set(valueToSet);
         Log.d(TAG, "set " + key_value + " to " + valueToSet);
         if (setToCam) {
 

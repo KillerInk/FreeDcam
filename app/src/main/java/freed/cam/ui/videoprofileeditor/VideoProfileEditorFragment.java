@@ -42,7 +42,7 @@ import com.troop.freedcam.R.layout;
 
 import java.util.HashMap;
 
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.VideoMediaProfile;
 import freed.utils.VideoMediaProfile.VideoMode;
@@ -149,7 +149,7 @@ public class VideoProfileEditorFragment extends Fragment {
         videoMediaProfiles = SettingsManager.getInstance().getMediaProfiles();
         if (videoMediaProfiles != null) {
 
-            setMediaProfile(videoMediaProfiles.get(SettingsManager.get(Settings.VideoProfiles).get()));
+            setMediaProfile(videoMediaProfiles.get(SettingsManager.get(SettingKeys.VideoProfiles).get()));
         }
     }
 

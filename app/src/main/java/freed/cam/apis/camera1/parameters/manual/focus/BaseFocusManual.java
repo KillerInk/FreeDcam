@@ -27,8 +27,9 @@ import com.troop.freedcam.R;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.settings.mode.TypedSettingMode;
 import freed.utils.Log;
 
 /**
@@ -39,18 +40,19 @@ public class BaseFocusManual extends BaseManualParameter
     private final String TAG = BaseFocusManual.class.getSimpleName();
     protected String manualFocusModeString;
     private final int manualFocusType;
-    SettingsManager.SettingMode settingMode;
+    SettingKeys.Key settingMode;
 
-    public BaseFocusManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode)
+    public BaseFocusManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode)
     {
-        super(parameters,cameraUiWrapper);
+        super(parameters,cameraUiWrapper,settingMode);
         this.settingMode = settingMode;
-        manualFocusType = settingMode.getType();
+        TypedSettingMode settingMode1 =  (TypedSettingMode) SettingsManager.get(key);
+        manualFocusType = settingMode1.getType();
         Log.d(TAG,"mf type:" +manualFocusType);
-        manualFocusModeString = settingMode.getMode();
+        manualFocusModeString = settingMode1.getMode();
         Log.d(TAG,"mf focus mode:" +manualFocusModeString);
-        stringvalues = settingMode.getValues();
-        key_value = settingMode.getKEY();
+        stringvalues = settingMode1.getValues();
+        key_value = settingMode1.getKEY();
         Log.d(TAG,"mf key:" +key_value);
         isSupported =true;
         isVisible = isSupported;
@@ -64,17 +66,18 @@ public class BaseFocusManual extends BaseManualParameter
 
         if (valueToSet == 0)
         {
-            cameraUiWrapper.getParameterHandler().get(Settings.FocusMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
             Log.d(TAG, "Set Focus to : auto");
         }
         else
         {
             if ((!TextUtils.isEmpty(manualFocusModeString) || manualFocusModeString == null)
-                    && !cameraUiWrapper.getParameterHandler().get(Settings.FocusMode).GetStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
-                cameraUiWrapper.getParameterHandler().get(Settings.FocusMode).SetValue(manualFocusModeString, false);
+                    && !cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).GetStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
+                cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(manualFocusModeString, false);
             if (manualFocusType > -1)
                 parameters.set(cameraUiWrapper.getResString(R.string.manual_focus_pos_type), manualFocusType +"");
 
+            ((TypedSettingMode) SettingsManager.get(key)).set(stringvalues[currentInt]);
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);

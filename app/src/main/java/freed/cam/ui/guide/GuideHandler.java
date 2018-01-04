@@ -14,7 +14,7 @@ import com.troop.freedcam.R.layout;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -46,8 +46,8 @@ public class GuideHandler extends Fragment implements ParameterEvents {
     @Override
     public void onResume() {
         super.onResume();
-        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().get(Settings.PreviewSize) != null)
-            previewSizeChanged.onStringValueChanged(cameraUiWrapper.getParameterHandler().get(Settings.PreviewSize).GetStringValue());
+        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize) != null)
+            previewSizeChanged.onStringValueChanged(cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).GetStringValue());
     }
     @Override
     public void onPause(){
@@ -58,10 +58,10 @@ public class GuideHandler extends Fragment implements ParameterEvents {
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.getParameterHandler().get(Settings.GuideList).addEventListner(this);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList).addEventListner(this);
         Log.d(TAG, "setCameraUiWrapper SetViewG()");
         if (img != null)
-            SetViewG(SettingsManager.get(Settings.GuideList).get());
+            SetViewG(SettingsManager.get(SettingKeys.GuideList).get());
     }
 
     private void SetViewG(final String str)
@@ -234,7 +234,7 @@ public class GuideHandler extends Fragment implements ParameterEvents {
         @Override
         public void onStringValueChanged(String val) {
             Log.d(TAG, "I_ModeParameterEvent SetViewG()");
-            String img = SettingsManager.get(Settings.GuideList).get();
+            String img = SettingsManager.get(SettingKeys.GuideList).get();
             if (val != null
                     && !TextUtils.isEmpty(val)
                     && img != null

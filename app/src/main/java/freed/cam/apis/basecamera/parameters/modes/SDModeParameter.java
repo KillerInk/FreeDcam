@@ -38,7 +38,7 @@ public class SDModeParameter extends AbstractParameter
     public static final String external ="External";
 
     public SDModeParameter() {
-
+        super(null);
     }
 
     @Override

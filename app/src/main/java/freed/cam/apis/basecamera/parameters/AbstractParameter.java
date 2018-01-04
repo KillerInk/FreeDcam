@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.SettingKeys;
+import freed.settings.mode.SettingMode;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 18.06.2017.
@@ -48,19 +51,31 @@ public abstract class AbstractParameter implements ParameterInterface {
 
     protected boolean isNotReadOnly;
 
+    protected SettingKeys.Key key;
+    protected SettingMode settingMode;
+
     private Handler mainHandler;
     private Handler backHandler;
 
-    public AbstractParameter()
+    public AbstractParameter(SettingKeys.Key  key)
     {
         mainHandler = new Handler(Looper.getMainLooper());
         listners = new ArrayList<>();
+        this.key = key;
+        if (key == null || SettingsManager.get(key) == null)
+            return;
+        if (SettingsManager.get(key) instanceof  SettingMode) {
+            this.settingMode = (SettingMode) SettingsManager.get(key);
+            stringvalues = settingMode.getValues();
+            isSupported = settingMode.isSupported();
+            isVisible = isSupported;
+        }
     }
 
 
-    public AbstractParameter(CameraWrapperInterface cameraUiWrapper)
+    public AbstractParameter(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key  settingMode)
     {
-        this();
+        this(settingMode);
         this.cameraUiWrapper = cameraUiWrapper;
         if (cameraUiWrapper != null)
             this.backHandler = new BackHandler(cameraUiWrapper.getCameraHandlerThread().getLooper(),this);
@@ -329,6 +344,8 @@ public abstract class AbstractParameter implements ParameterInterface {
     {
         fireIntValueChanged(valueToSet);
         currentInt = valueToSet;
+        if (settingMode != null)
+            settingMode.set(String.valueOf(valueToSet));
     }
 
     /**
@@ -355,6 +372,8 @@ public abstract class AbstractParameter implements ParameterInterface {
     {
         currentString = valueToSet;
         fireStringValueChanged(currentString);
+        if (settingMode != null)
+            settingMode.set(valueToSet);
     }
 
     /**

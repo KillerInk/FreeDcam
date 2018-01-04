@@ -28,7 +28,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera2.Camera2Fragment;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.utils.Log;
 
 /**
@@ -71,7 +71,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         highlightsp = new ColorParameter(cameraUiWrapper,highlights,75);
         whitep = new ColorParameter(cameraUiWrapper,whitepoint,100);*/
        toneCurve = new float[]{0,0,0.25f,0.25f,0.5f,0.5f,0.75f,0.75f,1,1};
-       toneCurveParameter = new ToneCurveParameter();
+       toneCurveParameter = new ToneCurveParameter(SettingKeys.TONE_CURVE_PARAMETER);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
     {
         boolean firststart = true;
         public Contrast(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper);
+            super(cameraUiWrapper, SettingKeys.M_Contrast);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
             isSupported = true;
@@ -180,18 +180,18 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
             Log.d(TAG, "Contrast value to set:" + valueToSet);
             if (valueToSet == -1)
             {
-                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().get(Settings.ToneMapMode).GetValue());
-                if (cameraUiWrapper.getParameterHandler().get(Settings.ToneMapMode).GetStringValue().equals("CONTRAST_CURVE"))
+                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).GetValue());
+                if (cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).GetStringValue().equals("CONTRAST_CURVE"))
                 {
-                    cameraUiWrapper.getParameterHandler().get(Settings.ToneMapMode).SetValue("FAST", true);
+                    cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).SetValue("FAST", true);
                     Log.d(TAG, "Disabled Contrast Curve");
                 }
             }
             else {
-                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().get(Settings.ToneMapMode).GetValue());
-                if (!cameraUiWrapper.getParameterHandler().get(Settings.ToneMapMode).GetStringValue().equals("CONTRAST_CURVE") && !firststart)
+                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).GetValue());
+                if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).GetStringValue().equals("CONTRAST_CURVE") && !firststart)
                 {
-                    cameraUiWrapper.getParameterHandler().get(Settings.ToneMapMode).SetValue("CONTRAST_CURVE", true);
+                    cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).SetValue("CONTRAST_CURVE", true);
                     Log.d(TAG, "Enabled Contrast Curve");
                 }
                 valueToSet = valueToSet * 3;
@@ -248,7 +248,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
     {
 
         public Brightness(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper);
+            super(cameraUiWrapper,SettingKeys.M_Brightness);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
             isSupported = true;
@@ -319,7 +319,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         float currentfloat;
         float defaultvalue;
         public ColorParameter(CameraWrapperInterface cameraUiWrapper, float color[], float defaultvalue) {
-            super(cameraUiWrapper);
+            super(cameraUiWrapper, null);
             this.color = color;
             stringvalues = createStringArray(0,100,1);
             this.defaultvalue = defaultvalue /100;
@@ -397,6 +397,10 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
 
     public class ToneCurveParameter extends AbstractParameter
     {
+        public ToneCurveParameter(SettingKeys.Key key) {
+            super(key);
+        }
+
         public void setCurveToCamera(float[] curve)
         {
             toneCurve = curve;

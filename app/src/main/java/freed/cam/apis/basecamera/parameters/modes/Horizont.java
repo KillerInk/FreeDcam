@@ -32,6 +32,7 @@ public class Horizont extends AbstractParameter {
     private String value;
 
     public Horizont() {
+        super(null);
     }
 
 

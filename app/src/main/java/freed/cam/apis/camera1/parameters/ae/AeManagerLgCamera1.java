@@ -1,16 +1,14 @@
 package freed.cam.apis.camera1.parameters.ae;
 
 import android.hardware.Camera;
-import android.hardware.camera2.CaptureRequest;
 
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ae.AeManager;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
-import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
@@ -80,12 +78,12 @@ public class AeManagerLgCamera1 extends AeManager
         parameters.set(cameraWrapperInterface.getResString(R.string.lg_shutterspeed), "0");
         ((ParametersHandler)cameraWrapperInterface.getParameterHandler()).SetParametersToCamera(parameters);
 
-        String t = cameraWrapperInterface.getParameterHandler().get(Settings.IsoMode).GetStringValue();
+        String t = cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue();
         if (!t.equals(cameraWrapperInterface.getResString(R.string.iso100_)))
-            cameraWrapperInterface.getParameterHandler().get(Settings.IsoMode).SetValue(cameraWrapperInterface.getResString(R.string.iso100_), true);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraWrapperInterface.getResString(R.string.iso100_), true);
         else
-            cameraWrapperInterface.getParameterHandler().get(Settings.IsoMode).SetValue(cameraWrapperInterface.getResString(R.string.auto_), true);
-        cameraWrapperInterface.getParameterHandler().get(Settings.IsoMode).SetValue(t, true);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraWrapperInterface.getResString(R.string.auto_), true);
+        cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(t, true);
         /*exposureCompensation.fireIsSupportedChanged(true);
         exposureCompensation.fireIsReadOnlyChanged(true);*/
         manualIso.fireIsReadOnlyChanged(true);
@@ -124,8 +122,8 @@ public class AeManagerLgCamera1 extends AeManager
                 while (readMetaData)
                 {
                     try {
-                        cameraWrapperInterface.getParameterHandler().get(Settings.M_ExposureTime).fireStringValueChanged("1/"+(int) cameraWrapperInterface.getParameterHandler().getCurrentExposuretime());
-                        cameraWrapperInterface.getParameterHandler().get(Settings.M_ManualIso).fireStringValueChanged(cameraWrapperInterface.getParameterHandler().getCurrentIso()+"");
+                        cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ExposureTime).fireStringValueChanged("1/"+(int) cameraWrapperInterface.getParameterHandler().getCurrentExposuretime());
+                        cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ManualIso).fireStringValueChanged(cameraWrapperInterface.getParameterHandler().getCurrentIso()+"");
                     }
                     catch (RuntimeException ex)
                     {

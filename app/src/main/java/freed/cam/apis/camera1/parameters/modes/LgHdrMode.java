@@ -9,6 +9,8 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.SettingKeys;
+import freed.settings.mode.SettingMode;
 import freed.settings.SettingsManager;
 
 /**
@@ -25,7 +27,7 @@ public class LgHdrMode extends BaseModeParameter
     private String format = "";
     private String curmodule = "";
 
-    public LgHdrMode(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode) {
+    public LgHdrMode(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(parameters, cameraUiWrapper, settingMode);
     }
 
@@ -36,7 +38,7 @@ public class LgHdrMode extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam) {
+    public void setValue(String valueToSet, boolean setToCam) {
 
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
             parameters.set(cameraUiWrapper.getResString(R.string.hdr_mode), 1);
@@ -45,6 +47,7 @@ public class LgHdrMode extends BaseModeParameter
         else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.auto_)))
             parameters.set(cameraUiWrapper.getResString(R.string.hdr_mode), 2);
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+        ((SettingMode)SettingsManager.get(key)).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 

@@ -34,7 +34,7 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -50,13 +50,13 @@ public class BaseCCTManual extends BaseManualParameter
 
     public BaseCCTManual(final Parameters parameters,final CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper, 0);
-        manual_WbMode = SettingsManager.get(Settings.M_Whitebalance).getMode();
-        stringvalues = SettingsManager.get(Settings.M_Whitebalance).getValues();
+        manual_WbMode = SettingsManager.get(SettingKeys.M_Whitebalance).getMode();
+        stringvalues = SettingsManager.get(SettingKeys.M_Whitebalance).getValues();
         isSupported = true;
         isVisible = false;
 
         //wait 800ms to give awb a chance to set the ct value to the parameters
-        if (TextUtils.isEmpty(SettingsManager.get(Settings.M_Whitebalance).getKEY()))
+        if (TextUtils.isEmpty(SettingsManager.get(SettingKeys.M_Whitebalance).getKEY()))
             new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -86,7 +86,7 @@ public class BaseCCTManual extends BaseManualParameter
             }
         }, 800);
         else
-            key_value = SettingsManager.get(Settings.M_Whitebalance).getKEY();
+            key_value = SettingsManager.get(SettingKeys.M_Whitebalance).getKEY();
     }
 
     /**
@@ -127,7 +127,7 @@ public class BaseCCTManual extends BaseManualParameter
 
     protected void set_manual()
     {
-        ParameterInterface wbm = cameraUiWrapper.getParameterHandler().get(Settings.WhiteBalanceMode);
+        ParameterInterface wbm = cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode);
         Log.d(TAG, Arrays.toString(wbm.getStringValues()));
         try {
             if (parameters.get("whitebalance-values").contains("manual") && parameters.get("manual-wb-modes").contains("color-temperature")) {
@@ -157,7 +157,7 @@ public class BaseCCTManual extends BaseManualParameter
 
     protected void set_to_auto()
     {
-        cameraUiWrapper.getParameterHandler().get(Settings.WhiteBalanceMode).SetValue("auto", true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).SetValue("auto", true);
         Log.d(TAG, "Set  to : auto");
     }
 

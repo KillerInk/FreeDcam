@@ -35,6 +35,7 @@ public class ModuleParameters extends AbstractParameter {
 
     private final CameraWrapperInterface cameraUiWrapper;
     public ModuleParameters(CameraWrapperInterface cameraUiWrapper) {
+        super(null);
         this.cameraUiWrapper = cameraUiWrapper;
     }
 

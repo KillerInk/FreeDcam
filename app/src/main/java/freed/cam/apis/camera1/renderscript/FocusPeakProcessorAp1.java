@@ -49,7 +49,7 @@ import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.I_AspectRatio;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 import freed.utils.RenderScriptManager;
@@ -96,7 +96,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                         FocusPeakProcessorAp1.this.renderScriptManager.GetOut().setSurface(mSurface);
                     else {
                         Log.d(TAG, "Allocout null or not USAGE_IO_OUTPUT");
-                        String s = FocusPeakProcessorAp1.this.cameraUiWrapper.getParameterHandler().get(Settings.PreviewSize).GetStringValue();
+                        String s = FocusPeakProcessorAp1.this.cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).GetStringValue();
                         if (!TextUtils.isEmpty(s)) {
                             Size size = new Size(s);
                             reset(size.width, size.height);
@@ -162,7 +162,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         Log.d(TAG, "setEnable" + enabled);
         if (enabled)
         {
-            Size size = new Size(cameraUiWrapper.getParameterHandler().get(Settings.PreviewSize).GetStringValue());
+            Size size = new Size(cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).GetStringValue());
             reset(size.width, size.height);
             startPeak();
             Log.d(TAG, "Set PreviewCallback");
@@ -176,8 +176,8 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
             clear_preview("setEnable");
 
         }
-        if(cameraUiWrapper.getParameterHandler().get(Settings.Focuspeak) != null && cameraUiWrapper.getParameterHandler().get(Settings.Focuspeak).IsSupported())
-            cameraUiWrapper.getParameterHandler().get(Settings.Focuspeak).fireStringValueChanged(enabled +"");
+        if(cameraUiWrapper.getParameterHandler().get(SettingKeys.Focuspeak) != null && cameraUiWrapper.getParameterHandler().get(SettingKeys.Focuspeak).IsSupported())
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.Focuspeak).fireStringValueChanged(enabled +"");
     }
 
     private void clear_preview(String from)

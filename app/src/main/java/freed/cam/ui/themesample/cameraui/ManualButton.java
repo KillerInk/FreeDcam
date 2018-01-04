@@ -57,15 +57,13 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
     private final int backgroundColor = Color.parseColor("#00000000");
     private int pos;
     protected ActivityInterface fragment_activityInterface;
-    private SettingsManager.SettingMode settingMode;
     private ManualButtonHandler handler;
 
-    public ManualButton(Context context, SettingsManager.SettingMode settingMode, ParameterInterface parameter, int drawableImg)
+    public ManualButton(Context context, ParameterInterface parameter, int drawableImg)
     {
         super(context);
         handler = new ManualButtonHandler(this);
         init(context);
-        this.settingMode = settingMode;
         SetManualParameter(parameter);
         imageView.setImageDrawable(getResources().getDrawable(drawableImg));
     }
@@ -248,10 +246,6 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
                 else
                     valueTextView.setText(String.valueOf(msg.obj));
                 //Log.d(TAG, "setTextValue:" + valueTextView.getText());
-                break;
-            case ManualButtonHandler.ON_UPDATE_SETTING:
-                if (settingMode != null)
-                    settingMode.set(String.valueOf((int)msg.obj));
                 break;
         }
     }

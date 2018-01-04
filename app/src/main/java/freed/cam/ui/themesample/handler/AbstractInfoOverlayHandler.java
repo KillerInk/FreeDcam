@@ -39,7 +39,7 @@ import java.util.Date;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -151,7 +151,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     {
         if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
         {
-            ParameterInterface videoprofile = cameraUiWrapper.getParameterHandler().get(Settings.VideoProfiles);
+            ParameterInterface videoprofile = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoProfiles);
             if (videoprofile != null)
                 size = videoprofile.GetStringValue();
             else
@@ -159,13 +159,13 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         }
         else
         {
-            ParameterInterface pictureFormat = cameraUiWrapper.getParameterHandler().get(Settings.PictureFormat);
+            ParameterInterface pictureFormat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat);
             if (pictureFormat != null)
                 format = pictureFormat.GetStringValue();
             else
                 format = "";
 
-            ParameterInterface pictureSize = cameraUiWrapper.getParameterHandler().get(Settings.PictureSize);
+            ParameterInterface pictureSize = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureSize);
             if (pictureSize != null)
                 size = pictureSize.GetStringValue();
             else
@@ -208,9 +208,9 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     }
     private double Calc()
     {
-        String[] res = SettingsManager.get(Settings.PictureSize).get().split("x");
+        String[] res = SettingsManager.get(SettingKeys.PictureSize).get().split("x");
 
-        if(SettingsManager.get(Settings.PictureFormat).get().contains(SettingsManager.getInstance().getResString(R.string.bayer_)))
+        if(SettingsManager.get(SettingKeys.PictureFormat).get().contains(SettingsManager.getInstance().getResString(R.string.bayer_)))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;

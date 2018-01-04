@@ -19,6 +19,7 @@ import java.lang.ref.WeakReference;
 
 import freed.image.ImageManager;
 import freed.image.ImageTask;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -80,7 +81,7 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
     {
         featureRunner = null;
         SettingsManager.getInstance().setAppVersion(BuildConfig.VERSION_CODE);
-        SettingsManager.getInstance().setAreFeaturesDetected(true);
+        SettingsManager.get(SettingKeys.areFeaturesDetected).set(true);
         featureDetectorEvents.featuredetectorDone();
         Log.d(TAG,"startFreeDcam");
     }

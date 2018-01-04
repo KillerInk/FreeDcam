@@ -23,7 +23,7 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -34,7 +34,7 @@ public class PictureSizeParameter extends BaseModeParameter
 {
     final String TAG = PictureSizeParameter.class.getSimpleName();
     public PictureSizeParameter(Parameters  parameters, CameraWrapperInterface parameterChanged) {
-        super(parameters, parameterChanged);
+        super(parameters, parameterChanged, SettingKeys.PictureSize);
         this.cameraUiWrapper = parameterChanged;
         isSupported = true;
     }
@@ -52,11 +52,11 @@ public class PictureSizeParameter extends BaseModeParameter
 
     @Override
     public String GetStringValue() {
-        return SettingsManager.get(Settings.PictureSize).get();
+        return SettingsManager.get(SettingKeys.PictureSize).get();
     }
 
     @Override
     public String[] getStringValues() {
-        return SettingsManager.get(Settings.PictureSize).getValues();
+        return SettingsManager.get(SettingKeys.PictureSize).getValues();
     }
 }

@@ -41,6 +41,7 @@ import freed.cam.ui.themesample.PagingView;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.LocationManager;
 import freed.utils.Log;
@@ -444,7 +445,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void SetNightOverlay() {
         if (nightoverlay == null)
             nightoverlay = (LinearLayout) findViewById(id.nightoverlay);
-        if (SettingsManager.getInstance().getBoolean(SettingsManager.SETTINGS_NIGHTOVERLAY, false))
+        if (SettingsManager.get(SettingKeys.NightOverlay).get())
             nightoverlay.setVisibility(View.VISIBLE);
         else
             nightoverlay.setVisibility(View.GONE);

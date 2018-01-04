@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -42,8 +42,8 @@ public class BaseISOManual extends BaseManualParameter {
         super(parameters, "", "", "", cameraUiWrapper, 0);
         isSupported = true;
         isVisible = true;
-        stringvalues = SettingsManager.get(Settings.M_ManualIso).getValues();
-        key_value = SettingsManager.get(Settings.M_ManualIso).getKEY();
+        stringvalues = SettingsManager.get(SettingKeys.M_ManualIso).getValues();
+        key_value = SettingsManager.get(SettingKeys.M_ManualIso).getKEY();
     }
 
     @Override
@@ -67,10 +67,10 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_manual()
     {
-        cur_iso_mode = cameraUiWrapper.getParameterHandler().get(Settings.IsoMode).GetStringValue();
+        cur_iso_mode = cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue();
 
-        if (!cameraUiWrapper.getParameterHandler().get(Settings.IsoMode).GetStringValue().equals(cameraUiWrapper.getResString(R.string.manual)))
-            cameraUiWrapper.getParameterHandler().get(Settings.IsoMode).SetValue(cameraUiWrapper.getResString(R.string.manual), true);
+        if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue().equals(cameraUiWrapper.getResString(R.string.manual)))
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraUiWrapper.getResString(R.string.manual), true);
         parameters.set(key_value, stringvalues[currentInt]);
 
 
@@ -78,9 +78,9 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_to_auto()
     {
-        if (cameraUiWrapper.getParameterHandler().get(Settings.IsoMode).GetStringValue().equals(cameraUiWrapper.getResString(R.string.manual)))
-            cameraUiWrapper.getParameterHandler().get(Settings.IsoMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
-        cameraUiWrapper.getParameterHandler().get(Settings.IsoMode).SetValue(cur_iso_mode, true);
+        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue().equals(cameraUiWrapper.getResString(R.string.manual)))
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cur_iso_mode, true);
 
     }
 

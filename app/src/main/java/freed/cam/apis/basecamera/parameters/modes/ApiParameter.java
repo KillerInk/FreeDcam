@@ -35,6 +35,7 @@ public class ApiParameter extends AbstractParameter
     private final boolean DEBUG = false;
 
     public ApiParameter(ActivityInterface fragment_activityInterface) {
+        super(null);
         this.fragment_activityInterface = fragment_activityInterface;
     }
 

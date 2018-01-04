@@ -25,7 +25,7 @@ import android.view.WindowManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -560,14 +560,14 @@ public class CaptureSessionHandler
 
             matrix.postScale(scX,scY,centerX,centerY);
 
-            if (SettingsManager.get(Settings.orientationHack).getBoolean())
+            if (SettingsManager.get(SettingKeys.orientationHack).get())
                 matrix.postRotate(orientationWithHack, centerX, centerY);
             else
                 matrix.postRotate(orientation, centerX,centerY);
 
         }
         else {
-            if (SettingsManager.get(Settings.orientationHack).getBoolean()) {
+            if (SettingsManager.get(SettingKeys.orientationHack).get()) {
                 if (orientationWithHack >= 360)
                     orientationWithHack -= 180;
                 matrix.postRotate(orientationWithHack, inputRect.centerX(), inputRect.centerY());

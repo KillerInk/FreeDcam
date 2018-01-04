@@ -6,6 +6,8 @@ import com.lge.media.CamcorderProfileExRef;
 
 import java.util.HashMap;
 
+import freed.settings.mode.SettingInterface;
+import freed.settings.mode.SettingMode;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
@@ -29,16 +31,20 @@ abstract class AbstractFeatureDetectorTask {
         void onTaskEnd(String msg);
     }
 
-    void sendProgress(SettingsManager.SettingMode settingMode, String name)
+    void sendProgress(SettingInterface settingMode, String name)
     {
-        if (settingMode.isSupported()) {
-            String[]ar = settingMode.getValues();
-            String t = getStringFromArray(ar);
-            publishProgress(name+" Values:" +t);
-            publishProgress(name+":" + settingMode.get());
+        if (settingMode instanceof SettingMode) {
+            SettingMode ts = (SettingMode) settingMode;
+            if (ts.isSupported()) {
+                String[]ar = ts.getValues();
+                String t = getStringFromArray(ar);
+                publishProgress(name+" Values:" +t);
+                publishProgress(name+":" + ts.get());
+            }
+            else
+                publishProgress(name+" not supported");
         }
-        else
-            publishProgress(name+" not supported");
+
     }
 
     public abstract void detect();

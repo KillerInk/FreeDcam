@@ -25,6 +25,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -36,7 +37,7 @@ public class VirtualLensFilter extends  BaseModeParameter {
     private final String[] asU;
     public VirtualLensFilter(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {
-        super(parameters, cameraUiWrapper);
+        super(parameters, cameraUiWrapper, SettingKeys.LensFilter);
 
         if (SettingsManager.getInstance().isZteAe())
             isSupported = true;

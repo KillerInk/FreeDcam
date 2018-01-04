@@ -29,6 +29,8 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.SettingKeys;
+import freed.settings.mode.SettingMode;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -74,26 +76,21 @@ public class BaseManualParameter extends AbstractParameter
         }
     }
 
-    public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
+    public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode)
     {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,settingMode);
         this.parameters = parameters;
-    }
-
-    public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode)
-    {
-        super(cameraUiWrapper);
-        this.parameters = parameters;
-        key_value = settingMode.getKEY();
-        currentString = settingMode.get();
-        stringvalues = settingMode.getValues();
-        isSupported = settingMode.isSupported();
+        SettingMode mode = (SettingMode) SettingsManager.get(key);
+        key_value = mode.getKEY();
+        currentString = mode.get();
+        stringvalues = mode.getValues();
+        isSupported = mode.isSupported();
         isVisible = isSupported;
     }
 
     public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, float step)
     {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,null);
         this.parameters = parameters;
         this.step =step;
     }
@@ -165,6 +162,7 @@ public class BaseManualParameter extends AbstractParameter
         Log.d(TAG, "set " + key_value + " to " + valueToset);
         if(stringvalues == null || stringvalues.length == 0)
             return;
+        ((SettingMode)SettingsManager.get(key)).set(stringvalues[valueToset]);
         parameters.set(key_value, stringvalues[valueToset]);
         fireIntValueChanged(valueToset);
         fireStringValueChanged(stringvalues[valueToset]);

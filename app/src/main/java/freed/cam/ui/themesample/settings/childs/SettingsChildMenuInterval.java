@@ -30,8 +30,8 @@ import freed.settings.SettingsManager;
 public class SettingsChildMenuInterval extends SettingsChildMenu
 {
 
-    public SettingsChildMenuInterval(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter, int headerid, int descriptionid) {
-        super(context, settingsMode, parameter, headerid, descriptionid);
+    public SettingsChildMenuInterval(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
+        super(context, parameter, headerid, descriptionid);
     }
 
     @Override
@@ -42,7 +42,6 @@ public class SettingsChildMenuInterval extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        settingMode.set(value);
         onStringValueChanged(value);
         parameter.SetValue(value,true);
     }

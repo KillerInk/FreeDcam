@@ -94,14 +94,27 @@
     <string name="aps_manualfx" translatable="false">manualfx</string>
     <string name="aps_manualprogramshift" translatable="false">programshift</string>
     <string name="aps_manualpreviewzoom" translatable="false">previewzoom</string>
-    <string name="aps_unsupported">unsupported</string>
-    <string name="aps_manualaperture">manualaperture</string>
-    <string name="aps_ae_targetFPS">ae_TargetFPS</string>
-    <string name="aps_orientationHack">orientationHack</string>
-    <string name="aps_tonemapProfile">tonemapProfile</string>
-    <string name="aps_dngsupportmanualmodes">dngsupportmanualmodes</string>
-    <string name="aps_forcerawtondng">forcerawtodng</string>
-    <string name="aps_needrestartaftercapture">needrestartaftercapture</string>
-    <string name="aps_selftimer">selftimer</string>
+    <string name="aps_unsupported" translatable="false">unsupported</string>
+    <string name="aps_manualaperture" translatable="false">manualaperture</string>
+    <string name="aps_ae_targetFPS" translatable="false">ae_TargetFPS</string>
+    <string name="aps_orientationHack" translatable="false">orientationHack</string>
+    <string name="aps_tonemapProfile" translatable="false">tonemapProfile</string>
+    <string name="aps_dngsupportmanualmodes" translatable="false">dngsupportmanualmodes</string>
+    <string name="aps_forcerawtondng" translatable="false">forcerawtodng</string>
+    <string name="aps_arefeaturesdetected" translatable="false">arefeaturesdetected</string>
+    <string name="aps_needrestartaftercapture" translatable="false">needrestartaftercapture</string>
+    <string name="aps_selftimer" translatable="false">selftimer</string>
+    <string name="aps_htcvideoMode" translatable="false">htcVideoMode</string>
+    <string name="aps_htcvideoModehsr" translatable="false">htcVideoModeHsr</string>
+    <string name="aps_lensfilter" translatable="false">lensfilter</string>
+    <string name="aps_horizontlvl" translatable="false">horizontlvl</string>
+    <string name="aps_contshootmodespeed" translatable="false">contshootmodespeed</string>
+    <string name="aps_contshootmode" translatable="false">contshootmode</string>
+    <string name="aps_focuspeak" translatable="false">focuspeak</string>
+    <string name="aps_nightoverlay" translatable="false">nightoverlay</string>
+    <string name="aps_colorcorrectionmode" translatable="false">colorcorrectionmode</string>
+    <string name="aps_tonecurve" translatable="false">tonecurve</string>
+    <string name="aps_location" translatable="false">location</string>
+    <string name="aps_bayformat" translatable="false">bayerformat</string>
 
 </resources>

@@ -25,6 +25,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.SettingKeys;
 
 /**
  * Created by Ingo on 25.12.2014.
@@ -33,7 +34,7 @@ public class ExposureLockParameter extends BaseModeParameter
 {
     final String TAG = ExposureLockParameter.class.getSimpleName();
     public ExposureLockParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, cameraUiWrapper);
+        super(parameters, cameraUiWrapper, SettingKeys.ExposureLock);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class ExposureLockParameter extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setValue(String valueToSet, boolean setToCam)
     {
         if (parameters.isAutoExposureLockSupported())
             parameters.setAutoExposureLock(Boolean.parseBoolean(valueToSet));

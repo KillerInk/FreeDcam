@@ -51,7 +51,7 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
 
     public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi, CameraWrapperInterface  wrapperInterface)
     {
-        super(wrapperInterface);
+        super(wrapperInterface,null);
         this.VALUE_TO_GET = VALUE_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;
         this.VALUES_TO_GET = VALUES_TO_GET;

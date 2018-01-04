@@ -28,7 +28,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -62,8 +62,8 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
-        cameraUiWrapper.getParameterHandler().get(Settings.M_Burst).SetValue(PICSTOTAKE-1, true);
-        focuslength = parameterHandler.get(Settings.M_Focus).getStringValues().length -1;
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(PICSTOTAKE-1, true);
+        focuslength = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length -1;
         focusStep =  focuslength/PICSTOTAKE;
         currentFocusPos = 1;
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
@@ -91,7 +91,7 @@ public class AfBracketApi2 extends PictureModuleApi2
 
         if (min == 0 && max == 0)
         {
-            focuslength = parameterHandler.get(Settings.M_Focus).getStringValues().length -1;
+            focuslength = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length -1;
             focusStep = focuslength /PICSTOTAKE;
             currentFocusPos = 1;
         }

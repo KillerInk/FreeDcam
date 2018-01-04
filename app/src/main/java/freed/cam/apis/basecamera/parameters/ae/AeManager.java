@@ -2,7 +2,7 @@ package freed.cam.apis.basecamera.parameters.ae;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -72,10 +72,7 @@ public abstract class AeManager implements AeManagerInterface
     {
         public final String TAG = ManualExposureTime.class.getSimpleName();
         public ManualExposureTime(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper);
-            isSupported = SettingsManager.get(Settings.M_ExposureTime).isSupported();
-            if (isSupported)
-                stringvalues = SettingsManager.get(Settings.M_ExposureTime).getValues();
+            super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         }
 
         @Override
@@ -127,11 +124,8 @@ public abstract class AeManager implements AeManagerInterface
     {
         final String TAG = ManualIso.class.getSimpleName();
         public ManualIso(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper);
+            super(cameraUiWrapper,SettingKeys.M_ManualIso);
             currentInt = 0;
-            isSupported = SettingsManager.get(Settings.M_ManualIso).isSupported();
-            if (isSupported)
-                stringvalues = SettingsManager.get(Settings.M_ManualIso).getValues();
         }
 
         @Override
@@ -162,8 +156,7 @@ public abstract class AeManager implements AeManagerInterface
         final String TAG = ExposureCompensation.class.getSimpleName();
 
         public ExposureCompensation(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper);
-            stringvalues = SettingsManager.get(Settings.M_ExposureCompensation).getValues();
+            super(cameraUiWrapper,SettingKeys.M_ExposureCompensation);
             currentInt = stringvalues.length / 2;
         }
 
@@ -180,7 +173,7 @@ public abstract class AeManager implements AeManagerInterface
 
         @Override
         public boolean IsSupported() {
-            return SettingsManager.get(Settings.M_ExposureCompensation).isSupported();
+            return SettingsManager.get(SettingKeys.M_ExposureCompensation).isSupported();
         }
 
         @Override

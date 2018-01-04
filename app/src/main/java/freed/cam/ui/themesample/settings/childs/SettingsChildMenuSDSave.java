@@ -32,7 +32,7 @@ import java.io.File;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
@@ -58,7 +58,7 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
 
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        SetParameter(cameraUiWrapper.getParameterHandler().get(Settings.SdSaveLocation));
+        SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.SD_SAVE_LOCATION));
     }
 
     @Override

@@ -51,17 +51,15 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
 
     protected ParameterInterface parameter;
     protected ActivityInterface fragment_activityInterface;
-    protected SettingsManager.SettingMode settingMode;
     protected String key_appsettings;
     protected TextView valueText;
 
     protected SettingsChildClick onItemClick;
     protected boolean fromleft;
 
-    public SettingsChildAbstract(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter)
+    public SettingsChildAbstract(Context context, ParameterInterface parameter)
     {
         super(context);
-        this.settingMode = settingsMode;
         this.parameter = parameter;
         if (parameter == null)
             return;
@@ -76,11 +74,6 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     {
         this.fragment_activityInterface = fragment_activityInterface;
         key_appsettings = settingvalue;
-    }
-
-    @Override
-    public void SetStuff(SettingsManager.SettingMode settingMode) {
-        this.settingMode = settingMode;
     }
 
     public SettingsChildAbstract(Context context) {
@@ -148,10 +141,6 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     {
         if (parameter != null && parameter.IsSupported())
         {
-            if (key_appsettings != null && !TextUtils.isEmpty(key_appsettings))
-                SettingsManager.getInstance().setApiString(key_appsettings, value);
-            if (settingMode != null)
-                settingMode.set(value);
             try {
                 parameter.SetValue(value, true);
             }

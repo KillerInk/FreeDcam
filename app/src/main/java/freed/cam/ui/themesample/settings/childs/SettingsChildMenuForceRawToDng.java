@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.troop.freedcam.R;
 
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -15,7 +15,7 @@ public class SettingsChildMenuForceRawToDng extends SettingsChildMenu {
 
     public SettingsChildMenuForceRawToDng(Context context, int headerid, int descriptionid) {
         super(context, headerid, descriptionid);
-        if (SettingsManager.get(Settings.forceRawToDng).getBoolean())
+        if (SettingsManager.get(SettingKeys.forceRawToDng).get())
             SetValue(SettingsManager.getInstance().getResString(R.string.on));
         else
             SetValue(SettingsManager.getInstance().getResString(R.string.off));
@@ -29,9 +29,9 @@ public class SettingsChildMenuForceRawToDng extends SettingsChildMenu {
     @Override
     public void SetValue(String value) {
         if (value.equals(SettingsManager.getInstance().getResString(R.string.off)))
-            SettingsManager.get(Settings.forceRawToDng).setBoolean(false);
+            SettingsManager.get(SettingKeys.forceRawToDng).set(false);
         else
-            SettingsManager.get(Settings.forceRawToDng).setBoolean(true);
+            SettingsManager.get(SettingKeys.forceRawToDng).set(true);
         valueText.setText(value);
     }
 

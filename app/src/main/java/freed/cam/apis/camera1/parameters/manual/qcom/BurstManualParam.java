@@ -33,7 +33,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -44,9 +44,9 @@ public class BurstManualParam extends BaseManualParameter
 
     public BurstManualParam(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
-        isSupported = SettingsManager.get(Settings.M_Burst).isSupported();
-        stringvalues = SettingsManager.get(Settings.M_Burst).getValues();
-        currentInt = Integer.parseInt(SettingsManager.get(Settings.M_Burst).get());
+        isSupported = SettingsManager.get(SettingKeys.M_Burst).isSupported();
+        stringvalues = SettingsManager.get(SettingKeys.M_Burst).getValues();
+        currentInt = Integer.parseInt(SettingsManager.get(SettingKeys.M_Burst).get());
     }
 
     @Override

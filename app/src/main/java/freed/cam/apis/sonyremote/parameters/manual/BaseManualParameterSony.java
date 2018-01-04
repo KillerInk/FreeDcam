@@ -58,7 +58,7 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
 
     public BaseManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, CameraWrapperInterface cameraUiWrapper)
     {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,null);
         this.VALUE_TO_GET = VALUE_TO_GET;
         this.VALUES_TO_GET = VALUES_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;

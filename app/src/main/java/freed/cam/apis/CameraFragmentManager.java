@@ -17,6 +17,7 @@ import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.featuredetector.CameraFeatureDetectorFragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.RenderScriptManager;
@@ -115,7 +116,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
 
     public void switchCameraFragment()
     {
-        if ((!SettingsManager.getInstance().areFeaturesDetected() || SettingsManager.getInstance().appVersionHasChanged()) && fd == null)
+        if ((!SettingsManager.get(SettingKeys.areFeaturesDetected).get() || SettingsManager.getInstance().appVersionHasChanged()) && fd == null)
         {
             if (cameraFragment != null)
                 unloadCameraFragment();

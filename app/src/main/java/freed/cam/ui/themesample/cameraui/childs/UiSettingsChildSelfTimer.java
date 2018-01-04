@@ -8,6 +8,8 @@ import android.view.View;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.settings.SettingKeys;
+import freed.settings.mode.SettingMode;
 import freed.settings.SettingsManager;
 
 public class UiSettingsChildSelfTimer extends UiSettingsChild {
@@ -15,8 +17,8 @@ public class UiSettingsChildSelfTimer extends UiSettingsChild {
         super(context);
     }
 
-    public UiSettingsChildSelfTimer(Context context, SettingsManager.SettingMode settingsMode, ParameterInterface parameter) {
-        super(context, settingsMode, parameter);
+    public UiSettingsChildSelfTimer(Context context, SettingMode settingsMode, ParameterInterface parameter) {
+        super(context, parameter);
     }
 
     public UiSettingsChildSelfTimer(Context context, AttributeSet attrs) {
@@ -36,20 +38,19 @@ public class UiSettingsChildSelfTimer extends UiSettingsChild {
             setVisibility(View.GONE);
     }
 
-    @Override
-    public void SetStuff(SettingsManager.SettingMode settingMode) {
-        super.SetStuff(settingMode);
+    public void SetStuff(SettingMode settingMode) {
+
         onStringValueChanged(settingMode.get());
     }
 
     @Override
     public String[] GetValues() {
-        return settingMode.getValues();
+        return SettingsManager.get(SettingKeys.selfTimer).getValues();
     }
 
     @Override
     public void SetValue(String value) {
-        settingMode.set(value);
+        SettingsManager.get(SettingKeys.selfTimer).set(value);
         onStringValueChanged(value);
     }
 }

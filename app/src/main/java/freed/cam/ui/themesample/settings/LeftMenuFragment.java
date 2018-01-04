@@ -53,7 +53,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimeLapseFrames
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoProfile;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEditor;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -95,9 +95,9 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
          */
             GroupChild videoGroup = new GroupChild(getContext(), getString(R.string.setting_video_group_header));
 
-            if (params.get(Settings.VideoProfiles) != null) {
-                SettingsChildMenuVideoProfile videoProfile = new SettingsChildMenuVideoProfile(getContext(), apS.get(Settings.VideoProfiles),
-                        params.get(Settings.VideoProfiles), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
+            if (params.get(SettingKeys.VideoProfiles) != null) {
+                SettingsChildMenuVideoProfile videoProfile = new SettingsChildMenuVideoProfile(getContext(),
+                        params.get(SettingKeys.VideoProfiles), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
                 videoProfile.SetUiItemClickListner(this);
                 videoGroup.addView(videoProfile);
 
@@ -109,22 +109,22 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 SettingsChildMenu_VideoProfEditor videoProfileEditor = new SettingsChildMenu_VideoProfEditor(getContext(), R.string.setting_videoprofileeditor_header, R.string.setting_videoprofileeditor_description);
                 videoGroup.addView(videoProfileEditor);
             }
-            if (params.get(Settings.VideoHDR) != null) {
-                SettingsChildMenuVideoHDR videoHDR = new SettingsChildMenuVideoHDR(getContext(), apS.get(Settings.VideoHDR), params.get(Settings.VideoHDR), R.string.setting_videohdr_header, R.string.setting_videohdr_description);
+            if (params.get(SettingKeys.VideoHDR) != null) {
+                SettingsChildMenuVideoHDR videoHDR = new SettingsChildMenuVideoHDR(getContext(), params.get(SettingKeys.VideoHDR), R.string.setting_videohdr_header, R.string.setting_videohdr_description);
                 videoHDR.SetCameraInterface(cameraUiWrapper);
                 videoHDR.SetUiItemClickListner(this);
                 videoGroup.addView(videoHDR);
             }
 
-            if (params.get(Settings.VideoSize) != null && (cameraUiWrapper instanceof SonyCameraRemoteFragment)) {
+            if (params.get(SettingKeys.VideoSize) != null && (cameraUiWrapper instanceof SonyCameraRemoteFragment)) {
 
-                SettingsChildMenu VideoSize = new SettingsChildMenu(getContext(), apS.get(Settings.VideoSize), params.get(Settings.VideoSize), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
+                SettingsChildMenu VideoSize = new SettingsChildMenu(getContext(), params.get(SettingKeys.VideoSize), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
                 VideoSize.SetUiItemClickListner(this);
                 videoGroup.addView(VideoSize);
             }
 
-            if (params.get(Settings.VideoStabilization) != null) {
-                SettingsChildMenu videoStabilization = new SettingsChildMenu(getContext(), apS.get(Settings.VideoStabilization), params.get(Settings.VideoStabilization), R.string.setting_vs_header, R.string.setting_vs_description);
+            if (params.get(SettingKeys.VideoStabilization) != null) {
+                SettingsChildMenu videoStabilization = new SettingsChildMenu(getContext(), params.get(SettingKeys.VideoStabilization), R.string.setting_vs_header, R.string.setting_vs_description);
                 videoStabilization.SetUiItemClickListner(this);
                 videoGroup.addView(videoStabilization);
             }
@@ -137,25 +137,25 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
          */
             GroupChild picGroup = new GroupChild(getContext(), getString(R.string.setting_picture_group_header));
 
-            if (params.get(Settings.PictureSize) != null) {
-                SettingsChildMenu pictureSize = new SettingsChildMenu(getContext(), apS.get(Settings.PictureSize), params.get(Settings.PictureSize), R.string.setting_picturesize_header, R.string.setting_picturesize_description);
+            if (params.get(SettingKeys.PictureSize) != null) {
+                SettingsChildMenu pictureSize = new SettingsChildMenu(getContext(), params.get(SettingKeys.PictureSize), R.string.setting_picturesize_header, R.string.setting_picturesize_description);
                 pictureSize.SetUiItemClickListner(this);
                 picGroup.addView(pictureSize);
             }
 
-            if (params.get(Settings.JpegQuality) != null) {
-                SettingsChildMenu jpegQuality = new SettingsChildMenu(getContext(), apS.get(Settings.JpegQuality), params.get(Settings.JpegQuality), R.string.setting_jpegquality_header, R.string.setting_jpegquality_description);
+            if (params.get(SettingKeys.JpegQuality) != null) {
+                SettingsChildMenu jpegQuality = new SettingsChildMenu(getContext(), params.get(SettingKeys.JpegQuality), R.string.setting_jpegquality_header, R.string.setting_jpegquality_description);
                 jpegQuality.SetUiItemClickListner(this);
                 picGroup.addView(jpegQuality);
             }
 
             GroupChild intervalGroup = new GroupChild(getContext(), getString(R.string.setting_Automation));
 
-            SettingsChildMenuInterval menuInterval = new SettingsChildMenuInterval(getContext(), apS.get(Settings.IntervalShutterSleep), params.get(Settings.IntervalShutterSleep), R.string.setting_interval_header, R.string.setting_interval_texter);
+            SettingsChildMenuInterval menuInterval = new SettingsChildMenuInterval(getContext(), params.get(SettingKeys.INTERVAL_SHUTTER_SLEEP), R.string.setting_interval_header, R.string.setting_interval_texter);
             menuInterval.SetUiItemClickListner(this);
             intervalGroup.addView(menuInterval);
 
-            SettingsChildMenuIntervalDuration menuIntervalDuration = new SettingsChildMenuIntervalDuration(getContext(), apS.get(Settings.IntervalDuration), params.get(Settings.IntervalDuration), R.string.setting_interval_duration_header, R.string.setting_interval_duration_text);
+            SettingsChildMenuIntervalDuration menuIntervalDuration = new SettingsChildMenuIntervalDuration(getContext(), params.get(SettingKeys.INTERVAL_DURATION), R.string.setting_interval_duration_header, R.string.setting_interval_duration_text);
             menuIntervalDuration.SetUiItemClickListner(this);
             intervalGroup.addView(menuIntervalDuration);
 
@@ -163,24 +163,24 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
             GroupChild dngGroup = new GroupChild(getContext(), getString(R.string.setting_raw_group_header));
 
-            if (params.get(Settings.opcode) != null) {
-                SettingsChildMenu opcode = new SettingsChildMenu(getContext(), apS.get(Settings.opcode), params.get(Settings.opcode), R.string.setting_opcode_header, R.string.setting_opcode_description);
+            if (params.get(SettingKeys.OPCODE) != null) {
+                SettingsChildMenu opcode = new SettingsChildMenu(getContext(), params.get(SettingKeys.OPCODE), R.string.setting_opcode_header, R.string.setting_opcode_description);
                 opcode.SetUiItemClickListner(this);
                 dngGroup.addView(opcode);
             }
 
-            if (params.get(Settings.bayerformat) != null && params.get(Settings.bayerformat).IsSupported() && apS.get(Settings.rawPictureFormatSetting).isSupported()) {
-                SettingsChildMenu bayerFormatItem = new SettingsChildMenu(getContext(), apS.get(Settings.rawPictureFormatSetting), params.get(Settings.bayerformat), R.string.setting_bayerformat_header, R.string.setting_bayerformat_description);
+            if (params.get(SettingKeys.BAYERFORMAT) != null && params.get(SettingKeys.BAYERFORMAT).IsSupported() && apS.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported()) {
+                SettingsChildMenu bayerFormatItem = new SettingsChildMenu(getContext(), params.get(SettingKeys.BAYERFORMAT), R.string.setting_bayerformat_header, R.string.setting_bayerformat_description);
                 bayerFormatItem.SetUiItemClickListner(this);
                 dngGroup.addView(bayerFormatItem);
             }
-            if (params.get(Settings.matrixChooser) != null && params.get(Settings.matrixChooser).IsSupported()) {
-                SettingsChildMenu matrixChooser = new SettingsChildMenu(getContext(), apS.get(Settings.matrixChooser), params.get(Settings.matrixChooser), R.string.setting_matrixchooser_header, R.string.setting_matrixchooser_description);
+            if (params.get(SettingKeys.MATRIX_SET) != null && params.get(SettingKeys.MATRIX_SET).IsSupported()) {
+                SettingsChildMenu matrixChooser = new SettingsChildMenu(getContext(), params.get(SettingKeys.MATRIX_SET), R.string.setting_matrixchooser_header, R.string.setting_matrixchooser_description);
                 matrixChooser.SetUiItemClickListner(this);
                 dngGroup.addView(matrixChooser);
             }
-            if (params.get(Settings.tonemapChooser) != null && params.get(Settings.tonemapChooser).IsSupported()) {
-                SettingsChildMenu matrixChooser = new SettingsChildMenu(getContext(), apS.get(Settings.tonemapChooser), params.get(Settings.tonemapChooser), R.string.setting_tonemapchooser_header, R.string.setting_tonemapchooser_description);
+            if (params.get(SettingKeys.TONEMAP_SET) != null && params.get(SettingKeys.TONEMAP_SET).IsSupported()) {
+                SettingsChildMenu matrixChooser = new SettingsChildMenu(getContext(), params.get(SettingKeys.TONEMAP_SET), R.string.setting_tonemapchooser_header, R.string.setting_tonemapchooser_description);
                 matrixChooser.SetUiItemClickListner(this);
                 dngGroup.addView(matrixChooser);
             }
@@ -242,7 +242,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             menuItemGPS.SetUiItemClickListner(this);
             globalSettingGroup.addView(menuItemGPS);
 
-            SettingsChildMenu guide = new SettingsChildMenu(getContext(), SettingsManager.get(Settings.GuideList),cameraUiWrapper.getParameterHandler().get(Settings.GuideList), R.string.setting_guide_header, R.string.setting_guide_description);
+            SettingsChildMenu guide = new SettingsChildMenu(getContext(),cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList), R.string.setting_guide_header, R.string.setting_guide_description);
             guide.SetUiItemClickListner(this);
             globalSettingGroup.addView(guide);
 
@@ -252,13 +252,13 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
             SettingsChildMenu horizont = new SettingsChildMenu(getContext(), R.string.setting_horizont_header, R.string.setting_horizont_description);
             horizont.SetStuff(fragment_activityInterface, SettingsManager.SETTING_HORIZONT);
-            horizont.SetParameter(cameraUiWrapper.getParameterHandler().get(Settings.HorizontLvl));
+            horizont.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl));
             horizont.SetUiItemClickListner(this);
             globalSettingGroup.addView(horizont);
 
             SettingsChildMenu nightoverlay = new SettingsChildMenu(getContext(), R.string.setting_nightoverlay_header, R.string.setting_nightoverlay_description);
             nightoverlay.SetUiItemClickListner(this);
-            nightoverlay.SetParameter(cameraUiWrapper.getParameterHandler().get(Settings.NightOverlay));
+            nightoverlay.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.NightOverlay));
             globalSettingGroup.addView(nightoverlay);
 
             if (!(cameraUiWrapper instanceof SonyCameraRemoteFragment))

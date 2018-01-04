@@ -775,7 +775,7 @@ void DngWriter::WriteDNG() {
         delete[] noiseMatrix;
         noiseMatrix = NULL;
     }
-    LOGD("delete bayerformat");
+    LOGD("delete BAYERFORMAT");
     if(bayerformat != NULL)
     {
         delete[] bayerformat;

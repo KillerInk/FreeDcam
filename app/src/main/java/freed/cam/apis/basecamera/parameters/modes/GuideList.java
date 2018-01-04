@@ -22,7 +22,7 @@ package freed.cam.apis.basecamera.parameters.modes;
 //defcomg was here
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -31,7 +31,7 @@ import freed.settings.SettingsManager;
 public class GuideList extends AbstractParameter
 {
     public GuideList() {
-        super();
+        super(SettingKeys.GuideList);
     }
 
     @Override
@@ -42,19 +42,19 @@ public class GuideList extends AbstractParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        SettingsManager.get(Settings.GuideList).set(valueToSet);
+        SettingsManager.get(SettingKeys.GuideList).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 
     @Override
     public String GetStringValue()
     {
-        return SettingsManager.get(Settings.GuideList).get();
+        return SettingsManager.get(SettingKeys.GuideList).get();
     }
 
     @Override
     public String[] getStringValues() {
-        return SettingsManager.get(Settings.GuideList).getValues();
+        return SettingsManager.get(SettingKeys.GuideList).getValues();
     }
 
 

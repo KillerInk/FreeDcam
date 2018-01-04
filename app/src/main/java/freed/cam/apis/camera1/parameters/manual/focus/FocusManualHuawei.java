@@ -25,6 +25,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -34,7 +35,7 @@ import freed.utils.Log;
 public class FocusManualHuawei extends BaseFocusManual
 {
     private final String TAG = FocusManualHuawei.class.getSimpleName();
-    public FocusManualHuawei(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingsManager.SettingMode settingMode) {
+    public FocusManualHuawei(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper,settingMode);
     }
 

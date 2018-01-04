@@ -22,16 +22,17 @@ package freed.cam.apis.camera1.parameters.manual.shutter;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 21.02.2016.
  */
-public class ShutterManualSony extends AbstractManualShutter
+public class ShutterManualSony extends AbstractParameter
 {
     final String TAG = ShutterManualSony.class.getSimpleName();
     private final Parameters parameters;
@@ -40,10 +41,9 @@ public class ShutterManualSony extends AbstractManualShutter
      * @param cameraUiWrapper
      */
     public ShutterManualSony(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         this.parameters = parameters;
-        stringvalues = SettingsManager.get(Settings.M_ExposureTime).getValues();
-        isSupported = true;
+
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ShutterManualSony extends AbstractManualShutter
     public void setValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
-        ParameterInterface miso =cameraUiWrapper.getParameterHandler().get(Settings.M_ManualIso);
+        ParameterInterface miso =cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ManualIso);
         if (currentInt == 0)
         {
             if (miso.GetValue() == 0)
@@ -73,7 +73,7 @@ public class ShutterManualSony extends AbstractManualShutter
                 parameters.set("sony-ae-mode", "shutter-prio");
             else if (miso.GetValue() > 0 && !parameters.get("sony-ae-mode").equals("manual"))
                 parameters.set("sony-ae-mode", "manual");
-            parameters.set(SettingsManager.get(Settings.M_ExposureTime).getKEY(), currentInt-1);
+            parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getKEY(), currentInt-1);
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }

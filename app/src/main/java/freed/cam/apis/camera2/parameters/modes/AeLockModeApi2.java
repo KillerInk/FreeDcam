@@ -8,6 +8,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.Camera2Fragment;
+import freed.settings.SettingKeys;
 
 /**
  * Created by Ingo on 03.10.2016.
@@ -15,7 +16,7 @@ import freed.cam.apis.camera2.Camera2Fragment;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class AeLockModeApi2 extends BaseModeApi2 {
     public AeLockModeApi2(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper, null);
     }
 
     @Override

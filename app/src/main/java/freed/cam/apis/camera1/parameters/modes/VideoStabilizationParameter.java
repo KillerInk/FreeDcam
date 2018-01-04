@@ -25,6 +25,7 @@ import android.text.TextUtils;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.SettingKeys;
 
 /**
  * Created by Ar4eR on 10.12.15.
@@ -33,7 +34,7 @@ public class VideoStabilizationParameter extends  BaseModeParameter {
     private final String[] vs_values = {cameraUiWrapper.getResString(R.string.true_), cameraUiWrapper.getResString(R.string.false_)};
     public VideoStabilizationParameter(Parameters parameters, CameraWrapperInterface parameterChanged)
     {
-        super(parameters, parameterChanged);
+        super(parameters, parameterChanged, SettingKeys.VideoStabilization);
         if (parameters.get(cameraUiWrapper.getResString(R.string.video_stabilization_supported)).equals(cameraUiWrapper.getResString(R.string.true_)))
         {
             isSupported = true;

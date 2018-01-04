@@ -33,7 +33,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 public class FocusPeakModeApi2 extends BaseModeApi2 {
     public FocusPeakModeApi2(CameraWrapperInterface cameraUiWrapper)
     {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper,null);
     }
 
 

@@ -12,7 +12,7 @@ import android.util.Pair;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
@@ -93,9 +93,9 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             waitForFirstFrame = false;
         }
 
-        ParameterInterface expotime = camera2Fragment.getParameterHandler().get(Settings.M_ExposureTime);
-        ParameterInterface iso = camera2Fragment.getParameterHandler().get(Settings.M_ManualIso);
-        if (SettingsManager.get(Settings.useHuaweiCamera2Extension).getBoolean())
+        ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);
+        ParameterInterface iso = camera2Fragment.getParameterHandler().get(SettingKeys.M_ManualIso);
+        if (SettingsManager.get(SettingKeys.useHuaweiCamera2Extension).get())
         {
             if (expotime.GetValue() == 0) {
                 Long expoTime = result.get(CaptureResult.SENSOR_EXPOSURE_TIME);
@@ -117,8 +117,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             if (expotime != null && expotime.IsSupported()) {
                 if (result != null && result.getKeys().size() > 0) {
                     try {
-                        if (!camera2Fragment.getParameterHandler().get(Settings.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))
-                                && !camera2Fragment.getParameterHandler().get(Settings.ControlMode).equals(camera2Fragment.getContext().getString(R.string.off))) {
+                        if (!camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))
+                                && !camera2Fragment.getParameterHandler().get(SettingKeys.CONTROL_MODE).equals(camera2Fragment.getContext().getString(R.string.off))) {
                             try {
                                 long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                                 currentExposureTime = expores;
@@ -141,7 +141,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                             }
                             try {
                                 focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                                camera2Fragment.getParameterHandler().get(Settings.M_Focus).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
+                                camera2Fragment.getParameterHandler().get(SettingKeys.M_Focus).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
                             } catch (NullPointerException ex) {
                                 Log.WriteEx(ex);
                             }
@@ -241,10 +241,10 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             //Log.d(TAG,"ExpoCompensation:" + );
         }
 
-        if (camera2Fragment.getParameterHandler().get(Settings.ExposureLock) != null && result.get(CaptureResult.CONTROL_AE_LOCK) != null) {
+        if (camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock) != null && result.get(CaptureResult.CONTROL_AE_LOCK) != null) {
             String expolock = result.get(CaptureResult.CONTROL_AE_LOCK).toString();
             if (expolock != null)
-                camera2Fragment.getParameterHandler().get(Settings.ExposureLock).fireStringValueChanged(expolock);
+                camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock).fireStringValueChanged(expolock);
         }
     }
 

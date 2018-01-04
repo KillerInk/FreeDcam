@@ -25,7 +25,7 @@ import android.text.TextUtils;
 import java.util.Date;
 
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.settings.Settings;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -60,13 +60,13 @@ public class IntervalHandler
         Log.d(TAG, "Start Interval");
         working = true;
         startTime = new Date().getTime();
-        String sleep = picmodule.cameraUiWrapper.getParameterHandler().get(Settings.IntervalShutterSleep).GetStringValue();
+        String sleep = picmodule.cameraUiWrapper.getParameterHandler().get(SettingKeys.INTERVAL_SHUTTER_SLEEP).GetStringValue();
         if (sleep.contains(" sec"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" sec",""))*1000;
         if (sleep.contains(" min"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" min",""))*60*1000;
 
-        String duration = picmodule.cameraUiWrapper.getParameterHandler().get(Settings.IntervalDuration).GetStringValue();
+        String duration = picmodule.cameraUiWrapper.getParameterHandler().get(SettingKeys.INTERVAL_DURATION).GetStringValue();
         if (duration.equals("∞"))
             fullIntervalCaptureDuration = 0;
         else if (duration.contains(" min"))

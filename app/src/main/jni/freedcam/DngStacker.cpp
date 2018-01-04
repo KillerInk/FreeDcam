@@ -262,7 +262,7 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     LOGD("wrote blacklevel");
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
 
-    //TODO find out why opcode cause ueof ex in ps
+    //TODO find out why OPCODE cause ueof ex in ps
     /*if(sizeof(opcode2)>0)
         TIFFSetField(tif,TIFFTAG_OPC2, sizeof(opcode2), opcode2);
     if(sizeof(opcode3)>0)
