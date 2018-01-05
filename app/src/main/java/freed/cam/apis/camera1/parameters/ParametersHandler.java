@@ -75,14 +75,13 @@ import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
+import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
-import static freed.settings.SettingsManager.FRAMEWORK_LG;
-import static freed.settings.SettingsManager.FRAMEWORK_MTK;
 import static freed.settings.SettingsManager.ISOMANUAL_KRILLIN;
 import static freed.settings.SettingsManager.ISOMANUAL_MTK;
 import static freed.settings.SettingsManager.ISOMANUAL_QCOM;
@@ -341,7 +340,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
         if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
         {
-            if (SettingsManager.getInstance().getFrameWork() == FRAMEWORK_MTK)
+            if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
             {
                 add(SettingKeys.M_Focus, new FocusManualMTK(cameraParameters, cameraUiWrapper,SettingKeys.M_Focus));
             }
@@ -377,9 +376,9 @@ public class ParametersHandler extends AbstractParameterHandler
         if (appS.get(SettingKeys.LensFilter).isSupported())
             add(SettingKeys.LensFilter, new VirtualLensFilter(cameraParameters,cameraUiWrapper));
 
-        if (appS.getFrameWork() == FRAMEWORK_LG)//its needed else cam ignores manuals like shutter and iso
+        if (appS.getFrameWork() == Frameworks.LG)//its needed else cam ignores manuals like shutter and iso
             cameraParameters.set("lge-camera","1");
-        else  if (appS.getFrameWork() == FRAMEWORK_MTK){
+        else  if (appS.getFrameWork() == Frameworks.MTK){
             cameraParameters.set("afeng_raw_dump_flag", "1");
             cameraParameters.set("rawsave-mode", "2");
             cameraParameters.set("isp-mode", "1");
@@ -547,7 +546,7 @@ public class ParametersHandler extends AbstractParameterHandler
     public float getCurrentExposuretime()
     {
         Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
-        if (SettingsManager.getInstance().getFrameWork() == SettingsManager.FRAMEWORK_MTK) {
+        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK) {
             if (parameters.get(SettingsManager.getInstance().getResString(R.string.eng_capture_shutter_speed)) != null) {
                 if (Float.parseFloat(parameters.get(SettingsManager.getInstance().getResString(R.string.eng_capture_shutter_speed))) == 0) {
                     return 0;
@@ -572,7 +571,7 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public int getCurrentIso() {
         Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
-        if (SettingsManager.getInstance().getFrameWork() == FRAMEWORK_MTK)
+        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
         {
             if(parameters.get(SettingsManager.getInstance().getResString(R.string.eng_capture_sensor_gain))!= null) {
                 if (Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.eng_capture_sensor_gain))) == 0) {

@@ -67,11 +67,6 @@ public class SettingsManager implements SettingsManagerInterface {
     public static final int SHUTTER_G2PRO = 8;
     public static final int SHUTTER_ZTE = 9;
 
-    public static final int FRAMEWORK_NORMAL = 0;
-    public static final int FRAMEWORK_LG = 1;
-    public static final int FRAMEWORK_MTK = 2;
-    public static final int FRAMEWORK_MOTO_EXT = 3;
-    public static final int FRAMEWORK_SONY_CAMERAEXTENSION = 4;
     public static final String FRAMEWORK = "framework";
 
     public static final int NIGHTMODE_XIAOMI = 0;
@@ -122,6 +117,7 @@ public class SettingsManager implements SettingsManagerInterface {
     private SharedPreferences settings;
     private Resources resources;
     private boolean isInit =false;
+    private Frameworks frameworks;
 
     private static SettingsManager settingsManager = new SettingsManager();
 
@@ -157,6 +153,7 @@ public class SettingsManager implements SettingsManagerInterface {
         camApiString = settings.getString(SETTING_API, API_1);
         //get last used camera, without it default camera is always 0
         currentcamera = GetCurrentCamera();
+        frameworks = Frameworks.valueOf(settings.getString(FRAMEWORK,Frameworks.Default.toString()));
 
         loadOpCodes();
 
@@ -199,6 +196,7 @@ public class SettingsManager implements SettingsManagerInterface {
         //first time init
         matrixes = parser.getMatrixes(resources);
         mDevice = sharedPreferences.getString("DEVICE","");
+
         tonemapProfiles = parser.getToneMapProfiles();
         if (mDevice == null || TextUtils.isEmpty(mDevice))
         {
@@ -537,14 +535,15 @@ public class SettingsManager implements SettingsManagerInterface {
         editor.commit();
     }
 
-    public void setFramework(int frameWork)
+    public void setFramework(Frameworks frameWork)
     {
-        settings.edit().putInt(FRAMEWORK, frameWork).commit();
+        frameworks = frameWork;
+        settings.edit().putString(FRAMEWORK, frameWork.toString()).commit();
     }
 
-    public int getFrameWork()
+    public Frameworks getFrameWork()
     {
-        return settings.getInt(FRAMEWORK,0);
+        return frameworks;
     }
 
 

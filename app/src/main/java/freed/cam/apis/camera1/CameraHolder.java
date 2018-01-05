@@ -40,6 +40,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 
@@ -56,18 +57,11 @@ public class CameraHolder extends CameraHolderAbstract
     private final String TAG = CameraHolder.class.getSimpleName();
     private Surface previewSurfaceHolder;
 
-    public Frameworks DeviceFrameWork = Frameworks.Normal;
+    public Frameworks DeviceFrameWork = Frameworks.Default;
     public int Orientation;
 
     public int CurrentCamera;
 
-    public enum Frameworks
-    {
-        Normal,
-        LG,
-        MTK,
-        MotoX
-    }
 
     public CameraHolder(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks)
     {

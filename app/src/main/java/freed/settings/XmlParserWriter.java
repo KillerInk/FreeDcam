@@ -55,7 +55,6 @@ public class XmlParserWriter
                     for (XmlElement mod : models)
                     {
                         if (mod.getValue().equals(Build.MODEL)) {
-
                             SettingsManager.getInstance().setDevice(device_element.getAttribute("name",""));
                             Log.d(TAG, "Found Device:" + SettingsManager.getInstance().getDeviceString());
 
@@ -67,7 +66,7 @@ public class XmlParserWriter
                                 Log.v(TAG, camera1element.dumpChildElementsTagNames());
                                 if (!camera1element.findChild("framework").isEmpty())
                                 {
-                                    SettingsManager.getInstance().setFramework(Integer.parseInt(camera1element.findChild("framework").getValue()));
+                                    SettingsManager.getInstance().setFramework(Frameworks.valueOf(camera1element.findChild("framework").getValue()));
                                 }
                                 else
                                     SettingsManager.getInstance().setFramework(Camera1FeatureDetectorTask.getFramework());
@@ -145,7 +144,7 @@ public class XmlParserWriter
                                             List<XmlElement> frameworksiso = camera1element.findChild("manualiso").findChildren("framework");
                                             for(XmlElement framiso : frameworksiso)
                                             {
-                                                if (Integer.parseInt(framiso.getAttribute("type","0")) == SettingsManager.getInstance().getFrameWork())
+                                                if (Frameworks.valueOf(framiso.getAttribute("type",Frameworks.Default.toString())) == SettingsManager.getInstance().getFrameWork())
                                                     setManualIso(framiso);
                                             }
                                         }

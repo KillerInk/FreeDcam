@@ -26,8 +26,9 @@ import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
-import freed.cam.apis.camera1.CameraHolder.Frameworks;
+import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -70,7 +71,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 
         @Override
         public void onStringValueChanged(String val) {
-            if (((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != Frameworks.MTK) {
+            if (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK) {
                 if (val.equals("auto") || val.equals("macro") || val.equals("touch")) {
                     if (focusEvent != null)
                         focusEvent.TouchToFocusSupported(true);
@@ -111,7 +112,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 
         @Override
         public void onStringValueChanged(String val) {
-            if(((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != Frameworks.MTK)
+            if(SettingsManager.getInstance().getFrameWork() != Frameworks.MTK)
             {
                 if (val.contains("spot")) {
                     if (focusEvent != null) {

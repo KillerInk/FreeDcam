@@ -25,8 +25,8 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -61,7 +61,7 @@ public class PictureFormatHandler extends BaseModeParameter
             if (bayerFormats.getStringValues().length > 0)
                 bayerFormats.onIsSetSupportedChanged(true);
             parametersHandler.add(SettingKeys.BAYERFORMAT, bayerFormats);
-            if (rawFormats.length  > 0 || SettingsManager.getInstance().getFrameWork() == SettingsManager.FRAMEWORK_MTK)
+            if (rawFormats.length  > 0 || SettingsManager.getInstance().getFrameWork() == freed.settings.Frameworks.MTK)
                 SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(true);
             else
                 SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(false);
@@ -93,7 +93,7 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         Log.d(TAG, "SetValue:" + valueToSet);
         captureMode = valueToSet;
-        if (((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != Frameworks.MTK)
+        if (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK)
         {
             if (valueToSet.equals(cameraUiWrapper.getResString(R.string.jpeg_)))
                 setString(valueToSet,setToCam);

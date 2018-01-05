@@ -45,6 +45,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
+        SettingsManager.get(SettingKeys.PictureSize).set(valueToSet);
         size = valueToSet;
         if (setToCamera)
         {

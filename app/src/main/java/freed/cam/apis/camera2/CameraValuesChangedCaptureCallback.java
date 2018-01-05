@@ -12,6 +12,7 @@ import android.util.Pair;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -95,7 +96,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
         ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);
         ParameterInterface iso = camera2Fragment.getParameterHandler().get(SettingKeys.M_ManualIso);
-        if (SettingsManager.get(SettingKeys.useHuaweiCamera2Extension).get())
+        if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
         {
             if (expotime.GetValue() == 0) {
                 Long expoTime = result.get(CaptureResult.SENSOR_EXPOSURE_TIME);

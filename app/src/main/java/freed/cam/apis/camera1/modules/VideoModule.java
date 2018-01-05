@@ -35,6 +35,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -159,7 +160,7 @@ public class VideoModule extends AbstractVideoModule
             if(cameraUiWrapper.getParameterHandler().get(SettingKeys.HTCVideoMode) != null) {
                 loadHtcHighspeed();
             }
-            else if (((CameraHolder)cameraUiWrapper.getCameraHolder()).DeviceFrameWork == CameraHolder.Frameworks.MTK)
+            else if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
             {
                 loadMtkHighspeed();
             }

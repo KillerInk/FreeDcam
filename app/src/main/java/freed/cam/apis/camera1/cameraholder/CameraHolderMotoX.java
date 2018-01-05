@@ -22,6 +22,7 @@ package freed.cam.apis.camera1.cameraholder;
 import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.Frameworks;
 import freed.utils.Log;
 
 /**

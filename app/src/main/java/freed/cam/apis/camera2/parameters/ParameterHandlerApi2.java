@@ -52,6 +52,7 @@ import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
+import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -130,7 +131,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //COLOR_CORRECTION_MODE = colorCorrectionMode;
 
         //AE mode start
-        if (SettingsManager.get(SettingKeys.useHuaweiCamera2Extension).get()) {
+        if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex) {
             AeManagerHuaweiCamera2 aeManager = new AeManagerHuaweiCamera2(camera2Fragment);
             add(SettingKeys.M_ExposureCompensation, aeManager.getExposureCompensation());
             add(SettingKeys.M_ManualIso, aeManager.getIso());

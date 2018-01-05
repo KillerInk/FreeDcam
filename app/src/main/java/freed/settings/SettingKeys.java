@@ -122,7 +122,7 @@ public class SettingKeys{
     public final static Key<TypedSettingMode> HDRMode = new Key(TypedSettingMode.class, R.string.aps_hdrmode);
     //public final static Key<SettingMode> M_ToneCurve = new Key(SettingMode.class, R.string.aps_manual);
 
-    public final static Key<GlobalBooleanSettingMode> useHuaweiCamera2Extension = new Key(GlobalBooleanSettingMode.class, R.string.aps_usehuaweicam2);
+    //public final static Key<GlobalBooleanSettingMode> useHuaweiCamera2Extension = new Key(GlobalBooleanSettingMode.class, R.string.aps_usehuaweicam2);
     public final static Key<GlobalBooleanSettingMode> needRestartAfterCapture = new Key(GlobalBooleanSettingMode.class, R.string.aps_needrestartaftercapture);
     public final static Key<GlobalBooleanSettingMode> forceRawToDng = new Key(GlobalBooleanSettingMode.class, R.string.aps_forcerawtondng);
     public final static Key<GlobalBooleanSettingMode> areFeaturesDetected = new Key(GlobalBooleanSettingMode.class, R.string.aps_arefeaturesdetected);

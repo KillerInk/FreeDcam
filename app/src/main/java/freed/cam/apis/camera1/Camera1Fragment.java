@@ -47,8 +47,10 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderLG;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
+import freed.cam.apis.camera1.cameraholder.CameraHolderSony;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
+import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -426,24 +428,28 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
                 Log.d(TAG,"FrameWork:" + SettingsManager.getInstance().getFrameWork() + " openlegacy:" + SettingsManager.get(SettingKeys.openCamera1Legacy).get());
 
-                if (SettingsManager.getInstance().getFrameWork() == SettingsManager.FRAMEWORK_LG) {
-                    cameraHolder = new CameraHolderLG(Camera1Fragment.this, CameraHolder.Frameworks.LG);
+                if (SettingsManager.getInstance().getFrameWork() == Frameworks.LG) {
+                    cameraHolder = new CameraHolderLG(Camera1Fragment.this, Frameworks.LG);
                     Log.d(TAG, "create LG camera");
                 }
-                else if (SettingsManager.getInstance().getFrameWork() == SettingsManager.FRAMEWORK_MOTO_EXT) {
-                    cameraHolder = new CameraHolderMotoX(Camera1Fragment.this, CameraHolder.Frameworks.MotoX);
+                else if (SettingsManager.getInstance().getFrameWork() == Frameworks.Moto_Ext) {
+                    cameraHolder = new CameraHolderMotoX(Camera1Fragment.this, Frameworks.Moto_Ext);
                     Log.d(TAG, "create MotoExt camera");
                 }
-                else if (SettingsManager.getInstance().getFrameWork() == SettingsManager.FRAMEWORK_MTK) {
-                    cameraHolder = new CameraHolderMTK(Camera1Fragment.this, CameraHolder.Frameworks.MTK);
+                else if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK) {
+                    cameraHolder = new CameraHolderMTK(Camera1Fragment.this, Frameworks.MTK);
                     Log.d(TAG, "create Mtk camera");
                 }
+                else if (SettingsManager.getInstance().getFrameWork() == Frameworks.SonyCameraExtension)
+                {
+                    cameraHolder = new CameraHolderSony(Camera1Fragment.this, Frameworks.SonyCameraExtension);
+                }
                 else if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
-                    cameraHolder = new CameraHolderLegacy(Camera1Fragment.this, CameraHolder.Frameworks.Normal);
+                    cameraHolder = new CameraHolderLegacy(Camera1Fragment.this, Frameworks.Default);
                     Log.d(TAG, "create Legacy camera");
                 }
                 else {
-                    cameraHolder = new CameraHolder(Camera1Fragment.this, CameraHolder.Frameworks.Normal);
+                    cameraHolder = new CameraHolder(Camera1Fragment.this, Frameworks.Default);
                     Log.d(TAG, "create Normal camera");
                 }
 

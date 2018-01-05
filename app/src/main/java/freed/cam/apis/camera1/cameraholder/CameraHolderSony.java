@@ -7,6 +7,7 @@ import com.sonyericsson.cameraextension.CameraExtension;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.settings.Frameworks;
 import freed.utils.Log;
 
 /**

@@ -3059,14 +3059,14 @@
             <hdrmode supported="true">0</hdrmode>
             <nightmode>0</nightmode>
             <manualiso supported="true">
-                <framework type="2"> <!-- mtk support it -->
+                <framework type="MTK"> <!-- mtk support it -->
                     <min>100</min>
                     <max>2700</max>
                     <step>100</step>
                     <key>m-sr-g</key>
                     <type>2</type>
                 </framework>
-                <framework type="0"> <!-- unsupported by the snap -->
+                <framework type="Xiaomi"> <!-- unsupported by the snap -->
                 </framework>
             </manualiso>
         </camera1>
@@ -3873,7 +3873,7 @@
     </device>
 
     <device name="Sony_XperiaZ3">
-        <framework>4</framework>
+        <framework>SonyCameraExtension</framework>
         <models>
             <item>D6603</item>
         </models>

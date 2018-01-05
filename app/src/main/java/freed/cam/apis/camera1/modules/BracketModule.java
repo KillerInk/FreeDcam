@@ -30,7 +30,7 @@ import java.util.Date;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.apis.camera1.CameraHolder;
+import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -71,7 +71,7 @@ public class BracketModule extends PictureModule {
                     ParameterInterface zsl = cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL);
                     if (zsl != null && zsl.IsSupported()
                             && zsl.GetStringValue().equals("on")
-                            && ((CameraHolder) cameraUiWrapper.getCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
+                            && (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK))
                         zsl.SetValue("off", true);
                 }
                 changeCaptureState(CaptureStates.image_capture_start);

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.mode.SettingMode;
 import freed.settings.SettingsManager;
@@ -363,7 +364,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 SettingsManager.get(SettingKeys.M_ManualIso).setValues(ar.toArray(new String[ar.size()]));
 
                 SettingsManager.get(SettingKeys.ExposureMode).setIsSupported(false);
-                SettingsManager.get(SettingKeys.useHuaweiCamera2Extension).set(true);
+                SettingsManager.getInstance().setFramework(Frameworks.HuaweiCamera2Ex);
             }
         }catch (IllegalArgumentException | NullPointerException ex)
         {
