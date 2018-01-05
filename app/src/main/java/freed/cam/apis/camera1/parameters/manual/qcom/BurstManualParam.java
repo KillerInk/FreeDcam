@@ -42,10 +42,8 @@ public class BurstManualParam extends BaseManualParameter
 
     final String TAG = BurstManualParam.class.getSimpleName();
 
-    public BurstManualParam(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, "", "", "", cameraUiWrapper,1);
-        isSupported = SettingsManager.get(SettingKeys.M_Burst).isSupported();
-        stringvalues = SettingsManager.get(SettingKeys.M_Burst).getValues();
+    public BurstManualParam(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
+        super(parameters,cameraUiWrapper,settingMode);
         currentInt = Integer.parseInt(SettingsManager.get(SettingKeys.M_Burst).get());
     }
 

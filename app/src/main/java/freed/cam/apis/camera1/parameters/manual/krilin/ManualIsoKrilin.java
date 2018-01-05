@@ -6,25 +6,20 @@ import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.settings.mode.SettingMode;
 
 /**
  * Created by troop on 27.03.2017.
  */
 
-public class ManualIsoKrilin extends AbstractParameter {
+public class ManualIsoKrilin extends BaseManualParameter {
 
-    private final Camera.Parameters parameters;
-    String key;
 
-    public ManualIsoKrilin(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper, SettingKeys.M_ManualIso);
-        this.parameters =  parameters;
-        isSupported = true;
-        isVisible = isSupported;
-        stringvalues = SettingsManager.get(SettingKeys.M_ManualIso).getValues();
-        key = SettingsManager.get(SettingKeys.M_ManualIso).getKEY();
+    public ManualIsoKrilin(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key) {
+        super(parameters,cameraUiWrapper,key);
     }
 
     @Override
@@ -43,9 +38,10 @@ public class ManualIsoKrilin extends AbstractParameter {
 
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-professional-mode", "on");
-            parameters.set(key, stringvalues[currentInt]);
+            parameters.set(key_value, stringvalues[currentInt]);
         }
         fireStringValueChanged(stringvalues[valueToSet]);
+        settingMode.set(String.valueOf(valueToSet));
     }
 
 }

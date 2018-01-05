@@ -26,15 +26,16 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 01.09.2014.
  */
 public class ZoomManualParameter extends  BaseManualParameter
 {
-    public ZoomManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
+    public ZoomManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key)
     {
-        super(parameters,cameraUiWrapper,1);
+        super(parameters,cameraUiWrapper,key);
         key_value = cameraUiWrapper.getResString(R.string.zoom);
         isSupported = false;
         if (parameters.get(cameraUiWrapper.getResString(R.string.zoom_supported))!= null)

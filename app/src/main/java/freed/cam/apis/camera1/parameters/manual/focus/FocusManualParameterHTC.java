@@ -34,12 +34,8 @@ public class FocusManualParameterHTC extends BaseManualParameter
 {
     private final String TAG =FocusManualParameterHTC.class.getSimpleName();
 
-    public FocusManualParameterHTC(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, "", "", "", cameraUiWrapper,1);
-        isSupported = SettingsManager.get(SettingKeys.M_Focus).isSupported();
-        key_value = SettingsManager.get(SettingKeys.M_Focus).getKEY();
-        isVisible = isSupported;
-        stringvalues = SettingsManager.get(SettingKeys.M_Focus).getValues();
+    public FocusManualParameterHTC(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
+        super(parameters,cameraUiWrapper,settingMode);
     }
 
 

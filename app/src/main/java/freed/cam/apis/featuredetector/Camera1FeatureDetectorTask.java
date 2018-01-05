@@ -359,14 +359,26 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 SettingsManager.get(SettingKeys.M_ManualIso).setKEY("m-sr-g");
                 SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(100, 1600, 100));
                 SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_MTK);
-            } else {
+            }
+            else {
                 if (parameters.get(SettingsManager.getInstance().getResString(R.string.min_iso)) != null && parameters.get(SettingsManager.getInstance().getResString(R.string.max_iso)) != null) {
                     SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
-                    SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.continuous_iso));
+
+                    if (SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi)
+                    {
+                        SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.iso));
+                        SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_Xiaomi);
+                    }
+                    else
+                    {
+                        SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.continuous_iso));
+                        SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_QCOM);
+                    }
+
                     int min = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.min_iso)));
                     int max = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.max_iso)));
                     SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50));
-                    SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_QCOM);
+
                 }
                 else if (parameters.get(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso_range))!= null)
                 {

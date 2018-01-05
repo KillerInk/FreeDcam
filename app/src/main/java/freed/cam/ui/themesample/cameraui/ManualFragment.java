@@ -176,11 +176,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
-            if (parms.get(SettingKeys.M_3D_Convergence) != null) {
-                ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_3D_Convergence), R.drawable.manual_convergence);
-                btn.setOnClickListener(manualButtonClickListner);
-                manualItemsHolder.addView(btn);
-            }
+
             if (parms.get(SettingKeys.M_FX) != null) {
                 ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_FX), R.drawable.manual_fx);
                 btn.setOnClickListener(manualButtonClickListner);

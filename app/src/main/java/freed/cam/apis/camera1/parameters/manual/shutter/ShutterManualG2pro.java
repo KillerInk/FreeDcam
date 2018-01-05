@@ -37,17 +37,14 @@ import freed.utils.Log;
  */
 public class ShutterManualG2pro extends BaseManualParameter
 {
-    private CameraHolderInterface baseCameraHolder;
     private final String TAG = ShutterManualG2pro.class.getSimpleName();
-
-    private final String G2Pro ="1/2,1,2,4,8,16,32,64";
 
     /**
      * @param parameters
      * @param cameraUiWrapper
      */
-    public ShutterManualG2pro(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, "", "", "", cameraUiWrapper,1);
+    public ShutterManualG2pro(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {
+        super(parameters,cameraUiWrapper,settingMode);
         stringvalues = SettingsManager.get(SettingKeys.M_ExposureTime).getValues();
         isSupported = true;
     }

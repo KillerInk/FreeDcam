@@ -40,10 +40,8 @@ public class ShutterManualParameterHTC extends BaseManualParameter
     private final String TAG = ShutterManualParameterHTC.class.getSimpleName();
     private final DecimalFormat trimfloat = new DecimalFormat("#.######");
 
-    public ShutterManualParameterHTC(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, "", "", "", cameraUiWrapper,1);
-        isSupported = true;
-        stringvalues = SettingsManager.get(SettingKeys.M_ExposureTime).getValues();
+    public ShutterManualParameterHTC(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
+        super(parameters,cameraUiWrapper,settingMode);
     }
 
     @Override

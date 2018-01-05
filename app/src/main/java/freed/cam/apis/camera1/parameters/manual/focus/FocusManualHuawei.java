@@ -56,6 +56,7 @@ public class FocusManualHuawei extends BaseFocusManual
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set " + key_value + " to : " + stringvalues[currentInt]);
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+
         }
     }
 }

@@ -40,22 +40,16 @@ public class BaseFocusManual extends BaseManualParameter
     private final String TAG = BaseFocusManual.class.getSimpleName();
     protected String manualFocusModeString;
     private final int manualFocusType;
-    SettingKeys.Key settingMode;
 
-    public BaseFocusManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode)
+    public BaseFocusManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key)
     {
-        super(parameters,cameraUiWrapper,settingMode);
-        this.settingMode = settingMode;
+        super(parameters,cameraUiWrapper,key);
         TypedSettingMode settingMode1 =  (TypedSettingMode) SettingsManager.get(key);
+        settingMode = settingMode1;
         manualFocusType = settingMode1.getType();
         Log.d(TAG,"mf type:" +manualFocusType);
         manualFocusModeString = settingMode1.getMode();
         Log.d(TAG,"mf focus mode:" +manualFocusModeString);
-        stringvalues = settingMode1.getValues();
-        key_value = settingMode1.getKEY();
-        Log.d(TAG,"mf key:" +key_value);
-        isSupported =true;
-        isVisible = isSupported;
     }
 
 

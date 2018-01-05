@@ -38,12 +38,8 @@ public class BaseISOManual extends BaseManualParameter {
 
     private String cur_iso_mode = cameraUiWrapper.getResString(R.string.auto_);
 
-    public BaseISOManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, "", "", "", cameraUiWrapper, 0);
-        isSupported = true;
-        isVisible = true;
-        stringvalues = SettingsManager.get(SettingKeys.M_ManualIso).getValues();
-        key_value = SettingsManager.get(SettingKeys.M_ManualIso).getKEY();
+    public BaseISOManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
+        super(parameters, cameraUiWrapper, settingMode);
     }
 
     @Override

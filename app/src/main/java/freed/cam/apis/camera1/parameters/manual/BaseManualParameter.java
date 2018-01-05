@@ -50,16 +50,6 @@ public class BaseManualParameter extends AbstractParameter
      */
     protected String key_value;
 
-    /**
-     * The name of the current value to get like brightness-max
-     */
-    protected String key_max_value;
-    /**
-     * The name of the current value to get like brightness-min
-     */
-    protected String key_min_value;
-
-    protected float step;
 
     private int default_value;
     public void Set_Default_Value(int val){
@@ -88,68 +78,6 @@ public class BaseManualParameter extends AbstractParameter
         isVisible = isSupported;
     }
 
-    public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, float step)
-    {
-        super(cameraUiWrapper,null);
-        this.parameters = parameters;
-        this.step =step;
-    }
-
-    /**
-     *  @param @parameters
-     * @param @key_value
-     * @param @key_max_value
-     * @param @key_min_value
-     * @param @parametersHandler
-     */
-    public BaseManualParameter(Parameters parameters, String key_value, String maxValue, String MinValue, CameraWrapperInterface cameraUiWrapper, float step) {
-        this(parameters,cameraUiWrapper,step);
-        this.key_value = key_value;
-        key_max_value = maxValue;
-        key_min_value = MinValue;
-        if (!TextUtils.isEmpty(this.key_value) && !TextUtils.isEmpty(key_max_value) && !TextUtils.isEmpty(key_min_value))
-        {
-            if (parameters.get(this.key_value) != null && parameters.get(key_max_value) != null && parameters.get(key_min_value) != null)
-            {
-                Log.d(TAG, "parameters contains all 3 parameters " + key_value +" " + key_min_value +" " + key_max_value);
-                if (!TextUtils.isEmpty(parameters.get(key_min_value)) && !TextUtils.isEmpty(parameters.get(key_max_value)))
-                {
-                    Log.d(TAG, "parameters get "+key_min_value +"/" +key_max_value+" success");
-                    stringvalues = createStringArray(Integer.parseInt(parameters.get(key_min_value)), Integer.parseInt(parameters.get(key_max_value)), step);
-                    currentString = parameters.get(this.key_value);
-                    if (parameters.get(key_min_value).contains("-"))
-                    {
-                        Log.d(TAG, "processing negative values");
-                        currentInt = stringvalues.length /2 + Integer.parseInt(currentString);
-                        default_value = currentInt;
-                        isSupported = true;
-                        isVisible = isSupported;
-                    }
-                    else
-                    {
-                        Log.d(TAG, "processing positiv values");
-                        for (int i = 0; i < stringvalues.length; i++) {
-                            if (stringvalues[i].equals(currentString)) {
-                                currentInt = i;
-                                default_value = i;
-
-                            }
-                            isSupported = true;
-                            isVisible = isSupported;
-                        }
-                    }
-
-                }
-                else
-                    Log.d(TAG, "min or max is empty in parameters");
-            }
-            else
-                Log.d(TAG, "parameters does not contain value, key_max_value or key_min_value");
-        }
-        else
-            Log.d(TAG, "failed to lookup values, "+ key_max_value + " or "+ key_min_value + " are empty");
-    }
-
     @Override
     public boolean IsSetSupported() {
         return true;
@@ -162,7 +90,7 @@ public class BaseManualParameter extends AbstractParameter
         Log.d(TAG, "set " + key_value + " to " + valueToset);
         if(stringvalues == null || stringvalues.length == 0)
             return;
-        ((SettingMode)SettingsManager.get(key)).set(stringvalues[valueToset]);
+        settingMode.set(String.valueOf(valueToset));
         parameters.set(key_value, stringvalues[valueToset]);
         fireIntValueChanged(valueToset);
         fireStringValueChanged(stringvalues[valueToset]);

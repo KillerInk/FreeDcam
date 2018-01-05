@@ -82,6 +82,7 @@ public class SettingsManager implements SettingsManagerInterface {
     public static final int ISOMANUAL_MTK =2;
     public static final int ISOMANUAL_KRILLIN =3;
     public static final int ISOMANUAL_LG =4;
+    public static final int ISOMANUAL_Xiaomi =5;
 
     public static final String CURRENTCAMERA = "currentcamera";
     public static final String NIGHTMODE = "nightmode";

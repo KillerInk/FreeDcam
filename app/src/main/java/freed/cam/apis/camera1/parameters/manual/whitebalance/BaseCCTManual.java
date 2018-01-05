@@ -48,11 +48,9 @@ public class BaseCCTManual extends BaseManualParameter
     private final String manual_WbMode;
 
 
-    public BaseCCTManual(final Parameters parameters,final CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, "", "", "", cameraUiWrapper, 0);
+    public BaseCCTManual(final Parameters parameters,final CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
+        super(parameters,cameraUiWrapper, settingMode);
         manual_WbMode = SettingsManager.get(SettingKeys.M_Whitebalance).getMode();
-        stringvalues = SettingsManager.get(SettingKeys.M_Whitebalance).getValues();
-        isSupported = true;
         isVisible = false;
 
         //wait 800ms to give awb a chance to set the ct value to the parameters
@@ -88,23 +86,7 @@ public class BaseCCTManual extends BaseManualParameter
         else
             key_value = SettingsManager.get(SettingKeys.M_Whitebalance).getKEY();
     }
-
-    /**
-     * @param parameters
-     * @param value
-     * @param maxValue
-     * @param MinValue
-     * @param cameraUiWrapper
-     * @param step
-     */
-    public BaseCCTManual(Parameters parameters, String value, String maxValue, String MinValue
-            , CameraWrapperInterface cameraUiWrapper, float step,
-                         String wbmode) {
-        super(parameters, value, maxValue, MinValue, cameraUiWrapper, step);
-        manual_WbMode = wbmode;
-    }
-
-
+    
     @Override
     public void setValue(int valueToSet, boolean setToCamera) {
         currentInt = valueToSet;

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.settings.SettingKeys;
 import freed.utils.Log;
 
 /**
@@ -34,8 +35,8 @@ public class ExposureManualParameter extends BaseManualParameter
 {
 
     private final String TAG = ExposureManualParameter.class.getSimpleName();
-    public ExposureManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, float step) {
-        super(parameters,cameraUiWrapper,step);
+    public ExposureManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {
+        super(parameters,cameraUiWrapper,settingMode);
         stringvalues = createStringArray(parameters.getMinExposureCompensation(),parameters.getMaxExposureCompensation(),parameters.getExposureCompensationStep());
         isSupported = true;
         isVisible = true;

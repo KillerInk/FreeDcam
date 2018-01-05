@@ -18,11 +18,8 @@ import freed.utils.Log;
 public class ExposureTime_MS extends AbstractParameter {
     private final String TAG = ExposureTime_MS.class.getSimpleName();
     private Camera.Parameters parameters;
-    public ExposureTime_MS(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters) {
-        super(cameraUiWrapper,SettingKeys.M_ExposureTime);
-        stringvalues = SettingsManager.get(SettingKeys.M_ExposureTime).getValues();
-        isSupported = true;
-        isVisible = true;
+    public ExposureTime_MS(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters,SettingKeys.Key settingMode) {
+        super(cameraUiWrapper,settingMode);
         this.parameters = parameters;
     }
 
