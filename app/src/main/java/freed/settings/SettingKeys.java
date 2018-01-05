@@ -127,6 +127,7 @@ public class SettingKeys{
     public final static Key<GlobalBooleanSettingMode> forceRawToDng = new Key(GlobalBooleanSettingMode.class, R.string.aps_forcerawtondng);
     public final static Key<GlobalBooleanSettingMode> areFeaturesDetected = new Key(GlobalBooleanSettingMode.class, R.string.aps_arefeaturesdetected);
     public final static Key<GlobalBooleanSettingMode> NightOverlay = new Key(GlobalBooleanSettingMode.class, R.string.aps_nightoverlay);
+    public final static Key<GlobalBooleanSettingMode> TouchToCapture = new Key(GlobalBooleanSettingMode.class, R.string.aps_touchtocapture);
 
     public final static Key<ApiBooleanSettingMode> useQcomFocus = new Key(ApiBooleanSettingMode.class, R.string.aps_qcomfocus);
     public final static Key<ApiBooleanSettingMode> support12bitRaw = new Key(ApiBooleanSettingMode.class, R.string.aps_support12bitraw);

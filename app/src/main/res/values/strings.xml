@@ -58,6 +58,8 @@
     <string name="setting_focuspeak_header">Focuspeak: </string>
     <string name="setting_nightoverlay_description">shows a red Overlay</string>
     <string name="setting_nightoverlay_header">NightOverlay: </string>
+    <string name="setting_touchtocapture_description">When enabled, a image capture starts.</string>
+    <string name="setting_touchtocapture_header">Touch to Capture: </string>
     <string name="setting_orientation_header">Orientation Correction: </string>
     <string name="setting_orientation_description">Rotates the Camera 180° if ON</string>
     <string name="setting_featuredetector_header">Run FeatureDetector</string>

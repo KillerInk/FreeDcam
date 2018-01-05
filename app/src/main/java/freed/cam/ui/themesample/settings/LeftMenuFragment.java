@@ -53,6 +53,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimeLapseFrames
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoProfile;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEditor;
+import freed.cam.ui.themesample.settings.childs.SettingsChild_BooleanSetting;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
@@ -246,10 +247,6 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             guide.SetUiItemClickListner(this);
             globalSettingGroup.addView(guide);
 
-            SettingsChildMenuSaveCamParams saveCamParams = new SettingsChildMenuSaveCamParams(getContext(),R.string.setting_savecamparams_header,R.string.setting_savecamparams_description,cameraUiWrapper);
-            saveCamParams.setCameraUiWrapper(cameraUiWrapper);
-            globalSettingGroup.addView(saveCamParams);
-
             SettingsChildMenu horizont = new SettingsChildMenu(getContext(), R.string.setting_horizont_header, R.string.setting_horizont_description);
             horizont.SetStuff(fragment_activityInterface, SettingsManager.SETTING_HORIZONT);
             horizont.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl));
@@ -260,6 +257,14 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             nightoverlay.SetUiItemClickListner(this);
             nightoverlay.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.NightOverlay));
             globalSettingGroup.addView(nightoverlay);
+
+            SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(getContext(),SettingsManager.get(SettingKeys.TouchToCapture),R.string.setting_touchtocapture_header, R.string.setting_touchtocapture_description);
+            globalSettingGroup.addView(booleanSetting);
+
+
+            SettingsChildMenuSaveCamParams saveCamParams = new SettingsChildMenuSaveCamParams(getContext(),R.string.setting_savecamparams_header,R.string.setting_savecamparams_description,cameraUiWrapper);
+            saveCamParams.setCameraUiWrapper(cameraUiWrapper);
+            globalSettingGroup.addView(saveCamParams);
 
             if (!(cameraUiWrapper instanceof SonyCameraRemoteFragment))
             {

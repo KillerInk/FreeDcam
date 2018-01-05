@@ -115,5 +115,6 @@
     <string name="aps_tonecurve" translatable="false">tonecurve</string>
     <string name="aps_location" translatable="false">location</string>
     <string name="aps_bayformat" translatable="false">bayerformat</string>
+    <string name="aps_touchtocapture" translatable="false">touchtocapture</string>
 
 </resources>

@@ -46,6 +46,7 @@ import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 
 
 /**
@@ -158,10 +159,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 public void run() {
                     focusImageView.setFocusCheck(success);
                     focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
-                    /*if (success)
-                        focusImageView.setBackgroundResource(R.drawable.crosshair_circle_success);
-                    else
-                        focusImageView.setBackgroundResource(R.drawable.crosshair_circle_failed);*/
+                    if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(wrapper.getResString(R.string.module_video)))
+                        wrapper.getModuleHandler().startWork();
+
 
                     focusImageView.setAnimation(null);
                 }
