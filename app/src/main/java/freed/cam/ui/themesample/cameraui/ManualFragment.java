@@ -219,8 +219,9 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
             }*/
             if (parms.get(SettingKeys.TONE_CURVE_PARAMETER) != null)
             {
-                ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.TONE_CURVE_PARAMETER), R.drawable.manual_midtones);
+                ManualButtonToneCurve btn = new ManualButtonToneCurve(getContext(), parms.get(SettingKeys.TONE_CURVE_PARAMETER), R.drawable.manual_midtones);
                 btn.setOnClickListener(manualButtonClickListner);
+                btn.onStringValueChanged("");
                 manualItemsHolder.addView(btn);
             }
             curveView.setVisibility(View.GONE);

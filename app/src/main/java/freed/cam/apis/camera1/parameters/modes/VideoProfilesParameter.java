@@ -59,9 +59,8 @@ public class VideoProfilesParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
-    {
-        super.SetValue(valueToSet,setToCam);
+    protected void setValue(String valueToSet, boolean setToCamera) {
+        super.setValue(valueToSet, setToCamera);
         profile = valueToSet;
         if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null
                 && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
