@@ -16,10 +16,6 @@ public class UiSettingsChildAeLock extends UiSettingsChild implements SettingsCh
         super(context);
     }
 
-    public UiSettingsChildAeLock(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
     public void SetUiItemClickListner(SettingsChildClick menuItemClick) {
         SetMenuItemClickListner(this,false);
     }

@@ -35,10 +35,6 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         super(context);
     }
 
-    public UiSettingsChildModuleSwitch(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;

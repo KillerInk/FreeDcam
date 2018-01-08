@@ -66,33 +66,6 @@ public class SettingsChildMenu extends UiSettingsChild
         description.setText(getResources().getText(descriptionid));
     }
 
-    public SettingsChildMenu(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        //get custom attributs
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                styleable.SettingsChildMenu,
-                0, 0
-        );
-        TypedArray b = context.getTheme().obtainStyledAttributes(
-                attrs,
-                styleable.UiSettingsChild,
-                0, 0
-        );
-        //try to set the attributs
-        try
-        {
-
-            headerText.setText(b.getText(styleable.UiSettingsChild_HeaderText));
-
-            description.setText(a.getText(styleable.SettingsChildMenu_Description));
-        }
-        finally {
-            a.recycle();
-        }
-        sendLog("Ctor done");
-    }
-
     @Override
     protected void init(Context context) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

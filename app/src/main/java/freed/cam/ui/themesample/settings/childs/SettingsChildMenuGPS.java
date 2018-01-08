@@ -38,10 +38,6 @@ public class SettingsChildMenuGPS extends SettingsChildMenu
         super(context, headerid, descriptionid);
     }
 
-    public SettingsChildMenuGPS(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE));

@@ -21,10 +21,6 @@ public class UiSettingsChildSelfTimer extends UiSettingsChild {
         super(context, parameter);
     }
 
-    public UiSettingsChildSelfTimer(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
     @Override
     public void onModuleChanged(String module)
     {

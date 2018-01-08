@@ -52,10 +52,6 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
         super(context);
     }
 
-    public SettingsChildMenuSDSave(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.SD_SAVE_LOCATION));
