@@ -145,6 +145,7 @@ public class SettingsManager implements SettingsManagerInterface {
         if (isInit)
             return;
         settings = sharedPreferences;
+
         this.resources = resources;
         SettingKeys.Key[] keys = SettingKeys.getKeyList();
 
@@ -154,7 +155,8 @@ public class SettingsManager implements SettingsManagerInterface {
         camApiString = settings.getString(SETTING_API, API_1);
         //get last used camera, without it default camera is always 0
         currentcamera = GetCurrentCamera();
-        frameworks = Frameworks.valueOf(settings.getString(FRAMEWORK,Frameworks.Default.toString()));
+        String fw = settings.getString(FRAMEWORK,"Default");
+        frameworks = Frameworks.valueOf(fw);
 
         loadOpCodes();
 

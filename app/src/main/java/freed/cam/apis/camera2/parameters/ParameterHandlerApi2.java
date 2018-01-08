@@ -167,7 +167,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         white = manualToneMapCurveApi2.whitep;*/
         add(SettingKeys.TONE_CURVE_PARAMETER, manualToneMapCurveApi2.toneCurveParameter);
 
-        add(SettingKeys.TONE_MAP_MODE,new BaseModeApi2(cameraUiWrapper, SettingKeys.TONEMAP_SET,CaptureRequest.TONEMAP_MODE));
+        add(SettingKeys.TONE_MAP_MODE,new BaseModeApi2(cameraUiWrapper, SettingKeys.TONE_MAP_MODE,CaptureRequest.TONEMAP_MODE));
         get(SettingKeys.TONE_MAP_MODE).addEventListner(manualToneMapCurveApi2);
 
         add(SettingKeys.PictureFormat, new PictureFormatParameterApi2(cameraUiWrapper, SettingKeys.PictureFormat, null));

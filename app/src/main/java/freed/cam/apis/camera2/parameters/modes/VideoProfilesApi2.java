@@ -37,9 +37,12 @@ public class VideoProfilesApi2 extends VideoProfilesParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
-    {
+    protected void setValue(String valueToSet, boolean setToCamera) {
         profile = valueToSet;
+        currentString = valueToSet;
+        fireStringValueChanged(currentString);
+        if (settingMode != null)
+            settingMode.set(valueToSet);
         if (cameraUiWrapper !=null && cameraUiWrapper.getModuleHandler().getCurrentModule() != null
                 && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
         {
@@ -47,6 +50,4 @@ public class VideoProfilesApi2 extends VideoProfilesParameter
             cameraUiWrapper.getModuleHandler().getCurrentModule().InitModule();
         }
     }
-
-
 }

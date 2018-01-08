@@ -181,7 +181,9 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                         i = new Intent(Intent.ACTION_EDIT);
                         i.setDataAndType(uri, "image/*");
                     }
+
                     Intent chooser = Intent.createChooser(i, "Choose App");
+                    chooser.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     //startActivity(i);
                     if (i.resolveActivity(getActivity().getPackageManager()) != null) {
                         startActivity(chooser);
