@@ -145,8 +145,7 @@ public class SettingsManager implements SettingsManagerInterface {
         if (isInit)
             return;
         settings = sharedPreferences;
-        if (appVersionHasChanged())
-            RESET();
+
         this.resources = resources;
         SettingKeys.Key[] keys = SettingKeys.getKeyList();
 
