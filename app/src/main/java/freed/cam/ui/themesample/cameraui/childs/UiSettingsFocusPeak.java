@@ -37,6 +37,11 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
         super(context);
     }
 
+    public UiSettingsFocusPeak(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+
     public void SetUiItemClickListner(SettingsChildClick menuItemClick) {
         SetMenuItemClickListner(this,false);
     }

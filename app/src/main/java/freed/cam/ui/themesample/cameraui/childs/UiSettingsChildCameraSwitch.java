@@ -39,6 +39,9 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         super(context);
     }
 
+    public UiSettingsChildCameraSwitch(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
     @Override
     protected void init(Context context) {

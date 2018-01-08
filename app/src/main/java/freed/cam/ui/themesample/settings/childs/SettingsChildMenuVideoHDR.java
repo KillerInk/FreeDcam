@@ -44,6 +44,10 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
         super(context);
     }
 
+    public SettingsChildMenuVideoHDR(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
     public void SetCameraInterface(CameraWrapperInterface cameraWrapperInterface)
     {
         this.cameraWrapperInterface = cameraWrapperInterface;

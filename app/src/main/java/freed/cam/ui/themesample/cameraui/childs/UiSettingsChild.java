@@ -64,6 +64,31 @@ public class UiSettingsChild extends SettingsChildAbstract
         init(context);
     }
 
+    public UiSettingsChild(Context context, AttributeSet attrs)
+    {
+        super(context, attrs);
+        init(context);
+        //get custom attributs
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                styleable.UiSettingsChild,
+                0, 0
+        );
+        //try to set the attributs
+        try
+        {
+            TAG = (String)a.getText(styleable.UiSettingsChild_HeaderText);
+
+            headerText = String.valueOf(a.getText(styleable.UiSettingsChild_HeaderText));
+
+            valueText.setText(a.getText(styleable.UiSettingsChild_ValueText));
+        }
+        finally {
+            a.recycle();
+        }
+        sendLog("Ctor done");
+    }
+
     @Override
     protected void sendLog(String log)
     {

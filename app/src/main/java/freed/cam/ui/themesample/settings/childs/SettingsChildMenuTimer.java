@@ -22,29 +22,45 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 
 /**
- * Created by troop on 21.07.2015.
+ * Created by GeorgeKiarie on 10/4/2015.
  */
-public class SettingsChildMenuGPS extends SettingsChildMenu
+public class SettingsChildMenuTimer extends SettingsChildMenu
 {
-    public SettingsChildMenuGPS(Context context) {
+
+    public SettingsChildMenuTimer(Context context) {
         super(context);
     }
 
-    public SettingsChildMenuGPS(Context context, int headerid, int descriptionid) {
-        super(context, headerid, descriptionid);
-    }
-
-    public SettingsChildMenuGPS(Context context, AttributeSet attrs) {
+    public SettingsChildMenuTimer(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE));
+        CameraWrapperInterface cameraUiWrapper1 = cameraUiWrapper;
+    }
 
+    @Override
+    public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue) {
+        super.SetStuff(fragment_activityInterface, settingvalue);
+        //onParameterValueChanged(AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_TIMER));
+    }
+
+    @Override
+    public String[] GetValues() {
+        //return new String[] {StringUtils.ON, StringUtils.OFF};
+        return new String[]{"0 sec","5 sec","10 sec","15 sec","20 sec"};
+    }
+
+    @Override
+    public void SetValue(String value)
+    {
+        SettingsManager.getInstance().setApiString(SettingsManager.SETTING_TIMER, value);
+        onStringValueChanged(value);
     }
 }
