@@ -163,8 +163,10 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         shutter.setText("");
         focal = (TextView)view.findViewById(id.textView_focal);
         focal.setText("");
+        focal.setTypeface(typeface);
         fnumber = (TextView)view.findViewById(id.textView_fnumber);
         fnumber.setText("");
+        fnumber.setTypeface(typeface);
         filename = (TextView)view.findViewById(id.textView_filename);
 
         play = (Button)view.findViewById(id.button_play);
@@ -443,7 +445,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                     exifHandler.setSHUTTERSPEED("");
                 else
                 {
-                    exifHandler.setSHUTTERSPEED("\uE003" + getShutterStringSeconds(Double.parseDouble(expostring)));
+                    exifHandler.setSHUTTERSPEED("\uE00B" + getShutterStringSeconds(Double.parseDouble(expostring)));
                 }
             }catch (NullPointerException e){
                 Log.WriteEx(e);
@@ -453,7 +455,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
             {
                 String fnums = exifInterface.getAttribute(ExifInterface.TAG_F_NUMBER);
                 if (fnums != null)
-                    exifHandler.setFNUM("f~:" + fnums);
+                    exifHandler.setFNUM("\ue003" + fnums);
                 else
                     exifHandler.setFNUM("");
             }catch (NullPointerException e){
@@ -475,7 +477,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                         double foc = numerator /denumerator;
                         focs = foc+"";
                     }
-                    exifHandler.setFOCAL("A:" + focs);
+                    exifHandler.setFOCAL("\uE00c" + focs);
                 }
             }catch (NullPointerException e){
                 exifHandler.setFOCAL("");
