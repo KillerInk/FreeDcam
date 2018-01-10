@@ -155,8 +155,16 @@ public class SettingsManager implements SettingsManagerInterface {
         camApiString = settings.getString(SETTING_API, API_1);
         //get last used camera, without it default camera is always 0
         currentcamera = GetCurrentCamera();
-        String fw = settings.getString(FRAMEWORK,"Default");
-        frameworks = Frameworks.valueOf(fw);
+        try {
+            String fw = settings.getString(FRAMEWORK,"Default");
+            frameworks = Frameworks.valueOf(fw);
+        }
+        catch (ClassCastException ex)
+        {
+            Log.d(TAG, "failed to parse Framework, use Default");
+            frameworks = Frameworks.Default;
+        }
+
 
         loadOpCodes();
 
