@@ -69,7 +69,7 @@ public class XmlParserWriter
                                     SettingsManager.getInstance().setFramework(Frameworks.valueOf(camera1element.findChild("framework").getValue()));
                                 }
                                 else
-                                    SettingsManager.getInstance().setFramework(Camera1FeatureDetectorTask.getFramework());
+                                    SettingsManager.getInstance().setFramework(FrameworkDetector.getFramework());
 
                                 if (!camera1element.findChild("opencameralegacy").isEmpty()) {
                                     SettingsManager.get(SettingKeys.openCamera1Legacy).set(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));

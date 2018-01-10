@@ -15,6 +15,7 @@ import java.util.List;
 
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
+import freed.settings.FrameworkDetector;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.mode.SettingMode;
@@ -51,7 +52,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         publishProgress("Device:"+ SettingsManager.getInstance().getDeviceString());
         //detect frameworks
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.Default)
-            SettingsManager.getInstance().setFramework(getFramework());
+            SettingsManager.getInstance().setFramework(FrameworkDetector.getFramework());
         publishProgress("FrameWork:"+ SettingsManager.getInstance().getFrameWork());
 
 
@@ -952,97 +953,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             SettingsManager.getInstance().setIsFrontCamera(true);
     }
 
-    private static boolean hasLGFramework()
-    {
-        try {
-            Class c = Class.forName("com.lge.hardware.LGCameraRef");
-            Log.d(TAG, "Has Lg Framework");
-            c = Class.forName("com.lge.media.CamcorderProfileEx");
-            Log.d(TAG, "Has Lg Framework");
-            return true;
-
-        } catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e) {
-
-            Log.d(TAG, "No LG Framework");
-            return false;
-        }
-    }
-
-    private static boolean isMotoExt()
-    {
-        try {
-            Class c = Class.forName("com.motorola.android.camera.CameraMotExt");
-            Log.d(TAG, "Has Moto Framework");
-            c = Class.forName("com.motorola.android.media.MediaRecorderExt");
-            Log.d(TAG, "Has Moto Framework");
-            return true;
-
-        } catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e) {
-            Log.d(TAG, "No Moto Framework");
-            return false;
-        }
-    }
-
-    private static boolean isMTKDevice()
-    {
-        try
-        {
-            Class camera = Class.forName("android.hardware.Camera");
-            Method[] meths = camera.getMethods();
-            Method app = null;
-            for (Method m : meths)
-            {
-                if (m.getName().equals("setProperty"))
-                    app = m;
-            }
-            if (app != null) {
-                Log.d(TAG,"MTK Framework found");
-                return true;
-            }
-            Log.d(TAG, "MTK Framework not found");
-            return false;
-        }
-        catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e)
-        {
-            Log.WriteEx(e);
-            Log.d(TAG, "MTK Framework not found");
-            return false;
-        }
-    }
-
-    private static boolean isSonyCameraEx()
-    {
-        try {
-            System.loadLibrary("cameraextensionjni");
-            return true;
-        }
-        catch (RuntimeException ex)
-        {
-            Log.d(TAG, "no sony camera extension");
-            return false;
-        }
-        catch (UnsatisfiedLinkError ex)
-        {
-            Log.d(TAG, "no sony camera extension");
-            return false;
-        }
-    }
-
-    public static Frameworks getFramework()
-    {
-        if (hasLGFramework())
-            return Frameworks.LG;
-        else if (isMTKDevice())
-            return Frameworks.LG;
-        else if (Build.MANUFACTURER.contains("Xiaomi"))
-            return Frameworks.Xiaomi;
-        else if (isMotoExt())
-            return Frameworks.Moto_Ext;
-        else if(isSonyCameraEx())
-            return Frameworks.SonyCameraExtension;
-        else
-            return Frameworks.Default;
-    }
 
     private boolean canOpenLegacy()
     {
