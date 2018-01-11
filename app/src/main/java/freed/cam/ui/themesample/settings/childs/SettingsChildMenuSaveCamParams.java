@@ -25,6 +25,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
+import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -157,7 +158,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
             ReflectionHelper reflectionHelper = new ReflectionHelper();
 
             reflectionHelper.dumpClass(Camera.class,outputStream,0);
-            reflectionHelper.dumpClass(Camera.Parameters.class,outputStream,0);
+            reflectionHelper.dumpClass(MediaRecorder.class,outputStream,0);
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             {
