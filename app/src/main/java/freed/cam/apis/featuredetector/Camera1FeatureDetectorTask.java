@@ -358,28 +358,27 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK) {
                 SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
                 SettingsManager.get(SettingKeys.M_ManualIso).setKEY("m-sr-g");
-                SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(100, 1600, 100));
+                SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(100, 1600, 100,false));
                 SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_MTK);
             }
             else {
                 if (parameters.get(SettingsManager.getInstance().getResString(R.string.min_iso)) != null && parameters.get(SettingsManager.getInstance().getResString(R.string.max_iso)) != null) {
                     SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
 
+                    int min = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.min_iso)));
+                    int max = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.max_iso)));
                     if (SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi)
                     {
                         SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.iso));
                         SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_Xiaomi);
+                        SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50,true));
                     }
                     else
                     {
                         SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.continuous_iso));
                         SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_QCOM);
+                        SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50,false));
                     }
-
-                    int min = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.min_iso)));
-                    int max = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.max_iso)));
-                    SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50));
-
                 }
                 else if (parameters.get(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso_range))!= null)
                 {
@@ -387,13 +386,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     String t[] = parameters.get(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso_range)).split(",");
                     int min = Integer.parseInt(t[0]);
                     int max = Integer.parseInt(t[1]);
-                    SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50));
+                    SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50,false));
                     SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_KRILLIN);
                     SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso));
                 }
                 else if (parameters.get(SettingsManager.getInstance().getResString(R.string.lg_iso)) != null) {
                     SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
-                    SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(0, 2700, 50));
+                    SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(0, 2700, 50,false));
                     SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_LG);
                     SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.lg_iso));
                 }
@@ -401,14 +400,17 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
     }
 
-    public static String[] createIsoValues(int miniso, int maxiso, int step)
+    public static String[] createIsoValues(int miniso, int maxiso, int step, boolean xiaomi)
     {
         Log.d(TAG,"Create Isovalues");
         ArrayList<String> s = new ArrayList<>();
         s.add(SettingsManager.getInstance().getResString(R.string.auto_));
         for (int i =miniso; i <= maxiso; i +=step)
         {
-            s.add(i + "");
+            if (xiaomi)
+                s.add("ISO"+i);
+            else
+                s.add(i + "");
         }
         String[] stringvalues = new String[s.size()];
         return s.toArray(stringvalues);

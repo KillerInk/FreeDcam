@@ -308,7 +308,7 @@ public class XmlParserWriter
             int type = element.findChild("type").getIntValue(0);
             SettingsManager.get(SettingKeys.M_ManualIso).setType(type);
             SettingsManager.get(SettingKeys.M_ManualIso).setKEY(element.findChild("key").getValue());
-            SettingsManager.get(SettingKeys.M_ManualIso).setValues(Camera1FeatureDetectorTask.createIsoValues(min, max, step));
+            SettingsManager.get(SettingKeys.M_ManualIso).setValues(Camera1FeatureDetectorTask.createIsoValues(min, max, step,SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi));
             SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
             SettingsManager.get(SettingKeys.M_ManualIso).setIsPresetted(true);
         }
