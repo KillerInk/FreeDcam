@@ -58,28 +58,33 @@ public class BaseCCTManual extends BaseManualParameter
             new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                //get fresh parameters from camera
-                Camera.Parameters parameters1 = ((CameraHolder)cameraUiWrapper.getCameraHolder()).GetCameraParameters();
-                String wbcur = "";
-                //lookup if ct value is avail
-                if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_current_cct))!=null)
-                    wbcur = cameraUiWrapper.getResString(R.string.wb_current_cct);
-                else if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_cct)) != null)
-                    wbcur =cameraUiWrapper.getResString(R.string.wb_cct);
-                else if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_ct)) != null)
-                    wbcur = cameraUiWrapper.getResString(R.string.wb_ct);
-                else if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_manual_cct)) != null)
-                    wbcur = cameraUiWrapper.getResString(R.string.wb_manual_cct);
-                else if (parameters1.get(cameraUiWrapper.getResString(R.string.manual_wb_value)) != null)
-                    wbcur = cameraUiWrapper.getResString(R.string.manual_wb_value);
-                if (!TextUtils.isEmpty(wbcur))
+                try {
+                    //get fresh parameters from camera
+                    Camera.Parameters parameters1 = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
+                    String wbcur = "";
+                    //lookup if ct value is avail
+                    if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_current_cct)) != null)
+                        wbcur = cameraUiWrapper.getResString(R.string.wb_current_cct);
+                    else if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_cct)) != null)
+                        wbcur = cameraUiWrapper.getResString(R.string.wb_cct);
+                    else if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_ct)) != null)
+                        wbcur = cameraUiWrapper.getResString(R.string.wb_ct);
+                    else if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_manual_cct)) != null)
+                        wbcur = cameraUiWrapper.getResString(R.string.wb_manual_cct);
+                    else if (parameters1.get(cameraUiWrapper.getResString(R.string.manual_wb_value)) != null)
+                        wbcur = cameraUiWrapper.getResString(R.string.manual_wb_value);
+                    if (!TextUtils.isEmpty(wbcur)) {
+                        //update our stored parameters with ct
+                        parameters.set(wbcur, parameters1.get(wbcur));
+                        isSupported = true;
+                        isVisible = true;
+                        key_value = wbcur;
+                        BaseCCTManual.this.fireIsSupportedChanged(true);
+                    }
+                }
+                catch (NullPointerException ex)
                 {
-                    //update our stored parameters with ct
-                    parameters.set(wbcur, parameters1.get(wbcur));
-                    isSupported = true;
-                    isVisible = true;
-                    key_value = wbcur;
-                    BaseCCTManual.this.fireIsSupportedChanged(true);
+                    fireIsSupportedChanged(false);
                 }
             }
         }, 800);
