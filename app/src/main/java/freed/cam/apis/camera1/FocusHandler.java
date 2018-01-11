@@ -83,7 +83,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
             else {
                 if (focusEvent != null) {
                     aeMeteringSupported = true;
-                    focusEvent.AEMeteringSupported(true);
+                    focusEvent.TouchToFocusSupported(true);
                 }
             }
         }

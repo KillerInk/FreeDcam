@@ -59,6 +59,9 @@ public class FocusManualMTK extends BaseFocusManual {
                     && !cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).GetStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(manualFocusModeString, false);
 
+            if (currentInt > stringvalues.length -1)
+                currentInt = stringvalues.length -1;
+
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
             ((SettingMode)SettingsManager.get(key)).set(stringvalues[currentInt]);
