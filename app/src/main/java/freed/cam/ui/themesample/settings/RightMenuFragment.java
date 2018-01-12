@@ -238,7 +238,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
             }
             if (params.get(SettingKeys.ZSL) != null)
             {
-                SettingsChildMenu ton = new SettingsChildMenu(getContext(), R.string.setting_zsl_header, R.string.setting_zsl_description);
+                SettingsChildMenu ton = new SettingsChildMenu(getContext(),params.get(SettingKeys.ZSL), R.string.setting_zsl_header, R.string.setting_zsl_description);
                 ton.SetUiItemClickListner(this);
                 settingsgroup.addView(ton);
             }

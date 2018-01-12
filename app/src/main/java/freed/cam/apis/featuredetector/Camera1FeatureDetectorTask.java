@@ -1303,8 +1303,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectMode(parameters, R.string.zsd_mode, R.string.zsd_mode_values, SettingsManager.get(SettingKeys.ZSL));
         }
 
-        if (SettingsManager.get(SettingKeys.LensShade).getValues().length == 0)
-            SettingsManager.get(SettingKeys.LensShade).setIsSupported(false);
+        if (SettingsManager.get(SettingKeys.ZSL).getValues().length == 0)
+            SettingsManager.get(SettingKeys.ZSL).setIsSupported(false);
     }
 
     private void detectSceneDetectModes(Camera.Parameters parameters)
