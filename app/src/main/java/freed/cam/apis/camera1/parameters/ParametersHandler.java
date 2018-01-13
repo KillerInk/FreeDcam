@@ -448,7 +448,7 @@ public class ParametersHandler extends AbstractParameterHandler
                     add(SettingKeys.M_ManualIso,  new ManualIsoKrilin(cameraParameters,cameraUiWrapper,SettingKeys.M_ManualIso));
                     break;
                 case ISOMANUAL_Xiaomi :
-                    add(SettingKeys.M_ManualIso, new BaseManualParameter(cameraParameters,cameraUiWrapper,SettingKeys.M_ManualIso));
+                    //not supported
                     break;
                 case ISOMANUAL_MTK: //get set due aehandler
                     break;

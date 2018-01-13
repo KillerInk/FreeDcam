@@ -369,9 +369,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     int max = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.max_iso)));
                     if (SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi)
                     {
-                        SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.iso));
-                        SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_Xiaomi);
-                        SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50,true));
+                        SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(false);
                     }
                     else
                     {
