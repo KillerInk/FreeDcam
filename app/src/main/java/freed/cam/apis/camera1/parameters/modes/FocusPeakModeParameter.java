@@ -68,7 +68,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
             fireIsSupportedChanged(false);
             return cameraUiWrapper.getResString(R.string.off_);
         }
-        if (focusPeakProcessorAp1.isEnable())
+        if (focusPeakProcessorAp1.isEnabled())
             return cameraUiWrapper.getResString(R.string.on_);
         else
             return cameraUiWrapper.getResString(R.string.off_);

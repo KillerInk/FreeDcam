@@ -57,60 +57,6 @@ uchar4 __attribute__((kernel)) processContrast(uint32_t x, uint32_t y)
             return o;
 }
 
-
-uchar4 __attribute__((kernel)) focuspeakcam1(uint32_t x, uint32_t y) {
-    uchar4 curPixel;
-    curPixel.r = rsGetElementAtYuv_uchar_Y(gCurrentFrame, x, y);
-    curPixel.g = rsGetElementAtYuv_uchar_U(gCurrentFrame, x, y);
-    curPixel.b = rsGetElementAtYuv_uchar_V(gCurrentFrame, x, y);
-    int dx = x + ((x == 0) ? 1 : -1);
-    int sum = 0;
-    int tmp;
-    tmp = rsGetElementAtYuv_uchar_Y(gCurrentFrame, dx, y) - curPixel.r;
-    sum += tmp * tmp;
-    tmp = rsGetElementAtYuv_uchar_U(gCurrentFrame, dx, y) - curPixel.g;
-    sum += tmp * tmp;
-    tmp = rsGetElementAtYuv_uchar_V(gCurrentFrame, dx, y) - curPixel.b;
-    sum += tmp * tmp;
-    int dy = y + ((y == 0) ? 1 : -1);
-    tmp = rsGetElementAtYuv_uchar_Y(gCurrentFrame, x, dy) - curPixel.r;
-    sum += tmp * tmp;
-    tmp = rsGetElementAtYuv_uchar_U(gCurrentFrame, x, dy) - curPixel.g;
-    sum += tmp * tmp;
-    tmp = rsGetElementAtYuv_uchar_V(gCurrentFrame, x, dy) - curPixel.b;
-    sum += tmp * tmp;
-    sum >>= 9;
-    sum *= sum * sum;
-    curPixel.a = 255;
-    uchar4 mergedPixel = curPixel;
-    int4 rgb;
-    rgb.r = mergedPixel.r +
-            mergedPixel.b * 1436 / 1024 - 179 + sum;
-    rgb.g = mergedPixel.r -
-            mergedPixel.g * 46549 / 131072 + 44 -
-            mergedPixel.b * 93604 / 131072 + 91 + sum;
-    rgb.b = mergedPixel.r +
-            mergedPixel.g * 1814 / 1024 - 227;
-    rgb.a = 255;
-    // Write out merged HDR result
-    int factor = 2;
-    if(rgb.r >=255 -factor && rgb.g >= 255 -factor && rgb.b >= 255 -factor)
-    {
-        rgb.r =255; rgb.g = 0;  rgb.b = 0;
-    }
-    if(rgb.r <=0 +factor && rgb.g <= 0 +factor && rgb.b <= 0 +factor)
-    {
-        rgb.r =0; rgb.g = 0;  rgb.b = 255;
-    }
-    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
-    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
-    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
-
-    uchar4 out = convert_uchar4(rgb);
-
-    return out;
-}
-
 uchar4 __attribute__((kernel)) focuspeaksony(uint32_t x, uint32_t y) {
     uchar4 curPixel;
     curPixel = rsGetElementAt_uchar4(gCurrentFrame, x, y);
