@@ -55,10 +55,12 @@ public class FocusPeakRunner implements Runnable {
                 //take one stored frame for processing
                 tmp = frameQueue.take();
                 renderScriptManager.GetIn().copyFrom(tmp);
-                peakGroup.execute();
-                renderScriptManager.GetOut().ioSend();
                 //pass frame back to camera that it get reused
                 cameraHolder.GetCamera().addCallbackBuffer(tmp);
+                peakGroup.execute();
+                renderScriptManager.GetOut().ioSend();
+
+
             } catch (InterruptedException | NullPointerException e) {
                 Log.WriteEx(e);
             }

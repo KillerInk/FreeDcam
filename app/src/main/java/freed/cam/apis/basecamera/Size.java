@@ -39,7 +39,7 @@ public class Size
             width = Integer.parseInt(split[0]);
         }
         else
-            throw new ArrayIndexOutOfBoundsException();
+            new Size(1280,720);
     }
 
 }

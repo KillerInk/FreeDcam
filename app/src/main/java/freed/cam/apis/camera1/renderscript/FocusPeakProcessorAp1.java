@@ -172,8 +172,9 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
             tbIn.setX(mWidth);
             tbIn.setY(mHeight);
             tbIn.setYuvFormat(ImageFormat.NV21);
-            if (renderScriptManager.GetOut()!= null)
+            if (renderScriptManager.GetOut()!= null) {
                 renderScriptManager.GetOut().setSurface(null);
+            }
 
 
             Builder tbOut = new Builder(renderScriptManager.GetRS(), Element.RGBA_8888(renderScriptManager.GetRS()));
@@ -258,6 +259,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
             return;
         }
         else if (expectedByteSize != data.length) {
+            camera.addCallbackBuffer(data);
             Log.d(TAG, "frame size does not match rendersize");
             Camera.Size s = camera.getParameters().getPreviewSize();
             reset(s.width, s.height);
@@ -266,6 +268,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         //if limit is reached pass one frame back to the camera that i can get resused
         if (frameQueue.size() == CameraHolder.BUFFERCOUNT)
         {
+            Log.d(TAG, "frameQueue full send one back to cam");
             try {
                 camera.addCallbackBuffer(frameQueue.take());
             } catch (InterruptedException e) {
@@ -298,12 +301,14 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     {
         Log.d(TAG, "onPreviewOpen enable:" + focusPeakRunner.isEnable());
         clear_preview("onPreviewOpen");
-        //setEnable(enable);
+        setDoWork(true);
+        setEnable(focusPeakRunner.isEnable());
     }
 
     @Override
     public void onPreviewClose(String message)
     {
+        setDoWork(false);
     }
 
     @Override
@@ -328,7 +333,8 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         }
         else {
             setDoWork(false);
-            setEnable(focusPeakRunner.isEnable());
+            if (focusPeakRunner.isEnable())
+                setEnable(false);
         }
     }
 
@@ -342,21 +348,6 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         mHeight = height;
         Log.d(TAG, "SurfaceSizeAvail");
         mSurface = new Surface(surface);
-        try {
-            if (FocusPeakProcessorAp1.this.renderScriptManager.GetOut() != null && FocusPeakProcessorAp1.this.renderScriptManager.GetOut().getUsage() == Allocation.USAGE_IO_OUTPUT)
-                FocusPeakProcessorAp1.this.renderScriptManager.GetOut().setSurface(mSurface);
-            else {
-                Log.d(TAG, "Allocout null or not USAGE_IO_OUTPUT");
-                String s = FocusPeakProcessorAp1.this.cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).GetStringValue();
-                if (!TextUtils.isEmpty(s)) {
-                    Size size = new Size(s);
-                    reset(size.width, size.height);
-                }
-            }
-        } catch (NullPointerException ex) {
-            Log.WriteEx(ex);
-        }
-
         clear_preview("onSurfaceTextureAvailable");
     }
 
@@ -364,16 +355,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
         Log.d(TAG, "SurfaceSizeChanged");
         mSurface = new Surface(surface);
-        try {
-            if (FocusPeakProcessorAp1.this.renderScriptManager.GetOut() != null)
-                FocusPeakProcessorAp1.this.renderScriptManager.GetOut().setSurface(mSurface);
-            else {
-                Log.d(TAG, "Allocout null");
-
-            }
-        } catch (RSInvalidStateException ex) {
-            Log.WriteEx(ex);
-        }
+        clear_preview("onSurfaceTextureSizeChanged");
     }
 
     @Override
@@ -381,8 +363,6 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         Log.d(TAG, "SurfaceDestroyed");
         clear_preview("onSurfaceTextureDestroyed");
         mSurface = null;
-
-
         return false;
     }
 

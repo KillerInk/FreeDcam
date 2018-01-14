@@ -58,7 +58,6 @@ public class FocusPeakModeParameter extends BaseModeParameter {
         else
             focusPeakProcessorAp1.Enable(false);
         fireStringValueChanged(GetStringValue());
-        //((Camera1Fragment)cameraUiWrapper).onModuleChanged("");
     }
 
     @Override
