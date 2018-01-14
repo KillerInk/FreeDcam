@@ -207,7 +207,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
         }
         catch (RSRuntimeException ex)
         {
-            onCameraError("RenderScript Failed");
+            cameraUiWrapper.fireCameraError("RenderScript Failed");
             clear_preview("reset()");
         }
     }
@@ -281,13 +281,13 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     }
 
     @Override
-    public void onCameraOpen(String message)
+    public void onCameraOpen()
     {
 
     }
 
     @Override
-    public void onCameraOpenFinish(String message) {
+    public void onCameraOpenFinish() {
 
     }
 
@@ -315,9 +315,6 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     public void onCameraError(String error) {
     }
 
-    @Override
-    public void onCameraStatusChanged(String status) {
-    }
 
     @Override
     public void onModuleChanged(String module)

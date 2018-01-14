@@ -165,7 +165,7 @@ public class CameraHolderSony extends CameraHolderAbstract
     private void closeConnection() {
 
         // getEvent stop
-        cameraUiWrapper.onCameraClose("");
+        cameraUiWrapper.fireCameraClose();
         Log.d(TAG, "closeConnection(): EventObserver.release()");
 
         Log.d(TAG, "closeConnection(): exec.");

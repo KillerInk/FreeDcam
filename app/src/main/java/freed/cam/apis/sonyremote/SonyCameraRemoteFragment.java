@@ -236,7 +236,6 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
                     cameraStatus = cameraStatusObj.getString("cameraStatus");
 
                     Log.d(TAG,"prepareOpenConnection camerastatusChanged" + cameraStatus );
-                    onCameraStatusChanged(cameraStatus);
                 } else {
                     throw new IOException();
                 }
@@ -359,7 +358,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        super.onCameraOpenFinish("");
+        fireCameraOpenFinished();
     }
 
     @Override
@@ -450,10 +449,15 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
 
     @Override
-    public void onCameraOpen(String message)
+    public void onCameraOpen()
     {
 
         //this.onCameraOpenFinish("");
+    }
+
+    @Override
+    public void onCameraOpenFinish() {
+
     }
 
     @Override
@@ -482,18 +486,13 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         STATE = STATE_IDEL;
         mEventObserver.stop();
         surfaceView.stop();
-        //setCameraStateChangedListner(SonyCameraRemoteFragment.this);
+        //setCameraEventListner(SonyCameraRemoteFragment.this);
         mainToCameraHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 startCamera();
             }
         },5000);
-
-    }
-
-    @Override
-    public void onCameraStatusChanged(String status) {
 
     }
 

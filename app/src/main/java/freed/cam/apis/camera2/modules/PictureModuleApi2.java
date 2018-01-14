@@ -214,7 +214,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(rawReader.getSurface());
         if (parameterHandler.get(SettingKeys.M_Burst) != null)
             parameterHandler.get(SettingKeys.M_Burst).fireStringValueChanged(parameterHandler.get(SettingKeys.M_Burst).GetStringValue());
-        cameraUiWrapper.onPreviewOpen("");
+        cameraUiWrapper.firePreviewOpen();
     }
 
     private void setOutputSizes() {

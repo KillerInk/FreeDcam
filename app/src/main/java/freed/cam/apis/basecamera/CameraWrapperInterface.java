@@ -47,6 +47,9 @@ public interface CameraWrapperInterface extends CameraStateEvents
     void startPreview();
     void stopPreview();
 
+    /*void initCamera();
+    void createCamera();*/
+
     /**
      * Get the current active CameraHolderSony
      * @return
@@ -67,7 +70,7 @@ public interface CameraWrapperInterface extends CameraStateEvents
      * set the listner that get notifyed when camera state has changed
      * @param cameraChangedListner to notify
      */
-    void setCameraStateChangedListner(CameraStateEvents cameraChangedListner);
+    void setCameraEventListner(CameraStateEvents cameraChangedListner);
 
 
     /**
@@ -109,5 +112,12 @@ public interface CameraWrapperInterface extends CameraStateEvents
     String getResString(int id);
 
     HandlerThread getCameraHandlerThread();
+
+    void fireCameraOpen();
+    void fireCameraOpenFinished();
+    void fireCameraClose();
+    void firePreviewClose();
+    void firePreviewOpen();
+    void fireCameraError(String msg);
 
 }

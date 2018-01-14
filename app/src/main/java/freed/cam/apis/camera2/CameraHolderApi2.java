@@ -89,7 +89,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         String cam = camera +"";
         if (VERSION.SDK_INT >= 23) {
             if (cameraUiWrapper.getContext().checkSelfPermission(permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                cameraUiWrapper.onCameraError("Error: Permission for Camera are not granted!");
+                cameraUiWrapper.fireCameraError("Error: Permission for Camera are not granted!");
                 return false;
             }
         }
@@ -156,15 +156,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         finally
         {
 //            mCameraOpenCloseLock.release();
-            if (UIHandler != null)
-                UIHandler.post(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        cameraUiWrapper.onCameraClose("");
-                    }
-                });
+            cameraUiWrapper.fireCameraClose();
             Log.d(TAG, "camera closed");
         }
     }
@@ -263,13 +255,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             CameraHolderApi2.this.mCameraDevice = cameraDevice;
 
             Log.d(TAG, "Camera open");
-            if (UIHandler != null)
-                UIHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    cameraUiWrapper.onCameraOpen("");
-                }
-            });
+            cameraUiWrapper.fireCameraOpen();
         }
 
         @Override
@@ -281,13 +267,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-            if (UIHandler != null)
-                UIHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        cameraUiWrapper.onCameraClose("");
-                    }
-                });
+            cameraUiWrapper.fireCameraClose();
         }
 
         @Override
@@ -301,13 +281,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
             }
             errorRecieved = true;
-            UIHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    cameraUiWrapper.onCameraError("Error:" + error);
-                    cameraUiWrapper.onCameraClose("");
-                }
-            });
+            cameraUiWrapper.fireCameraClose();
 
         }
     };

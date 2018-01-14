@@ -95,7 +95,7 @@ public class CameraHolder extends CameraHolderAbstract
                 }
             });
             isRdy = true;
-            cameraUiWrapper.onCameraOpen("");
+            cameraUiWrapper.fireCameraOpen();
 
         } catch (Exception ex) {
             isRdy = false;
@@ -125,7 +125,7 @@ public class CameraHolder extends CameraHolderAbstract
             Log.d(TAG, "Camera closed");
         }
         isRdy = false;
-        cameraUiWrapper.onCameraClose("");
+        cameraUiWrapper.fireCameraClose();
     }
 
 
@@ -192,7 +192,7 @@ public class CameraHolder extends CameraHolderAbstract
         {
             mCamera.startPreview();
             Log.d(TAG, "PreviewStarted");
-            cameraUiWrapper.onPreviewOpen("");
+            cameraUiWrapper.firePreviewOpen();
 
         } catch (Exception ex) {
             Log.WriteEx(ex);
@@ -209,7 +209,7 @@ public class CameraHolder extends CameraHolderAbstract
             mCamera.setPreviewCallback(null);
             mCamera.stopPreview();
             Log.d(TAG, "Preview Stopped");
-            cameraUiWrapper.onPreviewClose("");
+            cameraUiWrapper.firePreviewClose();
 
         } catch (Exception ex)
         {

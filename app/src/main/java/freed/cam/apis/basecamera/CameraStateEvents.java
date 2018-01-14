@@ -26,14 +26,13 @@ public interface CameraStateEvents
 {
     /**
      * gets thrown when camera starts open
-     * @param message
      */
-    void onCameraOpen(String message);
+    void onCameraOpen();
     /**
      * gets thrown when camera open has finish
-     * @param message
+     *
      */
-    void onCameraOpenFinish(String message);
+    void onCameraOpenFinish();
     /**
      * gets thrown when camera is closed
      * @param message
@@ -54,9 +53,4 @@ public interface CameraStateEvents
      * @param error to send
      */
     void onCameraError(String error);
-    /**
-     * gets thrown when camera status changed
-     * @param status that has changed
-     */
-    void onCameraStatusChanged(String status);
 }

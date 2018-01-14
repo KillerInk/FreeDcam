@@ -50,7 +50,7 @@ public class CameraHolderSony extends CameraHolder {
             isRdy = false;
             Log.WriteEx(ex);
         }
-        cameraUiWrapper.onCameraOpen("");
+        cameraUiWrapper.fireCameraOpen();
         return isRdy;
     }
 
@@ -74,7 +74,7 @@ public class CameraHolderSony extends CameraHolder {
             Log.d(TAG, "Camera closed");
         }
         isRdy = false;
-        cameraUiWrapper.onCameraClose("");
+        cameraUiWrapper.fireCameraClose();
     }
 
     @Override

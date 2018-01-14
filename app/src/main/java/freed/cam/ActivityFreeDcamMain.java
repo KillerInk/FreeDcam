@@ -393,12 +393,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     }
 
     @Override
-    public void onCameraOpen(String message) {
+    public void onCameraOpen() {
 
     }
 
     @Override
-    public void onCameraOpenFinish(String message) {
+    public void onCameraOpenFinish() {
         //in case the featuredetector runned bevor, uiViewPagerAdapter is null.
         //thats the correct behavior because we dont want that the helpview overlay the featuredetector on first start
         if (uiViewPagerAdapter == null)
@@ -433,11 +433,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public void onCameraError(String error) {
-    }
-
-    @Override
-    public void onCameraStatusChanged(String status) {
-
     }
 
 

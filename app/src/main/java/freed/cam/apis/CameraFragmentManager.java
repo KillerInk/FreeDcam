@@ -140,7 +140,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
                     cameraFragment = Camera1Fragment.getInstance(mBackgroundThread, cameraLock);
                 }
                 cameraFragment.SetRenderScriptHandler(renderScriptManager);
-                cameraFragment.setCameraStateChangedListner(cameraStateEventListner);
+                cameraFragment.setCameraEventListner(cameraStateEventListner);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
             } else cameraFragment.startCamera();
         }

@@ -104,6 +104,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     @Nullable
     @Override
     public View onCreateView(LayoutInflater layoutInflater, @Nullable ViewGroup viewGroup, @Nullable Bundle bundle) {
+        cameraChangedListners.add(this);
         return super.onCreateView(layoutInflater, viewGroup, bundle);
     }
 
@@ -127,7 +128,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
      * adds a new listner for camera state changes
      * @param cameraChangedListner to add
      */
-    public void setCameraStateChangedListner(final CameraStateEvents cameraChangedListner)
+    public void setCameraEventListner(final CameraStateEvents cameraChangedListner)
     {
         cameraToMainHandler.setCameraStateChangedListner(cameraChangedListner);
     }
@@ -158,43 +159,38 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     }
 
     @Override
-    public void onCameraOpen(final String message)
+    public void fireCameraOpen()
     {
-        cameraToMainHandler.onCameraOpen(message);
+        cameraToMainHandler.onCameraOpen();
     }
 
     @Override
-    public void onCameraError(final String error) {
+    public void fireCameraError(final String error) {
         cameraToMainHandler.onCameraError(error);
     }
 
+
     @Override
-    public void onCameraStatusChanged(final String status)
+    public void fireCameraClose()
     {
-        cameraToMainHandler.onCameraStatusChanged(status);
+        cameraToMainHandler.onCameraClose("");
     }
 
     @Override
-    public void onCameraClose(final String message)
+    public void firePreviewOpen()
     {
-        cameraToMainHandler.onCameraClose(message);
+        cameraToMainHandler.onPreviewOpen("");
     }
 
     @Override
-    public void onPreviewOpen(final String message)
-    {
-        cameraToMainHandler.onPreviewOpen(message);
+    public void firePreviewClose() {
+        cameraToMainHandler.onPreviewClose("");
     }
 
     @Override
-    public void onPreviewClose(final String message) {
-        cameraToMainHandler.onPreviewClose(message);
-    }
-
-    @Override
-    public void onCameraOpenFinish(final String message)
+    public void fireCameraOpenFinished()
     {
-        cameraToMainHandler.onCameraOpenFinish(message);
+        cameraToMainHandler.onCameraOpenFinish();
     }
 
     public abstract int getMargineLeft();
@@ -258,15 +254,11 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
                 break;
             case CameraToMainHandler.MSG_ON_CAMERA_OPEN:
                 for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onCameraOpen((String)msg.obj);
+                    cameraChangedListner.onCameraOpen();
                 break;
             case CameraToMainHandler.MSG_ON_CAMERA_ERROR:
                 for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
                     cameraChangedListner.onCameraError((String)msg.obj);
-                break;
-            case CameraToMainHandler.MSG_ON_CAMERA_STATUS_CHANGED:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onCameraStatusChanged((String)msg.obj);
                 break;
             case CameraToMainHandler.MSG_ON_CAMERA_CLOSE:
                 for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
@@ -282,7 +274,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
                 break;
             case CameraToMainHandler.MSG_ON_CAMERA_OPEN_FINISHED:
                 for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onCameraOpenFinish((String)msg.obj);
+                    cameraChangedListner.onCameraOpenFinish();
                 break;
         }
     }

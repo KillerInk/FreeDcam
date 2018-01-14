@@ -256,7 +256,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onTimout() {
-        cameraUiWrapper.onCameraError("Camera connection timed out");
+        cameraUiWrapper.fireCameraError("Camera connection timed out");
         ((SonyCameraRemoteFragment)cameraUiWrapper).stopEventObserver();
     }
 

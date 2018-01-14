@@ -123,12 +123,12 @@ public class UserMessageHandler extends Handler implements CameraStateEvents , R
     }
 
     @Override
-    public void onCameraOpen(String message) {
+    public void onCameraOpen() {
 
     }
 
     @Override
-    public void onCameraOpenFinish(String message) {
+    public void onCameraOpenFinish() {
 
     }
 
@@ -153,10 +153,7 @@ public class UserMessageHandler extends Handler implements CameraStateEvents , R
         sendMSG(error,true);
     }
 
-    @Override
-    public void onCameraStatusChanged(String status) {
 
-    }
 
     @Override
     public void run()

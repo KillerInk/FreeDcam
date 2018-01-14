@@ -120,10 +120,15 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     }
 
     @Override
-    public void onCameraOpen(final String message)
+    public void onCameraOpen()
     {
         Log.d(TAG, "onCameraOpen, initCamera");
         mainToCameraHandler.initCamera();
+    }
+
+    @Override
+    public void onCameraOpenFinish() {
+
     }
 
     @Override
@@ -132,7 +137,6 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         Log.d(TAG, "onCameraClose");
         cameraIsOpen = false;
         mProcessor.kill();
-        super.onCameraClose(message);
     }
 
     @Override
@@ -143,6 +147,11 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void onPreviewClose(String message) {
         Log.d(TAG, "onPreviewClose");
+    }
+
+    @Override
+    public void onCameraError(String error) {
+
     }
 
     @Override
@@ -258,9 +267,9 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
                 ((ParameterHandlerApi2)parametersHandler).Init();
                 ((CameraHolderApi2)cameraHolder).SetSurface(textureView);
                 Log.d(TAG, "Camera Opened and Preview Started");
-                Camera2Fragment.super.onCameraOpen("");
+                //Camera2Fragment.this.fireCameraOpen();
                 moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
-                Camera2Fragment.this.onCameraOpenFinish("");
+                Camera2Fragment.this.fireCameraOpenFinished();
                 break;
             case MainToCameraHandler.MSG_CREATE_CAMERA:
                 parametersHandler = new ParameterHandlerApi2(Camera2Fragment.this);

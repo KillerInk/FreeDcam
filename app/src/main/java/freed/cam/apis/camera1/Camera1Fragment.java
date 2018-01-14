@@ -146,28 +146,36 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     //this gets called when the cameraholder has open the camera
     @Override
-    public void onCameraOpen(String message)
+    public void onCameraOpen()
     {
         mainToCameraHandler.initCamera();
+    }
+
+    @Override
+    public void onCameraOpenFinish() {
+
     }
 
     @Override
     public void onCameraClose(String message)
     {
         cameraRdy = false;
-        super.onCameraClose(message);
     }
 
     @Override
-    public void onPreviewOpen(String message) {
-        super.onPreviewOpen(message);
+    public void onPreviewOpen(String msg) {
+
         parametersHandler.setManualSettingsToParameters();
     }
 
     @Override
     public void onPreviewClose(String message) {
-        super.onPreviewClose(message);
         cameraHolder.ResetPreviewCallback();
+    }
+
+    @Override
+    public void onCameraError(String error) {
+
     }
 
 
@@ -417,7 +425,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 parametersHandler.get(SettingKeys.PictureSize).addEventListner(onPreviewSizeShouldChange);
                 cameraHolder.SetSurface(extendedSurfaceView.getHolder());
                 cameraHolder.StartPreview();
-                this.onCameraOpenFinish("");
+                fireCameraOpenFinished();
                 break;
             case MainToCameraHandler.MSG_CREATE_CAMERA:
                 parametersHandler = new ParametersHandler(Camera1Fragment.this);
@@ -460,7 +468,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 if (Build.VERSION.SDK_INT >= 18) {
 
                     focusPeakProcessorAp1 = new FocusPeakProcessorAp1(preview,Camera1Fragment.this, getContext(), renderScriptManager);
-                    setCameraStateChangedListner(focusPeakProcessorAp1);
+                    setCameraEventListner(focusPeakProcessorAp1);
                 }
                 else
                     preview.setVisibility(View.GONE);

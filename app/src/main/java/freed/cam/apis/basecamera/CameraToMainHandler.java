@@ -16,7 +16,6 @@ public class CameraToMainHandler extends Handler implements CameraStateEvents
 
     public static final int MSG_ON_CAMERA_OPEN = 0;
     public static final int MSG_ON_CAMERA_ERROR = 1;
-    public static final int MSG_ON_CAMERA_STATUS_CHANGED = 2;
     public static final int MSG_ON_CAMERA_CLOSE = 3;
     public static final int MSG_ON_PREVIEW_OPEN= 4;
     public static final int MSG_ON_PREVIEW_CLOSE= 5;
@@ -51,14 +50,14 @@ public class CameraToMainHandler extends Handler implements CameraStateEvents
     }
 
     @Override
-    public void onCameraOpen(final String message)
+    public void onCameraOpen()
     {
-        obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_OPEN,message).sendToTarget();
+        obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_OPEN).sendToTarget();
     }
 
     @Override
-    public void onCameraOpenFinish(String message) {
-        obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_OPEN_FINISHED, message).sendToTarget();
+    public void onCameraOpenFinish() {
+        obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_OPEN_FINISHED).sendToTarget();
     }
 
     @Override
@@ -80,9 +79,5 @@ public class CameraToMainHandler extends Handler implements CameraStateEvents
     public void onCameraError(final String error) {
         obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_ERROR,error).sendToTarget();
     }
-
-    @Override
-    public void onCameraStatusChanged(String status) {
-        obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_STATUS_CHANGED, status).sendToTarget();
-    }
+    
 }

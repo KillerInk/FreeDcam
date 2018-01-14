@@ -46,7 +46,7 @@ public class CameraHolderMotoX extends CameraHolderLegacy {
         }
         catch (RuntimeException ex)
         {
-            cameraUiWrapper.onCameraError("Fail to connect to camera service");
+            cameraUiWrapper.fireCameraError("Fail to connect to camera service");
             isRdy = false;
         }
         return isRdy;
