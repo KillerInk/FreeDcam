@@ -106,12 +106,18 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     @Override
     public void featuredetectorDone() {
         Log.d(TAG,"FD done, load cameraFragment");
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-        transaction.remove(fd);
-        transaction.commit();
-        fd = null;
-        switchCameraFragment();
+        try {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+            transaction.remove(fd);
+            transaction.commit();
+            fd = null;
+            switchCameraFragment();
+        }
+        catch (IllegalStateException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
     public void switchCameraFragment()
