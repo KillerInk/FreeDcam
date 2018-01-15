@@ -519,6 +519,8 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
+        if (cameraParameters == null)
+            return;
         if (SettingsManager.get(SettingKeys.orientationHack).get())
         {
             int or = orientation +180;
@@ -526,6 +528,7 @@ public class ParametersHandler extends AbstractParameterHandler
                 or = or - 360;
             orientation = or;
         }
+
 
         cameraParameters.setRotation(orientation);
         Log.d(TAG, "SetPictureOrientation");

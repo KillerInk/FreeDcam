@@ -352,7 +352,14 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
                     activityInterface.DeleteFile(folder_to_show);
-                    MediaScannerManager.ScanMedia(getContext(), folder_to_show.getFile());
+                    try {
+                        MediaScannerManager.ScanMedia(getContext(), folder_to_show.getFile());
+                    }
+                    catch (NullPointerException ex)
+                    {
+                        Log.WriteEx(ex);
+                    }
+
                     if (activityInterface.getFiles() != null && activityInterface.getFiles().size() >0)
                         activityInterface.LoadFolder(activityInterface.getFiles().get(0).getParent(),FormatTypes.all);
                     else
