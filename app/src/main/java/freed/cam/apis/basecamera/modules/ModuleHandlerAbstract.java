@@ -228,13 +228,9 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         }
         else
             mBackgroundThread.quit();
-        try {
-            mBackgroundThread.join();
-            mBackgroundThread = null;
-            mBackgroundHandler = null;
-        } catch (InterruptedException e) {
-            Log.WriteEx(e);
-        }
+
+        mBackgroundThread = null;
+        mBackgroundHandler = null;
     }
 
 
