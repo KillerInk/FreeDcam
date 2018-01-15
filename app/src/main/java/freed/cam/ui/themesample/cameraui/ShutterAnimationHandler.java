@@ -233,7 +233,7 @@ public class ShutterAnimationHandler extends Handler
     }
 
     private void draw() {
-        synchronized (this) {
+       /* synchronized (this) {*/
             switch (currentShow) {
                 case video_recording_stop:
                     shutter_open_radius = 0;
@@ -343,13 +343,13 @@ public class ShutterAnimationHandler extends Handler
                 txt_right = halfsize + (txt_length / 2) + space;
                 txt_bottom = padding_red + txt_height / 2 + space;
             }
-        }
+        //}
         //Log.d(TAG,"shutter_open:" + shutter_open_radius + " recCircle:" + recordingRadiusCircle + " recRect:" + recordingRadiusRectangle +  " captureState:" + currentShow);
     }
 
     public void onDraw(Canvas canvas)
     {
-        synchronized (this) {
+        //synchronized (this) {
             canvas.drawCircle(halfsize, halfsize, shutter_open_radius, transparent);
             if (drawRecordingImage) {
                 canvas.drawCircle(halfsize, halfsize, recordingRadiusCircle / 2, red);
@@ -367,7 +367,7 @@ public class ShutterAnimationHandler extends Handler
                 shutteropentimePaint.setAlpha(255);
                 canvas.drawText(shutteropentime, txt_left, padding_red, shutteropentimePaint);
             }
-        }
+        //}
     }
 
     private static class UIHandler extends Handler
