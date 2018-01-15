@@ -314,18 +314,25 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             else if (arrayContainsString(SettingsManager.get(SettingKeys.WhiteBalanceMode).getValues(), SettingsManager.getInstance().getResString(R.string.manual_cct)))
                 wbModeval = SettingsManager.getInstance().getResString(R.string.manual_cct);
 
-            if (!TextUtils.isEmpty(wbmax) && !TextUtils.isEmpty(wbmin) && !TextUtils.isEmpty(wbModeval)) {
-                Log.d(TAG, "Found all wbct values:" +wbmax + " " + wbmin + " " +wbModeval);
-                SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_Whitebalance).setMode(wbModeval);
-                int min = Integer.parseInt(parameters.get(wbmin));
-                int max = Integer.parseInt(parameters.get(wbmax));
-                SettingsManager.get(SettingKeys.M_Whitebalance).setValues(createWBStringArray(min,max,100));
-            }
-            else {
-                Log.d(TAG, "Failed to lookup wbct:" + " " +wbmax + " " + wbmin + " " +wbModeval);
+            try {
+                if (!TextUtils.isEmpty(wbmax) && !TextUtils.isEmpty(wbmin) && !TextUtils.isEmpty(wbModeval)) {
+                    Log.d(TAG, "Found all wbct values:" +wbmax + " " + wbmin + " " +wbModeval);
+                    SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.M_Whitebalance).setMode(wbModeval);
+                    int min = Integer.parseInt(parameters.get(wbmin));
+                    int max = Integer.parseInt(parameters.get(wbmax));
+                    SettingsManager.get(SettingKeys.M_Whitebalance).setValues(createWBStringArray(min,max,100));
+                }
+                else {
+                    Log.d(TAG, "Failed to lookup wbct:" + " " +wbmax + " " + wbmin + " " +wbModeval);
+                    SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
+                }
+            }catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
                 SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
             }
+
         }
     }
 
@@ -362,37 +369,37 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_MTK);
             }
             else {
-                if (parameters.get(SettingsManager.getInstance().getResString(R.string.min_iso)) != null && parameters.get(SettingsManager.getInstance().getResString(R.string.max_iso)) != null) {
-                    SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
+                try {
+                    if (parameters.get(SettingsManager.getInstance().getResString(R.string.min_iso)) != null && parameters.get(SettingsManager.getInstance().getResString(R.string.max_iso)) != null) {
+                        SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
 
-                    int min = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.min_iso)));
-                    int max = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.max_iso)));
-                    if (SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi)
-                    {
-                        SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(false);
+                        int min = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.min_iso)));
+                        int max = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.max_iso)));
+                        if (SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi) {
+                            SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(false);
+                        } else {
+                            SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.continuous_iso));
+                            SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_QCOM);
+                            SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50, false));
+                        }
+                    } else if (parameters.get(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso_range)) != null) {
+                        SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
+                        String t[] = parameters.get(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso_range)).split(",");
+                        int min = Integer.parseInt(t[0]);
+                        int max = Integer.parseInt(t[1]);
+                        SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50, false));
+                        SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_KRILLIN);
+                        SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso));
+                    } else if (parameters.get(SettingsManager.getInstance().getResString(R.string.lg_iso)) != null) {
+                        SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
+                        SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(0, 2700, 50, false));
+                        SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_LG);
+                        SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.lg_iso));
                     }
-                    else
-                    {
-                        SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.continuous_iso));
-                        SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_QCOM);
-                        SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50,false));
-                    }
-                }
-                else if (parameters.get(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso_range))!= null)
+                }catch (NumberFormatException ex)
                 {
-                    SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
-                    String t[] = parameters.get(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso_range)).split(",");
-                    int min = Integer.parseInt(t[0]);
-                    int max = Integer.parseInt(t[1]);
-                    SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50,false));
-                    SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_KRILLIN);
-                    SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso));
-                }
-                else if (parameters.get(SettingsManager.getInstance().getResString(R.string.lg_iso)) != null) {
-                    SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
-                    SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(0, 2700, 50,false));
-                    SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_LG);
-                    SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.lg_iso));
+                    Log.WriteEx(ex);
+                    SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(false);
                 }
             }
         }
@@ -485,22 +492,27 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             //qcom shutter
             else if (parameters.get(camstring(R.string.max_exposure_time)) != null && parameters.get(camstring(R.string.min_exposure_time)) != null) {
                 long min = 0, max = 0;
-                if (parameters.get(camstring(R.string.max_exposure_time)).contains(".")) {
-                    Log.d(TAG, "ManualExposureTime Qcom Millisec");
-                    min = (long) (Double.parseDouble(parameters.get(camstring(R.string.min_exposure_time))) * 1000);
-                    max = (long) (Double.parseDouble(parameters.get(camstring(R.string.max_exposure_time))) * 1000);
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_QCOM_MILLISEC);
-                } else {
-                    Log.d(TAG, "ManualExposureTime Qcom MicroSec");
-                    min = Integer.parseInt(parameters.get(camstring(R.string.min_exposure_time)));
-                    max = Integer.parseInt(parameters.get(camstring(R.string.max_exposure_time)));
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_QCOM_MICORSEC);
-                }
-                if (max > 0) {
+                try {
+                    if (parameters.get(camstring(R.string.max_exposure_time)).contains(".")) {
+                        Log.d(TAG, "ManualExposureTime Qcom Millisec");
+                        min = (long) (Double.parseDouble(parameters.get(camstring(R.string.min_exposure_time))) * 1000);
+                        max = (long) (Double.parseDouble(parameters.get(camstring(R.string.max_exposure_time))) * 1000);
+                        SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_QCOM_MILLISEC);
+                    } else {
+                        Log.d(TAG, "ManualExposureTime Qcom MicroSec");
+                        min = Integer.parseInt(parameters.get(camstring(R.string.min_exposure_time)));
+                        max = Integer.parseInt(parameters.get(camstring(R.string.max_exposure_time)));
+                        SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_QCOM_MICORSEC);
+                    }
+                    if (max > 0) {
 
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setKEY(camstring(R.string.exposure_time));
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setValues(getSupportedShutterValues(min, max, true));
+                        SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
+                        SettingsManager.get(SettingKeys.M_ExposureTime).setKEY(camstring(R.string.exposure_time));
+                        SettingsManager.get(SettingKeys.M_ExposureTime).setValues(getSupportedShutterValues(min, max, true));
+                    }
+                }catch (NumberFormatException ex)
+                {
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
                 }
             }
         }
@@ -754,24 +766,31 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
         }
         else {
-            int min = 0, max = 0;
-            if (parameters.get(camstring(R.string.sharpness_max)) != null) {
-                Log.d(TAG, "Sharpness: Default");
-                min = Integer.parseInt(parameters.get(camstring(R.string.sharpness_min)));
-                max = Integer.parseInt(parameters.get(camstring(R.string.sharpness_max)));
-                SettingsManager.get(SettingKeys.M_Sharpness).setKEY(camstring(R.string.sharpness));
-                SettingsManager.get(SettingKeys.M_Sharpness).set(parameters.get(camstring(R.string.sharpness)));
-            } else if (parameters.get(camstring(R.string.max_sharpness)) != null) {
-                Log.d(TAG, "Sharpness: Default");
-                min = Integer.parseInt(parameters.get(camstring(R.string.min_sharpness)));
-                max = Integer.parseInt(parameters.get(camstring(R.string.max_sharpness)));
-                SettingsManager.get(SettingKeys.M_Sharpness).setKEY(camstring(R.string.sharpness));
-                SettingsManager.get(SettingKeys.M_Sharpness).set(parameters.get(camstring(R.string.sharpness)));
+            try {
+                int min = 0, max = 0;
+                if (parameters.get(camstring(R.string.sharpness_max)) != null) {
+                    Log.d(TAG, "Sharpness: Default");
+                    min = Integer.parseInt(parameters.get(camstring(R.string.sharpness_min)));
+                    max = Integer.parseInt(parameters.get(camstring(R.string.sharpness_max)));
+                    SettingsManager.get(SettingKeys.M_Sharpness).setKEY(camstring(R.string.sharpness));
+                    SettingsManager.get(SettingKeys.M_Sharpness).set(parameters.get(camstring(R.string.sharpness)));
+                } else if (parameters.get(camstring(R.string.max_sharpness)) != null) {
+                    Log.d(TAG, "Sharpness: Default");
+                    min = Integer.parseInt(parameters.get(camstring(R.string.min_sharpness)));
+                    max = Integer.parseInt(parameters.get(camstring(R.string.max_sharpness)));
+                    SettingsManager.get(SettingKeys.M_Sharpness).setKEY(camstring(R.string.sharpness));
+                    SettingsManager.get(SettingKeys.M_Sharpness).set(parameters.get(camstring(R.string.sharpness)));
+                }
+                Log.d(TAG, "Sharpness Max:" +max);
+                if (max > 0) {
+                    SettingsManager.get(SettingKeys.M_Sharpness).setValues(createStringArray(min, max, 1));
+                    SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
+                }
             }
-            Log.d(TAG, "Sharpness Max:" +max);
-            if (max > 0) {
-                SettingsManager.get(SettingKeys.M_Sharpness).setValues(createStringArray(min, max, 1));
-                SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
+            catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(false);
             }
         }
     }
@@ -788,25 +807,32 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
         }
         else {
-            int min = 0, max = 0;
-            if (parameters.get(camstring(R.string.brightness_max)) != null && parameters.get(camstring(R.string.brightness_min)) != null) {
-                Log.d(TAG, "Brightness: Default");
-                min = Integer.parseInt(parameters.get(camstring(R.string.brightness_min)));
-                max = Integer.parseInt(parameters.get(camstring(R.string.brightness_max)));
-            } else if (parameters.get(camstring(R.string.max_brightness)) != null && parameters.get(camstring(R.string.min_brightness)) != null) {
-                min = Integer.parseInt(parameters.get(camstring(R.string.min_brightness)));
-                max = Integer.parseInt(parameters.get(camstring(R.string.max_brightness)));
-                Log.d(TAG, "Brightness: Default");
+            try {
+                int min = 0, max = 0;
+                if (parameters.get(camstring(R.string.brightness_max)) != null && parameters.get(camstring(R.string.brightness_min)) != null) {
+                    Log.d(TAG, "Brightness: Default");
+                    min = Integer.parseInt(parameters.get(camstring(R.string.brightness_min)));
+                    max = Integer.parseInt(parameters.get(camstring(R.string.brightness_max)));
+                } else if (parameters.get(camstring(R.string.max_brightness)) != null && parameters.get(camstring(R.string.min_brightness)) != null) {
+                    min = Integer.parseInt(parameters.get(camstring(R.string.min_brightness)));
+                    max = Integer.parseInt(parameters.get(camstring(R.string.max_brightness)));
+                    Log.d(TAG, "Brightness: Default");
+                }
+                Log.d(TAG, "Brightness Max:" + max);
+                if (max > 0) {
+                    if (parameters.get(camstring(R.string.brightness)) != null)
+                        SettingsManager.get(SettingKeys.M_Brightness).setKEY(camstring(R.string.brightness));
+                    else if (parameters.get(camstring(R.string.luma_adaptation)) != null)
+                        SettingsManager.get(SettingKeys.M_Brightness).setKEY(camstring(R.string.luma_adaptation));
+                    SettingsManager.get(SettingKeys.M_Brightness).setValues(createStringArray(min, max, 1));
+                    SettingsManager.get(SettingKeys.M_Brightness).set(parameters.get(SettingsManager.get(SettingKeys.M_Brightness).getKEY()));
+                    SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
+                }
             }
-            Log.d(TAG, "Brightness Max:" +max);
-            if (max > 0) {
-                if (parameters.get(camstring(R.string.brightness))!= null)
-                    SettingsManager.get(SettingKeys.M_Brightness).setKEY(camstring(R.string.brightness));
-                else if (parameters.get(camstring(R.string.luma_adaptation))!= null)
-                    SettingsManager.get(SettingKeys.M_Brightness).setKEY(camstring(R.string.luma_adaptation));
-                SettingsManager.get(SettingKeys.M_Brightness).setValues(createStringArray(min, max, 1));
-                SettingsManager.get(SettingKeys.M_Brightness).set(parameters.get(SettingsManager.get(SettingKeys.M_Brightness).getKEY()));
-                SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
+            catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(false);
             }
         }
     }
@@ -822,21 +848,28 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
         }
         else {
-            int min = 0, max = 0;
-            if (parameters.get(camstring(R.string.contrast_max)) != null) {
-                min = Integer.parseInt(parameters.get(camstring(R.string.contrast_min)));
-                max = Integer.parseInt(parameters.get(camstring(R.string.contrast_max)));
-            } else if (parameters.get(camstring(R.string.max_contrast)) != null) {
-                min = Integer.parseInt(parameters.get(camstring(R.string.min_contrast)));
-                max = Integer.parseInt(parameters.get(camstring(R.string.max_contrast)));
+            try {
+                int min = 0, max = 0;
+                if (parameters.get(camstring(R.string.contrast_max)) != null) {
+                    min = Integer.parseInt(parameters.get(camstring(R.string.contrast_min)));
+                    max = Integer.parseInt(parameters.get(camstring(R.string.contrast_max)));
+                } else if (parameters.get(camstring(R.string.max_contrast)) != null) {
+                    min = Integer.parseInt(parameters.get(camstring(R.string.min_contrast)));
+                    max = Integer.parseInt(parameters.get(camstring(R.string.max_contrast)));
 
+                }
+                Log.d(TAG, "Contrast Max:" +max);
+                if (max > 0) {
+                    SettingsManager.get(SettingKeys.M_Contrast).setKEY(camstring(R.string.contrast));
+                    SettingsManager.get(SettingKeys.M_Contrast).setValues(createStringArray(min, max, 1));
+                    SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.M_Contrast).set(parameters.get(camstring(R.string.contrast)));
+                }
             }
-            Log.d(TAG, "Contrast Max:" +max);
-            if (max > 0) {
-                SettingsManager.get(SettingKeys.M_Contrast).setKEY(camstring(R.string.contrast));
-                SettingsManager.get(SettingKeys.M_Contrast).setValues(createStringArray(min, max, 1));
-                SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_Contrast).set(parameters.get(camstring(R.string.contrast)));
+            catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(false);
             }
         }
     }
@@ -873,69 +906,78 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else {
             //lookup old qcom
 
-            if (parameters.get(camstring(R.string.manual_focus_modes)) == null) {
+            try {
+                if (parameters.get(camstring(R.string.manual_focus_modes)) == null) {
 
-                if (parameters.get(camstring(R.string.max_focus_pos_index)) != null
-                        && parameters.get(camstring(R.string.min_focus_pos_index))!= null
-                        && SettingsManager.get(SettingKeys.FocusMode).contains(camstring(R.string.manual))) {
+                    if (parameters.get(camstring(R.string.max_focus_pos_index)) != null
+                            && parameters.get(camstring(R.string.min_focus_pos_index))!= null
+                            && SettingsManager.get(SettingKeys.FocusMode).contains(camstring(R.string.manual))) {
 
-                    SettingsManager.get(SettingKeys.M_Focus).setMode(camstring(R.string.manual));
-                    SettingsManager.get(SettingKeys.M_Focus).setType(1);
-                    SettingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
-                    min = Integer.parseInt(parameters.get(camstring(R.string.min_focus_pos_index)));
-                    max = Integer.parseInt(parameters.get(camstring(R.string.max_focus_pos_index)));
-                    step = 10;
-                    SettingsManager.get(SettingKeys.M_Focus).setKEY(camstring(R.string.manual_focus_position));
-                    Log.d(TAG, "MF old qcom");
+                        SettingsManager.get(SettingKeys.M_Focus).setMode(camstring(R.string.manual));
+                        SettingsManager.get(SettingKeys.M_Focus).setType(1);
+                        SettingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
+                        min = Integer.parseInt(parameters.get(camstring(R.string.min_focus_pos_index)));
+                        max = Integer.parseInt(parameters.get(camstring(R.string.max_focus_pos_index)));
+                        step = 10;
+                        SettingsManager.get(SettingKeys.M_Focus).setKEY(camstring(R.string.manual_focus_position));
+                        Log.d(TAG, "MF old qcom");
+                    }
                 }
-            }
-            else
-            {
-                //lookup new qcom
-                if (parameters.get(camstring(R.string.max_focus_pos_ratio)) != null
-                        && parameters.get(camstring(R.string.min_focus_pos_ratio)) != null
-                        && SettingsManager.get(SettingKeys.FocusMode).contains(camstring(R.string.manual))) {
+                else
+                {
+                    //lookup new qcom
+                    if (parameters.get(camstring(R.string.max_focus_pos_ratio)) != null
+                            && parameters.get(camstring(R.string.min_focus_pos_ratio)) != null
+                            && SettingsManager.get(SettingKeys.FocusMode).contains(camstring(R.string.manual))) {
 
-                    SettingsManager.get(SettingKeys.M_Focus).setMode(camstring(R.string.manual));
-                    SettingsManager.get(SettingKeys.M_Focus).setType(2);
+                        SettingsManager.get(SettingKeys.M_Focus).setMode(camstring(R.string.manual));
+                        SettingsManager.get(SettingKeys.M_Focus).setType(2);
+                        SettingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
+                        min = Integer.parseInt(parameters.get(camstring(R.string.min_focus_pos_ratio)));
+                        max = Integer.parseInt(parameters.get(camstring(R.string.max_focus_pos_ratio)));
+                        step = 1;
+                        SettingsManager.get(SettingKeys.M_Focus).setKEY(camstring(R.string.manual_focus_position));
+                        Log.d(TAG, "MF new qcom");
+                    }
+                }
+                //htc mf
+                if (parameters.get(camstring(R.string.min_focus)) != null && parameters.get(camstring(R.string.max_focus)) != null)
+                {
+                    SettingsManager.get(SettingKeys.M_Focus).setMode("");
+                    SettingsManager.get(SettingKeys.M_Focus).setType(-1);
                     SettingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
-                    min = Integer.parseInt(parameters.get(camstring(R.string.min_focus_pos_ratio)));
-                    max = Integer.parseInt(parameters.get(camstring(R.string.max_focus_pos_ratio)));
+                    min = Integer.parseInt(parameters.get(camstring(R.string.min_focus)));
+                    max = Integer.parseInt(parameters.get(camstring(R.string.max_focus)));
                     step = 1;
-                    SettingsManager.get(SettingKeys.M_Focus).setKEY(camstring(R.string.manual_focus_position));
-                    Log.d(TAG, "MF new qcom");
+                    SettingsManager.get(SettingKeys.M_Focus).setKEY(camstring(R.string.focus));
+                    Log.d(TAG, "MF HTC");
                 }
-            }
-            //htc mf
-            if (parameters.get(camstring(R.string.min_focus)) != null && parameters.get(camstring(R.string.max_focus)) != null)
-            {
-                SettingsManager.get(SettingKeys.M_Focus).setMode("");
-                SettingsManager.get(SettingKeys.M_Focus).setType(-1);
-                SettingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
-                min = Integer.parseInt(parameters.get(camstring(R.string.min_focus)));
-                max = Integer.parseInt(parameters.get(camstring(R.string.max_focus)));
-                step = 1;
-                SettingsManager.get(SettingKeys.M_Focus).setKEY(camstring(R.string.focus));
-                Log.d(TAG, "MF HTC");
-            }
 
-            //huawai mf
-            if(parameters.get(SettingsManager.getInstance().getResString(R.string.hw_vcm_end_value)) != null && parameters.get(SettingsManager.getInstance().getResString(R.string.hw_vcm_start_value)) != null)
+                //huawai mf
+                if(parameters.get(SettingsManager.getInstance().getResString(R.string.hw_vcm_end_value)) != null && parameters.get(SettingsManager.getInstance().getResString(R.string.hw_vcm_start_value)) != null)
+                {
+                    Log.d(TAG,"Huawei MF");
+                    SettingsManager.get(SettingKeys.M_Focus).setMode(camstring(R.string.manual));
+                    SettingsManager.get(SettingKeys.M_Focus).setType(-1);
+                    SettingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
+                    max = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.hw_vcm_end_value)));
+                    min = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.hw_vcm_start_value)));
+                    Log.d(TAG,"min/max mf:" + min+"/"+max);
+                    step = 10;
+                    SettingsManager.get(SettingKeys.M_Focus).setKEY(SettingsManager.getInstance().getResString(R.string.hw_manual_focus_step_value));
+                }
+
+
+            } catch(NumberFormatException ex)
             {
-                Log.d(TAG,"Huawei MF");
-                SettingsManager.get(SettingKeys.M_Focus).setMode(camstring(R.string.manual));
-                SettingsManager.get(SettingKeys.M_Focus).setType(-1);
-                SettingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
-                max = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.hw_vcm_end_value)));
-                min = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.hw_vcm_start_value)));
-                Log.d(TAG,"min/max mf:" + min+"/"+max);
-                step = 10;
-                SettingsManager.get(SettingKeys.M_Focus).setKEY(SettingsManager.getInstance().getResString(R.string.hw_manual_focus_step_value));
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.M_Focus).setIsSupported(false);
             }
+            //create mf values
+            if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
+                SettingsManager.get(SettingKeys.M_Focus).setValues(createManualFocusValues(min, max,step));
         }
-        //create mf values
-        if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
-            SettingsManager.get(SettingKeys.M_Focus).setValues(createManualFocusValues(min, max,step));
+
     }
 
     public static String[] createManualFocusValues(int min, int max, int step)
