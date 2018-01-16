@@ -51,6 +51,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     private final Handler mProcessingHandler;
     private ProcessingTask mProcessingTask;
     private boolean peak;
+    private boolean processHistogram;
     private final RenderScriptManager renderScriptManager;
     private final Object workLock = new Object();
     private final MyHistogram histogram;
@@ -59,9 +60,10 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     private final Allocation histodataB;
     private Allocation tmprgballoc;
     private final int emptydata[];
-    ScriptGroup fpGpup;
 
-    private ScriptGroup fpGroup;
+    private ScriptGroup scriptGroup;
+    private ScriptGroup histoGroup;
+    private ScriptGroup peakGroup;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     public FocuspeakProcessorApi2(RenderScriptManager renderScriptManager, final MyHistogram histogram)
@@ -97,9 +99,15 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     }
 
     @Override
-    public void Enable(boolean enable) {
+    public void setFocusPeakEnable(boolean enable) {
         peak = enable;
-        if (peak)
+
+    }
+
+    @Override
+    public void setHistogramEnable(boolean enable) {
+        processHistogram = enable;
+        if (processHistogram)
             histogram.setVisibility(View.VISIBLE);
         else
             histogram.setVisibility(View.GONE);
@@ -124,21 +132,43 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
         rgbTypeBuilder.setY(height);
         tmprgballoc = Allocation.createTyped(renderScriptManager.GetRS(), rgbTypeBuilder.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
         renderScriptManager.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder, Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT,  Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
-        renderScriptManager.freedcamScript.set_gCurrentFrame(tmprgballoc);
+
         renderScriptManager.yuvToRgbIntrinsic.setInput(renderScriptManager.GetIn());
-        renderScriptManager.freedcamScript.bind_histodataR(histodataR);
-        renderScriptManager.freedcamScript.bind_histodataG(histodataG);
-        renderScriptManager.freedcamScript.bind_histodataB(histodataB);
+        renderScriptManager.rgb_focuspeak.set_input(tmprgballoc);
+        renderScriptManager.rgb_histogram.bind_histodataR(histodataR);
+        renderScriptManager.rgb_histogram.bind_histodataG(histodataG);
+        renderScriptManager.rgb_histogram.bind_histodataB(histodataB);
 
         ScriptGroup.Builder builder = new ScriptGroup.Builder(renderScriptManager.GetRS());
         builder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
-        builder.addKernel(renderScriptManager.freedcamScript.getKernelID_focuspeaksony());
+        builder.addKernel(renderScriptManager.rgb_histogram.getKernelID_processHistogram());
+        builder.addKernel(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak());
 
-        builder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.freedcamScript.getFieldID_gCurrentFrame());
+        builder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_histogram.getKernelID_processHistogram());
+        builder.addConnection(rgbTypeBuilder.create(), renderScriptManager.rgb_histogram.getKernelID_processHistogram(), renderScriptManager.rgb_focuspeak.getFieldID_input());
 
-        fpGpup = builder.create();
-        fpGpup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
-        fpGpup.setOutput(renderScriptManager.freedcamScript.getKernelID_focuspeaksony(), renderScriptManager.GetOut());
+        scriptGroup = builder.create();
+        scriptGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        scriptGroup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
+
+        ScriptGroup.Builder histobuilder = new ScriptGroup.Builder(renderScriptManager.GetRS());
+        histobuilder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
+        histobuilder.addKernel(renderScriptManager.rgb_histogram.getKernelID_processHistogram());
+
+        histobuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_histogram.getKernelID_processHistogram());
+        histoGroup = builder.create();
+        histoGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        //histoGroup.setOutput(renderScriptManager.rgb_histogram.getKernelID_processHistogram(), renderScriptManager.GetOut());
+
+
+        ScriptGroup.Builder peakbuilder = new ScriptGroup.Builder(renderScriptManager.GetRS());
+        peakbuilder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
+        peakbuilder.addKernel(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak());
+
+        peakbuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_focuspeak.getFieldID_input());
+        peakGroup = builder.create();
+        peakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        peakGroup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
 
 
 
@@ -221,35 +251,50 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                 }
                 mCount++;
                 framescount++;
-                if (framescount % 10 ==0)
-                    renderScriptManager.freedcamScript.set_processhisto(true);
-                else
-                    renderScriptManager.freedcamScript.set_processhisto(false);
 
-                if (renderScriptManager.GetOut() == null)
-                    return;
-                histodataR.copyFrom(emptydata);
-                histodataG.copyFrom(emptydata);
-                histodataB.copyFrom(emptydata);
+                if (peak && processHistogram)
+                {
+                    if (framescount % 10 ==0) {
+                        histodataR.copyFrom(emptydata);
+                        histodataG.copyFrom(emptydata);
+                        histodataB.copyFrom(emptydata);
+                        scriptGroup.execute();
 
-                if (peak) {
+                        histodataR.copyTo(histogram.getRedHistogram());
+                        histodataG.copyTo(histogram.getGreenHistogram());
+                        histodataB.copyTo(histogram.getBlueHistogram());
+                        histogram.redrawHistogram();
+                        framescount = 0;
+                    }
+                    else
+                        peakGroup.execute();
+                }
+                else if (peak)
+                {
+                    peakGroup.execute();
+                }
+                else if (processHistogram)
+                {
+                    if (framescount % 10 ==0) {
+                        histodataR.copyFrom(emptydata);
+                        histodataG.copyFrom(emptydata);
+                        histodataB.copyFrom(emptydata);
+                        scriptGroup.execute();
 
-                    // Run processing pass
-                    /*renderScriptHandler.yuvToRgbIntrinsic.forEach(tmprgballoc);
-                    renderScriptHandler.freedcamScript.forEach_focuspeaksony(renderScriptHandler.GetOut());*/
-                    fpGpup.execute();
-                    //renderScriptHandler.freedcamScript.forEach_focuspeakcam2(renderScriptHandler.GetOut());
-                } else {
-                    //renderScriptHandler.freedcamScript.forEach_nv21torgb(renderScriptHandler.GetOut());
+                        histodataR.copyTo(histogram.getRedHistogram());
+                        histodataG.copyTo(histogram.getGreenHistogram());
+                        histodataB.copyTo(histogram.getBlueHistogram());
+                        histogram.redrawHistogram();
+                        framescount = 0;
+                    }
+                    else
+                        renderScriptManager.yuvToRgbIntrinsic.forEach(renderScriptManager.GetOut());
+                }
+                else if (!processHistogram && !peak)
+                {
                     renderScriptManager.yuvToRgbIntrinsic.forEach(renderScriptManager.GetOut());
                 }
-                if (framescount % 10 ==0) {
-                    histodataR.copyTo(histogram.getRedHistogram());
-                    histodataG.copyTo(histogram.getGreenHistogram());
-                    histodataB.copyTo(histogram.getBlueHistogram());
-                    histogram.redrawHistogram();
-                    framescount = 0;
-                }
+
                 renderScriptManager.GetOut().ioSend();
                 working = false;
             }

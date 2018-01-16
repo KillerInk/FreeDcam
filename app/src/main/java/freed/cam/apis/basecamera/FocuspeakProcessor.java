@@ -28,7 +28,8 @@ public interface FocuspeakProcessor
 {
     boolean isEnabled();
     //api1
-    void Enable(boolean enable);
+    void setFocusPeakEnable(boolean enable);
+    void setHistogramEnable(boolean enable);
     void SetAspectRatio(int w, int h);
 
     //api2

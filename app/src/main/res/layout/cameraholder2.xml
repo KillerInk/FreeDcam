@@ -6,8 +6,8 @@
     <view
         android:id="@+id/hisotview"
         class="freed.viewer.screenslide.MyHistogram"
-        android:layout_width="60dp"
-        android:layout_height="40dp"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
         android:background="@color/uiSettingsBackground" />
 
     <view

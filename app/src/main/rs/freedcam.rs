@@ -6,15 +6,12 @@ rs_allocation gCurrentFrame;
 rs_allocation gLastFrame;
 rs_allocation medianStackMIN;
 rs_allocation medianStackMAX;
-int32_t *histodataR;
-int32_t *histodataG;
-int32_t *histodataB;
+
 int Width;
 int Height;
 bool yuvinput;
 //BRIGHTNESS
 float brightness;
-bool processhisto;
 
 
 uchar4 __attribute__((kernel)) processBrightness(uint32_t x, uint32_t y) {
@@ -60,19 +57,6 @@ uchar4 __attribute__((kernel)) processContrast(uint32_t x, uint32_t y)
 uchar4 __attribute__((kernel)) focuspeaksony(uint32_t x, uint32_t y) {
     uchar4 curPixel;
     curPixel = rsGetElementAt_uchar4(gCurrentFrame, x, y);
-
-    //set histo data
-        if(processhisto && x & 4 && y &4)
-        {
-            volatile int32_t *addr = &histodataR[curPixel.r];
-            rsAtomicInc(addr);
-            addr = &histodataG[curPixel.g];
-            rsAtomicInc(addr);
-            addr = &histodataB[curPixel.b];
-            rsAtomicInc(addr);
-        }
-    //rsDebug("CurPixel", curPixel);
-
     int dx = x + ((x == 0) ? 1 : -1);
     //rsDebug("dx", dx);
     int sum = 0;

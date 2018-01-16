@@ -189,6 +189,16 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 return;
 
             //left cameraui items
+
+            if (parameterHandler.get(SettingKeys.HISTOGRAM) != null && parameterHandler.get(SettingKeys.HISTOGRAM).IsSupported() && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded()) {
+                UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
+                focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.HISTOGRAM));
+                focusPeak.SetCameraUiWrapper(cameraUiWrapper);
+                focusPeak.SetUiItemClickListner(this);
+                focusPeak.setBackgroundResource(R.drawable.quck_set_night);
+                left_ui_items_holder.addView(focusPeak);
+            }
+
             if (parameterHandler.get(SettingKeys.WhiteBalanceMode) != null) {
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.WhiteBalanceMode), R.drawable.quck_set_wb);
             }
@@ -239,6 +249,9 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                     focusPeak.setBackgroundResource(R.drawable.quck_set_zebra);
                     right_ui_items_top.addView(focusPeak);
                 }
+
+
+
 
                 cameraSwitch.setVisibility(View.VISIBLE);
                 cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);

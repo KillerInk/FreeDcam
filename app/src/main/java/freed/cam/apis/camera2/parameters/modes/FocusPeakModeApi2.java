@@ -53,12 +53,12 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
     {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
         {
-            cameraUiWrapper.getFocusPeakProcessor().Enable(true);
-            fireStringValueChanged(cameraUiWrapper.getResString(R.string.true_));
+            cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(true);
+            fireStringValueChanged(cameraUiWrapper.getResString(R.string.on_));
         }
         else {
-            cameraUiWrapper.getFocusPeakProcessor().Enable(false);
-            fireStringValueChanged(cameraUiWrapper.getResString(R.string.false_));
+            cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(false);
+            fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
         }
 
     }

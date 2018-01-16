@@ -58,6 +58,8 @@ public class RenderScriptManager
     public ScriptIntrinsicBlur blurRS;
     public ScriptIntrinsicConvolve3x3 convolve3x3;
     public ScriptC_freedcam freedcamScript;
+    public ScriptC_rgb_histogram rgb_histogram;
+    public ScriptC_rgb_focuspeak rgb_focuspeak;
 
     private boolean sucessfullLoaded = false;
 
@@ -78,11 +80,13 @@ public class RenderScriptManager
             contrastRS = new ScriptC_contrast(mRS);
             starfinderRS = new ScriptC_starfinder(mRS);
             interpolateimage2x = new ScriptC_interpolateimage2x(mRS);*/
-
             freedcamScript = new ScriptC_freedcam(mRS);
             blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
             yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(mRS, Element.U8_4(mRS));
             convolve3x3 = ScriptIntrinsicConvolve3x3.create(mRS,Element.U8_4(mRS));
+            rgb_histogram = new ScriptC_rgb_histogram(mRS);
+            rgb_focuspeak = new ScriptC_rgb_focuspeak(mRS);
+
             sucessfullLoaded = true;
         }
         catch (RSRuntimeException ex)

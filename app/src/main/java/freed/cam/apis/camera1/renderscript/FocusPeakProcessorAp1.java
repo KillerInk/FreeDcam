@@ -99,10 +99,15 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
     }
 
     @Override
-    public void Enable(boolean enable)
+    public void setFocusPeakEnable(boolean enable)
     {
         Log.d(TAG, "Enable:" + enable);
         setEnable(enable);
+    }
+
+    @Override
+    public void setHistogramEnable(boolean enable) {
+
     }
 
     private void setEnable(boolean enabled)

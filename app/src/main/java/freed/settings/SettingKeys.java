@@ -91,6 +91,7 @@ public class SettingKeys{
     public final static Key<SettingMode> ObjectTracking = new Key(SettingMode.class, R.string.aps_objecttracking);
     public final static Key<SettingMode> PostViewSize = new Key(SettingMode.class, R.string.aps_postviewsize);
     public final static Key<SettingMode> Focuspeak = new Key(SettingMode.class, R.string.aps_focuspeak);
+    public final static Key<SettingMode> HISTOGRAM = new Key(SettingMode.class, R.string.aps_focuspeak);
     public final static Key<SettingMode> Module = new Key(SettingMode.class, R.string.aps_module);
     public final static Key<SettingMode> ZoomSetting = new Key(SettingMode.class, R.string.aps_zoommode);
     public final static Key<SettingMode> dualPrimaryCameraMode = new Key(SettingMode.class, R.string.aps_dualprimarycameramode);

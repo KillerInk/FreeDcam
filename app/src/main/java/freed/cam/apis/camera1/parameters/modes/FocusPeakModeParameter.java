@@ -53,10 +53,10 @@ public class FocusPeakModeParameter extends BaseModeParameter {
             //set foucs mode at same stage again else on some devices the camera preview gets green
             ParameterInterface fm = cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode);
             fm.SetValue(fm.GetStringValue(),true);
-            focusPeakProcessorAp1.Enable(true);
+            focusPeakProcessorAp1.setFocusPeakEnable(true);
         }
         else
-            focusPeakProcessorAp1.Enable(false);
+            focusPeakProcessorAp1.setFocusPeakEnable(false);
         fireStringValueChanged(GetStringValue());
     }
 

@@ -110,6 +110,7 @@
     <string name="aps_contshootmodespeed" translatable="false">contshootmodespeed</string>
     <string name="aps_contshootmode" translatable="false">contshootmode</string>
     <string name="aps_focuspeak" translatable="false">focuspeak</string>
+    <string name="aps_histogram" translatable="false">histogram</string>
     <string name="aps_nightoverlay" translatable="false">nightoverlay</string>
     <string name="aps_colorcorrectionmode" translatable="false">colorcorrectionmode</string>
     <string name="aps_tonecurve" translatable="false">tonecurve</string>
