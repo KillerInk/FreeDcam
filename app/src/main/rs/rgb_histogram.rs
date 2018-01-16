@@ -6,6 +6,16 @@
     int32_t *histodataG;
     int32_t *histodataB;
 
+    void clear()
+    {
+        for(int i = 0; i< 256; i++)
+        {
+            histodataR[i] = 0;
+            histodataG[i] = 0;
+            histodataB[i] = 0;
+        }
+    }
+
     uchar4 __attribute__((kernel)) processHistogram(uchar4 in, uint32_t x, uint32_t y) {
         uchar4 curPixel = in;
         //set histo data

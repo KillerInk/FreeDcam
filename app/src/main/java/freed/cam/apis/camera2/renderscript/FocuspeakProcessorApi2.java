@@ -59,7 +59,6 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     private final Allocation histodataG;
     private final Allocation histodataB;
     private Allocation tmprgballoc;
-    private final int emptydata[];
 
     private ScriptGroup scriptGroup;
     private ScriptGroup histoGroup;
@@ -81,7 +80,6 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
         histodataR = Allocation.createSized(renderScriptManager.GetRS(), Element.U32(renderScriptManager.GetRS()), 256);
         histodataG = Allocation.createSized(renderScriptManager.GetRS(), Element.U32(renderScriptManager.GetRS()), 256);
         histodataB = Allocation.createSized(renderScriptManager.GetRS(), Element.U32(renderScriptManager.GetRS()), 256);
-        emptydata = new int[256];
         HandlerThread mProcessingThread = new HandlerThread("ViewfinderProcessor");
         mProcessingThread.start();
         mProcessingHandler = new Handler(mProcessingThread.getLooper());
@@ -258,47 +256,51 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                 if (peak && processHistogram)
                 {
                     if (framescount % 10 ==0) {
-                        histodataR.copyFrom(emptydata);
-                        histodataG.copyFrom(emptydata);
-                        histodataB.copyFrom(emptydata);
+                        renderScriptManager.rgb_histogram.invoke_clear();
                         scriptGroup.execute();
-
+                        renderScriptManager.GetOut().ioSend();
                         histodataR.copyTo(histogram.getRedHistogram());
                         histodataG.copyTo(histogram.getGreenHistogram());
                         histodataB.copyTo(histogram.getBlueHistogram());
                         histogram.redrawHistogram();
                         framescount = 0;
                     }
-                    else
+                    else {
                         peakGroup.execute();
+                        renderScriptManager.GetOut().ioSend();
+                    }
                 }
                 else if (peak)
                 {
                     peakGroup.execute();
+                    renderScriptManager.GetOut().ioSend();
                 }
                 else if (processHistogram)
                 {
                     if (framescount % 10 ==0) {
-                        histodataR.copyFrom(emptydata);
-                        histodataG.copyFrom(emptydata);
-                        histodataB.copyFrom(emptydata);
+                        renderScriptManager.rgb_histogram.invoke_clear();
                         histoGroup.execute();
+                        renderScriptManager.GetOut().ioSend();
 
                         histodataR.copyTo(histogram.getRedHistogram());
                         histodataG.copyTo(histogram.getGreenHistogram());
                         histodataB.copyTo(histogram.getBlueHistogram());
                         histogram.redrawHistogram();
+
                         framescount = 0;
                     }
-                    else
+                    else {
                         renderScriptManager.yuvToRgbIntrinsic.forEach(renderScriptManager.GetOut());
+                        renderScriptManager.GetOut().ioSend();
+                    }
                 }
                 else
                 {
                     renderScriptManager.yuvToRgbIntrinsic.forEach(renderScriptManager.GetOut());
+                    renderScriptManager.GetOut().ioSend();
                 }
 
-                renderScriptManager.GetOut().ioSend();
+
                 working = false;
             }
         }

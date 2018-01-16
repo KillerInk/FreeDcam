@@ -150,7 +150,7 @@ public class MyHistogram extends View {
     {
         try {
 
-        canvas.drawARGB ( 0 , 0 , 0 , 0 );
+            canvas.drawARGB ( 0 , 0 , 0 , 0 );
             drawHistogram(canvas , redHistogram, Color.RED);
             drawHistogram(canvas , greenHistogram, Color.GREEN);
             drawHistogram(canvas , blueHistogram, Color.BLUE);
