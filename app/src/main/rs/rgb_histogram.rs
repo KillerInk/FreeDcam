@@ -9,7 +9,7 @@
     uchar4 __attribute__((kernel)) processHistogram(uchar4 in, uint32_t x, uint32_t y) {
         uchar4 curPixel = in;
         //set histo data
-        if(x & 4 && y &4)
+        if(x & 10 && y &10)
         {
             volatile int32_t *addr = &histodataR[curPixel.r];
             rsAtomicInc(addr);

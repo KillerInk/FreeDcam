@@ -139,6 +139,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
         renderScriptManager.rgb_histogram.bind_histodataG(histodataG);
         renderScriptManager.rgb_histogram.bind_histodataB(histodataB);
 
+        //create script group that peak and process histogram.
         ScriptGroup.Builder builder = new ScriptGroup.Builder(renderScriptManager.GetRS());
         builder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
         builder.addKernel(renderScriptManager.rgb_histogram.getKernelID_processHistogram());
@@ -151,22 +152,24 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
         scriptGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
         scriptGroup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
 
+        //create script group that process histogram
         ScriptGroup.Builder histobuilder = new ScriptGroup.Builder(renderScriptManager.GetRS());
         histobuilder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
         histobuilder.addKernel(renderScriptManager.rgb_histogram.getKernelID_processHistogram());
 
         histobuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_histogram.getKernelID_processHistogram());
-        histoGroup = builder.create();
+        histoGroup = histobuilder.create();
         histoGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
-        //histoGroup.setOutput(renderScriptManager.rgb_histogram.getKernelID_processHistogram(), renderScriptManager.GetOut());
+        histoGroup.setOutput(renderScriptManager.rgb_histogram.getKernelID_processHistogram(), renderScriptManager.GetOut());
 
 
+        //create scriptgroup that only peak
         ScriptGroup.Builder peakbuilder = new ScriptGroup.Builder(renderScriptManager.GetRS());
         peakbuilder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
         peakbuilder.addKernel(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak());
 
         peakbuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_focuspeak.getFieldID_input());
-        peakGroup = builder.create();
+        peakGroup = peakbuilder.create();
         peakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
         peakGroup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
 
@@ -279,7 +282,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                         histodataR.copyFrom(emptydata);
                         histodataG.copyFrom(emptydata);
                         histodataB.copyFrom(emptydata);
-                        scriptGroup.execute();
+                        histoGroup.execute();
 
                         histodataR.copyTo(histogram.getRedHistogram());
                         histodataG.copyTo(histogram.getGreenHistogram());
@@ -290,7 +293,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                     else
                         renderScriptManager.yuvToRgbIntrinsic.forEach(renderScriptManager.GetOut());
                 }
-                else if (!processHistogram && !peak)
+                else
                 {
                     renderScriptManager.yuvToRgbIntrinsic.forEach(renderScriptManager.GetOut());
                 }

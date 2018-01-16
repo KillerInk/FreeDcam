@@ -19,7 +19,7 @@ public class HistogramParameterApi2 extends FocusPeakModeApi2 {
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         state = valueToSet;
-        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_)))
+        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
         {
             cameraUiWrapper.getFocusPeakProcessor().setHistogramEnable(true);
             fireStringValueChanged(cameraUiWrapper.getResString(R.string.on_));
