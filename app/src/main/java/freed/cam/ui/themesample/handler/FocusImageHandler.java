@@ -269,6 +269,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
         disWidth = wrapper.getPreviewWidth();
         disHeight = wrapper.getPreviewHeight();
+        x -= recthalf;
+        y -= recthalf;
 
         /*int marginLeft = wrapper.getMargineLeft();
         int marginRight = wrapper.getMargineRight();

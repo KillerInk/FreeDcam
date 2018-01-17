@@ -54,49 +54,6 @@ uchar4 __attribute__((kernel)) processContrast(uint32_t x, uint32_t y)
             return o;
 }
 
-uchar4 __attribute__((kernel)) focuspeaksony(uint32_t x, uint32_t y) {
-    uchar4 curPixel;
-    curPixel = rsGetElementAt_uchar4(gCurrentFrame, x, y);
-    int dx = x + ((x == 0) ? 1 : -1);
-    //rsDebug("dx", dx);
-    int sum = 0;
-    uchar4 tmpPix = rsGetElementAt_uchar4(gCurrentFrame, dx, y);
-    int tmp;
-    tmp = tmpPix.r - curPixel.r;
-    sum += tmp * tmp;
-    tmp = tmpPix.g - curPixel.g;
-    sum += tmp * tmp;
-    tmp = tmpPix.b - curPixel.b;
-    sum += tmp * tmp;
-
-    int dy = y + ((y == 0) ? 1 : -1);
-    tmpPix = rsGetElementAt_uchar4(gCurrentFrame, x, dy);
-    tmp = tmpPix.r - curPixel.r;
-    sum += tmp * tmp;
-    tmp = tmpPix.g - curPixel.g;
-    sum += tmp * tmp;
-    tmp = tmpPix.b - curPixel.b;
-    sum += tmp * tmp;
-
-    sum >>= 9;
-    sum *= sum * sum;
-    int4 rgb;
-    uchar4 mergedPixel = curPixel;
-    //rsDebug("curPixel", curPixel);
-    rgb.r = mergedPixel.r  + sum;
-    rgb.g = mergedPixel.g + sum;
-    rgb.b = mergedPixel.b + sum;
-    rgb.a = 255;
-    rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
-    rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
-    rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
-
-    //rsDebug("rgb", rgb);
-    uchar4 out = convert_uchar4(rgb);
-    return out;
-}
-
-
 //IMAGE STACK
 
 float4 __attribute__((kernel))getRgb(uint32_t x, uint32_t y)

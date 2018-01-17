@@ -54,6 +54,7 @@ import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.RenderScriptManager;
 
 /**
  * Created by troop on 06.06.2015.
@@ -428,11 +429,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 fireCameraOpenFinished();
                 break;
             case MainToCameraHandler.MSG_CREATE_CAMERA:
-                parametersHandler = new ParametersHandler(Camera1Fragment.this);
-                moduleHandler = new ModuleHandler(Camera1Fragment.this);
-                moduleHandler.addListner(Camera1Fragment.this);
 
-                Focus = new FocusHandler(Camera1Fragment.this);
+
 
                 Log.d(TAG,"FrameWork:" + SettingsManager.getInstance().getFrameWork() + " openlegacy:" + SettingsManager.get(SettingKeys.openCamera1Legacy).get());
 
@@ -461,17 +459,25 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                     Log.d(TAG, "create Normal camera");
                 }
 
-                Log.d(TAG, "initModules");
-                moduleHandler.initModules();
-
-                Log.d(TAG, "Check Focuspeak");
-                if (Build.VERSION.SDK_INT >= 18) {
-
+                moduleHandler = new ModuleHandler(Camera1Fragment.this);
+                if (RenderScriptManager.isSupported()) {
                     focusPeakProcessorAp1 = new FocusPeakProcessorAp1(preview,Camera1Fragment.this, getContext(), renderScriptManager);
                     setCameraEventListner(focusPeakProcessorAp1);
                 }
                 else
                     preview.setVisibility(View.GONE);
+
+                parametersHandler = new ParametersHandler(Camera1Fragment.this);
+
+                moduleHandler.addListner(Camera1Fragment.this);
+
+                Focus = new FocusHandler(Camera1Fragment.this);
+
+                Log.d(TAG, "initModules");
+                moduleHandler.initModules();
+
+                Log.d(TAG, "Check Focuspeak");
+
                 break;
         }
 

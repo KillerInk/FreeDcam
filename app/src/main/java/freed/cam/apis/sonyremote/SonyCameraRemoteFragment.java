@@ -42,6 +42,7 @@ import java.util.Set;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.MainToCameraHandler;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
@@ -414,6 +415,10 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         return surfaceView;
     }
 
+    @Override
+    public FocuspeakProcessor getFocusPeakProcessor() {
+        return surfaceView;
+    }
 
     //SurfaceHolder.Callback
     @Override

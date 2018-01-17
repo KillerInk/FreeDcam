@@ -40,7 +40,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         this.fragmentManager = fragmentManager;
         this.fragmentHolderId = fragmentHolderId;
         this.cameraStateEventListner = cameraStateEventListner;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        if (RenderScriptManager.isSupported())
             renderScriptManager = new RenderScriptManager(context);
         startBackgroundThread();
     }
@@ -139,7 +139,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
                 } else {
                     cameraFragment = Camera1Fragment.getInstance(mBackgroundThread, cameraLock);
                 }
-                cameraFragment.SetRenderScriptHandler(renderScriptManager);
+                cameraFragment.setRenderScriptManager(renderScriptManager);
                 cameraFragment.setCameraEventListner(cameraStateEventListner);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
             } else cameraFragment.startCamera();

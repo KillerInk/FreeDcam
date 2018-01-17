@@ -79,6 +79,13 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
 
             GroupChild settingsgroup = new GroupChild(getContext(), getString(R.string.setting_camera_));
 
+            if (params.get(SettingKeys.FOCUSPEAK_COLOR) != null)
+            {
+                SettingsChildMenu scene = new SettingsChildMenu(getContext(), params.get(SettingKeys.FOCUSPEAK_COLOR), R.string.setting_focuspeakcolor_header, R.string.setting_focuspeakcolor_description);
+                scene.SetUiItemClickListner(this);
+                settingsgroup.addView(scene);
+            }
+
             if (params.get(SettingKeys.SceneMode) != null)
             {
                 SettingsChildMenu scene = new SettingsChildMenu(getContext(), params.get(SettingKeys.SceneMode), R.string.setting_scene_header, R.string.setting_scene_description);

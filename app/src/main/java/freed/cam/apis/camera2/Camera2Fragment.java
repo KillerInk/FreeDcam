@@ -272,6 +272,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
                 Camera2Fragment.this.fireCameraOpenFinished();
                 break;
             case MainToCameraHandler.MSG_CREATE_CAMERA:
+                mProcessor = new FocuspeakProcessorApi2(renderScriptManager,histogram);
                 parametersHandler = new ParameterHandlerApi2(Camera2Fragment.this);
                 moduleHandler = new ModuleHandlerApi2(Camera2Fragment.this);
                 Focus = new FocusHandler(Camera2Fragment.this);
@@ -279,7 +280,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
                 cameraBackroundValuesChangedListner = new CameraValuesChangedCaptureCallback(this);
                 cameraBackroundValuesChangedListner.setWaitForFirstFrameCallback(this);
                 captureSessionHandler = new CaptureSessionHandler(Camera2Fragment.this, cameraBackroundValuesChangedListner);
-                mProcessor = new FocuspeakProcessorApi2(renderScriptManager,histogram);
+
                 break;
         }
 

@@ -22,6 +22,10 @@ public class FocusPeakRunner implements Runnable {
     private boolean enable = false;
     private boolean isWorking;
 
+    volatile boolean red;
+    volatile boolean blue;
+    volatile boolean green;
+
     public FocusPeakRunner(RenderScriptManager renderScriptManager, CameraHolder cameraHolder,BlockingQueue<byte[]> frameQueue)
     {
         this.renderScriptManager = renderScriptManager;
@@ -52,6 +56,9 @@ public class FocusPeakRunner implements Runnable {
         while (enable)
         {
             try {
+                renderScriptManager.rgb_focuspeak.set_green(green);
+                renderScriptManager.rgb_focuspeak.set_blue(blue);
+                renderScriptManager.rgb_focuspeak.set_red(red);
                 //take one stored frame for processing
                 tmp = frameQueue.take();
                 renderScriptManager.GetIn().copyFrom(tmp);

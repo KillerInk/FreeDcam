@@ -69,6 +69,7 @@ public abstract class AbstractParameter implements ParameterInterface {
             stringvalues = settingMode.getValues();
             isSupported = settingMode.isSupported();
             isVisible = isSupported;
+            currentString = settingMode.get();
         }
     }
 

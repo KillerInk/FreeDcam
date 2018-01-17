@@ -63,6 +63,9 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     private ScriptGroup scriptGroup;
     private ScriptGroup histoGroup;
     private ScriptGroup peakGroup;
+    private boolean blue;
+    private boolean green;
+    private boolean red;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     public FocuspeakProcessorApi2(RenderScriptManager renderScriptManager, final MyHistogram histogram)
@@ -109,6 +112,21 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
             histogram.setVisibility(View.VISIBLE);
         else
             histogram.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setBlue(boolean blue) {
+        this.blue = blue;
+    }
+
+    @Override
+    public void setRed(boolean red) {
+        this.red = red;
+    }
+
+    @Override
+    public void setGreen(boolean green) {
+        this.green = green;
     }
 
     @Override
@@ -252,6 +270,9 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
                 }
                 mCount++;
                 framescount++;
+                renderScriptManager.rgb_focuspeak.set_red(red);
+                renderScriptManager.rgb_focuspeak.set_green(green);
+                renderScriptManager.rgb_focuspeak.set_blue(blue);
 
                 if (peak && processHistogram)
                 {

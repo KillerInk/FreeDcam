@@ -115,6 +115,8 @@ public class SettingKeys{
     public final static Key<SettingMode> RAW_PICTURE_FORMAT_SETTING = new Key(SettingMode.class, R.string.aps_rawpictureformat);
     public final static Key<SettingMode> selfTimer = new Key(SettingMode.class, R.string.aps_selftimer);
 
+    public final static Key<SettingMode> FOCUSPEAK_COLOR = new Key(SettingMode.class, R.string.aps_focuspeakcolor);
+
     public final static Key<TypedSettingMode> M_ManualIso = new Key(TypedSettingMode.class, R.string.aps_manualiso);
     public final static Key<TypedSettingMode> M_Whitebalance = new Key(TypedSettingMode.class, R.string.aps_manualwb);
     public final static Key<TypedSettingMode> M_Focus = new Key(TypedSettingMode.class, R.string.aps_manualfocus);

@@ -26,6 +26,7 @@ import freed.settings.SettingKeys;
 import freed.settings.mode.SettingMode;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.RenderScriptManager;
 import freed.utils.StringFloatArray;
 import freed.utils.StringUtils;
 import freed.utils.VideoMediaProfile;
@@ -75,6 +76,12 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                 SettingsManager.get(SettingKeys.selfTimer).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.selftimervalues));
                 SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
+
+                if (RenderScriptManager.isSupported()) {
+                    SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.focuspeakColors));
+                    SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
+                    SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
+                }
 
                 publishProgress("Camera 2 Level:" + hwlvl);
 

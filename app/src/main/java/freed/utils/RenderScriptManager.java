@@ -21,6 +21,7 @@ package freed.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.renderscript.Allocation;
 import android.renderscript.Allocation.MipmapControl;
@@ -41,6 +42,12 @@ import android.view.Surface;
 @TargetApi(VERSION_CODES.KITKAT)
 public class RenderScriptManager
 {
+
+    public static boolean isSupported()
+    {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+    }
+
     private Allocation mAllocationOut;
     private Allocation mAllocationIn;
     private final RenderScript mRS;

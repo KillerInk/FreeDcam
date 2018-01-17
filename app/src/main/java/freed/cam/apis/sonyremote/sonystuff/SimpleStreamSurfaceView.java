@@ -33,6 +33,7 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.Type;
 import android.util.AttributeSet;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -41,6 +42,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import freed.ActivityInterface;
+import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
@@ -52,7 +54,7 @@ import freed.utils.RenderScriptManager;
 /**
  * A SurfaceView based class to draw liveview frames serially.
  */
-public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback, ParameterEvents, JoyPad.NavigationClick {
+public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback, ParameterEvents, JoyPad.NavigationClick, FocuspeakProcessor {
 
     private static final String TAG = SimpleStreamSurfaceView.class.getSimpleName();
 
@@ -91,6 +93,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private final float[] SHARPMATRIX = {-0f, -1f, -0f,
                                          -1f,  5f, -1f,
                                          -0f, -1f, -0f };
+    private boolean blue;
+    private boolean green;
+    private boolean red;
 
     @Override
     public void onMove(int x, int y) {
@@ -434,6 +439,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             renderScriptManager.freedcamScript.set_Width(mPreviousWidth*SCALEFACTOR);
             renderScriptManager.freedcamScript.set_gCurrentFrame(mAllocationIn);
             renderScriptManager.freedcamScript.set_gLastFrame(renderScriptManager.GetIn());
+            renderScriptManager.rgb_focuspeak.set_input(mAllocationIn);
             renderScriptManager.convolve3x3.setInput(renderScriptManager.GetIn());
             renderScriptManager.convolve3x3.setCoefficients(SHARPMATRIX);
         }
@@ -445,6 +451,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             renderScriptManager.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
             renderScriptManager.freedcamScript.set_gLastFrame(renderScriptManager.GetOut());
             renderScriptManager.freedcamScript.set_gCurrentFrame(renderScriptManager.GetIn());
+            renderScriptManager.rgb_focuspeak.set_input(renderScriptManager.GetIn());
         }
         renderScriptManager.blurRS.setInput(renderScriptManager.GetIn());
 
@@ -478,7 +485,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
             if (renderScriptManager.isSucessfullLoaded())
             {
-
+                renderScriptManager.rgb_focuspeak.set_blue(blue);
+                renderScriptManager.rgb_focuspeak.set_red(red);
+                renderScriptManager.rgb_focuspeak.set_green(green);
                 if (scalePreview) {
                     renderScriptManager.freedcamScript.set_gCurrentFrame(mAllocationIn);
                     mAllocationIn.copyFrom(frame);
@@ -520,7 +529,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         return;
                 }
                 if (focuspeak) {
-                    renderScriptManager.freedcamScript.forEach_focuspeaksony(renderScriptManager.GetOut());
+                    renderScriptManager.rgb_focuspeak.forEach_focuspeak(renderScriptManager.GetOut());
 
                 }
 
@@ -753,51 +762,54 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         void onError(StreamErrorReason reason);
     }
 
-    /*private int startX;
-    private int startY;
-    private int currentX;
-    private int currentY;
+
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (PreviewZOOMFactor > 1)
-                    activityInterface.DisablePagerTouch(true);
-                //action down resets all already set values and get the new one from the event
-                startX = (int) event.getX();
-                startY = (int) event.getY();
-                //reset swipeDetected to false
-                break;
-            case MotionEvent.ACTION_MOVE:
-                //in case action down never happend
+    public void setFocusPeakEnable(boolean enable) {
 
+    }
 
-                if (startX == 0 && startY == 0) {
-                    startX = (int) event.getX();
-                    startY = (int) event.getY();
-                    //reset swipeDetected to false
-                }
-                currentX = (int) event.getX();
-                currentY = (int) event.getY();
-                if (startX < currentX)
-                {
-                    zoomPreviewMagineLeft += (startX - currentX)/ PreviewZOOMFactor;
-                }
-                else
-                    zoomPreviewMagineLeft -= (currentX - startX)/ PreviewZOOMFactor;
-                if (startY < currentY)
-                    zoomPreviewMargineTop += (startY - currentY)/ PreviewZOOMFactor;
-                else
-                    zoomPreviewMargineTop -= (currentY - startY)/ PreviewZOOMFactor;
-                startX = currentX;
-                startY = currentY;
-                break;
-            case MotionEvent.ACTION_UP:
-                activityInterface.DisablePagerTouch(false);
-                startY = 0;
-                startX = 0;
-                break;
-        }
-        return  super.onTouchEvent(event);
-    }*/
+    @Override
+    public void setHistogramEnable(boolean enable) {
+
+    }
+
+    @Override
+    public void setBlue(boolean blue) {
+        this.blue = blue;
+    }
+
+    @Override
+    public void setRed(boolean red) {
+        this.red = red;
+    }
+
+    @Override
+    public void setGreen(boolean green) {
+        this.green = green;
+    }
+
+    @Override
+    public void SetAspectRatio(int w, int h) {
+
+    }
+
+    @Override
+    public void Reset(int width, int height) {
+
+    }
+
+    @Override
+    public Surface getInputSurface() {
+        return null;
+    }
+
+    @Override
+    public void setOutputSurface(Surface output) {
+
+    }
+
+    @Override
+    public void kill() {
+
+    }
 }

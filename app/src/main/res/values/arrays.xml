@@ -399,5 +399,15 @@
         <item>10</item>
     </string-array>
 
+    <string-array name="focuspeakColors">
+        <item>@string/fcolor_red</item>
+        <item>@string/fcolor_green</item>
+        <item>@string/fcolor_blue</item>
+        <item>@string/fcolor_white</item>
+        <item>@string/fcolor_yellow</item>
+        <item>@string/fcolor_magenta</item>
+        <item>@string/fcolor_cyan</item>
+    </string-array>
+
     <!-- DO NOT TRANSLATE END -->
 </resources>

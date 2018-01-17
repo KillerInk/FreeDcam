@@ -3,7 +3,9 @@
     #pragma rs_fp_relaxed
 
     rs_allocation input;
-    bool peak;
+    bool red;
+    bool blue;
+    bool green;
 
     uchar4 __attribute__((kernel)) focuspeak(uint32_t x, uint32_t y) {
         uchar4 curPixel = rsGetElementAt_uchar4(input, x, y);
@@ -34,13 +36,21 @@
         int4 rgb;
         uchar4 mergedPixel = curPixel;
         //rsDebug("curPixel", curPixel);
-        rgb.r = mergedPixel.r; //+ sum;
-        rgb.g = mergedPixel.g + sum;
-        rgb.b = mergedPixel.b ;//+ sum;
+        if(red)
+            rgb.r = mergedPixel.r + sum;
+        else rgb.r = mergedPixel.r;
+
+        if(green)
+            rgb.g = mergedPixel.g + sum;
+        else rgb.g = mergedPixel.g;
+
+        if(blue)
+            rgb.b = mergedPixel.b + sum;
+        else rgb.b = mergedPixel.b;
         rgb.a = 255;
-        rgb.r = ( rgb.r > 255 )? 255 : (( rgb.r < 0 )? 0 : rgb.r);
-        rgb.g = ( rgb.g > 255 )? 255 : (( rgb.g < 0 )? 0 : rgb.g);
-        rgb.b = ( rgb.b > 255 )? 255 : (( rgb.b < 0 )? 0 : rgb.b);
+        rgb.r = clamp(rgb.r,0,255);
+        rgb.g = clamp(rgb.g,0,255);
+        rgb.b = clamp(rgb.b,0,255);
 
         //rsDebug("rgb", rgb);
         uchar4 out = convert_uchar4(rgb);

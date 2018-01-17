@@ -110,6 +110,21 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
 
     }
 
+    @Override
+    public void setBlue(boolean blue) {
+        focusPeakRunner.blue = blue;
+    }
+
+    @Override
+    public void setRed(boolean red) {
+        focusPeakRunner.red = red;
+    }
+
+    @Override
+    public void setGreen(boolean green) {
+        focusPeakRunner.green = green;
+    }
+
     private void setEnable(boolean enabled)
     {
         Log.d(TAG, "setEnable" + enabled);
@@ -194,17 +209,17 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraStateEvents
                 renderScriptManager.GetOut().setSurface(mSurface);
             else
                 Log.d(TAG, "surfaceNull");
-            renderScriptManager.freedcamScript.set_gCurrentFrame(tmprgballoc);
+            renderScriptManager.rgb_focuspeak.set_input(tmprgballoc);
 
             ScriptGroup.Builder builder = new ScriptGroup.Builder(renderScriptManager.GetRS());
             builder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
-            builder.addKernel(renderScriptManager.freedcamScript.getKernelID_focuspeaksony());
+            builder.addKernel(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak());
 
-            builder.addConnection(tbOut.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.freedcamScript.getFieldID_gCurrentFrame());
+            builder.addConnection(tbOut.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_focuspeak.getFieldID_input());
 
             ScriptGroup fpGpup = builder.create();
             fpGpup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
-            fpGpup.setOutput(renderScriptManager.freedcamScript.getKernelID_focuspeaksony(), renderScriptManager.GetOut());
+            fpGpup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
             focusPeakRunner.setScriptGroup(fpGpup);
 
             Log.d(TAG, "script done enabled: " + focusPeakRunner.isEnable());

@@ -117,5 +117,6 @@
     <string name="aps_location" translatable="false">location</string>
     <string name="aps_bayformat" translatable="false">bayerformat</string>
     <string name="aps_touchtocapture" translatable="false">touchtocapture</string>
+    <string name="aps_focuspeakcolor" translatable="false">focuspeakcolor</string>
 
 </resources>

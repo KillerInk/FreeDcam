@@ -56,6 +56,7 @@ import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.image.ImageManager;
 import freed.utils.FreeDPool;
+import freed.utils.RenderScriptManager;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.dngconvert.DngConvertingActivity;
 import freed.viewer.dngconvert.DngConvertingFragment;
@@ -182,7 +183,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                  PopupMenu popup = new PopupMenu(getContext(), v);
 
                  popup.getMenu().add(0,0,0, "Delete File");
-                 if (!isRootDir && VERSION.SDK_INT > VERSION_CODES.JELLY_BEAN_MR2)
+                 if (!isRootDir && RenderScriptManager.isSupported())
                     popup.getMenu().add(0,1,1, "StackJpeg");
                  if (!isRootDir)
                     popup.getMenu().add(0,2,2, "Raw to Dng");

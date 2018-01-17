@@ -17,7 +17,7 @@ android {
         versionCode 135
         versionName '4.1'
         applicationId "troop.com.freedcam"
-        renderscriptTargetApi 18
+        renderscriptTargetApi 19
         externalNativeBuild {
             ndkBuild {
                 arguments "-j4"

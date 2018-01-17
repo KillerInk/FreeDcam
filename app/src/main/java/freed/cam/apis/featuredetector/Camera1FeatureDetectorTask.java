@@ -21,6 +21,7 @@ import freed.settings.SettingKeys;
 import freed.settings.mode.SettingMode;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.RenderScriptManager;
 import freed.utils.VideoMediaProfile;
 
 
@@ -77,6 +78,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
             appS.get(SettingKeys.GuideList).setValues(appS.getResources().getStringArray(R.array.guidelist));
             appS.get(SettingKeys.GuideList).set(appS.get(SettingKeys.GuideList).getValues()[0]);
+            if (RenderScriptManager.isSupported()) {
+                appS.get(SettingKeys.FOCUSPEAK_COLOR).setValues(appS.getResources().getStringArray(R.array.focuspeakColors));
+                appS.get(SettingKeys.FOCUSPEAK_COLOR).set(appS.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
+                appS.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
+            }
 
             detectedPictureFormats(parameters);
             publishProgress("DngSupported:" + (appS.getDngProfilesMap() != null && appS.getDngProfilesMap().size() > 0) + " RawSupport:"+appS.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported());

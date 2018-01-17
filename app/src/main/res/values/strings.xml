@@ -93,6 +93,8 @@
     <string name="setting_color_description">Color effect style</string>
     <string name="setting_scene_header">Scene: </string>
     <string name="setting_scene_description">Select the Scene that matches current Scenario</string>
+    <string name="setting_focuspeakcolor_header">Focuspeak Color: </string>
+    <string name="setting_focuspeakcolor_description">Color for the sharp area</string>
 
     <string name="setting_qcom_">Qualcomm Settings</string>
     <string name="setting_cds_header">Correlated double sampling: </string>
@@ -300,6 +302,18 @@
     <string name="hw_dualcamera_Primary">Color</string>
     <string name="hw_dualcamera_Secondary">Mono</string>
     <string name="hw_dualcamera_Dual">Dual</string>
+
+
+    <string name="fcolor_blue">Blue</string>
+    <string name="fcolor_red">Red</string>
+    <string name="fcolor_green">Green</string>
+    <string name="fcolor_white">White</string>
+    <string name="fcolor_yellow">Yellow</string>
+    <string name="fcolor_magenta">Magenta</string>
+    <string name="fcolor_cyan">Cyan</string>
+
+
+
 
 
 </resources>

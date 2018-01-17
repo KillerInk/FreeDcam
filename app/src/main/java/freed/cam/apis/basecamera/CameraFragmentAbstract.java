@@ -119,7 +119,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
 
     }
     
-    public void SetRenderScriptHandler(RenderScriptManager renderScriptManager)
+    public void setRenderScriptManager(RenderScriptManager renderScriptManager)
     {
         this.renderScriptManager = renderScriptManager;
     }
