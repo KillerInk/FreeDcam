@@ -34,6 +34,8 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
@@ -268,13 +270,31 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         double targetRatio = (double) w / h;
         if (sizes == null) return null;
         Size optimalSize = null;
-        double minDiff = Double.MAX_VALUE;
+        List<Size> aspectRatioMatches = new ArrayList<>();
+        double ratio;
+        for (Size s : sizes)
+        {
+            ratio = (double) s.width / s.height;
+            if (ratio < targetRatio + ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE) {
+                if (s.width <= 2560 && s.height <= 1440 && s.width >= 640 && s.height >= 480)
+                    aspectRatioMatches.add(s);
+            }
+        }
+
+        if (aspectRatioMatches.size() > 0)
+        {
+            return Collections.max(aspectRatioMatches, new SizeCompare());
+        }
+        else
+            return Collections.max(sizes,new SizeCompare());
+
+       /* double minDiff = Double.MAX_VALUE;
         // Try to find an size match aspect ratio and size
         for (Size size : sizes)
         {
             if(!FocusPeakClamp) {
                 if (size.width <= 2560 && size.height <= 1440 && size.width >= 640 && size.height >= 480) {
-                    double ratio = (double) size.width / size.height;
+                    ratio = (double) size.width / size.height;
                     if (ratio < targetRatio + ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE) {
                         optimalSize = size;
                         minDiff = Math.abs(size.height - h);
@@ -319,7 +339,20 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
             }
         }
         Log.d(TAG, "Optimal preview size " + optimalSize.width + "x" + optimalSize.height);
-        return optimalSize;
+        return optimalSize;*/
+    }
+
+    private class SizeCompare implements Comparator<Size>
+    {
+        @Override
+        public int compare(Size o1, Size o2) {
+            int calc = -1;
+            if (o1.width > o2.width)
+                calc++;
+            if (o1.height > o2.height)
+                calc++;
+            return calc;
+        }
     }
 
     @Override

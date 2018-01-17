@@ -19,13 +19,15 @@
 
 package freed.cam.apis.basecamera;
 
+import java.util.Comparator;
+
 /**
  * Created by troop on 24.08.2015.
  */
 public class Size
 {
-    public int width;
-    public int height;
+    public Integer width;
+    public Integer height;
     public Size(int w, int h)
     {
         height = h;
@@ -41,5 +43,6 @@ public class Size
         else
             new Size(1280,720);
     }
+
 
 }

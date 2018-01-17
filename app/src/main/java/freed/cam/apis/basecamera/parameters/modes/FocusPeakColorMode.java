@@ -23,6 +23,7 @@ public class FocusPeakColorMode extends AbstractParameter {
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
         //super.setValue(valueToSet, setToCamera);
+        settingMode.set(valueToSet);
         if (valueToSet.equals(SettingsManager.getInstance().getResString(R.string.fcolor_red)))
         {
             focuspeakProcessor.setRed(true);
