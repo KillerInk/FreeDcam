@@ -24,7 +24,6 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 

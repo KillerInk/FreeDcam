@@ -3,7 +3,6 @@ package freed.settings.mode;
 import com.troop.freedcam.R;
 
 import freed.settings.SettingsManagerInterface;
-import freed.settings.mode.AbstractSettingMode;
 
 /**
  * Created by KillerInk on 31.12.2017.

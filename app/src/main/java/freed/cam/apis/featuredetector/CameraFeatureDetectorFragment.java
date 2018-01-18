@@ -2,8 +2,6 @@ package freed.cam.apis.featuredetector;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
@@ -14,8 +12,6 @@ import android.widget.TextView;
 
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
-
-import java.lang.ref.WeakReference;
 
 import freed.image.ImageManager;
 import freed.image.ImageTask;

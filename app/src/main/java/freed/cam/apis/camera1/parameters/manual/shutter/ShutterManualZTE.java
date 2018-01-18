@@ -26,10 +26,8 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -93,8 +91,8 @@ public class ShutterManualZTE extends AbstractParameter
             Runnable r = new Runnable() {
                 public void run() {
                     ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_AE();
-                    cameraUiWrapper.stopPreview();
-                    cameraUiWrapper.startPreview();
+                    cameraUiWrapper.stopPreviewAsync();
+                    cameraUiWrapper.startPreviewAsync();
                 }
             };
             //handler.postDelayed(r, 1);
@@ -120,8 +118,8 @@ public class ShutterManualZTE extends AbstractParameter
                     ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
 
                     if(Double.parseDouble(shutterstring) < 1.0 ){
-                        cameraUiWrapper.stopPreview();
-                        cameraUiWrapper.startPreview();
+                        cameraUiWrapper.stopPreviewAsync();
+                        cameraUiWrapper.startPreviewAsync();
                     }
                 }
             };

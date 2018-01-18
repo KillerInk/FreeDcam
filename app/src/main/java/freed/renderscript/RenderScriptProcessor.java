@@ -17,10 +17,9 @@
  * /
  */
 
-package freed.cam.apis.camera2.renderscript;
+package freed.renderscript;
 
 import android.annotation.TargetApi;
-import android.graphics.ImageFormat;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -35,16 +34,15 @@ import android.view.View;
 
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.utils.Log;
-import freed.utils.RenderScriptManager;
 import freed.viewer.screenslide.MyHistogram;
 
 /**
  * Renderscript-based Focus peaking viewfinder
  */
 @TargetApi(VERSION_CODES.KITKAT)
-public class FocuspeakProcessorApi2 implements FocuspeakProcessor
+public class RenderScriptProcessor implements FocuspeakProcessor
 {
-    private final String TAG = FocuspeakProcessorApi2.class.getSimpleName();
+    private final String TAG = RenderScriptProcessor.class.getSimpleName();
     private int mCount;
     long mLastTime;
     private float mFps;
@@ -66,18 +64,22 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     private boolean blue;
     private boolean green;
     private boolean red;
+    private int imageformat;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-    public FocuspeakProcessorApi2(RenderScriptManager renderScriptManager, final MyHistogram histogram)
+    public RenderScriptProcessor(RenderScriptManager renderScriptManager, final MyHistogram histogram, int imageformat)
     {
         Log.d(TAG, "Ctor");
+        this.imageformat = imageformat;
         this.histogram = histogram;
-        histogram.post(new Runnable() {
-            @Override
-            public void run() {
-                histogram.setVisibility(View.GONE);
-            }
-        });
+        if (histogram != null) {
+            histogram.post(new Runnable() {
+                @Override
+                public void run() {
+                    histogram.setVisibility(View.GONE);
+                }
+            });
+        }
 
         this.renderScriptManager = renderScriptManager;
         histodataR = Allocation.createSized(renderScriptManager.GetRS(), Element.U32(renderScriptManager.GetRS()), 256);
@@ -107,6 +109,8 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
 
     @Override
     public void setHistogramEnable(boolean enable) {
+        if (histogram == null)
+            return;
         processHistogram = enable;
         if (processHistogram)
             histogram.setVisibility(View.VISIBLE);
@@ -141,7 +145,7 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
         Builder yuvTypeBuilder = new Builder(renderScriptManager.GetRS(), Element.YUV(renderScriptManager.GetRS()));
         yuvTypeBuilder.setX(width);
         yuvTypeBuilder.setY(height);
-        yuvTypeBuilder.setYuvFormat(ImageFormat.YUV_420_888);
+        yuvTypeBuilder.setYuvFormat(imageformat);
 
         Builder rgbTypeBuilder = new Builder(renderScriptManager.GetRS(), Element.RGBA_8888(renderScriptManager.GetRS()));
         rgbTypeBuilder.setX(width);

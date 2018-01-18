@@ -49,8 +49,8 @@ public class PictureSizeModeApi2 extends BaseModeApi2
         size = valueToSet;
         if (setToCamera)
         {
-            cameraUiWrapper.stopPreview();
-            cameraUiWrapper.startPreview();
+            cameraUiWrapper.stopPreviewAsync();
+            cameraUiWrapper.startPreviewAsync();
         }
     }
 

@@ -19,13 +19,6 @@
 
 package freed.cam.apis.basecamera.parameters.manual;
 
-import com.troop.freedcam.R;
-
-import java.util.ArrayList;
-
-import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
-
 /**
  * Created by troop on 19.05.2016.
  */

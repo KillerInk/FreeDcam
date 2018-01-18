@@ -8,7 +8,6 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.Camera2Fragment;
-import freed.settings.SettingKeys;
 
 /**
  * Created by Ingo on 03.10.2016.

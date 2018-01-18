@@ -83,7 +83,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
         SettingsManager.getInstance().SetCurrentCamera(currentCamera);
         sendLog("Stop Preview and Camera");
-        cameraUiWrapper.restartCamera();
+        cameraUiWrapper.restartCameraAsync();
         valueText.setText(getCamera(currentCamera));
     }
 

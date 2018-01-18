@@ -7,7 +7,6 @@ import android.util.Range;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 22.06.2017.

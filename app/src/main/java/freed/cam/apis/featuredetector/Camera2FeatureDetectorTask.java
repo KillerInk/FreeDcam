@@ -21,12 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import freed.renderscript.RenderScriptManager;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.mode.SettingMode;
 import freed.settings.SettingsManager;
+import freed.settings.mode.SettingMode;
 import freed.utils.Log;
-import freed.utils.RenderScriptManager;
 import freed.utils.StringFloatArray;
 import freed.utils.StringUtils;
 import freed.utils.VideoMediaProfile;

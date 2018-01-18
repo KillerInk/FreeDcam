@@ -33,11 +33,11 @@ import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
+import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
-import freed.settings.mode.SettingMode;
 import freed.settings.SettingsManager;
+import freed.settings.mode.SettingMode;
 import freed.utils.Log;
-import freed.utils.RenderScriptManager;
 
 /**
  * Created by troop on 09.12.2014.

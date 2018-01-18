@@ -26,7 +26,7 @@ import android.view.SurfaceView;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.utils.RenderScriptManager;
+import freed.renderscript.RenderScriptManager;
 
 /**
  * Created by troop on 09.12.2014.
@@ -36,16 +36,16 @@ public interface CameraWrapperInterface extends CameraStateEvents
     /**
      * Start the Camera
      */
-    void startCamera();
+    void startCameraAsync();
 
     /**
      * Stop the Camera
      */
-    void stopCamera();
-    void restartCamera();
+    void stopCameraAsync();
+    void restartCameraAsync();
 
-    void startPreview();
-    void stopPreview();
+    void startPreviewAsync();
+    void stopPreviewAsync();
 
     /*void initCamera();
     void createCamera();*/

@@ -33,7 +33,6 @@ import com.troop.freedcam.R.styleable;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 14.06.2015.

@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.utils;
+package freed.renderscript;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -34,6 +34,8 @@ import android.renderscript.ScriptIntrinsicConvolve3x3;
 import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
+
+import freed.utils.Log;
 
 
 /**

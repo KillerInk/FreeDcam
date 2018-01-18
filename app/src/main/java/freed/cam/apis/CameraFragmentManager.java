@@ -17,10 +17,10 @@ import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.featuredetector.CameraFeatureDetectorFragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
-import freed.utils.RenderScriptManager;
 
 public class CameraFragmentManager implements CameraFeatureDetectorFragment.FeatureDetectorEvents {
     private final String TAG = CameraFragmentManager.class.getSimpleName();
@@ -142,7 +142,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
                 cameraFragment.setRenderScriptManager(renderScriptManager);
                 cameraFragment.setCameraEventListner(cameraStateEventListner);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
-            } else cameraFragment.startCamera();
+            } else cameraFragment.startCameraAsync();
         }
     }
 
@@ -152,7 +152,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
             //kill the cam befor the fragment gets removed to make sure when
             //new cameraFragment gets created and its texture view is created the cam get started
             //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
-            cameraFragment.stopCamera();
+            cameraFragment.stopCameraAsync();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(cameraFragment);

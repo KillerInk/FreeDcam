@@ -1,7 +1,6 @@
 package freed.settings.mode;
 
 import freed.settings.SettingsManagerInterface;
-import freed.settings.mode.AbstractSettingMode;
 
 /**
  * Created by KillerInk on 04.01.2018.

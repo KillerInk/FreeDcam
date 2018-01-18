@@ -19,8 +19,6 @@
 
 package freed.cam.apis.basecamera;
 
-import java.util.Comparator;
-
 /**
  * Created by troop on 24.08.2015.
  */

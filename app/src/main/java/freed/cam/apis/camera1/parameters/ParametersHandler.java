@@ -70,7 +70,6 @@ import freed.cam.apis.camera1.parameters.modes.MotoHDR;
 import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.cam.apis.camera1.parameters.modes.PictureFormatHandler;
-import freed.cam.apis.camera1.parameters.modes.PictureSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
@@ -657,8 +656,8 @@ public class ParametersHandler extends AbstractParameterHandler
     public void SetZTE_RESET_AE_SETSHUTTER(String Shutter)
     {
         SetZTE_AE();
-        cameraUiWrapper.stopPreview();
-        cameraUiWrapper.startPreview();
+        cameraUiWrapper.stopPreviewAsync();
+        cameraUiWrapper.startPreviewAsync();
         cameraParameters.set("slow_shutter",Shutter);
         cameraParameters.set("slow_shutter_addition", "1");
         Log.d(TAG,"SetZTE_RESET_AE_SETSHUTTER");

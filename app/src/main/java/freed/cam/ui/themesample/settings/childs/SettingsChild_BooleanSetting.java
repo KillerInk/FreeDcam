@@ -9,9 +9,6 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R;
 
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
-import freed.settings.mode.ApiBooleanSettingMode;
 import freed.settings.mode.GlobalBooleanSettingMode;
 
 /**

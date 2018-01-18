@@ -25,7 +25,6 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -91,8 +90,8 @@ public class ShutterManualMeizu extends AbstractParameter
     {
         parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getKEY(), shutterstring);
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        cameraUiWrapper.stopPreview();
-        cameraUiWrapper.startPreview();
+        cameraUiWrapper.stopPreviewAsync();
+        cameraUiWrapper.startPreviewAsync();
 
         return shutterstring;
     }

@@ -20,6 +20,7 @@
 package freed.cam.apis.basecamera;
 
 import android.location.Location;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 
 /**
@@ -47,6 +48,7 @@ public interface CameraHolderInterface
      * @return
      */
     boolean SetSurface(SurfaceHolder texture);
+    boolean SetSurface(Surface texture);
     void StartPreview();
     void StopPreview();
     void SetLocation(Location location);

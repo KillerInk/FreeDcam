@@ -35,6 +35,7 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.support.annotation.NonNull;
 import android.util.Size;
+import android.view.Surface;
 import android.view.TextureView;
 
 import java.util.Comparator;
@@ -179,6 +180,11 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     @Override
     public boolean IsRdy() {
         return super.IsRdy();
+    }
+
+    @Override
+    public boolean SetSurface(Surface texture) {
+        return false;
     }
 
 

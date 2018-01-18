@@ -21,14 +21,13 @@ package freed.cam.apis.sonyremote;
 
 import android.content.Context;
 import android.location.Location;
+import android.view.Surface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.net.URL;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraHolderAbstract;
@@ -49,7 +48,6 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener;
 import freed.image.ImageManager;
-import freed.image.ImageTask;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
@@ -112,6 +110,11 @@ public class CameraHolderSony extends CameraHolderAbstract
 
     @Override
     public boolean IsRdy() {
+        return false;
+    }
+
+    @Override
+    public boolean SetSurface(Surface texture) {
         return false;
     }
 

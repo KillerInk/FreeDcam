@@ -20,7 +20,6 @@
 package freed.cam.ui.themesample;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -30,7 +29,6 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**

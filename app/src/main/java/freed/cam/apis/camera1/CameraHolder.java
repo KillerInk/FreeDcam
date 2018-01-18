@@ -32,6 +32,8 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,11 +64,18 @@ public class CameraHolder extends CameraHolderAbstract
 
     public int CurrentCamera;
 
+    private Method setPreviewSurfaceMethod;
+
 
     public CameraHolder(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks)
     {
         super(cameraUiWrapper);
         DeviceFrameWork = frameworks;
+        try {
+            setPreviewSurfaceMethod = Camera.class.getMethod("setPreviewSurface",Surface.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -74,6 +83,11 @@ public class CameraHolder extends CameraHolderAbstract
     {
         Parameters p = mCamera.getParameters();
         return p.get(para);
+    }
+
+    public boolean canSetSurfaceDirect()
+    {
+        return setPreviewSurfaceMethod != null;
     }
 
     /**
@@ -159,7 +173,10 @@ public class CameraHolder extends CameraHolderAbstract
         try
         {
             if (isRdy && mCamera != null) {
-                mCamera.setPreviewDisplay(surfaceHolder);
+                if (setPreviewSurfaceMethod != null)
+                    setPreviewSurfaceMethod.invoke(mCamera,surfaceHolder.getSurface());
+                else
+                    mCamera.setPreviewDisplay(surfaceHolder);
                 return true;
             }
         } catch (IOException ex) {
@@ -170,6 +187,34 @@ public class CameraHolder extends CameraHolderAbstract
         {
             Log.WriteEx(ex);
             return false;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean SetSurface(Surface texture) {
+        try {
+            if (isRdy && mCamera != null) {
+                if (setPreviewSurfaceMethod != null) {
+                    setPreviewSurfaceMethod.setAccessible(true);
+                    setPreviewSurfaceMethod.invoke(mCamera, texture);
+                    setPreviewSurfaceMethod.setAccessible(false);
+                }
+                return true;
+            }
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+            return false;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
         }
         return false;
     }

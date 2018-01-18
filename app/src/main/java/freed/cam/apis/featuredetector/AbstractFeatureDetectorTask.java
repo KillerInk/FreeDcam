@@ -6,9 +6,9 @@ import com.lge.media.CamcorderProfileExRef;
 
 import java.util.HashMap;
 
+import freed.settings.SettingsManager;
 import freed.settings.mode.SettingInterface;
 import freed.settings.mode.SettingMode;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 

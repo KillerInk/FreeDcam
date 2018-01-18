@@ -7,7 +7,6 @@ import android.util.Rational;
 import com.huawei.camera2ex.CaptureRequestEx;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.ae.AeManager;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 

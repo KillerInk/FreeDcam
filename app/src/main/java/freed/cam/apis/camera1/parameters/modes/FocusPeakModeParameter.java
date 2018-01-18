@@ -24,8 +24,8 @@ import android.os.Build.VERSION;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 import freed.settings.SettingKeys;
 
 
@@ -34,8 +34,8 @@ import freed.settings.SettingKeys;
  */
 public class FocusPeakModeParameter extends BaseModeParameter {
 
-    private final FocusPeakProcessorAp1 focusPeakProcessorAp1;
-    public FocusPeakModeParameter(CameraWrapperInterface cameraUiWrapper, FocusPeakProcessorAp1 focusPeakProcessorAp1)
+    private final FocuspeakProcessor focusPeakProcessorAp1;
+    public FocusPeakModeParameter(CameraWrapperInterface cameraUiWrapper, FocuspeakProcessor focusPeakProcessorAp1)
     {
         super(null, cameraUiWrapper,null);
         this.focusPeakProcessorAp1 = focusPeakProcessorAp1;

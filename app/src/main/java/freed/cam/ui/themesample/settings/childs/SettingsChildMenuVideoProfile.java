@@ -22,7 +22,6 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 22.07.2015.

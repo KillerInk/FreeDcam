@@ -35,13 +35,13 @@ import java.util.List;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.utils.RenderScriptManager;
+import freed.renderscript.RenderScriptManager;
 
 /**
  * Created by troop on 06.06.2015.
  * That Fragment is used as base for all camera apis added.
  */
-public abstract class CameraFragmentAbstract extends Fragment implements CameraWrapperInterface, MainToCameraHandler.CameraMessageEvent, CameraToMainHandler.MainMessageEvent {
+public abstract class CameraFragmentAbstract extends Fragment implements CameraInterface ,CameraWrapperInterface, CameraToMainHandler.MainMessageEvent {
     private final String TAG = CameraFragmentAbstract.class.getSimpleName();
 
 
@@ -134,27 +134,27 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraW
     }
 
     @Override
-    public void startCamera() {
+    public void startCameraAsync() {
         mainToCameraHandler.startCamera();
     }
 
     @Override
-    public void stopCamera() {
+    public void stopCameraAsync() {
         mainToCameraHandler.stopCamera();
     }
 
     @Override
-    public void restartCamera() {
+    public void restartCameraAsync() {
         mainToCameraHandler.restartCamera();
     }
 
     @Override
-    public void startPreview() {
+    public void startPreviewAsync() {
         mainToCameraHandler.startPreview();
     }
 
     @Override
-    public void stopPreview() {
+    public void stopPreviewAsync() {
         mainToCameraHandler.stopPreview();
     }
 

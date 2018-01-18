@@ -1,7 +1,6 @@
 package freed.cam.apis.featuredetector;
 
 import android.hardware.Camera;
-import android.os.Build;
 import android.text.TextUtils;
 
 import com.lge.hardware.LGCameraRef;
@@ -15,13 +14,13 @@ import java.util.List;
 
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
+import freed.renderscript.RenderScriptManager;
 import freed.settings.FrameworkDetector;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.mode.SettingMode;
 import freed.settings.SettingsManager;
+import freed.settings.mode.SettingMode;
 import freed.utils.Log;
-import freed.utils.RenderScriptManager;
 import freed.utils.VideoMediaProfile;
 
 

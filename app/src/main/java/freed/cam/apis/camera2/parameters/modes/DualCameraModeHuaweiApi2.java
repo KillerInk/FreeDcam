@@ -8,7 +8,6 @@ import java.util.Map;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.StringUtils;
 
 /**

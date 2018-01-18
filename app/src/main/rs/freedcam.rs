@@ -1,5 +1,5 @@
 #pragma version(1)
-    #pragma rs java_package_name(freed.utils)
+    #pragma rs java_package_name(freed.renderscript)
     #pragma rs_fp_relaxed
 
 rs_allocation gCurrentFrame;

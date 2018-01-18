@@ -46,9 +46,9 @@ import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
+import freed.renderscript.RenderScriptManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
-import freed.utils.RenderScriptManager;
 
 
 /**

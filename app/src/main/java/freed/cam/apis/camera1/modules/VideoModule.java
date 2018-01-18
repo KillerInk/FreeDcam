@@ -220,7 +220,7 @@ public class VideoModule extends AbstractVideoModule
 
 
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
-        cameraUiWrapper.stopPreview();
+        cameraUiWrapper.stopPreviewAsync();
         if (SettingsManager.get(SettingKeys.PreviewSize).isSupported()) {
             Log.d(TAG,"Set previewSize to:" + size);
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).SetValue(size, true);
@@ -233,7 +233,7 @@ public class VideoModule extends AbstractVideoModule
             Log.d(TAG,"Set videoSize done");
         }
 
-        cameraUiWrapper.startPreview();
+        cameraUiWrapper.startPreviewAsync();
     }
 
     private void loadDefaultHighspeed() {
@@ -245,13 +245,13 @@ public class VideoModule extends AbstractVideoModule
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFormat).SetValue("nv12-venus", false);
 
 
-        cameraUiWrapper.stopPreview();
+        cameraUiWrapper.stopPreviewAsync();
         //set the profile defined frames per seconds
         if (SettingsManager.getInstance().get(SettingKeys.VideoHighFramerate).isSupported()) {
             cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHighFramerate).SetValue(currentProfile.videoFrameRate + "", false);
         }
         Log.d(TAG, "Load default highspeed done");
-        cameraUiWrapper.startPreview();
+        cameraUiWrapper.startPreviewAsync();
     }
 
     private void disable_mce_dis_vs_denoise()

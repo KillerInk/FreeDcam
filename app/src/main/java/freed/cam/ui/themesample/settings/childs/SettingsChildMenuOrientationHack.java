@@ -68,7 +68,7 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
         }
         else if(cameraUiWrapper instanceof Camera2Fragment)
         {
-            ((Camera2Fragment) cameraUiWrapper).restartCamera();
+            ((Camera2Fragment) cameraUiWrapper).restartCameraAsync();
 
         }
         onStringValueChanged(value);

@@ -191,20 +191,20 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
 
         if(SettingsManager.getInstance().GetCurrentCamera() == 0) {
             SettingsManager.getInstance().SetCurrentCamera(1);
-            cameraUiWrapper.stopCamera();
-            cameraUiWrapper.startCamera();
+            cameraUiWrapper.stopCameraAsync();
+            cameraUiWrapper.startCameraAsync();
 
             SettingsManager.getInstance().SetCurrentCamera(0);
-            cameraUiWrapper.stopCamera();
-            cameraUiWrapper.startCamera();
+            cameraUiWrapper.stopCameraAsync();
+            cameraUiWrapper.startCameraAsync();
         }else {
             SettingsManager.getInstance().SetCurrentCamera(0);
-            cameraUiWrapper.stopCamera();
-            cameraUiWrapper.startCamera();
+            cameraUiWrapper.stopCameraAsync();
+            cameraUiWrapper.startCameraAsync();
 
             SettingsManager.getInstance().SetCurrentCamera(1);
-            cameraUiWrapper.stopCamera();
-            cameraUiWrapper.startCamera();
+            cameraUiWrapper.stopCameraAsync();
+            cameraUiWrapper.startCameraAsync();
         }
     }
 

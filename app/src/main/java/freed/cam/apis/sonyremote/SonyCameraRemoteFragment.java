@@ -21,7 +21,6 @@ package freed.cam.apis.sonyremote;
 
 import android.os.Bundle;
 import android.os.HandlerThread;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -43,7 +42,6 @@ import java.util.Set;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
-import freed.cam.apis.basecamera.MainToCameraHandler;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
@@ -89,7 +87,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(layout.cameraholdersony, container, false);
+        view = inflater.inflate(layout.camerafragment_sonyapi, container, false);
         surfaceView = (SimpleStreamSurfaceView) view.findViewById(id.view);
         surfaceView.SetRenderScriptHandlerAndInterface(renderScriptManager, (ActivityInterface) getActivity());
 
@@ -112,7 +110,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     public void onResume() {
         super.onResume();
         wifiHandler.onResume();
-        startCamera();
+        startCameraAsync();
 
     }
 
@@ -121,7 +119,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         super.onPause();
         Log.d(TAG, "onPause.stopCamera");
         wifiHandler.onPause();
-        stopCamera();
+        stopCameraAsync();
 
     }
 
@@ -159,7 +157,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     }
 
     @Override
-    public void startCamera()
+    public void startCameraAsync()
     {
         if (serverDevice == null)
         {
@@ -363,13 +361,13 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     }
 
     @Override
-    public void stopCamera()
+    public void stopCameraAsync()
     {
         mainToCameraHandler.stopCamera();
     }
 
     @Override
-    public void restartCamera() {
+    public void restartCameraAsync() {
         mainToCameraHandler.restartCamera();
     }
 
@@ -435,7 +433,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     public void surfaceDestroyed(SurfaceHolder holder) {
 
         cameraHolder.StopPreview();
-        stopCamera();
+        stopCameraAsync();
     }
 
     //WifiHandler.WifiEvents
@@ -444,7 +442,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         this.serverDevice = serverDevice;
         wifiHandler.setEventsListner(null);
         hideTextViewWifi(true);
-        startCamera();
+        startCameraAsync();
     }
 
     @Override
@@ -495,7 +493,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         mainToCameraHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startCamera();
+                startCameraAsync();
             }
         },5000);
 
@@ -506,39 +504,59 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         ((ParameterHandler)parametersHandler).SetCameraApiSet(mAvailableCameraApiSet);
     }
 
+
     @Override
-    public void handelCameraMessage(Message msg) {
-        switch (msg.what)
+    public void createCamera() {
+
+    }
+
+    @Override
+    public void initCamera() {
+
+    }
+
+    @Override
+    public void startCamera() {
+        startSonyCamera();
+        Log.d(TAG, "onCameraOpen State:" + STATE);
+        STATE = STATE_DEVICE_CONNECTED;
+    }
+
+    @Override
+    public void stopCamera() {
+        if (mEventObserver != null)
+            mEventObserver.stop();
+        cameraHolder.CloseCamera();
+        STATE = STATE_IDEL;
+    }
+
+    @Override
+    public void restartCamera() {
+        if (mEventObserver != null)
+            mEventObserver.stop();
+        cameraHolder.CloseCamera();
+        STATE = STATE_IDEL;
+
+        if (serverDevice == null)
         {
-            case MainToCameraHandler.MSG_START_CAMERA:
-                startSonyCamera();
-                Log.d(TAG, "onCameraOpen State:" + STATE);
-                STATE = STATE_DEVICE_CONNECTED;
-                break;
-            case MainToCameraHandler.MSG_STOP_CAMERA:
-                if (mEventObserver != null)
-                    mEventObserver.stop();
-                cameraHolder.CloseCamera();
-                STATE = STATE_IDEL;
-                break;
-            case MainToCameraHandler.MSG_RESTART_CAMERA:
-                if (mEventObserver != null)
-                    mEventObserver.stop();
-                cameraHolder.CloseCamera();
-                STATE = STATE_IDEL;
-
-                if (serverDevice == null)
-                {
-                    wifiHandler.setEventsListner(SonyCameraRemoteFragment.this);
-                    wifiHandler.StartLookUp();
-                    return;
-                }
-                Log.d(TAG,"startCamera");
-
-                startCamera();
-                Log.d(TAG, "onCameraOpen State:" + STATE);
-                STATE = STATE_DEVICE_CONNECTED;
-            break;
+            wifiHandler.setEventsListner(SonyCameraRemoteFragment.this);
+            wifiHandler.StartLookUp();
+            return;
         }
+        Log.d(TAG,"startCamera");
+
+        startCameraAsync();
+        Log.d(TAG, "onCameraOpen State:" + STATE);
+        STATE = STATE_DEVICE_CONNECTED;
+    }
+
+    @Override
+    public void startPreview() {
+
+    }
+
+    @Override
+    public void stopPreview() {
+
     }
 }

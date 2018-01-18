@@ -45,11 +45,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import freed.ActivityAbstract;
+import freed.renderscript.RenderScriptManager;
 import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
-import freed.utils.RenderScriptManager;
 import freed.utils.StorageFileManager;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingFragment;

@@ -23,7 +23,6 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 21.08.2014.
@@ -40,8 +39,8 @@ public class PreviewFpsParameter extends  BaseModeParameter
     {
         super.SetValue(valueToSet, setToCam);
         if (setToCam) {
-            cameraUiWrapper.stopPreview();
-            cameraUiWrapper.startPreview();
+            cameraUiWrapper.stopPreviewAsync();
+            cameraUiWrapper.startPreviewAsync();
         }
     }
 
