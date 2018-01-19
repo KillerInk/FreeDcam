@@ -75,7 +75,8 @@ public class AutoHdrMode extends BaseModeParameter {
             parameters.set(cameraUiWrapper.getResString(R.string.auto_hdr_enable), cameraUiWrapper.getResString(R.string.enable_));
         }
         Log.d(TAG, "set auto hdr");
-        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+        if(setToCam)
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         ((SettingMode)SettingsManager.get(key)).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }

@@ -46,7 +46,8 @@ public class PictureSizeParameter extends BaseModeParameter
         SettingsManager.get(SettingKeys.PictureSize).set(valueToSet);
         currentString = valueToSet;
         Log.d(TAG, "SetValue : picture-size");
-        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+        if (setToCam)
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         fireStringValueChanged(valueToSet);
 
     }

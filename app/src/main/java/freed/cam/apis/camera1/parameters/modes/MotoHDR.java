@@ -45,7 +45,8 @@ public class MotoHDR extends BaseModeParameter
             parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.auto_));
         else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.auto_)))
             parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.auto_hdr));
-        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+        if (setToCam)
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         fireStringValueChanged(valueToSet);
     }
 

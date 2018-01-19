@@ -112,7 +112,8 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         Log.d(TAG, "setApiString:" +val);
         parameters.set(cameraUiWrapper.getResString(R.string.picture_format), val);
-        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+        if (setTocam)
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
 
     @Override

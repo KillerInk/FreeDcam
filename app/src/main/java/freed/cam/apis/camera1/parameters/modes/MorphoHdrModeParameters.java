@@ -51,8 +51,8 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
             cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_Bracket).SetValue(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr_values_off), true);
             parameters.set(cameraUiWrapper.getResString(R.string.morpho_hdr), cameraUiWrapper.getResString(R.string.false_));
         }
-
-        ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+        if (setToCam)
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         fireStringValueChanged(valueToSet);
     }
 
