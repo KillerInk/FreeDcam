@@ -54,12 +54,6 @@
         android:largeHeap="true"
         android:extractNativeLibs="false">
 
-        <!-- used on oneplus5 -->
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="1665753b7f3f1db862b5691e3cb01ac0" />
-        <!-- used on oneplus5 -->
-
         <activity
             android:name="freed.cam.ActivityFreeDcamMain"
             android:label="FreeDCam"
