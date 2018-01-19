@@ -65,6 +65,8 @@ public class RenderScriptProcessor implements FocuspeakProcessor
     private boolean green;
     private boolean red;
     private int imageformat;
+    int width = 0;
+    int height =0;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     public RenderScriptProcessor(RenderScriptManager renderScriptManager, final MyHistogram histogram, int imageformat)
@@ -138,9 +140,21 @@ public class RenderScriptProcessor implements FocuspeakProcessor
 
     }
 
+    public int getHeight()
+    {
+        return height;
+    }
+
+    public int getWidth()
+    {
+        return width;
+    }
+
     @Override
     public void Reset(int width, int height)
     {
+        this.width = width;
+        this.height = height;
         Log.d(TAG,"Reset:"+width +"x"+height);
         Builder yuvTypeBuilder = new Builder(renderScriptManager.GetRS(), Element.YUV(renderScriptManager.GetRS()));
         yuvTypeBuilder.setX(width);
@@ -231,6 +245,8 @@ public class RenderScriptProcessor implements FocuspeakProcessor
                 }
             }
         }
+        width = 0;
+        height =0;
         Log.d(TAG,"kill()");
     }
 

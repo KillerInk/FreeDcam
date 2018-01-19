@@ -244,7 +244,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
                 if (focusPeakProcessorAp1 != null) {
-                    if(size == null || textureView.getSurfaceTexture() == null)
+                    if(size == null || textureView.getSurfaceTexture() == null ||
+                            (size.height == focusPeakProcessorAp1.getHeight() && size.width == focusPeakProcessorAp1.getWidth()))
                         return;
                     cameraHolder.StopPreview();
                     focusPeakProcessorAp1.kill();
@@ -252,9 +253,16 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
                         textureView.getSurfaceTexture().setDefaultBufferSize(size.width, size.height);
                     }
+
                     parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
                     focusPeakProcessorAp1.Reset(size.width, size.height);
-
+                    cameraToMainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            focusPeakProcessorAp1.setHistogramEnable(false);
+                        }
+                    });
+                    
                     Surface surface = new Surface(textureView.getSurfaceTexture());
                     focusPeakProcessorAp1.setOutputSurface(surface);
                     parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
