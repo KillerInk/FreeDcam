@@ -27,6 +27,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.renderscript.RenderScriptManager;
+import freed.renderscript.RenderScriptProcessorInterface;
 
 /**
  * Created by troop on 09.12.2014.
@@ -103,7 +104,7 @@ public interface CameraWrapperInterface extends CameraStateEvents
 
     Context getContext();
 
-    FocuspeakProcessor getFocusPeakProcessor();
+    RenderScriptProcessorInterface getFocusPeakProcessor();
 
     RenderScriptManager getRenderScriptManager();
 

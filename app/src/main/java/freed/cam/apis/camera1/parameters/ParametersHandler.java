@@ -32,9 +32,10 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
+import freed.cam.apis.basecamera.parameters.modes.FocusPeakMode;
+import freed.cam.apis.basecamera.parameters.modes.HistogramParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
-import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.FocusHandler;
 import freed.cam.apis.camera1.parameters.ae.AeManagerLgCamera1;
@@ -64,7 +65,6 @@ import freed.cam.apis.camera1.parameters.manual.zte.FXManualParameter;
 import freed.cam.apis.camera1.parameters.modes.AutoHdrMode;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.ExposureLockParameter;
-import freed.cam.apis.camera1.parameters.modes.FocusPeakModeParameter;
 import freed.cam.apis.camera1.parameters.modes.LgHdrMode;
 import freed.cam.apis.camera1.parameters.modes.MotoHDR;
 import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
@@ -326,7 +326,8 @@ public class ParametersHandler extends AbstractParameterHandler
 
         add(SettingKeys.ExposureLock, new ExposureLockParameter(cameraParameters, cameraUiWrapper));
 
-        add(SettingKeys.Focuspeak, new FocusPeakModeParameter(cameraUiWrapper,((Camera1Fragment) cameraUiWrapper).focusPeakProcessorAp1));
+        add(SettingKeys.Focuspeak, new FocusPeakMode(cameraUiWrapper));
+        add(SettingKeys.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
 
         SetCameraRotation();
 

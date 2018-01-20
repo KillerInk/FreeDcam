@@ -41,10 +41,10 @@ import java.util.Collections;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.renderscript.RenderScriptProcessor;
+import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.screenslide.MyHistogram;
@@ -208,7 +208,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     }
 
     @Override
-    public FocuspeakProcessor getFocusPeakProcessor() {
+    public RenderScriptProcessorInterface getFocusPeakProcessor() {
         return mProcessor;
     }
 

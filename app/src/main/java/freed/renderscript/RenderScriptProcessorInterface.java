@@ -17,14 +17,14 @@
  * /
  */
 
-package freed.cam.apis.basecamera;
+package freed.renderscript;
 
 import android.view.Surface;
 
 /**
  * Created by troop on 12.06.2016.
  */
-public interface FocuspeakProcessor
+public interface RenderScriptProcessorInterface
 {
     boolean isEnabled();
     //api1

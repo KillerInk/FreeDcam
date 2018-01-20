@@ -42,11 +42,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
 import freed.renderscript.RenderScriptManager;
+import freed.renderscript.RenderScriptProcessorInterface;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
@@ -54,7 +54,7 @@ import freed.utils.Log;
 /**
  * A SurfaceView based class to draw liveview frames serially.
  */
-public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback, ParameterEvents, JoyPad.NavigationClick, FocuspeakProcessor {
+public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback, ParameterEvents, JoyPad.NavigationClick, RenderScriptProcessorInterface {
 
     private static final String TAG = SimpleStreamSurfaceView.class.getSimpleName();
 

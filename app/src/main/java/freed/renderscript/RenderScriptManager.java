@@ -54,15 +54,6 @@ public class RenderScriptManager
     private Allocation mAllocationIn;
     private final RenderScript mRS;
 
-/*        public ScriptC_focus_peak ScriptFocusPeakApi2;
-    public ScriptC_focus_peak_cam1 ScriptFocusPeakApi1;
-    public ScriptC_imagestack imagestack;
-    public ScriptC_focuspeak_argb focuspeak_argb;
-    public ScriptC_brightness brightnessRS;
-    public ScriptC_contrast contrastRS;
-    public ScriptC_starfinder starfinderRS;
-    public ScriptC_interpolateimage2x interpolateimage2x;*/
-
     public ScriptIntrinsicYuvToRGB yuvToRgbIntrinsic;
     public ScriptIntrinsicBlur blurRS;
     public ScriptIntrinsicConvolve3x3 convolve3x3;
@@ -81,14 +72,6 @@ public class RenderScriptManager
         mRS = RenderScript.create(context);
         mRS.setPriority(Priority.LOW);
         try {
-/*            ScriptFocusPeakApi2 = new ScriptC_focus_peak(mRS);
-            ScriptFocusPeakApi1 = new ScriptC_focus_peak_cam1(mRS);
-            imagestack = new ScriptC_imagestack(mRS);
-            focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
-            brightnessRS = new ScriptC_brightness(mRS);
-            contrastRS = new ScriptC_contrast(mRS);
-            starfinderRS = new ScriptC_starfinder(mRS);
-            interpolateimage2x = new ScriptC_interpolateimage2x(mRS);*/
             freedcamScript = new ScriptC_freedcam(mRS);
             blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
             yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(mRS, Element.U8_4(mRS));

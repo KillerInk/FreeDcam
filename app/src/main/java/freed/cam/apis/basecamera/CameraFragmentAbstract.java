@@ -36,6 +36,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.renderscript.RenderScriptManager;
+import freed.renderscript.RenderScriptProcessorInterface;
 
 /**
  * Created by troop on 06.06.2015.
@@ -216,7 +217,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     }
 
     @Override
-    public FocuspeakProcessor getFocusPeakProcessor() {
+    public RenderScriptProcessorInterface getFocusPeakProcessor() {
         return null;
     }
 

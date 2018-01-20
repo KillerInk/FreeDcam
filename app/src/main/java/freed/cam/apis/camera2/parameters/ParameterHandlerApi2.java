@@ -31,6 +31,8 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
+import freed.cam.apis.basecamera.parameters.modes.FocusPeakMode;
+import freed.cam.apis.basecamera.parameters.modes.HistogramParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
@@ -47,8 +49,6 @@ import freed.cam.apis.camera2.parameters.modes.AeLockModeApi2;
 import freed.cam.apis.camera2.parameters.modes.AeTargetRangeApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 import freed.cam.apis.camera2.parameters.modes.DualCameraModeHuaweiApi2;
-import freed.cam.apis.camera2.parameters.modes.FocusPeakModeApi2;
-import freed.cam.apis.camera2.parameters.modes.HistogramParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
@@ -176,8 +176,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         add(SettingKeys.ExposureLock, new AeLockModeApi2(cameraUiWrapper));
 
         add(SettingKeys.M_Burst, new BurstApi2(cameraUiWrapper));
-        add(SettingKeys.Focuspeak, new FocusPeakModeApi2(cameraUiWrapper));
-        add(SettingKeys.HISTOGRAM, new HistogramParameterApi2(cameraUiWrapper));
+        add(SettingKeys.Focuspeak, new FocusPeakMode(cameraUiWrapper));
+        add(SettingKeys.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
         add(SettingKeys.VideoProfiles, new VideoProfilesApi2(cameraUiWrapper));
         add(SettingKeys.MATRIX_SET, new MatrixChooserParameter(SettingsManager.getInstance().getMatrixesMap()));
         add(SettingKeys.TONEMAP_SET, new ToneMapChooser(SettingsManager.getInstance().getToneMapProfiles()));

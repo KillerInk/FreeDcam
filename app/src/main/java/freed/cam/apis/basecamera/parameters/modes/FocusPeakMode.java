@@ -17,21 +17,20 @@
  * /
  */
 
-package freed.cam.apis.camera2.parameters.modes;
+package freed.cam.apis.basecamera.parameters.modes;
 
-import android.annotation.TargetApi;
-import android.os.Build.VERSION_CODES;
 
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.renderscript.RenderScriptManager;
 
 /**
  * Created by troop on 10.09.2015.
  */
-@TargetApi(VERSION_CODES.LOLLIPOP)
-public class FocusPeakModeApi2 extends BaseModeApi2 {
-    public FocusPeakModeApi2(CameraWrapperInterface cameraUiWrapper)
+public class FocusPeakMode extends AbstractParameter {
+    public FocusPeakMode(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper,null);
     }
@@ -40,7 +39,7 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
     @Override
     public boolean IsSupported()
     {
-        return true;//cameraHolder.characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
+        return RenderScriptManager.isSupported() && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded();
     }
 
     @Override

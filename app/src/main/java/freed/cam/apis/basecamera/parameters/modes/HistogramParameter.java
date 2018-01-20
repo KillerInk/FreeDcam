@@ -1,4 +1,4 @@
-package freed.cam.apis.camera2.parameters.modes;
+package freed.cam.apis.basecamera.parameters.modes;
 
 import com.troop.freedcam.R;
 
@@ -8,11 +8,11 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
  * Created by KillerInk on 15.01.2018.
  */
 
-public class HistogramParameterApi2 extends FocusPeakModeApi2 {
+public class HistogramParameter extends FocusPeakMode {
 
     private String state = "off";
 
-    public HistogramParameterApi2(CameraWrapperInterface cameraUiWrapper) {
+    public HistogramParameter(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
     @Override

@@ -41,7 +41,6 @@ import java.util.Set;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
@@ -52,6 +51,7 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.cam.apis.sonyremote.sonystuff.WifiHandler;
+import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -414,7 +414,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     }
 
     @Override
-    public FocuspeakProcessor getFocusPeakProcessor() {
+    public RenderScriptProcessorInterface getFocusPeakProcessor() {
         return surfaceView;
     }
 

@@ -2,8 +2,8 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
@@ -13,8 +13,8 @@ import freed.settings.SettingsManager;
 
 public class FocusPeakColorMode extends AbstractParameter {
 
-    private FocuspeakProcessor focuspeakProcessor;
-    public FocusPeakColorMode(FocuspeakProcessor renderScriptManager, SettingKeys.Key settingMode) {
+    private RenderScriptProcessorInterface focuspeakProcessor;
+    public FocusPeakColorMode(RenderScriptProcessorInterface renderScriptManager, SettingKeys.Key settingMode) {
         super(settingMode);
         this.focuspeakProcessor = renderScriptManager;
 

@@ -45,7 +45,6 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraToMainHandler;
-import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
@@ -58,6 +57,7 @@ import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera2.AutoFitTextureView;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessor;
+import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -174,7 +174,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     public void onCameraClose(String message)
     {
         cameraRdy = false;
-        focusPeakProcessorAp1.kill();
+        if(focusPeakProcessorAp1 != null)
+            focusPeakProcessorAp1.kill();
     }
 
     @Override
@@ -503,7 +504,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     }
 
     @Override
-    public FocuspeakProcessor getFocusPeakProcessor() {
+    public RenderScriptProcessorInterface getFocusPeakProcessor() {
         return focusPeakProcessorAp1;
     }
 

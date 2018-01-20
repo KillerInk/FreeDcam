@@ -169,6 +169,7 @@ public class CameraHolder extends CameraHolderAbstract
     @Override
     public boolean SetSurface(SurfaceHolder surfaceHolder)
     {
+        Log.d(TAG, "setSurface surfaceholder");
         previewSurfaceHolder = surfaceHolder.getSurface();
         try
         {
@@ -197,6 +198,7 @@ public class CameraHolder extends CameraHolderAbstract
 
     @Override
     public boolean SetSurface(Surface texture) {
+        Log.d(TAG, "setSurface surface");
         try {
             if (isRdy && mCamera != null) {
                 if (setPreviewSurfaceMethod != null) {
@@ -210,11 +212,10 @@ public class CameraHolder extends CameraHolderAbstract
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
-            return false;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            Log.WriteEx(ex);
+        } catch (InvocationTargetException ex) {
+            Log.WriteEx(ex);
         }
         return false;
     }
@@ -248,6 +249,7 @@ public class CameraHolder extends CameraHolderAbstract
     @Override
     public void StopPreview()
     {
+        Log.d(TAG, "Stop Preview");
         if (mCamera == null)
             return;
         try {
