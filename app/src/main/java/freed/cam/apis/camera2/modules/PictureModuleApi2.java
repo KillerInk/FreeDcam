@@ -167,38 +167,69 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         {
             cameraUiWrapper.getFocusPeakProcessor().kill();
         }
-        int orientation = 0;
-        switch (sensorOrientation)
-        {
-            case 90:
-                orientation = 0;
-                break;
-            case 180:
-                orientation =90;
-                break;
-            case 270: orientation = 180;
-                break;
-            case 0: orientation = 270;
-                break;
-        }
-        final int w = previewSize.getWidth();
-        final int h = previewSize.getHeight();
-        final int or = orientation;
-        mainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,false);
-            }
-        });
+
 
         SurfaceTexture texture = cameraUiWrapper.captureSessionHandler.getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
         Surface previewsurface = new Surface(texture);
+        final int w = previewSize.getWidth();
+        final int h = previewSize.getHeight();
 
-        cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight());
-        cameraUiWrapper.getFocusPeakProcessor().setOutputSurface(previewsurface);
-        Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
-        cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface,true);
+        if (SettingsManager.get(SettingKeys.EnableRenderScript).get()) {
+            int orientation = 0;
+            switch (sensorOrientation)
+            {
+                case 90:
+                    orientation = 0;
+                    break;
+                case 180:
+                    orientation =90;
+                    break;
+                case 270: orientation = 180;
+                    break;
+                case 0: orientation = 270;
+                    break;
+            }
+
+            final int or = orientation;
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,false);
+                }
+            });
+            cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight());
+            cameraUiWrapper.getFocusPeakProcessor().setOutputSurface(previewsurface);
+            Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
+            cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface, true);
+        }
+        else
+        {
+            int orientation = 0;
+            switch (sensorOrientation)
+            {
+                case 90:
+                    orientation = 270;
+                    break;
+                case 180:
+                    orientation =0;
+                    break;
+                case 270: orientation = 90;
+                    break;
+                case 0: orientation = 180;
+                    break;
+            }
+            final int ww = w;
+            final int hh = h;
+            final int or = orientation;
+            cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraUiWrapper.captureSessionHandler.SetTextureViewSize(ww, hh, or,or+180,true);
+                }
+            });
+        }
 
         if (jpegReader != null)
             cameraUiWrapper.captureSessionHandler.AddSurface(jpegReader.getSurface(),false);

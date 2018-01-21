@@ -545,8 +545,9 @@ public class CaptureSessionHandler
              */
             inputRect = new RectF(0, 0, w, h);
             //center input relative to viewrect
-            inputRect.offset(centerX - inputRect.centerX(), centerY - inputRect.centerY());
-
+            float offsetx = (centerX - inputRect.centerX());
+            float offsety = (centerY - inputRect.centerY());
+            inputRect.offset(offsetx , offsety);
 
             //set the rectangles for the matrix rotation and scale(inputRect is the startpostion in portrait, viewRect is the end postion landscape)
             matrix.setRectToRect(inputRect, viewRect, Matrix.ScaleToFit.FILL);
@@ -555,8 +556,13 @@ public class CaptureSessionHandler
 
             //get scalefactor for the height from portrait to landscape
             float scY = inputRect.width() / viewRect.height();
+            Log.d(TAG, "InputW: " + inputRect.width() + " viewH: " + viewRect.height() + " Scale Y :" + scY);
             //get scalefactor for the width from portrait to landscape;
-            float scX = inputRect.height() / viewRect.width();
+            float scX = 0;
+
+            scX = inputRect.height() / viewRect.width();
+
+            Log.d(TAG, "InputH: " + inputRect.height() + " viewW: " + viewRect.width() + " Scale X :" + scX);
 
             matrix.postScale(scX,scY,centerX,centerY);
 
