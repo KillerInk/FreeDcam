@@ -6,7 +6,7 @@ import freed.settings.SettingsManagerInterface;
  * Created by KillerInk on 04.01.2018.
  */
 
-public class ApiBooleanSettingMode extends GlobalBooleanSettingMode {
+public class ApiBooleanSettingMode extends GlobalBooleanSettingMode implements BooleanSettingModeInterface {
     private final String presetKey;
 
     public ApiBooleanSettingMode(SettingsManagerInterface settingsManagerInterface, String key) {

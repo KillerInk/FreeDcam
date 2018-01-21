@@ -326,8 +326,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
         add(SettingKeys.ExposureLock, new ExposureLockParameter(cameraParameters, cameraUiWrapper));
 
-        add(SettingKeys.Focuspeak, new FocusPeakMode(cameraUiWrapper));
-        add(SettingKeys.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
+
 
         SetCameraRotation();
 

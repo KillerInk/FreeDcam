@@ -176,8 +176,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         add(SettingKeys.ExposureLock, new AeLockModeApi2(cameraUiWrapper));
 
         add(SettingKeys.M_Burst, new BurstApi2(cameraUiWrapper));
-        add(SettingKeys.Focuspeak, new FocusPeakMode(cameraUiWrapper));
-        add(SettingKeys.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
         add(SettingKeys.VideoProfiles, new VideoProfilesApi2(cameraUiWrapper));
         add(SettingKeys.MATRIX_SET, new MatrixChooserParameter(SettingsManager.getInstance().getMatrixesMap()));
         add(SettingKeys.TONEMAP_SET, new ToneMapChooser(SettingsManager.getInstance().getToneMapProfiles()));

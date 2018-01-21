@@ -38,8 +38,10 @@ import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
+import freed.cam.ui.themesample.settings.childs.SettingsChild_BooleanSetting;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.settings.mode.BooleanSettingModeInterface;
 
 /**
  * Created by troop on 15.06.2015.
@@ -79,11 +81,21 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
 
             GroupChild settingsgroup = new GroupChild(getContext(), getString(R.string.setting_camera_));
 
+            if (params.get(SettingKeys.EnableRenderScript) != null)
+            {
+                SettingsChild_BooleanSetting ers = new SettingsChild_BooleanSetting(getContext(),(BooleanSettingModeInterface) params.get(SettingKeys.EnableRenderScript),R.string.setting_enablerenderscript_header, R.string.setting_enablerenderscript_description);
+                settingsgroup.addView(ers);
+            }
+
             if (params.get(SettingKeys.FOCUSPEAK_COLOR) != null)
             {
-                SettingsChildMenu scene = new SettingsChildMenu(getContext(), params.get(SettingKeys.FOCUSPEAK_COLOR), R.string.setting_focuspeakcolor_header, R.string.setting_focuspeakcolor_description);
-                scene.SetUiItemClickListner(this);
-                settingsgroup.addView(scene);
+                SettingsChildMenu fpc = new SettingsChildMenu(getContext(), params.get(SettingKeys.FOCUSPEAK_COLOR), R.string.setting_focuspeakcolor_header, R.string.setting_focuspeakcolor_description);
+                fpc.SetUiItemClickListner(this);
+                settingsgroup.addView(fpc);
+                if (SettingsManager.get(SettingKeys.EnableRenderScript).get())
+                    fpc.setVisibility(View.VISIBLE);
+                else
+                    fpc.setVisibility(View.GONE);
             }
 
             if (params.get(SettingKeys.SceneMode) != null)

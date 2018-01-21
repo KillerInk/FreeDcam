@@ -24,12 +24,14 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.renderscript.RenderScriptManager;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 10.09.2015.
  */
-public class FocusPeakMode extends AbstractParameter {
+public class FocusPeakMode extends AbstractParameter implements ParameterEvents {
     public FocusPeakMode(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper,null);
@@ -73,5 +75,33 @@ public class FocusPeakMode extends AbstractParameter {
     @Override
     public String[] getStringValues() {
         return new String[] {cameraUiWrapper.getResString(R.string.on_), cameraUiWrapper.getResString(R.string.off_)};
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean value) {
+
+    }
+
+    @Override
+    public void onIntValueChanged(int current) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onStringValueChanged(String value) {
+        if (value.equals(SettingsManager.getInstance().getResString(R.string.off_)))
+            fireIsSupportedChanged(false);
+        else
+            fireIsSupportedChanged(true);
     }
 }

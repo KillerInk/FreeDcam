@@ -244,7 +244,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
 
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
-                if (focusPeakProcessorAp1 != null) {
+                if (focusPeakProcessorAp1 != null && SettingsManager.get(SettingKeys.EnableRenderScript).get()) {
                     if(size == null || textureView.getSurfaceTexture() == null ||
                             (size.height == focusPeakProcessorAp1.getHeight() && size.width == focusPeakProcessorAp1.getWidth()))
                         return;

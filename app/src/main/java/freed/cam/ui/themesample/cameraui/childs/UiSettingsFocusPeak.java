@@ -27,6 +27,8 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 09.09.2015.
@@ -52,6 +54,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
         cameraUiWrapper.getModuleHandler().addListner(this);
 
         onModuleChanged(cameraUiWrapper.getModuleHandler().getCurrentModuleName());
+        onIsSupportedChanged(SettingsManager.get(SettingKeys.EnableRenderScript).get());
 
     }
 

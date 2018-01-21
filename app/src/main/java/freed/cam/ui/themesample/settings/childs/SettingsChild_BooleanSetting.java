@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R;
 
+import freed.settings.mode.BooleanSettingModeInterface;
 import freed.settings.mode.GlobalBooleanSettingMode;
 
 /**
@@ -21,9 +22,9 @@ public class SettingsChild_BooleanSetting extends LinearLayout
 
     private TextView headerText;
     private Switch aSwitch;
-    private GlobalBooleanSettingMode booleanSettingMode;
+    private BooleanSettingModeInterface booleanSettingMode;
 
-    public SettingsChild_BooleanSetting(Context context, final GlobalBooleanSettingMode booleanSettingMode, int headerid, int descriptionid) {
+    public SettingsChild_BooleanSetting(Context context, final BooleanSettingModeInterface booleanSettingMode, int headerid, int descriptionid) {
         super(context);
         this.booleanSettingMode = booleanSettingMode;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
