@@ -98,12 +98,19 @@ public class BaseModeApi2 extends AbstractParameter
     @Override
     public String GetStringValue()
     {
-        if (parameterValues == null)
+        if (parameterValues == null && captureSessionHandler == null)
             return "";
-        int i = captureSessionHandler.getPreviewParameter(parameterKey);
-        for (Map.Entry s : parameterValues.entrySet())
-            if (s.getValue().equals(i))
-                return s.getKey().toString();
+        try {
+            int i = captureSessionHandler.getPreviewParameter(parameterKey);
+            for (Map.Entry s : parameterValues.entrySet())
+                if (s.getValue().equals(i))
+                    return s.getKey().toString();
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
+
         return "";
     }
 

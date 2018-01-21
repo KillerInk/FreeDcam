@@ -88,14 +88,14 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 //check first if a already checked cam have camera2features and if its now the front cam that dont have a camera2feature.
                 //in that case set it to true
                 //else it would override the already detected featureset from last cam and disable api2
-                if (SettingsManager.getInstance().hasCamera2Features() && front && hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
+                if (SettingsManager.getInstance().hasCamera2Features() && front) {
                     hasCamera2Features = true;
                     Log.d(TAG,"Front cam has no camera2 featureset, try to find supported things anyway");
                 }
-                else if (hwlvl != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
-                    hasCamera2Features = true;
+               /* else if (hwlvl != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
+                    hasCamera2Features = true;*/
                 else
-                    hasCamera2Features = false;
+                    hasCamera2Features = true;
 
                 SettingsManager.getInstance().setHasCamera2Features(hasCamera2Features);
                 publishProgress("IsCamera2 Full Device:" + SettingsManager.getInstance().hasCamera2Features() + " isFront:" + SettingsManager.getInstance().getIsFrontCamera());
@@ -691,7 +691,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         if (scenes.length > 1)
             SettingsManager.get(SettingKeys.SceneMode).setIsSupported(true);
         else
-            return;
+            SettingsManager.get(SettingKeys.SceneMode).setIsSupported(false);
 
         HashMap<String,Integer> map = new HashMap<>();
         for (int i = 0; i< scenes.length; i++)
@@ -770,7 +770,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             if (scenes.length >0)
                 settingMode.setIsSupported(true);
             else
-                return;
+                settingMode.setIsSupported(false);
             String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(ressourceArray);
             HashMap<String,Integer> map = new HashMap<>();
             for (int i = 0; i< scenes.length; i++)

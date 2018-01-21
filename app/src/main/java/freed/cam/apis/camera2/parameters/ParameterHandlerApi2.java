@@ -115,17 +115,18 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         {
             add(SettingKeys.dualPrimaryCameraMode, new DualCameraModeHuaweiApi2(cameraUiWrapper, SettingKeys.dualPrimaryCameraMode, CaptureRequestEx.HUAWEI_DUAL_SENSOR_MODE));
         }
+
         add(SettingKeys.JpegQuality, new JpegQualityModeApi2(cameraUiWrapper));
 
-        try {
-            WbHandler wbHandler = new WbHandler(cameraUiWrapper);
-            add(SettingKeys.M_Whitebalance, wbHandler.manualWbCt);
-            add(SettingKeys.WhiteBalanceMode, wbHandler.whiteBalanceApi2);
-        }
-        catch (NullPointerException ex)
-        {
-            Log.d(TAG, "seem whitebalance is unsupported");
-            Log.WriteEx(ex);
+        if (SettingsManager.get(SettingKeys.M_Whitebalance).isSupported()) {
+            try {
+                WbHandler wbHandler = new WbHandler(cameraUiWrapper);
+                add(SettingKeys.M_Whitebalance, wbHandler.manualWbCt);
+                add(SettingKeys.WhiteBalanceMode, wbHandler.whiteBalanceApi2);
+            } catch (NullPointerException ex) {
+                Log.d(TAG, "seem whitebalance is unsupported");
+                Log.WriteEx(ex);
+            }
         }
 
         //dont make that avail for the ui its only internal used
