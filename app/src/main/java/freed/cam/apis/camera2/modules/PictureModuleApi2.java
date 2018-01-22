@@ -195,7 +195,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,false);
+                    cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,true);
                 }
             });
             cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight());
@@ -226,7 +226,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    cameraUiWrapper.captureSessionHandler.SetTextureViewSize(ww, hh, or,or+180,true);
+                    cameraUiWrapper.captureSessionHandler.SetTextureViewSize(ww, hh, or,or+180,false);
                 }
             });
         }

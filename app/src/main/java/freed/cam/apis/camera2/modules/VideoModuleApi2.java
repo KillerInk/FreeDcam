@@ -192,7 +192,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,true);
+                cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,false);
             }
         });
 
