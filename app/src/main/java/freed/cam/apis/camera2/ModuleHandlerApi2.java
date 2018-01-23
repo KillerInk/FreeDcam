@@ -19,6 +19,7 @@
 
 package freed.cam.apis.camera2;
 
+import android.media.audiofx.Equalizer;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
@@ -32,6 +33,7 @@ import freed.cam.apis.camera2.modules.IntervalApi2;
 import freed.cam.apis.camera2.modules.PictureModuleApi2;
 import freed.cam.apis.camera2.modules.VideoModuleApi2;
 import freed.settings.Frameworks;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -54,17 +56,19 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract
         moduleList.put(intervalModule.ModuleName(), intervalModule);
         VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
-        if (SettingsManager.getInstance().getFrameWork() != Frameworks.HuaweiCamera2Ex){
+        if (SettingsManager.getInstance().getFrameWork() != Frameworks.HuaweiCamera2Ex && SettingsManager.get(SettingKeys.M_ExposureTime).isSupported()){
             AeBracketApi2 aeBracketApi2 = new AeBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
             moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
         }
-        else
+        else if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
         {
             AeBracketApi2 aeBracketApi2 = new HuaweiAeBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
             moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
         }
-        AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        moduleList.put(afBracketApi2.ModuleName(), afBracketApi2);
+        if (SettingsManager.get(SettingKeys.M_Focus).isSupported()) {
+            AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper, mBackgroundHandler, mainHandler);
+            moduleList.put(afBracketApi2.ModuleName(), afBracketApi2);
+        }
 
     }
 
