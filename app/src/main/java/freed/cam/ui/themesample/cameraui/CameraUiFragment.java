@@ -195,7 +195,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.HISTOGRAM));
                 focusPeak.SetCameraUiWrapper(cameraUiWrapper);
                 focusPeak.SetUiItemClickListner(this);
-                focusPeak.setBackgroundResource(R.drawable.quck_set_night);
+                focusPeak.setBackgroundResource(R.drawable.quck_set_histogram);
                 left_ui_items_holder.addView(focusPeak);
             }
 
