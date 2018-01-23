@@ -539,13 +539,7 @@ public class CaptureSessionHandler
         }
 
         float viewRatio = dispWidth / dispHeight;
-
         float inputRatio = (float)inputRect.width()/inputRect.height();
-        float newWidth = (dispWidth / viewRatio) * inputRatio;
-        float offset = dispWidth - newWidth;
-        if (viewRatio  == inputRatio)
-            offset = 0;
-        else offset = offset/2;
 
         RectF viewRect = new RectF(0, 0, dispWidth, dispHeight);
 
@@ -574,43 +568,31 @@ public class CaptureSessionHandler
         float scaleY;
         if (renderscript)
         {
-            if (viewRect.width() > w) {
-                if (inputRatio == viewRatio)
-                {
-                    scaleY = h / viewRect.height();
-                    scaleX = w / viewRect.width() ;
-                }
-                else {
-                    Log.d(TAG, "rs viewRect > inputRect");
-                    scaleY = w / viewRect.height();
-                    scaleX = h / viewRect.width();
-                }
-            }
-            else
+            //renderscript has already set the width and height due the Allocation
+            //we have to use the real width and height from the Allocation
+            if (inputRatio == viewRatio)
             {
-                Log.d(TAG,"rs viewRect <= inputRect");
-                scaleY = w / viewRect.width();
-                scaleX = h / viewRect.height();
+                scaleY = h / viewRect.height();
+                scaleX = w / viewRect.width() ;
             }
-        }
-        else if (viewRect.width() > inputRect.width()) {
-            Log.d(TAG,"viewRect > inputRect");
-            scaleY = inputRect.width() / viewRect.height();
-            scaleX = inputRect.height() / viewRect.width();
+            else {
+                Log.d(TAG, "rs viewRect > inputRect");
+                scaleY = w / viewRect.height();
+                scaleX = h / viewRect.width();
+            }
         }
         else {
-            Log.d(TAG,"viewRect <= inputRect");
-            scaleY = inputRect.width() / viewRect.height();
-            scaleX = inputRect.height() / viewRect.width();
+            if (inputRatio != viewRatio) {
+                Log.d(TAG, "viewRect > inputRect");
+                scaleY = inputRect.width() / viewRect.height();
+                scaleX = inputRect.height() / viewRect.width();
+            } else {
+                Log.d(TAG, "viewRect <= inputRect");
+                scaleY = inputRect.width() / viewRect.height();
+                scaleX = inputRect.height() / viewRect.width();
+            }
         }
         Log.d(TAG,"scaleX:" +scaleX + " scaleY:" +scaleY);
-        /*if (viewRatio != inputRatio || !renderscript) {
-
-        }
-        else {
-            scaleY = viewRect.height() / h;
-            scaleX = viewRect.width() / w;
-        }*/
 
         matrix.postScale(scaleX, scaleY, centerX, centerY);
 
