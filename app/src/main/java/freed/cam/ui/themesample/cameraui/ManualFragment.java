@@ -42,6 +42,7 @@ import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.AbstractFragment;
+import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -121,7 +122,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
             }
 
             if (parms.get(SettingKeys.M_Focus) != null) {
-                ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_Focus), R.drawable.manual_focus);
+                ManualButton btn = new ManualButtonMF(getContext(), parms.get(SettingKeys.M_Focus), R.drawable.manual_focus);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
@@ -229,7 +230,9 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
             seekbar.setVisibility(View.GONE);
             afBracketSettingsView.SetCameraWrapper(cameraUiWrapper);
-            if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_afbracket)) /*&& currentButton == mf*/ && seekbar.getVisibility() == View.VISIBLE)
+            if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_afbracket))
+                    && currentButton instanceof ManualButtonMF
+                    && seekbar.getVisibility() == View.VISIBLE)
                 afBracketSettingsView.setVisibility(View.VISIBLE);
             else
                 afBracketSettingsView.setVisibility(View.GONE);
@@ -263,7 +266,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 currentButton = (ManualButton) v;
                 currentButton.SetActive(true);
                 currentButton.SetParameterListner(ManualFragment.this);
-                if (/*currentButton == mf &&*/ cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_afbracket)))
+                if (currentButton instanceof ManualButtonMF && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_afbracket)))
                     afBracketSettingsView.setVisibility(View.VISIBLE);
                 else
                     afBracketSettingsView.setVisibility(View.GONE);
