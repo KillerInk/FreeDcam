@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
+import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
@@ -51,7 +52,9 @@ public class PictureFormatHandler extends BaseModeParameter
         super(parameters, cameraUiWrapper,SettingKeys.PictureFormat);
         isSupported = SettingsManager.get(SettingKeys.PictureFormat).isSupported();
         boolean rawpicformatsupported = SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported();
-        boolean dngprofilessupported = SettingsManager.getInstance().getDngProfilesMap() != null && SettingsManager.getInstance().getDngProfilesMap().size() > 0;
+        boolean dngprofilessupported = false;
+        if(SettingsManager.getInstance().getDngProfilesMap() != null && SettingsManager.getInstance().getDngProfilesMap().size() > 0)
+            dngprofilessupported = true;
         boolean rawSupported = rawpicformatsupported || dngprofilessupported;
         if (rawSupported) {
             rawFormat = SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).get();
@@ -59,14 +62,15 @@ public class PictureFormatHandler extends BaseModeParameter
             BayerFormat bayerFormats = new BayerFormat(parameters, cameraUiWrapper, "");
             if (bayerFormats.getStringValues().length > 0)
                 bayerFormats.onIsSetSupportedChanged(true);
+            if (TextUtils.isEmpty(rawFormat))
+                rawFormat = rawFormats[0];
             parametersHandler.add(SettingKeys.BAYERFORMAT, bayerFormats);
             if (rawFormats.length  > 0 || SettingsManager.getInstance().getFrameWork() == freed.settings.Frameworks.MTK)
                 SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(true);
             else
                 SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(false);
-            boolean dngsupport = SettingsManager.getInstance().getDngProfilesMap() != null && SettingsManager.getInstance().getDngProfilesMap().size() > 0;
             if (!contains(SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues(), SettingsManager.getInstance().getResString(R.string.dng_))
-                    && dngsupport)
+                    && dngprofilessupported)
             SettingsManager.get(SettingKeys.PictureFormat).setValues(new String[]
                         {
                                 SettingsManager.getInstance().getResString(R.string.jpeg_),

@@ -218,8 +218,8 @@ public class SettingsManager implements SettingsManagerInterface {
         {
             Log.d(TAG, "load dngProfiles");
             opcodeUrlList = new ArrayList<>();
-            dngProfileHashMap = parser.getDngProfiles(matrixes);
         }
+        dngProfileHashMap = parser.getDngProfiles(matrixes);
     }
 
     private void loadOpCodes()
