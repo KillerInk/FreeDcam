@@ -3,17 +3,29 @@
 #pragma rs_fp_relaxed
 
 int factor = 2;
+int maxclip = 253;
 
 uchar4 __attribute__((kernel)) processClipping(uchar4 in, uint32_t x, uint32_t y) {
 
     uchar4 rgb = in;
-    if(rgb.r >=255 -factor && rgb.g >= 255 -factor && rgb.b >= 255 -factor)
+    if(rgb.r >=maxclip && rgb.g >= maxclip && rgb.b >= maxclip)
     {
-        rgb.r =255; rgb.g = 0;  rgb.b = 0;
+        if(x & 10)
+            rgb.r =255;
+        else
+        {
+            rgb.r =255; rgb.g = 0;  rgb.b = 0;
+        }
     }
-    if(rgb.r <=0 +factor && rgb.g <= 0 +factor && rgb.b <= 0 +factor)
+    if(rgb.r <=factor && rgb.g <= factor && rgb.b <= factor)
     {
-        rgb.r =0; rgb.g = 0;  rgb.b = 255;
+        if(x & 10){
+            rgb.r =100; rgb.g = 100;  rgb.b = 255;
+        }
+        else
+        {
+            rgb.b = factor;
+        }
     }
     return rgb;
 }
