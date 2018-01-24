@@ -60,6 +60,7 @@ public class RenderScriptManager
     public ScriptC_freedcam freedcamScript;
     public ScriptC_rgb_histogram rgb_histogram;
     public ScriptC_rgb_focuspeak rgb_focuspeak;
+    public ScriptC_rgb_clipping rgb_clipping;
 
     private boolean sucessfullLoaded = false;
 
@@ -78,6 +79,7 @@ public class RenderScriptManager
             convolve3x3 = ScriptIntrinsicConvolve3x3.create(mRS,Element.U8_4(mRS));
             rgb_histogram = new ScriptC_rgb_histogram(mRS);
             rgb_focuspeak = new ScriptC_rgb_focuspeak(mRS);
+            rgb_clipping = new ScriptC_rgb_clipping(mRS);
 
             sucessfullLoaded = true;
         }

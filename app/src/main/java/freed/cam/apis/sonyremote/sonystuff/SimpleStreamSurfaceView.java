@@ -774,6 +774,11 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     }
 
     @Override
+    public void setClippingEnable(boolean enable) {
+
+    }
+
+    @Override
     public void setBlue(boolean blue) {
         this.blue = blue;
     }

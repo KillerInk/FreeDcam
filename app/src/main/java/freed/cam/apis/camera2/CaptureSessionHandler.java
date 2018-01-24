@@ -424,7 +424,7 @@ public class CaptureSessionHandler
     {
         if (mPreviewRequestBuilder == null )
             return;
-        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        //Log.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
         if (mImageCaptureRequestBuilder != null)
             mImageCaptureRequestBuilder.set(key,value);

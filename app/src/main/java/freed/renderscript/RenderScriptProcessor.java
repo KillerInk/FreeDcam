@@ -28,6 +28,7 @@ import android.renderscript.Allocation.OnBufferAvailableListener;
 import android.renderscript.Element;
 import android.renderscript.RenderScript.RSErrorHandler;
 import android.renderscript.ScriptGroup;
+import android.renderscript.Type;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
 import android.view.View;
@@ -49,14 +50,19 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
     private ProcessingTask mProcessingTask;
     private boolean peak;
     private boolean processHistogram;
+    private boolean processClipping;
     private final RenderScriptManager renderScriptManager;
     private final Object workLock = new Object();
     private final MyHistogram histogram;
     private final Allocation histodataR;
 
-    private ScriptGroup scriptGroup;
+    private ScriptGroup allScriptGroup;
     private ScriptGroup histoGroup;
     private ScriptGroup peakGroup;
+    private ScriptGroup clippingGroup;
+    private ScriptGroup histoPeakGroup;
+    private ScriptGroup clippingPeakGroup;
+    private ScriptGroup clippingHistoGroup;
     private boolean blue;
     private boolean green;
     private boolean red;
@@ -116,6 +122,11 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
     }
 
     @Override
+    public void setClippingEnable(boolean enable) {
+        processClipping = enable;
+    }
+
+    @Override
     public void setBlue(boolean blue) {
         this.blue = blue;
     }
@@ -171,23 +182,106 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
         renderScriptManager.rgb_histogram.bind_histodataR(histodataR);
         renderScriptManager.rgb_histogram.set_takeOnlyPixel(width*height/8);
 
+        createScriptGroups(rgbTypeBuilder);
 
+        if (mProcessingTask != null) {
+
+            synchronized (workLock) {
+                mProcessingTask = null;
+            }
+        }
+        mProcessingTask = new ProcessingTask();
+    }
+
+    private void createScriptGroups(Builder rgbTypeBuilder) {
+        createAllScriptsGroup(rgbTypeBuilder);
+        createHistogramGroup(rgbTypeBuilder);
+        createFocusPeakGroup(rgbTypeBuilder);
+        createClippingGroup(rgbTypeBuilder);
+        createHistogramFocusPeakGroup(rgbTypeBuilder);
+        createClippingFocusPeakGroup(rgbTypeBuilder);
+        createHistogramClippingGroup(rgbTypeBuilder);
+    }
+
+    private void createHistogramFocusPeakGroup(Builder rgbTypeBuilder) {
         //create script group that peak and process histogram.
-        ScriptGroup.Builder builder = new ScriptGroup.Builder(renderScriptManager.GetRS());
+        ScriptGroup.Builder peakHistoBuilder = new ScriptGroup.Builder(renderScriptManager.GetRS());
         // add kernels involved with this group
-        builder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
-        builder.addKernel(renderScriptManager.rgb_histogram.getKernelID_processHistogram());
-        builder.addKernel(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak());
+        peakHistoBuilder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
+        peakHistoBuilder.addKernel(renderScriptManager.rgb_histogram.getKernelID_processHistogram());
+        peakHistoBuilder.addKernel(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak());
 
         //create the bridge between the kernels
-        builder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_histogram.getKernelID_processHistogram());
-        builder.addConnection(rgbTypeBuilder.create(), renderScriptManager.rgb_histogram.getKernelID_processHistogram(), renderScriptManager.rgb_focuspeak.getFieldID_input());
+        peakHistoBuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_histogram.getKernelID_processHistogram());
+        peakHistoBuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.rgb_histogram.getKernelID_processHistogram(), renderScriptManager.rgb_focuspeak.getFieldID_input());
 
         //create the group and apply the input/ouput to kernels.
-        scriptGroup = builder.create();
-        scriptGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
-        scriptGroup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
+        histoPeakGroup = peakHistoBuilder.create();
+        histoPeakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        histoPeakGroup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
+    }
 
+    private void createHistogramClippingGroup(Builder rgbTypeBuilder) {
+        //create script group that peak and process histogram.
+        ScriptGroup.Builder peakHistoBuilder = new ScriptGroup.Builder(renderScriptManager.GetRS());
+        // add kernels involved with this group
+        peakHistoBuilder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
+        peakHistoBuilder.addKernel(renderScriptManager.rgb_histogram.getKernelID_processHistogram());
+        peakHistoBuilder.addKernel(renderScriptManager.rgb_clipping.getKernelID_processClipping());
+
+        //create the bridge between the kernels
+        peakHistoBuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_histogram.getKernelID_processHistogram());
+        peakHistoBuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.rgb_histogram.getKernelID_processHistogram(), renderScriptManager.rgb_clipping.getKernelID_processClipping());
+
+        //create the group and apply the input/ouput to kernels.
+        clippingHistoGroup = peakHistoBuilder.create();
+        clippingHistoGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        clippingHistoGroup.setOutput(renderScriptManager.rgb_clipping.getKernelID_processClipping(), renderScriptManager.GetOut());
+    }
+
+    private void createClippingFocusPeakGroup(Builder rgbTypeBuilder) {
+        //create script group that peak and process histogram.
+        ScriptGroup.Builder peakHistoBuilder = new ScriptGroup.Builder(renderScriptManager.GetRS());
+        // add kernels involved with this group
+        peakHistoBuilder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
+        peakHistoBuilder.addKernel(renderScriptManager.rgb_clipping.getKernelID_processClipping());
+        peakHistoBuilder.addKernel(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak());
+
+        //create the bridge between the kernels
+        peakHistoBuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_clipping.getKernelID_processClipping());
+        peakHistoBuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.rgb_clipping.getKernelID_processClipping(), renderScriptManager.rgb_focuspeak.getFieldID_input());
+
+        //create the group and apply the input/ouput to kernels.
+        clippingPeakGroup = peakHistoBuilder.create();
+        clippingPeakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        clippingPeakGroup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
+    }
+
+    private void createClippingGroup(Builder rgbTypeBuilder) {
+        //create scriptgroup that only clip
+        ScriptGroup.Builder clipbuilder = new ScriptGroup.Builder(renderScriptManager.GetRS());
+        clipbuilder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
+        clipbuilder.addKernel(renderScriptManager.rgb_clipping.getKernelID_processClipping());
+
+        clipbuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_clipping.getKernelID_processClipping());
+        clippingGroup = clipbuilder.create();
+        clippingGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        clippingGroup.setOutput(renderScriptManager.rgb_clipping.getKernelID_processClipping(), renderScriptManager.GetOut());
+    }
+
+    private void createFocusPeakGroup(Builder rgbTypeBuilder) {
+        //create scriptgroup that only peak
+        ScriptGroup.Builder peakbuilder = new ScriptGroup.Builder(renderScriptManager.GetRS());
+        peakbuilder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
+        peakbuilder.addKernel(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak());
+
+        peakbuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_focuspeak.getFieldID_input());
+        peakGroup = peakbuilder.create();
+        peakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        peakGroup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
+    }
+
+    private void createHistogramGroup(Builder rgbTypeBuilder) {
         //create script group that process histogram
         ScriptGroup.Builder histobuilder = new ScriptGroup.Builder(renderScriptManager.GetRS());
         histobuilder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
@@ -198,27 +292,26 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
         histoGroup = histobuilder.create();
         histoGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
         histoGroup.setOutput(renderScriptManager.rgb_histogram.getKernelID_processHistogram(), renderScriptManager.GetOut());
+    }
 
+    private void createAllScriptsGroup(Builder rgbTypeBuilder) {
+        //create script group that peak and process histogram.
+        ScriptGroup.Builder builder = new ScriptGroup.Builder(renderScriptManager.GetRS());
+        // add kernels involved with this group
+        builder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
+        builder.addKernel(renderScriptManager.rgb_histogram.getKernelID_processHistogram());
+        builder.addKernel(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak());
+        builder.addKernel(renderScriptManager.rgb_clipping.getKernelID_processClipping());
 
-        //create scriptgroup that only peak
-        ScriptGroup.Builder peakbuilder = new ScriptGroup.Builder(renderScriptManager.GetRS());
-        peakbuilder.addKernel(renderScriptManager.yuvToRgbIntrinsic.getKernelID());
-        peakbuilder.addKernel(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak());
+        //create the bridge between the kernels
+        builder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_histogram.getKernelID_processHistogram());
+        builder.addConnection(rgbTypeBuilder.create(), renderScriptManager.rgb_histogram.getKernelID_processHistogram(), renderScriptManager.rgb_focuspeak.getFieldID_input());
+        builder.addConnection(rgbTypeBuilder.create(), renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.rgb_clipping.getKernelID_processClipping());
 
-        peakbuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_focuspeak.getFieldID_input());
-        peakGroup = peakbuilder.create();
-        peakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
-        peakGroup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
-
-
-
-        if (mProcessingTask != null) {
-
-            synchronized (workLock) {
-                mProcessingTask = null;
-            }
-        }
-        mProcessingTask = new ProcessingTask();
+        //create the group and apply the input/ouput to kernels.
+        allScriptGroup = builder.create();
+        allScriptGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        allScriptGroup.setOutput(renderScriptManager.rgb_clipping.getKernelID_processClipping(), renderScriptManager.GetOut());
     }
 
     public Surface getInputSurface() {
@@ -298,15 +391,33 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
                 renderScriptManager.rgb_focuspeak.set_green(green);
                 renderScriptManager.rgb_focuspeak.set_blue(blue);
 
-                //focuspeak and histogram is active
-                if (peak && processHistogram)
+                if (peak && processHistogram && processClipping)
                 {
                     //draw histogram only each HISTOGRAM_UPDATE_RATE frames
                     //it takes to much time to get it foreach frame and cause a lag
                     if (framescount % HISTOGRAM_UPDATE_RATE == 0) {
 
                         renderScriptManager.rgb_histogram.invoke_clear();
-                        scriptGroup.execute();
+                        allScriptGroup.execute();
+                        histodataR.copyTo(histogram.getRedHistogram());
+                        histodataR.copyTo(histogram.getGreenHistogram());
+                        histodataR.copyTo(histogram.getBlueHistogram());
+                        histogram.redrawHistogram();
+                        framescount = 0;
+                    }
+                    else { // if no histogram process process only focuspeak
+                        clippingPeakGroup.execute();
+                    }
+                }
+                //focuspeak and histogram is active
+                else if (peak && processHistogram)
+                {
+                    //draw histogram only each HISTOGRAM_UPDATE_RATE frames
+                    //it takes to much time to get it foreach frame and cause a lag
+                    if (framescount % HISTOGRAM_UPDATE_RATE == 0) {
+
+                        renderScriptManager.rgb_histogram.invoke_clear();
+                        histoPeakGroup.execute();
                         histodataR.copyTo(histogram.getRedHistogram());
                         histodataR.copyTo(histogram.getGreenHistogram());
                         histodataR.copyTo(histogram.getBlueHistogram());
@@ -317,10 +428,34 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
                         peakGroup.execute();
                     }
                 }
+                else if (processClipping && processHistogram)
+                {
+                    //draw histogram only each HISTOGRAM_UPDATE_RATE frames
+                    //it takes to much time to get it foreach frame and cause a lag
+                    if (framescount % HISTOGRAM_UPDATE_RATE == 0) {
+
+                        renderScriptManager.rgb_histogram.invoke_clear();
+                        clippingHistoGroup.execute();
+                        histodataR.copyTo(histogram.getRedHistogram());
+                        histodataR.copyTo(histogram.getGreenHistogram());
+                        histodataR.copyTo(histogram.getBlueHistogram());
+                        histogram.redrawHistogram();
+                        framescount = 0;
+                    }
+                    else { // if no histogram process process only focuspeak
+                        clippingGroup.execute();
+                    }
+                }
+                else if(peak && processClipping)
+                {
+                    clippingPeakGroup.execute();
+                }
                 else if (peak) // process only focuspeak
                 {
                     peakGroup.execute();
                 }
+                else if (processClipping)
+                    clippingGroup.execute();
                 else if (processHistogram) // process only histogram
                 {
                     if (framescount % HISTOGRAM_UPDATE_RATE == 0) {
@@ -339,7 +474,6 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
                 else
                 {
                     renderScriptManager.yuvToRgbIntrinsic.forEach(renderScriptManager.GetOut());
-
                 }
                 renderScriptManager.GetOut().ioSend();
                 working = false;

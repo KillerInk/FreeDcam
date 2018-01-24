@@ -25,6 +25,7 @@ import android.text.TextUtils;
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.modes.ClippingMode;
 import freed.cam.apis.basecamera.parameters.modes.EnableRenderScriptMode;
 import freed.cam.apis.basecamera.parameters.modes.FocusPeakColorMode;
 import freed.cam.apis.basecamera.parameters.modes.FocusPeakMode;
@@ -77,6 +78,8 @@ public abstract class AbstractParameterHandler
             get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.Focuspeak));
             add(SettingKeys.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
             get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.HISTOGRAM));
+            add(SettingKeys.CLIPPING, new ClippingMode(cameraUiWrapper));
+            get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.CLIPPING));
         }
     }
 

@@ -198,6 +198,14 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 focusPeak.setBackgroundResource(R.drawable.quck_set_histogram);
                 left_ui_items_holder.addView(focusPeak);
             }
+            if (parameterHandler.get(SettingKeys.CLIPPING) != null && parameterHandler.get(SettingKeys.CLIPPING).IsSupported() && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded()) {
+                UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
+                focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.CLIPPING));
+                focusPeak.SetCameraUiWrapper(cameraUiWrapper);
+                focusPeak.SetUiItemClickListner(this);
+                focusPeak.setBackgroundResource(R.drawable.clipping);
+                left_ui_items_holder.addView(focusPeak);
+            }
 
             if (parameterHandler.get(SettingKeys.WhiteBalanceMode) != null) {
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.WhiteBalanceMode), R.drawable.quck_set_wb);

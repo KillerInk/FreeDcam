@@ -19,48 +19,52 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/uiSettingsBackground"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
+            android:id="@+id/button_afbracket_fragment_setMax"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SetMax"
-            android:id="@+id/button_afbracket_fragment_setMax" />
+            android:text="SetMax" />
 
         <TextView
+            android:id="@+id/textView_afBracketFragment_maxvalue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_marginLeft="@dimen/menu_margin"
             android:text="0"
-            android:id="@+id/textView_afBracketFragment_maxvalue"
-            android:layout_marginLeft="@dimen/menu_margin" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/menuTextColor" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
+            android:id="@+id/button_afbracket_fragment_setMin"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SetMin"
-            android:id="@+id/button_afbracket_fragment_setMin" />
+            android:text="SetMin" />
 
         <TextView
+            android:id="@+id/textView_afBracketFragment_minvalue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_marginLeft="@dimen/menu_margin"
             android:text="0"
-            android:id="@+id/textView_afBracketFragment_minvalue"
-            android:layout_marginLeft="@dimen/menu_margin" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/menuTextColor" />
     </LinearLayout>
 </LinearLayout>
