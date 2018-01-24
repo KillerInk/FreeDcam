@@ -248,13 +248,13 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
         peakHistoBuilder.addKernel(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak());
 
         //create the bridge between the kernels
-        peakHistoBuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_clipping.getKernelID_processClipping());
-        peakHistoBuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.rgb_clipping.getKernelID_processClipping(), renderScriptManager.rgb_focuspeak.getFieldID_input());
+        peakHistoBuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_focuspeak.getFieldID_input());
+        peakHistoBuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.rgb_clipping.getKernelID_processClipping());
 
         //create the group and apply the input/ouput to kernels.
         clippingPeakGroup = peakHistoBuilder.create();
         clippingPeakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
-        clippingPeakGroup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
+        clippingPeakGroup.setOutput(renderScriptManager.rgb_clipping.getKernelID_processClipping(), renderScriptManager.GetOut());
     }
 
     private void createClippingGroup(Builder rgbTypeBuilder) {

@@ -20,11 +20,11 @@ uchar4 __attribute__((kernel)) processClipping(uchar4 in, uint32_t x, uint32_t y
     if(rgb.r <=factor && rgb.g <= factor && rgb.b <= factor)
     {
         if(x & 10){
-            rgb.r =100; rgb.g = 100;  rgb.b = 255;
+            rgb.b = factor;
         }
         else
         {
-            rgb.b = factor;
+            rgb.r =100; rgb.g = 100;  rgb.b = 255;
         }
     }
     return rgb;
