@@ -104,8 +104,8 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
                 changeCaptureState(CaptureStates.image_capture_start);
                 waitForPicture = true;
                 ParameterInterface burst = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst);
-                if (burst != null && burst.IsSupported() && burst.GetValue() > 0) {
-                    burstcount = burst.GetValue();
+                if (burst != null && burst.IsSupported() && burst.GetValue()+1 > 1) {
+                    burstcount = burst.GetValue()+1;
                     isBurstCapture = true;
                 }
                 else

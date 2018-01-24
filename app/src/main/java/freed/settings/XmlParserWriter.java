@@ -94,7 +94,7 @@ public class XmlParserWriter
                                     SettingsManager.get(SettingKeys.M_Burst).setIsSupported(true);
                                     int max = Integer.parseInt(camera1element.findChild("burst").getValue());
                                     SettingsManager.get(SettingKeys.M_Burst).setValues(createStringArray(1, max, 1));
-                                    SettingsManager.get(SettingKeys.M_Burst).set(1 + "");
+                                    SettingsManager.get(SettingKeys.M_Burst).set(0+ "");
                                 } else
                                     SettingsManager.get(SettingKeys.M_Burst).setIsSupported(false);
                                 SettingsManager.get(SettingKeys.M_Burst).setIsPresetted(true);
