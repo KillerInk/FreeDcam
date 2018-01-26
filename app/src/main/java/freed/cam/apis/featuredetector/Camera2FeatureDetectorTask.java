@@ -6,6 +6,7 @@ import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.net.wifi.aware.Characteristics;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Range;
@@ -59,6 +60,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
             String cameras[] = manager.getCameraIdList();
             SettingsManager.getInstance().setCamerasCount(cameras.length);
+            int hwlvl = CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
 
             for (String s : cameras)
             {
@@ -72,7 +74,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 SettingsManager.get(SettingKeys.Module).set(SettingsManager.getInstance().getResString(R.string.module_picture));
                 SettingsManager.getInstance().SetCurrentCamera(Integer.parseInt(s));
                 SettingsManager.getInstance().setIsFrontCamera(front);
-                int hwlvl = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+                hwlvl = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
 
                 SettingsManager.get(SettingKeys.selfTimer).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.selftimervalues));
                 SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
@@ -317,7 +319,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
             }
             SettingsManager.getInstance().SetCurrentCamera(0);
-            if (!hasCamera2Features)
+            if (!hasCamera2Features || hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
                 SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
 
             if (SettingsManager.getInstance().hasCamera2Features() && !SettingsManager.get(SettingKeys.openCamera1Legacy).isPresetted()) {
