@@ -561,7 +561,7 @@ public class CaptureSessionHandler
         if (!renderscript)
             matrix.setRectToRect(inputRect,viewRect, Matrix.ScaleToFit.CENTER);
         else
-            matrix.setRectToRect(inputRect,viewRect, Matrix.ScaleToFit.FILL);
+            matrix.setRectToRect(inputRect,viewRect, Matrix.ScaleToFit.CENTER);
 
 
         float scaleX;
@@ -570,26 +570,25 @@ public class CaptureSessionHandler
         {
             //renderscript has already set the width and height due the Allocation
             //we have to use the real width and height from the Allocation
-            if (inputRatio == viewRatio)
-            {
-                scaleY = h / viewRect.height();
-                scaleX = w / viewRect.width() ;
-            }
-            else {
-                Log.d(TAG, "rs viewRect > inputRect");
+            if (orientation == 90 || orientation == 270) {
+                Log.d(TAG, "viewRect > inputRect");
                 scaleY = w / viewRect.height();
                 scaleX = h / viewRect.width();
+            } else {
+                Log.d(TAG, "viewRect <= inputRect");
+                scaleY = h / viewRect.height();
+                scaleX = w / viewRect.width();
             }
         }
         else {
-            if (inputRatio != viewRatio) {
+            if (orientation == 90 || orientation == 270) {
                 Log.d(TAG, "viewRect > inputRect");
                 scaleY = inputRect.width() / viewRect.height();
                 scaleX = inputRect.height() / viewRect.width();
             } else {
                 Log.d(TAG, "viewRect <= inputRect");
-                scaleY = inputRect.width() / viewRect.height();
-                scaleX = inputRect.height() / viewRect.width();
+                scaleY = inputRect.height() / viewRect.height();
+                scaleX = inputRect.width() / viewRect.width();
             }
         }
         Log.d(TAG,"scaleX:" +scaleX + " scaleY:" +scaleY);
