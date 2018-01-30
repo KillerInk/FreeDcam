@@ -317,7 +317,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
     public Surface getInputSurface() {
         return renderScriptManager.GetInputAllocationSurface();
     }
-    public void setOutputSurface(Surface output)
+    public void setOutputSurface(Surface output) throws NullPointerException
     {
         renderScriptManager.SetSurfaceToOutputAllocation(output);
         Log.d(TAG,"setOutputSurface");

@@ -70,7 +70,7 @@ public abstract class AbstractParameterHandler
         add(SettingKeys.HorizontLvl, new Horizont());
         add(SettingKeys.SD_SAVE_LOCATION, new SDModeParameter());
         add(SettingKeys.NightOverlay, new NightOverlayParameter(cameraUiWrapper));
-        if (RenderScriptManager.isSupported()) {
+        if (RenderScriptManager.isSupported() && cameraUiWrapper.getFocusPeakProcessor() != null) {
             add(SettingKeys.EnableRenderScript, new EnableRenderScriptMode(cameraUiWrapper, SettingsManager.get(SettingKeys.EnableRenderScript)));
             add(SettingKeys.FOCUSPEAK_COLOR, new FocusPeakColorMode(cameraUiWrapper.getFocusPeakProcessor(), SettingKeys.FOCUSPEAK_COLOR));
             get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.FOCUSPEAK_COLOR));
@@ -154,7 +154,11 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(SettingKeys.Ae_TargetFPS,false);
 
         setAppSettingsToCamera(SettingKeys.ExposureMode,true);
-        setAppSettingsToCamera(SettingKeys.FOCUSPEAK_COLOR,true);
+        if (RenderScriptManager.isSupported() && cameraUiWrapper.getFocusPeakProcessor() != null) {
+            setAppSettingsToCamera(SettingKeys.FOCUSPEAK_COLOR, true);
+            setAppSettingsToCamera(SettingKeys.HISTOGRAM, true);
+            setAppSettingsToCamera(SettingKeys.CLIPPING, true);
+        }
     }
 
     public void setManualSettingsToParameters()

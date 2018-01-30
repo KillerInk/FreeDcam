@@ -113,7 +113,7 @@ public class RenderScriptManager
         return mRS;
     }
 
-    public void SetSurfaceToOutputAllocation(Surface surface)
+    public void SetSurfaceToOutputAllocation(Surface surface) throws NullPointerException
     {
         mAllocationOut.setSurface(surface);
     }
