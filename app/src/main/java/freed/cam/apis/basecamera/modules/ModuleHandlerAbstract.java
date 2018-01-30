@@ -254,8 +254,13 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
                 case MODULE_CHANGED:
                     ArrayList<ModuleChangedEvent> moduleChangedListners = weakReferenceModuleChangedListners.get();
                     if (moduleChangedListners != null){
-                        if (moduleChangedListners.size() > 0)
-                            moduleChangedListners.get(msg.arg1).onModuleChanged((String)msg.obj);
+                        if (moduleChangedListners.size() > 0) {
+                            ModuleChangedEvent event = moduleChangedListners.get(msg.arg1);
+                            if (event != null)
+                                event.onModuleChanged((String) msg.obj);
+                            else
+                                moduleChangedListners.remove(event);
+                        }
                     }
                 break;
                 case CAPTURE_STATE_CHANGED:
