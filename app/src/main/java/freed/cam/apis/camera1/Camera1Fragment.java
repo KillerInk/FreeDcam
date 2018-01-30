@@ -303,7 +303,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 cameraHolder.StopPreview();
                 if (focusPeakProcessorAp1 != null) {
                     focusPeakProcessorAp1.kill();
-                    focusPeakProcessorAp1.setOutputSurface(null);
                 }
 
                 cameraHolder.SetSurface((Surface)null);
@@ -329,8 +328,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         for (Size s : sizes)
         {
             ratio = (double) s.width / s.height;
-            if (ratio < targetRatio + ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE) {
-                if (s.width <= 2560 && s.height <= 1440 && s.width >= 640 && s.height >= 480)
+            if (ratio <= targetRatio + ASPECT_TOLERANCE && ratio >= targetRatio - ASPECT_TOLERANCE) {
+                if (s.width <= 2560 && s.height <= 1440 && s.width >= 800 && s.height >= 600)
                     aspectRatioMatches.add(s);
             }
         }
