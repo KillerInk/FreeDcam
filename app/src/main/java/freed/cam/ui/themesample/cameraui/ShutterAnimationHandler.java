@@ -124,6 +124,7 @@ public class ShutterAnimationHandler extends Handler
 
     private void startAnimation()
     {
+        this.removeMessages(MSG_START_ANIMATION);
         this.obtainMessage(MSG_START_ANIMATION).sendToTarget();
     }
 
@@ -220,6 +221,7 @@ public class ShutterAnimationHandler extends Handler
     private void sendMsgToSButton(String s)
     {
         shutteropentime = s;
+        uiHandler.removeMessages(UIHandler.MSG_INVALIDATE);
         uiHandler.obtainMessage(UIHandler.MSG_INVALIDATE).sendToTarget();
     }
 
