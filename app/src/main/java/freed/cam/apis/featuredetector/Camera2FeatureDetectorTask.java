@@ -43,6 +43,9 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     private final String TAG = Camera2FeatureDetectorTask.class.getSimpleName();
     private Context context;
     boolean hasCamera2Features;
+
+    public int hwlvl = CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
+
     public Camera2FeatureDetectorTask(ProgressUpdate progressUpdate, Context context) {
         super(progressUpdate);
         this.context = context;
@@ -60,7 +63,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
             String cameras[] = manager.getCameraIdList();
             SettingsManager.getInstance().setCamerasCount(cameras.length);
-            int hwlvl = CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
 
             for (String s : cameras)
             {
@@ -319,10 +321,11 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
             }
             SettingsManager.getInstance().SetCurrentCamera(0);
-            if (!hasCamera2Features || hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
+            if (!hasCamera2Features || hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
                 SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
+            }
 
-            if (SettingsManager.getInstance().hasCamera2Features() && !SettingsManager.get(SettingKeys.openCamera1Legacy).isPresetted()) {
+            if (SettingsManager.getInstance().hasCamera2Features() && !SettingsManager.get(SettingKeys.openCamera1Legacy).isPresetted() && hwlvl != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
                 SettingsManager.get(SettingKeys.openCamera1Legacy).set(true);
             }
             Log.d(TAG, "Can Open Legacy: " + SettingsManager.get(SettingKeys.openCamera1Legacy).get() + " was presetted: " + SettingsManager.get(SettingKeys.openCamera1Legacy).isPresetted());

@@ -1032,10 +1032,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             case LG:
             {
                 Log.d(TAG,"Open LG Camera");
-                LGCameraRef lgCamera;
+                LGCameraRef lgCamera = null;
                 if (SettingsManager.get(SettingKeys.openCamera1Legacy).get())
                     lgCamera = new LGCameraRef(currentcamera, 256);
-                else
+                if (lgCamera == null)
                     lgCamera = new LGCameraRef(currentcamera);
                 return lgCamera.getParameters();
             }

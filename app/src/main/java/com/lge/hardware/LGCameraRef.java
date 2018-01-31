@@ -79,14 +79,19 @@ public class LGCameraRef
             lgCamera = constructor.newInstance(cameraid, hwlvl);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            lgCamera = null;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+            lgCamera = null;
         } catch (InstantiationException e) {
             e.printStackTrace();
+            lgCamera = null;
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+            lgCamera = null;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
+            lgCamera = null;
         }
     }
 

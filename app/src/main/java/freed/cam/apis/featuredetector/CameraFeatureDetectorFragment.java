@@ -1,5 +1,6 @@
 package freed.cam.apis.featuredetector;
 
+import android.hardware.camera2.CameraCharacteristics;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -101,15 +102,20 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
     {
         @Override
         public boolean process() {
-            AbstractFeatureDetectorTask task  = null;
+            Camera2FeatureDetectorTask task  = null;
+            Camera1FeatureDetectorTask task1 = null;
             if (Build.VERSION.SDK_INT >= 21) {
                 task =  new Camera2FeatureDetectorTask(cameraListner,getContext());
                 task.detect();
             }
-            task = new Camera1FeatureDetectorTask(cameraListner);
-            task.detect();
-            if (SettingsManager.getInstance().hasCamera2Features())
-                SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
+            task1 = new Camera1FeatureDetectorTask(cameraListner);
+            task1.detect();
+            if (SettingsManager.getInstance().hasCamera2Features()) {
+                if (task.hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
+                    SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
+                else
+                    SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
+            }
             handler.obtainMessage(FeatureDetectorHandler.MSG_STARTFREEDCAM).sendToTarget();
             return false;
         }
