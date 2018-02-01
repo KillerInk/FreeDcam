@@ -155,7 +155,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
 
         //MF
-        add(SettingKeys.M_Focus,new ManualFocus(cameraUiWrapper));
+        if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
+            add(SettingKeys.M_Focus,new ManualFocus(cameraUiWrapper));
 
         //MF END
 

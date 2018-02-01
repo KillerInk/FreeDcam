@@ -197,10 +197,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         });
 
         SurfaceTexture texture = cameraUiWrapper.captureSessionHandler.getSurfaceTexture();
-        if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
-            texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
-        else
-            texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+        texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         previewsurface = new Surface(texture);
         cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface,true);
         cameraUiWrapper.captureSessionHandler.CreateCaptureSession();

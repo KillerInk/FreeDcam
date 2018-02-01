@@ -55,9 +55,10 @@ public class CameraHolderLegacy extends CameraHolder
         } catch (RuntimeException ex)
         {
             Log.WriteEx(ex);
-            cameraUiWrapper.fireCameraError("Fail to connect to camera service");
+            cameraUiWrapper.fireCameraError("Fail to connect to legacy camera service");
             isRdy = false;
             mCamera = Camera.open(camera);
+            isRdy =true;
         }
 
         cameraUiWrapper.fireCameraOpen();

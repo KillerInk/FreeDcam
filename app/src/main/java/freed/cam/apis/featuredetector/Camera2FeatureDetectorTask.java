@@ -848,12 +848,14 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             focusranges.add(t++,StringUtils.getMeterString(1/floats.get(i)),floats.get(i));
         }
 
-        if (focusranges.getSize() > 0)
+        if (focusranges.getSize() > 0) {
             mf.setIsSupported(true);
+            mf.setValues(focusranges.getStringArray());
+        }
         else
             mf.setIsSupported(false);
 
-        mf.setValues(focusranges.getStringArray());
+
     }
 
     private void detectManualExposure(CameraCharacteristics characteristics)
@@ -868,11 +870,13 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         for (int i = min; i <= max; i++) {
             strings.add(String.format("%.1f", i * step));
         }
-        if (strings.size() > 0)
+        if (strings.size() > 0) {
             exposure.setIsSupported(true);
+            exposure.setValues(strings.toArray(new String[strings.size()]));
+        }
         else
             exposure.setIsSupported(false);
-        exposure.setValues(strings.toArray(new String[strings.size()]));
+
     }
 
     private void detectManualexposureTime(CameraCharacteristics characteristics)
@@ -887,7 +891,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
         ArrayList<String> tmp = getShutterStrings(max, min,false);
         SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(tmp.size() > 0);
-        SettingsManager.get(SettingKeys.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
+        if (tmp.size() > 0)
+            SettingsManager.get(SettingKeys.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
 
     }
 
@@ -937,7 +942,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         int min = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower();
         ArrayList<String> ar = getIsoStrings(max, min);
         SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(ar.size() > 0);
-        SettingsManager.get(SettingKeys.M_ManualIso).setValues(ar.toArray(new String[ar.size()]));
+        if (ar.size() > 0)
+            SettingsManager.get(SettingKeys.M_ManualIso).setValues(ar.toArray(new String[ar.size()]));
     }
 
     @NonNull
