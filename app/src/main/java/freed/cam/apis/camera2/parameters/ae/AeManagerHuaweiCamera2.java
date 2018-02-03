@@ -33,26 +33,8 @@ public class AeManagerHuaweiCamera2 extends AeManagerCamera2 {
     public void setExposureTime(int valueToSet, boolean setToCamera) {
         cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED,setToCamera);
         if (valueToSet > 0) {
-            String shutter = manualExposureTime.getStringValues()[valueToSet];
-            Rational rational;
-            if (shutter.contains("/"))
-            {
-                String[]split = shutter.split("/");
-                rational = new Rational(Integer.parseInt(split[0]),Integer.parseInt(split[1]));
-            }
-            else if (shutter.contains("."))
-            {
-                double sh = Double.parseDouble(shutter);
-                double sh10 = sh*10;
-                rational = new Rational((int)sh10,10);
-            }
-            else
-            {
-                rational = new Rational(Integer.parseInt(shutter),1);
-            }
             int val = (int) AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTime.getStringValues()[valueToSet]);
             cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, val,setToCamera);
-            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, rational,setToCamera);
             manualExposureTime.fireIntValueChanged(valueToSet);
             expotimeIsActive = true;
 
