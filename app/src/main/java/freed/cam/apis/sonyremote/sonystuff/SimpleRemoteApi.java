@@ -123,6 +123,31 @@ public class SimpleRemoteApi {
         }
     }
 
+    public JSONObject actEnableMethods(String methods,String devname,String devid,String sg) throws IOException {
+        try {
+            JSONArray devar = new JSONArray();
+            devar.put(new JSONObject()
+                    .put("developerName", devname)
+                    .put("developerID", devid)
+                    .put("sg", sg)
+                    .put("methods", methods));
+            //devar.put(new JSONObject().put("dg", dg));
+            JSONObject requestJson =
+                    new JSONObject().put("method", "actEnableMethods") //
+                            .put("params", devar)
+                            .put("id", id())
+                    .put("version","1.0");
+            String url = findActionListUrl(ACCESSCONTROL) + "/" + ACCESSCONTROL;
+
+            log("Request:  " + requestJson);
+            String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
+            log("Response: " + responseJson);
+            return new JSONObject(responseJson);
+        } catch (JSONException e) {
+            throw new IOException(e);
+        }
+    }
+
     // Camera Service APIs
 
     /**
@@ -546,6 +571,11 @@ public class SimpleRemoteApi {
         return getMethodTypes(service,"1.4");
     }
 
+    public JSONObject getAccessMethodTypes() throws IOException {
+        String service = ACCESSCONTROL;
+        return getMethodTypes(service,"1.0");
+    }
+
     private JSONObject getMethodTypes(String service, String eventApi) throws IOException
     {
         try {
@@ -838,6 +868,11 @@ public class SimpleRemoteApi {
         return getParameterFromService(valueToGet,service);
     }
 
+    public JSONObject getParameterFromAccess(String valueToGet) throws IOException {
+        String service = ACCESSCONTROL;
+        return getParameterFromService(valueToGet,service);
+    }
+
     public JSONObject getParameterFromGuide(String valueToGet) throws IOException {
         String service = GUIDE;
         return getParameterFromService(valueToGet,service);
@@ -864,6 +899,12 @@ public class SimpleRemoteApi {
     {
         return getParameterFromCamera("getVersions");
     }
+
+    public JSONObject getAccessVersions() throws IOException
+    {
+        return getParameterFromAccess("getVersions");
+    }
+
 
     public JSONObject setTouchToFocus(double x, double y) throws IOException
     {

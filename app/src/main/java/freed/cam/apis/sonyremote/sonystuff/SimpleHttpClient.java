@@ -160,9 +160,9 @@ final class SimpleHttpClient {
 
             int responseCode = httpConn.getResponseCode();
             //Log.d(TAG, "httpPost: Response Code: " + responseCode + ": " + url);
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+            //if (responseCode == HttpURLConnection.HTTP_OK) {
                 inputStream = httpConn.getInputStream();
-            }
+            //}
             if (inputStream == null) {
                 Log.w(TAG, "httpPost: Response Code Error: " + responseCode + ": " + url);
                 throw new IOException("Response Error:" + responseCode);

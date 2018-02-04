@@ -33,3 +33,60 @@ Response: {
    null,
    {"type":"programShift","isShifted":false},{"type":"shutterSpeed","shutterSpeedCandidates":[],"
 }
+
+
+"results" -> "
+    [
+        [
+            "actEnableMethods",
+                ["
+                    {
+                        \"developerName\":\"string\",
+                        \"developerID\":\"string\",
+                        \"sg\":\"string\",
+                        \"methods\":\"string\"
+                    }
+                "],
+                ["
+                    {\"dg\":\"string\"}
+                "],
+            "1.0"
+        ],
+            ["getMethodTypes",["string"],
+            ["string","string*","string*","string"],
+            "1.0"
+        ],
+        [
+            "getVersions",[],["string*"],"1.0"
+        ]
+    ]"
+
+
+    ["actEnableMethods",[{"methods":"","developerName":"","developerID":"","sg":""}],[{"dg":""}],"1.0"]
+
+    {"actEnableMethods":[{"developerName":"Rubber Duck Paradise","developerID":"22222222-2222-2222-2222-222222222222","sg":"","methods":"actEnableMethods"}]}
+
+    {"method":"actEnableMethods","params":[{"developerName":"","developerID":"","sg":"","methods":""}],"version":"1.0"}
+
+    {"method":"getMethodTypes","params":["1.0"],"id":1,"version":"1.0"}
+
+    {"method":"actEnableMethods","params":[{"dg":""}],"version":"1.0"}
+
+
+    {"results":[["actEnableMethods",["{\"developerName\":\"string\", \"developerID\":\"string\", \"sg\":\"string\", \"methods\":\"string\"}"],["{\"dg\":\"string\"}"],"1.0"],["getMethodTypes",["string"],["string","string*","string*","string"],"1.0"],["getVersions",[],["string*"],"1.0"]],"id":1}
+                ["actEnableMethods",[ { "developerName ": ""       ,  "developerID ": ""       ,  "sg ": ""       ,  "methods ": ""       } ],[ { "dg ": ""       } ],"1.0"]
+    ["actEnableMethods",[{"\"developerName\"":"","\"developerID\"":"","\"sg\"":"","\"methods\"":""}],[{"\"dg\"":""}],"1.0"]
+    [{"\\developerName\\":"","\\developerID\\":"","\\sg\\":"","\\methods\\":""}]
+
+    {"method":"actEnableMethods","params":[[{"developerName":"","developerID":"","sg":"","methods":""}],[{"dg":""}]],"id":3,"version":"1.0"}
+    {"method":"actEnableMethods","params":[[{"developerName":"","developerID":"","sg":"","methods":""}],[{"dg":""}],"1.0"]}
+    {"method":"actEnableMethods","params":[[{"developerName":"","developerID":"","sg":"","methods":""}],[{"dg":""}]],"version":"1.0"}
+    {"method":"actEnableMethods","params":[{"developerName":"","developerID":"","sg":"","methods":""},{"dg":""}],"version":"1.0"}
+
+    working request
+    {"method":"actEnableMethods","params":[{"developerName":"","developerID":"","sg":"","methods":""}],"id":3,"version":"1.0"}
+
+
+    {"method":"actEnableMethods","params":[{"developerName":"Sony Corporation","developerID":"7DED695E-75AC-4ea9-8A85-E5F8CA0AF2F3","sg":"rNSnytG3iPAjcWE0JwyGKX8v\/L7X9kVaTkxYvMp7Vps=\n","methods":"camera\/getVersions:camera\/getMethodTypes:camera\/getApplicationInfo:camera\/getAvailableApiList:camera\/setShootMode:camera\/getShootMode:camera\/getSupportedShootMode:camera\/getAvailableShootMode:camera\/setFlashMode:camera\/getFlashMode:camera\/getSupportedFlashMode:camera\/getAvailableFlashMode:camera\/setSelfTimer:camera\/getSelfTimer:camera\/getSupportedSelfTimer:camera\/getAvailableSelfTimer:camera\/setExposureCompensation:camera\/getExposureCompensation:camera\/getSupportedExposureCompensation:camera\/getAvailableExposureCompensation:camera\/setPostviewImageSize:camera\/getPostviewImageSize:camera\/getSupportedPostviewImageSize:camera\/getAvailablePostviewImageSize:camera\/setTouchAFPosition:camera\/getTouchAFPosition:camera\/cancelTouchAFPosition:camera\/setFNumber:camera\/getFNumber:camera\/getSupportedFNumber:camera\/getAvailableFNumber:camera\/setShutterSpeed:camera\/getShutterSpeed:camera\/getSupportedShutterSpeed:camera\/getAvailableShutterSpeed:camera\/setIsoSpeedRate:camera\/getIsoSpeedRate:camera\/getSupportedIsoSpeedRate:camera\/getAvailableIsoSpeedRate:camera\/setExposureMode:camera\/getExposureMode:camera\/getSupportedExposureMode:camera\/getAvailableExposureMode:camera\/setWhiteBalance:camera\/getWhiteBalance:camera\/getSupportedWhiteBalance:camera\/getAvailableWhiteBalance:camera\/setProgramShift:camera\/getSupportedProgramShift:camera\/setZoomSetting:camera\/getZoomSetting:camera\/getSupportedZoomSetting:camera\/getAvailableZoomSetting:camera\/setContShootingMode:camera\/getContShootingMode:camera\/getSupportedContShootingMode:camera\/getAvailableContShootingMode:camera\/setContShootingSpeed:camera\/getContShootingSpeed:camera\/getSupportedContShootingSpeed:camera\/getAvailableContShootingSpeed:camera\/startRecMode:camera\/stopRecMode:camera\/startLiveview:camera\/startLiveviewWithSize:camera\/stopLiveview:camera\/getLiveviewSize:camera\/getSupportedLiveviewSize:camera\/getAvailableLiveviewSize:camera\/setLiveviewFrameInfo:camera\/getLiveviewFrameInfo:camera\/actTakePicture:camera\/awaitTakePicture:camera\/startContShooting:camera\/stopContShooting:camera\/startBulbShooting:camera\/stopBulbShooting:camera\/startMovieRec:camera\/stopMovieRec:camera\/actZoom:camera\/setFocusMode:camera\/getFocusMode:camera\/getSupportedFocusMode:camera\/getAvailableFocusMode:camera\/actHalfPressShutter:camera\/cancelHalfPressShutter:camera\/getStorageInformation:camera\/getEvent:camera\/setCameraFunction:camera\/getCameraFunction:camera\/getSupportedCameraFunction:camera\/getAvailableCameraFunction:camera\/setSilentShootingSetting:camera\/getSilentShootingSetting:camera\/getSupportedSilentShootingSetting:camera\/getAvailableSilentShootingSetting:accessControl\/actEnableMethods"}],"id":4,"version":"1.0"}
+
+    {"method":"actEnableMethods","params":[{"developerName":"Sony Corporation","developerID":"7DED695E-75AC-4ea9-8A85-E5F8CA0AF2F3","sg":"czaGxfgcNHp\/\/nl4v0LstO+vwZch+Oa+HF\/rnZwYnyw=\n","methods":"accessControl\\actEnableMethods"}],"id":4,"version":"1.0"}

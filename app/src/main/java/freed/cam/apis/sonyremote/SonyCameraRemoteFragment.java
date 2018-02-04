@@ -36,6 +36,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,6 +46,7 @@ import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
+import freed.cam.apis.sonyremote.sonystuff.Auth;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
 import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
@@ -184,6 +187,26 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
         ((CameraHolderSony)cameraHolder).setRemoteApi(mRemoteApi);
         ((CameraHolderSony)cameraHolder).cameraRemoteEventsListner =this;
+
+        try {
+            JSONObject replyJson;
+            replyJson = mRemoteApi.getAccessMethodTypes();
+            replyJson = mRemoteApi.getAccessVersions();
+            replyJson = mRemoteApi.actEnableMethods("","","","");
+            //result = {"result":[{"dg":"4b263abeeb922f3070f452553fb6bd9b04605d25928932922d2957ab092a4a99"}],"id":3}
+            String dg =replyJson.getJSONArray("result").getJSONObject(0).getString("dg");
+            String sg  = new Auth().SHA256(dg);
+            replyJson = mRemoteApi.actEnableMethods(Auth.METHODS_TO_ENABLE,"Sony Corporation","7DED695E-75AC-4ea9-8A85-E5F8CA0AF2F3",sg);
+            Log.d(TAG,replyJson.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
 
         try {
             JSONObject replyJson;
