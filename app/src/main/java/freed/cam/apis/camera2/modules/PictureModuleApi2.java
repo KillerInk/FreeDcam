@@ -613,11 +613,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     @Override
     public void internalFireOnWorkDone(File file)
     {
-        if(isBurstCapture && burstCount  >= imagecount)
+        Log.d(TAG,"internalFireOnWorkDone BurstCount:" +burstCount +" imageCount:" +imagecount);
+        if(isBurstCapture && burstCount  >= imagecount) {
             filesSaved.add(file);
-        if (isBurstCapture && burstCount  == imagecount +1)
+            Log.d(TAG,"internalFireOnWorkDone Burst addFile");
+        }
+        if (isBurstCapture && burstCount  == imagecount)
         {
-            Log.d(TAG,"Burst Done");
+            Log.d(TAG,"internalFireOnWorkDone Burst done");
             fireOnWorkFinish(filesSaved.toArray(new File[filesSaved.size()]));
             filesSaved.clear();
         }
