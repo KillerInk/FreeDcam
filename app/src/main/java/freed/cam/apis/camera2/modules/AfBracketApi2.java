@@ -28,8 +28,10 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by troop on 18.08.2016.
@@ -37,16 +39,19 @@ import freed.settings.SettingsManager;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class AfBracketApi2 extends PictureModuleApi2
 {
+    private final String TAG = AfBracketApi2.class.getSimpleName();
+    private ManualFocus manualFocus;
+
     public AfBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = cameraUiWrapper.getResString(R.string.module_afbracket);
     }
 
-    private final int PICSTOTAKE = 10;
+    private int PICSTOTAKE = 10;
 
     private int focusStep;
     private int currentFocusPos;
-    private int focuslength;
+    private int focusCaptureRange;
     private int min;
 
     @Override
@@ -62,9 +67,10 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
+        manualFocus = (ManualFocus) cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Focus);
         cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(PICSTOTAKE-1, true);
-        focuslength = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length -1;
-        focusStep =  focuslength/PICSTOTAKE;
+        focusCaptureRange = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length -1;
+        focusStep =  focusCaptureRange /PICSTOTAKE;
         currentFocusPos = 1;
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
 
@@ -78,6 +84,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     protected void onStartTakePicture() {
         super.onStartTakePicture();
+        PICSTOTAKE = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).GetValue();
         int max  = 0;
         try {
             min = Integer.parseInt(SettingsManager.getInstance().getApiString(SettingsManager.SETTING_AFBRACKETMIN));
@@ -91,24 +98,32 @@ public class AfBracketApi2 extends PictureModuleApi2
 
         if (min == 0 && max == 0)
         {
-            focuslength = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length -1;
-            focusStep = focuslength /PICSTOTAKE;
+            focusCaptureRange = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length -1;
+            focusStep = focusCaptureRange /PICSTOTAKE;
             currentFocusPos = 1;
         }
-        else
-        {
-            focuslength = max - min;
-            focusStep = focuslength /PICSTOTAKE;
-            currentFocusPos = min;
+        else {
+            if (max > min){
+                focusCaptureRange = max - min;
+                currentFocusPos = min;
+            }
+            else {
+                focusCaptureRange = min - max;
+                currentFocusPos = max;
+            }
+            focusStep = focusCaptureRange /PICSTOTAKE;
+
         }
+        Log.d(TAG,"onStartTakePicture() min:" + min + " max:" + max +" focusCaptureRange:" + focusCaptureRange + " focusStep:" + focusStep + " currentFocusPos:" + currentFocusPos);
     }
 
     @Override
     protected void prepareCaptureBuilder(int captureNum) {
-        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.LENS_FOCUS_DISTANCE, (float) currentFocusPos / 10);
+        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.LENS_FOCUS_DISTANCE, manualFocus.getFloatValue(currentFocusPos));
+        Log.d(TAG,"prepareCaptureBuilder() focusCaptureRange:" + focusCaptureRange + " focusStep:" + focusStep + " currentFocusPos:" + currentFocusPos + " :" +  manualFocus.getFloatValue(currentFocusPos) + " :" + manualFocus.getStringValue(currentFocusPos));
         currentFocusPos +=focusStep;
-        if (currentFocusPos > focuslength+min)
-            currentFocusPos = focuslength+min;
+        if (currentFocusPos > parameterHandler.get(SettingKeys.M_Focus).getStringValues().length)
+            currentFocusPos = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length-1;
     }
 
 

@@ -117,4 +117,14 @@ public class ManualFocus extends AbstractParameter
     public String[] getStringValues() {
         return focusvalues.getKeys();
     }
+
+    public float getFloatValue(int index)
+    {
+        return focusvalues.getValue(index);
+    }
+
+    public String getStringValue(int index)
+    {
+        return focusvalues.getKey(index);
+    }
 }
