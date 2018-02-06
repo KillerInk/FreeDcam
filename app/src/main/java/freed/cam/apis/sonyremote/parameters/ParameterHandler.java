@@ -32,6 +32,7 @@ import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.FocusHandler;
@@ -198,6 +199,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
         add(SettingKeys.NightMode, new NightModeSony(surfaceView));
         parametersChangedList.add((BaseModeParameterSony) get(SettingKeys.NightMode));
+        get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.NightMode));
 
         add(SettingKeys.M_PreviewZoom, new PreviewZoomManual(surfaceView, cameraUiWrapper));
 

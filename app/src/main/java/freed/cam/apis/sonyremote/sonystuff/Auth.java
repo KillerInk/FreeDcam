@@ -16,11 +16,12 @@ import freed.utils.Log;
 
 public class Auth {
 
+    private final static String TAG = Auth.class.getSimpleName();
     // Tied to Methods list below, 64 _ASCII_ characters = 256 bit equivalant
     String AUTH_CONST_STRING = "90adc8515a40558968fe8318b5b023fdd48d3828a2dda8905f3b93a3cd8e58dc";
 
    public static String METHODS_TO_ENABLE =
-                   /*"guide/getServiceProtocols:" +
+                   "guide/getServiceProtocols:" +
                    "guide/getVersions:"+
                    "guide/getMethodTypes:" +
                    "camera/getVersions:"+
@@ -133,23 +134,28 @@ public class Auth {
                    "avContent/seekStreamingPosition:"+
                    "avContent/stopStreaming:"+
                    "avContent/requestToNotifyStreamingStatus:"+
-                   "avContent/deleteContent:"+*/
-                   "accessControl/actEnableMethods";
+                   "avContent/deleteContent:"+
+                   "accessControl\u002factEnableMethods";
 
-public String SHA256 (String text) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
+public String SHA256 (String dg) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
 
 
-    SecretKeySpec localSecretKeySpec = new SecretKeySpec(text.getBytes("UTF-8"), "hmacSHA256");
+    SecretKeySpec localSecretKeySpec = new SecretKeySpec(dg.getBytes("UTF-8"), "hmacSHA256");
     Mac localMac = Mac.getInstance("hmacSHA256");
     localMac.init(localSecretKeySpec);
     String str = toHexString(localMac.doFinal(AUTH_CONST_STRING.getBytes("UTF-8")));
     return str;
 
-    /*    String m = AUTH_CONST_STRING +text;
+        /*String m = AUTH_CONST_STRING +text;
         Log.d("Auth", m);
         MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(m.getBytes("UTF-8"));
-        m = toHexString(md.digest());
+        md.update(m.getBytes());
+        Log.d(TAG, bytesToHex2(md.digest()));
+        Log.d(TAG, bytesToHex(md.digest()));
+        Log.d(TAG, toHexString(md.digest()));
+        Log.d(TAG, Base64.encodeToString(md.digest(),Base64.DEFAULT));
+        String t = Base64.encode(md.digest(), Base64.DEFAULT);
+        m = bytesToHex(md.digest());
         return m;*/
     }
 
@@ -178,5 +184,11 @@ public String SHA256 (String text) throws NoSuchAlgorithmException, UnsupportedE
             }
             localStringBuffer.append(str);
         }
+    }
+
+    public static String bytesToHex2(byte[] bytes) {
+        StringBuffer result = new StringBuffer();
+        for (byte byt : bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));
+        return result.toString();
     }
 }

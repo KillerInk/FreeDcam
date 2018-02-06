@@ -26,6 +26,7 @@ import com.troop.freedcam.R;
 import java.util.Set;
 
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
+import freed.renderscript.RenderScriptManager;
 
 /**
  * Created by troop on 23.08.2015.
@@ -43,7 +44,8 @@ public class FocusPeakSony extends BaseModeParameterSony {
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        simpleStreamSurfaceView.focuspeak = valueToSet.equals( simpleStreamSurfaceView.getResources().getString(R.string.on_));
+        boolean enable = valueToSet.equals(simpleStreamSurfaceView.getResources().getString(R.string.on_));
+        simpleStreamSurfaceView.focuspeak = enable;
     }
 
     @Override
@@ -62,7 +64,7 @@ public class FocusPeakSony extends BaseModeParameterSony {
 
     @Override
     public boolean IsSupported() {
-        return VERSION.SDK_INT >= 18;
+        return RenderScriptManager.isSupported();
     }
 
 

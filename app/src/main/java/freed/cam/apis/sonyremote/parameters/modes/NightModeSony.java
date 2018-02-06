@@ -26,6 +26,7 @@ import com.troop.freedcam.R;
 import java.util.Set;
 
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
+import freed.renderscript.RenderScriptManager;
 
 /**
  * Created by troop on 04.12.2015.
@@ -81,7 +82,7 @@ public class NightModeSony extends BaseModeParameterSony
 
     @Override
     public boolean IsSupported() {
-        return VERSION.SDK_INT >= 18;
+        return RenderScriptManager.isSupported();
     }
 
 

@@ -10,7 +10,7 @@ import freed.settings.mode.BooleanSettingModeInterface;
 
 public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSettingModeInterface {
 
-    private ApiBooleanSettingMode settingMode;
+    protected ApiBooleanSettingMode settingMode;
 
     public EnableRenderScriptMode(CameraWrapperInterface cameraUiWrapper, ApiBooleanSettingMode settingMode) {
         super(cameraUiWrapper);

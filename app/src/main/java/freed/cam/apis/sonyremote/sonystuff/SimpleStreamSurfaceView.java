@@ -47,6 +47,7 @@ import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessorInterface;
+import freed.settings.SettingKeys;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
@@ -93,9 +94,11 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private final float[] SHARPMATRIX = {-0f, -1f, -0f,
                                          -1f,  5f, -1f,
                                          -0f, -1f, -0f };
-    private boolean blue;
-    private boolean green;
-    private boolean red;
+    private boolean blue = true;
+    private boolean green = true;
+    private boolean red = true;
+
+    private boolean useRenderScript = false;
 
     @Override
     public void onMove(int x, int y) {
@@ -483,11 +486,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             int fragmentwidth = this.getWidth();
             int fragmentheight = this.getHeight();
 
-            if (renderScriptManager.isSucessfullLoaded())
+            if (renderScriptManager.isSucessfullLoaded() && useRenderScript)
             {
-                renderScriptManager.rgb_focuspeak.set_blue(blue);
-                renderScriptManager.rgb_focuspeak.set_red(red);
-                renderScriptManager.rgb_focuspeak.set_green(green);
+
                 if (scalePreview) {
                     renderScriptManager.freedcamScript.set_gCurrentFrame(mAllocationIn);
                     mAllocationIn.copyFrom(frame);
@@ -529,8 +530,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         return;
                 }
                 if (focuspeak) {
+                    renderScriptManager.rgb_focuspeak.set_blue(blue);
+                    renderScriptManager.rgb_focuspeak.set_red(red);
+                    renderScriptManager.rgb_focuspeak.set_green(green);
                     renderScriptManager.rgb_focuspeak.forEach_focuspeak(renderScriptManager.GetOut());
-
                 }
 
                 canvas = getHolder().lockCanvas();
@@ -561,6 +564,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         }
         catch(IllegalStateException ex)
         {Log.WriteEx(ex);}
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
@@ -765,7 +772,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
     @Override
     public void setFocusPeakEnable(boolean enable) {
-
+        useRenderScript = enable;
     }
 
     @Override

@@ -125,23 +125,22 @@ public class SimpleRemoteApi {
 
     public JSONObject actEnableMethods(String methods,String devname,String devid,String sg) throws IOException {
         try {
+            String req = "{\"method\":\"actEnableMethods\",\"params\":[{\"developerName\":\""+devname+"\",\"developerID\":\""+devid+"\",\"sg\":\""+sg+"\",\"methods\":\""+methods+"\"}],\"version\":\"1.0\"}";
             JSONArray devar = new JSONArray();
             devar.put(new JSONObject()
                     .put("developerName", devname)
                     .put("developerID", devid)
                     .put("sg", sg)
                     .put("methods", methods));
-            //devar.put(new JSONObject().put("dg", dg));
             JSONObject requestJson =
                     new JSONObject().put("method", "actEnableMethods") //
                             .put("params", devar)
-                            .put("id", id())
                     .put("version","1.0");
             String url = findActionListUrl(ACCESSCONTROL) + "/" + ACCESSCONTROL;
 
-            log("Request:  " + requestJson);
-            String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
-            log("Response: " + responseJson);
+            Log.d(TAG,"Request:  " + requestJson);
+            String responseJson = SimpleHttpClient.httpPost(url, req);
+            Log.d(TAG,"Response: " + responseJson);
             return new JSONObject(responseJson);
         } catch (JSONException e) {
             throw new IOException(e);
