@@ -113,7 +113,8 @@
 
         <activity
             android:name="freed.viewer.dngconvert.DngConvertingActivity"
-            android:label="GridView">
+            android:label="GridView"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -121,7 +122,8 @@
 
         <activity
             android:name="freed.viewer.stack.StackActivity"
-            android:label="GridView">
+            android:label="GridView"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -129,7 +131,8 @@
 
         <activity
             android:name="freed.viewer.stack.DngStackActivity"
-            android:label="GridView">
+            android:label="GridView"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -137,7 +140,8 @@
 
         <activity
             android:name="freed.cam.ui.videoprofileeditor.VideoProfileEditorActivity"
-            android:label="GridView">
+            android:label="GridView"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
