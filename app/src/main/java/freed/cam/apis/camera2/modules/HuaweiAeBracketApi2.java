@@ -10,6 +10,7 @@ import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.huawei.camera2ex.CaptureRequestEx;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.SettingKeys;
 import freed.utils.Log;
 
 /**
@@ -20,6 +21,8 @@ import freed.utils.Log;
 public class HuaweiAeBracketApi2 extends AeBracketApi2 {
 
     private final String TAG = HuaweiAeBracketApi2.class.getSimpleName();
+    private int isoauto = 0;
+    private int shutterauto = 0;
 
     public HuaweiAeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
@@ -27,6 +30,8 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
 
     @Override
     protected void onStartTakePicture() {
+        isoauto = cameraUiWrapper.parametersHandler.get(SettingKeys.M_ManualIso).GetValue();
+        shutterauto = cameraUiWrapper.parametersHandler.get(SettingKeys.M_ExposureTime).GetValue();
         int isorange[] = cameraHolder.characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_ISO_RANGE);
         maxiso = isorange[isorange.length-1];
         currentExposureTime = cameraUiWrapper.cameraBackroundValuesChangedListner.currentExposureTime;
@@ -81,6 +86,8 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
     @Override
     protected void finishCapture() {
         super.finishCapture();
+        cameraUiWrapper.parametersHandler.get(SettingKeys.M_ManualIso).SetValue(isoauto,true);
+        cameraUiWrapper.parametersHandler.get(SettingKeys.M_ExposureTime).SetValue(shutterauto,true);
     }
 
 }
