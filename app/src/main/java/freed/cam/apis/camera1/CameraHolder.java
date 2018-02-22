@@ -30,6 +30,7 @@ import android.hardware.Camera.PreviewCallback;
 import android.location.Location;
 import android.view.Surface;
 import android.view.SurfaceHolder;
+import android.view.TextureView;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -218,6 +219,15 @@ public class CameraHolder extends CameraHolderAbstract
             Log.WriteEx(ex);
         }
         return false;
+    }
+
+    public void setTextureView(TextureView texturView)
+    {
+        try {
+            mCamera.setPreviewTexture(texturView.getSurfaceTexture());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

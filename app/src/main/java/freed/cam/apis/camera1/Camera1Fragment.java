@@ -231,8 +231,10 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         @Override
         public void run() {
             Log.d(TAG, "createPreviewRunner.run()");
-            if (textureView == null || !PreviewSurfaceRdy)
+            if (textureView == null || !PreviewSurfaceRdy) {
+                Log.d(TAG, "FAILED TO GET SURFACE FROM TEXTUREVIEW ################");
                 return;
+            }
             if(moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_picture))
                     || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_hdr))
                     || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_interval)))
@@ -278,10 +280,16 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 {
                     cameraHolder.StopPreview();
 
-                    cameraHolder.SetSurface((Surface)null);
-                    //textureView.getSurfaceTexture().setDefaultBufferSize(size.width,size.height);
-                    Surface surface = new Surface(textureView.getSurfaceTexture());
-                    cameraHolder.SetSurface(surface);
+
+
+                    if (((CameraHolder)cameraHolder).canSetSurfaceDirect()) {
+                        cameraHolder.SetSurface((Surface)null);
+                        //textureView.getSurfaceTexture().setDefaultBufferSize(size.width,size.height);
+                        Surface surface = new Surface(textureView.getSurfaceTexture());
+                        cameraHolder.SetSurface(surface);
+                    }
+                    else
+                        ((CameraHolder)cameraHolder).setTextureView(textureView);
 
                     Log.d(TAG, "set size to " + size.width + "x" + size.height);
                     parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
