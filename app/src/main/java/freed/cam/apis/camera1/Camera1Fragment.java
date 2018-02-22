@@ -230,6 +230,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     {
         @Override
         public void run() {
+            Log.d(TAG, "createPreviewRunner.run()");
+            if (textureView == null || !PreviewSurfaceRdy)
+                return;
             if(moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_picture))
                     || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_hdr))
                     || moduleHandler.getCurrentModuleName().equals(getResString(R.string.module_interval)))
@@ -315,6 +318,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 cameraToMainHandler.obtainMessage(CameraToMainHandler.MSG_SET_ASPECTRATIO, size).sendToTarget();
                 cameraHolder.StartPreview();
             }
+            Log.d(TAG, "createPreviewRunner.run() done");
         }
     };
 
