@@ -97,6 +97,8 @@
     <string name="setting_focuspeakcolor_description">Color for the sharp area</string>
     <string name="setting_enablerenderscript_header">Preview PostProcessing: </string>
     <string name="setting_enablerenderscript_description">Activate it to enable Focuspeak or LiveHistogram</string>
+    <string name="setting_opencameralegacy_header">Open Camera in LegacyMode: </string>
+    <string name="setting_opencameralegacy_description">De/Activate when you have problems with Manuals</string>
 
     <string name="setting_qcom_">Qualcomm Settings</string>
     <string name="setting_cds_header">Correlated double sampling: </string>
