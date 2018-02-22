@@ -81,7 +81,14 @@ public class CameraHolderSony extends CameraHolder {
     public Camera.Parameters GetCameraParameters()
     {
         Camera.Parameters parameters = mCamera.getParameters();
-        sonyCameraExtension.fetchParameters(parameters);
+        try {
+            sonyCameraExtension.fetchParameters(parameters);
+        }
+        catch (NullPointerException ex)
+        {
+            parameters = mCamera.getParameters();
+        }
+
         return parameters;
     }
 
