@@ -315,11 +315,15 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 if (focusPeakProcessorAp1 != null) {
                     focusPeakProcessorAp1.kill();
                 }
-
-                cameraHolder.SetSurface((Surface)null);
-                //textureView.getSurfaceTexture().setDefaultBufferSize(size.width,size.height);
-                Surface surface = new Surface(textureView.getSurfaceTexture());
-                cameraHolder.SetSurface(surface);
+                
+                if (((CameraHolder)cameraHolder).canSetSurfaceDirect()) {
+                    cameraHolder.SetSurface((Surface)null);
+                    //textureView.getSurfaceTexture().setDefaultBufferSize(size.width,size.height);
+                    Surface surface = new Surface(textureView.getSurfaceTexture());
+                    cameraHolder.SetSurface(surface);
+                }
+                else
+                    ((CameraHolder)cameraHolder).setTextureView(textureView);
 
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
                 parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
