@@ -478,7 +478,16 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public void onModuleChanged(String module)
     {
-        onPreviewSizeShouldChange.onStringValueChanged(parametersHandler.get(SettingKeys.Focuspeak).GetStringValue());
+        if (parametersHandler.get(SettingKeys.Focuspeak) == null)
+            return;
+        try {
+            onPreviewSizeShouldChange.onStringValueChanged(parametersHandler.get(SettingKeys.Focuspeak).GetStringValue());
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
+
     }
 
     @Override
