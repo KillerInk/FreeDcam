@@ -86,6 +86,11 @@ public class FrameworkDetector {
             Log.d(TAG, "no sony camera extension");
             return false;
         }
+        catch (NoSuchFieldError ex)
+        {
+            Log.d(TAG, "no sony camera extension");
+            return false;
+        }
     }
 
     public static Frameworks getFramework()
