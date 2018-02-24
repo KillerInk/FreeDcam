@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1.parameters.manual.qcom;
 
 import android.hardware.Camera.Parameters;
+import android.location.Location;
 
 import com.troop.freedcam.R;
 
@@ -29,12 +30,13 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.settings.SettingKeys;
+import freed.utils.Log;
 
 /**
  * Created by GeorgeKiarie on 6/2/2016.
  */
 public class BaseISOManual extends BaseManualParameter {
-
+    private final String TAG = BaseISOManual.class.getSimpleName();
     private String cur_iso_mode = cameraUiWrapper.getResString(R.string.auto_);
 
     public BaseISOManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
@@ -62,6 +64,25 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_manual()
     {
+        if (cameraUiWrapper == null){
+            Log.e(TAG,"set_manual cameraUiWrapper is null");
+            return;
+        }
+        if (cameraUiWrapper.getParameterHandler() == null)
+        {
+            Log.e(TAG,"set_manual ParameterHandler is null");
+            return;
+        }
+        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode) == null)
+        {
+            Log.e(TAG, "set_manual IsoMode is null");
+            return;
+        }
+        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue() == null)
+        {
+            Log.e(TAG, "set_manual IsoMode.GetStringValue is null");
+            return;
+        }
         cur_iso_mode = cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue();
 
         if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue().equals(cameraUiWrapper.getResString(R.string.manual)))
@@ -73,6 +94,25 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_to_auto()
     {
+        if (cameraUiWrapper == null){
+            Log.e(TAG,"set_to_auto cameraUiWrapper is null");
+            return;
+        }
+        if (cameraUiWrapper.getParameterHandler() == null)
+        {
+            Log.e(TAG,"set_to_auto ParameterHandler is null");
+            return;
+        }
+        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode) == null)
+        {
+            Log.e(TAG, "set_to_auto IsoMode is null");
+            return;
+        }
+        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue() == null)
+        {
+            Log.e(TAG, "set_to_auto IsoMode.GetStringValue is null");
+            return;
+        }
         if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue().equals(cameraUiWrapper.getResString(R.string.manual)))
             cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
         cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cur_iso_mode, true);
