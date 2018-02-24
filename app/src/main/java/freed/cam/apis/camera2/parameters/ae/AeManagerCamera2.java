@@ -115,7 +115,8 @@ public class AeManagerCamera2 extends AeManager {
         //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
         cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF,true);
         //hide flash ui item its not supported in manual mode
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.FlashMode).fireIsSupportedChanged(false);
+        if(cameraUiWrapper.getParameterHandler().get(SettingKeys.FlashMode) != null)
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.FlashMode).fireIsSupportedChanged(false);
         //enable manualiso item in ui
         manualIso.fireIsReadOnlyChanged(true);
         //enable manual exposuretime in ui
