@@ -32,7 +32,7 @@ public class CameraToMainHandler extends Handler implements CameraStateEvents
     public CameraToMainHandler(MainMessageEvent event)
     {
         super(Looper.getMainLooper());
-        mainMessageEventWeakReference = new WeakReference<MainMessageEvent>(event);
+        mainMessageEventWeakReference = new WeakReference<>(event);
     }
 
     @Override

@@ -224,11 +224,11 @@ public class XmlElement {
     }
 
     public String dumpChildElementsTagNames() {
-        String t = new String();
+        StringBuilder t = new StringBuilder();
         for (XmlElement child : mChildElements) {
-            t += child.getTagName() +"\n";
+            t.append(child.getTagName()).append("\n");
         }
-        return t;
+        return t.toString();
     }
 
     /**

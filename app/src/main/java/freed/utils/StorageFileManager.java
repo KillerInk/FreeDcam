@@ -255,11 +255,7 @@ public class StorageFileManager
 
     private void sortFileHolder(List<FileHolder> f)
     {
-        Collections.sort(f, new Comparator<FileHolder>() {
-            public int compare(FileHolder f1, FileHolder f2) {
-                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
-            }
-        });
+        Collections.sort(f, (f1, f2) -> Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified()));
     }
 
     /**

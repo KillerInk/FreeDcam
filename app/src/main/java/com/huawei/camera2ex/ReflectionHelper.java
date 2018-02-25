@@ -40,7 +40,7 @@ public class ReflectionHelper {
         try {
             Object typeref = ReflectionHelper.getTypeReference(type);
             Constructor<?>[] ctors = myclass.getDeclaredConstructors();
-            Constructor<?> constructor = (Constructor<?>) ctors[1];
+            Constructor<?> constructor = ctors[1];
             constructor.setAccessible(true);
             return constructor.newInstance(string, typeref);
         } catch (InstantiationException e) {
@@ -57,7 +57,7 @@ public class ReflectionHelper {
     {
         try {
             Constructor<?>[] ctors = myclass.getDeclaredConstructors();
-            Constructor<?> constructor = (Constructor<?>) ctors[2];
+            Constructor<?> constructor = ctors[2];
             constructor.setAccessible(true);
             return constructor.newInstance(string,type);
         } catch (InstantiationException e) {
@@ -75,10 +75,10 @@ public class ReflectionHelper {
 
     private String getTab(int depth)
     {
-        String ret = "";
+        StringBuilder ret = new StringBuilder();
         for (int i =0; i< depth; i ++)
-            ret += tab;
-        return ret;
+            ret.append(tab);
+        return ret.toString();
     }
 
     public void dumpClass(Class classtoDump, FileOutputStream outputStream, int depth) throws IOException {
@@ -112,22 +112,22 @@ public class ReflectionHelper {
     private String createMethodLogString(Method method,int depth)
     {
         int mod = method.getModifiers();
-        String ret = getTab(depth);
-        ret += getAccessType(mod);
+        StringBuilder ret = new StringBuilder(getTab(depth));
+        ret.append(getAccessType(mod));
 
-        ret += method.getReturnType().getSimpleName() + " ";
-        ret +=  method.getName();
+        ret.append(method.getReturnType().getSimpleName()).append(" ");
+        ret.append(method.getName());
         Class[] parametertypes = method.getParameterTypes();
-        ret+= "(";
+        ret.append("(");
         for (Class c : parametertypes){
             if (parametertypes[parametertypes.length-1] == c)
-                ret += c.getSimpleName();
+                ret.append(c.getSimpleName());
             else
-                ret += c.getSimpleName()+", ";
+                ret.append(c.getSimpleName()).append(", ");
         }
-        ret+=");";
+        ret.append(");");
 
-        return ret;
+        return ret.toString();
     }
 
     private String createFieldLogString(Field field,int depth)

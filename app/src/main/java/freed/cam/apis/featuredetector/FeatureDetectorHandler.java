@@ -20,7 +20,7 @@ public class FeatureDetectorHandler extends Handler
 
     public FeatureDetectorHandler(FdHandlerInterface fdHandlerInterface)
     {
-        fdHandlerInterfaceWeakReference = new WeakReference<FdHandlerInterface>(fdHandlerInterface);
+        fdHandlerInterfaceWeakReference = new WeakReference<>(fdHandlerInterface);
     }
 
     public final static int MSG_STARTFREEDCAM = 0;

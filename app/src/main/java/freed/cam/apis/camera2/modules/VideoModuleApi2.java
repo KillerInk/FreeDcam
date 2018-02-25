@@ -184,12 +184,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         w = previewSize.getWidth();
         h = previewSize.getHeight();
         or = orientation;
-        mainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,false);
-            }
-        });
+        mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,false));
 
         SurfaceTexture texture = cameraUiWrapper.captureSessionHandler.getSurfaceTexture();
         texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
@@ -228,25 +223,19 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     {
         recordingFile = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4"));
         videoRecorder.setRecordingFile(recordingFile);
-        videoRecorder.setErrorListener(new OnErrorListener() {
-            @Override
-            public void onError(MediaRecorder mr, int what, int extra) {
-                Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
-                changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
-            }
+        videoRecorder.setErrorListener((mr, what, extra) -> {
+            Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
+            changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
         });
 
-        videoRecorder.setInfoListener(new MediaRecorder.OnInfoListener() {
-            @Override
-            public void onInfo(MediaRecorder mr, int what, int extra) {
-                if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED)
-                {
-                    recordnextFile(mr);
-                }
-                else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED)
-                {
-                    recordnextFile(mr);
-                }
+        videoRecorder.setInfoListener((mr, what, extra) -> {
+            if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED)
+            {
+                recordnextFile(mr);
+            }
+            else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED)
+            {
+                recordnextFile(mr);
             }
         });
 

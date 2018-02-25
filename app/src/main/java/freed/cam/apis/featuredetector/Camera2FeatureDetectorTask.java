@@ -6,7 +6,6 @@ import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.net.wifi.aware.Characteristics;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Range;
@@ -370,7 +369,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 max = isominmax[1];
                 int maxiso = SettingsManager.getInstance().getCamera2MaxIso();
                 if (maxiso > 0)
-                    max = (int) SettingsManager.getInstance().getCamera2MaxIso();
+                    max = SettingsManager.getInstance().getCamera2MaxIso();
                 ArrayList<String> ar = getIsoStrings(max, min);
                 SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(ar.size() > 0);
                 SettingsManager.get(SettingKeys.M_ManualIso).setValues(ar.toArray(new String[ar.size()]));

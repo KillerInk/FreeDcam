@@ -19,8 +19,6 @@
 
 package freed.cam.apis.sonyremote.parameters.modes;
 
-import android.os.Build.VERSION;
-
 import com.troop.freedcam.R;
 
 import java.util.Set;
@@ -44,8 +42,7 @@ public class FocusPeakSony extends BaseModeParameterSony {
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        boolean enable = valueToSet.equals(simpleStreamSurfaceView.getResources().getString(R.string.on_));
-        simpleStreamSurfaceView.focuspeak = enable;
+        simpleStreamSurfaceView.focuspeak = valueToSet.equals(simpleStreamSurfaceView.getResources().getString(R.string.on_));
     }
 
     @Override

@@ -91,7 +91,7 @@ public abstract class AbstractParameter implements ParameterInterface {
         public BackHandler(Looper looper, AbstractParameter abstractParameter)
         {
             super(looper);
-            abstractParameterWeakReference = new WeakReference<AbstractParameter>(abstractParameter);
+            abstractParameterWeakReference = new WeakReference<>(abstractParameter);
         }
 
         @Override
@@ -152,12 +152,7 @@ public abstract class AbstractParameter implements ParameterInterface {
             else {
                 final ParameterEvents lis = listners.get(i);
                 final int cur = current;
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        lis.onIntValueChanged(cur);
-                    }
-                });
+                mainHandler.post(() -> lis.onIntValueChanged(cur));
             }
 
         }
@@ -177,12 +172,7 @@ public abstract class AbstractParameter implements ParameterInterface {
             else {
                 final ParameterEvents lis = listners.get(i);
                 final String cur = value;
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        lis.onStringValueChanged(cur);
-                    }
-                });
+                mainHandler.post(() -> lis.onStringValueChanged(cur));
             }
         }
     }
@@ -201,12 +191,7 @@ public abstract class AbstractParameter implements ParameterInterface {
             else {
                 final ParameterEvents lis = listners.get(i);
                 final boolean cur = value;
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        lis.onIsSupportedChanged(cur);
-                    }
-                });
+                mainHandler.post(() -> lis.onIsSupportedChanged(cur));
             }
         }
     }
@@ -224,12 +209,7 @@ public abstract class AbstractParameter implements ParameterInterface {
             else {
             final ParameterEvents lis = listners.get(i);
             final boolean cur = value;
-            mainHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    lis.onIsSetSupportedChanged(cur);
-                }
-            });
+            mainHandler.post(() -> lis.onIsSetSupportedChanged(cur));
             }
         }
     }
@@ -248,12 +228,7 @@ public abstract class AbstractParameter implements ParameterInterface {
             else {
                 final ParameterEvents lis = listners.get(i);
                 final String[] cur = value;
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        lis.onValuesChanged(cur);
-                    }
-                });
+                mainHandler.post(() -> lis.onValuesChanged(cur));
             }
         }
     }

@@ -2,7 +2,6 @@ package freed.cam.apis.camera2.parameters.ae;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.util.Rational;
 
 import com.huawei.camera2ex.CaptureRequestEx;
 

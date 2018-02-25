@@ -29,7 +29,7 @@ public class ManualButtonHandler extends Handler
     public ManualButtonHandler(ManualMessageEvent msgevent)
     {
         super(Looper.getMainLooper());
-        manualMessagEventWeakReference = new WeakReference<ManualMessageEvent>(msgevent);
+        manualMessagEventWeakReference = new WeakReference<>(msgevent);
     }
 
     public void setON_IS_SUPPORTED_CHANGED(boolean val)

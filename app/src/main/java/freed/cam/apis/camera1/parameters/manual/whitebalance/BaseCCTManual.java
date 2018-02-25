@@ -55,12 +55,10 @@ public class BaseCCTManual extends BaseManualParameter
 
         //wait 800ms to give awb a chance to set the ct value to the parameters
         if (TextUtils.isEmpty(SettingsManager.get(SettingKeys.M_Whitebalance).getKEY()))
-            new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+            new Handler().postDelayed(() -> {
                 try {
                     //get fresh parameters from camera
-                    Camera.Parameters parameters1 = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
+                    Parameters parameters1 = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
                     String wbcur = "";
                     //lookup if ct value is avail
                     if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_current_cct)) != null)
@@ -86,8 +84,7 @@ public class BaseCCTManual extends BaseManualParameter
                 {
                     fireIsSupportedChanged(false);
                 }
-            }
-        }, 800);
+            }, 800);
         else
             key_value = SettingsManager.get(SettingKeys.M_Whitebalance).getKEY();
     }

@@ -110,15 +110,12 @@ public class ZoomManualSony extends BaseManualParameterSony
                 direction = "in";
             //currentzoomPos = valueToSet;
             final String finaldirection = direction;
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        JSONObject object = mRemoteApi.actZoom(finaldirection, movement);
-                        isZooming = false;
-                    } catch (IOException ex) {
-                        Log.WriteEx(ex);
-                    }
+            FreeDPool.Execute(() -> {
+                try {
+                    JSONObject object = mRemoteApi.actZoom(finaldirection, movement);
+                    isZooming = false;
+                } catch (IOException ex) {
+                    Log.WriteEx(ex);
                 }
             });
         }

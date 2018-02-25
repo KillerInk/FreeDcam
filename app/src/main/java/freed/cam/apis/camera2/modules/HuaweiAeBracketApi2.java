@@ -4,7 +4,6 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
-import android.util.Rational;
 
 import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.huawei.camera2ex.CaptureRequestEx;

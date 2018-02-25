@@ -42,7 +42,6 @@ public class SettingsChildMenuTimer extends SettingsChildMenu
 
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        CameraWrapperInterface cameraUiWrapper1 = cameraUiWrapper;
     }
 
     @Override

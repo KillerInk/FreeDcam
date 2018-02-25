@@ -22,7 +22,6 @@
         android:id="@+id/imageView_Crosshair"
         android:visibility="gone"
         android:layout_height="70dp" />
-        android:layout_height="70dp" />
 
     <ImageView
         android:layout_width="120dp"

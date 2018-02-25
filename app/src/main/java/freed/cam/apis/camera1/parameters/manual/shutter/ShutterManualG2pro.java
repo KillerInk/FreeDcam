@@ -92,12 +92,10 @@ public class ShutterManualG2pro extends BaseManualParameter
         try {
 
             Handler handler = new Handler();
-            Runnable r = new Runnable() {
-                public void run() {
+            Runnable r = () -> {
 
-                    parameters.set("exposure-time", shutterstring);
-                    ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-                }
+                parameters.set("exposure-time", shutterstring);
+                ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
             };
             handler.post(r);
         }

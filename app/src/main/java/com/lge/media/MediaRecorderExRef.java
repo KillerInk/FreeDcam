@@ -22,7 +22,7 @@ public class MediaRecorderExRef
         try {
             CLASS_MEDIARECORDEREX = Class.forName("com.lge.media.MediaRecorderEx");
             Constructor<?>[] ctors = CLASS_MEDIARECORDEREX.getDeclaredConstructors();
-            Constructor<?> constructor = (Constructor<?>) ctors[0];
+            Constructor<?> constructor = ctors[0];
             mediaRecorder = (MediaRecorder) constructor.newInstance();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

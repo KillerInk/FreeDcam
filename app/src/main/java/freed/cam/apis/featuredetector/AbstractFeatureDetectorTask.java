@@ -61,10 +61,10 @@ abstract class AbstractFeatureDetectorTask {
 
     String getStringFromArray(String[] arr)
     {
-        String t = "";
+        StringBuilder t = new StringBuilder();
         for (int i =0; i<arr.length;i++)
-            t+=arr[i]+ SettingsManager.SPLITTCHAR;
-        return t;
+            t.append(arr[i]).append(SettingsManager.SPLITTCHAR);
+        return t.toString();
     }
 
     HashMap<String, VideoMediaProfile> getDefaultVideoMediaProfiles(int camera_id)

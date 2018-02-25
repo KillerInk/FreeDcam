@@ -68,19 +68,16 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     public FocusImageHandler(View view, ActivityAbstract fragment)
     {
         super(fragment);
-        focusImageView = (FocusSelector) view.findViewById(R.id.imageView_Crosshair);
+        focusImageView = view.findViewById(R.id.imageView_Crosshair);
 
-        cancelFocus = (ImageView)view.findViewById(R.id.imageViewFocusClose);
-        meteringArea = (ImageView)view.findViewById(R.id.imageView_meteringarea);
+        cancelFocus = view.findViewById(R.id.imageViewFocusClose);
+        meteringArea = view.findViewById(R.id.imageView_meteringarea);
         recthalf = fragment.getResources().getDimensionPixelSize(R.dimen.cameraui_focusselector_width)/2;
 
         cancelFocus.setVisibility(View.GONE);
-        cancelFocus.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                wrapper.getCameraHolder().CancelFocus();
-                cancelFocus.setVisibility(View.GONE);
-            }
+        cancelFocus.setOnClickListener(v -> {
+            wrapper.getCameraHolder().CancelFocus();
+            cancelFocus.setVisibility(View.GONE);
         });
 
 
@@ -135,16 +132,13 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             mParams.leftMargin = x;
             mParams.topMargin = y;
 
-            focusImageView.post(new Runnable() {
-                @Override
-                public void run() {
-                    focusImageView.setLayoutParams(mParams);
-                    //focusImageView.setBackgroundResource(R.drawable.crosshair_circle_normal);
-                    focusImageView.setFocusCheck(false);
-                    focusImageView.setVisibility(View.VISIBLE);
-                    Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
-                    focusImageView.startAnimation(anim);
-                }
+            focusImageView.post(() -> {
+                focusImageView.setLayoutParams(mParams);
+                //focusImageView.setBackgroundResource(R.drawable.crosshair_circle_normal);
+                focusImageView.setFocusCheck(false);
+                focusImageView.setVisibility(View.VISIBLE);
+                Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
+                focusImageView.startAnimation(anim);
             });
 
         }
@@ -154,17 +148,14 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     public void FocusFinished(final boolean success)
     {
         if (!(wrapper instanceof SonyCameraRemoteFragment)) {
-            focusImageView.post(new Runnable() {
-                @Override
-                public void run() {
-                    focusImageView.setFocusCheck(success);
-                    focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
-                    if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(wrapper.getResString(R.string.module_video)))
-                        wrapper.getModuleHandler().startWork();
+            focusImageView.post(() -> {
+                focusImageView.setFocusCheck(success);
+                focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
+                if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(wrapper.getResString(R.string.module_video)))
+                    wrapper.getModuleHandler().startWork();
 
 
-                    focusImageView.setAnimation(null);
-                }
+                focusImageView.setAnimation(null);
             });
         }
 
@@ -173,14 +164,11 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void FocusLocked(final boolean locked)
     {
-        cancelFocus.post(new Runnable() {
-            @Override
-            public void run() {
-                if (locked)
-                    cancelFocus.setVisibility(View.VISIBLE);
-                else
-                    cancelFocus.setVisibility(View.GONE);
-            }
+        cancelFocus.post(() -> {
+            if (locked)
+                cancelFocus.setVisibility(View.VISIBLE);
+            else
+                cancelFocus.setVisibility(View.GONE);
         });
 
     }
@@ -197,14 +185,11 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     public void AEMeteringSupported(final boolean isSupported)
     {
         meteringIsSupported = isSupported;
-        meteringArea.post(new Runnable() {
-            @Override
-            public void run() {
-                if (isSupported)
-                    meteringArea.setVisibility(View.VISIBLE);
-                else
-                    meteringArea.setVisibility(View.GONE);
-            }
+        meteringArea.post(() -> {
+            if (isSupported)
+                meteringArea.setVisibility(View.VISIBLE);
+            else
+                meteringArea.setVisibility(View.GONE);
         });
 
     }

@@ -319,13 +319,13 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        UserMessageHandler.setMessageTextView((TextView)view.findViewById(id.textView_usermessage),(LinearLayout)view.findViewById(id.userMessageHolder));
-        manualModes_holder = (FrameLayout) view.findViewById(id.manualModesHolder);
-        left_ui_items_holder = (LinearLayout)view.findViewById(id.left_ui_holder);
-        right_ui_items_top = (LinearLayout)view.findViewById(id.right_ui_holder_top);
+        UserMessageHandler.setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
+        manualModes_holder = view.findViewById(id.manualModesHolder);
+        left_ui_items_holder = view.findViewById(id.left_ui_holder);
+        right_ui_items_top = view.findViewById(id.right_ui_holder_top);
         addexit();
 
-        cameraSwitch = (UiSettingsChildCameraSwitch) view.findViewById(id.camera_switch);
+        cameraSwitch = view.findViewById(id.camera_switch);
         cameraSwitch.SetStuff(fragment_activityInterface, SettingsManager.CURRENTCAMERA);
 
         infoOverlayHandler = new SampleInfoOverlayHandler(view);
@@ -333,15 +333,15 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
         focusImageHandler = new FocusImageHandler(view, (ActivityAbstract) getActivity());
 
-        shutterButton = (ShutterButton) view.findViewById(id.shutter_button);
+        shutterButton = view.findViewById(id.shutter_button);
 
         view.setOnTouchListener(onTouchListener);
 
-        aelock = (UiSettingsChild)view.findViewById(id.ae_lock);
+        aelock = view.findViewById(id.ae_lock);
         aelock.SetUiItemClickListner(this);
         aelock.SetStuff(fragment_activityInterface, "");
 
-        settingsChildSelfTimer = (UiSettingsChildSelfTimer)view.findViewById(id.selftimer);
+        settingsChildSelfTimer = view.findViewById(id.selftimer);
         settingsChildSelfTimer.SetUiItemClickListner(this);
         settingsChildSelfTimer.SetStuff(SettingsManager.get(SettingKeys.selfTimer));
 
@@ -354,7 +354,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
         manualModes_holder.setVisibility(View.GONE);
         camerauiValuesFragmentHolder =  view.findViewById(id.cameraui_values_fragment_holder);
-        joyPad = (JoyPad) view.findViewById(id.joypad);
+        joyPad = view.findViewById(id.joypad);
         joyPad.setVisibility(View.GONE);
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -549,13 +549,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         void Close(Fragment fragment);
     }
 
-    private final i_HelpFragment helpfragmentCloser = new i_HelpFragment() {
-        @Override
-        public void Close(Fragment fragment) {
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.remove(fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
+    private final i_HelpFragment helpfragmentCloser = fragment -> {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.remove(fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     };
 }

@@ -28,8 +28,8 @@ public class ActTakePictureRunner extends StopContShotRunner {
     public ActTakePictureRunner(SimpleRemoteApi remoteApi, I_PictureCallback pictureCallback, ParameterHandler parameterHandler)
     {
         super(remoteApi);
-        pictureCallbackWeakReference = new WeakReference<I_PictureCallback>(pictureCallback);
-        parameterHandlerWeakReference =new WeakReference<ParameterHandler>(parameterHandler);
+        pictureCallbackWeakReference = new WeakReference<>(pictureCallback);
+        parameterHandlerWeakReference = new WeakReference<>(parameterHandler);
     }
 
     @Override

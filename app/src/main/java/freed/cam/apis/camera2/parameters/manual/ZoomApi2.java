@@ -54,8 +54,8 @@ public class ZoomApi2 extends AbstractParameter
         int minCropW = (int)(sensorSize.width() - (sensorSize.width() / maxzoom));
         int minCropH = (int)(sensorSize.height() - (sensorSize.height() / maxzoom));
 
-        minCropWidth =  (int) (minCropW/ZOOM_LIMITER);
-        minCropHeight = (int) (minCropH/ZOOM_LIMITER);
+        minCropWidth = minCropW/ZOOM_LIMITER;
+        minCropHeight = minCropH/ZOOM_LIMITER;
 
         stringvalues = createStringArray(0,ZOOM_LIMITER,1);
     }
@@ -86,8 +86,8 @@ public class ZoomApi2 extends AbstractParameter
     {
         zoom = valueToSet;
         // diff values /2 cause we set it foreach side.
-        int cropW = (int)((minCropWidth * zoom)/2);
-        int cropH = (int)((minCropHeight * zoom)/2);
+        int cropW = (minCropWidth * zoom)/2;
+        int cropH = (minCropHeight * zoom)/2;
         Log.d(TAG, "maxZoomSize: " + minCropWidth +"/"+ minCropHeight + " cropSize: " + cropW+"/"+cropH);
         Rect zoom = new Rect(cropW, cropH,sensorSize.width()-cropW, sensorSize.height() - cropH);
         ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom,setToCamera);

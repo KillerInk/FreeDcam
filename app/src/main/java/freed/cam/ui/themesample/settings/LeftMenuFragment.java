@@ -77,7 +77,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         fragment_activityInterface = (ActivityInterface)getActivity();
         View view = inflater.inflate(layout.settings_leftmenufragment, container, false);
 
-        settingsChildHolder = (LinearLayout)view.findViewById(id.SettingChildHolder);
+        settingsChildHolder = view.findViewById(id.SettingChildHolder);
         setCameraToUi(cameraUiWrapper);
         return view;
     }

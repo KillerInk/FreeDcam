@@ -192,12 +192,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             }
 
             final int or = orientation;
-            mainHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,true);
-                }
-            });
+            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,true));
             cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight());
             cameraUiWrapper.getFocusPeakProcessor().setOutputSurface(previewsurface);
             Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
@@ -219,16 +214,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
                 case 0: orientation = 180;
                     break;
             }
-            final int ww = w;
-            final int hh = h;
             final int or = orientation;
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
-            mainHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    cameraUiWrapper.captureSessionHandler.SetTextureViewSize(ww, hh, or,or+180,false);
-                }
-            });
+            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,false));
         }
 
         if (jpegReader != null)

@@ -84,8 +84,8 @@ public class StackActivity extends ActivityAbstract
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stack_activity);
-        Spinner stackvaluesButton = (Spinner)findViewById(R.id.freedviewer_stack_stackvalues_button);
-        imageView = (TouchImageView)findViewById(R.id.freedviewer_stack_imageview);
+        Spinner stackvaluesButton = findViewById(R.id.freedviewer_stack_stackvalues_button);
+        imageView = findViewById(R.id.freedviewer_stack_imageview);
         String[] items =  new String[] {AVARAGE, AVARAGE1x2, AVARAGE1x3, AVARAGE3x3, LIGHTEN, LIGHTEN_V, MEDIAN,EXPOSURE};
         ArrayAdapter<String> stackadapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, items);
         stackvaluesButton.setAdapter(stackadapter);
@@ -105,24 +105,16 @@ public class StackActivity extends ActivityAbstract
             }
         });
 
-        Button buttonStartStack = (Button)findViewById(R.id.button_stackPics);
-        buttonStartStack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                processStack();
-            }
-        });
+        Button buttonStartStack = findViewById(R.id.button_stackPics);
+        buttonStartStack.setOnClickListener(v -> processStack());
 
-        closeButton = (Button)findViewById(R.id.button_stack_close);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_CANCELED, returnIntent);
-                finish();
-            }
+        closeButton = findViewById(R.id.button_stack_close);
+        closeButton.setOnClickListener(view -> {
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_CANCELED, returnIntent);
+            finish();
         });
-        stackcounter = (TextView)findViewById(R.id.textView_stack_count);
+        stackcounter = findViewById(R.id.textView_stack_count);
         updateCounter(0);
     }
 
@@ -155,69 +147,59 @@ public class StackActivity extends ActivityAbstract
             renderScriptManager.freedcamScript.set_medianStackMIN(minValues);
 
         }
-        FreeDPool.Execute(new Runnable()
-        {
-            @Override
-            public void run()
+        FreeDPool.Execute(() -> {
+            int count = 0;
+            for (String f : filesToStack)
             {
-                int count = 0;
-                for (String f : filesToStack)
+                updateCounter(count++);
+                BitmapFactory.decodeFile(f,options);
+                if(mWidth != options.outWidth || mHeight != options.outHeight)
+                    return;
+                renderScriptManager.GetIn().copyFrom(BitmapFactory.decodeFile(f));
+                switch (stackMode)
                 {
-                    updateCounter(count++);
-                    BitmapFactory.decodeFile(f,options);
-                    if(mWidth != options.outWidth || mHeight != options.outHeight)
-                        return;
-                    renderScriptManager.GetIn().copyFrom(BitmapFactory.decodeFile(f));
-                    switch (stackMode)
-                    {
-                        case 0: //AVARAGE
-                            renderScriptManager.freedcamScript.forEach_stackimage_avarage(renderScriptManager.GetOut());
-                            break;
-                        case 1: //AVARAGE1x2
-                            renderScriptManager.freedcamScript.forEach_stackimage_avarage1x2(renderScriptManager.GetOut());
-                            break;
-                        case 2: //AVARAGE1x3
-                            renderScriptManager.freedcamScript.forEach_stackimage_avarage1x3(renderScriptManager.GetOut());
-                            break;
-                        case 3: // AVARAGE3x3
-                            renderScriptManager.freedcamScript.forEach_stackimage_avarage3x3(renderScriptManager.GetOut());
-                            break;
-                        case 4: // LIGHTEN
-                            renderScriptManager.freedcamScript.forEach_stackimage_lighten(renderScriptManager.GetOut());
-                            break;
-                        case 5: // LIGHTEN_V
-                            renderScriptManager.freedcamScript.forEach_stackimage_lightenV(renderScriptManager.GetOut());
-                            break;
-                        case 6: //MEDIAN
-                            renderScriptManager.freedcamScript.forEach_stackimage_median(renderScriptManager.GetOut());
-                            break;
-                        case 7:
-                            renderScriptManager.freedcamScript.forEach_stackimage_exposure(renderScriptManager.GetOut());
-                            break;
-                    }
-                    renderScriptManager.GetOut().copyTo(outputBitmap);
-                    setBitmapToImageView(outputBitmap);
+                    case 0: //AVARAGE
+                        renderScriptManager.freedcamScript.forEach_stackimage_avarage(renderScriptManager.GetOut());
+                        break;
+                    case 1: //AVARAGE1x2
+                        renderScriptManager.freedcamScript.forEach_stackimage_avarage1x2(renderScriptManager.GetOut());
+                        break;
+                    case 2: //AVARAGE1x3
+                        renderScriptManager.freedcamScript.forEach_stackimage_avarage1x3(renderScriptManager.GetOut());
+                        break;
+                    case 3: // AVARAGE3x3
+                        renderScriptManager.freedcamScript.forEach_stackimage_avarage3x3(renderScriptManager.GetOut());
+                        break;
+                    case 4: // LIGHTEN
+                        renderScriptManager.freedcamScript.forEach_stackimage_lighten(renderScriptManager.GetOut());
+                        break;
+                    case 5: // LIGHTEN_V
+                        renderScriptManager.freedcamScript.forEach_stackimage_lightenV(renderScriptManager.GetOut());
+                        break;
+                    case 6: //MEDIAN
+                        renderScriptManager.freedcamScript.forEach_stackimage_median(renderScriptManager.GetOut());
+                        break;
+                    case 7:
+                        renderScriptManager.freedcamScript.forEach_stackimage_exposure(renderScriptManager.GetOut());
+                        break;
                 }
-                if (stackMode ==  6)
-                {
-                    renderScriptManager.freedcamScript.forEach_process_median(renderScriptManager.GetOut());
-                    renderScriptManager.GetOut().copyTo(outputBitmap);
-                    setBitmapToImageView(outputBitmap);
-                    renderScriptManager.freedcamScript.set_medianStackMAX(null);
-                    renderScriptManager.freedcamScript.set_medianStackMIN(null);
-                    minValues.destroy();
-                    maxValues.destroy();
-                }
-                File file = new File(filesToStack[0]);
-                String parent = file.getParent();
-                saveBitmapToFile(outputBitmap,new File(parent+"/" + getStorageHandler().getNewFileDatedName("_Stack.jpg")));
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        closeButton.setVisibility(View.VISIBLE);
-                    }
-                });
+                renderScriptManager.GetOut().copyTo(outputBitmap);
+                setBitmapToImageView(outputBitmap);
             }
+            if (stackMode ==  6)
+            {
+                renderScriptManager.freedcamScript.forEach_process_median(renderScriptManager.GetOut());
+                renderScriptManager.GetOut().copyTo(outputBitmap);
+                setBitmapToImageView(outputBitmap);
+                renderScriptManager.freedcamScript.set_medianStackMAX(null);
+                renderScriptManager.freedcamScript.set_medianStackMIN(null);
+                minValues.destroy();
+                maxValues.destroy();
+            }
+            File file = new File(filesToStack[0]);
+            String parent = file.getParent();
+            saveBitmapToFile(outputBitmap,new File(parent+"/" + getStorageHandler().getNewFileDatedName("_Stack.jpg")));
+            runOnUiThread(() -> closeButton.setVisibility(View.VISIBLE));
         }
         );
 
@@ -225,13 +207,7 @@ public class StackActivity extends ActivityAbstract
 
     private void setBitmapToImageView(final Bitmap bitmap)
     {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run()
-            {
-                imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap,bitmap.getWidth()/4,bitmap.getHeight()/4,false));
-            }
-        });
+        runOnUiThread(() -> imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap,bitmap.getWidth()/4,bitmap.getHeight()/4,false)));
     }
 
     private void saveBitmapToFile(Bitmap bitmap, File file)
@@ -282,12 +258,7 @@ public class StackActivity extends ActivityAbstract
 
     private void updateCounter(final int count)
     {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                stackcounter.setText(count+"/"+(filesToStack.length-1));
-            }
-        });
+        runOnUiThread(() -> stackcounter.setText(count+"/"+(filesToStack.length-1)));
 
     }
 }

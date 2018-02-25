@@ -134,7 +134,7 @@ public class VideoMediaProfile
 
     public String GetString()
     {
-        String b = audioBitRate + " " +
+        return audioBitRate + " " +
                 audioChannels + " " +
                 audioCodec + " " +
                 audioSampleRate + " " +
@@ -149,7 +149,6 @@ public class VideoMediaProfile
                 ProfileName + " " +
                 Mode + " " +
                 isAudioActive + " ";
-        return b;
     }
 
     public VideoMediaProfile(XmlElement xmlElement)
@@ -171,7 +170,7 @@ public class VideoMediaProfile
     }
     public String getXmlString()
     {
-        String t = new String();
+        String t = "";
         t += "<mediaprofile name= " +String.valueOf("\"") +String.valueOf(ProfileName) +String.valueOf("\"")  +">" + "\r\n";
         t += "<audioChannels>" + audioChannels + "</audioChannels>" + "\r\n";
         t += "<audioCodec>" + audioCodec + "</audioCodec>" + "\r\n";

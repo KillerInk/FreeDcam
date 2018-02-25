@@ -233,8 +233,7 @@ public class RawToDng
     public static String parseGPSdate(long val)
     {
         SimpleDateFormat simpledatetime = new SimpleDateFormat("yyyy:MM:dd");
-        String mydate = simpledatetime.format(val);
-        return mydate;
+        return simpledatetime.format(val);
     }
 
     public void setThumbData(byte[] mThumb, int widht, int height)

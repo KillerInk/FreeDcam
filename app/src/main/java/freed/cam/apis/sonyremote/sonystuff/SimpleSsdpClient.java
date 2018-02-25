@@ -85,101 +85,98 @@ public class SimpleSsdpClient {
                         + String.format("ST: %s\r\n", SSDP_ST) + "\r\n";
         final byte[] sendData = ssdpRequest.getBytes();
 
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                DatagramSocket socket = null;
-                DatagramPacket receivePacket = null;
-                DatagramPacket packet = null;
-                try {
-                    socket = new DatagramSocket();
-                    InetSocketAddress iAddress = new InetSocketAddress(SSDP_ADDR, SSDP_PORT);
-                    packet = new DatagramPacket(sendData, sendData.length, iAddress);
-                    // send 3 times
-                    Log.d(TAG, "search() Send Datagram packet 3 times.");
-                    socket.send(packet);
-                    Thread.sleep(100);
-                    socket.send(packet);
-                    Thread.sleep(100);
-                    socket.send(packet);
-                } catch (SocketException e) {
-                    Log.e(TAG, "search() DatagramSocket error:");
-                    if (socket != null && !socket.isClosed()) {
-                        socket.close();
-                    }
-                    handler.onErrorFinished();
-                    return;
-                } catch (IOException e) {
-                    Log.e(TAG, "search() IOException :");
-                    if (socket != null && !socket.isClosed()) {
-                        socket.close();
-                    }
-                    handler.onErrorFinished();
-                    return;
-                } catch (InterruptedException e) {
-                    // do nothing.
-                    Log.d(TAG, "search() InterruptedException :");
+        FreeDPool.Execute(() -> {
+            DatagramSocket socket = null;
+            DatagramPacket receivePacket = null;
+            DatagramPacket packet = null;
+            try {
+                socket = new DatagramSocket();
+                InetSocketAddress iAddress = new InetSocketAddress(SSDP_ADDR, SSDP_PORT);
+                packet = new DatagramPacket(sendData, sendData.length, iAddress);
+                // send 3 times
+                Log.d(TAG, "search() Send Datagram packet 3 times.");
+                socket.send(packet);
+                Thread.sleep(100);
+                socket.send(packet);
+                Thread.sleep(100);
+                socket.send(packet);
+            } catch (SocketException e) {
+                Log.e(TAG, "search() DatagramSocket error:");
+                if (socket != null && !socket.isClosed()) {
+                    socket.close();
                 }
-
-                // Receive reply packets
-                mSearching = true;
-                long startTime = System.currentTimeMillis();
-                List<String> foundDevices = new ArrayList<>();
-                byte[] array = new byte[PACKET_BUFFER_SIZE];
-                ServerDevice device = null;
-                try {
-
-                    while (mSearching) {
-                        receivePacket = new DatagramPacket(array, array.length);
-                        socket.setSoTimeout(SSDP_RECEIVE_TIMEOUT);
-                        socket.receive(receivePacket);
-                        String ssdpReplyMessage = new String(receivePacket.getData(), 0, //
-                                receivePacket.getLength(), "UTF-8");
-                        String ddUsn = findParameterValue(ssdpReplyMessage, "USN");
-
-                        /*
-                         * There is possibility to receive multiple packets from
-                         * a individual server.
-                         */
-                        if (!foundDevices.contains(ddUsn)) {
-                            String ddLocation = findParameterValue(ssdpReplyMessage, "LOCATION");
-                            foundDevices.add(ddUsn);
-
-                            // Fetch Device Description XML and parse it.
-                            device = ServerDevice.fetch(ddLocation);
-                            // Note that it's a irresponsible rule
-                            // for the sample application.
-                            if (device != null && device.hasApiService()) {
-                                handler.onDeviceFound(device);
-                            }
-                        }
-                        if (SSDP_RECEIVE_TIMEOUT < System.currentTimeMillis() - startTime) {
-                            break;
-                        }
-                    }
-
-                } catch (InterruptedIOException e) {
-                    Log.d(TAG, "search() Timeout.");
-
-                    if (device == null) {
-                        mSearching = false;
-                        handler.onErrorFinished();
-                        return;
-                    }
-                } catch (IOException e) {
-                    Log.d(TAG, "search() IOException2. : " + e);
-                    mSearching = false;
-                    handler.onErrorFinished();
-                    return;
-                } finally {
-                    Log.d(TAG, "search() Finish ");
-                    mSearching = false;
-                    if (socket != null && !socket.isClosed()) {
-                        socket.close();
-                    }
+                handler.onErrorFinished();
+                return;
+            } catch (IOException e) {
+                Log.e(TAG, "search() IOException :");
+                if (socket != null && !socket.isClosed()) {
+                    socket.close();
                 }
-                handler.onFinished();
+                handler.onErrorFinished();
+                return;
+            } catch (InterruptedException e) {
+                // do nothing.
+                Log.d(TAG, "search() InterruptedException :");
             }
+
+            // Receive reply packets
+            mSearching = true;
+            long startTime = System.currentTimeMillis();
+            List<String> foundDevices = new ArrayList<>();
+            byte[] array = new byte[PACKET_BUFFER_SIZE];
+            ServerDevice device = null;
+            try {
+
+                while (mSearching) {
+                    receivePacket = new DatagramPacket(array, array.length);
+                    socket.setSoTimeout(SSDP_RECEIVE_TIMEOUT);
+                    socket.receive(receivePacket);
+                    String ssdpReplyMessage = new String(receivePacket.getData(), 0, //
+                            receivePacket.getLength(), "UTF-8");
+                    String ddUsn = findParameterValue(ssdpReplyMessage, "USN");
+
+                    /*
+                     * There is possibility to receive multiple packets from
+                     * a individual server.
+                     */
+                    if (!foundDevices.contains(ddUsn)) {
+                        String ddLocation = findParameterValue(ssdpReplyMessage, "LOCATION");
+                        foundDevices.add(ddUsn);
+
+                        // Fetch Device Description XML and parse it.
+                        device = ServerDevice.fetch(ddLocation);
+                        // Note that it's a irresponsible rule
+                        // for the sample application.
+                        if (device != null && device.hasApiService()) {
+                            handler.onDeviceFound(device);
+                        }
+                    }
+                    if (SSDP_RECEIVE_TIMEOUT < System.currentTimeMillis() - startTime) {
+                        break;
+                    }
+                }
+
+            } catch (InterruptedIOException e) {
+                Log.d(TAG, "search() Timeout.");
+
+                if (device == null) {
+                    mSearching = false;
+                    handler.onErrorFinished();
+                    return;
+                }
+            } catch (IOException e) {
+                Log.d(TAG, "search() IOException2. : " + e);
+                mSearching = false;
+                handler.onErrorFinished();
+                return;
+            } finally {
+                Log.d(TAG, "search() Finish ");
+                mSearching = false;
+                if (socket != null && !socket.isClosed()) {
+                    socket.close();
+                }
+            }
+            handler.onFinished();
         });
         return true;
     }

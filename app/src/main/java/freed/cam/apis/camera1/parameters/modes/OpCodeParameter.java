@@ -74,27 +74,21 @@ public class OpCodeParameter extends AbstractParameter
             for (final OpCodeUrl url : SettingsManager.getInstance().opcodeUrlList)
             {
                 if (!TextUtils.isEmpty(url.getOpcode2Url()))
-                    FreeDPool.Execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                httpsGet(url.getOpcode2Url(), url.getID() + "opc2.bin");
-                            } catch (IOException ex) {
-                                Log.WriteEx(ex);
-                                UserMessageHandler.sendMSG(ex.getLocalizedMessage(),true);
-                            }
+                    FreeDPool.Execute(() -> {
+                        try {
+                            httpsGet(url.getOpcode2Url(), url.getID() + "opc2.bin");
+                        } catch (IOException ex) {
+                            Log.WriteEx(ex);
+                            UserMessageHandler.sendMSG(ex.getLocalizedMessage(),true);
                         }
                     });
                 if (!TextUtils.isEmpty(url.getOpcode3Url()))
-                    FreeDPool.Execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                httpsGet(url.getOpcode3Url(), url.getID() + "opc3.bin");
-                            } catch (IOException ex) {
-                                Log.WriteEx(ex);
-                                UserMessageHandler.sendMSG(ex.getLocalizedMessage(),true);
-                            }
+                    FreeDPool.Execute(() -> {
+                        try {
+                            httpsGet(url.getOpcode3Url(), url.getID() + "opc3.bin");
+                        } catch (IOException ex) {
+                            Log.WriteEx(ex);
+                            UserMessageHandler.sendMSG(ex.getLocalizedMessage(),true);
                         }
                     });
             }
@@ -198,11 +192,7 @@ public class OpCodeParameter extends AbstractParameter
     }
 
     // always verify the host - dont check for certificate
-    private static final HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
-        public boolean verify(String hostname, SSLSession session) {
-            return true;
-        }
-    };
+    private static final HostnameVerifier DO_NOT_VERIFY = (hostname, session) -> true;
 
     /**
      * Trust every server - dont check for any certificate

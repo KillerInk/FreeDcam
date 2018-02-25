@@ -145,11 +145,7 @@ public class OpCodeDownloadTask extends ImageTask {
     }
 
     // always verify the host - dont check for certificate
-    private static final HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
-        public boolean verify(String hostname, SSLSession session) {
-            return true;
-        }
-    };
+    private static final HostnameVerifier DO_NOT_VERIFY = (hostname, session) -> true;
 
     /**
      * Trust every server - dont check for any certificate

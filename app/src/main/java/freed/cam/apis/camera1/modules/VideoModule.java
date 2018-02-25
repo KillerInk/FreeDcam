@@ -30,6 +30,7 @@ import android.text.TextUtils;
 import com.troop.freedcam.R;
 
 import java.io.File;
+import java.util.Arrays;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
@@ -275,7 +276,7 @@ public class VideoModule extends AbstractVideoModule
 
     private void loadMtkHighspeed() {
         Log.d(TAG, "prepare mtk highspeed");
-        if(cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFPS).getStringValues().toString().contains(currentProfile.videoFrameRate+""))
+        if(Arrays.toString(cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFPS).getStringValues()).contains(currentProfile.videoFrameRate+""))
         {
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFPS).SetValue(currentProfile.videoFrameRate+"",false);
 

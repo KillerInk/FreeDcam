@@ -30,13 +30,9 @@ public class UiSettingsChildExit extends UiSettingsChild
 
     public UiSettingsChildExit(Context context) {
         super(context);
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (fragment_activityInterface != null)
-                    fragment_activityInterface.closeActivity();
-            }
+        setOnClickListener(v -> {
+            if (fragment_activityInterface != null)
+                fragment_activityInterface.closeActivity();
         });
     }
 

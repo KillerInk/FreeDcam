@@ -47,7 +47,6 @@ import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessorInterface;
-import freed.settings.SettingKeys;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
@@ -266,35 +265,32 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         this.mWhileFetching = true;
 
         // A thread for retrieving liveview data from server.
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(SimpleStreamSurfaceView.TAG, "Starting retrieving streaming data from server.");
-                SimpleLiveviewSlicer slicer = null;
+        FreeDPool.Execute(() -> {
+            Log.d(SimpleStreamSurfaceView.TAG, "Starting retrieving streaming data from server.");
+            SimpleLiveviewSlicer slicer = null;
 
-                try {
+            try {
 
-                    // Create Slicer to open the stream and parse it.
-                    slicer = new SimpleLiveviewSlicer();
-                    slicer.open(streamUrl);
+                // Create Slicer to open the stream and parse it.
+                slicer = new SimpleLiveviewSlicer();
+                slicer.open(streamUrl);
 
-                    while (SimpleStreamSurfaceView.this.mWhileFetching)
-                    {
-                        fetchPayLoad(slicer);
-                    }
-                } catch (IOException e) {
-                    Log.d(TAG, "IOException while fetching: " + e.getMessage());
-                    mErrorListener.onError(StreamErrorReason.IO_EXCEPTION);
-                } finally {
-                    if (slicer != null) {
-                        slicer.close();
-                    }
-
-
-                    SimpleStreamSurfaceView.this.mJpegQueue.clear();
-                    SimpleStreamSurfaceView.this.frameQueue.clear();
-                    SimpleStreamSurfaceView.this.mWhileFetching = false;
+                while (SimpleStreamSurfaceView.this.mWhileFetching)
+                {
+                    fetchPayLoad(slicer);
                 }
+            } catch (IOException e) {
+                Log.d(TAG, "IOException while fetching: " + e.getMessage());
+                mErrorListener.onError(StreamErrorReason.IO_EXCEPTION);
+            } finally {
+                if (slicer != null) {
+                    slicer.close();
+                }
+
+
+                SimpleStreamSurfaceView.this.mJpegQueue.clear();
+                SimpleStreamSurfaceView.this.frameQueue.clear();
+                SimpleStreamSurfaceView.this.mWhileFetching = false;
             }
         });
         startDrawingThread();
@@ -305,53 +301,50 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private void startDrawingThread() {
         DODRAW = true;
         // A thread for drawing liveview frame fetched by above thread.
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                IS_DRAWING = true;
-                Log.d(SimpleStreamSurfaceView.TAG, "Starting drawing stream frame.");
-                Bitmap frameBitmap = null;
+        FreeDPool.Execute(() -> {
+            IS_DRAWING = true;
+            Log.d(SimpleStreamSurfaceView.TAG, "Starting drawing stream frame.");
+            Bitmap frameBitmap = null;
 
-                BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
-                factoryOptions.inSampleSize = 1;
-                factoryOptions.inPreferQualityOverSpeed = true;
-                factoryOptions.inDither = false;
-                factoryOptions.inScaled = false;
+            BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
+            factoryOptions.inSampleSize = 1;
+            factoryOptions.inPreferQualityOverSpeed = true;
+            factoryOptions.inDither = false;
+            factoryOptions.inScaled = false;
 
-                if (SimpleStreamSurfaceView.this.mInMutableAvailable) {
-                    SimpleStreamSurfaceView.this.initInBitmap(factoryOptions);
-                }
-
-                while (SimpleStreamSurfaceView.this.mWhileFetching && DODRAW)
-                {
-                    DataExtractor dataExtractor = null;
-                    DataExtractor frameExtractor =null;
-                    try {
-                        dataExtractor = SimpleStreamSurfaceView.this.mJpegQueue.take();
-                        if (!SimpleStreamSurfaceView.this.frameQueue.isEmpty())
-                            frameExtractor = SimpleStreamSurfaceView.this.frameQueue.take();
-
-
-                    } catch (IllegalArgumentException e) {
-                        if (SimpleStreamSurfaceView.this.mInMutableAvailable) {
-                            SimpleStreamSurfaceView.this.clearInBitmap(factoryOptions);
-                        }
-                        continue;
-                    } catch (InterruptedException e) {
-                        Log.e(SimpleStreamSurfaceView.TAG, "Drawer thread is Interrupted.");
-                        break;
-                    }
-                    frameBitmap = BitmapFactory.decodeByteArray(dataExtractor.jpegData, 0, dataExtractor.jpegData.length, factoryOptions);
-
-                    SimpleStreamSurfaceView.this.drawFrame(frameBitmap, frameExtractor);
-                }
-
-                if (frameBitmap != null) {
-                    frameBitmap.recycle();
-                }
-                //SimpleStreamSurfaceView.this.mWhileFetching = false;
-                IS_DRAWING = false;
+            if (SimpleStreamSurfaceView.this.mInMutableAvailable) {
+                SimpleStreamSurfaceView.this.initInBitmap(factoryOptions);
             }
+
+            while (SimpleStreamSurfaceView.this.mWhileFetching && DODRAW)
+            {
+                DataExtractor dataExtractor = null;
+                DataExtractor frameExtractor =null;
+                try {
+                    dataExtractor = SimpleStreamSurfaceView.this.mJpegQueue.take();
+                    if (!SimpleStreamSurfaceView.this.frameQueue.isEmpty())
+                        frameExtractor = SimpleStreamSurfaceView.this.frameQueue.take();
+
+
+                } catch (IllegalArgumentException e) {
+                    if (SimpleStreamSurfaceView.this.mInMutableAvailable) {
+                        SimpleStreamSurfaceView.this.clearInBitmap(factoryOptions);
+                    }
+                    continue;
+                } catch (InterruptedException e) {
+                    Log.e(SimpleStreamSurfaceView.TAG, "Drawer thread is Interrupted.");
+                    break;
+                }
+                frameBitmap = BitmapFactory.decodeByteArray(dataExtractor.jpegData, 0, dataExtractor.jpegData.length, factoryOptions);
+
+                SimpleStreamSurfaceView.this.drawFrame(frameBitmap, frameExtractor);
+            }
+
+            if (frameBitmap != null) {
+                frameBitmap.recycle();
+            }
+            //SimpleStreamSurfaceView.this.mWhileFetching = false;
+            IS_DRAWING = false;
         });
     }
 

@@ -158,63 +158,51 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         viewerActivityInterface = (ActivityInterface) getActivity();
 
         inflate(inflater, container);
-        gridView = (GridView) view.findViewById(id.gridView_base);
+        gridView = view.findViewById(id.gridView_base);
         gridView.setOnItemClickListener(this);
         gridView.setOnItemLongClickListener(this);
 
 
-        ImageButton gobackButton = (ImageButton) view.findViewById(id.button_goback);
+        ImageButton gobackButton = view.findViewById(id.button_goback);
         gobackButton.setOnClickListener(onGobBackClick);
 
-        filetypeButton = (Button) view.findViewById(id.button_filetype);
-        filetypeButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFileSelectionPopup(v);
-            }
+        filetypeButton = view.findViewById(id.button_filetype);
+        filetypeButton.setOnClickListener(v -> showFileSelectionPopup(v));
+
+        filesSelected = view.findViewById(id.textView_filesSelected);
+
+        optionsButton = view.findViewById(id.button_options);
+        optionsButton.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(getContext(), v);
+
+            popup.getMenu().add(0,0,0, "Delete File");
+            if (!isRootDir && RenderScriptManager.isSupported())
+               popup.getMenu().add(0,1,1, "StackJpeg");
+            if (!isRootDir)
+               popup.getMenu().add(0,2,2, "Raw to Dng");
+            if (!isRootDir)
+                popup.getMenu().add(0,3,3, "DngStack");
+            popup.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId())
+                {
+                    case 0:
+                        onDeltedButtonClick.onClick(null);
+                        break;
+                    case 1:
+                        onStackClick.onClick(null);
+                        break;
+                    case 2:
+                        onRawToDngClick.onClick(null);
+                        break;
+                    case 3:
+                        onDngStackClick.onClick(null);
+                }
+                return false;
+            });
+            popup.show();
         });
 
-        filesSelected = (TextView) view.findViewById(id.textView_filesSelected);
-
-        optionsButton = (Button)view.findViewById(id.button_options);
-        optionsButton.setOnClickListener(new OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 PopupMenu popup = new PopupMenu(getContext(), v);
-
-                 popup.getMenu().add(0,0,0, "Delete File");
-                 if (!isRootDir && RenderScriptManager.isSupported())
-                    popup.getMenu().add(0,1,1, "StackJpeg");
-                 if (!isRootDir)
-                    popup.getMenu().add(0,2,2, "Raw to Dng");
-                 if (!isRootDir)
-                     popup.getMenu().add(0,3,3, "DngStack");
-                 popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-                     @Override
-                     public boolean onMenuItemClick(MenuItem item)
-                     {
-                         switch (item.getItemId())
-                         {
-                             case 0:
-                                 onDeltedButtonClick.onClick(null);
-                                 break;
-                             case 1:
-                                 onStackClick.onClick(null);
-                                 break;
-                             case 2:
-                                 onRawToDngClick.onClick(null);
-                                 break;
-                             case 3:
-                                 onDngStackClick.onClick(null);
-                         }
-                         return false;
-                     }
-                 });
-                 popup.show();
-             }
-         });
-
-        doActionButton = (Button)view.findViewById(id.button_DoAction);
+        doActionButton = view.findViewById(id.button_DoAction);
         doActionButton.setVisibility(View.GONE);
         firstload();
 
@@ -297,51 +285,48 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
 
     private void showFileSelectionPopup(View v) {
         PopupMenu popup = new PopupMenu(getContext(), v);
-        popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int i = item.getItemId();
-                if (i == id.all)
-                {
-                    filetypeButton.setText(string.ALL);
-                    formatsToShow = FormatTypes.all;
-                }
-                else if (i == id.raw)
-                {
-                    filetypeButton.setText("RAW");
-                    formatsToShow = FormatTypes.raw;
-                }
-                else if (i == id.bayer)
-                {
-                    filetypeButton.setText("BAYER");
-                    formatsToShow = FormatTypes.raw;
-                }
-                else if (i == id.dng)
-                {
-                    filetypeButton.setText("DNG");
-                    formatsToShow = FormatTypes.dng;
-                }
-                else if (i == id.jps)
-                {
-                    filetypeButton.setText("JPS");
-                    formatsToShow = FormatTypes.jps;
-                }
-                else if (i == id.jpg)
-                {
-                    filetypeButton.setText("JPG");
-                    formatsToShow = FormatTypes.jpg;
-                }
-                else if (i == id.mp4)
-                {
-                    filetypeButton.setText("MP4");
-                    formatsToShow = FormatTypes.mp4;
-                }
-                //if (savedInstanceFilePath != null)
-                viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
-
-                return false;
-
+        popup.setOnMenuItemClickListener(item -> {
+            int i = item.getItemId();
+            if (i == id.all)
+            {
+                filetypeButton.setText(string.ALL);
+                formatsToShow = FormatTypes.all;
             }
+            else if (i == id.raw)
+            {
+                filetypeButton.setText("RAW");
+                formatsToShow = FormatTypes.raw;
+            }
+            else if (i == id.bayer)
+            {
+                filetypeButton.setText("BAYER");
+                formatsToShow = FormatTypes.raw;
+            }
+            else if (i == id.dng)
+            {
+                filetypeButton.setText("DNG");
+                formatsToShow = FormatTypes.dng;
+            }
+            else if (i == id.jps)
+            {
+                filetypeButton.setText("JPS");
+                formatsToShow = FormatTypes.jps;
+            }
+            else if (i == id.jpg)
+            {
+                filetypeButton.setText("JPG");
+                formatsToShow = FormatTypes.jpg;
+            }
+            else if (i == id.mp4)
+            {
+                filetypeButton.setText("MP4");
+                formatsToShow = FormatTypes.mp4;
+            }
+            //if (savedInstanceFilePath != null)
+            viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
+
+            return false;
+
         });
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(menu.filetypepopupmenu, popup.getMenu());
@@ -435,24 +420,19 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     private void deleteFiles()
     {
         ImageManager.cancelImageLoadTasks();
-        FreeDPool.Execute(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                int fileselected = filesSelectedCount;
+        FreeDPool.Execute(() -> {
+            int fileselected = filesSelectedCount;
 
-                int filesdeletedCount = 0;
-                List<FileHolder> to_del = new ArrayList<>();
-                for (int i = 0; i < viewerActivityInterface.getFiles().size(); i++)
+            int filesdeletedCount = 0;
+            List<FileHolder> to_del = new ArrayList<>();
+            for (int i = 0; i < viewerActivityInterface.getFiles().size(); i++)
+            {
+                if (viewerActivityInterface.getFiles().get(i).IsSelected())
                 {
-                    if (viewerActivityInterface.getFiles().get(i).IsSelected())
-                    {
-                        to_del.add(viewerActivityInterface.getFiles().get(i));
-                    }
+                    to_del.add(viewerActivityInterface.getFiles().get(i));
                 }
-                viewerActivityInterface.DeleteFiles(to_del);
             }
+            viewerActivityInterface.DeleteFiles(to_del);
         });
     }
 

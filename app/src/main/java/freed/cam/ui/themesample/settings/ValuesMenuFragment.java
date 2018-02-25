@@ -50,7 +50,7 @@ public class ValuesMenuFragment extends Fragment implements ListView.OnItemClick
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        listView = (ListView)view.findViewById(id.values_fragment_listview);
+        listView = view.findViewById(id.values_fragment_listview);
 
         if(item == null)
             return;

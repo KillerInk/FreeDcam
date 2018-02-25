@@ -59,30 +59,27 @@ public class BracketModule extends PictureModule {
 
     @Override
     public void DoWork() {
-        mBackgroundHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
-                    cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
-                files = new File[3];
-                hdrCount = 0;
-                String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
-                if (picformat.equals(SettingsManager.getInstance().getResString(R.string.dng_)) || picformat.equals(SettingsManager.getInstance().getResString(R.string.bayer_))) {
-                    ParameterInterface zsl = cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL);
-                    if (zsl != null && zsl.IsSupported()
-                            && zsl.GetStringValue().equals("on")
-                            && (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK))
-                        zsl.SetValue("off", true);
-                }
-                changeCaptureState(CaptureStates.image_capture_start);
-                waitForPicture = true;
-
-                setExposureToCamera();
-                sleep(400);
-                startcapturetime = new Date().getTime();
-                cameraHolder.TakePicture(BracketModule.this);
-
+        mBackgroundHandler.post(() -> {
+            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+                cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+            files = new File[3];
+            hdrCount = 0;
+            String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
+            if (picformat.equals(SettingsManager.getInstance().getResString(R.string.dng_)) || picformat.equals(SettingsManager.getInstance().getResString(R.string.bayer_))) {
+                ParameterInterface zsl = cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL);
+                if (zsl != null && zsl.IsSupported()
+                        && zsl.GetStringValue().equals("on")
+                        && (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK))
+                    zsl.SetValue("off", true);
             }
+            changeCaptureState(CaptureStates.image_capture_start);
+            waitForPicture = true;
+
+            setExposureToCamera();
+            sleep(400);
+            startcapturetime = new Date().getTime();
+            cameraHolder.TakePicture(BracketModule.this);
+
         });
     }
 

@@ -77,9 +77,9 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
         super.onCreateView(inflater,container,null);
         fragment_activityInterface = (ActivityInterface)getActivity();
         view = inflater.inflate(layout.cameraui_horizontline, container, false);
-        lineImage = (ImageView) view.findViewById(id.horizontlevelline);
-        upImage = (ImageView) view.findViewById(id.horizontlevelup);
-        downImage = (ImageView) view.findViewById(id.horizontleveldown);
+        lineImage = view.findViewById(id.horizontlevelline);
+        upImage = view.findViewById(id.horizontlevelup);
+        downImage = view.findViewById(id.horizontleveldown);
         upImage.setVisibility(View.GONE);
         downImage.setVisibility(View.GONE);
         HandlerThread sensorThread = new HandlerThread("Sensor thread", Thread.MAX_PRIORITY);
@@ -88,7 +88,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        compassDrawer = (CompassDrawer)view.findViewById(id.view_compass);
+        compassDrawer = view.findViewById(id.view_compass);
 
         return view;
     }
@@ -202,25 +202,22 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
 
     private void updateUi(final float pitch,final  float roll,final float yaw)
     {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                    compassDrawer.SetPosition(yaw);
-                    lineImage.setRotation(roll);
-                if (pitchdegree > -89) {
-                    if(upImage.getVisibility() != View.VISIBLE)
-                        upImage.setVisibility(View.VISIBLE);
-                    downImage.setVisibility(View.GONE);
-                }
-                else if (pitchdegree < -91) {
-                    upImage.setVisibility(View.GONE);
-                    if(downImage.getVisibility() != View.VISIBLE)
-                        downImage.setVisibility(View.VISIBLE);
-                }
-                else if (pitchdegree >= -91 && pitchdegree <= -89) {
-                    upImage.setVisibility(View.GONE);
-                    downImage.setVisibility(View.GONE);
-                }
+        handler.post(() -> {
+                compassDrawer.SetPosition(yaw);
+                lineImage.setRotation(roll);
+            if (pitchdegree > -89) {
+                if(upImage.getVisibility() != View.VISIBLE)
+                    upImage.setVisibility(View.VISIBLE);
+                downImage.setVisibility(View.GONE);
+            }
+            else if (pitchdegree < -91) {
+                upImage.setVisibility(View.GONE);
+                if(downImage.getVisibility() != View.VISIBLE)
+                    downImage.setVisibility(View.VISIBLE);
+            }
+            else if (pitchdegree >= -91 && pitchdegree <= -89) {
+                upImage.setVisibility(View.GONE);
+                downImage.setVisibility(View.GONE);
             }
         });
     }

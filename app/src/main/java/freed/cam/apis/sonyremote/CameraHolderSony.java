@@ -136,14 +136,9 @@ public class CameraHolderSony extends CameraHolderAbstract
                     String liveviewUrl = resultsObj.getString(0);
                     Log.d(TAG,"startLiveview");
                     mLiveviewSurface.start(liveviewUrl, //
-                            new StreamErrorListener() {
-
-                                @Override
-                                public void onError(StreamErrorReason reason)
-                                {
-                                    Log.e(TAG, "Error StartingLiveView" + reason.toString());
-                                    StopPreview();
-                                }
+                            reason -> {
+                                Log.e(TAG, "Error StartingLiveView" + reason.toString());
+                                StopPreview();
                             });
                 }
             }
@@ -236,50 +231,44 @@ public class CameraHolderSony extends CameraHolderAbstract
 
     public void StartRecording()
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject replyJson = mRemoteApi.startMovieRec();
-                    JSONArray resultsObj = replyJson.getJSONArray("result");
-                    int resultCode = resultsObj.getInt(0);
-                    if (resultCode == 0) {
-                        // Success, but no refresh UI at the point.
-                        Log.v(TAG, "startRecording: success.");
-                    } else {
-                        Log.w(TAG, "startRecording: error: " + resultCode);
+        FreeDPool.Execute(() -> {
+            try {
+                JSONObject replyJson = mRemoteApi.startMovieRec();
+                JSONArray resultsObj = replyJson.getJSONArray("result");
+                int resultCode = resultsObj.getInt(0);
+                if (resultCode == 0) {
+                    // Success, but no refresh UI at the point.
+                    Log.v(TAG, "startRecording: success.");
+                } else {
+                    Log.w(TAG, "startRecording: error: " + resultCode);
 
-                    }
-                } catch (IOException e) {
-                    Log.w(TAG, "startRecording: IOException: " + e.getMessage());
-                } catch (JSONException e) {
-                    Log.w(TAG, "startRecording: JSON format error.");
                 }
+            } catch (IOException e) {
+                Log.w(TAG, "startRecording: IOException: " + e.getMessage());
+            } catch (JSONException e) {
+                Log.w(TAG, "startRecording: JSON format error.");
             }
         });
     }
 
     public void StopRecording()
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject replyJson = mRemoteApi.stopMovieRec();
-                    JSONArray resultsObj = replyJson.getJSONArray("result");
-                    int resultCode = resultsObj.getInt(0);
-                    if (resultCode == 0) {
-                        // Success, but no refresh UI at the point.
-                        Log.v(TAG, "StopRecording: success.");
-                    } else {
-                        Log.w(TAG, "StopRecording: error: " + resultCode);
+        FreeDPool.Execute(() -> {
+            try {
+                JSONObject replyJson = mRemoteApi.stopMovieRec();
+                JSONArray resultsObj = replyJson.getJSONArray("result");
+                int resultCode = resultsObj.getInt(0);
+                if (resultCode == 0) {
+                    // Success, but no refresh UI at the point.
+                    Log.v(TAG, "StopRecording: success.");
+                } else {
+                    Log.w(TAG, "StopRecording: error: " + resultCode);
 
-                    }
-                } catch (IOException e) {
-                    Log.w(TAG, "StopRecording: IOException: " + e.getMessage());
-                } catch (JSONException e) {
-                    Log.w(TAG, "StopRecording: JSON format error.");
                 }
+            } catch (IOException e) {
+                Log.w(TAG, "StopRecording: IOException: " + e.getMessage());
+            } catch (JSONException e) {
+                Log.w(TAG, "StopRecording: JSON format error.");
             }
         });
     }
@@ -290,17 +279,13 @@ public class CameraHolderSony extends CameraHolderAbstract
         if (((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("cancelTouchAFPosition"))
         {
             Log.d(TAG, "Cancel Focus");
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run()
+            FreeDPool.Execute(() -> {
+                try
                 {
-                    try
-                    {
-                        JSONObject ob = mRemoteApi.setParameterToCamera("cancelTouchAFPosition", new JSONArray());
-                    } catch (IOException ex) {
-                        Log.WriteEx(ex);
-                        Log.d(TAG, "Cancel Focus failed");
-                    }
+                    JSONObject ob = mRemoteApi.setParameterToCamera("cancelTouchAFPosition", new JSONArray());
+                } catch (IOException ex) {
+                    Log.WriteEx(ex);
+                    Log.d(TAG, "Cancel Focus failed");
                 }
             });
 
@@ -308,17 +293,13 @@ public class CameraHolderSony extends CameraHolderAbstract
         else if (((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("cancelTrackingFocus"))
         {
             Log.d(TAG, "Cancel Focus");
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run()
+            FreeDPool.Execute(() -> {
+                try
                 {
-                    try
-                    {
-                        JSONObject ob = mRemoteApi.setParameterToCamera("cancelTrackingFocus", new JSONArray());
-                    } catch (IOException ex) {
-                        Log.WriteEx(ex);
-                        Log.d(TAG, "Cancel Focus failed");
-                    }
+                    JSONObject ob = mRemoteApi.setParameterToCamera("cancelTrackingFocus", new JSONArray());
+                } catch (IOException ex) {
+                    Log.WriteEx(ex);
+                    Log.d(TAG, "Cancel Focus failed");
                 }
             });
         }
@@ -364,64 +345,55 @@ public class CameraHolderSony extends CameraHolderAbstract
 
     private void runActObjectTracking(final double x,final double y)
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject replyJson = mRemoteApi.actObjectTracking(x, y);
-                    JSONArray resultsObj = replyJson.getJSONArray("result");
-                } catch (IOException e) {
-                    Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
-                } catch (JSONException e) {
-                    Log.w(TAG, "setShootMode: JSON format error.");
-                }
-                catch (NullPointerException e) {
-                    Log.w(TAG, "remote api is null");
-                }
+        FreeDPool.Execute(() -> {
+            try {
+                JSONObject replyJson = mRemoteApi.actObjectTracking(x, y);
+                JSONArray resultsObj = replyJson.getJSONArray("result");
+            } catch (IOException e) {
+                Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
+            } catch (JSONException e) {
+                Log.w(TAG, "setShootMode: JSON format error.");
+            }
+            catch (NullPointerException e) {
+                Log.w(TAG, "remote api is null");
             }
         });
     }
 
     private void runSetTouch(final double x, final double y) {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject replyJson = mRemoteApi.setTouchToFocus(x,y);
-                    JSONArray resultsObj = replyJson.getJSONArray("result");
-                    int resultCode = resultsObj.getInt(0);
-                    if (resultCode == 0)
+        FreeDPool.Execute(() -> {
+            try {
+                JSONObject replyJson = mRemoteApi.setTouchToFocus(x,y);
+                JSONArray resultsObj = replyJson.getJSONArray("result");
+                int resultCode = resultsObj.getInt(0);
+                if (resultCode == 0)
+                {
+                    JSONObject ob = resultsObj.getJSONObject(1);
+                    String success = ob.getString("AFResult");
+                    boolean suc = false;
+                    if (success.equals("true"))
+                        suc = true;
+                    if (autoFocusCallback != null)
                     {
-                        JSONObject ob = resultsObj.getJSONObject(1);
-                        String success = ob.getString("AFResult");
-                        boolean suc = false;
-                        if (success.equals("true"))
-                            suc = true;
-                        if (autoFocusCallback != null)
-                        {
-                            autoFocusCallback.onFocusEvent(suc);
-                        }
-
+                        autoFocusCallback.onFocusEvent(suc);
                     }
-                } catch (IOException e) {
-                    Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
-                } catch (JSONException e) {
-                    Log.w(TAG, "setShootMode: JSON format error.");
+
                 }
+            } catch (IOException e) {
+                Log.w(TAG, "setShootMode: IOException: " + e.getMessage());
+            } catch (JSONException e) {
+                Log.w(TAG, "setShootMode: JSON format error.");
             }
         });
     }
 
     public void SetLiveViewFrameInfo(final boolean val)
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mRemoteApi.setLiveviewFrameInfo(val);
-                } catch (IOException ex) {
-                    Log.WriteEx(ex);
-                }
+        FreeDPool.Execute(() -> {
+            try {
+                mRemoteApi.setLiveviewFrameInfo(val);
+            } catch (IOException ex) {
+                Log.WriteEx(ex);
             }
         });
     }

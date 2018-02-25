@@ -197,17 +197,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (!SettingsManager.getInstance().isInit() || cameraFragmentManager == null)
             return;
         //check if we have the permissions. its needed because onResume gets called while we ask in ActivityAbstract.onCreate().
-        getPermissionManager().hasCameraAndSdPermission(new PermissionManager.PermissionCallback() {
-            @Override
-            public void permissionGranted(boolean granted) {
-                if (granted) {
-                    if (SettingsManager.getInstance().appVersionHasChanged())
-                        cameraFragmentManager.switchCameraFragment();
-                    else {
-                        if (uiViewPagerAdapter == null)
-                            initScreenSlide();
-                        loadCameraFragment();
-                    }
+        getPermissionManager().hasCameraAndSdPermission(granted -> {
+            if (granted) {
+                if (SettingsManager.getInstance().appVersionHasChanged())
+                    cameraFragmentManager.switchCameraFragment();
+                else {
+                    if (uiViewPagerAdapter == null)
+                        initScreenSlide();
+                    loadCameraFragment();
                 }
             }
         });
@@ -237,7 +234,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private void initScreenSlide() {
         uiViewPagerAdapter = new CameraUiSlidePagerAdapter(getSupportFragmentManager(),onThumbBackClick);
         if (uiViewPager == null)
-            uiViewPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
+            uiViewPager = findViewById(id.viewPager_fragmentHolder);
         uiViewPager.setOffscreenPageLimit(2);
         uiViewPager.setAdapter(uiViewPagerAdapter);
         uiViewPager.setCurrentItem(1);
@@ -439,7 +436,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void SetNightOverlay() {
         if (nightoverlay == null)
-            nightoverlay = (LinearLayout) findViewById(id.nightoverlay);
+            nightoverlay = findViewById(id.nightoverlay);
         if (SettingsManager.get(SettingKeys.NightOverlay).get())
             nightoverlay.setVisibility(View.VISIBLE);
         else

@@ -54,12 +54,9 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
     @Override
     public void onModuleChanged(String module)
     {
-        valueText.post(new Runnable() {
-            @Override
-            public void run() {
-                if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
-                    valueText.setText(cameraUiWrapper.getModuleHandler().getCurrentModule().ShortName());
-            }
+        valueText.post(() -> {
+            if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
+                valueText.setText(cameraUiWrapper.getModuleHandler().getCurrentModule().ShortName());
         });
     }
 

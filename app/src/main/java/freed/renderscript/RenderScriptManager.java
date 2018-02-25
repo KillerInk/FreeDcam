@@ -92,10 +92,8 @@ public class RenderScriptManager
 
     public void SetAllocsTypeBuilder(Builder inputBuilder, Builder outputBuilder, int inputUsage, int outputUsage)
     {
-        Builder inputbuilder = inputBuilder;
-        Builder outputbuilder = outputBuilder;
-        mAllocationIn = Allocation.createTyped(mRS, inputbuilder.create(), MipmapControl.MIPMAP_NONE,  inputUsage);
-        mAllocationOut = Allocation.createTyped(mRS, outputbuilder.create(), MipmapControl.MIPMAP_NONE, outputUsage);
+        mAllocationIn = Allocation.createTyped(mRS, inputBuilder.create(), MipmapControl.MIPMAP_NONE,  inputUsage);
+        mAllocationOut = Allocation.createTyped(mRS, outputBuilder.create(), MipmapControl.MIPMAP_NONE, outputUsage);
     }
 
     public Allocation GetOut()

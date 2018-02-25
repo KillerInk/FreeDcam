@@ -46,12 +46,9 @@ public class WifiHandler extends WifiUtils {
             sendMessage("Location Permission is needed to find the camera!");
     }
 
-    private PermissionManager.PermissionCallback onLocationPermission = new PermissionManager.PermissionCallback() {
-        @Override
-        public void permissionGranted(boolean granted) {
-            if (!granted)
-                return;
-        }
+    private PermissionManager.PermissionCallback onLocationPermission = granted -> {
+        if (!granted)
+            return;
     };
 
     public void onPause()
@@ -164,12 +161,9 @@ public class WifiHandler extends WifiUtils {
         uiHandler.postDelayed(startLookupRunner,ms);
     }
 
-    private Runnable startLookupRunner = new Runnable() {
-        @Override
-        public void run() {
-            if (resumed)
-                StartLookUp();
-        }
+    private Runnable startLookupRunner = () -> {
+        if (resumed)
+            StartLookUp();
     };
 
     private void searchSSDPClient()

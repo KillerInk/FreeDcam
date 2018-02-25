@@ -25,8 +25,6 @@ import android.view.WindowManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -539,22 +537,22 @@ public class CaptureSessionHandler
         }
 
         float viewRatio = dispWidth / dispHeight;
-        float inputRatio = (float)inputRect.width()/inputRect.height();
+        float inputRatio = inputRect.width() /inputRect.height();
 
         RectF viewRect = new RectF(0, 0, dispWidth, dispHeight);
 
         float centerX = viewRect.centerX();
         float centerY = viewRect.centerY();
 
-        /**
-         * input is like that when holding device in landscape
-         *
-         *   ________
-         *   |      |                               _____________________
-         *   |      |                               |                   |
-         *   |      |  need to get transformed to:  |                   | viewrect
-         *   |      |                               |___________________|
-         *   ________
+        /*
+          input is like that when holding device in landscape
+
+            ________
+            |      |                               _____________________
+            |      |                               |                   |
+            |      |  need to get transformed to:  |                   | viewrect
+            |      |                               |___________________|
+            ________
          */
 
         inputRect.offset(centerX - inputRect.centerX(), centerY - inputRect.centerY());

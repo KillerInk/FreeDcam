@@ -116,25 +116,22 @@ public class AeManagerLgCamera1 extends AeManager
     private void startReadingMeta()
     {
         readMetaData = true;
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                while (readMetaData)
+        FreeDPool.Execute(() -> {
+            while (readMetaData)
+            {
+                try {
+                    cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ExposureTime).fireStringValueChanged("1/"+(int) cameraWrapperInterface.getParameterHandler().getCurrentExposuretime());
+                    cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ManualIso).fireStringValueChanged(cameraWrapperInterface.getParameterHandler().getCurrentIso()+"");
+                }
+                catch (RuntimeException ex)
                 {
-                    try {
-                        cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ExposureTime).fireStringValueChanged("1/"+(int) cameraWrapperInterface.getParameterHandler().getCurrentExposuretime());
-                        cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ManualIso).fireStringValueChanged(cameraWrapperInterface.getParameterHandler().getCurrentIso()+"");
-                    }
-                    catch (RuntimeException ex)
-                    {
-                        readMetaData = false;
-                        return;
-                    }
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        Log.WriteEx(e);
-                    }
+                    readMetaData = false;
+                    return;
+                }
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    Log.WriteEx(e);
                 }
             }
         });

@@ -105,25 +105,20 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
     {
         if (stringvalues == null)
         {
-            FreeDPool.Execute(new Runnable()
-            {
-                @Override
-                public void run()
+            FreeDPool.Execute(() -> {
+                try
                 {
-                    try
-                    {
-                        sendLog("Trying to get String Values from: " + VALUES_TO_GET);
-                        JSONObject object = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
-                        JSONArray array = object.getJSONArray("result");
-                        JSONArray subarray = array.getJSONArray(1);
-                        stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
-                        fireStringValuesChanged(stringvalues);
+                    sendLog("Trying to get String Values from: " + VALUES_TO_GET);
+                    JSONObject object = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                    JSONArray array = object.getJSONArray("result");
+                    JSONArray subarray = array.getJSONArray(1);
+                    stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
+                    fireStringValuesChanged(stringvalues);
 
-                    } catch (IOException | JSONException ex) {
-                        Log.WriteEx(ex);
-                        sendLog( "Error Trying to get String Values from: " + VALUES_TO_GET);
-                        stringvalues = new String[0];
-                    }
+                } catch (IOException | JSONException ex) {
+                    Log.WriteEx(ex);
+                    sendLog( "Error Trying to get String Values from: " + VALUES_TO_GET);
+                    stringvalues = new String[0];
                 }
             });
         }
@@ -138,22 +133,18 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
     {
         sendLog("Set Value to " + valueToSet);
         currentInt = valueToSet;
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run()
-            {
-                if (valueToSet >= stringvalues.length || valueToSet < 0)
-                    return;
-                String val = stringvalues[valueToSet];
-                value = val;
-                JSONArray array = null;
-                try {
-                    array = new JSONArray().put(0, val);
-                    JSONObject object = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-                    fireIntValueChanged(valueToSet);
-                } catch (JSONException | IOException ex) {
-                    Log.WriteEx(ex);
-                }
+        FreeDPool.Execute(() -> {
+            if (valueToSet >= stringvalues.length || valueToSet < 0)
+                return;
+            String val = stringvalues[valueToSet];
+            value = val;
+            JSONArray array = null;
+            try {
+                array = new JSONArray().put(0, val);
+                JSONObject object = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+                fireIntValueChanged(valueToSet);
+            } catch (JSONException | IOException ex) {
+                Log.WriteEx(ex);
             }
         });
     }

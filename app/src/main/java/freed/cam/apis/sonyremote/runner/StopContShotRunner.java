@@ -21,7 +21,7 @@ public class StopContShotRunner extends ImageTask {
     WeakReference<SimpleRemoteApi> simpleRemoteApiWeakReference;
     public StopContShotRunner(SimpleRemoteApi simpleRemoteApi)
     {
-        this.simpleRemoteApiWeakReference = new WeakReference<SimpleRemoteApi>(simpleRemoteApi);
+        this.simpleRemoteApiWeakReference = new WeakReference<>(simpleRemoteApi);
     }
     @Override
     public boolean process() {

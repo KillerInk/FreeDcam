@@ -104,53 +104,49 @@ public class DngConvertingFragment extends Fragment
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        editTextCusotmRowSize = (EditText) view.findViewById(id.editText_customrowsize);
-        editTextwidth = (EditText) view.findViewById(id.editText_width);
-        editTextheight = (EditText) view.findViewById(id.editText_height);
-        editTextblacklvl = (EditText) view.findViewById(id.editText_blacklevel);
-        editTextwhitelvl = (EditText) view.findViewById(id.editText_whitelevel);
-        spinnerMatrixProfile = (Spinner) view.findViewById(id.spinner_MatrixProfile);
+        editTextCusotmRowSize = view.findViewById(id.editText_customrowsize);
+        editTextwidth = view.findViewById(id.editText_width);
+        editTextheight = view.findViewById(id.editText_height);
+        editTextblacklvl = view.findViewById(id.editText_blacklevel);
+        editTextwhitelvl = view.findViewById(id.editText_whitelevel);
+        spinnerMatrixProfile = view.findViewById(id.spinner_MatrixProfile);
         matrixChooserParameter = new MatrixChooserParameter(SettingsManager.getInstance().getMatrixesMap());
         String[] items = matrixChooserParameter.getStringValues();
         ArrayAdapter<String> matrixadapter = new ArrayAdapter<>(getContext(), layout.simple_spinner_item, items);
         matrixadapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
         spinnerMatrixProfile.setAdapter(matrixadapter);
 
-        toneMapProfile = (Spinner)view.findViewById(id.spinner_ToneMap);
+        toneMapProfile = view.findViewById(id.spinner_ToneMap);
         tonemaps = new String[SettingsManager.getInstance().getToneMapProfiles().keySet().size()];
         SettingsManager.getInstance().getToneMapProfiles().keySet().toArray(tonemaps);
         ArrayAdapter<String> toneadapter = new ArrayAdapter<>(getContext(), layout.simple_spinner_item, tonemaps);
         toneMapProfile.setAdapter(toneadapter);
 
 
-        Button buttonconvertToDng = (Button) view.findViewById(id.button_convertDng);
+        Button buttonconvertToDng = view.findViewById(id.button_convertDng);
         buttonconvertToDng.setOnClickListener(convertToDngClick);
 
-        spinnerColorPattern =(Spinner) view.findViewById(id.spinner_ColorPattern);
+        spinnerColorPattern = view.findViewById(id.spinner_ColorPattern);
         ArrayAdapter<CharSequence> coloradapter = ArrayAdapter.createFromResource(getContext(),
                 array.color_pattern, layout.simple_spinner_item);
         coloradapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
         spinnerColorPattern.setAdapter(coloradapter);
 
-        spinnerrawFormat = (Spinner) view.findViewById(id.spinner_rawFormat);
+        spinnerrawFormat = view.findViewById(id.spinner_rawFormat);
         ArrayAdapter<CharSequence> rawadapter = ArrayAdapter.createFromResource(getContext(),
                 array.raw_format, layout.simple_spinner_item);
         rawadapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
         spinnerrawFormat.setAdapter(rawadapter);
-        Button closeButton = (Button) view.findViewById(id.button_goback_from_conv);
-        closeButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                Intent returnIntent = new Intent();
-                getActivity().setResult(Activity.RESULT_CANCELED, returnIntent);
-                getActivity().finish();
-            }
+        Button closeButton = view.findViewById(id.button_goback_from_conv);
+        closeButton.setOnClickListener(v -> {
+            Intent returnIntent = new Intent();
+            getActivity().setResult(Activity.RESULT_CANCELED, returnIntent);
+            getActivity().finish();
         });
-        imageView = (TouchImageView) view.findViewById(id.dngconvert_imageview);
-        fakeGPS = (CheckBox) view.findViewById(id.checkBox_fakeGPS);
+        imageView = view.findViewById(id.dngconvert_imageview);
+        fakeGPS = view.findViewById(id.checkBox_fakeGPS);
 
-        Button saveDngProfile = (Button)view.findViewById(id.button_saveProfile);
+        Button saveDngProfile = view.findViewById(id.button_saveProfile);
         saveDngProfile.setOnClickListener(saveDngProfileClick);
 
         setDngProfileToUiItems();
@@ -184,16 +180,23 @@ public class DngConvertingFragment extends Fragment
             editTextblacklvl.setText(dngprofile.blacklevel + "");
             editTextwhitelvl.setText(dngprofile.whitelevel + "");
 
-            if (dngprofile.bayerPattern.equals(DngProfile.BGGR))
-                spinnerColorPattern.setSelection(0);
-            else if (dngprofile.bayerPattern.equals(DngProfile.RGGB))
-                spinnerColorPattern.setSelection(1);
-            else if (dngprofile.bayerPattern.equals(DngProfile.GRBG))
-                spinnerColorPattern.setSelection(2);
-            else if (dngprofile.bayerPattern.equals(DngProfile.GBRG))
-                spinnerColorPattern.setSelection(3);
-            else if (dngprofile.bayerPattern.equals(DngProfile.RGBW))
-                spinnerColorPattern.setSelection(4);
+            switch (dngprofile.bayerPattern) {
+                case DngProfile.BGGR:
+                    spinnerColorPattern.setSelection(0);
+                    break;
+                case DngProfile.RGGB:
+                    spinnerColorPattern.setSelection(1);
+                    break;
+                case DngProfile.GRBG:
+                    spinnerColorPattern.setSelection(2);
+                    break;
+                case DngProfile.GBRG:
+                    spinnerColorPattern.setSelection(3);
+                    break;
+                case DngProfile.RGBW:
+                    spinnerColorPattern.setSelection(4);
+                    break;
+            }
 
             for (int i = 0; i< matrixChooserParameter.getStringValues().length; i++)
                 if (matrixChooserParameter.getStringValues()[i].equals(dngprofile.matrixName))

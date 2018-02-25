@@ -19,7 +19,6 @@
 
 package freed.cam.apis.camera2;
 
-import android.media.audiofx.Equalizer;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 

@@ -183,8 +183,7 @@ public class ShutterAnimationHandler extends Handler
         MAX_RECORDING_OPEN = shutterButton.getWidth() /4;
         RECORDING_OPEN_STEP = MAX_RECORDING_OPEN/MAXFRAMES;
 
-        int recordingSize = MAX_RECORDING_OPEN;
-        recordingRadiusCircle = recordingSize;
+        recordingRadiusCircle = MAX_RECORDING_OPEN;
         recordingRadiusRectangle = 0;
         running = true;
         while (shutteractive)
@@ -379,7 +378,7 @@ public class ShutterAnimationHandler extends Handler
         public UIHandler(ShutterButton shutterButton)
         {
             super(Looper.getMainLooper());
-            shutterButtonWeakReference = new WeakReference<ShutterButton>(shutterButton);
+            shutterButtonWeakReference = new WeakReference<>(shutterButton);
         }
 
         @Override

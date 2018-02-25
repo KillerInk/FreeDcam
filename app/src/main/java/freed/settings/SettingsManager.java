@@ -224,30 +224,27 @@ public class SettingsManager implements SettingsManagerInterface {
 
     private void loadOpCodes()
     {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                File op2 = new File(StringUtils.GetFreeDcamConfigFolder+ currentcamera+"opc2.bin");
-                if (op2.exists())
-                    try {
-                        opcode2 = RawToDng.readFile(op2);
-                        Log.d(TAG, "opcode2 size" + opcode2.length);
-                    } catch (IOException e) {
-                        Log.WriteEx(e);
-                    }
-                    else
-                        opcode2 = null;
-                File op3 = new File(StringUtils.GetFreeDcamConfigFolder+currentcamera+"opc3.bin");
-                if (op3.exists())
-                    try {
-                        opcode3 = RawToDng.readFile(op3);
-                        Log.d(TAG, "opcode3 size" + opcode3.length);
-                    } catch (IOException e) {
-                        Log.WriteEx(e);
-                    }
-                    else
-                        opcode3 = null;
-            }
+        new Thread(() -> {
+            File op2 = new File(StringUtils.GetFreeDcamConfigFolder+ currentcamera+"opc2.bin");
+            if (op2.exists())
+                try {
+                    opcode2 = RawToDng.readFile(op2);
+                    Log.d(TAG, "opcode2 size" + opcode2.length);
+                } catch (IOException e) {
+                    Log.WriteEx(e);
+                }
+                else
+                    opcode2 = null;
+            File op3 = new File(StringUtils.GetFreeDcamConfigFolder+currentcamera+"opc3.bin");
+            if (op3.exists())
+                try {
+                    opcode3 = RawToDng.readFile(op3);
+                    Log.d(TAG, "opcode3 size" + opcode3.length);
+                } catch (IOException e) {
+                    Log.WriteEx(e);
+                }
+                else
+                    opcode3 = null;
         }).start();
 
     }
@@ -504,10 +501,10 @@ public class SettingsManager implements SettingsManagerInterface {
     public final static String SPLITTCHAR = "'";
     @Override
     public void setStringArray(String settingsName, String[] Value) {
-        String tmp ="";
+        StringBuilder tmp = new StringBuilder();
         for (int i= 0; i<Value.length;i++)
-            tmp += Value[i]+SPLITTCHAR;
-        putString(getApiSettingString(settingsName), tmp);
+            tmp.append(Value[i]).append(SPLITTCHAR);
+        putString(getApiSettingString(settingsName), tmp.toString());
     }
 
     @Override
@@ -518,7 +515,7 @@ public class SettingsManager implements SettingsManagerInterface {
     
     public HashMap<String,VideoMediaProfile> getMediaProfiles()
     {
-        Set<String> tmp = settings.getStringSet(getApiSettingString(SETTING_MEDIAPROFILES),new HashSet<String>());
+        Set<String> tmp = settings.getStringSet(getApiSettingString(SETTING_MEDIAPROFILES), new HashSet<>());
         String[] split = new String[tmp.size()];
         tmp.toArray(split);
         HashMap<String,VideoMediaProfile>  hashMap = new HashMap<>();
@@ -535,7 +532,7 @@ public class SettingsManager implements SettingsManagerInterface {
         SharedPreferences.Editor editor = settings.edit();
         editor.remove(getApiSettingString(SETTING_MEDIAPROFILES));
         editor.commit();
-        Set<String> set =  new HashSet<String>();
+        Set<String> set = new HashSet<>();
         for (VideoMediaProfile profile : mediaProfileHashMap.values())
             set.add(profile.GetString());
         editor.putStringSet(getApiSettingString(SETTING_MEDIAPROFILES), set);

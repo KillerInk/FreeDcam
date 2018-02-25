@@ -103,12 +103,7 @@ public class CameraHolder extends CameraHolderAbstract
         {
             Log.d(TAG, "open camera");
             mCamera = Camera.open(camera);
-            mCamera.setErrorCallback(new Camera.ErrorCallback() {
-                @Override
-                public void onError(int error, Camera camera) {
-                    Log.e(TAG, "Error:" + error);
-                }
-            });
+            mCamera.setErrorCallback((error, camera1) -> Log.e(TAG, "Error:" + error));
             isRdy = true;
             cameraUiWrapper.fireCameraOpen();
 
@@ -342,16 +337,12 @@ public class CameraHolder extends CameraHolderAbstract
         if (!isRdy)
             return;
         try {
-            mCamera.autoFocus(new AutoFocusCallback() {
-                @Override
-                public void onAutoFocus(boolean success, Camera camera)
-                {
-                    if (mCamera == null)
-                        return;
-                    if (success)
-                        mCamera.cancelAutoFocus();
-                    autoFocusCallback.onFocusEvent(success);
-                }
+            mCamera.autoFocus((success, camera) -> {
+                if (mCamera == null)
+                    return;
+                if (success)
+                    mCamera.cancelAutoFocus();
+                autoFocusCallback.onFocusEvent(success);
             });
         } catch (Exception ex)
         {

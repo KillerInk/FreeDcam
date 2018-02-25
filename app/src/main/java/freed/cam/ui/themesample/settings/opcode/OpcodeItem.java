@@ -38,18 +38,12 @@ public class OpcodeItem extends LinearLayout implements OpCodeDownloadTask.Downl
         cameraid = findViewById(R.id.opcodeitem_cameraid);
         cameraid.setText("CameraID:" +id);
         isDownloadAvail = findViewById(R.id.opcodeitem_downloadable);
-        isDownloadAvail.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        isDownloadAvail.setOnClickListener(v -> {
 
-            }
         });
         isDownloaded = findViewById(R.id.opcodeitem_Downloaded);
-        isDownloaded.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        isDownloaded.setOnClickListener(v -> {
 
-            }
         });
         update();
 
@@ -99,11 +93,6 @@ public class OpcodeItem extends LinearLayout implements OpCodeDownloadTask.Downl
 
     @Override
     public void onComplete() {
-        this.post(new Runnable() {
-            @Override
-            public void run() {
-                update();
-            }
-        });
+        this.post(() -> update());
     }
 }

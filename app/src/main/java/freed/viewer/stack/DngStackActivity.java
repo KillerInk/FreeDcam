@@ -26,19 +26,16 @@ public class DngStackActivity extends ActivityAbstract
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dngstackactivity);
-        stackButton = (Button)findViewById(R.id.button_dngstack);
-        stackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (filesToStack != null) {
-                    DngStack stack = new DngStack(filesToStack);
-                    stack.StartStack(getContext());
-                    stackButton.setBackgroundResource(R.drawable.stack_done);
-                    stackButton.setClickable(false);
-                }
+        stackButton = findViewById(R.id.button_dngstack);
+        stackButton.setOnClickListener(v -> {
+            if (filesToStack != null) {
+                DngStack stack = new DngStack(filesToStack);
+                stack.StartStack(getContext());
+                stackButton.setBackgroundResource(R.drawable.stack_done);
+                stackButton.setClickable(false);
             }
         });
-        TouchImageView imageView = (TouchImageView) findViewById(R.id.imageview_dngstack);
+        TouchImageView imageView = findViewById(R.id.imageview_dngstack);
         filesToStack = getIntent().getStringArrayExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT);
         if (filesToStack != null)
             ((TextView)findViewById(R.id.rawList)).setText(filesToStack.length+"");

@@ -61,39 +61,32 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
     }
     private void init(Context context)
     {
-        Context context1 = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layout.settings_expandable_childs_number, this);
-        Button plus = (Button) findViewById(id.button_plus);
-        Button minus = (Button) findViewById(id.button_minus);
-        editText = (EditText) findViewById(id.editText_number);
+        Button plus = findViewById(id.button_plus);
+        Button minus = findViewById(id.button_minus);
+        editText = findViewById(id.editText_number);
         plus.setClickable(true);
         minus.setClickable(true);
 
         //this.setClickable(false);
 
-        minus.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        minus.setOnClickListener(v -> {
 
-                if (current - bigmover >= 1)
-                    current -= bigmover;
-                else if (current - mover > min)
-                    current -= mover;
-                setCurrent(current);
-            }
+            if (current - bigmover >= 1)
+                current -= bigmover;
+            else if (current - mover > min)
+                current -= mover;
+            setCurrent(current);
         });
-        plus.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (current +mover > 1 && current + bigmover <= max)
-                    current += bigmover;
-                else if (current + mover <= 1) {
-                    current += mover;
-                }
-                setCurrent(current);
-
+        plus.setOnClickListener(v -> {
+            if (current +mover > 1 && current + bigmover <= max)
+                current += bigmover;
+            else if (current + mover <= 1) {
+                current += mover;
             }
+            setCurrent(current);
+
         });
         settingsname = SettingsManager.TIMELAPSEFRAME;
         String fps = SettingsManager.getInstance().getApiString(settingsname);

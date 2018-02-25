@@ -80,12 +80,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
 
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         storageHandler = new StorageFileManager();
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                LoadDCIMDirs();
-            }
-        });
+        FreeDPool.Execute(() -> LoadDCIMDirs());
 
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
@@ -135,14 +130,11 @@ public class ActivityFreeDviewer extends ActivityAbstract
     public void LoadDCIMDirs()
     {
         super.LoadDCIMDirs();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (gridViewFragment != null)
-                    gridViewFragment.NotifyDataSetChanged();
-                if (screenSlideFragment != null)
-                    screenSlideFragment.NotifyDATAhasChanged(files);
-            }
+        runOnUiThread(() -> {
+            if (gridViewFragment != null)
+                gridViewFragment.NotifyDataSetChanged();
+            if (screenSlideFragment != null)
+                screenSlideFragment.NotifyDATAhasChanged(files);
         });
 
     }
@@ -150,12 +142,9 @@ public class ActivityFreeDviewer extends ActivityAbstract
     @Override
     public void DeleteFiles(final List<FileHolder> files) {
         super.DeleteFiles(files);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                gridViewFragment.NotifyDataSetChanged();
-                screenSlideFragment.NotifyDATAhasChanged(getFiles());
-            }
+        runOnUiThread(() -> {
+            gridViewFragment.NotifyDataSetChanged();
+            screenSlideFragment.NotifyDATAhasChanged(getFiles());
         });
     }
 
@@ -168,21 +157,9 @@ public class ActivityFreeDviewer extends ActivityAbstract
         return del;
     }
 
-    private final ScreenSlideFragment.ButtonClick onScreenSlideBackClick = new ScreenSlideFragment.ButtonClick() {
-        @Override
-        public void onButtonClick(int position, View view)
-        {
-            loadGridView(position,view);
-        }
-    };
+    private final ScreenSlideFragment.ButtonClick onScreenSlideBackClick = (position, view) -> loadGridView(position,view);
 
-    private final ScreenSlideFragment.ButtonClick onGridItemClick = new ScreenSlideFragment.ButtonClick() {
-        @Override
-        public void onButtonClick(int position, View view)
-        {
-            loadScreenSlide(position,view);
-        }
-    };
+    private final ScreenSlideFragment.ButtonClick onGridItemClick = (position, view) -> loadScreenSlide(position,view);
 
     private void loadGridView(int position, View view)
     {
@@ -360,12 +337,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     @Override
     public void WorkHasFinished(final FileHolder fileHolder)
     {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                fileHolder.UpdateImage();
-            }
-        });
+        runOnUiThread(() -> fileHolder.UpdateImage());
 
     }
 

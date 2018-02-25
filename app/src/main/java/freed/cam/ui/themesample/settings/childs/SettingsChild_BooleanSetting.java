@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.troop.freedcam.R;
 
 import freed.settings.mode.BooleanSettingModeInterface;
-import freed.settings.mode.GlobalBooleanSettingMode;
 
 /**
  * Created by KillerInk on 05.01.2018.
@@ -29,16 +28,11 @@ public class SettingsChild_BooleanSetting extends LinearLayout
         this.booleanSettingMode = booleanSettingMode;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.settings_booleansettingschild, this);
-        headerText = (TextView) findViewById(R.id.header);
-        aSwitch = (Switch) findViewById(R.id.switch1);
+        headerText = findViewById(R.id.header);
+        aSwitch = findViewById(R.id.switch1);
         aSwitch.setChecked(booleanSettingMode.get());
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                booleanSettingMode.set(isChecked);
-            }
-        });
-        description = (TextView) findViewById(R.id.description);
+        aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> booleanSettingMode.set(isChecked));
+        description = findViewById(R.id.description);
         headerText.setText(getResources().getText(headerid));
         description.setText(getResources().getText(descriptionid));
     }

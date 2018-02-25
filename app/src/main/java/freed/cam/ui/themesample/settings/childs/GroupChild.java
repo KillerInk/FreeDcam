@@ -20,9 +20,9 @@ public class GroupChild extends LinearLayout {
         super(context);
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.settingsmenu_groupchild, this);
-        TextView headerTextview = (TextView) findViewById(R.id.groupchild_header);
+        TextView headerTextview = findViewById(R.id.groupchild_header);
         headerTextview.setText(headername);
-        childHolder = (LinearLayout)findViewById(R.id.groupchild_childholder);
+        childHolder = findViewById(R.id.groupchild_childholder);
     }
 
     public void addView(View view)

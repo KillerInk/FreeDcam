@@ -88,12 +88,10 @@ public class ShutterManualZTE extends AbstractParameter
         try
         {
             Handler handler = new Handler();
-            Runnable r = new Runnable() {
-                public void run() {
-                    ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_AE();
-                    cameraUiWrapper.stopPreviewAsync();
-                    cameraUiWrapper.startPreviewAsync();
-                }
+            Runnable r = () -> {
+                ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_AE();
+                cameraUiWrapper.stopPreviewAsync();
+                cameraUiWrapper.startPreviewAsync();
             };
             //handler.postDelayed(r, 1);
             handler.post(r);
@@ -110,17 +108,15 @@ public class ShutterManualZTE extends AbstractParameter
         try {
 
             Handler handler = new Handler();
-            Runnable r = new Runnable() {
-                public void run() {
+            Runnable r = () -> {
 
-                    parameters.set("slow_shutter", shutterstring);
-                    parameters.set("slow_shutter_addition", "1");
-                    ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+                parameters.set("slow_shutter", shutterstring);
+                parameters.set("slow_shutter_addition", "1");
+                ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
 
-                    if(Double.parseDouble(shutterstring) < 1.0 ){
-                        cameraUiWrapper.stopPreviewAsync();
-                        cameraUiWrapper.startPreviewAsync();
-                    }
+                if(Double.parseDouble(shutterstring) < 1.0 ){
+                    cameraUiWrapper.stopPreviewAsync();
+                    cameraUiWrapper.startPreviewAsync();
                 }
             };
             handler.post(r);

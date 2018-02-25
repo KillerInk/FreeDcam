@@ -38,7 +38,7 @@ public class BitmapRessourceWorkerTask extends AsyncTask<Integer, Void, Bitmap> 
 
     public BitmapRessourceWorkerTask(ImageView imageView, Resources resources) {
         // Use a WeakReference to ensure the ImageView can be garbage collected
-        imageViewReference = new WeakReference<ImageView>(imageView);
+        imageViewReference = new WeakReference<>(imageView);
         w = imageView.getWidth();
         h = imageView.getHeight();
         this.resources = resources;

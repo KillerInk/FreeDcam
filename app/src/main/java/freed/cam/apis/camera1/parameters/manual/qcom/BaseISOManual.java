@@ -20,7 +20,6 @@
 package freed.cam.apis.camera1.parameters.manual.qcom;
 
 import android.hardware.Camera.Parameters;
-import android.location.Location;
 
 import com.troop.freedcam.R;
 

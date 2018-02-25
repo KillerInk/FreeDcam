@@ -40,18 +40,14 @@ public class FocusModeSony extends BaseModeParameterSony {
         super.SetValue(valueToSet, setToCamera);
         if (JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
         {
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run()
-                {
-                    try {
-                        if (valueToSet.equals("MF"))
-                            mRemoteApi.setLiveviewFrameInfo(false);
-                        else
-                            mRemoteApi.setLiveviewFrameInfo(true);
-                    } catch (IOException e) {
-                        Log.WriteEx(e);
-                    }
+            FreeDPool.Execute(() -> {
+                try {
+                    if (valueToSet.equals("MF"))
+                        mRemoteApi.setLiveviewFrameInfo(false);
+                    else
+                        mRemoteApi.setLiveviewFrameInfo(true);
+                } catch (IOException e) {
+                    Log.WriteEx(e);
                 }
             });
 

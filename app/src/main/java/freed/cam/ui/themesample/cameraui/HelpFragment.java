@@ -62,38 +62,34 @@ public class HelpFragment extends Fragment
     {
         super.onCreateView(inflater,container,savedInstanceState);
         View view = inflater.inflate(layout.help_fragment,container,false);
-        finger = (ImageView)view.findViewById(id.imageView_finger);
-        description = (TextView)view.findViewById(id.textView_description);
-        dontshowagain =(CheckBox)view.findViewById(id.checkBox_dontShowAgain);
+        finger = view.findViewById(id.imageView_finger);
+        description = view.findViewById(id.textView_description);
+        dontshowagain = view.findViewById(id.checkBox_dontShowAgain);
         dontshowagain.setVisibility(View.GONE);
-        nextButton =(Button)view.findViewById(id.button_nextHelp);
-        nextButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v)
+        nextButton = view.findViewById(id.button_nextHelp);
+        nextButton.setOnClickListener(v -> {
+            helpState++;
+            switch (helpState)
             {
-                helpState++;
-                switch (helpState)
-                {
-                    case 1: //close settings
-                        showCloseSettingsMenu();
-                        break;
-                    case 2: //open manual
-                        showOpenManualMenu();
-                        break;
-                    case 3: //close manual
-                        showCloseManualMenu();
-                        break;
-                    case 4:
-                        if (dontshowagain.isChecked())
-                        {
-                            SettingsManager.getInstance().setshowHelpOverlay(false);
-                        }
-                        else
-                        {
-                            SettingsManager.getInstance().setshowHelpOverlay(true);
-                        }
-                        closer.Close(HelpFragment.this);
-                }
+                case 1: //close settings
+                    showCloseSettingsMenu();
+                    break;
+                case 2: //open manual
+                    showOpenManualMenu();
+                    break;
+                case 3: //close manual
+                    showCloseManualMenu();
+                    break;
+                case 4:
+                    if (dontshowagain.isChecked())
+                    {
+                        SettingsManager.getInstance().setshowHelpOverlay(false);
+                    }
+                    else
+                    {
+                        SettingsManager.getInstance().setshowHelpOverlay(true);
+                    }
+                    closer.Close(HelpFragment.this);
             }
         });
         showOpenSettingsMenu();

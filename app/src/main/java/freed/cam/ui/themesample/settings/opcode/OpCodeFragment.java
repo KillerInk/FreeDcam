@@ -60,15 +60,12 @@ public class OpCodeFragment extends Fragment implements ListView.OnItemClickList
         }
 
         Button downloadButton = view.findViewById(R.id.opcodefragment_downloadButton);
-        downloadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i< itemsholder.getChildCount(); i++)
-                {
-                    OpcodeItem item = (OpcodeItem) itemsholder.getChildAt(i);
-                    if (item.downLoadNeeded())
-                        ImageManager.putImageLoadTask(new OpCodeDownloadTask(item.getOpCodeUrl(), item));
-                }
+        downloadButton.setOnClickListener(v -> {
+            for (int i = 0; i< itemsholder.getChildCount(); i++)
+            {
+                OpcodeItem item = (OpcodeItem) itemsholder.getChildAt(i);
+                if (item.downLoadNeeded())
+                    ImageManager.putImageLoadTask(new OpCodeDownloadTask(item.getOpCodeUrl(), item));
             }
         });
     }

@@ -50,16 +50,16 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.curve_view_control, this);
-        this.button_rgb = (Button)findViewById(R.id.button_rgb);
+        this.button_rgb = findViewById(R.id.button_rgb);
         button_rgb.setOnClickListener(onButtonClick);
         activeButton = button_rgb;
-        this.button_r = (Button)findViewById(R.id.button_red);
+        this.button_r = findViewById(R.id.button_red);
         button_r.setOnClickListener(onButtonClick);
-        this.button_g = (Button)findViewById(R.id.button_green);
+        this.button_g = findViewById(R.id.button_green);
         button_g.setOnClickListener(onButtonClick);
-        this.button_b = (Button)findViewById(R.id.button_blue);
+        this.button_b = findViewById(R.id.button_blue);
         button_b.setOnClickListener(onButtonClick);
-        this.curveView = (CurveView)findViewById(R.id.curveViewHolder);
+        this.curveView = findViewById(R.id.curveViewHolder);
         curveView.setCurveChangedListner(this);
         rgbCurve = new PointF[]{new PointF(0,0),new PointF(0.25f,0.25f), new PointF(0.5f,0.5f),new PointF(0.75f,0.75f),new PointF(1,1)};
         rCurve = new PointF[]{new PointF(0,0),new PointF(0.25f,0.25f), new PointF(0.5f,0.5f),new PointF(0.75f,0.75f),new PointF(1,1)};

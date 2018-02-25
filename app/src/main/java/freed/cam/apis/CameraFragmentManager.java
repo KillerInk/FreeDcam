@@ -132,12 +132,16 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         {
             if (cameraFragment == null) {
                 String api = SettingsManager.getInstance().getCamApi();
-                if (api.equals(SettingsManager.API_SONY)) {
-                    cameraFragment = SonyCameraRemoteFragment.getInstance(mBackgroundThread, cameraLock);
-                } else if (api.equals(SettingsManager.API_2)) {
-                    cameraFragment = Camera2Fragment.getInstance(mBackgroundThread, cameraLock);
-                } else {
-                    cameraFragment = Camera1Fragment.getInstance(mBackgroundThread, cameraLock);
+                switch (api) {
+                    case SettingsManager.API_SONY:
+                        cameraFragment = SonyCameraRemoteFragment.getInstance(mBackgroundThread, cameraLock);
+                        break;
+                    case SettingsManager.API_2:
+                        cameraFragment = Camera2Fragment.getInstance(mBackgroundThread, cameraLock);
+                        break;
+                    default:
+                        cameraFragment = Camera1Fragment.getInstance(mBackgroundThread, cameraLock);
+                        break;
                 }
                 cameraFragment.setRenderScriptManager(renderScriptManager);
                 cameraFragment.setCameraEventListner(cameraStateEventListner);

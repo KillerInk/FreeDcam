@@ -135,14 +135,7 @@ public class IntervalHandler
         }
     };
 
-    private final Runnable shutterDelayRunner =new Runnable() {
-        @Override
-        public void run()
-        {
-
-            startShutterDelay();
-        }
-    };
+    private final Runnable shutterDelayRunner = () -> startShutterDelay();
 
     private void msg()
     {

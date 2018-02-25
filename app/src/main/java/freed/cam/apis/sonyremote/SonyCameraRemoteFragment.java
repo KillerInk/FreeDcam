@@ -91,10 +91,10 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(layout.camerafragment_sonyapi, container, false);
-        surfaceView = (SimpleStreamSurfaceView) view.findViewById(id.view);
+        surfaceView = view.findViewById(id.view);
         surfaceView.SetRenderScriptHandlerAndInterface(renderScriptManager, (ActivityInterface) getActivity());
 
-        textView_wifi =(TextView) view.findViewById(id.textView_wificonnect);
+        textView_wifi = view.findViewById(id.textView_wificonnect);
 
         wifiHandler = new WifiHandler(getActivityInterface());
         parametersHandler = new ParameterHandler(this, surfaceView, getContext());
@@ -129,24 +129,16 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
     private void setTextFromWifi(final String txt)
     {
-        textView_wifi.post(new Runnable() {
-            @Override
-            public void run() {
-                textView_wifi.setText(txt);
-            }
-        });
+        textView_wifi.post(() -> textView_wifi.setText(txt));
     }
 
     private void hideTextViewWifi(final boolean hide)
     {
-        textView_wifi.post(new Runnable() {
-            @Override
-            public void run() {
-                if (hide)
-                    textView_wifi.setVisibility(View.GONE);
-                else
-                    textView_wifi.setVisibility(View.VISIBLE);
-            }
+        textView_wifi.post(() -> {
+            if (hide)
+                textView_wifi.setVisibility(View.GONE);
+            else
+                textView_wifi.setVisibility(View.VISIBLE);
         });
     }
 
@@ -288,17 +280,12 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     private void startOpenConnectionAfterChangeCameraState() {
         Log.d(TAG, "startOpenConectiontAfterChangeCameraState() exec");
 
-        mEventObserver.setCameraStateChangedListener(new SimpleCameraEventObserver.CameraStatus() {
-
-                    @Override
-                    public void onCameraStatusChanged(String status) {
-                        Log.d(TAG, "onCameraStatusChanged:" + status);
-                        if ("IDLE".equals(status)) {
-                            openConnection();
-                        }
-                    }
-
-                });
+        mEventObserver.setCameraStateChangedListener(status -> {
+            Log.d(TAG, "onCameraStatusChanged:" + status);
+            if ("IDLE".equals(status)) {
+                openConnection();
+            }
+        });
 
         mEventObserver.start();
     }
@@ -513,12 +500,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         mEventObserver.stop();
         surfaceView.stop();
         //setCameraEventListner(SonyCameraRemoteFragment.this);
-        mainToCameraHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startCameraAsync();
-            }
-        },5000);
+        mainToCameraHandler.postDelayed(() -> startCameraAsync(),5000);
 
     }
 

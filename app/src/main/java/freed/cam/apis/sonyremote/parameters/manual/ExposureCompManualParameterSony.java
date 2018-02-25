@@ -45,35 +45,32 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     public void SetValue(final int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                //String val = valueToSet +"";
-                JSONArray array = null;
-                if (stringvalues == null)
-                {
-                    getMinMaxValues();
-                    return;
-                }
-                try {
-                    int toset;
-                    Log.d(TAG, "SetValue " + valueToSet);
-                    if (valueToSet > stringvalues.length)
-                        toset = stringvalues.length -1;
-                    else
-                        toset = valueToSet;
-                    array = new JSONArray().put(0, Integer.parseInt(stringvalues[toset]));
-                    JSONObject object =  ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+        FreeDPool.Execute(() -> {
+            //String val = valueToSet +"";
+            JSONArray array = null;
+            if (stringvalues == null)
+            {
+                getMinMaxValues();
+                return;
+            }
+            try {
+                int toset;
+                Log.d(TAG, "SetValue " + valueToSet);
+                if (valueToSet > stringvalues.length)
+                    toset = stringvalues.length -1;
+                else
+                    toset = valueToSet;
+                array = new JSONArray().put(0, Integer.parseInt(stringvalues[toset]));
+                JSONObject object =  ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
 
-                        fireIntValueChanged(valueToSet);
-                } catch (JSONException ex) {
-                    Log.WriteEx(ex);
-                    Log.e(TAG, "Error SetValue " + valueToSet);
-                } catch (IOException ex)
-                {
-                    Log.e(TAG, "Error SetValue " + valueToSet);
-                    Log.WriteEx(ex);
-                }
+                    fireIntValueChanged(valueToSet);
+            } catch (JSONException ex) {
+                Log.WriteEx(ex);
+                Log.e(TAG, "Error SetValue " + valueToSet);
+            } catch (IOException ex)
+            {
+                Log.e(TAG, "Error SetValue " + valueToSet);
+                Log.WriteEx(ex);
             }
         });
     }
@@ -82,26 +79,21 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     {
         if (stringvalues == null)
         {
-            FreeDPool.Execute(new Runnable()
-            {
-                @Override
-                public void run()
+            FreeDPool.Execute(() -> {
+                try {
+                    Log.d(TAG, "try get min max values ");
+                    JSONObject object =  ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                    JSONArray array = object.getJSONArray("result");
+                    int min = array.getInt(2);
+                    int max = array.getInt(1);
+                    stringvalues = createStringArray(min,max,1);
+                    fireStringValuesChanged(stringvalues);
+                } catch (IOException | JSONException ex)
                 {
-                    try {
-                        Log.d(TAG, "try get min max values ");
-                        JSONObject object =  ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
-                        JSONArray array = object.getJSONArray("result");
-                        int min = array.getInt(2);
-                        int max = array.getInt(1);
-                        stringvalues = createStringArray(min,max,1);
-                        fireStringValuesChanged(stringvalues);
-                    } catch (IOException | JSONException ex)
-                    {
 
-                        Log.e(TAG, "Error getMinMaxValues ");
-                        Log.WriteEx(ex);
+                    Log.e(TAG, "Error getMinMaxValues ");
+                    Log.WriteEx(ex);
 
-                    }
                 }
             });
         }
@@ -110,20 +102,17 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     public int GetValue()
     {
         if (currentInt == -100) {
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
-                        JSONArray array = object.getJSONArray("result");
-                        currentInt = array.getInt(0);
-                        fireIntValueChanged(currentInt);
-                        //onIntValueChanged(val);
-                    } catch (IOException | JSONException ex) {
-                        Log.WriteEx(ex);
-                        Log.e(TAG, "Error GetStringValue() ");
+            FreeDPool.Execute(() -> {
+                try {
+                    JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
+                    JSONArray array = object.getJSONArray("result");
+                    currentInt = array.getInt(0);
+                    fireIntValueChanged(currentInt);
+                    //onIntValueChanged(val);
+                } catch (IOException | JSONException ex) {
+                    Log.WriteEx(ex);
+                    Log.e(TAG, "Error GetStringValue() ");
 
-                    }
                 }
             });
         }

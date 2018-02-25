@@ -117,27 +117,27 @@ public class VideoProfileEditorFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        button_profile = (Button)view.findViewById(id.button_Profile);
+        button_profile = view.findViewById(id.button_Profile);
         button_profile.setOnClickListener(profileClickListner);
-        editText_profilename = (EditText)view.findViewById(id.editText_ProfileName);
-        editText_audiobitrate = (EditText)view.findViewById(id.editText_audioBitrate);
-        editText_audiosamplerate = (EditText)view.findViewById(id.editText_audioSampleRate);
-        editText_videobitrate = (EditText)view.findViewById(id.editText_videoBitrate);
-        editText_videoframerate = (EditText)view.findViewById(id.editText_videoframerate);
-        editText_maxrecordtime = (EditText)view.findViewById(id.editText_recordtime);
-        editText_width = (EditText)view.findViewById(id.editText_Profilewidth);
-        editText_height = (EditText)view.findViewById(id.editText_Profileheight);
-        Button button_save = (Button) view.findViewById(id.button_Save_profile);
-        switch_Audio = (Switch)view.findViewById(id.switchAudio);
-        button_recordMode = (Button)view.findViewById(id.button_recordMode);
+        editText_profilename = view.findViewById(id.editText_ProfileName);
+        editText_audiobitrate = view.findViewById(id.editText_audioBitrate);
+        editText_audiosamplerate = view.findViewById(id.editText_audioSampleRate);
+        editText_videobitrate = view.findViewById(id.editText_videoBitrate);
+        editText_videoframerate = view.findViewById(id.editText_videoframerate);
+        editText_maxrecordtime = view.findViewById(id.editText_recordtime);
+        editText_width = view.findViewById(id.editText_Profilewidth);
+        editText_height = view.findViewById(id.editText_Profileheight);
+        Button button_save = view.findViewById(id.button_Save_profile);
+        switch_Audio = view.findViewById(id.switchAudio);
+        button_recordMode = view.findViewById(id.button_recordMode);
         button_recordMode.setOnClickListener(recordModeClickListner);
-        button_videoCodec =(Button)view.findViewById(id.button_videoCodec);
+        button_videoCodec = view.findViewById(id.button_videoCodec);
         button_videoCodec.setOnClickListener(onVideoCodecClickListner);
-        button_audioCodec =(Button)view.findViewById(id.button_audioCodec);
+        button_audioCodec = view.findViewById(id.button_audioCodec);
         button_audioCodec.setOnClickListener(onAudioCodecClickListner);
 
         button_save.setOnClickListener(onSavebuttonClick);
-        Button button_delete = (Button) view.findViewById(id.button_delete_profile);
+        Button button_delete = view.findViewById(id.button_delete_profile);
         button_delete.setOnClickListener(ondeleteButtonClick);
         videoMediaProfiles = new HashMap<>();
 

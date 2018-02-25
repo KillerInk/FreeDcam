@@ -90,9 +90,9 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     {
         super.onCreateView(inflater,container,savedInstanceState);
         view = inflater.inflate(layout.camerafragment, container, false);
-        textureView = (AutoFitTextureView) view.findViewById(id.autofitview);
+        textureView = view.findViewById(id.autofitview);
         this.textureView.setSurfaceTextureListener(this);
-        this.histogram = (MyHistogram)view.findViewById(id.hisotview);
+        this.histogram = view.findViewById(id.hisotview);
 
         mainToCameraHandler.createCamera();
         Log.d(TAG,"Create Camera");

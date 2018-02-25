@@ -10,14 +10,12 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 import android.view.Surface;
-import android.view.SurfaceHolder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingsManager;
 import freed.utils.Log;

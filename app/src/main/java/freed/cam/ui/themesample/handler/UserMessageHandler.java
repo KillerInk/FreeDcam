@@ -55,7 +55,7 @@ public class UserMessageHandler extends Handler implements CameraStateEvents , R
         if (contextt == null)
             contextref = null;
         else
-            contextref = new WeakReference<Context>(contextt);
+            contextref = new WeakReference<>(contextt);
     }
 
     public static void setMessageTextView(TextView messageTextView1, LinearLayout messageHolder1)
@@ -63,11 +63,11 @@ public class UserMessageHandler extends Handler implements CameraStateEvents , R
         if (messageHolder1 == null)
             messageHolderRef = null;
         else
-            messageHolderRef = new WeakReference<LinearLayout>(messageHolder1);
+            messageHolderRef = new WeakReference<>(messageHolder1);
         if (messageTextView1 == null)
             messageTextViewRef = null;
         else
-            messageTextViewRef = new WeakReference<TextView>(messageTextView1);
+            messageTextViewRef = new WeakReference<>(messageTextView1);
     }
 
     public static void sendMSG(String msg,boolean asToast)

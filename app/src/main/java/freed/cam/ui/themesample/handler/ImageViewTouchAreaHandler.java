@@ -19,8 +19,8 @@
 
 package freed.cam.ui.themesample.handler;
 
-/**
- * Created by troop on 09.06.2015.
+/*
+  Created by troop on 09.06.2015.
  */
 
 import android.os.Handler;

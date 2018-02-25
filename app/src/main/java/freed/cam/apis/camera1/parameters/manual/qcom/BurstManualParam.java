@@ -19,8 +19,8 @@
 
 package freed.cam.apis.camera1.parameters.manual.qcom;
 
-/**
- * Created by George on 1/21/2015.
+/*
+  Created by George on 1/21/2015.
  */
 
 import android.hardware.Camera.Parameters;
@@ -111,18 +111,14 @@ public class BurstManualParam extends BaseManualParameter
         return moduleListner;
     }
 
-    private final ModuleChangedEvent moduleListner =new ModuleChangedEvent() {
-        @Override
-        public void onModuleChanged(String module)
+    private final ModuleChangedEvent moduleListner = module -> {
+        if ((module.equals(cameraUiWrapper.getResString(R.string.module_video)) || module.equals(cameraUiWrapper.getResString(R.string.module_hdr))) && isSupported)
+            fireIsSupportedChanged(false);
+        else if ((module.equals(cameraUiWrapper.getResString(R.string.module_picture))
+                || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
+                )&& isSupported)
         {
-            if ((module.equals(cameraUiWrapper.getResString(R.string.module_video)) || module.equals(cameraUiWrapper.getResString(R.string.module_hdr))) && isSupported)
-                fireIsSupportedChanged(false);
-            else if ((module.equals(cameraUiWrapper.getResString(R.string.module_picture))
-                    || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
-                    )&& isSupported)
-            {
-                fireIsSupportedChanged(true);
-            }
+            fireIsSupportedChanged(true);
         }
     };
 

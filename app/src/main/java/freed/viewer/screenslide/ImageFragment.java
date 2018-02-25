@@ -119,9 +119,9 @@ public class ImageFragment extends Fragment
 
         int mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
         View view = inflater.inflate(layout.freedviewer_screenslide_imageframent, container, false);
-        imageView = (TouchImageView) view.findViewById(id.imageView_PicView);
+        imageView = view.findViewById(id.imageView_PicView);
 
-        progressBar = (ProgressBar) view.findViewById(id.progressBar_screenslideImageview);
+        progressBar = view.findViewById(id.progressBar_screenslideImageview);
         imageView.setOnClickListener(onImageClick);
         progressBar.setVisibility(View.VISIBLE);
         if (file != null) {
@@ -154,7 +154,7 @@ public class ImageFragment extends Fragment
         public BitmapLoader(FileHolder file, ImageFragment imageFragment)
         {
             this.file = file;
-            imageviewRef = new WeakReference<ImageFragment>(imageFragment);
+            imageviewRef = new WeakReference<>(imageFragment);
         }
 
         @Override
@@ -175,12 +175,9 @@ public class ImageFragment extends Fragment
                 if (imageFragment != null && imageFragment.getFile() == file)
                 {
                     Log.d(TAG, "set bitmap to imageview");
-                    imageView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setVisibility(View.GONE);
-                            imageView.setImageBitmap(response);
-                        }
+                    imageView.post(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        imageView.setImageBitmap(response);
                     });
 
                 }

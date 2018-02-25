@@ -17,7 +17,7 @@ public class LegacyMode extends AbstractParameter implements BooleanSettingModeI
 
     public LegacyMode(CameraWrapperInterface cameraUiWrapper,  ApiBooleanSettingMode settingMode) {
         super(cameraUiWrapper,null);
-        this.settingMode = (ApiBooleanSettingMode) settingMode;
+        this.settingMode = settingMode;
     }
 
     @Override

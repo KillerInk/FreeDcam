@@ -37,12 +37,12 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
     public SampleInfoOverlayHandler(View view)
     {
         super(view.getContext());
-        tbattery = (TextView)view.findViewById(id.textView_battery);
-        tsize = (TextView)view.findViewById(id.textView_size);
-        TextView tformat = (TextView) view.findViewById(id.textView_format);
-        tTime = (TextView)view.findViewById(id.textView_time);
-        tStorage = (TextView)view.findViewById(id.textView_storage);
-        TextView tdngsupported = (TextView) view.findViewById(id.textView_dngsupported);
+        tbattery = view.findViewById(id.textView_battery);
+        tsize = view.findViewById(id.textView_size);
+        TextView tformat = view.findViewById(id.textView_format);
+        tTime = view.findViewById(id.textView_time);
+        tStorage = view.findViewById(id.textView_storage);
+        TextView tdngsupported = view.findViewById(id.textView_dngsupported);
         tdngsupported.setVisibility(View.GONE);
         /* if (AppSettingsManager.getInstance().getCamApi().equals(AppSettingsManager.API_1))
         {
@@ -53,7 +53,7 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
                 tdngsupported.setTextColor(Color.RED);
         }*/
         //else tdngsupported.setVisibility(View.GONE);
-        TextView tbuidlmodel = (TextView) view.findViewById(id.textView_buildmodel);
+        TextView tbuidlmodel = view.findViewById(id.textView_buildmodel);
         tbuidlmodel.setVisibility(View.GONE);
         /*tbuidlmodel.setText(Build.MODEL);
         tappversion = (TextView)view.findViewById(R.id.textView_appversion);

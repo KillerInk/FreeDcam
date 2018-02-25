@@ -1,18 +1,12 @@
 package freed.cam.apis.sonyremote.sonystuff;
 
 
-import android.util.Base64;
-
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
-import freed.utils.Log;
 
 public class Auth {
 

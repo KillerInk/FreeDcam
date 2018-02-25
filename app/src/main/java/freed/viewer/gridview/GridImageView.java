@@ -88,13 +88,13 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layout.freedviewer_gridview_imageview, this);
-        imageView = (ImageView) findViewById(id.gridimageviewholder);
+        imageView = findViewById(id.gridimageviewholder);
         imageView.setScaleType(ScaleType.CENTER_CROP);
-        textView = (TextView) findViewById(id.filetypetextbox);
-        folderTextView = (TextView) findViewById(id.foldertextbox);
-        checkBox = (ImageView) findViewById(id.checkBox_gridviewimage);
-        sdcard = (ImageView) findViewById(id.imageView_sd);
-        progressBar = (ProgressBar) findViewById(id.progressBar_gridimageview);
+        textView = findViewById(id.filetypetextbox);
+        folderTextView = findViewById(id.foldertextbox);
+        checkBox = findViewById(id.checkBox_gridviewimage);
+        sdcard = findViewById(id.imageView_sd);
+        progressBar = findViewById(id.progressBar_gridimageview);
         handler = new GridImageUiHandler();
     }
 
@@ -130,7 +130,6 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
 
     public void SetViewState(GridViewFragment.ViewStates state)
     {
-        GridViewFragment.ViewStates viewstate = state;
         switch (state)
         {
             case normal:
@@ -190,7 +189,6 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
             ImageManager.removeImageLoadTask(bitmapLoadRunnable);
 
         this.fileHolder = fileHolder;
-        int mImageThumbSize1 = mImageThumbSize;
         Log.d(TAG, "load file:" + fileHolder.getFile().getName());
         imageView.setImageBitmap(null);
         if (!fileHolder.getFile().isDirectory())

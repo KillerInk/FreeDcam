@@ -71,9 +71,9 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layout.cameraui_manualbutton, this);
-        valueTextView = (TextView) findViewById(id.manualbutton_valuetext);
+        valueTextView = findViewById(id.manualbutton_valuetext);
         valueTextView.setSelected(true);
-        imageView = (ImageView) findViewById(id.imageView_ManualButton);
+        imageView = findViewById(id.imageView_ManualButton);
     }
 
     public void RemoveParameterListner( ParameterEvents t)

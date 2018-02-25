@@ -62,7 +62,7 @@ public class MainToCameraHandler extends Handler {
     public MainToCameraHandler(Looper looper, CameraInterface cameraMessageEvent)
     {
         super(looper);
-        messageHandlerWeakReference = new WeakReference<CameraInterface>(cameraMessageEvent);
+        messageHandlerWeakReference = new WeakReference<>(cameraMessageEvent);
     }
 
     @Override

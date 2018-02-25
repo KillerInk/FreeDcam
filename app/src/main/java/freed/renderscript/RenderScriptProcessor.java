@@ -28,7 +28,6 @@ import android.renderscript.Allocation.OnBufferAvailableListener;
 import android.renderscript.Element;
 import android.renderscript.RenderScript.RSErrorHandler;
 import android.renderscript.ScriptGroup;
-import android.renderscript.Type;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
 import android.view.View;
@@ -78,12 +77,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
         this.imageformat = imageformat;
         this.histogram = histogram;
         if (histogram != null) {
-            histogram.post(new Runnable() {
-                @Override
-                public void run() {
-                    histogram.setVisibility(View.GONE);
-                }
-            });
+            histogram.post(() -> histogram.setVisibility(View.GONE));
         }
 
         this.renderScriptManager = renderScriptManager;

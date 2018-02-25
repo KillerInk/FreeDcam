@@ -262,12 +262,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
                     parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
                     focusPeakProcessorAp1.Reset(size.width, size.height);
-                    cameraToMainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            focusPeakProcessorAp1.setHistogramEnable(false);
-                        }
-                    });
+                    cameraToMainHandler.post(() -> focusPeakProcessorAp1.setHistogramEnable(false));
                     
                     Surface surface = new Surface(textureView.getSurfaceTexture());
                     focusPeakProcessorAp1.setOutputSurface(surface);

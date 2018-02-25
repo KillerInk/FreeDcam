@@ -602,7 +602,7 @@ public class CameraExtension {
         if (parameters != null) {
             List<Size> supported = parameters.getSupportedPictureSizes();
             if (supported != null) {
-                return (Size) Collections.max(supported, sizeComparator);
+                return Collections.max(supported, sizeComparator);
             }
         }
         return null;

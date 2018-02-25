@@ -96,10 +96,10 @@ public class SettingsChildMenu extends UiSettingsChild
     protected void init(Context context) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateTheme(inflater);
-        headerText = (TextView) findViewById(id.textview_menuitem_header);
-        valueText = (TextView) findViewById(id.textview_menuitem_header_value);
-        description = (TextView) findViewById(id.textview_menuitem_description);
-        LinearLayout toplayout = (LinearLayout) findViewById(id.menu_item_toplayout);
+        headerText = findViewById(id.textview_menuitem_header);
+        valueText = findViewById(id.textview_menuitem_header_value);
+        description = findViewById(id.textview_menuitem_description);
+        LinearLayout toplayout = findViewById(id.menu_item_toplayout);
         setOnClickListener(this);
     }
 

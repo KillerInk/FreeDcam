@@ -137,12 +137,9 @@ public class MyHistogram extends View {
     }
 
 
-    private Runnable redrawHisto = new Runnable() {
-        @Override
-        public void run() {
-            bringToFront();
-            invalidate();
-        }
+    private Runnable redrawHisto = () -> {
+        bringToFront();
+        invalidate();
     };
 
 

@@ -55,24 +55,21 @@ public class PictureModuleMTK extends PictureModule
     @Override
     public void DoWork()
     {
-        mBackgroundHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
-                    cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+        mBackgroundHandler.post(() -> {
+            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+                cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
 
-                cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
-                Log.d(TAG, "Start Take Picture");
-                waitForPicture = true;
-                ParameterInterface picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat);
-                if (picformat.GetStringValue().equals(FileEnding.BAYER) || picformat.GetStringValue().equals(FileEnding.DNG)) {
-                    String timestamp = String.valueOf(System.currentTimeMillis());
-                    ((ParametersHandler)cameraUiWrapper.getParameterHandler()).Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
-                }
-                isWorking = true;
-                changeCaptureState(CaptureStates.image_capture_start);
-                cameraHolder.TakePicture(PictureModuleMTK.this);
+            cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+            Log.d(TAG, "Start Take Picture");
+            waitForPicture = true;
+            ParameterInterface picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat);
+            if (picformat.GetStringValue().equals(FileEnding.BAYER) || picformat.GetStringValue().equals(FileEnding.DNG)) {
+                String timestamp = String.valueOf(System.currentTimeMillis());
+                ((ParametersHandler)cameraUiWrapper.getParameterHandler()).Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
             }
+            isWorking = true;
+            changeCaptureState(CaptureStates.image_capture_start);
+            cameraHolder.TakePicture(PictureModuleMTK.this);
         });
 
 

@@ -47,18 +47,14 @@ public class PictureSizeSony extends BaseModeParameterSony
         jsonObject =null;
         if (stringvalues == null || stringvalues.length == 0) {
             stringvalues = new String[0];
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run()
-                {
-                    synchronized (stringvalues){
-                        try {
-                            jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
-                            stringvalues = processValuesToReturn();
-                            fireStringValuesChanged(stringvalues);
-                        } catch (IOException ex) {
-                            Log.WriteEx(ex);
-                        }
+            FreeDPool.Execute(() -> {
+                synchronized (stringvalues){
+                    try {
+                        jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                        stringvalues = processValuesToReturn();
+                        fireStringValuesChanged(stringvalues);
+                    } catch (IOException ex) {
+                        Log.WriteEx(ex);
                     }
                 }
             });

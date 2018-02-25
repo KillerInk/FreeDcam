@@ -121,13 +121,10 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             recorder = initRecorder();
             recorder.setMaxFileSize(3037822976L); //~2.8 gigabyte
             recorder.setMaxDuration(7200000); //2hours
-            recorder.setOnErrorListener(new OnErrorListener() {
-                @Override
-                public void onError(MediaRecorder mr, int what, int extra) {
-                    Log.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
-                    changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
-                    ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
-                }
+            recorder.setOnErrorListener((mr, what, extra) -> {
+                Log.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
+                changeCaptureState(CaptureStates.video_recording_stop);
+                ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
             });
 
             mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");

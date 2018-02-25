@@ -47,12 +47,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     protected void init(Context context) {
         super.init(context);
 
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switchCamera();
-            }
-        });
+        setOnClickListener(v -> switchCamera());
     }
 
     @Override

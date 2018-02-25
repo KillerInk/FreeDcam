@@ -193,7 +193,7 @@ public class CameraExtensionValues {
         if (str == null) {
             return -1;
         }
-        Integer num = (Integer) sSceneMap.get(str);
+        Integer num = sSceneMap.get(str);
         return num != null ? num.intValue() : -1;
     }
 

@@ -60,34 +60,27 @@ public class SettingsChildMenuAEB extends LinearLayout {
     }
     private void init(Context context)
     {
-        Context context1 = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layout.settings_expandable_childs_number, this);
-        Button plus = (Button) findViewById(id.button_plus);
-        Button minus = (Button) findViewById(id.button_minus);
-        editText = (EditText) findViewById(id.editText_number);
+        Button plus = findViewById(id.button_plus);
+        Button minus = findViewById(id.button_minus);
+        editText = findViewById(id.editText_number);
         /*this.plus.setClickable(true);
         this.minus.setClickable(true);
         this.plus.setEnabled(true);
         this.minus.setEnabled(true);*/
 
-        minus.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        minus.setOnClickListener(v -> {
 
-                if (current - step >= min)
-                    current -= step;
-                setCurrent(current);
-            }
+            if (current - step >= min)
+                current -= step;
+            setCurrent(current);
         });
-        plus.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (current + step <= max)
-                    current += step;
-                setCurrent(current);
+        plus.setOnClickListener(v -> {
+            if (current + step <= max)
+                current += step;
+            setCurrent(current);
 
-            }
         });
 
     }

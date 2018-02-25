@@ -153,18 +153,14 @@ public class BaseManualParameter extends AbstractParameter
         return moduleListner;
     }
 
-    private final ModuleChangedEvent moduleListner =new ModuleChangedEvent() {
-        @Override
-        public void onModuleChanged(String module)
+    private final ModuleChangedEvent moduleListner = module -> {
+        if (module.equals(cameraUiWrapper.getResString(R.string.module_video)) && isSupported)
+            fireIsSupportedChanged(true);
+        else if (module.equals(cameraUiWrapper.getResString(R.string.module_picture))
+                || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
+                || module.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
         {
-            if (module.equals(cameraUiWrapper.getResString(R.string.module_video)) && isSupported)
-                fireIsSupportedChanged(true);
-            else if (module.equals(cameraUiWrapper.getResString(R.string.module_picture))
-                    || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
-                    || module.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
-            {
-                fireIsSupportedChanged(isVisible);
-            }
+            fireIsSupportedChanged(isVisible);
         }
     };
 }

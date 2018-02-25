@@ -344,22 +344,20 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     @Override
     public void onImagesRecieved(final String[] url)
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                for (String s : url)
+        FreeDPool.Execute(() -> {
+            for (String s : url)
+            {
+                if (cameraUiWrapper.getModuleHandler().getCurrentModule() instanceof PictureModuleSony)
                 {
-                    if (cameraUiWrapper.getModuleHandler().getCurrentModule() instanceof PictureModuleSony)
-                    {
-                        PictureModuleSony pictureModuleSony = (PictureModuleSony) cameraUiWrapper.getModuleHandler().getCurrentModule();
-                        try {
-                            pictureModuleSony.onPictureTaken(new URL(s));
-                        }catch (MalformedURLException ex) {
-                            Log.WriteEx(ex);
-                        }
+                    PictureModuleSony pictureModuleSony = (PictureModuleSony) cameraUiWrapper.getModuleHandler().getCurrentModule();
+                    try {
+                        pictureModuleSony.onPictureTaken(new URL(s));
+                    }catch (MalformedURLException ex) {
+                        Log.WriteEx(ex);
                     }
                 }
-            }});
+            }
+        });
     }
 
     @Override

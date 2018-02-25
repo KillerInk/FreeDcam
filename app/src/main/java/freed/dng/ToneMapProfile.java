@@ -153,20 +153,20 @@ public class ToneMapProfile {
 
     public String getXmlString()
     {
-        String tonecurve = "";
+        StringBuilder tonecurve = new StringBuilder();
         for (int i=0; i < toneCurve.length; i++)
         {
-            tonecurve += toneCurve[i] + " ";
+            tonecurve.append(toneCurve[i]).append(" ");
         }
-        String huesatmap = "";
+        StringBuilder huesatmap = new StringBuilder();
         for (int i=0; i < hueSatMap.length; i++)
         {
-            huesatmap += hueSatMap[i] + " ";
+            huesatmap.append(hueSatMap[i]).append(" ");
         }
-        String huesatmapdim = "";
+        StringBuilder huesatmapdim = new StringBuilder();
         for (int i=0; i < hueSatMapDims.length; i++)
         {
-            huesatmapdim += hueSatMapDims[i] + " ";
+            huesatmapdim.append(hueSatMapDims[i]).append(" ");
         }
         String t = "";
         t += "<tonemapprofile name= " +String.valueOf("\"") +String.valueOf(name) +String.valueOf("\"")  +">" + "\r\n";

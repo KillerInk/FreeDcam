@@ -130,7 +130,7 @@ public class CamcorderProfileExRef {
     {
         Object ob = get(cameraid,profile);
         try {
-            VideoMediaProfile profile1 = new VideoMediaProfile(
+            return new VideoMediaProfile(
                     (int)FIELD_audioBitrate.get(ob),
                     (int)FIELD_audioChannels.get(ob),
                     (int)FIELD_audioCodec.get(ob),
@@ -146,7 +146,6 @@ public class CamcorderProfileExRef {
                     ProfileName,mode,isAudioActive
 
             );
-            return profile1;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

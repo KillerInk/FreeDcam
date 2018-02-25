@@ -30,8 +30,7 @@ public class GuideHandler extends Fragment implements ParameterEvents {
 
     public static GuideHandler getInstance()
     {
-        GuideHandler g = new GuideHandler();
-        return g;
+        return new GuideHandler();
     }
 
     @Override
@@ -39,7 +38,7 @@ public class GuideHandler extends Fragment implements ParameterEvents {
     {
         super.onCreateView(inflater, container,null);
         View view = inflater.inflate(layout.cameraui_guides_fragment, container, false);
-        img = (ImageView) view.findViewById(id.imageViewGyide);
+        img = view.findViewById(id.imageViewGyide);
         return view;
     }
 

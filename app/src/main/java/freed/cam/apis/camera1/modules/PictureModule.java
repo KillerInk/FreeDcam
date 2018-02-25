@@ -83,39 +83,36 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     public void DoWork()
     {
         Log.d(this.TAG, "startWork:isWorking:"+ isWorking);
-        mBackgroundHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                isWorking = true;
-                String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
-                Log.d(TAG,"startWork:picformat:" + picformat);
-                if (picformat.equals(SettingsManager.getInstance().getResString(R.string.dng_)) || picformat.equals(SettingsManager.getInstance().getResString(R.string.bayer_)))
+        mBackgroundHandler.post(() -> {
+            isWorking = true;
+            String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
+            Log.d(TAG,"startWork:picformat:" + picformat);
+            if (picformat.equals(SettingsManager.getInstance().getResString(R.string.dng_)) || picformat.equals(SettingsManager.getInstance().getResString(R.string.bayer_)))
+            {
+                if (SettingsManager.get(SettingKeys.ZSL).isSupported()
+                        && cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetStringValue().equals(cameraUiWrapper.getResString(R.string.on_)))
                 {
-                    if (SettingsManager.get(SettingKeys.ZSL).isSupported()
-                            && cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetStringValue().equals(cameraUiWrapper.getResString(R.string.on_)))
-                    {
-                        Log.d(TAG,"ZSL is on turning it off");
-                        cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).SetValue(cameraUiWrapper.getResString(R.string.off_), true);
-                        Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetValue());
-                    }
+                    Log.d(TAG,"ZSL is on turning it off");
+                    cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).SetValue(cameraUiWrapper.getResString(R.string.off_), true);
+                    Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetValue());
+                }
 
-                }
-                cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
-                changeCaptureState(CaptureStates.image_capture_start);
-                waitForPicture = true;
-                ParameterInterface burst = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst);
-                if (burst != null && burst.IsSupported() && burst.GetValue()+1 > 1) {
-                    burstcount = burst.GetValue()+1;
-                    isBurstCapture = true;
-                }
-                else
-                    burstcount = 1;
-                if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
-                    cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
-                startcapturetime =new Date().getTime();
-                cameraHolder.TakePicture(PictureModule.this);
-                Log.d(TAG,"TakePicture");
             }
+            cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+            changeCaptureState(CaptureStates.image_capture_start);
+            waitForPicture = true;
+            ParameterInterface burst = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst);
+            if (burst != null && burst.IsSupported() && burst.GetValue()+1 > 1) {
+                burstcount = burst.GetValue()+1;
+                isBurstCapture = true;
+            }
+            else
+                burstcount = 1;
+            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+                cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+            startcapturetime =new Date().getTime();
+            cameraHolder.TakePicture(PictureModule.this);
+            Log.d(TAG,"TakePicture");
         });
     }
 

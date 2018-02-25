@@ -65,7 +65,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        settingchildholder = (LinearLayout)view.findViewById(id.SettingChildHolder);
+        settingchildholder = view.findViewById(id.SettingChildHolder);
         setCameraToUi(cameraUiWrapper);
     }
 

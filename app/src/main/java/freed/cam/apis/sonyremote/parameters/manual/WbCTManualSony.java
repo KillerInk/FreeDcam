@@ -54,9 +54,7 @@ public class WbCTManualSony extends BaseManualParameterSony
     public int GetValue()
     {
         if (currentInt == -200)
-            FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
+            FreeDPool.Execute(() -> {
                 try {
                     JSONObject object = mRemoteApi.getParameterFromCamera("getWhiteBalance");
                     JSONArray array = null;
@@ -77,8 +75,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                     Log.WriteEx(ex);
 
                 }
-            }
-        });
+            });
         return currentInt;
     }
 
@@ -92,18 +89,15 @@ public class WbCTManualSony extends BaseManualParameterSony
             currentInt = 0;
         final int set= currentInt;
         final String[] t = values;
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try
-                {
-                    Log.d("WBCT", values[set]);
+        FreeDPool.Execute(() -> {
+            try
+            {
+                Log.d("WBCT", values[set]);
 
-                    JSONArray array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(t[set])) ;
-                    JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);
-                } catch (IOException ex) {
-                    Log.WriteEx(ex);
-                }
+                JSONArray array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(t[set])) ;
+                JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);
+            } catch (IOException ex) {
+                Log.WriteEx(ex);
             }
         });
     }
@@ -154,27 +148,23 @@ public class WbCTManualSony extends BaseManualParameterSony
 
     private void getMinMax()
     {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run()
-            {
+        FreeDPool.Execute(() -> {
+            try {
+                JSONObject jsonObject = mRemoteApi.getParameterFromCamera("getAvailableWhiteBalance");
                 try {
-                    JSONObject jsonObject = mRemoteApi.getParameterFromCamera("getAvailableWhiteBalance");
-                    try {
-                        JSONArray array = jsonObject.getJSONArray("result");
-                        JSONArray subarray = array.getJSONArray(1);
+                    JSONArray array = jsonObject.getJSONArray("result");
+                    JSONArray subarray = array.getJSONArray(1);
 
-                        for (int i = 0; i< subarray.length(); i++)
-                        {
-                            JSONObject ob = subarray.getJSONObject(i);
-                            SetMinMAx(ob);
-                        }
-                    } catch (JSONException ex) {
-                        Log.WriteEx(ex);
+                    for (int i = 0; i< subarray.length(); i++)
+                    {
+                        JSONObject ob = subarray.getJSONObject(i);
+                        SetMinMAx(ob);
                     }
-                } catch (IOException ex) {
+                } catch (JSONException ex) {
                     Log.WriteEx(ex);
                 }
+            } catch (IOException ex) {
+                Log.WriteEx(ex);
             }
         });
         while (values == null)

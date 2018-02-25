@@ -79,16 +79,16 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragment_activityInterface = (ActivityInterface)getActivity();
-        seekbar = (RotatingSeekbar)view.findViewById(id.seekbar);
+        seekbar = view.findViewById(id.seekbar);
         seekbar.setOnSeekBarChangeListener(this);
         seekbar.setVisibility(View.GONE);
 
-        curveView = (CurveViewControl) view.findViewById(id.curveView);
+        curveView = view.findViewById(id.curveView);
         curveView.setVisibility(View.GONE);
 
-        manualItemsHolder = (LinearLayout)view.findViewById(id.manualItemsHolder);
+        manualItemsHolder = view.findViewById(id.manualItemsHolder);
 
-        afBracketSettingsView = (AfBracketSettingsView)view.findViewById(id.manualFragment_afbsettings);
+        afBracketSettingsView = view.findViewById(id.manualFragment_afbsettings);
         afBracketSettingsView.setVisibility(View.GONE);
     }
 
@@ -339,14 +339,11 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     @Override
     public void onIsSetSupportedChanged(final boolean value)
     {
-        seekbar.post(new Runnable() {
-            @Override
-            public void run() {
-                if (value)
-                    seekbar.setVisibility(View.VISIBLE);
-                else
-                    seekbar.setVisibility(View.GONE);
-            }
+        seekbar.post(() -> {
+            if (value)
+                seekbar.setVisibility(View.VISIBLE);
+            else
+                seekbar.setVisibility(View.GONE);
         });
 
     }

@@ -119,7 +119,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 if (result != null && result.getKeys().size() > 0) {
                     try {
                         if (!camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))
-                                && !camera2Fragment.getParameterHandler().get(SettingKeys.CONTROL_MODE).equals(camera2Fragment.getContext().getString(R.string.off))) {
+                                && !camera2Fragment.getParameterHandler().get(SettingKeys.CONTROL_MODE).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))) {
                             try {
                                 long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                                 currentExposureTime = expores;

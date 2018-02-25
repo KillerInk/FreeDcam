@@ -43,8 +43,8 @@ import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 import freed.utils.Log;
 
-/**
- * Created by troop on 09.12.2014.
+/*
+  Created by troop on 09.12.2014.
  */
 
 /**

@@ -53,7 +53,7 @@ public class LGCameraRef
         try {
             init_classes();
             Constructor<?>[] ctors = CLASS_LGCAMERA.getDeclaredConstructors();
-            Constructor<?> constructor = (Constructor<?>) ctors[0];
+            Constructor<?> constructor = ctors[0];
             lgCamera = constructor.newInstance(cameraid);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -75,7 +75,7 @@ public class LGCameraRef
         try {
             init_classes();
             Constructor<?>[] ctors = CLASS_LGCAMERA.getDeclaredConstructors();
-            Constructor<?> constructor = (Constructor<?>) ctors[1];
+            Constructor<?> constructor = ctors[1];
             lgCamera = constructor.newInstance(cameraid, hwlvl);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

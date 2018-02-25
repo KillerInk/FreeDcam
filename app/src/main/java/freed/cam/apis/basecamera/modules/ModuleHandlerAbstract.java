@@ -87,21 +87,17 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         mainHandler = new UiHandler(Looper.getMainLooper(),moduleChangedListner,onCaptureStateChangedListners);
         startBackgroundThread();
 
-        workerListner = new CaptureStateChanged() {
-            @Override
-            public void onCaptureStateChanged(final CaptureStates captureStates)
+        workerListner = captureStates -> {
+            for (int i = 0; i < onCaptureStateChangedListners.size(); i++)
             {
-                for (int i = 0; i < onCaptureStateChangedListners.size(); i++)
-                {
 
-                    if (onCaptureStateChangedListners.get(i) == null) {
-                        onCaptureStateChangedListners.remove(i);
-                        i--;
-                    }
-                    else
-                    {
-                        mainHandler.obtainMessage(UiHandler.CAPTURE_STATE_CHANGED,i,0,captureStates).sendToTarget();
-                    }
+                if (onCaptureStateChangedListners.get(i) == null) {
+                    onCaptureStateChangedListners.remove(i);
+                    i--;
+                }
+                else
+                {
+                    mainHandler.obtainMessage(UiHandler.CAPTURE_STATE_CHANGED,i,0,captureStates).sendToTarget();
                 }
             }
         };
@@ -243,8 +239,8 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
 
         public UiHandler(Looper mainLooper,ArrayList<ModuleChangedEvent> moduleChangedListner,ArrayList<CaptureStateChanged> captureStateChanged) {
             super(mainLooper);
-            weakReferenceModuleChangedListners = new WeakReference<ArrayList<ModuleChangedEvent>>(moduleChangedListner);
-            weakReferenceCaptureStateChanged = new WeakReference<ArrayList<CaptureStateChanged>>(captureStateChanged);
+            weakReferenceModuleChangedListners = new WeakReference<>(moduleChangedListner);
+            weakReferenceCaptureStateChanged = new WeakReference<>(captureStateChanged);
         }
 
         @Override

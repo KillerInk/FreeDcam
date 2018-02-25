@@ -102,9 +102,9 @@ public class UiSettingsChild extends SettingsChildAbstract
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateTheme(inflater);
-        laybg = (LinearLayout) findViewById(id.LAYbg);
+        laybg = findViewById(id.LAYbg);
 
-        valueText = (TextView) findViewById(id.textView2);
+        valueText = findViewById(id.textView2);
         valueText.setSelected(true);
         setOnClickListener(this);
 

@@ -69,7 +69,7 @@ public class ImageManager {
                 coresize = 4;
             if (coresize == 0)
                 coresize = 1;
-            imagesToSaveQueue = new ArrayBlockingQueue<Runnable>(coresize);
+            imagesToSaveQueue = new ArrayBlockingQueue<>(coresize);
 
             imageSaveExecutor = new ThreadPoolExecutor(
                     coresize,       // Initial pool size
@@ -78,14 +78,11 @@ public class ImageManager {
                     TimeUnit.MILLISECONDS,
                     imagesToSaveQueue);
             //handel case that queue is full, and wait till its free
-            imageSaveExecutor.setRejectedExecutionHandler(new RejectedExecutionHandler() {
-                @Override
-                public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-                    try {
-                        executor.getQueue().put(r);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+            imageSaveExecutor.setRejectedExecutionHandler((r, executor) -> {
+                try {
+                    executor.getQueue().put(r);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             });
         }

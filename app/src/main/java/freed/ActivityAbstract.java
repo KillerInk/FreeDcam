@@ -111,14 +111,10 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         }
     }
 
-    private PermissionManager.PermissionCallback logSDPermission = new PermissionManager.PermissionCallback()
-    {
-        @Override
-        public void permissionGranted(boolean granted) {
-            if (granted) {
+    private PermissionManager.PermissionCallback logSDPermission = granted -> {
+        if (granted) {
 
-                initOnCreate();
-            }
+            initOnCreate();
         }
     };
 
@@ -170,13 +166,10 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
             //HIDE nav and action bar
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(flags);
-            decorView.setOnSystemUiVisibilityChangeListener(new OnSystemUiVisibilityChangeListener() {
-                @Override
-                public void onSystemUiVisibilityChange(int visibility) {
-                    if (visibility > 0) {
-                        if (VERSION.SDK_INT >= 16)
-                            getWindow().getDecorView().setSystemUiVisibility(flags);
-                    }
+            decorView.setOnSystemUiVisibilityChangeListener(visibility -> {
+                if (visibility > 0) {
+                    if (VERSION.SDK_INT >= 16)
+                        getWindow().getDecorView().setSystemUiVisibility(flags);
                 }
             });
         }
@@ -352,11 +345,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
     private void SortFileHolder(List<FileHolder> f)
     {
-        Collections.sort(f, new Comparator<FileHolder>() {
-            public int compare(FileHolder f1, FileHolder f2) {
-                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
-            }
-        });
+        Collections.sort(f, (f1, f2) -> Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified()));
     }
 
     private  File getStorageDirectory() {

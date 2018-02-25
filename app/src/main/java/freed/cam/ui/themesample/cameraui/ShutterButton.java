@@ -110,22 +110,19 @@ public class ShutterButton extends android.support.v7.widget.AppCompatButton imp
         //set background img that get then overdrawn
         setBackgroundResource(R.drawable.shutter5);
 
-        this.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (cameraUiWrapper == null || cameraUiWrapper.getModuleHandler() == null || cameraUiWrapper.getModuleHandler().getCurrentModule() == null)
-                    return;
-                String sf = SettingsManager.get(SettingKeys.selfTimer).get();
-                if (TextUtils.isEmpty(sf))
-                    sf = "0";
-                int selftimer = Integer.parseInt(sf);
-                if(selftimer > 0) {
-                    uiHandler.postDelayed(selftimerRunner, selftimer*1000);
-                    onCaptureStateChanged(CaptureStates.selftimerstart);
-                }
-                else
-                    cameraUiWrapper.getModuleHandler().startWork();
+        this.setOnClickListener(v -> {
+            if (cameraUiWrapper == null || cameraUiWrapper.getModuleHandler() == null || cameraUiWrapper.getModuleHandler().getCurrentModule() == null)
+                return;
+            String sf = SettingsManager.get(SettingKeys.selfTimer).get();
+            if (TextUtils.isEmpty(sf))
+                sf = "0";
+            int selftimer = Integer.parseInt(sf);
+            if(selftimer > 0) {
+                uiHandler.postDelayed(selftimerRunner, selftimer*1000);
+                onCaptureStateChanged(CaptureStates.selftimerstart);
             }
+            else
+                cameraUiWrapper.getModuleHandler().startWork();
         });
 
     }

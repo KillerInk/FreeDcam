@@ -86,52 +86,47 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     private void getminmax() {
         if (isSupported && isSetSupported)
         {
-            FreeDPool.Execute(new Runnable()
-            {
-                @Override
-                public void run()
+            FreeDPool.Execute(() -> {
+                try
                 {
-                    try
+                    Log.d(TAG, "Trying to get String Values from: " + VALUES_TO_GET);
+                    JSONObject object =  ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                    JSONArray array = object.getJSONArray("result");
+                    JSONArray subarray = array.getJSONArray(0);
+                    stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
+                    if (stringvalues == null || stringvalues.length != 2)
+                        return;
+                    int max = Integer.parseInt(stringvalues[0]);
+                    int min = Integer.parseInt(stringvalues[1]);
+                    ArrayList<String> r = new ArrayList<>();
+                    for (int i = min; i<= max; i++)
                     {
-                        Log.d(TAG, "Trying to get String Values from: " + VALUES_TO_GET);
-                        JSONObject object =  ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
-                        JSONArray array = object.getJSONArray("result");
-                        JSONArray subarray = array.getJSONArray(0);
-                        stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
-                        if (stringvalues == null || stringvalues.length != 2)
-                            return;
-                        int max = Integer.parseInt(stringvalues[0]);
-                        int min = Integer.parseInt(stringvalues[1]);
-                        ArrayList<String> r = new ArrayList<>();
-                        for (int i = min; i<= max; i++)
-                        {
-                            r.add(i+"");
-                        }
-                        stringvalues =new String[r.size()];
+                        r.add(i+"");
+                    }
+                    stringvalues =new String[r.size()];
 
-                        String[] shut = shutter.getStringValues();
-                        if (shut != null && r != null && shut.length == r.size())
+                    String[] shut = shutter.getStringValues();
+                    if (shut != null && r != null && shut.length == r.size())
+                    {
+                        String s = shutter.GetStringValue();
+                        for (int i = 0; i < shut.length; i++)
                         {
-                            String s = shutter.GetStringValue();
-                            for (int i = 0; i < shut.length; i++)
+                            if (s.equals(shut[i]))
                             {
-                                if (s.equals(shut[i]))
-                                {
-                                    currentInt = i;
-                                    break;
-                                }
+                                currentInt = i;
+                                break;
                             }
                         }
-                        r.toArray(stringvalues);
-                        fireStringValuesChanged(stringvalues);
-                        onIntValueChanged(currentInt);
-
-
-                    } catch (IOException | JSONException ex) {
-                        Log.WriteEx(ex);
-                        Log.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
-                        stringvalues = new String[0];
                     }
+                    r.toArray(stringvalues);
+                    fireStringValuesChanged(stringvalues);
+                    onIntValueChanged(currentInt);
+
+
+                } catch (IOException | JSONException ex) {
+                    Log.WriteEx(ex);
+                    Log.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
+                    stringvalues = new String[0];
                 }
             });
             while (stringvalues == null)
@@ -147,20 +142,16 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     public void SetValue(final int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
-       FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run()
-            {
-                JSONArray array = null;
-                try {
-                    array = new JSONArray().put(0, Integer.parseInt(stringvalues[currentInt]));
-                    JSONObject object = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-                    fireIntValueChanged(valueToSet);
-                } catch (JSONException | IOException ex) {
-                    Log.WriteEx(ex);
-                }
-            }
-        });
+       FreeDPool.Execute(() -> {
+           JSONArray array = null;
+           try {
+               array = new JSONArray().put(0, Integer.parseInt(stringvalues[currentInt]));
+               JSONObject object = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+               fireIntValueChanged(valueToSet);
+           } catch (JSONException | IOException ex) {
+               Log.WriteEx(ex);
+           }
+       });
     }
 
 

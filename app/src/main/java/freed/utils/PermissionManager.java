@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 
+import java.util.Arrays;
+
 /**
  * Created by troop on 09.03.2017.
  */
@@ -126,7 +128,7 @@ public class PermissionManager
             }
             if (!granted)
             {
-                Log.d(TAG, "Request Permission:"+permission);
+                Log.d(TAG, "Request Permission:"+ Arrays.toString(permission));
                 activity.requestPermissions(permission,1);
                 return false;
             }

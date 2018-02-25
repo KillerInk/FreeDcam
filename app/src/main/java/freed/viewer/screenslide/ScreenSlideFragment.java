@@ -137,120 +137,107 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         exifHandler =new ExifHandler(Looper.getMainLooper());
 
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) view.findViewById(id.pager);
-        topbar =(LinearLayout)view.findViewById(id.top_bar);
-        histogram = (MyHistogram)view.findViewById(id.screenslide_histogram);
+        mPager = view.findViewById(id.pager);
+        topbar = view.findViewById(id.top_bar);
+        histogram = view.findViewById(id.screenslide_histogram);
 
-        Button closeButton = (Button) view.findViewById(id.button_closeView);
-        closeButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                if (backClickListner != null) {
-                    backClickListner.onButtonClick(mPager.getCurrentItem(), view);
-                    mPager.setCurrentItem(0);
-                } else
-                    getActivity().finish();
-            }
+        Button closeButton = view.findViewById(id.button_closeView);
+        closeButton.setOnClickListener(v -> {
+            if (backClickListner != null) {
+                backClickListner.onButtonClick(mPager.getCurrentItem(), view);
+                mPager.setCurrentItem(0);
+            } else
+                getActivity().finish();
         });
 
 
-        bottombar =(LinearLayout)view.findViewById(id.bottom_bar);
+        bottombar = view.findViewById(id.bottom_bar);
         Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.freedcam);
 
-        iso = (TextView)view.findViewById(id.textView_iso);
+        iso = view.findViewById(id.textView_iso);
         iso.setTypeface(typeface);
         iso.setText("");
-        shutter = (TextView)view.findViewById(id.textView_shutter);
+        shutter = view.findViewById(id.textView_shutter);
         shutter.setTypeface(typeface);
         shutter.setText("");
-        focal = (TextView)view.findViewById(id.textView_focal);
+        focal = view.findViewById(id.textView_focal);
         focal.setText("");
         focal.setTypeface(typeface);
-        fnumber = (TextView)view.findViewById(id.textView_fnumber);
+        fnumber = view.findViewById(id.textView_fnumber);
         fnumber.setText("");
         fnumber.setTypeface(typeface);
-        filename = (TextView)view.findViewById(id.textView_filename);
+        filename = view.findViewById(id.textView_filename);
 
-        play = (Button)view.findViewById(id.button_play);
+        play = view.findViewById(id.button_play);
         play.setVisibility(View.GONE);
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (folder_to_show == null)
-                    return;
-                if (!folder_to_show.getFile().getName().endsWith(FileEnding.RAW) || !folder_to_show.getFile().getName().endsWith(FileEnding.BAYER)) {
-                    Uri uri = null;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                        uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider",folder_to_show.getFile());
-                    else
-                        uri = Uri.fromFile(folder_to_show.getFile());
+        play.setOnClickListener(v -> {
+            if (folder_to_show == null)
+                return;
+            if (!folder_to_show.getFile().getName().endsWith(FileEnding.RAW) || !folder_to_show.getFile().getName().endsWith(FileEnding.BAYER)) {
+                Uri uri = null;
+                if (VERSION.SDK_INT >= VERSION_CODES.N)
+                    uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider",folder_to_show.getFile());
+                else
+                    uri = Uri.fromFile(folder_to_show.getFile());
 
-                    Intent i;
-                    if (folder_to_show.getFile().getName().endsWith(FileEnding.MP4))
-                    {
-                        i = new Intent(Intent.ACTION_VIEW);
-                        i.setDataAndType(uri, "video/*");
-                    }
-                    else {
-                        i = new Intent(Intent.ACTION_EDIT);
-                        i.setDataAndType(uri, "image/*");
-                    }
-
-                    Intent chooser = Intent.createChooser(i, "Choose App");
-                    chooser.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    //startActivity(i);
-                    if (i.resolveActivity(getActivity().getPackageManager()) != null) {
-                        startActivity(chooser);
-                    }
-
+                Intent i;
+                if (folder_to_show.getFile().getName().endsWith(FileEnding.MP4))
+                {
+                    i = new Intent(Intent.ACTION_VIEW);
+                    i.setDataAndType(uri, "video/*");
                 }
+                else {
+                    i = new Intent(Intent.ACTION_EDIT);
+                    i.setDataAndType(uri, "image/*");
+                }
+
+                Intent chooser = Intent.createChooser(i, "Choose App");
+                chooser.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                //startActivity(i);
+                if (i.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(chooser);
+                }
+
             }
         });
-        deleteButton = (Button)view.findViewById(id.button_delete);
+        deleteButton = view.findViewById(id.button_delete);
         deleteButton.setVisibility(View.GONE);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !SettingsManager.getInstance().GetWriteExternal()) {
+        deleteButton.setOnClickListener(view -> {
+            if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !SettingsManager.getInstance().GetWriteExternal()) {
+                Builder builder = new Builder(getContext());
+                builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteButtonClick)
+                        .setNegativeButton("No", onDeleteButtonClick).show();
+            } else {
+                DocumentFile sdDir = activityInterface.getExternalSdDocumentFile();
+                if (sdDir == null) {
+
+                    activityInterface.ChooseSDCard(ScreenSlideFragment.this);
+                } else {
                     Builder builder = new Builder(getContext());
                     builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteButtonClick)
                             .setNegativeButton("No", onDeleteButtonClick).show();
-                } else {
-                    DocumentFile sdDir = activityInterface.getExternalSdDocumentFile();
-                    if (sdDir == null) {
-
-                        activityInterface.ChooseSDCard(ScreenSlideFragment.this);
-                    } else {
-                        Builder builder = new Builder(getContext());
-                        builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteButtonClick)
-                                .setNegativeButton("No", onDeleteButtonClick).show();
-                    }
                 }
-
-
             }
+
+
         });
 
-        infoButton = (Button)view.findViewById(id.button_info);
+        infoButton = view.findViewById(id.button_info);
         infoButton.setVisibility(View.GONE);
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (showExifInfo)
-                {
-                    showExifInfo = false;
-                    exifinfo_holder.setVisibility(View.GONE);
-                }
-                else
-                {
-                    showExifInfo = true;
-                    exifinfo_holder.setVisibility(View.VISIBLE);
-                }
+        infoButton.setOnClickListener(v -> {
+            if (showExifInfo)
+            {
+                showExifInfo = false;
+                exifinfo_holder.setVisibility(View.GONE);
+            }
+            else
+            {
+                showExifInfo = true;
+                exifinfo_holder.setVisibility(View.VISIBLE);
             }
         });
 
-        exifinfo_holder = (LinearLayout)view.findViewById(id.screenslide_exif_holder);
+        exifinfo_holder = view.findViewById(id.screenslide_exif_holder);
         exifinfo_holder.setVisibility(View.GONE);
 
 
