@@ -22,43 +22,10 @@
 #include <string.h>
 #include <android/log.h>
 #include <DngWriter.h>
+#include "JniUtils.h"
+
 #define  LOG_TAG    "freedcam.RawToDngNative"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
-
-
-static char* copyString(JNIEnv* env, jstring input)
-{
-    const char * fsp = env->GetStringUTFChars(input,NULL);
-    int len = env->GetStringLength(input);
-    char* out = new char[len];
-    strcpy(out, fsp);
-    env->ReleaseStringUTFChars(input,fsp);
-    return out;
-}
-
-static float* copyfloatArray(JNIEnv *env, jfloatArray input)
-{
-    int size = env->GetArrayLength((jarray)input);
-    float * out = new float[size];
-    env->GetFloatArrayRegion (input, 0, size, reinterpret_cast<jfloat*>(out));
-    return out;
-}
-
-static int* copyintArray(JNIEnv *env, jintArray input)
-{
-    int size = env->GetArrayLength((jarray)input);
-    int * out = new int[size];
-    env->GetIntArrayRegion (input, 0, size, reinterpret_cast<jint*>(out));
-    return out;
-}
-
-static unsigned char* copyByteArray(JNIEnv* env, jbyteArray input)
-{
-    int size = env->GetArrayLength((jarray)input);
-    unsigned char* out = new unsigned char[size];
-    env->GetByteArrayRegion (input, 0, size, reinterpret_cast<jbyte*>(out));
-    return out;
-}
 
 extern "C"
 {
@@ -76,38 +43,17 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetExifData(JNIEnv *env, jobject thiz,
-                                                               jint iso,
-                                                               jdouble expo,
-                                                               jint flash,
-                                                               jfloat fNum,
-                                                               jfloat focalL,
-                                                               jstring imagedescription,
-                                                               jstring orientation,
-                                                               jfloat exposureIndex,jobject javaHandler)
+                                                               jobject exifinfo,jobject javaHandler)
     {
         DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
-        writer->_iso = iso;
-        writer->_exposure =expo;
-        writer->_flash = flash;
-        writer->_imagedescription = copyString(env,imagedescription);
-        writer->_orientation = copyString(env,orientation);
-        writer->_fnumber = fNum;
-        LOGD("fnum jni: %9.6f", fNum);
-        writer->_focallength = focalL;
-        LOGD("expoindex jni: %9.6f", exposureIndex);
-        writer->_exposureIndex = exposureIndex;
+        writer->exifInfo = (ExifInfo*)env->GetDirectBufferAddress(exifinfo);
     }
 
-    JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jdouble Altitude,jfloatArray Latitude,jfloatArray Longitude, jstring Provider, jfloatArray gpsTime, jstring gpsDate, jobject javaHandler)
+    JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetGPSData(JNIEnv *env, jobject thiz, jobject javaHandler, jobject gpsInfobuf)
     {
         DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
-        writer->Altitude = (double)Altitude;
-        writer->Latitude =  copyfloatArray(env, Latitude);
-        writer->Longitude = copyfloatArray(env, Longitude);
-        writer->Provider = copyString(env, Provider);
-        writer->gpsTime = copyfloatArray(env, gpsTime);
-        writer->gpsDate = copyString(env, gpsDate);
-        writer->gps = true;
+        GpsInfo * gpsInfo = (GpsInfo*)env->GetDirectBufferAddress(gpsInfobuf);
+        writer->gpsInfo = gpsInfo;
     }
     JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetThumbData(JNIEnv *env, jobject thiz,  jbyteArray mThumb, jint widht, jint height,jobject javaHandler)
     {

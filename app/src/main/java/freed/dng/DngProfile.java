@@ -19,6 +19,8 @@
 
 package freed.dng;
 
+import java.nio.ByteBuffer;
+
 /**
  * Created by troop on 01.06.2016.
  */
@@ -45,27 +47,17 @@ public class DngProfile
 
     public static final String RGBW =  "rgbw";
 
-    public int blacklevel;
-    public int whitelevel;
-    public int widht;
-    public int height;
-    public int rawType;
-    public String bayerPattern;
-    public int rowsize;
     public CustomMatrix matrixes;
     public String matrixName;
 
     public ToneMapProfile toneMapProfile;
 
-    public DngProfile(int blacklevel,int whitelevel,int widht, int height, int rawType, String bayerPattern, int rowsize, String matrixName)
+    private ByteBuffer byteBuffer;
+
+    private DngProfile(int blacklevel,int whitelevel,int widht, int height, int rawType, String bayerPattern, int rowsize, String matrixName)
     {
-        this.blacklevel = blacklevel;
-        this.whitelevel =whitelevel;
-        this.widht = widht;
-        this.height = height;
-        this.rawType = rawType;
-        this.bayerPattern = bayerPattern;
-        this.rowsize = rowsize;
+        byteBuffer = init();
+        setDngInfo(byteBuffer,blacklevel,whitelevel,widht,height,rawType,bayerPattern,rowsize);
         this.matrixName = matrixName;
     }
 
@@ -94,17 +86,45 @@ public class DngProfile
     {
         String t = "";
         t += "<filesize size= " +String.valueOf("\"") +String.valueOf(filesize) +String.valueOf("\"")  +">" + "\r\n";
-            t += "<blacklvl>" + blacklevel + "</blacklvl>" + "\r\n";
-            t += "<whitelvl>" + whitelevel + "</whitelvl>" + "\r\n";
-            t += "<width>" + widht + "</width>" + "\r\n";
-            t += "<height>" + height + "</height>" + "\r\n";
-            t += "<rawtype>" + rawType + "</rawtype>" + "\r\n";
-            t += "<colorpattern>" + bayerPattern + "</colorpattern>" + "\r\n";
-            t += "<rowsize>" + rowsize + "</rowsize>" + "\r\n";
+            t += "<blacklvl>" + getBlacklvl(byteBuffer) + "</blacklvl>" + "\r\n";
+            t += "<whitelvl>" + getWhitelvl(byteBuffer) + "</whitelvl>" + "\r\n";
+            t += "<width>" + getWidth(byteBuffer) + "</width>" + "\r\n";
+            t += "<height>" + getHeight(byteBuffer) + "</height>" + "\r\n";
+            t += "<rawtype>" + getRawType(byteBuffer) + "</rawtype>" + "\r\n";
+            t += "<colorpattern>" + getBayerPatter(byteBuffer) + "</colorpattern>" + "\r\n";
+            t += "<rowsize>" + getRowSize(byteBuffer) + "</rowsize>" + "\r\n";
             t += "<matrixset>" + matrixName + "</matrixset>" + "\r\n";
         t += "</filesize>"  + "\r\n";
 
 
         return t;
+    }
+
+    static
+    {
+        System.loadLibrary("freedcam");
+    }
+
+    private native ByteBuffer init();
+    private native void clear(ByteBuffer byteBuffer);
+    private native void setDngInfo(ByteBuffer javaHandler, int blacklevel,int whitelevel,int widht, int height, int rawType, String bayerPattern, int rowsize);
+    private native int getWhitelvl(ByteBuffer byteBuffer);
+    private native int getBlacklvl(ByteBuffer byteBuffer);
+    private native int getRawType(ByteBuffer byteBuffer);
+    private native int getWidth(ByteBuffer byteBuffer);
+    private native int getHeight(ByteBuffer byteBuffer);
+    private native int getRowSize(ByteBuffer byteBuffer);
+    private native String getBayerPatter(ByteBuffer byteBuffer);
+
+    public ByteBuffer getByteBuffer()
+    {
+        return byteBuffer;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        if (byteBuffer != null)
+            clear(byteBuffer);
     }
 }

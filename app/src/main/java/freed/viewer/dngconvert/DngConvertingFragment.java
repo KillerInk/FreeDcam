@@ -61,6 +61,7 @@ import java.io.IOException;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.dng.DngProfile;
+import freed.jni.ExifInfo;
 import freed.jni.RawToDng;
 import freed.jni.RawUtils;
 import freed.settings.SettingsManager;
@@ -400,14 +401,14 @@ public class DngConvertingFragment extends Fragment
                 pfd = null;
             }
         }
-        dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
-        long gpsTime = 1477324747000l;
+        dng.setExifData(new ExifInfo(100,0,0,0,0,0,"",""));
+        /*long gpsTime = 1477324747000l;
         String provider = "gps";
         double longitude = 11.65918818;
         double latitude = 48.2503155;
         double altitude = 561.0;
         if (fakeGPS.isChecked())
-            dng.SetGpsData(altitude, latitude, longitude, provider, gpsTime);
+            dng.SetGpsData(altitude, latitude, longitude, provider, gpsTime);*/
         dng.WriteDngWithProfile(dngprofile);
         data = null;
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);

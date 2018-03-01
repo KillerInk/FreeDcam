@@ -7,6 +7,9 @@
 
 
 #include "../tiff/libtiff/tiffio.h"
+#include "ExifInfo.h"
+#include "GpsInfo.h"
+#include "DngProfile.h"
 #include <android/log.h>
 #include <../tiff/libtiff/tif_dir.h>
 #include <assert.h>
@@ -33,31 +36,27 @@ private:
     void process16to12(TIFF *tif);
     void writeRawStuff(TIFF *tif);
 public:
-    int _iso, _flash;
-    double _exposure;
+    ExifInfo *exifInfo;
+    GpsInfo *gpsInfo;
+    DngProfile * dngProfile;
     char* _make;
     char*_model;
-    char* _imagedescription;
     char* _dateTime;
-    char* _orientation;
-    float _fnumber, _focallength;
-    float _exposureIndex;
 
-    double Altitude;
-    float *Latitude;
-    float *Longitude;
-    char* Provider;
-    float *gpsTime;
-    char* gpsDate;
-    bool gps;
 
 
     long whitelevel;
     float *blacklevel;
+    char* bayerformat;
+    int rawType;
+    int rawwidht, rawheight, rowSize;
+
+    long rawSize;
+
     char *fileSavePath;
     long fileLength;
     unsigned char* bayerBytes;
-    int rawwidht, rawheight, rowSize;
+
     float *colorMatrix1;
     float *colorMatrix2;
     float *neutralColorMatrix;
@@ -76,9 +75,7 @@ public:
 
     int *huesatmapdims;
     double *noiseMatrix;
-    char* bayerformat;
-    int rawType;
-    long rawSize;
+
 
     int fileDes;
     bool hasFileDes;
@@ -93,7 +90,8 @@ public:
 
     DngWriter()
     {
-        gps = false;
+        exifInfo = NULL;
+        gpsInfo = NULL;
         fileDes = -1;
         hasFileDes = false;
         opcode2 = NULL;
@@ -117,11 +115,6 @@ public:
         huesatmapdata2 = NULL;
         huesatmapdata2_size = 0;
         huesatmapdims = NULL;
-        Longitude = NULL;
-        Latitude = NULL;
-        Provider = NULL;
-        gpsTime = NULL;
-        gpsDate = NULL;
 
         opcode2Size =0;
         opcode3Size = 0;

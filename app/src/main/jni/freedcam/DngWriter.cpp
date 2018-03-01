@@ -81,13 +81,13 @@ void DngWriter::writeIfd0(TIFF *tif) {
     LOGD("model");
     try
     {
-        if(0 == strcmp(_orientation,"0") )
+        if(0 == strcmp(exifInfo->_orientation,"0") )
             TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
-        if(0 == strcmp(_orientation,"90") )
+        if(0 == strcmp(exifInfo->_orientation,"90") )
             TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_RIGHTTOP);
-        if(0 == strcmp(_orientation,"180") )
+        if(0 == strcmp(exifInfo->_orientation,"180") )
             TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_BOTRIGHT);
-        if(0 == strcmp(_orientation,"270") )
+        if(0 == strcmp(exifInfo->_orientation,"270") )
             TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_LEFTBOT);
         LOGD("orientation");
     }
@@ -107,7 +107,7 @@ void DngWriter::writeIfd0(TIFF *tif) {
     LOGD("dngversion");
     TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, _model);
     LOGD("CameraModel");
-    TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, _imagedescription);
+    TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, exifInfo->_imagedescription);
     LOGD("imagedescription");
     TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, colorMatrix1);
     LOGD("colormatrix1");
@@ -178,9 +178,9 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
     LOGD("Wrote GPSVersionID" );
 
     const char* longitudeRef = "E";
-    if (Longitude[0] < 0) {
+    if (gpsInfo->Longitude[0] < 0) {
         longitudeRef = "W";
-        Longitude[0] = fabsf(Longitude[0]);
+        gpsInfo->Longitude[0] = fabsf(gpsInfo->Longitude[0]);
     }
     if (!TIFFSetField( tif, GPSTAG_GPSLongitudeRef, longitudeRef))
     {
@@ -188,15 +188,15 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
     }
     LOGD("LONG REF Written %c", longitudeRef);
 
-    if (!TIFFSetField(tif, GPSTAG_GPSLongitude, Longitude))
+    if (!TIFFSetField(tif, GPSTAG_GPSLongitude, gpsInfo->Longitude))
     {
         LOGD("Can't write Longitude" );
     }
     LOGD("Longitude Written");
     const char* latitudeRef = "N";
-    if (Latitude[0] < 0) {
+    if (gpsInfo->Latitude[0] < 0) {
         latitudeRef = "S";
-        Latitude[0] = fabsf(Latitude[0]);
+        gpsInfo->Latitude[0] = fabsf(gpsInfo->Latitude[0]);
     }
     LOGD("PMETH Written");
     if (!TIFFSetField( tif, GPSTAG_GPSLatitudeRef, latitudeRef)) {
@@ -204,24 +204,24 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
     }
     LOGD("LATI REF Written %c", latitudeRef);
 
-    if (!TIFFSetField( tif, GPSTAG_GPSLatitude,Latitude))
+    if (!TIFFSetField( tif, GPSTAG_GPSLatitude,gpsInfo->Latitude))
     {
         LOGD("Can't write Latitude" );
     }
     LOGD("Latitude Written");
-    if (!TIFFSetField( tif, GPSTAG_GPSAltitude,Altitude))
+    if (!TIFFSetField( tif, GPSTAG_GPSAltitude,gpsInfo->Altitude))
     {
         LOGD("Can't write Altitude" );
     }
     LOGD("Altitude Written");
 
-    if (!TIFFSetField( tif, GPSTAG_GPSTimeStamp, gpsTime))
+    if (!TIFFSetField( tif, GPSTAG_GPSTimeStamp, gpsInfo->gpsTime))
         {
             LOGD("Can't write gpsTime" );
         }
     LOGD("GPSTimeStamp Written");
 
-    if (!TIFFSetField( tif, GPSTAG_GPSDateStamp, gpsDate))
+    if (!TIFFSetField( tif, GPSTAG_GPSDateStamp, gpsInfo->gpsDate))
         {
             LOGD("Can't write gpsTime" );
         }
@@ -230,37 +230,37 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
 
 void DngWriter::writeExifIfd(TIFF *tif) {
     /////////////////////////////////// EXIF IFD //////////////////////////////
-    short iso[] = {_iso};
+    short iso[] = {exifInfo->_iso};
     LOGD("EXIF dir created");
     if (!TIFFSetField( tif, EXIFTAG_ISOSPEEDRATINGS,1, iso)) {
         LOGD("Can't write SPECTRALSENSITIVITY" );
     }
     LOGD("iso");
-    if (!TIFFSetField( tif, EXIFTAG_FLASH, _flash)) {
+    if (!TIFFSetField( tif, EXIFTAG_FLASH, exifInfo->_flash)) {
         LOGD("Can't write Flas" );
     }
     LOGD("flash");
-    if (!TIFFSetField( tif, EXIFTAG_APERTUREVALUE, _fnumber)) {
+    if (!TIFFSetField( tif, EXIFTAG_APERTUREVALUE, exifInfo->_fnumber)) {
         LOGD("Can't write Aper" );
     }
     LOGD("aperture");
 
-    if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME,_exposure)) {
+    if (!TIFFSetField( tif, EXIFTAG_EXPOSURETIME,exifInfo->_exposure)) {
         LOGD("Can't write SPECTRALSENSITIVITY" );
     }
     LOGD("exposure");
 
 
-    if (!TIFFSetField( tif, EXIFTAG_FOCALLENGTH, _focallength)) {
+    if (!TIFFSetField( tif, EXIFTAG_FOCALLENGTH, exifInfo->_focallength)) {
         LOGD("Can't write Focal" );
     }
     LOGD("focal");
 
-    if (!TIFFSetField( tif, EXIFTAG_FNUMBER, _fnumber)) {
+    if (!TIFFSetField( tif, EXIFTAG_FNUMBER, exifInfo->_fnumber)) {
         LOGD("Can't write FNum" );
     }
 
-    if(!TIFFSetField(tif,EXIFTAG_EXPOSUREINDEX, _exposureIndex))
+    if(!TIFFSetField(tif,EXIFTAG_EXPOSUREINDEX, exifInfo->_exposureIndex))
         LOGD("Cant write expoindex");
     LOGD("fnumber");
 }
@@ -671,8 +671,9 @@ void DngWriter::WriteDNG() {
 
     LOGD("writeIfd0");
     writeIfd0(tif);
-    writeExifIfd(tif);
-    if(gps == true)
+    if(exifInfo != NULL)
+        writeExifIfd(tif);
+    if(gpsInfo != NULL)
     {   //allocate empty GPSIFD tag
         TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);        
     }
@@ -682,7 +683,7 @@ void DngWriter::WriteDNG() {
     
     LOGD("set exif");
 
-    if(gps == true)
+    if(gpsInfo != NULL)
     {
         makeGPS_IFD(tif);        
         TIFFWriteCustomDirectory(tif, &gps_offset);
@@ -781,21 +782,6 @@ void DngWriter::WriteDNG() {
         delete[] bayerformat;
         bayerformat = NULL;
     }
-    if(Longitude != NULL)
-    {
-        delete Longitude;
-        Longitude = NULL;
-    }
-    if(Latitude != NULL)
-    {
-        delete[] Latitude;
-        Latitude = NULL;
-    }
-    if(Provider != NULL)
-    {
-        delete[] Provider;
-        Provider = NULL;
-    }
     if(_make != NULL)
     {
         delete[] _make;
@@ -811,16 +797,8 @@ void DngWriter::WriteDNG() {
         delete[] _dateTime;
         _dateTime = NULL;
     }
-    if(_imagedescription != NULL)
-    {
-        delete[] _imagedescription;
-        _imagedescription = NULL;
-    }
-    if(_orientation != NULL)
-    {
-        delete[] _orientation;
-        _orientation = NULL;
-    }
+    if(exifInfo != NULL)
+        exifInfo == NULL;
     if(tonecurve != NULL)
     {
         delete[] tonecurve;
@@ -845,26 +823,10 @@ void DngWriter::WriteDNG() {
         delete[] huesatmapdims;
         huesatmapdims = NULL;
     }
-    _iso = NULL;
-    _exposure = NULL;
-    _flash = NULL;
-    _fnumber = NULL;
-    _focallength = NULL;
-    _exposureIndex = NULL;
-    Altitude = NULL;
-    gpsTime = NULL;
-    gpsDate = NULL;
-    gps = NULL;
-    whitelevel == NULL;
-    fileLength = NULL;
     rawwidht = NULL;
     rawheight = NULL;
     rowSize = NULL;
-    baselineExposure = NULL;
-    baselineExposureOffset = NULL;
-    rawSize = NULL;
     fileDes = NULL;
-    hasFileDes = NULL;
     thumbheight = NULL;
     thumwidth = NULL;
 

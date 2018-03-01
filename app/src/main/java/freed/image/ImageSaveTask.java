@@ -14,6 +14,8 @@ import java.io.OutputStream;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.dng.DngProfile;
+import freed.jni.ExifInfo;
+import freed.jni.GpsInfo;
 import freed.jni.RawToDng;
 import freed.utils.Log;
 
@@ -179,9 +181,11 @@ public class ImageSaveTask extends ImageTask
         int pfdint = -1;
         if (location != null)
         {
-            rawToDng.SetGpsData(location.getAltitude(), location.getLatitude(), location.getLongitude(), location.getProvider(), location.getTime());
+            GpsInfo gpsInfo = new GpsInfo(location);
+            rawToDng.SetGpsData(gpsInfo.getByteBuffer());
         }
-        rawToDng.setExifData(mISO, exposureTime, 0, fnum, focal, "0", orientation + "", expoindex);
+        ExifInfo info = new ExifInfo(mISO,0,exposureTime,focal,fnum,expoindex,"",orientation+"");
+        rawToDng.setExifData(info);
 //        if (whitebalance != null)
 //            rawToDng.SetWBCT(whitebalance);
 

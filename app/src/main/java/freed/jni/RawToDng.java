@@ -38,7 +38,7 @@ public class RawToDng
     private native void recycle(ByteBuffer byteBuffer);
     private native long GetRawBytesSize(ByteBuffer byteBuffer);
     private native int GetRawHeight(ByteBuffer byteBuffer);
-    private native void SetGPSData(double Altitude,float[] Latitude,float[] Longitude, String Provider, float[] gpsTime, String gpsDate,ByteBuffer byteBuffer);
+    private native void SetGPSData(ByteBuffer byteBuffer, ByteBuffer gpsBuffer);
     private native void SetThumbData(byte[] mThumb, int widht, int height,ByteBuffer byteBuffer);
     private native void WriteDNG(ByteBuffer byteBuffer);
     private native void SetOpCode3(byte[] opcode,ByteBuffer byteBuffer);
@@ -61,14 +61,7 @@ public class RawToDng
                                      int rowSize,
                                      String devicename,
                                      int rawType,int width,int height,ByteBuffer byteBuffer);
-    private native void SetExifData(int iso,
-                                           double expo,
-                                           int flash,
-                                           float fNum,
-                                           float focalL,
-                                           String imagedescription,
-                                           String orientation,
-                                           float exposureIndex,ByteBuffer byteBuffer);
+    private native void SetExifData(ByteBuffer exifInfo,ByteBuffer byteBuffer);
 
     private native void SetDateTime(String datetime,ByteBuffer byteBuffer);
 
@@ -186,54 +179,17 @@ public class RawToDng
         return GetRawBytesSize(byteBuffer);
     }
 
-    public void SetGpsData(double Altitude,double Latitude,double Longitude, String Provider, long gpsTime)
+    public void SetGpsData(ByteBuffer gpsBuffer)
     {
-        Log.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
-        SetGPSData(Altitude, parseGpsvalue(Latitude), parseGpsvalue(Longitude), Provider, parseGPStime(gpsTime), parseGPSdate(gpsTime), byteBuffer);
+        if (byteBuffer != null)
+            SetGPSData(byteBuffer, gpsBuffer);
     }
 
-    public void setExifData(int iso,
-                            double expo,
-                            int flash,
-                            float fNum,
-                            float focalL,
-                            String imagedescription,
-                            String orientation,
-                            float exposureIndex)
+    public void setExifData(ExifInfo exifData)
     {
-        SetExifData(iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex,byteBuffer);
+        SetExifData(exifData.getByteBuffer(),byteBuffer);
         SetDateTime(StorageFileManager.getStringExifPattern().format(new Date()),byteBuffer);
-        SetBaselineExposureOffset(exposureIndex,byteBuffer);
-    }
-
-    public static float[] parseGpsvalue(double val)
-    {
-
-        String[] sec = Location.convert(val, Location.FORMAT_SECONDS).split(":");
-
-        double dd = Double.parseDouble(sec[0]);
-        double dm = Double.parseDouble(sec[1]);
-        double ds = Double.parseDouble(sec[2].replace(",","."));
-
-        return new float[]{ (float)dd ,(float)dm,(float)ds};
-    }
-
-    public static float[] parseGPStime(long val)
-    {
-        SimpleDateFormat simpledatetime = new SimpleDateFormat("kk:mm:ss");
-        String[] mytime = simpledatetime.format(val).split(":");
-
-        double hh = Double.parseDouble(mytime[0]);
-        double mm = Double.parseDouble(mytime[1]);
-        double ss = Double.parseDouble(mytime[2]);
-
-        return new float[] {(float)hh , (float)mm, (float)ss};
-    }
-
-    public static String parseGPSdate(long val)
-    {
-        SimpleDateFormat simpledatetime = new SimpleDateFormat("yyyy:MM:dd");
-        return simpledatetime.format(val);
+        //SetBaselineExposureOffset(exifData,byteBuffer);
     }
 
     public void setThumbData(byte[] mThumb, int widht, int height)
