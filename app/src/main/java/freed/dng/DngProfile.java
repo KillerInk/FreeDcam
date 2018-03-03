@@ -116,6 +116,36 @@ public class DngProfile
     private native int getRowSize(ByteBuffer byteBuffer);
     private native String getBayerPatter(ByteBuffer byteBuffer);
 
+    public int getWhitelvl()
+    {
+        return getWhitelvl(byteBuffer);
+    }
+    public int getBlacklvl()
+    {
+        return getBlacklvl(byteBuffer);
+    }
+    public int getRawType()
+    {
+        return getRawType(byteBuffer);
+    }
+    public int getWidth(){
+        return getWidth(byteBuffer);
+    }
+
+    public int getHeight()
+    {
+        return getHeight(byteBuffer);
+    }
+    public int getRowSize()
+    {
+        return getRowSize(byteBuffer);
+    }
+
+    public String getBayerPatter()
+    {
+        return getBayerPatter(byteBuffer);
+    }
+
     public ByteBuffer getByteBuffer()
     {
         return byteBuffer;

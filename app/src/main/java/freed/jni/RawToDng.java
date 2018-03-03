@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.utils.Log;
 import freed.utils.StorageFileManager;
@@ -37,30 +38,15 @@ public class RawToDng
     private native ByteBuffer init();
     private native void recycle(ByteBuffer byteBuffer);
     private native long GetRawBytesSize(ByteBuffer byteBuffer);
-    private native int GetRawHeight(ByteBuffer byteBuffer);
     private native void SetGPSData(ByteBuffer byteBuffer, ByteBuffer gpsBuffer);
     private native void SetThumbData(byte[] mThumb, int widht, int height,ByteBuffer byteBuffer);
     private native void WriteDNG(ByteBuffer byteBuffer);
     private native void SetOpCode3(byte[] opcode,ByteBuffer byteBuffer);
     private native void SetOpCode2(byte[] opcode,ByteBuffer byteBuffer);
-    private native void SetRawHeight(int height,ByteBuffer byteBuffer);
     private native void SetModelAndMake(String model, String make,ByteBuffer byteBuffer);
     private native void SetBayerData(byte[] fileBytes, String fileout,ByteBuffer byteBuffer);
     private native void SetBayerDataFD(byte[] fileBytes, int fileout, String filename,ByteBuffer byteBuffer);
-    private native void SetBayerInfo(float[] colorMatrix1,
-                                     float[] colorMatrix2,
-                                     float[] neutralColor,
-                                     float[] fowardMatrix1,
-                                     float[] fowardMatrix2,
-                                     float[] reductionMatrix1,
-                                     float[] reductionMatrix2,
-                                     double[] noiseMatrix,
-                                     int blacklevel,
-                                     int whitelevel,
-                                     String bayerformat,
-                                     int rowSize,
-                                     String devicename,
-                                     int rawType,int width,int height,ByteBuffer byteBuffer);
+    private native void SetBayerInfo(ByteBuffer matrix, ByteBuffer dngprofile,ByteBuffer byteBuffer);
     private native void SetExifData(ByteBuffer exifInfo,ByteBuffer byteBuffer);
 
     private native void SetDateTime(String datetime,ByteBuffer byteBuffer);
@@ -229,31 +215,9 @@ public class RawToDng
     }
 
 
-    private void SetBayerInfo(float[] colorMatrix1,
-                              float[] colorMatrix2,
-                              float[] neutralColor,
-                              float[] fowardMatrix1,
-                              float[] fowardMatrix2,
-                              float[] reductionMatrix1,
-                              float[] reductionMatrix2,
-                              double[] noise,
-                              int blacklevel,
-                              int whitelevel,
-                              String bayerformat,
-                              int rowSize,
-                              int tight, int width, int height)
+    private void SetBayerInfo(ByteBuffer matrix, ByteBuffer dngprofile)
     {
-        if (TextUtils.isEmpty(wbct))
-            SetBayerInfo(colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height,byteBuffer);
-        else if (!TextUtils.isEmpty(wbct))
-            SetBayerInfo(colorMatrix1, colorMatrix2, getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel,whitelevel, bayerformat, rowSize, Build.MODEL, tight, width, height,byteBuffer);
-
-    }
-
-
-    private void setRawHeight(int height)
-    {
-        SetRawHeight(height,byteBuffer);
+        SetBayerInfo(matrix,dngprofile,byteBuffer);
     }
 
 
@@ -274,10 +238,7 @@ public class RawToDng
             if (profile.toneMapProfile.getBaselineExposure() != null)
                 SetBaselineExposure(profile.toneMapProfile.getBaselineExposure(),byteBuffer);
         }
-
-        SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,
-                profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
-                profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.whitelevel, profile.bayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
+        SetBayerInfo(profile.matrixes.getByteBuffer(),profile.getByteBuffer(),byteBuffer);
         WriteDNG(byteBuffer);
         recycle(byteBuffer);
         byteBuffer = null;

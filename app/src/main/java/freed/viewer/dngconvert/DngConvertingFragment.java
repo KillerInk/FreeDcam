@@ -92,6 +92,9 @@ public class DngConvertingFragment extends Fragment
     private TouchImageView imageView;
     private String tonemaps[];
 
+    private int rawType;
+    private String bayerPattern;
+
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -175,13 +178,13 @@ public class DngConvertingFragment extends Fragment
                         matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6),MatrixChooserParameter.NEXUS6);
                 Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
-            editTextCusotmRowSize.setText(dngprofile.rowsize +"");
-            editTextwidth.setText(dngprofile.widht + "");
-            editTextheight.setText(dngprofile.height + "");
-            editTextblacklvl.setText(dngprofile.blacklevel + "");
-            editTextwhitelvl.setText(dngprofile.whitelevel + "");
+            editTextCusotmRowSize.setText(dngprofile.getRowSize() +"");
+            editTextwidth.setText(dngprofile.getWidth() + "");
+            editTextheight.setText(dngprofile.getHeight() + "");
+            editTextblacklvl.setText(dngprofile.getBlacklvl() + "");
+            editTextwhitelvl.setText(dngprofile.getWhitelvl() + "");
 
-            switch (dngprofile.bayerPattern) {
+            switch (dngprofile.getBayerPatter()) {
                 case DngProfile.BGGR:
                     spinnerColorPattern.setSelection(0);
                     break;
@@ -213,7 +216,7 @@ public class DngConvertingFragment extends Fragment
                 if (tonemaps[i].equals(tmp_name))
                     toneMapProfile.setSelection(i);
 
-            spinnerrawFormat.setSelection(dngprofile.rawType);
+            spinnerrawFormat.setSelection(dngprofile.getRawType());
             if (dngprofile != null){
                 spinnerMatrixProfile.setOnItemSelectedListener(new OnItemSelectedListener() {
                     @Override
@@ -231,7 +234,7 @@ public class DngConvertingFragment extends Fragment
                 spinnerColorPattern.setOnItemSelectedListener(new OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        dngprofile.bayerPattern = spinnerColorPattern.getSelectedItem().toString();
+                        bayerPattern = spinnerColorPattern.getSelectedItem().toString();
                     }
 
                     @Override
@@ -242,7 +245,7 @@ public class DngConvertingFragment extends Fragment
                 spinnerrawFormat.setOnItemSelectedListener(new OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        dngprofile.rawType = position;
+                        rawType = position;
                     }
 
                     @Override
@@ -277,11 +280,15 @@ public class DngConvertingFragment extends Fragment
                 Toast.makeText(getContext(), string.no_sel_raw, Toast.LENGTH_LONG).show();
             }
             else {
-                dngprofile.widht = Integer.parseInt(editTextwidth.getText().toString());
-                dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
-                dngprofile.blacklevel = Integer.parseInt(editTextblacklvl.getText().toString());
-                dngprofile.whitelevel = Integer.parseInt(editTextwhitelvl.getText().toString());
-                dngprofile.rowsize = Integer.parseInt(editTextCusotmRowSize.getText().toString());
+                dngprofile = new DngProfile(Integer.parseInt(editTextblacklvl.getText().toString()),
+                        Integer.parseInt(editTextwhitelvl.getText().toString()),
+                        Integer.parseInt(editTextwidth.getText().toString()),
+                        Integer.parseInt(editTextheight.getText().toString()),
+                        rawType,
+                        bayerPattern,
+                        Integer.parseInt(editTextCusotmRowSize.getText().toString()),
+                        matrixChooserParameter.GetCustomMatrixNotOverWritten(spinnerMatrixProfile.getSelectedItem().toString()),
+                        spinnerMatrixProfile.getSelectedItem().toString());
                 new AsyncConverter().execute(filesToConvert);
 
 
@@ -292,11 +299,15 @@ public class DngConvertingFragment extends Fragment
     private final OnClickListener saveDngProfileClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            dngprofile.widht = Integer.parseInt(editTextwidth.getText().toString());
-            dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
-            dngprofile.blacklevel = Integer.parseInt(editTextblacklvl.getText().toString());
-            dngprofile.whitelevel = Integer.parseInt(editTextwhitelvl.getText().toString());
-            dngprofile.rowsize = Integer.parseInt(editTextCusotmRowSize.getText().toString());
+            dngprofile = new DngProfile(Integer.parseInt(editTextblacklvl.getText().toString()),
+                    Integer.parseInt(editTextwhitelvl.getText().toString()),
+                    Integer.parseInt(editTextwidth.getText().toString()),
+                    Integer.parseInt(editTextheight.getText().toString()),
+                    rawType,
+                    bayerPattern,
+                    Integer.parseInt(editTextCusotmRowSize.getText().toString()),
+                    matrixChooserParameter.GetCustomMatrixNotOverWritten(spinnerMatrixProfile.getSelectedItem().toString()),
+                    spinnerMatrixProfile.getSelectedItem().toString());
             long filesize = new File(filesToConvert[0]).length();
             SettingsManager.getInstance().getDngProfilesMap().append(filesize,dngprofile);
             new XmlParserWriter().saveDngProfiles(SettingsManager.getInstance().getDngProfilesMap(), SettingsManager.getInstance().getDeviceString());

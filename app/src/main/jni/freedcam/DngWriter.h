@@ -10,6 +10,7 @@
 #include "ExifInfo.h"
 #include "GpsInfo.h"
 #include "DngProfile.h"
+#include "CustomMatrix.h"
 #include <android/log.h>
 #include <../tiff/libtiff/tif_dir.h>
 #include <assert.h>
@@ -39,17 +40,10 @@ public:
     ExifInfo *exifInfo;
     GpsInfo *gpsInfo;
     DngProfile * dngProfile;
+    CustomMatrix * customMatrix;
     char* _make;
     char*_model;
     char* _dateTime;
-
-
-
-    long whitelevel;
-    float *blacklevel;
-    char* bayerformat;
-    int rawType;
-    int rawwidht, rawheight, rowSize;
 
     long rawSize;
 
@@ -57,13 +51,6 @@ public:
     long fileLength;
     unsigned char* bayerBytes;
 
-    float *colorMatrix1;
-    float *colorMatrix2;
-    float *neutralColorMatrix;
-    float *fowardMatrix1;
-    float *fowardMatrix2;
-    float *reductionMatrix1;
-    float *reductionMatrix2;
     float *tonecurve;
     int tonecurvesize;
     float *huesatmapdata1;
@@ -74,7 +61,6 @@ public:
     float baselineExposureOffset;
 
     int *huesatmapdims;
-    double *noiseMatrix;
 
 
     int fileDes;
@@ -92,23 +78,16 @@ public:
     {
         exifInfo = NULL;
         gpsInfo = NULL;
+        dngProfile = NULL;
+        customMatrix = NULL;
         fileDes = -1;
         hasFileDes = false;
         opcode2 = NULL;
         opcode3 = NULL;
         tonecurve = NULL;
-        blacklevel = NULL;
         fileSavePath = NULL;
         fileLength = 0;
         bayerBytes = NULL;
-        colorMatrix1 = NULL;
-        colorMatrix2 = NULL;
-        neutralColorMatrix = NULL;
-        fowardMatrix1 = NULL;
-        fowardMatrix2 = NULL;
-        reductionMatrix1 = NULL;
-        reductionMatrix2 = NULL;
-        noiseMatrix = NULL;
         tonecurvesize = 0;
         huesatmapdata1 = NULL;
         huesatmapdata1_size = 0;

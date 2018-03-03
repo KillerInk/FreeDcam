@@ -23,6 +23,7 @@
 #include <android/log.h>
 #include <DngWriter.h>
 #include "JniUtils.h"
+#include "DngWriter.h"
 
 #define  LOG_TAG    "freedcam.RawToDngNative"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
@@ -68,11 +69,7 @@ extern "C"
         DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
         return writer->rawSize;
     }
-    JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetRawHeight(JNIEnv *env, jobject thiz, jint height,jobject javaHandler)
-    {
-        DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
-        writer->rawheight = (int) height;
-    }
+
     JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerData(JNIEnv *env, jobject thiz,jbyteArray fileBytes, jstring fileout,jobject javaHandler)
     {
         DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
@@ -109,10 +106,6 @@ extern "C"
         writer->_model = copyString(env, model);
     }
 
-    JNIEXPORT jint JNICALL Java_freed_jni_RawToDng_GetRawHeight(JNIEnv *env, jobject thiz,jobject javaHandler){
-        DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
-        return writer->rawheight;
-    }
 
     JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode2(JNIEnv *env, jobject thiz, jbyteArray opcode,jobject javaHandler)
     {
@@ -129,56 +122,12 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz,
-                                                                jfloatArray colorMatrix1,
-                                                                jfloatArray colorMatrix2,
-                                                                jfloatArray neutralColor,
-                                                                jfloatArray fowardMatrix1,
-                                                                jfloatArray fowardMatrix2,
-                                                                jfloatArray reductionMatrix1,
-                                                                jfloatArray reductionMatrix2,
-                                                                jdoubleArray noiseMatrix,
-                                                                jint blacklevel,
-                                                                jint whitelevel,
-                                                                jstring bayerformat,
-                                                                jint rowSize,
-                                                                jstring devicename,
-                                                                jint tight,
-                                                                jint width,
-                                                                jint height,jobject javaHandler)
+                                                                jobject matrix,
+                                                                jobject dngprofile,jobject javaHandler)
     {
         DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
-        writer->blacklevel = new float[4];
-        for (int i = 0; i < 4; ++i) {
-            writer->blacklevel[i] = blacklevel;
-        }
-        writer->whitelevel = whitelevel;
-        writer->rawType = tight;
-        writer->rowSize =rowSize;
-        writer->colorMatrix1 = copyfloatArray(env,colorMatrix1);
-        //writer->colorMatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);
-        writer->colorMatrix2 = copyfloatArray(env,colorMatrix2);
-        writer->neutralColorMatrix = copyfloatArray(env,neutralColor);
-        if(fowardMatrix1 != NULL)
-            writer->fowardMatrix1 = copyfloatArray(env,fowardMatrix1);
-        if(fowardMatrix2 != NULL)
-            writer->fowardMatrix2 =copyfloatArray(env,fowardMatrix2);
-        if(reductionMatrix1 != NULL)
-            writer->reductionMatrix1 =copyfloatArray(env,reductionMatrix1);
-        if(reductionMatrix2 != NULL)
-            writer->reductionMatrix2 =copyfloatArray(env,reductionMatrix2);
-        if(noiseMatrix != NULL){
-            int size = env->GetArrayLength((jarray)noiseMatrix);
-            writer->noiseMatrix = new double[size];
-            jdouble * mat =env->GetDoubleArrayElements(noiseMatrix, 0);
-            memcpy(writer->noiseMatrix,mat, size * sizeof(jdouble));
-            env->ReleaseDoubleArrayElements(noiseMatrix,mat,JNI_ABORT);
-        }
-
-
-        writer->bayerformat = copyString(env,bayerformat);
-        writer->rawheight = height;
-        writer->rawwidht = width;
-
+        writer->dngProfile = (DngProfile*)env->GetDirectBufferAddress(dngprofile);
+        writer->customMatrix = (CustomMatrix*)env->GetDirectBufferAddress(matrix);
     }
 
     JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetDateTime(JNIEnv *env, jobject thiz, jstring datetime,jobject javaHandler)

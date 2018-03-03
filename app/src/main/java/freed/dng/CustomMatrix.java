@@ -21,42 +21,48 @@ package freed.dng;
 
 import android.text.TextUtils;
 
+import java.nio.ByteBuffer;
+
 /**
  * Created by troop on 02.05.2016.
  */
 public class CustomMatrix
 {
-    public final float[] ColorMatrix1;
-    public final float[] ColorMatrix2;
-    public final float[] NeutralMatrix;
-    public final float[] ForwardMatrix1;
-    public final float[] ForwardMatrix2;
-    public final float[] ReductionMatrix1;
-    public final float[] ReductionMatrix2;
-    public final double[] NoiseReductionMatrix;
+
+    static
+    {
+        System.loadLibrary("freedcam");
+    }
+
+    ByteBuffer byteBuffer;
+
+    private native ByteBuffer init();
+    private native void clear(ByteBuffer byteBuffer);
+    private native void setMatrixes(ByteBuffer buffer, float[] colorMatrix1,float[] colorMatrix2,float[] neutral,float[] fMatrix1,float[] fMatrix2,
+                                        float[] rMatrix1,float[] rMatrix2,double[] noise);
 
     public CustomMatrix(float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,double[]noise)
     {
-        ColorMatrix1 = matrix1;
-        ColorMatrix2 = matrix2;
-        NeutralMatrix = neutral;
-        ForwardMatrix1 = fmatrix1;
-        ForwardMatrix2 = fmatrix2;
-        ReductionMatrix1 = rmatrix1;
-        ReductionMatrix2 = rmatrix2;
-        NoiseReductionMatrix = noise;
+        byteBuffer = init();
+        setMatrixes(byteBuffer, matrix1, matrix2, neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise);
+
     }
 
     public CustomMatrix(String matrix1, String matrix2, String neutral,String fmatrix1, String fmatrix2, String rmatrix1, String rmatrix2, String noise)
     {
-        ColorMatrix1 = getMatrixFromString(matrix1);
-        ColorMatrix2 = getMatrixFromString(matrix2);
-        NeutralMatrix = getMatrixFromString(neutral);
-        ForwardMatrix1 = getMatrixFromString(fmatrix1);
-        ForwardMatrix2 = getMatrixFromString(fmatrix2);
-        ReductionMatrix1 = getMatrixFromString(rmatrix1);
-        ReductionMatrix2 = getMatrixFromString(rmatrix2);
-        NoiseReductionMatrix = getDoubleMatrixFromString(noise);
+        this(getMatrixFromString(matrix1),
+                getMatrixFromString(matrix2),
+                getMatrixFromString(neutral),
+                getMatrixFromString(fmatrix1),
+                getMatrixFromString(fmatrix2),
+                getMatrixFromString(rmatrix1),
+                getMatrixFromString(rmatrix2),
+                        getDoubleMatrixFromString(noise));
+    }
+
+    public ByteBuffer getByteBuffer()
+    {
+        return byteBuffer;
     }
 
 
@@ -102,5 +108,12 @@ public class CustomMatrix
                 ar[i] = Double.parseDouble(split[i]);
         }
         return ar;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        if (byteBuffer != null)
+            clear(byteBuffer);
+        byteBuffer = null;
     }
 }

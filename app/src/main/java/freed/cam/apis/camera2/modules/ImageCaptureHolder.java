@@ -399,22 +399,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         float[] reduction1 = null;
         float[] reduction2 = null;
         double[]finalnoise = null;
-        if (customMatrix != null){
-            color1 = customMatrix.ColorMatrix1;
-            color2 = customMatrix.ColorMatrix2;
-            neutral = customMatrix.NeutralMatrix;
-            if (customMatrix.ForwardMatrix1 != null && customMatrix.ForwardMatrix1.length >0)
-                forward1 = customMatrix.ForwardMatrix1;
-            if (customMatrix.ForwardMatrix2 != null && customMatrix.ForwardMatrix2.length >0)
-                forward2 = customMatrix.ForwardMatrix2;
-            if (customMatrix.ReductionMatrix1 != null &&  customMatrix.ReductionMatrix1.length >0)
-                reduction1 = customMatrix.ReductionMatrix1;
-            if (customMatrix.ReductionMatrix2 != null && customMatrix.ReductionMatrix2.length >0)
-                reduction2 = customMatrix.ReductionMatrix2;
-            if (customMatrix.NoiseReductionMatrix != null && customMatrix.NoiseReductionMatrix.length >0)
-                finalnoise = customMatrix.NoiseReductionMatrix;
-        }
-        else
+        if (customMatrix == null)
         {
             //dont catch errors on cc1 cc2 and neutral, these 3 are needed and that case should never happen
             color1 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
@@ -454,18 +439,12 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
                 Log.WriteEx(e);
                 finalnoise = null;
             }
+            customMatrix = new CustomMatrix(color1,color2,neutral,forward1,forward2,reduction1,reduction2,finalnoise);
 
         }
 
-        return DngProfile.getProfile(black,white,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
-                color1,
-                color2,
-                neutral,
-                forward1,
-                forward2,
-                reduction1,
-                reduction2,
-                finalnoise,
+        return new DngProfile(black,white,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
+                customMatrix,
                 ""
         );
     }
