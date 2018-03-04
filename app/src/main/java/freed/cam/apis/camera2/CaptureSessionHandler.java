@@ -2,6 +2,7 @@ package freed.cam.apis.camera2;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Camera;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.RectF;
@@ -24,7 +25,10 @@ import android.view.WindowManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
+import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.utils.BackgroundHandler;
 import freed.utils.Log;
 
 /**
@@ -43,16 +47,14 @@ public class CaptureSessionHandler
     private Camera2Fragment cameraUiWrapper;
     private CameraHolderApi2 cameraHolderApi2;
     private CameraCaptureSession.CaptureCallback cameraBackroundValuesChangedListner;
-    private CaptureEvent waitForRdyCallback;
     private boolean isHighSpeedSession = false;
+    private BackgroundHandler backgroundHandler;
+
+    private final Object waitLock = new Object();
 
 
     private boolean captureSessionRdy = false;
 
-    public interface CaptureEvent
-    {
-        void onRdy();
-    }
 
     CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
     {
@@ -76,6 +78,10 @@ public class CaptureSessionHandler
             } catch (CameraAccessException | IllegalStateException e) {
                 mCaptureSession =null;
             }
+            synchronized (waitLock)
+            {
+                waitLock.notify();
+            }
         }
 
         @Override
@@ -83,6 +89,10 @@ public class CaptureSessionHandler
         {
             Log.d(TAG, "onConfigureFailed()");
             captureSessionRdy = false;
+            synchronized (waitLock)
+            {
+                waitLock.notify();
+            }
         }
 
         @Override
@@ -90,11 +100,10 @@ public class CaptureSessionHandler
             super.onReady(session);
             captureSessionRdy = true;
             Log.d(TAG, "onReady()");
-            Log.d(TAG, "waitforCallBack:" + (waitForRdyCallback != null));
-            if (waitForRdyCallback != null){
-                waitForRdyCallback.onRdy();
-                waitForRdyCallback = null;
+            synchronized (waitLock) {
+                waitLock.notify();
             }
+
         }
 
         @Override
@@ -102,6 +111,10 @@ public class CaptureSessionHandler
             captureSessionRdy = false;
             super.onClosed(session);
             Log.d(TAG, "onClosed()");
+            synchronized (waitLock)
+            {
+                waitLock.notify();
+            }
         }
 
         @Override
@@ -133,6 +146,13 @@ public class CaptureSessionHandler
         Display display = ((WindowManager) cameraUiWrapper.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
         display.getRealSize(displaySize);
+        backgroundHandler = new BackgroundHandler(TAG);
+        backgroundHandler.create();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        backgroundHandler.destroy();
     }
 
     public Point getDisplaySize()
@@ -152,7 +172,7 @@ public class CaptureSessionHandler
         if (cameraHolderApi2 == null || cameraHolderApi2.mCameraDevice == null)
             return;
         try {
-            mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }
@@ -235,41 +255,70 @@ public class CaptureSessionHandler
 
     public void CreateCaptureSession()
     {
-        if (mCaptureSession != null)
+        if (mCaptureSession != null) {
             mCaptureSession.close();
+            mCaptureSession = null;
+        }
         if(cameraHolderApi2.mCameraDevice == null)
             return;
         isHighSpeedSession = false;
         Log.d(TAG, "CreateCaptureSession:");
         cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
-        try {
+
+        backgroundHandler.execute(() -> {
+            try {
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
-        } catch (CameraAccessException | SecurityException ex) {
-            Log.WriteEx(ex);
+            } catch (CameraAccessException | SecurityException ex) {
+                Log.WriteEx(ex);
+            }
+        });
+        try {
+            synchronized (waitLock) {
+                waitLock.wait();
+            }
+        } catch (InterruptedException e) {
+            Log.WriteEx(e);
         }
+
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     public void CreateHighSpeedCaptureSession(CameraCaptureSession.StateCallback customCallback)
     {
-        if (mCaptureSession != null)
+        Log.d(TAG,"CreateHighspeedCaptureSession");
+        if (mCaptureSession != null) {
             mCaptureSession.close();
+            mCaptureSession = null;
+        }
         if(cameraHolderApi2.mCameraDevice == null)
             return;
         isHighSpeedSession = true;
-        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
+        //cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         Log.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
+        backgroundHandler.execute(() -> {
+            try {
+                cameraHolderApi2.mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, null);
+            } catch (CameraAccessException | SecurityException ex) {
+                Log.WriteEx(ex);
+            }
+        });
+
         try {
-            cameraHolderApi2.mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, null);
-        } catch (CameraAccessException | SecurityException ex) {
-            Log.WriteEx(ex);
+            synchronized (waitLock) {
+                waitLock.wait();
+            }
+        } catch (InterruptedException e) {
+            Log.WriteEx(e);
         }
     }
 
+
     public void CreateCaptureSession(CameraCaptureSession.StateCallback customCallback)
     {
-        if (mCaptureSession != null)
+        if (mCaptureSession != null) {
             mCaptureSession.close();
+            mCaptureSession = null;
+        }
         isHighSpeedSession = false;
         Log.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
         try {
@@ -296,28 +345,31 @@ public class CaptureSessionHandler
             }
     }
 
-    public void StopRepeatingCaptureSession(CaptureEvent event)
-    {
-        this.waitForRdyCallback = event;
-        StopRepeatingCaptureSession();
-    }
 
-    public void CancelRepeatingCaptureSession(CaptureEvent event)
+    public void CancelRepeatingCaptureSession()
     {
-        this.waitForRdyCallback = event;
-        Log.d(TAG, "CancelRepeatingCaptureSession waitforCallback:" + ( waitForRdyCallback != null));
-        if (mCaptureSession != null)
+        backgroundHandler.execute(() -> {
+            if (mCaptureSession != null)
+                try {
+                    mCaptureSession.abortCaptures();
+                } catch (CameraAccessException | SecurityException ex) {
+                    Log.WriteEx(ex);
+                    mCaptureSession = null;
+                }
+                catch (IllegalStateException ex)
+                {
+                    Log.WriteEx(ex);
+                    mCaptureSession = null;
+                }
+        });
+        synchronized (waitLock)
+        {
             try {
-                mCaptureSession.abortCaptures();
-            } catch (CameraAccessException | java.lang.SecurityException ex) {
-                Log.WriteEx(ex);
-                mCaptureSession = null;
+                waitLock.wait();
+            } catch (InterruptedException e) {
+                Log.WriteEx(e);
             }
-            catch (IllegalStateException ex)
-            {
-                Log.WriteEx(ex);
-                mCaptureSession = null;
-            }
+        }
     }
 
     public void StartRepeatingCaptureSession()
@@ -326,8 +378,6 @@ public class CaptureSessionHandler
         if (mCaptureSession == null)
             return;
         try {
-            if (waitForRdyCallback != null)
-                Log.d(TAG, "waitforRdy not null");
             mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                     null);
         } catch (CameraAccessException ex) {
@@ -337,6 +387,7 @@ public class CaptureSessionHandler
         {
             Log.WriteEx(ex);
         }
+
     }
 
     public void StartRepeatingCaptureSession(CameraCaptureSession.CaptureCallback listener)
@@ -355,25 +406,19 @@ public class CaptureSessionHandler
     @TargetApi(Build.VERSION_CODES.M)
     public void StartHighspeedCaptureSession()
     {
-        if (mCaptureSession == null)
+        Log.d(TAG, "StartHighspeedSession");
+        if (mCaptureSession == null || !isHighSpeedSession)
             return;
         try {
-            List<CaptureRequest> capList =  ((CameraConstrainedHighSpeedCaptureSession)mCaptureSession).createHighSpeedRequestList(mPreviewRequestBuilder.build());
+            CameraConstrainedHighSpeedCaptureSession session = (CameraConstrainedHighSpeedCaptureSession)mCaptureSession;
+            List<CaptureRequest> capList =  session.createHighSpeedRequestList(mPreviewRequestBuilder.build());
 
             mCaptureSession.setRepeatingBurst(capList, cameraBackroundValuesChangedListner, null);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
+            UserMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
         }
     }
-
-    private CameraCaptureSession.CaptureCallback hfrcallback = new CameraCaptureSession.CaptureCallback()
-    {
-        @Override
-        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
-            super.onCaptureCompleted(session, request, result);
-
-        }
-    };
 
     public void capture()
     {

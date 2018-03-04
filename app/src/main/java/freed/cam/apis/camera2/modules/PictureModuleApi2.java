@@ -396,35 +396,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             rawReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
         }
 
-        cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession(null);
+        cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
 
         Log.d(TAG, "CancelRepeatingCaptureSessoion set imageRdyCallback");
-        CameraIsReadyToCaptureImage imageCaptureRdyCallback = new CameraIsReadyToCaptureImage(currentCaptureHolder);
-        if (!cameraUiWrapper.captureSessionHandler.IsCaptureSessionRDY())
-            cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession(imageCaptureRdyCallback);
-        else
-            imageCaptureRdyCallback.onRdy();
-
-
+        cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
+        prepareCaptureBuilder(imagecount);
+        changeCaptureState(CaptureStates.image_capture_start);
+        Log.d(TAG, "StartStillCapture");
+        cameraUiWrapper.captureSessionHandler.StartImageCapture(currentCaptureHolder, mBackgroundHandler);
     }
-
-    private class CameraIsReadyToCaptureImage implements CaptureSessionHandler.CaptureEvent
-    {
-        private CameraCaptureSession.CaptureCallback captureCallback;
-        public CameraIsReadyToCaptureImage(CameraCaptureSession.CaptureCallback captureCallback)
-        {
-            this.captureCallback = captureCallback;
-        }
-
-        @Override
-        public void onRdy() {
-            prepareCaptureBuilder(imagecount);
-            changeCaptureState(CaptureStates.image_capture_start);
-            Log.d(TAG, "StartStillCapture");
-            cameraUiWrapper.captureSessionHandler.StartImageCapture(captureCallback, mBackgroundHandler);
-        }
-    }
-
 
     protected void prepareCaptureBuilder(int captureNum)
     {
@@ -568,10 +548,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
                 cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME);
                 cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_FRAME_DURATION, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME);
                 Log.d(TAG, "CancelRepeatingCaptureSessoion set onSessionRdy");
-                cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession(onSesssionRdy);
+                cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
+                onSesssionRdy();
             }
             else {
-                onSesssionRdy.onRdy();
+                onSesssionRdy();
             }
         }
         catch (NullPointerException ex) {
@@ -579,24 +560,19 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         }
     }
 
-    /**
-     * get called when the capture session is rdy to work with
-     */
-    private CaptureSessionHandler.CaptureEvent onSesssionRdy = new CaptureSessionHandler.CaptureEvent()
+    private void onSesssionRdy()
     {
-        @Override
-        public void onRdy() {
-            Log.d(TAG, "onSessionRdy() ######################### Rdy to Start Preview, CAPTURE CYCLE DONE #####################");
-            cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
-            if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
-                    || cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO) {
-                cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
-                        CaptureRequest.CONTROL_AF_TRIGGER_CANCEL,true);
-                cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
-                        CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
-            }
+        Log.d(TAG, "onSessionRdy() ######################### Rdy to Start Preview, CAPTURE CYCLE DONE #####################");
+        cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
+        if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+                || cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO) {
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
+                    CaptureRequest.CONTROL_AF_TRIGGER_CANCEL,true);
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,
+                    CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
         }
-    };
+    }
+
 
     @Override
     public void internalFireOnWorkDone(File file)

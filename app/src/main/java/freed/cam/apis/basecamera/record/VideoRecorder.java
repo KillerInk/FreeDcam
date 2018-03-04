@@ -130,21 +130,21 @@ public class VideoRecorder {
                 if (currentVideoProfile.isAudioActive)
                 {
                     try {
-                        mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
+                        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+                        //mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
                     }
                     catch (IllegalArgumentException ex)
                     {
                         mediaRecorder.reset();
-                        UserMessageHandler.sendMSG("AudioCodec not Supported",false);
+                        UserMessageHandler.sendMSG("AudioSource not Supported",true);
+                        return;
                     }
                     catch (IllegalStateException ex)
                     {
                         mediaRecorder.reset();
-                        UserMessageHandler.sendMSG("AudioCodec not Supported",false);
+                        UserMessageHandler.sendMSG("AudioSource not Supported",true);
+                        return;
                     }
-                    mediaRecorder.setAudioChannels(currentVideoProfile.audioChannels);
-                    mediaRecorder.setAudioEncodingBitRate(currentVideoProfile.audioBitRate);
-                    mediaRecorder.setAudioSamplingRate(currentVideoProfile.audioSampleRate);
                 }
                 break;
             case Timelapse:

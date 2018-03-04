@@ -26,12 +26,14 @@ import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.StateCallback;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CaptureRequest;
 import android.location.Location;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnErrorListener;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
+import android.util.Range;
 import android.util.Size;
 import android.view.Surface;
 
@@ -122,7 +124,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         if (isRecording)
             stopRecording();
         Log.d(TAG, "DestroyModule");
-        videoRecorder.release();
+        try {
+            videoRecorder.release();
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         videoRecorder = null;
         previewsurface = null;
@@ -155,9 +163,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         isRecording = false;
 
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
-        cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
+
         fireOnWorkFinish(recordingFile);
         cameraUiWrapper.getActivityInterface().ScanFile(recordingFile);
+
+        cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
@@ -190,6 +200,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         previewsurface = new Surface(texture);
         cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface,true);
+
         cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
     }
 
@@ -255,6 +266,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         videoRecorder.prepare();
         recorderSurface = videoRecorder.getSurface();
         cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface,true);
+        Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate,currentVideoProfile.videoFrameRate);
+        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE,fps);
 
         if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
             cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewrdy);
