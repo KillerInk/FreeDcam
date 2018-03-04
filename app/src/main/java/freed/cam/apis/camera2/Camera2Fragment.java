@@ -69,7 +69,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public CaptureSessionHandler captureSessionHandler;
     public CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
 
-    public static Camera2Fragment getInstance(HandlerThread mBackgroundThread, Object cameraLock)
+    public static Camera2Fragment getInstance(HandlerThread mBackgroundThread)
     {
         Camera2Fragment fragment = new Camera2Fragment();
         fragment.init(mBackgroundThread);
@@ -282,7 +282,6 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         ((ParameterHandlerApi2)parametersHandler).Init();
         ((CameraHolderApi2)cameraHolder).SetSurface(textureView);
         Log.d(TAG, "Camera Opened and Preview Started");
-        //Camera2Fragment.this.fireCameraOpen();
         moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
         Camera2Fragment.this.fireCameraOpenFinished();
     }

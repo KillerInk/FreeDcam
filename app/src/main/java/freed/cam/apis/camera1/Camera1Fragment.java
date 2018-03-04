@@ -104,14 +104,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     {
         textureView = view.findViewById(id.autofitview);
         histogram = view.findViewById(id.hisotview);
-        /*extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(id.exSurface);
-        preview = (TextureViewRatio) view.findViewById(id.textureView_preview);*/
         mainToCameraHandler.createCamera();
-
         Log.d(TAG, "Ctor done");
         textureView.setSurfaceTextureListener(this);
-        /*extendedSurfaceView.getHolder().addCallback(this);*/
-
     }
 
     @Override
@@ -279,7 +274,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
                     if (((CameraHolder)cameraHolder).canSetSurfaceDirect()) {
                         cameraHolder.SetSurface((Surface)null);
-                        //textureView.getSurfaceTexture().setDefaultBufferSize(size.width,size.height);
                         Surface surface = new Surface(textureView.getSurfaceTexture());
                         cameraHolder.SetSurface(surface);
                     }
@@ -313,7 +307,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 
                 if (((CameraHolder)cameraHolder).canSetSurfaceDirect()) {
                     cameraHolder.SetSurface((Surface)null);
-                    //textureView.getSurfaceTexture().setDefaultBufferSize(size.width,size.height);
                     Surface surface = new Surface(textureView.getSurfaceTexture());
                     cameraHolder.SetSurface(surface);
                 }
