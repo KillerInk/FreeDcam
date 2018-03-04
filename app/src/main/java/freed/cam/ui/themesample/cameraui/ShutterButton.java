@@ -26,7 +26,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.troop.freedcam.R;
 

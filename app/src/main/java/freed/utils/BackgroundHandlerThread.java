@@ -4,14 +4,14 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 
-public class BackgroundHandler
+public class BackgroundHandlerThread
 {
-    private final String TAG = BackgroundHandler.class.getSimpleName();
+    private final String TAG = BackgroundHandlerThread.class.getSimpleName();
     private HandlerThread mBackgroundThread;
     protected Handler mBackgroundHandler;
     private final String name;
 
-    public BackgroundHandler(String name)
+    public BackgroundHandlerThread(String name)
     {
         this.name = name;
     }
@@ -37,6 +37,11 @@ public class BackgroundHandler
 
         mBackgroundThread = null;
         mBackgroundHandler = null;
+    }
+
+    public HandlerThread getThread()
+    {
+        return mBackgroundThread;
     }
 
     public void execute(Runnable runnable)

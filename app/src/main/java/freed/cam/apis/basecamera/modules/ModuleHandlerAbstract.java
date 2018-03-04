@@ -19,9 +19,7 @@
 
 package freed.cam.apis.basecamera.modules;
 
-import android.os.Build;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -34,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
 /**
@@ -74,7 +73,8 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     //holds all listner for the modulechanged event
     private final ArrayList<ModuleChangedEvent> moduleChangedListner;
 
-    private HandlerThread mBackgroundThread;
+    private BackgroundHandlerThread backgroundHandlerThread;
+
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
 
@@ -85,7 +85,8 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         moduleChangedListner = new ArrayList<>();
         onCaptureStateChangedListners = new ArrayList<>();
         mainHandler = new UiHandler(Looper.getMainLooper(),moduleChangedListner,onCaptureStateChangedListners);
-        startBackgroundThread();
+        backgroundHandlerThread = new BackgroundHandlerThread(TAG);
+        backgroundHandlerThread.create();
 
         workerListner = captureStates -> {
             for (int i = 0; i < onCaptureStateChangedListners.size(); i++)
@@ -199,34 +200,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     public void CLEAR()
     {
         moduleChangedListner.clear();
-        stopBackgroundThread();
-    }
-
-    /**
-     * Starts a background thread and its {@link Handler}.
-     */
-    private void startBackgroundThread() {
-        mBackgroundThread = new HandlerThread("CameraBackground");
-        mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-    }
-
-    /**
-     * Stops the background thread and its {@link Handler}.
-     */
-    private void stopBackgroundThread()
-    {
-        Log.d(TAG,"stopBackgroundThread");
-        if(mBackgroundThread == null)
-            return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            mBackgroundThread.quitSafely();
-        }
-        else
-            mBackgroundThread.quit();
-
-        mBackgroundThread = null;
-        mBackgroundHandler = null;
+        backgroundHandlerThread.destroy();
     }
 
 

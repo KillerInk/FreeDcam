@@ -29,7 +29,6 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.location.Location;
 import android.media.MediaRecorder;
-import android.media.MediaRecorder.OnErrorListener;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;

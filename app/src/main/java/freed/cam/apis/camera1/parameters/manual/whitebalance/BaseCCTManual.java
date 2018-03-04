@@ -19,7 +19,6 @@
 
 package freed.cam.apis.camera1.parameters.manual.whitebalance;
 
-import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
 import android.text.TextUtils;

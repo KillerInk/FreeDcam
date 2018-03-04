@@ -20,7 +20,6 @@
 package freed.cam.apis.camera1.modules;
 
 import android.media.MediaRecorder;
-import android.media.MediaRecorder.OnErrorListener;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
@@ -35,7 +34,6 @@ import java.io.IOException;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.ui.themesample.handler.UserMessageHandler;

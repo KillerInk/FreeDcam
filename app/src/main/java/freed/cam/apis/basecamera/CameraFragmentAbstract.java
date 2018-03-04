@@ -76,7 +76,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
 
     public abstract String CameraApiName();
 
-    protected Object cameraLock;
     /**
      * holds handler to invoke stuff in ui thread
      */
@@ -84,7 +83,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     protected MainToCameraHandler mainToCameraHandler;
     protected HandlerThread handlerThread;
 
-    public static CameraFragmentAbstract getInstance(HandlerThread handlerThread, Object cameraLock)
+    public static CameraFragmentAbstract getInstance(HandlerThread handlerThread)
     {
         return null;
     }
@@ -95,11 +94,10 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
         cameraToMainHandler = new CameraToMainHandler(this    );
     }
 
-    protected void init(HandlerThread mBackgroundThread, Object cameraLock)
+    protected void init(HandlerThread mBackgroundThread)
     {
         this.handlerThread = mBackgroundThread;
         this.mainToCameraHandler = new MainToCameraHandler(handlerThread.getLooper(),this);
-        this.cameraLock = cameraLock;
     }
 
     @Nullable

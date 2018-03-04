@@ -2,7 +2,6 @@ package freed.cam.apis.camera2;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Camera;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.RectF;
@@ -13,7 +12,6 @@ import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.TotalCaptureResult;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -25,10 +23,9 @@ import android.view.WindowManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.FutureTask;
 
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.utils.BackgroundHandler;
+import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
 /**
@@ -48,7 +45,7 @@ public class CaptureSessionHandler
     private CameraHolderApi2 cameraHolderApi2;
     private CameraCaptureSession.CaptureCallback cameraBackroundValuesChangedListner;
     private boolean isHighSpeedSession = false;
-    private BackgroundHandler backgroundHandler;
+    private BackgroundHandlerThread backgroundHandlerThread;
 
     private final Object waitLock = new Object();
 
@@ -146,13 +143,13 @@ public class CaptureSessionHandler
         Display display = ((WindowManager) cameraUiWrapper.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
         display.getRealSize(displaySize);
-        backgroundHandler = new BackgroundHandler(TAG);
-        backgroundHandler.create();
+        backgroundHandlerThread = new BackgroundHandlerThread(TAG);
+        backgroundHandlerThread.create();
     }
 
     @Override
     protected void finalize() throws Throwable {
-        backgroundHandler.destroy();
+        backgroundHandlerThread.destroy();
     }
 
     public Point getDisplaySize()
@@ -265,7 +262,7 @@ public class CaptureSessionHandler
         Log.d(TAG, "CreateCaptureSession:");
         cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
 
-        backgroundHandler.execute(() -> {
+        backgroundHandlerThread.execute(() -> {
             try {
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
             } catch (CameraAccessException | SecurityException ex) {
@@ -295,7 +292,7 @@ public class CaptureSessionHandler
         isHighSpeedSession = true;
         //cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         Log.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
-        backgroundHandler.execute(() -> {
+        backgroundHandlerThread.execute(() -> {
             try {
                 cameraHolderApi2.mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, null);
             } catch (CameraAccessException | SecurityException ex) {
@@ -348,7 +345,7 @@ public class CaptureSessionHandler
 
     public void CancelRepeatingCaptureSession()
     {
-        backgroundHandler.execute(() -> {
+        backgroundHandlerThread.execute(() -> {
             if (mCaptureSession != null)
                 try {
                     mCaptureSession.abortCaptures();

@@ -72,7 +72,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public static Camera2Fragment getInstance(HandlerThread mBackgroundThread, Object cameraLock)
     {
         Camera2Fragment fragment = new Camera2Fragment();
-        fragment.init(mBackgroundThread, cameraLock);
+        fragment.init(mBackgroundThread);
         return fragment;
     }
 

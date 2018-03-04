@@ -47,7 +47,6 @@ import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
-import freed.utils.PermissionManager;
 import freed.utils.StorageFileManager;
 import freed.utils.StringUtils;
 import freed.viewer.helper.BitmapHelper;

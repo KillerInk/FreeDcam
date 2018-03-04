@@ -1,18 +1,14 @@
 package freed.jni;
 
-import android.location.Location;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
-import android.text.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.utils.Log;
 import freed.utils.StorageFileManager;

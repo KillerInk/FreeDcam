@@ -2,9 +2,6 @@ package freed.cam.apis;
 
 
 import android.content.Context;
-import android.os.Build;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,6 +17,7 @@ import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
 public class CameraFragmentManager implements CameraFeatureDetectorFragment.FeatureDetectorEvents {
@@ -30,10 +28,11 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     private CameraFragmentAbstract cameraFragment;
     private RenderScriptManager renderScriptManager;
 
-    private Object cameraLock = new Object();
-    private HandlerThread mBackgroundThread;
+    /*private Object cameraLock = new Object();
+    private HandlerThread mBackgroundThread;*/
     private CameraStateEvents cameraStateEventListner;
     private CameraFeatureDetectorFragment fd;
+    private BackgroundHandlerThread backgroundHandlerThread;
 
     public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context, CameraStateEvents cameraStateEventListner)
     {
@@ -42,12 +41,14 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         this.cameraStateEventListner = cameraStateEventListner;
         if (RenderScriptManager.isSupported())
             renderScriptManager = new RenderScriptManager(context);
-        startBackgroundThread();
+        backgroundHandlerThread = new BackgroundHandlerThread(TAG);
+        backgroundHandlerThread.create();
+        /*startBackgroundThread();*/
     }
 
     public void destroy()
     {
-        stopBackgroundThread();
+        backgroundHandlerThread.destroy();
     }
 
     public CameraFragmentAbstract getCameraFragment()
@@ -55,37 +56,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         return cameraFragment;
     }
 
-    /**
-     * Starts a background thread and its {@link Handler}.
-     */
-    private void startBackgroundThread() {
-        synchronized (cameraLock) {
-            mBackgroundThread = new HandlerThread("CameraBackground");
-            mBackgroundThread.start();
-        }
-    }
-
-    /**
-     * Stops the background thread and its {@link Handler}.
-     */
-    private void stopBackgroundThread()
-    {
-        synchronized (cameraLock) {
-            Log.d(TAG, "stopBackgroundThread");
-            if (mBackgroundThread == null)
-                return;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                mBackgroundThread.quitSafely();
-            } else
-                mBackgroundThread.quit();
-            try {
-                mBackgroundThread.join();
-                mBackgroundThread = null;
-            } catch (InterruptedException e) {
-                Log.WriteEx(e);
-            }
-        }
-    }
 
     private void replaceCameraFragment(Fragment fragment, String id)
     {
@@ -134,13 +104,13 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
                 String api = SettingsManager.getInstance().getCamApi();
                 switch (api) {
                     case SettingsManager.API_SONY:
-                        cameraFragment = SonyCameraRemoteFragment.getInstance(mBackgroundThread, cameraLock);
+                        cameraFragment = SonyCameraRemoteFragment.getInstance(backgroundHandlerThread.getThread());
                         break;
                     case SettingsManager.API_2:
-                        cameraFragment = Camera2Fragment.getInstance(mBackgroundThread, cameraLock);
+                        cameraFragment = Camera2Fragment.getInstance(backgroundHandlerThread.getThread());
                         break;
                     default:
-                        cameraFragment = Camera1Fragment.getInstance(mBackgroundThread, cameraLock);
+                        cameraFragment = Camera1Fragment.getInstance(backgroundHandlerThread.getThread());
                         break;
                 }
                 cameraFragment.setRenderScriptManager(renderScriptManager);

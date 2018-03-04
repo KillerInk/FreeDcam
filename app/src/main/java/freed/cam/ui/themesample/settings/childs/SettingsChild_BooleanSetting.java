@@ -2,7 +2,6 @@ package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;

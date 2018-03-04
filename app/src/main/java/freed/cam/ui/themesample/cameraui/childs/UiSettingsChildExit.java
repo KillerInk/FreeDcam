@@ -20,7 +20,6 @@
 package freed.cam.ui.themesample.cameraui.childs;
 
 import android.content.Context;
-import android.view.View;
 
 /**
  * Created by troop on 13.06.2015.
