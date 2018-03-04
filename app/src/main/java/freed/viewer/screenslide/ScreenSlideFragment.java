@@ -34,7 +34,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.provider.DocumentFile;
 import android.support.v4.view.ViewPager;
@@ -46,7 +45,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
@@ -173,11 +171,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
             if (folder_to_show == null)
                 return;
             if (!folder_to_show.getFile().getName().endsWith(FileEnding.RAW) || !folder_to_show.getFile().getName().endsWith(FileEnding.BAYER)) {
-                Uri uri = null;
-                if (VERSION.SDK_INT >= VERSION_CODES.N)
-                    uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider",folder_to_show.getFile());
-                else
-                    uri = Uri.fromFile(folder_to_show.getFile());
+                    Uri uri = Uri.fromFile(folder_to_show.getFile());
 
                 Intent i;
                 if (folder_to_show.getFile().getName().endsWith(FileEnding.MP4))
