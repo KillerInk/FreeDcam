@@ -91,7 +91,7 @@ public class DngProfile
             t += "<width>" + getWidth(byteBuffer) + "</width>" + "\r\n";
             t += "<height>" + getHeight(byteBuffer) + "</height>" + "\r\n";
             t += "<rawtype>" + getRawType(byteBuffer) + "</rawtype>" + "\r\n";
-            t += "<colorpattern>" + getBayerPatter(byteBuffer) + "</colorpattern>" + "\r\n";
+            t += "<colorpattern>" + getBayerPattern(byteBuffer) + "</colorpattern>" + "\r\n";
             t += "<rowsize>" + getRowSize(byteBuffer) + "</rowsize>" + "\r\n";
             t += "<matrixset>" + matrixName + "</matrixset>" + "\r\n";
         t += "</filesize>"  + "\r\n";
@@ -114,7 +114,7 @@ public class DngProfile
     private native int getWidth(ByteBuffer byteBuffer);
     private native int getHeight(ByteBuffer byteBuffer);
     private native int getRowSize(ByteBuffer byteBuffer);
-    private native String getBayerPatter(ByteBuffer byteBuffer);
+    private native String getBayerPattern(ByteBuffer byteBuffer);
 
     public int getWhitelvl()
     {
@@ -143,7 +143,7 @@ public class DngProfile
 
     public String getBayerPatter()
     {
-        return getBayerPatter(byteBuffer);
+        return getBayerPattern(byteBuffer);
     }
 
     public ByteBuffer getByteBuffer()
