@@ -77,17 +77,21 @@ public class ManualFocus extends AbstractParameter
     public void setValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
+        //set to auto
         if(valueToSet == 0)
         {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(cameraUiWrapper.getContext().getString(R.string.auto), setToCamera);
+            //apply last used focuse mode
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(SettingsManager.get(SettingKeys.FocusMode).get(), setToCamera);
             ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,setToCamera);
         }
-        else
+        else // set to manual
         {
+            //if focusmode is in any other mode, turn af off
             if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).GetStringValue().equals(cameraUiWrapper.getContext().getString(R.string.off)))
             {
+                //apply turn off direct to the capturesession, else it get stored in settings.
                 ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL,setToCamera);
-                cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(cameraUiWrapper.getContext().getString(R.string.off), setToCamera);
+                ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,setToCamera);
             }
             if (currentInt > focusvalues.getSize())
                 currentInt = focusvalues.getSize() -1;
