@@ -87,6 +87,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         mainHandler = new UiHandler(Looper.getMainLooper(),moduleChangedListner,onCaptureStateChangedListners);
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         backgroundHandlerThread.create();
+        mBackgroundHandler = new Handler(backgroundHandlerThread.getThread().getLooper());
 
         workerListner = captureStates -> {
             for (int i = 0; i < onCaptureStateChangedListners.size(); i++)
