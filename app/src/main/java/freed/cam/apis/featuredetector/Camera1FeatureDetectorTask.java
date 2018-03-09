@@ -226,6 +226,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
             detectAutoHdr(parameters);
 
+            if (parameters.get(SettingsManager.getInstance().getResString(R.string.video_stabilization_supported)).equals(SettingsManager.getInstance().getResString(R.string.true_)))
+            {
+                SettingsManager.get(SettingKeys.VideoStabilization).setIsSupported(true);
+                SettingsManager.get(SettingKeys.VideoStabilization).setKEY(SettingsManager.getInstance().getResString(R.string.video_stabilization));
+                SettingsManager.get(SettingKeys.VideoStabilization).setValues(new String[]{SettingsManager.getInstance().getResString(R.string.true_), SettingsManager.getInstance().getResString(R.string.false_)});
+            }
+
             if (parameters.get("hw-dual-primary-supported") != null)
             {
                 SettingsManager.get(SettingKeys.dualPrimaryCameraMode).setValues(parameters.get("hw-dual-primary-supported").split(","));
@@ -1006,22 +1013,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     }
 
 
-    private boolean canOpenLegacy()
-    {
-        try {
-            Class[] arrclass = {Integer.TYPE, Integer.TYPE};
-            Method method = Class.forName("android.hardware.Camera").getDeclaredMethod("openLegacy", arrclass);
-            return method != null;
-        }
-        catch
-                (NoSuchMethodException e) {
-            Log.WriteEx(e);
-            return false;
-        } catch (ClassNotFoundException e) {
-            Log.WriteEx(e);
-            return false;
-        }
-    }
 
     private Camera.Parameters getParameters(int currentcamera)
     {

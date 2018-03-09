@@ -72,6 +72,7 @@ import freed.cam.apis.camera1.parameters.modes.PictureFormatHandler;
 import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
+import freed.cam.apis.camera1.parameters.modes.VideoStabilizationParameter;
 import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -250,6 +251,9 @@ public class ParametersHandler extends AbstractParameterHandler
 
         if (SettingsManager.get(SettingKeys.VideoHighFramerate).isSupported())
             add(SettingKeys.VideoHighFramerate, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.VideoHighFramerate));
+
+        if(SettingsManager.get(SettingKeys.VideoStabilization).isSupported())
+            add(SettingKeys.VideoStabilization, new VideoStabilizationParameter(cameraParameters,cameraUiWrapper));
 
         if (SettingsManager.get(SettingKeys.NightMode).isSupported()) {
             switch (SettingsManager.get(SettingKeys.NightMode).getType()) {
