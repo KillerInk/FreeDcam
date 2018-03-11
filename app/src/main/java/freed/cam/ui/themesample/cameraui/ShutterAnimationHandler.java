@@ -82,7 +82,7 @@ public class ShutterAnimationHandler extends Handler
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
 
-    private final int FPS = 1000/ 30;
+    private final int FPS = 1000/ 15;
     private String shutteropentime;
 
     public ShutterAnimationHandler(Looper looper, Resources resources,ShutterButton shutterButton)

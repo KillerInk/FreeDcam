@@ -93,10 +93,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     private void startStopRecording()
     {
-        if (isRecording)
-            stopRecording();
-        else
-            startRecording();
+        mBackgroundHandler.post(() -> {
+            if (isRecording)
+                stopRecording();
+            else
+                startRecording();
+        });
+
     }
 
     @Override
