@@ -114,6 +114,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             add(SettingKeys.dualPrimaryCameraMode, new DualCameraModeHuaweiApi2(cameraUiWrapper, SettingKeys.dualPrimaryCameraMode, CaptureRequestEx.HUAWEI_DUAL_SENSOR_MODE));
         }
 
+        if (SettingsManager.get(SettingKeys.VideoStabilization).isSupported())
+            add(SettingKeys.VideoStabilization, new BaseModeApi2(cameraUiWrapper,SettingKeys.VideoStabilization, CaptureRequest.CONTROL_VIDEO_STABILIZATION_MODE));
+
         add(SettingKeys.JpegQuality, new JpegQualityModeApi2(cameraUiWrapper));
 
         if (SettingsManager.get(SettingKeys.M_Whitebalance).isSupported()) {

@@ -226,6 +226,11 @@
         <item>@string/highquality</item>
     </string-array>
 
+    <string-array name="videostabilisationmodes"  translatable="false">
+        <item>@string/off</item>
+        <item>@string/on</item>
+    </string-array>
+
     <string-array name="aemodes"  translatable="false">
         <item>@string/off</item>
         <item>@string/on</item>

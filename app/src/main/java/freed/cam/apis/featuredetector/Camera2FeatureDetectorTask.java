@@ -186,6 +186,15 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     }
 
                     try {
+                        publishProgress("Detect CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES");
+                        detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES, SettingsManager.get(SettingKeys.VideoStabilization), R.array.videostabilisationmodes);
+                        sendProgress(SettingsManager.get(SettingKeys.HOT_PIXEL_MODE), "CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect videoStabilisation failed");
+                    }
+
+                    try {
                         publishProgress("Detect Denoise");
                         detectIntMode(characteristics, CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES, SettingsManager.get(SettingKeys.Denoise), R.array.denoiseModes);
                         sendProgress(SettingsManager.get(SettingKeys.Denoise), "Denoise");
