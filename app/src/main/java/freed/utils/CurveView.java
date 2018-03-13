@@ -26,6 +26,7 @@ public class CurveView extends View {
         void onCurveChanged(PointF[] r,PointF[] g,PointF[] b);
         void onTouchStart();
         void onTouchEnd();
+        void onClick(PointF pointF);
     }
 
     private int lineColor = Color.WHITE;
@@ -37,6 +38,7 @@ public class CurveView extends View {
     private final int BUTTON_SIZE = 30;
     private final Object drawLock = new Object();
     private CurveChangedEvent curveChangedListner;
+    boolean hasMoved = false;
 
     private RectF drawPointsRects[];
     Path path = new Path();
@@ -231,17 +233,10 @@ public class CurveView extends View {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
+
                 if (selectedPoint != -1) {
-                    points[selectedPoint].x = event.getX() / getWidth();
-                    if (points[selectedPoint].x  > 1)
-                        points[selectedPoint].x = 1;
-                    if(points[selectedPoint].x < 0)
-                        points[selectedPoint].x = 0;
-                    points[selectedPoint].y = (getHeight() - event.getY()) / getHeight();
-                    if (points[selectedPoint].y  > 1)
-                        points[selectedPoint].y = 1;
-                    if(points[selectedPoint].y < 0)
-                        points[selectedPoint].y = 0;
+                    hasMoved = true;
+                    setPointCoordinates(points[selectedPoint], event.getX(),event.getY());
                     if (curveChangedListner != null)
                         curveChangedListner.onCurveChanged(points);
                     invalidate();
@@ -249,14 +244,36 @@ public class CurveView extends View {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-
-                selectedPoint = -1;
-                if (curveChangedListner != null)
+                if (curveChangedListner != null) {
                     curveChangedListner.onTouchEnd();
+                    if (selectedPoint == -1)
+                    {
+                        PointF f = new PointF();
+                        setPointCoordinates(f, event.getX(),event.getY());
+                        curveChangedListner.onClick(f);
+                    }
+                    else
+                        curveChangedListner.onClick(points[selectedPoint]);
+                }
+                selectedPoint = -1;
                 return false;
         }
 
         return true;
+    }
+
+    private void setPointCoordinates(PointF f, float x, float y)
+    {
+        f.x = x / getWidth();
+        f.y = (getHeight() - y) / getHeight();
+        if (f.x  > 1)
+            f.x = 1;
+        if(f.x < 0)
+            f.x = 0;
+        if (f.y  > 1)
+            f.y = 1;
+        if(f.y < 0)
+            f.y = 0;
     }
 
 }

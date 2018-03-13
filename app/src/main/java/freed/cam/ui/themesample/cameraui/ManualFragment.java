@@ -422,4 +422,9 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         cameraUiWrapper.getActivityInterface().DisablePagerTouch(false);
     }
 
+    @Override
+    public void onClick(PointF pointF) {
+
+    }
+
 }
