@@ -403,6 +403,15 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
 
         try {
+            byte denoiseSupported = characteristics.get(CameraCharacteristicsEx.HUAWEI_DENOISE_SUPPORTED);
+            Log.e(TAG,"HUAWEI_DENOISE SUPPORTED :" + denoiseSupported);
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_DENOISE SUPPORTED false");
+        }
+
+        try {
             byte rawsupported = characteristics.get(CameraCharacteristicsEx.HUAWEI_RAW_IMAGE_SUPPORTED);
             Log.d(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED");
         }

@@ -36,6 +36,8 @@ public class CaptureResultEx {
     public static final CaptureResult.Key<int[]> HUAWEI_LASER_DATA;
     
     public static final CaptureResult.Key<Integer> HUAWEI_LIGHT_PAINTING_EXPOSURE_TIME;
+
+    public static final CaptureResult.Key<Byte> HUAWEI_MAKE_UP_ABNORMAL_INFO;
     
     public static final CaptureResult.Key<Byte> HUAWEI_NEED_LCD_COMPENSATE;
     
@@ -60,6 +62,7 @@ public class CaptureResultEx {
         HUAWEI_VIDEO_BOKEH_AF_REGION = getKeyClass("com.huawei.capture.metadata.hwVideoBokehAfRegion", int[].class);
         HUAWEI_LASER_DATA = getKeyClass("com.huawei.capture.metadata.cameraLaserData", int[].class);
         HUAWEI_NEED_LCD_COMPENSATE = getKeyType("com.huawei.capture.metadata.needLcdCompensate", Byte.TYPE);
+        HUAWEI_MAKE_UP_ABNORMAL_INFO = getKeyType("com.huawei.capture.metadata.makeUpAbnormalInfo", Byte.TYPE);
     }
 
 

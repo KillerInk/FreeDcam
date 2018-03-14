@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.util.Rational;
+import android.util.Size;
 
 import java.lang.reflect.Type;
 
@@ -181,6 +182,12 @@ public class CaptureRequestEx {
     
     public static final CaptureRequest.Key<Byte> HUAWEI_VIDEO_STATUS;
 
+    public static final CaptureRequest.Key BUFFER_CAPTURE_MODE;
+
+    public static final CaptureRequest.Key CONTROL_SIZE;
+
+    public static final CaptureRequest.Key VIDEO_SNAPSHOT_SIZE;
+
     static {
         HUAWEI_FACE_BEAUTY_LEVEL = getKeyType("com.huawei.capture.metadata.faceBeautyLevel", Integer.TYPE);
         HUAWEI_LCD_COMPENSATE_MODE = getKeyType("com.huawei.capture.metadata.lcdCompensateMode", Integer.TYPE);
@@ -261,6 +268,9 @@ public class CaptureRequestEx {
         HUAWEI_CAPTURE_MIRROR = getKeyType("com.huawei.capture.metadata.captureMirrorMode", Byte.TYPE);
         HUAWEI_MAKEUP_EFFECT = getKeyType("com.huawei.capture.metadata.makeUpEffect", Byte.TYPE);
         HUAWEI_FACE_BEAUTY_MODE = getKeyType("com.huawei.capture.metadata.faceBeautyMode", Byte.TYPE);
+        BUFFER_CAPTURE_MODE = getKeyType("com.huawei.camera.buffer_capture_mode", Byte.TYPE);
+        CONTROL_SIZE = getKeyType("com.huawei.camera.size", Size.class);
+        VIDEO_SNAPSHOT_SIZE = getKeyType("com.huawei.camera.videosnapshotsize", Size.class);
     }
 //0 = {Constructor@5072} "protected android.hardware.camera2.utils.TypeReference()"
 //1 = {Constructor@5073} "private android.hardware.camera2.utils.TypeReference(java.lang.reflect.Type)"
