@@ -119,7 +119,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         add(SettingKeys.JpegQuality, new JpegQualityModeApi2(cameraUiWrapper));
 
-        if (SettingsManager.get(SettingKeys.M_Whitebalance).isSupported()) {
+        if (SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported()) {
             try {
                 WbHandler wbHandler = new WbHandler(cameraUiWrapper);
                 add(SettingKeys.M_Whitebalance, wbHandler.manualWbCt);
