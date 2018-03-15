@@ -21,10 +21,15 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
+import com.huawei.camera2ex.CaptureRequestEx;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.settings.Frameworks;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
@@ -173,6 +178,8 @@ public class CaptureSessionHandler
             return;
         try {
             mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+            if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
+                mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_CAMERA_FLAG,(byte)1);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }
@@ -184,6 +191,8 @@ public class CaptureSessionHandler
             return;
         try {
             mImageCaptureRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
+                mImageCaptureRequestBuilder.set(CaptureRequestEx.HUAWEI_CAMERA_FLAG,(byte)1);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }
