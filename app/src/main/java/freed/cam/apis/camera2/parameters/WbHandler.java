@@ -166,6 +166,16 @@ public class WbHandler
         //rgb(255,108, 0)   1500k
         //rgb 255,255,255   6000k
         //rgb(181,205, 255) 15000k
+        private final double MINCAP = 1.0;
+
+        /*
+        * <p>The gains in the result metadata are the gains actually
+     * applied by the camera device to the current frame.</p>
+     * <p>The valid range of gains varies on different devices, but gains
+     * between [1.0, 3.0] are guaranteed not to be clipped. Even if a given
+     * device allows gains below 1.0, this is usually not recommended because
+     * this can create color artifacts.</p>
+         */
         @Override
         public void setValue(int valueToSet, boolean setToCamera)
         {
@@ -184,9 +194,8 @@ public class WbHandler
             rf = (float) getRGBToDouble(rgb[0]);
             gf = (float) getRGBToDouble(rgb[1])/2;//we have two green channels
             bf = (float) getRGBToDouble(rgb[2]);
-            rf = rf/gf;
-            bf = bf/gf;
-            gf = 1;
+            if (gf < MINCAP)
+                gf= (float)MINCAP;
 
             Log.d(TAG, "r:" +rgb[0] +" g:"+rgb[1] +" b:"+rgb[2]);
             Log.d(TAG, "ColorTemp=" + valueToSet + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
@@ -207,13 +216,10 @@ public class WbHandler
 
         private double getRGBToDouble(int color)
         {
-            double t = color;
-            t = t * 3 *2;
-            t = t / 255;
-            t = t / 3;
-            t += 1;
-
-            return t;
+            double s = ((2.0/255.0) * color) +1;
+            if (s < MINCAP)
+                return MINCAP;
+            return s;
         }
 
         @Override
