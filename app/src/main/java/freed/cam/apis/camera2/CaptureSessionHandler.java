@@ -454,7 +454,7 @@ public class CaptureSessionHandler
     {
         try {
             mCaptureSession.abortCaptures();
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException | NullPointerException e) {
             Log.WriteEx(e);
         }
     }

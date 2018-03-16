@@ -41,6 +41,7 @@ import java.util.Collections;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import freed.cam.apis.basecamera.MainToCameraHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.renderscript.RenderScriptProcessor;
@@ -94,6 +95,8 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         this.textureView.setSurfaceTextureListener(this);
         this.histogram = view.findViewById(id.hisotview);
 
+        if (mainToCameraHandler == null)
+            this.mainToCameraHandler = new MainToCameraHandler(handlerThread.getLooper(),this);
         mainToCameraHandler.createCamera();
         Log.d(TAG,"Create Camera");
 
