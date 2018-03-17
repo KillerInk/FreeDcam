@@ -402,7 +402,6 @@ extern void TIFFFreeDirectory(TIFF*);
 extern int TIFFCreateDirectory(TIFF*);
 extern int TIFFCreateCustomDirectory(TIFF*,const TIFFFieldArray*);
 extern int TIFFCreateEXIFDirectory(TIFF*);
-extern int TIFFCreateGPSDirectory(TIFF*);
 extern int TIFFLastDirectory(TIFF*);
 extern int TIFFSetDirectory(TIFF*, uint16);
 extern int TIFFSetSubDirectory(TIFF*, uint64);

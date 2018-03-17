@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <android/log.h>
 #include "../tiff/libtiff/tiffio.h"
+#include "DngTags.h"
 #define  LOG_TAG    "freedcam.RawToDngNative"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
@@ -61,6 +62,8 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
         jstring string = (jstring) (*env).GetObjectArrayElement(filesToStack, i);
         files[i] = (*env).GetStringUTFChars( string, NULL);
     }
+
+    _XTIFFInitialize();
 
     TIFF *tif=TIFFOpen(files[0], "rw");
     //read needed dng tags

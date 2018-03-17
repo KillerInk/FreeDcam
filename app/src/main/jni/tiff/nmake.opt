@@ -1,4 +1,4 @@
-# $Id$
+# $Id: nmake.opt,v 1.20 2017-10-10 14:39:43 erouault Exp $
 #
 # Copyright (C) 2004, Andrey Kiselev <dron@ak4719.spb.edu>
 #
@@ -24,6 +24,13 @@
 # Compile time parameters for MS Visual C++ compiler.
 # You may edit this file to specify building options.
 
+# Options:
+#    DEBUG - set to disable optimizations and link with debug runtimes
+#
+# Usage examples (see details below):
+# nmake -f makefile.vc
+# nmake -f makefile.vc DEBUG=1
+#
 #
 ###### Edit the following lines to choose a feature set you need. #######
 #
@@ -114,7 +121,11 @@ CHECK_JPEG_YCBCR_SUBSAMPLING = 1
 # with no debugging information.
 # NOTE: /EHsc option required if you want to build the C++ stream API
 #
+!IFDEF DEBUG
+OPTFLAGS =	/MDd /EHsc /W3 /D_CRT_SECURE_NO_DEPRECATE
+!ELSE
 OPTFLAGS =	/Ox /MD /EHsc /W3 /D_CRT_SECURE_NO_DEPRECATE
+!ENDIF
 #OPTFLAGS = 	/Zi 
 
 #

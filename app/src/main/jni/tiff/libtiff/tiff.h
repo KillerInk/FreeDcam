@@ -405,8 +405,6 @@ typedef enum {
 #define TIFFTAG_WRITERSERIALNUMBER      33405   /* device serial number */
 #define TIFFTAG_CFAREPEATPATTERNDIM	33421	/* dimensions of CFA pattern */
 #define TIFFTAG_CFAPATTERN		33422	/* color filter array pattern */
-#define TIFFTAG_OPC2 51009 /* OpCode 2 lens shit */
-#define TIFFTAG_OPC3 51022 /* OpCode 3 lens shit */
 /* tag 33432 is listed in the 6.0 spec w/ unknown ownership */
 #define	TIFFTAG_COPYRIGHT		33432	/* copyright string */
 /* IPTC TAG from RichTIFF specifications */
@@ -448,7 +446,6 @@ typedef enum {
 #define	TIFFTAG_FAXRECVTIME		34910	/* receive time (secs) */
 #define	TIFFTAG_FAXDCS			34911	/* encoded fax ses. params, Table 2/T.30 */
 /* tags 37439-37443 are registered to SGI <gregl@sgi.com> */
-#define     TIFFTAG_EP_STANDARD_ID         37398
 #define TIFFTAG_STONITS			37439	/* Sample value to Nits */
 /* tag 34929 is a private tag registered to FedEx */
 #define	TIFFTAG_FEDEX_EDR		34929	/* unknown use */
@@ -487,16 +484,6 @@ typedef enum {
 						   matrix 1 */
 #define TIFFTAG_REDUCTIONMATRIX2	50726	/* &dimensionality reduction
 						   matrix 2 */
-////////////////////////////////////////////////////////////////////////////////////
-#define TIFFTAG_FOWARDMATRIX1		50964
-#define TIFFTAG_FOWARDMATRIX2		50965
-#define TIFFTAG_NOISEPROFILE		51041
-#define TIFFTAG_PROFILETONECURVE	50940
-#define TIFFTAG_PROFILEHUESATMAPDIMS 50937
-#define TIFFTAG_PROFILEHUESATMAPDATA1 50938
-#define TIFFTAG_PROFILEHUESATMAPDATA2 50939
-#define TIFFTAG_PROFILENAME 50936;
-//////////////////////////////////////////////////						   
 #define TIFFTAG_ANALOGBALANCE		50727	/* &gain applied the stored raw
 						   values*/
 #define TIFFTAG_ASSHOTNEUTRAL		50728	/* &selected white balance in
@@ -506,7 +493,6 @@ typedef enum {
 						   coordinates */
 #define TIFFTAG_BASELINEEXPOSURE	50730	/* &how much to move the zero
 						   point */
-#define TIFFTAG_BASELINEEXPOSUREOFFSET	51109						   
 #define TIFFTAG_BASELINENOISE		50731	/* &relative noise level */
 #define TIFFTAG_BASELINESHARPNESS	50732	/* &relative amount of
 						   sharpening */
@@ -617,42 +603,6 @@ typedef enum {
 #define TIFFTAG_PERSAMPLE       65563	/* interface for per sample tags */
 #define     PERSAMPLE_MERGED        0	/* present as a single value */
 #define     PERSAMPLE_MULTI         1	/* present as multiple values */
-
-
-//////////////////////////////////////////////////////////////////////////////////////GPS Tags 09-02-2015/////////////////////////////////////////////
-#define GPSTAG_GPSVersionID		0
-#define GPSTAG_GPSLatitudeRef		1
-#define GPSTAG_GPSLatitude		2
-#define GPSTAG_GPSLongitudeRef		3
-#define GPSTAG_GPSLongitude		4
-#define GPSTAG_GPSAltitudeRef		5
-#define GPSTAG_GPSAltitude		6
-#define GPSTAG_GPSTimeStamp		7
-#define GPSTAG_GPSSatellites		8
-#define GPSTAG_GPSStatus		9
-#define GPSTAG_GPSMeasureMode		10
-#define GPSTAG_GPSDOP		11
-#define GPSTAG_GPSSpeedRef		12
-#define GPSTAG_GPSSpeed		13
-#define GPSTAG_GPSTrackRef		14
-#define GPSTAG_GPSTrack		15
-#define GPSTAG_GPSImgDirectionRef		16
-#define GPSTAG_GPSImgDirection		17
-#define GPSTAG_GPSMapDatum		18
-#define GPSTAG_GPSDestLatitudeRef		19
-#define GPSTAG_GPSDestLatitude		20
-#define GPSTAG_GPSDestLongitudeRef		21
-#define GPSTAG_GPSDestLongitude		22
-#define GPSTAG_GPSDestBearingRef		23
-#define GPSTAG_GPSDestBearing		24
-#define GPSTAG_GPSDestDistanceRef		25
-#define GPSTAG_GPSDestDistance		26
-#define GPSTAG_GPSProccesingMethod		27
-#define GPSTAG_GPSAreaInformation		28
-#define GPSTAG_GPSDateStamp		29
-#define GPSTAG_GPSDifferential		30
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 /*
  * EXIF tags

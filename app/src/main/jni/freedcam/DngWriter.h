@@ -11,6 +11,7 @@
 #include "GpsInfo.h"
 #include "DngProfile.h"
 #include "CustomMatrix.h"
+#include "DngTags.h"
 #include <android/log.h>
 #include <../tiff/libtiff/tif_dir.h>
 #include <assert.h>

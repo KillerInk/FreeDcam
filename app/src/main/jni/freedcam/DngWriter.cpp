@@ -6,6 +6,7 @@
 #include <math.h>
 #include "DngWriter.h"
 
+
 //#define LOG_RAW_DATA
 
 #define  LOG_TAG    "freedcam.DngWriter"
@@ -660,6 +661,9 @@ void DngWriter::writeRawStuff(TIFF *tif) {
 
 void DngWriter::WriteDNG() {
     uint64 gps_offset = 0;
+    LOGD("init ext tags");
+    _XTIFFInitialize();
+    LOGD("init ext tags done");
     TIFF *tif;
     LOGD("has file description: %b", hasFileDes);
     if(hasFileDes == true)
@@ -696,7 +700,7 @@ void DngWriter::WriteDNG() {
     
     writeRawStuff(tif);
 
-    TIFFRewriteDirectory(tif);
+    TIFFWriteDirectory(tif);
     TIFFClose(tif);
 
     LOGD("delete Opcode2");

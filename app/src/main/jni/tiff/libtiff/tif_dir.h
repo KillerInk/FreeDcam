@@ -1,4 +1,4 @@
-/* $Id: tif_dir.h,v 1.54 2011-02-18 20:53:05 fwarmerdam Exp $ */
+/* $Id: tif_dir.h,v 1.55 2017-06-01 12:44:04 erouault Exp $ */
 
 /*
  * Copyright (c) 1988-1997 Sam Leffler
@@ -255,9 +255,6 @@ extern "C" {
 
 extern const TIFFFieldArray* _TIFFGetFields(void);
 extern const TIFFFieldArray* _TIFFGetExifFields(void);
-////////////GPS/////////////////////
-extern const TIFFFieldArray* _TIFFGetGPSFields(void);
-///////////GPS/////////////////////
 extern void _TIFFSetupFields(TIFF* tif, const TIFFFieldArray* infoarray);
 extern void _TIFFPrintFieldInfo(TIFF*, FILE*);
 
@@ -266,8 +263,7 @@ extern int _TIFFFillStriles(TIFF*);
 typedef enum {
 	tfiatImage,
 	tfiatExif,
-	tfiatOther,
-	tfiatGps
+	tfiatOther
 } TIFFFieldArrayType;
 
 struct _TIFFFieldArray {
@@ -295,6 +291,7 @@ struct _TIFFField {
 extern int _TIFFMergeFields(TIFF*, const TIFFField[], uint32);
 extern const TIFFField* _TIFFFindOrRegisterField(TIFF *, uint32, TIFFDataType);
 extern  TIFFField* _TIFFCreateAnonField(TIFF *, uint32, TIFFDataType);
+extern int _TIFFCheckFieldIsValidForCodec(TIFF *tif, ttag_t tag);
 
 #if defined(__cplusplus)
 }
