@@ -55,7 +55,7 @@ public class CaptureSessionHandler
     private final Object waitLock = new Object();
 
 
-    private boolean captureSessionRdy = false;
+    private volatile boolean captureSessionRdy = false;
 
 
     CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
@@ -81,7 +81,7 @@ public class CaptureSessionHandler
                     mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
                             cameraBackroundValuesChangedListner, null);
                 } catch (CameraAccessException | IllegalStateException e) {
-                    mCaptureSession =null;
+                    Log.WriteEx(e);
                 }
                 waitLock.notify();
             }
@@ -117,7 +117,7 @@ public class CaptureSessionHandler
             Log.d(TAG, "onClosed()");
             synchronized (waitLock)
             {
-                mCaptureSession = null;
+                //mCaptureSession = null;
                 waitLock.notify();
             }
         }
@@ -238,20 +238,19 @@ public class CaptureSessionHandler
     public void Clear()
     {
         Log.d(TAG, "Clear");
-        try
+        /*try
         {
             if (null != mCaptureSession)
             {
                 mCaptureSession.stopRepeating();
                 mCaptureSession.abortCaptures();
-                mCaptureSession.close();
-                mCaptureSession = null;
+
             }
         }
         catch (Exception ex)
         {
             Log.WriteEx(ex);
-        }
+        }*/
         if (mPreviewRequestBuilder != null)
             for (Surface s: surfaces)
                 mPreviewRequestBuilder.removeTarget(s);
@@ -264,10 +263,11 @@ public class CaptureSessionHandler
 
     public void CreateCaptureSession()
     {
-        if (mCaptureSession != null) {
-            mCaptureSession.close();
-            mCaptureSession = null;
-        }
+        Log.d(TAG, "CreateCaptureSession:");
+        /*if (mCaptureSession != null) {
+            Log.d(TAG,"CaptureSession is not closed, close it");
+            CloseCaptureSession();
+        }*/
         if(cameraHolderApi2.mCameraDevice == null)
             return;
 
@@ -275,7 +275,7 @@ public class CaptureSessionHandler
         try {
             synchronized (waitLock) {
                 isHighSpeedSession = false;
-                Log.d(TAG, "CreateCaptureSession:");
+
                 cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
                 backgroundHandlerThread.execute(() -> {
                     try {
@@ -297,8 +297,8 @@ public class CaptureSessionHandler
     {
         Log.d(TAG,"CreateHighspeedCaptureSession");
         if (mCaptureSession != null) {
-            mCaptureSession.close();
-            mCaptureSession = null;
+            Log.d(TAG,"CaptureSession is not close, close it");
+           CloseCaptureSession();
         }
         if(cameraHolderApi2.mCameraDevice == null)
             return;
@@ -325,12 +325,12 @@ public class CaptureSessionHandler
 
     public void CreateCaptureSession(CameraCaptureSession.StateCallback customCallback)
     {
-        if (mCaptureSession != null) {
-            mCaptureSession.close();
-            mCaptureSession = null;
-        }
-        isHighSpeedSession = false;
         Log.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
+       /* if (mCaptureSession != null) {
+            CloseCaptureSession();
+        }*/
+        isHighSpeedSession = false;
+
         try {
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, customCallback, null);
         } catch (CameraAccessException ex) {
@@ -357,6 +357,7 @@ public class CaptureSessionHandler
 
     public void CancelRepeatingCaptureSession()
     {
+        Log.d(TAG,"CancelRepeatingCaptureSession");
         synchronized (waitLock)
         {
             backgroundHandlerThread.execute(() -> {
@@ -431,6 +432,7 @@ public class CaptureSessionHandler
 
     public void capture()
     {
+        Log.d(TAG,"capture");
         if(isHighSpeedSession)
             return;
         try {
@@ -442,6 +444,7 @@ public class CaptureSessionHandler
 
     public void StartImageCapture(@Nullable CameraCaptureSession.CaptureCallback listener, Handler handler)
     {
+        Log.d(TAG,"StartImageCapture");
         try {
             mCaptureSession.capture(mImageCaptureRequestBuilder.build(),listener,handler);
         } catch (CameraAccessException ex) {
@@ -452,6 +455,7 @@ public class CaptureSessionHandler
 
     public void cancelCapture()
     {
+        Log.d(TAG,"cancelCapture");
         try {
             mCaptureSession.abortCaptures();
         } catch (CameraAccessException | NullPointerException e) {
@@ -462,18 +466,44 @@ public class CaptureSessionHandler
     public void CloseCaptureSession()
     {
         Log.d(TAG, "CloseCaptureSession");
-        Clear();
-        if (mCaptureSession != null)
-        {
-            mCaptureSession.close();
 
+        synchronized (waitLock) {
+            Clear();
+            if (mCaptureSession == null)
+            {
+                Log.d(TAG,"CaptureSession is null");
+                return;
+            }
+            backgroundHandlerThread.execute(() -> {
+                try
+                {
+                    mCaptureSession.close();
+                }
+                catch (NullPointerException ex)
+                {
+                    Log.WriteEx(ex);
+                }
+            });
+
+
+
+            /*try {
+                Log.d(TAG,"CloseCaptureSession Enter Wait State");
+                waitLock.wait();
+                Log.d(TAG,"CloseCaptureSession Wait done");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            */
+            mCaptureSession = null;
         }
-        mCaptureSession = null;
+
 
     }
 
     public <T> void SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean setToCamera)
     {
+        Log.d(TAG," SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean setToCamera)");
         if (mPreviewRequestBuilder == null )
             return;
         //Log.d(TAG, "Set :" + key.getName() + " to " + value);
@@ -491,6 +521,7 @@ public class CaptureSessionHandler
 
     public <T> void SetPreviewParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean apply)
     {
+        Log.d(TAG,"SetPreviewParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean apply)");
         if (mPreviewRequestBuilder == null )
             return;
         Log.d(TAG, "Set :" + key.getName() + " to " + value);
