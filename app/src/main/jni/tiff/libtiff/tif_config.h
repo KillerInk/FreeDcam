@@ -160,7 +160,7 @@
 /* #undef JBIG_SUPPORT */
 
 /* Support JPEG compression (requires IJG JPEG library) */
-#define JPEG_SUPPORT 1
+/* #undef JPEG_SUPPORT */
 
 /* Support LogLuv high dynamic range encoding */
 #define LOGLUV_SUPPORT 1
@@ -182,7 +182,7 @@
 /* #undef NO_MINUS_C_MINUS_O */
 
 /* Support Old JPEG compresson (read-only) */
-#define OJPEG_SUPPORT 1
+/* #undef OJPEG_SUPPORT */
 
 /* Name of package */
 #define PACKAGE "tiff"
@@ -209,7 +209,7 @@
 #define PACKBITS_SUPPORT 1
 
 /* Support Pixar log-format algorithm (requires Zlib) */
-#define PIXARLOG_SUPPORT 1
+//#define PIXARLOG_SUPPORT 1
 
 /* Define to necessary symbol if this constant uses a non-standard name on
    your system. */
@@ -287,7 +287,7 @@
 /* #undef X_DISPLAY_MISSING */
 
 /* Support Deflate compression */
-#define ZIP_SUPPORT 1
+//#define ZIP_SUPPORT 1
 
 /* Number of bits in a file offset, on hosts where this is settable. */
 #define _FILE_OFFSET_BITS 64
