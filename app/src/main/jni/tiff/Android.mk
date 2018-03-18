@@ -23,7 +23,9 @@ LOCAL_TIFF_SRC_FILES := \
 	libtiff/tif_getimage.c \
 	libtiff/tif_jbig.c \
 	libtiff/tif_jpeg.c \
+	libtiff/tif_jpeg_12.c \
 	libtiff/tif_luv.c \
+	libtiff/tif_lzma.c \
 	libtiff/tif_lzw.c \
 	libtiff/tif_next.c \
 	libtiff/tif_ojpeg.c \

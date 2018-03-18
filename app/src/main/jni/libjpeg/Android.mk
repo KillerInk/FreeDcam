@@ -1,4 +1,4 @@
-LOCAL_PATH:= $(call my-dir)/jpeg-9b
+LOCAL_PATH:= $(call my-dir)/jpeg-9c
 include $(CLEAR_VARS)
 
 LOCAL_ARM_MODE := arm
