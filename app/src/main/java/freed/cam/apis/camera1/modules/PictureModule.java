@@ -83,6 +83,10 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     public void DoWork()
     {
         Log.d(this.TAG, "startWork:isWorking:"+ isWorking);
+        if(isWorking){
+            Log.d(TAG,"Work in Progress,skip it");
+            return;
+        }
         mBackgroundHandler.post(() -> {
             isWorking = true;
             String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
