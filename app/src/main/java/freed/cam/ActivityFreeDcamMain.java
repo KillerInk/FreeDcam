@@ -150,6 +150,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         super.onCreate(savedInstanceState);
         UserMessageHandler.setContext(getContext());
         mSecureCamera.onCreate();
+        cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(), this);
+        storageHandler = new StorageFileManager();
+        updateScreenSlideHandler = new UpdateScreenSlideHandler();
+        //listen to phone orientation changes
+        orientationManager = new OrientationManager(this, this);
+        bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
+        locationManager = new LocationManager(this);
     }
 
 
@@ -169,14 +176,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void initOnCreate() {
         super.initOnCreate();
-        cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(), this);
-        storageHandler = new StorageFileManager();
-        updateScreenSlideHandler = new UpdateScreenSlideHandler();
-        //listen to phone orientation changes
-        orientationManager = new OrientationManager(this, this);
-        bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
 
-        locationManager = new LocationManager(this);
+
     }
 
 
@@ -197,7 +198,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             return;
         //check if we have the permissions. its needed because onResume gets called while we ask in ActivityAbstract.onCreate().
         getPermissionManager().hasCameraAndSdPermission(granted -> {
-            if (granted) {
+            if (granted && SettingsManager.getInstance().isInit()) {
                 if (SettingsManager.getInstance().appVersionHasChanged())
                     cameraFragmentManager.switchCameraFragment();
                 else {
@@ -445,7 +446,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void runFeatureDetector() {
         unloadCameraFragment();
+        boolean legacy = SettingsManager.get(SettingKeys.openCamera1Legacy).get();
         SettingsManager.getInstance().RESET();
+        SettingsManager.get(SettingKeys.openCamera1Legacy).set(legacy);
         cameraFragmentManager.switchCameraFragment();
     }
 }

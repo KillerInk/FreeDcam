@@ -78,7 +78,14 @@ public class VideoProfilesParameter extends AbstractParameter
         if ((profile == null || TextUtils.isEmpty(profile)) && supportedProfiles != null)
         {
             List<String> keys = new ArrayList<>(supportedProfiles.keySet());
-            profile = keys.get(0);
+            try {
+                profile = keys.get(0);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+                profile = "null";
+                isSupported = false;
+                fireIsSupportedChanged(false);
+            }
         }
         return profile;
     }

@@ -17,11 +17,11 @@ public:
 
     void clear()
     {
-        Longitude = NULL;
-        Latitude = NULL;
-        Provider = NULL;
-        gpsDate = NULL;
-        gpsTime = NULL;
+        Longitude;
+        Latitude;
+        Provider;
+        gpsDate;
+        gpsTime;
     }
 
     GpsInfo()

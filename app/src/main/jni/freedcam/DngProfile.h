@@ -16,8 +16,8 @@ public:
 
     void clear()
     {
-        bayerformat = NULL;
-        blacklevel = NULL;
+        bayerformat;
+        blacklevel;
     }
 };
 
