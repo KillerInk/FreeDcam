@@ -162,11 +162,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         // Here, we create a CameraCaptureSession for camera preview
 
         Size previewSize = cameraUiWrapper.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, mImageWidth, mImageHeight);
-        if (cameraUiWrapper.getFocusPeakProcessor() != null)
-        {
-            cameraUiWrapper.getFocusPeakProcessor().kill();
-        }
-
 
         SurfaceTexture texture = cameraUiWrapper.captureSessionHandler.getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());

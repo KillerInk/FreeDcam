@@ -6,6 +6,7 @@ import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Pair;
 
@@ -98,60 +99,10 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         ParameterInterface iso = camera2Fragment.getParameterHandler().get(SettingKeys.M_ManualIso);
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
         {
-            if (expotime.GetValue() == 0) {
-                Long expoTime = result.get(CaptureResult.SENSOR_EXPOSURE_TIME);
-                if (expoTime != null) {
-                    currentExposureTime = expoTime;
-                    expotime.fireStringValueChanged(getShutterStringNS(expoTime));
-                }
-            }
-            if (iso.GetValue() == 0)
-            {
-                Integer isova = result.get(CaptureResult.SENSOR_SENSITIVITY);
-                if(isova != null) {
-                    currentIso = isova;
-                    iso.fireStringValueChanged(String.valueOf(isova));
-                }
-            }
+            processHuaweiAEValues(result, expotime, iso);
         }
         else {
-            if (expotime != null && expotime.IsSupported()) {
-                if (result != null && result.getKeys().size() > 0) {
-                    try {
-                        if (!camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))
-                                && !camera2Fragment.getParameterHandler().get(SettingKeys.CONTROL_MODE).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))) {
-                            try {
-                                long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
-                                currentExposureTime = expores;
-                                if (expores != 0) {
-                                    expotime.fireStringValueChanged(getShutterStringNS(expores));
-                                } else
-                                    expotime.fireStringValueChanged("1/60");
-
-                                //Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
-                            } catch (Exception ex) {
-                                Log.WriteEx(ex);
-                            }
-                            try {
-                                int isova = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
-                                currentIso = isova;
-                                iso.fireStringValueChanged("" + isova);
-                                //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
-                            } catch (NullPointerException ex) {
-                                Log.WriteEx(ex);
-                            }
-                            try {
-                                focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                                camera2Fragment.getParameterHandler().get(SettingKeys.M_Focus).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
-                            } catch (NullPointerException ex) {
-                                Log.WriteEx(ex);
-                            }
-                        }
-                    } catch (NullPointerException ex) {
-                        Log.WriteEx(ex);
-                    }
-                }
-            }
+            processDefaultAEValues(result, expotime, iso);
         }
 
             /*if (result.get(CaptureResult.TONEMAP_CURVE)!=null)
@@ -169,42 +120,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
         //handel focus callback to ui if it was sucessfull. dont reset focusareas or trigger again afstate.
         //else it could happen that it refocus
-        if (result.get(CaptureResult.CONTROL_AF_STATE) != null && afState != result.get(CaptureResult.CONTROL_AF_STATE))
-        {
-            afState =  result.get(CaptureResult.CONTROL_AF_STATE);
-            String state = "";
-            switch (afState)
-            {
-                case 0:
-                    state ="INACTIVE";
-                    break;
-                case 1:
-                    state = "PASSIVE_SCAN";
-                    break;
-                case 2:
-                    state = "PASSIVE_FOCUSED";
-                    break;
-                case 3:
-                    state="ACTIVE_SCAN";
-                    break;
-                case 4:
-                    state = "FOCUSED_LOCKED";
-                    camera2Fragment.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
-                    if (camera2Fragment.getFocusHandler().focusEvent != null)
-                        camera2Fragment.getFocusHandler().focusEvent.FocusFinished(true);
-                    break;
-                case 5:
-                    state = "NOT_FOCUSED_LOCKED";
-                    camera2Fragment.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
-                    if (camera2Fragment.getFocusHandler().focusEvent != null)
-                        camera2Fragment.getFocusHandler().focusEvent.FocusFinished(false);
-                    break;
-                case 6:
-                    state ="PASSIVE_UNFOCUSED";
-                    break;
-            }
-            Log.d(TAG, "new AF_STATE :"+state);
-        }
+        processDefaultFocus(result);
+
         if(result.get(CaptureResult.CONTROL_AE_STATE) != null && aeState != result.get(CaptureResult.CONTROL_AE_STATE))
         {
 
@@ -246,6 +163,104 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             String expolock = result.get(CaptureResult.CONTROL_AE_LOCK).toString();
             if (expolock != null)
                 camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock).fireStringValueChanged(expolock);
+        }
+    }
+
+    private void processDefaultFocus(@NonNull TotalCaptureResult result) {
+        if (result.get(CaptureResult.CONTROL_AF_STATE) != null && afState != result.get(CaptureResult.CONTROL_AF_STATE))
+        {
+            afState =  result.get(CaptureResult.CONTROL_AF_STATE);
+            String state = "";
+            switch (afState)
+            {
+                case CaptureRequest.CONTROL_AF_STATE_INACTIVE:
+                    state ="INACTIVE";
+                    break;
+                case CaptureRequest.CONTROL_AF_STATE_PASSIVE_SCAN:
+                    state = "PASSIVE_SCAN";
+                    break;
+                case CaptureRequest.CONTROL_AF_STATE_PASSIVE_FOCUSED:
+                    state = "PASSIVE_FOCUSED";
+                    break;
+                case CaptureRequest.CONTROL_AF_STATE_ACTIVE_SCAN:
+                    state="ACTIVE_SCAN";
+                    break;
+                case CaptureRequest.CONTROL_AF_STATE_FOCUSED_LOCKED:
+                    state = "FOCUSED_LOCKED";
+                    camera2Fragment.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
+                    if (camera2Fragment.getFocusHandler().focusEvent != null)
+                        camera2Fragment.getFocusHandler().focusEvent.FocusFinished(true);
+                    break;
+                case CaptureRequest.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED:
+                    state = "NOT_FOCUSED_LOCKED";
+                    camera2Fragment.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
+                    if (camera2Fragment.getFocusHandler().focusEvent != null)
+                        camera2Fragment.getFocusHandler().focusEvent.FocusFinished(false);
+                    break;
+                case CaptureRequest.CONTROL_AF_STATE_PASSIVE_UNFOCUSED:
+                    state ="PASSIVE_UNFOCUSED";
+                    break;
+            }
+            try {
+                focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
+                camera2Fragment.getParameterHandler().get(SettingKeys.M_Focus).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
+            } catch (NullPointerException ex) {
+                Log.WriteEx(ex);
+            }
+            Log.d(TAG, "new AF_STATE :"+state);
+        }
+    }
+
+    private void processDefaultAEValues(@NonNull TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
+        if (expotime != null && expotime.IsSupported()) {
+            if (result != null && result.getKeys().size() > 0) {
+                try {
+                    if (!camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))
+                            && !camera2Fragment.getParameterHandler().get(SettingKeys.CONTROL_MODE).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))) {
+                        try {
+                            long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
+                            currentExposureTime = expores;
+                            if (expores != 0) {
+                                expotime.fireStringValueChanged(getShutterStringNS(expores));
+                            } else
+                                expotime.fireStringValueChanged("1/60");
+
+                            //Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
+                        } catch (Exception ex) {
+                            Log.WriteEx(ex);
+                        }
+                        try {
+                            int isova = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
+                            currentIso = isova;
+                            iso.fireStringValueChanged("" + isova);
+                            //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
+                        } catch (NullPointerException ex) {
+                            Log.WriteEx(ex);
+                        }
+
+                    }
+                } catch (NullPointerException ex) {
+                    Log.WriteEx(ex);
+                }
+            }
+        }
+    }
+
+    private void processHuaweiAEValues(@Nullable TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
+        if (expotime.GetValue() == 0) {
+            Long expoTime = result.get(CaptureResult.SENSOR_EXPOSURE_TIME);
+            if (expoTime != null) {
+                currentExposureTime = expoTime;
+                expotime.fireStringValueChanged(getShutterStringNS(expoTime));
+            }
+        }
+        if (iso.GetValue() == 0)
+        {
+            Integer isova = result.get(CaptureResult.SENSOR_SENSITIVITY);
+            if(isova != null) {
+                currentIso = isova;
+                iso.fireStringValueChanged(String.valueOf(isova));
+            }
         }
     }
 
