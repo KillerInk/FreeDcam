@@ -263,7 +263,7 @@ public class CaptureSessionHandler
 
     }
 
-    public synchronized void CreateCaptureSession()
+    public void CreateCaptureSession()
     {
         Log.d(TAG, "CreateCaptureSession:");
         /*if (mCaptureSession != null) {
@@ -295,7 +295,7 @@ public class CaptureSessionHandler
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public synchronized void CreateHighSpeedCaptureSession(CameraCaptureSession.StateCallback customCallback)
+    public void CreateHighSpeedCaptureSession(CameraCaptureSession.StateCallback customCallback)
     {
         Log.d(TAG,"CreateHighspeedCaptureSession");
         if (mCaptureSession != null) {
@@ -325,7 +325,7 @@ public class CaptureSessionHandler
     }
 
 
-    public synchronized void CreateCaptureSession(CameraCaptureSession.StateCallback customCallback)
+    public void CreateCaptureSession(CameraCaptureSession.StateCallback customCallback)
     {
         Log.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
        /* if (mCaptureSession != null) {
@@ -357,7 +357,7 @@ public class CaptureSessionHandler
     }
 
 
-    public synchronized void CancelRepeatingCaptureSession()
+    public void CancelRepeatingCaptureSession()
     {
         Log.d(TAG,"CancelRepeatingCaptureSession");
         synchronized (waitLock)
@@ -384,7 +384,7 @@ public class CaptureSessionHandler
         }
     }
 
-    public synchronized void StartRepeatingCaptureSession()
+    public void StartRepeatingCaptureSession()
     {
         Log.d(TAG, "StartRepeatingCaptureSession Surface:" +surfaces.size());
         if (mCaptureSession == null || surfaces.size() == 0)
@@ -402,7 +402,7 @@ public class CaptureSessionHandler
 
     }
 
-    public synchronized void StartRepeatingCaptureSession(CameraCaptureSession.CaptureCallback listener)
+    public void StartRepeatingCaptureSession(CameraCaptureSession.CaptureCallback listener)
     {
         Log.d(TAG, "StartRepeatingCaptureSession with Custom CaptureCallback");
         if (mCaptureSession == null)
@@ -416,7 +416,7 @@ public class CaptureSessionHandler
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public synchronized void StartHighspeedCaptureSession()
+    public void StartHighspeedCaptureSession()
     {
         Log.d(TAG, "StartHighspeedSession");
         if (mCaptureSession == null || !isHighSpeedSession)
@@ -465,7 +465,7 @@ public class CaptureSessionHandler
         }
     }
 
-    public synchronized void CloseCaptureSession()
+    public void CloseCaptureSession()
     {
         Log.d(TAG, "CloseCaptureSession");
 
@@ -489,13 +489,13 @@ public class CaptureSessionHandler
 
 
 
-            try {
+           /* try {
                 Log.d(TAG,"CloseCaptureSession Enter Wait State");
                 waitLock.wait();
                 Log.d(TAG,"CloseCaptureSession Wait done");
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
 
             mCaptureSession = null;
         }
