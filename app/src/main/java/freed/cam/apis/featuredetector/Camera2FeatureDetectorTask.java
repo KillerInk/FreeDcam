@@ -351,7 +351,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectHuaweiParameters(CameraCharacteristics characteristics) {
         try {
-            detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, SettingsManager.get(SettingKeys.dualPrimaryCameraMode), R.array.dual_camera_mode);
+            if (characteristics.get(CameraCharacteristicsEx.HUAWEI_MONO_MODE_SUPPORTED) == Byte.valueOf((byte)1))
+                detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, SettingsManager.get(SettingKeys.dualPrimaryCameraMode), R.array.dual_camera_mode);
         }
         catch (IllegalArgumentException ex)
         {
@@ -429,7 +430,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
         try {
             byte fastbinder = characteristics.get(CameraCharacteristicsEx.HUAWEI_FAST_NOTIFY_SUPPORTED);
-            Log.d(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED");
+            Log.d(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED" +fastbinder);
         }
         catch (NullPointerException | IllegalArgumentException ex)
         {
@@ -438,7 +439,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
         try {
             byte dualcamerareporcess = characteristics.get(CameraCharacteristicsEx.HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS);
-            Log.d(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS");
+            Log.d(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS"+ dualcamerareporcess);
         }
         catch (NullPointerException | IllegalArgumentException ex)
         {
@@ -447,11 +448,27 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
         try {
             byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_PRE_CAPTURE_SUPPORTED);
-            Log.d(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED");
+            Log.d(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED" +precapture);
         }
         catch (NullPointerException | IllegalArgumentException ex)
         {
             Log.e(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED false");
+        }
+        try {
+            byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_POST_PROCESS_SUPPORTED);
+            Log.d(TAG,"HUAWEI_POST_PROCESS_SUPPORTED" +precapture);
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_POST_PROCESS_SUPPORTED false");
+        }
+        try {
+            byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_ZSL_SUPPORTED);
+            Log.d(TAG,"HUAWEI_ZSL_SUPPORTED" +precapture);
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_ZSL_SUPPORTED false");
         }
         try {
             byte[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_HDC_CALIBRATE_DATA);
