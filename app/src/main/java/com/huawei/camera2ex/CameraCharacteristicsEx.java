@@ -143,9 +143,11 @@ public class CameraCharacteristicsEx
     public static final CameraCharacteristics.Key<Byte> HUAWEI_SEAMLESS_SUPPORTED;
     
     public static final CameraCharacteristics.Key<int[]> HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE;
-    
+
     public static final CameraCharacteristics.Key<int[]> HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE;
-    
+
+    public static final CameraCharacteristics.Key<int[]> HUAWEI_SUPPORTED_BINNING_SIZES;
+
     public static final CameraCharacteristics.Key<int[]> HUAWEI_SENSOR_EXPOSURETIME_RANGE;
     
     public static final CameraCharacteristics.Key<int[]> HUAWEI_SENSOR_ISO_RANGE;
@@ -245,6 +247,7 @@ public class CameraCharacteristicsEx
         HUAWEI_SUPER_RESOLUTION_PICTURE_SIZE = getKeyClass("com.huawei.device.capabilities.superResolutionPictureSize", int[].class);
         HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE = getKeyClass("com.huawei.device.capabilities.hwSubActiveArraySize", int[].class);
         HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE = getKeyClass("com.huawei.device.capabilities.hwSubSensorJpegSize", int[].class);
+        HUAWEI_SUPPORTED_BINNING_SIZES = getKeyClass("com.huawei.device.capabilities.hw-sensor-binning-sizes-supported", int[].class);
         HUAWEI_OPTICAL_ZOOM_THRESHOLD = getKeyType("com.huawei.device.capabilities.opticalZoomThreshold", Byte.TYPE);
         HUAWEI_VIDEO_CALLBACK_THRESHOLD = getKeyType("com.huawei.device.capabilities.highVideoCallbackThresholdSupported", Byte.TYPE);
         HUAWEI_DONOT_SUPPORT_HWCAMERA = getKeyType("com.huawei.device.capabilities.donotSupportHwCamera", Byte.TYPE);

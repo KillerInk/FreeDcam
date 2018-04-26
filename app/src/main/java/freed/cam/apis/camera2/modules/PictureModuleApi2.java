@@ -36,6 +36,7 @@ import android.text.TextUtils;
 import android.util.Size;
 import android.view.Surface;
 
+import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.troop.freedcam.R;
 
 import java.io.File;
@@ -50,6 +51,7 @@ import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
+import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -266,7 +268,26 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16)) || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_jpg_p_dng)))
         {
             Log.d(TAG, "ImageReader RAW_SENSOR");
-            largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
+            if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
+            {
+                if (SettingsManager.get(SettingKeys.dualPrimaryCameraMode).get().equals(SettingsManager.getInstance().getResString(R.string.hw_dualcamera_Secondary)))
+                {
+                    int[] sizes = cameraHolder.characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);
+                    if (sizes != null)
+                        largestImageSize = new Size(sizes[0], sizes[1]);
+                }
+                else
+                {
+                    largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
+
+                }
+
+            }
+            else
+            {
+                largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
+
+            }
             rawReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW_SENSOR, MAX_IMAGES);
             if(picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16)))
             {
