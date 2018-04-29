@@ -510,9 +510,22 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
         try {
             int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_WB_RANGE);
-            if (hdc != null)
+            if (hdc != null && hdc.length >0) {
                 Log.d(TAG, Arrays.toString(hdc));
-            Log.d(TAG,"HUAWEI_SUPPORTED_BINNING_SIZES");
+                SettingsManager.get(SettingKeys.useHuaweiWhiteBalance).set(true);
+                int min= hdc[0];
+                int max = hdc[1];
+                List<String> wblist = new ArrayList<>();
+                wblist.add(SettingsManager.getInstance().getResString(R.string.auto_));
+                for (int i = min; i <= max; i+=50)
+                {
+                    wblist.add(i+"");
+                }
+                SettingsManager.get(SettingKeys.M_Whitebalance).setValues(wblist.toArray(new String[wblist.size()]));
+                SettingsManager.get(SettingKeys.M_Whitebalance).set(0+"");
+                SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(true);
+            }
+            Log.d(TAG,"HUAWEI_SENSOR_WB_RANGE");
         }
         catch (NullPointerException | IllegalArgumentException ex)
         {

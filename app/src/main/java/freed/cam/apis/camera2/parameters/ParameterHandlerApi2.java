@@ -42,6 +42,7 @@ import freed.cam.apis.camera2.parameters.ae.AeManagerHuaweiCamera2;
 import freed.cam.apis.camera2.parameters.manual.BurstApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
+import freed.cam.apis.camera2.parameters.manual.ManualWbCtApi2Hw;
 import freed.cam.apis.camera2.parameters.manual.ZoomApi2;
 import freed.cam.apis.camera2.parameters.modes.AeLockModeApi2;
 import freed.cam.apis.camera2.parameters.modes.AeTargetRangeApi2;
@@ -119,16 +120,23 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         add(SettingKeys.JpegQuality, new JpegQualityModeApi2(cameraUiWrapper));
 
-        if (SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported()) {
+        if (SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported() ) {
             try {
                 WbHandler wbHandler = new WbHandler(cameraUiWrapper);
-                add(SettingKeys.M_Whitebalance, wbHandler.manualWbCt);
+                if (wbHandler.manualWbCt != null && !SettingsManager.get(SettingKeys.useHuaweiWhiteBalance).get())
+                    add(SettingKeys.M_Whitebalance, wbHandler.manualWbCt);
+                else
+                {
+                    add(SettingKeys.M_Whitebalance, new ManualWbCtApi2Hw(cameraUiWrapper));
+                }
+
                 add(SettingKeys.WhiteBalanceMode, wbHandler.whiteBalanceApi2);
             } catch (NullPointerException ex) {
                 Log.d(TAG, "seem whitebalance is unsupported");
                 Log.WriteEx(ex);
             }
         }
+
 
         //dont make that avail for the ui its only internal used
         //COLOR_CORRECTION_MODE = colorCorrectionMode;

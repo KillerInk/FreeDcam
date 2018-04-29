@@ -95,6 +95,9 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             waitForFirstFrame = false;
         }
 
+        /*if (request.get(CaptureRequest.COLOR_CORRECTION_GAINS) != null)
+            Log.d(TAG, request.get(CaptureRequest.COLOR_CORRECTION_GAINS).toString());*/
+
         ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);
         ParameterInterface iso = camera2Fragment.getParameterHandler().get(SettingKeys.M_ManualIso);
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)

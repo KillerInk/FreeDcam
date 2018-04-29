@@ -7,6 +7,7 @@
     <string name="aps_mode" translatable="false">mode</string>
 
     <string name="aps_opencamera1legacy" translatable="false">opencamera1legacy</string>
+    <string name="aps_usehuawei_wb" translatable="false">useHuaweiWb</string>
 
     <string name="aps_picturesize" translatable="false">picturesize</string>
     <string name="aps_pictureformat" translatable="false">pictureformat</string>

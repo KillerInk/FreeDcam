@@ -131,6 +131,7 @@ public class SettingKeys{
     public final static Key<ApiBooleanSettingMode> support12bitRaw = new Key(ApiBooleanSettingMode.class, R.string.aps_support12bitraw);
     public final static Key<ApiBooleanSettingMode> orientationHack = new Key(ApiBooleanSettingMode.class, R.string.aps_orientationHack);
     public final static Key<ApiBooleanSettingMode> openCamera1Legacy = new Key(ApiBooleanSettingMode.class, R.string.aps_opencamera1legacy);
+    public final static Key<ApiBooleanSettingMode> useHuaweiWhiteBalance = new Key(ApiBooleanSettingMode.class, R.string.aps_usehuawei_wb);
 
 
     //Renderscript
