@@ -179,7 +179,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         Size previewSize = getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         int orientation = 0;
-        switch (sensorOrientation)
+        int orientationToSet = (360 + sensorOrientation)%360;
+        if (SettingsManager.get(SettingKeys.orientationHack).get())
+            orientationToSet = (360 + sensorOrientation+180)%360;
+        switch (orientationToSet)
         {
             case 90:
                 orientation = 270;

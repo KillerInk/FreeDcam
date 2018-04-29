@@ -155,9 +155,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         setOutputSizes();
 
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
-        int orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation)%360;
+        Log.d(TAG, "sensorOrientation:" + sensorOrientation);
+        int orientationToSet = (360 + sensorOrientation)%360;
         if (SettingsManager.get(SettingKeys.orientationHack).get())
-            orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation+180)%360;
+            orientationToSet = (360 + sensorOrientation+180)%360;
         Log.d(TAG, "orientation to set :" +orientationToSet);
         cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_ORIENTATION, orientationToSet);
 
@@ -173,7 +174,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
         if (SettingsManager.get(SettingKeys.EnableRenderScript).get()) {
             int orientation = 0;
-            switch (sensorOrientation)
+            switch (orientationToSet)
             {
                 case 90:
                     orientation = 0;
@@ -197,7 +198,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         else
         {
             int orientation = 0;
-            switch (sensorOrientation)
+            switch (orientationToSet)
             {
                 case 90:
                     orientation = 270;
