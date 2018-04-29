@@ -2,8 +2,8 @@
 #pragma rs java_package_name(freed.renderscript)
 #pragma rs_fp_relaxed
 
-int factor = 2;
-int maxclip = 253;
+int factor = 1;
+int maxclip = 254;
 
 uchar4 __attribute__((kernel)) processClipping(uchar4 in, uint32_t x, uint32_t y) {
 
