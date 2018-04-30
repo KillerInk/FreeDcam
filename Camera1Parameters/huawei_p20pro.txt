@@ -1,0 +1,3001 @@
+== Service global info: ==
+
+Number of camera devices: 2
+Number of normal camera devices: 2
+Active Camera Clients:
+[]
+Allowed user IDs: 0
+
+== Camera service events log (most recent at top): ==
+  04-29 17:47:48 : DISCONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 17:47:43 : CONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 17:47:27 : DISCONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 17:47:23 : CONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 17:41:59 : DISCONNECT device 1 client for package org.telegram.messenger (PID 28140)
+  04-29 17:41:59 : CONNECT device 1 client for package org.telegram.messenger (PID 28140)
+  04-29 17:41:58 : DISCONNECT device 0 client for package org.telegram.messenger (PID 28140)
+  04-29 17:41:58 : CONNECT device 0 client for package org.telegram.messenger (PID 28140)
+  04-29 17:35:20 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:35:18 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:35:12 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:34:40 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:34:17 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:33:51 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:29:12 : DISCONNECT device 1 client for package com.instagram.android (PID 19693)
+  04-29 17:29:10 : CONNECT device 1 client for package com.instagram.android (PID 19693)
+  04-29 17:24:51 : DISCONNECT device 0 client for package org.telegram.messenger (PID 15155)
+  04-29 17:24:46 : CONNECT device 0 client for package org.telegram.messenger (PID 15155)
+  04-29 17:23:32 : DISCONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 17:23:31 : CONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 17:23:31 : DISCONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 17:23:30 : CONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 17:22:27 : DISCONNECT device 0 client for package com.whatsapp (PID 11995)
+  04-29 17:22:18 : CONNECT device 0 client for package com.whatsapp (PID 11995)
+  04-29 17:21:59 : DISCONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 17:21:57 : CONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 17:08:25 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:08:16 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:07:26 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:06:33 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:05:33 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:04:36 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:01:06 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:01:04 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:00:43 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:00:21 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 17:00:04 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:59:42 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:59:41 : DISCONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 16:59:40 : CONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 16:52:36 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:52:03 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:52:01 : DISCONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 16:51:59 : CONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 16:14:05 : DISCONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 16:14:04 : CONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 16:09:41 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:09:36 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:09:01 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:08:01 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:07:20 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:06:34 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:06:17 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:05:16 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:04:46 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:04:15 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:03:44 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:03:06 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:02:49 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:02:35 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:02:17 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:01:39 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 16:00:12 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:59:11 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:58:42 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:58:00 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:57:03 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:56:12 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:55:49 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:54:58 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:54:44 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:54:24 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:53:39 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:53:04 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:52:49 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:52:34 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:52:16 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:51:35 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:49:25 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:49:10 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:48:44 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:48:26 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:48:09 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:47:57 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:47:41 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:47:26 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:47:16 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:46:50 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:46:31 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:46:00 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:40:02 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:39:51 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:39:11 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:38:36 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:38:30 : DISCONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:38:10 : CONNECT device 0 client for package com.huawei.camera (PID 20502)
+  04-29 15:38:08 : DISCONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 15:38:07 : CONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 15:19:44 : DISCONNECT device 1 client for package com.android.systemui (PID 1553)
+  04-29 15:19:43 : CONNECT device 1 client for package com.android.systemui (PID 1553)
+  ...
+
+== Camera device 0 dynamic info: ==
+  Camera1 API shim is using parameters:
+        CameraParameters::dump: mMap.size = 61
+        antibanding: auto
+        antibanding-values: auto,50hz,60hz
+        auto-exposure-lock: false
+        auto-exposure-lock-supported: true
+        auto-whitebalance-lock: false
+        auto-whitebalance-lock-supported: true
+        effect: none
+        effect-values: none,mono,negative,sepia
+        exposure-compensation: 0
+        exposure-compensation-step: 0.5
+        flash-mode: off
+        flash-mode-values: off,auto,on,torch
+        focal-length: 3.95
+        focus-areas: (0,0,0,0,0)
+        focus-distances: Infinity,Infinity,Infinity
+        focus-mode: auto
+        focus-mode-values: infinity,auto,macro,continuous-video,continuous-picture
+        horizontal-view-angle: 85.4477
+        jpeg-quality: 90
+        jpeg-thumbnail-height: 384
+        jpeg-thumbnail-quality: 90
+        jpeg-thumbnail-size-values: 0x0,208x208,512x256,528x256,512x288,480x320,512x384,512x512
+        jpeg-thumbnail-width: 512
+        max-exposure-compensation: 4
+        max-num-detected-faces-hw: 10
+        max-num-detected-faces-sw: 0
+        max-num-focus-areas: 1
+        max-num-metering-areas: 1
+        max-zoom: 99
+        metering-areas: (0,0,0,0,0)
+        min-exposure-compensation: -4
+        picture-format: jpeg
+        picture-format-values: jpeg
+        picture-size: 3648x2736
+        picture-size-values: 3648x2736,640x480,320x240,1280x720,1440x720,1920x1080,1456x1456,3264x1840,3264x2448,2048x1536,2736x2736,3648x1824,3648x2056,3840x2160,7296x5472
+        preferred-preview-size-for-video: 1920x1080
+        preview-format: yuv420sp
+        preview-format-values: yuv420p,yuv420sp
+        preview-fps-range: 14000,30000
+        preview-fps-range-values: (12000,15000),(15000,15000),(14000,20000),(20000,20000),(14000,25000),(25000,25000),(14000,30000),(30000,30000)
+        preview-frame-rate: 30
+        preview-frame-rate-values: 15,20,25,30
+        preview-size: 1920x1080
+        preview-size-values: 1920x1080,1440x1080,1536x864,1456x1456,1440x720,1280x960,1280x720,960x720,960x540,720x720,720x540,640x480,640x360,736x412,544x408,480x360,400x400,352x288,320x240,208x144,176x144
+        recording-hint: false
+        rotation: 0
+        scene-mode: auto
+        scene-mode-values: auto,action,portrait,landscape,night,night-portrait,theatre,beach,snow,fireworks,candlelight,
+        smooth-zoom-supported: false
+        vertical-view-angle: 69.4174
+        video-frame-format: android-opaque
+        video-size: 1920x1080
+        video-size-values: 3648x2056,3648x1824,3840x2160,2160x1080,3264x1840,2592x1952,2048x1536,1920x1080,1440x1080,1536x864,1456x1456,1440x720,1280x960,1280x720,960x720,960x540,720x720,720x540,640x480,640x360,736x412,544x408,480x360,400x400,352x288,320x240,20   video-snapshot-supported: false
+        video-stabilization: false
+        video-stabilization-supported: true
+        whitebalance: auto
+        whitebalance-values: auto,incandescent,fluorescent,daylight,cloudy-daylight
+        zoom: 0
+        zoom-ratios: 100,109,118,127,136,145,154,163,172,181,190,200,209,218,227,236,245,254,263,272,281,290,299,309,318,327,336,345,354,363,372,381,390,399,409,418,427,436,445,454,463,472,481,490,499,509,518,527,536,545,554,563,572,581,590,599,609,618,627,636,   zoom-supported: true
+  Device 0 is closed, no client instance
+== Camera device 1 dynamic info: ==
+  Camera1 API shim is using parameters:
+        CameraParameters::dump: mMap.size = 59
+        antibanding: auto
+        antibanding-values: auto,50hz,60hz
+        auto-exposure-lock: false
+        auto-exposure-lock-supported: true
+        auto-whitebalance-lock: false
+        auto-whitebalance-lock-supported: true
+        effect: none
+        effect-values: none,mono,negative,sepia
+        exposure-compensation: 0
+        exposure-compensation-step: 0.5
+        focal-length: 3.36
+        focus-areas: (0,0,0,0,0)
+        focus-distances: Infinity,Infinity,Infinity
+        focus-mode: fixed
+        focus-mode-values: fixed
+        horizontal-view-angle: 89.2448
+        jpeg-quality: 90
+        jpeg-thumbnail-height: 384
+        jpeg-thumbnail-quality: 90
+        jpeg-thumbnail-size-values: 0x0,208x208,512x256,528x256,512x288,480x320,512x384,512x512
+        jpeg-thumbnail-width: 512
+        max-exposure-compensation: 4
+        max-num-detected-faces-hw: 10
+        max-num-detected-faces-sw: 0
+        max-num-focus-areas: 0
+        max-num-metering-areas: 1
+        max-zoom: 99
+        metering-areas: (0,0,0,0,0)
+        min-exposure-compensation: -4
+        picture-format: jpeg
+        picture-format-values: jpeg
+        picture-size: 2816x2112
+        picture-size-values: 2816x2112,2816x1584,640x480,320x240,1280x720,1440x720,1920x1080,5632x4224,5632x3168,5632x2816,4224x4224
+        preferred-preview-size-for-video: 1920x1080
+        preview-format: yuv420sp
+        preview-format-values: yuv420p,yuv420sp
+        preview-fps-range: 14000,30000
+        preview-fps-range-values: (12000,15000),(15000,15000),(14000,20000),(20000,20000),(14000,25000),(25000,25000),(14000,30000),(30000,30000)
+        preview-frame-rate: 30
+        preview-frame-rate-values: 15,20,25,30
+        preview-size: 1920x1080
+        preview-size-values: 1920x1080,1920x960,1440x1080,1440x720,1280x960,1280x720,960x720,960x544,720x720,640x480,320x240,352x288,208x144,176x144
+        recording-hint: false
+        rotation: 0
+        scene-mode: auto
+        scene-mode-values: auto,action,portrait,landscape,night,night-portrait,theatre,beach,snow,fireworks,candlelight,
+        smooth-zoom-supported: false
+        vertical-view-angle: 75.7216
+        video-frame-format: android-opaque
+        video-size: 1920x1080
+        video-size-values: 2816x2112,2816x1584,2160x1080,1920x1080,1920x960,1440x1080,1440x720,1280x960,1280x720,960x720,960x544,720x720,640x480,320x240,352x288,208x144,176x144
+        video-snapshot-supported: false
+        video-stabilization: false
+        video-stabilization-supported: true
+        whitebalance: auto
+        whitebalance-values: auto,incandescent,fluorescent,daylight,cloudy-daylight
+        zoom: 0
+        zoom-ratios: 100,105,110,115,120,125,130,135,140,145,150,155,160,165,170,175,180,185,190,195,201,206,211,216,221,226,231,236,241,246,251,256,261,266,271,276,281,286,291,296,302,307,312,317,322,327,332,337,342,347,352,357,362,367,372,377,382,387,392,397,   zoom-supported: true
+  Device 1 is closed, no client instance
+== Camera Provider HAL legacy/0 (v2.4, remote) static info: 2 devices: ==
+== Camera HAL device device@3.2/legacy/0 (v3.2) static information: ==
+  Resource cost: 100
+  Conflicting devices: None
+  API1 info:
+    Has a flash unit: true
+    Facing: Back
+    Orientation: 90
+  API2 camera characteristics:
+    Dumping camera metadata array: 293 / 293 entries, 9168 / 9168 bytes of extra data.
+      Version: 1, Flags: 00000000
+      com.huawei.device.capabilities.mmiDualFlashCaptureNumSupported (8001010b): int32[1]
+        [2 ]
+      com.huawei.device.capabilities.device_sensor_position (80010001): int32[1]
+        [0 ]
+      android.lens.facing (80005): byte[1]
+        [BACK ]
+      android.lens.info.minimumFocusDistance (90005): float[1]
+        [10.00000000 ]
+      android.sensor.orientation (e000e): int32[1]
+        [90 ]
+      android.jpeg.orientation (70003): int32[1]
+        [90 ]
+      android.lens.info.availableFocalLengths (90002): float[1]
+        [3.95000005 ]
+      android.flash.info.available (50000): byte[1]
+        [TRUE ]
+      android.sensor.info.physicalSize (f0005): float[2]
+        [7.29600000 5.47200012 ]
+      android.scaler.availableRawSizes (d0008): int32[2]
+        [7296 5472 ]
+      com.huawei.device.capabilities.supported_iso_values (80010004): byte[6]
+        [0 2 3 4 5 7 ]
+      com.huawei.device.capabilities.hwSensorName (80010150): byte[1]
+        [4 ]
+      com.huawei.device.capabilities.hw-af-mmi-control-supported (8001007f): int32[1]
+        [1 ]
+      com.huawei.device.capabilities.hw-af-mmi-far-threashold (80010080): int32[1]
+        [6000 ]
+      com.huawei.device.capabilities.hw-af-mmi-near-threashold (80010081): int32[1]
+        [1 ]
+      com.huawei.device.capabilities.hwHdcAvailableJpegSize (80010026): int32[2]
+        [3648 2736 ]
+      com.huawei.device.capabilities.hwHdcZoomRegion (80010020): int32[4]
+        [0 0 3648 2736 ]
+      com.huawei.device.capabilities.hwSecondHdcAvailableJpegSize (80010027): int32[2]
+        [1632 1224 ]
+      com.huawei.device.capabilities.hwSecondHdcZoomRegion (80010021): int32[4]
+        [1008 756 1632 1224 ]
+      com.huawei.device.capabilities.manualFocusSupported (80010015): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hw-sensor-binning-sizes-supported (800100b0): int32[20]
+        [3968 2976 1984 1488 ]
+        [3968 2240 1984 1120 ]
+        [2976 2976 1488 1488 ]
+        [3264 2448 1632 1224 ]
+        [3264 1840 1632 920 ]
+      com.huawei.device.capabilities.darkRaiderModeSupported (800100b3): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100b4): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.availableJpegSizeAndDuration (800100e1): int32[45]
+        [3648 2736 33331760 640 ]
+        [480 33331760 320 240 ]
+        [33331760 1280 720 33331760 ]
+        [1440 720 33331760 1920 ]
+        [1080 33331760 1456 1456 ]
+        [33331760 3264 1840 33331760 ]
+        [3264 2448 33331760 2048 ]
+        [1536 33331760 2736 2736 ]
+        [33331760 3648 1824 33331760 ]
+        [3648 2056 33331760 3840 ]
+        [2160 33331760 7296 5472 ]
+        [50000000 ]
+      android.scaler.availableJpegSizes (d0003): int32[30]
+        [3648 2736 640 480 ]
+        [320 240 1280 720 ]
+        [1440 720 1920 1080 ]
+        [1456 1456 3264 1840 ]
+        [3264 2448 2048 1536 ]
+        [2736 2736 3648 1824 ]
+        [3648 2056 3840 2160 ]
+        [7296 5472 ]
+      com.huawei.device.capabilities.secondAvailableJpegSizes (800100e0): int32[30]
+        [3648 2736 640 480 ]
+        [320 240 1280 720 ]
+        [1440 720 1920 1080 ]
+        [1456 1456 3264 1840 ]
+        [3264 2448 2048 1536 ]
+        [2736 2736 3648 1824 ]
+        [3648 2056 3840 2160 ]
+        [7296 5472 ]
+      com.huawei.device.capabilities.hwSubSensorJpegSize (800100e3): int32[20]
+        [320 240 640 480 ]
+        [1280 720 1920 1080 ]
+        [2048 1536 3648 2056 ]
+        [3648 1824 2736 2736 ]
+        [3648 2736 5120 3840 ]
+      com.huawei.device.capabilities.hwSubActiveArraySize (800100e4): int32[4]
+        [0 0 5120 3840 ]
+      com.huawei.device.capabilities.availableHighResVideoSizeAndDuration (80010093): int32[3]
+        [3840 2160 33331760 ]
+      com.huawei.device.capabilities.availableProcessedSizeAndDuration (800100e2): int32[99]
+        [3648 2736 33331760 3648 ]
+        [2056 33331760 3648 1824 ]
+        [33331760 2736 2736 33331760 ]
+        [3840 2160 33331760 2160 ]
+        [1080 33331760 3280 2448 ]
+        [33331760 3264 2448 33331760 ]
+        [3264 1840 33331760 2448 ]
+        [2448 33331760 2592 1952 ]
+        [33331760 2048 1536 33331760 ]
+        [1920 1080 33331760 1440 ]
+        [1080 33331760 1536 864 ]
+        [33331760 1456 1456 33331760 ]
+        [1440 720 33331760 1280 ]
+        [960 33331760 1280 720 ]
+        [33331760 960 720 33331760 ]
+        [960 540 33331760 720 ]
+        [720 33331760 720 540 ]
+        [33331760 640 480 33331760 ]
+        [640 360 33331760 736 ]
+        [412 33331760 544 408 ]
+        [33331760 480 360 33331760 ]
+        [400 400 33331760 352 ]
+        [288 33331760 320 240 ]
+        [33331760 208 144 33331760 ]
+        [176 144 33331760 ]
+      android.scaler.availableProcessedSizes (d0006): int32[66]
+        [3648 2736 3648 2056 ]
+        [3648 1824 2736 2736 ]
+        [3840 2160 2160 1080 ]
+        [3280 2448 3264 2448 ]
+        [3264 1840 2448 2448 ]
+        [2592 1952 2048 1536 ]
+        [1920 1080 1440 1080 ]
+        [1536 864 1456 1456 ]
+        [1440 720 1280 960 ]
+        [1280 720 960 720 ]
+        [960 540 720 720 ]
+        [720 540 640 480 ]
+        [640 360 736 412 ]
+        [544 408 480 360 ]
+        [400 400 352 288 ]
+        [320 240 208 144 ]
+        [176 144 ]
+      com.huawei.device.capabilities.secondAvailableProcessedSizes (800100df): int32[66]
+        [3648 2736 3648 2056 ]
+        [3648 1824 2736 2736 ]
+        [3840 2160 2160 1080 ]
+        [3280 2448 3264 2448 ]
+        [3264 1840 2448 2448 ]
+        [2592 1952 2048 1536 ]
+        [1920 1080 1440 1080 ]
+        [1536 864 1456 1456 ]
+        [1440 720 1280 960 ]
+        [1280 720 960 720 ]
+        [960 540 720 720 ]
+        [720 540 640 480 ]
+        [640 360 736 412 ]
+        [544 408 480 360 ]
+        [400 400 352 288 ]
+        [320 240 208 144 ]
+        [176 144 ]
+      com.huawei.device.capabilities.default_value (800100d9): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.hwQuadraSensorFullAndBinningSizes (800100d7): int32[4]
+        [7296 5472 3648 2736 ]
+      com.huawei.device.capabilities.default_value (800100db): byte[1]
+        [0 ]
+      com.huawei.device.capabilities.availbaleDualPrimary (8001001d): byte[3]
+        [0 2 3 ]
+      android.sensor.info.sensitivityRange (f0001): int32[2]
+        [50 3500 ]
+      android.sensor.info.exposureTimeRange (f0003): int64[2]
+        [10000 1000000000 ]
+      android.sensor.info.maxFrameDuration (f0004): int64[1]
+        [9000000000 ]
+      android.sensor.info.pixelArraySize (f0006): int32[2]
+        [7296 5472 ]
+      android.sensor.maxAnalogSensitivity (e000d): int32[1]
+        [1600 ]
+      android.control.afAvailableModes (10017): byte[5]
+        [0 1 2 3 4 ]
+      android.lens.aperture (80000): float[1]
+        [1.79999995 ]
+      android.lens.info.availableApertures (90000): float[1]
+        [1.79999995 ]
+      android.control.aeAvailableModes (10013): byte[4]
+        [0 1 2 3 ]
+      com.huawei.device.capabilities.multiCameraCap (800100dc): int32[3]
+        [1 2 3 ]
+      com.huawei.device.capabilities.availablePreviewDepthSizes (800100dd): int32[8]
+        [960 540 720 540 ]
+        [640 360 480 360 ]
+      com.huawei.device.capabilities.availableCaptureDepthSizes (800100de): int32[4]
+        [992 744 992 558 ]
+      com.huawei.device.capabilities.hwCaptureRawFormat (80010152): byte[1]
+        [32 ]
+      com.huawei.device.capabilities.hwCaptureRawStreamConfigurations (80010153): int32[4]
+        [32 7296 5472 0 ]
+      com.huawei.device.capabilities.hw-sensor-exposure-range (800100a1): int32[2]
+        [250 30000000 ]
+      com.huawei.device.capabilities.sensorWbRange (800100a2): int32[2]
+        [2800 7000 ]
+      com.huawei.device.capabilities.hw-sensor-iso-range (800100a3): int32[2]
+        [50 6400 ]
+      com.huawei.device.capabilities.videoFpsSupported (80010002): int32[2]
+        [120 60 ]
+      com.huawei.device.capabilities.hw-equivalent-focus (80010028): int32[1]
+        [27 ]
+      com.huawei.device.capabilities.default_value (8001011e): byte[1]
+        [1 ]
+      android.sensor.info.colorFilterArrangement (f0002): byte[1]
+        [RGGB ]
+      android.control.availableHighSpeedVideoConfigurations (10023): int32[20]
+        [1920 1080 30 120 ]
+        [1 1280 720 30 ]
+        [240 1 1920 1080 ]
+        [120 120 1 1280 ]
+        [720 240 240 1 ]
+      android.sensor.blackLevelPattern (e000c): int32[4]
+        [64 64 64 64 ]
+      com.huawei.device.capabilities.hwThirdPixelArraySize (80010069): int32[2]
+        [3264 2448 ]
+      com.huawei.device.capabilities.default_value (80010068): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hwThirdActiveArraySize (80010066): int32[4]
+        [0 0 3264 2448 ]
+      com.huawei.device.capabilities.hwThirdSensorJpegSize (80010065): int32[20]
+        [3264 2448 3264 1632 ]
+        [640 480 320 240 ]
+        [1280 720 2048 1536 ]
+        [1920 1080 2448 2448 ]
+        [3264 1840 1536 864 ]
+      com.huawei.device.capabilities.hwMultiCameraSupported (80010061): byte[6]
+        [3 2 4 8 6 10 ]
+      com.huawei.device.capabilities.oisDefaultGryoGain (800100cf): float[2]
+        [0.54500002 0.52137500 ]
+      com.huawei.device.capabilities.hw-ois-supported (8001008a): byte[1]
+        [1 ]
+      android.lens.info.availableOpticalStabilization (90003): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001006b): byte[1]
+        [3 ]
+      android.control.availableSceneModes (10019): byte[14]
+        [1 2 3 4 5 6 7 8 9 12 15 33 34 17 ]
+      com.huawei.device.capabilities.availbaleEffectRange (80010042): int32[2]
+        [1 32 ]
+      com.huawei.device.capabilities.hw-insert-preview-count-in-burst (8001009d): int32[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010040): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.exposureHintSupported (800100a5): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hw-dynamic-iso-range-supported (800100a6): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.professionalModeSupported (800100a0): byte[1]
+        [1 ]
+      android.control.awbAvailableModes (1001b): byte[6]
+        [0 1 2 3 5 6 ]
+      com.huawei.device.capabilities.hw-slow-jpeg-mode-threshold (800100af): int64[1]
+        [50000000 ]
+      com.huawei.device.capabilities.default_value (8001012f): byte[1]
+        [0 ]
+      com.huawei.device.capabilities.hwWatchSupported (80010131): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hwCaptureRequestMaxTimeout (800100d5): int64[1]
+        [34000000000 ]
+      com.huawei.device.capabilities.hwHisiliconPlatform (80010146): byte[1]
+        [1 ]
+      android.jpeg.availableThumbnailSizes (70007): int32[16]
+        [0 0 208 208 ]
+        [512 256 528 256 ]
+        [512 288 480 320 ]
+        [512 384 512 512 ]
+      android.control.aeCompensationStep (10016): rational[1]
+        [(1 / 2) ]
+      android.control.aeCompensationRange (10015): int32[2]
+        [-4 4 ]
+      android.control.aeAvailableTargetFpsRanges (10014): int32[16]
+        [12 15 15 15 ]
+        [14 20 20 20 ]
+        [14 25 25 25 ]
+        [14 30 30 30 ]
+      android.scaler.availableStreamConfigurations (d000a): int32[324]
+        [33 3648 2736 OUTPUT ]
+        [33 640 480 OUTPUT ]
+        [33 320 240 OUTPUT ]
+        [33 1280 720 OUTPUT ]
+        [33 1440 720 OUTPUT ]
+        [33 1920 1080 OUTPUT ]
+        [33 1456 1456 OUTPUT ]
+        [33 3264 1840 OUTPUT ]
+        [33 3264 2448 OUTPUT ]
+        [33 2048 1536 OUTPUT ]
+        [33 2736 2736 OUTPUT ]
+        [33 3648 1824 OUTPUT ]
+        [33 3648 2056 OUTPUT ]
+        [33 3840 2160 OUTPUT ]
+        [33 7296 5472 OUTPUT ]
+        [34 3648 2736 OUTPUT ]
+        [34 3648 2056 OUTPUT ]
+        [34 3648 1824 OUTPUT ]
+        [34 2736 2736 OUTPUT ]
+        [34 3840 2160 OUTPUT ]
+        [34 2160 1080 OUTPUT ]
+        [34 3280 2448 OUTPUT ]
+        [34 3264 2448 OUTPUT ]
+        [34 3264 1840 OUTPUT ]
+        [34 2448 2448 OUTPUT ]
+        [34 2592 1952 OUTPUT ]
+        [34 2048 1536 OUTPUT ]
+        [34 1920 1080 OUTPUT ]
+        [34 1440 1080 OUTPUT ]
+        [34 1536 864 OUTPUT ]
+        [34 1456 1456 OUTPUT ]
+        [34 1440 720 OUTPUT ]
+        [34 1280 960 OUTPUT ]
+        [34 1280 720 OUTPUT ]
+        [34 960 720 OUTPUT ]
+        [34 960 540 OUTPUT ]
+        [34 720 720 OUTPUT ]
+        [34 720 540 OUTPUT ]
+        [34 640 480 OUTPUT ]
+        [34 640 360 OUTPUT ]
+        [34 736 412 OUTPUT ]
+        [34 544 408 OUTPUT ]
+        [34 480 360 OUTPUT ]
+        [34 400 400 OUTPUT ]
+        [34 352 288 OUTPUT ]
+        [34 320 240 OUTPUT ]
+        [34 208 144 OUTPUT ]
+        [34 176 144 OUTPUT ]
+        [35 3648 2736 OUTPUT ]
+        [35 3648 2056 OUTPUT ]
+        [35 3648 1824 OUTPUT ]
+        [35 2736 2736 OUTPUT ]
+        [35 3840 2160 OUTPUT ]
+        [35 2160 1080 OUTPUT ]
+        [35 3280 2448 OUTPUT ]
+        [35 3264 2448 OUTPUT ]
+        [35 3264 1840 OUTPUT ]
+        [35 2448 2448 OUTPUT ]
+        [35 2592 1952 OUTPUT ]
+        [35 2048 1536 OUTPUT ]
+        [35 1920 1080 OUTPUT ]
+        [35 1440 1080 OUTPUT ]
+        [35 1536 864 OUTPUT ]
+        [35 1456 1456 OUTPUT ]
+        [35 1440 720 OUTPUT ]
+        [35 1280 960 OUTPUT ]
+        [35 1280 720 OUTPUT ]
+        [35 960 720 OUTPUT ]
+        [35 960 540 OUTPUT ]
+        [35 720 720 OUTPUT ]
+        [35 720 540 OUTPUT ]
+        [35 640 480 OUTPUT ]
+        [35 640 360 OUTPUT ]
+        [35 736 412 OUTPUT ]
+        [35 544 408 OUTPUT ]
+        [35 480 360 OUTPUT ]
+        [35 400 400 OUTPUT ]
+        [35 352 288 OUTPUT ]
+        [35 320 240 OUTPUT ]
+        [35 208 144 OUTPUT ]
+        [35 176 144 OUTPUT ]
+      android.scaler.availableMinFrameDurations (d000b): int64[324]
+        [33 3648 ]
+        [2736 33331760 ]
+        [33 640 ]
+        [480 33331760 ]
+        [33 320 ]
+        [240 33331760 ]
+        [33 1280 ]
+        [720 33331760 ]
+        [33 1440 ]
+        [720 33331760 ]
+        [33 1920 ]
+        [1080 33331760 ]
+        [33 1456 ]
+        [1456 33331760 ]
+        [33 3264 ]
+        [1840 33331760 ]
+        [33 3264 ]
+        [2448 33331760 ]
+        [33 2048 ]
+        [1536 33331760 ]
+        [33 2736 ]
+        [2736 33331760 ]
+        [33 3648 ]
+        [1824 33331760 ]
+        [33 3648 ]
+        [2056 33331760 ]
+        [33 3840 ]
+        [2160 33331760 ]
+        [33 7296 ]
+        [5472 50000000 ]
+        [34 3648 ]
+        [2736 33331760 ]
+        [34 3648 ]
+        [2056 33331760 ]
+        [34 3648 ]
+        [1824 33331760 ]
+        [34 2736 ]
+        [2736 33331760 ]
+        [34 3840 ]
+        [2160 33331760 ]
+        [34 2160 ]
+        [1080 33331760 ]
+        [34 3280 ]
+        [2448 33331760 ]
+        [34 3264 ]
+        [2448 33331760 ]
+        [34 3264 ]
+        [1840 33331760 ]
+        [34 2448 ]
+        [2448 33331760 ]
+        [34 2592 ]
+        [1952 33331760 ]
+        [34 2048 ]
+        [1536 33331760 ]
+        [34 1920 ]
+        [1080 33331760 ]
+        [34 1440 ]
+        [1080 33331760 ]
+        [34 1536 ]
+        [864 33331760 ]
+        [34 1456 ]
+        [1456 33331760 ]
+        [34 1440 ]
+        [720 33331760 ]
+        [34 1280 ]
+        [960 33331760 ]
+        [34 1280 ]
+        [720 33331760 ]
+        [34 960 ]
+        [720 33331760 ]
+        [34 960 ]
+        [540 33331760 ]
+        [34 720 ]
+        [720 33331760 ]
+        [34 720 ]
+        [540 33331760 ]
+        [34 640 ]
+        [480 33331760 ]
+        [34 640 ]
+        [360 33331760 ]
+        [34 736 ]
+        [412 33331760 ]
+        [34 544 ]
+        [408 33331760 ]
+        [34 480 ]
+        [360 33331760 ]
+        [34 400 ]
+        [400 33331760 ]
+        [34 352 ]
+        [288 33331760 ]
+        [34 320 ]
+        [240 33331760 ]
+        [34 208 ]
+        [144 33331760 ]
+        [34 176 ]
+        [144 33331760 ]
+        [35 3648 ]
+        [2736 33331760 ]
+        [35 3648 ]
+        [2056 33331760 ]
+        [35 3648 ]
+        [1824 33331760 ]
+        [35 2736 ]
+        [2736 33331760 ]
+        [35 3840 ]
+        [2160 33331760 ]
+        [35 2160 ]
+        [1080 33331760 ]
+        [35 3280 ]
+        [2448 33331760 ]
+        [35 3264 ]
+        [2448 33331760 ]
+        [35 3264 ]
+        [1840 33331760 ]
+        [35 2448 ]
+        [2448 33331760 ]
+        [35 2592 ]
+        [1952 33331760 ]
+        [35 2048 ]
+        [1536 33331760 ]
+        [35 1920 ]
+        [1080 33331760 ]
+        [35 1440 ]
+        [1080 33331760 ]
+        [35 1536 ]
+        [864 33331760 ]
+        [35 1456 ]
+        [1456 33331760 ]
+        [35 1440 ]
+        [720 33331760 ]
+        [35 1280 ]
+        [960 33331760 ]
+        [35 1280 ]
+        [720 33331760 ]
+        [35 960 ]
+        [720 33331760 ]
+        [35 960 ]
+        [540 33331760 ]
+        [35 720 ]
+        [720 33331760 ]
+        [35 720 ]
+        [540 33331760 ]
+        [35 640 ]
+        [480 33331760 ]
+        [35 640 ]
+        [360 33331760 ]
+        [35 736 ]
+        [412 33331760 ]
+        [35 544 ]
+        [408 33331760 ]
+        [35 480 ]
+        [360 33331760 ]
+        [35 400 ]
+        [400 33331760 ]
+        [35 352 ]
+        [288 33331760 ]
+        [35 320 ]
+        [240 33331760 ]
+        [35 208 ]
+        [144 33331760 ]
+        [35 176 ]
+        [144 33331760 ]
+      android.scaler.availableStallDurations (d000c): int64[60]
+        [33 3648 ]
+        [2736 33331760 ]
+        [33 640 ]
+        [480 33331760 ]
+        [33 320 ]
+        [240 33331760 ]
+        [33 1280 ]
+        [720 33331760 ]
+        [33 1440 ]
+        [720 33331760 ]
+        [33 1920 ]
+        [1080 33331760 ]
+        [33 1456 ]
+        [1456 33331760 ]
+        [33 3264 ]
+        [1840 33331760 ]
+        [33 3264 ]
+        [2448 33331760 ]
+        [33 2048 ]
+        [1536 33331760 ]
+        [33 2736 ]
+        [2736 33331760 ]
+        [33 3648 ]
+        [1824 33331760 ]
+        [33 3648 ]
+        [2056 33331760 ]
+        [33 3840 ]
+        [2160 33331760 ]
+        [33 7296 ]
+        [5472 33331760 ]
+      android.request.availableCharacteristicsKeys (c000f): int32[86]
+        [65554 65555 65556 65557 ]
+        [65558 65559 65560 65561 ]
+        [65562 65563 65564 65565 ]
+        [327680 4 327681 458759 ]
+        [458760 589824 589825 589826 ]
+        [589827 589828 589829 589830 ]
+        [589831 524293 786438 786440 ]
+        [786442 786444 786445 786446 ]
+        [786447 786443 851972 851977 ]
+        [851978 851981 851979 917513 ]
+        [917507 917508 917514 917511 ]
+        [917512 917509 917510 983040 ]
+        [983041 983042 983043 983044 ]
+        [983045 983046 983047 917515 ]
+        [983048 917516 917517 917518 ]
+        [917529 1179648 1179649 1179650 ]
+        [1179651 1179652 1179653 393217 ]
+        [196610 655362 1245189 1179654 ]
+        [1245188 1507329 65574 65572 ]
+        [65573 1179655 1048578 1376256 ]
+        [983050 1638400 1638404 1638401 ]
+        [1638402 1638403 ]
+      com.huawei.device.capabilities.hwResourceCost (8001011a): int32[1]
+        [100 ]
+      com.huawei.device.capabilities.default_value (8001011b): byte[1]
+        [1 ]
+      android.info.supportedHardwareLevel (150000): byte[1]
+        [LIMITED ]
+      android.scaler.croppingType (d000d): byte[1]
+        [FREEFORM ]
+      android.shading.availableModes (100002): byte[2]
+        [0 1 ]
+      android.statistics.info.availableLensShadingMapModes (120007): byte[2]
+        [0 1 ]
+      android.lens.info.shadingMapSize (90006): int32[2]
+        [4 3 ]
+      android.statistics.lensShadingCorrectionMap (11000a): byte[1]
+        [0 ]
+      android.edge.availableEdgeModes (30002): byte[3]
+        [0 1 2 ]
+      android.noiseReduction.availableNoiseReductionModes (a0002): byte[3]
+        [0 1 2 ]
+      android.hotPixel.availableHotPixelModes (60001): byte[1]
+        [1 ]
+      android.lens.info.focusDistanceCalibration (90007): byte[1]
+        [CALIBRATED ]
+      android.request.maxNumInputStreams (c0008): int32[1]
+        [0 ]
+      android.request.pipelineMaxDepth (c000a): byte[1]
+        [8 ]
+      android.request.partialResultCount (c000b): int32[1]
+        [1 ]
+      android.request.availableRequestKeys (c000d): int32[61]
+        [0 1 2 3 ]
+        [65536 65537 65539 65540 ]
+        [65541 65542 65543 65545 ]
+        [65546 65547 65549 65550 ]
+        [65551 65552 65553 131072 ]
+        [196608 196609 262144 262145 ]
+        [262146 458752 458753 458754 ]
+        [458755 458756 458757 458758 ]
+        [524288 524289 524290 524291 ]
+        [524292 655360 655361 786433 ]
+        [786437 851968 917505 393216 ]
+        [1114115 1048576 1048577 1114112 ]
+        [1114113 1114114 1114128 1245184 ]
+        [1114123 1114122 1245185 1245186 ]
+        [1245187 1441792 786441 917528 ]
+        [65544 ]
+      android.request.availableResultKeys (c000e): int32[63]
+        [0 1 2 3 ]
+        [65539 65540 65567 65543 ]
+        [65545 65568 65547 65570 ]
+        [65551 196608 262144 262145 ]
+        [262146 262149 458752 458753 ]
+        [458754 458755 458756 458757 ]
+        [458758 524288 524289 524290 ]
+        [524291 524296 524297 524292 ]
+        [655360 786433 851968 1048576 ]
+        [917505 917520 917522 917525 ]
+        [1441792 1245184 1245185 1245186 ]
+        [1245187 1114112 1114113 1114121 ]
+        [1114114 1114124 1114125 1114126 ]
+        [1114116 1114117 1114118 1114119 ]
+        [1114123 1114122 917528 65544 ]
+        [917523 917526 1114115 ]
+      android.control.awbLockAvailable (10025): byte[1]
+        [TRUE ]
+      android.control.aeLockAvailable (10024): byte[1]
+        [TRUE ]
+      android.sensor.availableTestPatternModes (e0019): int32[1]
+        [0 ]
+      android.sensor.info.timestampSource (f0008): byte[1]
+        [REALTIME ]
+      android.statistics.info.availableHotPixelMapModes (120006): byte[1]
+        [0 ]
+      android.tonemap.availableToneMapModes (130005): byte[3]
+        [0 1 2 ]
+      android.sync.maxLatency (170001): int32[1]
+        [5 ]
+      android.scaler.availableInputOutputFormatsMap (d0009): int32[0]
+      android.sensor.info.activeArraySize (f0000): int32[4]
+        [0 0 7296 5472 ]
+      android.sensor.info.preCorrectionActiveArraySize (f000a): int32[4]
+        [0 0 7296 5472 ]
+      android.control.maxRegions (1001c): int32[3]
+        [1 0 1 ]
+      android.colorCorrection.availableAberrationModes (00004): byte[3]
+        [0 1 2 ]
+      android.request.maxNumOutputStreams (c0006): int32[3]
+        [1 3 1 ]
+      android.statistics.info.maxFaceCount (120002): int32[1]
+        [10 ]
+      android.sensor.referenceIlluminant1 (e0003): byte[1]
+        [D65 ]
+      android.sensor.referenceIlluminant2 (e0004): byte[1]
+        [17 ]
+      android.sensor.calibrationTransform1 (e0005): rational[9]
+        [(128 / 128) (0 / 128) ]
+        [(0 / 128) (0 / 128) ]
+        [(128 / 128) (0 / 128) ]
+        [(0 / 128) (0 / 128) ]
+        [(128 / 128) ]
+      android.sensor.calibrationTransform2 (e0006): rational[9]
+        [(128 / 128) (0 / 128) ]
+        [(0 / 128) (0 / 128) ]
+        [(128 / 128) (0 / 128) ]
+        [(0 / 128) (0 / 128) ]
+        [(128 / 128) ]
+      android.sensor.colorTransform1 (e0007): rational[9]
+        [(1094 / 1024) (-306 / 1024) ]
+        [(-146 / 1024) (-442 / 1024) ]
+        [(1388 / 1024) (52 / 1024) ]
+        [(-104 / 1024) (250 / 1024) ]
+        [(600 / 1024) ]
+      android.sensor.colorTransform2 (e0008): rational[9]
+        [(2263 / 1024) (-1364 / 1024) ]
+        [(-145 / 1024) (-194 / 1024) ]
+        [(1257 / 1024) (-56 / 1024) ]
+        [(-24 / 1024) (187 / 1024) ]
+        [(618 / 1024) ]
+      android.sensor.forwardMatrix1 (e0009): rational[9]
+        [(612 / 1024) (233 / 1024) ]
+        [(139 / 1024) (199 / 1024) ]
+        [(831 / 1024) (-6 / 1024) ]
+        [(15 / 1024) (-224 / 1024) ]
+        [(1049 / 1024) ]
+      android.sensor.forwardMatrix2 (e000a): rational[9]
+        [(441 / 1024) (317 / 1024) ]
+        [(226 / 1024) (29 / 1024) ]
+        [(908 / 1024) (87 / 1024) ]
+        [(9 / 1024) (-655 / 1024) ]
+        [(1486 / 1024) ]
+      android.lens.info.availableFilterDensities (90001): float[1]
+        [0.00000000 ]
+      android.lens.info.hyperfocalDistance (90004): float[1]
+        [0.20000000 ]
+      android.tonemap.maxCurvePoints (130004): int32[1]
+        [257 ]
+      android.control.sceneModeOverrides (1001d): byte[42]
+        [0 0 0 2 1 4 0 0 0 0 0 0 2 2 1 0 ]
+        [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]
+        [0 0 0 0 0 0 0 0 0 0 ]
+      android.control.availableModes (10026): byte[3]
+        [0 1 2 ]
+      android.flash.info.chargeDuration (50001): int64[1]
+        [1000000000 ]
+      android.depth.maxDepthSamples (190000): int32[1]
+        [100 ]
+      android.depth.depthIsExclusive (190004): byte[1]
+        [TRUE ]
+      android.depth.availableDepthStreamConfigurations (190001): int32[24]
+        [540422489 960 540 OUTPUT ]
+        [540422489 720 540 OUTPUT ]
+        [540422489 640 360 OUTPUT ]
+        [540422489 480 360 OUTPUT ]
+        [540422489 992 744 OUTPUT ]
+        [540422489 992 558 OUTPUT ]
+      android.depth.availableDepthMinFrameDurations (190002): int64[24]
+        [540422489 960 ]
+        [540 33331760 ]
+        [540422489 720 ]
+        [540 33331760 ]
+        [540422489 640 ]
+        [360 33331760 ]
+        [540422489 480 ]
+        [360 33331760 ]
+        [540422489 992 ]
+        [744 33331760 ]
+        [540422489 992 ]
+        [558 33331760 ]
+      android.depth.availableDepthStallDurations (190003): int64[24]
+        [540422489 960 ]
+        [540 33331760 ]
+        [540422489 720 ]
+        [540 33331760 ]
+        [540422489 640 ]
+        [360 33331760 ]
+        [540422489 480 ]
+        [360 33331760 ]
+        [540422489 3648 ]
+        [2736 33331760 ]
+        [540422489 640 ]
+        [480 33331760 ]
+      android.sensor.info.whiteLevel (f0007): int32[1]
+        [1023 ]
+      com.huawei.device.capabilities.default_value (80010078): byte[1]
+        [1 ]
+      android.request.availableCapabilities (c000c): byte[3]
+        [BACKWARD_COMPATIBLE MANUAL_POST_PROCESSING CONSTRAINED_HIGH_SPEED_VIDEO ]
+      com.huawei.device.capabilities.burstJpegQuality (80010019): int32[1]
+        [90 ]
+      com.huawei.capture.metadata.default_value (800000cb): byte[2]
+        [95 90 ]
+      android.jpeg.maxSize (70008): int32[1]
+        [18874368 ]
+      android.scaler.availableFormats (d0001): int32[4]
+        [YV12 YCrCb_420_SP BLOB IMPLEMENTATION_DEFINED ]
+      android.statistics.info.availableFaceDetectModes (120000): byte[3]
+        [0 1 2 ]
+      android.control.availableEffects (10018): byte[4]
+        [0 1 2 4 ]
+      android.control.aeAvailableAntibandingModes (10012): byte[3]
+        [3 1 2 ]
+      com.huawei.device.capabilities.faceBeautySupported (8001000b): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.videoBeatySupported (8001000c): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.bestModeSupported (8001000e): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.allfocusModeSupported (8001000f): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.lcdCompensateSupported (80010011): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hdrMovieSupported (80010012): byte[1]
+        [0 ]
+      com.huawei.device.capabilities.magnifier_supported (80010014): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.burstModeSupported (8001000a): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.smileDetectionSupported (80010029): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.faceBeautyRange (80010032): int32[2]
+        [0 10 ]
+      com.huawei.device.capabilities.postProcessSupported (80010033): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.denoiseSupported (80010034): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.target_tracking_supported (80010035): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010144): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.availbaleMetering (80010009): byte[4]
+        [1 2 3 0 ]
+      com.huawei.device.capabilities.supported_sharpness (80010008): byte[6]
+        [0 1 2 3 4 5 ]
+      com.huawei.device.capabilities.availbaleBrightness (80010007): byte[5]
+        [0 1 2 3 4 ]
+      com.huawei.device.capabilities.availbaleSaturation (80010006): byte[5]
+        [0 1 2 3 4 ]
+      com.huawei.device.capabilities.availbaleContrast (80010005): byte[5]
+        [0 1 2 3 4 ]
+      com.huawei.device.capabilities.videoCallbackSupported (80010043): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.availbaleRelayoutModes (80010083): byte[2]
+        [0 1 ]
+      com.huawei.device.capabilities.hwExposureCompensationSupported (80010085): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hwExposureCompensationStep (80010086): float[1]
+        [0.10000000 ]
+      com.huawei.device.capabilities.hw-fbcd-raw-supported (800100c2): int32[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100c4): byte[2]
+        [1 2 ]
+      com.huawei.device.capabilities.fastBinderSupported (80010057): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.burstCountSupported (80010018): int32[1]
+        [100 ]
+      com.huawei.device.capabilities.flashAssistFocusSupported (800100a7): byte[4]
+        [0 1 2 3 ]
+      com.huawei.device.capabilities.hwRequireVideoStatus (800100a8): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.manualVcmStartValue (80010016): int32[1]
+        [0 ]
+      com.huawei.device.capabilities.manualVcmEndValue (80010017): int32[1]
+        [1023 ]
+      com.huawei.device.capabilities.hw_high_res_video_zsl_mode (80010092): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.default_value (8001004d): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.default_value (8001004e): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010119): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.speedupCaptureSupported (80010102): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010129): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010136): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100bd): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100b5): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100b6): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100b8): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100bc): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001006d): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010138): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100b7): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100b9): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100ba): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hwCameraMemoryRequirementSupported (80010140): int32[3]
+        [300 50 100 ]
+      com.huawei.device.capabilities.default_value (80010054): byte[20]
+        [1 1 2 1 3 2 4 4 5 2 6 1 7 1 8 1 ]
+        [9 1 10 3 ]
+      com.huawei.device.capabilities.default_value (80010055): byte[1]
+        [11 ]
+      com.huawei.device.capabilities.default_value (80010098): byte[3]
+        [1 0 1 ]
+      com.huawei.device.capabilities.default_value (80010151): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.hw-pre-shutter-supported (800100aa): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.dmWaterMarkSupported (8001004a): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.opticalZoomThreshold (8001012a): byte[2]
+        [5 3 ]
+      com.huawei.device.capabilities.opticalMaxZoomValue (8001012c): byte[1]
+        [10 ]
+      com.huawei.device.capabilities.fairlightSupported (80010023): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.fairlightValueSupported (80010024): byte[11]
+        [48 44 49 44 50 44 51 44 52 44 53 ]
+      com.huawei.device.capabilities.lcdFlashStatusSupported (800100c0): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.availbaleLightPaintingModes (80010082): byte[6]
+        [0 1 2 3 4 5 ]
+      com.huawei.device.capabilities.exposureLevelRange (80010084): int32[2]
+        [1 60 ]
+      com.huawei.device.capabilities.availbaleSupernightExposureTime (80010089): byte[13]
+        [0 14 15 16 17 18 19 20 21 22 23 24 25 ]
+      com.huawei.device.capabilities.availbaleSupernightIso (80010088): byte[6]
+        [0 2 3 4 5 7 ]
+      com.huawei.device.capabilities.mmiTestFeatureSupported (80010107): byte[50]
+        [65 70 67 32 65 70 67 44 65 70 67 32 80 68 65 70 ]
+        [32 65 70 67 44 65 70 67 32 65 70 67 32 79 73 83 ]
+        [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]
+        [0 0 ]
+      com.huawei.device.capabilities.mmiTestFeatureCameraId (80010108): byte[50]
+        [56 32 54 44 54 32 54 32 56 44 56 32 54 32 56 0 ]
+        [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]
+        [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]
+        [0 0 ]
+      com.huawei.device.capabilities.hwHdcCameraId (80010109): byte[50]
+        [49 48 32 54 0 0 0 0 0 0 0 0 0 0 0 0 ]
+        [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]
+        [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]
+        [0 0 ]
+      com.huawei.device.capabilities.mmiHdcDelaySupported (8001010a): int32[1]
+        [500 ]
+      com.huawei.device.capabilities.smartSuggestSupported (8001007e): byte[1]
+        [3 ]
+      android.control.availableVideoStabilizationModes (1001a): byte[2]
+        [0 1 ]
+      com.huawei.device.capabilities.hwVideoStabilizationDefaultOn (80010010): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.frontVirtualEffectSupportedValue (80010110): byte[2]
+        [0 10 ]
+      com.huawei.device.capabilities.niceFoodSupported (80010045): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.bigApertureSupported (80010038): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.bigApertureZoomThreshold (8001012b): byte[1]
+        [3 ]
+      com.huawei.device.capabilities.apertureValueSupported (8001003a): byte[41]
+        [48 44 49 44 50 44 51 44 52 44 53 44 54 44 55 44 ]
+        [56 44 57 44 49 48 44 49 49 44 49 50 44 49 51 44 ]
+        [49 52 44 49 53 44 49 54 0 ]
+      com.huawei.device.capabilities.bigApertureMonoSupported (80010039): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.portraitModeSupported (8001010d): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.frontCasioMeiwoSupported (8001014f): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010121): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hwLaserVersion (8001010c): int32[1]
+        [2 ]
+      com.huawei.device.capabilities.ReDmapActiveArraySize (80010125): int32[12]
+        [960 540 720 540 ]
+        [540 540 1280 720 ]
+        [960 720 720 720 ]
+      com.huawei.device.capabilities.DmapDenseMaxActiveSize (80010126): int32[2]
+        [960 540 ]
+      com.huawei.device.capabilities.DmapCameraAlgorithmAlignLimited (80010127): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.zslSupported (8001000d): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.hw_video_recorder_zsl_mode (80010091): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.clickDownCaptureSupported (8001007a): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.afLockBinderizedSupported (8001007b): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.appBindCoreSupported (8001007c): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.superSlowMotionSupported (80010149): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001006f): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010070): byte[1]
+        [4 ]
+      com.huawei.device.capabilities.default_value (80010071): byte[1]
+        [0 ]
+      com.huawei.device.capabilities.default_value (8001014a): byte[6]
+        [30 0 64 3 30 0 ]
+      com.huawei.device.capabilities.prepareCaptureSupported (800100ff): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001005f): byte[1]
+        [1 ]
+      android.scaler.availableMaxDigitalZoom (d0004): float[1]
+        [10.00000000 ]
+      com.huawei.device.capabilities.monoModeSupported (800100be): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.highVideoCallbackThresholdSupported (80010044): byte[1]
+        [60 ]
+      com.huawei.device.capabilities.supportedColorModes (80010106): byte[3]
+        [0 1 2 ]
+      com.huawei.device.capabilities.metadataCallbackStreamSupportedSizes (800100e6): int32[2]
+        [400 400 ]
+      com.huawei.device.capabilities.hw_dm_type_single_flash (8001008e): byte[1]
+        [64 ]
+      com.huawei.device.capabilities.hw_dm_type_multidns (8001008f): byte[1]
+        [64 ]
+      com.huawei.device.capabilities.hw_dm_type_hdr (80010090): byte[1]
+        [66 ]
+      com.huawei.device.capabilities.afTriggerLockSupported (80010100): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hwMaxPreviwResolution (800100f5): int32[2]
+        [3968 2976 ]
+      com.huawei.device.capabilities.quickthumbnailResolutionSupported (80010030): int32[8]
+        [1456 1456 2048 1536 ]
+        [1920 1080 2160 1080 ]
+      com.huawei.device.capabilities.default_value (80010077): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hw3DModelSupported (80010132): byte[1]
+        [0 ]
+      com.huawei.device.capabilities.hwAvailableDepthStreamConfigurations (80010134): int32[24]
+        [960 540 0 720 ]
+        [540 0 640 360 ]
+        [0 480 360 0 ]
+        [960 540 1 720 ]
+        [540 1 640 360 ]
+        [1 480 360 1 ]
+      com.huawei.device.capabilities.interruptedTafSupported (80010101): byte[1]
+        [1 ]
+      com.huawei.capture.metadata.default_value (80000120): byte[1]
+        [15 ]
+      com.huawei.device.capabilities.default_value (80010052): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010072): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010073): byte[1]
+        [0 ]
+      com.huawei.device.capabilities.default_value (8001001e): byte[1]
+        [4 ]
+      com.huawei.device.capabilities.hw_max_buffer_count (80010094): int32[1]
+        [7 ]
+      com.huawei.device.capabilities.hw_max_jpeg_buffer_count (80010095): int32[1]
+        [4 ]
+      com.huawei.device.capabilities.burst_yuv_buffer_count (8001001a): int32[1]
+        [4 ]
+      com.huawei.device.capabilities.default_value (8001006e): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hw-quickthumbnail-size (800100ad): int32[1]
+        [2097152 ]
+      com.huawei.device.capabilities.quickThumbnailRotated (800100ae): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.burst_raw_buffer_count (8001001b): int32[1]
+        [8 ]
+      com.huawei.device.capabilities.default_value (8001013b): byte[1]
+        [16 ]
+      com.huawei.device.capabilities.hw_max_video_buffer_count (80010096): int32[1]
+        [6 ]
+      com.huawei.device.capabilities.hw_max_high_video_buffer_count (80010097): int32[6]
+        [1920 1080 12 1280 ]
+        [720 18 ]
+      com.huawei.device.capabilities.hw-camera-api2-supported (800100c7): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.maxUsableRAM (800100f2): int32[1]
+        [2097152 ]
+      com.huawei.device.capabilities.default_value (800100f3): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hw_camera_carveout_ram_supported (800100c6): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.availbaleEffectModes (8001003f): byte[9]
+        [0 3 4 6 8 13 15 19 20 ]
+      com.huawei.device.capabilities.default_value (8001013c): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010058): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010059): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001007d): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001013e): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001013f): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.DmapActiveArraySize (80010124): int32[24]
+        [1080 540 960 540 ]
+        [720 540 540 540 ]
+        [720 360 640 360 ]
+        [480 360 360 360 ]
+        [512 288 480 240 ]
+        [320 240 240 240 ]
+      com.huawei.device.capabilities.superfastshotModeSupported (80010148): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001004f): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.4d-tracking-supported (8001014d): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010050): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010154): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010053): byte[1]
+        [1 ]
+== Camera HAL device device@3.2/legacy/1 (v3.2) static information: ==
+  Resource cost: 100
+  Conflicting devices: None
+  API1 info:
+    Has a flash unit: false
+    Facing: Front
+    Orientation: 270
+  API2 camera characteristics:
+    Dumping camera metadata array: 234 / 234 entries, 5248 / 5248 bytes of extra data.
+      Version: 1, Flags: 00000000
+      com.huawei.device.capabilities.mmiDualFlashCaptureNumSupported (8001010b): int32[1]
+        [2 ]
+      com.huawei.device.capabilities.device_sensor_position (80010001): int32[1]
+        [1 ]
+      com.huawei.device.capabilities.seamlessSupported (8001004b): byte[1]
+        [0 ]
+      android.lens.facing (80005): byte[1]
+        [FRONT ]
+      android.lens.info.minimumFocusDistance (90005): float[1]
+        [0.00000000 ]
+      android.sensor.orientation (e000e): int32[1]
+        [270 ]
+      android.jpeg.orientation (70003): int32[1]
+        [270 ]
+      android.lens.info.availableFocalLengths (90002): float[1]
+        [3.35999990 ]
+      android.flash.info.available (50000): byte[1]
+        [FALSE ]
+      android.sensor.info.physicalSize (f0005): float[2]
+        [6.63199997 5.22399998 ]
+      android.scaler.availableRawSizes (d0008): int32[2]
+        [5632 4224 ]
+      com.huawei.device.capabilities.supported_iso_values (80010004): byte[6]
+        [0 2 3 4 5 7 ]
+      com.huawei.device.capabilities.hw-sensor-binning-sizes-supported (800100b0): int32[8]
+        [5632 4224 2816 2112 ]
+        [5632 3168 2816 1584 ]
+      com.huawei.device.capabilities.darkRaiderModeSupported (800100b3): byte[1]
+        [0 ]
+      android.sensor.info.pixelArraySize (f0006): int32[2]
+        [5632 4224 ]
+      android.sensor.maxAnalogSensitivity (e000d): int32[1]
+        [3200 ]
+      android.sensor.info.exposureTimeRange (f0003): int64[2]
+        [100000 1000000000 ]
+      android.sensor.info.maxFrameDuration (f0004): int64[1]
+        [200000000 ]
+      com.huawei.device.capabilities.availableJpegSizeAndDuration (800100e1): int32[33]
+        [2816 2112 33331760 2816 ]
+        [1584 33331760 640 480 ]
+        [33331760 320 240 33331760 ]
+        [1280 720 33331760 1440 ]
+        [720 33331760 1920 1080 ]
+        [33331760 5632 4224 46620000 ]
+        [5632 3168 36219000 5632 ]
+        [2816 36219000 4224 4224 ]
+        [33331760 ]
+      android.scaler.availableJpegSizes (d0003): int32[22]
+        [2816 2112 2816 1584 ]
+        [640 480 320 240 ]
+        [1280 720 1440 720 ]
+        [1920 1080 5632 4224 ]
+        [5632 3168 5632 2816 ]
+        [4224 4224 ]
+      com.huawei.device.capabilities.availableProcessedSizeAndDuration (800100e2): int32[51]
+        [2816 2112 33331760 2816 ]
+        [1584 33331760 2160 1080 ]
+        [33331760 1920 1080 33331760 ]
+        [1920 960 33331760 1440 ]
+        [1080 33331760 1440 720 ]
+        [33331760 1280 960 33331760 ]
+        [1280 720 33331760 960 ]
+        [720 33331760 960 544 ]
+        [33331760 720 720 33331760 ]
+        [640 480 33331760 320 ]
+        [240 33331760 352 288 ]
+        [33331760 208 144 33331760 ]
+        [176 144 33331760 ]
+      android.scaler.availableProcessedSizes (d0006): int32[34]
+        [2816 2112 2816 1584 ]
+        [2160 1080 1920 1080 ]
+        [1920 960 1440 1080 ]
+        [1440 720 1280 960 ]
+        [1280 720 960 720 ]
+        [960 544 720 720 ]
+        [640 480 320 240 ]
+        [352 288 208 144 ]
+        [176 144 ]
+      com.huawei.device.capabilities.default_value (800100d9): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.hwQuadraSensorFullAndBinningSizes (800100d7): int32[16]
+        [5632 4224 2816 2112 ]
+        [5632 3168 2816 1584 ]
+        [5632 2816 2816 1408 ]
+        [4224 4224 2112 2112 ]
+      com.huawei.device.capabilities.default_value (800100db): byte[1]
+        [0 ]
+      android.control.afAvailableModes (10017): byte[1]
+        [0 ]
+      android.lens.aperture (80000): float[1]
+        [2.00000000 ]
+      android.lens.info.availableApertures (90000): float[1]
+        [2.00000000 ]
+      android.control.aeAvailableModes (10013): byte[2]
+        [0 1 ]
+      android.sensor.info.sensitivityRange (f0001): int32[2]
+        [50 3200 ]
+      com.huawei.device.capabilities.manualFocusSupported (80010015): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hw-equivalent-focus (80010028): int32[1]
+        [26 ]
+      com.huawei.device.capabilities.captureMirrorSupported (80010013): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hw-sensor-drop-start-frame-count (800100b2): int32[1]
+        [1 ]
+      android.sensor.info.colorFilterArrangement (f0002): byte[1]
+        [BGGR ]
+      android.sensor.blackLevelPattern (e000c): int32[4]
+        [64 64 64 64 ]
+      android.control.availableSceneModes (10019): byte[14]
+        [1 2 3 4 5 6 7 8 9 12 15 33 34 17 ]
+      com.huawei.device.capabilities.availbaleEffectRange (80010042): int32[2]
+        [1 32 ]
+      com.huawei.device.capabilities.hw-insert-preview-count-in-burst (8001009d): int32[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010040): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.exposureHintSupported (800100a5): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hw-dynamic-iso-range-supported (800100a6): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.professionalModeSupported (800100a0): byte[1]
+        [1 ]
+      android.control.awbAvailableModes (1001b): byte[6]
+        [0 1 2 3 5 6 ]
+      com.huawei.device.capabilities.hw-slow-jpeg-mode-threshold (800100af): int64[1]
+        [50000000 ]
+      com.huawei.device.capabilities.default_value (8001012f): byte[1]
+        [0 ]
+      com.huawei.device.capabilities.hwWatchSupported (80010131): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hwCaptureRequestMaxTimeout (800100d5): int64[1]
+        [34000000000 ]
+      com.huawei.device.capabilities.hwHisiliconPlatform (80010146): byte[1]
+        [1 ]
+      android.jpeg.availableThumbnailSizes (70007): int32[16]
+        [0 0 208 208 ]
+        [512 256 528 256 ]
+        [512 288 480 320 ]
+        [512 384 512 512 ]
+      android.control.aeCompensationStep (10016): rational[1]
+        [(1 / 2) ]
+      android.control.aeCompensationRange (10015): int32[2]
+        [-4 4 ]
+      android.control.aeAvailableTargetFpsRanges (10014): int32[16]
+        [12 15 15 15 ]
+        [14 20 20 20 ]
+        [14 25 25 25 ]
+        [14 30 30 30 ]
+      android.scaler.availableStreamConfigurations (d000a): int32[180]
+        [33 2816 2112 OUTPUT ]
+        [33 2816 1584 OUTPUT ]
+        [33 640 480 OUTPUT ]
+        [33 320 240 OUTPUT ]
+        [33 1280 720 OUTPUT ]
+        [33 1440 720 OUTPUT ]
+        [33 1920 1080 OUTPUT ]
+        [33 5632 4224 OUTPUT ]
+        [33 5632 3168 OUTPUT ]
+        [33 5632 2816 OUTPUT ]
+        [33 4224 4224 OUTPUT ]
+        [34 2816 2112 OUTPUT ]
+        [34 2816 1584 OUTPUT ]
+        [34 2160 1080 OUTPUT ]
+        [34 1920 1080 OUTPUT ]
+        [34 1920 960 OUTPUT ]
+        [34 1440 1080 OUTPUT ]
+        [34 1440 720 OUTPUT ]
+        [34 1280 960 OUTPUT ]
+        [34 1280 720 OUTPUT ]
+        [34 960 720 OUTPUT ]
+        [34 960 544 OUTPUT ]
+        [34 720 720 OUTPUT ]
+        [34 640 480 OUTPUT ]
+        [34 320 240 OUTPUT ]
+        [34 352 288 OUTPUT ]
+        [34 208 144 OUTPUT ]
+        [34 176 144 OUTPUT ]
+        [35 2816 2112 OUTPUT ]
+        [35 2816 1584 OUTPUT ]
+        [35 2160 1080 OUTPUT ]
+        [35 1920 1080 OUTPUT ]
+        [35 1920 960 OUTPUT ]
+        [35 1440 1080 OUTPUT ]
+        [35 1440 720 OUTPUT ]
+        [35 1280 960 OUTPUT ]
+        [35 1280 720 OUTPUT ]
+        [35 960 720 OUTPUT ]
+        [35 960 544 OUTPUT ]
+        [35 720 720 OUTPUT ]
+        [35 640 480 OUTPUT ]
+        [35 320 240 OUTPUT ]
+        [35 352 288 OUTPUT ]
+        [35 208 144 OUTPUT ]
+        [35 176 144 OUTPUT ]
+      android.scaler.availableMinFrameDurations (d000b): int64[180]
+        [33 2816 ]
+        [2112 33331760 ]
+        [33 2816 ]
+        [1584 33331760 ]
+        [33 640 ]
+        [480 33331760 ]
+        [33 320 ]
+        [240 33331760 ]
+        [33 1280 ]
+        [720 33331760 ]
+        [33 1440 ]
+        [720 33331760 ]
+        [33 1920 ]
+        [1080 33331760 ]
+        [33 5632 ]
+        [4224 46620000 ]
+        [33 5632 ]
+        [3168 36219000 ]
+        [33 5632 ]
+        [2816 36219000 ]
+        [33 4224 ]
+        [4224 33331760 ]
+        [34 2816 ]
+        [2112 33331760 ]
+        [34 2816 ]
+        [1584 33331760 ]
+        [34 2160 ]
+        [1080 33331760 ]
+        [34 1920 ]
+        [1080 33331760 ]
+        [34 1920 ]
+        [960 33331760 ]
+        [34 1440 ]
+        [1080 33331760 ]
+        [34 1440 ]
+        [720 33331760 ]
+        [34 1280 ]
+        [960 33331760 ]
+        [34 1280 ]
+        [720 33331760 ]
+        [34 960 ]
+        [720 33331760 ]
+        [34 960 ]
+        [544 33331760 ]
+        [34 720 ]
+        [720 33331760 ]
+        [34 640 ]
+        [480 33331760 ]
+        [34 320 ]
+        [240 33331760 ]
+        [34 352 ]
+        [288 33331760 ]
+        [34 208 ]
+        [144 33331760 ]
+        [34 176 ]
+        [144 33331760 ]
+        [35 2816 ]
+        [2112 33331760 ]
+        [35 2816 ]
+        [1584 33331760 ]
+        [35 2160 ]
+        [1080 33331760 ]
+        [35 1920 ]
+        [1080 33331760 ]
+        [35 1920 ]
+        [960 33331760 ]
+        [35 1440 ]
+        [1080 33331760 ]
+        [35 1440 ]
+        [720 33331760 ]
+        [35 1280 ]
+        [960 33331760 ]
+        [35 1280 ]
+        [720 33331760 ]
+        [35 960 ]
+        [720 33331760 ]
+        [35 960 ]
+        [544 33331760 ]
+        [35 720 ]
+        [720 33331760 ]
+        [35 640 ]
+        [480 33331760 ]
+        [35 320 ]
+        [240 33331760 ]
+        [35 352 ]
+        [288 33331760 ]
+        [35 208 ]
+        [144 33331760 ]
+        [35 176 ]
+        [144 33331760 ]
+      android.scaler.availableStallDurations (d000c): int64[44]
+        [33 2816 ]
+        [2112 33331760 ]
+        [33 2816 ]
+        [1584 33331760 ]
+        [33 640 ]
+        [480 33331760 ]
+        [33 320 ]
+        [240 33331760 ]
+        [33 1280 ]
+        [720 33331760 ]
+        [33 1440 ]
+        [720 33331760 ]
+        [33 1920 ]
+        [1080 33331760 ]
+        [33 5632 ]
+        [4224 33331760 ]
+        [33 5632 ]
+        [3168 33331760 ]
+        [33 5632 ]
+        [2816 33331760 ]
+        [33 4224 ]
+        [4224 33331760 ]
+      android.request.availableCharacteristicsKeys (c000f): int32[81]
+        [65554 65555 65556 65557 ]
+        [65558 65559 65560 65561 ]
+        [65562 65563 65564 65565 ]
+        [327680 4 327681 458759 ]
+        [458760 589824 589825 589826 ]
+        [589827 589828 589829 589830 ]
+        [589831 524293 786438 786440 ]
+        [786442 786444 786445 786446 ]
+        [786447 786443 851972 851977 ]
+        [851978 851981 851979 917513 ]
+        [917507 917508 917514 917511 ]
+        [917512 917509 917510 983040 ]
+        [983041 983042 983043 983044 ]
+        [983045 983046 983047 917515 ]
+        [983048 917516 917517 917518 ]
+        [917529 1179648 1179649 1179650 ]
+        [1179651 1179652 1179653 393217 ]
+        [196610 655362 1245189 1179654 ]
+        [1245188 1507329 65574 65572 ]
+        [65573 1179655 1048578 1376256 ]
+        [983050 ]
+      com.huawei.device.capabilities.hwResourceCost (8001011a): int32[1]
+        [100 ]
+      com.huawei.device.capabilities.default_value (8001011b): byte[1]
+        [0 ]
+      android.info.supportedHardwareLevel (150000): byte[1]
+        [LIMITED ]
+      android.scaler.croppingType (d000d): byte[1]
+        [FREEFORM ]
+      android.shading.availableModes (100002): byte[2]
+        [0 1 ]
+      android.statistics.info.availableLensShadingMapModes (120007): byte[2]
+        [0 1 ]
+      android.lens.info.shadingMapSize (90006): int32[2]
+        [4 3 ]
+      android.statistics.lensShadingCorrectionMap (11000a): byte[1]
+        [0 ]
+      android.edge.availableEdgeModes (30002): byte[3]
+        [0 1 2 ]
+      android.noiseReduction.availableNoiseReductionModes (a0002): byte[3]
+        [0 1 2 ]
+      android.hotPixel.availableHotPixelModes (60001): byte[1]
+        [1 ]
+      android.lens.info.focusDistanceCalibration (90007): byte[1]
+        [UNCALIBRATED ]
+      android.request.maxNumInputStreams (c0008): int32[1]
+        [0 ]
+      android.request.pipelineMaxDepth (c000a): byte[1]
+        [8 ]
+      android.request.partialResultCount (c000b): int32[1]
+        [1 ]
+      android.request.availableRequestKeys (c000d): int32[60]
+        [0 1 2 3 ]
+        [65536 65537 65539 65540 ]
+        [65541 65542 65543 65545 ]
+        [65546 65547 65549 65550 ]
+        [65551 65552 65553 131072 ]
+        [196608 196609 262144 262145 ]
+        [262146 458752 458753 458754 ]
+        [458755 458756 458757 458758 ]
+        [524288 524289 524290 524291 ]
+        [524292 655360 655361 786433 ]
+        [786437 851968 917505 393216 ]
+        [1114115 1048576 1048577 1114112 ]
+        [1114113 1114114 1114128 1245184 ]
+        [1114123 1114122 1245185 1245186 ]
+        [1245187 1441792 786441 917528 ]
+      android.request.availableResultKeys (c000e): int32[59]
+        [0 1 2 3 ]
+        [65539 65540 65567 65543 ]
+        [65545 65568 65547 65570 ]
+        [65551 196608 262144 262145 ]
+        [262146 262149 458752 458753 ]
+        [458754 458755 458756 458757 ]
+        [458758 524288 524289 524290 ]
+        [524291 524296 524297 524292 ]
+        [655360 786433 851968 1048576 ]
+        [917505 917520 917522 917525 ]
+        [1441792 1245184 1245185 1245186 ]
+        [1245187 1114112 1114113 1114121 ]
+        [1114114 1114124 1114125 1114126 ]
+        [1114116 1114117 1114118 1114119 ]
+        [1114123 1114122 917528 ]
+      android.control.awbLockAvailable (10025): byte[1]
+        [TRUE ]
+      android.control.aeLockAvailable (10024): byte[1]
+        [TRUE ]
+      android.sensor.availableTestPatternModes (e0019): int32[1]
+        [0 ]
+      android.sensor.info.timestampSource (f0008): byte[1]
+        [REALTIME ]
+      android.statistics.info.availableHotPixelMapModes (120006): byte[1]
+        [0 ]
+      android.tonemap.availableToneMapModes (130005): byte[3]
+        [0 1 2 ]
+      android.sync.maxLatency (170001): int32[1]
+        [5 ]
+      android.scaler.availableInputOutputFormatsMap (d0009): int32[0]
+      android.sensor.info.activeArraySize (f0000): int32[4]
+        [0 0 5632 4224 ]
+      android.sensor.info.preCorrectionActiveArraySize (f000a): int32[4]
+        [0 0 5632 4224 ]
+      android.control.maxRegions (1001c): int32[3]
+        [1 0 0 ]
+      android.colorCorrection.availableAberrationModes (00004): byte[3]
+        [0 1 2 ]
+      android.request.maxNumOutputStreams (c0006): int32[3]
+        [1 3 1 ]
+      android.statistics.info.maxFaceCount (120002): int32[1]
+        [10 ]
+      android.sensor.referenceIlluminant1 (e0003): byte[1]
+        [D65 ]
+      android.sensor.referenceIlluminant2 (e0004): byte[1]
+        [17 ]
+      android.sensor.calibrationTransform1 (e0005): rational[9]
+        [(128 / 128) (0 / 128) ]
+        [(0 / 128) (0 / 128) ]
+        [(128 / 128) (0 / 128) ]
+        [(0 / 128) (0 / 128) ]
+        [(128 / 128) ]
+      android.sensor.calibrationTransform2 (e0006): rational[9]
+        [(128 / 128) (0 / 128) ]
+        [(0 / 128) (0 / 128) ]
+        [(128 / 128) (0 / 128) ]
+        [(0 / 128) (0 / 128) ]
+        [(128 / 128) ]
+      android.sensor.colorTransform1 (e0007): rational[9]
+        [(1094 / 1024) (-306 / 1024) ]
+        [(-146 / 1024) (-442 / 1024) ]
+        [(1388 / 1024) (52 / 1024) ]
+        [(-104 / 1024) (250 / 1024) ]
+        [(600 / 1024) ]
+      android.sensor.colorTransform2 (e0008): rational[9]
+        [(2263 / 1024) (-1364 / 1024) ]
+        [(-145 / 1024) (-194 / 1024) ]
+        [(1257 / 1024) (-56 / 1024) ]
+        [(-24 / 1024) (187 / 1024) ]
+        [(618 / 1024) ]
+      android.sensor.forwardMatrix1 (e0009): rational[9]
+        [(612 / 1024) (233 / 1024) ]
+        [(139 / 1024) (199 / 1024) ]
+        [(831 / 1024) (-6 / 1024) ]
+        [(15 / 1024) (-224 / 1024) ]
+        [(1049 / 1024) ]
+      android.sensor.forwardMatrix2 (e000a): rational[9]
+        [(441 / 1024) (317 / 1024) ]
+        [(226 / 1024) (29 / 1024) ]
+        [(908 / 1024) (87 / 1024) ]
+        [(9 / 1024) (-655 / 1024) ]
+        [(1486 / 1024) ]
+      android.lens.info.availableFilterDensities (90001): float[1]
+        [0.00000000 ]
+      android.lens.info.availableOpticalStabilization (90003): byte[1]
+        [0 ]
+      android.lens.info.hyperfocalDistance (90004): float[1]
+        [0.20000000 ]
+      android.tonemap.maxCurvePoints (130004): int32[1]
+        [257 ]
+      android.control.sceneModeOverrides (1001d): byte[42]
+        [0 0 0 1 1 0 0 0 0 0 0 0 1 2 0 0 ]
+        [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]
+        [0 0 0 0 0 0 0 0 0 0 ]
+      android.control.availableModes (10026): byte[3]
+        [0 1 2 ]
+      android.flash.info.chargeDuration (50001): int64[1]
+        [1000000000 ]
+      android.depth.maxDepthSamples (190000): int32[1]
+        [100 ]
+      android.depth.depthIsExclusive (190004): byte[1]
+        [TRUE ]
+      android.depth.availableDepthStreamConfigurations (190001): int32[0]
+      android.depth.availableDepthMinFrameDurations (190002): int64[0]
+      android.depth.availableDepthStallDurations (190003): int64[0]
+      android.sensor.info.whiteLevel (f0007): int32[1]
+        [1023 ]
+      com.huawei.device.capabilities.default_value (80010078): byte[1]
+        [1 ]
+      android.request.availableCapabilities (c000c): byte[2]
+        [BACKWARD_COMPATIBLE MANUAL_POST_PROCESSING ]
+      android.scaler.availableMaxDigitalZoom (d0004): float[1]
+        [6.00000000 ]
+      com.huawei.device.capabilities.burstJpegQuality (80010019): int32[1]
+        [90 ]
+      com.huawei.capture.metadata.default_value (800000cb): byte[2]
+        [95 90 ]
+      android.jpeg.maxSize (70008): int32[1]
+        [18874368 ]
+      android.scaler.availableFormats (d0001): int32[4]
+        [YV12 YCrCb_420_SP BLOB IMPLEMENTATION_DEFINED ]
+      android.statistics.info.availableFaceDetectModes (120000): byte[3]
+        [0 1 2 ]
+      android.control.availableEffects (10018): byte[4]
+        [0 1 2 4 ]
+      android.control.aeAvailableAntibandingModes (10012): byte[3]
+        [3 1 2 ]
+      com.huawei.device.capabilities.faceBeautySupported (8001000b): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.videoBeatySupported (8001000c): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.bestModeSupported (8001000e): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.allfocusModeSupported (8001000f): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.lcdCompensateSupported (80010011): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hdrMovieSupported (80010012): byte[1]
+        [0 ]
+      com.huawei.device.capabilities.magnifier_supported (80010014): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.burstModeSupported (8001000a): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.smileDetectionSupported (80010029): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.faceBeautyRange (80010032): int32[2]
+        [0 10 ]
+      com.huawei.device.capabilities.postProcessSupported (80010033): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.denoiseSupported (80010034): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.target_tracking_supported (80010035): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010144): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.availbaleMetering (80010009): byte[4]
+        [1 2 3 0 ]
+      com.huawei.device.capabilities.supported_sharpness (80010008): byte[6]
+        [0 1 2 3 4 5 ]
+      com.huawei.device.capabilities.availbaleBrightness (80010007): byte[5]
+        [0 1 2 3 4 ]
+      com.huawei.device.capabilities.availbaleSaturation (80010006): byte[5]
+        [0 1 2 3 4 ]
+      com.huawei.device.capabilities.availbaleContrast (80010005): byte[5]
+        [0 1 2 3 4 ]
+      com.huawei.device.capabilities.videoCallbackSupported (80010043): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.availbaleRelayoutModes (80010083): byte[2]
+        [0 1 ]
+      com.huawei.device.capabilities.hwExposureCompensationSupported (80010085): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hwExposureCompensationStep (80010086): float[1]
+        [0.10000000 ]
+      com.huawei.device.capabilities.hw-fbcd-raw-supported (800100c2): int32[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100c4): byte[2]
+        [1 2 ]
+      com.huawei.device.capabilities.fastBinderSupported (80010057): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.burstCountSupported (80010018): int32[1]
+        [100 ]
+      com.huawei.device.capabilities.flashAssistFocusSupported (800100a7): byte[4]
+        [0 1 2 3 ]
+      com.huawei.device.capabilities.hwRequireVideoStatus (800100a8): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.manualVcmStartValue (80010016): int32[1]
+        [0 ]
+      com.huawei.device.capabilities.manualVcmEndValue (80010017): int32[1]
+        [1023 ]
+      com.huawei.device.capabilities.hw_high_res_video_zsl_mode (80010092): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.default_value (8001004d): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.default_value (8001004e): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010119): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.speedupCaptureSupported (80010102): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010129): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010136): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100bd): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100b5): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100b6): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100b8): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100bc): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001006d): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010138): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010071): byte[1]
+        [3 ]
+      com.huawei.device.capabilities.default_value (800100b7): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100b9): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (800100ba): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hwCameraMemoryRequirementSupported (80010140): int32[3]
+        [300 50 100 ]
+      com.huawei.device.capabilities.default_value (80010054): byte[20]
+        [1 1 2 1 3 2 4 4 5 2 6 1 7 1 8 1 ]
+        [9 1 10 3 ]
+      com.huawei.device.capabilities.default_value (80010055): byte[1]
+        [11 ]
+      com.huawei.device.capabilities.default_value (80010098): byte[3]
+        [1 0 1 ]
+      com.huawei.device.capabilities.default_value (80010151): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.hw-pre-shutter-supported (800100aa): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.dmWaterMarkSupported (8001004a): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.fairlightSupported (80010023): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.fairlightValueSupported (80010024): byte[11]
+        [48 44 49 44 50 44 51 44 52 44 53 ]
+      com.huawei.device.capabilities.lcdFlashStatusSupported (800100c0): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.availbaleLightPaintingModes (80010082): byte[6]
+        [0 1 2 3 4 5 ]
+      com.huawei.device.capabilities.exposureLevelRange (80010084): int32[2]
+        [1 60 ]
+      com.huawei.device.capabilities.availbaleSupernightExposureTime (80010089): byte[13]
+        [0 14 15 16 17 18 19 20 21 22 23 24 25 ]
+      com.huawei.device.capabilities.availbaleSupernightIso (80010088): byte[6]
+        [0 2 3 4 5 7 ]
+      com.huawei.device.capabilities.smartSuggestSupported (8001007e): byte[1]
+        [0 ]
+      android.control.availableVideoStabilizationModes (1001a): byte[2]
+        [0 1 ]
+      com.huawei.device.capabilities.hwVideoStabilizationDefaultOn (80010010): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.frontVirtualEffectSupportedValue (80010110): byte[2]
+        [0 10 ]
+      com.huawei.device.capabilities.apertureValueSupported (8001003a): byte[41]
+        [48 44 49 44 50 44 51 44 52 44 53 44 54 44 55 44 ]
+        [56 44 57 44 49 48 44 49 49 44 49 50 44 49 51 44 ]
+        [49 52 44 49 53 44 49 54 0 ]
+      com.huawei.device.capabilities.portraitModeSupported (8001010d): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.frontCasioMeiwoSupported (8001014f): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010121): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hwLaserVersion (8001010c): int32[1]
+        [2 ]
+      com.huawei.device.capabilities.ReDmapActiveArraySize (80010125): int32[12]
+        [960 540 720 540 ]
+        [540 540 1280 720 ]
+        [960 720 720 720 ]
+      com.huawei.device.capabilities.DmapDenseMaxActiveSize (80010126): int32[2]
+        [960 540 ]
+      com.huawei.device.capabilities.DmapCameraAlgorithmAlignLimited (80010127): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.zslSupported (8001000d): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hw_video_recorder_zsl_mode (80010091): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.clickDownCaptureSupported (8001007a): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.afLockBinderizedSupported (8001007b): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.appBindCoreSupported (8001007c): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.afTriggerLockSupported (80010100): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hw_dm_type_hdr (80010090): byte[1]
+        [2 ]
+      com.huawei.device.capabilities.quickthumbnailResolutionSupported (80010030): int32[8]
+        [2448 2448 2048 1536 ]
+        [1920 1080 2160 1080 ]
+      com.huawei.device.capabilities.hwMaxPreviwResolution (800100f5): int32[2]
+        [3264 2448 ]
+      com.huawei.device.capabilities.seamlessNoRestartSupported (8001004c): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.bioFaceSupported (800100a9): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001001e): byte[1]
+        [4 ]
+      com.huawei.device.capabilities.hw_max_buffer_count (80010094): int32[1]
+        [7 ]
+      com.huawei.device.capabilities.hw_max_jpeg_buffer_count (80010095): int32[1]
+        [4 ]
+      com.huawei.device.capabilities.burst_yuv_buffer_count (8001001a): int32[1]
+        [4 ]
+      com.huawei.device.capabilities.default_value (8001006e): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hw-quickthumbnail-size (800100ad): int32[1]
+        [2097152 ]
+      com.huawei.device.capabilities.quickThumbnailRotated (800100ae): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.burst_raw_buffer_count (8001001b): int32[1]
+        [8 ]
+      com.huawei.device.capabilities.default_value (8001013b): byte[1]
+        [16 ]
+      com.huawei.device.capabilities.hw_max_video_buffer_count (80010096): int32[1]
+        [6 ]
+      com.huawei.device.capabilities.hw_max_high_video_buffer_count (80010097): int32[6]
+        [1920 1080 12 1280 ]
+        [720 18 ]
+      com.huawei.device.capabilities.hw-camera-api2-supported (800100c7): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.maxUsableRAM (800100f2): int32[1]
+        [2097152 ]
+      com.huawei.device.capabilities.default_value (800100f3): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.hw_camera_carveout_ram_supported (800100c6): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.availbaleEffectModes (8001003f): byte[9]
+        [0 3 4 6 8 13 15 19 20 ]
+      com.huawei.device.capabilities.default_value (8001013c): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010058): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010059): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001007d): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001013e): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001013f): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.DmapActiveArraySize (80010124): int32[24]
+        [1080 540 960 540 ]
+        [720 540 540 540 ]
+        [720 360 640 360 ]
+        [480 360 360 360 ]
+        [512 288 480 240 ]
+        [320 240 240 240 ]
+      com.huawei.device.capabilities.superfastshotModeSupported (80010148): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (8001004f): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.4d-tracking-supported (8001014d): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010050): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010154): byte[1]
+        [1 ]
+      com.huawei.device.capabilities.default_value (80010053): byte[1]
+        [1 ]
+
+== Vendor tags: ==
+
+  Dumping vendor tag descriptors for vendor with id 3854507339
+  Dumping configured vendor tag descriptors: 899 entries
+    0x80000000 (target-coordinates-offset) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000001 (android.histar.raw2yuv) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000002 (focusVcmValue) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000003 (mdRoiArea) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000004 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000005 (huawei_output_streams) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000006 (huawei_input_streams) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000007 (burst-delay-ms) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000008 (iso) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000009 (hw-face-ae-area) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000000a (hwFaceInfos) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000000b (constrastValue) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000000c (saturationValue) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000000d (brightnessValue) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000000e (sharpnessValue) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000000f (meteringMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000010 (burstCount) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000011 (hw-rotate-enable) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000012 (stopBurst) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000013 (hw-capture-exporsure-bracketing) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000014 (faceOrientation) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000015 (hw-face-detection) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000016 (smileDetectionMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000017 (blinkDetectionMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000018 (faceBeautyMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000019 (faceMeiwoMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000001a (hwMeiwoFrstatus) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000001b (hwMeiwoFacealbum) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000001c (hwMeiwoSfb) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000001d (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000001e (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000001f (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000020 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000021 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000022 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000023 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000024 (imagePostProcessMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000025 (faceBeautyLevel) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000026 (hw-image-denoise) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000027 (scopeMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000028 (bestShotMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000029 (hw-face-beauty-preview-only) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000002a (hw-device-target-tracking) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000002b (hw-device-target-tracking-coordinate) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000002c (hdrMovieMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000002d (captureMirrorMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000002e (hw-magnifier-step-value) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000002f (panoramaMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000030 (panorama2DMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000031 (panorama2DCaptureMode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000032 (panorama2DIndex) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000033 (panorama2DWidth) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000034 (panorama2DHeight) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000035 (manualFocusMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000036 (manualFocusValue) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000037 (mirrorMode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000038 (mirrorPoint) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000039 (colorEffectMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000003a (colorEffectLevel) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000003b (quadraRemosaicHdMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000003c (makeUpMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000003d (makeUpEffect) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000003e (hw-exposure-time) with type 5 (rational) defined in section com.huawei.capture.metadata
+    0x8000003f (hwVideoStatus) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000040 (dualSensorMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000041 (multiCameraMask) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000042 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000043 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000044 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000045 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000046 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000047 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000048 (hw-frame-count) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000049 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000004a (hw-frame-resolution) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000004b (hw-frame-lossless) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000004c (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000004d (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000004e (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000004f (hw-sensor-resolution) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000050 (hw-sub-sensor-cap-resolution) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000051 (hw-shutter-frame-index) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000052 (hw-save-frame-index) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000053 (hw-quick-thumbnail-frame-index) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000054 (hintUser) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000055 (hw-snapshot-mode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000056 (hw-snapshot-bracket-ev) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000057 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000058 (hw-snapshot-edof-vcm-code) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000059 (hw-snapshot-allfocus-vcm-code) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000005a (hw-snapshot-multi-denoise-state) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000005b (hw-snapshot-motion-state) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000005c (hw-zoom-in) with type 2 (float) defined in section com.huawei.capture.metadata
+    0x8000005d (hwCameraFlag) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000005e (hwCamera2Flag) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000005f (clickDownCaptureFlag) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000060 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000061 (manualFlashMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000062 (extSceneMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000063 (hw-dual-camera-verification-mode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000064 (hw-dual-camera-verification-result) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000065 (hw-mmi-camera-pdaf-verification-mode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000066 (hw-dual-camera-pdaf-verification-result) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000067 (mmiPdOffsetCalibMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000068 (mmiCameraFlag) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000069 (needLcdCompensate) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000006a (lcdFlashStatus) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000006b (lcdFlashCompensateCCT) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000006c (mmiAfcMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000006d (mmiOisVcmCalibMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000006e (mmiTestFeatureResult) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000006f (niceFoodMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000070 (apiVersion) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000071 (dmWaterMarkMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000072 (hwFrontgesture) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000073 (frontgestureDetectionMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000074 (smartCaptureEnable) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000075 (frontDualTouchRegions) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000076 (dualSensorAbnormal) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000077 (hw-algo-aperture-refocus) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000078 (hw_algo_expo_max) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000079 (hw_algo_expo_min) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000007a (hw_algo_gain_max) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000007b (hw_algo_gain_min) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000007c (hw_algo_lum_max) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000007d (hw_algo_lum_min) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000007e (hw_algo_expo) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000007f (hw_algo_expo_time) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000080 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000081 (hw_algo_gain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000082 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000083 (hw_algo_iso) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000084 (hw_algo_mean_y) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000085 (hw_algo_aecstabe) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000086 (hw_algo_g_gain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000087 (hw_algo_motion_x) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000088 (hw_algo_motion_y) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000089 (hw_algo_focus_length) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000008a (hw_algo_af_window_change) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000008b (isoState) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000008c (hw_dual_camera) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000008d (hw_pair_buffer) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000008e (hw-exif-hdr) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000008f (hw_ae_target_low) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000090 (hw_ae_target_high) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000091 (hw-capture-timestamp) with type 3 (int64) defined in section com.huawei.capture.metadata
+    0x80000092 (hw-zsl-mode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000093 (hw-jpeg-filename) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000094 (fastShotMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000095 (apertureMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000096 (livePhotoMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000097 (apertureValue) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000098 (allFocusMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000099 (opticalSwitchStatus) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000009a (opticalZoomMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000009b (ZoomActionStatus) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000009c (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000009d (quadrawCaptureStatus) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000009e (bioFaceMode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000009f (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000a0 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000a1 (irMode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000a2 (irState) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000a3 (irInfo) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000a4 (irAuthToken) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000a5 (groupId) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000a6 (leftEyeRect) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000a7 (rightEyeRect) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000a8 (irEnrollMode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000a9 (irOperationId) with type 3 (int64) defined in section com.huawei.capture.metadata
+    0x800000aa (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000ab (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000ac (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000ad (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000ae (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000af (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000b0 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000b1 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000b2 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000b3 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000b4 (hw-focus-value) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000b5 (hw-metering-value) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000b6 (hw-recording-hint) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000b7 (hw-sharpness-state) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000b8 (hw-luma-denoise-state) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000b9 (hw-chroma-denoise-state) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000ba (hw-raw-denoise-state) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000bb (hw-yuv-denoise-state) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000bc (hw-pic-tag) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000bd (hw-drop-flag-for-jpeg) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000be (hw-snapshot-stable-picture) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000bf (lightPaintingMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000c0 (lightPaintingTryAe) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000c1 (lightPaintingRelayoutMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000c2 (lightPaintingExposureTime) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000c3 (hw-exposure-mode-preview-state) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000c4 (hw-exposure-mode-capture-expo) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000c5 (hw-exposure-mode-capture-iso) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000c6 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000c7 (hw-exposure-mode-max-expo) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000c8 (hw-rotation-value) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000c9 (hw-jpeg-thumbnail-size) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000ca (hw-jpeg-quality) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000cb (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000cc (hw-jpeg-thumbnail-quality) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000cd (mmtest-lowlight-param) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000ce (hwQuickThumbnailResolution) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000cf (hw_ois_enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000d0 (oisGryoOffsetCalib) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000d1 (oisGryoOffsetCalibResult) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000d2 (oisHallCalib) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000d3 (oisHallCalibResult) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000d4 (oisSetGryoGain) with type 2 (float) defined in section com.huawei.capture.metadata
+    0x800000d5 (oisSaveGryoGain) with type 2 (float) defined in section com.huawei.capture.metadata
+    0x800000d6 (oisGryoGainResult) with type 2 (float) defined in section com.huawei.capture.metadata
+    0x800000d7 (oisHallCheck) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000d8 (oisHallCheckResult) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000d9 (oisHallData) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000da (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000db (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000dc (hw_mmi_enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000dd (hw_agingvcm_enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000de (hw_ois_running) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000df (hw_ois_check) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000e0 (hw_ois_magnetism_check) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000e1 (hw_ois_actually_running) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000e2 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000e3 (cameraSensorCalib) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000e4 (cameraSensorCalibResult) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000e5 (dualFlashMode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000e6 (dualFlashIndex) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000e7 (hw-dual-flash-picture-index) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000e8 (hw-dual-flash-vcm-state) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000e9 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000ea (sensorWbValue) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000eb (sensorExposureTime) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000ec (sensorIso) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000ed (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000ee (professionalMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000ef (hw_laser_calibrate) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000f0 (hw_laser_calibrate_result) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000f1 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000f2 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000f3 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000f4 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000f5 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000f6 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000f7 (professionalFocusMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000f8 (profFocusAssistFlashMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000f9 (hw-af-mmi-control-enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000fa (hw-af-mmi-contrast-value) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000fb (hw-af-mmi-contrast-result-value) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000fc (hw-af-equip-mmi-control-mode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000fd (hwMMICaptureDualMode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800000fe (hw-mmi-gamma-mode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800000ff (hw-mmi-raw-region) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000100 (hw-mmi-ivp-pro) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000101 (hw-mmi-sub-raw-region) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000102 (hw-mmi-hdc_calib) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000103 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000104 (hw-otp-check) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000105 (hw-gamma-set-curve) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000106 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000107 (exposureCompValue) with type 2 (float) defined in section com.huawei.capture.metadata
+    0x80000108 (manualIsoValue) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000109 (manualExposureValue) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000010a (hw-picture-width) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000010b (hw-picture-height) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000010c (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000010d (hw_algo_b_gain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000010e (hw_algo_r_gain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000010f (hw_algo_awb_r_gain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000110 (hw_algo_awb_gr_gain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000111 (hw_algo_awb_gb_gain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000112 (hw_algo_awb_b_gain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000113 (hw-algo-awb-color-temperature) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000114 (hw-algo-banding-type) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000115 (hw-algo-fps) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000116 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000117 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000118 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000119 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000011a (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000011b (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000011c (hw-algo-bv-value) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000011d (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000011e (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000011f (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000120 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000121 (hwVideoIspRation) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000122 (hw-video-fps) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000123 (hwHighResVideoMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000124 (hwCaptureStreamSize) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000125 (hwVideoStreamSize) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000126 (hwPreviewStreamSize) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000127 (focusMeteringSeperateMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000128 (frontFlashLevel) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000129 (prepareCaptureFlag) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000012a (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000012b (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000012c (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000012d (captureStreamResolution) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000012e (earlyCaptureFlag) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000012f (afTriggerLock) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000130 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000131 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000132 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000133 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000134 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000135 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000136 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000137 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000138 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000139 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000013a (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000013b (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000013c (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000013d (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000013e (hw-low-capture-state) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000013f (hintUserValue) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000140 (multiCameraMode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000141 (cameraMode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000142 (cameraLaserData) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000143 (cameraGyroData) with type 2 (float) defined in section com.huawei.capture.metadata
+    0x80000144 (cameraAccelerometerData) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000145 (cameraLineraAccelerationData) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000146 (cameraDepthCalibData) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000147 (hw-ae-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000148 (hw-flash-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000149 (hw-rdn-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000014a (hw-yuvdn-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000014b (hw-sharpen-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000014c (hw-cc-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000014d (hw-ce-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000014e (hw-gamma-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000014f (hw-drc-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000150 (hw-awb-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000151 (hw-af-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000152 (hw-capture-awb-debug-exif-value) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000153 (hw-falsh-current-debug-exif-value) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000154 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000155 (hw-arsr-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000156 (hw-rawnf-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000157 (hw-pdaf-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000158 (hw-dpcc-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000159 (hw-gcd-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000015a (hw-de-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000015b (hw-yuvnf-iir-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000015c (hw-autocls-debug-exif-value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000015d (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000015e (android.histar.common.sensorInfo) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000015f (android.histar.common.sensorResolution) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000160 (android.histar.common.otpInfo) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000161 (android.histar.common.stat3a) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000162 (android.histar.stat3a.ae) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000163 (android.histar.stat3a.af) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000164 (android.histar.common.saveraw) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000165 (android.histar.common.saveyuv) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000166 (android.histar.common.faceDetection) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000167 (android.histar.blc.setValue) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000168 (android.histar.dgamma.enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000169 (android.histar.dgamma.set) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000016a (android.histar.dgamma.get) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000016b (android.histar.dgamma.setLutsclFactor) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000016c (android.histar.lsc.enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000016d (android.histar.lsc.manual) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000016e (android.histar.lsc.manualGain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000016f (android.histar.lsc.manualAWB) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000170 (android.histar.lsc.setIntensity) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000171 (android.histar.lsc.getIntensity) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000172 (android.histar.lsc.setChromatix) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000173 (android.histar.lsc.getAutoGain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000174 (android.histar.lsc.getAutoAWB) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000175 (android.histar.awb.enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000176 (android.histar.awb.getGain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000177 (android.histar.awb.setLight) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000178 (android.histar.awb.setGain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000179 (android.histar.awb.dampingEnable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000017a (android.histar.awb.setDampingParam) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000017b (android.histar.awb.getWhitepoint) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000017c (android.histar.awb.setWhitepoint) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000017d (android.histar.gamma.enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000017e (android.histar.gamma.manual) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000017f (android.histar.gamma.getAutoParams) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000180 (android.histar.gamma.setManualParams) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000181 (android.histar.gamma.setAutoParams) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000182 (android.histar.ae.setTargetY) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000183 (android.histar.ae.setMeterMode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000184 (android.histar.ae.setMeterArea) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000185 (android.histar.ae.setTolerance) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000186 (android.histar.ae.setGain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000187 (android.histar.ae.setExpoTime) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000188 (android.histar.ae.getCurrentY) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000189 (android.histar.ae.getGain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000018a (android.histar.ae.getExpoTime) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000018b (android.histar.ae.getStableStatus) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000018c (android.histar.ae.getLockStatus) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000018d (android.histar.ae.manual) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000018e (android.histar.ae.gainRange) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000018f (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000190 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000191 (android.histar.vstab.mode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000192 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000193 (hwPreviewState) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000194 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000195 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000196 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000197 (hwRecordingOnlyRequest) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000198 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000199 (hwDmapFormat) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000019a (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000019b (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000019c (hwDmapSize) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000019d (packageName) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000019e (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000019f (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001a0 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001a1 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001a2 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001a3 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001a4 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001a5 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001a6 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001a7 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001a8 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001a9 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001aa (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001ab (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001ac (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001ad (hw_ois_degree_mode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001ae (hw-raw-img-save-switch) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001af (hw-raw-img-path-name) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001b0 (exposureHintMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001b1 (hw-dynamic-iso-range) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001b2 (exposureStateHint) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001b3 (frameLuminance) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001b4 (hw-algo-ae-comp) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001b5 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001b6 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001b7 (hw-ae-gain) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001b8 (hw-target-luminance) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001b9 (hw-awb-illuminant) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001ba (hw-awb-damping-param) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001bb (hw-awb-manual) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001bc (hw-awb-set-wp) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001bd (hw-gamma-lock) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001be (hw-gamma-mode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001bf (hw-gamma-damping-param) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001c0 (hw-lsc-enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001c1 (hw-tnr-enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001c2 (hw-dpcc-enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001c3 (hw-drc-enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001c4 (hw-yuvnf-enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001c5 (hw-sharpness-enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001c6 (hw-cc-enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001c7 (hw-rawnf-enable) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001c8 (hw-drc-mode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001c9 (hw-drc-damping-param) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001ca (hw-cc-mode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001cb (hw-cc-param) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001cc (hw-cc-set-matrix) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001cd (hw-lpd-params) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001ce (darkRaiderMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001cf (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001d0 (hw-dark-raider-capture) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001d1 (hwDarkRaiderPreview) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001d2 (monoMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001d3 (burstSnapshotMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001d4 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001d5 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001d6 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001d7 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001d8 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001d9 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001da (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001db (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001dc (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001dd (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001de (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001df (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001e0 (hasMetadataCallbackStream) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001e1 (portraitMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001e2 (frontVirtualEffectMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001e3 (frontVirtualEffectLevel) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001e4 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001e5 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001e6 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001e7 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001e8 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001e9 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001ea (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001eb (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001ec (hwCaptureBuild) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001ed (hwCaptureTrigger) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001ee (hwRecordingStatus) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001ef (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001f0 (colorMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001f1 (apertureMonoMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001f2 (dualPrimaryMonoMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001f3 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001f4 (hwThermalDual2single) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001f5 (hwVideoBokehAfRegion) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x800001f6 (proExposureTime) with type 5 (rational) defined in section com.huawei.capture.metadata
+    0x800001f7 (hw3DModelMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001f8 (hwFirstValidFrame) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001f9 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001fa (hwFirstRequest) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001fb (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001fc (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001fd (makeUpAbnormalInfo) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x800001fe (launch_time_info) with type 3 (int64) defined in section com.huawei.capture.metadata
+    0x800001ff (capture_time_info) with type 3 (int64) defined in section com.huawei.capture.metadata
+    0x80000200 (capture_clickup_time_info) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000201 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000202 (smartSuggestEnable) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000203 (smartSuggestConfirm) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000204 (smartSuggestDismiss) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000205 (smartSuggestHint) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000206 (smartsuggest_exitmode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000207 (smartsuggest_recordclear) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000208 (masterAIEnable) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000209 (fairlightSnapshotMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000020a (fairlightValidScene) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000020b (fairlightValidFaceCheck) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000020c (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000020d (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000020e (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000020f (superSlowMotionStatus) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000210 (superSlowMotionMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000211 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000212 (cameraSceneMode) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000213 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000214 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000215 (default_value) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000216 (smartFocusMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000217 (smartFocusLocation) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000218 (smartFocusUploadLocation) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x80000219 (cameraArMode) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000021a (arFeatureCount) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000021b (arSkipCount) with type 1 (int32) defined in section com.huawei.capture.metadata
+    0x8000021c (arkitFeatureTracking) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000021d (smartaedisable) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000021e (multscaledisable) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x8000021f (motiondetectdisable) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000220 (afstatdisable) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000221 (algodmdisable) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80000222 (lasermanagerdisable) with type 0 (byte) defined in section com.huawei.capture.metadata
+    0x80010000 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010001 (device_sensor_position) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010002 (videoFpsSupported) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010003 (availbaleFrontFlashLevel) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010004 (supported_iso_values) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010005 (availbaleContrast) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010006 (availbaleSaturation) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010007 (availbaleBrightness) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010008 (supported_sharpness) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010009 (availbaleMetering) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001000a (burstModeSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001000b (faceBeautySupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001000c (videoBeatySupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001000d (zslSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001000e (bestModeSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001000f (allfocusModeSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010010 (hwVideoStabilizationDefaultOn) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010011 (lcdCompensateSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010012 (hdrMovieSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010013 (captureMirrorSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010014 (magnifier_supported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010015 (manualFocusSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010016 (manualVcmStartValue) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010017 (manualVcmEndValue) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010018 (burstCountSupported) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010019 (burstJpegQuality) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x8001001a (burst_yuv_buffer_count) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x8001001b (burst_raw_buffer_count) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x8001001c (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001001d (availbaleDualPrimary) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001001e (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001001f (opticalZoomSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010020 (hwHdcZoomRegion) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010021 (hwSecondHdcZoomRegion) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010022 (hwHdcZoomRatio) with type 2 (float) defined in section com.huawei.device.capabilities
+    0x80010023 (fairlightSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010024 (fairlightValueSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010025 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010026 (hwHdcAvailableJpegSize) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010027 (hwSecondHdcAvailableJpegSize) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010028 (hw-equivalent-focus) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010029 (smileDetectionSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001002a (hwScopeSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001002b (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001002c (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001002d (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001002e (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001002f (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010030 (quickthumbnailResolutionSupported) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010031 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010032 (faceBeautyRange) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010033 (postProcessSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010034 (denoiseSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010035 (target_tracking_supported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010036 (super_resolution_supported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010037 (superResolutionPictureSize) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010038 (bigApertureSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010039 (bigApertureMonoSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001003a (apertureValueSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001003b (bigApertureSupportedResolution) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x8001003c (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001003d (smartFocusSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001003e (vidoeBigApertureNotSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001003f (availbaleEffectModes) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010040 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010041 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010042 (availbaleEffectRange) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010043 (videoCallbackSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010044 (highVideoCallbackThresholdSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010045 (niceFoodSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010046 (makeUpSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010047 (makeUpEffectSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010048 (beauty1080pSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010049 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001004a (dmWaterMarkSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001004b (seamlessSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001004c (seamlessNoRestartSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001004d (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001004e (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001004f (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010050 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010051 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010052 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010053 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010054 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010055 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010056 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010057 (fastBinderSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010058 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010059 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001005a (smartCaptureSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001005b (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001005c (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001005d (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001005e (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001005f (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010060 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010061 (hwMultiCameraSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010062 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010063 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010064 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010065 (hwThirdSensorJpegSize) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010066 (hwThirdActiveArraySize) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010067 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010068 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010069 (hwThirdPixelArraySize) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x8001006a (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001006b (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001006c (hw-gyro-seek-supported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001006d (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001006e (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001006f (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010070 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010071 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010072 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010073 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010074 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010075 (hwFrontgestureDetectionSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010076 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010077 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010078 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010079 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001007a (clickDownCaptureSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001007b (afLockBinderizedSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001007c (appBindCoreSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001007d (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001007e (smartSuggestSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001007f (hw-af-mmi-control-supported) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010080 (hw-af-mmi-far-threashold) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010081 (hw-af-mmi-near-threashold) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010082 (availbaleLightPaintingModes) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010083 (availbaleRelayoutModes) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010084 (exposureLevelRange) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010085 (hwExposureCompensationSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010086 (hwExposureCompensationStep) with type 2 (float) defined in section com.huawei.device.capabilities
+    0x80010087 (available-video-stabilization-modes) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010088 (availbaleSupernightIso) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010089 (availbaleSupernightExposureTime) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001008a (hw-ois-supported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001008b (hw-miniisp-exist) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001008c (hw-rdn-always-on) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001008d (hw_dm_type_single) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001008e (hw_dm_type_single_flash) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001008f (hw_dm_type_multidns) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010090 (hw_dm_type_hdr) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010091 (hw_video_recorder_zsl_mode) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010092 (hw_high_res_video_zsl_mode) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010093 (availableHighResVideoSizeAndDuration) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010094 (hw_max_buffer_count) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010095 (hw_max_jpeg_buffer_count) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010096 (hw_max_video_buffer_count) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010097 (hw_max_high_video_buffer_count) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010098 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010099 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001009a (hw_record_fix_ddrfreq) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x8001009b (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001009c (hw_drop_raw_count) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x8001009d (hw-insert-preview-count-in-burst) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x8001009e (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001009f (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100a0 (professionalModeSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100a1 (hw-sensor-exposure-range) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100a2 (sensorWbRange) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100a3 (hw-sensor-iso-range) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100a4 (rawImgSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100a5 (exposureHintSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100a6 (hw-dynamic-iso-range-supported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100a7 (flashAssistFocusSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100a8 (hwRequireVideoStatus) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100a9 (bioFaceSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100aa (hw-pre-shutter-supported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100ab (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100ac (hwFwkZslSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100ad (hw-quickthumbnail-size) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100ae (quickThumbnailRotated) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100af (hw-slow-jpeg-mode-threshold) with type 3 (int64) defined in section com.huawei.device.capabilities
+    0x800100b0 (hw-sensor-binning-sizes-supported) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100b1 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100b2 (hw-sensor-drop-start-frame-count) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100b3 (darkRaiderModeSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100b4 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100b5 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100b6 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100b7 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100b8 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100b9 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100ba (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100bb (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100bc (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100bd (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100be (monoModeSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100bf (availableMonoFilterModes) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100c0 (lcdFlashStatusSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100c1 (hw-professional-raw12-supported) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100c2 (hw-fbcd-raw-supported) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100c3 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100c4 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100c5 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100c6 (hw_camera_carveout_ram_supported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100c7 (hw-camera-api2-supported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100c8 (hw-ivp-not-aligned) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100c9 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100ca (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100cb (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100cc (hw-camera-resume-drop-count) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100cd (hw-camera-set-dual-flash-mmi-iso-value) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100ce (hw-camera-set-dual-flash-mmi-expo-value) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100cf (oisDefaultGryoGain) with type 2 (float) defined in section com.huawei.device.capabilities
+    0x800100d0 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100d1 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100d2 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100d3 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100d4 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100d5 (hwCaptureRequestMaxTimeout) with type 3 (int64) defined in section com.huawei.device.capabilities
+    0x800100d6 (hwCaptureRequestEsdShortTimeout) with type 3 (int64) defined in section com.huawei.device.capabilities
+    0x800100d7 (hwQuadraSensorFullAndBinningSizes) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100d8 (remosaicSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100d9 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100da (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100db (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100dc (multiCameraCap) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100dd (availablePreviewDepthSizes) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100de (availableCaptureDepthSizes) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100df (secondAvailableProcessedSizes) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100e0 (secondAvailableJpegSizes) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100e1 (availableJpegSizeAndDuration) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100e2 (availableProcessedSizeAndDuration) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100e3 (hwSubSensorJpegSize) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100e4 (hwSubActiveArraySize) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100e5 (metadataCallbackStreamSupported) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100e6 (metadataCallbackStreamSupportedSizes) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100e7 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100e8 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100e9 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100ea (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100eb (hwsubPixelArraySize) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100ec (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100ed (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100ee (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100ef (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100f0 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100f1 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100f2 (maxUsableRAM) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100f3 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100f4 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100f5 (hwMaxPreviwResolution) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x800100f6 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100f7 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100f8 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100f9 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100fa (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100fb (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100fc (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100fd (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100fe (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x800100ff (prepareCaptureSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010100 (afTriggerLockSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010101 (interruptedTafSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010102 (speedupCaptureSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010103 (seekProSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010104 (dnsSeekProSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010105 (digitalZoomSeekProSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010106 (supportedColorModes) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010107 (mmiTestFeatureSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010108 (mmiTestFeatureCameraId) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010109 (hwHdcCameraId) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001010a (mmiHdcDelaySupported) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x8001010b (mmiDualFlashCaptureNumSupported) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x8001010c (hwLaserVersion) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x8001010d (portraitModeSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001010e (portraitApertureAdjustingSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001010f (portraitNofaceBokehSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010110 (frontVirtualEffectSupportedValue) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010111 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010112 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010113 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010114 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010115 (leftRecommendEyeRect) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010116 (rightRecommendEyeRect) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010117 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010118 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010119 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001011a (hwResourceCost) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x8001011b (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001011c (slowmoNoZoom) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001011d (thirdCamNoZsl) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001011e (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001011f (jpegFilterBufCnt) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010120 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010121 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010122 (dualPrimarySingleReprocess) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010123 (AFSecondAvailableModes) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010124 (DmapActiveArraySize) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010125 (ReDmapActiveArraySize) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010126 (DmapDenseMaxActiveSize) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010127 (DmapCameraAlgorithmAlignLimited) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010128 (DmapOfflineSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010129 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001012a (opticalZoomThreshold) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001012b (bigApertureZoomThreshold) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001012c (opticalMaxZoomValue) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001012d (opticalMaxZoomValueFloat) with type 2 (float) defined in section com.huawei.device.capabilities
+    0x8001012e (burstMaxZoomValue) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001012f (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010130 (notifyShutterAfterMainFlash) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010131 (hwWatchSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010132 (hw3DModelSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010133 (hwHdcCalibrateData) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010134 (hwAvailableDepthStreamConfigurations) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010135 (denseMemMultiplexing) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010136 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010137 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010138 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010139 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001013a (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001013b (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001013c (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001013d (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001013e (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001013f (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010140 (hwCameraMemoryRequirementSupported) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010141 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010142 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010143 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010144 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010145 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010146 (hwHisiliconPlatform) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010147 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010148 (superfastshotModeSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010149 (superSlowMotionSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001014a (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001014b (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001014c (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001014d (4d-tracking-supported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001014e (hwCircleLcdComp) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x8001014f (frontCasioMeiwoSupported) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010150 (hwSensorName) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010151 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010152 (hwCaptureRawFormat) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80010153 (hwCaptureRawStreamConfigurations) with type 1 (int32) defined in section com.huawei.device.capabilities
+    0x80010154 (default_value) with type 0 (byte) defined in section com.huawei.device.capabilities
+    0x80020000 (default_value) with type 0 (byte) defined in section android.huawei.device.parameters
+    0x80030000 (default_value) with type 0 (byte) defined in section android.huawei.stream.info
+    0x80030001 (default_value) with type 0 (byte) defined in section android.huawei.stream.info
+    0x80030002 (default_value) with type 0 (byte) defined in section android.huawei.stream.info
+    0x80030003 (default_value) with type 0 (byte) defined in section android.huawei.stream.info
+    0x80030004 (default_value) with type 0 (byte) defined in section android.huawei.stream.info
+    0x80030005 (default_value) with type 0 (byte) defined in section android.huawei.stream.info
+    0x80030006 (default_value) with type 0 (byte) defined in section android.huawei.stream.info
+    0x80030007 (default_value) with type 0 (byte) defined in section android.huawei.stream.info
+    0x80030008 (default_value) with type 0 (byte) defined in section android.huawei.stream.info
+    0x80040000 (default_value) with type 0 (byte) defined in section android.huawei.stream.parameters
+
+== Camera error traces (0): ==
+  No camera traces collected.
+HWCLT:/ $
