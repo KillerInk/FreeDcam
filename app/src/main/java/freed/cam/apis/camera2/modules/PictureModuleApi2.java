@@ -168,6 +168,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
         SurfaceTexture texture = cameraUiWrapper.captureSessionHandler.getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
+
         Surface previewsurface = new Surface(texture);
         final int w = previewSize.getWidth();
         final int h = previewSize.getHeight();
@@ -190,10 +191,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
             final int or = orientation;
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,true));
-            cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight());
-            cameraUiWrapper.getFocusPeakProcessor().setOutputSurface(previewsurface);
+            cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight(),previewsurface);
             Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface, true);
+            cameraUiWrapper.getFocusPeakProcessor().start();
         }
         else
         {

@@ -799,7 +799,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     }
 
     @Override
-    public void Reset(int width, int height) {
+    public void Reset(int width, int height,Surface surface) {
 
     }
 
@@ -809,9 +809,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     }
 
     @Override
-    public void setOutputSurface(Surface output) {
+    public void start() {
 
     }
+
 
     @Override
     public void kill() {

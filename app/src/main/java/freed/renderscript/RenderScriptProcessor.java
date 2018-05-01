@@ -68,6 +68,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
     private int imageformat;
     int width = 0;
     int height =0;
+    private Surface outputSurface;
 
     private final static int HISTOGRAM_UPDATE_RATE = 10;
 
@@ -150,11 +151,16 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
         return width;
     }
 
+    public Surface getInputSurface() {
+        return renderScriptManager.GetInputAllocationSurface();
+    }
+
     @Override
-    public void Reset(int width, int height)
+    public synchronized void Reset(int width, int height, Surface outSurface)
     {
         this.width = width;
         this.height = height;
+        this.outputSurface = outSurface;
         Log.d(TAG,"Reset:"+width +"x"+height);
         //create the yuv input allocation type
         Builder yuvTypeBuilder = new Builder(renderScriptManager.GetRS(), Element.YUV(renderScriptManager.GetRS()));
@@ -170,6 +176,9 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
         //create the input and out allocations
         renderScriptManager.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder, Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT,  Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
 
+        if (outSurface != null)
+            renderScriptManager.GetOut().setSurface(outSurface);
+
         //scriptintrinsic need to  set the input else it returns no input set ex
         //that seems not the case for own ScriptC with a own input. so rgb_focuspeak dont need to set the input
         renderScriptManager.yuvToRgbIntrinsic.setInput(renderScriptManager.GetIn());
@@ -177,10 +186,24 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
         renderScriptManager.rgb_histogram.set_takeOnlyPixel(width*height/8);
 
         createScriptGroups(rgbTypeBuilder);
+    }
 
+    @Override
+    public void start() {
+        if (renderScriptManager.GetOut() == null)
+            Log.d(TAG, "OutputSurface is null");
+        if (renderScriptManager.GetIn() == null || renderScriptManager.GetIn().getSurface() == null)
+            Log.d(TAG, "InputSurface is null");
         if (mProcessingTask != null) {
 
             synchronized (workLock) {
+                if (mProcessingTask.working) {
+                    try {
+                        workLock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 mProcessingTask = null;
             }
         }
@@ -308,30 +331,33 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
         allScriptGroup.setOutput(renderScriptManager.rgb_clipping.getKernelID_processClipping(), renderScriptManager.GetOut());
     }
 
-    public Surface getInputSurface() {
-        return renderScriptManager.GetInputAllocationSurface();
-    }
-    public void setOutputSurface(Surface output) throws NullPointerException
-    {
-        renderScriptManager.SetSurfaceToOutputAllocation(output);
-        Log.d(TAG,"setOutputSurface");
-    }
+
 
     @Override
-    public void kill()
+    public synchronized void kill()
     {
         if (mProcessingTask != null) {
 
             synchronized (workLock)
             {
+                if (mProcessingTask.working) {
+                    try {
+                        workLock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 mProcessingTask = null;
                 if (renderScriptManager.GetIn() != null) {
                     renderScriptManager.GetIn().setOnBufferAvailableListener(null);
+                    renderScriptManager.GetIn().getSurface().release();
+                    renderScriptManager.GetIn().destroy();
                 }
                 if (renderScriptManager.GetOut() != null)
                 {
                     renderScriptManager.GetOut().setSurface(null);
-                    //mOutputAllocation = null;
+                    renderScriptManager.GetOut().destroy();
+
                 }
             }
         }
@@ -471,6 +497,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
                 }
                 renderScriptManager.GetOut().ioSend();
                 working = false;
+                workLock.notify();
             }
         }
     }
