@@ -42,8 +42,10 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
         super.setValue(valueToSet,setToCamera);
         if (SettingsManager.get(SettingKeys.secondarySensorSize).isSupported())
         {
-            cameraUiWrapper.stopPreviewAsync();
-            cameraUiWrapper.startPreviewAsync();
+            if (setToCamera) {
+                cameraUiWrapper.stopPreviewAsync();
+                cameraUiWrapper.startPreviewAsync();
+            }
         }
         else {
             int toset = parameterValues.get(valueToSet);
