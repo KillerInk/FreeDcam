@@ -65,6 +65,8 @@
     <string name="aps_guide" translatable="false">guide</string>
     <string name="aps_previewfpsrange" translatable="false">previewfpsrange</string>
     <string name="aps_dualprimarycameramode" translatable="false">dualprimarycameramode</string>
+    <string name="aps_secondarySensorSize" translatable="false">secondarySensorSize</string>
+    <string name="aps_thirdSensorSize" translatable="false">thirdSensorSize</string>
     <string name="aps_support12bitraw" translatable="false">support12bitraw</string>
 
     <string name="aps_tnr" translatable="false">tnr</string>

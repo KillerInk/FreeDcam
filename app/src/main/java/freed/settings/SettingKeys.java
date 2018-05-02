@@ -93,6 +93,8 @@ public class SettingKeys{
     public final static Key<SettingMode> Module = new Key(SettingMode.class, R.string.aps_module);
     public final static Key<SettingMode> ZoomSetting = new Key(SettingMode.class, R.string.aps_zoommode);
     public final static Key<SettingMode> dualPrimaryCameraMode = new Key(SettingMode.class, R.string.aps_dualprimarycameramode);
+    public final static Key<SettingMode> secondarySensorSize = new Key(SettingMode.class, R.string.aps_secondarySensorSize);
+    public final static Key<SettingMode> thirdSensorSize = new Key(SettingMode.class, R.string.aps_thirdSensorSize);
 
     public final static Key<SettingMode> EDGE_MODE = new Key(SettingMode.class, R.string.aps_edgemode);
     public final static Key<SettingMode> COLOR_CORRECTION_MODE = new Key(SettingMode.class, R.string.aps_colorcorrectionmode);

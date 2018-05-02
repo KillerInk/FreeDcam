@@ -51,6 +51,7 @@ import freed.cam.apis.camera2.parameters.modes.DualCameraModeHuaweiApi2;
 import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
+import freed.cam.apis.camera2.parameters.modes.SecondarySensorSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -191,6 +192,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         add(SettingKeys.MATRIX_SET, new MatrixChooserParameter(SettingsManager.getInstance().getMatrixesMap()));
         add(SettingKeys.TONEMAP_SET, new ToneMapChooser(SettingsManager.getInstance().getToneMapProfiles()));
         add(SettingKeys.M_Zoom, new ZoomApi2(cameraUiWrapper));
+
+        if (SettingsManager.get(SettingKeys.secondarySensorSize).isSupported())
+            add(SettingKeys.secondarySensorSize, new SecondarySensorSizeModeApi2(cameraUiWrapper));
         SetAppSettingsToParameters();
     }
 

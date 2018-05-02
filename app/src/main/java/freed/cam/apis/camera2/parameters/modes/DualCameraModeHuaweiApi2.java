@@ -8,6 +8,7 @@ import java.util.Map;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.StringUtils;
 
 /**
@@ -39,8 +40,15 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
     public void setValue(String valueToSet, boolean setToCamera)
     {
         super.setValue(valueToSet,setToCamera);
-        int toset = parameterValues.get(valueToSet);
-        captureSessionHandler.SetParameterRepeating(parameterKey, Byte.valueOf((byte)toset),setToCamera);
+        if (SettingsManager.get(SettingKeys.secondarySensorSize).isSupported())
+        {
+            cameraUiWrapper.stopPreviewAsync();
+            cameraUiWrapper.startPreviewAsync();
+        }
+        else {
+            int toset = parameterValues.get(valueToSet);
+            captureSessionHandler.SetParameterRepeating(parameterKey, Byte.valueOf((byte) toset), setToCamera);
+        }
 
         fireStringValueChanged(valueToSet);
 

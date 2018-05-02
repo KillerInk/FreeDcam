@@ -144,6 +144,12 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 picGroup.addView(pictureSize);
             }
 
+            if (params.get(SettingKeys.secondarySensorSize) != null) {
+                SettingsChildMenu pictureSize = new SettingsChildMenu(getContext(), params.get(SettingKeys.secondarySensorSize), R.string.setting_secondarypicturesize_header, R.string.setting_secondarypicturesize_description);
+                pictureSize.SetUiItemClickListner(this);
+                picGroup.addView(pictureSize);
+            }
+
             if (params.get(SettingKeys.JpegQuality) != null) {
                 SettingsChildMenu jpegQuality = new SettingsChildMenu(getContext(), params.get(SettingKeys.JpegQuality), R.string.setting_jpegquality_header, R.string.setting_jpegquality_description);
                 jpegQuality.SetUiItemClickListner(this);

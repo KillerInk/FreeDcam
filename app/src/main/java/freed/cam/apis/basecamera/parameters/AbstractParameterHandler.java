@@ -152,6 +152,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(SettingKeys.dualPrimaryCameraMode,false);
         setAppSettingsToCamera(SettingKeys.RDI,false);
         setAppSettingsToCamera(SettingKeys.Ae_TargetFPS,false);
+        setAppSettingsToCamera(SettingKeys.secondarySensorSize, false);
 
         setAppSettingsToCamera(SettingKeys.ExposureMode,true);
         if (RenderScriptManager.isSupported() && cameraUiWrapper.getFocusPeakProcessor() != null) {
