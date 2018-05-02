@@ -899,9 +899,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             {
                 map.put(lookupar[i], (int)scenes[i]);
             }
+            settingMode.set(lookupar[0]);
             lookupar = StringUtils.IntHashmapToStringArray(map);
             settingMode.setValues(lookupar);
-            settingMode.set(lookupar[0]);
+
         }
     }
 
