@@ -47,11 +47,9 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
                 cameraUiWrapper.startPreviewAsync();
             }
         }
-        else {
-            int toset = parameterValues.get(valueToSet);
-            captureSessionHandler.SetParameterRepeating(parameterKey, Byte.valueOf((byte) toset), setToCamera);
-        }
 
+        int toset = parameterValues.get(valueToSet);
+        captureSessionHandler.SetParameterRepeating(parameterKey, Byte.valueOf((byte) toset), setToCamera);
         fireStringValueChanged(valueToSet);
 
     }

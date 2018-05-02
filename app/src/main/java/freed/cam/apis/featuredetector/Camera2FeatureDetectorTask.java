@@ -479,7 +479,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.e(TAG,"HUAWEI_HDC_CALIBRATE_DATA false");
         }
         try {
-            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE);
+            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_JPEG_SUPPORTED_SIZE);
             if (hdc != null && hdc.length > 0) {
                 Log.d(TAG, Arrays.toString(hdc));
                 List<String> ls = new ArrayList<>();
@@ -495,11 +495,11 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     SettingsManager.get(SettingKeys.secondarySensorSize).set(ls.get(0));
                 }
             }
-            Log.d(TAG,"HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE");
+            Log.d(TAG,"HUAWEI_SENCONDARY_JPEG_SUPPORTED_SIZE");
         }
         catch (NullPointerException | IllegalArgumentException ex)
         {
-            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE false");
+            Log.e(TAG,"HUAWEI_SENCONDARY_JPEG_SUPPORTED_SIZE false");
         }
         try {
             int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);

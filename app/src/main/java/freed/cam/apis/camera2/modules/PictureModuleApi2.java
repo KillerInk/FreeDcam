@@ -239,6 +239,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
     private void setOutputSizes() {
 
+        picFormat = SettingsManager.get(SettingKeys.PictureFormat).get();
+        if (TextUtils.isEmpty(picFormat)) {
+            picFormat = SettingsManager.getInstance().getResString(R.string.pictureformat_jpeg);
+            SettingsManager.get(SettingKeys.PictureFormat).set(picFormat);
+            parameterHandler.get(SettingKeys.PictureFormat).fireStringValueChanged(picFormat);
+
+        }
+
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
         {
             setHuaweiOutput();
@@ -316,15 +324,22 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
                         || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer))) {
                     Log.d(TAG, "ImageReader RAW_SENSOR");
                     int[] subsize = cameraHolder.characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE);
-                    if (subsize.length > 2)
-                    {
-                        raw_width = subsize[2];
-                        raw_height = subsize[3];
+                    if (subsize != null) {
+                        if (subsize.length > 2) {
+                            raw_width = subsize[2];
+                            raw_height = subsize[3];
+                        } else {
+                            raw_width = subsize[0];
+                            raw_height = subsize[1];
+                        }
                     }
                     else
                     {
-                        raw_width = subsize[0];
-                        raw_height = subsize[1];
+                        Size largestImageSize = Collections.max(
+                                Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)),
+                                new CompareSizesByArea());
+                        raw_width = largestImageSize.getWidth();
+                        raw_height = largestImageSize.getHeight();
                     }
                     raw_format = ImageFormat.RAW_SENSOR;
                 }
@@ -344,13 +359,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         Size largestImageSize = Collections.max(
                 Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new CompareSizesByArea());
-        picFormat = SettingsManager.get(SettingKeys.PictureFormat).get();
-        if (TextUtils.isEmpty(picFormat)) {
-            picFormat = SettingsManager.getInstance().getResString(R.string.pictureformat_jpeg);
-            SettingsManager.get(SettingKeys.PictureFormat).set(picFormat);
-            parameterHandler.get(SettingKeys.PictureFormat).fireStringValueChanged(picFormat);
-
-        }
 
         String[] split = picSize.split("x");
         if (split.length < 2) {
