@@ -479,7 +479,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.e(TAG,"HUAWEI_HDC_CALIBRATE_DATA false");
         }
         try {
-            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_JPEG_SUPPORTED_SIZE);
+            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);
             if (hdc != null && hdc.length > 0) {
                 Log.d(TAG, Arrays.toString(hdc));
                 List<String> ls = new ArrayList<>();
