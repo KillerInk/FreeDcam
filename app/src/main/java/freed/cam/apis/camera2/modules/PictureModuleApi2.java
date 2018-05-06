@@ -654,24 +654,40 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     @Override
     public void internalFireOnWorkDone(File file)
     {
-        Log.d(TAG,"internalFireOnWorkDone BurstCount:" +burstCount +" imageCount:" +imagecount);
-        if(isBurstCapture && burstCount  >= imagecount) {
-            filesSaved.add(file);
-            Log.d(TAG,"internalFireOnWorkDone Burst addFile");
+        if (workFinishEventsListner != null)
+            workFinishEventsListner.internalFireOnWorkDone(file);
+        else {
+            Log.d(TAG, "internalFireOnWorkDone BurstCount:" + burstCount + " imageCount:" + imagecount);
+            if (isBurstCapture && burstCount >= imagecount) {
+                filesSaved.add(file);
+                Log.d(TAG, "internalFireOnWorkDone Burst addFile");
+            }
+            if (isBurstCapture && burstCount == imagecount) {
+                Log.d(TAG, "internalFireOnWorkDone Burst done");
+                fireOnWorkFinish(filesSaved.toArray(new File[filesSaved.size()]));
+                filesSaved.clear();
+            } else if (!isBurstCapture)
+                fireOnWorkFinish(file);
         }
-        if (isBurstCapture && burstCount  == imagecount)
+    }
+
+    @Override
+    public void fireOnWorkFinish(File file) {
+        if (workFinishEventsListner != null)
         {
-            Log.d(TAG,"internalFireOnWorkDone Burst done");
-            fireOnWorkFinish(filesSaved.toArray(new File[filesSaved.size()]));
-            filesSaved.clear();
+            workFinishEventsListner.fireOnWorkFinish(file);
         }
-        else if (!isBurstCapture)
-            fireOnWorkFinish(file);
+        else
+            super.fireOnWorkFinish(file);
     }
 
     @Override
     public void fireOnWorkFinish(File[] files) {
-        super.fireOnWorkFinish(files);
+        if (workFinishEventsListner != null)
+            workFinishEventsListner.fireOnWorkFinish(files);
+        else {
+            super.fireOnWorkFinish(files);
+        }
     }
 
     @Override

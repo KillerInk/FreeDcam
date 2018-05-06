@@ -24,6 +24,8 @@ import android.os.Handler;
 import com.troop.freedcam.R;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
@@ -38,13 +40,16 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
     private final ModuleAbstract picModule;
     protected final IntervalHandler intervalHandler;
     protected   final String TAG  = IntervalModule.class.getSimpleName();
+    protected List<File> filesSaved;
 
     public IntervalModule(ModuleAbstract picModule, CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler,mainHandler);
         this.picModule = picModule;
+        picModule.setOverrideWorkFinishListner(this);
 
         intervalHandler = new IntervalHandler(picModule);
         name = cameraUiWrapper.getResString(R.string.module_interval);
+        filesSaved = new ArrayList<>();
     }
 
 
@@ -115,8 +120,6 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
                 {
                     Log.d(TAG, "image_capture_stop Work Finished, Start nex Capture");
                     changeCaptureState(CaptureStates.continouse_capture_work_stop);
-                    intervalHandler.DoNextInterval();
-
                 }
                 else
                 {
@@ -145,6 +148,13 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
 
     @Override
     public void internalFireOnWorkDone(File file) {
+        filesSaved.add(file);
+        if (!isWorking) {
+            super.fireOnWorkFinish(filesSaved.toArray(new File[filesSaved.size()]));
+            filesSaved.clear();
+        }
+        else
+            intervalHandler.DoNextInterval();
 
     }
 }

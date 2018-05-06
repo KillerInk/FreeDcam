@@ -48,6 +48,8 @@ public abstract class ModuleAbstract implements ModuleInterface
     protected CameraWrapperInterface cameraUiWrapper;
     protected Handler mBackgroundHandler;
     protected UiHandler mainHandler;
+    //used to redirect workevents to the module subscribe to it.
+    protected WorkFinishEvents workFinishEventsListner;
 
     private final int MSG_ONCAPTURESTATECHANGED = 0;
 
@@ -86,6 +88,11 @@ public abstract class ModuleAbstract implements ModuleInterface
         this.captureStateChangedListner = captureStateChangedListner;
         if (captureStateChangedListner != null)
             captureStateChangedListner.onCaptureStateChanged(currentWorkState);
+    }
+
+    public void setOverrideWorkFinishListner(WorkFinishEvents workFinishEvents)
+    {
+        this.workFinishEventsListner = workFinishEvents;
     }
 
     /**
