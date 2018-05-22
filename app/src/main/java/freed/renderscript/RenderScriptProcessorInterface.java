@@ -37,9 +37,9 @@ public interface RenderScriptProcessorInterface
     void SetAspectRatio(int w, int h);
 
     //api2
-    void Reset(int width, int height);
+    void Reset(int width, int height,Surface output);
     Surface getInputSurface();
-    void setOutputSurface(Surface output);
+    void start();
 
     //api1/2
     void kill();

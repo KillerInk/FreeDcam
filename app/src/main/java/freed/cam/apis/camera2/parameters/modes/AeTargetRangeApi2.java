@@ -31,6 +31,8 @@ public class AeTargetRangeApi2 extends BaseModeApi2 {
         String[] toset = valueToSet.split(",");
         Range t = new Range(Integer.parseInt(toset[0]), Integer.parseInt(toset[1]));
         captureSessionHandler.SetParameterRepeating(key, t,setToCamera);
+        if (settingMode != null)
+            settingMode.set(valueToSet);
     }
 
     @Override

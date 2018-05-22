@@ -7,6 +7,7 @@
     <string name="aps_mode" translatable="false">mode</string>
 
     <string name="aps_opencamera1legacy" translatable="false">opencamera1legacy</string>
+    <string name="aps_usehuawei_wb" translatable="false">useHuaweiWb</string>
 
     <string name="aps_picturesize" translatable="false">picturesize</string>
     <string name="aps_pictureformat" translatable="false">pictureformat</string>
@@ -64,6 +65,8 @@
     <string name="aps_guide" translatable="false">guide</string>
     <string name="aps_previewfpsrange" translatable="false">previewfpsrange</string>
     <string name="aps_dualprimarycameramode" translatable="false">dualprimarycameramode</string>
+    <string name="aps_secondarySensorSize" translatable="false">secondarySensorSize</string>
+    <string name="aps_thirdSensorSize" translatable="false">thirdSensorSize</string>
     <string name="aps_support12bitraw" translatable="false">support12bitraw</string>
 
     <string name="aps_tnr" translatable="false">tnr</string>

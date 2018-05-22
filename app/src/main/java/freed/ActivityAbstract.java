@@ -141,7 +141,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     protected void onResume() {
         super.onResume();
-        if (!SettingsManager.getInstance().isInit()) {
+        if (!SettingsManager.getInstance().isInit() && permissionManager.hasExternalSDPermission(null)) {
             SettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
         }
     }

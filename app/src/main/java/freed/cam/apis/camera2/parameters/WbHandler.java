@@ -22,8 +22,10 @@ package freed.cam.apis.camera2.parameters;
 import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.RggbChannelVector;
+import android.os.Build;
 import android.os.Build.VERSION_CODES;
 
+import com.huawei.camera2ex.CaptureRequestEx;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -44,7 +46,7 @@ public class WbHandler
     private final CameraWrapperInterface cameraUiWrapper;
     public WhiteBalanceApi2 whiteBalanceApi2;
     private ColorCorrectionModeApi2 colorCorrectionMode;
-    public final ManualWbCtApi2 manualWbCt;
+    public ManualWbCtApi2 manualWbCt;
 
     public WbHandler(CameraWrapperInterface cameraUiWrapper)
     {
@@ -54,8 +56,8 @@ public class WbHandler
             colorCorrectionMode = new ColorCorrectionModeApi2();
         if (SettingsManager.get(SettingKeys.WhiteBalanceMode).isSupported())
             whiteBalanceApi2 = new WhiteBalanceApi2();
-
-        manualWbCt = new ManualWbCtApi2(cameraUiWrapper);
+        if (!SettingsManager.get(SettingKeys.useHuaweiWhiteBalance).get())
+            manualWbCt = new ManualWbCtApi2(cameraUiWrapper);
     }
 
 
@@ -70,15 +72,19 @@ public class WbHandler
             //if ON or any other preset set the colorcorrection to fast to let is use hal wb
             colorCorrectionMode.SetValue(cameraUiWrapper.getResString(R.string.fast),true);
             //hide manual wbct manualitem in ui
-            manualWbCt.fireIsSupportedChanged(false);
+            if (manualWbCt != null)
+                manualWbCt.fireIsSupportedChanged(false);
         }
         else //if OFF
         {
             //set colorcorrection to TRANSFORMATRIX to have full control
             colorCorrectionMode.SetValue(cameraUiWrapper.getResString(R.string.colorcorrection_transform_matrix),true);
             //show wbct manual item in ui
-            manualWbCt.fireStringValueChanged(manualWbCt.GetStringValue());
-            manualWbCt.fireIsSupportedChanged(true);
+            if (manualWbCt != null) {
+                manualWbCt.fireStringValueChanged(manualWbCt.GetStringValue());
+                manualWbCt.fireIsSupportedChanged(true);
+            }
+
         }
 
     }
@@ -192,7 +198,7 @@ public class WbHandler
             float rf,gf,bf = 0;
 
             rf = (float) getRGBToDouble(rgb[0]);
-            gf = (float) getRGBToDouble(rgb[1])/2;//we have two green channels
+            gf =1; //(float) getRGBToDouble(rgb[1])/2;//we have two green channels
             bf = (float) getRGBToDouble(rgb[2]);
             if (gf < MINCAP)
                 gf= (float)MINCAP;

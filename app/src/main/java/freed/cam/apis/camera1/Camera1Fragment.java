@@ -256,14 +256,14 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                     }
 
                     parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
-                    focusPeakProcessorAp1.Reset(size.width, size.height);
-                    cameraToMainHandler.post(() -> focusPeakProcessorAp1.setHistogramEnable(false));
-                    
                     Surface surface = new Surface(textureView.getSurfaceTexture());
-                    focusPeakProcessorAp1.setOutputSurface(surface);
+                    focusPeakProcessorAp1.Reset(size.width, size.height,surface);
+                    cameraToMainHandler.post(() -> focusPeakProcessorAp1.setHistogramEnable(false));
+
                     parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
                     cameraHolder.SetSurface(focusPeakProcessorAp1.getInputSurface());
                     cameraToMainHandler.obtainMessage(CameraToMainHandler.MSG_SET_ASPECTRATIO, size).sendToTarget();
+                    focusPeakProcessorAp1.start();
                     cameraHolder.StartPreview();
                 }
                 else

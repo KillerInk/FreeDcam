@@ -226,11 +226,16 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
             detectAutoHdr(parameters);
 
-            if (parameters.get(SettingsManager.getInstance().getResString(R.string.video_stabilization_supported)).equals(SettingsManager.getInstance().getResString(R.string.true_)))
-            {
-                SettingsManager.get(SettingKeys.VideoStabilization).setIsSupported(true);
-                SettingsManager.get(SettingKeys.VideoStabilization).setKEY(SettingsManager.getInstance().getResString(R.string.video_stabilization));
-                SettingsManager.get(SettingKeys.VideoStabilization).setValues(new String[]{SettingsManager.getInstance().getResString(R.string.true_), SettingsManager.getInstance().getResString(R.string.false_)});
+            try {
+                if (parameters.get(camstring(R.string.video_stabilization_supported)).equals(camstring(R.string.true_)))
+                {
+                    SettingsManager.get(SettingKeys.VideoStabilization).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.VideoStabilization).setKEY(SettingsManager.getInstance().getResString(R.string.video_stabilization));
+                    SettingsManager.get(SettingKeys.VideoStabilization).setValues(new String[]{SettingsManager.getInstance().getResString(R.string.true_), SettingsManager.getInstance().getResString(R.string.false_)});
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                SettingsManager.get(SettingKeys.VideoStabilization).setIsSupported(false);
             }
 
             if (parameters.get("hw-dual-primary-supported") != null)
@@ -1051,36 +1056,38 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             default:
             {
-               // if (AppSettingsManager.get(Settings.openCamera1Legacy).getApiBoolean())
-               // {
-                    Log.d(TAG,"Open Try legacy Camera");
-                    try {
-                        camera = CameraHolderLegacy.openWrapper(currentcamera);
-                        Camera.Parameters parameters = camera.getParameters();
-                        camera.release();
-                        return parameters;
-                    }
-                    catch (NullPointerException ex)
-                    {
-                        if (camera != null)
-                            camera.release();
-                        Log.d(TAG,"Failes to open Legacy");
-                        camera = Camera.open(currentcamera);
-                        Camera.Parameters parameters = camera.getParameters();
-                        camera.release();
-                        return parameters;
-                    }
-                    catch(RuntimeException ex2)
-                {
-                    if (camera != null)
-                        camera.release();
-                    Log.d(TAG,"Failes to open Legacy");
-                    camera = Camera.open(currentcamera);
-                    Camera.Parameters parameters = camera.getParameters();
-                    camera.release();
-                    return parameters;
-                }
-
+               if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
+                   Log.d(TAG, "Open Try legacy Camera");
+                   try {
+                       camera = CameraHolderLegacy.openWrapper(currentcamera);
+                       Camera.Parameters parameters = camera.getParameters();
+                       camera.release();
+                       return parameters;
+                   } catch (NullPointerException ex) {
+                       if (camera != null)
+                           camera.release();
+                       Log.d(TAG, "Failes to open Legacy");
+                       camera = Camera.open(currentcamera);
+                       Camera.Parameters parameters = camera.getParameters();
+                       camera.release();
+                       return parameters;
+                   } catch (RuntimeException ex2) {
+                       if (camera != null)
+                           camera.release();
+                       Log.d(TAG, "Failes to open Legacy");
+                       camera = Camera.open(currentcamera);
+                       Camera.Parameters parameters = camera.getParameters();
+                       camera.release();
+                       return parameters;
+                   }
+               }
+               else
+               {
+                   camera = Camera.open(currentcamera);
+                   Camera.Parameters parameters = camera.getParameters();
+                   camera.release();
+                   return parameters;
+               }
             }
 
         }

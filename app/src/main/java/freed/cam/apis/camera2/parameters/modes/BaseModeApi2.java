@@ -82,9 +82,14 @@ public class BaseModeApi2 extends AbstractParameter
 
     @Override
     protected void setValue(String valueToSet, boolean setToCamera) {
+        // if parameterValues are empty, the ui dont need to get notifyed
         if (parameterValues == null || parameterValues.size() == 0)
             return;
+        //notfiy the ui that the value has changed
         super.setValue(valueToSet, setToCamera);
+        //if the key is null dont apply it to the capturesession, thats the case for the PictureFormatParameterApi2
+        if (parameterKey == null)
+            return;
         try {
             int toset = parameterValues.get(valueToSet);
             captureSessionHandler.SetParameterRepeating(parameterKey, toset,setToCamera);

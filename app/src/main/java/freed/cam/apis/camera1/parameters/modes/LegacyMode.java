@@ -33,6 +33,6 @@ public class LegacyMode extends AbstractParameter implements BooleanSettingModeI
     @Override
     public void set(boolean bool) {
         settingMode.set(bool);
-        cameraUiWrapper.restartCameraAsync();
+        cameraUiWrapper.getActivityInterface().runFeatureDetector();
     }
 }

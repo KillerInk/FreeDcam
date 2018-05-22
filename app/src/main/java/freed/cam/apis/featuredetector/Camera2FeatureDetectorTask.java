@@ -322,6 +322,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         }
                         SettingsManager.get(SettingKeys.Ae_TargetFPS).setValues(t);
                         SettingsManager.get(SettingKeys.Ae_TargetFPS).setIsSupported(true);
+                        SettingsManager.get(SettingKeys.Ae_TargetFPS).set(t[0]);
                     }
 
                     detectHuaweiParameters(characteristics);
@@ -351,7 +352,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectHuaweiParameters(CameraCharacteristics characteristics) {
         try {
-            detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, SettingsManager.get(SettingKeys.dualPrimaryCameraMode), R.array.dual_camera_mode);
+                detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, SettingsManager.get(SettingKeys.dualPrimaryCameraMode), R.array.dual_camera_mode);
         }
         catch (IllegalArgumentException ex)
         {
@@ -429,7 +430,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
         try {
             byte fastbinder = characteristics.get(CameraCharacteristicsEx.HUAWEI_FAST_NOTIFY_SUPPORTED);
-            Log.d(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED");
+            Log.d(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED" +fastbinder);
         }
         catch (NullPointerException | IllegalArgumentException ex)
         {
@@ -438,7 +439,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
         try {
             byte dualcamerareporcess = characteristics.get(CameraCharacteristicsEx.HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS);
-            Log.d(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS");
+            Log.d(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS"+ dualcamerareporcess);
         }
         catch (NullPointerException | IllegalArgumentException ex)
         {
@@ -447,11 +448,27 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
         try {
             byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_PRE_CAPTURE_SUPPORTED);
-            Log.d(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED");
+            Log.d(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED" +precapture);
         }
         catch (NullPointerException | IllegalArgumentException ex)
         {
             Log.e(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED false");
+        }
+        try {
+            byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_POST_PROCESS_SUPPORTED);
+            Log.d(TAG,"HUAWEI_POST_PROCESS_SUPPORTED" +precapture);
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_POST_PROCESS_SUPPORTED false");
+        }
+        try {
+            byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_ZSL_SUPPORTED);
+            Log.d(TAG,"HUAWEI_ZSL_SUPPORTED" +precapture);
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_ZSL_SUPPORTED false");
         }
         try {
             byte[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_HDC_CALIBRATE_DATA);
@@ -462,16 +479,67 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.e(TAG,"HUAWEI_HDC_CALIBRATE_DATA false");
         }
         try {
-            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE);
-            Log.d(TAG,"HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE");
+            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);
+            if (hdc != null && hdc.length > 0) {
+                Log.d(TAG, Arrays.toString(hdc));
+                List<String> ls = new ArrayList<>();
+                for (int i = 0; i< hdc.length; i+=2)
+                {
+                    String t = hdc[i] + "x" + hdc[i+1];
+                    ls.add(t);
+                }
+                if (ls.size() > 0)
+                {
+                    SettingsManager.get(SettingKeys.secondarySensorSize).setValues(ls.toArray(new String[ls.size()]));
+                    SettingsManager.get(SettingKeys.secondarySensorSize).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.secondarySensorSize).set(ls.get(0));
+                }
+            }
+            Log.d(TAG,"HUAWEI_SENCONDARY_JPEG_SUPPORTED_SIZE");
         }
         catch (NullPointerException | IllegalArgumentException ex)
         {
-            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE false");
+            Log.e(TAG,"HUAWEI_SENCONDARY_JPEG_SUPPORTED_SIZE false");
         }
         try {
             int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);
+            if (hdc != null)
+                Log.d(TAG, Arrays.toString(hdc));
             Log.d(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE false");
+        }
+
+        try {
+            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SUPPORTED_BINNING_SIZES);
+            if (hdc != null)
+                Log.d(TAG, Arrays.toString(hdc));
+            Log.d(TAG,"HUAWEI_SUPPORTED_BINNING_SIZES");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE false");
+        }
+        try {
+            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_WB_RANGE);
+            if (hdc != null && hdc.length >0) {
+                Log.d(TAG, Arrays.toString(hdc));
+                SettingsManager.get(SettingKeys.useHuaweiWhiteBalance).set(true);
+                int min= hdc[0];
+                int max = hdc[1];
+                List<String> wblist = new ArrayList<>();
+                wblist.add(SettingsManager.getInstance().getResString(R.string.auto_));
+                for (int i = min; i <= max; i+=50)
+                {
+                    wblist.add(i+"");
+                }
+                SettingsManager.get(SettingKeys.M_Whitebalance).setValues(wblist.toArray(new String[wblist.size()]));
+                SettingsManager.get(SettingKeys.M_Whitebalance).set(0+"");
+                SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(true);
+            }
+            Log.d(TAG,"HUAWEI_SENSOR_WB_RANGE");
         }
         catch (NullPointerException | IllegalArgumentException ex)
         {
@@ -582,6 +650,11 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             if (smap.isOutputSupportedFor(ImageFormat.RAW_SENSOR)) {
                 hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16), ImageFormat.RAW_SENSOR);
                 hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer), ImageFormat.RAW_SENSOR);
+                Size[] size = smap.getOutputSizes(ImageFormat.RAW_SENSOR);
+                if (size != null)
+                {
+                    Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
+                }
             }
         } catch (Exception e) {
             Log.WriteEx(e);
@@ -826,8 +899,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             {
                 map.put(lookupar[i], (int)scenes[i]);
             }
+            settingMode.set(lookupar[0]);
             lookupar = StringUtils.IntHashmapToStringArray(map);
             settingMode.setValues(lookupar);
+
         }
     }
 

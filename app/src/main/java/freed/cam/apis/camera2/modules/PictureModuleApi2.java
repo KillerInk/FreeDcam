@@ -36,6 +36,7 @@ import android.text.TextUtils;
 import android.util.Size;
 import android.view.Surface;
 
+import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.troop.freedcam.R;
 
 import java.io.File;
@@ -50,6 +51,7 @@ import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
+import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -63,8 +65,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 {
     private final String TAG = PictureModuleApi2.class.getSimpleName();
     private String picFormat;
-    private int mImageWidth;
-    private int mImageHeight;
+    private int jpeg_width;
+    private int jpeg_height;
+    private int raw_width;
+    private int raw_height;
+    private int raw_format;
     protected ImageReader jpegReader;
     protected ImageReader rawReader;
     protected int imagecount;
@@ -153,30 +158,27 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         setOutputSizes();
 
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
-        int orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation)%360;
+        Log.d(TAG, "sensorOrientation:" + sensorOrientation);
+        int orientationToSet = (360 + sensorOrientation)%360;
         if (SettingsManager.get(SettingKeys.orientationHack).get())
-            orientationToSet = (360 +cameraUiWrapper.getActivityInterface().getOrientation() + sensorOrientation+180)%360;
+            orientationToSet = (360 + sensorOrientation+180)%360;
         Log.d(TAG, "orientation to set :" +orientationToSet);
         cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_ORIENTATION, orientationToSet);
 
         // Here, we create a CameraCaptureSession for camera preview
 
-        Size previewSize = cameraUiWrapper.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, mImageWidth, mImageHeight);
-        if (cameraUiWrapper.getFocusPeakProcessor() != null)
-        {
-            cameraUiWrapper.getFocusPeakProcessor().kill();
-        }
-
+        Size previewSize = cameraUiWrapper.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, jpeg_width, jpeg_height);
 
         SurfaceTexture texture = cameraUiWrapper.captureSessionHandler.getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
+
         Surface previewsurface = new Surface(texture);
         final int w = previewSize.getWidth();
         final int h = previewSize.getHeight();
 
         if (SettingsManager.get(SettingKeys.EnableRenderScript).get()) {
             int orientation = 0;
-            switch (sensorOrientation)
+            switch (orientationToSet)
             {
                 case 90:
                     orientation = 0;
@@ -192,15 +194,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
             final int or = orientation;
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,true));
-            cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight());
-            cameraUiWrapper.getFocusPeakProcessor().setOutputSurface(previewsurface);
+            cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight(),previewsurface);
             Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface, true);
+            cameraUiWrapper.getFocusPeakProcessor().start();
         }
         else
         {
             int orientation = 0;
-            switch (sensorOrientation)
+            switch (orientationToSet)
             {
                 case 90:
                     orientation = 270;
@@ -236,10 +238,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     }
 
     private void setOutputSizes() {
-        String picSize = SettingsManager.get(SettingKeys.PictureSize).get();
-        Size largestImageSize = Collections.max(
-                Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
-                new CompareSizesByArea());
+
         picFormat = SettingsManager.get(SettingKeys.PictureFormat).get();
         if (TextUtils.isEmpty(picFormat)) {
             picFormat = SettingsManager.getInstance().getResString(R.string.pictureformat_jpeg);
@@ -248,76 +247,155 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
         }
 
-        String[] split = picSize.split("x");
-        if (split.length < 2)
+        if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
         {
-            mImageWidth = largestImageSize.getWidth();
-            mImageHeight = largestImageSize.getHeight();
+            setHuaweiOutput();
         }
-        else
-        {
-            mImageWidth = Integer.parseInt(split[0]);
-            mImageHeight = Integer.parseInt(split[1]);
+        else {
+            setStockOutput();
         }
+
         //create new ImageReader with the size and format for the image, its needed for p9 else dual or single cam ignores expotime on a dng only capture....
-            jpegReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, MAX_IMAGES);
-            Log.d(TAG, "ImageReader JPEG");
-        if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_jpeg)))
-        {
+        jpegReader = ImageReader.newInstance(jpeg_width, jpeg_height, ImageFormat.JPEG, MAX_IMAGES);
+        Log.d(TAG, "ImageReader JPEG");
+        if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_jpeg))) {
             captureDng = false;
             captureJpeg = true;
         }
 
-        if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16)) || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_jpg_p_dng)))
-        {
+        if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16)) || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_jpg_p_dng))) {
             Log.d(TAG, "ImageReader RAW_SENSOR");
-            largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
-            rawReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW_SENSOR, MAX_IMAGES);
-            if(picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16)))
-            {
+            if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16))) {
                 captureDng = true;
                 captureJpeg = false;
-            }
-            else
-            {
+            } else {
                 captureJpeg = true;
                 captureDng = true;
             }
         }
-        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10)))
-        {
+        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10))) {
             Log.d(TAG, "ImageReader RAW10");
-            largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
-            rawReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW10, MAX_IMAGES);
             captureDng = true;
             captureJpeg = false;
-
         }
-        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng12)))
-        {
+        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng12))) {
             Log.d(TAG, "ImageReader RAW12");
-            largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW12)), new CompareSizesByArea());
-            rawReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW12, MAX_IMAGES);
             captureDng = true;
             captureJpeg = false;
-
         }
-        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer)))
-        {
+        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer))) {
             Log.d(TAG, "ImageReader RAW12");
-            largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
-            rawReader = ImageReader.newInstance(largestImageSize.getWidth(), largestImageSize.getHeight(), ImageFormat.RAW_SENSOR, MAX_IMAGES);
             captureDng = false;
             captureJpeg = false;
-
         }
         else {
-            if (rawReader != null) {
-                rawReader.close();
-                rawReader = null;
-            }
-            rawReader = null;
             captureDng = false;
+        }
+
+        if (raw_format != 0)
+        {
+            rawReader = ImageReader.newInstance(raw_width, raw_height, raw_format, MAX_IMAGES);
+        }
+        else if (rawReader != null)
+        {
+            rawReader.close();
+            rawReader = null;
+        }
+    }
+
+    private void setHuaweiOutput() {
+
+        if (SettingsManager.get(SettingKeys.dualPrimaryCameraMode).isSupported())
+        {
+            String camera = SettingsManager.get(SettingKeys.dualPrimaryCameraMode).get();
+            //handel the first cam or the case that the second sensor has same size as first
+            if (camera.equals(SettingsManager.getInstance().getResString(R.string.hw_dualcamera_Primary))
+                    || cameraUiWrapper.parametersHandler.get(SettingKeys.secondarySensorSize) == null)
+                setStockOutput();
+            else if (camera.equals(SettingsManager.getInstance().getResString(R.string.hw_dualcamera_Secondary)))
+            {
+                String picSize = SettingsManager.get(SettingKeys.secondarySensorSize).get();
+                String[] split = picSize.split("x");
+                jpeg_width = Integer.parseInt(split[0]);
+                jpeg_height = Integer.parseInt(split[1]);
+
+                if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16))
+                        || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_jpg_p_dng))
+                        || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer))) {
+                    Log.d(TAG, "ImageReader RAW_SENSOR");
+                    int[] subsize = cameraHolder.characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE);
+                    if (subsize != null) {
+                        if (subsize.length > 2) {
+                            raw_width = subsize[2];
+                            raw_height = subsize[3];
+                        } else {
+                            raw_width = subsize[0];
+                            raw_height = subsize[1];
+                        }
+                    }
+                    else
+                    {
+                        Size largestImageSize = Collections.max(
+                                Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)),
+                                new CompareSizesByArea());
+                        raw_width = largestImageSize.getWidth();
+                        raw_height = largestImageSize.getHeight();
+                    }
+                    raw_format = ImageFormat.RAW_SENSOR;
+                }
+                else {
+                    raw_format = 0;
+                    raw_width =0;
+                    raw_height = 0;
+                }
+            }
+        }
+        else
+            setStockOutput();
+    }
+
+    private void setStockOutput() {
+        String picSize = SettingsManager.get(SettingKeys.PictureSize).get();
+        Size largestImageSize = Collections.max(
+                Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
+                new CompareSizesByArea());
+
+        String[] split = picSize.split("x");
+        if (split.length < 2) {
+            jpeg_width = largestImageSize.getWidth();
+            jpeg_height = largestImageSize.getHeight();
+        } else {
+            jpeg_width = Integer.parseInt(split[0]);
+            jpeg_height = Integer.parseInt(split[1]);
+        }
+
+
+        if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16))
+                || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_jpg_p_dng))
+                || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer))) {
+            Log.d(TAG, "ImageReader RAW_SENSOR");
+            largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
+            raw_width = largestImageSize.getWidth();
+            raw_height = largestImageSize.getHeight();
+            raw_format = ImageFormat.RAW_SENSOR;
+
+        } else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10))) {
+            Log.d(TAG, "ImageReader RAW10");
+            largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
+            raw_width = largestImageSize.getWidth();
+            raw_height = largestImageSize.getHeight();
+            raw_format = ImageFormat.RAW10;
+
+        } else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng12))) {
+            Log.d(TAG, "ImageReader RAW12");
+            largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW12)), new CompareSizesByArea());
+            raw_width = largestImageSize.getWidth();
+            raw_height = largestImageSize.getHeight();
+            raw_format = ImageFormat.RAW12;
+        } else {
+            raw_format =0;
+            raw_width = 0;
+            raw_height = 0;
         }
     }
 
