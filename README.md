@@ -17,18 +17,21 @@ FreeDcam
 Build
 =====
 To build use latest [Android Studio](http://developer.android.com/sdk/installing/studio.html)  
-Use NDK 12b!
+~~Use NDK 12b!~~
 
-All needed libs are included
+All needed libs are included, you have to build LLVM and [Halide](https://github.com/halide/Halide/).  
+Read Halide [Readme](https://github.com/halide/Halide/blob/master/README.md) for building
 
 For ndk build set in your *local.properties*  
 `ndk.dir=C\:\\Android\\android-ndk-r10b`  
 Yes you need `\\` that for the folderpath
 
-also you need now to set halide and llvm paths in your gradle.properties
+also you need now to set halide and llvm paths in your *gradle.properties*  
 `halideDir=M:/Code/halide-build`  
 `hostClang=M:/Code/llvm-build/Release/bin/clang++.exe`  
 When bulding on x64 with MSBuild set `-Thost=64` else halide complains about aarch64 not supported  
+
+HalideGenerator build is based on [f4bsch/HalideAndroidCamera2Example](https://github.com/f4bsch/HalideAndroidCamera2Example)
 
 
 Supported Apis:
@@ -46,19 +49,19 @@ Supported Apis:
 Projects used by FreeDcam
 =========================
 
-[MetadataExtractor](https://github.com/drewnoakes/metadata-extractor)  
-
+[~~MetadataExtractor~~](https://github.com/drewnoakes/metadata-extractor)  
 
 [Libtiff](http://www.remotesensing.org/libtiff/)
 
-
 Special Thanks @ [Dave Coffin](https://www.cybercom.net/~dcoffin/dcraw/) for dcraw and the bayer extracting to 16bit  
-
 
 [Libraw](https://github.com/LibRaw/LibRaw)
 
-
 [TouchImageview](https://github.com/MikeOrtiz/TouchImageView)
+
+[Halide](https://github.com/halide/Halide/)
+
+[HDR+](https://github.com/timothybrooks/hdr-plus)
 
 Q&A
 ===
