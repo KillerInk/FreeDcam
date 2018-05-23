@@ -25,6 +25,10 @@ For ndk build set in your *local.properties*
 `ndk.dir=C\:\\Android\\android-ndk-r10b`  
 Yes you need `\\` that for the folderpath
 
+also you need now to set halide and llvm paths in your gradle.properties
+'halideDir=M:/Code/halide-build'
+'hostClang=M:/Code/llvm-build/Release/bin/clang++.exe'
+
 
 Supported Apis:
 ===========
