@@ -16,10 +16,10 @@ it under the terms of the one of two licenses as you choose:
 
 #define CLASS LibRaw::
 
-#include "libraw/libraw_types.h"
+#include "LibRaw/libraw_types.h"
 #define LIBRAW_LIBRARY_BUILD
 #define LIBRAW_IO_REDEFINED
-#include "libraw/libraw.h"
+#include "LibRaw/libraw.h"
 #include "internal/defines.h"
 #define SRC_USES_SHRINK
 #define SRC_USES_BLACK

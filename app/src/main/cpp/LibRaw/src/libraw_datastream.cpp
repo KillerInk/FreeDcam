@@ -23,9 +23,9 @@
 #endif
 
 #define LIBRAW_LIBRARY_BUILD
-#include "libraw/libraw_types.h"
-#include "libraw/libraw.h"
-#include "libraw/libraw_datastream.h"
+#include "LibRaw/libraw_types.h"
+#include "LibRaw/libraw.h"
+#include "LibRaw/libraw_datastream.h"
 #include <sys/stat.h>
 #ifdef USE_JASPER
 #include <jasper/jasper.h>	/* Decode RED camera movies */

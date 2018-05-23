@@ -20,9 +20,9 @@ it under the terms of the one of two licenses as you choose:
 
 #include <math.h>
 #define CLASS LibRaw::
-#include "libraw/libraw_types.h"
+#include "LibRaw/libraw_types.h"
 #define LIBRAW_LIBRARY_BUILD
-#include "libraw/libraw.h"
+#include "LibRaw/libraw.h"
 #include "internal/defines.h"
 #include "internal/var_defines.h"
 /*

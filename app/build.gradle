@@ -26,7 +26,7 @@ android {
         }*/
         externalNativeBuild {
             cmake {
-                arguments "-DANDROID_TOOLCHAIN=clang"
+                arguments "-DANDROID_TOOLCHAIN=clang","-DHALIDE_DIR=" + halideDir, "-DHOST_CLANG=" + hostClang
                 cppFlags " -fexceptions -fpermissive -fopenmp -DAVOID_TABLES -O3 -fstrict-aliasing -fprefetch-loop-arrays -Wno-c++11-narrowing -Wnonportable-include-path"
             }
             ndk {

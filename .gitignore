@@ -23,3 +23,12 @@ app/manifest-merger-release-report.txt
 */build/*
 app/libs/arm64-v8a/libfreedcam.so
 app/.externalNativeBuild/*
+/app/src/main/cpp/hl-pipelines/arm-32-android/
+/app/src/main/cpp/hl-pipelines/arm-64-android/
+/app/src/main/cpp/hl-pipelines/deinterleave.h
+/app/src/main/cpp/hl-pipelines/deinterleave_gen.exe
+/app/src/main/cpp/hl-pipelines/edge_detect_gen.exe
+/app/src/main/cpp/hl-pipelines/gen/dummy.c
+/app/src/main/cpp/hl-pipelines/gen/tool.cpp
+/app/src/main/cpp/hl-pipelines/Halide.dll
+/app/src/main/cpp/hl-pipelines/edge_detect.h

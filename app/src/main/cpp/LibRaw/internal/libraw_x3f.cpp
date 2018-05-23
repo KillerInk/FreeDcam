@@ -37,7 +37,7 @@ BSD-style License
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
-#include "../libraw/libraw_datastream.h"
+#include "../LibRaw/libraw_datastream.h"
 
 #define SIZE_UNIQUE_IDENTIFIER 16
 #define SIZE_WHITE_BALANCE 32

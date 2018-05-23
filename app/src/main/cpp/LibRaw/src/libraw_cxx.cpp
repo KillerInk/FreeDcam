@@ -30,7 +30,7 @@ it under the terms of the one of two licenses as you choose:
 #include <winsock2.h>
 #endif
 #define LIBRAW_LIBRARY_BUILD
-#include "libraw/libraw.h"
+#include "LibRaw/libraw.h"
 #include "internal/defines.h"
 #ifdef USE_ZLIB
 #include <zlib.h>
