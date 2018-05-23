@@ -26,8 +26,9 @@ For ndk build set in your *local.properties*
 Yes you need `\\` that for the folderpath
 
 also you need now to set halide and llvm paths in your gradle.properties
-'halideDir=M:/Code/halide-build'
-'hostClang=M:/Code/llvm-build/Release/bin/clang++.exe'
+`halideDir=M:/Code/halide-build`  
+`hostClang=M:/Code/llvm-build/Release/bin/clang++.exe`  
+When bulding on x64 with MSBuild set `-Thost=64` else halide complains about aarch64 not supported  
 
 
 Supported Apis:
