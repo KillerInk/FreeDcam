@@ -30,6 +30,7 @@ import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 public class VideoMediaProfile
 {
     private static final String TAG = VideoMediaProfile.class.getSimpleName();
+    public static long MAX_RECORDING_SIZE = 3037822976L;
     //The target audio output bit rate in bits per second
     public int audioBitRate;
     //The number of audio channels used for the audio track
@@ -54,6 +55,8 @@ public class VideoMediaProfile
     public VideoMode Mode;
 
     public boolean isAudioActive;
+
+    public long maxRecordingSize;
 
     public enum VideoMode
     {
@@ -85,7 +88,7 @@ public class VideoMediaProfile
         Log.d(TAG,"VBitrate:"+ videoBitRate +"VCodec:"+ videoCodec +"VFrameRate:"+ videoFrameRate +"VWidth:"+ videoFrameWidth +"Vheight:"+ videoFrameHeight);
     }
 
-    public VideoMediaProfile(int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12, String ProfileName, VideoMode mode, boolean isAudioActive)
+    public VideoMediaProfile(int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12,long maxRecordingSize, String ProfileName, VideoMode mode, boolean isAudioActive)
     {
         audioBitRate = v1;
         audioChannels = v2;
@@ -102,7 +105,8 @@ public class VideoMediaProfile
         this.ProfileName = ProfileName;
         Mode = mode;
         this.isAudioActive = isAudioActive;
-        Log.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+ duration +"FileFormat:"+ fileFormat +"Quality:"+ quality);
+        this.maxRecordingSize = maxRecordingSize;
+        Log.d(TAG, "ProfileName:"+ ProfileName+ " Duration:"+ duration +" FileFormat:"+ fileFormat +" Quality:"+ quality +" RecSize:" + maxRecordingSize);
         Log.d(TAG, "ABR:"+ audioBitRate +"AChannels:"+ audioChannels +"Acodec:"+ audioCodec +"AsampleRate"+ audioSampleRate +"audio_active:" + isAudioActive);
         Log.d(TAG,"VBitrate:"+ videoBitRate +"VCodec:"+ videoCodec +"VFrameRate:"+ videoFrameRate +"VWidth:"+ videoFrameWidth +"Vheight:"+ videoFrameHeight);
     }
@@ -124,6 +128,10 @@ public class VideoMediaProfile
         ProfileName = ar[12];
         Mode = VideoMode.valueOf(ar[13]);
         isAudioActive = ar.length == 14 || Boolean.parseBoolean(ar[14]);
+        if (ar.length == 16)
+            maxRecordingSize = Long.parseLong(ar[15]);
+        else
+            maxRecordingSize = 0;
 
         Log.d(TAG, "ProfileName:" + ProfileName + "Duration:" + duration + "FileFormat:" + fileFormat + "Quality:" + quality);
         Log.d(TAG, "ABR:" + audioBitRate + "AChannels:" + audioChannels + "Acodec:" + audioCodec + "AsampleRate" + audioSampleRate + "audio_active:" + isAudioActive);
@@ -148,7 +156,8 @@ public class VideoMediaProfile
                 videoFrameWidth + " " +
                 ProfileName + " " +
                 Mode + " " +
-                isAudioActive + " ";
+                isAudioActive + " " +
+                maxRecordingSize;
     }
 
     public VideoMediaProfile(XmlElement xmlElement)
@@ -167,6 +176,7 @@ public class VideoMediaProfile
         videoFrameWidth = xmlElement.findChild("videoFrameWidth").getIntValue(0);
         isAudioActive = xmlElement.findChild("isAudioActive").getBooleanValue();
         Mode = VideoMode.valueOf(xmlElement.findChild("Mode").getValue());
+        maxRecordingSize = xmlElement.findChild("recordingsize").getLongValue();
     }
     public String getXmlString()
     {
@@ -191,7 +201,7 @@ public class VideoMediaProfile
 
     public VideoMediaProfile clone()
     {
-        return new VideoMediaProfile(audioBitRate, audioChannels, audioCodec, audioSampleRate, duration, fileFormat, quality, videoBitRate, videoCodec, videoFrameRate, videoFrameHeight, videoFrameWidth, ProfileName, Mode, isAudioActive);
+        return new VideoMediaProfile(audioBitRate, audioChannels, audioCodec, audioSampleRate, duration, fileFormat, quality, videoBitRate, videoCodec, videoFrameRate, videoFrameHeight, videoFrameWidth,maxRecordingSize, ProfileName, Mode, isAudioActive);
     }
 
 }

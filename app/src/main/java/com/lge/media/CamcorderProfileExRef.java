@@ -143,6 +143,7 @@ public class CamcorderProfileExRef {
                     (int)FIELD_videoFrameRate.get(ob),
                     (int)FIELD_videoFrameHeight.get(ob),
                     (int)FIELD_videoFrameWidth.get(ob),
+                    VideoMediaProfile.MAX_RECORDING_SIZE,
                     ProfileName,mode,isAudioActive
 
             );

@@ -35,6 +35,7 @@ import java.io.IOException;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
@@ -46,7 +47,7 @@ import freed.utils.Log;
  */
 public abstract class AbstractVideoModule extends ModuleAbstract implements MediaRecorder.OnInfoListener
 {
-    MediaRecorder recorder;
+    VideoRecorder recorder;
     private String mediaSavePath;
     private final String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
@@ -60,6 +61,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     public void InitModule() {
         super.InitModule();
         changeCaptureState(CaptureStates.video_recording_stop);
+        initRecorder();
     }
 
     @Override
@@ -116,29 +118,27 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             Log.d(TAG, "InitMediaRecorder");
             isWorking = true;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().unlock();
-            recorder = initRecorder();
-            recorder.setMaxFileSize(3037822976L); //~2.8 gigabyte
-            recorder.setMaxDuration(7200000); //2hours
-            recorder.setOnErrorListener((mr, what, extra) -> {
+            mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
+            File tosave = new File(mediaSavePath);
+            recorder.setRecordingFile(tosave);
+            recorder.setErrorListener((mr, what, extra) -> {
                 Log.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
                 changeCaptureState(CaptureStates.video_recording_stop);
                 ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
             });
 
-            mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
-            File tosave = new File(mediaSavePath);
+
             if (!tosave.getParentFile().exists())
                 tosave.getParentFile().mkdirs();
 
-            setRecorderOutPutFile(mediaSavePath);
-            recorder.setOnInfoListener(this);
+            recorder.setInfoListener(this);
 
             if (SettingsManager.get(SettingKeys.orientationHack).get())
-                recorder.setOrientationHint(180);
+                recorder.setOrientation(180);
             else
-                recorder.setOrientationHint(0);
+                recorder.setOrientation(0);
 
-            recorder.setPreviewDisplay(((CameraHolder) cameraUiWrapper.getCameraHolder()).getSurfaceHolder());
+            recorder.setPreviewSurface(((CameraHolder) cameraUiWrapper.getCameraHolder()).getSurfaceHolder());
 
             try {
                 Log.d(TAG,"Preparing Recorder");
@@ -153,7 +153,6 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 Log.e(TAG,"Recording failed");
                 UserMessageHandler.sendMSG("Start Recording failed " + ex.getLocalizedMessage(),false);
                 Log.WriteEx(ex);
-                recorder.reset();
                 isWorking = false;
                 ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
                 recorder.release();
@@ -165,7 +164,6 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         {
             Log.WriteEx(ex);
             UserMessageHandler.sendMSG("Start Recording failed",false);
-            recorder.reset();
             isWorking = false;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
             recorder.release();
@@ -185,7 +183,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         changeCaptureState(CaptureStates.video_recording_start);
     }
 
-    protected abstract MediaRecorder initRecorder();
+    protected abstract void initRecorder();
 
     void stopRecording()
     {
@@ -202,7 +200,6 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         }
         finally
         {
-            recorder.reset();
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
             recorder.release();
             isWorking = false;
@@ -221,7 +218,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         }
     }
 
-    private void setRecorderOutPutFile(String s)
+    /*private void setRecorderOutPutFile(String s)
     {
         if (VERSION.SDK_INT < VERSION_CODES.KITKAT
                 || !SettingsManager.getInstance().GetWriteExternal() && VERSION.SDK_INT >= VERSION_CODES.KITKAT)
@@ -229,9 +226,9 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         else
         {
             File f = new File(s);
-            DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
-            DocumentFile wr = df.createFile("*/*", f.getName());
-            try {
+            DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();*/
+            //DocumentFile wr = df.createFile("*/*", f.getName());
+            /*try {
                 fileDescriptor = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
                 recorder.setOutputFile(fileDescriptor.getFileDescriptor());
             } catch (FileNotFoundException ex) {
@@ -244,7 +241,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             }
         }
 
-    }
+    }*/
 
     @Override
     public void onInfo(MediaRecorder mr, int what, int extra) {

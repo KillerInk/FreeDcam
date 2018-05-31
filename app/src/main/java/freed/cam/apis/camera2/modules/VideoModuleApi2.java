@@ -76,7 +76,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         this.cameraUiWrapper = (Camera2Fragment)cameraUiWrapper;
         name = cameraUiWrapper.getResString(R.string.module_video);
-        videoRecorder = new VideoRecorder(cameraUiWrapper);
+        videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
     }
 
     @Override
@@ -115,7 +115,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).getValues()[0]);
         }
         parameterHandler.get(SettingKeys.VideoProfiles).fireStringValueChanged(currentVideoProfile.ProfileName);
-        videoRecorder = new VideoRecorder(cameraUiWrapper);
+        videoRecorder = new VideoRecorder(cameraUiWrapper,new MediaRecorder());
         startPreview();
     }
 
@@ -266,7 +266,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         videoRecorder.setCurrentVideoProfile(currentVideoProfile);
         videoRecorder.setVideoSource(VideoSource.SURFACE);
         videoRecorder.setOrientation(0);
-        //videoRecorder.setPreviewSurface(previewsurface);
 
         videoRecorder.prepare();
         recorderSurface = videoRecorder.getSurface();

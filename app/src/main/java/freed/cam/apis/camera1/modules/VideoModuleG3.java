@@ -34,6 +34,7 @@ import java.io.File;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
@@ -49,7 +50,6 @@ import freed.utils.VideoMediaProfile.VideoMode;
  */
 public class VideoModuleG3 extends AbstractVideoModule
 {
-    private MediaRecorder recorder;
     private VideoMediaProfile currentProfile;
 
     private final String TAG = VideoModuleG3.class.getSimpleName();
@@ -58,80 +58,18 @@ public class VideoModuleG3 extends AbstractVideoModule
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
     }
 
-    protected MediaRecorder initRecorder()
+    protected void initRecorder()
     {
-        try {
-            recorder = new MediaRecorderExRef().getMediaRecorder();
-            recorder.reset();
-            recorder.setCamera(((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera());
-            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
-                Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
-                if (location != null)
-                    recorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
-            }
-            recorder.setVideoSource(VideoSource.CAMERA);
-            switch (currentProfile.Mode)
-            {
+        recorder = new VideoRecorder(cameraUiWrapper ,new MediaRecorderExRef().getMediaRecorder());
+        recorder.setCurrentVideoProfile(currentProfile);
 
-                case Normal:
-                case Highspeed:
-                    if (currentProfile.isAudioActive)
-                        recorder.setAudioSource(AudioSource.CAMCORDER);
-                    break;
-                case Timelapse:
-                    break;
-            }
-
-            recorder.setOutputFormat(OutputFormat.MPEG_4);
-            recorder.setVideoFrameRate(currentProfile.videoFrameRate);
-            recorder.setVideoSize(currentProfile.videoFrameWidth, currentProfile.videoFrameHeight);
-            recorder.setVideoEncodingBitRate(currentProfile.videoBitRate);
-            try {
-                recorder.setVideoEncoder(currentProfile.videoCodec);
-            }
-            catch (IllegalArgumentException ex)
-            {
-                recorder.reset();
-                UserMessageHandler.sendMSG("VideoCodec not Supported",false);
-            }
-
-
-            switch (currentProfile.Mode)
-            {
-                case Normal:
-                case Highspeed:
-                    if (currentProfile.isAudioActive)
-                        setAudioStuff(currentProfile);
-                    break;
-                case Timelapse:
-                    float frame = 30;
-                    if (!TextUtils.isEmpty(SettingsManager.getInstance().getApiString(SettingsManager.TIMELAPSEFRAME)))
-                        frame = Float.parseFloat(SettingsManager.getInstance().getApiString(SettingsManager.TIMELAPSEFRAME).replace(",", "."));
-                    else
-                        SettingsManager.getInstance().setApiString(SettingsManager.TIMELAPSEFRAME, "" + frame);
-                    recorder.setCaptureRate(frame);
-                    break;
-            }
+        recorder.setCamera(((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera());
+        if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
+            Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
+            if (location != null)
+                recorder.setLocation(location);
         }
-        catch (IllegalStateException ex)
-        {
-            recorder.reset();
-        }
-        return recorder;
-    }
-
-    private void setAudioStuff(VideoMediaProfile prof) {
-        recorder.setAudioSamplingRate(prof.audioSampleRate);
-        recorder.setAudioEncodingBitRate(prof.audioBitRate);
-        recorder.setAudioChannels(prof.audioChannels);
-        try {
-            recorder.setAudioEncoder(prof.audioCodec);
-        }
-        catch (IllegalArgumentException ex)
-        {
-            recorder.reset();
-            UserMessageHandler.sendMSG("AudioCodec not Supported",false);
-        }
+        recorder.setVideoSource(VideoSource.CAMERA);
 
     }
 

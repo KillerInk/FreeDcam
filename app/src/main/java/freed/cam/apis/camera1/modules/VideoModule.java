@@ -33,6 +33,7 @@ import java.io.File;
 import java.util.Arrays;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -59,74 +60,13 @@ public class VideoModule extends AbstractVideoModule
 
 
 
-    protected MediaRecorder initRecorder()
+    protected void initRecorder()
     {
-        recorder = new MediaRecorder();
-        recorder.reset();
+        recorder = new VideoRecorder(cameraUiWrapper,new MediaRecorder());
         recorder.setCamera(((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera());
-        if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
-            Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
-            if (location != null)
-                recorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
-        }
 
+        recorder.setCurrentVideoProfile(currentProfile);
         recorder.setVideoSource(VideoSource.CAMERA);
-
-        switch (currentProfile.Mode)
-        {
-            case Normal:
-            case Highspeed:
-                if(currentProfile.isAudioActive)
-                    recorder.setAudioSource(AudioSource.CAMCORDER);
-                break;
-            case Timelapse:
-                break;
-        }
-        recorder.setOutputFormat(OutputFormat.MPEG_4);
-        int maXFPS = 30;
-        recorder.setVideoFrameRate(maXFPS);
-        recorder.setVideoSize(currentProfile.videoFrameWidth, currentProfile.videoFrameHeight);
-        recorder.setVideoEncodingBitRate(currentProfile.videoBitRate);
-        try {
-            recorder.setVideoEncoder(currentProfile.videoCodec);
-        }
-        catch (IllegalArgumentException ex)
-        {
-            recorder.reset();
-            UserMessageHandler.sendMSG("VideoCodec not Supported",false);
-            Log.WriteEx(ex);
-        }
-
-        switch (currentProfile.Mode)
-        {
-            case Normal:
-            case Highspeed:
-                if(currentProfile.isAudioActive)
-                {
-                    recorder.setAudioSamplingRate(currentProfile.audioSampleRate);
-                    recorder.setAudioEncodingBitRate(currentProfile.audioBitRate);
-                    recorder.setAudioChannels(currentProfile.audioChannels);
-                    try {
-                        recorder.setAudioEncoder(currentProfile.audioCodec);
-                    }
-                    catch (IllegalArgumentException ex)
-                    {
-                        recorder.reset();
-                        UserMessageHandler.sendMSG("AudioCodec not Supported",false);
-                        Log.WriteEx(ex);
-                    }
-                }
-                break;
-            case Timelapse:
-                float frame = 60;
-                if(!TextUtils.isEmpty(SettingsManager.getInstance().getApiString(SettingsManager.TIMELAPSEFRAME)))
-                    frame = Float.parseFloat(SettingsManager.getInstance().getApiString(SettingsManager.TIMELAPSEFRAME).replace(",", "."));
-                else
-                    SettingsManager.getInstance().setApiString(SettingsManager.TIMELAPSEFRAME, ""+frame);
-                recorder.setCaptureRate(frame);
-                break;
-        }
-        return recorder;
     }
 
 
