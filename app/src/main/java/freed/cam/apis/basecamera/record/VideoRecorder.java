@@ -37,8 +37,6 @@ public class VideoRecorder {
     private int outputSource;
     private File recordingFile;
     private int orientation;
-    private long maxRecordingSize =3037822976L; //~2.8 gigabyte
-    private int maxRecordingDuration = 7200000; //2hours
 
     private Camera camera;
 
@@ -111,8 +109,10 @@ public class VideoRecorder {
             mediaRecorder.setCamera(camera);
         if (previewSurface != null)
             mediaRecorder.setPreviewDisplay(previewSurface);
-        mediaRecorder.setMaxFileSize(currentVideoProfile.maxRecordingSize);
-        mediaRecorder.setMaxDuration(currentVideoProfile.duration*1000);
+        if (currentVideoProfile.maxRecordingSize != 0)
+            mediaRecorder.setMaxFileSize(currentVideoProfile.maxRecordingSize);
+        if (currentVideoProfile.duration != 0)
+            mediaRecorder.setMaxDuration(currentVideoProfile.duration);
         if (errorListener != null)
             mediaRecorder.setOnErrorListener(errorListener);
 

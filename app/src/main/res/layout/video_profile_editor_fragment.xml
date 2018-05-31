@@ -217,6 +217,30 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewrecsize"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MaxRecordSize in MB:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/abc_primary_text_material_light" />
+
+                <EditText
+                    android:id="@+id/editText_recordsize"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent" >
@@ -225,7 +249,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="MaxRecordTime:"
+                    android:text="MaxRecordTime in MIN:"
                     android:id="@+id/textView20"
                     android:layout_weight="1"
                     android:textColor="@color/abc_primary_text_material_light" />
@@ -237,6 +261,7 @@
                     android:ems="10"
                     android:id="@+id/editText_recordtime"
                     android:layout_weight="1" />
+
             </LinearLayout>
 
             <LinearLayout

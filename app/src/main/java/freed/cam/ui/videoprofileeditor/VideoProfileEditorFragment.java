@@ -98,6 +98,7 @@ public class VideoProfileEditorFragment extends Fragment {
     private EditText editText_videobitrate;
     private EditText editText_videoframerate;
     private EditText editText_maxrecordtime;
+    private EditText editText_maxrecordsize;
     private EditText editText_width;
     private EditText editText_height;
     private Button button_recordMode;
@@ -125,6 +126,7 @@ public class VideoProfileEditorFragment extends Fragment {
         editText_videobitrate = view.findViewById(id.editText_videoBitrate);
         editText_videoframerate = view.findViewById(id.editText_videoframerate);
         editText_maxrecordtime = view.findViewById(id.editText_recordtime);
+        editText_maxrecordsize = view.findViewById(id.editText_recordsize);
         editText_width = view.findViewById(id.editText_Profilewidth);
         editText_height = view.findViewById(id.editText_Profileheight);
         Button button_save = view.findViewById(id.button_Save_profile);
@@ -277,9 +279,38 @@ public class VideoProfileEditorFragment extends Fragment {
         editText_videobitrate.setText("");
         editText_videoframerate.setText("");
         editText_maxrecordtime.setText("");
+        editText_maxrecordsize.setText("");
         editText_width.setText("");
         editText_height.setText("");
         button_recordMode.setText("");
+    }
+
+    private int convertFromMStoMin(int time)
+    {
+        if (time != 0)
+            return time /60 /1000;
+        return 0;
+    }
+
+    private int convertFromMinToMS(int time)
+    {
+        if (time !=0)
+            return time *60 * 1000;
+        return 0;
+    }
+
+    private long convertByteToMB(long bytl)
+    {
+        if (bytl != 0)
+            return bytl /1024;
+        return 0;
+    }
+
+    private long convertMbToByte(long mb)
+    {
+        if (mb != 0)
+            return mb *1024;
+        return 0;
     }
 
     private void setMediaProfile(VideoMediaProfile profile)
@@ -294,7 +325,8 @@ public class VideoProfileEditorFragment extends Fragment {
         editText_audiosamplerate.setText(profile.audioSampleRate+"");
         editText_videobitrate.setText(profile.videoBitRate+"");
         editText_videoframerate.setText(profile.videoFrameRate+"");
-        editText_maxrecordtime.setText(profile.duration+"");
+        editText_maxrecordtime.setText(convertFromMStoMin(profile.duration)+"");
+        editText_maxrecordsize.setText(convertByteToMB(profile.maxRecordingSize)+"");
         editText_height.setText(profile.videoFrameHeight+"");
         editText_width.setText(profile.videoFrameWidth+"");
         switch_Audio.setChecked(profile.isAudioActive);
@@ -340,7 +372,8 @@ public class VideoProfileEditorFragment extends Fragment {
 
             currentProfile.videoBitRate = Integer.parseInt(editText_videobitrate.getText().toString());
             currentProfile.videoFrameRate = Integer.parseInt(editText_videoframerate.getText().toString());
-            currentProfile.duration = Integer.parseInt(editText_maxrecordtime.getText().toString());
+            currentProfile.duration = convertFromMinToMS(Integer.parseInt(editText_maxrecordtime.getText().toString()));
+            currentProfile.maxRecordingSize = convertMbToByte(Long.parseLong(editText_maxrecordsize.getText().toString()));
             currentProfile.isAudioActive = switch_Audio.isChecked();
             currentProfile.Mode = VideoMode.valueOf((String) button_recordMode.getText());
             currentProfile.videoFrameHeight = Integer.parseInt(editText_height.getText().toString());

@@ -72,7 +72,8 @@ public class VideoMediaProfile
         audioChannels = ex.audioChannels;
         audioCodec = ex.audioCodec;
         audioSampleRate = ex.audioSampleRate;
-        duration = ex.duration;
+        duration = ex.duration *60 *1000; //from min to ms
+        maxRecordingSize = 0;
         fileFormat = ex.fileFormat;
         quality = ex.quality;
         videoBitRate = ex.videoBitRate;
