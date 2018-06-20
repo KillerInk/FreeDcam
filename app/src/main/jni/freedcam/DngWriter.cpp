@@ -308,7 +308,6 @@ void DngWriter::processTight(TIFF *tif) {
     {
         LOGD("Free Buffer");
         free(buffer);
-        buffer = NULL;
         LOGD("Freed Buffer");
     }
     LOGD("Mem Released");
@@ -389,7 +388,6 @@ void DngWriter::process12tight(TIFF *tif) {
     TIFFWriteRawStrip(tif, 0, out, dngProfile->rawheight*shouldberowsize);
     LOGD("Finalizng DNG");
     delete[] out;
-    out = NULL;
 }
 
 void DngWriter::processLoose(TIFF *tif) {
@@ -439,7 +437,6 @@ void DngWriter::processLoose(TIFF *tif) {
     {
         LOGD("Free Buffer");
         free(buffer);
-        buffer = NULL;
         LOGD("Freed Buffer");
     }
 
@@ -468,6 +465,7 @@ void DngWriter::processSXXX16(TIFF *tif) {
             LOGD("Error writing TIFF scanline.");
         }
     }
+
     LOGD("Finalizng DNG");
     LOGD("Free Memory");
     free(pixel);
