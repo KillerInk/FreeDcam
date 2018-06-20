@@ -474,9 +474,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         }
 
         cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
-
-        Log.d(TAG, "CancelRepeatingCaptureSessoion set imageRdyCallback");
-        cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         prepareCaptureBuilder(imagecount);
         changeCaptureState(CaptureStates.image_capture_start);
         Log.d(TAG, "StartStillCapture");
@@ -616,7 +613,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         try
         {
             imagecount++;
-            Log.d(TAG,"finished Capture:" + imagecount);
+            Log.d(TAG,"finished Capture:" + imagecount + "isBurst:" + isBurstCapture);
             if (Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).GetStringValue())  > imagecount) {
                 captureStillPicture();
             }
@@ -654,6 +651,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     @Override
     public void internalFireOnWorkDone(File file)
     {
+        Log.d(TAG, "internalFireOnWorkDone isBurst" + isBurstCapture + " burstCount/imagecount:" + burstCount + "/" +imagecount);
         if (workFinishEventsListner != null)
             workFinishEventsListner.internalFireOnWorkDone(file);
         else {

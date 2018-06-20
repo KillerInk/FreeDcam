@@ -45,7 +45,7 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
     public IntervalModule(ModuleAbstract picModule, CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler,mainHandler);
         this.picModule = picModule;
-        picModule.setOverrideWorkFinishListner(this);
+
 
         intervalHandler = new IntervalHandler(picModule);
         name = cameraUiWrapper.getResString(R.string.module_interval);
@@ -95,6 +95,7 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
         super.InitModule();
         picModule.InitModule();
         picModule.SetCaptureStateChangedListner(this);
+        picModule.setOverrideWorkFinishListner(this);
         changeCaptureState(CaptureStates.continouse_capture_stop);
     }
 
@@ -106,6 +107,7 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
 
     @Override
     public void DestroyModule() {
+        picModule.setOverrideWorkFinishListner(null);
         picModule.DestroyModule();
     }
 
