@@ -272,10 +272,11 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         buffer.get(bytes);
         ImageSaveTask task = new ImageSaveTask(activityInterface,moduleInterface);
         task.setBytesTosave(bytes, ImageSaveTask.JPEG);
-        buffer.clear();
-        image.close();
         task.setFilePath(file,externalSD);
         ImageManager.putImageSaveTask(task);
+        buffer.clear();
+        image.close();
+
     }
 
 

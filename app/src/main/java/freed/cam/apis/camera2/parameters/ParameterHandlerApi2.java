@@ -48,6 +48,7 @@ import freed.cam.apis.camera2.parameters.modes.AeLockModeApi2;
 import freed.cam.apis.camera2.parameters.modes.AeTargetRangeApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 import freed.cam.apis.camera2.parameters.modes.DualCameraModeHuaweiApi2;
+import freed.cam.apis.camera2.parameters.modes.FocusMode;
 import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
@@ -103,7 +104,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         if (SettingsManager.get(SettingKeys.OIS_MODE).isSupported())
             add(SettingKeys.OIS_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.OIS_MODE,CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
         if (SettingsManager.get(SettingKeys.FocusMode).isSupported()) {
-            add(SettingKeys.FocusMode, new BaseModeApi2(cameraUiWrapper, SettingKeys.FocusMode, CaptureRequest.CONTROL_AF_MODE));
+            add(SettingKeys.FocusMode, new FocusMode(cameraUiWrapper, SettingKeys.FocusMode, CaptureRequest.CONTROL_AF_MODE));
             get(SettingKeys.FocusMode).addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
         }
         if (SettingsManager.get(SettingKeys.HOT_PIXEL_MODE).isSupported())

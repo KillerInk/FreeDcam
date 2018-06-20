@@ -693,9 +693,11 @@ public class CaptureSessionHandler
     {
         //SetParameter(key,null);
         /*captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);*/
-        Log.d(TAG, "Set :" + key.getName() + " to " + value.toString());
+        if (value != null)
+            Log.d(TAG, "Set :" + key.getName() + " to " + value.toString());
         SetParameter(key,value);
-        SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+        if (value != null)
+            SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
     }
 
 }

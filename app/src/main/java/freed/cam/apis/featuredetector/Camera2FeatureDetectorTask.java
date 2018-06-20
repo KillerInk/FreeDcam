@@ -169,6 +169,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect FocusMode");
                         detectIntMode(characteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, SettingsManager.get(SettingKeys.FocusMode), R.array.focusModes);
+                        SettingsManager.get(SettingKeys.FocusMode).set(SettingsManager.getInstance().getResString(R.string.focus_mode_continousepicture));
                         sendProgress(SettingsManager.get(SettingKeys.FocusMode), "FocusMode");
                     } catch (Exception e) {
                         Log.WriteEx(e);
