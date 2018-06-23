@@ -48,7 +48,7 @@
 
     <view
         android:id="@+id/curveView"
-        class="freed.utils.CurveViewControl"
+        class="freed.views.CurveViewControl"
         layout_width="match_parent"
         android:layout_width="@dimen/curveViewWidth"
         android:layout_height="@dimen/curveViewHeight"

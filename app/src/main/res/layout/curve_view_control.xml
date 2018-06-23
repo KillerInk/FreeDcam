@@ -10,6 +10,22 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/curveViewButtonHeight"
+            android:layout_weight="1"
+            android:background="@color/button_notclicked"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/button_load"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/curveViewButtonHeight"
+            android:layout_weight="1"
+            android:background="@color/button_notclicked"
+            android:text="Load" />
+
+        <Button
             android:id="@+id/button_add_point"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/curveViewButtonHeight"
@@ -64,11 +80,46 @@
             android:text="B" />
     </LinearLayout>
 
-    <view
-        android:id="@+id/curveViewHolder"
-        class="freed.utils.CurveView"
-        layout_width="match_parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/uiSettingsBackground" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <view
+            android:id="@+id/curveViewHolder"
+            class="freed.views.CurveView"
+            layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/uiSettingsBackground" />
+
+        <LinearLayout
+            android:id="@+id/save_panel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/button_notclicked">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter Curve Name" />
+
+            <EditText
+                android:id="@+id/editText_curvename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name" />
+
+            <Button
+                android:id="@+id/button_savecurve"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save Curve" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
 </LinearLayout>

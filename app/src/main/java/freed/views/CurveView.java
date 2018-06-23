@@ -1,4 +1,4 @@
-package freed.utils;
+package freed.views;
 
 
 import android.content.Context;

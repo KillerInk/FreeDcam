@@ -46,8 +46,8 @@ import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.CurveView;
-import freed.utils.CurveViewControl;
+import freed.views.CurveView;
+import freed.views.CurveViewControl;
 import freed.utils.Log;
 
 /**

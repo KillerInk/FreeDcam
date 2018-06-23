@@ -1,13 +1,15 @@
-package freed.utils;
+package freed.views;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
@@ -24,6 +26,14 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     private Button button_b;
     private Button button_addPoint;
     private Button button_removePoint;
+    private Button button_save;
+    private Button button_load;
+
+    private EditText savePanel_editText_toneCurveName;
+    private Button savePanel_saveButton;
+
+    private LinearLayout savePanel;
+    private LinearLayout loadPanel;
 
     private PointF[] rgbCurve;
     private PointF[] rCurve;
@@ -60,21 +70,40 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.curve_view_control, this);
+
         this.button_rgb = findViewById(R.id.button_rgb);
-        button_rgb.setOnClickListener(onButtonClick);
+        button_rgb.setOnClickListener(onR_G_B_ButtonClick);
         activeButton = button_rgb;
+
         this.button_r = findViewById(R.id.button_red);
-        button_r.setOnClickListener(onButtonClick);
+        button_r.setOnClickListener(onR_G_B_ButtonClick);
+
         this.button_g = findViewById(R.id.button_green);
-        button_g.setOnClickListener(onButtonClick);
+        button_g.setOnClickListener(onR_G_B_ButtonClick);
+
         this.button_b = findViewById(R.id.button_blue);
-        button_b.setOnClickListener(onButtonClick);
-        this.curveView = findViewById(R.id.curveViewHolder);
+        button_b.setOnClickListener(onR_G_B_ButtonClick);
+
         button_addPoint = findViewById(R.id.button_add_point);
         button_addPoint.setOnClickListener(onAddPointClick);
+
         button_removePoint = findViewById(R.id.button_remove_point);
         button_removePoint.setOnClickListener(onRemovePointClick);
+
+        button_save =findViewById(R.id.button_save);
+        button_save.setOnClickListener(onSaveButtonClick);
+
+        button_load =findViewById(R.id.button_load);
+
+        this.curveView = findViewById(R.id.curveViewHolder);
         curveView.setCurveChangedListner(this);
+
+        savePanel = findViewById(R.id.save_panel);
+        savePanel.setVisibility(GONE);
+
+        savePanel_editText_toneCurveName = findViewById(R.id.editText_curvename);
+        savePanel_saveButton = findViewById(R.id.button_savecurve);
+
         rgbCurve = new PointF[]{new PointF(0,0),new PointF(0.25f,0.25f), new PointF(0.5f,0.5f),new PointF(0.75f,0.75f),new PointF(1,1)};
         rCurve = new PointF[]{new PointF(0,0),new PointF(0.25f,0.25f), new PointF(0.5f,0.5f),new PointF(0.75f,0.75f),new PointF(1,1)};
         gCurve = new PointF[]{new PointF(0,0),new PointF(0.25f,0.25f), new PointF(0.5f,0.5f),new PointF(0.75f,0.75f),new PointF(1,1)};
@@ -85,6 +114,32 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     {
         this.curveChangedListner = event;
     }
+
+    private OnClickListener onSaveButtonClick = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (savePanel.getVisibility() == GONE)
+                savePanel.setVisibility(VISIBLE);
+            else
+                savePanel.setVisibility(GONE);
+        }
+    };
+
+    private OnClickListener onSavePanelSaveCurveClick = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (!TextUtils.isEmpty(savePanel_editText_toneCurveName.getText().toString()))
+            {
+                VideoToneCurveProfile curveProfile = new VideoToneCurveProfile();
+                curveProfile.name = savePanel_editText_toneCurveName.getText().toString();
+                curveProfile.rgb = rgbCurve;
+                curveProfile.r = rCurve;
+                curveProfile.g = gCurve;
+                curveProfile.b = bCurve;
+                savePanel.setVisibility(GONE);
+            }
+        }
+    };
 
     private OnClickListener onRemovePointClick = new OnClickListener() {
         @Override
@@ -114,7 +169,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         }
     };
 
-    private OnClickListener onButtonClick = new OnClickListener() {
+    private OnClickListener onR_G_B_ButtonClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (v.getId() == activeButton.getId())
