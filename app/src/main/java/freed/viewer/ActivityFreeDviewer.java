@@ -352,8 +352,14 @@ public class ActivityFreeDviewer extends ActivityAbstract
         //super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == gridViewFragment.STACK_REQUEST || requestCode == gridViewFragment.DNGCONVERT_REQUEST)
         {
-            FileHolder f = getFiles().get(0).getParent();
-            LoadFolder(f, gridViewFragment.formatsToShow);
+            List<FileHolder> files = getFiles();
+            if(files.size() > 0) {
+
+                FileHolder f = getFiles().get(0).getParent();
+                LoadFolder(f, gridViewFragment.formatsToShow);
+            }
+            else
+                LoadDCIMDirs();
         }
 
     }
