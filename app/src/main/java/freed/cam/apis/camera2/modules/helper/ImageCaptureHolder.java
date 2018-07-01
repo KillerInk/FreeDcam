@@ -1,4 +1,4 @@
-package freed.cam.apis.camera2.modules;
+package freed.cam.apis.camera2.modules.helper;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
@@ -57,7 +57,11 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     private Location location;
     private boolean externalSD =false;
 
-    String filepath;
+    public String getFilepath() {
+        return filepath;
+    }
+
+    private String filepath;
 
     private boolean isRawCapture = false;
     private boolean isJpgCapture = false;
@@ -135,6 +139,9 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
             Log.d(TAG, "Reduction2:" + characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2).toString());
             logColorPattern();
             Log.d(TAG, "Blacklvl:" + characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0));
+            if (captureResult.get(CaptureResult.COLOR_CORRECTION_GAINS) != null)
+                Log.d(TAG, "CC Gain " + captureResult.get(CaptureResult.COLOR_CORRECTION_GAINS).toString());
+
         }
         catch (NullPointerException ex)
         {
@@ -167,7 +174,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
                 AddImage(img);
                 Log.d(TAG,"Add Jpeg");
             }
-            else if (isRawCapture && (img.getFormat() == ImageFormat.RAW_SENSOR || img.getFormat() == ImageFormat.RAW10)) {
+            else if (isRawCapture && (img.getFormat() == ImageFormat.RAW_SENSOR || img.getFormat() == ImageFormat.RAW10 || img.getFormat() != ImageFormat.JPEG)) {
                 AddImage(img);
                 Log.d(TAG,"Add raw");
             }
@@ -255,7 +262,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
                 file = new File(f+".dng");
                 task = process_rawWithDngConverter(image,DngProfile.Mipi12,file);
                 break;
-            case ImageFormat.RAW_SENSOR:
+            default:
                 if (!isRawCapture && !isJpgCapture)
                 {
                     file = new File(f + ".bayer");

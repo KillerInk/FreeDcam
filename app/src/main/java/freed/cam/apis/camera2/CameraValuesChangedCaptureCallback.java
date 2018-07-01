@@ -27,6 +27,13 @@ import freed.utils.StringUtils;
 public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.CaptureCallback
 {
 
+    private final boolean DO_LOG = false;
+    private void log(String s)
+    {
+        if (DO_LOG)
+            Log.d(TAG,s);
+    }
+
     public interface AeCompensationListner
     {
         void onAeCompensationChanged(int aecompensation);
@@ -150,28 +157,28 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             {
                 case CaptureResult.CONTROL_AE_STATE_CONVERGED:
                     //SetParameter(CaptureRequest.CONTROL_AE_LOCK, true);
-                    Log.v(TAG, "AESTATE: Converged");
+                    log("AESTATE: Converged");
                     aeLocked = true;
                     break;
                 case CaptureResult.CONTROL_AE_STATE_FLASH_REQUIRED:
                     flashRequired = true;
 
                     //SetParameter(CaptureRequest.CONTROL_AE_LOCK, true);
-                    Log.v(TAG, "AESTATE: FLASH_REQUIRED");
+                    log("AESTATE: FLASH_REQUIRED");
                     break;
                 case CaptureResult.CONTROL_AE_STATE_INACTIVE:
-                    Log.v(TAG, "AESTATE: INACTIVE");
+                    log( "AESTATE: INACTIVE");
                     break;
                 case CaptureResult.CONTROL_AE_STATE_LOCKED:
-                    Log.v(TAG, "AESTATE: LOCKED");
+                    log("AESTATE: LOCKED");
                     aeLocked = true;
                     break;
                 case CaptureResult.CONTROL_AE_STATE_PRECAPTURE:
-                    Log.v(TAG, "AESTATE: PRECAPTURE");
+                    log("AESTATE: PRECAPTURE");
 
                     break;
                 case CaptureResult.CONTROL_AE_STATE_SEARCHING:
-                    Log.v(TAG, "AESTATE: SEARCHING");
+                    log("AESTATE: SEARCHING");
 
                     break;
             }
@@ -241,7 +248,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             } catch (NullPointerException ex) {
                 Log.WriteEx(ex);
             }
-            Log.d(TAG, "new AF_STATE :"+state);
+            log("new AF_STATE :"+state);
         }
     }
 

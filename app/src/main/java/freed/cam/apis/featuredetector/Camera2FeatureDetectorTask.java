@@ -53,6 +53,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     @Override
     public void detect()
     {
+        publishProgress(Build.MODEL);
+        publishProgress(System.getProperty("os.version"));
         publishProgress("###################");
         publishProgress("#######Camera2#####");
         publishProgress("###################");
@@ -494,23 +496,17 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     SettingsManager.get(SettingKeys.secondarySensorSize).setValues(ls.toArray(new String[ls.size()]));
                     SettingsManager.get(SettingKeys.secondarySensorSize).setIsSupported(true);
                     SettingsManager.get(SettingKeys.secondarySensorSize).set(ls.get(0));
+                    Log.d(TAG, "HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE " + ls.toString());
                 }
+                else
+                    Log.d(TAG, "HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE not supported ");
             }
-            Log.d(TAG,"HUAWEI_SENCONDARY_JPEG_SUPPORTED_SIZE");
+            else
+                Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE not supported");
         }
         catch (NullPointerException | IllegalArgumentException ex)
         {
-            Log.e(TAG,"HUAWEI_SENCONDARY_JPEG_SUPPORTED_SIZE false");
-        }
-        try {
-            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);
-            if (hdc != null)
-                Log.d(TAG, Arrays.toString(hdc));
-            Log.d(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE");
-        }
-        catch (NullPointerException | IllegalArgumentException ex)
-        {
-            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE false");
+            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE not supported");
         }
 
         try {
@@ -658,6 +654,20 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
             }
         } catch (Exception e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (characteristics.get(CameraCharacteristicsEx.HUAWEI_RAW_FORMAT) != null) {
+                Byte rawFormat = characteristics.get(CameraCharacteristicsEx.HUAWEI_RAW_FORMAT);
+                hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16), rawFormat.intValue());
+                hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer), rawFormat.intValue());
+                Size[] size = smap.getOutputSizes(ImageFormat.RAW_SENSOR);
+                if (size != null)
+                {
+                    Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
+                }
+            }
+        } catch (IllegalArgumentException | NullPointerException e) {
             Log.WriteEx(e);
         }
         try {
