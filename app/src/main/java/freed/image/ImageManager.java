@@ -7,6 +7,8 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import freed.utils.Log;
+
 public class ImageManager {
 
     private static ImageManager imageManager = new ImageManager();
@@ -78,6 +80,7 @@ public class ImageManager {
                     imagesToSaveQueue);
             //handel case that queue is full, and wait till its free
             imageSaveExecutor.setRejectedExecutionHandler((r, executor) -> {
+                Log.d(TAG, "imageSave Queue full");
                 try {
                     executor.getQueue().put(r);
                 } catch (InterruptedException e) {

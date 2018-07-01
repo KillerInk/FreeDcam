@@ -73,7 +73,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     private int raw_format;
     protected ImageReader jpegReader;
     protected ImageReader rawReader;
-    protected int imagecount;
     private final int STATE_WAIT_FOR_PRECAPTURE = 0;
     private final int STATE_WAIT_FOR_NONPRECAPTURE = 1;
     private final int STATE_PICTURE_TAKEN = 2;
@@ -86,11 +85,43 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     protected List<File> filesSaved;
 
     private boolean isBurstCapture = false;
-    private int burstCount = 1;
+
 
     private boolean captureDng = false;
     private boolean captureJpeg = false;
     protected Camera2Fragment cameraUiWrapper;
+
+    protected static class BurstCounter
+    {
+        private static int burstCount = 1;
+        private static int imageCaptured = 0;
+
+        public static synchronized void setBurstCount(int burstCount1)
+        {
+            burstCount = burstCount1;
+        }
+
+        public static synchronized int getBurstCount()
+        {
+            return burstCount;
+        }
+
+        public static synchronized void increase()
+        {
+            imageCaptured++;
+        }
+
+        public static synchronized void resetImagesCaptured()
+        {
+            imageCaptured = 0;
+        }
+
+        public static synchronized int getImageCaptured()
+        {
+            return imageCaptured;
+        }
+
+    }
 
 
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
@@ -412,12 +443,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     {
         isWorking = true;
             Log.d(TAG, SettingsManager.get(SettingKeys.PictureFormat).get());
-        imagecount = 0;
-        burstCount = Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).GetStringValue());
-            if (burstCount > 1)
-        isBurstCapture = true;
-            else
-        isBurstCapture =false;
+        BurstCounter.resetImagesCaptured();
+        BurstCounter.setBurstCount(Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).GetStringValue()));
+        if (BurstCounter.getBurstCount() > 1)
+            isBurstCapture = true;
+        else
+            isBurstCapture =false;
         onStartTakePicture();
 
         if (SettingsManager.getInstance().hasCamera2Features() && cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
@@ -478,7 +509,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().get(SettingKeys.TONEMAP_SET)).getToneMap());
         currentCaptureHolder.setSupport12bitRaw(SettingsManager.get(SettingKeys.support12bitRaw).get());
 
-        Log.d(TAG, "captureStillPicture ImgCount:"+ imagecount +  " ImageCaptureHolder Path:" + currentCaptureHolder.filepath);
+        Log.d(TAG, "captureStillPicture ImgCount:"+ BurstCounter.getImageCaptured() +  " ImageCaptureHolder Path:" + currentCaptureHolder.filepath);
 
         if (cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE).GetStringValue().equals(SettingsManager.getInstance().getResString(R.string.on_)))
         {
@@ -498,7 +529,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         }
 
         cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
-        prepareCaptureBuilder(imagecount);
+        prepareCaptureBuilder(BurstCounter.getImageCaptured());
         changeCaptureState(CaptureStates.image_capture_start);
         Log.d(TAG, "StartStillCapture");
         cameraUiWrapper.captureSessionHandler.StartImageCapture(currentCaptureHolder, mBackgroundHandler);
@@ -647,8 +678,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
     protected String getFileString()
     {
-        if (burstCount > 1)
-            return cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), "_" + imagecount);
+        if (BurstCounter.getBurstCount() > 1)
+            return cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), "_" + BurstCounter.getImageCaptured());
         else
             return cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(),"");
     }
@@ -662,9 +693,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         changeCaptureState(CaptureStates.image_capture_stop);
         try
         {
-            imagecount++;
-            Log.d(TAG,"finished Capture:" + imagecount + "isBurst:" + isBurstCapture);
-            if (burstCount  > imagecount) {
+            BurstCounter.increase();
+            Log.d(TAG,"finished Capture:" + BurstCounter.getImageCaptured() + "isBurst:" + isBurstCapture);
+            if (BurstCounter.getBurstCount()  > BurstCounter.getImageCaptured()) {
                 captureStillPicture();
             }
             else if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&
@@ -701,16 +732,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     @Override
     public void internalFireOnWorkDone(File file)
     {
-        Log.d(TAG, "internalFireOnWorkDone isBurst" + isBurstCapture + " burstCount/imagecount:" + burstCount + "/" +imagecount);
+        Log.d(TAG, "internalFireOnWorkDone isBurst" + isBurstCapture + " burstCount/imagecount:" + BurstCounter.getBurstCount() + "/" +BurstCounter.getImageCaptured());
         if (workFinishEventsListner != null)
             workFinishEventsListner.internalFireOnWorkDone(file);
         else {
-            Log.d(TAG, "internalFireOnWorkDone BurstCount:" + burstCount + " imageCount:" + imagecount);
-            if (isBurstCapture && burstCount >= imagecount) {
+            Log.d(TAG, "internalFireOnWorkDone BurstCount:" + BurstCounter.getBurstCount() + " imageCount:" + BurstCounter.getImageCaptured());
+            if (isBurstCapture && BurstCounter.getBurstCount() >= BurstCounter.getImageCaptured()) {
                 filesSaved.add(file);
                 Log.d(TAG, "internalFireOnWorkDone Burst addFile");
             }
-            if (isBurstCapture && burstCount == imagecount) {
+            if (isBurstCapture && BurstCounter.getBurstCount() == BurstCounter.getImageCaptured()) {
                 Log.d(TAG, "internalFireOnWorkDone Burst done");
                 fireOnWorkFinish(filesSaved.toArray(new File[filesSaved.size()]));
                 filesSaved.clear();

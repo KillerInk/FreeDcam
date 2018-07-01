@@ -448,7 +448,6 @@ public class CaptureSessionHandler
     {
         Log.d(TAG,"StartImageCapture");
         try {
-            mCaptureSession.abortCaptures();
             mCaptureSession.capture(mImageCaptureRequestBuilder.build(),listener,handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);

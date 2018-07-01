@@ -166,6 +166,7 @@ public class ImageSaveTask extends ImageTask
             saveJpeg();
             clear();
         }
+        Log.d(TAG,"Save done");
         return false;
     }
 

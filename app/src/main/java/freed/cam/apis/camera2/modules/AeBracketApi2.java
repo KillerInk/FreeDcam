@@ -118,8 +118,8 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     protected void finishCapture() {
         super.finishCapture();
-        Log.d(TAG,"imagecount:" +imagecount);
-        if (imagecount == 3) {
+        Log.d(TAG,"imagecount:" +BurstCounter.getImageCaptured());
+        if (BurstCounter.getImageCaptured() == 3) {
             if (aeWasOn && parameterHandler.get(SettingKeys.ExposureMode) != null)
                 parameterHandler.get(SettingKeys.ExposureMode).SetValue(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.on),true);
 

@@ -29,6 +29,7 @@ import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
+import freed.image.ImageTask;
 import freed.image.ImageTaskDngConverter;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -212,6 +213,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
 
     private void save()
     {
+        Log.d(TAG,"save " + images.size());
         for(int i=0; i< images.size();i++)
             saveImage(images.get(i),filepath);
         images.clear();
@@ -238,44 +240,49 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
 
     private void saveImage(Image image,String f) {
         File file = null;
+        ImageTask task = null;
         switch (image.getFormat())
         {
             case ImageFormat.JPEG:
                 file = new File(f+".jpg");
-                process_jpeg(image, file);
+                task = process_jpeg(image, file);
                 break;
             case ImageFormat.RAW10:
                 file = new File(f+".dng");
-                process_rawWithDngConverter(image, DngProfile.Mipi,file);
+                task = process_rawWithDngConverter(image, DngProfile.Mipi,file);
                 break;
             case ImageFormat.RAW12:
                 file = new File(f+".dng");
-                process_rawWithDngConverter(image,DngProfile.Mipi12,file);
+                task = process_rawWithDngConverter(image,DngProfile.Mipi12,file);
                 break;
             case ImageFormat.RAW_SENSOR:
                 if (!isRawCapture && !isJpgCapture)
                 {
                     file = new File(f + ".bayer");
-                    process_jpeg(image,file);
+                    task = process_jpeg(image,file);
                 }
                 else {
                     file = new File(f + ".dng");
                     if (forceRawToDng)
                         if (support12bitRaw)
-                            process_rawWithDngConverter(image, DngProfile.Pure16bit_To_12bit, file);
+                            task = process_rawWithDngConverter(image, DngProfile.Pure16bit_To_12bit, file);
                         else
-                            process_rawWithDngConverter(image, DngProfile.Plain, file);
+                            task = process_rawWithDngConverter(image, DngProfile.Plain, file);
                     else
-                        process_rawSensor(image, file);
+                        task = process_rawSensor(image, file);
                 }
                 break;
+        }
+        if (task != null) {
+            ImageManager.putImageSaveTask(task);
+            Log.d(TAG, "Put task to Queue");
         }
     }
 
 
 
     @NonNull
-    private void process_jpeg(Image image, File file) {
+    private ImageTask process_jpeg(Image image, File file) {
 
         Log.d(TAG, "Create JPEG");
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
@@ -284,21 +291,22 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         ImageSaveTask task = new ImageSaveTask(activityInterface,moduleInterface);
         task.setBytesTosave(bytes, ImageSaveTask.JPEG);
         task.setFilePath(file,externalSD);
-        ImageManager.putImageSaveTask(task);
         buffer.clear();
         image.close();
-
+        buffer = null;
+        image = null;
+        return task;
     }
 
 
     @NonNull
-    private void process_rawSensor(Image image,File file) {
+    private ImageTask process_rawSensor(Image image, File file) {
         ImageTaskDngConverter taskDngConverter = new ImageTaskDngConverter(captureResult,image,characteristics,file,activityInterface,orientation,location,moduleInterface);
-        ImageManager.putImageLoadTask(taskDngConverter);
+        return taskDngConverter;
     }
 
     @NonNull
-    private void process_rawWithDngConverter(Image image, int rawFormat,File file) {
+    private ImageTask process_rawWithDngConverter(Image image, int rawFormat,File file) {
         ImageSaveTask saveTask = new ImageSaveTask(activityInterface,moduleInterface);
         Log.d(TAG, "Create DNG VIA RAw2DNG");
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
@@ -340,13 +348,14 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         }
         final DngProfile prof = getDngProfile(rawFormat, image);
         image.close();
+        image = null;
         prof.toneMapProfile = this.toneMapProfile;
         saveTask.setDngProfile(prof);
         saveTask.setFilePath(file, externalSD);
         saveTask.setOrientation(orientation);
         saveTask.setOpcode2(SettingsManager.getInstance().getOpcode2());
         saveTask.setOpcode3(SettingsManager.getInstance().getOpcode3());
-        ImageManager.putImageSaveTask(saveTask);
+        return saveTask;
     }
 
     @NonNull
