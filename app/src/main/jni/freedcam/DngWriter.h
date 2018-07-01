@@ -37,6 +37,7 @@ private:
     void process16to10(TIFF *tif);
     void process16to12(TIFF *tif);
     void writeRawStuff(TIFF *tif);
+
 public:
     ExifInfo *exifInfo;
     GpsInfo *gpsInfo;
@@ -101,6 +102,7 @@ public:
     }
 
     void WriteDNG();
+    void clear();
 };
 
 

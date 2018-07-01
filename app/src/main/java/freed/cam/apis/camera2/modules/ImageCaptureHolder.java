@@ -346,7 +346,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
             Log.WriteEx(e);
             saveTask.setExposureIndex(0);
         }
-        final DngProfile prof = getDngProfile(rawFormat, image);
+        final DngProfile prof = getDngProfile(rawFormat, image.getWidth(),image.getHeight());
         image.close();
         image = null;
         prof.toneMapProfile = this.toneMapProfile;
@@ -359,7 +359,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     }
 
     @NonNull
-    private DngProfile getDngProfile(int rawFormat, Image image) {
+    protected DngProfile getDngProfile(int rawFormat, int width, int height) {
         int black, white,c;
         try {
             black = characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
@@ -464,7 +464,8 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
 
         }
 
-        return new DngProfile(black,white,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
+
+        return new DngProfile(black,white,width, height,rawFormat, colorpattern, 0,
                 customMatrix,
                 ""
         );

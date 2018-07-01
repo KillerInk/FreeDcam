@@ -97,6 +97,7 @@ extern "C"
     {
         DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
         writer->WriteDNG();
+        writer->clear();
     }
 
     JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jstring model, jstring make,jobject javaHandler)

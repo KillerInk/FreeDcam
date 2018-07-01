@@ -657,6 +657,48 @@ void DngWriter::writeRawStuff(TIFF *tif) {
         LOGD("rawType is not implented");
 }
 
+
+void DngWriter::clear() {
+    LOGD("delete Opcode2");
+    if(opcode2 != NULL)
+    {
+        delete[] opcode2;
+        opcode2Size = NULL;
+        opcode2 = NULL;
+    }
+    LOGD("delete Opcode3");
+    if(opcode3 != NULL)
+    {
+        delete[] opcode3;
+        opcode2Size = NULL;
+        opcode3 = NULL;
+    }
+    LOGD("delete bayerbytes");
+    if (bayerBytes != NULL){
+        delete [] bayerBytes;
+        rawSize = NULL;
+        bayerBytes = NULL;
+    }
+    LOGD("delete filesavepath");
+    if(fileSavePath != NULL)
+    {
+        delete[] fileSavePath;
+        fileSavePath = NULL;
+    }
+    LOGD("delete exif");
+    if(exifInfo != NULL)
+        exifInfo = NULL;
+    LOGD("delete dngprofile");
+    if(dngProfile != NULL)
+        dngProfile = NULL;
+    LOGD("delete customMatrix");
+    if(customMatrix != NULL)
+        customMatrix = NULL;
+    fileDes = NULL;
+    thumbheight = NULL;
+    thumwidth = NULL;
+}
+
 void DngWriter::WriteDNG() {
     uint64 gps_offset = 0;
     LOGD("init ext tags");
@@ -701,43 +743,6 @@ void DngWriter::WriteDNG() {
     TIFFWriteDirectory(tif);
     TIFFClose(tif);
 
-    LOGD("delete Opcode2");
-    if(opcode2 != NULL)
-    {
-        delete[] opcode2;
-        opcode2Size = NULL;
-        opcode2 = NULL;
-    }
-    LOGD("delete Opcode3");
-    if(opcode3 != NULL)
-    {
-        delete[] opcode3;
-        opcode2Size = NULL;
-        opcode3 = NULL;
-    }
-    LOGD("delete bayerbytes");
-    if (bayerBytes != NULL){
-        delete [] bayerBytes;
-        rawSize = NULL;
-        bayerBytes = NULL;
-    }
-    LOGD("delete filesavepath");
-    if(fileSavePath != NULL)
-    {
-        delete[] fileSavePath;
-        fileSavePath = NULL;
-    }
-    LOGD("delete exif");
-    if(exifInfo != NULL)
-        exifInfo = NULL;
-    LOGD("delete dngprofile");
-    if(dngProfile != NULL)
-        dngProfile = NULL;
-    LOGD("delete customMatrix");
-    if(customMatrix != NULL)
-        customMatrix = NULL;
-    fileDes = NULL;
-    thumbheight = NULL;
-    thumwidth = NULL;
+
     LOGD("DONE");
 }
