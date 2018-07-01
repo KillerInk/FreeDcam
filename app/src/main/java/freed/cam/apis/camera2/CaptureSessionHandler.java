@@ -448,6 +448,7 @@ public class CaptureSessionHandler
     {
         Log.d(TAG,"StartImageCapture");
         try {
+            mCaptureSession.abortCaptures();
             mCaptureSession.capture(mImageCaptureRequestBuilder.build(),listener,handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
@@ -686,7 +687,7 @@ public class CaptureSessionHandler
 
     public void StartAePrecapture(CameraCaptureSession.CaptureCallback listener)
     {
-        SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START,listener);
+        SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
     public <T> void SetFocusArea(@NonNull CaptureRequest.Key<T> key, T value)

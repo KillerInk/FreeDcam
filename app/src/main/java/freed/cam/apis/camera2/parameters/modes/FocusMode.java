@@ -6,6 +6,7 @@ import android.support.annotation.RequiresApi;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 19.06.2017.
@@ -26,9 +27,11 @@ public class FocusMode extends BaseModeApi2 {
         {
             case CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE:
             case CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO:
-                captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, null);
-                captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
-                captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
+                if (!SettingsManager.getInstance().getIsFrontCamera()) {
+                    captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, null);
+                    captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
+                    captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE, true);
+                }
                 break;
         }
     }

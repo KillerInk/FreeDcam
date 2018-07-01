@@ -50,6 +50,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
+import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -76,11 +77,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     private final int STATE_WAIT_FOR_PRECAPTURE = 0;
     private final int STATE_WAIT_FOR_NONPRECAPTURE = 1;
     private final int STATE_PICTURE_TAKEN = 2;
+    private final int STATE_WAITING_LOCK = 3;
     private int mState = STATE_PICTURE_TAKEN;
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
     private ImageCaptureHolder currentCaptureHolder;
-    private final int MAX_IMAGES = 5;
+    private final int MAX_IMAGES = 8;
     protected List<File> filesSaved;
 
     private boolean isBurstCapture = false;
@@ -140,7 +142,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     {
         Log.d(TAG, "startWork: start new progress");
         if(!isWorking)
-            mBackgroundHandler.post(TakePicture);
+            mBackgroundHandler.post(()->TakePicture());
         else if (isWorking)
         {
             Log.d(TAG, "cancel capture");
@@ -406,35 +408,57 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         DestroyModule();
     }
 
-    private Runnable TakePicture = new Runnable()
+    protected void TakePicture()
     {
-        @Override
-        public void run() {
-            isWorking = true;
+        isWorking = true;
             Log.d(TAG, SettingsManager.get(SettingKeys.PictureFormat).get());
-            imagecount = 0;
-            burstCount = Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).GetStringValue());
+        imagecount = 0;
+        burstCount = Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).GetStringValue());
             if (burstCount > 1)
-                isBurstCapture = true;
+        isBurstCapture = true;
             else
-                isBurstCapture =false;
-            onStartTakePicture();
+        isBurstCapture =false;
+        onStartTakePicture();
 
-            if (SettingsManager.getInstance().hasCamera2Features() && cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
-                PictureModuleApi2.this.setCaptureState(STATE_WAIT_FOR_PRECAPTURE);
-                Log.d(TAG,"Start AE Precapture");
-                startTimerLocked();
-                cameraUiWrapper.captureSessionHandler.StartAePrecapture(aecallback);
-            }
-            else
-            {
-                Log.d(TAG, "captureStillPicture");
-                captureStillPicture();
-            }
+        if (SettingsManager.getInstance().hasCamera2Features() && cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
+            startPreCapture();
+        }
+        else
+        {
+            Log.d(TAG, "captureStillPicture");
 
         }
+    }
 
-    };
+    private void startPreCapture() {
+        PictureModuleApi2.this.setCaptureState(STATE_WAIT_FOR_PRECAPTURE);
+        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(new CameraValuesChangedCaptureCallback.WaitForAe_Af_Lock() {
+            @Override
+            public void on_Ae_Af_Lock(boolean af_locked, boolean ae_locked) {
+                Log.d(TAG, "ae locked: " + ae_locked +" af locked: " + af_locked);
+                if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE ||
+                        cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO) {
+                    if (af_locked && ae_locked) {
+                        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
+                        setCaptureState(STATE_PICTURE_TAKEN);
+                        captureStillPicture();
+                    }
+                }
+                else if (ae_locked) {
+                    cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
+                    setCaptureState(STATE_PICTURE_TAKEN);
+                    captureStillPicture();
+                }
+            }
+        });
+        Log.d(TAG,"Start AE Precapture");
+        startTimerLocked();
+
+        cameraUiWrapper.captureSessionHandler.StartAePrecapture(cameraUiWrapper.cameraBackroundValuesChangedListner);
+        if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE ||
+                cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO)
+            cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START);
+    }
 
     protected void onStartTakePicture()
     {
@@ -506,6 +530,28 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         }
     }
 
+    private String getAfStateString(int af)
+    {
+        switch (af)
+        {
+            case CaptureResult.CONTROL_AF_STATE_INACTIVE:
+                return "CONTROL_AF_STATE_INACTIVE";
+            case CaptureResult.CONTROL_AF_STATE_PASSIVE_SCAN:
+                return "CONTROL_AF_STATE_PASSIVE_SCAN";
+            case CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED:
+                return "CONTROL_AF_STATE_PASSIVE_FOCUSED";
+            case CaptureResult.CONTROL_AF_STATE_ACTIVE_SCAN:
+                return "CONTROL_AF_STATE_ACTIVE_SCAN";
+            case CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED:
+                return "CONTROL_AF_STATE_FOCUSED_LOCKED";
+            case CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED:
+                return "CONTROL_AF_STATE_NOT_FOCUSED_LOCKED";
+            case CaptureResult.CONTROL_AF_STATE_PASSIVE_UNFOCUSED:
+                return "CONTROL_AF_STATE_PASSIVE_UNFOCUSED";
+                default: return "UNKNOWN AF STATE";
+        }
+    }
+
     private String getCaptureState(int state)
     {
         switch (state)
@@ -531,13 +577,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         private void processResult(CaptureResult partialResult)
         {
             Integer aeState = partialResult.get(CaptureResult.CONTROL_AE_STATE);
+            Integer afState = partialResult.get(CaptureResult.CONTROL_AF_STATE);
             if (aeState != null)
                 Log.e(TAG, "CurrentCaptureState:" + getCaptureState(mState) + " AE_STATE:" + getAeStateString(aeState));
+            if (afState != null)
+                Log.e(TAG, " AF_STATE:" + getAfStateString(aeState));
             switch (mState)
             {
                 case STATE_WAIT_FOR_PRECAPTURE:
                     Log.d(TAG,"STATE_WAIT_FOR_PRECAPTURE  AESTATE:" + aeState);
-                    if (aeState == null)
+                    if (aeState == null && afState == null)
                     {
                         setCaptureState(STATE_PICTURE_TAKEN);
                         captureStillPicture();
@@ -553,7 +602,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
                             captureStillPicture();
                         }
                     }
-                    else if (aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
+                    else if (aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED &&
+                            (afState == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED || afState == CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED))
                     {
                         Log.d(TAG,"CONTROL_AE_STATE_CONVERGED captureStillPicture");
                         setCaptureState(STATE_PICTURE_TAKEN);
@@ -595,9 +645,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         return (SystemClock.elapsedRealtime() - mCaptureTimer) > PRECAPTURE_TIMEOUT_MS;
     }
 
-    private String getFileString()
+    protected String getFileString()
     {
-        if (Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).GetStringValue()) > 1)
+        if (burstCount > 1)
             return cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), "_" + imagecount);
         else
             return cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(),"");
@@ -614,7 +664,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         {
             imagecount++;
             Log.d(TAG,"finished Capture:" + imagecount + "isBurst:" + isBurstCapture);
-            if (Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).GetStringValue())  > imagecount) {
+            if (burstCount  > imagecount) {
                 captureStillPicture();
             }
             else if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&
@@ -622,7 +672,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
                 cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME);
                 cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_FRAME_DURATION, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME);
                 Log.d(TAG, "CancelRepeatingCaptureSessoion set onSessionRdy");
-                cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
+                //cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
                 onSesssionRdy();
             }
             else {
@@ -681,6 +731,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
     @Override
     public void fireOnWorkFinish(File[] files) {
+        Log.d(TAG,"fireOnWorkFinish");
         if (workFinishEventsListner != null)
             workFinishEventsListner.fireOnWorkFinish(files);
         else {

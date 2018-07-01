@@ -159,19 +159,30 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     @Override
     public void onImageAvailable(ImageReader reader) {
         Image img = null;
-        Log.d(TAG, "OnRawAvailible");
+        Log.d(TAG, "OnRawAvailible, in buffer: " + images.size());
         try {
             img = reader.acquireLatestImage();
-            if (isJpgCapture && img.getFormat() == ImageFormat.JPEG)
+            if (isJpgCapture && img.getFormat() == ImageFormat.JPEG) {
                 AddImage(img);
-            else if (isRawCapture && (img.getFormat() == ImageFormat.RAW_SENSOR || img.getFormat() == ImageFormat.RAW10))
+                Log.d(TAG,"Add Jpeg");
+            }
+            else if (isRawCapture && (img.getFormat() == ImageFormat.RAW_SENSOR || img.getFormat() == ImageFormat.RAW10)) {
                 AddImage(img);
-            else if (!isJpgCapture && !isRawCapture)
+                Log.d(TAG,"Add raw");
+            }
+            else if (!isJpgCapture && !isRawCapture) {
                 AddImage(img);
+                Log.d(TAG,"Add bayer");
+            }
+            else if(!isJpgCapture && isRawCapture && img.getFormat() == ImageFormat.JPEG) {
+                img.close();
+                Log.d(TAG,"Close Jpeg");
+            }
             else {
                 if (images.contains(img))
                     images.remove(img);
                 img.close();
+                Log.d(TAG,"Close already added image");
             }
         }
         catch (IllegalStateException ex)
@@ -191,7 +202,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
         Log.d(TAG, "onCaptureCompleted FrameNum:" +result.getFrameNumber());
 
-        Log.d(TAG, "OnCaptureResultAvailible");
+        Log.d(TAG, "OnCaptureResultAvailible, Images stored:" + images.size());
         SetCaptureResult(result);
         if (rdyToGetSaved()) {
             save();

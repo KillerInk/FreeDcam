@@ -224,7 +224,7 @@ public class ImageSaveTask extends ImageTask
                 Log.WriteEx(e);
             }
         //rawToDng = null;
-        activityInterface.ScanFile(filename);
+        //activityInterface.ScanFile(filename);
         moduleInterface.internalFireOnWorkDone(filename);
     }
 
@@ -254,7 +254,7 @@ public class ImageSaveTask extends ImageTask
         } catch (IOException e) {
             Log.WriteEx(e);
         }
-        activityInterface.ScanFile(filename);
+        //activityInterface.ScanFile(filename);
         moduleInterface.internalFireOnWorkDone(filename);
         Log.d(TAG, "End Saving Bytes");
     }

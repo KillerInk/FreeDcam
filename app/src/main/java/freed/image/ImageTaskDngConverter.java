@@ -75,7 +75,7 @@ public class ImageTaskDngConverter extends ImageTask {
             dngCreator.close();
             image.close();
             moduleInterface.internalFireOnWorkDone(file);
-            activityInterface.ScanFile(file);
+            //activityInterface.ScanFile(file);
         } catch (IOException ex) {
             Log.WriteEx(ex);
         }
