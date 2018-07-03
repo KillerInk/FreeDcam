@@ -27,7 +27,7 @@ import freed.utils.StringUtils;
 public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.CaptureCallback
 {
 
-    private final boolean DO_LOG = false;
+    private final boolean DO_LOG = true;
     private void log(String s)
     {
         if (DO_LOG)

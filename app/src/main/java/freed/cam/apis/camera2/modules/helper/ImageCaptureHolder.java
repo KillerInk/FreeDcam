@@ -84,6 +84,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         this.moduleInterface = imageSaver;
         this.workerfinish = finish;
         this.rdyToSaveImg =rdyToSaveImg;
+        customMatrix = null;
     }
 
 
@@ -195,6 +196,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         }
         catch (IllegalStateException ex)
         {
+            Log.WriteEx(ex);
             if (images.contains(img))
                 images.remove(img);
             if (img != null)
@@ -429,6 +431,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         double[]finalnoise = null;
         if (customMatrix == null)
         {
+            Log.d(TAG, "No Custom Matrix set, get it from the characteristics");
             //dont catch errors on cc1 cc2 and neutral, these 3 are needed and that case should never happen
             color1 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
             color2 = getFloatMatrix(characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));

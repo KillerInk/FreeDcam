@@ -377,7 +377,9 @@ public class CaptureSessionHandler
                     }
             });
             try {
+                Log.d(TAG,"CancelRepeatingCaptureSession wait");
                 waitLock.wait();
+                Log.d(TAG,"CancelRepeatingCaptureSession wait done");
             } catch (InterruptedException e) {
                 Log.WriteEx(e);
             }
