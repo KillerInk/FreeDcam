@@ -3,13 +3,16 @@ package freed.cam.apis.camera2.parameters.modes;
 import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 
 /**
  * Created by Ingo on 03.10.2016.
@@ -19,6 +22,11 @@ import freed.settings.SettingKeys;
 public class JpegQualityModeApi2 extends BaseModeApi2 {
     public JpegQualityModeApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.JpegQuality);
+        parameterValues =new HashMap<>();
+        for (int i= 10; i <= 100; i+=10)
+        {
+            parameterValues.put(i+"", i);
+        }
     }
 
     @Override
@@ -30,32 +38,20 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
     @Override
     public String GetStringValue()
     {
-        int r;
-        try {
-            r  = (int) ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.getPreviewParameter(CaptureRequest.JPEG_QUALITY);
-        }
-        catch (NullPointerException ex)
-        {
-            r = 85;
-        }
-
-        return r+"";
+        if(TextUtils.isEmpty(SettingsManager.get(SettingKeys.JpegQuality).get()))
+            return "100";
+        else
+            return SettingsManager.get(SettingKeys.JpegQuality).get();
     }
 
     @Override
     public String[] getStringValues() {
-        List<String> values = new ArrayList<>();
-        for (int i= 10; i <= 100; i+=10)
-        {
-            values.add(i+"");
-        }
-        String[] strings = new String[values.size()];
-        values.toArray(strings);
-        return strings;
+        return parameterValues.keySet().toArray(new String[parameterValues.size()]);
     }
 
     @Override
     public void setValue(String valueToSet, boolean setToCamera) {
+        SettingsManager.get(SettingKeys.JpegQuality).set(valueToSet);
         ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_QUALITY, (byte)Integer.parseInt(valueToSet),setToCamera);
         fireStringValueChanged(valueToSet);
     }
