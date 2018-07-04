@@ -355,7 +355,11 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
             Log.WriteEx(e);
             saveTask.setExposureIndex(0);
         }
-        final DngProfile prof = getDngProfile(rawFormat, image.getWidth(),image.getHeight());
+        DngProfile prof = null;
+        if (SettingsManager.getInstance().getDngProfilesMap().get(bytes.length) != null)
+            prof = SettingsManager.getInstance().getDngProfilesMap().get(bytes.length);
+        else
+            prof = getDngProfile(rawFormat, image.getWidth(),image.getHeight());
         image.close();
         image = null;
         prof.toneMapProfile = this.toneMapProfile;
