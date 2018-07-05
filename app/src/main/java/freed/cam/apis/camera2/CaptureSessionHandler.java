@@ -360,8 +360,7 @@ public class CaptureSessionHandler
     public void CancelRepeatingCaptureSession()
     {
         Log.d(TAG,"CancelRepeatingCaptureSession");
-        synchronized (waitLock)
-        {
+
             handler.post(() -> {
                 if (mCaptureSession != null)
                     try {
@@ -376,6 +375,8 @@ public class CaptureSessionHandler
                         mCaptureSession = null;
                     }
             });
+        synchronized (waitLock)
+        {
             try {
                 Log.d(TAG,"CancelRepeatingCaptureSession wait");
                 waitLock.wait();

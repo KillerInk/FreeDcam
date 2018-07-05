@@ -434,7 +434,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             rawReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
         }
 
-        cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
+        //cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         //cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
         prepareCaptureBuilder(BurstCounter.getImageCaptured());
         changeCaptureState(CaptureStates.image_capture_start);
