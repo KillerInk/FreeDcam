@@ -157,12 +157,17 @@ public abstract class AeManager implements AeManagerInterface
 
         public ExposureCompensation(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper,SettingKeys.M_ExposureCompensation);
-            currentInt = stringvalues.length / 2;
+            //currentInt = stringvalues.length / 2;
         }
 
         @Override
         public int GetValue() {
             return super.GetValue();
+        }
+
+        @Override
+        public String GetStringValue() {
+            return stringvalues[currentInt];
         }
 
         @Override
