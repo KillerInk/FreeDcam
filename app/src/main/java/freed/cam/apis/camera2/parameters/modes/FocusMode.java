@@ -22,6 +22,8 @@ public class FocusMode extends BaseModeApi2 {
     @Override
     public void setValue(String valueToSet, boolean setToCamera) {
         super.setValue(valueToSet, setToCamera);
+        if (parameterValues == null || parameterValues.get(valueToSet) == null)
+            return;
         int toset = parameterValues.get(valueToSet);
         switch (toset)
         {

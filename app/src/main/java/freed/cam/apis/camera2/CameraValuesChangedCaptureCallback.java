@@ -242,13 +242,15 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                     state ="PASSIVE_UNFOCUSED";
                     break;
             }
-            try {
-                focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                camera2Fragment.getParameterHandler().get(SettingKeys.M_Focus).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
-            } catch (NullPointerException ex) {
-                Log.WriteEx(ex);
+            if (result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE) != null) {
+                try {
+                    focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
+                    camera2Fragment.getParameterHandler().get(SettingKeys.M_Focus).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
+                } catch (NullPointerException ex) {
+                    Log.WriteEx(ex);
+                }
+                log("new AF_STATE :" + state);
             }
-            log("new AF_STATE :"+state);
         }
     }
 
