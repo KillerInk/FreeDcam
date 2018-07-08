@@ -662,14 +662,14 @@ void DngWriter::clear() {
     LOGD("delete Opcode2");
     if(opcode2 != NULL)
     {
-        delete[] opcode2;
+        //delete[] opcode2;
         opcode2Size = NULL;
         opcode2 = NULL;
     }
     LOGD("delete Opcode3");
     if(opcode3 != NULL)
     {
-        delete[] opcode3;
+        //delete[] opcode3;
         opcode2Size = NULL;
         opcode3 = NULL;
     }
