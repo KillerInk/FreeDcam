@@ -352,10 +352,10 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     @Override
     public void onIntValueChanged(int current)
     {
-       /* if(!seekbar.IsAutoScrolling()&& !seekbar.IsMoving())
+        if(!seekbar.IsAutoScrolling()&& !seekbar.IsMoving())
         {
             seekbar.setProgress(current, false);
-        }*/
+        }
     }
 
     @Override

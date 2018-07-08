@@ -95,6 +95,7 @@ public class PictureFormatHandler extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         Log.d(TAG, "SetValue:" + valueToSet);
+        SettingsManager.get(SettingKeys.PictureFormat).set(valueToSet);
         captureMode = valueToSet;
         if (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK)
         {

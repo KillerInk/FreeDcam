@@ -91,7 +91,7 @@ public class BaseManualParameter extends AbstractParameter
             return;
         settingMode.set(String.valueOf(valueToset));
         parameters.set(key_value, stringvalues[valueToset]);
-        fireIntValueChanged(valueToset);
+        //fireIntValueChanged(valueToset);
         fireStringValueChanged(stringvalues[valueToset]);
         try
         {
