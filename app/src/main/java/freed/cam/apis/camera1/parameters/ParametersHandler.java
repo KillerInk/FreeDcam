@@ -45,9 +45,9 @@ import freed.cam.apis.camera1.parameters.manual.ZoomManualParameter;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.cam.apis.camera1.parameters.manual.focus.FocusManualHuawei;
 import freed.cam.apis.camera1.parameters.manual.focus.FocusManualParameterHTC;
-import freed.cam.apis.camera1.parameters.manual.krilin.ManualAperture;
-import freed.cam.apis.camera1.parameters.manual.krilin.ManualIsoKrilin;
-import freed.cam.apis.camera1.parameters.manual.krilin.ShutterManualKrilin;
+import freed.cam.apis.camera1.parameters.manual.kirin.ManualAperture;
+import freed.cam.apis.camera1.parameters.manual.kirin.ManualIsoKirin;
+import freed.cam.apis.camera1.parameters.manual.kirin.ShutterManualKirin;
 import freed.cam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
 import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
 import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
@@ -416,7 +416,7 @@ public class ParametersHandler extends AbstractParameterHandler
                     add(SettingKeys.M_ExposureTime, new ShutterManualMeizu(cameraParameters,cameraUiWrapper));
                     break;
                 case SHUTTER_KRILLIN:
-                    add(SettingKeys.M_ExposureTime, new ShutterManualKrilin(cameraParameters,cameraUiWrapper));
+                    add(SettingKeys.M_ExposureTime, new ShutterManualKirin(cameraParameters,cameraUiWrapper));
                     break;
                 case SHUTTER_SONY:
                     add(SettingKeys.M_ExposureTime, new ShutterManualSony(cameraParameters,cameraUiWrapper));
@@ -446,7 +446,7 @@ public class ParametersHandler extends AbstractParameterHandler
                     add(SettingKeys.M_ManualIso, new ManualIsoSony(cameraUiWrapper,cameraParameters,SettingKeys.M_ManualIso));
                     break;
                 case ISOMANUAL_KRILLIN:
-                    add(SettingKeys.M_ManualIso,  new ManualIsoKrilin(cameraParameters,cameraUiWrapper,SettingKeys.M_ManualIso));
+                    add(SettingKeys.M_ManualIso,  new ManualIsoKirin(cameraParameters,cameraUiWrapper,SettingKeys.M_ManualIso));
                     break;
                 case ISOMANUAL_Xiaomi :
                     //not supported

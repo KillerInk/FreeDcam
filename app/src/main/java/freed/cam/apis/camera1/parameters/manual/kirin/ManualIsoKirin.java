@@ -1,4 +1,4 @@
-package freed.cam.apis.camera1.parameters.manual.krilin;
+package freed.cam.apis.camera1.parameters.manual.kirin;
 
 import android.hardware.Camera;
 
@@ -10,10 +10,10 @@ import freed.settings.SettingKeys;
  * Created by troop on 27.03.2017.
  */
 
-public class ManualIsoKrilin extends BaseManualParameter {
+public class ManualIsoKirin extends BaseManualParameter {
 
 
-    public ManualIsoKrilin(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key) {
+    public ManualIsoKirin(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key) {
         super(parameters,cameraUiWrapper,key);
     }
 

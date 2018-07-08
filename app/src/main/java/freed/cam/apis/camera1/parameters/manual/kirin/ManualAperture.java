@@ -1,4 +1,4 @@
-package freed.cam.apis.camera1.parameters.manual.krilin;
+package freed.cam.apis.camera1.parameters.manual.kirin;
 
 import android.hardware.Camera;
 

@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.apis.camera1.parameters.manual.krilin;
+package freed.cam.apis.camera1.parameters.manual.kirin;
 
 
 import android.hardware.Camera.Parameters;
@@ -30,12 +30,12 @@ import freed.settings.SettingsManager;
 /**
  * Created by GeorgeKiarie on 02/04/2016.
  */
-public class ShutterManualKrilin extends AbstractParameter {
+public class ShutterManualKirin extends AbstractParameter {
 
-    private final String TAG = ShutterManualKrilin.class.getSimpleName();
+    private final String TAG = ShutterManualKirin.class.getSimpleName();
     private final Parameters parameters;
 
-    public ShutterManualKrilin(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+    public ShutterManualKirin(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         this.parameters =  parameters;
     }
