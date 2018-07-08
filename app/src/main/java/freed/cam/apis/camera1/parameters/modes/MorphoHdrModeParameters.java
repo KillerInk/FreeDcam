@@ -11,6 +11,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.settings.mode.SettingMode;
 import freed.utils.Log;
 
 /**
@@ -53,6 +54,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
         }
         if (setToCam)
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+        ((SettingMode)SettingsManager.get(key)).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 

@@ -11,6 +11,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.settings.mode.SettingMode;
 
 /**
  * Created by GeorgeKiarie on 5/11/2017.
@@ -48,6 +49,7 @@ public class MotoHDR extends BaseModeParameter
         if (setToCam)
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         fireStringValueChanged(valueToSet);
+        ((SettingMode)SettingsManager.get(key)).set(valueToSet);
     }
 
     @Override
