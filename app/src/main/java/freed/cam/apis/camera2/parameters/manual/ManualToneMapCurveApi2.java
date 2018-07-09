@@ -110,11 +110,19 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
                 highlightsp.fireStringValueChanged(highlightsp.GetStringValue());
             if (whitep !=null)
                 whitep.fireStringValueChanged(whitep.GetStringValue());
+            if (toneCurveParameter != null)
+            {
+                toneCurveParameter.setViewState(AbstractParameter.ViewState.Visible);
+            }
         }
         else {
             canSet = false;
             isSupported = false;
             visible = false;
+            if (toneCurveParameter != null)
+            {
+                toneCurveParameter.setViewState(AbstractParameter.ViewState.Hidden);
+            }
         }
         if (contrast != null) {
             contrast.setViewState(AbstractParameter.ViewState.Visible);
@@ -137,10 +145,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         if (whitep != null) {
             whitep.setViewState(AbstractParameter.ViewState.Visible);
         }
-        if (toneCurveParameter != null)
-        {
-            toneCurveParameter.setViewState(AbstractParameter.ViewState.Visible);
-        }
+
     }
 
     public class Contrast extends AbstractParameter
@@ -336,6 +341,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
     {
         public ToneCurveParameter(SettingKeys.Key key) {
             super(key);
+            setViewState(ViewState.Hidden);
         }
 
         public void setCurveToCamera(float[] curve)
@@ -356,6 +362,11 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         public float[] getToneCurve()
         {
             return toneCurve;
+        }
+
+        @Override
+        public ViewState getViewState() {
+            return super.getViewState();
         }
     }
 }

@@ -23,6 +23,7 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.PorterDuff.Mode;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -137,21 +138,7 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
 
     @Override
     public void onViewStateChanged(AbstractParameter.ViewState value) {
-        switch (value) {
-            case Visible:
-                handler.setON_IS_SUPPORTED_CHANGED(true);
-                break;
-            case Hidden:
-                handler.setON_IS_SUPPORTED_CHANGED(false);
-                break;
-            case Disabled:
-                handler.setON_IS_SET_SUPPORTED_CHANGED(false);
-                break;
-            case Enabled:
-                handler.setON_IS_SET_SUPPORTED_CHANGED(true);
-                break;
-        }
-
+        handler.set_ON_SET_VIEW_STATE(value);
     }
 
     @Override
@@ -217,23 +204,32 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
     public void handelMainMessage(Message msg) {
         switch (msg.what)
         {
-            case ManualButtonHandler.ONISSUPPRTEDCHANGED:
-                if ((boolean)msg.obj) {
-                    setVisibility(View.VISIBLE);
-                    animate().setListener(null).scaleX(1f).setDuration(300);
-                }
-                else
+            case ManualButtonHandler.ON_SET_VIEW_STATE:
+                AbstractParameter.ViewState state = (AbstractParameter.ViewState)msg.obj;
+                switch (state)
                 {
-                    animate().setListener(hideListner).scaleX(0f).setDuration(300);
-                }
-                break;
-            case ManualButtonHandler.ON_IS_SET_SUPPORTED_CHANGED:
-                if ((boolean)msg.obj) {
-                    setEnabled(true);
-                    imageView.getDrawable().setColorFilter(Color.TRANSPARENT, Mode.SRC_ATOP);
-                } else {
-                    setEnabled(false);
-                    imageView.getDrawable().setColorFilter(Color.GRAY, Mode.SRC_ATOP);
+                    case Enabled:
+                        if (ManualButton.this.getVisibility() == View.GONE)
+                            ManualButton.this.setVisibility(VISIBLE);
+                        ManualButton.this.setEnabled(true);
+                        if (imageView != null)
+                            imageView.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
+                        break;
+                    case Disabled:
+                        if (ManualButton.this.getVisibility() == View.GONE)
+                            ManualButton.this.setVisibility(VISIBLE);
+                        ManualButton.this.setEnabled(false);
+                        if (imageView != null)
+                            imageView.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                        break;
+                    case Visible:
+                        ManualButton.this.setVisibility(View.VISIBLE);
+                        ManualButton.this.setEnabled(true);
+                        animate().setListener(null).scaleY(1f).setDuration(300);
+                        break;
+                    case Hidden:
+                        animate().setListener(hideListner).scaleY(0f).setDuration(300);
+                        break;
                 }
                 break;
             case ManualButtonHandler.ON_STRING_VALUE_CHANGED:

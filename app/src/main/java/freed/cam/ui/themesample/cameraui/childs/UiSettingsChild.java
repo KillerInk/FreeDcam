@@ -130,7 +130,7 @@ public class UiSettingsChild extends SettingsChildAbstract
 
     protected void setTextToTextBox(ParameterInterface parameter)
     {
-        if (parameter != null && parameter.getViewState() == AbstractParameter.ViewState.Visible)
+        if (parameter != null && parameter.GetStringValue() != null)
         {
             String campara = parameter.GetStringValue();
             if (campara != null && !TextUtils.isEmpty(campara))
@@ -142,21 +142,21 @@ public class UiSettingsChild extends SettingsChildAbstract
 
     @Override
     public void onViewStateChanged(AbstractParameter.ViewState value) {
-        if (this.getBackground() == null)
-            return;
         switch (value)
         {
             case Enabled:
                 if (getVisibility() == View.GONE)
                     setVisibility(VISIBLE);
                 setEnabled(true);
-                this.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
+                if (this.getBackground() != null)
+                    this.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
                 break;
             case Disabled:
                 if (getVisibility() == View.GONE)
                     setVisibility(VISIBLE);
                 setEnabled(false);
-                this.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                if (this.getBackground() != null)
+                    this.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                 break;
             case Visible:
                 setVisibility(View.VISIBLE);

@@ -100,25 +100,17 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     }
 
     public void SetParameter(ParameterInterface parameter) {
-        if (parameter == null || parameter.getViewState() == AbstractParameter.ViewState.Hidden)
-        {
+        if (parameter == null) {
             onViewStateChanged(AbstractParameter.ViewState.Hidden);
             sendLog("Paramters is null or Unsupported");
-            if (parameter != null) {
-                parameter.addEventListner(this);
-                this.parameter = parameter;
-            }
-            return;
         }
         else
         {
-
-            if (parameter != null) {
-                onViewStateChanged(AbstractParameter.ViewState.Disabled);
-                parameter.addEventListner(this);
-                this.parameter = parameter;
-            }
+            parameter.addEventListner(this);
+            this.parameter = parameter;
+            onViewStateChanged(parameter.getViewState());
         }
+
     }
 
     @Override

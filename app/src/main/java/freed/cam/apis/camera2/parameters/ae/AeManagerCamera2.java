@@ -105,14 +105,14 @@ public class AeManagerCamera2 extends AeManager {
         exposureCompensation.setViewState(AbstractParameter.ViewState.Visible);
 
         manualIso.setViewState(AbstractParameter.ViewState.Visible);
-        manualExposureTime.setViewState(AbstractParameter.ViewState.Visible);
+        manualExposureTime.setViewState(AbstractParameter.ViewState.Disabled);
     }
 
 
     private void setToManual()
     {
         //hide manualexposuretime ui item
-        exposureCompensation.setViewState(AbstractParameter.ViewState.Disabled);
+        exposureCompensation.setViewState(AbstractParameter.ViewState.Hidden);
         //turn flash off when ae is off. else on some devices it applys only manual stuff only for a few frames
         //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
         cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF,true);

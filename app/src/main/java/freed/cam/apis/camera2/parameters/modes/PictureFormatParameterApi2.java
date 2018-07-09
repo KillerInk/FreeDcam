@@ -32,32 +32,26 @@ import freed.settings.SettingsManager;
  */
 public class PictureFormatParameterApi2 extends BaseModeApi2
 {
-    private String format;
 
     public PictureFormatParameterApi2(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Integer> parameterKey)
     {
         super(cameraUiWrapper,key,parameterKey);
-        format = settingMode.get();
-        if (SettingsManager.get(SettingKeys.PictureFormat).isSupported())
+        if (SettingsManager.get(SettingKeys.PictureFormat).isSupported()) {
             setViewState(ViewState.Visible);
+            currentString = SettingsManager.get(SettingKeys.PictureFormat).get();
+        }
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
-        format = valueToSet;
         super.setValue(valueToSet,setToCamera);
         if (setToCamera)
         {
             cameraUiWrapper.stopPreviewAsync();
             cameraUiWrapper.startPreviewAsync();
         }
-    }
-
-    @Override
-    public String GetStringValue() {
-        return format;
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
@@ -67,4 +61,8 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
         return parameterValues.keySet().toArray(new String[parameterValues.size()]);
     }
 
+    @Override
+    public String GetStringValue() {
+        return SettingsManager.get(SettingKeys.PictureFormat).get();
+    }
 }

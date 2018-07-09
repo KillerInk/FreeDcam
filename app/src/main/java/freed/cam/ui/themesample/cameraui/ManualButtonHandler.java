@@ -7,6 +7,8 @@ import android.os.Message;
 
 import java.lang.ref.WeakReference;
 
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+
 /**
  * Created by KillerInk on 22.12.2017.
  */
@@ -18,8 +20,7 @@ public class ManualButtonHandler extends Handler
         void handelMainMessage(Message msg);
     }
 
-    public static final int ONISSUPPRTEDCHANGED = 0;
-    public static final int ON_IS_SET_SUPPORTED_CHANGED = 1;
+    public static final int ON_SET_VIEW_STATE = 0;
     public static final int ON_STRING_VALUE_CHANGED = 2;
     public static final int ON_INT_VALUE_CHANGED = 3;
     public static final int ON_UPDATE_SETTING = 4;
@@ -32,14 +33,9 @@ public class ManualButtonHandler extends Handler
         manualMessagEventWeakReference = new WeakReference<>(msgevent);
     }
 
-    public void setON_IS_SUPPORTED_CHANGED(boolean val)
+    public void set_ON_SET_VIEW_STATE(AbstractParameter.ViewState val)
     {
-        this.obtainMessage(ONISSUPPRTEDCHANGED,val).sendToTarget();
-    }
-
-    public void setON_IS_SET_SUPPORTED_CHANGED(boolean val)
-    {
-        this.obtainMessage(ON_IS_SET_SUPPORTED_CHANGED,val).sendToTarget();
+        this.obtainMessage(ON_SET_VIEW_STATE,val).sendToTarget();
     }
 
     public void setON_STRING_VALUE_CHANGED(String val)
