@@ -31,26 +31,24 @@ public class AutoHdrMode extends BaseModeParameter {
         super(parameters, cameraUiWrapper, settingMode);
 
         if (parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_supported))!=null)
-            isSupported = false;
+            setViewState(ViewState.Hidden);
         String autohdr = parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_supported));
         if (autohdr != null && !TextUtils.isEmpty(autohdr) && autohdr.equals(cameraUiWrapper.getResString(R.string.true_))
                 && parameters.get(cameraUiWrapper.getResString(R.string.auto_hdr_enable)) != null) {
 
             List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(SettingsManager.getInstance().getResString(R.string.scene_mode_values)).split(",")));
             if (Scenes.contains(cameraUiWrapper.getResString(R.string.scene_mode_hdr))) {
-                boolean supporton = true;
-                isSupported = true;
+                setViewState(ViewState.Visible);
             }
             if (Scenes.contains(cameraUiWrapper.getResString(R.string.scene_mode_asd))) {
-                boolean supportauto = true;
-                isSupported = true;
+                setViewState(ViewState.Visible);
             }
 
         }
         else
-            isSupported = false;
+            setViewState(ViewState.Hidden);
 
-        if (isSupported) {
+        if (getViewState() == ViewState.Visible) {
             cameraUiWrapper.getModuleHandler().addListner(this);
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
         }
@@ -111,7 +109,7 @@ public class AutoHdrMode extends BaseModeParameter {
         {
             if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_))) {
                 show();
-                fireIsSupportedChanged(true);
+                setViewState(ViewState.Visible);
             }
             else
             {
@@ -138,13 +136,13 @@ public class AutoHdrMode extends BaseModeParameter {
         visible = false;
         SetValue(cameraUiWrapper.getResString(R.string.off_),true);
         fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
-        fireIsSupportedChanged(visible);
+        setViewState(ViewState.Hidden);
     }
     private void show()
     {
         visible = true;
         SetValue(state,true);
         fireStringValueChanged(state);
-        fireIsSupportedChanged(visible);
+        setViewState(ViewState.Visible);
     }
 }

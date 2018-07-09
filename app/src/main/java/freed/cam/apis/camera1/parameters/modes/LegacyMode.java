@@ -18,11 +18,8 @@ public class LegacyMode extends AbstractParameter implements BooleanSettingModeI
     public LegacyMode(CameraWrapperInterface cameraUiWrapper,  ApiBooleanSettingMode settingMode) {
         super(cameraUiWrapper,null);
         this.settingMode = settingMode;
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            setViewState(ViewState.Visible);
     }
 
     @Override

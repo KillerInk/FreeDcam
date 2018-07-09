@@ -38,16 +38,9 @@ public class NightModeZTE extends BaseModeParameter
     private final String curmodule = "";
     public NightModeZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper,SettingKeys.NightMode);
-        isSupported = true;
-        isVisible =true;
+        setViewState(ViewState.Visible);
         cameraUiWrapper.getModuleHandler().addListner(this);
         cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
-    }
-
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.hardware.Camera;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ae.AeManager;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -94,8 +95,8 @@ public class AeManagerMtkCamera1 extends AeManager
         //set exposure ui item to enable
         /*exposureCompensation.fireIsSupportedChanged(true);
         exposureCompensation.fireIsReadOnlyChanged(true);*/
-        manualIso.fireIsReadOnlyChanged(true);
-        manualExposureTime.fireIsReadOnlyChanged(false);
+        manualIso.setViewState(AbstractParameter.ViewState.Enabled);
+        manualExposureTime.setViewState(AbstractParameter.ViewState.Disabled);
     }
 
 
@@ -106,10 +107,10 @@ public class AeManagerMtkCamera1 extends AeManager
         //turn flash off when ae is off. else on some devices it applys only manual stuff only for a few frames
         manualExposureTime.setValue(manualExposureTime.GetValue(),true);
         //enable manualiso item in ui
-        manualIso.fireIsReadOnlyChanged(true);
+        manualIso.setViewState(AbstractParameter.ViewState.Enabled);
         //enable manual exposuretime in ui
         manualExposureTime.setValue(manualExposureTime.GetValue(),true);
-        manualExposureTime.fireIsReadOnlyChanged(true);
+        manualExposureTime.setViewState(AbstractParameter.ViewState.Enabled);
         manualExposureTime.fireStringValueChanged(manualExposureTime.GetStringValue());
     }
 }

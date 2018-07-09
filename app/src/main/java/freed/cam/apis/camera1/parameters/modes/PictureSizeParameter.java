@@ -36,7 +36,7 @@ public class PictureSizeParameter extends BaseModeParameter
     public PictureSizeParameter(Parameters  parameters, CameraWrapperInterface parameterChanged) {
         super(parameters, parameterChanged, SettingKeys.PictureSize);
         this.cameraUiWrapper = parameterChanged;
-        isSupported = true;
+        setViewState(ViewState.Visible);
     }
 
     @Override

@@ -47,11 +47,10 @@ public class ManualFocus extends AbstractParameter
         super(cameraUiWrapper,SettingKeys.M_Focus);
         if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
         {
-            isSupported = true;
+            setViewState(ViewState.Visible);
             String[] arr = SettingsManager.get(SettingKeys.M_Focus).getValues();
             if (arr == null || arr.length == 0) {
-                isSupported = false;
-                fireIsSupportedChanged(false);
+                setViewState(ViewState.Hidden);
                 Log.d(TAG, "No mf values from Appsettings");
             }
             else
@@ -99,22 +98,6 @@ public class ManualFocus extends AbstractParameter
             Log.d(TAG, "Set MF TO: " + valtoset+ " ValueTOSET: " + valueToSet);
             ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, valtoset,setToCamera);
         }
-    }
-
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isSupported;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
     }
 
     @Override

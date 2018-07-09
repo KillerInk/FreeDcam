@@ -12,6 +12,7 @@ import android.util.Pair;
 
 import com.troop.freedcam.R;
 
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -255,7 +256,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     }
 
     private void processDefaultAEValues(@NonNull TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
-        if (expotime != null && expotime.IsSupported()) {
+        if (expotime != null && expotime.getViewState() == AbstractParameter.ViewState.Visible || expotime.getViewState() == AbstractParameter.ViewState.Disabled) {
             if (result != null && result.getKeys().size() > 0) {
                 try {
                     if (!camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))

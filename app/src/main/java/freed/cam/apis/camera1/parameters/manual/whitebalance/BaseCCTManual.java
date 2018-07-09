@@ -50,7 +50,7 @@ public class BaseCCTManual extends BaseManualParameter
     public BaseCCTManual(final Parameters parameters,final CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper, settingMode);
         manual_WbMode = SettingsManager.get(SettingKeys.M_Whitebalance).getMode();
-        isVisible = false;
+        setViewState(ViewState.Hidden);
 
         //wait 800ms to give awb a chance to set the ct value to the parameters
         if (TextUtils.isEmpty(SettingsManager.get(SettingKeys.M_Whitebalance).getKEY()))
@@ -73,15 +73,13 @@ public class BaseCCTManual extends BaseManualParameter
                     if (!TextUtils.isEmpty(wbcur)) {
                         //update our stored parameters with ct
                         parameters.set(wbcur, parameters1.get(wbcur));
-                        isSupported = true;
-                        isVisible = true;
+                        setViewState(ViewState.Visible);
                         key_value = wbcur;
-                        BaseCCTManual.this.fireIsSupportedChanged(true);
                     }
                 }
                 catch (NullPointerException ex)
                 {
-                    fireIsSupportedChanged(false);
+                    setViewState(ViewState.Hidden);
                 }
             }, 800);
         else
@@ -103,7 +101,8 @@ public class BaseCCTManual extends BaseManualParameter
         }
         catch (RuntimeException ex)
         {
-            fireIsSupportedChanged(false);
+            Log.WriteEx(ex);
+            setViewState(ViewState.Hidden);
         }
 
     }

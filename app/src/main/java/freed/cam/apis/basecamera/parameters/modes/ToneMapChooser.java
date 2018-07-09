@@ -21,15 +21,10 @@ public class ToneMapChooser extends AbstractParameter {
     {
         super(null);
         this.toneMapProfileHashMap = toneMapProfileHashMap;
-        isSupported = true;
+        setViewState(ViewState.Visible);
         currentString = SettingsManager.get(SettingKeys.TONEMAP_SET).get();
         if (TextUtils.isEmpty(currentString))
             currentString = SettingsManager.getInstance().getResString(R.string.off_);
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return isSupported;
     }
 
     @Override
@@ -44,11 +39,6 @@ public class ToneMapChooser extends AbstractParameter {
     public String[] getStringValues()
     {
         return toneMapProfileHashMap.keySet().toArray(new String[toneMapProfileHashMap.size()]);
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isSupported;
     }
 
     public ToneMapProfile getToneMap()

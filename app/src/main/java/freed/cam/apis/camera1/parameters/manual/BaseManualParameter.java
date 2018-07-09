@@ -57,7 +57,7 @@ public class BaseManualParameter extends AbstractParameter
 
     public void ResetToDefault()
     {
-        if (isSupported)
+        if (settingMode != null && settingMode.isSupported())
         {
             Log.d(TAG,"Reset Back from:" + currentInt + " to:" + default_value);
             SetValue(default_value, true);
@@ -73,13 +73,8 @@ public class BaseManualParameter extends AbstractParameter
         key_value = mode.getKEY();
         currentString = mode.get();
         stringvalues = mode.getValues();
-        isSupported = mode.isSupported();
-        isVisible = isSupported;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
+        if (mode.isSupported())
+            setViewState(ViewState.Visible);
     }
 
     @Override
@@ -113,13 +108,9 @@ public class BaseManualParameter extends AbstractParameter
     private final ParameterEvents picformatListner = new ParameterEvents()
     {
 
-        @Override
-        public void onIsSupportedChanged(boolean value) {
-
-        }
 
         @Override
-        public void onIsSetSupportedChanged(boolean value) {
+        public void onViewStateChanged(ViewState value) {
 
         }
 
@@ -135,14 +126,12 @@ public class BaseManualParameter extends AbstractParameter
 
         @Override
         public void onStringValueChanged(String val) {
-            if (val.equals(cameraUiWrapper.getResString(R.string.jpeg_)) && isSupported)
+            if (val.equals(cameraUiWrapper.getResString(R.string.jpeg_)) && settingMode.isSupported())
             {
-                isVisible = true;
-                fireIsSupportedChanged(true);
+                setViewState(ViewState.Visible);
             }
             else {
-                isVisible = false;
-                fireIsSupportedChanged(false);
+                setViewState(ViewState.Hidden);
                 ResetToDefault();
             }
         }
@@ -154,13 +143,13 @@ public class BaseManualParameter extends AbstractParameter
     }
 
     private final ModuleChangedEvent moduleListner = module -> {
-        if (module.equals(cameraUiWrapper.getResString(R.string.module_video)) && isSupported)
-            fireIsSupportedChanged(true);
+        if (module.equals(cameraUiWrapper.getResString(R.string.module_video)) && settingMode.isSupported())
+            setViewState(ViewState.Visible);
         else if (module.equals(cameraUiWrapper.getResString(R.string.module_picture))
                 || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
                 || module.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
         {
-            fireIsSupportedChanged(isVisible);
+            setViewState(getViewState());
         }
     };
 }

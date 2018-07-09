@@ -37,7 +37,6 @@ public class MatrixChooserParameter extends AbstractParameter
     public static final String NEXUS6 = "Nexus6";
     private final HashMap<String, CustomMatrix> custommatrixes;
     private String currentval = "off";
-    private boolean isSupported;
 
     final String TAG = MatrixChooserParameter.class.getSimpleName();
 
@@ -45,15 +44,10 @@ public class MatrixChooserParameter extends AbstractParameter
     {
         super(null);
         this.custommatrixes = matrixHashMap;
-        isSupported = true;
+        setViewState(ViewState.Visible);
         currentval = SettingsManager.get(SettingKeys.MATRIX_SET).get();
         if (TextUtils.isEmpty(currentval))
             currentval = "off";
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return isSupported;
     }
 
     @Override
@@ -75,11 +69,6 @@ public class MatrixChooserParameter extends AbstractParameter
     public String[] getStringValues()
     {
         return custommatrixes.keySet().toArray(new String[custommatrixes.size()]);
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isSupported;
     }
 
     public CustomMatrix GetCustomMatrix(String key)

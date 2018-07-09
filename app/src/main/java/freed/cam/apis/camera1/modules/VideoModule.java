@@ -34,6 +34,7 @@ import java.util.Arrays;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.record.VideoRecorder;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -209,7 +210,8 @@ public class VideoModule extends AbstractVideoModule
         if (cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoStabilization) != null && SettingsManager.get(SettingKeys.VideoStabilization).isSupported())
             cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoStabilization).SetValue("false", false);
         Log.d(TAG, "disable_denoise");
-        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise) != null && cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).IsSupported())
+        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise) != null
+                && cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).getViewState() == AbstractParameter.ViewState.Visible)
             cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).SetValue("denoise-off", false);
         Log.d(TAG, "disable_mce_dis_vs_denoise done");
     }
@@ -220,7 +222,8 @@ public class VideoModule extends AbstractVideoModule
         {
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFPS).SetValue(currentProfile.videoFrameRate+"",false);
 
-            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHighFramerate) != null && cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHighFramerate).IsSupported()) {
+            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHighFramerate) != null
+                    && cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHighFramerate).getViewState() == AbstractParameter.ViewState.Visible) {
                 cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHighFramerate).SetValue(currentProfile.videoFrameRate + "", false);
                 cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFPS).SetValue(currentProfile.videoFrameRate+"",true);
             }

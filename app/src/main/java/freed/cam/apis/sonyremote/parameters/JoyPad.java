@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 
 /**
@@ -23,13 +24,9 @@ public class JoyPad extends View implements ParameterEvents
 
     private NavigationClick navigationClickListner;
 
-    @Override
-    public void onIsSupportedChanged(boolean value) {
-
-    }
 
     @Override
-    public void onIsSetSupportedChanged(boolean value) {
+    public void onViewStateChanged(AbstractParameter.ViewState value) {
 
     }
 

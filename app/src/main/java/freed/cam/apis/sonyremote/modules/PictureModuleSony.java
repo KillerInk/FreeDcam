@@ -37,6 +37,7 @@ import java.net.URL;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.settings.SettingKeys;
@@ -77,7 +78,8 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             changeCaptureState(CaptureStates.image_capture_stop);
             cameraHolder.stopBulbCapture(this);
         }
-        else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode) != null && cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode).IsSupported()) {
+        else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode) != null
+                && cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode).getViewState() == AbstractParameter.ViewState.Visible) {
             String shootmode = cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode).GetStringValue();
             if (!isWorking && shootmode.equals("Single"))
             {

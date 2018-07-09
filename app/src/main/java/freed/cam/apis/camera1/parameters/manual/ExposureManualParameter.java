@@ -38,15 +38,8 @@ public class ExposureManualParameter extends BaseManualParameter
     public ExposureManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper,settingMode);
         stringvalues = createStringArray(parameters.getMinExposureCompensation(),parameters.getMaxExposureCompensation(),parameters.getExposureCompensationStep());
-        isSupported = true;
-        isVisible = true;
+        setViewState(ViewState.Visible);
         String TAG = ExposureManualParameter.class.getSimpleName();
-        Log.d(TAG, "Is Supported:" + isSupported);
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return true;
     }
 
     @Override

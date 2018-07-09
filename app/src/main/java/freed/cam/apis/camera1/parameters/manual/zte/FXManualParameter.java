@@ -34,26 +34,11 @@ public class FXManualParameter extends BaseManualParameter {
 
     public FXManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key key) {
         super(parameters,cameraUiWrapper,key);
-    }
-
-    @Override
-    public boolean IsSupported()
-    {
         if(SettingsManager.getInstance().isZteAe())
         {
-            isSupported = true;
-            isVisible = true;
+            setViewState(ViewState.Visible);
             stringvalues = createStringArray(0,38,1);
-            return true;
         }
-        else
-            return false;
-
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return IsSupported();
     }
 
     @Override

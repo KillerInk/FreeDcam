@@ -13,6 +13,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -182,14 +183,8 @@ public class GuideHandler extends Fragment implements ParameterEvents {
         }
     }
 
-
     @Override
-    public void onIsSupportedChanged(boolean value) {
-
-    }
-
-    @Override
-    public void onIsSetSupportedChanged(boolean value) {
+    public void onViewStateChanged(AbstractParameter.ViewState value) {
 
     }
 
@@ -210,13 +205,9 @@ public class GuideHandler extends Fragment implements ParameterEvents {
     }
 
     private final ParameterEvents previewSizeChanged = new ParameterEvents() {
-        @Override
-        public void onIsSupportedChanged(boolean value) {
-
-        }
 
         @Override
-        public void onIsSetSupportedChanged(boolean value) {
+        public void onViewStateChanged(AbstractParameter.ViewState value) {
 
         }
 

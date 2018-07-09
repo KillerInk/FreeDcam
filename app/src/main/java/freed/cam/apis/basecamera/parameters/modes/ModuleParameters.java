@@ -37,6 +37,7 @@ public class ModuleParameters extends AbstractParameter {
     public ModuleParameters(CameraWrapperInterface cameraUiWrapper) {
         super(null);
         this.cameraUiWrapper = cameraUiWrapper;
+        setViewState(ViewState.Visible);
     }
 
     @Override
@@ -67,8 +68,4 @@ public class ModuleParameters extends AbstractParameter {
         }
     }
 
-    @Override
-    public boolean IsSupported() {
-        return true;
-    }
 }

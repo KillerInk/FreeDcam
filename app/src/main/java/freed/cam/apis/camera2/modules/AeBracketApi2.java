@@ -29,6 +29,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -70,7 +71,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).fireIsReadOnlyChanged(false);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Hidden);
         cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(2, true);
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
     }
@@ -78,7 +79,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     public void DestroyModule() {
         super.DestroyModule();
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).fireIsReadOnlyChanged(true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Visible);
 
     }
 

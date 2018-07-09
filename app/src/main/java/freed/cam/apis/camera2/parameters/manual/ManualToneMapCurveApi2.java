@@ -75,12 +75,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
     }
 
     @Override
-    public void onIsSupportedChanged(boolean value) {
-
-    }
-
-    @Override
-    public void onIsSetSupportedChanged(boolean value) {
+    public void onViewStateChanged(AbstractParameter.ViewState value) {
 
     }
 
@@ -122,37 +117,29 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
             visible = false;
         }
         if (contrast != null) {
-            contrast.fireIsReadOnlyChanged(canSet);
-            contrast.fireIsSupportedChanged(isSupported);
+            contrast.setViewState(AbstractParameter.ViewState.Visible);
         }
         if (brightness != null) {
-            brightness.fireIsSupportedChanged(isSupported);
-            brightness.fireIsReadOnlyChanged(canSet);
+            brightness.setViewState(AbstractParameter.ViewState.Visible);
         }
         if (black != null){
-            black.fireIsSupportedChanged(isSupported);
-            black.fireIsReadOnlyChanged(canSet);
+            black.setViewState(AbstractParameter.ViewState.Visible);
         }
         if (shadowsp != null) {
-            shadowsp.fireIsSupportedChanged(isSupported);
-            shadowsp.fireIsReadOnlyChanged(canSet);
+            shadowsp.setViewState(AbstractParameter.ViewState.Visible);
         }
         if (midtonesp != null) {
-            midtonesp.fireIsSupportedChanged(isSupported);
-            midtonesp.fireIsReadOnlyChanged(canSet);
+            midtonesp.setViewState(AbstractParameter.ViewState.Visible);
         }
         if (highlightsp != null) {
-            highlightsp.fireIsSupportedChanged(isSupported);
-            highlightsp.fireIsReadOnlyChanged(canSet);
+            highlightsp.setViewState(AbstractParameter.ViewState.Visible);
         }
         if (whitep != null) {
-            whitep.fireIsSupportedChanged(isSupported);
-            whitep.fireIsReadOnlyChanged(canSet);
+            whitep.setViewState(AbstractParameter.ViewState.Visible);
         }
         if (toneCurveParameter != null)
         {
-            toneCurveParameter.fireIsSupportedChanged(isSupported);
-            toneCurveParameter.fireIsReadOnlyChanged(canSet);
+            toneCurveParameter.setViewState(AbstractParameter.ViewState.Visible);
         }
     }
 
@@ -163,8 +150,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
             super(cameraUiWrapper, SettingKeys.M_Contrast);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
-            isSupported = true;
-            isVisible = true;
+            setViewState(ViewState.Visible);
         }
 
 
@@ -224,21 +210,6 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         }
 
         @Override
-        public boolean IsSupported() {
-            return isSupported;
-        }
-
-        @Override
-        public boolean IsVisible() {
-            return IsSupported();
-        }
-
-        @Override
-        public boolean IsSetSupported() {
-            return true;
-        }
-
-        @Override
         public String GetStringValue() {
             return super.GetStringValue();
         }
@@ -251,8 +222,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
             super(cameraUiWrapper,SettingKeys.M_Brightness);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
-            isSupported = true;
-            isVisible = true;
+            setViewState(ViewState.Visible);
         }
 
         @Override
@@ -290,23 +260,6 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
 
         }
 
-
-        @Override
-        public boolean IsSupported()
-        {
-            return isSupported;
-        }
-
-        @Override
-        public boolean IsVisible() {
-            return IsSupported();
-        }
-
-        @Override
-        public boolean IsSetSupported() {
-            return true;
-        }
-
         @Override
         public String GetStringValue() {
             return super.GetStringValue();
@@ -327,8 +280,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
             currentInt = (int)defaultvalue;
             color[0] = defaultvalue/100;
             color[1] = defaultvalue/100;
-            isSupported = true;
-            isVisible = true;
+            setViewState(ViewState.Visible);
         }
 
         @Override
@@ -360,21 +312,6 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
 
         }
 
-        @Override
-        public boolean IsSupported()
-        {
-            return isSupported;
-        }
-
-        @Override
-        public boolean IsVisible() {
-            return IsSupported();
-        }
-
-        @Override
-        public boolean IsSetSupported() {
-            return true;
-        }
 
         @Override
         public String GetStringValue() {

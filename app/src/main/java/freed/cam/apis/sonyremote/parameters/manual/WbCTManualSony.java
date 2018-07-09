@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
@@ -103,15 +104,11 @@ public class WbCTManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public void onIsSupportedChanged(boolean value)
-    {
-        super.onIsSupportedChanged(value);
-        if (step != 0 && value)
+    public void onViewStateChanged(ViewState value) {
+        if (step != 0 && value == ViewState.Visible)
         {
             GetStringValue();
         }
-
-
     }
 
     public void SetMinMAx(JSONObject ob) throws JSONException {
@@ -127,7 +124,7 @@ public class WbCTManualSony extends BaseManualParameterSony
             values =new String[r.size()];
             r.toArray(values);
             fireStringValuesChanged(values);
-            fireIsReadOnlyChanged(true);
+            setViewState(ViewState.Enabled);
         }
     }
 

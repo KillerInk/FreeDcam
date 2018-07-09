@@ -73,7 +73,7 @@ public class WbHandler
             colorCorrectionMode.SetValue(cameraUiWrapper.getResString(R.string.fast),true);
             //hide manual wbct manualitem in ui
             if (manualWbCt != null)
-                manualWbCt.fireIsSupportedChanged(false);
+                manualWbCt.setViewState(AbstractParameter.ViewState.Hidden);
         }
         else //if OFF
         {
@@ -82,7 +82,7 @@ public class WbHandler
             //show wbct manual item in ui
             if (manualWbCt != null) {
                 manualWbCt.fireStringValueChanged(manualWbCt.GetStringValue());
-                manualWbCt.fireIsSupportedChanged(true);
+                manualWbCt.setViewState(AbstractParameter.ViewState.Visible);
             }
 
         }
@@ -118,11 +118,6 @@ public class WbHandler
                 lastcctmode = colorCorrectionMode.GetStringValue();
         }
 
-        @Override
-        public boolean IsSupported()
-        {
-            return isSupported;
-        }
         @Override
         public void setValue(String valueToSet, boolean setToCamera)
         {
@@ -229,21 +224,12 @@ public class WbHandler
         }
 
         @Override
-        public boolean IsSetSupported() {
-            return true;
-        }
-
-        @Override
-        public boolean IsVisible() {
-            return isSupported;
-        }
-
-        @Override
-        public boolean IsSupported() {
+        public ViewState getViewState() {
             if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode) == null)
-                return false;
-            isSupported = cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).GetStringValue().equals("OFF");
-            return isSupported;
+                return ViewState.Hidden;
+            else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).GetStringValue().equals("OFF"))
+                return ViewState.Visible;
+            return ViewState.Hidden;
         }
 
         private int getCctFromRGB(int R, int G, int B)
@@ -264,12 +250,10 @@ public class WbHandler
             parameterKey = CaptureRequest.COLOR_CORRECTION_MODE;
             settingMode = SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE);
             parameterValues = StringUtils.StringArrayToIntHashmap(settingMode.getValues());
+            if (SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported())
+                setViewState(ViewState.Visible);
         }
 
-        @Override
-        public boolean IsSupported() {
-            return SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported();
-        }
 
         @Override
         public void setValue(String valueToSet, boolean setToCamera)

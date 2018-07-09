@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.utils.FreeDPool;
@@ -49,20 +50,17 @@ public class ZoomManualSony extends BaseManualParameterSony
     public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
-        //if (isSupported != JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet))
-        //{
-        isSupported = JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet);
-        fireIsSupportedChanged(isSupported);
-        fireIsReadOnlyChanged(isSupported);
+        if (JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet))
+            setViewState(ViewState.Visible);
         stringvalues = createStringArray(0,100,1);
-        //}
-
-
     }
 
     @Override
-    public boolean IsSupported() {
-        return ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mAvailableCameraApiSet != null && JsonUtils.isCameraApiAvailable("actZoom", ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mAvailableCameraApiSet);
+    public ViewState getViewState() {
+        if (((ParameterHandler) cameraUiWrapper.getParameterHandler()).mAvailableCameraApiSet != null && JsonUtils.isCameraApiAvailable("actZoom", ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mAvailableCameraApiSet))
+            return ViewState.Visible;
+        else
+            return ViewState.Hidden;
     }
 
     public int GetValue()

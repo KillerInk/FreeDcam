@@ -33,6 +33,7 @@ import com.troop.freedcam.R;
 import java.io.File;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera1.CameraHolder;
@@ -97,20 +98,20 @@ public class VideoModuleG3 extends AbstractVideoModule
         if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("2160p"))
         {
             ParameterInterface mce = cameraUiWrapper.getParameterHandler().get(SettingKeys.MemoryColorEnhancement);
-            if(mce != null && mce.IsSupported())
+            if(mce != null && mce.getViewState() == AbstractParameter.ViewState.Visible)
                 mce.SetValue(SettingsManager.getInstance().getResString(R.string.disable_),false);
             ParameterInterface dis = cameraUiWrapper.getParameterHandler().get(SettingKeys.DigitalImageStabilization);
-            if (dis!= null && dis.IsSupported())
+            if (dis!= null && dis.getViewState() == AbstractParameter.ViewState.Visible)
                 dis.SetValue(SettingsManager.getInstance().getResString(R.string.disable_), false);
             ParameterInterface denoise = cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise);
-            if (denoise != null && denoise.IsSupported())
+            if (denoise != null && denoise.getViewState() == AbstractParameter.ViewState.Visible)
                 denoise.SetValue("denoise-off", false);
             if(!SettingsManager.getInstance().hasCamera2Features())
                 cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFormat).SetValue("nv12-venus",false);
             if (currentProfile.Mode == VideoMode.Highspeed)
             {
                 ParameterInterface hfr = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHighFramerate);
-                if (hfr != null && hfr.IsSupported())
+                if (hfr != null && hfr.getViewState() == AbstractParameter.ViewState.Visible)
                 {
                     hfr.SetValue(currentProfile.videoFrameRate+"", false);
                 }

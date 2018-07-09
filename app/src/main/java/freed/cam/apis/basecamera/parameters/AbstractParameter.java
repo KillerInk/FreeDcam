@@ -19,6 +19,15 @@ import freed.settings.mode.SettingMode;
 
 public abstract class AbstractParameter implements ParameterInterface {
 
+    public enum ViewState{
+        Visible,
+        Hidden,
+        Disabled,
+        Enabled
+    }
+
+    private ViewState viewState = ViewState.Hidden;
+
     /**
      * Listners that attached to that parameter
      */
@@ -40,16 +49,6 @@ public abstract class AbstractParameter implements ParameterInterface {
      * so on negative values  -1 = stringarray[stringarray/2 + -1] must get used
      */
     protected int currentInt;
-    /**
-     * holds the state if the parameter is supported
-     */
-    protected boolean isSupported;
-    /**
-     * holds the state if the parameter should be visible to ui
-     */
-    protected boolean isVisible = true;
-
-    protected boolean isNotReadOnly;
 
     protected SettingKeys.Key key;
     protected SettingMode settingMode;
@@ -67,12 +66,17 @@ public abstract class AbstractParameter implements ParameterInterface {
         if (SettingsManager.get(key) instanceof  SettingMode) {
             this.settingMode = (SettingMode) SettingsManager.get(key);
             stringvalues = settingMode.getValues();
-            isSupported = settingMode.isSupported();
-            isVisible = isSupported;
+            if (settingMode.isSupported())
+                setViewState(ViewState.Visible);
             currentString = settingMode.get();
         }
     }
 
+    @Override
+    public void setViewState(ViewState viewState) {
+        this.viewState = viewState;
+        fireViewStateChanged(viewState);
+    }
 
     public AbstractParameter(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key  settingMode)
     {
@@ -177,9 +181,9 @@ public abstract class AbstractParameter implements ParameterInterface {
         }
     }
 
-    public void fireIsSupportedChanged(boolean value)
+    @Override
+    public void fireViewStateChanged(ViewState value)
     {
-        isSupported = value;
         for (int i = 0; i< listners.size(); i ++)
         {
             if (listners.get(i) == null)
@@ -190,30 +194,13 @@ public abstract class AbstractParameter implements ParameterInterface {
             }
             else {
                 final ParameterEvents lis = listners.get(i);
-                final boolean cur = value;
-                mainHandler.post(() -> lis.onIsSupportedChanged(cur));
-            }
-        }
-    }
-    public void fireIsReadOnlyChanged(boolean value)
-    {
-        isNotReadOnly = value;
-        for (int i = 0; i< listners.size(); i ++)
-        {
-            if (listners.get(i) == null)
-            {
-                listners.remove(i);
-                i--;
-
-            }
-            else {
-            final ParameterEvents lis = listners.get(i);
-            final boolean cur = value;
-            mainHandler.post(() -> lis.onIsSetSupportedChanged(cur));
+                final ViewState cur = value;
+                mainHandler.post(() -> lis.onViewStateChanged(cur));
             }
         }
     }
 
+    @Override
     public void fireStringValuesChanged(String[] value)
     {
         stringvalues = value;
@@ -238,24 +225,8 @@ public abstract class AbstractParameter implements ParameterInterface {
      * @return true if the parameter is supported
      */
     @Override
-    public boolean IsSupported() {
-        return isSupported;
-    }
-
-    /**
-     * if true the parameter can get set and is readable
-     * if false the parameter is read only
-     * @return  parameter can set
-     */
-    public boolean IsSetSupported() {return isNotReadOnly;}
-
-    /**
-     *
-     * @return the visiblity state for the ui item
-     */
-    @Override
-    public boolean IsVisible() {
-        return isVisible;
+    public ViewState getViewState() {
+        return viewState;
     }
 
     /**

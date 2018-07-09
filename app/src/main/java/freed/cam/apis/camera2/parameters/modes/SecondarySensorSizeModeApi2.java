@@ -12,11 +12,7 @@ public class SecondarySensorSizeModeApi2 extends BaseModeApi2 {
     private String size = "1920x1080";
     public SecondarySensorSizeModeApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.secondarySensorSize);
-    }
-    boolean firststart = true;
-    @Override
-    public boolean IsSupported() {
-        return true;
+        setViewState(ViewState.Visible);
     }
 
     @Override

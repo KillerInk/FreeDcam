@@ -15,11 +15,7 @@ public class ManualIsoKirin extends BaseManualParameter {
 
     public ManualIsoKirin(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key) {
         super(parameters,cameraUiWrapper,key);
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
+        setViewState(ViewState.Visible);
     }
 
     @Override

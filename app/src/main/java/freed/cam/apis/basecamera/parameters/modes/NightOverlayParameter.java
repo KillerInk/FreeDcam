@@ -16,17 +16,9 @@ public class NightOverlayParameter extends AbstractParameter {
     {
         super(SettingKeys.NightOverlay);
         this.cameraWrapperInterface = cameraWrapperInterface;
+        setViewState(ViewState.Visible);
     }
 
-    @Override
-    public boolean IsSupported() {
-        return true;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return true;
-    }
     @Override
     public String[] getStringValues() {
         return new String[] { cameraWrapperInterface.getResString(R.string.off_), cameraWrapperInterface.getResString(R.string.on_) };

@@ -39,6 +39,8 @@ public class NightModeSony extends BaseModeParameterSony
     public NightModeSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {
         super(null, null, null, null,null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
+        if (RenderScriptManager.isSupported())
+            setViewState(ViewState.Visible);
     }
 
     public void SetValue(String valueToSet, boolean setToCamera)
@@ -78,10 +80,6 @@ public class NightModeSony extends BaseModeParameterSony
         return new String[] {simpleStreamSurfaceView.getResources().getString(R.string.on_), simpleStreamSurfaceView.getResources().getString(R.string.off_), GRAYSCALE, EXPOSURE /*, ZOOMPREVIEW*/};
     }
 
-    @Override
-    public boolean IsSupported() {
-        return RenderScriptManager.isSupported();
-    }
 
 
     @Override

@@ -46,8 +46,8 @@ public class LocationParameter extends AbstractParameter
     }
 
     @Override
-    public boolean IsSupported() {
-        return true;
+    public ViewState getViewState() {
+        return ViewState.Visible;
     }
 
     @Override

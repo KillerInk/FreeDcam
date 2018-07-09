@@ -47,21 +47,21 @@ public class SDModeParameter extends AbstractParameter
     }
 
     @Override
-    public boolean IsSupported()
-    {
+    public ViewState getViewState() {
         try {
             if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP) {
                 File file = new File(StringUtils.GetExternalSDCARD());
-                return file.exists();
+                if (file.exists())
+                    return ViewState.Visible;
             }
             else
-                return true;
+                return ViewState.Visible;
         }
         catch (Exception ex)
         {
-            return false;
+            return ViewState.Hidden;
         }
-
+        return super.getViewState();
     }
 
     @Override

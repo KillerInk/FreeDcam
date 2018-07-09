@@ -103,20 +103,13 @@ public abstract class AeManager implements AeManagerInterface
         }
 
         @Override
-        public boolean IsSupported()
-        {
-            return isSupported;
+        public ViewState getViewState() {
+            if (isExposureTimeWriteable())
+                return ViewState.Enabled;
+            else
+                return ViewState.Disabled;
         }
 
-        @Override
-        public boolean IsVisible() {
-            return isSupported;
-        }
-
-        @Override
-        public boolean IsSetSupported() {
-            return isExposureTimeWriteable();
-        }
     }
 
 
@@ -126,11 +119,6 @@ public abstract class AeManager implements AeManagerInterface
         public ManualIso(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper,SettingKeys.M_ManualIso);
             currentInt = 0;
-        }
-
-        @Override
-        public boolean IsVisible() {
-            return true;
         }
 
         @Override
@@ -146,8 +134,11 @@ public abstract class AeManager implements AeManagerInterface
         }
 
         @Override
-        public boolean IsSetSupported() {
-            return isIsoWriteable();
+        public ViewState getViewState() {
+            if (isIsoWriteable())
+                return ViewState.Enabled;
+            else
+                return ViewState.Disabled;
         }
     }
 
@@ -177,20 +168,12 @@ public abstract class AeManager implements AeManagerInterface
         }
 
         @Override
-        public boolean IsSupported() {
-            return SettingsManager.get(SettingKeys.M_ExposureCompensation).isSupported();
+        public ViewState getViewState() {
+            if (isExposureCompensationWriteable())
+                return ViewState.Enabled;
+            else
+                return ViewState.Disabled;
         }
-
-        @Override
-        public boolean IsSetSupported() {
-            return isExposureCompensationWriteable();
-        }
-
-        @Override
-        public boolean IsVisible() {
-            return true;
-        }
-
     }
 
 }

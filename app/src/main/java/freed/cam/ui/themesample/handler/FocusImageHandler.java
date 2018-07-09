@@ -38,6 +38,7 @@ import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
@@ -228,7 +229,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         {
             //disable exposure lock that metering can get applied
             ParameterInterface expolock = wrapper.getParameterHandler().get(SettingKeys.ExposureLock);
-            if (moving && expolock != null && expolock.IsSupported() && expolock.GetStringValue().equals("true"))
+            if (moving && expolock != null && expolock.getViewState() == AbstractParameter.ViewState.Visible && expolock.GetStringValue().equals("true"))
             {
                 expolock.SetValue("false",true);
             }

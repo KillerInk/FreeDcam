@@ -12,14 +12,8 @@ public interface ParameterEvents
      * @param value if true the parameter shown in ui is visible
      *              if false the parameter is hidden
      */
-    void onIsSupportedChanged(boolean value);
-    /**
-     * Notify the listner that the parameter can changed/set state has changed
-     * freed.cam.ui.themesample.cameraui.ManualButton.java
-     * @param value if true the parameter shown in ui is accessible
-     *              if false the parameter is not accessible
-     */
-    void onIsSetSupportedChanged(boolean value);
+    void onViewStateChanged(AbstractParameter.ViewState value);
+
     /**
      * Notify the listner that the parameter has changed in the background
      * freed.cam.ui.themesample.cameraui.ManualButton.java

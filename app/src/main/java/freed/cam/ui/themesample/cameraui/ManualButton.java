@@ -37,6 +37,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.utils.Log;
@@ -91,7 +92,7 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
         this.parameter = parameter;
         if (parameter != null) {
             parameter.addEventListner(this);
-            if (parameter.IsSupported())
+            if (parameter.getViewState() == AbstractParameter.ViewState.Visible)
             {
                 String txt = parameter.GetStringValue();
                 if (valueTextView != null) {
@@ -100,29 +101,15 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
                     else
                         valueTextView.setText(parameter.GetValue() + "");
                 }
-
-                onIsSupportedChanged(parameter.IsVisible());
-                onIsSetSupportedChanged(parameter.IsSetSupported());
                 createStringParametersStrings(parameter);
-
             }
-            else
-                onIsSupportedChanged(false);
         }
-        else
-            onIsSupportedChanged(false);
+        onViewStateChanged(parameter.getViewState());
 
     }
 
     private void createStringParametersStrings(ParameterInterface parameter) {
         parameterValues = parameter.getStringValues();
-    }
-
-
-
-    @Override
-    public void onIsSupportedChanged(final boolean value) {
-        handler.setON_IS_SUPPORTED_CHANGED(value);
     }
 
     private final AnimatorListener hideListner = new AnimatorListener() {
@@ -147,11 +134,25 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
         }
     };
 
-    @Override
-    public void onIsSetSupportedChanged(final boolean value) {
-       handler.setON_IS_SET_SUPPORTED_CHANGED(value);
-    }
 
+    @Override
+    public void onViewStateChanged(AbstractParameter.ViewState value) {
+        switch (value) {
+            case Visible:
+                handler.setON_IS_SUPPORTED_CHANGED(true);
+                break;
+            case Hidden:
+                handler.setON_IS_SUPPORTED_CHANGED(false);
+                break;
+            case Disabled:
+                handler.setON_IS_SET_SUPPORTED_CHANGED(false);
+                break;
+            case Enabled:
+                handler.setON_IS_SET_SUPPORTED_CHANGED(true);
+                break;
+        }
+
+    }
 
     @Override
     public void onIntValueChanged(int current)

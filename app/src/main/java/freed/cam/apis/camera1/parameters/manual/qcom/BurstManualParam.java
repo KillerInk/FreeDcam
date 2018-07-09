@@ -45,6 +45,7 @@ public class BurstManualParam extends BaseManualParameter
     public BurstManualParam(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper,settingMode);
         currentInt = Integer.parseInt(SettingsManager.get(SettingKeys.M_Burst).get());
+        setViewState(ViewState.Visible);
     }
 
     @Override
@@ -60,10 +61,6 @@ public class BurstManualParam extends BaseManualParameter
         return ar.toArray(new String[ar.size()]);
     }
 
-    @Override
-    public boolean IsVisible() {
-        return IsSupported();
-    }
 
     @Override
     public int GetValue()
@@ -112,13 +109,13 @@ public class BurstManualParam extends BaseManualParameter
     }
 
     private final ModuleChangedEvent moduleListner = module -> {
-        if ((module.equals(cameraUiWrapper.getResString(R.string.module_video)) || module.equals(cameraUiWrapper.getResString(R.string.module_hdr))) && isSupported)
-            fireIsSupportedChanged(false);
+        if ((module.equals(cameraUiWrapper.getResString(R.string.module_video)) || module.equals(cameraUiWrapper.getResString(R.string.module_hdr))) && settingMode.isSupported())
+            setViewState(ViewState.Hidden);
         else if ((module.equals(cameraUiWrapper.getResString(R.string.module_picture))
                 || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
-                )&& isSupported)
+                )&& settingMode.isSupported())
         {
-            fireIsSupportedChanged(true);
+            setViewState(ViewState.Visible);
         }
     };
 

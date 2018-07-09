@@ -38,6 +38,7 @@ import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.settings.SettingKeys;
@@ -94,12 +95,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     }
 
     @Override
-    public void onIsSupportedChanged(boolean value) {
-
-    }
-
-    @Override
-    public void onIsSetSupportedChanged(boolean value) {
+    public void onViewStateChanged(AbstractParameter.ViewState value) {
 
     }
 

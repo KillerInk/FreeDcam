@@ -5,6 +5,7 @@ import android.hardware.Camera;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ae.AeManager;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -86,8 +87,8 @@ public class AeManagerLgCamera1 extends AeManager
         cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(t, true);
         /*exposureCompensation.fireIsSupportedChanged(true);
         exposureCompensation.fireIsReadOnlyChanged(true);*/
-        manualIso.fireIsReadOnlyChanged(true);
-        manualExposureTime.fireIsReadOnlyChanged(false);
+        manualIso.setViewState(AbstractParameter.ViewState.Enabled);
+        manualExposureTime.setViewState(AbstractParameter.ViewState.Disabled);
         startReadingMeta();
     }
 
@@ -102,10 +103,10 @@ public class AeManagerLgCamera1 extends AeManager
         ((ParametersHandler)cameraWrapperInterface.getParameterHandler()).SetParametersToCamera(parameters);
         manualExposureTime.setValue(manualExposureTime.GetValue(),true);
         //enable manualiso item in ui
-        manualIso.fireIsReadOnlyChanged(true);
+        manualIso.setViewState(AbstractParameter.ViewState.Enabled);
         //enable manual exposuretime in ui
         manualExposureTime.setValue(manualExposureTime.GetValue(),true);
-        manualExposureTime.fireIsReadOnlyChanged(true);
+        manualExposureTime.setViewState(AbstractParameter.ViewState.Enabled);
         manualExposureTime.fireStringValueChanged(manualExposureTime.GetStringValue());
     }
 

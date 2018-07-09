@@ -25,6 +25,7 @@ import android.text.TextUtils;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -50,7 +51,8 @@ public class PictureFormatHandler extends BaseModeParameter
     public PictureFormatHandler(Parameters parameters, CameraWrapperInterface cameraUiWrapper, ParametersHandler parametersHandler)
     {
         super(parameters, cameraUiWrapper,SettingKeys.PictureFormat);
-        isSupported = SettingsManager.get(SettingKeys.PictureFormat).isSupported();
+        SettingsManager.get(SettingKeys.PictureFormat).isSupported();
+        setViewState(ViewState.Visible);
         boolean rawpicformatsupported = SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported();
         boolean dngprofilessupported = false;
         if(SettingsManager.getInstance().getDngProfilesMap() != null && SettingsManager.getInstance().getDngProfilesMap().size() > 0)
@@ -61,7 +63,7 @@ public class PictureFormatHandler extends BaseModeParameter
             rawFormats = SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues();
             BayerFormat bayerFormats = new BayerFormat(parameters, cameraUiWrapper, "");
             if (bayerFormats.getStringValues().length > 0)
-                bayerFormats.onIsSetSupportedChanged(true);
+                bayerFormats.setViewState(ViewState.Visible);
             if (TextUtils.isEmpty(rawFormat))
                 rawFormat = rawFormats[0];
             parametersHandler.add(SettingKeys.BAYERFORMAT, bayerFormats);
@@ -78,7 +80,7 @@ public class PictureFormatHandler extends BaseModeParameter
                                 SettingsManager.getInstance().getResString(R.string.bayer_)
                         });
         }
-        Log.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+ isSupported);
+        Log.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+ (getViewState() == ViewState.Visible));
     }
 
     private boolean contains(String[] arr, String tofind)
@@ -121,12 +123,6 @@ public class PictureFormatHandler extends BaseModeParameter
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
 
-    @Override
-    public boolean IsSupported()
-    {
-        Log.d(TAG,"IsSupported:"+ isSupported);
-        return isSupported;
-    }
 
     @Override
     public String GetStringValue() {
@@ -144,11 +140,11 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         if (module.equals(cameraUiWrapper.getResString(R.string.module_video)))
         {
-            fireIsSupportedChanged(false);
+            setViewState(ViewState.Hidden);
         }
         else
         {
-            fireIsSupportedChanged(true);
+            setViewState(ViewState.Visible);
         }
     }
 
@@ -176,13 +172,11 @@ public class PictureFormatHandler extends BaseModeParameter
         }
 
         @Override
-        public boolean IsSupported() {
-            return rawFormats != null && rawFormats.length>0;
-        }
-
-        @Override
-        public boolean IsVisible() {
-            return rawFormats != null && rawFormats.length>0;
+        public ViewState getViewState() {
+            if ( rawFormats != null && rawFormats.length>0)
+                return ViewState.Visible;
+            else
+                return ViewState.Hidden;
         }
 
         @Override

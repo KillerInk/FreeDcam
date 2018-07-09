@@ -37,17 +37,10 @@ public class VideoStabilizationParameter extends  BaseModeParameter {
         super(parameters, parameterChanged, SettingKeys.VideoStabilization);
         if (parameters.get(cameraUiWrapper.getResString(R.string.video_stabilization_supported)).equals(cameraUiWrapper.getResString(R.string.true_)))
         {
-            isSupported = true;
+            setViewState(ViewState.Visible);
             key_value = cameraUiWrapper.getResString(R.string.video_stabilization);
         }
-        else
-            isSupported = false;
 
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return isSupported;
     }
 
     @Override

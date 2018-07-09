@@ -34,11 +34,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     private String size = "1920x1080";
     public PictureSizeModeApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.PictureSize);
-    }
-    boolean firststart = true;
-    @Override
-    public boolean IsSupported() {
-        return true;
+        setViewState(ViewState.Visible);
     }
 
     @Override

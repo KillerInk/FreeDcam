@@ -37,11 +37,9 @@ public class ZoomManualParameter extends  BaseManualParameter
     {
         super(parameters,cameraUiWrapper,key);
         key_value = cameraUiWrapper.getResString(R.string.zoom);
-        isSupported = false;
         if (parameters.get(cameraUiWrapper.getResString(R.string.zoom_supported))!= null)
             if (parameters.get(cameraUiWrapper.getResString(R.string.zoom_supported)).equals(cameraUiWrapper.getResString(R.string.true_))) {
-                isSupported = true;
-                isVisible = true;
+               setViewState(ViewState.Visible);
                 Set_Default_Value(GetValue());
                 stringvalues = createStringArray(0,Integer.parseInt(parameters.get(cameraUiWrapper.getResString(R.string.zoom_max))),1);
                 currentInt = Integer.parseInt(parameters.get(key_value));

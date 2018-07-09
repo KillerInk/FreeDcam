@@ -18,12 +18,6 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
     }
 
     @Override
-    public boolean IsSupported()
-    {
-        return RenderScriptManager.isSupported() && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded();
-    }
-
-    @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))

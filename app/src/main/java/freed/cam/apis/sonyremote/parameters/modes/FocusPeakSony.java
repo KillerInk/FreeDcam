@@ -38,6 +38,8 @@ public class FocusPeakSony extends BaseModeParameterSony {
         super(null, null, null, null,null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
         String currentval = simpleStreamSurfaceView.getResources().getString(R.string.off_);
+        if (RenderScriptManager.isSupported())
+            setViewState(ViewState.Visible);
     }
 
     public void SetValue(String valueToSet, boolean setToCamera)
@@ -57,11 +59,6 @@ public class FocusPeakSony extends BaseModeParameterSony {
     @Override
     public String[] getStringValues() {
         return new String[] { simpleStreamSurfaceView.getResources().getString(R.string.on_),  simpleStreamSurfaceView.getResources().getString(R.string.off_)};
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return RenderScriptManager.isSupported();
     }
 
 

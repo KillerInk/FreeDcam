@@ -49,8 +49,6 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
     protected String VALUE_TO_SET;
     protected SimpleRemoteApi mRemoteApi;
     protected Set<String> mAvailableCameraApiSet;
-    boolean isSupported;
-    boolean isSetSupported;
     String value;
     final boolean logging =false;
 
@@ -71,34 +69,16 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
     @Override
     public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
     {
+        boolean isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
+        boolean isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
-        if (isSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
-        {
-            isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
-        }
-        fireIsSupportedChanged(isSupported);
-        fireIsReadOnlyChanged(false);
-        if (isSetSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet))
-        {
-            isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
-        }
-        fireIsReadOnlyChanged(isSetSupported);
-    }
 
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return isSetSupported;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isSupported;
+        if (isSupported && isSetSupported)
+            setViewState(ViewState.Visible);
+        else if (isSupported && !isSetSupported)
+            setViewState(ViewState.Disabled);
+        else
+            setViewState(ViewState.Hidden);
     }
 
     public String[] getStringValues()
@@ -171,15 +151,8 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
 
 
     @Override
-    public void onIsSupportedChanged(boolean value)
-    {
-        isSupported = value;
-    }
+    public void onViewStateChanged(ViewState value) {
 
-    @Override
-    public void onIsSetSupportedChanged(boolean value)
-    {
-        isSetSupported = value;
     }
 
     @Override

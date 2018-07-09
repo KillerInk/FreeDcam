@@ -31,6 +31,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.CloseChildClick;
@@ -172,7 +173,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
 
             ValuesMenuFragment valuesMenuFragment = new ValuesMenuFragment();
             if (item.GetValues() == null) {
-                item.onIsSupportedChanged(false);
+                item.onViewStateChanged(AbstractParameter.ViewState.Hidden);
                 value_menu_status = VALUE_MENU_CLOSED;
                 if (fromLeftFragment)
                     loadRightFragment();

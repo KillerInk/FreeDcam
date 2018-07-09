@@ -34,24 +34,10 @@ public class BurstApi2 extends AbstractParameter implements ParameterEvents
 
     public BurstApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.M_Burst);
+        setViewState(ViewState.Visible);
         stringvalues = createStringArray(1,60,1);// new String[] {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"};
     }
 
-
-    @Override
-    public boolean IsSupported() {
-        return true;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return true;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
-    }
 
     @Override
     public int GetValue() {
@@ -75,13 +61,10 @@ public class BurstApi2 extends AbstractParameter implements ParameterEvents
         fireIntValueChanged(current);
     }
 
-    @Override
-    public void onIsSupportedChanged(boolean value) {
 
-    }
 
     @Override
-    public void onIsSetSupportedChanged(boolean value) {
+    public void onViewStateChanged(ViewState value) {
 
     }
 

@@ -26,6 +26,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.renderscript.RenderScriptManager;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -39,14 +40,11 @@ public class FocusPeakMode extends AbstractParameter implements ParameterEvents 
 
 
     @Override
-    public boolean IsSupported()
-    {
-        return RenderScriptManager.isSupported() && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded();
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return IsSupported();
+    public ViewState getViewState() {
+        if (RenderScriptManager.isSupported() && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded() && SettingsManager.get(SettingKeys.EnableRenderScript).get())
+            return ViewState.Visible;
+        else
+            return ViewState.Hidden;
     }
 
     @Override
@@ -78,12 +76,7 @@ public class FocusPeakMode extends AbstractParameter implements ParameterEvents 
     }
 
     @Override
-    public void onIsSupportedChanged(boolean value) {
-
-    }
-
-    @Override
-    public void onIsSetSupportedChanged(boolean value) {
+    public void onViewStateChanged(ViewState value) {
 
     }
 
@@ -100,8 +93,8 @@ public class FocusPeakMode extends AbstractParameter implements ParameterEvents 
     @Override
     public void onStringValueChanged(String value) {
         if (value.equals(SettingsManager.getInstance().getResString(R.string.off_)))
-            fireIsSupportedChanged(false);
+            setViewState(ViewState.Hidden);
         else
-            fireIsSupportedChanged(true);
+            setViewState(ViewState.Visible);
     }
 }

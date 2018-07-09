@@ -34,11 +34,6 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
         cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
     }
 
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
-    }
 
     @Override
     public void setValue(String valueToSet, boolean setToCam) {
@@ -63,26 +58,22 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
 
         if(cameraUiWrapper == null) {
             Log.d(TAG, "cameraUiWrapper null");
-            isSupported =false;
-            fireIsSupportedChanged(false);
+            setViewState(ViewState.Hidden);
             return cameraUiWrapper.getResString(R.string.off_);
         }
         if (parameters == null) {
             Log.d(TAG, "Parameters are null");
-            isSupported =false;
-            fireIsSupportedChanged(false);
+            setViewState(ViewState.Hidden);
             return cameraUiWrapper.getResString(R.string.off_);
         }
         if (parameters.get(cameraUiWrapper.getResString(R.string.morpho_hdr)) == null) {
             Log.d(TAG, "MorphoHdr is null");
-            isSupported =false;
-            fireIsSupportedChanged(false);
+            setViewState(ViewState.Hidden);
             return cameraUiWrapper.getResString(R.string.off_);
         }
         if (parameters.get(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr)) == null){
             Log.d(TAG, "Ae bracket is null");
-            isSupported =false;
-            fireIsSupportedChanged(false);
+            setViewState(ViewState.Hidden);
             return cameraUiWrapper.getResString(R.string.off_);
         }
 
@@ -115,7 +106,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
         {
             if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_))) {
                 Show();
-                fireIsSupportedChanged(true);
+                setViewState(ViewState.Visible);
             }
             else
             {
@@ -142,13 +133,13 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
         visible = false;
         SetValue(cameraUiWrapper.getResString(R.string.off_),true);
         fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
-        fireIsSupportedChanged(visible);
+        setViewState(ViewState.Hidden);
     }
     private void Show()
     {
         visible = true;
         SetValue(state,true);
         fireStringValueChanged(state);
-        fireIsSupportedChanged(visible);
+        setViewState(ViewState.Visible);
     }
 }

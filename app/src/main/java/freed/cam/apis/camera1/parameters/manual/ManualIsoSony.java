@@ -19,16 +19,7 @@ public class ManualIsoSony extends AbstractParameter
     public ManualIsoSony(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters, SettingKeys.Key key) {
         super(cameraUiWrapper,key);
         this.parameters = parameters;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isSupported;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return isNotReadOnly;
+        setViewState(ViewState.Visible);
     }
 
     @Override

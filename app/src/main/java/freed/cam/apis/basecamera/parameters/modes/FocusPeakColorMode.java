@@ -66,11 +66,7 @@ public class FocusPeakColorMode extends AbstractParameter implements ParameterEv
     }
 
     @Override
-    public void onIsSupportedChanged(boolean value) {
-    }
-
-    @Override
-    public void onIsSetSupportedChanged(boolean value) {
+    public void onViewStateChanged(ViewState value) {
 
     }
 
@@ -87,8 +83,8 @@ public class FocusPeakColorMode extends AbstractParameter implements ParameterEv
     @Override
     public void onStringValueChanged(String value) {
         if (value.equals(SettingsManager.getInstance().getResString(R.string.off_)))
-            fireIsSupportedChanged(false);
+            setViewState(ViewState.Hidden);
         else
-            fireIsSupportedChanged(true);
+            setViewState(ViewState.Visible);
     }
 }

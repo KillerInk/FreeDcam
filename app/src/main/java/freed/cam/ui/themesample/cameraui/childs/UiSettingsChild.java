@@ -35,6 +35,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
 
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.utils.Log;
@@ -129,43 +130,43 @@ public class UiSettingsChild extends SettingsChildAbstract
 
     protected void setTextToTextBox(ParameterInterface parameter)
     {
-        if (parameter != null && parameter.IsSupported())
+        if (parameter != null && parameter.getViewState() == AbstractParameter.ViewState.Visible)
         {
-            onIsSupportedChanged(true);
             String campara = parameter.GetStringValue();
             if (campara != null && !TextUtils.isEmpty(campara))
                 onStringValueChanged(campara);
         }
-        else
-            onIsSupportedChanged(false);
+
     }
 
 
     @Override
-    public void onIsSupportedChanged(boolean isSupported) {
-        sendLog("isSupported:" + isSupported);
-        if (isSupported) {
-            setVisibility(View.VISIBLE);
-            animate().setListener(null).scaleY(1f).setDuration(300);
-        }
-        else
-            animate().setListener(hideListner).scaleY(0f).setDuration(300);
-
-    }
-
-    @Override
-    public void onIsSetSupportedChanged(boolean isSupported) {
+    public void onViewStateChanged(AbstractParameter.ViewState value) {
         if (this.getBackground() == null)
             return;
-        sendLog("isSetSupported:" + isSupported);
-        if (isSupported) {
-            setEnabled(true);
-            this.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
-        } else {
-            setEnabled(false);
-            this.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+        switch (value)
+        {
+            case Enabled:
+                if (getVisibility() == View.GONE)
+                    setVisibility(VISIBLE);
+                setEnabled(true);
+                this.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
+                break;
+            case Disabled:
+                if (getVisibility() == View.GONE)
+                    setVisibility(VISIBLE);
+                setEnabled(false);
+                this.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                break;
+            case Visible:
+                setVisibility(View.VISIBLE);
+                setEnabled(true);
+                animate().setListener(null).scaleY(1f).setDuration(300);
+                break;
+            case Hidden:
+                animate().setListener(hideListner).scaleY(0f).setDuration(300);
+                break;
         }
-        setEnabled(isSupported);
     }
 
     @Override

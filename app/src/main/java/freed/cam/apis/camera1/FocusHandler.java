@@ -25,6 +25,7 @@ import android.view.MotionEvent;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -49,13 +50,9 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     }
 
     public ParameterEvents focusModeListner = new ParameterEvents() {
-        @Override
-        public void onIsSupportedChanged(boolean value) {
-
-        }
 
         @Override
-        public void onIsSetSupportedChanged(boolean value) {
+        public void onViewStateChanged(AbstractParameter.ViewState value) {
 
         }
 
@@ -90,13 +87,10 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     };
 
     public ParameterEvents aeModeListner = new ParameterEvents() {
-        @Override
-        public void onIsSupportedChanged(boolean value) {
 
-        }
 
         @Override
-        public void onIsSetSupportedChanged(boolean value) {
+        public void onViewStateChanged(AbstractParameter.ViewState value) {
 
         }
 

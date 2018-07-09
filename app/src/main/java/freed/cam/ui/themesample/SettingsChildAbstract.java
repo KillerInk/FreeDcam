@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import freed.ActivityInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
@@ -99,9 +100,9 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     }
 
     public void SetParameter(ParameterInterface parameter) {
-        if (parameter == null || !parameter.IsSupported())
+        if (parameter == null || parameter.getViewState() == AbstractParameter.ViewState.Hidden)
         {
-            onIsSupportedChanged(false);
+            onViewStateChanged(AbstractParameter.ViewState.Hidden);
             sendLog("Paramters is null or Unsupported");
             if (parameter != null) {
                 parameter.addEventListner(this);
@@ -113,7 +114,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         {
 
             if (parameter != null) {
-                parameter.fireIsReadOnlyChanged(parameter.IsVisible());
+                onViewStateChanged(AbstractParameter.ViewState.Disabled);
                 parameter.addEventListner(this);
                 this.parameter = parameter;
             }
@@ -129,7 +130,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     @Override
     public String[] GetValues()
     {
-        if (parameter != null && parameter.IsSupported())
+        if (parameter != null)
             return parameter.getStringValues();
         else return null;
     }
@@ -137,7 +138,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     @Override
     public void SetValue(String value)
     {
-        if (parameter != null && parameter.IsSupported())
+        if (parameter != null)
         {
             try {
                 parameter.SetValue(value, true);

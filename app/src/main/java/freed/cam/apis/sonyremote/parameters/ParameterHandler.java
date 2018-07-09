@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
@@ -336,9 +337,9 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     {
         get(SettingKeys.WhiteBalanceMode).fireStringValueChanged(wb);
         if (get(SettingKeys.WhiteBalanceMode).GetStringValue().equals("Color Temperature") && get(SettingKeys.M_Whitebalance) != null)
-            get(SettingKeys.M_Whitebalance).fireIsSupportedChanged(true);
+            get(SettingKeys.M_Whitebalance).setViewState(AbstractParameter.ViewState.Visible);
         else
-            get(SettingKeys.M_Whitebalance).fireIsSupportedChanged(false);
+            get(SettingKeys.M_Whitebalance).setViewState(AbstractParameter.ViewState.Hidden);
     }
 
     @Override
@@ -458,8 +459,8 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
         if (!get(SettingKeys.ExposureMode).GetStringValue().equals(expomode))
             get(SettingKeys.ExposureMode).fireStringValueChanged(expomode);
         if (expomode.equals("Intelligent Auto")|| expomode.equals("Superior Auto"))
-            get(SettingKeys.WhiteBalanceMode).fireIsSupportedChanged(false);
+            get(SettingKeys.WhiteBalanceMode).setViewState(AbstractParameter.ViewState.Hidden);
         else
-            get(SettingKeys.WhiteBalanceMode).fireIsSupportedChanged(true);
+            get(SettingKeys.WhiteBalanceMode).setViewState(AbstractParameter.ViewState.Visible);
     }
 }

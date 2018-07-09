@@ -25,15 +25,11 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
         super(cameraUiWrapper, key, null);
         this.parameterKey = parameterKey;
         captureSessionHandler.SetParameterRepeating(parameterKey,(byte)0,true);
-        if (isSupported)
+        if (settingMode.isSupported()) {
             parameterValues = StringUtils.StringArrayToIntHashmap(settingMode.getValues());
+            setViewState(ViewState.Visible);
+        }
         else settingMode = null;
-    }
-
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
     }
 
     @Override
@@ -62,7 +58,7 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
         Byte b = captureSessionHandler.getPreviewParameter(parameterKey);
         if (b == null)
         {
-            fireIsSupportedChanged(false);
+            setViewState(ViewState.Hidden);
             return "";
         }
         int i = b.intValue();

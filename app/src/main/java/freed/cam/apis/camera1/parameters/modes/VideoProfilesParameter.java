@@ -68,11 +68,6 @@ public class VideoProfilesParameter extends AbstractParameter
     }
 
     @Override
-    public boolean IsSupported() {
-        return isSupported;
-    }
-
-    @Override
     public String GetStringValue()
     {
         if ((profile == null || TextUtils.isEmpty(profile)) && supportedProfiles != null)
@@ -84,7 +79,7 @@ public class VideoProfilesParameter extends AbstractParameter
                 e.printStackTrace();
                 profile = "null";
                 isSupported = false;
-                fireIsSupportedChanged(false);
+                setViewState(ViewState.Hidden);
             }
         }
         return profile;

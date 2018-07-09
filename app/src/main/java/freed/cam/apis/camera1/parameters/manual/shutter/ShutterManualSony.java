@@ -42,17 +42,8 @@ public class ShutterManualSony extends AbstractParameter
     public ShutterManualSony(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         this.parameters = parameters;
+        setViewState(ViewState.Visible);
 
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isSupported;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
     }
 
     @Override

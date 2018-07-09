@@ -31,6 +31,7 @@ import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
@@ -176,17 +177,17 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 dngGroup.addView(opcode);
             }
 
-            if (params.get(SettingKeys.BAYERFORMAT) != null && params.get(SettingKeys.BAYERFORMAT).IsSupported() && apS.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported()) {
+            if (params.get(SettingKeys.BAYERFORMAT) != null && params.get(SettingKeys.BAYERFORMAT).getViewState() == AbstractParameter.ViewState.Visible && apS.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported()) {
                 SettingsChildMenu bayerFormatItem = new SettingsChildMenu(getContext(), params.get(SettingKeys.BAYERFORMAT), R.string.setting_bayerformat_header, R.string.setting_bayerformat_description);
                 bayerFormatItem.SetUiItemClickListner(this);
                 dngGroup.addView(bayerFormatItem);
             }
-            if (params.get(SettingKeys.MATRIX_SET) != null && params.get(SettingKeys.MATRIX_SET).IsSupported()) {
+            if (params.get(SettingKeys.MATRIX_SET) != null && params.get(SettingKeys.MATRIX_SET).getViewState() == AbstractParameter.ViewState.Visible) {
                 SettingsChildMenu matrixChooser = new SettingsChildMenu(getContext(), params.get(SettingKeys.MATRIX_SET), R.string.setting_matrixchooser_header, R.string.setting_matrixchooser_description);
                 matrixChooser.SetUiItemClickListner(this);
                 dngGroup.addView(matrixChooser);
             }
-            if (params.get(SettingKeys.TONEMAP_SET) != null && params.get(SettingKeys.TONEMAP_SET).IsSupported()) {
+            if (params.get(SettingKeys.TONEMAP_SET) != null && params.get(SettingKeys.TONEMAP_SET).getViewState() == AbstractParameter.ViewState.Visible) {
                 SettingsChildMenu matrixChooser = new SettingsChildMenu(getContext(), params.get(SettingKeys.TONEMAP_SET), R.string.setting_tonemapchooser_header, R.string.setting_tonemapchooser_description);
                 matrixChooser.SetUiItemClickListner(this);
                 dngGroup.addView(matrixChooser);

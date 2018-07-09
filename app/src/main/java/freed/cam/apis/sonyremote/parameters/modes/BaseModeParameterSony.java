@@ -62,22 +62,13 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
     public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
-        if (isSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
+        if (JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
         {
-            isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
-            fireIsSupportedChanged(isSupported);
+            setViewState(ViewState.Visible);
             onStringValueChanged(GetStringValue());
         }
 
     }
-
-
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
-    }
-
 
     @Override
     protected void setValue(String valueToSet, boolean setToCamera) {
@@ -180,14 +171,8 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
     }
 
     @Override
-    public void onIsSupportedChanged(boolean value) {
-        isSupported = value;
-    }
-
-    @Override
-    public void onIsSetSupportedChanged(boolean value) {
-        isNotReadOnly = value;
-
+    public void onViewStateChanged(ViewState value) {
+        setViewState(value);
     }
 
     @Override

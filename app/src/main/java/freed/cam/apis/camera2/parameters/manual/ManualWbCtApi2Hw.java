@@ -23,7 +23,7 @@ public class ManualWbCtApi2Hw  extends AbstractParameter
         super(cameraUiWrapper, SettingKeys.M_Whitebalance);
         stringvalues = SettingsManager.get(SettingKeys.M_Whitebalance).getValues();
         currentInt = 0;
-        isSupported = true;
+        setViewState(ViewState.Visible);
     }
 
 
@@ -59,18 +59,4 @@ public class ManualWbCtApi2Hw  extends AbstractParameter
 
     }
 
-    @Override
-    public boolean IsSetSupported() {
-        return true;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isSupported;
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return isSupported;
-    }
 }

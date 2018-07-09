@@ -37,6 +37,7 @@ import com.troop.freedcam.R.layout;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
@@ -328,26 +329,27 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     }
 
     @Override
-    public void onIsSupportedChanged(boolean value)
-    {
-        if (!value) {
-            seekbar.setVisibility(View.GONE);
-            currentButton.SetActive(false);
+    public void onViewStateChanged(AbstractParameter.ViewState value) {
+        switch (value)
+        {
+            case Visible:
+                break;
+            case Hidden:
+                seekbar.setVisibility(View.GONE);
+                currentButton.SetActive(false);
+                break;
+            case Disabled:
+                seekbar.post(() -> {
+                        seekbar.setVisibility(View.GONE);
+                });
+                break;
+            case Enabled:
+                seekbar.post(() -> {
+                    seekbar.setVisibility(View.VISIBLE);
+                });
+                break;
         }
     }
-
-    @Override
-    public void onIsSetSupportedChanged(final boolean value)
-    {
-        seekbar.post(() -> {
-            if (value)
-                seekbar.setVisibility(View.VISIBLE);
-            else
-                seekbar.setVisibility(View.GONE);
-        });
-
-    }
-
 
     @Override
     public void onIntValueChanged(int current)

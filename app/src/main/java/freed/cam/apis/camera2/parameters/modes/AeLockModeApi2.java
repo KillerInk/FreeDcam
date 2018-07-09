@@ -16,11 +16,7 @@ import freed.cam.apis.camera2.Camera2Fragment;
 public class AeLockModeApi2 extends BaseModeApi2 {
     public AeLockModeApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper, null);
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return true;
+        setViewState(ViewState.Visible);
     }
 
 

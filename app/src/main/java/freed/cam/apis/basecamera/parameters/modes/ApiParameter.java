@@ -67,7 +67,7 @@ public class ApiParameter extends AbstractParameter
     }
 
     @Override
-    public boolean IsSupported() {
-        return true;
+    public ViewState getViewState() {
+        return ViewState.Visible;
     }
 }

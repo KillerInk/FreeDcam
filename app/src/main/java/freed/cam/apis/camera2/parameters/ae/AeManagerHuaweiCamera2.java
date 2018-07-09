@@ -6,6 +6,7 @@ import android.os.Build;
 import com.huawei.camera2ex.CaptureRequestEx;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 
@@ -20,7 +21,7 @@ public class AeManagerHuaweiCamera2 extends AeManagerCamera2 {
 
     public AeManagerHuaweiCamera2(CameraWrapperInterface cameraWrapperInterface) {
         super(cameraWrapperInterface);
-        manualExposureTime.fireIsReadOnlyChanged(true);
+        manualExposureTime.setViewState(AbstractParameter.ViewState.Visible);
     }
 
     @Override
@@ -90,10 +91,10 @@ public class AeManagerHuaweiCamera2 extends AeManagerCamera2 {
         switch (aeState)
         {
             case manual:
-                exposureCompensation.fireIsSupportedChanged(false);
+                exposureCompensation.setViewState(AbstractParameter.ViewState.Disabled);
                 break;
             default:
-                exposureCompensation.fireIsSupportedChanged(true);
+                exposureCompensation.setViewState(AbstractParameter.ViewState.Enabled);
         }
     }
 }

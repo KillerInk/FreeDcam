@@ -48,8 +48,8 @@ public class IntervalDurationParameter extends AbstractParameter
     }
 
     @Override
-    public boolean IsSupported() {
-        return true;
+    public ViewState getViewState() {
+        return ViewState.Visible;
     }
 
     @Override

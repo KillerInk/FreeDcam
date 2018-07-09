@@ -47,6 +47,7 @@ import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraToMainHandler;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLG;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
@@ -192,13 +193,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     ParameterEvents onPreviewSizeShouldChange = new ParameterEvents() {
 
-        @Override
-        public void onIsSupportedChanged(boolean value) {
-
-        }
 
         @Override
-        public void onIsSetSupportedChanged(boolean value) {
+        public void onViewStateChanged(AbstractParameter.ViewState value) {
 
         }
 

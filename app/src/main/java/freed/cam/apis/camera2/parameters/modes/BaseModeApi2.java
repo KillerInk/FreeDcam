@@ -32,6 +32,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 
@@ -57,25 +58,25 @@ public class BaseModeApi2 extends AbstractParameter
         this.parameterKey = parameterKey;
 
         try {
-            if (isSupported) {
+            if (settingMode.isSupported()) {
                 String values[] = settingMode.getValues();
                 if (values == null || values.length == 0) {
                     Log.d(TAG, "Values are null set to unsupported");
                     parameterValues = null;
-                    isSupported = false;
+                    setViewState(ViewState.Hidden);
                     return;
                 }
                 Log.d(TAG, "array:" + Arrays.toString(values));
                 parameterValues = StringUtils.StringArrayToIntHashmap(values);
                 if (parameterValues == null) {
-                    isSupported = false;
+                    setViewState(ViewState.Hidden);
                     return;
                 }
                 stringvalues = new String[parameterValues.size()];
                 parameterValues.keySet().toArray(stringvalues);
-            } else isSupported = false;
+            } else setViewState(ViewState.Hidden);
         } catch (ArrayIndexOutOfBoundsException ex) {
-            isSupported = false;
+            setViewState(ViewState.Hidden);
             Log.WriteEx(ex);
         }
     }

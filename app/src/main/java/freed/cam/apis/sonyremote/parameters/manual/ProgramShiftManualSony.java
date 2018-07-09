@@ -52,18 +52,14 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
-        if (isSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet))
-        {
-            isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
-        }
-        fireIsSupportedChanged(isSupported);
-        fireIsReadOnlyChanged(true);
-        if (isSetSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet))
-        {
-            isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
-        }
-        fireIsReadOnlyChanged(isSetSupported);
-
+        boolean isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
+        boolean isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
+        if (isSupported && isSetSupported)
+            setViewState(ViewState.Visible);
+        else if (isSupported && !isSetSupported)
+            setViewState(ViewState.Disabled);
+        else
+            setViewState(ViewState.Hidden);
     }
 
 
@@ -84,7 +80,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     }
 
     private void getminmax() {
-        if (isSupported && isSetSupported)
+        if (getViewState() == ViewState.Visible)
         {
             FreeDPool.Execute(() -> {
                 try

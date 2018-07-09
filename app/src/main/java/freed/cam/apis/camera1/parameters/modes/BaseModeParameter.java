@@ -59,8 +59,8 @@ public class BaseModeParameter extends AbstractParameter implements ModuleChange
         SettingMode mode = (SettingMode) SettingsManager.get(settingMode);
         this.key_value = mode.getKEY();
         this.stringvalues = mode.getValues();
-        this.isSupported = mode.isSupported();
-        this.isVisible = isSupported;
+        if (mode.isSupported())
+            setViewState(ViewState.Visible);
     }
 
     @Override
@@ -85,12 +85,9 @@ public class BaseModeParameter extends AbstractParameter implements ModuleChange
 
     }
 
-    @Override
-    public void onIsSupportedChanged(boolean value) {
-    }
 
     @Override
-    public void onIsSetSupportedChanged(boolean value) {
+    public void onViewStateChanged(ViewState value) {
 
     }
 

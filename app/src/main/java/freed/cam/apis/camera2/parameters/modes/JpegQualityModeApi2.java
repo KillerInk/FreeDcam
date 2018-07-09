@@ -27,12 +27,9 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
         {
             parameterValues.put(i+"", i);
         }
+        setViewState(ViewState.Visible);
     }
 
-    @Override
-    public boolean IsSupported() {
-        return true;
-    }
 
 
     @Override

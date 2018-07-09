@@ -18,11 +18,7 @@ public class ManualAperture extends AbstractParameter
     {
         super(cameraUiWrapper,SettingKeys.M_Aperture);
         this.parameters = parameters;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
+        setViewState(ViewState.Visible);
     }
 
     @Override

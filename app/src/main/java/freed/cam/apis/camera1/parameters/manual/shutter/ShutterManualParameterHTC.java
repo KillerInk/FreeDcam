@@ -41,16 +41,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
 
     public ShutterManualParameterHTC(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper,settingMode);
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return super.IsSupported();
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return IsSupported();
+        setViewState(ViewState.Visible);
     }
 
 

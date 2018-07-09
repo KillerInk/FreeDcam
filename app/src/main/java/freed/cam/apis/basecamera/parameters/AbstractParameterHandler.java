@@ -181,7 +181,7 @@ public abstract class AbstractParameterHandler
 
     private void setMode(ParameterInterface parameter, String settings_key)
     {
-        if (parameter != null && parameter.IsSupported() && settings_key != null && !TextUtils.isEmpty(settings_key))
+        if (parameter != null && settings_key != null && !TextUtils.isEmpty(settings_key))
         {
             Log.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
             if (TextUtils.isEmpty(SettingsManager.getInstance().getApiString(settings_key)) || SettingsManager.getInstance().getApiString(settings_key) == null)
@@ -224,7 +224,7 @@ public abstract class AbstractParameterHandler
         if (SettingsManager.get(parametertolook) instanceof SettingMode) {
             ParameterInterface parameter = get(parametertolook);
             SettingMode settingMode = (SettingMode) SettingsManager.get(parametertolook);
-            if (parameter != null && parameter.IsSupported() && settingMode != null && settingMode.isSupported()) {
+            if (parameter != null && settingMode != null && settingMode.isSupported()) {
                 Log.d(TAG, parameter.getClass().getSimpleName());
                 if (TextUtils.isEmpty(settingMode.get()) || settingMode.get() == null) {
                     String tmp = parameter.GetValue() + "";

@@ -23,19 +23,8 @@ public class ExposureTime_MicroSec extends AbstractParameter {
     public ExposureTime_MicroSec(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters) {
         super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         stringvalues = SettingsManager.get(SettingKeys.M_ExposureTime).getValues();
-        isVisible = true;
-        isSupported = true;
+       setViewState(ViewState.Visible);
         this.parameters = parameters;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isSupported;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
     }
 
     @Override

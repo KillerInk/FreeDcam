@@ -61,18 +61,11 @@ public class ZoomApi2 extends AbstractParameter
     }
 
     @Override
-    public boolean IsSupported() {
-        return ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) > 0;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return true;
+    public ViewState getViewState() {
+        if (((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) > 0)
+            return ViewState.Visible;
+        else
+            return ViewState.Hidden;
     }
 
     @Override

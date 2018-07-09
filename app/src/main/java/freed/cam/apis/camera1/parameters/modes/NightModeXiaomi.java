@@ -43,17 +43,10 @@ public class NightModeXiaomi extends BaseModeParameter
         super(parameters, cameraUiWrapper,SettingKeys.NightMode);
         if(parameters.get(cameraUiWrapper.getResString(R.string.morpho_hht)) != null
                 && parameters.get(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr)) != null) {
-            isSupported = true;
-            isVisible = true;
+            setViewState(ViewState.Visible);
             cameraUiWrapper.getModuleHandler().addListner(this);
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
         }
-    }
-
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
     }
 
     @Override
@@ -100,7 +93,7 @@ public class NightModeXiaomi extends BaseModeParameter
         {
             if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_))) {
                 Show();
-                fireIsSupportedChanged(true);
+                setViewState(ViewState.Visible);
             }
         }
     }
@@ -122,7 +115,7 @@ public class NightModeXiaomi extends BaseModeParameter
         visible = false;
         SetValue(cameraUiWrapper.getResString(R.string.off_),true);
         fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
-        fireIsSupportedChanged(visible);
+        setViewState(ViewState.Hidden);
     }
 
     private void Show()
@@ -130,6 +123,6 @@ public class NightModeXiaomi extends BaseModeParameter
         visible = true;
         SetValue(state,true);
         fireStringValueChanged(state);
-        fireIsSupportedChanged(visible);
+        setViewState(ViewState.Visible);
     }
 }

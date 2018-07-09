@@ -36,11 +36,8 @@ public class PreviewZoomSony extends AbstractParameter
     public PreviewZoomSony( SimpleStreamSurfaceView surfaceView) {
         super(null);
         this.surfaceView = surfaceView;
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return VERSION.SDK_INT >= VERSION_CODES.KITKAT;
+        if (VERSION.SDK_INT >= VERSION_CODES.KITKAT)
+            setViewState(ViewState.Visible);
     }
 
     @Override
@@ -64,15 +61,5 @@ public class PreviewZoomSony extends AbstractParameter
     @Override
     public void addEventListner(ParameterEvents eventListner) {
         super.addEventListner(eventListner);
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return IsSupported();
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
     }
 }

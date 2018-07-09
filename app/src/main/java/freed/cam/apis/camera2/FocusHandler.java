@@ -31,6 +31,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.utils.Log;
 
@@ -53,13 +54,10 @@ public class FocusHandler extends AbstractFocusHandler
     }
 
     public ParameterEvents focusModeListner = new ParameterEvents() {
-        @Override
-        public void onIsSupportedChanged(boolean value) {
 
-        }
 
         @Override
-        public void onIsSetSupportedChanged(boolean value) {
+        public void onViewStateChanged(AbstractParameter.ViewState value) {
 
         }
 
@@ -149,13 +147,10 @@ public class FocusHandler extends AbstractFocusHandler
     }
 
     public ParameterEvents aeModeListner = new ParameterEvents() {
-        @Override
-        public void onIsSupportedChanged(boolean value) {
 
-        }
 
         @Override
-        public void onIsSetSupportedChanged(boolean value) {
+        public void onViewStateChanged(AbstractParameter.ViewState value) {
 
         }
 

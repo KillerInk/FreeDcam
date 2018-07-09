@@ -57,12 +57,12 @@ import freed.utils.StringUtils;
 public class OpCodeParameter extends AbstractParameter
 {
     private final String TAG = OpCodeParameter.class.getSimpleName();
-    private final boolean isSupported;
 
     public OpCodeParameter()
     {
         super(SettingKeys.OPCODE);
-        isSupported = SettingsManager.getInstance().opcodeUrlList.size() > 0;
+        if(SettingsManager.getInstance().opcodeUrlList.size() > 0)
+            setViewState(ViewState.Visible);
     }
 
     //https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/HTC_OneA9/opc2.bin?raw=true
@@ -94,10 +94,6 @@ public class OpCodeParameter extends AbstractParameter
         }
     }
 
-    @Override
-    public boolean IsSupported() {
-        return isSupported;
-    }
 
     @Override
     public String GetStringValue() {
@@ -112,11 +108,6 @@ public class OpCodeParameter extends AbstractParameter
             list.add("Download");
         else list.add("No OPCODE avail");
         return list.toArray(new String[list.size()]);
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isSupported;
     }
 
     private void httpsGet(String url, String fileending) throws IOException {

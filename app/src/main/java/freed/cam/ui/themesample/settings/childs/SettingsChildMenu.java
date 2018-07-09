@@ -31,6 +31,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
 
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 
@@ -122,12 +123,7 @@ public class SettingsChildMenu extends UiSettingsChild
     }
 
     @Override
-    public void onIsSupportedChanged(boolean isSupported) {
-        sendLog("isSupported:" + isSupported);
-        if (isSupported) {
-            setVisibility(View.VISIBLE);
-        }
-        else
-            setVisibility(View.GONE);
+    public void onViewStateChanged(AbstractParameter.ViewState value) {
+        super.onViewStateChanged(value);
     }
 }

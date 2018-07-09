@@ -32,12 +32,6 @@ public class LgHdrMode extends BaseModeParameter
     }
 
     @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
-    }
-
-    @Override
     public void setValue(String valueToSet, boolean setToCam) {
 
         if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
@@ -87,7 +81,7 @@ public class LgHdrMode extends BaseModeParameter
         {
             if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_))) {
                 Show();
-                fireIsSupportedChanged(true);
+                setViewState(ViewState.Visible);
             }
             else
             {
@@ -114,14 +108,14 @@ public class LgHdrMode extends BaseModeParameter
         visible = false;
         SetValue(cameraUiWrapper.getResString(R.string.off_),true);
         fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
-        fireIsSupportedChanged(visible);
+        setViewState(ViewState.Hidden);
     }
     private void Show()
     {
         visible = true;
         SetValue(state,true);
         fireStringValueChanged(state);
-        fireIsSupportedChanged(visible);
+        setViewState(ViewState.Visible);
     }
 
 }

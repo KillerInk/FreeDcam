@@ -31,6 +31,7 @@ import java.util.Date;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -106,7 +107,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             changeCaptureState(CaptureStates.image_capture_start);
             waitForPicture = true;
             ParameterInterface burst = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst);
-            if (burst != null && burst.IsSupported() && burst.GetValue()+1 > 1) {
+            if (burst != null && burst.getViewState() == AbstractParameter.ViewState.Visible && burst.GetValue()+1 > 1) {
                 burstcount = burst.GetValue()+1;
                 isBurstCapture = true;
             }
@@ -280,7 +281,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         String wb = null;
 
         ParameterInterface wbct = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Whitebalance);
-        if (wbct != null && wbct.IsSupported())
+        if (wbct != null && wbct.getViewState() == AbstractParameter.ViewState.Visible)
         {
             wb = wbct.GetStringValue();
             if (wb.equals(cameraUiWrapper.getResString(R.string.auto_)))

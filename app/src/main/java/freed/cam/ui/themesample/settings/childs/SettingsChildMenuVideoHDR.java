@@ -56,7 +56,7 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        if (parameter != null && parameter.IsSupported() &&  cameraWrapperInterface.getModuleHandler().getCurrentModule() != null)
+        if (parameter != null &&  cameraWrapperInterface.getModuleHandler().getCurrentModule() != null)
         {
             if (key_appsettings != null && !TextUtils.isEmpty(key_appsettings))
                 SettingsManager.getInstance().setApiString(key_appsettings, value);

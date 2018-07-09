@@ -38,11 +38,7 @@ public class ShutterManualKirin extends AbstractParameter {
     public ShutterManualKirin(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         this.parameters =  parameters;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
+        setViewState(ViewState.Visible);
     }
 
     @Override

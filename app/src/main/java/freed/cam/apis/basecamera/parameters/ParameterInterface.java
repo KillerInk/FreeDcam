@@ -25,23 +25,10 @@ package freed.cam.apis.basecamera.parameters;
  */
 public interface ParameterInterface
 {
-    /**
-     * State of the parameter if its is supported
-     * @return true when supported, false when not
-     */
-    boolean IsSupported();
 
-    /**
-     * State of the parameter if its read only
-     * @return true when it can get set. false when its read only
-     */
-    boolean IsSetSupported();
+    AbstractParameter.ViewState getViewState();
 
-    /**
-     * state of the parameter if its visible to the ui
-     * @return true when its should be visible to the ui
-     */
-    boolean IsVisible();
+    void setViewState(AbstractParameter.ViewState state);
 
     /**
      * the current int value from the String array
@@ -103,13 +90,8 @@ public interface ParameterInterface
      * notfiy the listners that the parameter support state got changed
      * @param value
      */
-    void fireIsSupportedChanged(boolean value);
+    void fireViewStateChanged(AbstractParameter.ViewState value);
 
-    /**
-     * notify the listners that the parameter can get written or is read only
-     * @param value when true its writeable, false its read only
-     */
-    void fireIsReadOnlyChanged(boolean value);
 
     /**
      * notify the listners that string values have changed

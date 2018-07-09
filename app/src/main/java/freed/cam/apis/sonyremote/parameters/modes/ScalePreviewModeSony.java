@@ -26,6 +26,7 @@ import com.troop.freedcam.R;
 import java.util.Set;
 
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
+import freed.renderscript.RenderScriptManager;
 
 /**
  * Created by troop on 16.08.2016.
@@ -37,6 +38,8 @@ public class ScalePreviewModeSony extends BaseModeParameterSony {
     public ScalePreviewModeSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {
         super(null, null, null, null,null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
+        if (RenderScriptManager.isSupported())
+            setViewState(ViewState.Visible);
     }
 
     @Override
@@ -58,11 +61,6 @@ public class ScalePreviewModeSony extends BaseModeParameterSony {
     @Override
     public String[] getStringValues() {
         return new String[]{simpleStreamSurfaceView.getResources().getString(R.string.on_), simpleStreamSurfaceView.getResources().getString(R.string.off_)};
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return Build.VERSION.SDK_INT >= 18;
     }
 
     @Override

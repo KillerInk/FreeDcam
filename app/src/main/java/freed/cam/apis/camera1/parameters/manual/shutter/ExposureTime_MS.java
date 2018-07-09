@@ -21,16 +21,7 @@ public class ExposureTime_MS extends AbstractParameter {
     public ExposureTime_MS(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters,SettingKeys.Key settingMode) {
         super(cameraUiWrapper,settingMode);
         this.parameters = parameters;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isSupported;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
+        setViewState(ViewState.Visible);
     }
 
     @Override

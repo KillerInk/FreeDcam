@@ -7,6 +7,7 @@ import android.support.annotation.RequiresApi;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.basecamera.parameters.ae.AeManager;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
@@ -99,29 +100,29 @@ public class AeManagerCamera2 extends AeManager {
         //set flash back to its old state
         cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).SetValue(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).GetStringValue(),true);
         //show flashmode ui item
-        cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).fireIsSupportedChanged(true);
+        cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Visible);
         //set exposure ui item to enable
-        exposureCompensation.fireIsSupportedChanged(true);
-        exposureCompensation.fireIsReadOnlyChanged(true);
-        manualIso.fireIsReadOnlyChanged(true);
-        manualExposureTime.fireIsReadOnlyChanged(false);
+        exposureCompensation.setViewState(AbstractParameter.ViewState.Visible);
+
+        manualIso.setViewState(AbstractParameter.ViewState.Visible);
+        manualExposureTime.setViewState(AbstractParameter.ViewState.Visible);
     }
 
 
     private void setToManual()
     {
         //hide manualexposuretime ui item
-        exposureCompensation.fireIsSupportedChanged(false);
+        exposureCompensation.setViewState(AbstractParameter.ViewState.Disabled);
         //turn flash off when ae is off. else on some devices it applys only manual stuff only for a few frames
         //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
         cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF,true);
         //hide flash ui item its not supported in manual mode
         if(cameraUiWrapper.getParameterHandler().get(SettingKeys.FlashMode) != null)
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.FlashMode).fireIsSupportedChanged(false);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Hidden);
         //enable manualiso item in ui
-        manualIso.fireIsReadOnlyChanged(true);
+        manualIso.setViewState(AbstractParameter.ViewState.Visible);
         //enable manual exposuretime in ui
-        manualExposureTime.fireIsReadOnlyChanged(true);
+        manualExposureTime.setViewState(AbstractParameter.ViewState.Enabled);
         manualExposureTime.fireStringValueChanged(manualExposureTime.GetStringValue());
     }
 

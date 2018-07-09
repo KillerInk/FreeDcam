@@ -37,28 +37,14 @@ public class PreviewZoomManual extends BaseManualParameterSony
     public PreviewZoomManual(SimpleStreamSurfaceView surfaceView, CameraWrapperInterface cameraUiWrapper) {
         super("", "", "", cameraUiWrapper);
         this.surfaceView = surfaceView;
-        isSupported = VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP;
+        if(VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
+            setViewState(ViewState.Visible);
         stringvalues = new String[] {"1","2","4","8","10","12","14","16","18","20"};
     }
 
     @Override
     public void SonyApiChanged(Set<String> mAvailableCameraApiSet) {
         super.SonyApiChanged(mAvailableCameraApiSet);
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return isSupported;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isSupported;
     }
 
     @Override
