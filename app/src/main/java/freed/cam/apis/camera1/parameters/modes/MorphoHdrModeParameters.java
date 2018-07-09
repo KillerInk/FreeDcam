@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -18,7 +20,7 @@ import freed.utils.Log;
  * Created by troop on 24.02.2017.
  */
 
-public class MorphoHdrModeParameters extends BaseModeParameter {
+public class MorphoHdrModeParameters extends BaseModeParameter implements ParameterEvents {
 
     final String TAG = MorphoHdrModeParameters.class.getSimpleName();
     private boolean visible = true;
@@ -114,6 +116,21 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
                 SetValue(cameraUiWrapper.getResString(R.string.off_),true);
             }
         }
+    }
+
+    @Override
+    public void onViewStateChanged(ViewState value) {
+
+    }
+
+    @Override
+    public void onIntValueChanged(int current) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
     }
 
     @Override

@@ -24,6 +24,8 @@ import android.hardware.Camera;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -31,7 +33,7 @@ import freed.settings.SettingsManager;
 /**
  * Created by troop on 10.06.2016.
  */
-public class NightModeXiaomi extends BaseModeParameter
+public class NightModeXiaomi extends BaseModeParameter implements ParameterEvents
 {
     final String TAG = NightModeZTE.class.getSimpleName();
     private boolean visible = true;
@@ -96,6 +98,21 @@ public class NightModeXiaomi extends BaseModeParameter
                 setViewState(ViewState.Visible);
             }
         }
+    }
+
+    @Override
+    public void onViewStateChanged(ViewState value) {
+
+    }
+
+    @Override
+    public void onIntValueChanged(int current) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
     }
 
     @Override

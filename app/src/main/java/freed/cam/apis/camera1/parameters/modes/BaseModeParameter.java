@@ -38,7 +38,7 @@ import freed.utils.Log;
  * if one of the key is empty the parameters is set as unsupported
  * when extending that class make sure you set isSupported and isVisible
  */
-public class BaseModeParameter extends AbstractParameter implements ModuleChangedEvent, ParameterEvents
+public class BaseModeParameter extends AbstractParameter implements ModuleChangedEvent
 {
     /*
     The Key to set/get a value from the parameters
@@ -82,27 +82,6 @@ public class BaseModeParameter extends AbstractParameter implements ModuleChange
 
     @Override
     public void onModuleChanged(String module) {
-
-    }
-
-
-    @Override
-    public void onViewStateChanged(ViewState value) {
-
-    }
-
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onStringValueChanged(String value) {
 
     }
 
