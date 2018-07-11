@@ -93,17 +93,16 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
         this.parameter = parameter;
         if (parameter != null) {
             parameter.addEventListner(this);
-            if (parameter.getViewState() == AbstractParameter.ViewState.Visible)
-            {
-                String txt = parameter.GetStringValue();
-                if (valueTextView != null) {
-                    if (txt != null && !TextUtils.isEmpty(txt))
-                        valueTextView.setText(txt);
-                    else
-                        valueTextView.setText(parameter.GetValue() + "");
-                }
-                createStringParametersStrings(parameter);
+
+            String txt = parameter.GetStringValue();
+            if (valueTextView != null) {
+                if (txt != null && !TextUtils.isEmpty(txt))
+                    valueTextView.setText(txt);
+                else
+                    valueTextView.setText(parameter.GetValue() + "");
             }
+            createStringParametersStrings(parameter);
+
         }
         onViewStateChanged(parameter.getViewState());
 
