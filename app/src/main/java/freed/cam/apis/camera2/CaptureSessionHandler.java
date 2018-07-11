@@ -298,10 +298,6 @@ public class CaptureSessionHandler
     public void CreateHighSpeedCaptureSession(CameraCaptureSession.StateCallback customCallback)
     {
         Log.d(TAG,"CreateHighspeedCaptureSession");
-        if (mCaptureSession != null) {
-            Log.d(TAG,"CaptureSession is not close, close it");
-           CloseCaptureSession();
-        }
         if(cameraHolderApi2.mCameraDevice == null)
             return;
         isHighSpeedSession = true;
@@ -601,13 +597,15 @@ public class CaptureSessionHandler
         return mImageCaptureRequestBuilder.get(key);
     }
 
-    public void SetTextureViewSize(int w, int h, int orientation, int orientationWithHack,boolean renderscript)
+    private final String MATRIXTAG = TAG + ".SetTextureViewSize";
+
+    public void SetTextureViewSize(int w, int h, int rotation, int orientationWithHack,boolean renderscript)
     {
         Matrix matrix = new Matrix();
         matrix.reset();
         RectF inputRect = new RectF(0, 0, w, h);
-        Log.d(TAG, "PreviewSize:" + w +"x"+ h);
-        Log.d(TAG,"DisplaySize:" + displaySize.x +"x"+ displaySize.y);
+        Log.d(MATRIXTAG, "PreviewSize:" + w +"x"+ h);
+        Log.d(MATRIXTAG,"DisplaySize:" + displaySize.x +"x"+ displaySize.y);
 
         float dispWidth = 0;
         float dispHeight = 0;
@@ -629,6 +627,8 @@ public class CaptureSessionHandler
         float viewRatio = dispWidth / dispHeight;
         float inputRatio = inputRect.width() /inputRect.height();
 
+        Log.d(MATRIXTAG,"previewratio : " + viewRatio + " inputratio :" + inputRatio);
+
         RectF viewRect = new RectF(0, 0, dispWidth, dispHeight);
 
         float centerX = viewRect.centerX();
@@ -645,11 +645,12 @@ public class CaptureSessionHandler
             ________
          */
 
-        inputRect.offset(centerX - inputRect.centerX(), centerY - inputRect.centerY());
-        if (!renderscript)
+        //inputRect.offset(centerX - inputRect.centerX(), centerY - inputRect.centerY());
+        //matrix.setRectToRect(inputRect,viewRect, Matrix.ScaleToFit.FILL);
+        /*if (!renderscript)
             matrix.setRectToRect(inputRect,viewRect, Matrix.ScaleToFit.CENTER);
         else
-            matrix.setRectToRect(inputRect,viewRect, Matrix.ScaleToFit.CENTER);
+            */
 
 
         float scaleX;
@@ -658,32 +659,32 @@ public class CaptureSessionHandler
         {
             //renderscript has already set the width and height due the Allocation
             //we have to use the real width and height from the Allocation
-            if (orientation == 90 || orientation == 270) {
-                Log.d(TAG, "viewRect > inputRect");
+            if (rotation == 90 || rotation == 270) {
+                Log.d(MATRIXTAG, "orientation 90/270");
                 scaleY = w / viewRect.height();
                 scaleX = h / viewRect.width();
             } else {
-                Log.d(TAG, "viewRect <= inputRect");
+                Log.d(MATRIXTAG, "orientation 0/180");
                 scaleY = h / viewRect.height();
                 scaleX = w / viewRect.width();
             }
         }
         else {
-            if (orientation == 90 || orientation == 270) {
-                Log.d(TAG, "viewRect > inputRect");
-                scaleY = inputRect.width() / viewRect.height();
+            if (rotation == 90 || rotation == 270) {
+                Log.d(MATRIXTAG, "orientation 90/270");
+                scaleY= inputRect.width() / viewRect.height();
                 scaleX = inputRect.height() / viewRect.width();
             } else {
-                Log.d(TAG, "viewRect <= inputRect");
+                Log.d(MATRIXTAG, "orientation 0/180");
                 scaleY = inputRect.height() / viewRect.height();
                 scaleX = inputRect.width() / viewRect.width();
             }
         }
-        Log.d(TAG,"scaleX:" +scaleX + " scaleY:" +scaleY);
+        Log.d(MATRIXTAG,"scaleX:" +scaleX + " scaleY:" +scaleY + " centerX:"+centerX +" centerY:" +centerY + " rotation:" + rotation);
 
         matrix.postScale(scaleX, scaleY, centerX, centerY);
 
-        matrix.postRotate(orientation, centerX, centerY);
+        matrix.postRotate(rotation, centerX, centerY);
         cameraHolderApi2.textureView.setTransform(matrix);
     }
 
