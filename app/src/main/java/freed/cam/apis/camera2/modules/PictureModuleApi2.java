@@ -205,23 +205,27 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         final int w = previewSize.getWidth();
         final int h = previewSize.getHeight();
 
+        Log.d(TAG, "Preview size to set : " + w + "x" +h);
+
         if (SettingsManager.get(SettingKeys.EnableRenderScript).get()) {
-            int orientation = 0;
+            Log.d(TAG, "RenderScriptPreview");
+            int rotation = 0;
             switch (orientationToSet)
             {
                 case 90:
-                    orientation = 0;
+                    rotation = 0;
                     break;
                 case 180:
-                    orientation =90;
+                    rotation =90;
                     break;
-                case 270: orientation = 180;
+                case 270: rotation = 180;
                     break;
-                case 0: orientation = 270;
+                case 0: rotation = 270;
                     break;
             }
 
-            final int or = orientation;
+            final int or = rotation;
+            Log.d(TAG, "rotation to set : " + or);
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,true));
             cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight(),previewsurface);
             Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
@@ -230,21 +234,23 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         }
         else
         {
-            int orientation = 0;
+            Log.d(TAG, "Normal Preview");
+            int rotation = 0;
             switch (orientationToSet)
             {
                 case 90:
-                    orientation = 270;
+                    rotation = 270;
                     break;
                 case 180:
-                    orientation =0;
+                    rotation =180;
                     break;
-                case 270: orientation = 90;
+                case 270: rotation = 270;
                     break;
-                case 0: orientation = 180;
+                case 0: rotation = 180;
                     break;
             }
-            final int or = orientation;
+            final int or = rotation;
+            Log.d(TAG, "rotation to set : " + or);
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,false));
         }

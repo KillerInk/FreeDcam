@@ -45,6 +45,7 @@ import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
@@ -107,6 +108,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     {
         Log.d(TAG, "InitModule");
         super.InitModule();
+
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.get(SettingKeys.VideoProfiles);
         currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).get());
@@ -117,12 +119,20 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         parameterHandler.get(SettingKeys.VideoProfiles).fireStringValueChanged(currentVideoProfile.ProfileName);
         videoRecorder = new VideoRecorder(cameraUiWrapper,new MediaRecorder());
         startPreview();
+        if (parameterHandler.get(SettingKeys.PictureFormat) != null)
+            parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Hidden);
+        if (parameterHandler.get(SettingKeys.M_Burst) != null)
+            parameterHandler.get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Hidden);
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
     @Override
     public void DestroyModule()
     {
+        if (parameterHandler.get(SettingKeys.PictureFormat) != null)
+            parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Visible);
+        if (parameterHandler.get(SettingKeys.M_Burst) != null)
+            parameterHandler.get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Visible);
         if (isRecording)
             stopRecording();
         Log.d(TAG, "DestroyModule");
@@ -188,9 +198,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2
                 orientation = 270;
                 break;
             case 180:
-                orientation =0;
+                orientation =180;
                 break;
-            case 270: orientation = 90;
+            case 270: orientation = 270;
                 break;
             case 0: orientation = 180;
                 break;
