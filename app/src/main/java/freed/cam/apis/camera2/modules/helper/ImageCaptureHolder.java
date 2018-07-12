@@ -31,6 +31,7 @@ import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTask;
 import freed.image.ImageTaskDngConverter;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -356,7 +357,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
             saveTask.setExposureIndex(0);
         }
         DngProfile prof = null;
-        if (SettingsManager.getInstance().getDngProfilesMap().get(bytes.length) != null)
+        if (SettingsManager.get(SettingKeys.useCustomMatrixOnCamera2).get() && SettingsManager.getInstance().getDngProfilesMap().get(bytes.length) != null)
             prof = SettingsManager.getInstance().getDngProfilesMap().get(bytes.length);
         else
             prof = getDngProfile(rawFormat, image.getWidth(),image.getHeight());

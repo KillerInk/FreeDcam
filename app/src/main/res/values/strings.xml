@@ -190,6 +190,8 @@
     <string name="setting_forcerawtodng_description">Only for 16bit Dng(RAW_SENSOR)\n
         When turned On the FreeDcam Dng Converter get used\n
         Off use the Android DngConverter</string>
+    <string name="setting_usecustomdngprofile_header">Enable to use customDngProfile</string>
+    <string name="setting_usecustomdngprofile_description">If Enable and a custom dngprofile.xml exists it get used</string>
 
 
     <!-- cameraui  -->

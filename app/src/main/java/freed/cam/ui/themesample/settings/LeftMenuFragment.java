@@ -197,6 +197,9 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 SettingsChildMenuForceRawToDng rawToDng = new SettingsChildMenuForceRawToDng(getContext(), R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description);
                 rawToDng.SetUiItemClickListner(this);
                 dngGroup.addView(rawToDng);
+
+                SettingsChild_BooleanSetting useCustomMatrix = new SettingsChild_BooleanSetting(getContext(),SettingsManager.get(SettingKeys.useCustomMatrixOnCamera2),R.string.setting_usecustomdngprofile_header, R.string.setting_usecustomdngprofile_description);
+                dngGroup.addView(useCustomMatrix);
             }
             if (dngGroup.childSize() > 0)
                 picGroup.addView(dngGroup);
