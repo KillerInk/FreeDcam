@@ -137,11 +137,19 @@ public class ImageSaveTask extends ImageTask
 
     public void setOpcode2(byte[] opcode2)
     {
+        if (opcode2 != null)
+            Log.d(TAG, "setOpcode2");
+        else
+            Log.d(TAG, "no Opcode2");
         this.opcode2 = opcode2;
     }
 
     public void setOpcode3(byte[] opcode3)
     {
+        if (opcode2 != null)
+            Log.d(TAG, "setOpcode3");
+        else
+            Log.d(TAG, " no Opcode3");
         this.opcode3 = opcode3;
     }
 
