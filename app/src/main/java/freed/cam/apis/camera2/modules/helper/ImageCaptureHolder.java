@@ -367,8 +367,6 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         saveTask.setDngProfile(prof);
         saveTask.setFilePath(file, externalSD);
         saveTask.setOrientation(orientation);
-        saveTask.setOpcode2(SettingsManager.getInstance().getOpcode2());
-        saveTask.setOpcode3(SettingsManager.getInstance().getOpcode3());
         return saveTask;
     }
 

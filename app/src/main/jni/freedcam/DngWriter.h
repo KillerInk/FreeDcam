@@ -12,6 +12,7 @@
 #include "DngProfile.h"
 #include "CustomMatrix.h"
 #include "DngTags.h"
+#include "OpCode.h"
 #include <android/log.h>
 #include <../tiff/libtiff/tif_dir.h>
 #include <assert.h>
@@ -43,9 +44,10 @@ public:
     GpsInfo *gpsInfo;
     DngProfile * dngProfile;
     CustomMatrix * customMatrix;
-    char* _make;
-    char*_model;
-    char* _dateTime;
+    OpCode * opCode = NULL;
+    char* _make = NULL;
+    char*_model = NULL;
+    char* _dateTime = NULL;
 
     long rawSize;
 
@@ -71,21 +73,15 @@ public:
     int thumbheight, thumwidth;
     unsigned char* _thumbData;
 
-    int opcode2Size;
-    unsigned char* opcode2;
-    int opcode3Size;
-    unsigned char* opcode3;
-
     DngWriter()
     {
         exifInfo = NULL;
         gpsInfo = NULL;
         dngProfile = NULL;
         customMatrix = NULL;
+        opCode = NULL;
         fileDes = -1;
         hasFileDes = false;
-        opcode2 = NULL;
-        opcode3 = NULL;
         tonecurve = NULL;
         fileSavePath = NULL;
         fileLength = 0;
@@ -96,9 +92,6 @@ public:
         huesatmapdata2 = NULL;
         huesatmapdata2_size = 0;
         huesatmapdims = NULL;
-
-        opcode2Size =0;
-        opcode3Size = 0;
     }
 
     void WriteDNG();

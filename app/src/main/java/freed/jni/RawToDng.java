@@ -28,8 +28,8 @@ public class RawToDng
     private ByteBuffer byteBuffer;
 
     private String wbct;
-    private byte[] opcode2;
-    private byte[] opcode3;
+
+    private OpCode opCode;
 
     private native ByteBuffer init();
     private native void recycle(ByteBuffer byteBuffer);
@@ -37,8 +37,7 @@ public class RawToDng
     private native void SetGPSData(ByteBuffer byteBuffer, ByteBuffer gpsBuffer);
     private native void SetThumbData(byte[] mThumb, int widht, int height,ByteBuffer byteBuffer);
     private native void WriteDNG(ByteBuffer byteBuffer);
-    private native void SetOpCode3(byte[] opcode,ByteBuffer byteBuffer);
-    private native void SetOpCode2(byte[] opcode,ByteBuffer byteBuffer);
+    private native void SetOpCode(ByteBuffer byteBuffer, ByteBuffer opcode);
     private native void SetModelAndMake(String model, String make,ByteBuffer byteBuffer);
     private native void SetBayerData(byte[] fileBytes, String fileout,ByteBuffer byteBuffer);
     private native void SetBayerDataFD(byte[] fileBytes, int fileout, String filename,ByteBuffer byteBuffer);
@@ -74,14 +73,9 @@ public class RawToDng
         byteBuffer = null;
     }
 
-    public void setOpcode2(byte[] opcode2)
+    public void setOpCode(OpCode opCode)
     {
-        this.opcode2 = opcode2;
-    }
-
-    public void setOpcode3(byte[] opcode3)
-    {
-        this.opcode3 = opcode3;
+        this.opCode = opCode;
     }
 
     public void SetWBCT(String wbct)
@@ -190,10 +184,8 @@ public class RawToDng
             throw new NullPointerException();
         }
         SetBayerData(fileBytes, fileout,byteBuffer);
-        if (opcode2 != null)
-            SetOpCode2(opcode2,byteBuffer);
-        if (opcode3 != null)
-            SetOpCode3(opcode3,byteBuffer);
+        if (opCode != null)
+            SetOpCode(byteBuffer,opCode.getByteBuffer());
 
     }
 
@@ -204,10 +196,8 @@ public class RawToDng
         }
 
         SetBayerDataFD(fileBytes, fileout.getFd(), filename,byteBuffer);
-        if (opcode2 != null)
-            SetOpCode2(opcode2,byteBuffer);
-        if (opcode3 != null)
-            SetOpCode3(opcode3,byteBuffer);
+        if (opCode != null)
+            SetOpCode(byteBuffer,opCode.getByteBuffer());
     }
 
 
