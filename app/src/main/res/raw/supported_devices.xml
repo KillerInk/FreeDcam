@@ -3188,6 +3188,24 @@
         </filesize>
     </device>
 
+    <device name="Redmi Note 5A">
+        <models>
+            <item>Redmi Note 5A</item>
+        </models>
+        <opcodes>
+        </opcodes>
+        <filesize size="16510976">
+            <blacklvl>64</blacklvl>
+            <whitelvl>1023</whitelvl>
+            <width>4208</width>
+            <height>3120</height>
+            <rawtype>3</rawtype>
+            <colorpattern>grbg</colorpattern>
+            <rowsize>0</rowsize>
+            <matrixset>S5K3L8_Qualcomm</matrixset>
+        </filesize>
+    </device>
+
     <device name ="Xiaomi_Redmi_Pro">
         <models>
             <item>Redmi Pro</item>
