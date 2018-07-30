@@ -156,12 +156,25 @@ void DngWriter::writeIfd0(TIFF *tif) {
     {
         TIFFSetField(tif,TIFFTAG_PROFILEHUESATMAPDATA2, huesatmapdata2_size,huesatmapdata2);
     }
+    LOGD("baselineExposure");
     if(baselineExposure != NULL)
         TIFFSetField(tif,TIFFTAG_BASELINEEXPOSURE, baselineExposure);
+    LOGD("baselineExposureOffset");
     if(baselineExposureOffset != NULL)
     {
         TIFFSetField(tif,TIFFTAG_BASELINEEXPOSUREOFFSET, baselineExposureOffset);
     }
+
+    float margin = 8;
+
+    float  defaultCropOrigin[] = {margin, margin};
+    float defaultCropSize[] = {dngProfile->rawwidht - defaultCropOrigin[0] - margin,
+                                  dngProfile->rawheight - defaultCropOrigin[1] - margin};
+
+    LOGD("defaultCropOrigin");
+    TIFFSetField(tif,TIFFTAG_DEFAULTCROPORIGIN,defaultCropOrigin);
+    LOGD("defaultCropSize");
+    TIFFSetField(tif,TIFFTAG_DEFAULTCROPSIZE, defaultCropSize);
 
     if(opCode != NULL)
     {
