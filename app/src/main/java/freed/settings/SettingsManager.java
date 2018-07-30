@@ -40,6 +40,7 @@ import java.util.Set;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
+import freed.jni.OpCode;
 import freed.jni.RawToDng;
 import freed.settings.mode.SettingInterface;
 import freed.utils.Log;
@@ -115,8 +116,7 @@ public class SettingsManager implements SettingsManagerInterface {
     private HashMap<String, ToneMapProfile> tonemapProfiles;
     private HashMap<String, VideoToneCurveProfile> videoToneCurveProfiles;
     private LongSparseArray<DngProfile> dngProfileHashMap;
-    private byte[] opcode2;
-    private byte[] opcode3;
+    private OpCode opCode;
     private SharedPreferences settings;
     private Resources resources;
     private boolean isInit =false;
@@ -228,25 +228,9 @@ public class SettingsManager implements SettingsManagerInterface {
     {
         new Thread(() -> {
             File op2 = new File(StringUtils.GetFreeDcamConfigFolder+ currentcamera+"opc2.bin");
-            if (op2.exists())
-                try {
-                    opcode2 = RawToDng.readFile(op2);
-                    Log.d(TAG, "opcode2 size" + opcode2.length);
-                } catch (IOException e) {
-                    Log.WriteEx(e);
-                }
-                else
-                    opcode2 = null;
             File op3 = new File(StringUtils.GetFreeDcamConfigFolder+currentcamera+"opc3.bin");
-            if (op3.exists())
-                try {
-                    opcode3 = RawToDng.readFile(op3);
-                    Log.d(TAG, "opcode3 size" + opcode3.length);
-                } catch (IOException e) {
-                    Log.WriteEx(e);
-                }
-                else
-                    opcode3 = null;
+            opCode = new OpCode(op2,op3);
+
         }).start();
 
     }
@@ -578,16 +562,9 @@ public class SettingsManager implements SettingsManagerInterface {
         return settings.getBoolean(getApiSettingString(FRONTCAMERA), false);
     }
 
-    public byte[] getOpcode2()
-    {
-        return opcode2;
+    public OpCode getOpCode() {
+        return opCode;
     }
-
-    public byte[] getOpcode3()
-    {
-        return opcode3;
-    }
-
 
     ///XML STUFF
 

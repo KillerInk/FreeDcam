@@ -162,17 +162,20 @@ void DngWriter::writeIfd0(TIFF *tif) {
     {
         TIFFSetField(tif,TIFFTAG_BASELINEEXPOSUREOFFSET, baselineExposureOffset);
     }
-    if(opcode2Size >0)
-    {
-        LOGD("Set OP2");
-        TIFFSetField(tif, TIFFTAG_OPC2, opcode2Size, opcode2);
-    }
-    if(opcode3Size >0)
-    {
-        LOGD("Set OP3");
-        TIFFSetField(tif, TIFFTAG_OPC3, opcode3Size, opcode3);
-    }
 
+    if(opCode != NULL)
+    {
+        if(opCode->op2Size > 0)
+        {
+            LOGD("Set OP2 %i", opCode->op2Size);
+            TIFFSetField(tif, TIFFTAG_OPC2, opCode->op2Size, opCode->op2);
+        }
+        if(opCode->op3Size > 0)
+        {
+            LOGD("Set OP3 %i", opCode->op3Size);
+            TIFFSetField(tif, TIFFTAG_OPC3, opCode->op3Size, opCode->op3);
+        }
+    }
 }
 
 void DngWriter::makeGPS_IFD(TIFF *tif) {
@@ -661,19 +664,7 @@ void DngWriter::writeRawStuff(TIFF *tif) {
 
 void DngWriter::clear() {
     LOGD("delete Opcode2");
-    if(opcode2 != NULL)
-    {
-        //delete[] opcode2;
-        opcode2Size = NULL;
-        opcode2 = NULL;
-    }
-    LOGD("delete Opcode3");
-    if(opcode3 != NULL)
-    {
-        //delete[] opcode3;
-        opcode2Size = NULL;
-        opcode3 = NULL;
-    }
+    opCode = NULL;
     LOGD("delete bayerbytes");
     /*if (bayerBytes != NULL){
         delete [] bayerBytes;

@@ -17,6 +17,7 @@ import freed.dng.DngProfile;
 import freed.jni.ExifInfo;
 import freed.jni.GpsInfo;
 import freed.jni.RawToDng;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -34,7 +35,7 @@ public class ImageSaveTask extends ImageTask
     public final static int DUMP_RAWDATA = 4;
 
 
-    private byte[] bytesTosave, opcode2, opcode3;
+    private byte[] bytesTosave;
     private int imageFormat = JPEG;
     private DngProfile profile;
     private File filename;
@@ -69,8 +70,6 @@ public class ImageSaveTask extends ImageTask
         this.filename = null;
         this.profile = null;
         this.bytesTosave = null;
-        this.opcode2 = null;
-        this.opcode3 = null;
     }
 
     public void setBytesTosave(byte[] bytes, int imageFormat)
@@ -135,26 +134,6 @@ public class ImageSaveTask extends ImageTask
         this.whitebalance = wb;
     }
 
-    public void setOpcode2(byte[] opcode2)
-    {
-        if (opcode2 != null)
-            Log.d(TAG, "setOpcode2");
-        else
-            Log.d(TAG, "no Opcode2");
-        this.opcode2 = opcode2;
-    }
-
-    public void setOpcode3(byte[] opcode3)
-    {
-        if (opcode2 != null)
-            Log.d(TAG, "setOpcode3");
-        else
-            Log.d(TAG, " no Opcode3");
-        this.opcode3 = opcode3;
-    }
-
-
-
     @Override
     public boolean process()
     {
@@ -197,9 +176,8 @@ public class ImageSaveTask extends ImageTask
         rawToDng.setExifData(info);
 //        if (whitebalance != null)
 //            rawToDng.SetWBCT(whitebalance);
-
-        rawToDng.setOpcode2(opcode2);
-        rawToDng.setOpcode3(opcode3);
+        if (SettingsManager.getInstance().getOpCode() != null)
+            rawToDng.setOpCode(SettingsManager.getInstance().getOpCode());
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !externalSD)
         {

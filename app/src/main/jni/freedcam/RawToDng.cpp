@@ -107,20 +107,13 @@ extern "C"
         writer->_model = copyString(env, model);
     }
 
-
-    JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode2(JNIEnv *env, jobject thiz, jbyteArray opcode,jobject javaHandler)
+    JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode(JNIEnv *env, jobject thiz,jobject javaHandler,jobject opcodeHandler)
     {
         DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
-        writer->opcode2Size = env->GetArrayLength(opcode);
-        writer->opcode2 = copyByteArray(env,opcode);
+        writer->opCode = (OpCode*)env->GetDirectBufferAddress(opcodeHandler);
     }
 
-    JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetOpCode3(JNIEnv *env, jobject thiz, jbyteArray opcode,jobject javaHandler)
-    {
-        DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
-        writer->opcode3Size = env->GetArrayLength(opcode);
-        writer->opcode3 = copyByteArray(env,opcode);
-    }
+
 
     JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz,
                                                                 jobject matrix,
