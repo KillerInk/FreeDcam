@@ -81,39 +81,39 @@ static const TIFFFieldInfo  dngFields[] = {
 
 };
 
-static const TIFFField
+static const TIFFFieldInfo
         gpsFields[] = {
-        { GPSTAG_GPSVersionID, 4, 4, TIFF_BYTE, 0, TIFF_SETGET_C0_UINT8, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 0, 0, "GPSVersionID", NULL },
-        { GPSTAG_GPSLatitudeRef, 2, 2, TIFF_ASCII, 0, TIFF_SETGET_ASCII, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "GPSLatitudeRef", NULL },
-        { GPSTAG_GPSLatitude, 3, 3, TIFF_RATIONAL, 0, TIFF_SETGET_DOUBLE, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "GPSLatitude", NULL },
-        { GPSTAG_GPSLongitudeRef, 2, 2, TIFF_ASCII, 0, TIFF_SETGET_ASCII, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "GPSLongitudeRef", NULL },
-        { GPSTAG_GPSLongitude, 3, 3, TIFF_RATIONAL, 0, TIFF_SETGET_DOUBLE, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "GPSLongitude", NULL },
-        { GPSTAG_GPSAltitudeRef, -1, -1, TIFF_BYTE, 0, TIFF_SETGET_C16_UINT8, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSAltitudeRef", NULL },
-        { GPSTAG_GPSAltitude, 1, 1, TIFF_RATIONAL, 0, TIFF_SETGET_DOUBLE, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "GPSAltitude", NULL },
-        { GPSTAG_GPSTimeStamp, 3, 3, TIFF_RATIONAL, 0, TIFF_SETGET_DOUBLE, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "GPSTimeStamp", NULL },
-        { GPSTAG_GPSSatellites, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSSatellites", NULL },
-        { GPSTAG_GPSStatus, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSStatus", NULL },
-        { GPSTAG_GPSMeasureMode, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSMeasureMode", NULL },
-        { GPSTAG_GPSDOP, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSDOP", NULL },
-        { GPSTAG_GPSSpeedRef, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSSpeedRef", NULL },
-        { GPSTAG_GPSSpeed, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSSpeed", NULL },
-        { GPSTAG_GPSTrackRef, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSTrackRef", NULL },
-        { GPSTAG_GPSTrack, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSTrack", NULL },
-        { GPSTAG_GPSImgDirectionRef, 20, 20, TIFF_ASCII, 0, TIFF_SETGET_ASCII, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "GPSImgDirectionRef", NULL },
-        { GPSTAG_GPSImgDirection, 1, 1, TIFF_RATIONAL, 0, TIFF_SETGET_DOUBLE, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "GPSImgDirection", NULL },
-        { GPSTAG_GPSMapDatum, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSMapDatum", NULL },
-        { GPSTAG_GPSDestLatitudeRef, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSDestLatitudeRef", NULL },
-        { GPSTAG_GPSDestLatitude, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSDestLatitude", NULL },
-        { GPSTAG_GPSDestLongitudeRef, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSDestLongitudeRef", NULL },
-        { GPSTAG_GPSDestLongitude, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSDestLongitude", NULL },
-        { GPSTAG_GPSDestBearingRef, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSDestBearingRef", NULL },
-        { GPSTAG_GPSDestBearing, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSDestBearing", NULL },
-        { GPSTAG_GPSDestDistanceRef, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSDestDistanceRef", NULL },
-        { GPSTAG_GPSDestDistance, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSDestDistance", NULL },
-        { GPSTAG_GPSProccesingMethod, 14, 14, TIFF_ASCII, 0, TIFF_SETGET_ASCII, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "GPSProccesingMethod", NULL },
-        { GPSTAG_GPSAreaInformation, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSAreaInformation", NULL },
-        { GPSTAG_GPSDateStamp, 11, 11, TIFF_ASCII, 0, TIFF_SETGET_ASCII, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "GPSDateStamp", NULL },
-        { GPSTAG_GPSDifferential, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 1, "GPSDifferential", NULL }
+        { GPSTAG_GPSVersionID, 4, 4, TIFF_BYTE, FIELD_CUSTOM, 0, 0, "GPSVersionID" },
+        { GPSTAG_GPSLatitudeRef, 2, 2, TIFF_ASCII, FIELD_CUSTOM, 1, 0, "GPSLatitudeRef" },
+        { GPSTAG_GPSLatitude, 3, 3, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "GPSLatitude" },
+        { GPSTAG_GPSLongitudeRef, 2, 2, TIFF_ASCII, FIELD_CUSTOM, 1, 0, "GPSLongitudeRef" },
+        { GPSTAG_GPSLongitude, 3, 3, TIFF_RATIONAL, FIELD_CUSTOM, 1, 0, "GPSLongitude" },
+        { GPSTAG_GPSAltitudeRef, -1, -1, TIFF_BYTE,  FIELD_CUSTOM, 1, 1, "GPSAltitudeRef" },
+        { GPSTAG_GPSAltitude, 1, 1, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "GPSAltitude" },
+        { GPSTAG_GPSTimeStamp, 3, 3, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "GPSTimeStamp" },
+        { GPSTAG_GPSSatellites, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSSatellites" },
+        { GPSTAG_GPSStatus, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSStatus" },
+        { GPSTAG_GPSMeasureMode, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSMeasureMode" },
+        { GPSTAG_GPSDOP, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDOP" },
+        { GPSTAG_GPSSpeedRef, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSSpeedRef" },
+        { GPSTAG_GPSSpeed, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSSpeed" },
+        { GPSTAG_GPSTrackRef, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSTrackRef" },
+        { GPSTAG_GPSTrack, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSTrack" },
+        { GPSTAG_GPSImgDirectionRef, 20, 20, TIFF_ASCII,  FIELD_CUSTOM, 1, 0, "GPSImgDirectionRef" },
+        { GPSTAG_GPSImgDirection, 1, 1, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "GPSImgDirection" },
+        { GPSTAG_GPSMapDatum, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSMapDatum" },
+        { GPSTAG_GPSDestLatitudeRef, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestLatitudeRef" },
+        { GPSTAG_GPSDestLatitude, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestLatitude" },
+        { GPSTAG_GPSDestLongitudeRef, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSDestLongitudeRef" },
+        { GPSTAG_GPSDestLongitude, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestLongitude" },
+        { GPSTAG_GPSDestBearingRef, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestBearingRef" },
+        { GPSTAG_GPSDestBearing, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestBearing" },
+        { GPSTAG_GPSDestDistanceRef, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestDistanceRef" },
+        { GPSTAG_GPSDestDistance, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSDestDistance" },
+        { GPSTAG_GPSProccesingMethod, 14, 14, TIFF_ASCII, FIELD_CUSTOM, 1, 0, "GPSProccesingMethod" },
+        { GPSTAG_GPSAreaInformation, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSAreaInformation" },
+        { GPSTAG_GPSDateStamp, 11, 11, TIFF_ASCII,  FIELD_CUSTOM, 1, 0, "GPSDateStamp" },
+        { GPSTAG_GPSDifferential, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSDifferential" }
 };
 
 //////////////////////////////////////////////////////////////////////////GPS ///////////////////
@@ -145,8 +145,8 @@ static void
 _XTIFFDefaultDirectory(TIFF *tif)
 {
     /* Install the extended Tag field info */
-    _TIFFMergeFields(tif, dngFields, N(dngFields));
-    _TIFFMergeFields(tif, gpsFields, N(gpsFields));
+    TIFFMergeFieldInfo(tif, dngFields, N(dngFields));
+    TIFFMergeFieldInfo(tif, gpsFields, N(gpsFields));
 
     /* Since an XTIFF client module may have overridden
      * the default directory method, we call it now to
