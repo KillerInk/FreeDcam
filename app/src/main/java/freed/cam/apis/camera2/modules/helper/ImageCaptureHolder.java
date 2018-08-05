@@ -2,6 +2,7 @@ package freed.cam.apis.camera2.modules.helper;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
+import android.graphics.Rect;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
@@ -477,11 +478,23 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
 
         }
 
-
-        return new DngProfile(black,white,width, height,rawFormat, colorpattern, 0,
+        DngProfile profile = new DngProfile(black,white,width, height,rawFormat, colorpattern, 0,
                 customMatrix,
                 ""
         );
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try {
+                Rect activar = characteristics.get(CameraCharacteristics.SENSOR_INFO_PRE_CORRECTION_ACTIVE_ARRAY_SIZE);
+                int ar[] = {activar.left, activar.top,activar.right,activar.bottom};
+                profile.setActiveArea(ar);
+            } catch (Exception ex) {
+                Log.WriteEx(ex);
+            }
+        }
+
+
+        return profile;
     }
 
     private void getNoiseMatrix(int[] cfaOut, double[] finalnoise) {

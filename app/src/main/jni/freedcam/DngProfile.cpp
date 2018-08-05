@@ -5,6 +5,11 @@
 #include <jni.h>
 #include "DngProfile.h"
 #include "JniUtils.h"
+#include <android/log.h>
+
+
+#define  LOG_TAG    "freedcam.DngProfile"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 extern "C"
 {
@@ -33,6 +38,24 @@ extern "C"
         dngProfile->rowSize = rowsize;
         dngProfile->rawType = rawType;
         dngProfile->bayerformat = copyString(env,bayerPattern);
+    }
+
+    JNIEXPORT void JNICALL Java_freed_dng_DngProfile_setActiveArea(JNIEnv *env, jobject thiz,  jobject javaHandler, jintArray input)
+    {
+        DngProfile* dngProfile = (DngProfile*)env->GetDirectBufferAddress(javaHandler);
+        unsigned int *data = (unsigned int*)env->GetIntArrayElements(input, NULL);
+        LOGD("activearea: %i %i %i %i", data[0],data[1],data[2],data[3]);
+        unsigned int  xmin = data[0];
+        unsigned int  ymin =  data[1];
+        unsigned int width = data[2];
+        unsigned int  height =data[3];
+        unsigned int * activearea = new  unsigned int[4];
+        activearea[0] = ymin;
+        activearea[1] = xmin;
+        activearea[2] = ymin + height;
+        activearea[3] = xmin + width;
+        LOGD("activearea: %i %i %i %i", activearea[0],activearea[1],activearea[2],activearea[3]);
+        dngProfile->activearea = activearea;
     }
 
     JNIEXPORT jlong JNICALL Java_freed_dng_DngProfile_getWhitelvl(JNIEnv *env, jobject thiz,jobject javaHandler)

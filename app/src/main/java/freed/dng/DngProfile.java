@@ -105,6 +105,13 @@ public class DngProfile
         System.loadLibrary("freedcam");
     }
 
+    public void setActiveArea(int[] activeArea)
+    {
+        if (byteBuffer == null)
+            return;
+        setActiveArea(byteBuffer,activeArea);
+    }
+
     private native ByteBuffer init();
     private native void clear(ByteBuffer byteBuffer);
     private native void setDngInfo(ByteBuffer javaHandler, int blacklevel,int whitelevel,int widht, int height, int rawType, String bayerPattern, int rowsize);
@@ -150,6 +157,8 @@ public class DngProfile
     {
         return byteBuffer;
     }
+
+    private native void setActiveArea(ByteBuffer byteBuffer, int[] activearea);
 
     @Override
     protected void finalize() throws Throwable {

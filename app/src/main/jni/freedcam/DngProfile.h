@@ -5,6 +5,8 @@
 #ifndef FREEDCAM_DNGPROFILE_H
 #define FREEDCAM_DNGPROFILE_H
 
+#include <jni.h>
+
 class DngProfile
 {
 public:
@@ -13,11 +15,13 @@ public:
     char* bayerformat;
     int rawType;
     int rawwidht, rawheight, rowSize;
+    unsigned int  * activearea;
 
     void clear()
     {
         bayerformat;
         blacklevel;
+        activearea = nullptr;
     }
 };
 

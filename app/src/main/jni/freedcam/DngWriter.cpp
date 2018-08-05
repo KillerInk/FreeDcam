@@ -176,6 +176,11 @@ void DngWriter::writeIfd0(TIFF *tif) {
     LOGD("defaultCropSize");
     TIFFSetField(tif,TIFFTAG_DEFAULTCROPSIZE, defaultCropSize);
 
+    if(dngProfile->activearea != nullptr)
+    {
+        TIFFSetField(tif,TIFFTAG_ACTIVEAREA, dngProfile->activearea);
+    }
+
     if(opCode != NULL)
     {
         if(opCode->op2Size > 0)
