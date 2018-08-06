@@ -50,10 +50,10 @@ extern "C"
         unsigned int width = data[2];
         unsigned int  height =data[3];
         unsigned int * activearea = new  unsigned int[4];
-        activearea[0] = ymin;
-        activearea[1] = xmin;
-        activearea[2] = ymin + height;
-        activearea[3] = xmin + width;
+        activearea[0] = 0;
+        activearea[1] = 0;
+        activearea[2] = height - ymin;
+        activearea[3] = width - xmin;
         LOGD("activearea: %i %i %i %i", activearea[0],activearea[1],activearea[2],activearea[3]);
         dngProfile->activearea = activearea;
     }
