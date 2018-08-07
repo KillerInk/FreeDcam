@@ -16,6 +16,7 @@ import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.dng.DngProfile;
 import freed.jni.ExifInfo;
 import freed.jni.GpsInfo;
+import freed.jni.OpCode;
 import freed.jni.RawToDng;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -53,6 +54,7 @@ public class ImageSaveTask extends ImageTask
     private ModuleInterface moduleInterface;
 
     private Thread currentThread;
+    private OpCode opcode;
 
 
     public ImageSaveTask(ActivityInterface activityInterface, ModuleInterface moduleInterface)
@@ -134,6 +136,10 @@ public class ImageSaveTask extends ImageTask
         this.whitebalance = wb;
     }
 
+    public void setOpCode(OpCode opCode){
+        this.opcode = opCode;
+    }
+
     @Override
     public boolean process()
     {
@@ -178,6 +184,8 @@ public class ImageSaveTask extends ImageTask
 //            rawToDng.SetWBCT(whitebalance);
         if (SettingsManager.getInstance().getOpCode() != null)
             rawToDng.setOpCode(SettingsManager.getInstance().getOpCode());
+        if (opcode != null)
+            rawToDng.setOpCode(opcode);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !externalSD)
         {

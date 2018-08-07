@@ -48,6 +48,15 @@ public class OpCode
         }
     }
 
+    public OpCode(byte[] op2, byte[] op3)
+    {
+        byteBuffer = init();
+        if (op2 != null)
+            setOp2(byteBuffer, op2);
+        if (op3 != null)
+            setOp3(byteBuffer,op3);
+    }
+
 
     @Override
     protected void finalize() throws Throwable {
