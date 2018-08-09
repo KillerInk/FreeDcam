@@ -206,6 +206,13 @@ public class RawToDng
         SetBayerInfo(matrix,dngprofile,byteBuffer);
     }
 
+    public void setBaselineExposure(float baselineExposure)
+    {
+        if (byteBuffer == null)
+            return;
+        SetBaselineExposure(baselineExposure, byteBuffer);
+    }
+
 
     public void WriteDngWithProfile(DngProfile profile)
     {

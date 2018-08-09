@@ -78,7 +78,7 @@ public class GainMap extends OpCodeItem {
         return super.size() + GAINMAPHEADER_BYTESIZE + map.length * 4;
     }
 
-    public void write(ByteBuffer byteBuffer) throws IOException {
+    public void write(ByteBuffer byteBuffer)  {
         size_of_bytes = GAINMAPHEADER_BYTESIZE + map.length * 4;
         byteBuffer.putInt(opcodeid);
         byteBuffer.putInt(dngversion);

@@ -1,6 +1,9 @@
 package freed.dng.opcode;
 
-public class OpCodeItem {
+import java.io.IOException;
+import java.nio.ByteBuffer;
+
+public abstract class OpCodeItem {
 
     public static int DNGVERSION = 16973824;
     public static int OpCodeItemByteSize = 4*4;
@@ -14,4 +17,6 @@ public class OpCodeItem {
     {
         return OpCodeItemByteSize;
     }
+
+    public abstract void write(ByteBuffer byteBuffer) throws IOException;
 }

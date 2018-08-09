@@ -55,6 +55,7 @@ public class ImageSaveTask extends ImageTask
 
     private Thread currentThread;
     private OpCode opcode;
+    private float baselineExposure = 0;
 
 
     public ImageSaveTask(ActivityInterface activityInterface, ModuleInterface moduleInterface)
@@ -140,6 +141,11 @@ public class ImageSaveTask extends ImageTask
         this.opcode = opCode;
     }
 
+    public void setBaselineExposure(float baselineExposure)
+    {
+        this.baselineExposure = baselineExposure;
+    }
+
     @Override
     public boolean process()
     {
@@ -186,6 +192,8 @@ public class ImageSaveTask extends ImageTask
             rawToDng.setOpCode(SettingsManager.getInstance().getOpCode());
         if (opcode != null)
             rawToDng.setOpCode(opcode);
+
+        rawToDng.setBaselineExposure(baselineExposure);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !externalSD)
         {

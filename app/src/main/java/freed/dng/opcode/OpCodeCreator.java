@@ -1,5 +1,6 @@
 package freed.dng.opcode;
 
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureResult;
@@ -12,6 +13,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 
 import freed.utils.Log;
 
@@ -23,48 +25,70 @@ public class OpCodeCreator {
 
     public byte[] createOpCode2(CameraCharacteristics cameraCharacteristics, CaptureResult captureResult)
     {
-        LensShadingMap lensShadingMap = captureResult.get(CaptureResult.STATISTICS_LENS_SHADING_CORRECTION_MAP);
-        int lsWidth = lensShadingMap.getRowCount();
-        int lsHeight = lensShadingMap.getColumnCount();
-        Rect rect;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            rect = cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_PRE_CORRECTION_ACTIVE_ARRAY_SIZE);
-        else
-            rect = cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        int xmin = rect.left;
-        int ymin = rect.top;
-        int width = rect.right;
-        int height = rect.bottom;
+        int size = 0;
+        ArrayList<OpCodeItem> list = new ArrayList<>();
         int cfa = cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
 
-        GainMap[] gainMaps = addGainMapsForMetadata(lsWidth,lsHeight,xmin,ymin,width,height,lensShadingMap,cfa);
-        int size = gainMaps[0].size() *4 + 4;
-        Log.d(TAG, "opcode2 size = " + size);
-        ByteBuffer buffer = ByteBuffer.allocate(size);
-        buffer.order(ByteOrder.BIG_ENDIAN);
+        LensShadingMap lensShadingMap = captureResult.get(CaptureResult.STATISTICS_LENS_SHADING_CORRECTION_MAP);
+        if (lensShadingMap != null) {
+            int lsWidth = lensShadingMap.getRowCount();
+            int lsHeight = lensShadingMap.getColumnCount();
+            Rect rect;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                rect = cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_PRE_CORRECTION_ACTIVE_ARRAY_SIZE);
+            else
+                rect = cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+            int xmin = rect.left;
+            int ymin = rect.top;
+            int width = rect.right;
+            int height = rect.bottom;
 
-        try {
-            //write opcode list count
-            buffer.putInt(4);
-            gainMaps[0].write(buffer);
-            Log.d(TAG, "buffer remaining:" +buffer.remaining() + " next size:" + gainMaps[1].size());
-            gainMaps[1].write(buffer);
-            Log.d(TAG, "buffer remaining:" +buffer.remaining() + " next size:" + gainMaps[2].size());
-            gainMaps[2].write(buffer);
-            Log.d(TAG, "buffer remaining:" +buffer.remaining() + " next size:" + gainMaps[3].size());
-            gainMaps[3].write(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        byte ret[] = buffer.array().clone();
 
-        try {
-            buffer.clear();
-            buffer = null;
-        } catch (Exception e) {
-            e.printStackTrace();
+            GainMap[] gainMaps = addGainMapsForMetadata(lsWidth, lsHeight, xmin, ymin, width, height, lensShadingMap, cfa);
+            for (int i = 0; i < gainMaps.length; i++) {
+                list.add(gainMaps[i]);
+            }
+            size += gainMaps[0].size() * 4;
+            Log.d(TAG, "opcode2 size = " + size);
         }
-        return ret;
+
+        Point hot[] = captureResult.get(CaptureResult.STATISTICS_HOT_PIXEL_MAP);
+        if (hot != null && hot.length >0)
+        {
+            FixBadPixelsList fixBadPixelsList = new FixBadPixelsList(cfa,hot);
+            if (fixBadPixelsList != null) {
+                list.add(fixBadPixelsList);
+                size += fixBadPixelsList.size();
+            }
+        }
+
+        if (size > 0) {
+            //increase size by 4 byte for the opcode list count
+            size += 4;
+
+            ByteBuffer buffer = ByteBuffer.allocate(size);
+            buffer.order(ByteOrder.BIG_ENDIAN);
+
+            try {
+                //write opcode list count
+                buffer.putInt(list.size());
+                for (int i = 0; i < list.size(); i++) {
+                    list.get(i).write(buffer);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            byte ret[] = buffer.array().clone();
+
+            try {
+                buffer.clear();
+                buffer = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return ret;
+        }
+        return null;
     }
 
     GainMap[] addGainMapsForMetadata(int lsmWidth,

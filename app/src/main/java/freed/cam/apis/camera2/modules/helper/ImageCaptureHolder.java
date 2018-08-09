@@ -38,6 +38,8 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
+import static java.lang.Math.log10;
+
 /**
  * Created by troop on 12.06.2017.
  */
@@ -359,6 +361,18 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
             Log.WriteEx(e);
             saveTask.setExposureIndex(0);
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            try {
+                int postraw = captureResult.get(CaptureResult.CONTROL_POST_RAW_SENSITIVITY_BOOST);
+                double postrawgain = postraw / 100f;
+                //double baselineExposure = log10(postrawgain) / log10(2.0f);
+                //Log.d(TAG, "BaselineExposure:" + baselineExposure);
+                saveTask.setBaselineExposure((float) postrawgain);
+            } catch (NullPointerException ex) {
+                Log.WriteEx(ex);
+                saveTask.setBaselineExposure(0);
+            }
+        }
         DngProfile prof = null;
         if (SettingsManager.get(SettingKeys.useCustomMatrixOnCamera2).get() && SettingsManager.getInstance().getDngProfilesMap().get(bytes.length) != null)
             prof = SettingsManager.getInstance().getDngProfilesMap().get(bytes.length);
@@ -369,7 +383,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         prof.toneMapProfile = this.toneMapProfile;
         OpCodeCreator opCodeCreator = new OpCodeCreator();
         byte opcode[] = opCodeCreator.createOpCode2(characteristics,captureResult);
-        OpCode opCode =new OpCode(null,opcode);
+        OpCode opCode =new OpCode(opcode,null);
         saveTask.setOpCode(opCode);
         saveTask.setDngProfile(prof);
         saveTask.setFilePath(file, externalSD);
