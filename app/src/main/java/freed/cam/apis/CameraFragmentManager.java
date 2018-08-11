@@ -32,7 +32,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     private HandlerThread mBackgroundThread;*/
     private CameraStateEvents cameraStateEventListner;
     private CameraFeatureDetectorFragment fd;
-    private BackgroundHandlerThread backgroundHandlerThread;
+    private static BackgroundHandlerThread backgroundHandlerThread;
 
     public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context, CameraStateEvents cameraStateEventListner)
     {
