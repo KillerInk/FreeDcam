@@ -190,7 +190,7 @@ public class ImageSaveTask extends ImageTask
 //            rawToDng.SetWBCT(whitebalance);
         if (SettingsManager.getInstance().getOpCode() != null)
             rawToDng.setOpCode(SettingsManager.getInstance().getOpCode());
-        if (opcode != null)
+        else if (opcode != null)
             rawToDng.setOpCode(opcode);
 
         rawToDng.setBaselineExposure(baselineExposure);
