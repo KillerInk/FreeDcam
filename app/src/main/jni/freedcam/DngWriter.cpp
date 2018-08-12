@@ -168,6 +168,8 @@ void DngWriter::writeIfd0(TIFF *tif) {
         TIFFSetField(tif,TIFFTAG_BASELINEEXPOSUREOFFSET, baselineExposureOffset);
     }
 
+    TIFFSetField(tif,TIFFTAG_BAYERGREENSPLIT, bayergreensplit);
+
     float margin = 8;
 
     float  defaultCropOrigin[] = {margin, margin};
