@@ -229,7 +229,10 @@ public class SettingsManager implements SettingsManagerInterface {
         new Thread(() -> {
             File op2 = new File(StringUtils.GetFreeDcamConfigFolder+ currentcamera+"opc2.bin");
             File op3 = new File(StringUtils.GetFreeDcamConfigFolder+currentcamera+"opc3.bin");
-            opCode = new OpCode(op2,op3);
+            if (op2.exists() || op3.exists())
+                opCode = new OpCode(op2,op3);
+            else
+                opCode = null;
 
         }).start();
 
