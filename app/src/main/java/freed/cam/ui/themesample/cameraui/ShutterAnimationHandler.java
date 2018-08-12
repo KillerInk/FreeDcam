@@ -46,7 +46,7 @@ public class ShutterAnimationHandler extends Handler
     //holds the time from a capture start
     private long startime;
     //frames to draw
-    private final int MAXFRAMES = 10;
+    private final int MAXFRAMES = 100;
     //holds the currentframe number
     private int currentframe = 0;
 
@@ -82,7 +82,7 @@ public class ShutterAnimationHandler extends Handler
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
 
-    private final int FPS = 1000/ 15;
+    private final int FPS = 1000/ MAXFRAMES;
     private String shutteropentime;
 
     public ShutterAnimationHandler(Looper looper, Resources resources,ShutterButton shutterButton)
