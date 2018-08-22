@@ -78,6 +78,7 @@ extern "C"
         writer->bayerBytes = copyByteArray(env, fileBytes);
 
         writer->fileSavePath = copyString(env,fileout);
+        LOGD("Bayerdata set");
     }
     JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerDataFD(JNIEnv *env, jobject thiz,jbyteArray fileBytes, jint fileDescriptor, jstring filename,jobject javaHandler)
     {
@@ -111,6 +112,7 @@ extern "C"
     {
         DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
         writer->opCode = (OpCode*)env->GetDirectBufferAddress(opcodeHandler);
+        LOGD("opcodesize 2 : %i  3: %i", writer->opCode->op2Size, writer->opCode->op3Size);
     }
 
 
@@ -168,6 +170,45 @@ extern "C"
     {
         DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
         writer->baselineExposureOffset = baselineexposureoffset;
+    }
+
+    JNIEXPORT void JNICALL Java_freed_jni_RawToDng_crop(JNIEnv *env, jobject thiz,jobject javaHandler, jint cropWidth, jint cropHeight)
+    {
+        LOGD("crop");
+        DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
+        int x_center = writer->dngProfile->rawwidht / 2 ;
+        int y_center = writer->dngProfile->rawheight / 2 ;
+        int x_offset = x_center - (cropWidth/2);
+        int x_end = (x_offset +cropWidth);
+        int y_offset =  y_center - (cropHeight/2);
+        int y_end = (y_offset +cropHeight);
+        int rawsize = cropHeight*cropWidth*2;
+        LOGD("crop: x %i y %i w %i h %i ", x_offset, y_offset,x_end,y_end);
+        unsigned char * input =   writer->bayerBytes;
+        unsigned char * croppic = new unsigned char[rawsize];
+        int rowsize = writer->dngProfile->rawwidht*2;
+        LOGD("croparray size %i", rawsize);
+        int cropcount = 0;
+        LOGD("StartCrop");
+        int cx = 0;
+        for (int y = y_offset; y < y_end; y++) {
+            for (int x = x_offset*2; x < x_end*2; x++) {
+                if(cropcount == rawsize)
+                    LOGD("cropcount reached raw size x %i y x %i cropcount %i", x,y, cropcount);
+                croppic[cropcount++] = input[y*rowsize+x];
+            }
+        }
+        LOGD("EndCrop");
+        writer->dngProfile->activearea[0] = 0;
+        writer->dngProfile->activearea[1] = 0;
+        writer->dngProfile->activearea[2] = cropHeight;
+        writer->dngProfile->activearea[3] = cropWidth;
+        writer->dngProfile->rawwidht = cropWidth;
+        writer->dngProfile->rawheight = cropHeight;
+        writer->bayerBytes = croppic;
+        writer->rawSize = rawsize;
+        //writer->opCode = NULL;
+
     }
 };
 

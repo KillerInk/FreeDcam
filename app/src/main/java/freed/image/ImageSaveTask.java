@@ -46,7 +46,7 @@ public class ImageSaveTask extends ImageTask
     private boolean forceRawToDng = false;
 
     private float fnum, focal = 0;
-    private int mISO;
+    private int mISO, cropWidth, cropHeight;
     private float exposureTime;
     private float expoindex;
     private String whitebalance;
@@ -146,6 +146,12 @@ public class ImageSaveTask extends ImageTask
         this.baselineExposure = baselineExposure;
     }
 
+    public void setCropSize(int cropWidth,int cropHeight)
+    {
+        this.cropHeight = cropHeight;
+        this.cropWidth = cropWidth;
+    }
+
     @Override
     public boolean process()
     {
@@ -218,6 +224,10 @@ public class ImageSaveTask extends ImageTask
             rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath());
         else
             rawToDng.SetBayerDataFD(bytesTosave,pfd,filename.getAbsolutePath());
+
+        if (cropHeight >0 && cropWidth >0) {
+            rawToDng.cropCenter(cropWidth, cropHeight);
+        }
 
         rawToDng.WriteDngWithProfile(profile);
         if (pfd != null)
