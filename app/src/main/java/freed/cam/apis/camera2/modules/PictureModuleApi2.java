@@ -146,6 +146,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(0, true);
         if (cameraUiWrapper.captureSessionHandler.getSurfaceTexture() != null)
             startPreview();
+        else
+            Log.e(TAG, "cameraUiWrapper.captureSessionHandler.getSurfaceTexture() == null");
     }
 
     @Override
@@ -333,6 +335,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         }
         else if (rawReader != null)
         {
+            cameraUiWrapper.captureSessionHandler.RemoveSurface(rawReader.getSurface());
             rawReader.close();
             rawReader = null;
         }
