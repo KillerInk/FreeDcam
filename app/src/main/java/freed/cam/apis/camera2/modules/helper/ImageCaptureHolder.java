@@ -77,6 +77,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     private ActivityInterface activityInterface;
     private RdyToSaveImg rdyToSaveImg;
     private ModuleInterface moduleInterface;
+    private int cropWidth, cropHeight;
 
     WorkFinishEvents workerfinish;
 
@@ -128,6 +129,12 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     public void setSupport12bitRaw(boolean support12bitRaw)
     {
         this.support12bitRaw =support12bitRaw;
+    }
+
+    public void setCropSize(int cropWidth,int cropHeight)
+    {
+        this.cropHeight = cropHeight;
+        this.cropWidth = cropWidth;
     }
 
     public synchronized void SetCaptureResult(CaptureResult captureResult)
@@ -330,6 +337,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         saveTask.setBytesTosave(bytes,ImageSaveTask.RAW_SENSOR);
         buffer.clear();
 
+        saveTask.setCropSize(cropWidth,cropHeight);
         saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
         saveTask.setForceRawToDng(true);
         try {

@@ -9,6 +9,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.util.Date;
 
+import freed.cam.ui.themesample.cameraui.HelpFragment;
 import freed.dng.DngProfile;
 import freed.utils.Log;
 import freed.utils.StorageFileManager;
@@ -30,6 +31,7 @@ public class RawToDng
     private String wbct;
 
     private OpCode opCode;
+    private int cropWidth,cropHeight;
 
     private native ByteBuffer init();
     private native void recycle(ByteBuffer byteBuffer);
@@ -53,6 +55,7 @@ public class RawToDng
     private native void SetBaselineExposure(float baselineexposure,ByteBuffer byteBuffer);
     private native void SetBaselineExposureOffset(float baselineexposureoffset,ByteBuffer byteBuffer);
     private native void setBayerGreenSplit(int greensplit,ByteBuffer byteBuffer);
+    private native void crop(ByteBuffer byteBuffer, int cropwidth, int cropheight);
 
     public static RawToDng GetInstance()
     {
@@ -240,6 +243,8 @@ public class RawToDng
                 SetBaselineExposure(profile.toneMapProfile.getBaselineExposure(),byteBuffer);
         }
         SetBayerInfo(profile.matrixes.getByteBuffer(),profile.getByteBuffer(),byteBuffer);
+        if (cropHeight >0 && cropWidth >0)
+            crop(byteBuffer,cropWidth,cropHeight);
         WriteDNG(byteBuffer);
         recycle(byteBuffer);
         byteBuffer = null;
@@ -261,5 +266,11 @@ public class RawToDng
         } finally {
             f.close();
         }
+    }
+
+    public void cropCenter(int width, int height)
+    {
+        this.cropWidth =width;
+        this.cropHeight = height;
     }
 }

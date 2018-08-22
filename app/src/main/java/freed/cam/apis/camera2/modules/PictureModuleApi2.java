@@ -76,7 +76,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     private int mState = STATE_PICTURE_TAKEN;
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
-    private ImageCaptureHolder currentCaptureHolder;
+    protected ImageCaptureHolder currentCaptureHolder;
     private final int MAX_IMAGES = 8;
     protected List<File> filesSaved;
 

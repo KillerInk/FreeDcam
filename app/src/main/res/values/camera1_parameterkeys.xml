@@ -3,6 +3,7 @@
 
     <string translatable="false" name="module_video">module_video</string>
     <string translatable="false" name="module_picture">module_picture</string>
+    <string translatable="false" name="module_cellstorm">module_cellstorm</string>
     <string translatable="false" name="module_hdr">module_hdr</string>
     <string translatable="false" name="module_stacking">module_stacking</string>
     <string translatable="false" name="module_interval">module_interval</string>
