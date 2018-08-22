@@ -152,6 +152,11 @@ public class ImageSaveTask extends ImageTask
         this.greensplit = greenSplit;
     }
 
+    public void setCropSize(int cropWidth,int cropHeight)
+    {
+        this.cropHeight = cropHeight;
+        this.cropWidth = cropWidth;
+    }
 
     @Override
     public boolean process()
