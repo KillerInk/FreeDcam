@@ -373,6 +373,20 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
                 saveTask.setBaselineExposure(0);
             }
         }
+
+        try {
+            float greensplit = captureResult.get(CaptureResult.SENSOR_GREEN_SPLIT);
+            int fgreen = (int)(greensplit * 5000) -5000;
+            Log.d(TAG,"GreenSplit:" + fgreen);
+            saveTask.setBayerGreenSplit(fgreen);
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
+
+
+
         DngProfile prof = null;
         if (SettingsManager.get(SettingKeys.useCustomMatrixOnCamera2).get() && SettingsManager.getInstance().getDngProfilesMap().get(bytes.length) != null)
             prof = SettingsManager.getInstance().getDngProfilesMap().get(bytes.length);

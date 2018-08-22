@@ -56,6 +56,7 @@ public class ImageSaveTask extends ImageTask
     private Thread currentThread;
     private OpCode opcode;
     private float baselineExposure = 0;
+    private int greensplit = 0;
 
 
     public ImageSaveTask(ActivityInterface activityInterface, ModuleInterface moduleInterface)
@@ -146,6 +147,11 @@ public class ImageSaveTask extends ImageTask
         this.baselineExposure = baselineExposure;
     }
 
+    public void setBayerGreenSplit(int greenSplit)
+    {
+        this.greensplit = greenSplit;
+    }
+
     @Override
     public boolean process()
     {
@@ -190,10 +196,11 @@ public class ImageSaveTask extends ImageTask
 //            rawToDng.SetWBCT(whitebalance);
         if (SettingsManager.getInstance().getOpCode() != null)
             rawToDng.setOpCode(SettingsManager.getInstance().getOpCode());
-        if (opcode != null)
+        else if (opcode != null)
             rawToDng.setOpCode(opcode);
 
         rawToDng.setBaselineExposure(baselineExposure);
+        rawToDng.setBayerGreenSplit(greensplit);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !externalSD)
         {

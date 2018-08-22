@@ -52,6 +52,7 @@ public class RawToDng
     private native void SetHueSatMapDims(int[] dims,ByteBuffer byteBuffer);
     private native void SetBaselineExposure(float baselineexposure,ByteBuffer byteBuffer);
     private native void SetBaselineExposureOffset(float baselineexposureoffset,ByteBuffer byteBuffer);
+    private native void setBayerGreenSplit(int greensplit,ByteBuffer byteBuffer);
 
     public static RawToDng GetInstance()
     {
@@ -211,6 +212,13 @@ public class RawToDng
         if (byteBuffer == null)
             return;
         SetBaselineExposure(baselineExposure, byteBuffer);
+    }
+
+    public void setBayerGreenSplit(int greenSplit)
+    {
+        if (byteBuffer == null)
+            return;
+        setBayerGreenSplit(greenSplit,byteBuffer);
     }
 
 

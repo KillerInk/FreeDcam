@@ -63,6 +63,7 @@ public:
     int huesatmapdata2_size;
     float baselineExposure;
     float baselineExposureOffset;
+    unsigned int bayergreensplit;
 
     int *huesatmapdims;
 
