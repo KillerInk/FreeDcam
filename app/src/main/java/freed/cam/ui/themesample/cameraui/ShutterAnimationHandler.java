@@ -37,7 +37,7 @@ public class ShutterAnimationHandler extends Handler
     //shutter_open_radius for the Transparent Radius to draw to simulate shutter open
     private float shutter_open_radius = 0.0f;
     //true when the red recording button should get shown, used for continouse capture and video
-    private boolean drawRecordingImage = false;
+    private volatile boolean drawRecordingImage = false;
     //current size of the red circle to draw
     private int recordingRadiusCircle;
     //current size of the red rectangle to draw
@@ -46,7 +46,7 @@ public class ShutterAnimationHandler extends Handler
     //holds the time from a capture start
     private long startime;
     //frames to draw
-    private final int MAXFRAMES = 100;
+    private final int MAXFRAMES = 30;
     //holds the currentframe number
     private int currentframe = 0;
 
@@ -59,9 +59,9 @@ public class ShutterAnimationHandler extends Handler
 
     //the step wich the shutter_open_radius gets increased/decrased
     private int SHUTTER_OPEN_STEP;
-    private boolean shutteractive = false;
+    private volatile boolean shutteractive = false;
 
-    private boolean drawTimer = false;
+    private volatile boolean drawTimer = false;
     private Paint shutteropentimePaint;
 
 // used to track how long values calc took, and reduce depending on it the sleep time for next calc/draw
@@ -124,7 +124,7 @@ public class ShutterAnimationHandler extends Handler
 
     private void startAnimation()
     {
-        this.removeMessages(MSG_START_ANIMATION);
+        //this.removeMessages(MSG_START_ANIMATION);
         this.obtainMessage(MSG_START_ANIMATION).sendToTarget();
     }
 
@@ -188,20 +188,20 @@ public class ShutterAnimationHandler extends Handler
         running = true;
         while (shutteractive)
         {
-            if (currentframe < MAXFRAMES)
-                draw();
-            else {
-                draw();
+            draw();
+            if (currentframe >= MAXFRAMES)
+            {
                 currentframe = 0;
                 if (stopTimer) {
-                    sendMsgToSButton("");
                     shutteractive = false;
                 }
             }
             if (drawTimer)
-                sendMsgToSButton(getTimeGoneString(startime));
+                shutteropentime = getTimeGoneString(startime);
             else
-                sendMsgToSButton("");
+                shutteropentime = "";
+
+            uiHandler.obtainMessage(UIHandler.MSG_INVALIDATE).sendToTarget();
             currentframe++;
             try {
                 long sleep = FPS-((System.nanoTime()-calcstartTime)/1000000L);
@@ -213,14 +213,6 @@ public class ShutterAnimationHandler extends Handler
         }
         running = false;
 
-        sendMsgToSButton("");
-    }
-
-
-    private void sendMsgToSButton(String s)
-    {
-        shutteropentime = s;
-        uiHandler.removeMessages(UIHandler.MSG_INVALIDATE);
         uiHandler.obtainMessage(UIHandler.MSG_INVALIDATE).sendToTarget();
     }
 
