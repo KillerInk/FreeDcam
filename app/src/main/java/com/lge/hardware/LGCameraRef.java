@@ -95,6 +95,17 @@ public class LGCameraRef
         }
     }
 
+    public void release()
+    {
+        lgCamera = null;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        lgCamera = null;
+        super.finalize();
+    }
+
     private void init_classes() throws ClassNotFoundException, NoSuchMethodException {
         CLASS_LGCAMERA =  Class.forName("com.lge.hardware.LGCamera");
         CLASS_LGPARAMETERS = Class.forName("com.lge.hardware.LGCamera$LGParameters");
