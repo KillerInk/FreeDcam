@@ -989,10 +989,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 Log.WriteEx(ex);
                 SettingsManager.get(SettingKeys.M_Focus).setIsSupported(false);
             }
-            //create mf values
-            if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
-                SettingsManager.get(SettingKeys.M_Focus).setValues(createManualFocusValues(min, max,step));
+
         }
+        //create mf values
+        if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
+            SettingsManager.get(SettingKeys.M_Focus).setValues(createManualFocusValues(min, max,step));
 
     }
 
