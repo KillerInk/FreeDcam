@@ -6,6 +6,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import freed.utils.Log;
+
 /**
  * Created by KillerInk on 08.12.2017.
  */
@@ -121,9 +123,13 @@ public class LGCameraRef
         try {
             return (Camera) METHOD_getCamera.invoke(lgCamera);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
         }
         return null;
     }
@@ -139,6 +145,10 @@ public class LGCameraRef
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
         }
         return null;
     }
