@@ -1087,10 +1087,20 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                }
                else
                {
-                   camera = Camera.open(currentcamera);
-                   Camera.Parameters parameters = camera.getParameters();
-                   camera.release();
-                   return parameters;
+                   try {
+                       if (camera != null)
+                           camera.release();
+                       camera = Camera.open(currentcamera);
+                       Camera.Parameters parameters = camera.getParameters();
+                       camera.release();
+                       return parameters;
+                   }
+                   catch (RuntimeException ex)
+                   {
+                       Log.WriteEx(ex);
+                       return null;
+                   }
+
                }
             }
 
