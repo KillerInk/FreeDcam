@@ -98,7 +98,7 @@ public class AfBracketApi2 extends PictureModuleApi2
 
         if (min == 0 && max == 0)
         {
-            focusCaptureRange = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length -1;
+            focusCaptureRange = SettingsManager.get(SettingKeys.M_Focus).getValues().length -1;
             focusStep = focusCaptureRange /PICSTOTAKE;
             currentFocusPos = 1;
         }
