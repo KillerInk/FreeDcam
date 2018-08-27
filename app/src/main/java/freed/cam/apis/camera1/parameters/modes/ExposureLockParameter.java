@@ -35,8 +35,15 @@ public class ExposureLockParameter extends BaseModeParameter
     final String TAG = ExposureLockParameter.class.getSimpleName();
     public ExposureLockParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper, SettingKeys.ExposureLock);
-        if ( parameters.isAutoExposureLockSupported())
-            setViewState(ViewState.Visible);
+        try {
+            if (parameters.isAutoExposureLockSupported())
+                setViewState(ViewState.Visible);
+        }
+        catch (NullPointerException ex)
+        {
+            setViewState(ViewState.Hidden);
+        }
+
     }
 
     @Override
