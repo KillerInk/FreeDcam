@@ -111,8 +111,16 @@ public class VideoRecorder {
             mediaRecorder.setPreviewDisplay(previewSurface);
         if (currentVideoProfile.maxRecordingSize != 0)
             mediaRecorder.setMaxFileSize(currentVideoProfile.maxRecordingSize);
-        if (currentVideoProfile.duration != 0)
-            mediaRecorder.setMaxDuration(currentVideoProfile.duration);
+        try {
+            if (currentVideoProfile.duration != 0)
+                mediaRecorder.setMaxDuration(currentVideoProfile.duration);
+        }
+        catch (RuntimeException ex)
+        {
+            Log.WriteEx(ex);
+            Log.e(TAG,"Failed to set Duration");
+        }
+
         if (errorListener != null)
             mediaRecorder.setOnErrorListener(errorListener);
 
