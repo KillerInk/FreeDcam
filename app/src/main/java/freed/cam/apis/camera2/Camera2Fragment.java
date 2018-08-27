@@ -95,7 +95,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         this.textureView.setSurfaceTextureListener(this);
         this.histogram = view.findViewById(id.hisotview);
 
-        if (mainToCameraHandler == null)
+        if (mainToCameraHandler == null && handlerThread != null && handlerThread.getLooper() != null)
             this.mainToCameraHandler = new MainToCameraHandler(handlerThread.getLooper(),this);
         mainToCameraHandler.createCamera();
         Log.d(TAG,"Create Camera");

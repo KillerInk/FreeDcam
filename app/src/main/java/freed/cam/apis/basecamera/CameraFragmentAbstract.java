@@ -79,9 +79,9 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     /**
      * holds handler to invoke stuff in ui thread
      */
-    protected CameraToMainHandler cameraToMainHandler;
-    protected MainToCameraHandler mainToCameraHandler;
-    protected HandlerThread handlerThread;
+    protected static CameraToMainHandler cameraToMainHandler;
+    protected static MainToCameraHandler mainToCameraHandler;
+    protected static HandlerThread handlerThread;
 
     public static CameraFragmentAbstract getInstance(HandlerThread handlerThread)
     {
@@ -114,6 +114,9 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
             moduleHandler.CLEAR();
             moduleHandler.CLEARWORKERLISTNER();
         }
+        cameraToMainHandler = null;
+        mainToCameraHandler = null;
+        handlerThread = null;
         super.onDestroyView();
 
     }
