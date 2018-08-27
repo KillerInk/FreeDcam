@@ -64,7 +64,7 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract
             AeBracketApi2 aeBracketApi2 = new HuaweiAeBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
             moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
         }
-        if (SettingsManager.get(SettingKeys.M_Focus).isSupported()) {
+        if (SettingsManager.get(SettingKeys.M_Focus).isSupported() && SettingsManager.get(SettingKeys.M_Focus).getValues().length > 0) {
             AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper, mBackgroundHandler, mainHandler);
             moduleList.put(afBracketApi2.ModuleName(), afBracketApi2);
         }
