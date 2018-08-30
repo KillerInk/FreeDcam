@@ -398,6 +398,10 @@ public class CaptureSessionHandler
         {
             Log.WriteEx(ex);
         }
+        catch (IllegalStateException ex)
+        {
+            Log.WriteEx(ex);
+        }
 
     }
 
@@ -410,6 +414,13 @@ public class CaptureSessionHandler
             mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), listener,
                     handler);
         } catch (CameraAccessException ex) {
+            Log.WriteEx(ex);
+        }catch (IllegalArgumentException ex)
+        {
+            Log.WriteEx(ex);
+        }
+        catch (IllegalStateException ex)
+        {
             Log.WriteEx(ex);
         }
     }
@@ -428,6 +439,13 @@ public class CaptureSessionHandler
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
             UserMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
+        }catch (IllegalArgumentException ex)
+        {
+            Log.WriteEx(ex);
+        }
+        catch (IllegalStateException ex)
+        {
+            Log.WriteEx(ex);
         }
     }
 
@@ -440,6 +458,13 @@ public class CaptureSessionHandler
             mCaptureSession.capture(mPreviewRequestBuilder.build(),cameraBackroundValuesChangedListner,handler);
         } catch (CameraAccessException | NullPointerException e) {
             e.printStackTrace();
+        }catch (IllegalArgumentException ex)
+        {
+            Log.WriteEx(ex);
+        }
+        catch (IllegalStateException ex)
+        {
+            Log.WriteEx(ex);
         }
     }
 
@@ -449,6 +474,13 @@ public class CaptureSessionHandler
         try {
             mCaptureSession.capture(mImageCaptureRequestBuilder.build(),listener,handler);
         } catch (CameraAccessException ex) {
+            Log.WriteEx(ex);
+        }catch (IllegalArgumentException ex)
+        {
+            Log.WriteEx(ex);
+        }
+        catch (IllegalStateException ex)
+        {
             Log.WriteEx(ex);
         }
     }
@@ -461,6 +493,13 @@ public class CaptureSessionHandler
             mCaptureSession.abortCaptures();
         } catch (CameraAccessException | NullPointerException e) {
             Log.WriteEx(e);
+        }catch (IllegalArgumentException ex)
+        {
+            Log.WriteEx(ex);
+        }
+        catch (IllegalStateException ex)
+        {
+            Log.WriteEx(ex);
         }
     }
 
@@ -570,6 +609,14 @@ public class CaptureSessionHandler
                 mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                         handler);
             } catch (CameraAccessException ex) {
+                Log.WriteEx(ex);
+            }
+            catch (IllegalArgumentException ex)
+            {
+                Log.WriteEx(ex);
+            }
+            catch (IllegalStateException ex)
+            {
                 Log.WriteEx(ex);
             }
         }
