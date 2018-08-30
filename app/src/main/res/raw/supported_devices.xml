@@ -3890,15 +3890,6 @@
         </camera2>
     </device>
 
-    <device name="Sony_XZ2_compact">
-        <models>
-            <item>H8314</item>
-        </models>
-        <camera2>
-            <maxiso>51200</maxiso>
-        </camera2>
-    </device>
-
     <device name="Sony_XperiaZ3">
         <framework>SonyCameraExtension</framework>
         <models>
