@@ -36,8 +36,8 @@ public class MediaScannerManager
                 new MediaScannerConnection.OnScanCompletedListener() {
                     @Override
                     public void onScanCompleted(String path, Uri uri) {
-                        Log.v("grokkingandroid",
-                                "file " + path + " was scanned seccessfully: " + uri);
+                        Log.v(TAG,
+                                "file " + path + " was scanned: " + uri);
                     }
                 });
     }
