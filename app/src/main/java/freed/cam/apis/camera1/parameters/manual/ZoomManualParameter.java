@@ -42,7 +42,14 @@ public class ZoomManualParameter extends  BaseManualParameter
                setViewState(ViewState.Visible);
                 Set_Default_Value(GetValue());
                 stringvalues = createStringArray(0,Integer.parseInt(parameters.get(cameraUiWrapper.getResString(R.string.zoom_max))),1);
-                currentInt = Integer.parseInt(parameters.get(key_value));
+                try {
+                    currentInt = Integer.parseInt(parameters.get(key_value));
+                }
+                catch (NullPointerException ex)
+                {
+                    currentInt = 0;
+                }
+
             }
     }
 
