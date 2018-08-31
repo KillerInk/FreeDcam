@@ -85,6 +85,8 @@ public class AfBracketApi2 extends PictureModuleApi2
     protected void onStartTakePicture() {
         super.onStartTakePicture();
         PICSTOTAKE = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).GetValue();
+        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF);
+        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF);
         int max  = 0;
         try {
             min = Integer.parseInt(SettingsManager.getInstance().getApiString(SettingsManager.SETTING_AFBRACKETMIN));
@@ -120,10 +122,12 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     protected void prepareCaptureBuilder(int captureNum) {
         cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.LENS_FOCUS_DISTANCE, manualFocus.getFloatValue(currentFocusPos));
+        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.LENS_FOCUS_DISTANCE, manualFocus.getFloatValue(currentFocusPos));
         Log.d(TAG,"prepareCaptureBuilder() focusCaptureRange:" + focusCaptureRange + " focusStep:" + focusStep + " currentFocusPos:" + currentFocusPos + " :" +  manualFocus.getFloatValue(currentFocusPos) + " :" + manualFocus.getStringValue(currentFocusPos));
         currentFocusPos +=focusStep;
         if (currentFocusPos > parameterHandler.get(SettingKeys.M_Focus).getStringValues().length)
             currentFocusPos = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length-1;
+        cameraUiWrapper.captureSessionHandler.capture();
     }
 
 
