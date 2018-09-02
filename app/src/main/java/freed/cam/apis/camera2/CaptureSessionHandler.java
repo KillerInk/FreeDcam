@@ -544,6 +544,8 @@ public class CaptureSessionHandler
     public <T> void SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean setToCamera)
     {
         Log.d(TAG," SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean setToCamera)");
+        if (key != null)
+            Log.d(TAG," SetParameterRepeating(" + key.getName());
         if (mPreviewRequestBuilder == null )
             return;
         //Log.d(TAG, "Set :" + key.getName() + " to " + value);
@@ -746,9 +748,33 @@ public class CaptureSessionHandler
         /*captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);*/
         if (value != null)
             Log.d(TAG, "Set :" + key.getName() + " to " + value.toString());
-        SetParameter(key,value);
-        if (value != null)
-            SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+        if (isHighSpeedSession && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)
+        {
+            mPreviewRequestBuilder.set(key,value);
+            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+            try {
+                CameraConstrainedHighSpeedCaptureSession session = null;
+                session = (CameraConstrainedHighSpeedCaptureSession)mCaptureSession;
+                List<CaptureRequest> capList =  session.createHighSpeedRequestList(mPreviewRequestBuilder.build());
+
+                mCaptureSession.captureBurst(capList, cameraBackroundValuesChangedListner, handler);
+            } catch (CameraAccessException ex) {
+                Log.WriteEx(ex);
+                UserMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
+            }catch (IllegalArgumentException ex)
+            {
+                Log.WriteEx(ex);
+            }
+            catch (IllegalStateException ex)
+            {
+                Log.WriteEx(ex);
+            }
+        }
+        else {
+            SetParameter(key, value);
+            if (value != null)
+                SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+        }
     }
 
 }
