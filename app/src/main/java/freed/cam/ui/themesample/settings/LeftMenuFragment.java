@@ -258,7 +258,6 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             globalSettingGroup.addView(guide);
 
             SettingsChildMenu horizont = new SettingsChildMenu(getContext(), R.string.setting_horizont_header, R.string.setting_horizont_description);
-            horizont.SetStuff(fragment_activityInterface, SettingsManager.SETTING_HORIZONT);
             horizont.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl));
             horizont.SetUiItemClickListner(this);
             globalSettingGroup.addView(horizont);

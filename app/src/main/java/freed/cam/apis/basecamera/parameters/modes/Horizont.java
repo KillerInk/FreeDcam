@@ -22,7 +22,11 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import android.text.TextUtils;
 
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 
 /**
  * Created by Ar4eR on 14.01.16.
@@ -44,6 +48,7 @@ public class Horizont extends AbstractParameter {
     public void SetValue(String valueToSet, boolean setToCam)
     {
         value = valueToSet;
+        SettingsManager.get(SettingKeys.HorizontLvl).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 
@@ -51,7 +56,7 @@ public class Horizont extends AbstractParameter {
     public String GetStringValue()
     {
         if (value == null || TextUtils.isEmpty(value))
-            return "Off";
+            return SettingsManager.getInstance().getResString(R.string.off);
         else
             return value;
     }
@@ -59,7 +64,7 @@ public class Horizont extends AbstractParameter {
     @Override
     public String[] getStringValues()
     {
-    return new String[]{"Off","On"};
+        return new String[]{SettingsManager.getInstance().getResString(R.string.off), SettingsManager.getInstance().getResString(R.string.on)};
     }
 
 }

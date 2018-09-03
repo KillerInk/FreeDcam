@@ -94,8 +94,9 @@ public class CompassDrawer extends View
     public void SetPosition(final float pos)
     {
         //Log.d(TAG, "SetPositon:" + pos);
+        positionRelativeToNorth = pos;
         this.post(() -> {
-            positionRelativeToNorth = pos;
+
             invalidate();
         });
 

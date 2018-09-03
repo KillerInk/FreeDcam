@@ -100,7 +100,6 @@ public class SettingsManager implements SettingsManagerInterface {
     public static final String API_2 = "camera2";
     public static final String APPVERSION = "appversion";
     public static final String HAS_CAMERA2_FEATURES = "camera2fullsupport";
-    public static final String SETTING_HORIZONT = "horizont";
     public static final String SETTING_BASE_FOLDER = "base_folder";
     public static final String SETTING_MEDIAPROFILES = "media_profiles";
     public static final String SETTING_AFBRACKETMAX = "afbracketmax";

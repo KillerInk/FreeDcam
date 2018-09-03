@@ -144,7 +144,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(SettingKeys.CONTROL_MODE,false);
         setAppSettingsToCamera(SettingKeys.INTERVAL_DURATION,false);
         setAppSettingsToCamera(SettingKeys.INTERVAL_SHUTTER_SLEEP,false);
-        setMode(get(SettingKeys.HorizontLvl), SettingsManager.SETTING_HORIZONT);
+        setAppSettingsToCamera(SettingKeys.HorizontLvl,false);
 
         setAppSettingsToCamera(SettingKeys.HDRMode,false);
 
