@@ -40,6 +40,7 @@ public class NightOverlayParameter extends AbstractParameter {
         else
             SettingsManager.get(SettingKeys.NightOverlay).set(false);
         cameraWrapperInterface.getActivityInterface().SetNightOverlay();
+        fireStringValueChanged(valueToSet);
 
     }
 }
