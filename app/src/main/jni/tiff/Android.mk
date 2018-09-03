@@ -52,11 +52,9 @@ LOCAL_TIFF_SRC_FILES += port/lfind.c
 LOCAL_SRC_FILES:= $(LOCAL_TIFF_SRC_FILES)
 LOCAL_C_INCLUDES += \
 					$(LOCAL_PATH)/libtiff \
-					$(LOCAL_PATH)/../libjpeg/jpeg-9b/ \
-					$(LOCAL_PATH)/../jpeg/
+
 LOCAL_CFLAGS += -DAVOID_TABLES 
 LOCAL_CFLAGS += -O3 -fstrict-aliasing -fprefetch-loop-arrays
-LOCAL_STATIC_LIBRARIES := libjpeg
 LOCAL_LDLIBS := -lz
 LOCAL_MODULE:= libtiff
 LOCAL_PRELINK_MODULE:=false

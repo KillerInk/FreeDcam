@@ -17,8 +17,8 @@ LOCAL_LDLIBS := -lz \
 	-landroid
 LOCAL_C_INCLUDES += \
 					$(NDK_APP_PROJECT_PATH)/tiff/libtiff/ \
-                    ../../libjpeg/jpeg-9b/
-LOCAL_STATIC_LIBRARIES := libtiff libraw libjpeg
+
+LOCAL_STATIC_LIBRARIES := libtiff libraw
 include $(BUILD_SHARED_LIBRARY)
 
 
