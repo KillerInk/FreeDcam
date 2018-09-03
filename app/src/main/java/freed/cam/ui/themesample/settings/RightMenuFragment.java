@@ -81,11 +81,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
 
             GroupChild settingsgroup = new GroupChild(getContext(), getString(R.string.setting_camera_));
 
-            if (params.get(SettingKeys.openCamera1Legacy) != null)
-            {
-                SettingsChild_BooleanSetting ers = new SettingsChild_BooleanSetting(getContext(),(BooleanSettingModeInterface) params.get(SettingKeys.openCamera1Legacy),R.string.setting_opencameralegacy_header, R.string.setting_opencameralegacy_description);
-                settingsgroup.addView(ers);
-            }
+
 
             if (params.get(SettingKeys.EnableRenderScript) != null)
             {

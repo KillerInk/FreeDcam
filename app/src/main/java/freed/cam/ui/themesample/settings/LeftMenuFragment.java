@@ -57,6 +57,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEdito
 import freed.cam.ui.themesample.settings.childs.SettingsChild_BooleanSetting;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.settings.mode.BooleanSettingModeInterface;
 
 /**
  * Created by troop on 15.06.2015.
@@ -274,6 +275,12 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
             SettingsChildMenuSaveCamParams saveCamParams = new SettingsChildMenuSaveCamParams(getContext(),R.string.setting_savecamparams_header,R.string.setting_savecamparams_description,cameraUiWrapper);
             saveCamParams.setCameraUiWrapper(cameraUiWrapper);
             globalSettingGroup.addView(saveCamParams);
+
+            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.openCamera1Legacy) != null)
+            {
+                SettingsChild_BooleanSetting ers = new SettingsChild_BooleanSetting(getContext(),(BooleanSettingModeInterface) cameraUiWrapper.getParameterHandler().get(SettingKeys.openCamera1Legacy),R.string.setting_opencameralegacy_header, R.string.setting_opencameralegacy_description);
+                globalSettingGroup.addView(ers);
+            }
 
             if (!(cameraUiWrapper instanceof SonyCameraRemoteFragment))
             {

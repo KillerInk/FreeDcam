@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
     android:background="@color/uiSettingsBackground"
     android:orientation="vertical">
 
@@ -16,9 +17,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="TextView"
-            android:textSize="@dimen/settings_menu_item_header"
             android:textColor="@android:color/holo_green_dark"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/settings_menu_item_header"
+            android:textStyle="bold" />
 
         <Switch
             android:id="@+id/switch1"
@@ -35,7 +36,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:text="TextView"
-        android:textSize="@dimen/settings_menu_item_header_value"
-        android:textColor="@color/uiSettingsTextColor"/>
+        android:textColor="@color/uiSettingsTextColor"
+        android:textSize="@dimen/settings_menu_item_header_value" />
 
 </LinearLayout>
