@@ -731,9 +731,11 @@ public class CaptureSessionHandler
         }
         Log.d(MATRIXTAG,"scaleX:" +scaleX + " scaleY:" +scaleY + " centerX:"+centerX +" centerY:" +centerY + " rotation:" + rotation);
 
-        matrix.postScale(scaleX, scaleY, centerX, centerY);
+        inputRect.offset(centerX - inputRect.centerX(), centerY - inputRect.centerY());
+        matrix.setRectToRect(inputRect,viewRect, Matrix.ScaleToFit.CENTER);
+        matrix.postScale(scaleX, scaleY, inputRect.centerX(), inputRect.centerY());
+        matrix.postRotate(rotation, inputRect.centerX(), inputRect.centerY());
 
-        matrix.postRotate(rotation, centerX, centerY);
         cameraHolderApi2.textureView.setTransform(matrix);
     }
 

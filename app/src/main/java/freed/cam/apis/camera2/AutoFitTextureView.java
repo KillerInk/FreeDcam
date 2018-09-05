@@ -65,6 +65,8 @@ public class AutoFitTextureView extends TextureView /*implements  AbstractModePa
 
     }
 
+
+
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
@@ -75,14 +77,16 @@ public class AutoFitTextureView extends TextureView /*implements  AbstractModePa
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
+
         if (mRatioWidth == 0 || mRatioHeight == 0) {
             setMeasuredDimension(width, height);
         } else {
-            if (width < height * mRatioWidth / mRatioHeight) {
+           /* if (width < height * mRatioWidth / mRatioHeight) {
                 setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
             } else {
                 setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
-            }
+            }*/
+           setMeasuredDimension(mRatioWidth,mRatioHeight);
         }
     }
 
