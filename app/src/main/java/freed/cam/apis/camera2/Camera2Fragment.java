@@ -70,10 +70,9 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public CaptureSessionHandler captureSessionHandler;
     public CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
 
-    public static Camera2Fragment getInstance(HandlerThread mBackgroundThread)
+    public static Camera2Fragment getInstance()
     {
         Camera2Fragment fragment = new Camera2Fragment();
-        fragment.init(mBackgroundThread);
         return fragment;
     }
 
@@ -95,8 +94,6 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         this.textureView.setSurfaceTextureListener(this);
         this.histogram = view.findViewById(id.hisotview);
 
-        if (mainToCameraHandler == null && handlerThread != null && handlerThread.getLooper() != null)
-            this.mainToCameraHandler = new MainToCameraHandler(handlerThread.getLooper(),this);
         mainToCameraHandler.createCamera();
         Log.d(TAG,"Create Camera");
 

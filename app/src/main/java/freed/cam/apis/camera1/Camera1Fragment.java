@@ -79,10 +79,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     AutoFitTextureView textureView;
     MyHistogram histogram;
 
-    public static Camera1Fragment getInstance(HandlerThread mBackgroundThread)
+    public static Camera1Fragment getInstance()
     {
         Camera1Fragment fragment = new Camera1Fragment();
-        fragment.init(mBackgroundThread);
         return fragment;
     }
 
