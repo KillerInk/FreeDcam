@@ -1,0 +1,1289 @@
+Camera module HAL API version: 0x100
+Camera module API version: 0x202
+Camera module name: Huawei Camera Module
+Camera module author: Huawei Technology Co., Ltd
+Git ID: c6ad690
+Number of camera devices: 2
+Active Camera Clients:
+[]
+Allowed users:
+0
+Vendor tag definitions:
+    Dumping configured vendor tag descriptors: 228 entries
+      0x80000000 (device_sensor_position) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80000001 (hw-video-fps-supported) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80000002 (front_flash_adjust_supported) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80000003 (supported_iso_values) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000004 (supported_contrast) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000005 (supported_saturation) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000006 (supported_brightness) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000007 (supported_sharpness) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000008 (supported_metering) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000009 (burst_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000000a (capture_beaty_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000000b (video_beaty_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000000c (zsl_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000000d (best_shot_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000000e (allfocus_shot_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000000f (lcd_compensate_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000010 (hdr_movie_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000011 (capture_mirror_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000012 (magnifier_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000013 (manual_focus_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000014 (manual_vcm_start_value) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80000015 (manual_vcm_end_value) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80000016 (dual_primary_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000017 (default_value) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000018 (smile_detection_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000019 (hw_scope_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000001a (beauty_level_range) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x8000001b (post_process_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000001c (denoise_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000001d (target_tracking_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000001e (super_resolution_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000001f (super_resolution_picture_size) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80000020 (hw_big_aperture_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000021 (hw_supported_aperture_value) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000022 (color_effect_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000023 (video_callback_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000024 (hw_nice_food_supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000025 (hw-focus-assist-flash-mode-supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000026 (hw-af-mmi-control-supported) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80000027 (hw-af-mmi-far-threashold) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80000028 (hw-af-mmi-near-threashold) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80000029 (supported-exposure-modes) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000002a (supported-relayout-modes) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000002b (exposure_level_range) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x8000002c (supported-hw-exposure-compensation-support) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000002d (supported-hw-exposure-compensation-step) with type 2 (float) defined in section android.huawei.device.capabilities
+      0x8000002e (hw-exposure-mode-supported-iso) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000002f (hw-exposure-mode-supported-exposure-time) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000030 (hw-ois-supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000031 (hw-miniisp-exist) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000032 (default_value) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000033 (default_value) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000034 (default_value) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000035 (default_value) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000036 (default_value) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000037 (default_value) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000038 (default_value) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x80000039 (default_value) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000003a (default_value) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000003b (default_value) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000003c (hw_thirdapp_fix_ddrfreq) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x8000003d (back_camera_maxZslSize_supported) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x8000003e (hw-professional-mode-supported) with type 0 (byte) defined in section android.huawei.device.capabilities
+      0x8000003f (hw-sensor-exposure-range) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80000040 (hw-sensor-wb-range) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80000041 (hw-sensor-iso-range) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80000042 (hw_color_effect_range) with type 1 (int32) defined in section android.huawei.device.capabilities
+      0x80010000 (default_value) with type 0 (byte) defined in section android.huawei.device.parameters
+      0x80020000 (target-coordinates-offset) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020001 (hw-focus-vcm-value) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020002 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020003 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020004 (burst-delay-ms) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020005 (iso) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020006 (hw-face-ae-area) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020007 (hw-constrast) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020008 (hw-saturation) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020009 (hw-brightness) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002000a (hw-sharpness) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002000b (hw-metering-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002000c (hw-burst-count) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002000d (hw-stop-burst) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002000e (hw-capture-exporsure-bracketing) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002000f (hw-face-orientation) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020010 (hw-face-detection) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020011 (hw-smile-detection) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020012 (hw-blink-detection) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020013 (hw-face-beauty) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020014 (hw-face-meiwo) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020015 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020016 (hw-image-process-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020017 (hw-face-beauty-level) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020018 (hw-image-denoise) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020019 (hw-scope) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002001a (hw-best-shot-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002001b (hw-face-beauty-preview-only) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002001c (hw-device-target-tracking) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002001d (hw-device-target-tracking-coordinate) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002001e (hw-hdr-movie-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002001f (hw-capture-mirror-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020020 (hw-magnifier-step-value) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020021 (hw-panarama) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020022 (hw-manual-focus-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020023 (hw-manual-focus-step-value) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020024 (hw-front-mirror-mode) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020025 (hw-front-mirror-point) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020026 (hw-effect) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020027 (hw-color-effect-level) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020028 (hw-exposure-time) with type 5 (rational) defined in section android.huawei.metadata
+      0x80020029 (hw-dual-primary-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002002a (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002002b (hw-frame-count) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002002c (hw-frame-resolution) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002002d (hw-shutter-frame-index) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002002e (hw-save-frame-index) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002002f (hw-quick-thumbnail-frame-index) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020030 (hw-need-hint-user) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020031 (hw-snapshot-mode) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020032 (hw-snapshot-bracket-ev) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020033 (hw-snapshot-edof-vcm-code) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020034 (hw-snapshot-allfocus-vcm-code) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020035 (hw-snapshot-multi-denoise-state) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020036 (hw-snapshot-motion-state) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020037 (hw-zoom-in) with type 2 (float) defined in section android.huawei.metadata
+      0x80020038 (hw-hwcamera-flag) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020039 (hw-manual-flash) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002003a (hw-ext-scene-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002003b (hw-dual-camera-verification-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002003c (hw-dual-camera-verification-result) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002003d (hw-mmi-camera-pdaf-verification-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002003e (hw-dual-camera-verification-result) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002003f (hw-lcd-flash-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020040 (hw-nice-food-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020041 (hw-focus-assist-flash-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020042 (hw-algo-dual-abnormal) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020043 (hw-algo-aperture-refocus) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020044 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020045 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020046 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020047 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020048 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020049 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002004a (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002004b (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002004c (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002004d (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002004e (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002004f (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020050 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020051 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020052 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020053 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020054 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020055 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020056 (hw-iso-state-value) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020057 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020058 (hw-exif-hdr) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020059 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002005a (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002005b (hw-capture-timestamp) with type 3 (int64) defined in section android.huawei.metadata
+      0x8002005c (hw-zsl-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002005d (hw-jpeg-filename) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002005e (hw-fast-shot-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002005f (hw-aperture-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020060 (hw-aperture-value) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020061 (hw-allfocus-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020062 (hw-focus-value) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020063 (hw-metering-value) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020064 (hw-recording-hint) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020065 (hw-sharpness-state) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020066 (hw-luma-denoise-state) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020067 (hw-chroma-denoise-state) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020068 (hw-pic-tag) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020069 (hw-drop-flag-for-jpeg) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002006a (hw-snapshot-stable-picture) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002006b (hw-exposure-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002006c (hw-exposure-mode-try-ae) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002006d (hw-exposure-mode-snapshot) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002006e (hw-exposure-mesure-time) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002006f (hw-exposure-mode-preview-state) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020070 (hw-exposure-mode-capture-expo) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020071 (hw-exposure-mode-capture-gain) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020072 (hw-exposure-mode-max-expo) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020073 (hw-rotation-value) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020074 (hw-jpeg-thumbnail-size) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020075 (hw-jpeg-quality) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020076 (hw-jpeg-thumbnail-quality) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020077 (mmtest-lowlight-param) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020078 (hw_ois_enable) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020079 (hw_mmi_enable) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002007a (hw_ois_running) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002007b (hw_ois_check) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002007c (hw_ois_magnetism_check) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002007d (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002007e (hw-dual-flash-mode) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002007f (hw-dual-flash-current-index) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020080 (hw-dual-flash-picture-index) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020081 (hw-dual-flash-vcm-state) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020082 (hw-sensor-wb-value) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020083 (hw-sensor-exposure-time) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020084 (hw-sensor-iso) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020085 (hw-sensor-gain) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020086 (hw-professional-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020087 (hw-pro-focus-mode) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020088 (hw-af-mmi-control-enable) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020089 (hw-af-mmi-contrast-value) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002008a (hw-otp-check) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002008b (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002008c (hw-exposure-value) with type 2 (float) defined in section android.huawei.metadata
+      0x8002008d (hw-manual-iso) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002008e (hw-manual-exposure) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002008f (hw-picture-width) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020090 (hw-picture-height) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020091 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020092 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020093 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020094 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020095 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020096 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020097 (default_value) with type 0 (byte) defined in section android.huawei.metadata
+      0x80020098 (hw-video-fps) with type 1 (int32) defined in section android.huawei.metadata
+      0x80020099 (hw-focus-metering-seperation) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002009a (hw-front-flash-level) with type 1 (int32) defined in section android.huawei.metadata
+      0x8002009b (hw-prepare-capture-flag) with type 0 (byte) defined in section android.huawei.metadata
+      0x8002009c (hw-af-equip-mmi-control-mode) with type 1 (int32) defined in section android.huawei.metadata
+      0x80030000 (default_value) with type 0 (byte) defined in section android.huawei.stream.info
+      0x80030001 (default_value) with type 0 (byte) defined in section android.huawei.stream.info
+      0x80040000 (default_value) with type 0 (byte) defined in section android.huawei.stream.parameters
+
+Prior client events (most recent at top):
+  09-05 19:19:31 : DISCONNECT device 0 client for package troop.com.freedcam (PID 8217)
+  09-05 19:19:02 : CONNECT device 0 client for package troop.com.freedcam (PID 8217)
+  09-05 18:49:08 : DISCONNECT device 0 client for package org.telegram.messenger (PID 23694)
+  09-05 18:49:06 : CONNECT device 0 client for package org.telegram.messenger (PID 23694)
+  09-05 18:47:21 : DISCONNECT device 0 client for package org.telegram.messenger (PID 23694)
+  09-05 18:47:20 : CONNECT device 0 client for package org.telegram.messenger (PID 23694)
+  09-05 18:47:19 : DISCONNECT device 1 client for package org.telegram.messenger (PID 23694)
+  09-05 18:47:19 : CONNECT device 1 client for package org.telegram.messenger (PID 23694)
+  09-05 18:47:19 : DISCONNECT device 0 client for package org.telegram.messenger (PID 23694)
+  09-05 18:47:19 : CONNECT device 0 client for package org.telegram.messenger (PID 23694)
+  09-05 18:47:11 : DISCONNECT device 0 client for package troop.com.freedcam (PID 4767)
+  09-05 18:47:01 : CONNECT device 0 client for package troop.com.freedcam (PID 4767)
+  09-05 17:48:15 : DISCONNECT device 1 client for package com.marginz.snap (PID 32005)
+  09-05 17:48:07 : CONNECT device 1 client for package com.marginz.snap (PID 32005)
+  09-05 17:48:07 : REJECT device 1 client for package com.marginz.snap (PID 32005), reason: (HAL module version doesn't support legacy HAL connections)
+  09-05 17:38:31 : DISCONNECT device 0 client for package troop.com.freedcam (PID 29401)
+  09-05 17:36:58 : CONNECT device 0 client for package troop.com.freedcam (PID 29401)
+  09-05 17:36:57 : DISCONNECT device 1 client for package troop.com.freedcam (PID 29401)
+  09-05 17:36:57 : CONNECT device 1 client for package troop.com.freedcam (PID 29401)
+  09-05 17:36:56 : DISCONNECT device 0 client for package troop.com.freedcam (PID 29401)
+  09-05 17:36:56 : CONNECT device 0 client for package troop.com.freedcam (PID 29401)
+  09-05 15:49:13 : DISCONNECT device 1 client for package com.marginz.snap (PID 15920)
+  09-05 15:48:56 : CONNECT device 1 client for package com.marginz.snap (PID 15920)
+  09-05 15:48:56 : REJECT device 1 client for package com.marginz.snap (PID 15920), reason: (HAL module version doesn't support legacy HAL connections)
+  09-05 15:48:50 : DISCONNECT device 1 client for package com.marginz.snap (PID 15920)
+  09-05 15:48:38 : CONNECT device 1 client for package com.marginz.snap (PID 15920)
+  09-05 15:48:37 : REJECT device 1 client for package com.marginz.snap (PID 15920), reason: (HAL module version doesn't support legacy HAL connections)
+  09-05 15:48:37 : DISCONNECT device 0 client for package com.marginz.snap (PID 15920)
+  09-05 15:45:01 : CONNECT device 0 client for package com.marginz.snap (PID 15920)
+  09-05 15:45:01 : REJECT device 0 client for package com.marginz.snap (PID 15920), reason: (HAL module version doesn't support legacy HAL connections)
+  09-05 15:43:19 : DISCONNECT device 0 client for package com.marginz.snap (PID 14331)
+  09-05 15:42:36 : CONNECT device 0 client for package com.marginz.snap (PID 14331)
+  09-05 15:42:36 : REJECT device 0 client for package com.marginz.snap (PID 14331), reason: (HAL module version doesn't support legacy HAL connections)
+  09-05 15:08:33 : USER_SWITCH previous allowed users:  , current allowed users: 0
+
+Camera 0 information:
+  Facing: BACK
+  Orientation: 90
+  Resource Cost: 100
+  Conflicting Devices: NONE
+  Device version: 0x300
+  Device static metadata:
+    Dumping camera metadata array: 90 / 168 entries, 536 / 1056 bytes of extra data.
+      Version: 1, Flags: 00000000
+      android.huawei.device.capabilities.device_sensor_position (80000000): int32[1]
+        [0 ]
+      android.lens.aperture (80000): float[1]
+        [2.00000000 ]
+      android.lens.facing (80005): byte[1]
+        [BACK ]
+      android.lens.info.minimumFocusDistance (90005): float[1]
+        [20.00000000 ]
+      android.sensor.orientation (e000e): int32[1]
+        [90 ]
+      android.jpeg.orientation (70003): int32[1]
+        [90 ]
+      android.lens.info.availableFocalLengths (90002): float[1]
+        [4.61999989 ]
+      android.flash.info.available (50000): byte[1]
+        [TRUE ]
+      android.control.afAvailableModes (10017): byte[4]
+        [1 2 3 4 ]
+      android.scaler.availableProcessedSizes (d0006): int32[26]
+        [1280 720 1920 1080 ]
+        [208 144 176 144 ]
+        [240 160 352 288 ]
+        [320 240 480 320 ]
+        [640 480 800 480 ]
+        [960 544 960 720 ]
+        [720 720 ]
+      android.scaler.availableJpegSizes (d0003): int32[18]
+        [320 240 640 480 ]
+        [1280 720 1920 1080 ]
+        [2432 2432 3264 2448 ]
+        [4160 2336 5152 2896 ]
+        [5152 3888 ]
+      android.sensor.info.physicalSize (f0005): float[2]
+        [3.20000005 2.40000010 ]
+      android.sensor.info.pixelArraySize (f0006): int32[2]
+        [5152 3888 ]
+      android.sensor.info.activeArraySize (f0000): int32[2]
+        [5152 3888 ]
+      android.scaler.availableRawSizes (d0008): int32[2]
+        [5152 3888 ]
+      android.huawei.device.capabilities.supported_iso_values (80000003): byte[6]
+        [0 2 5 8 11 14 ]
+      android.huawei.device.capabilities.manual_focus_supported (80000013): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.hw-af-mmi-control-supported (80000026): int32[1]
+        [1 ]
+      android.huawei.device.capabilities.hw-af-mmi-far-threashold (80000027): int32[1]
+        [2000 ]
+      android.huawei.device.capabilities.hw-af-mmi-near-threashold (80000028): int32[1]
+        [2500 ]
+      android.huawei.device.capabilities.hw-video-fps-supported (80000001): int32[1]
+        [120 ]
+      android.huawei.device.capabilities.hdr_movie_supported (80000010): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.hw-professional-mode-supported (8000003e): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.hw-sensor-exposure-range (8000003f): int32[2]
+        [250 8000000 ]
+      android.huawei.device.capabilities.hw-sensor-wb-range (80000040): int32[2]
+        [2800 7000 ]
+      android.huawei.device.capabilities.hw-sensor-iso-range (80000041): int32[2]
+        [100 1600 ]
+      android.huawei.device.capabilities.hw-miniisp-exist (80000031): byte[1]
+        [1 ]
+      android.scaler.availableFormats (d0001): int32[5]
+        [YV12 YCrCb_420_SP RAW16 BLOB ]
+        [IMPLEMENTATION_DEFINED ]
+      android.scaler.availableMaxDigitalZoom (d0004): float[1]
+        [4.00000000 ]
+      android.jpeg.availableThumbnailSizes (70007): int32[10]
+        [208 208 0 0 ]
+        [512 384 480 320 ]
+        [512 288 ]
+      android.statistics.info.availableFaceDetectModes (120000): byte[3]
+        [0 1 2 ]
+      android.statistics.info.maxFaceCount (120002): int32[1]
+        [10 ]
+      android.control.availableSceneModes (10019): byte[12]
+        [2 3 4 5 6 7 8 9 12 15 33 34 ]
+      android.control.availableEffects (10018): byte[4]
+        [0 1 2 4 ]
+      android.control.maxRegions (1001c): int32[3]
+        [1 1 1 ]
+      android.control.aeAvailableModes (10013): byte[4]
+        [0 1 2 3 ]
+      android.control.aeCompensationStep (10016): rational[1]
+        [(1 / 1) ]
+      android.control.aeCompensationRange (10015): int32[2]
+        [-2 2 ]
+      android.control.aeAvailableTargetFpsRanges (10014): int32[8]
+        [14 25 25 25 ]
+        [2 30 30 30 ]
+      android.control.aeAvailableAntibandingModes (10012): byte[3]
+        [3 1 2 ]
+      android.control.awbAvailableModes (1001b): byte[5]
+        [1 2 3 5 6 ]
+      android.huawei.device.capabilities.manual_vcm_start_value (80000014): int32[1]
+        [0 ]
+      android.huawei.device.capabilities.manual_vcm_end_value (80000015): int32[1]
+        [1023 ]
+      android.huawei.device.capabilities.capture_beaty_supported (8000000a): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.video_beaty_supported (8000000b): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.best_shot_supported (8000000d): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.allfocus_shot_supported (8000000e): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.lcd_compensate_supported (8000000f): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.magnifier_supported (80000012): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.burst_supported (80000009): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.smile_detection_supported (80000018): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.beauty_level_range (8000001a): int32[2]
+        [0 10 ]
+      android.huawei.device.capabilities.post_process_supported (8000001b): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.denoise_supported (8000001c): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.target_tracking_supported (8000001d): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.supported_metering (80000008): byte[4]
+        [1 2 3 0 ]
+      android.huawei.device.capabilities.supported_sharpness (80000007): byte[6]
+        [0 1 2 3 4 5 ]
+      android.huawei.device.capabilities.supported_brightness (80000006): byte[5]
+        [0 1 2 3 4 ]
+      android.huawei.device.capabilities.supported_saturation (80000005): byte[5]
+        [0 1 2 3 4 ]
+      android.huawei.device.capabilities.supported_contrast (80000004): byte[5]
+        [0 1 2 3 4 ]
+      android.huawei.device.capabilities.video_callback_supported (80000023): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.supported-relayout-modes (8000002a): byte[2]
+        [0 1 ]
+      android.huawei.device.capabilities.supported-hw-exposure-compensation-support (8000002c): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.supported-hw-exposure-compensation-step (8000002d): float[1]
+        [0.10000000 ]
+      android.huawei.device.capabilities.hw_scope_supported (80000019): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.supported-exposure-modes (80000029): byte[6]
+        [0 1 2 3 4 5 ]
+      android.huawei.device.capabilities.exposure_level_range (8000002b): int32[2]
+        [1 60 ]
+      android.huawei.device.capabilities.hw-exposure-mode-supported-exposure-time (8000002f): byte[13]
+        [0 14 15 16 17 18 19 20 21 22 23 24 25 ]
+      android.huawei.device.capabilities.hw-exposure-mode-supported-iso (8000002e): byte[6]
+        [0 2 5 8 11 14 ]
+      android.huawei.device.capabilities.hw-focus-assist-flash-mode-supported (80000025): byte[4]
+        [0 1 2 3 ]
+      android.control.availableVideoStabilizationModes (1001a): byte[2]
+        [0 1 ]
+      android.huawei.device.capabilities.hw_nice_food_supported (80000024): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.zsl_supported (8000000c): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.default_value (80000037): byte[1]
+        [0 ]
+      android.huawei.device.capabilities.default_value (80000032): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.back_camera_maxZslSize_supported (8000003d): int32[2]
+        [5000 2896 ]
+      android.huawei.device.capabilities.default_value (80000033): byte[1]
+        [64 ]
+      android.huawei.device.capabilities.default_value (80000034): byte[1]
+        [65 ]
+      android.huawei.device.capabilities.default_value (80000035): byte[1]
+        [64 ]
+      android.huawei.device.capabilities.default_value (80000036): byte[1]
+        [66 ]
+      android.huawei.device.capabilities.color_effect_supported (80000022): byte[9]
+        [0 12 3 4 5 6 8 10 13 ]
+      android.huawei.device.capabilities.hw_color_effect_range (80000042): int32[2]
+        [1 32 ]
+      android.jpeg.maxSize (70008): int32[1]
+        [22020096 ]
+      android.control.aeLockAvailable (10024): byte[1]
+        [TRUE ]
+      android.control.awbLockAvailable (10025): byte[1]
+        [TRUE ]
+      android.control.availableModes (10026): byte[2]
+        [1 2 ]
+      android.shading.availableModes (100002): byte[2]
+        [1 2 ]
+      android.statistics.info.availableLensShadingMapModes (120007): byte[1]
+        [0 ]
+      android.request.availableCharacteristicsKeys (c000f): int32[5]
+        [65572 65573 65574 1048578 ]
+        [1179655 ]
+      android.sensor.info.preCorrectionActiveArraySize (f000a): int32[2]
+        [5152 3888 ]
+  Camera1 API shim is using parameters:
+        CameraParameters::dump: mMap.size = 108
+	antibanding: auto
+	antibanding-values: auto,50hz,60hz
+	auto-exposure-lock: false
+	auto-exposure-lock-supported: true
+	auto-whitebalance-lock: false
+	auto-whitebalance-lock-supported: true
+	brightness-values: 0,25,50,75,100
+	contrast-values: 0,50,100,150,200
+	effect: none
+	effect-values: none,mono,negative,sepia
+	exposure-compensation: 0
+	exposure-compensation-step: 1
+	flash-mode: off
+	flash-mode-values: off,auto,on,torch
+	focal-length: 4.62
+	focus-areas: (0,0,0,0,0)
+	focus-distances: Infinity,Infinity,Infinity
+	focus-mode: auto
+	focus-mode-values: auto,macro,continuous-video,continuous-picture
+	hdr-movie-supported: true
+	horizontal-view-angle: 38.204
+	hw-af-mmi-control-supported: true
+	hw-af-mmi-far-threashold: 2000
+	hw-af-mmi-near-threashold: 2500
+	hw-best-photo: true
+	hw-color-effect-range: (1,32)
+	hw-effect-supported: none,zy-heibai,zy-fugu,zy-valencia,zy-laodianying,zy-lianghong,zy-earlybird,zy-tianmeikeren,zy-xpro2
+	hw-exposure-compensation-step: 0.100000
+	hw-exposure-compensation-support: true
+	hw-exposure-mode-values: default,super-night,car,light,water,star
+	hw-focus-assist-flash-mode-supported: default,auto,on,off
+	hw-image-denoise-supported: true
+	hw-k3-burst-supported: true
+	hw-magnifier-supported: true
+	hw-manual-focus-supported: true
+	hw-max-beauty-level: 10
+	hw-max-exposure-time: 60
+	hw-min-beauty-level: 0
+	hw-min-exposure-time: 1
+	hw-nice-food-supported: true
+	hw-post-process-supported: true
+	hw-professional-mode-supported: true
+	hw-refocus-supported: true
+	hw-relayout-mode-values: none,snapshot2preview
+	hw-scope-supported: true
+	hw-sensor-exposure-time-range: 1/4000,8
+	hw-sensor-iso-range: 100,1600
+	hw-sensor-wb-range: 2800,7000
+	hw-smile-face-shotmode-supported: true
+	hw-vcm-end-value: 1023
+	hw-vcm-start-value: 0
+	hw-video-beauty-supported: true
+	hw-video-fps-supported: 120
+	hw_beauty_mode_support: true
+	hw_video_smooth_af_supported: true
+	iso-mode-values: auto,100,200,400,800,1600
+	jpeg-quality: 90
+	jpeg-thumbnail-height: 384
+	jpeg-thumbnail-quality: 70
+	jpeg-thumbnail-size-values: 208x208,0x0,512x384,480x320,512x288
+	jpeg-thumbnail-width: 512
+	key-supernight-supported-exposure: auto,1/4,1/2,1,2,4,8,12,16,20,24,28,32
+	key-supernight-supported-iso: auto,100,200,400,800,1600
+	lcd-compensate-supported-values: off,auto
+	max-exposure-compensation: 2
+	max-num-detected-faces-hw: 10
+	max-num-detected-faces-sw: 0
+	max-num-focus-areas: 1
+	max-num-metering-areas: 1
+	max-zoom: 99
+	metering-areas: (0,0,0,0,0)
+	metering-mode-values: average,center-weighted,spot,matrix
+	min-exposure-compensation: -2
+	picture-format: jpeg
+	picture-format-values: jpeg
+	picture-size: 320x240
+	picture-size-values: 320x240,640x480,1280x720,1920x1080,2432x2432,3264x2448,4160x2336,5152x2896,5152x3888
+	preferred-preview-size-for-video: 1920x1080
+	preview-format: yuv420sp
+	preview-format-values: yuv420sp,yuv420p
+	preview-fps-range: 14000,25000
+	preview-fps-range-values: (14000,25000),(25000,25000),(2000,30000),(30000,30000)
+	preview-frame-rate: 25
+	preview-frame-rate-values: 25,30
+	preview-size: 1920x1080
+	preview-size-values: 1280x720,1920x1080,208x144,176x144,240x160,352x288,320x240,480x320,640x480,800x480,960x544,960x720,720x720
+	recording-hint: false
+	rotation: 0
+	saturation-values: 0,50,100,150,200
+	scene-mode: auto
+	scene-mode-values: auto,action,portrait,landscape,night,night-portrait,theatre,beach,snow,fireworks,candlelight,hwauto,hdr
+	sharpness-values: auto,+1,+2,+3,+4,+5
+	smooth-zoom-supported: false
+	target-tracking-supported: true
+	vertical-view-angle: 28.9484
+	video-callback-supported: true
+	video-frame-format: android-opaque
+	video-size: 1920x1080
+	video-size-values: 1280x720,1920x1080,208x144,176x144,240x160,352x288,320x240,480x320,640x480,800x480,960x544,960x720,720x720
+	video-snapshot-supported: false
+	video-stabilization: false
+	video-stabilization-supported: true
+	whitebalance: auto
+	whitebalance-values: auto,incandescent,fluorescent,daylight,cloudy-daylight
+	zoom: 0
+	zoom-ratios: 100,103,106,109,112,115,118,121,124,127,130,133,136,139,142,145,148,151,154,157,160,163,166,169,172,175,178,181,184,187,190,193,196,199,203,206,209,212,215,218,221,224,227,230,233,236,239,242,245,248,251,254,257,260,263,266,269,272,275,278,	zoom-supported: true
+	zsl-mode-supported: true
+  Device 0 is closed, no client instance
+  Last client is: troop.com.freedcam
+Camera 1 information:
+  Facing: FRONT
+  Orientation: 270
+  Resource Cost: 100
+  Conflicting Devices: NONE
+  Device version: 0x300
+  Device static metadata:
+    Dumping camera metadata array: 76 / 140 entries, 496 / 976 bytes of extra data.
+      Version: 1, Flags: 00000000
+      android.huawei.device.capabilities.device_sensor_position (80000000): int32[1]
+        [1 ]
+      android.lens.aperture (80000): float[1]
+        [2.40000010 ]
+      android.lens.facing (80005): byte[1]
+        [FRONT ]
+      android.lens.info.minimumFocusDistance (90005): float[1]
+        [0.00000000 ]
+      android.sensor.orientation (e000e): int32[1]
+        [270 ]
+      android.jpeg.orientation (70003): int32[1]
+        [270 ]
+      android.lens.info.availableFocalLengths (90002): float[1]
+        [3.40000010 ]
+      android.flash.info.available (50000): byte[1]
+        [TRUE ]
+      android.huawei.device.capabilities.front_flash_adjust_supported (80000002): int32[2]
+        [0 1 ]
+      android.control.afAvailableModes (10017): byte[1]
+        [0 ]
+      android.scaler.availableProcessedSizes (d0006): int32[24]
+        [640 480 1280 720 ]
+        [1280 960 1920 1080 ]
+        [208 144 176 144 ]
+        [352 288 320 240 ]
+        [960 544 960 720 ]
+        [720 720 800 480 ]
+      android.scaler.availableJpegSizes (d0003): int32[16]
+        [320 240 640 480 ]
+        [1280 720 1920 1080 ]
+        [2592 1952 3264 1840 ]
+        [3264 2448 2448 2448 ]
+      android.sensor.info.physicalSize (f0005): float[2]
+        [3.20000005 2.40000010 ]
+      android.sensor.info.pixelArraySize (f0006): int32[2]
+        [3264 2448 ]
+      android.sensor.info.activeArraySize (f0000): int32[2]
+        [3264 2448 ]
+      android.scaler.availableRawSizes (d0008): int32[2]
+        [3264 2448 ]
+      android.huawei.device.capabilities.capture_mirror_supported (80000011): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.supported_iso_values (80000003): byte[6]
+        [0 2 5 8 11 14 ]
+      android.huawei.device.capabilities.hw-miniisp-exist (80000031): byte[1]
+        [1 ]
+      android.scaler.availableFormats (d0001): int32[5]
+        [YV12 YCrCb_420_SP RAW16 BLOB ]
+        [IMPLEMENTATION_DEFINED ]
+      android.scaler.availableMaxDigitalZoom (d0004): float[1]
+        [4.00000000 ]
+      android.jpeg.availableThumbnailSizes (70007): int32[10]
+        [208 208 0 0 ]
+        [512 384 480 320 ]
+        [512 288 ]
+      android.statistics.info.availableFaceDetectModes (120000): byte[3]
+        [0 1 2 ]
+      android.statistics.info.maxFaceCount (120002): int32[1]
+        [10 ]
+      android.control.availableSceneModes (10019): byte[12]
+        [2 3 4 5 6 7 8 9 12 15 33 34 ]
+      android.control.availableEffects (10018): byte[4]
+        [0 1 2 4 ]
+      android.control.maxRegions (1001c): int32[3]
+        [1 1 1 ]
+      android.control.aeAvailableModes (10013): byte[4]
+        [0 1 2 3 ]
+      android.control.aeCompensationStep (10016): rational[1]
+        [(1 / 1) ]
+      android.control.aeCompensationRange (10015): int32[2]
+        [-2 2 ]
+      android.control.aeAvailableTargetFpsRanges (10014): int32[8]
+        [14 25 25 25 ]
+        [2 30 30 30 ]
+      android.control.aeAvailableAntibandingModes (10012): byte[3]
+        [3 1 2 ]
+      android.control.awbAvailableModes (1001b): byte[5]
+        [1 2 3 5 6 ]
+      android.huawei.device.capabilities.manual_vcm_start_value (80000014): int32[1]
+        [0 ]
+      android.huawei.device.capabilities.manual_vcm_end_value (80000015): int32[1]
+        [1023 ]
+      android.huawei.device.capabilities.capture_beaty_supported (8000000a): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.video_beaty_supported (8000000b): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.best_shot_supported (8000000d): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.allfocus_shot_supported (8000000e): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.lcd_compensate_supported (8000000f): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.magnifier_supported (80000012): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.burst_supported (80000009): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.smile_detection_supported (80000018): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.beauty_level_range (8000001a): int32[2]
+        [0 10 ]
+      android.huawei.device.capabilities.post_process_supported (8000001b): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.denoise_supported (8000001c): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.target_tracking_supported (8000001d): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.supported_metering (80000008): byte[4]
+        [1 2 3 0 ]
+      android.huawei.device.capabilities.supported_sharpness (80000007): byte[6]
+        [0 1 2 3 4 5 ]
+      android.huawei.device.capabilities.supported_brightness (80000006): byte[5]
+        [0 1 2 3 4 ]
+      android.huawei.device.capabilities.supported_saturation (80000005): byte[5]
+        [0 1 2 3 4 ]
+      android.huawei.device.capabilities.supported_contrast (80000004): byte[5]
+        [0 1 2 3 4 ]
+      android.huawei.device.capabilities.video_callback_supported (80000023): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.supported-relayout-modes (8000002a): byte[2]
+        [0 1 ]
+      android.huawei.device.capabilities.supported-hw-exposure-compensation-support (8000002c): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.supported-hw-exposure-compensation-step (8000002d): float[1]
+        [0.10000000 ]
+      android.huawei.device.capabilities.hw_scope_supported (80000019): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.supported-exposure-modes (80000029): byte[6]
+        [0 1 2 3 4 5 ]
+      android.huawei.device.capabilities.exposure_level_range (8000002b): int32[2]
+        [1 60 ]
+      android.huawei.device.capabilities.hw-exposure-mode-supported-exposure-time (8000002f): byte[13]
+        [0 14 15 16 17 18 19 20 21 22 23 24 25 ]
+      android.huawei.device.capabilities.hw-exposure-mode-supported-iso (8000002e): byte[6]
+        [0 2 5 8 11 14 ]
+      android.huawei.device.capabilities.zsl_supported (8000000c): byte[1]
+        [0 ]
+      android.huawei.device.capabilities.default_value (80000037): byte[1]
+        [0 ]
+      android.huawei.device.capabilities.default_value (80000032): byte[1]
+        [1 ]
+      android.huawei.device.capabilities.default_value (80000036): byte[1]
+        [2 ]
+      android.huawei.device.capabilities.default_value (80000034): byte[1]
+        [65 ]
+      android.huawei.device.capabilities.color_effect_supported (80000022): byte[9]
+        [0 12 3 4 5 6 8 10 13 ]
+      android.huawei.device.capabilities.hw_color_effect_range (80000042): int32[2]
+        [1 32 ]
+      android.jpeg.maxSize (70008): int32[1]
+        [22020096 ]
+      android.control.aeLockAvailable (10024): byte[1]
+        [TRUE ]
+      android.control.awbLockAvailable (10025): byte[1]
+        [TRUE ]
+      android.control.availableModes (10026): byte[2]
+        [1 2 ]
+      android.shading.availableModes (100002): byte[2]
+        [1 2 ]
+      android.statistics.info.availableLensShadingMapModes (120007): byte[1]
+        [0 ]
+      android.request.availableCharacteristicsKeys (c000f): int32[5]
+        [65572 65573 65574 1048578 ]
+        [1179655 ]
+      android.sensor.info.preCorrectionActiveArraySize (f000a): int32[2]
+        [3264 2448 ]
+  Camera1 API shim is using parameters:
+        CameraParameters::dump: mMap.size = 99
+	antibanding: auto
+	antibanding-values: auto,50hz,60hz
+	auto-exposure-lock: false
+	auto-exposure-lock-supported: true
+	auto-whitebalance-lock: false
+	auto-whitebalance-lock-supported: true
+	brightness-values: 0,25,50,75,100
+	contrast-values: 0,50,100,150,200
+	effect: none
+	effect-values: none,mono,negative,sepia
+	exposure-compensation: 0
+	exposure-compensation-step: 1
+	flash-mode: off
+	flash-mode-values: off,auto,on,torch
+	focal-length: 3.4
+	focus-areas: (0,0,0,0,0)
+	focus-distances: Infinity,Infinity,Infinity
+	focus-mode: fixed
+	focus-mode-values: fixed
+	front_flash_adjust_supported: true
+	front_flash_supports: 0,1
+	horizontal-view-angle: 50.4022
+	hw-best-photo: true
+	hw-capture-mirror-supproted: true
+	hw-color-effect-range: (1,32)
+	hw-effect-supported: none,zy-heibai,zy-fugu,zy-valencia,zy-laodianying,zy-lianghong,zy-earlybird,zy-tianmeikeren,zy-xpro2
+	hw-exposure-compensation-step: 0.100000
+	hw-exposure-compensation-support: true
+	hw-exposure-mode-values: default,super-night,car,light,water,star
+	hw-image-denoise-supported: true
+	hw-k3-burst-supported: true
+	hw-magnifier-supported: true
+	hw-max-beauty-level: 10
+	hw-max-exposure-time: 60
+	hw-min-beauty-level: 0
+	hw-min-exposure-time: 1
+	hw-post-process-supported: true
+	hw-refocus-supported: true
+	hw-relayout-mode-values: none,snapshot2preview
+	hw-scope-supported: true
+	hw-smile-face-shotmode-supported: true
+	hw-vcm-end-value: 1023
+	hw-vcm-start-value: 0
+	hw-video-beauty-supported: true
+	hw_beauty_mode_support: true
+	hw_video_smooth_af_supported: true
+	iso-mode-values: auto,100,200,400,800,1600
+	jpeg-quality: 90
+	jpeg-thumbnail-height: 384
+	jpeg-thumbnail-quality: 70
+	jpeg-thumbnail-size-values: 208x208,0x0,512x384,480x320,512x288
+	jpeg-thumbnail-width: 512
+	key-supernight-supported-exposure: auto,1/4,1/2,1,2,4,8,12,16,20,24,28,32
+	key-supernight-supported-iso: auto,100,200,400,800,1600
+	lcd-compensate-supported-values: off,auto
+	max-exposure-compensation: 2
+	max-num-detected-faces-hw: 10
+	max-num-detected-faces-sw: 0
+	max-num-focus-areas: 0
+	max-num-metering-areas: 1
+	max-zoom: 99
+	metering-areas: (0,0,0,0,0)
+	metering-mode-values: average,center-weighted,spot,matrix
+	min-exposure-compensation: -2
+	picture-format: jpeg
+	picture-format-values: jpeg
+	picture-size: 320x240
+	picture-size-values: 320x240,640x480,1280x720,1920x1080,2592x1952,3264x1840,3264x2448,2448x2448
+	preferred-preview-size-for-video: 1920x1080
+	preview-format: yuv420sp
+	preview-format-values: yuv420sp,yuv420p
+	preview-fps-range: 14000,25000
+	preview-fps-range-values: (14000,25000),(25000,25000),(2000,30000),(30000,30000)
+	preview-frame-rate: 25
+	preview-frame-rate-values: 25,30
+	preview-size: 1920x1080
+	preview-size-values: 640x480,1280x720,1280x960,1920x1080,208x144,176x144,352x288,320x240,960x544,960x720,720x720,800x480
+	recording-hint: false
+	rotation: 0
+	saturation-values: 0,50,100,150,200
+	scene-mode: auto
+	scene-mode-values: auto,action,portrait,landscape,night,night-portrait,theatre,beach,snow,fireworks,candlelight,hwauto,hdr
+	sharpness-values: auto,+1,+2,+3,+4,+5
+	smooth-zoom-supported: false
+	target-tracking-supported: true
+	vertical-view-angle: 38.8801
+	video-callback-supported: true
+	video-frame-format: android-opaque
+	video-size: 1920x1080
+	video-size-values: 640x480,1280x720,1280x960,1920x1080,208x144,176x144,352x288,320x240,960x544,960x720,720x720,800x480
+	video-snapshot-supported: false
+	video-stabilization: false
+	video-stabilization-supported: false
+	whitebalance: auto
+	whitebalance-values: auto,incandescent,fluorescent,daylight,cloudy-daylight
+	zoom: 0
+	zoom-ratios: 100,103,106,109,112,115,118,121,124,127,130,133,136,139,142,145,148,151,154,157,160,163,166,169,172,175,178,181,184,187,190,193,196,199,203,206,209,212,215,218,221,224,227,230,233,236,239,242,245,248,251,254,257,260,263,266,269,272,275,278,	zoom-supported: true
+	zsl-mode-supported: false
+  Device 1 is closed, no client instance
+  Last client is: troop.com.freedcam
+
+No active camera clients yet.
+
+Camera traces (1):
+  
+  
+  ----- pid 3059 at 2018-09-05 17:38:13 -----
+  Cmd line: /system/bin/mediaserver
+  
+  "mediaserver" sysTid=3059
+    #00 pc 0001e87b  /system/lib/libbinder.so (_ZN7android14IPCThreadState14talkWithDriverEb+174)
+    #01 pc 0001edbb  /system/lib/libbinder.so (_ZN7android14IPCThreadState20getAndExecuteCommandEv+6)
+    #02 pc 0001ee59  /system/lib/libbinder.so (_ZN7android14IPCThreadState14joinThreadPoolEb+48)
+    #03 pc 00001cf1  /system/bin/mediaserver
+    #04 pc 00016311  /system/lib/libc.so (__libc_init+44)
+    #05 pc 00001f54  /system/bin/mediaserver
+  
+  "lppthread" sysTid=3076
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 00054b63  /system/lib/libaudioflinger.so
+    #03 pc 00057877  /system/lib/libaudioflinger.so (_ZN7android12AudioFlinger9LppThread10threadLoopEv+102)
+    #04 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #05 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #06 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "HalWatchDog" sysTid=3089
+    #00 pc 00043dc4  /system/lib/libc.so (nanosleep+12)
+    #01 pc 000293cd  /system/lib/libc.so (usleep+28)
+    #02 pc 00016c53  /system/lib/hw/camera.hi3635.so (_ZN2hw9CWatchdog6Thread10threadLoopEv+14)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "NuPlayerDriver " sysTid=3493
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0000bca7  /system/lib/libstagefright_foundation.so (_ZN7android7ALooper4loopEv+158)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "generic" sysTid=3495
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0000bca7  /system/lib/libstagefright_foundation.so (_ZN7android7ALooper4loopEv+158)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "NuPlayerDriver " sysTid=3511
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0000bca7  /system/lib/libstagefright_foundation.so (_ZN7android7ALooper4loopEv+158)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "generic" sysTid=3512
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0000bca7  /system/lib/libstagefright_foundation.so (_ZN7android7ALooper4loopEv+158)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "NuPlayerDriver " sysTid=3513
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0000bca7  /system/lib/libstagefright_foundation.so (_ZN7android7ALooper4loopEv+158)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "generic" sysTid=3514
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0000bca7  /system/lib/libstagefright_foundation.so (_ZN7android7ALooper4loopEv+158)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "NuPlayerDriver " sysTid=3515
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0000bca7  /system/lib/libstagefright_foundation.so (_ZN7android7ALooper4loopEv+158)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "generic" sysTid=3516
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0000bca7  /system/lib/libstagefright_foundation.so (_ZN7android7ALooper4loopEv+158)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "ApmTone" sysTid=3517
+    #00 pc 00016aa8  /system/lib/libc.so (syscall+32)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 00006b81  /system/lib/libaudiopolicyservice.so
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "ApmAudio" sysTid=3518
+    #00 pc 00016aa8  /system/lib/libc.so (syscall+32)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 00006b81  /system/lib/libaudiopolicyservice.so
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "ApmOutput" sysTid=3519
+    #00 pc 00016aa8  /system/lib/libc.so (syscall+32)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 00006b81  /system/lib/libaudiopolicyservice.so
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "mediaserver" sysTid=3520
+    #00 pc 000442a8  /system/lib/libc.so (__ppoll+20)
+    #01 pc 0001b481  /system/lib/libc.so (poll+32)
+    #02 pc 00004d71  /system/lib/libhardware_legacy.so (uevent_next_event+40)
+    #03 pc 0000cde9  /system/lib/hw/audio.primary.hi3635.so
+    #04 pc 0000cec5  /system/lib/hw/audio.primary.hi3635.so
+    #05 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #06 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "AudioOut_6" sysTid=3524
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 00054b63  /system/lib/libaudioflinger.so
+    #03 pc 0005b32b  /system/lib/libaudioflinger.so (_ZN7android12AudioFlinger14PlaybackThread10threadLoopEv+906)
+    #04 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #05 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #06 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Binder_1" sysTid=3527
+    #00 pc 000443a4  /system/lib/libc.so (__ioctl+8)
+    #01 pc 00049715  /system/lib/libc.so (ioctl+14)
+    #02 pc 0001e87b  /system/lib/libbinder.so (_ZN7android14IPCThreadState14talkWithDriverEb+174)
+    #03 pc 0001edbb  /system/lib/libbinder.so (_ZN7android14IPCThreadState20getAndExecuteCommandEv+6)
+    #04 pc 0001ee59  /system/lib/libbinder.so (_ZN7android14IPCThreadState14joinThreadPoolEb+48)
+    #05 pc 00023891  /system/lib/libbinder.so
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Binder_2" sysTid=3914
+    #00 pc 000443a4  /system/lib/libc.so (__ioctl+8)
+    #01 pc 00049715  /system/lib/libc.so (ioctl+14)
+    #02 pc 0001e87b  /system/lib/libbinder.so (_ZN7android14IPCThreadState14talkWithDriverEb+174)
+    #03 pc 0001edbb  /system/lib/libbinder.so (_ZN7android14IPCThreadState20getAndExecuteCommandEv+6)
+    #04 pc 0001ee59  /system/lib/libbinder.so (_ZN7android14IPCThreadState14joinThreadPoolEb+48)
+    #05 pc 00023891  /system/lib/libbinder.so
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Binder_3" sysTid=4291
+    #00 pc 000443a4  /system/lib/libc.so (__ioctl+8)
+    #01 pc 00049715  /system/lib/libc.so (ioctl+14)
+    #02 pc 0001e87b  /system/lib/libbinder.so (_ZN7android14IPCThreadState14talkWithDriverEb+174)
+    #03 pc 0001edbb  /system/lib/libbinder.so (_ZN7android14IPCThreadState20getAndExecuteCommandEv+6)
+    #04 pc 0001ee59  /system/lib/libbinder.so (_ZN7android14IPCThreadState14joinThreadPoolEb+48)
+    #05 pc 00023891  /system/lib/libbinder.so
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Binder_4" sysTid=4379
+    #00 pc 000443a4  /system/lib/libc.so (__ioctl+8)
+    #01 pc 00049715  /system/lib/libc.so (ioctl+14)
+    #02 pc 0001e87b  /system/lib/libbinder.so (_ZN7android14IPCThreadState14talkWithDriverEb+174)
+    #03 pc 0001edbb  /system/lib/libbinder.so (_ZN7android14IPCThreadState20getAndExecuteCommandEv+6)
+    #04 pc 0001ee59  /system/lib/libbinder.so (_ZN7android14IPCThreadState14joinThreadPoolEb+48)
+    #05 pc 00023891  /system/lib/libbinder.so
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Binder_5" sysTid=4647
+    #00 pc 000443a4  /system/lib/libc.so (__ioctl+8)
+    #01 pc 00049715  /system/lib/libc.so (ioctl+14)
+    #02 pc 0001e87b  /system/lib/libbinder.so (_ZN7android14IPCThreadState14talkWithDriverEb+174)
+    #03 pc 0001edbb  /system/lib/libbinder.so (_ZN7android14IPCThreadState20getAndExecuteCommandEv+6)
+    #04 pc 0001ee59  /system/lib/libbinder.so (_ZN7android14IPCThreadState14joinThreadPoolEb+48)
+    #05 pc 00023891  /system/lib/libbinder.so
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Binder_6" sysTid=4962
+    #00 pc 000443a4  /system/lib/libc.so (__ioctl+8)
+    #01 pc 00049715  /system/lib/libc.so (ioctl+14)
+    #02 pc 0001e87b  /system/lib/libbinder.so (_ZN7android14IPCThreadState14talkWithDriverEb+174)
+    #03 pc 0001edbb  /system/lib/libbinder.so (_ZN7android14IPCThreadState20getAndExecuteCommandEv+6)
+    #04 pc 0001ee59  /system/lib/libbinder.so (_ZN7android14IPCThreadState14joinThreadPoolEb+48)
+    #05 pc 00023891  /system/lib/libbinder.so
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Binder_7" sysTid=4963
+    #00 pc 000443a4  /system/lib/libc.so (__ioctl+8)
+    #01 pc 00049715  /system/lib/libc.so (ioctl+14)
+    #02 pc 0001e87b  /system/lib/libbinder.so (_ZN7android14IPCThreadState14talkWithDriverEb+174)
+    #03 pc 0001edbb  /system/lib/libbinder.so (_ZN7android14IPCThreadState20getAndExecuteCommandEv+6)
+    #04 pc 0001ee59  /system/lib/libbinder.so (_ZN7android14IPCThreadState14joinThreadPoolEb+48)
+    #05 pc 00023891  /system/lib/libbinder.so
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Binder_8" sysTid=4966
+    #00 pc 000443a4  /system/lib/libc.so (__ioctl+8)
+    #01 pc 00049715  /system/lib/libc.so (ioctl+14)
+    #02 pc 0001e87b  /system/lib/libbinder.so (_ZN7android14IPCThreadState14talkWithDriverEb+174)
+    #03 pc 0001edbb  /system/lib/libbinder.so (_ZN7android14IPCThreadState20getAndExecuteCommandEv+6)
+    #04 pc 0001ee59  /system/lib/libbinder.so (_ZN7android14IPCThreadState14joinThreadPoolEb+48)
+    #05 pc 00023891  /system/lib/libbinder.so
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Binder_9" sysTid=4967
+    #00 pc 000443a4  /system/lib/libc.so (__ioctl+8)
+    #01 pc 00049715  /system/lib/libc.so (ioctl+14)
+    #02 pc 0001e87b  /system/lib/libbinder.so (_ZN7android14IPCThreadState14talkWithDriverEb+174)
+    #03 pc 0001edbb  /system/lib/libbinder.so (_ZN7android14IPCThreadState20getAndExecuteCommandEv+6)
+    #04 pc 0001ee59  /system/lib/libbinder.so (_ZN7android14IPCThreadState14joinThreadPoolEb+48)
+    #05 pc 00023891  /system/lib/libbinder.so
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "[err-unknown-tid-9259]" sysTid=9259
+    #00 pc 000438d4  /system/lib/libc.so (__pselect6+20)
+    #01 pc 0001b4f9  /system/lib/libc.so (select+60)
+    #02 pc 000027e7  /system/lib/libbalong_audio_ril.so (sync_read+66)
+    #03 pc 00002911  /system/lib/libbalong_audio_ril.so
+    #04 pc 00002a21  /system/lib/libbalong_audio_ril.so
+    #05 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #06 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "NuPlayerDriver " sysTid=27831
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0000bca7  /system/lib/libstagefright_foundation.so (_ZN7android7ALooper4loopEv+158)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "generic" sysTid=27832
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0000bca7  /system/lib/libstagefright_foundation.so (_ZN7android7ALooper4loopEv+158)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "NuPlayerDriver " sysTid=27834
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0000bca7  /system/lib/libstagefright_foundation.so (_ZN7android7ALooper4loopEv+158)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "generic" sysTid=27835
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0000bca7  /system/lib/libstagefright_foundation.so (_ZN7android7ALooper4loopEv+158)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Camera3DeviceIm" sysTid=29535
+    #00 pc 00044318  /system/lib/libc.so (__epoll_pwait+20)
+    #01 pc 0001975f  /system/lib/libc.so (epoll_pwait+26)
+    #02 pc 0001976d  /system/lib/libc.so (epoll_wait+6)
+    #03 pc 00013657  /system/lib/libutils.so (_ZN7android6Looper9pollInnerEi+102)
+    #04 pc 000138d3  /system/lib/libutils.so (_ZN7android6Looper8pollOnceEiPiS1_PPv+130)
+    #05 pc 000123f7  /system/lib/hw/camera.hi3635.so (_ZN2hw17Camera3DeviceImpl10threadLoopEv+38)
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Camera3DeviceEr" sysTid=29536
+    #00 pc 00044318  /system/lib/libc.so (__epoll_pwait+20)
+    #01 pc 0001975f  /system/lib/libc.so (epoll_pwait+26)
+    #02 pc 0001976d  /system/lib/libc.so (epoll_wait+6)
+    #03 pc 00013657  /system/lib/libutils.so (_ZN7android6Looper9pollInnerEi+102)
+    #04 pc 000138d3  /system/lib/libutils.so (_ZN7android6Looper8pollOnceEiPiS1_PPv+130)
+    #05 pc 00016121  /system/lib/hw/camera.hi3635.so (_ZN2hw13CLooperThread6Thread10threadLoopEv+60)
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "C3Dev-0-Status" sysTid=29537
+    #00 pc 00016aa8  /system/lib/libc.so (syscall+32)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 000893ff  /system/lib/libcameraservice.so (_ZN7android7camera313StatusTracker10threadLoopEv+494)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "C3Dev-0-ReqQueu" sysTid=29538
+    #00 pc 00016aa8  /system/lib/libc.so (syscall+32)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 00075141  /system/lib/libcameraservice.so
+    #03 pc 00083bfd  /system/lib/libcameraservice.so (_ZN7android13Camera3Device13RequestThread12waitIfPausedEv+84)
+    #04 pc 00084101  /system/lib/libcameraservice.so (_ZN7android13Camera3Device13RequestThread10threadLoopEv+8)
+    #05 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #06 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #07 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "C2-0-StreamProc" sysTid=29539
+    #00 pc 00016aa8  /system/lib/libc.so (syscall+32)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 0006fd3d  /system/lib/libcameraservice.so (_ZN7android7camera218StreamingProcessor10threadLoopEv+44)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "C2-0-FrameProc" sysTid=29540
+    #00 pc 00016aa8  /system/lib/libc.so (syscall+32)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 00075141  /system/lib/libcameraservice.so
+    #03 pc 0007e31f  /system/lib/libcameraservice.so (_ZN7android13Camera3Device16waitForNextFrameEx+46)
+    #04 pc 0005fd0d  /system/lib/libcameraservice.so (_ZN7android7camera218FrameProcessorBase10threadLoopEv+48)
+    #05 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #06 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #07 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "C2-0-CaptureSeq" sysTid=29541
+    #00 pc 00016aa4  /system/lib/libc.so (syscall+28)
+    #01 pc 0004203d  /system/lib/libc.so (_ZL33__pthread_mutex_lock_with_timeoutP24pthread_mutex_internal_tPK8timespeci+504)
+    #02 pc 00042141  /system/lib/libc.so (pthread_mutex_lock+26)
+    #03 pc 0004155f  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+76)
+    #04 pc 00075141  /system/lib/libcameraservice.so
+    #05 pc 0007f06f  /system/lib/libcameraservice.so (_ZN7android13Camera3Device24waitUntilStateThenRelockEbx+78)
+    #06 pc 0007fba3  /system/lib/libcameraservice.so (_ZN7android13Camera3Device22waitUntilDrainedLockedEv+82)
+    #07 pc 0007fc1b  /system/lib/libcameraservice.so (_ZN7android13Camera3Device16waitUntilDrainedEv+50)
+    #08 pc 00076a0b  /system/lib/libcameraservice.so (_ZN7android7camera216CaptureSequencer10manageDoneERNS_2spINS_13Camera2ClientEEE+250)
+    #09 pc 00075e4b  /system/lib/libcameraservice.so (_ZN7android7camera216CaptureSequencer10threadLoopEv+90)
+    #10 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #11 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #12 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "C2-0-JpegProc" sysTid=29542
+    #00 pc 00016aa8  /system/lib/libc.so (syscall+32)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 000717c1  /system/lib/libcameraservice.so (_ZN7android7camera213JpegProcessor10threadLoopEv+40)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "C2-0-CallbkProc" sysTid=29544
+    #00 pc 00016aa8  /system/lib/libc.so (syscall+32)
+    #01 pc 0004154b  /system/lib/libc.so (_ZL33__pthread_cond_timedwait_relativeP23pthread_cond_internal_tP15pthread_mutex_tPK8timespec+56)
+    #02 pc 00072ba3  /system/lib/libcameraservice.so (_ZN7android7camera217CallbackProcessor10threadLoopEv+42)
+    #03 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #04 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #05 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Camera3StreamIm" sysTid=29827
+    #00 pc 0000d6f9  /system/lib/libutils.so (_ZN7android9CallStack6updateEii+48)
+    #01 pc 0000e91f  /system/lib/libutils.so (_ZN7android16ProcessCallStack6updateEv+386)
+    #02 pc 00089f39  /system/lib/libcameraservice.so (_ZN7android7camera312CameraTraces9saveTraceEv+120)
+    #03 pc 0007f655  /system/lib/libcameraservice.so (_ZN7android13Camera3Device20setErrorStateLockedVEPKcSt9__va_list+108)
+    #04 pc 0007f689  /system/lib/libcameraservice.so (_ZN7android13Camera3Device13setErrorStateEPKcz+28)
+    #05 pc 0007f721  /system/lib/libcameraservice.so (_ZN7android13Camera3Device11notifyErrorERK17camera3_error_msgPNS_16CameraDeviceBase20NotificationListenerE+132)
+    #06 pc 00080205  /system/lib/libcameraservice.so (_ZN7android13Camera3Device6notifyEPK18camera3_notify_msg+144)
+    #07 pc 000087fd  /system/lib/hw/camera.hi3635.so (_ZN2hw13Camera3Device7onErrorEi+152)
+    #08 pc 00011523  /system/lib/hw/camera.hi3635.so (_ZN2hw17Camera3StreamImpl11handleEventEiiPv+202)
+    #09 pc 00013803  /system/lib/libutils.so (_ZN7android6Looper9pollInnerEi+530)
+    #10 pc 000138d3  /system/lib/libutils.so (_ZN7android6Looper8pollOnceEiPiS1_PPv+130)
+    #11 pc 0001002d  /system/lib/hw/camera.hi3635.so (_ZN2hw17Camera3StreamImpl10threadLoopEv+28)
+    #12 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #13 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #14 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Camera3StreamIm" sysTid=29828
+    #00 pc 00044318  /system/lib/libc.so (__epoll_pwait+20)
+    #01 pc 0001975f  /system/lib/libc.so (epoll_pwait+26)
+    #02 pc 0001976d  /system/lib/libc.so (epoll_wait+6)
+    #03 pc 00013657  /system/lib/libutils.so (_ZN7android6Looper9pollInnerEi+102)
+    #04 pc 000138d3  /system/lib/libutils.so (_ZN7android6Looper8pollOnceEiPiS1_PPv+130)
+    #05 pc 0001002d  /system/lib/hw/camera.hi3635.so (_ZN2hw17Camera3StreamImpl10threadLoopEv+28)
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Camera3StreamIm" sysTid=29829
+    #00 pc 00044318  /system/lib/libc.so (__epoll_pwait+20)
+    #01 pc 0001975f  /system/lib/libc.so (epoll_pwait+26)
+    #02 pc 0001976d  /system/lib/libc.so (epoll_wait+6)
+    #03 pc 00013657  /system/lib/libutils.so (_ZN7android6Looper9pollInnerEi+102)
+    #04 pc 000138d3  /system/lib/libutils.so (_ZN7android6Looper8pollOnceEiPiS1_PPv+130)
+    #05 pc 0001002d  /system/lib/hw/camera.hi3635.so (_ZN2hw17Camera3StreamImpl10threadLoopEv+28)
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  "Camera3Metadata" sysTid=29830
+    #00 pc 00044318  /system/lib/libc.so (__epoll_pwait+20)
+    #01 pc 0001975f  /system/lib/libc.so (epoll_pwait+26)
+    #02 pc 0001976d  /system/lib/libc.so (epoll_wait+6)
+    #03 pc 00013657  /system/lib/libutils.so (_ZN7android6Looper9pollInnerEi+102)
+    #04 pc 000138d3  /system/lib/libutils.so (_ZN7android6Looper8pollOnceEiPiS1_PPv+130)
+    #05 pc 0000bd21  /system/lib/hw/camera.hi3635.so (_ZN2hw19Camera3MetadataImpl10threadLoopEv+20)
+    #06 pc 00010a6d  /system/lib/libutils.so (_ZN7android6Thread11_threadLoopEPv+112)
+    #07 pc 0004172f  /system/lib/libc.so (_ZL15__pthread_startPv+30)
+    #08 pc 00019433  /system/lib/libc.so (__start_thread+6)
+  
+  ----- end 3059 -----
+  
