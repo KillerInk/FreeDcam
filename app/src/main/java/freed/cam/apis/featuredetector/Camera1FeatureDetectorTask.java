@@ -440,8 +440,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private void detectManualExposureTime(Camera.Parameters parameters)
     {
         Log.d(TAG, "ManualExposureTime is Presetted: "+ SettingsManager.get(SettingKeys.M_ExposureTime).isPresetted());
-      /*  if (SettingsManager.get(SettingKeys.M_ExposureTime).isPresetted())
-            return;*/
+        if (SettingsManager.get(SettingKeys.M_ExposureTime).isPresetted())
+            return;
         //mtk shutter
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
         {
@@ -755,6 +755,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     SettingsManager.get(SettingKeys.M_Saturation).setKEY(camstring(R.string.saturation));
                     SettingsManager.get(SettingKeys.M_Saturation).set(parameters.get(camstring(R.string.saturation)));
                 }
+                else if (parameters.get("saturation-values") != null)
+                {
+                    SettingsManager.get(SettingKeys.M_Saturation).setValues(parameters.get("saturation-values").split(","));
+                    SettingsManager.get(SettingKeys.M_Saturation).setKEY("hw-saturation");
+                    SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
+                }
                 Log.d(TAG, "Saturation Max:" + max);
                 if (max > 0) {
                     SettingsManager.get(SettingKeys.M_Saturation).setValues(createStringArray(min, max, 1));
@@ -796,6 +802,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     SettingsManager.get(SettingKeys.M_Sharpness).setKEY(camstring(R.string.sharpness));
                     SettingsManager.get(SettingKeys.M_Sharpness).set(parameters.get(camstring(R.string.sharpness)));
                 }
+                else if (parameters.get("sharpness-values") != null)
+                {
+                    SettingsManager.get(SettingKeys.M_Sharpness).setValues(parameters.get("sharpness-values").split(","));
+                    SettingsManager.get(SettingKeys.M_Sharpness).setKEY("hw-sharpness");
+                    SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
+                }
                 Log.d(TAG, "Sharpness Max:" +max);
                 if (max > 0) {
                     SettingsManager.get(SettingKeys.M_Sharpness).setValues(createStringArray(min, max, 1));
@@ -832,6 +844,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     min = Integer.parseInt(parameters.get(camstring(R.string.min_brightness)));
                     max = Integer.parseInt(parameters.get(camstring(R.string.max_brightness)));
                     Log.d(TAG, "Brightness: Default");
+                }
+                else if (parameters.get("brightness-values") != null)
+                {
+                    SettingsManager.get(SettingKeys.M_Brightness).setValues(parameters.get("brightness-values").split(","));
+                    SettingsManager.get(SettingKeys.M_Brightness).setKEY("hw-brightness");
+                    SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
                 }
                 Log.d(TAG, "Brightness Max:" + max);
                 if (max > 0) {
@@ -872,6 +890,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     min = Integer.parseInt(parameters.get(camstring(R.string.min_contrast)));
                     max = Integer.parseInt(parameters.get(camstring(R.string.max_contrast)));
 
+                }
+                else if (parameters.get("contrast-values") != null)
+                {
+                    SettingsManager.get(SettingKeys.M_Contrast).setValues(parameters.get("contrast-values").split(","));
+                    SettingsManager.get(SettingKeys.M_Contrast).setKEY("hw-constrast"); // constrast is not a typo. on huawei side it is
+                    SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
                 }
                 Log.d(TAG, "Contrast Max:" +max);
                 if (max > 0) {
