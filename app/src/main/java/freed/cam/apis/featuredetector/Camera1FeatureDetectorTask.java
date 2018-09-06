@@ -440,8 +440,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private void detectManualExposureTime(Camera.Parameters parameters)
     {
         Log.d(TAG, "ManualExposureTime is Presetted: "+ SettingsManager.get(SettingKeys.M_ExposureTime).isPresetted());
-        if (SettingsManager.get(SettingKeys.M_ExposureTime).isPresetted())
-            return;
+      /*  if (SettingsManager.get(SettingKeys.M_ExposureTime).isPresetted())
+            return;*/
         //mtk shutter
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
         {
@@ -479,18 +479,17 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("shutter-value");
                 SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_MEIZU);
             }
-            //krillin shutter
-            else if (parameters.get("hw-manual-exposure-value") != null) {
-                Log.d(TAG, "ManualExposureTime Krilin");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.shutter_values_krillin));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("hw-manual-exposure-value");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_KRILLIN);
-            }
-            else if (parameters.get("hw-max-exposure-time") != null) {
+            //kirin shutter
+            else if (parameters.get("hw-sensor-exposure-time-range") != null) {
                 Log.d(TAG, "ManualExposureTime huawei");
                 SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.shutter_values_krillin));
+                String split[] = parameters.get("hw-sensor-exposure-time-range").split(",");//=1/4000,30"
+                String split2[] = split[0].split("/");
+                float a = (Float.parseFloat(split2[0]) / Float.parseFloat(split2[1])) * 1000000f;
+                long min =(long)a;
+                long max = Long.parseLong(split[1]) * 1000000;
+                String values[] = getSupportedShutterValues(min, max, true);
+                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(values);
                 SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("hw-sensor-exposure-time");
                 SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_KRILLIN);
             }
