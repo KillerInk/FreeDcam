@@ -122,6 +122,8 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             currentModule = null;
         }
         currentModule = moduleList.get(name);
+        if(currentModule == null)
+            currentModule = moduleList.get(cameraUiWrapper.getResString(R.string.module_picture));
         currentModule.InitModule();
         ModuleHasChanged(currentModule.ModuleName());
         currentModule.SetCaptureStateChangedListner(workerListner);
