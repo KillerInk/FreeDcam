@@ -758,8 +758,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 else if (parameters.get("saturation-values") != null)
                 {
                     SettingsManager.get(SettingKeys.M_Saturation).setValues(parameters.get("saturation-values").split(","));
-                    SettingsManager.get(SettingKeys.M_Saturation).setKEY("hw-saturation");
+                    SettingsManager.get(SettingKeys.M_Saturation).setKEY("saturation");
                     SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.M_Saturation).set("2");
                 }
                 Log.d(TAG, "Saturation Max:" + max);
                 if (max > 0) {
@@ -805,7 +806,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 else if (parameters.get("sharpness-values") != null)
                 {
                     SettingsManager.get(SettingKeys.M_Sharpness).setValues(parameters.get("sharpness-values").split(","));
-                    SettingsManager.get(SettingKeys.M_Sharpness).setKEY("hw-sharpness");
+                    SettingsManager.get(SettingKeys.M_Sharpness).setKEY("sharpness");
                     SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
                 }
                 Log.d(TAG, "Sharpness Max:" +max);
@@ -848,8 +849,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 else if (parameters.get("brightness-values") != null)
                 {
                     SettingsManager.get(SettingKeys.M_Brightness).setValues(parameters.get("brightness-values").split(","));
-                    SettingsManager.get(SettingKeys.M_Brightness).setKEY("hw-brightness");
+                    SettingsManager.get(SettingKeys.M_Brightness).setKEY("brightness");
                     SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.M_Brightness).set("2");
                 }
                 Log.d(TAG, "Brightness Max:" + max);
                 if (max > 0) {
@@ -894,8 +896,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 else if (parameters.get("contrast-values") != null)
                 {
                     SettingsManager.get(SettingKeys.M_Contrast).setValues(parameters.get("contrast-values").split(","));
-                    SettingsManager.get(SettingKeys.M_Contrast).setKEY("hw-constrast"); // constrast is not a typo. on huawei side it is
+                    SettingsManager.get(SettingKeys.M_Contrast).setKEY("contrast"); // constrast is not a typo. on huawei side it is
                     SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.M_Contrast).set("2");
                 }
                 Log.d(TAG, "Contrast Max:" +max);
                 if (max > 0) {
