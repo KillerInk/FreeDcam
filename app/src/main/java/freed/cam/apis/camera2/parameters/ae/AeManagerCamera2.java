@@ -98,9 +98,11 @@ public class AeManagerCamera2 extends AeManager {
     {
         //back in auto mode
         //set flash back to its old state
-        cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).SetValue(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).GetStringValue(),true);
-        //show flashmode ui item
-        cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Visible);
+        if (SettingsManager.get(SettingKeys.FlashMode).isSupported()) {
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).SetValue(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).GetStringValue(), true);
+            //show flashmode ui item
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Visible);
+        }
         //show ev ui item
         exposureCompensation.setViewState(AbstractParameter.ViewState.Visible);
 
@@ -115,10 +117,12 @@ public class AeManagerCamera2 extends AeManager {
         exposureCompensation.setViewState(AbstractParameter.ViewState.Hidden);
         //turn flash off when ae is off. else on some devices it applys only manual stuff only for a few frames
         //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
-        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF,true);
+
         //hide flash ui item its not supported in manual mode
-        if(cameraUiWrapper.getParameterHandler().get(SettingKeys.FlashMode) != null)
+        if(cameraUiWrapper.getParameterHandler().get(SettingKeys.FlashMode) != null) {
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF,true);
             cameraUiWrapper.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Hidden);
+        }
         //enable manualiso item in ui
         manualIso.setViewState(AbstractParameter.ViewState.Visible);
         //enable manual exposuretime in ui
