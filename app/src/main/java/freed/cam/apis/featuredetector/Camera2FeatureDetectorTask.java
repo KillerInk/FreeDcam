@@ -761,13 +761,32 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     {
         StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         Size[] size = smap.getOutputSizes(ImageFormat.JPEG);
-        java.util.Arrays.sort(size,new SizeComparer());
-        String[] ar = new String[size.length];
+
+
+        Size[] highsize = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            highsize = smap.getHighResolutionOutputSizes(ImageFormat.JPEG);
+            if (highsize != null)
+                java.util.Arrays.sort(highsize,new SizeComparer());
+        }
+        String[] ar;
+        if (highsize != null)
+            ar = new String[size.length + highsize.length];
+        else
+            ar = new String[size.length];
         int i = 0;
         for (Size s : size)
         {
             ar[i++] = s.getWidth()+"x"+s.getHeight();
         }
+        if (highsize != null)
+        {
+            for (Size s : highsize)
+            {
+                ar[i++] = s.getWidth()+"x"+s.getHeight();
+            }
+        }
+
 
         SettingsManager.get(SettingKeys.PictureSize).setIsSupported(true);
         SettingsManager.get(SettingKeys.PictureSize).set(ar[0]);
