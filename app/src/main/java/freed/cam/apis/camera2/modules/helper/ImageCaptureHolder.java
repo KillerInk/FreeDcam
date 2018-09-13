@@ -361,7 +361,8 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
             Log.WriteEx(e);
             saveTask.setExposureIndex(0);
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        //disabled baseline exposure because on some devices extreme values get used.
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             try {
                 int postraw = captureResult.get(CaptureResult.CONTROL_POST_RAW_SENSITIVITY_BOOST);
                 double postrawgain = postraw / 100f;
@@ -372,7 +373,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
                 Log.WriteEx(ex);
                 saveTask.setBaselineExposure(0);
             }
-        }
+        }*/
 
         try {
             float greensplit = captureResult.get(CaptureResult.SENSOR_GREEN_SPLIT);
