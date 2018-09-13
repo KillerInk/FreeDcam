@@ -228,14 +228,14 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 case CaptureRequest.CONTROL_AF_STATE_FOCUSED_LOCKED:
                     state = "FOCUSED_LOCKED";
                     afLocked = true;
-                    camera2Fragment.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
+                    camera2Fragment.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                     if (camera2Fragment.getFocusHandler().focusEvent != null)
                         camera2Fragment.getFocusHandler().focusEvent.FocusFinished(true);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED:
                     state = "NOT_FOCUSED_LOCKED";
                     afLocked = true;
-                    camera2Fragment.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
+                    camera2Fragment.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                     if (camera2Fragment.getFocusHandler().focusEvent != null)
                         camera2Fragment.getFocusHandler().focusEvent.FocusFinished(false);
                     break;
@@ -243,6 +243,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                     state ="PASSIVE_UNFOCUSED";
                     break;
             }
+            log("new AF_STATE :" + state);
             if (result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE) != null) {
                 try {
                     focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
@@ -250,7 +251,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 } catch (NullPointerException ex) {
                     Log.WriteEx(ex);
                 }
-                log("new AF_STATE :" + state);
+
             }
         }
     }

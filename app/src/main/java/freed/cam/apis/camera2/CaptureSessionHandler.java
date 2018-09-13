@@ -582,6 +582,20 @@ public class CaptureSessionHandler
             return;
         Log.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
+        try {
+            mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
+                    handler);
+        } catch (CameraAccessException ex) {
+            Log.WriteEx(ex);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            Log.WriteEx(ex);
+        }
+        catch (IllegalStateException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
 
@@ -773,9 +787,9 @@ public class CaptureSessionHandler
             }
         }
         else {
-            SetParameter(key, value);
+            SetPreviewParameter(key, value);
             if (value != null)
-                SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+                SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
         }
     }
 
