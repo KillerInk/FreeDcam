@@ -278,6 +278,15 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     }
 
                     try {
+                        publishProgress("Detect Aperture");
+                        detectManualApeture(characteristics);
+                        sendProgress(SettingsManager.get(SettingKeys.M_Aperture), "Aperture:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Aperture failed");
+                    }
+
+                    try {
                         publishProgress("Detect ColorCorrection");
                         detectColorcorrectionMode(characteristics);
                         sendProgress(SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE), "ColorCorrection");
@@ -1053,6 +1062,22 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 break;
         }
         return tmp;
+    }
+
+    private void detectManualApeture(CameraCharacteristics characteristics) {
+        float[] apetures = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_APERTURES);
+        if (apetures.length > 1)
+        {
+            String[] ar = new String[apetures.length];
+            for (int i = 0; i < apetures.length;i++)
+            {
+                ar[i] = String.valueOf(apetures[i]);
+            }
+            SettingsManager.get(SettingKeys.M_Aperture).setValues(ar);
+            SettingsManager.get(SettingKeys.M_Aperture).setIsSupported(true);
+            SettingsManager.get(SettingKeys.M_Aperture).set(String.valueOf(0));
+
+        }
     }
 
     private void detectManualIso(CameraCharacteristics characteristics)

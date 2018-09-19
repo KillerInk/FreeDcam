@@ -40,6 +40,7 @@ import freed.cam.apis.camera2.FocusHandler;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
 import freed.cam.apis.camera2.parameters.ae.AeManagerHuaweiCamera2;
 import freed.cam.apis.camera2.parameters.manual.BurstApi2;
+import freed.cam.apis.camera2.parameters.manual.ManualApertureApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualWbCtApi2Hw;
@@ -170,6 +171,11 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             add(SettingKeys.M_Focus,new ManualFocus(cameraUiWrapper));
 
         //MF END
+
+        if (SettingsManager.get(SettingKeys.M_Aperture).isSupported())
+        {
+            add(SettingKeys.M_Aperture, new ManualApertureApi2(cameraUiWrapper, SettingKeys.M_Aperture));
+        }
 
         ManualToneMapCurveApi2 manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
         /*ManualContrast = manualToneMapCurveApi2.contrast;
