@@ -109,8 +109,15 @@ public class VideoRecorder {
             mediaRecorder.setCamera(camera);
         if (previewSurface != null)
             mediaRecorder.setPreviewDisplay(previewSurface);
-        if (currentVideoProfile.maxRecordingSize != 0)
-            mediaRecorder.setMaxFileSize(currentVideoProfile.maxRecordingSize);
+        try {
+            if (currentVideoProfile.maxRecordingSize != 0)
+                mediaRecorder.setMaxFileSize(currentVideoProfile.maxRecordingSize);
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+
+        }
         try {
             if (currentVideoProfile.duration != 0)
                 mediaRecorder.setMaxDuration(currentVideoProfile.duration);
