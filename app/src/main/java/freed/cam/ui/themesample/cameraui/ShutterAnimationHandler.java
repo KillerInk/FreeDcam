@@ -124,8 +124,9 @@ public class ShutterAnimationHandler extends Handler
 
     private void startAnimation()
     {
-        //this.removeMessages(MSG_START_ANIMATION);
-        this.obtainMessage(MSG_START_ANIMATION).sendToTarget();
+        Message msg  =new Message();
+        msg.what = MSG_START_ANIMATION;
+        this.sendMessage(msg);
     }
 
     public void startDrawing() {
