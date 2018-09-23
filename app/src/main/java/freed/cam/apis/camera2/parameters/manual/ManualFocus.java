@@ -89,6 +89,7 @@ public class ManualFocus extends AbstractParameter
             if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).GetStringValue().equals(cameraUiWrapper.getContext().getString(R.string.off)))
             {
                 //apply turn off direct to the capturesession, else it get stored in settings.
+                cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).fireStringValueChanged(cameraUiWrapper.getContext().getString(R.string.off));
                 ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL,setToCamera);
                 ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,setToCamera);
             }

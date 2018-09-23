@@ -244,7 +244,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                     break;
             }
             log("new AF_STATE :" + state);
-            if (result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE) != null) {
+            if (result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE) != null && result.get(TotalCaptureResult.CONTROL_AF_MODE) != TotalCaptureResult.CONTROL_AF_MODE_OFF) {
                 try {
                     focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
                     camera2Fragment.getParameterHandler().get(SettingKeys.M_Focus).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
