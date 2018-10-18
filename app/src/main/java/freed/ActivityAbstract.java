@@ -60,6 +60,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
     private boolean initDone = false;
 
+    private final boolean forceLogging = false;
 
     public enum FormatTypes
     {
@@ -99,8 +100,15 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected void initOnCreate()
     {
         File log = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeDcam/log.txt");
-        if (!Log.isLogToFileEnable() && log.exists()) {
+        if (!forceLogging) {
+            if (!Log.isLogToFileEnable() && log.exists()) {
+                new Log();
+            }
+        }
+        else
+        {
             new Log();
+
         }
         initDone = true;
         Log.d(TAG, "initOnCreate()");
