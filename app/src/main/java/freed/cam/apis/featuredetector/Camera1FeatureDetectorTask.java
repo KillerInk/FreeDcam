@@ -481,17 +481,31 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             //kirin shutter
             else if (parameters.get("hw-sensor-exposure-time-range") != null) {
-                Log.d(TAG, "ManualExposureTime huawei");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                String split[] = parameters.get("hw-sensor-exposure-time-range").split(",");//=1/4000,30"
-                String split2[] = split[0].split("/");
-                float a = (Float.parseFloat(split2[0]) / Float.parseFloat(split2[1])) * 1000000f;
-                long min =(long)a;
-                long max = Long.parseLong(split[1]) * 1000000;
-                String values[] = getSupportedShutterValues(min, max, true);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(values);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("hw-sensor-exposure-time");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_KRILLIN);
+                try {
+                    Log.d(TAG, "ManualExposureTime huawei");
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
+                    String split[] = parameters.get("hw-sensor-exposure-time-range").split(",");//=1/4000,30"
+                    String split2[] = split[0].split("/");
+                    float a = (Float.parseFloat(split2[0]) / Float.parseFloat(split2[1])) * 1000000f;
+                    long min = (long) a;
+                    long max;
+                    if (split2[1].contains("/")) {
+                        String split3[] = split2[1].split("/");
+                        float tmp = (Float.parseFloat(split3[0]) / Float.parseFloat(split3[1])) * 1000000f;
+                        max = (long) tmp;
+                    } else
+                        max = Long.parseLong(split[1]) * 1000000;
+
+                    String values[] = getSupportedShutterValues(min, max, true);
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setValues(values);
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("hw-sensor-exposure-time");
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_KRILLIN);
+                }
+                catch (NumberFormatException ex)
+                {
+                    Log.WriteEx(ex);
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
+                }
             }
             //sony shutter
             else if (parameters.get("sony-max-shutter-speed") != null) {
