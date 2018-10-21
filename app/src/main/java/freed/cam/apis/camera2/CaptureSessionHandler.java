@@ -664,6 +664,8 @@ public class CaptureSessionHandler
 
     public void SetTextureViewSize(int w, int h, int rotation, int orientationWithHack,boolean renderscript)
     {
+        if (SettingsManager.get(SettingKeys.orientationHack).get())
+            rotation = orientationWithHack;
         Matrix matrix = new Matrix();
         matrix.reset();
         RectF inputRect = new RectF(0, 0, w, h);
