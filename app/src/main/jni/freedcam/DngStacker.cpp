@@ -46,8 +46,8 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     double *noisemat  = new double[6];
     float *blackleveltmp;
     short blacklevel;
-    float * tmpmat;
-    double * tmpdouble;
+    float * tmpmat = new float[9];
+    double * tmpdouble = new double[6];
     long * whitelvl;
     long white;
 
@@ -74,24 +74,24 @@ JNIEXPORT void JNICALL Java_freed_jni_DngStack_startStack(JNIEnv *env, jobject t
     TIFFGetField(tif, TIFFTAG_BITSPERSAMPLE, &bitdeeptemp);
     LOGD("GetBitDeep");
     bitdeep = bitdeeptemp;
-    TIFFGetField(tif, TIFFTAG_COLORMATRIX1, &tmpmat);
+    TIFFGetField(tif, TIFFTAG_COLORMATRIX1,9, &tmpmat);
     LOGD("cc1");
     moveToMem(tmpmat, cmat1,9);
-    TIFFGetField(tif, TIFFTAG_COLORMATRIX2, &tmpmat);
+    TIFFGetField(tif, TIFFTAG_COLORMATRIX2,9, &tmpmat);
     LOGD("cc2");
     moveToMem(tmpmat, cmat2,9);
-    TIFFGetField(tif, TIFFTAG_ASSHOTNEUTRAL, &tmpmat);
+    TIFFGetField(tif, TIFFTAG_ASSHOTNEUTRAL,3, &tmpmat);
     LOGD("neutral");
     moveToMem(tmpmat, neutMat,3);
-    TIFFGetField(tif, TIFFTAG_FOWARDMATRIX1, &tmpmat);
+    TIFFGetField(tif, TIFFTAG_FOWARDMATRIX1,9, &tmpmat);
     moveToMem(tmpmat, fmat1,9);
-    TIFFGetField(tif, TIFFTAG_FOWARDMATRIX2, &tmpmat);
+    TIFFGetField(tif, TIFFTAG_FOWARDMATRIX2,9, &tmpmat);
     moveToMem(tmpmat, fmat2,9);
-    TIFFGetField(tif, TIFFTAG_CAMERACALIBRATION1, &tmpmat);
+    TIFFGetField(tif, TIFFTAG_CAMERACALIBRATION1,9, &tmpmat);
     moveToMem(tmpmat, calib1,9);
-    TIFFGetField(tif, TIFFTAG_CAMERACALIBRATION2, &tmpmat);
+    TIFFGetField(tif, TIFFTAG_CAMERACALIBRATION2,9, &tmpmat);
     moveToMem(tmpmat, calib2,9);
-    TIFFGetField(tif, TIFFTAG_NOISEPROFILE, &tmpdouble);
+    TIFFGetField(tif, TIFFTAG_NOISEPROFILE,6, &tmpdouble);
     for (int i = 0; i < 6; ++i) {
         noisemat[i] = tmpdouble[i];
     }

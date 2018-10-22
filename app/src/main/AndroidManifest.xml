@@ -49,7 +49,7 @@
         android:theme="@style/FullscreenTheme"
         android:hardwareAccelerated="true"
         android:largeHeap="true"
-        android:extractNativeLibs="false">
+        android:extractNativeLibs="true">
 
         <activity
             android:name="freed.cam.ActivityFreeDcamMain"

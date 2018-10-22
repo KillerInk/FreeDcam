@@ -20,6 +20,22 @@
 #define TIFFTAG_PROFILENAME 50936
 #define TIFFTAG_OPC2 51009 /* OpCode 2 lens shit */
 #define TIFFTAG_OPC3 51022 /* OpCode 3 lens shit */
+#define TIFFTAG_CFAPATTERN		33422	/* color filter array pattern */
+#define	    PHOTOMETRIC_CFA		32803	/* color filter array */
+#define TIFFTAG_CFAREPEATPATTERNDIM	33421	/* dimensions of CFA pattern */
+#define TIFFTAG_COLORMATRIX1		50721	/* &XYZ->reference color space
+						   transformation matrix 1 */
+#define TIFFTAG_COLORMATRIX2		50722	/* &XYZ->reference color space
+						   transformation matrix 2 */
+#define TIFFTAG_ASSHOTNEUTRAL		50728	/* &selected white balance in
+						   linear reference space */
+#define TIFFTAG_CAMERACALIBRATION1	50723	/* &calibration matrix 1 */
+#define TIFFTAG_CAMERACALIBRATION2	50724	/* &calibration matrix 2 */
+
+#define TIFFTAG_REDUCTIONMATRIX1	50725	/* &dimensionality reduction
+						   matrix 1 */
+#define TIFFTAG_REDUCTIONMATRIX2	50726	/* &dimensionality reduction
+						   matrix 2 */
 
 #define TIFFTAG_BASELINEEXPOSUREOFFSET	51109
 #define     TIFFTAG_EP_STANDARD_ID         37398
@@ -64,9 +80,6 @@ static const TIFFFieldInfo  dngFields[] = {
         { TIFFTAG_PROFILEHUESATMAPDATA1, -1, -1, TIFF_FLOAT, FIELD_CUSTOM, 0, 1, "ProfileHueSatMapData1" },
         { TIFFTAG_PROFILEHUESATMAPDATA2, -1, -1, TIFF_FLOAT, FIELD_CUSTOM, 0, 1, "ProfileHueSatMapData2" },
         { TIFFTAG_PROFILEHUESATMAPDIMS, -1, -1, TIFF_LONG,  FIELD_CUSTOM, 0, 1, "ProfileHueSatMapDims" },
-        { TIFFTAG_FOWARDMATRIX1, -1, -1, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "ForwardMatrix1" },
-        { TIFFTAG_FOWARDMATRIX2, -1, -1, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "ForwardMatrix2" },
-        { TIFFTAG_NOISEPROFILE, -1, -1, TIFF_DOUBLE, FIELD_CUSTOM, 0, 1, "NoiseProfile" },
         { TIFFTAG_BASELINEEXPOSUREOFFSET, 1, 1, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 0, "BaselineExposureOffset" },
         { EXIFTAG_EXPOSURETIME, 1, 1, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "ExposureTime" },
         { EXIFTAG_FNUMBER, 1, 1, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "FNumber" },
@@ -77,6 +90,18 @@ static const TIFFFieldInfo  dngFields[] = {
         { EXIFTAG_EXPOSUREINDEX, 1, 1, TIFF_RATIONAL, FIELD_CUSTOM, 1, 0, "ExposureIndex" },
         { TIFFTAG_EP_STANDARD_ID, 4, 4, TIFF_BYTE,  FIELD_CUSTOM, 0, 0, "TIFFEPStandardID" },
         { TIFFTAG_ACTIVEAREA,	4, 4,	TIFF_LONG,	FIELD_CUSTOM, 0, 0, "ActiveArea" },
+        { TIFFTAG_CFAPATTERN,	4, 4,	TIFF_BYTE, FIELD_CUSTOM, 0,	0,	"CFAPattern" },
+        { TIFFTAG_CFAREPEATPATTERNDIM, 2, 2, TIFF_SHORT, FIELD_CUSTOM, 0, 0,	"CFARepeatPatternDim" },
+        { TIFFTAG_COLORMATRIX1, 9, 9, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "ColorMatrix1" },
+        { TIFFTAG_COLORMATRIX2, 9, 9, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "ColorMatrix2" },
+        { TIFFTAG_ASSHOTNEUTRAL, 3, 3, TIFF_RATIONAL, FIELD_CUSTOM, 0, 1, "AsShotNeutral" },
+        { TIFFTAG_CAMERACALIBRATION1,9, 9, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "CameraCalibration1" },
+        { TIFFTAG_CAMERACALIBRATION2, 9, 9, TIFF_SRATIONAL,  FIELD_CUSTOM, 0, 1, "CameraCalibration2" },
+        { TIFFTAG_REDUCTIONMATRIX1, 9, 9, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "ReductionMatrix1" },
+        { TIFFTAG_REDUCTIONMATRIX2, 9, 9, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "ReductionMatrix2" },
+        { TIFFTAG_FOWARDMATRIX1, 9, 9, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "ForwardMatrix1" },
+        { TIFFTAG_FOWARDMATRIX2, 9, 9, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "ForwardMatrix2" },
+        { TIFFTAG_NOISEPROFILE,6, 6, TIFF_DOUBLE, FIELD_CUSTOM, 0, 1, "NoiseProfile" },
 
 
 };

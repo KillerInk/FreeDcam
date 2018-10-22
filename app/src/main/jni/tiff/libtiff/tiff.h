@@ -474,20 +474,12 @@ typedef enum {
 						   area */
 #define TIFFTAG_DEFAULTCROPSIZE		50720	/* &size of the final image 
 						   area */
-#define TIFFTAG_COLORMATRIX1		50721	/* &XYZ->reference color space
-						   transformation matrix 1 */
-#define TIFFTAG_COLORMATRIX2		50722	/* &XYZ->reference color space
-						   transformation matrix 2 */
-#define TIFFTAG_CAMERACALIBRATION1	50723	/* &calibration matrix 1 */
-#define TIFFTAG_CAMERACALIBRATION2	50724	/* &calibration matrix 2 */
-#define TIFFTAG_REDUCTIONMATRIX1	50725	/* &dimensionality reduction
-						   matrix 1 */
-#define TIFFTAG_REDUCTIONMATRIX2	50726	/* &dimensionality reduction
-						   matrix 2 */
+
+
+
 #define TIFFTAG_ANALOGBALANCE		50727	/* &gain applied the stored raw
 						   values*/
-#define TIFFTAG_ASSHOTNEUTRAL		50728	/* &selected white balance in
-						   linear reference space */
+
 #define TIFFTAG_ASSHOTWHITEXY		50729	/* &selected white balance in
 						   x-y chromaticity
 						   coordinates */
