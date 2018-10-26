@@ -21,7 +21,6 @@ package freed.cam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
-import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
@@ -33,20 +32,16 @@ import android.text.TextUtils;
 import android.util.Size;
 import android.view.Surface;
 
-import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.troop.freedcam.R;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2Fragment;
-import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
 import freed.cam.apis.camera2.modules.helper.FindOutputHelper;
 import freed.cam.apis.camera2.modules.helper.ImageCaptureHolder;

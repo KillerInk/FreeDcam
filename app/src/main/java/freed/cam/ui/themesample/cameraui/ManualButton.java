@@ -24,7 +24,6 @@ import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuff.Mode;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;

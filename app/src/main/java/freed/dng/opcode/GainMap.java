@@ -1,16 +1,6 @@
 package freed.dng.opcode;
 
-import android.graphics.Rect;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CaptureResult;
-import android.hardware.camera2.params.LensShadingMap;
-
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
-
-import freed.jni.OpCode;
-import freed.utils.Log;
 
 public class GainMap extends OpCodeItem {
 

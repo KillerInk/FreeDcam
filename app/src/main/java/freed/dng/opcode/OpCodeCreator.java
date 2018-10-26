@@ -8,8 +8,6 @@ import android.hardware.camera2.params.LensShadingMap;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

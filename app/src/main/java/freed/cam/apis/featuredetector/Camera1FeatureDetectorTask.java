@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import com.lge.hardware.LGCameraRef;
 import com.troop.freedcam.R;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;

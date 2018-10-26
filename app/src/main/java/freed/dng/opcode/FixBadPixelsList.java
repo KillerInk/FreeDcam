@@ -2,8 +2,6 @@ package freed.dng.opcode;
 
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CaptureResult;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

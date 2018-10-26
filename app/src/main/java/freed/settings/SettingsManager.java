@@ -28,7 +28,6 @@ import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -41,7 +40,6 @@ import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.jni.OpCode;
-import freed.jni.RawToDng;
 import freed.settings.mode.SettingInterface;
 import freed.utils.Log;
 import freed.utils.StringUtils;

@@ -38,8 +38,6 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
-import static java.lang.Math.log10;
-
 /**
  * Created by troop on 12.06.2017.
  */

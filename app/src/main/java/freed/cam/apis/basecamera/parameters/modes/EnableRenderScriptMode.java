@@ -4,7 +4,6 @@ package freed.cam.apis.basecamera.parameters.modes;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.renderscript.RenderScriptManager;
 import freed.settings.mode.ApiBooleanSettingMode;
 import freed.settings.mode.BooleanSettingModeInterface;
 

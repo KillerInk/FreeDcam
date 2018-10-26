@@ -5,9 +5,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.text.TextUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.Camera2Fragment;

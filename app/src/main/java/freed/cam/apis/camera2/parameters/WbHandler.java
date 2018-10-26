@@ -22,10 +22,8 @@ package freed.cam.apis.camera2.parameters;
 import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.RggbChannelVector;
-import android.os.Build;
 import android.os.Build.VERSION_CODES;
 
-import com.huawei.camera2ex.CaptureRequestEx;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;

@@ -25,7 +25,6 @@ import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.HandlerThread;
 import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
@@ -41,7 +40,6 @@ import java.util.Collections;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.MainToCameraHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.renderscript.RenderScriptProcessor;

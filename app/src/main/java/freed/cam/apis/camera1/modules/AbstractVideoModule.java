@@ -24,12 +24,10 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
-import android.support.v4.provider.DocumentFile;
 
 import com.troop.freedcam.R;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;

@@ -19,13 +19,9 @@
 
 package freed.cam.apis.camera1.modules;
 
-import android.location.Location;
 import android.media.MediaRecorder;
-import android.media.MediaRecorder.AudioSource;
-import android.media.MediaRecorder.OutputFormat;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Handler;
-import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
@@ -33,11 +29,10 @@ import java.io.File;
 import java.util.Arrays;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
-import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
