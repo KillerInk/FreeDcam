@@ -4,7 +4,7 @@ LOCAL_ARM_MODE := arm
 
 include $(CLEAR_VARS)
 LOCAL_MODULE    := libfreedcam
-LOCAL_SRC_FILES := RawToDng.cpp librawutils.cpp DngWriter.cpp DngStacker.cpp ExifInfo.cpp GpsInfo.cpp DngProfile.cpp CustomMatrix.cpp Opcode.cpp
+LOCAL_SRC_FILES := RawToDng.cpp librawutils.cpp DngWriter.cpp DngStacker.cpp ExifInfo.cpp GpsInfo.cpp DngProfile.cpp CustomMatrix.cpp OpCode.cpp
 LOCAL_CPPFLAGS := -fexceptions -fopenmp -Wno-c++11-narrowing -frtti -std=c++11 -fpic
 LOCAL_CFLAGS += -fopenmp
 LOCAL_LDFLAGS += -fopenmp
@@ -23,4 +23,4 @@ include $(BUILD_SHARED_LIBRARY)
 
 
 APP_OPTIM := debug
-LOCAL_CFLAGS := -g 
+LOCAL_CFLAGS := -g
