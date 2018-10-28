@@ -147,7 +147,8 @@ public class VideoRecorder {
                 if (this.currentVideoProfile.isAudioActive)
                 {
                     try {
-                        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+                        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+                        //mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
                         //mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
                     }
                     catch (IllegalArgumentException ex)
