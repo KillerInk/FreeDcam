@@ -199,7 +199,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         finally
         {
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
-            recorder.release();
+            recorder.reset();
             isWorking = false;
             try {
                 if (VERSION.SDK_INT > VERSION_CODES.KITKAT && fileDescriptor != null) {

@@ -110,8 +110,8 @@ public class VideoRecorder {
         if (previewSurface != null)
             mediaRecorder.setPreviewDisplay(previewSurface);
         try {
-            if (currentVideoProfile.maxRecordingSize != 0)
-                mediaRecorder.setMaxFileSize(currentVideoProfile.maxRecordingSize);
+            if (this.currentVideoProfile.maxRecordingSize != 0)
+                mediaRecorder.setMaxFileSize(this.currentVideoProfile.maxRecordingSize);
         }
         catch (NullPointerException ex)
         {
@@ -119,8 +119,8 @@ public class VideoRecorder {
 
         }
         try {
-            if (currentVideoProfile.duration != 0)
-                mediaRecorder.setMaxDuration(currentVideoProfile.duration);
+            if (this.currentVideoProfile.duration != 0)
+                mediaRecorder.setMaxDuration(this.currentVideoProfile.duration);
         }
         catch (RuntimeException ex)
         {
@@ -139,12 +139,12 @@ public class VideoRecorder {
 
         mediaRecorder.setOrientationHint(orientation);
 
-        switch (currentVideoProfile.Mode)
+        switch (this.currentVideoProfile.Mode)
         {
 
             case Normal:
             case Highspeed:
-                if (currentVideoProfile.isAudioActive)
+                if (this.currentVideoProfile.isAudioActive)
                 {
                     try {
                         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
@@ -174,8 +174,8 @@ public class VideoRecorder {
 
         setRecorderFilePath();
 
-        mediaRecorder.setVideoEncodingBitRate(currentVideoProfile.videoBitRate);
-        mediaRecorder.setVideoFrameRate(currentVideoProfile.videoFrameRate);
+        mediaRecorder.setVideoEncodingBitRate(this.currentVideoProfile.videoBitRate);
+        mediaRecorder.setVideoFrameRate(this.currentVideoProfile.videoFrameRate);
 
          /*setCaptureRate
 
@@ -187,9 +187,9 @@ public class VideoRecorder {
         Audio related parameters are ignored when a time lapse recording session starts, if an application sets them.*/
         //mediaRecorder.setCaptureRate((double)currentVideoProfile.videoFrameRate);
 
-        mediaRecorder.setVideoSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+        mediaRecorder.setVideoSize(this.currentVideoProfile.videoFrameWidth, this.currentVideoProfile.videoFrameHeight);
         try {
-            mediaRecorder.setVideoEncoder(currentVideoProfile.videoCodec);
+            mediaRecorder.setVideoEncoder(this.currentVideoProfile.videoCodec);
         }
         catch (IllegalArgumentException ex)
         {
@@ -197,23 +197,23 @@ public class VideoRecorder {
             UserMessageHandler.sendMSG("VideoCodec not Supported",false);
         }
 
-        switch (currentVideoProfile.Mode)
+        switch (this.currentVideoProfile.Mode)
         {
             case Normal:
             case Highspeed:
-                if (currentVideoProfile.isAudioActive)
+                if (this.currentVideoProfile.isAudioActive)
                 {
                     try {
-                        mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
+                        mediaRecorder.setAudioEncoder(this.currentVideoProfile.audioCodec);
                     }
                     catch (IllegalArgumentException ex)
                     {
                         mediaRecorder.reset();
                         UserMessageHandler.sendMSG("AudioCodec not Supported",false);
                     }
-                    mediaRecorder.setAudioChannels(currentVideoProfile.audioChannels);
-                    mediaRecorder.setAudioEncodingBitRate(currentVideoProfile.audioBitRate);
-                    mediaRecorder.setAudioSamplingRate(currentVideoProfile.audioSampleRate);
+                    mediaRecorder.setAudioChannels(this.currentVideoProfile.audioChannels);
+                    mediaRecorder.setAudioEncodingBitRate(this.currentVideoProfile.audioBitRate);
+                    mediaRecorder.setAudioSamplingRate(this.currentVideoProfile.audioSampleRate);
                 }
                 break;
             case Timelapse:
@@ -261,6 +261,11 @@ public class VideoRecorder {
     public void release()
     {
         mediaRecorder.release();
+    }
+
+    public void reset()
+    {
+        mediaRecorder.reset();
     }
 
 }
