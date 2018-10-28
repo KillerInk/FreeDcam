@@ -131,9 +131,15 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void onCameraClose(String message)
     {
-        Log.d(TAG, "onCameraClose");
-        cameraIsOpen = false;
-        mProcessor.kill();
+        try {
+            Log.d(TAG, "onCameraClose");
+            cameraIsOpen = false;
+            mProcessor.kill();
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
     @Override
@@ -295,10 +301,16 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
 
     @Override
     public void stopCamera() {
-        Log.d(TAG, "Stop Camera");
-        captureSessionHandler.Clear();
-        cameraHolder.CloseCamera();
-        cameraIsOpen = false;
+        try {
+            Log.d(TAG, "Stop Camera");
+            captureSessionHandler.Clear();
+            cameraHolder.CloseCamera();
+            cameraIsOpen = false;
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
     @Override

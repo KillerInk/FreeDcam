@@ -66,7 +66,7 @@ public abstract class AbstractFocusHandler
     protected AbstractFocusHandler(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        backgroundHandler = new BackgroundHandler(cameraUiWrapper.getCameraHandlerThread().getLooper());
+        backgroundHandler = new BackgroundHandler(cameraUiWrapper.getCameraHandlerLooper());
     }
 
     public abstract void StartFocus();

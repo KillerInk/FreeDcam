@@ -6,6 +6,8 @@ import android.os.Message;
 
 import java.lang.ref.WeakReference;
 
+import freed.utils.Log;
+
 /**
  * Created by KillerInk on 22.12.2017.
  */
@@ -59,40 +61,54 @@ public class MainToCameraHandler extends Handler {
     }
 
 
-    public MainToCameraHandler(Looper looper, CameraInterface cameraMessageEvent)
+    public MainToCameraHandler(Looper looper)
     {
         super(looper);
-        messageHandlerWeakReference = new WeakReference<>(cameraMessageEvent);
+    }
+
+    public Looper getCameraLooper()
+    {
+        return getLooper();
+    }
+
+    public void setCameraInterface(CameraInterface cameraInterface)
+    {
+        messageHandlerWeakReference = new WeakReference<>(cameraInterface);
     }
 
     @Override
     public void handleMessage(Message msg) {
         CameraInterface cameraMessageEvent = messageHandlerWeakReference.get();
         if (cameraMessageEvent != null) {
-            switch (msg.what)
-            {
-                case MainToCameraHandler.MSG_START_CAMERA:
-                    cameraMessageEvent.startCamera();
-                    break;
-                case MainToCameraHandler.MSG_STOP_CAMERA:
-                    cameraMessageEvent.stopCamera();
-                    break;
-                case MainToCameraHandler.MSG_RESTART_CAMERA:
-                    cameraMessageEvent.restartCamera();
-                    break;
-                case MainToCameraHandler.MSG_START_PREVIEW:
-                    cameraMessageEvent.startPreview();
-                    break;
-                case MainToCameraHandler.MSG_STOP_PREVIEW:
-                    cameraMessageEvent.stopPreview();
-                    break;
-                case MainToCameraHandler.MSG_INIT_CAMERA:
-                    cameraMessageEvent.initCamera();
-                    break;
-                case MainToCameraHandler.MSG_CREATE_CAMERA:
+            try {
+                switch (msg.what) {
+                    case MainToCameraHandler.MSG_START_CAMERA:
+                        cameraMessageEvent.startCamera();
+                        break;
+                    case MainToCameraHandler.MSG_STOP_CAMERA:
+                        cameraMessageEvent.stopCamera();
+                        break;
+                    case MainToCameraHandler.MSG_RESTART_CAMERA:
+                        cameraMessageEvent.restartCamera();
+                        break;
+                    case MainToCameraHandler.MSG_START_PREVIEW:
+                        cameraMessageEvent.startPreview();
+                        break;
+                    case MainToCameraHandler.MSG_STOP_PREVIEW:
+                        cameraMessageEvent.stopPreview();
+                        break;
+                    case MainToCameraHandler.MSG_INIT_CAMERA:
+                        cameraMessageEvent.initCamera();
+                        break;
+                    case MainToCameraHandler.MSG_CREATE_CAMERA:
 
-                    cameraMessageEvent.createCamera();
-                    break;
+                        cameraMessageEvent.createCamera();
+                        break;
+                }
+            }
+            catch (NullPointerException ex)
+            {
+                Log.WriteEx(ex);
             }
         }
     }

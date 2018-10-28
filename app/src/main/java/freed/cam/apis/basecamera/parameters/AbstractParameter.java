@@ -83,7 +83,7 @@ public abstract class AbstractParameter implements ParameterInterface {
         this(settingMode);
         this.cameraUiWrapper = cameraUiWrapper;
         if (cameraUiWrapper != null)
-            this.backHandler = new BackHandler(cameraUiWrapper.getCameraHandlerThread().getLooper(),this);
+            this.backHandler = new BackHandler(cameraUiWrapper.getCameraHandlerLooper(),this);
     }
 
     private static final int MSG_SET_INT =0;
