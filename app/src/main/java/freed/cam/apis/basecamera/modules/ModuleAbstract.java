@@ -40,6 +40,7 @@ public abstract class ModuleAbstract implements ModuleInterface
 {
 
     protected boolean isWorking;
+    protected boolean isLowStorage;
     public String name;
 
     protected CaptureStateChanged captureStateChangedListner;
@@ -117,6 +118,11 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public boolean IsWorking() {
         return isWorking;
+    }
+
+    @Override
+    public void IsLowStorage(Boolean x) {
+        isLowStorage = x;
     }
 
     /**

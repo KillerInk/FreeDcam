@@ -43,6 +43,12 @@ public interface ModuleInterface extends WorkFinishEvents
     boolean IsWorking();
 
     /**
+     * The workstate of the module
+     * @return true if it has work to process
+     */
+    void IsLowStorage( Boolean x);
+
+    /**
      * Full name of the module
 
      * @return

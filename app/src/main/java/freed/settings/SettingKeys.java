@@ -116,6 +116,7 @@ public class SettingKeys{
     public final static Key<SettingMode> selfTimer = new Key(SettingMode.class, R.string.aps_selftimer);
 
     public final static Key<SettingMode> FOCUSPEAK_COLOR = new Key(SettingMode.class, R.string.aps_focuspeakcolor);
+    public final static Key<SettingMode> VIDEO_AUDIO_SOURCE = new Key(SettingMode.class, R.string.aps_video_audio_source);
 
     public final static Key<TypedSettingMode> M_ManualIso = new Key(TypedSettingMode.class, R.string.aps_manualiso);
     public final static Key<TypedSettingMode> M_Whitebalance = new Key(TypedSettingMode.class, R.string.aps_manualwb);

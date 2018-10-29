@@ -50,6 +50,8 @@ public interface ModuleHandlerInterface
      */
     boolean startWork();
 
+    void SetIsLowStorage(Boolean x);
+
     /**
      * Add worklistner that listen to the current module
      * @param workerListner to add

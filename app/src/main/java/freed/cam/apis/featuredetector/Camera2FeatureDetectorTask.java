@@ -82,6 +82,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 SettingsManager.get(SettingKeys.selfTimer).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.selftimervalues));
                 SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
 
+                SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(SettingsManager.getInstance().getResString(R.string.video_audio_source_default));
+                SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.video_audio_source));
+                SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
+
                 if (RenderScriptManager.isSupported()) {
                     SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.focuspeakColors));
                     SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);

@@ -64,6 +64,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 {
     private final String TAG = VideoModuleApi2.class.getSimpleName();
     private boolean isRecording;
+    private boolean isLowStorage;
     private VideoMediaProfile currentVideoProfile;
     private Surface previewsurface;
     private Surface recorderSurface;
@@ -95,12 +96,22 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     private void startStopRecording()
     {
         mBackgroundHandler.post(() -> {
-            if (isRecording)
-                stopRecording();
-            else
+            if (!isRecording && !isLowStorage) {
                 startRecording();
+            }
+            else if( isRecording ) {
+                stopRecording();
+            }
+            if( isLowStorage ) {
+                UserMessageHandler.sendMSG("Can't Record due to low storage space. Free some and try again.", false);
+            }
         });
 
+    }
+
+    @Override
+    public void IsLowStorage(Boolean x) {
+        isLowStorage = x;
     }
 
     @Override

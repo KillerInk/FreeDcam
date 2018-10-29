@@ -34,6 +34,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
+import freed.cam.apis.basecamera.parameters.modes.VideoAudioSourceMode;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.FocusHandler;
@@ -196,6 +197,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         add(SettingKeys.M_Burst, new BurstApi2(cameraUiWrapper));
         add(SettingKeys.VideoProfiles, new VideoProfilesApi2(cameraUiWrapper));
+        add(SettingKeys.VIDEO_AUDIO_SOURCE, new VideoAudioSourceMode(cameraUiWrapper,SettingKeys.VIDEO_AUDIO_SOURCE));
         add(SettingKeys.MATRIX_SET, new MatrixChooserParameter(SettingsManager.getInstance().getMatrixesMap()));
         add(SettingKeys.TONEMAP_SET, new ToneMapChooser(SettingsManager.getInstance().getToneMapProfiles()));
         add(SettingKeys.M_Zoom, new ZoomApi2(cameraUiWrapper));
