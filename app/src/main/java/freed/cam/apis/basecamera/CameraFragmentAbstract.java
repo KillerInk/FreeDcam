@@ -21,6 +21,7 @@ package freed.cam.apis.basecamera;
 
 import android.os.Bundle;
 import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -77,11 +78,10 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     public abstract String CameraApiName();
 
     /**
-     * holds handler to invoke stuff in ui thread
+     * holds handler to invoke stuff in ui or camera thread
      */
-    protected  CameraToMainHandler cameraToMainHandler;
-    protected  MainToCameraHandler mainToCameraHandler;
-    protected  HandlerThread handlerThread;
+    protected MainToCameraHandler mainToCameraHandler;
+    protected CameraToMainHandler cameraToMainHandler;
 
     public static CameraFragmentAbstract getInstance()
     {
@@ -91,13 +91,13 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     public CameraFragmentAbstract()
     {
         cameraChangedListners = new ArrayList<>();
-        cameraToMainHandler = new CameraToMainHandler(this    );
     }
 
-    public void init(HandlerThread mBackgroundThread)
+    public void init(MainToCameraHandler mainToCameraHandler, CameraToMainHandler cameraToMainHandler)
     {
-        this.handlerThread = mBackgroundThread;
-        this.mainToCameraHandler = new MainToCameraHandler(handlerThread.getLooper(),this);
+        this.mainToCameraHandler = mainToCameraHandler;
+        this.cameraToMainHandler = cameraToMainHandler;
+
     }
 
     @Nullable
@@ -114,9 +114,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
             moduleHandler.CLEAR();
             moduleHandler.CLEARWORKERLISTNER();
         }
-        //cameraToMainHandler = null;
-        mainToCameraHandler = null;
-        handlerThread = null;
         super.onDestroyView();
 
     }
@@ -243,8 +240,8 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     }
 
     @Override
-    public HandlerThread getCameraHandlerThread() {
-        return handlerThread;
+    public Looper getCameraHandlerLooper() {
+        return mainToCameraHandler.getCameraLooper();
     }
 
     @Override

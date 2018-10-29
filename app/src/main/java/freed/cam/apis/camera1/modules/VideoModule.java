@@ -60,7 +60,11 @@ public class VideoModule extends AbstractVideoModule
     {
         recorder = new VideoRecorder(cameraUiWrapper,new MediaRecorder());
         recorder.setCamera(((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera());
-
+        if (currentProfile == null)
+        {
+            VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoProfiles);
+            currentProfile = videoProfilesG3Parameter.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).get());
+        }
         recorder.setCurrentVideoProfile(currentProfile);
         recorder.setVideoSource(VideoSource.CAMERA);
     }

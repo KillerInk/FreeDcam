@@ -29,10 +29,14 @@ public class CameraToMainHandler extends Handler implements CameraStateEvents
 
     private WeakReference<MainMessageEvent> mainMessageEventWeakReference;
 
-    public CameraToMainHandler(MainMessageEvent event)
+    public CameraToMainHandler()
     {
         super(Looper.getMainLooper());
-        mainMessageEventWeakReference = new WeakReference<>(event);
+    }
+
+    public void setMainMessageEventWeakReference(MainMessageEvent eventWeakReference)
+    {
+        mainMessageEventWeakReference = new WeakReference<>(eventWeakReference);
     }
 
     @Override
@@ -46,38 +50,64 @@ public class CameraToMainHandler extends Handler implements CameraStateEvents
 
     public void setCameraStateChangedListner(final CameraStateEvents cameraChangedListner)
     {
-        obtainMessage(CameraToMainHandler.MSG_SET_CAMERASTAUSLISTNER,cameraChangedListner).sendToTarget();
+        Message msg = new Message();
+        msg.what = CameraToMainHandler.MSG_SET_CAMERASTAUSLISTNER;
+        msg.obj = cameraChangedListner;
+        sendMessage(msg);
+        //obtainMessage(CameraToMainHandler.MSG_SET_CAMERASTAUSLISTNER,cameraChangedListner).sendToTarget();
     }
 
     @Override
     public void onCameraOpen()
     {
-        obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_OPEN).sendToTarget();
+        Message msg = new Message();
+        msg.what = CameraToMainHandler.MSG_ON_CAMERA_OPEN;
+        sendMessage(msg);
+        //obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_OPEN).sendToTarget();
     }
 
     @Override
     public void onCameraOpenFinish() {
-        obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_OPEN_FINISHED).sendToTarget();
+        Message msg = new Message();
+        msg.what = CameraToMainHandler.MSG_ON_CAMERA_OPEN_FINISHED;
+        sendMessage(msg);
+        //obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_OPEN_FINISHED).sendToTarget();
     }
 
     @Override
     public void onCameraClose(String message) {
-        obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_CLOSE, message).sendToTarget();
+        Message msg = new Message();
+        msg.what = CameraToMainHandler.MSG_ON_CAMERA_CLOSE;
+        msg.obj = message;
+        sendMessage(msg);
+        //obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_CLOSE, message).sendToTarget();
     }
 
     @Override
     public void onPreviewOpen(String message) {
-        obtainMessage(CameraToMainHandler.MSG_ON_PREVIEW_OPEN, message).sendToTarget();
+        Message msg = new Message();
+        msg.what = CameraToMainHandler.MSG_ON_PREVIEW_OPEN;
+        msg.obj = message;
+        sendMessage(msg);
+        //obtainMessage(CameraToMainHandler.MSG_ON_PREVIEW_OPEN, message).sendToTarget();
     }
 
     @Override
     public void onPreviewClose(String message) {
-        obtainMessage(CameraToMainHandler.MSG_ON_PREVIEW_CLOSE, message).sendToTarget();
+        Message msg = new Message();
+        msg.what = CameraToMainHandler.MSG_ON_PREVIEW_CLOSE;
+        msg.obj = message;
+        sendMessage(msg);
+        //obtainMessage(CameraToMainHandler.MSG_ON_PREVIEW_CLOSE, message).sendToTarget();
     }
 
     @Override
     public void onCameraError(final String error) {
-        obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_ERROR,error).sendToTarget();
+        Message msg = new Message();
+        msg.what = CameraToMainHandler.MSG_ON_CAMERA_ERROR;
+        msg.obj = error;
+        sendMessage(msg);
+        //obtainMessage(CameraToMainHandler.MSG_ON_CAMERA_ERROR,error).sendToTarget();
     }
     
 }

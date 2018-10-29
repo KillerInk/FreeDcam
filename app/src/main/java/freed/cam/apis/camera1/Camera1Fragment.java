@@ -427,8 +427,14 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Override
     public void stopPreview() {
-        Log.d(TAG, "Stop Preview");
-        cameraHolder.StopPreview();
+        try {
+            Log.d(TAG, "Stop Preview");
+            cameraHolder.StopPreview();
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
     @Override

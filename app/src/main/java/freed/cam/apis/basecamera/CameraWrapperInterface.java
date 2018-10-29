@@ -21,6 +21,7 @@ package freed.cam.apis.basecamera;
 
 import android.content.Context;
 import android.os.HandlerThread;
+import android.os.Looper;
 import android.view.SurfaceView;
 
 import freed.ActivityInterface;
@@ -112,7 +113,7 @@ public interface CameraWrapperInterface extends CameraStateEvents
 
     String getResString(int id);
 
-    HandlerThread getCameraHandlerThread();
+    Looper getCameraHandlerLooper();
 
     void fireCameraOpen();
     void fireCameraOpenFinished();

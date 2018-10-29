@@ -139,7 +139,7 @@
     <string name="setting_truepotrait_description">Description pending</string>
     <string name="setting_optizoom_header">Optizoom: </string>
     <string name="setting_optizoom_description">Description pending</string>
-    <string name="setting_chroma_header">Optizoom: </string>
+    <string name="setting_chroma_header">Chroma Flash: </string>
     <string name="setting_chroma_description">MultiFRame flash image</string>
 
 
