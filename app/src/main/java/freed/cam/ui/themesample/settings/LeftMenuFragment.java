@@ -131,6 +131,12 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
                 videoStabilization.SetUiItemClickListner(this);
                 videoGroup.addView(videoStabilization);
             }
+            if (params.get(SettingKeys.VIDEO_AUDIO_SOURCE)!= null)
+            {
+                SettingsChildMenu videoaudio = new SettingsChildMenu(getContext(), params.get(SettingKeys.VIDEO_AUDIO_SOURCE), R.string.setting_videoaudiosource_header, R.string.setting_videoaudiosource_description);
+                videoaudio.SetUiItemClickListner(this);
+                videoGroup.addView(videoaudio);
+            }
 
             if (videoGroup.childSize() > 0)
                 settingsChildHolder.addView(videoGroup);

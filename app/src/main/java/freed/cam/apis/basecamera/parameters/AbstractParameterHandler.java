@@ -132,6 +132,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(SettingKeys.NonZslManualMode,false);
 
         setAppSettingsToCamera(SettingKeys.VideoProfiles,false);
+        setAppSettingsToCamera(SettingKeys.VIDEO_AUDIO_SOURCE,false);
         setAppSettingsToCamera(SettingKeys.VideoHDR,false);
         setAppSettingsToCamera(SettingKeys.VideoSize,false);
         setAppSettingsToCamera(SettingKeys.VideoStabilization,false);
@@ -212,9 +213,10 @@ public abstract class AbstractParameterHandler
                 Log.d(TAG,"set to :" + toset);
                 if (TextUtils.isEmpty(toset) || toset.equals("none"))
                     settingMode.set(parameter.GetStringValue());
-                else
+                else if(parameter != null)
                     parameter.SetValue(toset,setToCamera);
-                parameter.fireStringValueChanged(toset);
+                if (parameter != null)
+                    parameter.fireStringValueChanged(toset);
             }
         }
     }

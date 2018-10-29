@@ -415,5 +415,14 @@
         <item>@string/fcolor_cyan</item>
     </string-array>
 
-    <!-- DO NOT TRANSLATE END -->
+    <string-array name="video_audio_source">
+        <item>@string/video_audio_source_default</item>
+        <item>@string/video_audio_source_mic</item>
+        <item>@string/video_audio_source_camcorder</item>
+        <item>@string/video_audio_source_voice_recognition</item>
+        <item>@string/video_audio_source_voice_communication</item>
+    <!--  <item>@string/video_audio_source_unprocessed</item> -->
+  </string-array>
+
+  <!-- DO NOT TRANSLATE END -->
 </resources>

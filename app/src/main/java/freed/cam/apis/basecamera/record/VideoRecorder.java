@@ -11,12 +11,15 @@ import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 import android.view.Surface;
 
+import com.troop.freedcam.R;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
@@ -147,7 +150,7 @@ public class VideoRecorder {
                 if (currentVideoProfile.isAudioActive)
                 {
                     try {
-                        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+                        mediaRecorder.setAudioSource(getAudioSource());
                         //mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
                     }
                     catch (IllegalArgumentException ex)
@@ -261,6 +264,22 @@ public class VideoRecorder {
     public void release()
     {
         mediaRecorder.release();
+    }
+
+    private int getAudioSource()
+    {
+        String as = SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).get();
+        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_mic)))
+            return MediaRecorder.AudioSource.MIC;
+        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_camcorder)))
+            return MediaRecorder.AudioSource.CAMCORDER;
+        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_voice_recognition)))
+            return MediaRecorder.AudioSource.VOICE_RECOGNITION;
+        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_voice_communication)))
+            return MediaRecorder.AudioSource.VOICE_COMMUNICATION;
+        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_unprocessed)))
+            return MediaRecorder.AudioSource.UNPROCESSED;
+        return MediaRecorder.AudioSource.DEFAULT;
     }
 
 }
