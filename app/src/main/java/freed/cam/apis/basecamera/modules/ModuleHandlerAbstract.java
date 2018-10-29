@@ -155,12 +155,6 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     }
 
     @Override
-    public void SetIsLowStorage(Boolean x) {
-        if( currentModule != null )
-            currentModule.IsLowStorage(x);
-    }
-
-    @Override
     public void setWorkListner(CaptureStateChanged workerListner)
     {
         if (!onCaptureStateChangedListners.contains(workerListner))

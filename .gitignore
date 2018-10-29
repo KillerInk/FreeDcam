@@ -24,5 +24,3 @@ app/manifest-merger-release-report.txt
 app/libs/arm64-v8a/libfreedcam.so
 app/.externalNativeBuild/*
 .svn/*
-app/release/output.json
-*.apk
