@@ -86,15 +86,25 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     private void startStopRecording()
     {
-        if (!isWorking)
+        if (!isWorking && !isLowStorage) {
             startRecording();
-        else
+        }
+        else if( isWorking ) {
             stopRecording();
+        }
+        if( isLowStorage ) {
+            UserMessageHandler.sendMSG("Can't Record due to low storage space. Free some and try again.", false);
+        }
     }
 
     @Override
     public boolean IsWorking() {
         return isWorking;
+    }
+
+    @Override
+    public void IsLowStorage(Boolean x) {
+        isLowStorage = x;
     }
 //ModuleInterface END
 

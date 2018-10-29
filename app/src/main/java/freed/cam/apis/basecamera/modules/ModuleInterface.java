@@ -43,6 +43,11 @@ public interface ModuleInterface extends WorkFinishEvents
     boolean IsWorking();
 
     /**
+     * Set the low storage flag
+     */
+    void IsLowStorage( Boolean x);
+
+    /**
      * Full name of the module
 
      * @return
