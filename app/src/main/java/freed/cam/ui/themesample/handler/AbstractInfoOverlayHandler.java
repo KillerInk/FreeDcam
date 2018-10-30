@@ -193,7 +193,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     }
 
     private String readableFileSize(long size) {
-        if( size < 157286400 ){ //at least leave 150MB so that OS can work properly.
+        if( size < 524288000 ){ //at least leave 500MB so that OS can work properly.
             //set not enough storage recording state
             cameraUiWrapper.getModuleHandler().SetIsLowStorage(true);
             if( !isStopped ) {
