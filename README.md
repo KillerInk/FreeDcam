@@ -280,6 +280,7 @@ KK = Kitkat,L = Lollipop , M = Marshmallow
 |Umi Rome X             | ![true] | ![true]| ![true]| ![true]|
 |Vivo Xplay             | ![true] | ![false]| ![false]| ![false]|
 |WileyFox Swift         | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Mi A1           | ![true] | ![true]| ![true]| ![true]|
 |Xiaomi Mi3             | ![true] | ![true]| ![true]| ![false]|
 |Xiaomi Mi3w            | ![true] | ![true]| ![true]| ![false]|
 |Xiaomi Mi4c            | ![true] | ![true]| ![true]| ![false]|
