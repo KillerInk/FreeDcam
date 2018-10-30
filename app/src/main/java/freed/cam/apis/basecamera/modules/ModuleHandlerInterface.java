@@ -51,6 +51,11 @@ public interface ModuleHandlerInterface
     boolean startWork();
 
     /**
+     * Set Low storage flag
+     */
+    void SetIsLowStorage(Boolean x);
+
+    /**
      * Add worklistner that listen to the current module
      * @param workerListner to add
      */
