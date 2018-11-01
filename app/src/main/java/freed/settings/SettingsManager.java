@@ -89,7 +89,6 @@ public class SettingsManager implements SettingsManagerInterface {
     public static final String TIMELAPSEFRAME = "timelapseframe";
     public static final String SETTING_API = "sonyapi";
     public static final String SETTING_LOCATION = "location";
-    public static final String SETTING_EXTERNALSHUTTER = "externalShutter";
     public static final String SETTING_TIMER = "timer";
     public static final String SETTING_FOCUSPEAK = "focuspeak";
     public static final String SETTING_EXTERNALSD = "extSD";
