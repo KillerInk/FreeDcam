@@ -14,17 +14,17 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 139
-        versionName '4.2'
-        applicationId "debug.com.freedcam"
+        versionCode 140
+        versionName '4.1'
+        applicationId "troop.com.freedcam"
         renderscriptTargetApi 19
         externalNativeBuild {
             ndkBuild {
                 arguments "-j4"
-                abiFilters 'armeabi-v7a','arm64-v8a', 'x86'
+                abiFilters 'armeabi-v7a','arm64-v8a'
             }
         }
-        versionNameSuffix 'debug'
+        versionNameSuffix 'final'
     }
     lintOptions { checkReleaseBuilds false }
     buildTypes {
