@@ -25,4 +25,5 @@ app/libs/arm64-v8a/libfreedcam.so
 app/.externalNativeBuild/*
 .svn/*
 app/build.gradle
-app/build.gradle
+*.apk
+app/release
