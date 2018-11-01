@@ -19,9 +19,8 @@
 
 package freed.cam.apis.basecamera.parameters.modes;
 
-import android.text.TextUtils;
-
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -29,33 +28,29 @@ import freed.settings.SettingsManager;
  */
 public class ParameterExternalShutter extends AbstractParameter
 {
-    private static final String VoLP = "Vol+";
-    private static final String VoLM = "Vol-";
-    private static final String Hook = "Hook";
-
-    private final String[] values = {VoLP, VoLM, Hook};
+    private final String[] values = {"Vol+", "Vol-", "Hook"};
 
     public ParameterExternalShutter()
     {
-        super(null);
+        super(SettingKeys.EXTERNAL_SHUTTER);
     }
 
-    public boolean IsSupported()
-    {
-        return true;
+    @Override
+    public ViewState getViewState() {
+        return ViewState.Visible;
     }
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        SettingsManager.getInstance().setApiString(SettingsManager.SETTING_EXTERNALSHUTTER, valueToSet);
+        SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).set(valueToSet);
     }
 
     public String GetStringValue()
     {
-        if (TextUtils.isEmpty(SettingsManager.getInstance().getApiString(SettingsManager.SETTING_EXTERNALSHUTTER)))
+        if (SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get().isEmpty())
             return "Hook";
         else
-            return SettingsManager.getInstance().getApiString(SettingsManager.SETTING_EXTERNALSHUTTER);
+            return SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get();
     }
 
     public String[] getStringValues() {
