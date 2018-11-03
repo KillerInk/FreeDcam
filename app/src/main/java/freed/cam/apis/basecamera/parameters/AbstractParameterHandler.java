@@ -178,7 +178,7 @@ public abstract class AbstractParameterHandler
         setManualMode(SettingKeys.M_ExposureCompensation,true);
     }
 
-    protected void SetParameters()
+    public void SetParameters()
     {}
 
     private void setMode(ParameterInterface parameter, String settings_key)
