@@ -122,7 +122,7 @@ public class ParametersHandler extends AbstractParameterHandler
     }
 
     @Override
-    protected void SetParameters() {
+    public void SetParameters() {
         SetParametersToCamera(cameraParameters);
     }
 
