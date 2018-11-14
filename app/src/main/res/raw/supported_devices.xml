@@ -77,6 +77,8 @@
             <minexposuretime></minexposuretime> in ms
 
             <maxiso>34000</maxiso> overwrite max iso
+
+            <minfocusposition>2.0</minfocusposition>
         </camera2>
 
         <opcodes> //used to remove vignett on dngs
