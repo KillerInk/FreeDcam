@@ -62,6 +62,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         initRecorder();
     }
 
+
     @Override
     public String ShortName() {
         return "Mov";
@@ -148,25 +149,24 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
             recorder.setPreviewSurface(((CameraHolder) cameraUiWrapper.getCameraHolder()).getSurfaceHolder());
 
-            try {
-                Log.d(TAG,"Preparing Recorder");
-                recorder.prepare();
-                Log.d(TAG, "Recorder Prepared, Starting Recording");
-                recorder.start();
-                Log.d(TAG, "Recording started");
-                sendStartToUi();
 
-            } catch (Exception ex)
-            {
-                Log.e(TAG,"Recording failed");
-                UserMessageHandler.sendMSG("Start Recording failed " + ex.getLocalizedMessage(),false);
-                Log.WriteEx(ex);
-                isWorking = false;
-                ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
-                recorder.release();
-                isWorking = false;
-                sendStopToUi();
-            }
+                Log.d(TAG,"Preparing Recorder");
+                if(recorder.prepare()) {
+                    Log.d(TAG, "Recorder Prepared, Starting Recording");
+                    recorder.start();
+                    Log.d(TAG, "Recording started");
+                    sendStartToUi();
+                }
+                else
+                {
+                    Log.e(TAG,"Recording failed");
+                    UserMessageHandler.sendMSG("Start Recording failed ",false);
+                    isWorking = false;
+                    ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
+                    recorder.reset();
+                    isWorking = false;
+                    sendStopToUi();
+                }
         }
         catch (NullPointerException ex)
         {
@@ -174,7 +174,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             UserMessageHandler.sendMSG("Start Recording failed",false);
             isWorking = false;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
-            recorder.release();
+            recorder.reset();
             isWorking = false;
             sendStopToUi();
 
@@ -225,31 +225,6 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             sendStopToUi();
         }
     }
-
-    /*private void setRecorderOutPutFile(String s)
-    {
-        if (VERSION.SDK_INT < VERSION_CODES.KITKAT
-                || !SettingsManager.getInstance().GetWriteExternal() && VERSION.SDK_INT >= VERSION_CODES.KITKAT)
-            recorder.setOutputFile(s);
-        else
-        {
-            File f = new File(s);
-            DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();*/
-            //DocumentFile wr = df.createFile("*/*", f.getName());
-            /*try {
-                fileDescriptor = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-                recorder.setOutputFile(fileDescriptor.getFileDescriptor());
-            } catch (FileNotFoundException ex) {
-                Log.WriteEx(ex);
-                try {
-                    fileDescriptor.close();
-                } catch (IOException ex1) {
-                   Log.WriteEx(ex1);
-                }
-            }
-        }
-
-    }*/
 
     @Override
     public void onInfo(MediaRecorder mr, int what, int extra) {

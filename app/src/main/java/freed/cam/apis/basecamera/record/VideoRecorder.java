@@ -105,7 +105,7 @@ public class VideoRecorder {
         mediaRecorder.stop();
     }
 
-    public void prepare()
+    public boolean prepare()
     {
         mediaRecorder.reset();
         if (camera != null)
@@ -119,7 +119,7 @@ public class VideoRecorder {
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
-
+            //return false;
         }
         try {
             if (this.currentVideoProfile.duration != 0)
@@ -129,6 +129,7 @@ public class VideoRecorder {
         {
             Log.WriteEx(ex);
             Log.e(TAG,"Failed to set Duration");
+            //return false;
         }
 
         if (errorListener != null)
@@ -157,13 +158,13 @@ public class VideoRecorder {
                     {
                         mediaRecorder.reset();
                         UserMessageHandler.sendMSG("AudioSource not Supported",true);
-                        return;
+                        return false;
                     }
                     catch (IllegalStateException ex)
                     {
                         mediaRecorder.reset();
                         UserMessageHandler.sendMSG("AudioSource not Supported",true);
-                        return;
+                        return false;
                     }
                 }
                 break;
@@ -213,6 +214,7 @@ public class VideoRecorder {
                     {
                         mediaRecorder.reset();
                         UserMessageHandler.sendMSG("AudioCodec not Supported",false);
+                        return false;
                     }
                     mediaRecorder.setAudioChannels(this.currentVideoProfile.audioChannels);
                     mediaRecorder.setAudioEncodingBitRate(this.currentVideoProfile.audioBitRate);
@@ -233,8 +235,9 @@ public class VideoRecorder {
         } catch (IOException ex) {
             Log.WriteEx(ex);
             UserMessageHandler.sendMSG("Prepare failed :" + ex.getMessage(),false);
-            return;
+            return false;
         }
+        return true;
     }
 
     private void setRecorderFilePath() {
