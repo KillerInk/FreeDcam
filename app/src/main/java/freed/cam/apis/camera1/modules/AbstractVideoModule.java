@@ -154,6 +154,12 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 if(recorder.prepare()) {
                     Log.d(TAG, "Recorder Prepared, Starting Recording");
                     recorder.start();
+
+                //fix exposer flick after video recording on first set parameters to camera.
+                // first call will under expose then second call will fix exposure.
+                cameraUiWrapper.getParameterHandler().SetParameters();
+                cameraUiWrapper.getParameterHandler().SetParameters();
+
                     Log.d(TAG, "Recording started");
                     sendStartToUi();
                 }

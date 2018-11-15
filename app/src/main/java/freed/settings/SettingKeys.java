@@ -104,6 +104,7 @@ public class SettingKeys{
     public final static Key<SettingMode> CONTROL_MODE = new Key(SettingMode.class, R.string.aps_controlmode);
     public final static Key<SettingMode> OIS_MODE = new Key(SettingMode.class, R.string.aps_ois);
     public final static Key<SettingMode> SD_SAVE_LOCATION = new Key(SettingMode.class, R.string.aps_sdcard);
+    public final static Key<SettingMode> EXTERNAL_SHUTTER = new Key(SettingMode.class, R.string.aps_externalshutter);
     public final static Key<SettingMode> LOCATION_MODE = new Key(SettingMode.class, R.string.aps_location);
     public final static Key<SettingMode> INTERVAL_DURATION = new Key(SettingMode.class, R.string.aps_interval_duration);
     public final static Key<SettingMode> INTERVAL_SHUTTER_SLEEP = new Key(SettingMode.class, R.string.aps_interval);

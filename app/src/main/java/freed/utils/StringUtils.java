@@ -30,12 +30,6 @@ import java.util.Map;
  */
 public class StringUtils
 {
-
-
-    public static String VoLP = "Vol+";
-    public static String VoLM = "Vol-";
-    public static String Hook = "Hook";
-
     private StringUtils(){}
 
     public static String GetExternalSDCARD() throws NullPointerException

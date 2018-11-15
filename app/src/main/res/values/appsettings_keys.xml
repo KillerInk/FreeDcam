@@ -120,6 +120,7 @@
     <string name="aps_nightoverlay" translatable="false">nightoverlay</string>
     <string name="aps_colorcorrectionmode" translatable="false">colorcorrectionmode</string>
     <string name="aps_tonecurve" translatable="false">tonecurve</string>
+    <string name="aps_externalshutter" translatable="false">externalshutter</string>
     <string name="aps_location" translatable="false">location</string>
     <string name="aps_bayformat" translatable="false">bayerformat</string>
     <string name="aps_touchtocapture" translatable="false">touchtocapture</string>

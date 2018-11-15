@@ -36,6 +36,7 @@ import freed.cam.apis.basecamera.parameters.modes.IntervalDurationParameter;
 import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
+import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
@@ -66,6 +67,7 @@ public abstract class AbstractParameterHandler
         add(SettingKeys.GuideList, new GuideList());
         add(SettingKeys.LOCATION_MODE, new LocationParameter(cameraUiWrapper));
         add(SettingKeys.INTERVAL_DURATION, new IntervalDurationParameter(cameraUiWrapper));
+        add(SettingKeys.EXTERNAL_SHUTTER, new ParameterExternalShutter());
         add(SettingKeys.INTERVAL_SHUTTER_SLEEP, new IntervalShutterSleepParameter(cameraUiWrapper));
         add(SettingKeys.HorizontLvl, new Horizont());
         add(SettingKeys.SD_SAVE_LOCATION, new SDModeParameter());
@@ -176,7 +178,7 @@ public abstract class AbstractParameterHandler
         setManualMode(SettingKeys.M_ExposureCompensation,true);
     }
 
-    protected void SetParameters()
+    public void SetParameters()
     {}
 
     private void setMode(ParameterInterface parameter, String settings_key)

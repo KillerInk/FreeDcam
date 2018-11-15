@@ -23,7 +23,6 @@ package freed.cam;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -49,7 +48,6 @@ import freed.utils.MediaScannerManager;
 import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
 import freed.utils.StorageFileManager;
-import freed.utils.StringUtils;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
@@ -273,12 +271,15 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             Log.d(TAG, "KeyCode Pressed:" + keyCode);
             int appSettingsKeyShutter = 0;
 
-            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
+
+            String es = SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get();
+
+            if (es.equals("Vol+"))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
-            else if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
+            else if (es.equals("Vol-"))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-            else if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook)
-                    || TextUtils.isEmpty(SettingsManager.getInstance().getApiString(SettingsManager.SETTING_EXTERNALSHUTTER)))
+            else if (es.equals("Hook")
+                    || es.isEmpty())
                 appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
 
             if (keyCode == KeyEvent.KEYCODE_3D_MODE
