@@ -77,6 +77,8 @@
             <minexposuretime></minexposuretime> in ms
 
             <maxiso>34000</maxiso> overwrite max iso
+
+            <minfocusposition>2.0</minfocusposition>
         </camera2>
 
         <opcodes> //used to remove vignett on dngs
@@ -2396,7 +2398,7 @@
     <device name ="Xiaomi_MI5x">
         <models>
             <item>MI 5x</item>
-            <item>MI A1</item>
+            <item>Mi A1</item>
         </models>
         <camera1>
             <digitalimagestab>false</digitalimagestab>

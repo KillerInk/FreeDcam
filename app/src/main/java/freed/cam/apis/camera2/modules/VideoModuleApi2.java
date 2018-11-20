@@ -288,16 +288,21 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         videoRecorder.setVideoSource(VideoSource.SURFACE);
         videoRecorder.setOrientation(0);
 
-        videoRecorder.prepare();
-        recorderSurface = videoRecorder.getSurface();
-        cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface,true);
-        Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate,currentVideoProfile.videoFrameRate);
-        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE,fps);
+        if(videoRecorder.prepare()) {
+            recorderSurface = videoRecorder.getSurface();
+            cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
+            Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps);
 
-        if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
-            cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewrdy);
-        else
-            cameraUiWrapper.captureSessionHandler.CreateHighSpeedCaptureSession(previewrdy);
+            if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
+                cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewrdy);
+            else
+                cameraUiWrapper.captureSessionHandler.CreateHighSpeedCaptureSession(previewrdy);
+        }
+        else{
+            isRecording = false;
+            changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+        }
     }
 
     private void recordnextFile(MediaRecorder mr) {

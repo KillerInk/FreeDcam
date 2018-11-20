@@ -267,6 +267,8 @@ public class XmlParserWriter
                                 }
                                 if (!camera2element.findChild("maxiso").isEmpty())
                                     SettingsManager.getInstance().setCamera2MaxIso(camera2element.findChild("maxiso").getIntValue(0));
+                                if (!camera2element.findChild("minfocusposition").isEmpty())
+                                    SettingsManager.getInstance().setCamera2MinFocusPosition(camera2element.findChild("minfocusposition").getFloatValue());
                             }
 
                             LongSparseArray<DngProfile> dngProfileHashMap = new LongSparseArray<>();

@@ -954,6 +954,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     {
         SettingMode mf = SettingsManager.get(SettingKeys.M_Focus);
         float maxfocusrange = cameraCharacteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
+        if (SettingsManager.getInstance().getCamera2MinFocusPosition() > 0)
+            maxfocusrange = SettingsManager.getInstance().getCamera2MinFocusPosition();
         if (maxfocusrange == 0)
         {
             mf.setIsSupported(false);

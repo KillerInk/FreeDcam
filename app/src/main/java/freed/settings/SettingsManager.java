@@ -382,6 +382,19 @@ public class SettingsManager implements SettingsManagerInterface {
         Log.d(TAG,"Override max iso:" +settings.getInt("camera2maxiso",0));
     }
 
+    public void setCamera2MinFocusPosition(float pos)
+    {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putFloat("camera2minfocuspos",pos);
+        editor.commit();
+        Log.d(TAG,"Override min focus position:" +settings.getInt("camera2minfocuspos",0));
+    }
+
+    public float getCamera2MinFocusPosition()
+    {
+        return settings.getInt("camera2minfocuspos",0);
+    }
+
     public void setDevice(String device) {
         this.mDevice = device;
         putString("DEVICE", mDevice);
