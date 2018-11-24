@@ -55,9 +55,12 @@
 
 #include "tiffiop.h"
 
+#include <android/log.h>
 
 #define TIFF_IO_MAX 2147483647U
 
+#define  LOG_TAG    "freedcam.libtiff"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 typedef union fd_as_handle_union
 {
@@ -370,8 +373,10 @@ unixErrorHandler(const char* module, const char* fmt, va_list ap)
 {
 	if (module != NULL)
 		fprintf(stderr, "%s: ", module);
+    LOGD("%s",fmt);
 	vfprintf(stderr, fmt, ap);
 	fprintf(stderr, ".\n");
+
 }
 TIFFErrorHandler _TIFFerrorHandler = unixErrorHandler;
 

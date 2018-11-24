@@ -209,7 +209,6 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
     {
         LOGD("TIFFCreateGPSDirectory() failed" );
     }
-
     if (!TIFFSetField( tif, GPSTAG_GPSVersionID, "\002\003\0\0"))
     {
         LOGD("Can't write GPSVersionID" );
@@ -719,7 +718,6 @@ void DngWriter::clear() {
 void DngWriter::WriteDNG() {
     uint64 gps_offset = 0;
     LOGD("init ext tags");
-    _XTIFFInitialize();
     LOGD("init ext tags done");
     TIFF *tif;
     LOGD("has file description: %b", hasFileDes);
