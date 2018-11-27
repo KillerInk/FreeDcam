@@ -112,17 +112,18 @@ void DngWriter::writeIfd0(TIFF *tif) {
     LOGD("imagedescription");
     TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9,customMatrix->colorMatrix1);
     LOGD("colormatrix1");
+    LOGD("colormatrix2");
+    TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, customMatrix->colorMatrix2);
     TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, customMatrix->neutralColorMatrix);
     LOGD("neutralMatrix");
 
-    float anlogb[] = { 1.0, 1.0, 1.0 };
-    TIFFSetField(tif, TIFFTAG_ANALOGBALANCE, 3, anlogb);
+   /* float anlogb[] = { 1.0, 1.0, 1.0 };
+    TIFFSetField(tif, TIFFTAG_ANALOGBALANCE, 3, anlogb);*/
     //STANDARD A = FIIRST 17
     //D65 21 Second According to DNG SPEC 1.4 this is the correct order
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
-    LOGD("colormatrix2");
-    TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, customMatrix->colorMatrix2);
+
     LOGD("fowardMatrix1");
     if(customMatrix->fowardMatrix1 != NULL)
         TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  customMatrix->fowardMatrix1);
@@ -168,7 +169,7 @@ void DngWriter::writeIfd0(TIFF *tif) {
         TIFFSetField(tif,TIFFTAG_BASELINEEXPOSUREOFFSET, baselineExposureOffset);
     }
 
-    TIFFSetField(tif,TIFFTAG_BAYERGREENSPLIT, bayergreensplit);
+    //TIFFSetField(tif,TIFFTAG_BAYERGREENSPLIT, bayergreensplit);
 
     float margin = 8;
 
@@ -188,19 +189,7 @@ void DngWriter::writeIfd0(TIFF *tif) {
         TIFFSetField(tif,TIFFTAG_ACTIVEAREA, dngProfile->activearea);
     }
 
-    if(opCode != NULL)
-    {
-        if(opCode->op2Size > 0)
-        {
-            LOGD("Set OP2 %i", opCode->op2Size);
-            TIFFSetField(tif, TIFFTAG_OPC2, opCode->op2Size, opCode->op2);
-        }
-        if(opCode->op3Size > 0)
-        {
-            LOGD("Set OP3 %i", opCode->op3Size);
-            TIFFSetField(tif, TIFFTAG_OPC3, opCode->op3Size, opCode->op3);
-        }
-    }
+
 }
 
 void DngWriter::makeGPS_IFD(TIFF *tif) {
@@ -651,7 +640,6 @@ void DngWriter::writeRawStuff(TIFF *tif) {
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
     //**********************************************************************************
 
-    LOGD("Set OP or not");
 
     if(dngProfile->rawType == RAW_10BIT_TIGHT_SHIFT)
     {
@@ -730,6 +718,7 @@ void DngWriter::WriteDNG() {
 
     LOGD("writeIfd0");
     writeIfd0(tif);
+    LOGD("set exif");
     if(exifInfo != NULL)
         writeExifIfd(tif);
     if(gpsInfo != NULL)
@@ -740,22 +729,53 @@ void DngWriter::WriteDNG() {
     LOGD("TIFFCheckpointDirectory");
     TIFFCheckpointDirectory(tif);
     
-    LOGD("set exif");
 
     if(gpsInfo != NULL)
     {
-        makeGPS_IFD(tif);        
+        LOGD("makeGPSIFD");
+        makeGPS_IFD(tif);
+        LOGD("TIFFWriteCustomDirectory");
         TIFFWriteCustomDirectory(tif, &gps_offset);
         // set GPSIFD tag
+        LOGD("TIFFSetDirectory");
         TIFFSetDirectory(tif, 0);
+        LOGD("setgpsoffset");
         TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);
+        LOGD("TIFFCheckpointDirectory");
         TIFFCheckpointDirectory(tif);
+        LOGD("TIFFSetDirectory");
         TIFFSetDirectory(tif, 0);
+    }
+
+    if(opCode != NULL)
+    {
+        if(opCode->op2Size > 0)
+        {
+            LOGD("Set OP2 %i", opCode->op2Size);
+            TIFFSetField(tif, TIFFTAG_OPC2, opCode->op2Size, opCode->op2);
+        }
+        else
+        {
+            LOGD("opcode2 null");
+        }
+        if(opCode->op3Size > 0)
+        {
+            LOGD("Set OP3 %i", opCode->op3Size);
+            TIFFSetField(tif, TIFFTAG_OPC3, opCode->op3Size, opCode->op3);
+        }
+        else
+        {
+            LOGD("opcode3 null");
+        }
+    } else
+    {
+        LOGD("opcode null");
     }
     
     writeRawStuff(tif);
 
-    TIFFWriteDirectory(tif);
+    TIFFRewriteDirectory(tif);
+
     TIFFClose(tif);
 
 
