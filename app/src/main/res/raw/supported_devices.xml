@@ -2411,7 +2411,7 @@
             <rawtype>0</rawtype>
             <colorpattern>bggr</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>OV16860_Qualcomm</matrixset><!-- Mi A1 : Back Camera Model: ov_12a10_i (normal) / ov_13880_i ( Sub Camera ) -->
+            <matrixset>OV4688</matrixset><!-- Mi A1 : Back Camera Model: ov_12a10_i (normal) / ov_13880_i ( Sub Camera )  Closer to OV4688-->
         </filesize>
         <filesize size= "6430720">
             <blacklvl>64</blacklvl>
@@ -2421,7 +2421,7 @@
             <rawtype>0</rawtype>
             <colorpattern>grbg</colorpattern>
             <rowsize>0</rowsize>
-            <matrixset>S5K3P3</matrixset><!-- Mi A1 : Front Camera Model: samsung_s5k5e8_i  more closer to S5K3P3 -->
+            <matrixset>OV4688</matrixset><!-- Mi A1 : Front Camera Model: samsung_s5k5e8_i  more closer to OV4688 as back camera -->
         </filesize>
     </device>
 
