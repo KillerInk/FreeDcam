@@ -527,7 +527,7 @@ public class ParametersHandler extends AbstractParameterHandler
     {
         if (cameraParameters == null)
             return;
-        if (SettingsManager.get(SettingKeys.orientationHack).get())
+        if (SettingsManager.get(SettingKeys.orientationHack).get() || SettingsManager.getInstance().getIsFrontCamera())
         {
             int or = orientation +180;
             if (or >360)
