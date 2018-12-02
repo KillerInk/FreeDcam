@@ -55,12 +55,9 @@
 
 #include "tiffiop.h"
 
-#include <android/log.h>
 
 #define TIFF_IO_MAX 2147483647U
 
-#define  LOG_TAG    "freedcam.libtiff"
-#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 typedef union fd_as_handle_union
 {
@@ -360,12 +357,8 @@ _TIFFmemcmp(const void* p1, const void* p2, tmsize_t c)
 static void
 unixWarningHandler(const char* module, const char* fmt, va_list ap)
 {
-
-	if (module != NULL) {
-		LOGD("%s:",module);
+	if (module != NULL)
 		fprintf(stderr, "%s: ", module);
-	}
-	LOGD("%s",fmt);
 	fprintf(stderr, "Warning, ");
 	vfprintf(stderr, fmt, ap);
 	fprintf(stderr, ".\n");
@@ -375,14 +368,10 @@ TIFFErrorHandler _TIFFwarningHandler = unixWarningHandler;
 static void
 unixErrorHandler(const char* module, const char* fmt, va_list ap)
 {
-	if (module != NULL) {
-		LOGD("%s:",module);
+	if (module != NULL)
 		fprintf(stderr, "%s: ", module);
-	}
-    LOGD("%s",fmt);
 	vfprintf(stderr, fmt, ap);
 	fprintf(stderr, ".\n");
-
 }
 TIFFErrorHandler _TIFFerrorHandler = unixErrorHandler;
 
