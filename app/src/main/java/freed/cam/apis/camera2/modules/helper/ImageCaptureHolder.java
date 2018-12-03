@@ -17,6 +17,8 @@ import android.support.annotation.NonNull;
 import android.util.Pair;
 import android.util.Rational;
 
+import com.troop.freedcam.R;
+
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -328,7 +330,8 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         saveTask.setBytesTosave(bytes,ImageSaveTask.RAW_SENSOR);
         buffer.clear();
 
-        saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
+        if (!SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(SettingsManager.getInstance().getResString(R.string.off_)))
+            saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
         saveTask.setForceRawToDng(true);
         try {
             saveTask.setFocal(captureResult.get(CaptureResult.LENS_FOCAL_LENGTH));
