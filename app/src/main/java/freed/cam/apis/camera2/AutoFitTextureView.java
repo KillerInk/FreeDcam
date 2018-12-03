@@ -81,11 +81,11 @@ public class AutoFitTextureView extends TextureView /*implements  AbstractModePa
         if (mRatioWidth == 0 || mRatioHeight == 0) {
             setMeasuredDimension(width, height);
         } else {
-           /* if (width < height * mRatioWidth / mRatioHeight) {
+            if (width > height * mRatioWidth / mRatioHeight) {
                 setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
             } else {
                 setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
-            }*/
+            }
            setMeasuredDimension(mRatioWidth,mRatioHeight);
         }
     }
