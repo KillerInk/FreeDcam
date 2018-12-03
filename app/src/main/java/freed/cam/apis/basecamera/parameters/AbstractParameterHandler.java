@@ -230,10 +230,12 @@ public abstract class AbstractParameterHandler
                 Log.d(TAG, parameter.getClass().getSimpleName());
                 if (TextUtils.isEmpty(settingMode.get()) || settingMode.get() == null) {
                     String tmp = parameter.GetValue() + "";
+                    Log.d(TAG, "settingmode is empty: " + settingMode.getKEY() + " get from parameter: " + tmp);
                     settingMode.set(tmp);
                 } else {
                     try {
                         int tmp = Integer.parseInt(settingMode.get());
+                        Log.d(TAG, "settingmode : " + settingMode.getKEY() + " set from settings: " + tmp);
                         parameter.SetValue(tmp, setToCamera);
                     } catch (NumberFormatException ex) {
                         Log.WriteEx(ex);
