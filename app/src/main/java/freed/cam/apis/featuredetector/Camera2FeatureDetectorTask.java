@@ -332,13 +332,21 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     if (aetargetfps != null && aetargetfps.length>1)
                     {
                         String[] t = new String[aetargetfps.length];
+                        int min = 30,max = 0;
                         for (int i = 0;i < aetargetfps.length; i++)
                         {
+
+                            if ((int)aetargetfps[i].getLower() <= min && (int)aetargetfps[i].getUpper() > max)
+                            {
+                                min = (int)aetargetfps[i].getLower();
+                                max = (int)aetargetfps[i].getUpper();
+                            }
+
                             t[i] = aetargetfps[i].getLower()+","+aetargetfps[i].getUpper();
                         }
                         SettingsManager.get(SettingKeys.Ae_TargetFPS).setValues(t);
                         SettingsManager.get(SettingKeys.Ae_TargetFPS).setIsSupported(true);
-                        SettingsManager.get(SettingKeys.Ae_TargetFPS).set(t[0]);
+                        SettingsManager.get(SettingKeys.Ae_TargetFPS).set(min+","+max);
                     }
 
                     detectHuaweiParameters(characteristics);
@@ -905,10 +913,12 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         publishProgress("detectIntMode "+settingMode+" "+ressourceArray);
         if (SettingsManager.getInstance().hasCamera2Features() && characteristics.get(requestKey) != null) {
             int[]  scenes = characteristics.get(requestKey);
-            if (scenes.length >0)
+            if (scenes.length >1)
                 settingMode.setIsSupported(true);
-            else
+            else {
                 settingMode.setIsSupported(false);
+                return;
+            }
             String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(ressourceArray);
             HashMap<String,Integer> map = new HashMap<>();
             for (int i = 0; i< scenes.length; i++)
@@ -1010,6 +1020,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         if (strings.size() > 0) {
             exposure.setIsSupported(true);
             exposure.setValues(strings.toArray(new String[strings.size()]));
+            exposure.set(strings.size()/2+"");
         }
         else
             exposure.setIsSupported(false);
