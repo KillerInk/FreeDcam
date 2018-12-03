@@ -47,7 +47,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         backgroundHandlerThread.create();
         cameraToMainHandler = new CameraToMainHandler();
         this.mainToCameraHandler = new MainToCameraHandler(backgroundHandlerThread.getThread().getLooper());
-        /*startBackgroundThread();*/
     }
 
     public void destroy()
@@ -128,6 +127,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
             } else {
                 mainToCameraHandler.setCameraInterface(cameraFragment);
                 cameraToMainHandler.setMainMessageEventWeakReference(cameraFragment);
+                cameraFragment.init(mainToCameraHandler,cameraToMainHandler);
                 cameraFragment.startCameraAsync();
             }
         }
