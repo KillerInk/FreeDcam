@@ -570,7 +570,7 @@ public class ParametersHandler extends AbstractParameterHandler
         else
         {
             if (parameters.get(cameraUiWrapper.getResString(R.string.cur_exposure_time))!= null)
-                return Float.parseFloat(parameters.get(cameraUiWrapper.getResString(R.string.cur_exposure_time)))*1000000;
+                return Float.parseFloat(parameters.get(cameraUiWrapper.getResString(R.string.cur_exposure_time)))/1000;
         }
         return 0;
     }
@@ -611,6 +611,15 @@ public class ParametersHandler extends AbstractParameterHandler
         }
         else
             return 2.0f;
+    }
+
+    public int getFlash()
+    {
+        Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
+        if(parameters.get("flash-on").equals("true") ){
+            return 1;
+        }
+        return 0;
     }
 
     public float getFocal()

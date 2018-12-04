@@ -48,6 +48,7 @@ public class ImageSaveTask extends ImageTask
     private float fnum, focal = 0;
     private int mISO;
     private float exposureTime;
+    private int flash = 0;
     private float expoindex;
     private String whitebalance;
     private ActivityInterface activityInterface;
@@ -128,6 +129,11 @@ public class ImageSaveTask extends ImageTask
         this.exposureTime = exposureTime;
     }
 
+    public void setFlash(int flash)
+    {
+        this.flash = flash;
+    }
+
     public void setExposureIndex(float expoindex)
     {
         this.expoindex = expoindex;
@@ -190,7 +196,7 @@ public class ImageSaveTask extends ImageTask
             GpsInfo gpsInfo = new GpsInfo(location);
             rawToDng.SetGpsData(gpsInfo.getByteBuffer());
         }
-        ExifInfo info = new ExifInfo(mISO,0,exposureTime,focal,fnum,expoindex,"",orientation+"");
+        ExifInfo info = new ExifInfo(mISO,flash,exposureTime,focal,fnum,expoindex,"",orientation+"");
         rawToDng.setExifData(info);
 //        if (whitebalance != null)
 //            rawToDng.SetWBCT(whitebalance);
