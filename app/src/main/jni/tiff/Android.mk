@@ -55,7 +55,8 @@ LOCAL_C_INCLUDES += \
 
 LOCAL_CFLAGS += -DAVOID_TABLES 
 LOCAL_CFLAGS += -O3 -fstrict-aliasing -fprefetch-loop-arrays
-LOCAL_LDLIBS := -lz
+LOCAL_LDLIBS := -lz \
+-llog
 LOCAL_MODULE:= libtiff
 LOCAL_PRELINK_MODULE:=false
 include $(BUILD_STATIC_LIBRARY)

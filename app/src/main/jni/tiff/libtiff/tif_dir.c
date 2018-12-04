@@ -1348,6 +1348,16 @@ TIFFCreateEXIFDirectory(TIFF* tif)
 	return TIFFCreateCustomDirectory(tif, exifFieldArray);
 }
 
+//////////////////////////////////////////////////////////////////////////GPS ///////////////////
+int
+TIFFCreateGPSDirectory(TIFF* tif)
+{
+    const TIFFFieldArray* gpsFieldArray;
+    gpsFieldArray = _TIFFGetGPSFields();
+    return TIFFCreateCustomDirectory(tif, gpsFieldArray);
+}
+/////////////////////////////////////////////
+
 /*
  * Setup a default directory structure.
  */
