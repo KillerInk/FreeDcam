@@ -728,6 +728,7 @@ void DngWriter::WriteDNG() {
     //save directory
     LOGD("TIFFCheckpointDirectory");
     TIFFCheckpointDirectory(tif);
+    TIFFWriteDirectory(tif);
     
 
     if(gpsInfo != NULL)
@@ -743,6 +744,7 @@ void DngWriter::WriteDNG() {
         TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);
         LOGD("TIFFCheckpointDirectory");
         TIFFCheckpointDirectory(tif);
+        TIFFRewriteDirectory(tif);
         LOGD("TIFFSetDirectory");
         TIFFSetDirectory(tif, 0);
     }
@@ -771,11 +773,9 @@ void DngWriter::WriteDNG() {
     {
         LOGD("opcode null");
     }
-    
+
     writeRawStuff(tif);
-
-    TIFFRewriteDirectory(tif);
-
+    TIFFWriteDirectory(tif);
     TIFFClose(tif);
 
 

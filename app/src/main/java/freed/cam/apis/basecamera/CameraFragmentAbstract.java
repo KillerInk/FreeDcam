@@ -38,6 +38,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessorInterface;
+import freed.utils.Log;
 
 /**
  * Created by troop on 06.06.2015.
@@ -49,7 +50,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
 
 
     protected View view;
-    //holds the appsettings
     protected RenderScriptManager renderScriptManager;
 
     public ModuleHandlerAbstract moduleHandler;
@@ -95,6 +95,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
 
     public void init(MainToCameraHandler mainToCameraHandler, CameraToMainHandler cameraToMainHandler)
     {
+        Log.d(TAG, "init handler");
         this.mainToCameraHandler = mainToCameraHandler;
         this.cameraToMainHandler = cameraToMainHandler;
 

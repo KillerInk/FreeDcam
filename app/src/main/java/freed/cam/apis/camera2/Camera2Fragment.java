@@ -92,6 +92,8 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         this.textureView.setSurfaceTextureListener(this);
         this.histogram = view.findViewById(id.hisotview);
 
+        if (mainToCameraHandler == null)
+            throw new NullPointerException("main to camera handler is null");
         mainToCameraHandler.createCamera();
         Log.d(TAG,"Create Camera");
 
@@ -269,6 +271,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
 
     @Override
     public void createCamera() {
+        Log.d(TAG, "createCamera");
         mProcessor = new RenderScriptProcessor(renderScriptManager,histogram, ImageFormat.YUV_420_888);
         parametersHandler = new ParameterHandlerApi2(Camera2Fragment.this);
         moduleHandler = new ModuleHandlerApi2(Camera2Fragment.this);

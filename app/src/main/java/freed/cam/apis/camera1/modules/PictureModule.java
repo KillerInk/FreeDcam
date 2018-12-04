@@ -296,7 +296,10 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         }
         task.setDngProfile(dngProfile);
         Log.d(TAG, "found dngProfile:" + (dngProfile != null));
-        task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+        if (SettingsManager.getInstance().getIsFrontCamera())
+            task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation()+180);
+        else
+            task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
         task.setFilePath(file, SettingsManager.getInstance().GetWriteExternal());
         task.setBytesTosave(data,ImageSaveTask.RAW10);
         task.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
