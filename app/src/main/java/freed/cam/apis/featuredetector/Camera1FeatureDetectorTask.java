@@ -81,6 +81,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
             }
 
+            SettingsManager.get(SettingKeys.LOCATION_MODE).setIsSupported(true);
+
             SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(SettingsManager.getInstance().getResString(R.string.video_audio_source_default));
             SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.video_audio_source));
             SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);

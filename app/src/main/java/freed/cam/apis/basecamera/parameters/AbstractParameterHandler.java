@@ -34,7 +34,7 @@ import freed.cam.apis.basecamera.parameters.modes.HistogramParameter;
 import freed.cam.apis.basecamera.parameters.modes.Horizont;
 import freed.cam.apis.basecamera.parameters.modes.IntervalDurationParameter;
 import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
-import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
+import freed.cam.apis.basecamera.parameters.modes.GpsParameter;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
@@ -65,7 +65,7 @@ public abstract class AbstractParameterHandler
     protected AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
         add(SettingKeys.GuideList, new GuideList());
-        add(SettingKeys.LOCATION_MODE, new LocationParameter(cameraUiWrapper));
+        add(SettingKeys.LOCATION_MODE, new GpsParameter(cameraUiWrapper));
         add(SettingKeys.INTERVAL_DURATION, new IntervalDurationParameter(cameraUiWrapper));
         add(SettingKeys.EXTERNAL_SHUTTER, new ParameterExternalShutter());
         add(SettingKeys.INTERVAL_SHUTTER_SLEEP, new IntervalShutterSleepParameter(cameraUiWrapper));
@@ -108,7 +108,7 @@ public abstract class AbstractParameterHandler
 
     protected void SetAppSettingsToParameters()
     {
-        setMode(get(SettingKeys.LOCATION_MODE), SettingsManager.SETTING_LOCATION);
+        setAppSettingsToCamera(SettingKeys.LOCATION_MODE,false);
         setAppSettingsToCamera(SettingKeys.ColorMode,false);
         setAppSettingsToCamera(SettingKeys.FlashMode,false);
         setAppSettingsToCamera(SettingKeys.IsoMode,false);

@@ -44,6 +44,14 @@ public class PermissionManager
         return hasPermission(callbackToReturn, new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE});
     }
 
+    public boolean hasLocationPermission()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            return activity.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        else
+            return true;
+    }
+
     public boolean hasLocationPermission(PermissionCallback callbackToReturn)
     {
         this.callbackToReturn = callbackToReturn;
