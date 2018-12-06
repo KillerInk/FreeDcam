@@ -34,12 +34,12 @@ import freed.utils.PermissionManager;
  * if you get fine loaction error ignore it, permission are set in app project where everything
  * gets builded
  */
-public class LocationParameter extends AbstractParameter
+public class GpsParameter extends AbstractParameter
 {
     private final CameraWrapperInterface cameraUiWrapper;
 
 
-    public LocationParameter(CameraWrapperInterface cameraUiWrapper)
+    public GpsParameter(CameraWrapperInterface cameraUiWrapper)
     {
         super(SettingKeys.LOCATION_MODE);
         this.cameraUiWrapper = cameraUiWrapper;
