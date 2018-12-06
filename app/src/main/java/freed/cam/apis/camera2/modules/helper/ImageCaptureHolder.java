@@ -330,7 +330,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         saveTask.setBytesTosave(bytes,ImageSaveTask.RAW_SENSOR);
         buffer.clear();
 
-        if (!SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(SettingsManager.getInstance().getResString(R.string.off_)))
+        if (!SettingsManager.get(SettingKeys.LOCATION_MODE).getKEY().equals(SettingsManager.getInstance().getResString(R.string.off_)))
             saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
         saveTask.setForceRawToDng(true);
         try {

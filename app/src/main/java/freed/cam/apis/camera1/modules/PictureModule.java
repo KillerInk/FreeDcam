@@ -277,6 +277,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             exposuretime = new Date().getTime() - startcapturetime;
         }
         task.setExposureTime(exposuretime);
+        task.setFlash((int)((ParametersHandler) cameraUiWrapper.getParameterHandler()).getFlash());
         task.setIso(cameraUiWrapper.getParameterHandler().getCurrentIso());
         String wb = null;
 
@@ -302,7 +303,8 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
         task.setFilePath(file, SettingsManager.getInstance().GetWriteExternal());
         task.setBytesTosave(data,ImageSaveTask.RAW10);
-        task.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+        if (!SettingsManager.get(SettingKeys.LOCATION_MODE).getKEY().equals(SettingsManager.getInstance().getResString(R.string.off_)))
+            task.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
         ImageManager.putImageSaveTask(task);
     }
 }
