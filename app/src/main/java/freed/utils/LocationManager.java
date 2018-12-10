@@ -36,6 +36,8 @@ public class LocationManager implements LocationListener
     private final android.location.LocationManager locationManager;
     private ActivityInterface activityInterface;
     private Location currentLocation;
+    private boolean isStarted = false;
+
 
     public LocationManager(ActivityInterface activityInterface)
     {
@@ -52,12 +54,14 @@ public class LocationManager implements LocationListener
     {
         Log.d(TAG, "stop location");
         locationManager.removeUpdates(this);
-
+        currentLocation = null;
+        isStarted = false;
     }
 
     public void startLocationListing()
     {
         Log.d(TAG, "start location");
+        isStarted = true;
         boolean gps = locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
         boolean network = locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER);
         Log.d(TAG, "Gps:"+gps + "Network:"+network);
@@ -98,7 +102,10 @@ public class LocationManager implements LocationListener
 
     @Override
     public void onLocationChanged(Location location) {
-        currentLocation = location;
+        if (isStarted)
+            currentLocation = location;
+        else
+            currentLocation = null;
     }
 
     @Override

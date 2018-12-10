@@ -104,6 +104,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     @Nullable
     @Override
     public View onCreateView(LayoutInflater layoutInflater, @Nullable ViewGroup viewGroup, @Nullable Bundle bundle) {
+        Log.d(TAG, "onCreateView");
         cameraChangedListners.add(this);
         return super.onCreateView(layoutInflater, viewGroup, bundle);
     }
@@ -111,6 +112,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     @Override
     public void onDestroyView()
     {
+        Log.d(TAG, "onDestroyView");
         if (moduleHandler != null) {
             moduleHandler.CLEAR();
             moduleHandler.CLEARWORKERLISTNER();
@@ -135,62 +137,95 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
 
     @Override
     public void startCameraAsync() {
-        mainToCameraHandler.startCamera();
+        if (mainToCameraHandler != null)
+            mainToCameraHandler.startCamera();
+        else
+            Log.d(TAG, "MainToCameraHandler is null");
     }
 
     @Override
     public void stopCameraAsync() {
-        mainToCameraHandler.stopCamera();
+        if (mainToCameraHandler != null)
+            mainToCameraHandler.stopCamera();
+        else
+            Log.d(TAG, "MainToCameraHandler is null");
     }
 
     @Override
     public void restartCameraAsync() {
-        mainToCameraHandler.restartCamera();
+        if (mainToCameraHandler != null)
+            mainToCameraHandler.restartCamera();
+        else
+            Log.d(TAG, "MainToCameraHandler is null");
     }
 
     @Override
     public void startPreviewAsync() {
-        mainToCameraHandler.startPreview();
+        if (mainToCameraHandler != null)
+            mainToCameraHandler.startPreview();
+        else
+            Log.d(TAG, "MainToCameraHandler is null");
     }
 
     @Override
     public void stopPreviewAsync() {
-        mainToCameraHandler.stopPreview();
+        if (mainToCameraHandler != null)
+            mainToCameraHandler.stopPreview();
+        else
+            Log.d(TAG, "MainToCameraHandler is null");
     }
 
     @Override
     public void fireCameraOpen()
     {
-        cameraToMainHandler.onCameraOpen();
+        if (cameraToMainHandler != null)
+            cameraToMainHandler.onCameraOpen();
+        else
+            Log.d(TAG, "CameraHandler is null");
     }
 
     @Override
     public void fireCameraError(final String error) {
-        cameraToMainHandler.onCameraError(error);
+        if (cameraToMainHandler != null)
+            cameraToMainHandler.onCameraError(error);
+        else
+            Log.d(TAG, "CameraHandler is null");
     }
 
 
     @Override
     public void fireCameraClose()
     {
-        cameraToMainHandler.onCameraClose("");
+        if (cameraToMainHandler != null)
+            cameraToMainHandler.onCameraClose("");
+        else
+            Log.d(TAG, "CameraHandler is null");
     }
 
     @Override
     public void firePreviewOpen()
     {
-        cameraToMainHandler.onPreviewOpen("");
+        if (cameraToMainHandler != null)
+            cameraToMainHandler.onPreviewOpen("");
+        else
+            Log.d(TAG, "CameraHandler is null");
     }
 
     @Override
     public void firePreviewClose() {
-        cameraToMainHandler.onPreviewClose("");
+        if (cameraToMainHandler != null)
+            cameraToMainHandler.onPreviewClose("");
+        else
+            Log.d(TAG, "CameraHandler is null");
     }
 
     @Override
     public void fireCameraOpenFinished()
     {
-        cameraToMainHandler.onCameraOpenFinish();
+        if (cameraToMainHandler != null)
+            cameraToMainHandler.onCameraOpenFinish();
+        else
+            Log.d(TAG, "CameraHandler is null");
     }
 
     public abstract int getMargineLeft();

@@ -49,6 +49,11 @@ public class BaseFocusManual extends BaseManualParameter
         manualFocusType = settingMode1.getType();
         Log.d(TAG,"mf type:" +manualFocusType);
         manualFocusModeString = settingMode1.getMode();
+        stringvalues = settingMode1.getValues();
+        if(stringvalues.length ==0) {
+            Log.d(TAG, "stringvalues are empty");
+            this.fireViewStateChanged(ViewState.Hidden);
+        }
         Log.d(TAG,"mf focus mode:" +manualFocusModeString);
     }
 

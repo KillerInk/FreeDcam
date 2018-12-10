@@ -92,6 +92,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
                 }
 
+                SettingsManager.get(SettingKeys.LOCATION_MODE).setIsSupported(true);
+
                 publishProgress("Camera 2 Level:" + hwlvl);
 
                 //check first if a already checked cam have camera2features and if its now the front cam that dont have a camera2feature.

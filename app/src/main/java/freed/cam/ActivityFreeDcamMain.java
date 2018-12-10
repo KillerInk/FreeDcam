@@ -408,7 +408,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //note the ui that cameraFragment is loaded
         uiViewPagerAdapter.setCameraFragment(cameraFragmentManager.getCameraFragment());
         if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(SettingsManager.getInstance().getResString(R.string.on_))
-                && getPermissionManager().hasLocationPermission(null))
+                && getPermissionManager().hasLocationPermission())
             locationManager.startLocationListing();
 
         SetNightOverlay();
@@ -452,8 +452,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void runFeatureDetector() {
         unloadCameraFragment();
         boolean legacy = SettingsManager.get(SettingKeys.openCamera1Legacy).get();
+        boolean showHelpOverlay = SettingsManager.getInstance().getShowHelpOverlay();
         SettingsManager.getInstance().RESET();
         SettingsManager.get(SettingKeys.openCamera1Legacy).set(legacy);
+        SettingsManager.getInstance().setshowHelpOverlay(showHelpOverlay);
         cameraFragmentManager.switchCameraFragment();
     }
 }
