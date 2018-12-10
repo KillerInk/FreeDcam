@@ -303,7 +303,8 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
         task.setFilePath(file, SettingsManager.getInstance().GetWriteExternal());
         task.setBytesTosave(data,ImageSaveTask.RAW10);
-        task.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+        if (!SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(SettingsManager.getInstance().getResString(R.string.off_)))
+            task.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
         ImageManager.putImageSaveTask(task);
     }
 }
