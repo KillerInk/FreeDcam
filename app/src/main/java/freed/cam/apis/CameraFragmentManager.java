@@ -118,13 +118,15 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
                         cameraFragment = Camera1Fragment.getInstance();
                         break;
                 }
-                cameraFragment.init(mainToCameraHandler,cameraToMainHandler);
+
                 mainToCameraHandler.setCameraInterface(cameraFragment);
                 cameraToMainHandler.setMainMessageEventWeakReference(cameraFragment);
+                cameraFragment.init(mainToCameraHandler,cameraToMainHandler);
                 cameraFragment.setRenderScriptManager(renderScriptManager);
                 cameraFragment.setCameraEventListner(cameraStateEventListner);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
             } else {
+
                 mainToCameraHandler.setCameraInterface(cameraFragment);
                 cameraToMainHandler.setMainMessageEventWeakReference(cameraFragment);
                 cameraFragment.init(mainToCameraHandler,cameraToMainHandler);
@@ -135,18 +137,19 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
 
     public void unloadCameraFragment()
     {
+        Log.d(TAG, "unloadCameraFragment");
         if (cameraFragment != null) {
             //kill the cam befor the fragment gets removed to make sure when
             //new cameraFragment gets created and its texture view is created the cam get started
             //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
             cameraFragment.stopCameraAsync();
-            mainToCameraHandler.setCameraInterface(null);
-            cameraToMainHandler.setMainMessageEventWeakReference(null);
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(cameraFragment);
             transaction.commit();
             cameraFragment = null;
+            mainToCameraHandler.setCameraInterface(null);
+            cameraToMainHandler.setMainMessageEventWeakReference(null);
         }
     }
 }
