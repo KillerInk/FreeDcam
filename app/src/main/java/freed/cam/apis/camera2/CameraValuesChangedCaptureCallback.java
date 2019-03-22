@@ -228,7 +228,13 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 case CaptureRequest.CONTROL_AF_STATE_FOCUSED_LOCKED:
                     state = "FOCUSED_LOCKED";
                     afLocked = true;
-                    camera2Fragment.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                    try {
+                        camera2Fragment.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                    }
+                    catch (NullPointerException ex)
+                    {
+                        Log.e(TAG, "CaptureSession already closed");
+                    }
                     if (camera2Fragment.getFocusHandler().focusEvent != null)
                         camera2Fragment.getFocusHandler().focusEvent.FocusFinished(true);
                     break;
@@ -260,8 +266,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         if (expotime != null && expotime.getViewState() == AbstractParameter.ViewState.Visible || expotime.getViewState() == AbstractParameter.ViewState.Disabled) {
             if (result != null && result.getKeys().size() > 0) {
                 try {
-                    if (!camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))
-                            && !camera2Fragment.getParameterHandler().get(SettingKeys.CONTROL_MODE).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))) {
+                    if (!camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))) {
                         try {
                             long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                             currentExposureTime = expores;
