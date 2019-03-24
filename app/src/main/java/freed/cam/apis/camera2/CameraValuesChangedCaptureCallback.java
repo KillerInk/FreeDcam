@@ -228,20 +228,14 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 case CaptureRequest.CONTROL_AF_STATE_FOCUSED_LOCKED:
                     state = "FOCUSED_LOCKED";
                     afLocked = true;
-                    try {
-                        camera2Fragment.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
-                    }
-                    catch (NullPointerException ex)
-                    {
-                        Log.e(TAG, "CaptureSession already closed");
-                    }
+                    setFocusToIdle();
                     if (camera2Fragment.getFocusHandler().focusEvent != null)
                         camera2Fragment.getFocusHandler().focusEvent.FocusFinished(true);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED:
                     state = "NOT_FOCUSED_LOCKED";
                     afLocked = true;
-                    camera2Fragment.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                    setFocusToIdle();
                     if (camera2Fragment.getFocusHandler().focusEvent != null)
                         camera2Fragment.getFocusHandler().focusEvent.FocusFinished(false);
                     break;
@@ -259,6 +253,17 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 }
 
             }
+        }
+    }
+
+    private void setFocusToIdle()
+    {
+        try {
+            camera2Fragment.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
+        }
+        catch (NullPointerException ex)
+        {
+            Log.e(TAG, "CaptureSession already closed");
         }
     }
 
