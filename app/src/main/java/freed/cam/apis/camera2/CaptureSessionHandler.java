@@ -57,6 +57,7 @@ public class CaptureSessionHandler
 
 
     private volatile boolean captureSessionRdy = false;
+    private boolean captureSessionOpen = false;
 
 
     CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
@@ -291,6 +292,7 @@ public class CaptureSessionHandler
         } catch (InterruptedException e) {
             Log.WriteEx(e);
         }
+        captureSessionOpen = true;
 
     }
 
@@ -318,6 +320,7 @@ public class CaptureSessionHandler
         } catch (InterruptedException e) {
             Log.WriteEx(e);
         }
+        captureSessionOpen = true;
     }
 
 
@@ -334,6 +337,7 @@ public class CaptureSessionHandler
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }
+        captureSessionOpen = true;
     }
 
     public void StopRepeatingCaptureSession()
@@ -506,7 +510,10 @@ public class CaptureSessionHandler
     public void CloseCaptureSession()
     {
         Log.d(TAG, "CloseCaptureSession");
-
+        if (!captureSessionOpen)
+            return;
+        else
+            captureSessionOpen = false;
         synchronized (waitLock) {
             Clear();
             if (mCaptureSession == null)
