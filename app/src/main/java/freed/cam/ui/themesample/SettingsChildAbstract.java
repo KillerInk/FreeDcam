@@ -60,7 +60,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     {
         super(context);
         this.parameter = parameter;
-        if (parameter == null)
+        if (parameter == null || parameter.GetStringValue() == null)
             return;
         String value = parameter.GetStringValue();
         parameter.addEventListner(this);
