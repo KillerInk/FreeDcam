@@ -191,7 +191,7 @@ public class WbHandler
             float rf,gf,bf = 0;
 
             rf = (float) getRGBToDouble(rgb[0]);
-            gf =1; //(float) getRGBToDouble(rgb[1])/2;//we have two green channels
+            gf =(float) getRGBToDouble(rgb[1])/2;//we have two green channels
             bf = (float) getRGBToDouble(rgb[2]);
             if (gf < MINCAP)
                 gf= (float)MINCAP;
