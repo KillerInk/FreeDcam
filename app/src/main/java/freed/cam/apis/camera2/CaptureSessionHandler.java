@@ -512,8 +512,7 @@ public class CaptureSessionHandler
         Log.d(TAG, "CloseCaptureSession");
         if (!captureSessionOpen)
             return;
-        else
-            captureSessionOpen = false;
+        captureSessionOpen = false;
         synchronized (waitLock) {
             Clear();
             if (mCaptureSession == null)
@@ -524,6 +523,8 @@ public class CaptureSessionHandler
             handler.post(() -> {
                 try
                 {
+                    if (!captureSessionOpen)
+                        return;
                     mCaptureSession.close();
                 }
                 catch (NullPointerException ex)
@@ -531,16 +532,6 @@ public class CaptureSessionHandler
                     Log.WriteEx(ex);
                 }
             });
-
-
-
-           /* try {
-                Log.d(TAG,"CloseCaptureSession Enter Wait State");
-                waitLock.wait();
-                Log.d(TAG,"CloseCaptureSession Wait done");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
 
             mCaptureSession = null;
         }
@@ -550,12 +541,10 @@ public class CaptureSessionHandler
 
     public <T> void SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean setToCamera)
     {
-        Log.d(TAG," SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean setToCamera)");
-        if (key != null)
-            Log.d(TAG," SetParameterRepeating(" + key.getName());
+        if (key != null && value != null)
+            Log.d(TAG," SetParameterRepeating(" + key.getName() + " " + value+")");
         if (mPreviewRequestBuilder == null )
             return;
-        //Log.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
         if (mImageCaptureRequestBuilder != null)
             mImageCaptureRequestBuilder.set(key,value);
