@@ -401,9 +401,17 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
                     mProcessingHandler.removeCallbacks(this);
                 }
                 // Get to newest input
-                for (int i = 0; i < pendingFrames; i++) {
-                    renderScriptManager.GetIn().ioReceive();
+                try {
+                    for (int i = 0; i < pendingFrames; i++) {
+                        renderScriptManager.GetIn().ioReceive();
+                    }
                 }
+                catch (NullPointerException ex)
+                {
+                    Log.WriteEx(ex);
+                    return;
+                }
+
                 mCount++;
                 framescount++;
                 //apply focuspeak color
