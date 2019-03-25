@@ -65,9 +65,16 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private boolean waitForFirstFrame = false;
     private WaitForFirstFrameCallback waitForFirstFrameCallback;
 
+    private boolean focusIsIdel = true;
+
     public CameraValuesChangedCaptureCallback(Camera2Fragment camera2Fragment)
     {
         this.camera2Fragment =camera2Fragment;
+    }
+
+    public void setFocusIsIdel(boolean idel)
+    {
+        focusIsIdel = idel;
     }
 
     public void setWaitForFirstFrame()
@@ -117,10 +124,6 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             waitForFirstFrame = false;
         }
 
-
-
-        /*if (request.get(CaptureRequest.COLOR_CORRECTION_GAINS) != null)
-            Log.d(TAG, request.get(CaptureRequest.COLOR_CORRECTION_GAINS).toString());*/
 
         ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);
         ParameterInterface iso = camera2Fragment.getParameterHandler().get(SettingKeys.M_ManualIso);
@@ -228,14 +231,12 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 case CaptureRequest.CONTROL_AF_STATE_FOCUSED_LOCKED:
                     state = "FOCUSED_LOCKED";
                     afLocked = true;
-                    setFocusToIdle();
+
                     if (camera2Fragment.getFocusHandler().focusEvent != null)
                         camera2Fragment.getFocusHandler().focusEvent.FocusFinished(true);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED:
                     state = "NOT_FOCUSED_LOCKED";
-                    afLocked = true;
-                    setFocusToIdle();
                     if (camera2Fragment.getFocusHandler().focusEvent != null)
                         camera2Fragment.getFocusHandler().focusEvent.FocusFinished(false);
                     break;
@@ -253,17 +254,6 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 }
 
             }
-        }
-    }
-
-    private void setFocusToIdle()
-    {
-        try {
-            camera2Fragment.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE,true);
-        }
-        catch (NullPointerException ex)
-        {
-            Log.e(TAG, "CaptureSession already closed");
         }
     }
 

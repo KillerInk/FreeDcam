@@ -109,7 +109,7 @@ public class FocusHandler extends AbstractFocusHandler
 
         Rect sensorSize =  ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         logRect(sensorSize);
-        int areasize = (sensorSize.width() /8);
+        int areasize = (sensorSize.width() /10);
         float xf = (float)viewCoordinates.x * sensorSize.width() / viewCoordinates.width;
         float yf = (float)viewCoordinates.y * sensorSize.height() /  viewCoordinates.height;
         int x_c = (int)xf; //(int)((float)x/width * m.right);

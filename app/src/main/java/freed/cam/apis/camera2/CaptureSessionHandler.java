@@ -48,7 +48,7 @@ public class CaptureSessionHandler
     private CameraCaptureSession mCaptureSession;
     private Camera2Fragment cameraUiWrapper;
     private CameraHolderApi2 cameraHolderApi2;
-    private CameraCaptureSession.CaptureCallback cameraBackroundValuesChangedListner;
+    private CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean isHighSpeedSession = false;
     private BackgroundHandlerThread backgroundHandlerThread;
     private Handler handler;
@@ -144,7 +144,7 @@ public class CaptureSessionHandler
         return captureSessionRdy;
     }
 
-    public CaptureSessionHandler(Camera2Fragment cameraUiWrapper,CameraCaptureSession.CaptureCallback cameraBackroundValuesChangedListner)
+    public CaptureSessionHandler(Camera2Fragment cameraUiWrapper,CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolderApi2 = (CameraHolderApi2) cameraUiWrapper.cameraHolder;
@@ -796,9 +796,13 @@ public class CaptureSessionHandler
             }
         }
         else {
-            SetParameter(key, value);
+            //SetParameter(key, value);
+            cameraBackroundValuesChangedListner.setFocusIsIdel(false);
+            mPreviewRequestBuilder.set(key,value);
+            SetPreviewParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
             if (value != null)
                 SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+            SetPreviewParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
         }
     }
 
