@@ -28,6 +28,8 @@ import android.media.ImageReader;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.renderscript.RenderScript;
+import android.renderscript.RenderScript.RSErrorHandler;
 import android.text.TextUtils;
 import android.util.Size;
 import android.view.Surface;
@@ -47,6 +49,7 @@ import freed.cam.apis.camera2.modules.helper.FindOutputHelper;
 import freed.cam.apis.camera2.modules.helper.ImageCaptureHolder;
 import freed.cam.apis.camera2.modules.helper.Output;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
+import freed.renderscript.RenderScriptProcessor;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -81,6 +84,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     private boolean captureDng = false;
     private boolean captureJpeg = false;
     protected Camera2Fragment cameraUiWrapper;
+    private boolean renderScriptError5 = false;
 
     protected static class BurstCounter
     {
@@ -115,11 +119,38 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     }
 
 
+    //use to workaround the problem with activated renderscript when switching back from a non renderscript session
+    private class MyRSErrorHandler extends RSErrorHandler
+    {
+        @Override
+        public void run() {
+            super.run();
+            Log.e(MyRSErrorHandler.class.getSimpleName(), mErrorNum +":"+ mErrorMessage);
+            if (mErrorNum == 5) // Error:5 setting IO output buffer usage.
+            {
+                renderScriptError5 = true;
+                if (renderScriptError5)
+                {
+                    renderScriptError5 = false;
+                    //clear the error else it trigger over and over....
+                    mErrorNum = 0;
+                    mErrorMessage = null;
+                    //Restart the module
+                    mBackgroundHandler.post(() -> {
+                        Log.e(TAG, "RS5 ERROR; RELOAD MODULE");
+                        cameraUiWrapper.getModuleHandler().setModule(cameraUiWrapper.getModuleHandler().getCurrentModule().ModuleName());
+                    });
+                }
+            }
+        }
+    }
+
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         this.cameraUiWrapper = (Camera2Fragment)cameraUiWrapper;
         name = cameraUiWrapper.getResString(R.string.module_picture);
         filesSaved = new ArrayList<>();
+        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
     }
 
     @Override
@@ -138,6 +169,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         super.InitModule();
         Log.d(TAG, "InitModule");
         changeCaptureState(CaptureStates.image_capture_stop);
+
         cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(0, true);
         if (cameraUiWrapper.captureSessionHandler.getSurfaceTexture() != null)
             startPreview();
@@ -224,7 +256,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             final int or = rotation;
             Log.d(TAG, "rotation to set : " + or);
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,true));
+
             cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight(),previewsurface);
+
             Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface, true);
             cameraUiWrapper.getFocusPeakProcessor().start();
@@ -252,6 +286,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,false));
         }
 
+
         if (jpegReader != null)
             cameraUiWrapper.captureSessionHandler.AddSurface(jpegReader.getSurface(),false);
         if (rawReader != null)
@@ -267,6 +302,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         if (parameterHandler.get(SettingKeys.M_Burst) != null)
             parameterHandler.get(SettingKeys.M_Burst).fireStringValueChanged(parameterHandler.get(SettingKeys.M_Burst).GetStringValue());
         cameraUiWrapper.firePreviewOpen();
+
     }
 
     private void setOutputSizes() {

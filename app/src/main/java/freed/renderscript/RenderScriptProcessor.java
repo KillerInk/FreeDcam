@@ -208,6 +208,11 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
             }
         }
         mProcessingTask = new ProcessingTask();
+        if (processHistogram && histogram.getVisibility() == View.GONE)
+            histogram.post(()-> {
+                histogram.setVisibility(View.VISIBLE);
+                histogram.bringToFront();
+            });
     }
 
     private void createScriptGroups(Builder rgbTypeBuilder) {
@@ -234,7 +239,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
 
         //create the group and apply the input/ouput to kernels.
         histoPeakGroup = peakHistoBuilder.create();
-        histoPeakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        //histoPeakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
         histoPeakGroup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
     }
 
@@ -252,7 +257,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
 
         //create the group and apply the input/ouput to kernels.
         clippingHistoGroup = peakHistoBuilder.create();
-        clippingHistoGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        //clippingHistoGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
         clippingHistoGroup.setOutput(renderScriptManager.rgb_clipping.getKernelID_processClipping(), renderScriptManager.GetOut());
     }
 
@@ -270,7 +275,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
 
         //create the group and apply the input/ouput to kernels.
         clippingPeakGroup = peakHistoBuilder.create();
-        clippingPeakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        //clippingPeakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
         clippingPeakGroup.setOutput(renderScriptManager.rgb_clipping.getKernelID_processClipping(), renderScriptManager.GetOut());
     }
 
@@ -282,7 +287,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
 
         clipbuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_clipping.getKernelID_processClipping());
         clippingGroup = clipbuilder.create();
-        clippingGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        //clippingGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
         clippingGroup.setOutput(renderScriptManager.rgb_clipping.getKernelID_processClipping(), renderScriptManager.GetOut());
     }
 
@@ -294,7 +299,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
 
         peakbuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_focuspeak.getFieldID_input());
         peakGroup = peakbuilder.create();
-        peakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        //peakGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
         peakGroup.setOutput(renderScriptManager.rgb_focuspeak.getKernelID_focuspeak(), renderScriptManager.GetOut());
     }
 
@@ -307,7 +312,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
         histobuilder.addConnection(rgbTypeBuilder.create(), renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.rgb_histogram.getKernelID_processHistogram());
 
         histoGroup = histobuilder.create();
-        histoGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        //histoGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
         histoGroup.setOutput(renderScriptManager.rgb_histogram.getKernelID_processHistogram(), renderScriptManager.GetOut());
     }
 
@@ -327,7 +332,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
 
         //create the group and apply the input/ouput to kernels.
         allScriptGroup = builder.create();
-        allScriptGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
+        //allScriptGroup.setInput(renderScriptManager.yuvToRgbIntrinsic.getKernelID(), renderScriptManager.GetIn());
         allScriptGroup.setOutput(renderScriptManager.rgb_clipping.getKernelID_processClipping(), renderScriptManager.GetOut());
     }
 
@@ -364,6 +369,8 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
         width = 0;
         height =0;
         Log.d(TAG,"kill()");
+        if (histogram.getVisibility() == View.VISIBLE)
+            histogram.post(()-> histogram.setVisibility(View.GONE));
     }
 
     public float getmFps() {
