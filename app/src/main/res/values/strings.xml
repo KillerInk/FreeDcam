@@ -304,8 +304,9 @@
     <string name="pictureformat_dng12">12bitDNG</string>
     <string name="pictureformat_dng16">16bitDNG</string>
     <string name="pictureformat_jpeg">Jpeg</string>
-    <string name="pictureformat_bayer">Bayer</string>
-    <string name="pictureformat_jpg_p_dng">Jpg+Dng</string>
+    <string name="pictureformat_bayer">Bayer16</string>
+    <string name="pictureformat_bayer10">Bayer10</string>
+    <string name="pictureformat_jpg_p_dng">Jpg+16bitDng</string>
 
     <string name="colorcorrection_transform_matrix">Transform Matrix</string>
     <string name="customrowsize">Custom Row Size</string>

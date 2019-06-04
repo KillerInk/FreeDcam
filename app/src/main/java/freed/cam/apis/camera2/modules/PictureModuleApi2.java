@@ -351,7 +351,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             captureDng = true;
             captureJpeg = false;
         }
-        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer))) {
+        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer)) ||picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer10))) {
             Log.d(TAG, "ImageReader RAW12");
             captureDng = false;
             captureJpeg = false;

@@ -663,6 +663,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         try {
             if (smap.isOutputSupportedFor(ImageFormat.RAW10))
                 hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10), ImageFormat.RAW10);
+                hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer10), ImageFormat.RAW10);
         } catch (Exception e) {
             Log.WriteEx(e);
         }
