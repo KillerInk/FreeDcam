@@ -351,7 +351,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             captureDng = true;
             captureJpeg = false;
         }
-        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer)) ||picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer10))) {
+        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer)) || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer10))) {
             Log.d(TAG, "ImageReader RAW12");
             captureDng = false;
             captureJpeg = false;
@@ -455,7 +455,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().get(SettingKeys.TONEMAP_SET)).getToneMap());
         currentCaptureHolder.setSupport12bitRaw(SettingsManager.get(SettingKeys.support12bitRaw).get());
         currentCaptureHolder.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
-
+        Log.d(TAG, "Dng: " + captureDng + " Jpeg: " + captureJpeg);
         Log.d(TAG, "captureStillPicture ImgCount:"+ BurstCounter.getImageCaptured() +  " ImageCaptureHolder Path:" + currentCaptureHolder.getFilepath());
 
         if (cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE).GetStringValue().equals(SettingsManager.getInstance().getResString(R.string.on_)))

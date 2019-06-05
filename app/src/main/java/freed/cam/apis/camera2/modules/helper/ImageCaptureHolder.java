@@ -263,27 +263,46 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
                 task = process_jpeg(image, file);
                 break;
             case ImageFormat.RAW10:
-                file = new File(f+".dng");
-                task = process_rawWithDngConverter(image, DngProfile.Mipi,file);
-                break;
-            case ImageFormat.RAW12:
-                file = new File(f+".dng");
-                task = process_rawWithDngConverter(image,DngProfile.Mipi12,file);
-                break;
-            default:
                 if (!isRawCapture && !isJpgCapture)
                 {
+                    Log.d(TAG, "save bayer10");
+                    file = new File(f + ".bayer");
+                    task = process_jpeg(image,file);
+                }
+                else {
+                    Log.d(TAG, "save 10bit dng");
+                    file = new File(f + ".dng");
+                    task = process_rawWithDngConverter(image, DngProfile.Mipi, file);
+                }
+                break;
+            case ImageFormat.RAW12:
+                if (!isRawCapture && !isJpgCapture)
+                {
+                    Log.d(TAG, "save bayer12");
+                    file = new File(f + ".bayer");
+                    task = process_jpeg(image,file);
+                }
+                else {
+                    Log.d(TAG, "save 12bit dng");
+                    file = new File(f + ".dng");
+                    task = process_rawWithDngConverter(image, DngProfile.Mipi12, file);
+                }
+                break;
+            default: //RawSensor
+                if (!isRawCapture && !isJpgCapture)
+                {
+                    Log.d(TAG, "save bayer16");
                     file = new File(f + ".bayer");
                     task = process_jpeg(image,file);
                 }
                 else {
                     file = new File(f + ".dng");
-                    if (forceRawToDng)
+                    if (forceRawToDng) // use freedcam dngconverter
                         if (support12bitRaw)
                             task = process_rawWithDngConverter(image, DngProfile.Pure16bit_To_12bit, file);
                         else
                             task = process_rawWithDngConverter(image, DngProfile.Plain, file);
-                    else
+                    else // use android dngCreator
                         task = process_rawSensor(image, file);
                 }
                 break;
