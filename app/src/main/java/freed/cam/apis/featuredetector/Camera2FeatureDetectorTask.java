@@ -661,9 +661,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         HashMap<String, Integer> hmap = new HashMap<>();
         try {
-            if (smap.isOutputSupportedFor(ImageFormat.RAW10))
+            if (smap.isOutputSupportedFor(ImageFormat.RAW10)) {
                 hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10), ImageFormat.RAW10);
                 hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer10), ImageFormat.RAW10);
+            }
         } catch (Exception e) {
             Log.WriteEx(e);
         }

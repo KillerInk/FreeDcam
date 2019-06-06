@@ -69,10 +69,9 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
 
     private String filepath;
 
-    private boolean isRawCapture = false;
-    private boolean isJpgCapture = false;
     private boolean forceRawToDng = false;
     private boolean support12bitRaw = false;
+    private CaptureType captureType;
 
     private ActivityInterface activityInterface;
     private RdyToSaveImg rdyToSaveImg;
@@ -80,12 +79,11 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
 
     WorkFinishEvents workerfinish;
 
-    public ImageCaptureHolder(CameraCharacteristics characteristicss, boolean isRawCapture, boolean isJpgCapture, ActivityInterface activitiy, ModuleInterface imageSaver, WorkFinishEvents finish, RdyToSaveImg rdyToSaveImg)
+    public ImageCaptureHolder(CameraCharacteristics characteristicss, CaptureType captureType, ActivityInterface activitiy, ModuleInterface imageSaver, WorkFinishEvents finish, RdyToSaveImg rdyToSaveImg)
     {
         images = new ArrayList<>();
         this.characteristics = characteristicss;
-        this.isRawCapture = isRawCapture;
-        this.isJpgCapture = isJpgCapture;
+        this.captureType = captureType;
         this.activityInterface = activitiy;
         this.moduleInterface = imageSaver;
         this.workerfinish = finish;
@@ -165,7 +163,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
 
     public synchronized boolean rdyToGetSaved()
     {
-        if (isRawCapture && isJpgCapture)
+        if (captureType == CaptureType.JpegDng16 || captureType == CaptureType.JpegDng10)
             return images.size() == 2 && captureResult != null;
         else
             return images.size() == 1 && captureResult != null;
@@ -177,27 +175,79 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         Log.d(TAG, "OnRawAvailible, in buffer: " + images.size());
         try {
             img = reader.acquireLatestImage();
-            if (isJpgCapture && img.getFormat() == ImageFormat.JPEG) {
-                AddImage(img);
-                Log.d(TAG,"Add Jpeg");
-            }
-            else if (isRawCapture && (img.getFormat() == ImageFormat.RAW_SENSOR || img.getFormat() == ImageFormat.RAW10 || img.getFormat() != ImageFormat.JPEG)) {
-                AddImage(img);
-                Log.d(TAG,"Add raw");
-            }
-            else if (!isJpgCapture && !isRawCapture) {
-                AddImage(img);
-                Log.d(TAG,"Add bayer");
-            }
-            else if(!isJpgCapture && isRawCapture && img.getFormat() == ImageFormat.JPEG) {
-                img.close();
-                Log.d(TAG,"Close Jpeg");
-            }
-            else {
-                if (images.contains(img))
-                    images.remove(img);
-                img.close();
-                Log.d(TAG,"Close already added image");
+            switch (captureType)
+            {
+
+                case Jpeg:
+                    if (img.getFormat() == ImageFormat.JPEG) {
+                        AddImage(img);
+                        Log.d(TAG,"Add Jpeg");
+                    }
+                    else
+                        img.close();
+                    break;
+                case JpegDng16:
+                    if (img.getFormat() == ImageFormat.JPEG || img.getFormat() == ImageFormat.RAW_SENSOR) {
+                        AddImage(img);
+                        Log.d(TAG,"Add Jpeg + dng 16");
+                    }
+                    else
+                        img.close();
+                    break;
+                case JpegDng10:
+                    if (img.getFormat() == ImageFormat.JPEG || img.getFormat() == ImageFormat.RAW10) {
+                        AddImage(img);
+                        Log.d(TAG,"Add Jpeg + dng10");
+                    }
+                    else
+                        img.close();
+                    break;
+                case Dng10:
+                    if (img.getFormat() == ImageFormat.RAW10) {
+                        AddImage(img);
+                        Log.d(TAG,"Add dng10");
+                    }
+                    else
+                        img.close();
+                    break;
+                case Dng16:
+                    if (img.getFormat() == ImageFormat.RAW_SENSOR) {
+                        AddImage(img);
+                        Log.d(TAG,"Add dng16");
+                    }
+                    else
+                        img.close();
+                    break;
+                case Dng12:
+                    if (img.getFormat() == ImageFormat.RAW12) {
+                        AddImage(img);
+                        Log.d(TAG,"Add Dng12");
+                    }
+                    else
+                        img.close();
+                    break;
+                case Bayer10:
+                    if (img.getFormat() == ImageFormat.RAW10) {
+                        AddImage(img);
+                        Log.d(TAG,"Add Bayer10");
+                    }
+                    else
+                        img.close();
+                    break;
+                case Bayer16:
+                    if (img.getFormat() == ImageFormat.RAW_SENSOR) {
+                        AddImage(img);
+                        Log.d(TAG,"Add Bayer16");
+                    }
+                    else
+                        img.close();
+                    break;
+                default:
+                    if (images.contains(img))
+                        images.remove(img);
+                    img.close();
+                    Log.d(TAG,"Close already added image");
+                    break;
             }
         }
         catch (IllegalStateException ex)
@@ -256,46 +306,24 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     private void saveImage(Image image,String f) {
         File file = null;
         ImageTask task = null;
-        switch (image.getFormat())
+
+        switch (captureType)
         {
-            case ImageFormat.JPEG:
+
+            case Jpeg:
                 file = new File(f+".jpg");
                 task = process_jpeg(image, file);
                 break;
-            case ImageFormat.RAW10:
-                if (!isRawCapture && !isJpgCapture)
+            case JpegDng16:
+                if (image.getFormat() == ImageFormat.JPEG)
                 {
-                    Log.d(TAG, "save bayer10");
-                    file = new File(f + ".bayer");
-                    task = process_jpeg(image,file);
+                    Log.d(TAG, "save jpg");
+                    file = new File(f+".jpg");
+                    task = process_jpeg(image, file);
                 }
-                else {
-                    Log.d(TAG, "save 10bit dng");
-                    file = new File(f + ".dng");
-                    task = process_rawWithDngConverter(image, DngProfile.Mipi, file);
-                }
-                break;
-            case ImageFormat.RAW12:
-                if (!isRawCapture && !isJpgCapture)
+                else if (image.getFormat() == ImageFormat.RAW_SENSOR)
                 {
-                    Log.d(TAG, "save bayer12");
-                    file = new File(f + ".bayer");
-                    task = process_jpeg(image,file);
-                }
-                else {
-                    Log.d(TAG, "save 12bit dng");
-                    file = new File(f + ".dng");
-                    task = process_rawWithDngConverter(image, DngProfile.Mipi12, file);
-                }
-                break;
-            default: //RawSensor
-                if (!isRawCapture && !isJpgCapture)
-                {
-                    Log.d(TAG, "save bayer16");
-                    file = new File(f + ".bayer");
-                    task = process_jpeg(image,file);
-                }
-                else {
+                    Log.d(TAG, "save dng");
                     file = new File(f + ".dng");
                     if (forceRawToDng) // use freedcam dngconverter
                         if (support12bitRaw)
@@ -306,7 +334,64 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
                         task = process_rawSensor(image, file);
                 }
                 break;
+            case JpegDng10:
+                if (image.getFormat() == ImageFormat.JPEG)
+                {
+                    Log.d(TAG, "save jpg");
+                    file = new File(f+".jpg");
+                    task = process_jpeg(image, file);
+                }
+                else if(image.getFormat() == ImageFormat.RAW10) {
+                    Log.d(TAG, "save 10bit dng");
+                    file = new File(f + ".dng");
+                    task = process_rawWithDngConverter(image, DngProfile.Mipi, file);
+                }
+                break;
+            case Dng10:
+                if(image.getFormat() == ImageFormat.RAW10) {
+                    Log.d(TAG, "save 10bit dng");
+                    file = new File(f + ".dng");
+                    task = process_rawWithDngConverter(image, DngProfile.Mipi, file);
+                }
+                break;
+            case Dng16:
+                if (image.getFormat() == ImageFormat.RAW_SENSOR)
+                {
+                    file = new File(f + ".dng");
+                    if (forceRawToDng) // use freedcam dngconverter
+                        if (support12bitRaw)
+                            task = process_rawWithDngConverter(image, DngProfile.Pure16bit_To_12bit, file);
+                        else
+                            task = process_rawWithDngConverter(image, DngProfile.Plain, file);
+                    else // use android dngCreator
+                        task = process_rawSensor(image, file);
+                }
+                break;
+            case Dng12:
+                if (image.getFormat() == ImageFormat.RAW12) {
+                    Log.d(TAG, "save 12bit dng");
+                    file = new File(f + ".dng");
+                    task = process_rawWithDngConverter(image, DngProfile.Mipi12, file);
+                }
+                break;
+            case Bayer10:
+                if (image.getFormat() == ImageFormat.RAW10)
+                {
+                    Log.d(TAG, "save bayer10");
+                    file = new File(f + ".bayer");
+                    task = process_jpeg(image,file);
+                }
+                break;
+            case Bayer16:
+                if (image.getFormat() == ImageFormat.RAW_SENSOR)
+                {
+                    Log.d(TAG, "save bayer16");
+                    file = new File(f + ".bayer");
+                    task = process_jpeg(image,file);
+                }
+                break;
         }
+
         if (task != null) {
             ImageManager.putImageSaveTask(task);
             Log.d(TAG, "Put task to Queue");

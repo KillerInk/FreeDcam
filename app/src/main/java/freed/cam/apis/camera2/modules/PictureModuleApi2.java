@@ -45,6 +45,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
+import freed.cam.apis.camera2.modules.helper.CaptureType;
 import freed.cam.apis.camera2.modules.helper.FindOutputHelper;
 import freed.cam.apis.camera2.modules.helper.ImageCaptureHolder;
 import freed.cam.apis.camera2.modules.helper.Output;
@@ -81,8 +82,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     private boolean isBurstCapture = false;
 
 
-    private boolean captureDng = false;
-    private boolean captureJpeg = false;
+    /*private boolean captureDng = false;
+    private boolean captureJpeg = false;*/
+    private CaptureType captureType;
     protected Camera2Fragment cameraUiWrapper;
     private boolean renderScriptError5 = false;
 
@@ -327,37 +329,33 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         jpegReader = ImageReader.newInstance(output.jpeg_width, output.jpeg_height, ImageFormat.JPEG, MAX_IMAGES);
         Log.d(TAG, "ImageReader JPEG");
         if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_jpeg))) {
-            captureDng = false;
-            captureJpeg = true;
+            captureType = CaptureType.Jpeg;
         }
 
         if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16)) || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_jpg_p_dng))) {
             Log.d(TAG, "ImageReader RAW_SENSOR");
             if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16))) {
-                captureDng = true;
-                captureJpeg = false;
+                captureType = CaptureType.Dng16;
             } else {
-                captureJpeg = true;
-                captureDng = true;
+                captureType = CaptureType.JpegDng16;
             }
         }
         else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10))) {
             Log.d(TAG, "ImageReader RAW10");
-            captureDng = true;
-            captureJpeg = false;
+            captureType = CaptureType.Dng10;
         }
         else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng12))) {
             Log.d(TAG, "ImageReader RAW12");
-            captureDng = true;
-            captureJpeg = false;
+            captureType= CaptureType.Dng12;
         }
-        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer)) || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer10))) {
-            Log.d(TAG, "ImageReader RAW12");
-            captureDng = false;
-            captureJpeg = false;
+        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer))) {
+            Log.d(TAG, "ImageReader BAYER16");
+            captureType = CaptureType.Bayer16;
         }
-        else {
-            captureDng = false;
+        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer10)))
+        {
+            Log.d(TAG, "ImageReader BAYER16");
+            captureType = CaptureType.Bayer10;
         }
 
         if (output.raw_format != 0)
@@ -449,13 +447,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     protected void captureStillPicture() {
 
         Log.d(TAG,"########### captureStillPicture ###########");
-        currentCaptureHolder = new ImageCaptureHolder(cameraHolder.characteristics, captureDng, captureJpeg, cameraUiWrapper.getActivityInterface(),this,this, this);
+        currentCaptureHolder = new ImageCaptureHolder(cameraHolder.characteristics, captureType, cameraUiWrapper.getActivityInterface(),this,this, this);
         currentCaptureHolder.setFilePath(getFileString(), SettingsManager.getInstance().GetWriteExternal());
         currentCaptureHolder.setForceRawToDng(SettingsManager.get(SettingKeys.forceRawToDng).get());
         currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().get(SettingKeys.TONEMAP_SET)).getToneMap());
         currentCaptureHolder.setSupport12bitRaw(SettingsManager.get(SettingKeys.support12bitRaw).get());
         currentCaptureHolder.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
-        Log.d(TAG, "Dng: " + captureDng + " Jpeg: " + captureJpeg);
+        Log.d(TAG, "Capture Type: " + captureType);
         Log.d(TAG, "captureStillPicture ImgCount:"+ BurstCounter.getImageCaptured() +  " ImageCaptureHolder Path:" + currentCaptureHolder.getFilepath());
 
         if (cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE).GetStringValue().equals(SettingsManager.getInstance().getResString(R.string.on_)))
