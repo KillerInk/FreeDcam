@@ -354,7 +354,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         }
         else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer10)))
         {
-            Log.d(TAG, "ImageReader BAYER16");
+            Log.d(TAG, "ImageReader BAYER10");
             captureType = CaptureType.Bayer10;
         }
 

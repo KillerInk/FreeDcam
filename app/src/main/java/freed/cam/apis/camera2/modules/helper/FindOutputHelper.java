@@ -188,7 +188,8 @@ public class FindOutputHelper
             output.raw_height = largestImageSize.getHeight();
             output.raw_format = ImageFormat.RAW_SENSOR;
 
-        } else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10))) {
+        } else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10))
+        | picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer10))) {
             Log.d(TAG, "ImageReader RAW10");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CameraHolderApi2.CompareSizesByArea());
             output.raw_width = largestImageSize.getWidth();

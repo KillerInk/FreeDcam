@@ -175,9 +175,11 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         Log.d(TAG, "OnRawAvailible, in buffer: " + images.size());
         try {
             img = reader.acquireLatestImage();
+            Log.d(TAG, "ImageFormat:" + img.getFormat() +  " CaptureType:" + captureType + " Size in Bytes: " +img.getPlanes()[0].getBuffer().remaining());
+            Log.d(TAG, "Img WxH:" + img.getWidth() +"x" + img.getHeight());
+            Log.d(TAG, "Reader WxH:" + witdh +"x" + height);
             switch (captureType)
             {
-
                 case Jpeg:
                     if (img.getFormat() == ImageFormat.JPEG) {
                         AddImage(img);
@@ -231,8 +233,14 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
                         AddImage(img);
                         Log.d(TAG,"Add Bayer10");
                     }
-                    else
+                    else if(img.getFormat() == ImageFormat.RAW_SENSOR)
+                    {
+                        AddImage(img);
+                        Log.d(TAG, "Add RawSensor from expected raw10.");
+                    }
+                    else {
                         img.close();
+                    }
                     break;
                 case Bayer16:
                     if (img.getFormat() == ImageFormat.RAW_SENSOR) {
@@ -375,7 +383,8 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
                 }
                 break;
             case Bayer10:
-                if (image.getFormat() == ImageFormat.RAW10)
+                Log.d(TAG, "ImageFormat RAW10 = " + image.getFormat());
+                if (image.getFormat() == ImageFormat.RAW10 || image.getFormat() == ImageFormat.RAW_SENSOR)
                 {
                     Log.d(TAG, "save bayer10");
                     file = new File(f + ".bayer");
