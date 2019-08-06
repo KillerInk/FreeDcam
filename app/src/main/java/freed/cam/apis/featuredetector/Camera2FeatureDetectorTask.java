@@ -712,6 +712,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         for (int i = 0; i<size.length;i++)
                         {
                             rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
+                            Log.d(TAG, "Add new RawSize:" + rawsizes[i]);
                         }
                         SettingsManager.get(SettingKeys.RawSize).setValues(rawsizes);
                         SettingsManager.get(SettingKeys.RawSize).set(rawsizes[0]);
