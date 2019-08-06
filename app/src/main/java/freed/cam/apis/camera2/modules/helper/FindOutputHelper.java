@@ -183,11 +183,19 @@ public class FindOutputHelper
                 || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_jpg_p_dng))
                 || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer))) {
             Log.d(TAG, "ImageReader RAW_SENSOR");
-            largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CameraHolderApi2.CompareSizesByArea());
-            output.raw_width = largestImageSize.getWidth();
-            output.raw_height = largestImageSize.getHeight();
-            output.raw_format = ImageFormat.RAW_SENSOR;
+            if (SettingsManager.get(SettingKeys.RawSize).isSupported())
+            {
+                String[] splitraw = SettingsManager.get(SettingKeys.RawSize).get().split("x");
+                output.raw_width = Integer.parseInt(splitraw[0]);
+                output.raw_height = Integer.parseInt(splitraw[1]);
+            }
+            else {
+                largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CameraHolderApi2.CompareSizesByArea());
+                output.raw_width = largestImageSize.getWidth();
+                output.raw_height = largestImageSize.getHeight();
 
+            }
+            output.raw_format = ImageFormat.RAW_SENSOR;
         } else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10))
         | picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer10))) {
             Log.d(TAG, "ImageReader RAW10");

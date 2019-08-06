@@ -54,6 +54,7 @@ import freed.cam.apis.camera2.parameters.modes.FocusMode;
 import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
+import freed.cam.apis.camera2.parameters.modes.RawSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.SecondarySensorSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.settings.Frameworks;
@@ -204,6 +205,10 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         if (SettingsManager.get(SettingKeys.secondarySensorSize).isSupported())
             add(SettingKeys.secondarySensorSize, new SecondarySensorSizeModeApi2(cameraUiWrapper));
+
+        if (SettingsManager.get(SettingKeys.RawSize).isSupported())
+            add(SettingKeys.RawSize, new RawSizeModeApi2(cameraUiWrapper, SettingKeys.RawSize));
+
         SetAppSettingsToParameters();
     }
 

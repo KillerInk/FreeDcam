@@ -335,9 +335,8 @@
     <string name="video_audio_source_voice_recognition">Voice Recognition</string>
     <string name="video_audio_source_voice_communication">Voice Communication</string>
     <string name="video_audio_source_unprocessed">Unprocessed</string>
-
-
-
+    <string name="setting_rawsize_header">Raw Size</string>
+    <string name="setting_rawsize_description">Size of the Raw</string>
 
 
 </resources>

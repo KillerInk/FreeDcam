@@ -40,6 +40,7 @@ public class SettingKeys{
     public final static Key<SettingMode> AntiBandingMode = new Key(SettingMode.class, R.string.aps_antibandingmode);
     public final static Key<SettingMode> WhiteBalanceMode = new Key(SettingMode.class, R.string.aps_whitebalancemode);
     public final static Key<SettingMode> PictureSize = new Key(SettingMode.class, R.string.aps_picturesize);
+    public final static Key<SettingMode> RawSize = new Key(SettingMode.class, R.string.aps_rawsize);
     public final static Key<SettingMode> PictureFormat = new Key(SettingMode.class, R.string.aps_pictureformat);
 
     public final static Key<SettingMode> JpegQuality = new Key(SettingMode.class, R.string.aps_jpegquality);

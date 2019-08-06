@@ -115,6 +115,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(SettingKeys.AntiBandingMode,false);
         setAppSettingsToCamera(SettingKeys.WhiteBalanceMode,false);
         setAppSettingsToCamera(SettingKeys.PictureSize,false);
+        setAppSettingsToCamera(SettingKeys.RawSize,false);
         setAppSettingsToCamera(SettingKeys.PictureFormat,false);
         setAppSettingsToCamera(SettingKeys.BAYERFORMAT,false);
         setAppSettingsToCamera(SettingKeys.OIS_MODE,false);

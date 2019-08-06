@@ -676,6 +676,21 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 if (size != null)
                 {
                     Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
+                    if (size.length > 1)
+                    {
+                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(true);
+                        String[] rawsizes = new String[size.length];
+                        for (int i = 0; i<size.length;i++)
+                        {
+                            rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
+                        }
+                        SettingsManager.get(SettingKeys.RawSize).setValues(rawsizes);
+                        SettingsManager.get(SettingKeys.RawSize).set(rawsizes[0]);
+                    }
+                    else
+                    {
+                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(false);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -690,6 +705,21 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 if (size != null)
                 {
                     Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
+                    if (size.length > 1)
+                    {
+                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(true);
+                        String[] rawsizes = new String[size.length];
+                        for (int i = 0; i<size.length;i++)
+                        {
+                            rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
+                        }
+                        SettingsManager.get(SettingKeys.RawSize).setValues(rawsizes);
+                        SettingsManager.get(SettingKeys.RawSize).set(rawsizes[0]);
+                    }
+                    else
+                    {
+                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(false);
+                    }
                 }
             }
         } catch (IllegalArgumentException | NullPointerException e) {
