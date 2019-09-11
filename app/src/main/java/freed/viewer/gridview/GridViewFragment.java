@@ -655,7 +655,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                 //else show dialog
                 if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || !viewerActivityInterface.getFiles().get(0).isExternalSD())
                 {
-                    Builder builder = new Builder(((ActivityInterface) getActivity()).getContext());
+                    Builder builder = new Builder(getContext());
                     builder.setMessage(string.delete_files).setPositiveButton(string.yes, dialogDeleteClickListener)
                             .setNegativeButton(string.no, dialogDeleteClickListener).show();
                     setViewMode(ViewStates.normal);
@@ -669,7 +669,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                     }
                     else
                     {
-                        Builder builder = new Builder(((ActivityInterface) getActivity()).getContext());
+                        Builder builder = new Builder(getContext());
                         builder.setMessage(string.delete_files).setPositiveButton(string.yes, dialogDeleteClickListener)
                                 .setNegativeButton(string.no, dialogDeleteClickListener).show();
                     }
