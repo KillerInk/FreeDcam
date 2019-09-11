@@ -31,12 +31,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.provider.DocumentFile;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -212,8 +212,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
     @TargetApi(VERSION_CODES.KITKAT)
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             // The document selected by the user won't be returned in the intent.
             // Instead, a URI to that document will be contained in the return intent
@@ -227,10 +227,9 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
                 // Check for the freshest data.
 
 
-                getContentResolver().takePersistableUriPermission(uri,takeFlags);
+                getContentResolver().takePersistableUriPermission(uri, takeFlags);
                 SettingsManager.getInstance().SetBaseFolder(uri.toString());
-                if (resultCallback != null)
-                {
+                if (resultCallback != null) {
                     resultCallback.onActivityResultCallback(uri);
                     resultCallback = null;
                 }
@@ -413,7 +412,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         return true;
     }
 
-    @Nullable
+
     private boolean deletFile(File file) {
         if (!file.delete())
         {

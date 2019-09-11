@@ -6,9 +6,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.hardware.Camera;
-import android.support.v7.widget.AppCompatImageView;
+
 import android.util.AttributeSet;
 import android.util.TypedValue;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 import freed.utils.StringUtils;
 

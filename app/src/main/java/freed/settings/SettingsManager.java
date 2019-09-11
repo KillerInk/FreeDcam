@@ -21,8 +21,9 @@ package freed.settings;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.support.v4.util.LongSparseArray;
 import android.text.TextUtils;
+
+import androidx.collection.LongSparseArray;
 
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;

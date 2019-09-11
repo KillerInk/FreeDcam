@@ -21,7 +21,8 @@ package freed.viewer.dngconvert;
 
 import android.R.id;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+
+import androidx.fragment.app.FragmentTransaction;
 
 import freed.ActivityAbstract;
 import freed.utils.LocationManager;

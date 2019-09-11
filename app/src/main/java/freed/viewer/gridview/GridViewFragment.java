@@ -26,7 +26,6 @@ import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -39,6 +38,8 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -171,7 +172,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
 
         optionsButton = view.findViewById(id.button_options);
         optionsButton.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(getContext(), v);
+            PopupMenu popup = new PopupMenu(((ActivityInterface) getActivity()).getContext(), v);
 
             popup.getMenu().add(0,0,0, "Delete File");
             if (!isRootDir && RenderScriptManager.isSupported())
@@ -282,7 +283,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     }
 
     private void showFileSelectionPopup(View v) {
-        PopupMenu popup = new PopupMenu(getContext(), v);
+        PopupMenu popup = new PopupMenu(((ActivityInterface) getActivity()).getContext(), v);
         popup.setOnMenuItemClickListener(item -> {
             int i = item.getItemId();
             if (i == id.all)
@@ -654,7 +655,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                 //else show dialog
                 if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || !viewerActivityInterface.getFiles().get(0).isExternalSD())
                 {
-                    Builder builder = new Builder(getContext());
+                    Builder builder = new Builder(((ActivityInterface) getActivity()).getContext());
                     builder.setMessage(string.delete_files).setPositiveButton(string.yes, dialogDeleteClickListener)
                             .setNegativeButton(string.no, dialogDeleteClickListener).show();
                     setViewMode(ViewStates.normal);
@@ -668,7 +669,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                     }
                     else
                     {
-                        Builder builder = new Builder(getContext());
+                        Builder builder = new Builder(((ActivityInterface) getActivity()).getContext());
                         builder.setMessage(string.delete_files).setPositiveButton(string.yes, dialogDeleteClickListener)
                                 .setNegativeButton(string.no, dialogDeleteClickListener).show();
                     }

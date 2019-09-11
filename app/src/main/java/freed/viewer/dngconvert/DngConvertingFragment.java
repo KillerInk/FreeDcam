@@ -32,7 +32,6 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -47,6 +46,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
