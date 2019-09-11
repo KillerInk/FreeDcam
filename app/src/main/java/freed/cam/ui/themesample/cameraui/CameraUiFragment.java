@@ -36,6 +36,7 @@ import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.dimen;
@@ -72,7 +73,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 14.06.2015.
  */
-public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener, ModuleHandlerAbstract.CaptureStateChanged
+public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
     //button to switch between front and back cam
@@ -267,7 +268,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 shutterButton.setVisibility(View.VISIBLE);
                 shutterButton.SetCameraUIWrapper(cameraUiWrapper);
 
-                cameraUiWrapper.getModuleHandler().setWorkListner(this);
+                //cameraUiWrapper.getModuleHandler().setWorkListner(this);
 
                 if (manualModesFragment != null)
                     manualModesFragment.setCameraToUi(cameraUiWrapper);
@@ -290,15 +291,15 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
                 if (cameraUiWrapper instanceof SonyCameraRemoteFragment) {
                     joyPad.setVisibility(View.GONE);
-                    if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_PreviewZoom) != null)
-                        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_PreviewZoom).addEventListner(joyPad);
+                    /*if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_PreviewZoom) != null)
+                        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_PreviewZoom).addEventListner(joyPad);*/
                     joyPad.setNavigationClickListner((SimpleStreamSurfaceView) cameraUiWrapper.getSurfaceView());
                 } else
                     joyPad.setVisibility(View.GONE);
 
                 //register timer to to moduleevent handler that it get shown/hidden when its video or not
                 //and start/stop working when recording starts/stops
-                cameraUiWrapper.getModuleHandler().addListner(settingsChildSelfTimer);
+                //cameraUiWrapper.getModuleHandler().addListner(settingsChildSelfTimer);
             }
         }
     }
@@ -460,8 +461,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         String[] tmo = item.GetValues();
         if (tmo != null && tmo.length >0)
             horizontalValuesFragment.SetStringValues(tmo, this);
-        else
-            horizontalValuesFragment.ListenToParameter(item.GetParameter());
         infalteIntoHolder(id.cameraui_values_fragment_holder, horizontalValuesFragment);
 
     }
@@ -537,10 +536,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     }
 
-    @Override
+   /* @Override
     public void onCaptureStateChanged(ModuleHandlerAbstract.CaptureStates captureStates)
     {
-    }
+    }*/
 
 
     interface i_HelpFragment

@@ -19,7 +19,6 @@
 
 package freed.cam.apis.basecamera.modules;
 
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 
 /**
  * Created by troop on 09.12.2014.
@@ -54,12 +53,6 @@ public interface ModuleHandlerInterface
      * Set Low storage flag
      */
     void SetIsLowStorage(Boolean x);
-
-    /**
-     * Add worklistner that listen to the current module
-     * @param workerListner to add
-     */
-    void setWorkListner(CaptureStateChanged workerListner);
 
     void initModules();
 }

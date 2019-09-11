@@ -40,8 +40,7 @@ public class NightModeZTE extends BaseModeParameter implements ParameterEvents
     public NightModeZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper,SettingKeys.NightMode);
         setViewState(ViewState.Visible);
-        cameraUiWrapper.getModuleHandler().addListner(this);
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
+        //cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
     }
 
     @Override

@@ -28,14 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.Log;
 
 /**
  * Created by troop on 08.01.2016.
  */
-public class IntervalModule extends ModuleAbstract implements CaptureStateChanged
+public class IntervalModule extends ModuleAbstract implements IntervalHandler.SuperDoWork
 {
     private final ModuleAbstract picModule;
     protected final IntervalHandler intervalHandler;
@@ -47,7 +46,7 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
         this.picModule = picModule;
 
 
-        intervalHandler = new IntervalHandler(picModule);
+        intervalHandler = new IntervalHandler(this);
         name = cameraUiWrapper.getResString(R.string.module_interval);
         filesSaved = new ArrayList<>();
     }
@@ -66,16 +65,15 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
     @Override
     public void DoWork()
     {
-        if (!intervalHandler.IsWorking())
+        if (!isWorking)
         {
             Log.d(TAG, "StartInterval");
             isWorking = true;
             intervalHandler.StartInterval();
             changeCaptureState(CaptureStates.continouse_capture_start);
-            return;
         } else {
             Log.d(TAG, "Stop Interval");
-            isWorking = false;
+
             intervalHandler.CancelInterval();
             if (picModule.isWorking)
             {
@@ -86,32 +84,37 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
                 Log.d(TAG, "changeWorkstate to cont_capture_stop_while_notworking");
                 changeCaptureState(CaptureStates.cont_capture_stop_while_notworking);
             }
-            return;
+            isWorking = false;
         }
     }
 
     @Override
     public void InitModule() {
         super.InitModule();
+        Log.d(TAG, "Init");
+        intervalHandler.Init();
         picModule.InitModule();
-        picModule.SetCaptureStateChangedListner(this);
+        //picModule.SetCaptureStateChangedListner(this);
         picModule.setOverrideWorkFinishListner(this);
         changeCaptureState(CaptureStates.continouse_capture_stop);
     }
 
-    @Override
+    /*@Override
     public void SetCaptureStateChangedListner(CaptureStateChanged captureStateChangedListner) {
         super.SetCaptureStateChangedListner(captureStateChangedListner);
         picModule.SetCaptureStateChangedListner(this);
-    }
+    }*/
 
     @Override
     public void DestroyModule() {
+        Log.d(TAG, "Destroy");
+        intervalHandler.Destroy();
+        //picModule.SetCaptureStateChangedListner(null);
         picModule.setOverrideWorkFinishListner(null);
         picModule.DestroyModule();
     }
 
-    @Override
+    /*@Override
     public void onCaptureStateChanged(CaptureStates captureStates)
     {
         Log.d(TAG, "onCaptureStateChanged from picModule " + captureStates);
@@ -140,7 +143,7 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
                 break;
 
         }
-    }
+    }*/
 
     @Override
     public boolean IsWorking()
@@ -150,13 +153,24 @@ public class IntervalModule extends ModuleAbstract implements CaptureStateChange
 
     @Override
     public void internalFireOnWorkDone(File file) {
-        filesSaved.add(file);
+        Log.d(TAG,"internalFireOnWorkDone");
+       /* filesSaved.add(file);
         if (!isWorking) {
             super.fireOnWorkFinish(filesSaved.toArray(new File[filesSaved.size()]));
             filesSaved.clear();
         }
-        else
+        else*/
             intervalHandler.DoNextInterval();
 
+    }
+
+    @Override
+    public void SuperDoTheWork() {
+        picModule.DoWork();
+    }
+
+    @Override
+    public boolean isWorking() {
+        return picModule.isWorking;
     }
 }

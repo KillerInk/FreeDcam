@@ -42,6 +42,7 @@
 
 
     <application
+        android:name="freed.FreedApplication"
         android:allowBackup="true"
         android:icon="@drawable/launcher_freedcam"
         android:label="FreeDCam"

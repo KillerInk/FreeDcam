@@ -20,7 +20,6 @@
 package freed.cam.apis.basecamera;
 
 import android.os.Bundle;
-import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -30,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,10 +113,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     public void onDestroyView()
     {
         Log.d(TAG, "onDestroyView");
-        if (moduleHandler != null) {
-            moduleHandler.CLEAR();
-            moduleHandler.CLEARWORKERLISTNER();
-        }
+
         super.onDestroyView();
 
     }

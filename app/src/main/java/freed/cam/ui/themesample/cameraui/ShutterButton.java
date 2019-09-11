@@ -28,7 +28,11 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatButton;
+
 import com.troop.freedcam.R;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
@@ -97,12 +101,14 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         startBackgroundThread();
+        EventBus.getDefault().register(this);
         invalidate();
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        EventBus.getDefault().unregister(this);
         stopBackgroundThread();
     }
 
@@ -121,7 +127,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
             int selftimer = Integer.parseInt(sf);
             if(selftimer > 0) {
                 uiHandler.postDelayed(selftimerRunner, selftimer*1000);
-                onCaptureStateChanged(CaptureStates.selftimerstart);
+                setCaptureState(CaptureStates.selftimerstart);
             }
             else
                 cameraUiWrapper.getModuleHandler().startWork();
@@ -132,7 +138,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
     private Runnable selftimerRunner =new Runnable() {
         @Override
         public void run() {
-            onCaptureStateChanged(CaptureStates.selftimerstop);
+            setCaptureState(CaptureStates.selftimerstop);
             cameraUiWrapper.getModuleHandler().startWork();
         }
     };
@@ -142,17 +148,27 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
         if (cameraUiWrapper.getModuleHandler() == null)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.getModuleHandler().addListner(this);
-        cameraUiWrapper.getModuleHandler().setWorkListner(this);
         if(cameraUiWrapper.getModuleHandler().getCurrentModule() != null) {
-            onCaptureStateChanged(cameraUiWrapper.getModuleHandler().getCurrentModule().getCurrentCaptureState());
+            setCaptureState(cameraUiWrapper.getModuleHandler().getCurrentModule().getCurrentCaptureState());
 
         }
         Log.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
     }
 
-    @Override
-    public void onCaptureStateChanged(CaptureStates mode) {
+
+    @Subscribe
+    public void onCaptureStateChanged(CaptureStateChangedEvent stateChangedEvent) {
+        CaptureStates mode = stateChangedEvent.captureState;
+        setCaptureState(mode);
+    }
+
+    @Subscribe
+    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
+    {
+        onModuleChanged(event.NewModuleName);
+    }
+
+    private void setCaptureState(CaptureStates mode) {
         if(mode == null) {
             Log.d(TAG, "onCaptureStateChanged: Capture State is null");
             return;
@@ -203,7 +219,6 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
                 animationHandler.drawTimer(false);
                 animationHandler.stopShutterTimer();
         }
-
     }
 
     @Override
@@ -215,8 +230,10 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
 
     @Override
     public void onModuleChanged(String module) {
+        if (cameraUiWrapper == null)
+            return;
         if(cameraUiWrapper.getModuleHandler().getCurrentModule() != null) {
-            onCaptureStateChanged(cameraUiWrapper.getModuleHandler().getCurrentModule().getCurrentCaptureState());
+            setCaptureState(cameraUiWrapper.getModuleHandler().getCurrentModule().getCurrentCaptureState());
         }
     }
 }

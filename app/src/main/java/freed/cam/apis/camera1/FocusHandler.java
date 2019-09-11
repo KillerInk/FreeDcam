@@ -22,11 +22,16 @@ package freed.cam.apis.camera1;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.events.EventBusLifeCycle;
+import freed.cam.events.ValueChangedEvent;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -35,7 +40,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 02.09.2014.
  */
-public class FocusHandler extends AbstractFocusHandler implements FocusEvents
+public class FocusHandler extends AbstractFocusHandler implements FocusEvents, EventBusLifeCycle
 {
     final String TAG = FocusHandler.class.getSimpleName();
     private boolean aeMeteringSupported;
@@ -49,27 +54,23 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         super(cameraUiWrapper);
     }
 
-    public ParameterEvents focusModeListner = new ParameterEvents() {
+    @Override
+    public void startListning() {
+        EventBus.getDefault().register(this);
+    }
 
-        @Override
-        public void onViewStateChanged(AbstractParameter.ViewState value) {
+    @Override
+    public void stopListning() {
+        EventBus.getDefault().unregister(this);
+    }
 
-        }
-
-        @Override
-        public void onIntValueChanged(int current) {
-
-        }
-
-        @Override
-        public void onValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onStringValueChanged(String val) {
+    @Subscribe
+    public void onStringValueChanged(ValueChangedEvent<String> valueChangedEvent)
+    {
+        if (valueChangedEvent.key == SettingKeys.FocusMode)
+        {
             if (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK) {
-                if (val.equals("auto") || val.equals("macro") || val.equals("touch")) {
+                if (valueChangedEvent.newValue.equals("auto") || valueChangedEvent.newValue.equals("macro") || valueChangedEvent.newValue.equals("touch")) {
                     if (focusEvent != null)
                         focusEvent.TouchToFocusSupported(true);
                 } else {
@@ -84,31 +85,11 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                 }
             }
         }
-    };
-
-    public ParameterEvents aeModeListner = new ParameterEvents() {
-
-
-        @Override
-        public void onViewStateChanged(AbstractParameter.ViewState value) {
-
-        }
-
-        @Override
-        public void onIntValueChanged(int current) {
-
-        }
-
-        @Override
-        public void onValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onStringValueChanged(String val) {
+        else if (valueChangedEvent.key == SettingKeys.ExposureMode)
+        {
             if(SettingsManager.getInstance().getFrameWork() != Frameworks.MTK)
             {
-                if (val.contains("spot")) {
+                if (valueChangedEvent.newValue.contains("spot")) {
                     if (focusEvent != null) {
                         aeMeteringSupported = true;
                         focusEvent.AEMeteringSupported(true);
@@ -128,7 +109,8 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                 }
             }
         }
-    };
+    }
+
 
     @Override
     public boolean isAeMeteringSupported()
@@ -263,4 +245,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         }
         return targetFocusRect;
     }
+
+
 }

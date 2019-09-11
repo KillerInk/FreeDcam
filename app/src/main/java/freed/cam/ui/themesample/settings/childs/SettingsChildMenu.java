@@ -31,8 +31,12 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 
 /**
@@ -43,6 +47,16 @@ public class SettingsChildMenu extends UiSettingsChild
     private TextView description;
 
     private TextView headerText;
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+    }
 
     public SettingsChildMenu(Context context) {
         super(context);
@@ -110,20 +124,16 @@ public class SettingsChildMenu extends UiSettingsChild
     }
 
     @Override
-    public void onStringValueChanged(String val) {
-        sendLog("Set Value to:" + val);
-        if (valueText != null)
-            valueText.setText(val);
-    }
-
-    @Override
     public void onClick(View v) {
         if (onItemClick != null)
             onItemClick.onSettingsChildClick(this, false);
     }
 
-    @Override
-    public void onViewStateChanged(AbstractParameter.ViewState value) {
-        super.onViewStateChanged(value);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onStringValueChanged(ValueChangedEvent<String> value) {
+        if (value.type != String.class || parameter == null)
+            return;
+        if (value.key == parameter.getKey())
+            onStringValueChanged(value.newValue);
     }
 }

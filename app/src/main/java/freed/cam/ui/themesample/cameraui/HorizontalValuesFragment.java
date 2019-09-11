@@ -100,11 +100,6 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
     }
 
 
-    public void ListenToParameter(ParameterInterface parameter)
-    {
-        parameter.addEventListner(this);
-    }
-
     /*
     this gets attached to the Simplevalue childes and returns the value from the clicked SimpleValueChild
      */

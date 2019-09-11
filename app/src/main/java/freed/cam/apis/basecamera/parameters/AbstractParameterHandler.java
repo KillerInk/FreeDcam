@@ -38,6 +38,7 @@ import freed.cam.apis.basecamera.parameters.modes.GpsParameter;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
+import freed.cam.events.EventBusLifeCycle;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -75,13 +76,9 @@ public abstract class AbstractParameterHandler
         if (RenderScriptManager.isSupported() && cameraUiWrapper.getFocusPeakProcessor() != null) {
             add(SettingKeys.EnableRenderScript, new EnableRenderScriptMode(cameraUiWrapper, SettingsManager.get(SettingKeys.EnableRenderScript)));
             add(SettingKeys.FOCUSPEAK_COLOR, new FocusPeakColorMode(cameraUiWrapper.getFocusPeakProcessor(), SettingKeys.FOCUSPEAK_COLOR));
-            get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.FOCUSPEAK_COLOR));
             add(SettingKeys.Focuspeak, new FocusPeakMode(cameraUiWrapper));
-            get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.Focuspeak));
             add(SettingKeys.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
-            get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.HISTOGRAM));
             add(SettingKeys.CLIPPING, new ClippingMode(cameraUiWrapper));
-            get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.CLIPPING));
         }
     }
 
@@ -89,6 +86,26 @@ public abstract class AbstractParameterHandler
     {
         Log.d(TAG, "add "+SettingsManager.getInstance().getResString(parameters.getRessourcesStringID()));
         parameterHashMap.put(parameters, parameterInterface);
+    }
+
+    public void unregisterListners()
+    {
+        for (EventBusLifeCycle life : parameterHashMap.values()) {
+            life.stopListning();
+        }
+    }
+
+    public void registerListners()
+    {
+        for (EventBusLifeCycle life : parameterHashMap.values()) {
+            try {
+                life.startListning();
+            }
+            catch(org.greenrobot.eventbus.EventBusException ex)
+            {
+                ex.printStackTrace();
+            }
+        }
     }
 
     public ParameterInterface get(SettingKeys.Key parameters)

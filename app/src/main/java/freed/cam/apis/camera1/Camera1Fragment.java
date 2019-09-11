@@ -24,7 +24,6 @@ import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -34,9 +33,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.RequiresApi;
+
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +59,9 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.cameraholder.CameraHolderSony;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera2.AutoFitTextureView;
+import freed.cam.events.EventBusLifeCycle;
+import freed.cam.events.ModuleHasChangedEvent;
+import freed.cam.events.ValueChangedEvent;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessor;
 import freed.renderscript.RenderScriptProcessorInterface;
@@ -68,10 +74,8 @@ import freed.viewer.screenslide.MyHistogram;
 /**
  * Created by troop on 06.06.2015.
  */
-public class Camera1Fragment extends CameraFragmentAbstract implements ModuleChangedEvent, SurfaceHolder.Callback, TextureView.SurfaceTextureListener
+public class Camera1Fragment extends CameraFragmentAbstract implements ModuleChangedEvent, SurfaceHolder.Callback, TextureView.SurfaceTextureListener, EventBusLifeCycle
 {
-    /*protected ExtendedSurfaceView extendedSurfaceView;
-    protected TextureViewRatio preview;*/
     private final String TAG = Camera1Fragment.class.getSimpleName();
     public RenderScriptProcessor focusPeakProcessorAp1;
     private boolean cameraRdy;
@@ -99,6 +103,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         return inflater.inflate(layout.camerafragment, container, false);
     }
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
@@ -112,6 +117,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public void onResume() {
         super.onResume();
+        startListning();
         if (PreviewSurfaceRdy && !cameraIsOpen)
             startCameraAsync();
     }
@@ -127,6 +133,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 && moduleHandler.getCurrentModule().IsWorking())
             moduleHandler.getCurrentModule().DoWork();
         stopCameraAsync();
+        stopListning();
     }
 
     @Override
@@ -169,6 +176,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     public void onCameraClose(String message)
     {
         cameraRdy = false;
+        ((FocusHandler)Focus).stopListning();
+        parametersHandler.unregisterListners();
         if(focusPeakProcessorAp1 != null)
             focusPeakProcessorAp1.kill();
     }
@@ -189,33 +198,15 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     }
 
-
-    ParameterEvents onPreviewSizeShouldChange = new ParameterEvents() {
-
-
-        @Override
-        public void onViewStateChanged(AbstractParameter.ViewState value) {
-
-        }
-
-        @Override
-        public void onIntValueChanged(int current) {
-
-        }
-
-        @Override
-        public void onValuesChanged(String[] values) {
-
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-        @Override
-        public void onStringValueChanged(String value) {
+    @Subscribe
+    public void onPictureSizeChanged(ValueChangedEvent<String> valueChangedEvent)
+    {
+        if (valueChangedEvent.key == SettingKeys.PictureSize)
+        {
             mainToCameraHandler.removeCallbacks(createPreviewRunner);
             mainToCameraHandler.post(createPreviewRunner);
         }
-
-    };
+    }
 
     private Runnable createPreviewRunner =new Runnable()
     {
@@ -375,8 +366,10 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
             focusPeakProcessorAp1 = new RenderScriptProcessor(renderScriptManager, histogram, ImageFormat.NV21);
         }
         parametersHandler = new ParametersHandler(Camera1Fragment.this);
-        moduleHandler.addListner(Camera1Fragment.this);
+
+        //moduleHandler.addListner(Camera1Fragment.this);
         Focus = new FocusHandler(Camera1Fragment.this);
+
         Log.d(TAG, "initModules");
         moduleHandler.initModules();
         Log.d(TAG, "Check Focuspeak");
@@ -385,15 +378,14 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Override
     public void initCamera() {
         cameraRdy = true;
+        ((FocusHandler) Focus).startListning();
         ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
-
-        parametersHandler.get(SettingKeys.PictureSize).addEventListner(onPreviewSizeShouldChange);
-
         fireCameraOpenFinished();
     }
 
     @Override
     public void startCamera() {
+        EventBus.getDefault().register(this);
         if (!cameraIsOpen)
             cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
         Log.d(TAG, "startCamera");
@@ -401,6 +393,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Override
     public void stopCamera() {
+        EventBus.getDefault().unregister(this);
         Log.d(TAG, "Stop Camera");
         if (focusPeakProcessorAp1 != null)
             focusPeakProcessorAp1.kill();
@@ -464,6 +457,16 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     }
 
+    @Override
+    public void startListning() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void stopListning() {
+        EventBus.getDefault().unregister(this);
+    }
+
     private class SizeCompare implements Comparator<Size>
     {
         @Override
@@ -477,13 +480,20 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         }
     }
 
+    @Subscribe
+    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
+    {
+        onModuleChanged(event.NewModuleName);
+    }
+
     @Override
     public void onModuleChanged(String module)
     {
         if (parametersHandler.get(SettingKeys.Focuspeak) == null)
             return;
         try {
-            onPreviewSizeShouldChange.onStringValueChanged(parametersHandler.get(SettingKeys.Focuspeak).GetStringValue());
+            mainToCameraHandler.removeCallbacks(createPreviewRunner);
+            mainToCameraHandler.post(createPreviewRunner);
         }
         catch (NullPointerException ex)
         {

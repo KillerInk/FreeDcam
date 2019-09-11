@@ -73,6 +73,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
     private CameraHolderApi2 cameraHolder;
     private Camera2Fragment camera2Fragment;
+    private ManualToneMapCurveApi2 manualToneMapCurveApi2;
 
     public ParameterHandlerApi2(CameraWrapperInterface wrapper)
     {
@@ -108,7 +109,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             add(SettingKeys.OIS_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.OIS_MODE,CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
         if (SettingsManager.get(SettingKeys.FocusMode).isSupported()) {
             add(SettingKeys.FocusMode, new FocusMode(cameraUiWrapper, SettingKeys.FocusMode, CaptureRequest.CONTROL_AF_MODE));
-            get(SettingKeys.FocusMode).addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
         }
         if (SettingsManager.get(SettingKeys.HOT_PIXEL_MODE).isSupported())
             add(SettingKeys.HOT_PIXEL_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.HOT_PIXEL_MODE,CaptureRequest.HOT_PIXEL_MODE));
@@ -179,7 +179,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             add(SettingKeys.M_Aperture, new ManualApertureApi2(cameraUiWrapper, SettingKeys.M_Aperture));
         }
 
-        ManualToneMapCurveApi2 manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
+        manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
+        manualToneMapCurveApi2.startListning();
         /*ManualContrast = manualToneMapCurveApi2.contrast;
         ManualBrightness = manualToneMapCurveApi2.brightness;
         black = manualToneMapCurveApi2.black;
@@ -190,7 +191,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         add(SettingKeys.TONE_CURVE_PARAMETER, manualToneMapCurveApi2.toneCurveParameter);
 
         add(SettingKeys.TONE_MAP_MODE,new BaseModeApi2(cameraUiWrapper, SettingKeys.TONE_MAP_MODE,CaptureRequest.TONEMAP_MODE));
-        get(SettingKeys.TONE_MAP_MODE).addEventListner(manualToneMapCurveApi2);
+
 
         add(SettingKeys.PictureFormat, new PictureFormatParameterApi2(cameraUiWrapper, SettingKeys.PictureFormat, null));
 
@@ -209,7 +210,14 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         if (SettingsManager.get(SettingKeys.RawSize).isSupported())
             add(SettingKeys.RawSize, new RawSizeModeApi2(cameraUiWrapper, SettingKeys.RawSize));
 
+        registerListners();
         SetAppSettingsToParameters();
+    }
+
+    @Override
+    public void unregisterListners() {
+        super.unregisterListners();
+        manualToneMapCurveApi2.stopListning();
     }
 
     @Override

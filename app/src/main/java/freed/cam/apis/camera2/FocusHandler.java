@@ -29,17 +29,23 @@ import android.view.MotionEvent;
 
 import com.troop.freedcam.R;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.events.EventBusLifeCycle;
+import freed.cam.events.ValueChangedEvent;
+import freed.settings.SettingKeys;
 import freed.utils.Log;
 
 /**
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class FocusHandler extends AbstractFocusHandler
+public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCycle
 {
     private int mState;
     private boolean focusenabled;
@@ -53,40 +59,25 @@ public class FocusHandler extends AbstractFocusHandler
         super(cameraUiWrapper);
     }
 
-    public ParameterEvents focusModeListner = new ParameterEvents() {
 
-
-        @Override
-        public void onViewStateChanged(AbstractParameter.ViewState value) {
-
-        }
-
-        @Override
-        public void onIntValueChanged(int current) {
-
-        }
-
-        @Override
-        public void onValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onStringValueChanged(String val) {
-            if (val.contains("Continous")|| val.equals(cameraUiWrapper.getContext().getString(R.string.off)))
-            {
+    @Subscribe
+    public void onFocusModeValueChanged(ValueChangedEvent<String> valueChangedEvent)
+    {
+        if (valueChangedEvent.type != String.class)
+            return;
+        if (valueChangedEvent.key == SettingKeys.FocusMode) {
+            String val = valueChangedEvent.newValue;
+            if (val.contains("Continous") || val.equals(cameraUiWrapper.getContext().getString(R.string.off))) {
                 focusenabled = false;
                 if (focusEvent != null)
                     focusEvent.TouchToFocusSupported(false);
-            }
-            else
-            {
+            } else {
                 focusenabled = true;
                 if (focusEvent != null)
                     focusEvent.TouchToFocusSupported(true);
             }
         }
-    };
+    }
 
     @Override
     public void StartFocus() {
@@ -146,37 +137,6 @@ public class FocusHandler extends AbstractFocusHandler
         ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
     }
 
-    public ParameterEvents aeModeListner = new ParameterEvents() {
-
-
-        @Override
-        public void onViewStateChanged(AbstractParameter.ViewState value) {
-
-        }
-
-        @Override
-        public void onIntValueChanged(int current) {
-
-        }
-
-        @Override
-        public void onValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onStringValueChanged(String val) {
-            if (val.equals("off"))
-            {
-                if (focusEvent != null)
-                    focusEvent.AEMeteringSupported(false);
-            }
-            else {
-                if (focusEvent != null)
-                    focusEvent.AEMeteringSupported(true);
-            }
-        }
-    };
 
     @Override
     public void SetMeteringAreas(int x, int y, int width, int height)
@@ -217,4 +177,15 @@ public class FocusHandler extends AbstractFocusHandler
 
     }
 
+    @Override
+    public void startListning() {
+        if (EventBus.getDefault().isRegistered(this))
+            return;
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void stopListning() {
+        EventBus.getDefault().unregister(this);
+    }
 }

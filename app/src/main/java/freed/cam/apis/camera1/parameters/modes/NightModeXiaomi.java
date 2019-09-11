@@ -45,8 +45,7 @@ public class NightModeXiaomi extends BaseModeParameter implements ParameterEvent
         if(parameters.get(cameraUiWrapper.getResString(R.string.morpho_hht)) != null
                 && parameters.get(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr)) != null) {
             setViewState(ViewState.Visible);
-            cameraUiWrapper.getModuleHandler().addListner(this);
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
+            //cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
         }
     }
 

@@ -51,7 +51,7 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract
     {
         PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);
-        IntervalModule intervalModule = new IntervalApi2(pictureModuleApi2, cameraUiWrapper,mBackgroundHandler,mainHandler);
+        IntervalApi2 intervalModule = new IntervalApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(intervalModule.ModuleName(), intervalModule);
         VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);

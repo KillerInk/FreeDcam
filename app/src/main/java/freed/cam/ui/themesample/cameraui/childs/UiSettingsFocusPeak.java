@@ -25,8 +25,11 @@ import android.view.View;
 
 import com.troop.freedcam.R;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -51,9 +54,6 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
 
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-
-        cameraUiWrapper.getModuleHandler().addListner(this);
-
         onModuleChanged(cameraUiWrapper.getModuleHandler().getCurrentModuleName());
         if (SettingsManager.get(SettingKeys.EnableRenderScript).get())
             onViewStateChanged(AbstractParameter.ViewState.Visible);
@@ -72,6 +72,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
             parameter.SetValue(getResources().getString(R.string.on_),false);}
 
     }
+
 
     @Override
     public void onModuleChanged(String module)

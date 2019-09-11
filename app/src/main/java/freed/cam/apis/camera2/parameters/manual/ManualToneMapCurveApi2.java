@@ -24,10 +24,15 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build.VERSION_CODES;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera2.Camera2Fragment;
+import freed.cam.events.EventBusLifeCycle;
+import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 
@@ -36,7 +41,7 @@ import freed.utils.Log;
  */
 //http://www.cambridgeincolour.com/tutorials/photoshop-curves.htm
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class ManualToneMapCurveApi2 implements ParameterEvents
+public class ManualToneMapCurveApi2 implements EventBusLifeCycle
 {
     final String TAG = ManualToneMapCurveApi2.class.getSimpleName();
     //  linearcurve       x/y
@@ -74,22 +79,7 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
        toneCurveParameter = new ToneCurveParameter(SettingKeys.TONE_CURVE_PARAMETER);
     }
 
-    @Override
-    public void onViewStateChanged(AbstractParameter.ViewState value) {
 
-    }
-
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    @Override
     public void onStringValueChanged(String value) {
         boolean isSupported;
         boolean canSet;
@@ -145,7 +135,27 @@ public class ManualToneMapCurveApi2 implements ParameterEvents
         if (whitep != null) {
             whitep.setViewState(AbstractParameter.ViewState.Visible);
         }
+    }
 
+    @Subscribe
+    public void onToneMapModeChanged(ValueChangedEvent<String> valueChangedEvent)
+    {
+        if (valueChangedEvent.type != String.class)
+            return;
+        if (valueChangedEvent.key == SettingKeys.TONE_MAP_MODE)
+        {
+            onStringValueChanged(valueChangedEvent.newValue);
+        }
+    }
+
+    @Override
+    public void startListning() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void stopListning() {
+        EventBus.getDefault().unregister(this);
     }
 
     public class Contrast extends AbstractParameter

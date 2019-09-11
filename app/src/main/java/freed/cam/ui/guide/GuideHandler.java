@@ -59,7 +59,7 @@ public class GuideHandler extends Fragment implements ParameterEvents {
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList).addEventListner(this);
+        //cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList).addEventListner(this);
         Log.d(TAG, "setCameraUiWrapper SetViewG()");
         if (img != null)
             SetViewG(SettingsManager.get(SettingKeys.GuideList).get());

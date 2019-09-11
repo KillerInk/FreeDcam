@@ -26,12 +26,16 @@ import android.support.annotation.Nullable;
 
 import com.troop.freedcam.R;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.lang.ref.WeakReference;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.events.CaptureStateChangedEvent;
+import freed.cam.events.ModuleHasChangedEvent;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
@@ -56,22 +60,10 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         selftimerstop
     }
 
-    public interface CaptureStateChanged
-    {
-        void onCaptureStateChanged(CaptureStates captureStates);
-    }
-
-    private final ArrayList<CaptureStateChanged> onCaptureStateChangedListners;
-
     private final String TAG = ModuleHandlerAbstract.class.getSimpleName();
     public AbstractMap<String, ModuleInterface> moduleList;
     protected ModuleInterface currentModule;
     protected CameraWrapperInterface cameraUiWrapper;
-
-    protected CaptureStateChanged workerListner;
-
-    //holds all listner for the modulechanged event
-    private final ArrayList<ModuleChangedEvent> moduleChangedListner;
 
     private BackgroundHandlerThread backgroundHandlerThread;
 
@@ -82,32 +74,9 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     {
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();
-        moduleChangedListner = new ArrayList<>();
-        onCaptureStateChangedListners = new ArrayList<>();
-        mainHandler = new UiHandler(Looper.getMainLooper(),moduleChangedListner,onCaptureStateChangedListners);
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         backgroundHandlerThread.create();
         mBackgroundHandler = new Handler(backgroundHandlerThread.getThread().getLooper());
-
-        workerListner = captureStates -> {
-            for (int i = 0; i < onCaptureStateChangedListners.size(); i++)
-            {
-
-                if (onCaptureStateChangedListners.get(i) == null) {
-                    onCaptureStateChangedListners.remove(i);
-                    i--;
-                }
-                else
-                {
-                    mainHandler.obtainMessage(UiHandler.CAPTURE_STATE_CHANGED,i,0,captureStates).sendToTarget();
-                }
-            }
-        };
-    }
-
-    public void changeCaptureState(CaptureStates states)
-    {
-        workerListner.onCaptureStateChanged(states);
     }
 
     /**
@@ -118,7 +87,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     public void setModule(String name) {
         if (currentModule !=null) {
             currentModule.DestroyModule();
-            currentModule.SetCaptureStateChangedListner(null);
+            //currentModule.SetCaptureStateChangedListner(null);
             currentModule = null;
         }
         currentModule = moduleList.get(name);
@@ -126,7 +95,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             currentModule = moduleList.get(cameraUiWrapper.getResString(R.string.module_picture));
         currentModule.InitModule();
         ModuleHasChanged(currentModule.ModuleName());
-        currentModule.SetCaptureStateChangedListner(workerListner);
+        //currentModule.SetCaptureStateChangedListner(workerListner);
         Log.d(TAG, "Set Module to " + name);
     }
 
@@ -160,97 +129,15 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
             currentModule.IsLowStorage(x);
     }
 
-    @Override
-    public void setWorkListner(CaptureStateChanged workerListner)
-    {
-        if (!onCaptureStateChangedListners.contains(workerListner))
-            onCaptureStateChangedListners.add(workerListner);
-    }
-
-
-    public void CLEARWORKERLISTNER()
-    {
-        if (onCaptureStateChangedListners != null)
-            onCaptureStateChangedListners.clear();
-    }
-
-    /**
-     * Add a listner for Moudlechanged events
-     * @param listner the listner for the event
-     */
-    public  void addListner(ModuleChangedEvent listner)
-    {
-        if (!moduleChangedListner.contains(listner))
-            moduleChangedListner.add(listner);
-    }
-
     /**
      * Gets thrown when the module has changed
      * @param module the new module that gets loaded
      */
     public void ModuleHasChanged(final String module)
     {
-        if (moduleChangedListner.size() == 0)
-            return;
-        for (int i = 0; i < moduleChangedListner.size(); i++)
-        {
-            if (moduleChangedListner.get(i) == null) {
-                moduleChangedListner.remove(i);
-                i--;
-            }
-            else
-            {
-                mainHandler.obtainMessage(UiHandler.MODULE_CHANGED,i,0, module).sendToTarget();
-            }
-        }
-    }
-
-    //clears all listner this happens when the camera gets destroyed
-    public void CLEAR()
-    {
-        moduleChangedListner.clear();
-        backgroundHandlerThread.destroy();
+        EventBus.getDefault().post(new ModuleHasChangedEvent(module));
     }
 
 
-    private static class UiHandler extends Handler
-    {
-        public static final int MODULE_CHANGED= 0;
-        public static final int CAPTURE_STATE_CHANGED = 1;
-        WeakReference<ArrayList<ModuleChangedEvent>> weakReferenceModuleChangedListners;
-        WeakReference<ArrayList<CaptureStateChanged>> weakReferenceCaptureStateChanged;
-
-        public UiHandler(Looper mainLooper,ArrayList<ModuleChangedEvent> moduleChangedListner,ArrayList<CaptureStateChanged> captureStateChanged) {
-            super(mainLooper);
-            weakReferenceModuleChangedListners = new WeakReference<>(moduleChangedListner);
-            weakReferenceCaptureStateChanged = new WeakReference<>(captureStateChanged);
-        }
-
-        @Override
-        public void handleMessage(Message msg)
-        {
-            switch (msg.what) {
-                case MODULE_CHANGED:
-                    ArrayList<ModuleChangedEvent> moduleChangedListners = weakReferenceModuleChangedListners.get();
-                    if (moduleChangedListners != null){
-                        if (moduleChangedListners.size() > 0) {
-                            ModuleChangedEvent event = moduleChangedListners.get(msg.arg1);
-                            if (event != null)
-                                event.onModuleChanged((String) msg.obj);
-                            else
-                                moduleChangedListners.remove(event);
-                        }
-                    }
-                break;
-                case CAPTURE_STATE_CHANGED:
-                    ArrayList<CaptureStateChanged> onCaptureStateChangedListner = weakReferenceCaptureStateChanged.get();
-                if (onCaptureStateChangedListner != null)
-                    onCaptureStateChangedListner.get(msg.arg1).onCaptureStateChanged((CaptureStates)msg.obj);
-                    break;
-                default:
-                    super.handleMessage(msg);
-            }
-        }
-    }
 
 }

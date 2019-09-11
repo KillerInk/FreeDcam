@@ -31,8 +31,8 @@ public class MorphoHdrModeParameters extends BaseModeParameter implements Parame
 
     public MorphoHdrModeParameters(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
         super(parameters, cameraUiWrapper, settingMode);
-        cameraUiWrapper.getModuleHandler().addListner(this);
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
+
+        //cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
     }
 
 

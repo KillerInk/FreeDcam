@@ -19,6 +19,7 @@
 
 package freed.cam.apis.sonyremote.parameters.modes;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +30,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
+import freed.cam.events.CaptureStateChangedEvent;
 import freed.utils.Log;
 
 /**
@@ -62,9 +64,9 @@ public class ContShootModeParameterSony extends BaseModeParameterSony
         {
             try {
                 if (valueToSet.equals("Single"))
-                    moduleHandlerAbstract.changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
+                    EventBus.getDefault().post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.image_capture_stop));
                 else if (valueToSet.equals("Spd Priority Cont.") || valueToSet.equals("Continuous"))
-                    moduleHandlerAbstract.changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_work_stop);
+                    EventBus.getDefault().post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.continouse_capture_work_stop));
                 JSONObject contshot = new JSONObject().put("contShootingMode", valueToSet);
                 JSONArray array = new JSONArray().put(0, contshot);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);

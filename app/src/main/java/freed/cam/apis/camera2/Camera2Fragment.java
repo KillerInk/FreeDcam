@@ -276,6 +276,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         parametersHandler = new ParameterHandlerApi2(Camera2Fragment.this);
         moduleHandler = new ModuleHandlerApi2(Camera2Fragment.this);
         Focus = new FocusHandler(Camera2Fragment.this);
+
         cameraHolder = new CameraHolderApi2(Camera2Fragment.this);
         cameraBackroundValuesChangedListner = new CameraValuesChangedCaptureCallback(this);
         cameraBackroundValuesChangedListner.setWaitForFirstFrameCallback(this);
@@ -286,6 +287,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public void initCamera() {
         Log.d(TAG,"Init Camera");
         captureSessionHandler.CreatePreviewRequestBuilder();
+        ((FocusHandler) Focus).startListning();
         ((ParameterHandlerApi2)parametersHandler).Init();
         ((CameraHolderApi2)cameraHolder).SetSurface(textureView);
         Log.d(TAG, "Camera Opened and Preview Started");
@@ -309,6 +311,8 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
             captureSessionHandler.Clear();
             cameraHolder.CloseCamera();
             cameraIsOpen = false;
+            ((FocusHandler) Focus).stopListning();
+            parametersHandler.unregisterListners();
         }
         catch (NullPointerException ex)
         {

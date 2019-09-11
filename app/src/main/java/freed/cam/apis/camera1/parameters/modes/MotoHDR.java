@@ -4,12 +4,15 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.R;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
@@ -18,7 +21,7 @@ import freed.settings.mode.SettingMode;
  * Created by GeorgeKiarie on 5/11/2017.
  */
 
-public class MotoHDR extends BaseModeParameter implements ParameterEvents
+public class MotoHDR extends BaseModeParameter
 {
     final String TAG = MotoHDR.class.getSimpleName();
     private boolean visible = true;
@@ -93,29 +96,18 @@ public class MotoHDR extends BaseModeParameter implements ParameterEvents
         }
     }
 
-    @Override
-    public void onViewStateChanged(ViewState value) {
 
-    }
+    @Subscribe
+    public void onPictureFormatChanged(ValueChangedEvent<String> valueChangedEvent)
+    {
+        if (valueChangedEvent.key == SettingKeys.PictureFormat) {
+            format = valueChangedEvent.newValue;
+            if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_)) && !visible && !curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
+                Show();
 
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onStringValueChanged(String val) {
-        format = val;
-        if (val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&&!visible &&!curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
-            Show();
-
-        else if (!val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&& visible) {
-            Hide();
+            else if (!format.contains(cameraUiWrapper.getResString(R.string.jpeg_)) && visible) {
+                Hide();
+            }
         }
     }
 

@@ -24,11 +24,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
+
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.events.CaptureStateChangedEvent;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.holder.FileHolder;
@@ -43,18 +46,18 @@ public abstract class ModuleAbstract implements ModuleInterface
     protected boolean isLowStorage;
     public String name;
 
-    protected CaptureStateChanged captureStateChangedListner;
+    //protected CaptureStateChanged captureStateChangedListner;
     private final String TAG = ModuleAbstract.class.getSimpleName();
     protected CaptureStates currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;
     protected Handler mBackgroundHandler;
-    protected UiHandler mainHandler;
+    protected Handler mainHandler;
     //used to redirect workevents to the module subscribe to it.
     protected WorkFinishEvents workFinishEventsListner;
 
-    private final int MSG_ONCAPTURESTATECHANGED = 0;
+    //private final int MSG_ONCAPTURESTATECHANGED = 0;
 
-    public class UiHandler extends Handler
+    /*public class UiHandler extends Handler
     {
         UiHandler(Looper looper)
         {
@@ -75,21 +78,21 @@ public abstract class ModuleAbstract implements ModuleInterface
             }
         }
 
-    }
+    }*/
 
     public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.mBackgroundHandler = mBackgroundHandler;
-        this.mainHandler = new UiHandler(Looper.getMainLooper());
+        this.mainHandler = new Handler(Looper.getMainLooper());
     }
 
-    public void SetCaptureStateChangedListner(CaptureStateChanged captureStateChangedListner)
+    /*public void SetCaptureStateChangedListner(CaptureStateChanged captureStateChangedListner)
     {
         this.captureStateChangedListner = captureStateChangedListner;
         if (captureStateChangedListner != null)
             captureStateChangedListner.onCaptureStateChanged(currentWorkState);
-    }
+    }*/
 
     public void setOverrideWorkFinishListner(WorkFinishEvents workFinishEvents)
     {
@@ -103,7 +106,8 @@ public abstract class ModuleAbstract implements ModuleInterface
     {
         Log.d(TAG, "work started");
         currentWorkState = captureStates;
-        mainHandler.obtainMessage(MSG_ONCAPTURESTATECHANGED, captureStates).sendToTarget();
+        EventBus.getDefault().post(new CaptureStateChangedEvent(captureStates));
+        //mainHandler.obtainMessage(MSG_ONCAPTURESTATECHANGED, captureStates).sendToTarget();
     }
 
     @Override

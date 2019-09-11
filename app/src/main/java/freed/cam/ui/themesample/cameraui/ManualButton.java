@@ -36,17 +36,21 @@ import android.widget.TextView;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.events.ValueChangedEvent;
 import freed.utils.Log;
 
 
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualButton extends LinearLayout implements ParameterEvents, ManualButtonHandler.ManualMessageEvent
+public class ManualButton extends LinearLayout implements ManualButtonHandler.ManualMessageEvent
 {
     private final String TAG = ManualButton.class.getSimpleName();
     private String[] parameterValues;
@@ -77,21 +81,23 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
         imageView = findViewById(id.imageView_ManualButton);
     }
 
-    public void RemoveParameterListner( ParameterEvents t)
-    {
-        parameter.removeEventListner(t);
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        EventBus.getDefault().register(this);
     }
 
-    public void SetParameterListner( ParameterEvents t)
-    {
-        parameter.addEventListner(t);
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        EventBus.getDefault().unregister(this);
     }
+
 
     public void SetManualParameter(@Nullable ParameterInterface parameter)
     {
         this.parameter = parameter;
         if (parameter != null) {
-            parameter.addEventListner(this);
 
             String txt = parameter.GetStringValue();
             if (valueTextView != null) {
@@ -103,7 +109,7 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
             createStringParametersStrings(parameter);
 
         }
-        onViewStateChanged(parameter.getViewState());
+        //onViewStateChanged(parameter.getViewState());
 
     }
 
@@ -134,28 +140,44 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
     };
 
 
-    @Override
-    public void onViewStateChanged(AbstractParameter.ViewState value) {
-        handler.set_ON_SET_VIEW_STATE(value);
-    }
-
-    @Override
-    public void onIntValueChanged(int current)
+    @Subscribe
+    public void onViewStateChanged(ValueChangedEvent<AbstractParameter.ViewState> viewStateValueChangedEvent)
     {
-        pos = current;
-        Log.d(TAG, "onIntValueChanged current:"+current +" pos:" + pos);
-        handler.setON_INT_VALUE_CHANGED(current);
+        if (viewStateValueChangedEvent.type != AbstractParameter.ViewState.class)
+            return;
+        if (viewStateValueChangedEvent.key == parameter.getKey())
+            handler.set_ON_SET_VIEW_STATE(viewStateValueChangedEvent.newValue);
     }
 
-    @Override
-    public void onValuesChanged(String[] values) {
-        parameterValues = values;
+    @Subscribe
+    public void onIntValueChanged(ValueChangedEvent<Integer> current)
+    {
+        if (current.type != Integer.class)
+            return;
+        if (current.key == parameter.getKey()) {
+            pos = current.newValue;
+            Log.d(TAG, "onIntValueChanged current:" + current + " pos:" + pos);
+            handler.setON_INT_VALUE_CHANGED(pos);
+        }
     }
 
-    @Override
-    public void onStringValueChanged(final String value) {
-        handler.setON_STRING_VALUE_CHANGED(value);
+    @Subscribe
+    public void onValuesChanged(ValueChangedEvent<String[]> values) {
+        if (values.type != String[].class)
+            return;
+        if (values.key == parameter.getKey()) {
+            parameterValues = values.newValue;
+        }
     }
+
+    @Subscribe
+    public void onStringValueChanged(ValueChangedEvent<String> value) {
+        if (value.type != String.class)
+            return;
+        if (value.key == parameter.getKey())
+            handler.setON_STRING_VALUE_CHANGED(value.newValue);
+    }
+
 
     private String getStringValue(int pos)
     {

@@ -21,7 +21,10 @@ package freed.cam.apis.camera2.modules;
 
 import android.os.Handler;
 
+import com.troop.freedcam.R;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.IntervalHandler;
 import freed.cam.apis.basecamera.modules.IntervalModule;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
@@ -30,54 +33,59 @@ import freed.utils.Log;
 /**
  * Created by troop on 26.02.2016.
  */
-public class IntervalApi2 extends IntervalModule implements I_PreviewWrapper
+public class IntervalApi2 extends PictureModuleApi2 implements I_PreviewWrapper, IntervalHandler.SuperDoWork
 {
-    private final PictureModuleApi2 picModule;
-    public IntervalApi2(ModuleAbstract picModule, CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
-        super(picModule,cameraUiWrapper,mBackgroundHandler,mainHandler);
-        this.picModule = (PictureModuleApi2)picModule;
-    }
 
+    protected final IntervalHandler intervalHandler;
+    protected   final String TAG  = IntervalApi2.class.getSimpleName();
 
-    @Override
-    public void startPreview() {
-        picModule.startPreview();
-    }
+    private boolean module_isWorking;
 
-    @Override
-    public void stopPreview() {
-        picModule.stopPreview();
+    public IntervalApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+        super(cameraUiWrapper, mBackgroundHandler, mainHandler);
+        name = cameraUiWrapper.getResString(R.string.module_interval);
+        intervalHandler = new IntervalHandler(this);
     }
 
     @Override
-    public void InitModule()
-    {
-        picModule.InitModule();
-        picModule.setOverrideWorkFinishListner(this);
+    public String ShortName() {
+        return "Int";
+    }
+
+    @Override
+    public String LongName() {
+        return "Interval";
+    }
+
+    @Override
+    public void InitModule() {
+        super.InitModule();
+        Log.d(TAG, "Init");
+        module_isWorking = false;
+        intervalHandler.Init();
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_stop);
     }
-
     @Override
     public void DestroyModule() {
-        picModule.setOverrideWorkFinishListner(this);
-        picModule.DestroyModule();
+        super.DestroyModule();
+        Log.d(TAG, "Destroy");
+        intervalHandler.Destroy();
     }
 
     @Override
     public void DoWork()
     {
-        if (!intervalHandler.IsWorking())
+        if (!module_isWorking)
         {
             Log.d(TAG, "StartInterval");
-            isWorking = true;
+            module_isWorking = true;
             intervalHandler.StartInterval();
             changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_start);
-            return;
         } else {
             Log.d(TAG, "Stop Interval");
-            isWorking = false;
+
             intervalHandler.CancelInterval();
-            if (picModule.isWorking)
+            if (module_isWorking)
             {
                 Log.d(TAG, "changeWorkstate to cont_capture_stop_while_working");
                 changeCaptureState(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_working);
@@ -86,7 +94,65 @@ public class IntervalApi2 extends IntervalModule implements I_PreviewWrapper
                 Log.d(TAG, "changeWorkstate to cont_capture_stop_while_notworking");
                 changeCaptureState(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_notworking);
             }
-            return;
+            module_isWorking = false;
         }
+    }
+
+    /*@Override
+    public void onCaptureStateChanged(ModuleHandlerAbstract.CaptureStates captureStates)
+    {
+        if (captureStates == null)
+            return;
+        Log.d(TAG, "onCaptureStateChanged from picModule " + captureStates);
+        switch (captureStates)
+        {
+            case image_capture_stop:
+                if (module_isWorking)
+                {
+                    Log.d(TAG, "image_capture_stop Work Finished, Start nex Capture");
+                    changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_work_stop);
+                }
+                else
+                {
+                    if (module_isWorking) {
+                        Log.d(TAG, "changework to "+ ModuleHandlerAbstract.CaptureStates.continouse_capture_work_stop + " picmodule is working"+isWorking);
+                        changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_work_stop);
+                    }
+                    else {
+                        changeCaptureState(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_notworking);
+                        Log.d(TAG, "changework to "+ ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_notworking + " picmodule is working"+isWorking);
+                    }
+                }
+                break;
+            case image_capture_start:
+                changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_work_start);
+                break;
+
+        }
+        if (captureStates == ModuleHandlerAbstract.CaptureStates.image_capture_stop)
+            intervalHandler.DoNextInterval();
+    }*/
+
+   /* @Override
+    public void SetCaptureStateChangedListner(ModuleHandlerAbstract.CaptureStateChanged captureStateChangedListner) {
+        super.SetCaptureStateChangedListner(this);
+        this.acitvecaptureStateChangedListner = captureStateChangedListner;
+    }*/
+
+  /*  @Override
+    public void changeCaptureState(ModuleHandlerAbstract.CaptureStates captureStates) {
+        if (acitvecaptureStateChangedListner != null)
+            acitvecaptureStateChangedListner.onCaptureStateChanged(captureStates);
+
+    }*/
+
+    @Override
+    public void SuperDoTheWork() {
+        super.DoWork();
+    }
+
+    @Override
+    public boolean isWorking() {
+        return super.isWorking;
     }
 }

@@ -41,10 +41,6 @@ public class SDModeParameter extends AbstractParameter
         super(null);
     }
 
-    @Override
-    public void addEventListner(ParameterEvents eventListner) {
-        super.addEventListner(eventListner);
-    }
 
     @Override
     public ViewState getViewState() {

@@ -203,10 +203,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             mBackgroundHandler.post(()->TakePicture());
         else if (isWorking)
         {
-            Log.d(TAG, "cancel capture");
-            cameraUiWrapper.captureSessionHandler.cancelCapture();
-            finishCapture();
-            changeCaptureState(CaptureStates.image_capture_stop);
+            mBackgroundHandler.post(()->{
+                Log.d(TAG, "cancel capture");
+                cameraUiWrapper.captureSessionHandler.cancelCapture();
+                finishCapture();
+                changeCaptureState(CaptureStates.image_capture_stop);
+            });
+
         }
     }
 
@@ -618,4 +621,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         Log.d(TAG,"onRdyToSaveImg");
         finishCapture();
     }
+
+
 }

@@ -4,11 +4,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
@@ -28,10 +31,6 @@ public abstract class AbstractParameter implements ParameterInterface {
 
     private ViewState viewState = ViewState.Hidden;
 
-    /**
-     * Listners that attached to that parameter
-     */
-    private final List<ParameterEvents> listners;
     /**
      * the parameterhandler
      */
@@ -53,13 +52,11 @@ public abstract class AbstractParameter implements ParameterInterface {
     protected SettingKeys.Key key;
     protected SettingMode settingMode;
 
-    private Handler mainHandler;
-    private Handler backHandler;
+    //private Handler mainHandler;
+    //private Handler backHandler;
 
     public AbstractParameter(SettingKeys.Key  key)
     {
-        mainHandler = new Handler(Looper.getMainLooper());
-        listners = new ArrayList<>();
         this.key = key;
         if (key == null || SettingsManager.get(key) == null)
             return;
@@ -73,6 +70,22 @@ public abstract class AbstractParameter implements ParameterInterface {
     }
 
     @Override
+    public SettingKeys.Key getKey()
+    {
+        return key;
+    }
+
+    @Override
+    public void startListning() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void stopListning() {
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void setViewState(ViewState viewState) {
         this.viewState = viewState;
         fireViewStateChanged(viewState);
@@ -82,14 +95,14 @@ public abstract class AbstractParameter implements ParameterInterface {
     {
         this(settingMode);
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper != null)
-            this.backHandler = new BackHandler(cameraUiWrapper.getCameraHandlerLooper(),this);
+        //if (cameraUiWrapper != null)
+        //    this.backHandler = new BackHandler(cameraUiWrapper.getCameraHandlerLooper(),this);
     }
 
     private static final int MSG_SET_INT =0;
     private static final int MSG_SET_STRING =1;
 
-    private static class BackHandler extends Handler
+    /*private static class BackHandler extends Handler
     {
         WeakReference<AbstractParameter> abstractParameterWeakReference;
         public BackHandler(Looper looper, AbstractParameter abstractParameter)
@@ -121,103 +134,33 @@ public abstract class AbstractParameter implements ParameterInterface {
             }
             super.handleMessage(msg);
         }
-    }
-
-    /**
-     * Add and listner that get informed when somthings happen
-     * @param eventListner that gets informed
-     */
-    public void addEventListner(ParameterEvents eventListner)
-    {
-        if (!listners.contains(eventListner))
-            listners.add(eventListner);
-    }
-    /**
-     * Remove the listner
-     * @param eventListner that gets informed
-     */
-    public void removeEventListner(ParameterEvents eventListner)
-    {
-        if (listners.contains(eventListner))
-            listners.remove(eventListner);
-    }
+    }*/
 
     public void fireIntValueChanged(int current)
     {
         currentInt = current;
-        for (int i = 0; i< listners.size(); i ++)
-        {
-            if (listners.get(i) == null)
-            {
-                listners.remove(i);
-                i--;
-
-            }
-            else {
-                final ParameterEvents lis = listners.get(i);
-                final int cur = current;
-                mainHandler.post(() -> lis.onIntValueChanged(cur));
-            }
-
-        }
+        EventBus.getDefault().post(new ValueChangedEvent<>(key,current, Integer.class));
     }
 
     public void fireStringValueChanged(String value)
     {
         currentString = value;
-        for (int i = 0; i< listners.size(); i ++)
-        {
-            if (listners.get(i) == null)
-            {
-                listners.remove(i);
-                i--;
-
-            }
-            else {
-                final ParameterEvents lis = listners.get(i);
-                final String cur = value;
-                mainHandler.post(() -> lis.onStringValueChanged(cur));
-            }
-        }
+        EventBus.getDefault().post(new ValueChangedEvent<>(key,value, String.class));
     }
 
     @Override
     public void fireViewStateChanged(ViewState value)
     {
-        for (int i = 0; i< listners.size(); i ++)
-        {
-            if (listners.get(i) == null)
-            {
-                listners.remove(i);
-                i--;
-
-            }
-            else {
-                final ParameterEvents lis = listners.get(i);
-                final ViewState cur = value;
-                mainHandler.post(() -> lis.onViewStateChanged(cur));
-            }
-        }
+        viewState = value;
+        EventBus.getDefault().post(new ValueChangedEvent<>(key,value, ViewState.class));
     }
 
     @Override
     public void fireStringValuesChanged(String[] value)
     {
-        stringvalues = value;
-        for (int i = 0; i< listners.size(); i ++)
-        {
-            if (listners.get(i) == null)
-            {
-                listners.remove(i);
-                i--;
 
-            }
-            else {
-                final ParameterEvents lis = listners.get(i);
-                final String[] cur = value;
-                mainHandler.post(() -> lis.onValuesChanged(cur));
-            }
-        }
+        stringvalues = value;
+        EventBus.getDefault().post(new ValueChangedEvent<>(key,value, String[].class));
     }
 
     /**
@@ -275,10 +218,11 @@ public abstract class AbstractParameter implements ParameterInterface {
     @Override
     public void SetValue(int valueToSet, boolean setToCamera)
     {
-        if (setToCamera)
+        /*if (setToCamera)
             backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_INT,valueToSet,1));
         else
-            backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_INT,valueToSet,0));
+            backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_INT,valueToSet,0));*/
+        setValue(valueToSet,setToCamera);
     }
 
     /**
@@ -303,10 +247,11 @@ public abstract class AbstractParameter implements ParameterInterface {
      */
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
-        if (setToCamera)
+        setValue(valueToSet,setToCamera);
+        /*if (setToCamera)
             backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_STRING,1,0,valueToSet));
         else
-            backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_STRING,0,0,valueToSet));
+            backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_STRING,0,0,valueToSet));*/
     }
 
     /**

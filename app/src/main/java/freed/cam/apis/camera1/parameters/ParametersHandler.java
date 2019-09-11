@@ -169,14 +169,14 @@ public class ParametersHandler extends AbstractParameterHandler
                 && SettingsManager.getInstance().getDngProfilesMap().size() > 0
                 && SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported())
             add(SettingKeys.OPCODE, new OpCodeParameter());
-        cameraUiWrapper.getModuleHandler().addListner((ModuleChangedEvent) get(SettingKeys.PictureFormat));
 
         if (SettingsManager.get(SettingKeys.PictureSize).isSupported())
             add(SettingKeys.PictureSize ,new BaseModeParameter(cameraParameters, cameraUiWrapper,SettingKeys.PictureSize));
 
         if (SettingsManager.get(SettingKeys.FocusMode).isSupported()) {
             add(SettingKeys.FocusMode,new BaseModeParameter(cameraParameters, cameraUiWrapper,SettingKeys.FocusMode));
-            get(SettingKeys.FocusMode).addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
+            ((FocusHandler) cameraUiWrapper.getFocusHandler()).startListning();
+
         }
 
         if (SettingsManager.get(SettingKeys.WhiteBalanceMode).isSupported())
@@ -184,7 +184,6 @@ public class ParametersHandler extends AbstractParameterHandler
 
         if (SettingsManager.get(SettingKeys.ExposureMode).isSupported()) {
             add(SettingKeys.ExposureMode,new BaseModeParameter(cameraParameters, cameraUiWrapper, SettingKeys.ExposureMode));
-            get(SettingKeys.ExposureMode).addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
         }
 
         if (SettingsManager.get(SettingKeys.ColorMode).isSupported())
@@ -276,20 +275,14 @@ public class ParametersHandler extends AbstractParameterHandler
                 case SettingsManager.HDR_AUTO:
                     AutoHdrMode autoHdrMode = new AutoHdrMode(cameraParameters,cameraUiWrapper,SettingKeys.HDRMode);
                     add(SettingKeys.HDRMode, autoHdrMode);
-                    cameraUiWrapper.getModuleHandler().addListner(autoHdrMode);
-                    get(SettingKeys.PictureFormat).addEventListner(autoHdrMode);
                     break;
                 case SettingsManager.HDR_LG:
                     LgHdrMode lgHdrMode = new LgHdrMode(cameraParameters,cameraUiWrapper,SettingKeys.HDRMode);
                     add(SettingKeys.HDRMode,lgHdrMode);
-                    cameraUiWrapper.getModuleHandler().addListner(lgHdrMode);
-                    get(SettingKeys.PictureFormat).addEventListner(lgHdrMode);
                     break;
                 case SettingsManager.HDR_MOTO:
                     MotoHDR motoHDR = new MotoHDR(cameraParameters,cameraUiWrapper,SettingKeys.HDRMode);
                     add(SettingKeys.HDRMode, motoHDR);
-                    cameraUiWrapper.getModuleHandler().addListner(motoHDR);
-                    get(SettingKeys.PictureFormat).addEventListner(motoHDR);
                     break;
             }
         }
@@ -469,13 +462,10 @@ public class ParametersHandler extends AbstractParameterHandler
 
         if (SettingsManager.get(SettingKeys.M_FX).isSupported()) {
             add(SettingKeys.M_FX, new FXManualParameter(cameraParameters, cameraUiWrapper,SettingKeys.M_FX));
-            get(SettingKeys.PictureFormat).addEventListner(((BaseManualParameter) get(SettingKeys.M_FX)).GetPicFormatListner());
-            cameraUiWrapper.getModuleHandler().addListner(((BaseManualParameter) get(SettingKeys.M_FX)).GetModuleListner());
         }
 
         if (SettingsManager.get(SettingKeys.M_Burst).isSupported()){
             add(SettingKeys.M_Burst, new BurstManualParam(cameraParameters, cameraUiWrapper,SettingKeys.M_Burst));
-            cameraUiWrapper.getModuleHandler().addListner(((BaseManualParameter) get(SettingKeys.M_Burst)).GetModuleListner());
         }
 
         add(SettingKeys.M_Zoom, new ZoomManualParameter(cameraParameters, cameraUiWrapper,SettingKeys.M_Zoom));
@@ -487,6 +477,7 @@ public class ParametersHandler extends AbstractParameterHandler
             add(SettingKeys.openCamera1Legacy, new LegacyMode(cameraUiWrapper,SettingsManager.get(SettingKeys.openCamera1Legacy)));
 
 
+        registerListners();
         //set last used settings
         SetAppSettingsToParameters();
 

@@ -83,11 +83,12 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     @Override
     public void DoWork()
     {
-        Log.d(this.TAG, "startWork:isWorking:"+ isWorking);
+        Log.d(this.TAG, "DoWork:isWorking:"+ isWorking + " " + Thread.currentThread().getName());
         if(isWorking){
             Log.d(TAG,"Work in Progress,skip it");
             return;
         }
+
         mBackgroundHandler.post(() -> {
             isWorking = true;
             String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
@@ -146,6 +147,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     @Override
     public void onPictureTaken(byte[] data, Camera camera)
     {
+        Log.d(this.TAG, "onPictureTaken " + Thread.currentThread().getName());
         if(data == null)
             return;
         Log.d(this.TAG, "onPictureTaken():"+data.length);
@@ -173,6 +175,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
 
     protected void startPreview()
     {
+        Log.d(this.TAG, "startPreview " + Thread.currentThread().getName());
         //workaround to keep ae locked
         if (cameraHolder.GetCameraParameters().getAutoExposureLock())
         {
@@ -219,6 +222,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
 
     protected void saveImage(byte[]data, String picFormat)
     {
+        Log.d(this.TAG, "saveImage " + Thread.currentThread().getName());
         final File toSave = getFile(getFileEnding(picFormat));
         Log.d(this.TAG, "saveImage:"+toSave.getName() + " Filesize: "+data.length);
         if (picFormat.equals(FileEnding.DNG))

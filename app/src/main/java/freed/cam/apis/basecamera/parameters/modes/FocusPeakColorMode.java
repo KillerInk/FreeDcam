@@ -2,8 +2,11 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import com.troop.freedcam.R;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.events.ValueChangedEvent;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -13,7 +16,7 @@ import freed.utils.Log;
  * Created by KillerInk on 17.01.2018.
  */
 
-public class FocusPeakColorMode extends AbstractParameter implements ParameterEvents {
+public class FocusPeakColorMode extends AbstractParameter {
 
     private RenderScriptProcessorInterface focuspeakProcessor;
     public FocusPeakColorMode(RenderScriptProcessorInterface renderScriptManager, SettingKeys.Key settingMode) {
@@ -65,26 +68,15 @@ public class FocusPeakColorMode extends AbstractParameter implements ParameterEv
         fireStringValueChanged(valueToSet);
     }
 
-    @Override
-    public void onViewStateChanged(ViewState value) {
-
-    }
-
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onStringValueChanged(String value) {
-        if (value.equals(SettingsManager.getInstance().getResString(R.string.off_)))
-            setViewState(ViewState.Hidden);
-        else
-            setViewState(ViewState.Visible);
+    @Subscribe
+    public void onStringValueChanged(ValueChangedEvent<String> valueob)
+    {
+        if (valueob.key == SettingKeys.EnableRenderScript) {
+            String value = valueob.newValue;
+            if (value.equals(SettingsManager.getInstance().getResString(R.string.off_)))
+                setViewState(ViewState.Hidden);
+            else
+                setViewState(ViewState.Visible);
+        }
     }
 }

@@ -25,6 +25,8 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
@@ -35,7 +37,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 16.06.2016.
  */
-public abstract class SettingsChildAbstract extends LinearLayout implements SettingsChildInterface, ParameterEvents
+public abstract class SettingsChildAbstract extends LinearLayout implements SettingsChildInterface
 {
 
     public interface SettingsChildClick
@@ -63,7 +65,6 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         if (parameter == null || parameter.GetStringValue() == null)
             return;
         String value = parameter.GetStringValue();
-        parameter.addEventListner(this);
         parameter.fireStringValueChanged(value);
     }
 
@@ -106,7 +107,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         }
         else
         {
-            parameter.addEventListner(this);
+            //parameter.addEventListner(this);
             this.parameter = parameter;
             onViewStateChanged(parameter.getViewState());
         }

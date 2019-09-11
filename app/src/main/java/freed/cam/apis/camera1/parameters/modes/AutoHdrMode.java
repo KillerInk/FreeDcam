@@ -5,6 +5,8 @@ import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
@@ -21,7 +24,7 @@ import freed.utils.Log;
  * Created by troop on 24.02.2017.
  */
 
-public class AutoHdrMode extends BaseModeParameter implements ParameterEvents {
+public class AutoHdrMode extends BaseModeParameter {
 
     final String TAG = AutoHdrMode.class.getSimpleName();
     private boolean visible = true;
@@ -49,10 +52,6 @@ public class AutoHdrMode extends BaseModeParameter implements ParameterEvents {
         else
             setViewState(ViewState.Hidden);
 
-        if (getViewState() == ViewState.Visible) {
-            cameraUiWrapper.getModuleHandler().addListner(this);
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
-        }
     }
 
     @Override
@@ -120,29 +119,17 @@ public class AutoHdrMode extends BaseModeParameter implements ParameterEvents {
         }
     }
 
-    @Override
-    public void onViewStateChanged(ViewState value) {
+    @Subscribe
+    public void onPictureFormatChanged(ValueChangedEvent<String> valueChangedEvent)
+    {
+        if (valueChangedEvent.key == SettingKeys.PictureFormat) {
+            format = valueChangedEvent.newValue;
+            if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_)) && !visible && !curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
+                show();
 
-    }
-
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onStringValueChanged(String val) {
-        format = val;
-        if (val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&&!visible &&!curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
-            show();
-
-        else if (!val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&& visible) {
-            hide();
+            else if (!format.contains(cameraUiWrapper.getResString(R.string.jpeg_)) && visible) {
+                hide();
+            }
         }
     }
 

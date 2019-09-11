@@ -68,22 +68,22 @@ public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_Camera
     public void onShootModeChanged(String mode)
     {
         Log.d(TAG, "ShotmodeChanged:" + mode);
-        if (currentModule !=null) {
+        /*if (currentModule !=null) {
             currentModule.SetCaptureStateChangedListner(null);
-        }
+        }*/
         if (mode.equals("still"))
         {
             currentModule = moduleList.get(cameraUiWrapper.getResString(R.string.module_picture));
 
             ModuleHasChanged(currentModule.ModuleName());
-            currentModule.SetCaptureStateChangedListner(workerListner);
+            //currentModule.SetCaptureStateChangedListner(workerListner);
             currentModule.InitModule();
         }
         else if (mode.equals("movie"))
         {
             currentModule = moduleList.get(cameraUiWrapper.getResString(R.string.module_video));
             ModuleHasChanged(currentModule.ModuleName());
-            currentModule.SetCaptureStateChangedListner(workerListner);
+            //currentModule.SetCaptureStateChangedListner(workerListner);
             currentModule.InitModule();
         }
     }
