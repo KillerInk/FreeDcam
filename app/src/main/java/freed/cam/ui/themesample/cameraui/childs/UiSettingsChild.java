@@ -51,11 +51,33 @@ import freed.utils.Log;
  */
 public class UiSettingsChild extends SettingsChildAbstract
 {
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onViewStateChanged(ValueChangedEvent<AbstractParameter.ViewState> viewStateValueChangedEvent)
+    {
+        if (viewStateValueChangedEvent.type != AbstractParameter.ViewState.class || parameter == null || parameter.getKey() == null)
+            return;
+        if (viewStateValueChangedEvent.key == parameter.getKey())
+            onViewStateChanged(viewStateValueChangedEvent.newValue);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onStringValueChanged(ValueChangedEvent<String> value) {
+        if (value.type != String.class || parameter == null)
+            return;
+        if (value.key == parameter.getKey())
+            onStringValueChanged(value.newValue);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
+    {
+        onModuleChanged(event.NewModuleName);
+    }
+
+
     private String headerText;
     private LinearLayout laybg;
-
-
-
     private String TAG;
 
     @Override
@@ -159,15 +181,6 @@ public class UiSettingsChild extends SettingsChildAbstract
 
     }
 
-    @Subscribe
-    public void onViewStateChanged(ValueChangedEvent<AbstractParameter.ViewState> viewStateValueChangedEvent)
-    {
-        if (viewStateValueChangedEvent.type != AbstractParameter.ViewState.class || parameter == null || parameter.getKey() == null)
-            return;
-        if (viewStateValueChangedEvent.key == parameter.getKey())
-            onViewStateChanged(viewStateValueChangedEvent.newValue);
-    }
-
     @Override
     public void onViewStateChanged(AbstractParameter.ViewState value) {
         switch (value)
@@ -214,14 +227,6 @@ public class UiSettingsChild extends SettingsChildAbstract
             valueText.setText(value);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onStringValueChanged(ValueChangedEvent<String> value) {
-        if (value.type != String.class || parameter == null)
-            return;
-        if (value.key == parameter.getKey())
-            onStringValueChanged(value.newValue);
-    }
-
 
     private final AnimatorListener hideListner = new AnimatorListener() {
         @Override
@@ -244,13 +249,6 @@ public class UiSettingsChild extends SettingsChildAbstract
 
         }
     };
-
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
-    {
-        onModuleChanged(event.NewModuleName);
-    }
 
     @Override
     public void onModuleChanged(String module) {

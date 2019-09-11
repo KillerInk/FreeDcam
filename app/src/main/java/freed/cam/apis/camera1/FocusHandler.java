@@ -56,7 +56,8 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
 
     @Override
     public void startListning() {
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
     }
 
     @Override
@@ -67,7 +68,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
     @Subscribe
     public void onStringValueChanged(ValueChangedEvent<String> valueChangedEvent)
     {
-        if (valueChangedEvent.key == SettingKeys.FocusMode)
+        if (valueChangedEvent.key == SettingKeys.FocusMode && valueChangedEvent.type == String.class)
         {
             if (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK) {
                 if (valueChangedEvent.newValue.equals("auto") || valueChangedEvent.newValue.equals("macro") || valueChangedEvent.newValue.equals("touch")) {
@@ -85,7 +86,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
                 }
             }
         }
-        else if (valueChangedEvent.key == SettingKeys.ExposureMode)
+        else if (valueChangedEvent.key == SettingKeys.ExposureMode && valueChangedEvent.type == String.class)
         {
             if(SettingsManager.getInstance().getFrameWork() != Frameworks.MTK)
             {

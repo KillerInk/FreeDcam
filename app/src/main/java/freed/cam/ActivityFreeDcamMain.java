@@ -31,6 +31,10 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import freed.ActivityAbstract;
 import freed.cam.apis.CameraFragmentManager;
 import freed.cam.apis.basecamera.CameraStateEvents;
@@ -70,56 +74,38 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     }
 
 
-
-
-    private class UpdateScreenSlideHandler extends Handler
+    private class UpdateScreenSlide
     {
-        private final int MSG_UPDATE_SCREENSLIDE = 0;
-        private final int MSG_ADDFILES = 1;
-        private final int MSG_ADDFILE = 2;
+        public UpdateScreenSlide()
+        {};
+    }
 
-        public void update()
-        {
-            this.obtainMessage(MSG_UPDATE_SCREENSLIDE).sendToTarget();
-        }
-
-        public void addFiles(FileHolder[] fileHolders)
-        {
-            this.obtainMessage(MSG_ADDFILES,fileHolders).sendToTarget();
-        }
-
-        public void addFile(FileHolder fileHolder)
-        {
-            this.obtainMessage(MSG_ADDFILE,fileHolder).sendToTarget();
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_UPDATE_SCREENSLIDE:
-                    synchronized (files) {
-                        if (uiViewPagerAdapter != null)
-                            uiViewPagerAdapter.updateScreenSlideFile(files);
-                    }
-                    break;
-                case MSG_ADDFILE:
-                    AddFile((FileHolder)msg.obj);
-                    if (uiViewPagerAdapter != null)
-                        uiViewPagerAdapter.updateScreenSlideFile(files);
-                    break;
-                case  MSG_ADDFILES:
-                    AddFiles((FileHolder[])msg.obj);
-                    if (uiViewPagerAdapter != null)
-                        uiViewPagerAdapter.updateScreenSlideFile(files);
-                    break;
-                default:
-                    super.handleMessage(msg);
-            }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateScreenSlide(UpdateScreenSlide updateScreenSlide)
+    {
+        if (files == null)
+            return;
+        synchronized (files) {
+            if (uiViewPagerAdapter != null)
+                uiViewPagerAdapter.updateScreenSlideFile(files);
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void addFromEventFile(FileHolder fileHolder)
+    {
+        AddFile(fileHolder);
+        if (uiViewPagerAdapter != null)
+            uiViewPagerAdapter.updateScreenSlideFile(files);
+    }
 
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void addFromEventFiles(FileHolder[] fileHolder)
+    {
+        AddFiles(fileHolder);
+        if (uiViewPagerAdapter != null)
+            uiViewPagerAdapter.updateScreenSlideFile(files);
+    }
 
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
@@ -136,10 +122,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     private LinearLayout nightoverlay;
 
-
-
-    private UpdateScreenSlideHandler updateScreenSlideHandler;
-
     private CameraFragmentManager cameraFragmentManager;
 
 
@@ -151,7 +133,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         mSecureCamera.onCreate();
         cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(), this);
         storageHandler = new StorageFileManager();
-        updateScreenSlideHandler = new UpdateScreenSlideHandler();
+        EventBus.getDefault().register(this);
         //listen to phone orientation changes
         orientationManager = new OrientationManager(this, this);
         bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
@@ -161,6 +143,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
         cameraFragmentManager.destroy();
         UserMessageHandler.setContext(null);
         super.onDestroy();
@@ -175,8 +158,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void initOnCreate() {
         super.initOnCreate();
-
-
     }
 
 
@@ -340,7 +321,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void LoadFreeDcamDCIMDirsFiles() {
         Log.d(TAG, "LoadFreeDcamDCIMDirsFiles()");
         super.LoadFreeDcamDCIMDirsFiles();
-        updateScreenSlideHandler.update();
+        EventBus.getDefault().post(new UpdateScreenSlide());
     }
 
     @Override
@@ -364,7 +345,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void LoadFolder(final FileHolder fileHolder, FormatTypes types) {
         super.LoadFolder(fileHolder, types);
-        updateScreenSlideHandler.update();
+        EventBus.getDefault().post(new UpdateScreenSlide());
     }
 
     //get called when the back button from screenslidefragment gets clicked
@@ -384,14 +365,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void WorkHasFinished(final FileHolder fileHolder) {
 
         ScanFile(fileHolder.getFile());
-        updateScreenSlideHandler.addFile(fileHolder);
+        EventBus.getDefault().post(fileHolder);
         Log.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
     }
 
     @Override
     public void WorkHasFinished(final FileHolder[] fileHolder) {
         MediaScannerManager.ScanMedia(getContext(),fileHolder);
-        updateScreenSlideHandler.addFiles(fileHolder);
+        EventBus.getDefault().post(fileHolder);
     }
 
     @Override

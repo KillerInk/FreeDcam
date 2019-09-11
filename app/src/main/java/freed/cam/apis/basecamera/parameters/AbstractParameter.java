@@ -52,9 +52,6 @@ public abstract class AbstractParameter implements ParameterInterface {
     protected SettingKeys.Key key;
     protected SettingMode settingMode;
 
-    //private Handler mainHandler;
-    //private Handler backHandler;
-
     public AbstractParameter(SettingKeys.Key  key)
     {
         this.key = key;
@@ -95,46 +92,7 @@ public abstract class AbstractParameter implements ParameterInterface {
     {
         this(settingMode);
         this.cameraUiWrapper = cameraUiWrapper;
-        //if (cameraUiWrapper != null)
-        //    this.backHandler = new BackHandler(cameraUiWrapper.getCameraHandlerLooper(),this);
     }
-
-    private static final int MSG_SET_INT =0;
-    private static final int MSG_SET_STRING =1;
-
-    /*private static class BackHandler extends Handler
-    {
-        WeakReference<AbstractParameter> abstractParameterWeakReference;
-        public BackHandler(Looper looper, AbstractParameter abstractParameter)
-        {
-            super(looper);
-            abstractParameterWeakReference = new WeakReference<>(abstractParameter);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-
-            AbstractParameter abstractParameter = abstractParameterWeakReference .get();
-            if(abstractParameter == null)
-                return;
-            switch (msg.what)
-            {
-                case MSG_SET_INT:
-                    if (msg.arg2 == 0)
-                        abstractParameter.setValue(msg.arg1, false);
-                    else
-                        abstractParameter.setValue(msg.arg1, true);
-                    break;
-                case MSG_SET_STRING:
-                    if (msg.arg1 == 1)
-                        abstractParameter.setValue((String)msg.obj,true);
-                    else
-                        abstractParameter.setValue((String)msg.obj,false);
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-    }*/
 
     public void fireIntValueChanged(int current)
     {
@@ -188,12 +146,6 @@ public abstract class AbstractParameter implements ParameterInterface {
     @Override
     public String GetStringValue()
     {
-        /*if (stringvalues == null || stringvalues.length == 0)
-            return null;
-        if (currentInt > stringvalues.length)
-            return stringvalues[currentInt - stringvalues.length/2];
-        else
-            return stringvalues[currentInt];*/
         if (currentString == null)
             return "";
         return currentString;
@@ -218,10 +170,6 @@ public abstract class AbstractParameter implements ParameterInterface {
     @Override
     public void SetValue(int valueToSet, boolean setToCamera)
     {
-        /*if (setToCamera)
-            backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_INT,valueToSet,1));
-        else
-            backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_INT,valueToSet,0));*/
         setValue(valueToSet,setToCamera);
     }
 
@@ -248,10 +196,6 @@ public abstract class AbstractParameter implements ParameterInterface {
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
         setValue(valueToSet,setToCamera);
-        /*if (setToCamera)
-            backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_STRING,1,0,valueToSet));
-        else
-            backHandler.sendMessage(backHandler.obtainMessage(MSG_SET_STRING,0,0,valueToSet));*/
     }
 
     /**

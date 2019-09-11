@@ -48,6 +48,7 @@ public class MatrixChooserParameter extends AbstractParameter
         currentval = SettingsManager.get(SettingKeys.MATRIX_SET).get();
         if (TextUtils.isEmpty(currentval))
             currentval = "off";
+        fireStringValueChanged(currentval);
     }
 
     @Override

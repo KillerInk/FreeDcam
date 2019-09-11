@@ -27,12 +27,15 @@ import android.hardware.Camera.Parameters;
 
 import com.troop.freedcam.R;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.cam.events.ModuleHasChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -103,20 +106,19 @@ public class BurstManualParam extends BaseManualParameter
         return stringvalues[currentInt];
     }
 
-    @Override
-    public ModuleChangedEvent GetModuleListner() {
-        return moduleListner;
-    }
 
-    private final ModuleChangedEvent moduleListner = module -> {
+    @Subscribe
+    public void onModuleChanged(ModuleHasChangedEvent event)
+    {
+        String module = event.NewModuleName;
         if ((module.equals(cameraUiWrapper.getResString(R.string.module_video)) || module.equals(cameraUiWrapper.getResString(R.string.module_hdr))) && settingMode.isSupported())
             setViewState(ViewState.Hidden);
         else if ((module.equals(cameraUiWrapper.getResString(R.string.module_picture))
                 || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
-                )&& settingMode.isSupported())
+        )&& settingMode.isSupported())
         {
             setViewState(ViewState.Visible);
         }
-    };
+    }
 
 }

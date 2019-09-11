@@ -63,7 +63,7 @@ public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCy
     @Subscribe
     public void onFocusModeValueChanged(ValueChangedEvent<String> valueChangedEvent)
     {
-        if (valueChangedEvent.type != String.class)
+        if (valueChangedEvent.type != String.class || cameraUiWrapper == null || cameraUiWrapper.getContext() == null)
             return;
         if (valueChangedEvent.key == SettingKeys.FocusMode) {
             String val = valueChangedEvent.newValue;

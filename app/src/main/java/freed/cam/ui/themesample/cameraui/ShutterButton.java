@@ -40,6 +40,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.ModuleHasChangedEvent;
+import freed.cam.events.StartWorkEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -48,6 +49,19 @@ import freed.utils.Log;
  * Created by troop on 20.06.2015.
  */
 public class ShutterButton extends AppCompatButton implements ModuleChangedEvent {
+
+    @Subscribe
+    public void onCaptureStateChanged(CaptureStateChangedEvent stateChangedEvent) {
+        CaptureStates mode = stateChangedEvent.captureState;
+        setCaptureState(mode);
+    }
+
+    @Subscribe
+    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
+    {
+        onModuleChanged(event.NewModuleName);
+    }
+
     private CameraWrapperInterface cameraUiWrapper;
 
     private final String TAG = ShutterButton.class.getSimpleName();
@@ -119,8 +133,6 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
         setBackgroundResource(R.drawable.shutter5);
 
         this.setOnClickListener(v -> {
-            if (cameraUiWrapper == null || cameraUiWrapper.getModuleHandler() == null || cameraUiWrapper.getModuleHandler().getCurrentModule() == null)
-                return;
             String sf = SettingsManager.get(SettingKeys.selfTimer).get();
             if (TextUtils.isEmpty(sf))
                 sf = "0";
@@ -130,7 +142,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
                 setCaptureState(CaptureStates.selftimerstart);
             }
             else
-                cameraUiWrapper.getModuleHandler().startWork();
+                EventBus.getDefault().post(new StartWorkEvent());
         });
 
     }
@@ -139,7 +151,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
         @Override
         public void run() {
             setCaptureState(CaptureStates.selftimerstop);
-            cameraUiWrapper.getModuleHandler().startWork();
+            EventBus.getDefault().post(new StartWorkEvent());
         }
     };
 
@@ -153,19 +165,6 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
 
         }
         Log.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
-    }
-
-
-    @Subscribe
-    public void onCaptureStateChanged(CaptureStateChangedEvent stateChangedEvent) {
-        CaptureStates mode = stateChangedEvent.captureState;
-        setCaptureState(mode);
-    }
-
-    @Subscribe
-    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
-    {
-        onModuleChanged(event.NewModuleName);
     }
 
     private void setCaptureState(CaptureStates mode) {

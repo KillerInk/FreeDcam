@@ -148,6 +148,7 @@ public class SettingKeys{
     public final static Key<SettingMode> HISTOGRAM = new Key(SettingMode.class, R.string.aps_histogram);
     public final static Key<SettingMode> CLIPPING = new Key(SettingMode.class, R.string.aps_histogram);
 
+    public final static Key<SettingMode> ApiSettingsMode = new Key(SettingMode.class, R.string.aps_api);
     /**
      *
      * @return a list with all statics keys in this class

@@ -24,6 +24,7 @@ import android.text.TextUtils;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -35,8 +36,9 @@ public class ApiParameter extends AbstractParameter
     private final boolean DEBUG = false;
 
     public ApiParameter(ActivityInterface fragment_activityInterface) {
-        super(null);
+        super(SettingKeys.ApiSettingsMode);
         this.fragment_activityInterface = fragment_activityInterface;
+        fireStringValueChanged(GetStringValue());
     }
 
     @Override
@@ -64,6 +66,7 @@ public class ApiParameter extends AbstractParameter
     public void SetValue(String valueToSet, boolean setToCamera) {
         SettingsManager.getInstance().setCamApi(valueToSet);
         fragment_activityInterface.SwitchCameraAPI(valueToSet);
+        fireStringValueChanged(valueToSet);
     }
 
     @Override
