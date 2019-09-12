@@ -33,6 +33,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.events.CaptureStateChangedEvent;
+import freed.cam.events.EventBusHelper;
 import freed.cam.events.StartWorkEvent;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -84,7 +85,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     {
         Log.d(TAG, "work started");
         currentWorkState = captureStates;
-        EventBus.getDefault().post(new CaptureStateChangedEvent(captureStates));
+        EventBusHelper.post(new CaptureStateChangedEvent(captureStates));
     }
 
     @Override
@@ -112,8 +113,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public void InitModule()
     {
-        if (!EventBus.getDefault().isRegistered(this))
-            EventBus.getDefault().register(this);
+        EventBusHelper.register(this);
         isWorking = false;
     }
 
@@ -123,7 +123,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public void DestroyModule()
     {
-        EventBus.getDefault().unregister(this);
+        EventBusHelper.unregister(this);
     }
 
     @Override

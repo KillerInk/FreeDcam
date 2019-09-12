@@ -63,7 +63,7 @@ public class IntervalApi2 extends PictureModuleApi2 implements I_PreviewWrapper,
         Log.d(TAG, "Init");
         module_isWorking = false;
         intervalHandler.Init();
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_stop);
+        //changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_stop);
     }
     @Override
     public void DestroyModule() {
@@ -80,7 +80,7 @@ public class IntervalApi2 extends PictureModuleApi2 implements I_PreviewWrapper,
             Log.d(TAG, "StartInterval");
             module_isWorking = true;
             intervalHandler.StartInterval();
-            changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_start);
+            //changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_start);
         } else {
             Log.d(TAG, "Stop Interval");
 
@@ -88,11 +88,11 @@ public class IntervalApi2 extends PictureModuleApi2 implements I_PreviewWrapper,
             if (module_isWorking)
             {
                 Log.d(TAG, "changeWorkstate to cont_capture_stop_while_working");
-                changeCaptureState(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_working);
+                //changeCaptureState(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_working);
             }
             else {
                 Log.d(TAG, "changeWorkstate to cont_capture_stop_while_notworking");
-                changeCaptureState(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_notworking);
+                //changeCaptureState(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_notworking);
             }
             module_isWorking = false;
         }

@@ -59,6 +59,7 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.cameraholder.CameraHolderSony;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera2.AutoFitTextureView;
+import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.events.ValueChangedEvent;
@@ -74,8 +75,25 @@ import freed.viewer.screenslide.MyHistogram;
 /**
  * Created by troop on 06.06.2015.
  */
-public class Camera1Fragment extends CameraFragmentAbstract implements ModuleChangedEvent, SurfaceHolder.Callback, TextureView.SurfaceTextureListener, EventBusLifeCycle
+public class Camera1Fragment extends CameraFragmentAbstract implements ModuleChangedEvent, TextureView.SurfaceTextureListener, EventBusLifeCycle
 {
+
+    @Subscribe
+    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
+    {
+        onModuleChanged(event.NewModuleName);
+    }
+
+    @Subscribe
+    public void onPictureSizeChanged(ValueChangedEvent<String> valueChangedEvent)
+    {
+        if (valueChangedEvent.key == SettingKeys.PictureSize)
+        {
+            mainToCameraHandler.removeCallbacks(createPreviewRunner);
+            mainToCameraHandler.post(createPreviewRunner);
+        }
+    }
+
     private final String TAG = Camera1Fragment.class.getSimpleName();
     public RenderScriptProcessor focusPeakProcessorAp1;
     private boolean cameraRdy;
@@ -136,30 +154,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         stopListning();
     }
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder)
-    {
-        Log.d(TAG, "surface created");
-        PreviewSurfaceRdy = true;
-        if (!cameraIsOpen)
-            startCameraAsync();
-        else
-            mainToCameraHandler.initCamera();
-
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder)
-    {
-        PreviewSurfaceRdy =false;
-    }
-
-
     //this gets called when the cameraholder has open the camera
     @Override
     public void onCameraOpen()
@@ -198,15 +192,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     }
 
-    @Subscribe
-    public void onPictureSizeChanged(ValueChangedEvent<String> valueChangedEvent)
-    {
-        if (valueChangedEvent.key == SettingKeys.PictureSize)
-        {
-            mainToCameraHandler.removeCallbacks(createPreviewRunner);
-            mainToCameraHandler.post(createPreviewRunner);
-        }
-    }
+
 
     private Runnable createPreviewRunner =new Runnable()
     {
@@ -385,8 +371,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Override
     public void startCamera() {
-        if (!EventBus.getDefault().isRegistered(this))
-            EventBus.getDefault().register(this);
+        EventBusHelper.register(this);
         if (!cameraIsOpen)
             cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
         Log.d(TAG, "startCamera");
@@ -394,7 +379,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Override
     public void stopCamera() {
-        EventBus.getDefault().unregister(this);
+        EventBusHelper.unregister(this);
         Log.d(TAG, "Stop Camera");
         if (focusPeakProcessorAp1 != null)
             focusPeakProcessorAp1.kill();
@@ -460,12 +445,12 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Override
     public void startListning() {
-        EventBus.getDefault().register(this);
+        EventBusHelper.register(this);
     }
 
     @Override
     public void stopListning() {
-        EventBus.getDefault().unregister(this);
+        EventBusHelper.unregister(this);
     }
 
     private class SizeCompare implements Comparator<Size>
@@ -481,11 +466,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         }
     }
 
-    @Subscribe
-    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
-    {
-        onModuleChanged(event.NewModuleName);
-    }
+
 
     @Override
     public void onModuleChanged(String module)

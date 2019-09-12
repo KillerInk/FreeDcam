@@ -36,6 +36,7 @@ import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
@@ -179,13 +180,11 @@ public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCy
 
     @Override
     public void startListning() {
-        if (EventBus.getDefault().isRegistered(this))
-            return;
-        EventBus.getDefault().register(this);
+        EventBusHelper.register(this);
     }
 
     @Override
     public void stopListning() {
-        EventBus.getDefault().unregister(this);
+        EventBusHelper.unregister(this);
     }
 }

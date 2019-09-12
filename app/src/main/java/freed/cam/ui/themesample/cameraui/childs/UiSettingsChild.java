@@ -41,6 +41,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.SettingsChildAbstract;
@@ -83,7 +84,7 @@ public class UiSettingsChild extends SettingsChildAbstract
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        EventBus.getDefault().register(this);
+        EventBusHelper.register(this);
         if (parameter != null)
             parameter.fireStringValueChanged(parameter.GetStringValue());
     }
@@ -91,7 +92,7 @@ public class UiSettingsChild extends SettingsChildAbstract
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        EventBus.getDefault().unregister(this);
+        EventBusHelper.unregister(this);
     }
 
     public UiSettingsChild(Context context) {

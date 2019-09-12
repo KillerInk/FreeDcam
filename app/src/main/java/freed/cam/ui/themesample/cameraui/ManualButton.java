@@ -44,6 +44,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.events.EventBusHelper;
 import freed.cam.events.ValueChangedEvent;
 import freed.utils.Log;
 
@@ -152,13 +153,13 @@ public class ManualButton extends LinearLayout
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        EventBus.getDefault().register(this);
+        EventBusHelper.register(this);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        EventBus.getDefault().unregister(this);
+        EventBusHelper.unregister(this);
     }
 
 

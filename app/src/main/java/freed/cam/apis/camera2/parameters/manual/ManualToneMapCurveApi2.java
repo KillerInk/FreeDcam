@@ -31,6 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera2.Camera2Fragment;
+import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
@@ -150,12 +151,12 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
 
     @Override
     public void startListning() {
-        EventBus.getDefault().register(this);
+        EventBusHelper.register(this);
     }
 
     @Override
     public void stopListning() {
-        EventBus.getDefault().unregister(this);
+        EventBusHelper.unregister(this);
     }
 
     public class Contrast extends AbstractParameter

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.events.EventBusHelper;
 import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -74,12 +75,12 @@ public abstract class AbstractParameter implements ParameterInterface {
 
     @Override
     public void startListning() {
-        EventBus.getDefault().register(this);
+        EventBusHelper.register(this);
     }
 
     @Override
     public void stopListning() {
-        EventBus.getDefault().unregister(this);
+        EventBusHelper.unregister(this);
     }
 
     @Override
@@ -97,28 +98,27 @@ public abstract class AbstractParameter implements ParameterInterface {
     public void fireIntValueChanged(int current)
     {
         currentInt = current;
-        EventBus.getDefault().post(new ValueChangedEvent<>(key,current, Integer.class));
+        EventBusHelper.post(new ValueChangedEvent<>(key,current, Integer.class));
     }
 
     public void fireStringValueChanged(String value)
     {
         currentString = value;
-        EventBus.getDefault().post(new ValueChangedEvent<>(key,value, String.class));
+        EventBusHelper.post(new ValueChangedEvent<>(key,value, String.class));
     }
 
     @Override
     public void fireViewStateChanged(ViewState value)
     {
         viewState = value;
-        EventBus.getDefault().post(new ValueChangedEvent<>(key,value, ViewState.class));
+        EventBusHelper.post(new ValueChangedEvent<>(key,value, ViewState.class));
     }
 
     @Override
     public void fireStringValuesChanged(String[] value)
     {
-
         stringvalues = value;
-        EventBus.getDefault().post(new ValueChangedEvent<>(key,value, String[].class));
+        EventBusHelper.post(new ValueChangedEvent<>(key,value, String[].class));
     }
 
     /**

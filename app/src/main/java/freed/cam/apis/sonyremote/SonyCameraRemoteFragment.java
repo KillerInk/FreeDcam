@@ -56,6 +56,7 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.cam.apis.sonyremote.sonystuff.WifiHandler;
 import freed.cam.events.CaptureStateChangedEvent;
+import freed.cam.events.EventBusHelper;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -214,13 +215,13 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
 
             if (JsonUtils.isApiSupported("startContShooting",mAvailableCameraApiSet))
-                 EventBus.getDefault().post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_working));
+                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_working));
             else if (JsonUtils.isApiSupported("stopContShooting",mAvailableCameraApiSet))
-                EventBus.getDefault().post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.continouse_capture_start));
+                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.continouse_capture_start));
             else if (JsonUtils.isApiSupported("actTakePicture",mAvailableCameraApiSet))
-                EventBus.getDefault().post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.image_capture_stop));
+                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.image_capture_stop));
             else if (JsonUtils.isApiSupported("awaitTakePicture",mAvailableCameraApiSet))
-                EventBus.getDefault().post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.image_capture_start));
+                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.image_capture_start));
 
             if (!JsonUtils.isApiSupported("setCameraFunction", mAvailableCameraApiSet) &&
                     !(JsonUtils.isApiSupported("startContShooting",mAvailableCameraApiSet) && JsonUtils.isApiSupported("stopContShooting",mAvailableCameraApiSet))) {

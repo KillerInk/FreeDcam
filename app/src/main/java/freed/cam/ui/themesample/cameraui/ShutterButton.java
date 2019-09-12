@@ -39,6 +39,7 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.events.CaptureStateChangedEvent;
+import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.events.StartWorkEvent;
 import freed.settings.SettingKeys;
@@ -115,14 +116,14 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         startBackgroundThread();
-        EventBus.getDefault().register(this);
+        EventBusHelper.register(this);
         invalidate();
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        EventBus.getDefault().unregister(this);
+        EventBusHelper.unregister(this);
         stopBackgroundThread();
     }
 
@@ -142,7 +143,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
                 setCaptureState(CaptureStates.selftimerstart);
             }
             else
-                EventBus.getDefault().post(new StartWorkEvent());
+                EventBusHelper.post(new StartWorkEvent());
         });
 
     }
@@ -151,7 +152,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
         @Override
         public void run() {
             setCaptureState(CaptureStates.selftimerstop);
-            EventBus.getDefault().post(new StartWorkEvent());
+            EventBusHelper.post(new StartWorkEvent());
         }
     };
 

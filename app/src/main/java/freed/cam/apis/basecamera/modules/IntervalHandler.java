@@ -23,8 +23,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Date;
 
+import freed.cam.events.StartWorkEvent;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -118,7 +121,8 @@ public class IntervalHandler
             Log.d(TAG, "Started IntervalThread" + " " + Thread.currentThread().getName());
             working = true;
             picmodule.SuperDoTheWork();
-            while (!Thread.currentThread().isInterrupted() && !isIntervalCaptureTimeOver() && working)
+            boolean captureTimeOver=isIntervalCaptureTimeOver();
+            while (!Thread.currentThread().isInterrupted() && !captureTimeOver && working)
             {
 
                 if (timeGoneTillNextCapture < sleepTimeBetweenCaptures /1000) {
@@ -138,7 +142,8 @@ public class IntervalHandler
                         }
 
                     }*/
-                    handler.post(()->{picmodule.SuperDoTheWork();});
+                    //EventBus.getDefault().post(new StartWorkEvent());
+                    picmodule.SuperDoTheWork();
 
                     timeGoneTillNextCapture = 0;
                 }
@@ -152,6 +157,8 @@ public class IntervalHandler
                         e.printStackTrace();
                     }
                 }
+                captureTimeOver=isIntervalCaptureTimeOver();
+                Log.d(TAG,"CaptureTime is Over: " + captureTimeOver);
             }
             working = false;
             Log.d(TAG, "Stopped IntervalThread" + " " + Thread.currentThread().getName());

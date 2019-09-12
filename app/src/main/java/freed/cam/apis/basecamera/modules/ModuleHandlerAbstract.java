@@ -35,6 +35,7 @@ import java.util.HashMap;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.CaptureStateChangedEvent;
+import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
@@ -135,7 +136,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
      */
     public void ModuleHasChanged(final String module)
     {
-        EventBus.getDefault().post(new ModuleHasChangedEvent(module));
+        EventBusHelper.post(new ModuleHasChangedEvent(module));
     }
 
 

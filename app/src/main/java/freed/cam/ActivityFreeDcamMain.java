@@ -38,6 +38,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import freed.ActivityAbstract;
 import freed.cam.apis.CameraFragmentManager;
 import freed.cam.apis.basecamera.CameraStateEvents;
+import freed.cam.events.EventBusHelper;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
@@ -133,7 +134,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         mSecureCamera.onCreate();
         cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(), this);
         storageHandler = new StorageFileManager();
-        EventBus.getDefault().register(this);
+        EventBusHelper.register(this);
         //listen to phone orientation changes
         orientationManager = new OrientationManager(this, this);
         bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
@@ -143,7 +144,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
+        EventBusHelper.unregister(this);
         cameraFragmentManager.destroy();
         UserMessageHandler.setContext(null);
         super.onDestroy();
@@ -321,7 +322,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void LoadFreeDcamDCIMDirsFiles() {
         Log.d(TAG, "LoadFreeDcamDCIMDirsFiles()");
         super.LoadFreeDcamDCIMDirsFiles();
-        EventBus.getDefault().post(new UpdateScreenSlide());
+        EventBusHelper.post(new UpdateScreenSlide());
     }
 
     @Override
@@ -345,7 +346,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void LoadFolder(final FileHolder fileHolder, FormatTypes types) {
         super.LoadFolder(fileHolder, types);
-        EventBus.getDefault().post(new UpdateScreenSlide());
+        EventBusHelper.post(new UpdateScreenSlide());
     }
 
     //get called when the back button from screenslidefragment gets clicked
@@ -365,14 +366,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void WorkHasFinished(final FileHolder fileHolder) {
 
         ScanFile(fileHolder.getFile());
-        EventBus.getDefault().post(fileHolder);
+        EventBusHelper.post(fileHolder);
         Log.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
     }
 
     @Override
     public void WorkHasFinished(final FileHolder[] fileHolder) {
         MediaScannerManager.ScanMedia(getContext(),fileHolder);
-        EventBus.getDefault().post(fileHolder);
+        EventBusHelper.post(fileHolder);
     }
 
     @Override

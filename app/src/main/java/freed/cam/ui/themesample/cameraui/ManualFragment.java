@@ -45,6 +45,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
@@ -96,13 +97,13 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
         afBracketSettingsView = view.findViewById(id.manualFragment_afbsettings);
         afBracketSettingsView.setVisibility(View.GONE);
-        EventBus.getDefault().register(this);
+        EventBusHelper.register(this);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        EventBus.getDefault().unregister(this);
+        EventBusHelper.unregister(this);
     }
 
     @Override
