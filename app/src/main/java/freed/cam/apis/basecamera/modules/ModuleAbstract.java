@@ -112,7 +112,8 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public void InitModule()
     {
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
         isWorking = false;
     }
 
