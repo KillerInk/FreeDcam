@@ -109,8 +109,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             meteringArea.setVisibility(View.GONE);
             meteringIsSupported = false;
         }
-        if (wrapper.getFocusHandler() != null)
+        if (wrapper.getFocusHandler() != null) {
             wrapper.getFocusHandler().focusEvent = this;
+            TouchToFocusSupported(wrapper.getFocusHandler().isTouchSupported());
+        }
         focusImageView.setVisibility(View.GONE);
     }
 

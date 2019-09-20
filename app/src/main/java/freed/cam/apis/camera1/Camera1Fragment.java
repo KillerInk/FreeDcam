@@ -170,8 +170,10 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     public void onCameraClose(String message)
     {
         cameraRdy = false;
-        ((FocusHandler)Focus).stopListning();
-        parametersHandler.unregisterListners();
+        if (Focus != null)
+            ((FocusHandler)Focus).stopListning();
+        if (parametersHandler != null)
+            parametersHandler.unregisterListners();
         if(focusPeakProcessorAp1 != null)
             focusPeakProcessorAp1.kill();
     }

@@ -25,6 +25,10 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.MotionEvent;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import freed.cam.events.EventBusHelper;
 import freed.utils.Log;
 
 /**
@@ -34,7 +38,13 @@ public abstract class AbstractFocusHandler
 {
     private final String TAG = AbstractFocusHandler.class.getSimpleName();
     protected CameraWrapperInterface cameraUiWrapper;
-    private Handler backgroundHandler;
+
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onFocusCoordinaes(FocusCoordinates focusCoordinates)
+    {
+        startTouchFocus(focusCoordinates);
+    }
 
     public class FocusCoordinates
     {
@@ -44,29 +54,11 @@ public abstract class AbstractFocusHandler
         public int height;
     }
 
-    private final int MSG_SET_TOUCHTOFOCUS = 0;
-
-    private class BackgroundHandler extends Handler
-    {
-        public BackgroundHandler(Looper looper)
-        {
-            super(looper);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == MSG_SET_TOUCHTOFOCUS)
-                startTouchFocus((FocusCoordinates) msg.obj);
-            super.handleMessage(msg);
-        }
-    }
-
     protected abstract void startTouchFocus(FocusCoordinates obj);
 
     protected AbstractFocusHandler(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        backgroundHandler = new BackgroundHandler(cameraUiWrapper.getCameraHandlerLooper());
     }
 
     public abstract void StartFocus();
@@ -77,12 +69,14 @@ public abstract class AbstractFocusHandler
         focusCoordinates.y = y1;
         focusCoordinates.width = width1;
         focusCoordinates.height = height1;
-        backgroundHandler.sendMessage(backgroundHandler.obtainMessage(MSG_SET_TOUCHTOFOCUS,focusCoordinates));
+        EventBusHelper.post(focusCoordinates);
+        //backgroundHandler.sendMessage(backgroundHandler.obtainMessage(MSG_SET_TOUCHTOFOCUS,focusCoordinates));
     }
 
     public abstract void SetMeteringAreas(int x, int y, int width, int height);
     public FocusHandlerInterface focusEvent;
     public abstract boolean isAeMeteringSupported();
+    public abstract boolean isTouchSupported();
     public abstract void SetMotionEvent(MotionEvent event);
 
 

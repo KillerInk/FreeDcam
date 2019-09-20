@@ -20,4 +20,9 @@ public class EventBusHelper {
     {
         EventBus.getDefault().post(ob);
     }
+
+    public static void postSticky(Object ob)
+    {
+        EventBus.getDefault().postSticky(ob);
+    }
 }

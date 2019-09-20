@@ -24,6 +24,7 @@ import android.view.MotionEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -45,7 +46,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
 {
     final String TAG = FocusHandler.class.getSimpleName();
     private boolean aeMeteringSupported;
-    private boolean isFocusing;
+    private boolean isTouchSupported;
 
 
 
@@ -65,19 +66,15 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
         EventBusHelper.unregister(this);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onStringValueChanged(ValueChangedEvent<String> valueChangedEvent)
     {
         if (valueChangedEvent.key == SettingKeys.FocusMode && valueChangedEvent.type == String.class)
         {
             if (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK) {
-                if (valueChangedEvent.newValue.equals("auto") || valueChangedEvent.newValue.equals("macro") || valueChangedEvent.newValue.equals("touch")) {
-                    if (focusEvent != null)
-                        focusEvent.TouchToFocusSupported(true);
-                } else {
-                    if (focusEvent != null)
-                        focusEvent.TouchToFocusSupported(false);
-                }
+                isTouchSupported = valueChangedEvent.newValue.equals("auto") || valueChangedEvent.newValue.equals("macro") || valueChangedEvent.newValue.equals("touch");
+                if (focusEvent != null)
+                    focusEvent.TouchToFocusSupported(isTouchSupported);
             }
             else {
                 if (focusEvent != null) {
@@ -120,6 +117,11 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
     }
 
     @Override
+    public boolean isTouchSupported() {
+        return isTouchSupported;
+    }
+
+    @Override
     public void SetMotionEvent(MotionEvent event) {
 
     }
@@ -127,7 +129,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
     @Override
     public void onFocusEvent(boolean event)
     {
-        this.isFocusing = false;
         if (focusEvent != null)
             focusEvent.FocusFinished(event);
     }
@@ -189,9 +190,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
 
                 if (cameraUiWrapper.getCameraHolder() != null)
                     ((CameraHolder) cameraUiWrapper.getCameraHolder()).StartFocus(this);
-                this.isFocusing = true;
-
-
             }
         }
     }

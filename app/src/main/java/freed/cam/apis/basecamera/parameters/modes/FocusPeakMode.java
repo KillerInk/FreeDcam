@@ -38,7 +38,7 @@ import freed.settings.SettingsManager;
 public class FocusPeakMode extends AbstractParameter {
     public FocusPeakMode(CameraWrapperInterface cameraUiWrapper)
     {
-        super(cameraUiWrapper,null);
+        super(cameraUiWrapper,SettingKeys.Focuspeak);
     }
 
 

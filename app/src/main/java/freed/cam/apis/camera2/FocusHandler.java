@@ -67,6 +67,7 @@ public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCy
         if (valueChangedEvent.type != String.class || cameraUiWrapper == null || cameraUiWrapper.getContext() == null)
             return;
         if (valueChangedEvent.key == SettingKeys.FocusMode) {
+            Log.d(TAG, "onFocusModeValueChanged");
             String val = valueChangedEvent.newValue;
             if (val.contains("Continous") || val.equals(cameraUiWrapper.getContext().getString(R.string.off))) {
                 focusenabled = false;
@@ -171,6 +172,11 @@ public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCy
     @Override
     public boolean isAeMeteringSupported() {
         return false;
+    }
+
+    @Override
+    public boolean isTouchSupported() {
+        return focusenabled;
     }
 
     @Override
