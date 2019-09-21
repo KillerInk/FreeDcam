@@ -126,11 +126,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private CameraFragmentManager cameraFragmentManager;
 
 
+    private UserMessageHandler userMessageHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UserMessageHandler.setContext(getContext());
+        userMessageHandler = new UserMessageHandler();
+        userMessageHandler.setContext(getContext());
+        userMessageHandler.startListning();
         mSecureCamera.onCreate();
         cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(), this);
         storageHandler = new StorageFileManager();
@@ -146,8 +149,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     protected void onDestroy() {
         EventBusHelper.unregister(this);
         cameraFragmentManager.destroy();
-        UserMessageHandler.setContext(null);
+        userMessageHandler.stopListning();
+        userMessageHandler.setContext(null);
         super.onDestroy();
+    }
+
+    public UserMessageHandler getUserMessageHandler()
+    {
+        return userMessageHandler;
     }
 
     @Override

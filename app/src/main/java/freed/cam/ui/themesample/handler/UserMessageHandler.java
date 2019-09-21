@@ -28,141 +28,94 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.lang.ref.WeakReference;
 
 import freed.cam.apis.basecamera.CameraStateEvents;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.EventBusLifeCycle;
+import freed.cam.events.UserMessageEvent;
 import freed.utils.Log;
 
 
 /**
  * Created by troop on 04.10.2015.
  */
-public class UserMessageHandler extends Handler implements CameraStateEvents , Runnable
+public class UserMessageHandler implements Runnable, EventBusLifeCycle
 {
-    private static WeakReference<LinearLayout> messageHolderRef;
-    private static WeakReference<TextView> messageTextViewRef;
 
-    private static UserMessageHandler handler = new UserMessageHandler(Looper.getMainLooper());
-    private static WeakReference<Context> contextref;
+    private Context context;
+    private TextView messageTextView1;
+    private LinearLayout messageHolder1;
 
-    private UserMessageHandler(Looper looper)
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCameraErrorEvent(freed.cam.events.CameraStateEvents.CameraErrorEvent cameraErrorEvent)
     {
-        super(looper);
+        setUserMessage(cameraErrorEvent.msg,true);
     }
 
-    public static void setContext(Context contextt)
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserMessageEvent(UserMessageEvent event)
     {
-        if (contextt == null)
-            contextref = null;
-        else
-            contextref = new WeakReference<>(contextt);
+        setUserMessage(event.msg,event.asToast);
     }
 
-    public static void setMessageTextView(TextView messageTextView1, LinearLayout messageHolder1)
+    public UserMessageHandler()
     {
-        if (messageHolder1 == null)
-            messageHolderRef = null;
-        else
-            messageHolderRef = new WeakReference<>(messageHolder1);
-        if (messageTextView1 == null)
-            messageTextViewRef = null;
-        else
-            messageTextViewRef = new WeakReference<>(messageTextView1);
+    }
+
+    public void setContext(Context contextt)
+    {
+        this.context = contextt;
+    }
+
+    public void setMessageTextView(TextView messageTextView1, LinearLayout messageHolder1)
+    {
+        this.messageTextView1 = messageTextView1;
+        this.messageHolder1 = messageHolder1;
     }
 
     public static void sendMSG(String msg,boolean asToast)
     {
-        if (asToast)
-            handler.obtainMessage(MSG_SEND_MESSAGE_TO_USER,1,0, msg).sendToTarget();
-        else
-            handler.obtainMessage(MSG_SEND_MESSAGE_TO_USER,0,0, msg).sendToTarget();
+        EventBusHelper.post(new UserMessageEvent(msg,asToast));
     }
-
-    public final static int MSG_SEND_MESSAGE_TO_USER = 0;
-    @Override
-    public void handleMessage(Message msg) {
-        switch (msg.what)
-        {
-            case MSG_SEND_MESSAGE_TO_USER:
-                try {
-                    if (msg.arg1 == 1)
-                        setUserMessage((String)msg.obj,true);
-                    else
-                        setUserMessage((String)msg.obj,false);
-                }
-                catch (NullPointerException ex)
-                {
-                    Log.WriteEx(ex);
-                }
-                break;
-            default:
-                super.handleMessage(msg);
-        }
-
-    }
-
 
     private void setUserMessage(String msg,boolean asToast)
     {
         if (asToast) {
-            Context context = contextref.get();
             if (context != null)
                 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
         }
         else {
-            LinearLayout messageHolder = messageHolderRef.get();
-            TextView messageTextView = messageTextViewRef.get();
-            if (messageHolder != null) {
-                handler.removeCallbacks(this);
-                messageHolder.setVisibility(View.VISIBLE);
-                if (messageTextView != null)
-                    messageTextView.setText(msg);
-                handler.postDelayed(this, 3000);
+
+            if (messageHolder1 != null) {
+                messageHolder1.removeCallbacks(this);
+                messageHolder1.setVisibility(View.VISIBLE);
+                if (messageTextView1 != null)
+                    messageTextView1.setText(msg);
+                messageHolder1.postDelayed(this, 3000);
             }
         }
     }
 
     @Override
-    public void onCameraOpen() {
-
-    }
-
-    @Override
-    public void onCameraOpenFinish() {
-
-    }
-
-    @Override
-    public void onCameraClose(String message) {
-
-    }
-
-    @Override
-    public void onPreviewOpen(String message) {
-
-    }
-
-    @Override
-    public void onPreviewClose(String message) {
-
-    }
-
-    @Override
-    public void onCameraError(final String error)
-    {
-        sendMSG(error,true);
-    }
-
-
-
-    @Override
     public void run()
     {
-        LinearLayout messageHolder = messageHolderRef.get();
-        TextView messageTextView = messageTextViewRef.get();
-        if (messageHolder != null && messageTextView !=null) {
-            messageTextView.setText("");
-            messageHolder.setVisibility(View.GONE);
+        if (messageHolder1 != null && messageTextView1 !=null) {
+            messageTextView1.setText("");
+            messageHolder1.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void startListning() {
+        EventBusHelper.register(this);
+    }
+
+    @Override
+    public void stopListning() {
+        EventBusHelper.unregister(this);
     }
 }

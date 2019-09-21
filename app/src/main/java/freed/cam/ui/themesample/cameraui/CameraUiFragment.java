@@ -45,6 +45,7 @@ import com.troop.freedcam.R.layout;
 
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
@@ -319,7 +320,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        UserMessageHandler.setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
+        ((ActivityFreeDcamMain)getActivity()).getUserMessageHandler().setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
         manualModes_holder = view.findViewById(id.manualModesHolder);
         left_ui_items_holder = view.findViewById(id.left_ui_holder);
         right_ui_items_top = view.findViewById(id.right_ui_holder_top);
@@ -386,7 +387,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onDestroy() {
         super.onDestroy();
-        UserMessageHandler.setMessageTextView(null,null);
+        ((ActivityFreeDcamMain)getActivity()).getUserMessageHandler().setMessageTextView(null,null);
     }
 
     @Override
