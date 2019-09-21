@@ -40,6 +40,7 @@ import com.troop.freedcam.R.layout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,6 +60,7 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.cameraholder.CameraHolderSony;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera2.AutoFitTextureView;
+import freed.cam.events.CameraStateEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.ModuleHasChangedEvent;
@@ -92,6 +94,46 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
             mainToCameraHandler.removeCallbacks(createPreviewRunner);
             mainToCameraHandler.post(createPreviewRunner);
         }
+    }
+
+    //this gets called when the cameraholder has open the camera
+    @Subscribe
+    public void onCameraOpen(CameraStateEvents.CameraOpenEvent openEvent)
+    {
+        mainToCameraHandler.initCamera();
+    }
+
+    @Subscribe
+    public void onCameraClose(CameraStateEvents.CameraCloseEvent cameraCloseEvent)
+    {
+        cameraRdy = false;
+        if (Focus != null)
+            ((FocusHandler)Focus).stopListning();
+        if (parametersHandler != null)
+            parametersHandler.unregisterListners();
+        if(focusPeakProcessorAp1 != null)
+            focusPeakProcessorAp1.kill();
+    }
+
+    @Subscribe
+    public void onPreviewOpen(CameraStateEvents.PreviewOpenEvent previewOpenEvent) {
+
+        parametersHandler.setManualSettingsToParameters();
+    }
+
+    @Subscribe
+    public void onPreviewClose(CameraStateEvents.PreviewCloseEvent previewCloseEvent) {
+        cameraHolder.ResetPreviewCallback();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCameraChangedAspectRatio(CameraStateEvents.CameraChangedAspectRatioEvent event)
+    {
+        Size size = event.size;
+        if (textureView != null)
+            textureView.setAspectRatio(size.width, size.height);
+        if (focusPeakProcessorAp1 != null)
+            focusPeakProcessorAp1.SetAspectRatio(size.width, size.height);
     }
 
     private final String TAG = Camera1Fragment.class.getSimpleName();
@@ -154,46 +196,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         stopListning();
     }
 
-    //this gets called when the cameraholder has open the camera
-    @Override
-    public void onCameraOpen()
-    {
-        mainToCameraHandler.initCamera();
-    }
-
-    @Override
-    public void onCameraOpenFinish() {
-
-    }
-
-    @Override
-    public void onCameraClose(String message)
-    {
-        cameraRdy = false;
-        if (Focus != null)
-            ((FocusHandler)Focus).stopListning();
-        if (parametersHandler != null)
-            parametersHandler.unregisterListners();
-        if(focusPeakProcessorAp1 != null)
-            focusPeakProcessorAp1.kill();
-    }
-
-    @Override
-    public void onPreviewOpen(String msg) {
-
-        parametersHandler.setManualSettingsToParameters();
-    }
-
-    @Override
-    public void onPreviewClose(String message) {
-        cameraHolder.ResetPreviewCallback();
-    }
-
-    @Override
-    public void onCameraError(String error) {
-
-    }
-
 
 
     private Runnable createPreviewRunner =new Runnable()
@@ -237,7 +239,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
                     parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
                     cameraHolder.SetSurface(focusPeakProcessorAp1.getInputSurface());
-                    cameraToMainHandler.obtainMessage(CameraToMainHandler.MSG_SET_ASPECTRATIO, size).sendToTarget();
+                    CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
                     focusPeakProcessorAp1.start();
                     cameraHolder.StartPreview();
                 }
@@ -257,7 +259,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
                     Log.d(TAG, "set size to " + size.width + "x" + size.height);
                     parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
-                    cameraToMainHandler.obtainMessage(CameraToMainHandler.MSG_SET_ASPECTRATIO, size).sendToTarget();
+                    CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
                     cameraHolder.StartPreview();
                 }
 
@@ -290,7 +292,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
                 parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
-                cameraToMainHandler.obtainMessage(CameraToMainHandler.MSG_SET_ASPECTRATIO, size).sendToTarget();
+                CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
                 cameraHolder.StartPreview();
             }
             Log.d(TAG, "createPreviewRunner.run() done");
@@ -527,20 +529,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     }
 
 
-    @Override
-    public void handelMainMessage(Message msg) {
 
-        switch (msg.what)
-        {
-            case CameraToMainHandler.MSG_SET_ASPECTRATIO:
-                Size size = (Size)msg.obj;
-                if (textureView != null)
-                    textureView.setAspectRatio(size.width, size.height);
-                if (focusPeakProcessorAp1 != null)
-                    focusPeakProcessorAp1.SetAspectRatio(size.width, size.height);
-                break;
-            default:
-                super.handelMainMessage(msg);
-        }
-    }
+
 }

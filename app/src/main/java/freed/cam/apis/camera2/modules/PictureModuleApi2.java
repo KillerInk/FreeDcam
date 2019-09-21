@@ -173,10 +173,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         changeCaptureState(CaptureStates.image_capture_stop);
 
         cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(0, true);
-        if (cameraUiWrapper.captureSessionHandler.getSurfaceTexture() != null)
-            startPreview();
-        else
-            Log.e(TAG, "cameraUiWrapper.captureSessionHandler.getSurfaceTexture() == null");
+        startPreview();
     }
 
     @Override
@@ -232,7 +229,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
         Size previewSize = cameraUiWrapper.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, output.jpeg_width, output.jpeg_height);
 
-        SurfaceTexture texture = cameraUiWrapper.captureSessionHandler.getSurfaceTexture();
+        SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
 
         Surface previewsurface = new Surface(texture);

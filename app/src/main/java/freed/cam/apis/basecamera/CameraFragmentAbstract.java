@@ -36,6 +36,7 @@ import java.util.List;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
+import freed.cam.events.CameraStateEvents;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.utils.Log;
@@ -44,7 +45,7 @@ import freed.utils.Log;
  * Created by troop on 06.06.2015.
  * That Fragment is used as base for all camera apis added.
  */
-public abstract class CameraFragmentAbstract extends Fragment implements CameraInterface ,CameraWrapperInterface, CameraToMainHandler.MainMessageEvent {
+public abstract class CameraFragmentAbstract extends Fragment implements CameraInterface ,CameraWrapperInterface {
     private final String TAG = CameraFragmentAbstract.class.getSimpleName();
 
 
@@ -68,12 +69,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
 
     protected boolean PreviewSurfaceRdy;
 
-    /**
-     * holds the listners that get informed when the camera state change
-     */
-    private final List<CameraStateEvents> cameraChangedListners;
-
-
 
     public abstract String CameraApiName();
 
@@ -90,7 +85,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
 
     public CameraFragmentAbstract()
     {
-        cameraChangedListners = new ArrayList<>();
+
     }
 
     public void init(MainToCameraHandler mainToCameraHandler, CameraToMainHandler cameraToMainHandler)
@@ -105,7 +100,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     @Override
     public View onCreateView(LayoutInflater layoutInflater, @Nullable ViewGroup viewGroup, @Nullable Bundle bundle) {
         Log.d(TAG, "onCreateView");
-        cameraChangedListners.add(this);
+
         return super.onCreateView(layoutInflater, viewGroup, bundle);
     }
 
@@ -121,15 +116,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     public void setRenderScriptManager(RenderScriptManager renderScriptManager)
     {
         this.renderScriptManager = renderScriptManager;
-    }
-
-    /**
-     * adds a new listner for camera state changes
-     * @param cameraChangedListner to add
-     */
-    public void setCameraEventListner(final CameraStateEvents cameraChangedListner)
-    {
-        cameraToMainHandler.setCameraStateChangedListner(cameraChangedListner);
     }
 
     @Override
@@ -175,54 +161,36 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     @Override
     public void fireCameraOpen()
     {
-        if (cameraToMainHandler != null)
-            cameraToMainHandler.onCameraOpen();
-        else
-            Log.d(TAG, "CameraHandler is null");
+        CameraStateEvents.fireCameraOpenEvent();
     }
 
     @Override
     public void fireCameraError(final String error) {
-        if (cameraToMainHandler != null)
-            cameraToMainHandler.onCameraError(error);
-        else
-            Log.d(TAG, "CameraHandler is null");
+        CameraStateEvents.fireCameraErrorEvent(error);
     }
 
 
     @Override
     public void fireCameraClose()
     {
-        if (cameraToMainHandler != null)
-            cameraToMainHandler.onCameraClose("");
-        else
-            Log.d(TAG, "CameraHandler is null");
+        CameraStateEvents.fireCameraCloseEvent();
     }
 
     @Override
     public void firePreviewOpen()
     {
-        if (cameraToMainHandler != null)
-            cameraToMainHandler.onPreviewOpen("");
-        else
-            Log.d(TAG, "CameraHandler is null");
+        CameraStateEvents.firePreviewOpenEvent();
     }
 
     @Override
     public void firePreviewClose() {
-        if (cameraToMainHandler != null)
-            cameraToMainHandler.onPreviewClose("");
-        else
-            Log.d(TAG, "CameraHandler is null");
+        CameraStateEvents.firePreviewCloseEvent();
     }
 
     @Override
     public void fireCameraOpenFinished()
     {
-        if (cameraToMainHandler != null)
-            cameraToMainHandler.onCameraOpenFinish();
-        else
-            Log.d(TAG, "CameraHandler is null");
+        CameraStateEvents.fireCameraOpenFinishEvent();
     }
 
     public abstract int getMargineLeft();
@@ -277,37 +245,4 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
         return mainToCameraHandler.getCameraLooper();
     }
 
-    @Override
-    public void handelMainMessage(Message msg)
-    {
-        switch (msg.what) {
-            case CameraToMainHandler.MSG_SET_CAMERASTAUSLISTNER:
-                cameraChangedListners.add((CameraStateEvents)msg.obj);
-                break;
-            case CameraToMainHandler.MSG_ON_CAMERA_OPEN:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onCameraOpen();
-                break;
-            case CameraToMainHandler.MSG_ON_CAMERA_ERROR:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onCameraError((String)msg.obj);
-                break;
-            case CameraToMainHandler.MSG_ON_CAMERA_CLOSE:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onCameraClose((String)msg.obj);
-                break;
-            case CameraToMainHandler.MSG_ON_PREVIEW_OPEN:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onPreviewOpen((String)msg.obj);
-                break;
-            case CameraToMainHandler.MSG_ON_PREVIEW_CLOSE:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onPreviewClose((String)msg.obj);
-                break;
-            case CameraToMainHandler.MSG_ON_CAMERA_OPEN_FINISHED:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onCameraOpenFinish();
-                break;
-        }
-    }
 }

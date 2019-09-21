@@ -21,24 +21,19 @@ package freed.cam;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
-
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import freed.ActivityAbstract;
 import freed.cam.apis.CameraFragmentManager;
-import freed.cam.apis.basecamera.CameraStateEvents;
+import freed.cam.events.CameraStateEvents;
 import freed.cam.events.EventBusHelper;
+import freed.cam.events.EventBusLifeCycle;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
@@ -62,8 +57,18 @@ import freed.viewer.screenslide.ScreenSlideFragment;
  */
 public class ActivityFreeDcamMain extends ActivityAbstract
         implements OrientationEvent,
-            SecureCamera.SecureCameraActivity, CameraStateEvents
+            SecureCamera.SecureCameraActivity, EventBusLifeCycle
 {
+
+    @Override
+    public void startListning() {
+        EventBusHelper.register(this);
+    }
+
+    @Override
+    public void stopListning() {
+        EventBusHelper.unregister(this);
+    }
 
     private class LoadFreeDcamDcimDirsFilesRunner extends ImageTask
     {
@@ -108,6 +113,24 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             uiViewPagerAdapter.updateScreenSlideFile(files);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCameraOpenFinishEvent(CameraStateEvents.CameraOpenFinishEvent cameraOpenFinishEvent)
+    {
+        //in case the featuredetector runned bevor, uiViewPagerAdapter is null.
+        //thats the correct behavior because we dont want that the helpview overlay the featuredetector on first start
+        if (uiViewPagerAdapter == null)
+            initScreenSlide();
+        //note the ui that cameraFragment is loaded
+        uiViewPagerAdapter.setCameraFragment(cameraFragmentManager.getCameraFragment());
+        if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(SettingsManager.getInstance().getResString(R.string.on_))
+                && getPermissionManager().hasLocationPermission())
+            locationManager.startLocationListing();
+
+        SetNightOverlay();
+        if(getPermissionManager().hasExternalSDPermission(null) && (files == null || files.size() == 0))
+            ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
+    }
+
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
     private OrientationManager orientationManager;
@@ -135,9 +158,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         userMessageHandler.setContext(getContext());
         userMessageHandler.startListning();
         mSecureCamera.onCreate();
-        cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(), this);
+        cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext());
         storageHandler = new StorageFileManager();
-        EventBusHelper.register(this);
+        startListning();
         //listen to phone orientation changes
         orientationManager = new OrientationManager(this, this);
         bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
@@ -147,7 +170,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     protected void onDestroy() {
-        EventBusHelper.unregister(this);
+        stopListning();
         cameraFragmentManager.destroy();
         userMessageHandler.stopListning();
         userMessageHandler.setContext(null);
@@ -385,48 +408,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         EventBusHelper.post(fileHolder);
     }
 
-    @Override
-    public void onCameraOpen() {
-
-    }
-
-    @Override
-    public void onCameraOpenFinish() {
-        //in case the featuredetector runned bevor, uiViewPagerAdapter is null.
-        //thats the correct behavior because we dont want that the helpview overlay the featuredetector on first start
-        if (uiViewPagerAdapter == null)
-            initScreenSlide();
-        //note the ui that cameraFragment is loaded
-        uiViewPagerAdapter.setCameraFragment(cameraFragmentManager.getCameraFragment());
-        if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(SettingsManager.getInstance().getResString(R.string.on_))
-                && getPermissionManager().hasLocationPermission())
-            locationManager.startLocationListing();
-
-        SetNightOverlay();
-        if(getPermissionManager().hasExternalSDPermission(null) && (files == null || files.size() == 0))
-            ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
-
-    }
-
-    @Override
-    public void onCameraClose(String message)
-    {
-
-    }
-
-    @Override
-    public void onPreviewOpen(String message) {
-
-    }
-
-    @Override
-    public void onPreviewClose(String message) {
-
-    }
-
-    @Override
-    public void onCameraError(String error) {
-    }
 
 
     @Override

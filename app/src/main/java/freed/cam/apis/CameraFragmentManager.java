@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.apis.basecamera.CameraToMainHandler;
 import freed.cam.apis.basecamera.MainToCameraHandler;
 import freed.cam.apis.camera1.Camera1Fragment;
@@ -30,17 +29,16 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     private FragmentManager fragmentManager;
     private CameraFragmentAbstract cameraFragment;
     private RenderScriptManager renderScriptManager;
-    private CameraStateEvents cameraStateEventListner;
+
     private CameraFeatureDetectorFragment fd;
     private BackgroundHandlerThread backgroundHandlerThread;
     private MainToCameraHandler mainToCameraHandler;
     private CameraToMainHandler cameraToMainHandler;
 
-    public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context, CameraStateEvents cameraStateEventListner)
+    public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context)
     {
         this.fragmentManager = fragmentManager;
         this.fragmentHolderId = fragmentHolderId;
-        this.cameraStateEventListner = cameraStateEventListner;
         if (RenderScriptManager.isSupported())
             renderScriptManager = new RenderScriptManager(context);
         Log.d(TAG,"Create camera BackgroundHandler");
@@ -121,15 +119,11 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
                 }
 
                 mainToCameraHandler.setCameraInterface(cameraFragment);
-                cameraToMainHandler.setMainMessageEventWeakReference(cameraFragment);
                 cameraFragment.init(mainToCameraHandler,cameraToMainHandler);
                 cameraFragment.setRenderScriptManager(renderScriptManager);
-                cameraFragment.setCameraEventListner(cameraStateEventListner);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
             } else {
-
                 mainToCameraHandler.setCameraInterface(cameraFragment);
-                cameraToMainHandler.setMainMessageEventWeakReference(cameraFragment);
                 cameraFragment.init(mainToCameraHandler,cameraToMainHandler);
                 cameraFragment.startCameraAsync();
             }
@@ -150,7 +144,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
             transaction.commit();
             cameraFragment = null;
             mainToCameraHandler.setCameraInterface(null);
-            cameraToMainHandler.setMainMessageEventWeakReference(null);
         }
     }
 }

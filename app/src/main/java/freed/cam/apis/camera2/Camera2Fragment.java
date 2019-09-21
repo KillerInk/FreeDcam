@@ -31,9 +31,12 @@ import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,6 +45,9 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
+import freed.cam.events.CameraStateEvents;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.EventBusLifeCycle;
 import freed.renderscript.RenderScriptProcessor;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingsManager;
@@ -53,7 +59,7 @@ import freed.viewer.screenslide.MyHistogram;
  * Created by troop on 06.06.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class Camera2Fragment extends CameraFragmentAbstract implements TextureView.SurfaceTextureListener, CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback
+public class Camera2Fragment extends CameraFragmentAbstract implements TextureView.SurfaceTextureListener, CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback, EventBusLifeCycle
 {
     //limits the preview to use maximal that size for preview
     //when set to high it its possbile to get a laggy preview with active focuspeak
@@ -103,10 +109,21 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     }
 
     @Override
+    public void startListning() {
+        EventBusHelper.register(this);
+    }
+
+    @Override
+    public void stopListning() {
+        EventBusHelper.unregister(this);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        startListning();
         Log.d(TAG, "onResume");
-        if (textureView.isAttachedToWindow() && PreviewSurfaceRdy)
+        if (textureView.isAttachedToWindow() && PreviewSurfaceRdy && textureView.getSurfaceTexture() != null)
             startCameraAsync();
     }
 
@@ -116,22 +133,18 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         Log.d(TAG, "onPause");
         stopPreviewAsync();
         stopCameraAsync();
+        stopListning();
     }
 
-    @Override
-    public void onCameraOpen()
+    @Subscribe
+    public void onCameraOpen(CameraStateEvents.CameraOpenEvent event)
     {
         Log.d(TAG, "onCameraOpen, initCamera");
         mainToCameraHandler.initCamera();
     }
 
-    @Override
-    public void onCameraOpenFinish() {
-
-    }
-
-    @Override
-    public void onCameraClose(String message)
+    @Subscribe
+    public void onCameraClose(CameraStateEvents.CameraCloseEvent event)
     {
         try {
             Log.d(TAG, "onCameraClose");
@@ -144,19 +157,14 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         }
     }
 
-    @Override
-    public void onPreviewOpen(String message) {
+    @Subscribe
+    public void onPreviewOpen(CameraStateEvents.PreviewOpenEvent message) {
         Log.d(TAG, "onPreviewOpen");
     }
 
-    @Override
-    public void onPreviewClose(String message) {
+    @Subscribe
+    public void onPreviewClose(CameraStateEvents.PreviewCloseEvent message) {
         Log.d(TAG, "onPreviewClose");
-    }
-
-    @Override
-    public void onCameraError(String error) {
-
     }
 
     @Override
@@ -167,6 +175,10 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
             PreviewSurfaceRdy = true;
             if (!cameraIsOpen && isResumed())
                 startCameraAsync();
+            else if (cameraIsOpen)
+            {
+                moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
+            }
         }
     }
 
@@ -228,6 +240,10 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         return null;
     }
 
+    public TextureView getTexturView()
+    {
+        return textureView;
+    }
 
     @Override
     public void onFirstFrame() {
@@ -346,4 +362,6 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
             mi.stopPreview();
         }
     }
+
+
 }

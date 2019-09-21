@@ -33,7 +33,7 @@ import freed.renderscript.RenderScriptProcessorInterface;
 /**
  * Created by troop on 09.12.2014.
  */
-public interface CameraWrapperInterface extends CameraStateEvents
+public interface CameraWrapperInterface
 {
     /**
      * Start the Camera
@@ -67,13 +67,6 @@ public interface CameraWrapperInterface extends CameraStateEvents
     ModuleHandlerAbstract getModuleHandler();
     SurfaceView getSurfaceView();
     AbstractFocusHandler getFocusHandler();
-
-    /**
-     * set the listner that get notifyed when camera state has changed
-     * @param cameraChangedListner to notify
-     */
-    void setCameraEventListner(CameraStateEvents cameraChangedListner);
-
 
     /**
      * get the left margine between display and preview
