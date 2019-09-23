@@ -65,7 +65,7 @@ public class BaseFocusManual extends BaseManualParameter
 
         if (valueToSet == 0)
         {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_), true);
             Log.d(TAG, "Set Focus to : auto");
         }
         else
@@ -74,7 +74,7 @@ public class BaseFocusManual extends BaseManualParameter
                     && !cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).GetStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(manualFocusModeString, false);
             if (manualFocusType > -1)
-                parameters.set(cameraUiWrapper.getResString(R.string.manual_focus_pos_type), manualFocusType +"");
+                parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.manual_focus_pos_type), manualFocusType +"");
 
             ((TypedSettingMode) SettingsManager.get(key)).set(stringvalues[currentInt]);
             parameters.set(key_value, stringvalues[currentInt]);

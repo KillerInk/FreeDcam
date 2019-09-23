@@ -45,7 +45,7 @@ public class AeManagerCamera2 extends AeManager {
             long val = AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTime.getStringValues()[valueToSet]) * 1000;
             Log.d(manualExposureTime.TAG, "ExposureTimeToSet:" + val);
             cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME,val);
-            if (val > MAX_PREVIEW_EXPOSURETIME && !SettingsManager.getInstance().GetCurrentModule().equals(cameraUiWrapper.getResString(R.string.module_video))) {
+            if (val > MAX_PREVIEW_EXPOSURETIME && !SettingsManager.getInstance().GetCurrentModule().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video))) {
                 Log.d(manualExposureTime.TAG, "ExposureTime Exceed 100000000 for preview, set it to 100000000");
                 val = MAX_PREVIEW_EXPOSURETIME;
             }

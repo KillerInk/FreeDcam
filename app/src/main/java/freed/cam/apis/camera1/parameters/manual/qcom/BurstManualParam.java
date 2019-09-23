@@ -54,7 +54,7 @@ public class BurstManualParam extends BaseManualParameter
     @Override
     protected String[] createStringArray(int min, int max, float step) {
         ArrayList<String> ar = new ArrayList<>();
-        ar.add(cameraUiWrapper.getResString(R.string.off_));
+        ar.add(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
         if (step == 0)
             step = 1;
         for (int i = min; i < max; i+=step)
@@ -76,25 +76,25 @@ public class BurstManualParam extends BaseManualParameter
     {
         currentInt = valueToSet;
 
-        if (parameters.get(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter)) != null)
+        if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.num_snaps_per_shutter)) != null)
         {
-            parameters.set(cameraUiWrapper.getResString(R.string.num_snaps_per_shutter),  String.valueOf((currentInt +1)));
-            parameters.set(cameraUiWrapper.getResString(R.string.snapshot_burst_num),  String.valueOf((currentInt +1)));
-            Log.d(TAG, cameraUiWrapper.getResString(R.string.num_snaps_per_shutter)+  String.valueOf(currentInt +1));
+            parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.num_snaps_per_shutter),  String.valueOf((currentInt +1)));
+            parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.snapshot_burst_num),  String.valueOf((currentInt +1)));
+            Log.d(TAG, cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.num_snaps_per_shutter)+  String.valueOf(currentInt +1));
 
         }
-        else if (parameters.get(cameraUiWrapper.getResString(R.string.snapshot_burst_num))!=null)
+        else if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.snapshot_burst_num))!=null)
         {
-                parameters.set(cameraUiWrapper.getResString(R.string.snapshot_burst_num), String.valueOf(currentInt +1));
-            Log.d(TAG, cameraUiWrapper.getResString(R.string.snapshot_burst_num)+ stringvalues[currentInt]);
+                parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.snapshot_burst_num), String.valueOf(currentInt +1));
+            Log.d(TAG, cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.snapshot_burst_num)+ stringvalues[currentInt]);
         }
-        else if(parameters.get(cameraUiWrapper.getResString(R.string.burst_num)) != null) // mtk
+        else if(parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.burst_num)) != null) // mtk
         {
             if (valueToSet == 0)
-                parameters.set(cameraUiWrapper.getResString(R.string.burst_num), String.valueOf(0));
+                parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.burst_num), String.valueOf(0));
             else
-                parameters.set(cameraUiWrapper.getResString(R.string.burst_num), stringvalues[currentInt]);
-            Log.d(TAG, cameraUiWrapper.getResString(R.string.burst_num)+ stringvalues[currentInt]);
+                parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.burst_num), stringvalues[currentInt]);
+            Log.d(TAG, cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.burst_num)+ stringvalues[currentInt]);
         }
 
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
@@ -111,10 +111,10 @@ public class BurstManualParam extends BaseManualParameter
     public void onModuleChanged(ModuleHasChangedEvent event)
     {
         String module = event.NewModuleName;
-        if ((module.equals(cameraUiWrapper.getResString(R.string.module_video)) || module.equals(cameraUiWrapper.getResString(R.string.module_hdr))) && settingMode.isSupported())
+        if ((module.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)) || module.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_hdr))) && settingMode.isSupported())
             setViewState(ViewState.Hidden);
-        else if ((module.equals(cameraUiWrapper.getResString(R.string.module_picture))
-                || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
+        else if ((module.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_picture))
+                || module.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_interval))
         )&& settingMode.isSupported())
         {
             setViewState(ViewState.Visible);

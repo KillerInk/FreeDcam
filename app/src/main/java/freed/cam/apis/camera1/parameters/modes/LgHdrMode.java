@@ -38,12 +38,12 @@ public class LgHdrMode extends BaseModeParameter
     @Override
     public void setValue(String valueToSet, boolean setToCam) {
 
-        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
-            parameters.set(cameraUiWrapper.getResString(R.string.hdr_mode), 1);
-        else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_)))
-            parameters.set(cameraUiWrapper.getResString(R.string.hdr_mode), 0);
-        else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.auto_)))
-            parameters.set(cameraUiWrapper.getResString(R.string.hdr_mode), 2);
+        if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
+            parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.hdr_mode), 1);
+        else if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_)))
+            parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.hdr_mode), 0);
+        else if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_)))
+            parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.hdr_mode), 2);
         if (setToCam)
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         ((SettingMode)SettingsManager.get(key)).set(valueToSet);
@@ -52,23 +52,23 @@ public class LgHdrMode extends BaseModeParameter
 
     @Override
     public String GetStringValue() {
-            if (parameters.get(cameraUiWrapper.getResString(R.string.hdr_mode))== null)
-                parameters.set(cameraUiWrapper.getResString(R.string.hdr_mode), "0");
-            if (parameters.get(cameraUiWrapper.getResString(R.string.hdr_mode)).equals("0"))
-                return cameraUiWrapper.getResString(R.string.off_);
-            else if (parameters.get(cameraUiWrapper.getResString(R.string.hdr_mode)).equals("1"))
-                return cameraUiWrapper.getResString(R.string.on_);
+            if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.hdr_mode))== null)
+                parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.hdr_mode), "0");
+            if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.hdr_mode)).equals("0"))
+                return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_);
+            else if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.hdr_mode)).equals("1"))
+                return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_);
             else
-                return cameraUiWrapper.getResString(R.string.auto_);
+                return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_);
 
     }
 
     @Override
     public String[] getStringValues() {
         List<String> hdrVals =  new ArrayList<>();
-        hdrVals.add(cameraUiWrapper.getResString(R.string.off_));
-        hdrVals.add(cameraUiWrapper.getResString(R.string.on_));
-        hdrVals.add(cameraUiWrapper.getResString(R.string.auto_));
+        hdrVals.add(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
+        hdrVals.add(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
+        hdrVals.add(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_));
         return hdrVals.toArray(new String[hdrVals.size()]);
     }
 
@@ -76,21 +76,21 @@ public class LgHdrMode extends BaseModeParameter
     public void onModuleChanged(String module)
     {
         curmodule = module;
-        if (curmodule.equals(cameraUiWrapper.getResString(R.string.module_video))|| curmodule.equals(cameraUiWrapper.getResString(R.string.module_video)))
+        if (curmodule.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video))|| curmodule.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
         {
             Hide();
-            SetValue(cameraUiWrapper.getResString(R.string.off_),true);
+            SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_),true);
         }
         else
         {
-            if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_))) {
+            if (format.contains(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.jpeg_))) {
                 Show();
                 setViewState(ViewState.Visible);
             }
             else
             {
                 Hide();
-                SetValue(cameraUiWrapper.getResString(R.string.off_),true);
+                SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_),true);
             }
         }
     }
@@ -100,10 +100,10 @@ public class LgHdrMode extends BaseModeParameter
     {
         if (valueChangedEvent.key == SettingKeys.PictureFormat) {
             format = valueChangedEvent.newValue;
-            if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_)) && !visible && !curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
+            if (format.contains(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.jpeg_)) && !visible && !curmodule.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_hdr)))
                 Show();
 
-            else if (!format.contains(cameraUiWrapper.getResString(R.string.jpeg_)) && visible) {
+            else if (!format.contains(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.jpeg_)) && visible) {
                 Hide();
             }
         }
@@ -113,8 +113,8 @@ public class LgHdrMode extends BaseModeParameter
     {
         state = GetStringValue();
         visible = false;
-        SetValue(cameraUiWrapper.getResString(R.string.off_),true);
-        fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
+        SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_),true);
+        fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
         setViewState(ViewState.Hidden);
     }
     private void Show()

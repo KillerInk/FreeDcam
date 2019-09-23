@@ -53,14 +53,14 @@ public class FocusPeakMode extends AbstractParameter {
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
+        if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
         {
             cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(true);
-            fireStringValueChanged(cameraUiWrapper.getResString(R.string.on_));
+            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
         }
         else {
             cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(false);
-            fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
+            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
         }
 
     }
@@ -68,14 +68,14 @@ public class FocusPeakMode extends AbstractParameter {
     @Override
     public String GetStringValue() {
         if (cameraUiWrapper.getFocusPeakProcessor().isEnabled())
-            return cameraUiWrapper.getResString(R.string.on_);
+            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_);
         else
-            return cameraUiWrapper.getResString(R.string.off_);
+            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_);
     }
 
     @Override
     public String[] getStringValues() {
-        return new String[] {cameraUiWrapper.getResString(R.string.on_), cameraUiWrapper.getResString(R.string.off_)};
+        return new String[] {cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_)};
     }
 
 

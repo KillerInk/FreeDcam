@@ -60,16 +60,16 @@ public class BaseCCTManual extends BaseManualParameter
                     Parameters parameters1 = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
                     String wbcur = "";
                     //lookup if ct value is avail
-                    if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_current_cct)) != null)
-                        wbcur = cameraUiWrapper.getResString(R.string.wb_current_cct);
-                    else if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_cct)) != null)
-                        wbcur = cameraUiWrapper.getResString(R.string.wb_cct);
-                    else if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_ct)) != null)
-                        wbcur = cameraUiWrapper.getResString(R.string.wb_ct);
-                    else if (parameters1.get(cameraUiWrapper.getResString(R.string.wb_manual_cct)) != null)
-                        wbcur = cameraUiWrapper.getResString(R.string.wb_manual_cct);
-                    else if (parameters1.get(cameraUiWrapper.getResString(R.string.manual_wb_value)) != null)
-                        wbcur = cameraUiWrapper.getResString(R.string.manual_wb_value);
+                    if (parameters1.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.wb_current_cct)) != null)
+                        wbcur = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.wb_current_cct);
+                    else if (parameters1.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.wb_cct)) != null)
+                        wbcur = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.wb_cct);
+                    else if (parameters1.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.wb_ct)) != null)
+                        wbcur = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.wb_ct);
+                    else if (parameters1.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.wb_manual_cct)) != null)
+                        wbcur = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.wb_manual_cct);
+                    else if (parameters1.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.manual_wb_value)) != null)
+                        wbcur = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.manual_wb_value);
                     if (!TextUtils.isEmpty(wbcur)) {
                         //update our stored parameters with ct
                         parameters.set(wbcur, parameters1.get(wbcur));
@@ -115,8 +115,8 @@ public class BaseCCTManual extends BaseManualParameter
             if (parameters.get("whitebalance-values").contains("manual") && parameters.get("manual-wb-modes").contains("color-temperature")) {
 
                 wbm.SetValue(manual_WbMode, true);
-                parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_type), 0);
-                parameters.set(cameraUiWrapper.getResString(R.string.manual_wb_value), stringvalues[currentInt]);
+                parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.manual_wb_type), 0);
+                parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.manual_wb_value), stringvalues[currentInt]);
                 Log.d(TAG, "NEW");
 
             } else {
@@ -147,7 +147,7 @@ public class BaseCCTManual extends BaseManualParameter
     protected String[] createStringArray(int min, int max, float step)
     {
         ArrayList<String> t = new ArrayList<>();
-        t.add(cameraUiWrapper.getResString(R.string.auto_));
+        t.add(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_));
         for (int i = min; i<=max;i+=step)
         {
             t.add(i+"");

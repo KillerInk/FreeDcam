@@ -430,11 +430,6 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     }
 
     @Override
-    public String getResString(int id) {
-        return SettingsManager.getInstance().getResString(id);
-    }
-
-    @Override
     public SurfaceView getSurfaceView() {
         return surfaceView;
     }

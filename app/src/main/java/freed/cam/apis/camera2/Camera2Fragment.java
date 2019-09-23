@@ -231,11 +231,6 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     }
 
     @Override
-    public String getResString(int id) {
-        return SettingsManager.getInstance().getResString(id);
-    }
-
-    @Override
     public SurfaceView getSurfaceView() {
         return null;
     }
@@ -296,7 +291,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         cameraHolder = new CameraHolderApi2(Camera2Fragment.this);
         cameraBackroundValuesChangedListner = new CameraValuesChangedCaptureCallback(this);
         cameraBackroundValuesChangedListner.setWaitForFirstFrameCallback(this);
-        captureSessionHandler = new CaptureSessionHandler(Camera2Fragment.this, cameraBackroundValuesChangedListner);
+        captureSessionHandler = new CaptureSessionHandler(this, cameraBackroundValuesChangedListner);
     }
 
     @Override

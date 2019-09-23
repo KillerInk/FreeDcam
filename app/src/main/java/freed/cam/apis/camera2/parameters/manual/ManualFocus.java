@@ -28,6 +28,9 @@ import com.troop.freedcam.R;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.FocusPositionChangedEvent;
+import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -114,5 +117,12 @@ public class ManualFocus extends AbstractParameter
     public String getStringValue(int index)
     {
         return focusvalues.getKey(index);
+    }
+
+    @Override
+    public void fireStringValueChanged(String value)
+    {
+        currentString = value;
+        EventBusHelper.post(new FocusPositionChangedEvent(key,value, String.class));
     }
 }

@@ -150,7 +150,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         this.cameraUiWrapper = (Camera2Fragment)cameraUiWrapper;
-        name = cameraUiWrapper.getResString(R.string.module_picture);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_picture);
         filesSaved = new ArrayList<>();
         ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
     }

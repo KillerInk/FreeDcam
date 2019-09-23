@@ -52,7 +52,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     AbstractVideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        name = cameraUiWrapper.getResString(R.string.module_video);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video);
     }
 
     @Override
@@ -113,7 +113,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     private void startRecording()
     {
         if (cameraUiWrapper.getActivityInterface().getPermissionManager().hasRecordAudioPermission(null)) {
-            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
                 cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             prepareRecorder();
         }

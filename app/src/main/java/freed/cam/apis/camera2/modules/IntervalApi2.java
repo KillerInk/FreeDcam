@@ -43,7 +43,7 @@ public class IntervalApi2 extends PictureModuleApi2 implements I_PreviewWrapper,
 
     public IntervalApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
-        name = cameraUiWrapper.getResString(R.string.module_interval);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_interval);
         intervalHandler = new IntervalHandler(this);
     }
 

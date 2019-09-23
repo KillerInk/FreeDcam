@@ -54,7 +54,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
 
     public PictureModuleSony(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        name = cameraUiWrapper.getResString(R.string.module_picture);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_picture);
         cameraHolder = (CameraHolderSony)cameraUiWrapper.getCameraHolder();
 
 

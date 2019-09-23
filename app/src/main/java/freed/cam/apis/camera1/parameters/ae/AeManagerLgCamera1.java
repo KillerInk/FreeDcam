@@ -30,7 +30,7 @@ public class AeManagerLgCamera1 extends AeManager
 
     @Override
     public void setExposureTime(int valueToSet, boolean setToCamera) {
-        parameters.set(cameraWrapperInterface.getResString(R.string.lg_shutterspeed), manualExposureTime.getStringValues()[valueToSet]);
+        parameters.set(cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.lg_shutterspeed), manualExposureTime.getStringValues()[valueToSet]);
         ((ParametersHandler) cameraWrapperInterface.getParameterHandler()).SetParametersToCamera(parameters);
     }
 
@@ -75,15 +75,15 @@ public class AeManagerLgCamera1 extends AeManager
         //back in auto mode
         //set exposure ui item to enable
         parameters.set(SettingsManager.getInstance().getResString(R.string.lg_manual_mode_reset), "1");
-        parameters.set(SettingsManager.getInstance().getResString(R.string.lg_iso), cameraWrapperInterface.getResString(R.string.auto_));
-        parameters.set(cameraWrapperInterface.getResString(R.string.lg_shutterspeed), "0");
+        parameters.set(SettingsManager.getInstance().getResString(R.string.lg_iso), cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.auto_));
+        parameters.set(cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.lg_shutterspeed), "0");
         ((ParametersHandler)cameraWrapperInterface.getParameterHandler()).SetParametersToCamera(parameters);
 
         String t = cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue();
-        if (!t.equals(cameraWrapperInterface.getResString(R.string.iso100_)))
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraWrapperInterface.getResString(R.string.iso100_), true);
+        if (!t.equals(cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.iso100_)))
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.iso100_), true);
         else
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraWrapperInterface.getResString(R.string.auto_), true);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.auto_), true);
         cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(t, true);
         /*exposureCompensation.fireIsSupportedChanged(true);
         exposureCompensation.fireIsReadOnlyChanged(true);*/

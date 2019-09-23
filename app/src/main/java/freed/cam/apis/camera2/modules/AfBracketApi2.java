@@ -44,7 +44,7 @@ public class AfBracketApi2 extends PictureModuleApi2
 
     public AfBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        name = cameraUiWrapper.getResString(R.string.module_afbracket);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_afbracket);
     }
 
     private int PICSTOTAKE = 10;

@@ -19,14 +19,14 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
+        if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
         {
             settingMode.set(true);
-            fireStringValueChanged(cameraUiWrapper.getResString(R.string.on_));
+            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
         }
         else {
             settingMode.set(false);
-            fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
+            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
         }
         cameraUiWrapper.restartCameraAsync();
 
@@ -41,10 +41,10 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
     public void set(boolean bool) {
         if (bool)
         {
-            fireStringValueChanged(cameraUiWrapper.getResString(R.string.on_));
+            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
         }
         else
-            fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
+            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
         settingMode.set(bool);
         cameraUiWrapper.restartCameraAsync();
     }

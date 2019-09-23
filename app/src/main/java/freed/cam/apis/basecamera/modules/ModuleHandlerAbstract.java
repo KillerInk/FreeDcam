@@ -33,6 +33,8 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import freed.cam.apis.basecamera.CameraInterface;
+import freed.cam.apis.basecamera.CameraObjects;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
@@ -93,7 +95,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         }
         currentModule = moduleList.get(name);
         if(currentModule == null)
-            currentModule = moduleList.get(cameraUiWrapper.getResString(R.string.module_picture));
+            currentModule = moduleList.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_picture));
         currentModule.InitModule();
         ModuleHasChanged(currentModule.ModuleName());
         //currentModule.SetCaptureStateChangedListner(workerListner);
@@ -104,7 +106,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     public String getCurrentModuleName() {
         if (currentModule != null)
             return currentModule.ModuleName();
-        else return cameraUiWrapper.getResString(R.string.module_picture);
+        else return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_picture);
     }
 
     @Override

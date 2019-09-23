@@ -81,6 +81,8 @@ public interface ActivityInterface extends I_WorkEvent
     void ScanFile(File file);
 
     void runFeatureDetector();
+
+    String getStringFromRessources(int id);
 }
 
 

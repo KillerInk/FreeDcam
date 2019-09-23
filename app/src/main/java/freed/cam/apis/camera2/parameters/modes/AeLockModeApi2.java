@@ -23,19 +23,19 @@ public class AeLockModeApi2 extends BaseModeApi2 {
     @Override
     public String GetStringValue() {
         if (((Camera2Fragment)cameraUiWrapper).captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_LOCK))
-            return cameraUiWrapper.getResString(R.string.true_);
+            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_);
         else
-            return cameraUiWrapper.getResString(R.string.false_);
+            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.false_);
     }
 
     @Override
     public String[] getStringValues() {
-        return new String[]{cameraUiWrapper.getResString(R.string.false_), cameraUiWrapper.getResString(R.string.true_)};
+        return new String[]{cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.false_), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_)};
     }
 
     @Override
     public void setValue(String valueToSet, boolean setToCamera) {
 
-        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK, valueToSet.equals(cameraUiWrapper.getResString(R.string.true_)), setToCamera);
+        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK, valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_)), setToCamera);
     }
 }

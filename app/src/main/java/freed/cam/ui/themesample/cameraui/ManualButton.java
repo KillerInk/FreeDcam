@@ -125,8 +125,8 @@ public class ManualButton extends LinearLayout
 
     private final String TAG = ManualButton.class.getSimpleName();
     private String[] parameterValues;
-    private ParameterInterface parameter;
-    private TextView valueTextView;
+    protected ParameterInterface parameter;
+    protected TextView valueTextView;
     private ImageView imageView;
     private final int backgroundColorActive = Color.parseColor("#46FFFFFF");
     private final int backgroundColor = Color.parseColor("#00000000");

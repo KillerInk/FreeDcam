@@ -68,6 +68,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     public AbstractFocusHandler Focus;
 
     protected boolean PreviewSurfaceRdy;
+    private ActivityInterface activityInterface;
 
 
     public abstract String CameraApiName();
@@ -88,11 +89,12 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
 
     }
 
-    public void init(MainToCameraHandler mainToCameraHandler, CameraToMainHandler cameraToMainHandler)
+    public void init(MainToCameraHandler mainToCameraHandler, CameraToMainHandler cameraToMainHandler, ActivityInterface activityInterface)
     {
         Log.d(TAG, "init handler");
         this.mainToCameraHandler = mainToCameraHandler;
         this.cameraToMainHandler = cameraToMainHandler;
+        this.activityInterface = activityInterface;
 
     }
 
@@ -207,7 +209,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
 
     @Override
     public ActivityInterface getActivityInterface() {
-        return (ActivityInterface)getActivity();
+        return activityInterface;
     }
 
     @Override
@@ -238,11 +240,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     @Override
     public ModuleHandlerAbstract getModuleHandler() {
         return moduleHandler;
-    }
-
-    @Override
-    public Looper getCameraHandlerLooper() {
-        return mainToCameraHandler.getCameraLooper();
     }
 
 }

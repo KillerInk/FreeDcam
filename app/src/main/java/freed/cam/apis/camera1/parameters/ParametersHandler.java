@@ -344,7 +344,7 @@ public class ParametersHandler extends AbstractParameterHandler
             else
             {
                 //htc mf
-                if (SettingsManager.get(SettingKeys.M_Focus).getKEY().equals(cameraUiWrapper.getResString(R.string.focus)))
+                if (SettingsManager.get(SettingKeys.M_Focus).getKEY().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.focus)))
                      add(SettingKeys.M_Focus, new FocusManualParameterHTC(cameraParameters,cameraUiWrapper,SettingKeys.M_Focus));
                     //huawai mf
                 else if (SettingsManager.get(SettingKeys.M_Focus).getKEY().equals(SettingsManager.getInstance().getResString(R.string.hw_manual_focus_step_value)))
@@ -560,8 +560,8 @@ public class ParametersHandler extends AbstractParameterHandler
         }
         else
         {
-            if (parameters.get(cameraUiWrapper.getResString(R.string.cur_exposure_time))!= null)
-                return Float.parseFloat(parameters.get(cameraUiWrapper.getResString(R.string.cur_exposure_time)))/1000;
+            if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.cur_exposure_time))!= null)
+                return Float.parseFloat(parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.cur_exposure_time)))/1000;
         }
         return 0;
     }
@@ -589,8 +589,8 @@ public class ParametersHandler extends AbstractParameterHandler
         }
         else
         {
-            if (parameters.get(cameraUiWrapper.getResString(R.string.cur_iso))!= null)
-                return Integer.parseInt(parameters.get(cameraUiWrapper.getResString(R.string.cur_iso)));
+            if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.cur_iso))!= null)
+                return Integer.parseInt(parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.cur_iso)));
         }
         return 0;
     }

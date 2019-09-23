@@ -57,15 +57,15 @@ public class GpsParameter extends AbstractParameter
     public String GetStringValue()
     {
         if (cameraUiWrapper == null)
-            return cameraUiWrapper.getResString(R.string.off_);
+            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_);
         if (TextUtils.isEmpty(SettingsManager.get(SettingKeys.LOCATION_MODE).get()))
-            SettingsManager.get(SettingKeys.LOCATION_MODE).set(cameraUiWrapper.getResString(R.string.off_));
+            SettingsManager.get(SettingKeys.LOCATION_MODE).set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
         return SettingsManager.get(SettingKeys.LOCATION_MODE).get();
     }
 
     @Override
     public String[] getStringValues() {
-        return new String[] { cameraUiWrapper.getResString(R.string.off_), cameraUiWrapper.getResString(R.string.on_) };
+        return new String[] { cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_) };
     }
 
     @Override
@@ -74,13 +74,13 @@ public class GpsParameter extends AbstractParameter
         if (cameraUiWrapper.getActivityInterface().getPermissionManager().hasLocationPermission())
         {
             SettingsManager.get(SettingKeys.LOCATION_MODE).set(valueToSet);
-            if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_))) {
+            if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_))) {
                 cameraUiWrapper.getActivityInterface().getLocationManager().stopLocationListining();
-                fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
+                fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
             }
-            if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_))) {
+            if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_))) {
                 cameraUiWrapper.getActivityInterface().getLocationManager().startLocationListing();
-                fireStringValueChanged(cameraUiWrapper.getResString(R.string.on_));
+                fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
             }
         }
         else
@@ -93,8 +93,8 @@ public class GpsParameter extends AbstractParameter
                         askedForPermission = true;
                     }
                 });
-            SettingsManager.get(SettingKeys.LOCATION_MODE).set(cameraUiWrapper.getResString(R.string.off_));
-            fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
+            SettingsManager.get(SettingKeys.LOCATION_MODE).set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
+            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
             askedForPermission = false;
         }
     }

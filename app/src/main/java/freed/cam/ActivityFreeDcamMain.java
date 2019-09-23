@@ -34,6 +34,7 @@ import freed.cam.apis.CameraFragmentManager;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
+import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
@@ -47,6 +48,7 @@ import freed.utils.Log;
 import freed.utils.MediaScannerManager;
 import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
+import freed.utils.PermissionManager;
 import freed.utils.StorageFileManager;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
@@ -131,34 +133,39 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
     }
 
+    @Subscribe
+    public void onSwitchCameraApiEvent(SwichCameraFragmentEvent event)
+    {
+        unloadCameraFragment();
+        loadCameraFragment();
+    }
+
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
     private OrientationManager orientationManager;
-
     private PagingView uiViewPager;
     private CameraUiSlidePagerAdapter uiViewPagerAdapter;
     private LocationManager locationManager;
-
     private boolean activityIsResumed= false;
     private int currentorientation = 0;
-
     private SecureCamera mSecureCamera = new SecureCamera(this);
-
     private LinearLayout nightoverlay;
-
     private CameraFragmentManager cameraFragmentManager;
-
-
     private UserMessageHandler userMessageHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onCreatePermissionGranted() {
+        super.onCreatePermissionGranted();
         userMessageHandler = new UserMessageHandler();
         userMessageHandler.setContext(getContext());
         userMessageHandler.startListning();
         mSecureCamera.onCreate();
-        cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext());
+        cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(),this);
         storageHandler = new StorageFileManager();
         startListning();
         //listen to phone orientation changes
@@ -166,7 +173,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         locationManager = new LocationManager(this);
     }
-
 
     @Override
     protected void onDestroy() {
@@ -187,16 +193,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         setContentView(layout.freedcam_main_activity);
     }
 
-    //get called when we have sd and camerapermission
-    @Override
-    protected void initOnCreate() {
-        super.initOnCreate();
-    }
-
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onResumePermissionGranted() {
+        super.onResumePermissionGranted();
         Log.d(TAG, "onResume()");
         // forward to secure camera to handle resume bug
         if (mSecureCamera !=  null)
@@ -209,19 +209,15 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         activityIsResumed = true;
         if (!SettingsManager.getInstance().isInit() || cameraFragmentManager == null)
             return;
-        //check if we have the permissions. its needed because onResume gets called while we ask in ActivityAbstract.onCreate().
-        getPermissionManager().hasCameraAndSdPermission(granted -> {
-            if (granted && SettingsManager.getInstance().isInit()) {
-                if (SettingsManager.getInstance().appVersionHasChanged())
-                    cameraFragmentManager.switchCameraFragment();
-                else {
-                    if (uiViewPagerAdapter == null)
-                        initScreenSlide();
-                    loadCameraFragment();
-                }
-            }
-        });
 
+        cameraFragmentManager.onResume();
+        if (SettingsManager.getInstance().appVersionHasChanged())
+            cameraFragmentManager.switchCameraFragment();
+        else {
+            if (uiViewPagerAdapter == null)
+                initScreenSlide();
+            loadCameraFragment();
+        }
     }
 
     @Override
@@ -236,6 +232,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public void onPauseTasks() {
+        unloadCameraFragment();
         Log.d(TAG, "onPauseTasks()");
         if(orientationManager != null)
             orientationManager.Stop();
@@ -335,8 +332,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void SwitchCameraAPI(String value)
     {
         //if a camera fragment exists stop and destroy it
-        unloadCameraFragment();
-        loadCameraFragment();
+
     }
 
     @Override
@@ -429,5 +425,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         SettingsManager.get(SettingKeys.openCamera1Legacy).set(legacy);
         SettingsManager.getInstance().setshowHelpOverlay(showHelpOverlay);
         cameraFragmentManager.switchCameraFragment();
+    }
+
+    @Override
+    public String getStringFromRessources(int id) {
+        return getResources().getString(id);
     }
 }

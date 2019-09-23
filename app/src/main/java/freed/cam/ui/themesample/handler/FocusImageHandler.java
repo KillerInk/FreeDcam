@@ -153,7 +153,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             focusImageView.post(() -> {
                 focusImageView.setFocusCheck(success);
                 focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
-                if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(wrapper.getResString(R.string.module_video)))
+                if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(wrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
                     wrapper.getModuleHandler().startWork();
 
 

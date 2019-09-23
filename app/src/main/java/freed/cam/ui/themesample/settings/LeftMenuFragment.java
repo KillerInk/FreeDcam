@@ -232,7 +232,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
         SettingsChildMenu api = new SettingsChildMenu(getContext(),R.string.setting_api_header, R.string.setting_api_description);
         api.SetStuff(fragment_activityInterface, "");
-        api.SetParameter(new ApiParameter(fragment_activityInterface));
+        api.SetParameter(new ApiParameter());
         api.SetUiItemClickListner(this);
         globalSettingGroup.addView(api);
 

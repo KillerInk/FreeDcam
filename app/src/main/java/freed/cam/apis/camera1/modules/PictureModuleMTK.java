@@ -56,7 +56,7 @@ public class PictureModuleMTK extends PictureModule
     public void DoWork()
     {
         mBackgroundHandler.post(() -> {
-            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
                 cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
 
             cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
@@ -86,7 +86,7 @@ public class PictureModuleMTK extends PictureModule
         // must always be jpg ending. dng gets created based on that
         holdFile = getFile(".jpg");
         Log.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
-        if (picformat.equals(cameraUiWrapper.getResString(R.string.jpeg_)))
+        if (picformat.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.jpeg_)))
         {
 
             saveJpeg(data,holdFile);
@@ -96,7 +96,7 @@ public class PictureModuleMTK extends PictureModule
                 Log.WriteEx(ex);
             }
         }
-        else if (picformat.equals(cameraUiWrapper.getResString(R.string.dng_)))
+        else if (picformat.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.dng_)))
         {
             saveJpeg(data,holdFile);
             CreateDNG_DeleteRaw();

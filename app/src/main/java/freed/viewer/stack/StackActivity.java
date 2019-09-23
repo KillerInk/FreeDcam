@@ -50,6 +50,7 @@ import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
+import freed.utils.PermissionManager;
 import freed.utils.StorageFileManager;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingFragment;
@@ -254,6 +255,16 @@ public class StackActivity extends ActivityAbstract
     @Override
     public LocationManager getLocationManager() {
         return null;
+    }
+
+    @Override
+    public String getStringFromRessources(int id) {
+        return null;
+    }
+
+    @Override
+    protected void setContentToView() {
+
     }
 
     private void updateCounter(final int count)

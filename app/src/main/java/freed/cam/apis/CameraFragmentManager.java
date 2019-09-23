@@ -9,6 +9,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.troop.freedcam.R;
 
+import org.greenrobot.eventbus.Subscribe;
+
+import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraToMainHandler;
 import freed.cam.apis.basecamera.MainToCameraHandler;
@@ -16,6 +19,8 @@ import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.featuredetector.CameraFeatureDetectorFragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.EventBusLifeCycle;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -34,8 +39,9 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     private BackgroundHandlerThread backgroundHandlerThread;
     private MainToCameraHandler mainToCameraHandler;
     private CameraToMainHandler cameraToMainHandler;
+    private ActivityInterface activityInterface;
 
-    public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context)
+    public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context, ActivityInterface activityInterface)
     {
         this.fragmentManager = fragmentManager;
         this.fragmentHolderId = fragmentHolderId;
@@ -46,6 +52,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         backgroundHandlerThread.create();
         cameraToMainHandler = new CameraToMainHandler();
         this.mainToCameraHandler = new MainToCameraHandler(backgroundHandlerThread.getThread().getLooper());
+        this.activityInterface = activityInterface;
     }
 
     public void destroy()
@@ -93,6 +100,15 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         }
     }
 
+    public void onResume()
+    {
+        if (cameraFragment != null) {
+            mainToCameraHandler.setCameraInterface(cameraFragment);
+            cameraFragment.init(mainToCameraHandler, cameraToMainHandler,activityInterface);
+            cameraFragment.setRenderScriptManager(renderScriptManager);
+        }
+    }
+
     public void switchCameraFragment()
     {
         Log.d(TAG, "BackgroundHandler is null: " + (backgroundHandlerThread.getThread() == null));
@@ -119,12 +135,12 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
                 }
 
                 mainToCameraHandler.setCameraInterface(cameraFragment);
-                cameraFragment.init(mainToCameraHandler,cameraToMainHandler);
+                cameraFragment.init(mainToCameraHandler,cameraToMainHandler,activityInterface);
                 cameraFragment.setRenderScriptManager(renderScriptManager);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
             } else {
                 mainToCameraHandler.setCameraInterface(cameraFragment);
-                cameraFragment.init(mainToCameraHandler,cameraToMainHandler);
+                cameraFragment.init(mainToCameraHandler,cameraToMainHandler,activityInterface);
                 cameraFragment.startCameraAsync();
             }
         }
@@ -146,4 +162,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
             mainToCameraHandler.setCameraInterface(null);
         }
     }
+
+
 }

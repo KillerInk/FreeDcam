@@ -26,6 +26,7 @@ import com.huawei.camera2ex.CaptureRequestEx;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.cam.apis.basecamera.CameraObjects;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -144,13 +145,13 @@ public class CaptureSessionHandler
         return captureSessionRdy;
     }
 
-    public CaptureSessionHandler(Camera2Fragment cameraUiWrapper,CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
+    public CaptureSessionHandler(Camera2Fragment cameraUiWrapper, CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.cameraHolderApi2 = (CameraHolderApi2) cameraUiWrapper.cameraHolder;
+        this.cameraHolderApi2 = (CameraHolderApi2) cameraUiWrapper.getCameraHolder();
         this.cameraBackroundValuesChangedListner = cameraBackroundValuesChangedListner;
         surfaces = new ArrayList<>();
-        Display display = ((WindowManager) cameraUiWrapper.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Display display = ((WindowManager) cameraUiWrapper.getActivityInterface().getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
         display.getRealSize(displaySize);
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);

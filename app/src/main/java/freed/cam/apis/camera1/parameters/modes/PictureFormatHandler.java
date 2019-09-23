@@ -37,7 +37,7 @@ import freed.utils.Log;
 public class PictureFormatHandler extends BaseModeParameter
 {
     private final String TAG = PictureFormatHandler.class.getSimpleName();
-    private String captureMode = cameraUiWrapper.getResString(R.string.jpeg_);
+    private String captureMode = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.jpeg_);
     private String rawFormat;
 
     private String[] rawFormats;
@@ -100,13 +100,13 @@ public class PictureFormatHandler extends BaseModeParameter
         captureMode = valueToSet;
         if (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK)
         {
-            if (valueToSet.equals(cameraUiWrapper.getResString(R.string.jpeg_)))
+            if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.jpeg_)))
                 setString(valueToSet,setToCam);
-            else if(valueToSet.equals(cameraUiWrapper.getResString(R.string.bayer_)))
+            else if(valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.bayer_)))
             {
                 setString(rawFormat,setToCam);
             }
-            else if(valueToSet.equals(cameraUiWrapper.getResString(R.string.dng_)))
+            else if(valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.dng_)))
             {
                 setString(rawFormat,setToCam);
             }
@@ -117,7 +117,7 @@ public class PictureFormatHandler extends BaseModeParameter
     private void setString(String val, boolean setTocam)
     {
         Log.d(TAG, "setApiString:" +val);
-        parameters.set(cameraUiWrapper.getResString(R.string.picture_format), val);
+        parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.picture_format), val);
         if (setTocam)
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }
@@ -137,7 +137,7 @@ public class PictureFormatHandler extends BaseModeParameter
     @Override
     public void onModuleChanged(String module)
     {
-        if (module.equals(cameraUiWrapper.getResString(R.string.module_video)))
+        if (module.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
         {
             setViewState(ViewState.Hidden);
         }
@@ -182,7 +182,7 @@ public class PictureFormatHandler extends BaseModeParameter
         public void SetValue(String valueToSet, boolean setToCam)
         {
             rawFormat = valueToSet;
-            if (captureMode.equals(cameraUiWrapper.getResString(R.string.bayer_))|| captureMode.equals(cameraUiWrapper.getResString(R.string.dng_))) {
+            if (captureMode.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.bayer_))|| captureMode.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.dng_))) {
                 PictureFormatHandler.this.SetValue(captureMode, true);
             }
         }

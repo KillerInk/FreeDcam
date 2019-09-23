@@ -33,7 +33,7 @@ import freed.renderscript.RenderScriptProcessorInterface;
 /**
  * Created by troop on 09.12.2014.
  */
-public interface CameraWrapperInterface
+public interface CameraWrapperInterface extends CameraObjects
 {
     /**
      * Start the Camera
@@ -48,25 +48,6 @@ public interface CameraWrapperInterface
 
     void startPreviewAsync();
     void stopPreviewAsync();
-
-    /*void initCamera();
-    void createCamera();*/
-
-    /**
-     * Get the current active CameraHolderSony
-     * @return
-     */
-    CameraHolderInterface getCameraHolder();
-
-    /**
-     * get the active parameterhandler
-     * @return
-     */
-    AbstractParameterHandler getParameterHandler();
-
-    ModuleHandlerAbstract getModuleHandler();
-    SurfaceView getSurfaceView();
-    AbstractFocusHandler getFocusHandler();
 
     /**
      * get the left margine between display and preview
@@ -97,16 +78,8 @@ public interface CameraWrapperInterface
     boolean isAeMeteringSupported();
 
     Context getContext();
+    SurfaceView getSurfaceView();
 
-    RenderScriptProcessorInterface getFocusPeakProcessor();
-
-    RenderScriptManager getRenderScriptManager();
-
-    ActivityInterface getActivityInterface();
-
-    String getResString(int id);
-
-    Looper getCameraHandlerLooper();
 
     void fireCameraOpen();
     void fireCameraOpenFinished();

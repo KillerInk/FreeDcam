@@ -47,7 +47,7 @@ public class IntervalModule extends ModuleAbstract implements IntervalHandler.Su
 
 
         intervalHandler = new IntervalHandler(this);
-        name = cameraUiWrapper.getResString(R.string.module_interval);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_interval);
         filesSaved = new ArrayList<>();
     }
 
