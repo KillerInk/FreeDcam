@@ -1323,7 +1323,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else if (parameters.get(camstring(R.string.lg_iso_values))!= null) {
             detectMode(parameters,R.string.iso,R.string.lg_iso_values, SettingsManager.get(SettingKeys.IsoMode));
         }
-        if (SettingsManager.get(SettingKeys.IsoMode).getValues().length >1)
+        if (SettingsManager.get(SettingKeys.IsoMode).getValues() != null && SettingsManager.get(SettingKeys.IsoMode).getValues().length >1)
             SettingsManager.get(SettingKeys.IsoMode).setIsSupported(true);
         else
             SettingsManager.get(SettingKeys.IsoMode).setIsSupported(false);
@@ -1405,7 +1405,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectMode(parameters, R.string.zsd_mode, R.string.zsd_mode_values, SettingsManager.get(SettingKeys.ZSL));
         }
 
-        if (SettingsManager.get(SettingKeys.ZSL).getValues().length == 0)
+        if (SettingsManager.get(SettingKeys.ZSL).getValues() != null && SettingsManager.get(SettingKeys.ZSL).getValues().length == 0)
             SettingsManager.get(SettingKeys.ZSL).setIsSupported(false);
     }
 

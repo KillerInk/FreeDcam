@@ -61,6 +61,8 @@ abstract class AbstractFeatureDetectorTask {
 
     String getStringFromArray(String[] arr)
     {
+        if (arr == null)
+            return null;
         StringBuilder t = new StringBuilder();
         for (int i =0; i<arr.length;i++)
             t.append(arr[i]).append(SettingsManager.SPLITTCHAR);

@@ -110,7 +110,7 @@ public class StringUtils
         int i = 0;
         for (Map.Entry set:hashMap.entrySet())
         {
-            t[i++] = set.getKey()+";"+set.getValue();
+            t[i++] = set.getKey()+","+set.getValue();
         }
         return t;
     }
@@ -122,7 +122,7 @@ public class StringUtils
             for (String e : t)
             {
                 if (!TextUtils.isEmpty(e)) {
-                    String[] en = e.split(";");
+                    String[] en = e.split(",");
                     out.put(en[0], Integer.parseInt(en[1]));
                 }
             }

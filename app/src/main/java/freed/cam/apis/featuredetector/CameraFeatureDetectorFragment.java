@@ -122,6 +122,7 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
                 else
                     SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
             }
+            SettingsManager.getInstance().save();
             handler.obtainMessage(FeatureDetectorHandler.MSG_STARTFREEDCAM).sendToTarget();
             return false;
         }

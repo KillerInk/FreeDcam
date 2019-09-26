@@ -233,6 +233,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void onPauseTasks() {
         unloadCameraFragment();
+        SettingsManager.getInstance().save();
         Log.d(TAG, "onPauseTasks()");
         if(orientationManager != null)
             orientationManager.Stop();

@@ -28,7 +28,16 @@ import androidx.collection.LongSparseArray;
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -52,6 +61,278 @@ import freed.views.VideoToneCurveProfile;
  */
 public class SettingsManager implements SettingsManagerInterface {
 
+    private class SettingsStorage
+    {
+        private HashMap<String,Object> settingStore;
+        private HashMap<Integer,HashMap<String,VideoMediaProfile>>mediaProfileHashMap;
+
+        public SettingsStorage()
+        {
+            settingStore = new HashMap<>();
+            mediaProfileHashMap = new HashMap<>();
+        }
+
+        public void save()
+        {
+            saveSettings();
+            saveVideoMediaProfiles();
+        }
+
+        public void load()
+        {
+            loadSettings();
+            loadVideoMediaProfiles();
+        }
+
+        private void loadSettings()
+        {
+            try (InputStreamReader is = new InputStreamReader(new FileInputStream(StringUtils.GetFreeDcamConfigFolder+"freed.conf"))) {
+                BufferedReader bufferedReader = new BufferedReader(is);
+                String receiveString;
+                while ((receiveString = bufferedReader.readLine()) != null ) {
+                    getSettingFromString(receiveString,settingStore);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void getSettingFromString(String input, HashMap<String, Object> map)
+        {
+            String split[] = input.split(";");
+            String key = split[0];
+            String type = split[1];
+            if (type.equals("String"))
+                map.put(key, split[2]);
+            if (type.equals("Integer"))
+                map.put(key, Integer.parseInt(split[2]));
+            if (type.equals("Boolean"))
+                map.put(key, Boolean.parseBoolean(split[2]));
+            if (type.equals("Long"))
+                map.put(key, Long.parseLong(split[2]));
+            if (type.equals("Float"))
+                map.put(key, Float.parseFloat(split[2]));
+            if (type.equals("String[]")) {
+                String[] out = new String[split.length - 2];
+                for (int i = 2; i< split.length;i++)
+                    out[i-2] = split[i];
+                map.put(key, out);
+            }
+
+        }
+
+        private void saveSettings()
+        {
+            try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(StringUtils.GetFreeDcamConfigFolder+"freed.conf"))) {
+                for ( String key : settingStore.keySet())
+                    writeSettingsString(key, settingStore.get(key), os);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void writeSettingsString(String key, Object settings,OutputStreamWriter os) throws IOException {
+            if (settings instanceof String)
+                os.write( key +";String;" + (String)settings+"\n");
+            if (settings instanceof Integer)
+                os.write(key + ";Integer;" + settings +"\n" );
+            if (settings instanceof String[])
+            {
+                os.write(key + ";String[]");
+                for (int i = 0; i<((String[]) settings).length;i++)
+                    os.write(";" +((String[])settings)[i]);
+                os.write("\n");
+            }
+            if (settings instanceof Boolean)
+            {
+                os.write(key +";Boolean;" + settings +"\n");
+            }
+            if (settings instanceof Float)
+                os.write(key + ";Float;" + settings +"\n");
+            if (settings instanceof Long)
+                os.write(key + ";Long;" + settings +"\n");
+        }
+
+        private void loadVideoMediaProfiles()
+        {
+            try (InputStreamReader is = new InputStreamReader(new FileInputStream(StringUtils.GetFreeDcamConfigFolder+"videoProfiles.conf"))) {
+                BufferedReader bufferedReader = new BufferedReader(is);
+                String receiveString;
+                mediaProfileHashMap.clear();
+                int cameraid = 0;
+                HashMap<String, VideoMediaProfile> activemap  = null;
+                while ((receiveString = bufferedReader.readLine()) != null ) {
+                    if (receiveString.startsWith("#"))
+                    {
+                        cameraid = Integer.parseInt(receiveString.substring(1));
+                        activemap = new HashMap<>();
+                        mediaProfileHashMap.put(cameraid,activemap);
+                    }
+                    else
+                    {
+                        VideoMediaProfile profile = new VideoMediaProfile(receiveString);
+                        activemap.put(profile.ProfileName,profile);
+                    }
+
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void saveVideoMediaProfiles()
+        {
+            if (mediaProfileHashMap == null)
+                return;
+            try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(StringUtils.GetFreeDcamConfigFolder+"videoProfiles.conf"))) {
+
+                HashMap<String,VideoMediaProfile> map;
+                for (int i = 0; i < mediaProfileHashMap.size(); i++) {
+                    os.write("#" + i +"\n");
+                    map = mediaProfileHashMap.get(i);
+                    for (VideoMediaProfile profile : map.values()) {
+                        os.write(profile.GetString() + "\n");
+                    }
+                    os.flush();
+                }
+            } catch(FileNotFoundException e){
+                e.printStackTrace();
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        private void reset()
+        {
+            if (settingStore != null)
+                settingStore.clear();
+            if (mediaProfileHashMap != null)
+                mediaProfileHashMap.clear();
+        }
+
+        private <T> T get(String settingName,T defaultVal)
+        {
+            if (settingStore.get(settingName) != null)
+                return (T)settingStore.get(settingName);
+            return defaultVal;
+        }
+
+        private <T> void set(String settingName, T value)
+        {
+            settingStore.put(settingName,value);
+        }
+
+        private String getApiSettingString(String settingsName) {
+            return camApiString+settingsName+currentcamera;
+        }
+
+        private void setApiString(String settingName, String value)
+        {
+            set(getApiSettingString(settingName),value);
+        }
+
+        private String getApiString(String settingName,String def)
+        {
+            return get(getApiSettingString(settingName),def);
+        }
+
+        private void setApiStringArray(String settingName, String[] value)
+        {
+            set(getApiSettingString(settingName),value);
+        }
+
+        private String[] getApiStringArray(String settingName,String[] def)
+        {
+            return get(getApiSettingString(settingName),def);
+        }
+
+
+        private void setString(String settingName, String value)
+        {
+            set(settingName,value);
+        }
+
+        private String getString(String settingName,String defaultValue)
+        {
+            return get(settingName,defaultValue);
+        }
+
+        private void setApiInt(String settingName, int value)
+        {
+            set(getApiSettingString(settingName),value);
+        }
+
+        private int getApiInt(String settingName, int defaultval)
+        {
+            return get(getApiSettingString(settingName),defaultval);
+        }
+
+        private void setInt(String settingName, int value)
+        {
+            set(settingName,value);
+        }
+
+        private int getInt(String settingName, int defaultval)
+        {
+            return get(settingName,defaultval);
+        }
+
+        private void setApiBoolean(String settingName, boolean value)
+        {
+            set(getApiSettingString(settingName),value);
+        }
+
+        private boolean getApiBoolean(String settingName, boolean defaultval)
+        {
+            return get(getApiSettingString(settingName),defaultval);
+        }
+
+        private void setBoolean(String settingName, boolean value)
+        {
+            set(settingName,value);
+        }
+
+        private boolean getBoolean(String settingName,boolean defaultval)
+        {
+            return get(settingName,defaultval);
+        }
+
+        private void setLong(String settingName, long value)
+        {
+            set(settingName,value);
+        }
+
+        private long getLong(String settingName,long defaultval)
+        {
+            return get(settingName,defaultval);
+        }
+
+        private void setFloat(String settingName, float value)
+        {
+            set(settingName,value);
+        }
+
+        private float getFloat(String settingName,float defaultval)
+        {
+            return get(settingName,defaultval);
+        }
+
+        private void setApiVideoMediaProfiles(String settingName, HashMap<String,VideoMediaProfile> value)
+        {
+            mediaProfileHashMap.put(currentcamera, value);
+        }
+
+        private HashMap<String,VideoMediaProfile> getApiVideoMediaProfiles(String settingName,HashMap<String,VideoMediaProfile> defaultval)
+        {
+            return mediaProfileHashMap.get(currentcamera);
+        }
+    }
 
     public static final int JPEG= 0;
     public static final int RAW = 1;
@@ -114,14 +395,18 @@ public class SettingsManager implements SettingsManagerInterface {
     private HashMap<String, VideoToneCurveProfile> videoToneCurveProfiles;
     private LongSparseArray<DngProfile> dngProfileHashMap;
     private OpCode opCode;
-    private SharedPreferences settings;
+    //private SharedPreferences settings;
     private Resources resources;
     private boolean isInit =false;
     private Frameworks frameworks;
 
+    private SettingsStorage settingsStorage;
+
     private static SettingsManager settingsManager = new SettingsManager();
 
     private static HashMap<SettingKeys.Key, SettingInterface> settingsmap = new HashMap<>();
+
+
 
     private SettingsManager()
     {
@@ -131,6 +416,11 @@ public class SettingsManager implements SettingsManagerInterface {
     public static SettingsManager getInstance()
     {
         return settingsManager;
+    }
+
+    public void save()
+    {
+        settingsStorage.save();
     }
 
     public static <T> T get(SettingKeys.Key<T> key)
@@ -143,19 +433,21 @@ public class SettingsManager implements SettingsManagerInterface {
         //check if its not already init while a other task waited for it
         if (isInit)
             return;
-        settings = sharedPreferences;
-
+        isInit = true;
+        //settings = sharedPreferences;
+        settingsStorage = new SettingsStorage();
+        settingsStorage.load();
         this.resources = resources;
         SettingKeys.Key[] keys = SettingKeys.getKeyList();
 
         for (SettingKeys.Key k: keys)
             createSetting(k);
 
-        camApiString = settings.getString(SETTING_API, API_1);
+        camApiString = settingsStorage.getString(SETTING_API, API_1);// settings.getString(SETTING_API, API_1);
         //get last used camera, without it default camera is always 0
         currentcamera = GetCurrentCamera();
         try {
-            String fw = settings.getString(FRAMEWORK,"Default");
+            String fw = settingsStorage.getString(FRAMEWORK,"Default");
             frameworks = Frameworks.valueOf(fw);
         }
         catch (ClassCastException ex)
@@ -167,9 +459,9 @@ public class SettingsManager implements SettingsManagerInterface {
 
         loadOpCodes();
 
-        parseXml(sharedPreferences, resources);
+        parseXml(settingsStorage, resources);
 
-        isInit = true;
+
 
     }
 
@@ -190,10 +482,12 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public void release()
     {
+        settingsStorage.save();
         settingsmap.clear();
         isInit = false;
         resources = null;
-        settings = null;
+        //settings = null;
+        settingsStorage.reset();
     }
 
     public boolean isInit()
@@ -201,7 +495,7 @@ public class SettingsManager implements SettingsManagerInterface {
         return isInit;
     }
 
-    private void parseXml(SharedPreferences sharedPreferences, Resources resources) {
+    private void parseXml(SettingsStorage sharedPreferences, Resources resources) {
         XmlParserWriter parser = new XmlParserWriter();
         //first time init
         matrixes = parser.getMatrixes(resources);
@@ -237,8 +531,10 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public void RESET()
     {
-        settings.edit().clear().commit();
-        parseXml(settings, resources);
+        settingsStorage.reset();
+        //settings.edit().clear().commit();
+        parseXml(settingsStorage, resources);
+        settingsStorage.save();
     }
 
     public boolean appVersionHasChanged()
@@ -282,63 +578,70 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public boolean isZteAe()
     {
-        return settings.getBoolean("zteae", false);
+        return settingsStorage.getBoolean("zteae", false);
     }
 
     public void setZteAe(boolean legacy)
     {
-        settings.edit().putBoolean("zteae",legacy).commit();
+        settingsStorage.setBoolean("zteae",legacy);
+        //settings.edit().putBoolean("zteae",legacy).commit();
     }
 
 
     public void setsOverrideDngProfile(boolean legacy)
     {
-        settings.edit().putBoolean("overrideprofile",legacy).commit();
+        settingsStorage.setBoolean("overrideprofile",legacy);
+        //settings.edit().putBoolean("overrideprofile",legacy).commit();
     }
 
     public int getAppVersion()
     {
-        return settings.getInt(APPVERSION,0);
+        return settingsStorage.getInt(APPVERSION, 0);
+        //return settings.getInt(APPVERSION,0);
     }
 
     public void setAppVersion(int version)
     {
-        settings.edit().putInt(APPVERSION,version).commit();
+        settingsStorage.setInt(APPVERSION, version);
+        //settings.edit().putInt(APPVERSION,version).commit();
     }
 
 
-    private void putString(String settingsval, String toSet)
+    /*private void putString(String settingsval, String toSet)
     {
         settings.edit().putString(settingsval,toSet).commit();
-    }
+    }*/
 
     @Override
     public boolean getApiBoolean(String settings_key, boolean defaultValue)
     {
-        return settings.getBoolean(getApiSettingString(settings_key), defaultValue);
+        return settingsStorage.getApiBoolean(settings_key,defaultValue);
+        //return settings.getBoolean(getApiSettingString(settings_key), defaultValue);
     }
 
     @Override
     public boolean getBoolean(String settings_key, boolean defaultValue)
     {
-        return settings.getBoolean(settings_key, defaultValue);
+        return settingsStorage.getBoolean(settings_key,defaultValue);
+        //return settings.getBoolean(settings_key, defaultValue);
     }
 
     @Override
     public void setApiBoolean(String settings_key, boolean valuetoSet) {
-
-        settings.edit().putBoolean(getApiSettingString(settings_key), valuetoSet).commit();
+        settingsStorage.setApiBoolean(settings_key,valuetoSet);
+        //settings.edit().putBoolean(getApiSettingString(settings_key), valuetoSet).commit();
     }
 
     @Override
     public void setBoolean(String settings_key, boolean valuetoSet) {
-
-        settings.edit().putBoolean(settings_key, valuetoSet).commit();
+        settingsStorage.setBoolean(settings_key,valuetoSet);
+        //settings.edit().putBoolean(settings_key, valuetoSet).commit();
     }
 
     public void setCamApi(String api) {
         camApiString = api;
-        putString(SETTING_API, api);
+        settingsStorage.setString(SETTING_API,api);
+        //putString(SETTING_API, api);
     }
 
     public String getCamApi() {
@@ -347,58 +650,50 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public long getCamera2MaxExposureTime()
     {
-        return settings.getLong("camera2maxexposuretime",0);
+        return settingsStorage.getLong("camera2maxexposuretime",0);
     }
 
     public void setCamera2MaxExposureTime(long max)
     {
-        SharedPreferences.Editor editor =  settings.edit();
-        editor.putLong("camera2maxexposuretime",max);
-        editor.commit();
-        Log.d(TAG,"Override max expotime:" +settings.getLong("camera2maxexposuretime",0));
+        settingsStorage.setLong("camera2maxexposuretime",max);
+        Log.d(TAG,"Override max expotime:" +settingsStorage.getLong("camera2maxexposuretime",0));
     }
 
     public void setCamera2MinExposureTime(long min)
     {
-        SharedPreferences.Editor editor =  settings.edit();
-        editor.putLong("camera2minexposuretime",min);
-        editor.commit();
-        Log.d(TAG,"Override min expotime:" +settings.getLong("camera2minexposuretime",0));
+        settingsStorage.setLong("camera2minexposuretime",min);
+        Log.d(TAG,"Override min expotime:" +settingsStorage.getLong("camera2minexposuretime",0));
     }
     public long getCamera2MinExposureTime()
     {
-        return settings.getLong("camera2minexposuretime",0);
+        return settingsStorage.getLong("camera2minexposuretime",0);
     }
 
     public int getCamera2MaxIso()
     {
-        return settings.getInt("camera2maxiso",0);
+        return settingsStorage.getInt("camera2maxiso",0);
     }
 
     public void setCamera2MaxIso(int max)
     {
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("camera2maxiso",max);
-        editor.commit();
-        Log.d(TAG,"Override max iso:" +settings.getInt("camera2maxiso",0));
+        settingsStorage.setInt("camera2maxiso",max);
+        Log.d(TAG,"Override max iso:" +settingsStorage.getInt("camera2maxiso",0));
     }
 
     public void setCamera2MinFocusPosition(float pos)
     {
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putFloat("camera2minfocuspos",pos);
-        editor.commit();
-        Log.d(TAG,"Override min focus position:" +settings.getInt("camera2minfocuspos",0));
+        settingsStorage.setFloat("camera2minfocuspos",pos);
+        Log.d(TAG,"Override min focus position:" +settingsStorage.getFloat("camera2minfocuspos",0));
     }
 
     public float getCamera2MinFocusPosition()
     {
-        return settings.getInt("camera2minfocuspos",0);
+        return settingsStorage.getFloat("camera2minfocuspos",0);
     }
 
     public void setDevice(String device) {
         this.mDevice = device;
-        putString("DEVICE", mDevice);
+        settingsStorage.setString("DEVICE", mDevice);
     }
 
     public String getDeviceString() {
@@ -406,29 +701,29 @@ public class SettingsManager implements SettingsManagerInterface {
     }
 
     public void setshowHelpOverlay(boolean value) {
-        settings.edit().putBoolean("showhelpoverlay", value).commit();
+        settingsStorage.setBoolean("showhelpoverlay", value);
     }
 
     public boolean getShowHelpOverlay() {
-        return settings.getBoolean("showhelpoverlay", true);
+        return settingsStorage.getBoolean("showhelpoverlay", true);
     }
 
     public void SetBaseFolder(String uri) {
-        putString(SETTING_BASE_FOLDER, uri);
+        settingsStorage.setString(SETTING_BASE_FOLDER, uri);
     }
 
     public String GetBaseFolder() {
-        return settings.getString(SETTING_BASE_FOLDER, null);
+        return settingsStorage.getString(SETTING_BASE_FOLDER, null);
     }
 
     public void SetCurrentCamera(int currentcamera) {
         this.currentcamera = currentcamera;
-        settings.edit().putInt(CURRENTCAMERA, currentcamera).commit();
+        settingsStorage.setInt(CURRENTCAMERA, currentcamera);
         loadOpCodes();
     }
 
     public int GetCurrentCamera() {
-        return settings.getInt(CURRENTCAMERA, 0);
+        return settingsStorage.getInt(CURRENTCAMERA, 0);
     }
 
     public void SetCurrentModule(String modulename) {
@@ -442,21 +737,6 @@ public class SettingsManager implements SettingsManagerInterface {
         return get(SettingKeys.Module).get();
     }
 
-    /**
-     * All apis can have same parameters and to use same SETTINGS strings in ui
-     * that create the extended string to load it
-     * so when setting is like mexposure it gets extended to camera1mexposure0
-     * camera1 is the api
-     * mexposure is the settingsName
-     * 0 is the camera to that the settings belong
-     *
-     * @param settingsName to use
-     * @return
-     */
-    private String getApiSettingString(String settingsName) {
-        return camApiString+settingsName+currentcamera;
-    }
-
 
     public boolean GetWriteExternal() {
         return getApiBoolean(SETTING_EXTERNALSD, false);
@@ -467,11 +747,11 @@ public class SettingsManager implements SettingsManagerInterface {
     }
 
     public void setHasCamera2Features(boolean value) {
-        settings.edit().putBoolean(HAS_CAMERA2_FEATURES, value).commit();
+        settingsStorage.setBoolean(HAS_CAMERA2_FEATURES, value);
     }
 
     public boolean hasCamera2Features() {
-        return settings.getBoolean(HAS_CAMERA2_FEATURES,false);
+        return settingsStorage.getBoolean(HAS_CAMERA2_FEATURES,false);
     }
 
     public void setCamerasCount(int count)
@@ -485,77 +765,55 @@ public class SettingsManager implements SettingsManagerInterface {
     }
 
     private String getApiString(String valueToGet, String defaultValue) {
-        return settings.getString(getApiSettingString(valueToGet), defaultValue);
+        return settingsStorage.getApiString(valueToGet, defaultValue);
     }
 
     @Override
     public String getApiString(String valueToGet) {
-        return settings.getString(getApiSettingString(valueToGet),"");
+        return settingsStorage.getApiString(valueToGet,"");
     }
     @Override
     public int getApiInt(String valueToGet) {
-        return settings.getInt(getApiSettingString(valueToGet),0);
+        return settingsStorage.getApiInt(valueToGet,0);
     }
 
     @Override
     public void setApiInt(String key,int valueToSet) {
-        settings.edit().putInt(getApiSettingString(key),valueToSet).commit();
+        settingsStorage.setApiInt(key,valueToSet);
     }
 
     @Override
     public void setApiString(String settingsName, String Value) {
-        putString(getApiSettingString(settingsName), Value);
+        settingsStorage.setApiString(settingsName, Value);
     }
 
     public final static String SPLITTCHAR = "'";
     @Override
     public void setStringArray(String settingsName, String[] Value) {
-        StringBuilder tmp = new StringBuilder();
-        for (int i= 0; i<Value.length;i++)
-            tmp.append(Value[i]).append(SPLITTCHAR);
-        putString(getApiSettingString(settingsName), tmp.toString());
+        settingsStorage.setApiStringArray(settingsName,Value);
     }
 
     @Override
     public String[] getStringArray(String settingsname)
     {
-        return getApiString(settingsname).split(SPLITTCHAR);
+        return settingsStorage.getApiStringArray(settingsname, null); // getApiString(settingsname).split(SPLITTCHAR);
     }
     
     public HashMap<String,VideoMediaProfile> getMediaProfiles()
     {
-        Set<String> tmp = settings.getStringSet(getApiSettingString(SETTING_MEDIAPROFILES), new HashSet<>());
-        String[] split = new String[tmp.size()];
-        tmp.toArray(split);
-        HashMap<String,VideoMediaProfile>  hashMap = new HashMap<>();
-        for (int i = 0; i < split.length; i++) {
-            VideoMediaProfile mp = new VideoMediaProfile(split[i]);
-            hashMap.put(mp.ProfileName, mp);
-        }
-
-        return hashMap;
+        return settingsStorage.getApiVideoMediaProfiles(videoprofiles,null);
     }
 
+    private final String videoprofiles = "videoProfileshashmap";
     public void saveMediaProfiles(HashMap<String,VideoMediaProfile> mediaProfileHashMap)
     {
-        SharedPreferences.Editor editor = settings.edit();
-        editor.remove(getApiSettingString(SETTING_MEDIAPROFILES));
-        editor.commit();
-        Set<String> set = new HashSet<>();
-        for (VideoMediaProfile profile : mediaProfileHashMap.values())
-            set.add(profile.GetString());
-        editor.putStringSet(getApiSettingString(SETTING_MEDIAPROFILES), set);
-        if (!settings.getBoolean("tmp", false))
-            editor.putBoolean("tmp", true);
-        else
-            editor.putBoolean("tmp",false);
-        editor.commit();
+        settingsStorage.setApiVideoMediaProfiles(videoprofiles, mediaProfileHashMap);
     }
 
     public void setFramework(Frameworks frameWork)
     {
         frameworks = frameWork;
-        settings.edit().putString(FRAMEWORK, frameWork.toString()).commit();
+        settingsStorage.setString(FRAMEWORK, frameWork.toString());
     }
 
     public Frameworks getFrameWork()
@@ -567,12 +825,12 @@ public class SettingsManager implements SettingsManagerInterface {
     public static final String FRONTCAMERA ="frontcamera";
     public void setIsFrontCamera(boolean isFront)
     {
-        settings.edit().putBoolean(getApiSettingString(FRONTCAMERA), isFront).commit();
+        settingsStorage.setApiBoolean(FRONTCAMERA, isFront);
     }
 
     public boolean getIsFrontCamera()
     {
-        return settings.getBoolean(getApiSettingString(FRONTCAMERA), false);
+        return settingsStorage.getApiBoolean(FRONTCAMERA, false);
     }
 
     public OpCode getOpCode() {
