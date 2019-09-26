@@ -61,279 +61,6 @@ import freed.views.VideoToneCurveProfile;
  */
 public class SettingsManager implements SettingsManagerInterface {
 
-    private class SettingsStorage
-    {
-        private HashMap<String,Object> settingStore;
-        private HashMap<Integer,HashMap<String,VideoMediaProfile>>mediaProfileHashMap;
-
-        public SettingsStorage()
-        {
-            settingStore = new HashMap<>();
-            mediaProfileHashMap = new HashMap<>();
-        }
-
-        public void save()
-        {
-            saveSettings();
-            saveVideoMediaProfiles();
-        }
-
-        public void load()
-        {
-            loadSettings();
-            loadVideoMediaProfiles();
-        }
-
-        private void loadSettings()
-        {
-            try (InputStreamReader is = new InputStreamReader(new FileInputStream(StringUtils.GetFreeDcamConfigFolder+"freed.conf"))) {
-                BufferedReader bufferedReader = new BufferedReader(is);
-                String receiveString;
-                while ((receiveString = bufferedReader.readLine()) != null ) {
-                    getSettingFromString(receiveString,settingStore);
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private void getSettingFromString(String input, HashMap<String, Object> map)
-        {
-            String split[] = input.split(";");
-            String key = split[0];
-            String type = split[1];
-            if (type.equals("String"))
-                map.put(key, split[2]);
-            if (type.equals("Integer"))
-                map.put(key, Integer.parseInt(split[2]));
-            if (type.equals("Boolean"))
-                map.put(key, Boolean.parseBoolean(split[2]));
-            if (type.equals("Long"))
-                map.put(key, Long.parseLong(split[2]));
-            if (type.equals("Float"))
-                map.put(key, Float.parseFloat(split[2]));
-            if (type.equals("String[]")) {
-                String[] out = new String[split.length - 2];
-                for (int i = 2; i< split.length;i++)
-                    out[i-2] = split[i];
-                map.put(key, out);
-            }
-
-        }
-
-        private void saveSettings()
-        {
-            try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(StringUtils.GetFreeDcamConfigFolder+"freed.conf"))) {
-                for ( String key : settingStore.keySet())
-                    writeSettingsString(key, settingStore.get(key), os);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private void writeSettingsString(String key, Object settings,OutputStreamWriter os) throws IOException {
-            if (settings instanceof String)
-                os.write( key +";String;" + (String)settings+"\n");
-            if (settings instanceof Integer)
-                os.write(key + ";Integer;" + settings +"\n" );
-            if (settings instanceof String[])
-            {
-                os.write(key + ";String[]");
-                for (int i = 0; i<((String[]) settings).length;i++)
-                    os.write(";" +((String[])settings)[i]);
-                os.write("\n");
-            }
-            if (settings instanceof Boolean)
-            {
-                os.write(key +";Boolean;" + settings +"\n");
-            }
-            if (settings instanceof Float)
-                os.write(key + ";Float;" + settings +"\n");
-            if (settings instanceof Long)
-                os.write(key + ";Long;" + settings +"\n");
-        }
-
-        private void loadVideoMediaProfiles()
-        {
-            try (InputStreamReader is = new InputStreamReader(new FileInputStream(StringUtils.GetFreeDcamConfigFolder+"videoProfiles.conf"))) {
-                BufferedReader bufferedReader = new BufferedReader(is);
-                String receiveString;
-                mediaProfileHashMap.clear();
-                int cameraid = 0;
-                HashMap<String, VideoMediaProfile> activemap  = null;
-                while ((receiveString = bufferedReader.readLine()) != null ) {
-                    if (receiveString.startsWith("#"))
-                    {
-                        cameraid = Integer.parseInt(receiveString.substring(1));
-                        activemap = new HashMap<>();
-                        mediaProfileHashMap.put(cameraid,activemap);
-                    }
-                    else
-                    {
-                        VideoMediaProfile profile = new VideoMediaProfile(receiveString);
-                        activemap.put(profile.ProfileName,profile);
-                    }
-
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private void saveVideoMediaProfiles()
-        {
-            if (mediaProfileHashMap == null)
-                return;
-            try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(StringUtils.GetFreeDcamConfigFolder+"videoProfiles.conf"))) {
-
-                HashMap<String,VideoMediaProfile> map;
-                for (int i = 0; i < mediaProfileHashMap.size(); i++) {
-                    os.write("#" + i +"\n");
-                    map = mediaProfileHashMap.get(i);
-                    for (VideoMediaProfile profile : map.values()) {
-                        os.write(profile.GetString() + "\n");
-                    }
-                    os.flush();
-                }
-            } catch(FileNotFoundException e){
-                e.printStackTrace();
-            } catch(IOException e){
-                e.printStackTrace();
-            }
-        }
-
-        private void reset()
-        {
-            if (settingStore != null)
-                settingStore.clear();
-            if (mediaProfileHashMap != null)
-                mediaProfileHashMap.clear();
-        }
-
-        private <T> T get(String settingName,T defaultVal)
-        {
-            if (settingStore.get(settingName) != null)
-                return (T)settingStore.get(settingName);
-            return defaultVal;
-        }
-
-        private <T> void set(String settingName, T value)
-        {
-            settingStore.put(settingName,value);
-        }
-
-        private String getApiSettingString(String settingsName) {
-            return camApiString+settingsName+currentcamera;
-        }
-
-        private void setApiString(String settingName, String value)
-        {
-            set(getApiSettingString(settingName),value);
-        }
-
-        private String getApiString(String settingName,String def)
-        {
-            return get(getApiSettingString(settingName),def);
-        }
-
-        private void setApiStringArray(String settingName, String[] value)
-        {
-            set(getApiSettingString(settingName),value);
-        }
-
-        private String[] getApiStringArray(String settingName,String[] def)
-        {
-            return get(getApiSettingString(settingName),def);
-        }
-
-
-        private void setString(String settingName, String value)
-        {
-            set(settingName,value);
-        }
-
-        private String getString(String settingName,String defaultValue)
-        {
-            return get(settingName,defaultValue);
-        }
-
-        private void setApiInt(String settingName, int value)
-        {
-            set(getApiSettingString(settingName),value);
-        }
-
-        private int getApiInt(String settingName, int defaultval)
-        {
-            return get(getApiSettingString(settingName),defaultval);
-        }
-
-        private void setInt(String settingName, int value)
-        {
-            set(settingName,value);
-        }
-
-        private int getInt(String settingName, int defaultval)
-        {
-            return get(settingName,defaultval);
-        }
-
-        private void setApiBoolean(String settingName, boolean value)
-        {
-            set(getApiSettingString(settingName),value);
-        }
-
-        private boolean getApiBoolean(String settingName, boolean defaultval)
-        {
-            return get(getApiSettingString(settingName),defaultval);
-        }
-
-        private void setBoolean(String settingName, boolean value)
-        {
-            set(settingName,value);
-        }
-
-        private boolean getBoolean(String settingName,boolean defaultval)
-        {
-            return get(settingName,defaultval);
-        }
-
-        private void setLong(String settingName, long value)
-        {
-            set(settingName,value);
-        }
-
-        private long getLong(String settingName,long defaultval)
-        {
-            return get(settingName,defaultval);
-        }
-
-        private void setFloat(String settingName, float value)
-        {
-            set(settingName,value);
-        }
-
-        private float getFloat(String settingName,float defaultval)
-        {
-            return get(settingName,defaultval);
-        }
-
-        private void setApiVideoMediaProfiles(String settingName, HashMap<String,VideoMediaProfile> value)
-        {
-            mediaProfileHashMap.put(currentcamera, value);
-        }
-
-        private HashMap<String,VideoMediaProfile> getApiVideoMediaProfiles(String settingName,HashMap<String,VideoMediaProfile> defaultval)
-        {
-            return mediaProfileHashMap.get(currentcamera);
-        }
-    }
-
     public static final int JPEG= 0;
     public static final int RAW = 1;
     public static final int DNG = 2;
@@ -387,8 +114,7 @@ public class SettingsManager implements SettingsManagerInterface {
     public List<OpCodeUrl> opcodeUrlList;
 
     private final String TAG = SettingsManager.class.getSimpleName();
-    private int currentcamera;
-    private String camApiString = SettingsManager.API_1;
+
     private String mDevice;
     private HashMap<String, CustomMatrix> matrixes;
     private HashMap<String, ToneMapProfile> tonemapProfiles;
@@ -444,9 +170,6 @@ public class SettingsManager implements SettingsManagerInterface {
         for (SettingKeys.Key k: keys)
             createSetting(k);
 
-        camApiString = settingsStorage.getString(SETTING_API, API_1);// settings.getString(SETTING_API, API_1);
-        //get last used camera, without it default camera is always 0
-        currentcamera = GetCurrentCamera();
         try {
             String fw = settingsStorage.getString(FRAMEWORK,"Default");
             frameworks = Frameworks.valueOf(fw);
@@ -519,8 +242,8 @@ public class SettingsManager implements SettingsManagerInterface {
     private void loadOpCodes()
     {
         new Thread(() -> {
-            File op2 = new File(StringUtils.GetFreeDcamConfigFolder+ currentcamera+"opc2.bin");
-            File op3 = new File(StringUtils.GetFreeDcamConfigFolder+currentcamera+"opc3.bin");
+            File op2 = new File(StringUtils.GetFreeDcamConfigFolder+settingsStorage.getInt(CURRENTCAMERA,0)+"opc2.bin");
+            File op3 = new File(StringUtils.GetFreeDcamConfigFolder+settingsStorage.getInt(CURRENTCAMERA,0)+"opc3.bin");
             if (op2.exists() || op3.exists())
                 opCode = new OpCode(op2,op3);
             else
@@ -585,68 +308,52 @@ public class SettingsManager implements SettingsManagerInterface {
     public void setZteAe(boolean legacy)
     {
         settingsStorage.setBoolean("zteae",legacy);
-        //settings.edit().putBoolean("zteae",legacy).commit();
     }
 
 
     public void setsOverrideDngProfile(boolean legacy)
     {
         settingsStorage.setBoolean("overrideprofile",legacy);
-        //settings.edit().putBoolean("overrideprofile",legacy).commit();
     }
 
     public int getAppVersion()
     {
         return settingsStorage.getInt(APPVERSION, 0);
-        //return settings.getInt(APPVERSION,0);
     }
 
     public void setAppVersion(int version)
     {
         settingsStorage.setInt(APPVERSION, version);
-        //settings.edit().putInt(APPVERSION,version).commit();
     }
-
-
-    /*private void putString(String settingsval, String toSet)
-    {
-        settings.edit().putString(settingsval,toSet).commit();
-    }*/
 
     @Override
     public boolean getApiBoolean(String settings_key, boolean defaultValue)
     {
         return settingsStorage.getApiBoolean(settings_key,defaultValue);
-        //return settings.getBoolean(getApiSettingString(settings_key), defaultValue);
     }
 
     @Override
     public boolean getBoolean(String settings_key, boolean defaultValue)
     {
         return settingsStorage.getBoolean(settings_key,defaultValue);
-        //return settings.getBoolean(settings_key, defaultValue);
     }
 
     @Override
     public void setApiBoolean(String settings_key, boolean valuetoSet) {
         settingsStorage.setApiBoolean(settings_key,valuetoSet);
-        //settings.edit().putBoolean(getApiSettingString(settings_key), valuetoSet).commit();
     }
 
     @Override
     public void setBoolean(String settings_key, boolean valuetoSet) {
         settingsStorage.setBoolean(settings_key,valuetoSet);
-        //settings.edit().putBoolean(settings_key, valuetoSet).commit();
     }
 
     public void setCamApi(String api) {
-        camApiString = api;
         settingsStorage.setString(SETTING_API,api);
-        //putString(SETTING_API, api);
     }
 
     public String getCamApi() {
-        return camApiString;
+        return settingsStorage.getString(SETTING_API, API_1);
     }
 
     public long getCamera2MaxExposureTime()
@@ -718,7 +425,6 @@ public class SettingsManager implements SettingsManagerInterface {
     }
 
     public void SetCurrentCamera(int currentcamera) {
-        this.currentcamera = currentcamera;
         settingsStorage.setInt(CURRENTCAMERA, currentcamera);
         loadOpCodes();
     }
@@ -765,10 +471,6 @@ public class SettingsManager implements SettingsManagerInterface {
         return getApiInt("camerascount");
     }
 
-    private String getApiString(String valueToGet, String defaultValue) {
-        return settingsStorage.getApiString(valueToGet, defaultValue);
-    }
-
     @Override
     public String getApiString(String valueToGet) {
         return settingsStorage.getApiString(valueToGet,"");
@@ -788,7 +490,6 @@ public class SettingsManager implements SettingsManagerInterface {
         settingsStorage.setApiString(settingsName, Value);
     }
 
-    public final static String SPLITTCHAR = "'";
     @Override
     public void setStringArray(String settingsName, String[] Value) {
         settingsStorage.setApiStringArray(settingsName,Value);
@@ -797,7 +498,7 @@ public class SettingsManager implements SettingsManagerInterface {
     @Override
     public String[] getStringArray(String settingsname)
     {
-        return settingsStorage.getApiStringArray(settingsname, null); // getApiString(settingsname).split(SPLITTCHAR);
+        return settingsStorage.getApiStringArray(settingsname, null);
     }
     
     public HashMap<String,VideoMediaProfile> getMediaProfiles()
