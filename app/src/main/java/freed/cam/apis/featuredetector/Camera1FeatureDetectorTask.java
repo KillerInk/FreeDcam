@@ -1498,10 +1498,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         final String _2160p = "2160p";
         final String _2160pDCI = "2160pDCI";
         HashMap<String,VideoMediaProfile> supportedProfiles;
+        SupportedVideoProfilesDetector videoProfilesDetector = new SupportedVideoProfilesDetector();
         if(SettingsManager.getInstance().getFrameWork() == Frameworks.LG)
-            supportedProfiles =  getLGVideoMediaProfiles(cameraid);
+            supportedProfiles =  videoProfilesDetector.getLGVideoMediaProfiles(cameraid);
         else
-            supportedProfiles= getDefaultVideoMediaProfiles(cameraid);
+            supportedProfiles= videoProfilesDetector.getDefaultVideoMediaProfiles(cameraid);
 
         if (supportedProfiles.get(_720phfr) == null && SettingsManager.get(SettingKeys.VideoHighFramerate).isSupported() && SettingsManager.get(SettingKeys.VideoHighFramerate).contains("120"))
         {

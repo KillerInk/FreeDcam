@@ -1165,7 +1165,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectVideoMediaProfiles(int cameraid)
     {
-        HashMap<String,VideoMediaProfile> supportedProfiles = getDefaultVideoMediaProfiles(cameraid);
+        HashMap<String,VideoMediaProfile> supportedProfiles = new SupportedVideoProfilesDetector().getDefaultVideoMediaProfiles(cameraid);
 
         if (supportedProfiles.get("2160p") == null && has2160pSize()) {
             supportedProfiles.put("2160p", new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 2160p Normal true"));
