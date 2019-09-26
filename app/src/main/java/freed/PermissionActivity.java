@@ -13,6 +13,7 @@ public abstract class PermissionActivity extends HideNavBarActivity {
     public PermissionManager getPermissionManager() {
         return permissionManager;
     }
+    private boolean onCreatePermissioGrantedDidRun = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +43,17 @@ public abstract class PermissionActivity extends HideNavBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (permissionManager.hasCameraAndSdPermission(null))
+        if (permissionManager.hasCameraAndSdPermission(null)) {
+            if (!onCreatePermissioGrantedDidRun)
+                onCreatePermissionGranted();
             onResumePermissionGranted();
+        }
     }
 
-    public abstract void onCreatePermissionGranted();
+    public void onCreatePermissionGranted()
+    {
+        onCreatePermissioGrantedDidRun = true;
+    }
 
     public abstract void onResumePermissionGranted();
 }

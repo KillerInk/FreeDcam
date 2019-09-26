@@ -420,7 +420,8 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public void save()
     {
-        settingsStorage.save();
+        if (settingsStorage != null)
+            settingsStorage.save();
     }
 
     public static <T> T get(SettingKeys.Key<T> key)

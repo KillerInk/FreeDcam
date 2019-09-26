@@ -271,7 +271,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if(orientationManager != null)
             orientationManager.Stop();
 
-        cameraFragmentManager.unloadCameraFragment();
+        if (cameraFragmentManager != null)
+            cameraFragmentManager.unloadCameraFragment();
         if (uiViewPagerAdapter != null)
             uiViewPagerAdapter.setCameraFragment(null);
         Log.d(TAG, "destroyed cameraWrapper");
