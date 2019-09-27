@@ -9,6 +9,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.ColorSpaceTransform;
+import android.hardware.camera2.params.LensShadingMap;
 import android.location.Location;
 import android.media.Image;
 import android.media.ImageReader;
@@ -79,6 +80,8 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
 
     WorkFinishEvents workerfinish;
 
+    private final boolean LOG_CAPTURE_RESULT = false;
+
     public ImageCaptureHolder(CameraCharacteristics characteristicss, CaptureType captureType, ActivityInterface activitiy, ModuleInterface imageSaver, WorkFinishEvents finish, RdyToSaveImg rdyToSaveImg)
     {
         images = new ArrayList<>();
@@ -132,25 +135,37 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     {
         this.captureResult = captureResult;
 
-        try {
-            Log.d(TAG, "ColorMatrix1:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1).toString());
-            Log.d(TAG, "ColorMatrix2:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2).toString());
-            logNeutralMatrix();
-            Log.d(TAG, "Transform1:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1).toString());
-            Log.d(TAG, "Transform2:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2).toString());
-            Log.d(TAG, "Foward1:" + characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1).toString());
-            Log.d(TAG, "Foward2:" + characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2).toString());
-            Log.d(TAG, "Reduction1:" + characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1).toString());
-            Log.d(TAG, "Reduction2:" + characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2).toString());
-            logColorPattern();
-            Log.d(TAG, "Blacklvl:" + characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0));
-            if (captureResult.get(CaptureResult.COLOR_CORRECTION_GAINS) != null)
-                Log.d(TAG, "CC Gain " + captureResult.get(CaptureResult.COLOR_CORRECTION_GAINS).toString());
-
-        }
-        catch (NullPointerException ex)
-        {
-            Log.WriteEx(ex);
+        if (LOG_CAPTURE_RESULT) {
+            try {
+                Log.d(TAG, "ColorMatrix1:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1).toString());
+                Log.d(TAG, "ColorMatrix2:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2).toString());
+                logNeutralMatrix();
+                Log.d(TAG, "Transform1:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1).toString());
+                Log.d(TAG, "Transform2:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2).toString());
+                Log.d(TAG, "Foward1:" + characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1).toString());
+                Log.d(TAG, "Foward2:" + characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2).toString());
+                Log.d(TAG, "Reduction1:" + characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1).toString());
+                Log.d(TAG, "Reduction2:" + characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2).toString());
+                logColorPattern();
+                Log.d(TAG, "Blacklvl:" + characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0, 0));
+                LensShadingMap lensShadingMap = captureResult.get(CaptureResult.STATISTICS_LENS_SHADING_CORRECTION_MAP);
+                Log.d(TAG,"LensShading: " + lensShadingMap.toString());
+                Log.d(TAG, "SensorNoiseProfile" + captureResult.get(CaptureResult.SENSOR_NOISE_PROFILE));
+                Log.d(TAG, "TonemapCurve" + captureResult.get(CaptureResult.TONEMAP_CURVE).toString());
+                Log.d(TAG, "Rolling Shutter Skew" + captureResult.get(CaptureResult.SENSOR_ROLLING_SHUTTER_SKEW).toString());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Log.d(TAG, "Dynamic BlackLVl" + captureResult.get(CaptureResult.SENSOR_DYNAMIC_BLACK_LEVEL).toString());
+                    Log.d(TAG, "Dynamic WhiteLVl" + captureResult.get(CaptureResult.SENSOR_DYNAMIC_WHITE_LEVEL).toString());
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    Log.d(TAG, "TonemapGamma" + captureResult.get(CaptureResult.TONEMAP_GAMMA).toString());
+                    Log.d(TAG, "TonemapPreset" + captureResult.get(CaptureResult.TONEMAP_PRESET_CURVE).toString());
+                }
+                if (captureResult.get(CaptureResult.COLOR_CORRECTION_GAINS) != null)
+                    Log.d(TAG, "CC Gain " + captureResult.get(CaptureResult.COLOR_CORRECTION_GAINS).toString());
+            } catch (NullPointerException ex) {
+                Log.WriteEx(ex);
+            }
         }
     }
 
