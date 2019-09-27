@@ -251,6 +251,12 @@
         <item>@string/highquality</item>
     </string-array>
 
+    <string-array name="shadingmodes" translatable="false">
+        <item>@string/off</item>
+        <item>@string/fast</item>
+        <item>@string/highquality</item>
+    </string-array>
+
 
 
     <string-array name="whitebalancemodes" translatable="false">

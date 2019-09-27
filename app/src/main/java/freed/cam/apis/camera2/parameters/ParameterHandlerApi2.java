@@ -209,6 +209,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         if (SettingsManager.get(SettingKeys.RawSize).isSupported())
             add(SettingKeys.RawSize, new RawSizeModeApi2(cameraUiWrapper, SettingKeys.RawSize));
+        if (SettingsManager.get(SettingKeys.LensShade).isSupported())
+            add(SettingKeys.LensShade, new BaseModeApi2(cameraUiWrapper,SettingKeys.LensShade,CaptureRequest.SHADING_MODE));
 
         registerListners();
         SetAppSettingsToParameters();

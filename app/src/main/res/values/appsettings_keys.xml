@@ -127,6 +127,6 @@
     <string name="aps_touchtocapture" translatable="false">touchtocapture</string>
     <string name="aps_focuspeakcolor" translatable="false">focuspeakcolor</string>
     <string name="aps_video_audio_source" translatable="false">videoaudiosource</string>
-    <string name="aps_rawsize">rawsize</string>
+    <string name="aps_rawsize" translatable="false">rawsize</string>
 
 </resources>

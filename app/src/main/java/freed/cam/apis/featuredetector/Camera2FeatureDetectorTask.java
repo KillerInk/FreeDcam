@@ -312,6 +312,19 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         publishProgress("Detect Tonemap Mode failed");
                     }
 
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        try {
+                            publishProgress("Detect Shading Mode");
+                            detectIntMode(characteristics, CameraCharacteristics.SHADING_AVAILABLE_MODES, SettingsManager.get(SettingKeys.LensShade),R.array.shadingmodes);
+                            sendProgress(SettingsManager.get(SettingKeys.LensShade), "Tonemap");
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.WriteEx(ex);
+                            publishProgress("Detect Tonemap Mode failed");
+                        }
+                    }
+
                     try {
                         publishProgress("Detect Whitebalance");
                         detectIntMode(characteristics, CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES, SettingsManager.get(SettingKeys.WhiteBalanceMode), R.array.whitebalancemodes);
