@@ -31,12 +31,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.provider.DocumentFile;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -56,10 +56,11 @@ import freed.viewer.holder.FileHolder;
 /**
  * Created by troop on 28.03.2016.
  */
-public abstract class ActivityAbstract extends AppCompatActivity implements ActivityInterface, I_WorkEvent {
+public abstract class ActivityAbstract extends PermissionActivity implements ActivityInterface, I_WorkEvent {
 
     private boolean initDone = false;
 
+    private final boolean forceLogging = false;
 
     public enum FormatTypes
     {
@@ -75,32 +76,35 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected BitmapHelper bitmapHelper;
     protected  List<FileHolder> files =  new ArrayList<>();
     protected StorageFileManager storageHandler;
-    private PermissionManager permissionManager;
 
 
-    private final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            | View.SYSTEM_UI_FLAG_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ImageManager.getInstance(); // init it
         SettingsManager.getInstance();
-        setContentToView();
-        permissionManager =new PermissionManager(this);
+        Log.d(TAG,"onCreate setContentToView");
 
-        getPermissionManager().hasCameraAndSdPermission(logSDPermission);
+
     }
 
-    protected void initOnCreate()
+    @Override
+    public void onCreatePermissionGranted()
     {
+        Log.d(TAG,"onCreatePermissionGranted");
         File log = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeDcam/log.txt");
-        if (!Log.isLogToFileEnable() && log.exists()) {
+        if (!forceLogging) {
+            if (!Log.isLogToFileEnable() && log.exists()) {
+                new Log();
+            }
+        }
+        else
+        {
             new Log();
+
         }
         initDone = true;
         Log.d(TAG, "initOnCreate()");
@@ -109,17 +113,14 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         }
     }
 
-    private PermissionManager.PermissionCallback logSDPermission = granted -> {
-        if (granted) {
 
-            initOnCreate();
-        }
-    };
-
-    protected void setContentToView()
-    {
-
+    @Override
+    public String getStringFromRessources(int id) {
+        return getResources().getString(id);
     }
+
+
+
 
     @Override
     protected void onDestroy() {
@@ -131,17 +132,17 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
             Log.destroy();*/
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus)
-            HIDENAVBAR();
-    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!SettingsManager.getInstance().isInit() && permissionManager.hasExternalSDPermission(null)) {
+
+    }
+
+    @Override
+    public void onResumePermissionGranted() {
+        if (!SettingsManager.getInstance().isInit()) {
             SettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getBaseContext()), getBaseContext().getResources());
         }
     }
@@ -153,25 +154,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         Log.flush();
     }
 
-    private void HIDENAVBAR()
-    {
-        if (VERSION.SDK_INT < 16) {
-            getWindow().setFlags(LayoutParams.FLAG_FULLSCREEN,
-                    LayoutParams.FLAG_FULLSCREEN);
-        }
-        else
-        {
-            //HIDE nav and action bar
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(flags);
-            decorView.setOnSystemUiVisibilityChangeListener(visibility -> {
-                if (visibility > 0) {
-                    if (VERSION.SDK_INT >= 16)
-                        getWindow().getDecorView().setSystemUiVisibility(flags);
-                }
-            });
-        }
-    }
+
 
 
     private I_OnActivityResultCallback resultCallback;
@@ -204,8 +187,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
     @TargetApi(VERSION_CODES.KITKAT)
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             // The document selected by the user won't be returned in the intent.
             // Instead, a URI to that document will be contained in the return intent
@@ -219,10 +202,9 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
                 // Check for the freshest data.
 
 
-                getContentResolver().takePersistableUriPermission(uri,takeFlags);
+                getContentResolver().takePersistableUriPermission(uri, takeFlags);
                 SettingsManager.getInstance().SetBaseFolder(uri.toString());
-                if (resultCallback != null)
-                {
+                if (resultCallback != null) {
                     resultCallback.onActivityResultCallback(uri);
                     resultCallback = null;
                 }
@@ -230,10 +212,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         }
     }
 
-    @Override
-    public PermissionManager getPermissionManager() {
-        return permissionManager;
-    }
 
     @Override
     public BitmapHelper getBitmapHelper() {
@@ -405,7 +383,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         return true;
     }
 
-    @Nullable
+
     private boolean deletFile(File file) {
         if (!file.delete())
         {
@@ -441,12 +419,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        permissionManager.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
+
 
 
     @Override

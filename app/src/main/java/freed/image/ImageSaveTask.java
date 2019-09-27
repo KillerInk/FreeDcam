@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -48,6 +49,7 @@ public class ImageSaveTask extends ImageTask
     private float fnum, focal = 0;
     private int mISO, cropWidth, cropHeight;
     private float exposureTime;
+    private int flash = 0;
     private float expoindex;
     private String whitebalance;
     private ActivityInterface activityInterface;
@@ -128,6 +130,11 @@ public class ImageSaveTask extends ImageTask
         this.exposureTime = exposureTime;
     }
 
+    public void setFlash(int flash)
+    {
+        this.flash = flash;
+    }
+
     public void setExposureIndex(float expoindex)
     {
         this.expoindex = expoindex;
@@ -196,7 +203,7 @@ public class ImageSaveTask extends ImageTask
             GpsInfo gpsInfo = new GpsInfo(location);
             rawToDng.SetGpsData(gpsInfo.getByteBuffer());
         }
-        ExifInfo info = new ExifInfo(mISO,0,exposureTime,focal,fnum,expoindex,"",orientation+"");
+        ExifInfo info = new ExifInfo(mISO,flash,exposureTime,focal,fnum,expoindex,"",orientation+"");
         rawToDng.setExifData(info);
 //        if (whitebalance != null)
 //            rawToDng.SetWBCT(whitebalance);
@@ -251,12 +258,12 @@ public class ImageSaveTask extends ImageTask
     private void saveJpeg()
     {
         Log.d(TAG, "Start Saving Bytes");
-        OutputStream outStream = null;
+        BufferedOutputStream outStream = null;
         try {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !externalSD)
             {
                 checkFileExists(filename);
-                outStream = new FileOutputStream(filename);
+                outStream = new BufferedOutputStream(new FileOutputStream(filename));
             }
             else
             {
@@ -264,7 +271,7 @@ public class ImageSaveTask extends ImageTask
                 Log.d(TAG,"Filepath: " + df.getUri());
                 DocumentFile wr = df.createFile("image/*", filename.getName());
                 Log.d(TAG,"Filepath: " + wr.getUri());
-                outStream = activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri());
+                outStream = new BufferedOutputStream(activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri()));
             }
             outStream.write(bytesTosave);
             outStream.flush();

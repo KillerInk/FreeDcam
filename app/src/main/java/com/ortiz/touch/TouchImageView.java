@@ -26,7 +26,6 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
@@ -38,6 +37,8 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.OverScroller;
 import android.widget.Scroller;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 import freed.utils.Log;
 
@@ -415,8 +416,8 @@ public class TouchImageView extends AppCompatImageView {
 
     /**
      * Set zoom parameters equal to another TouchImageView. Including scale, position,
-     * and ScaleType.
-     * @param TouchImageView
+     * and ScaleType. TouchImageView
+     * @param
      */
     private void setZoom(TouchImageView img) {
         PointF center = img.getScrollPosition();

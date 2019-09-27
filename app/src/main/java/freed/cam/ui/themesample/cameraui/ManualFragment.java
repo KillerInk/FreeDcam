@@ -34,6 +34,9 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
@@ -42,14 +45,18 @@ import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.ui.themesample.AbstractFragment;
+import freed.cam.ui.themesample.cameraui.childs.ManualButtonIso;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
+import freed.cam.ui.themesample.cameraui.childs.ManualButtonShutter;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.utils.Log;
 import freed.views.CurveView;
 import freed.views.CurveViewControl;
-import freed.utils.Log;
 
 /**
  * Created by troop on 08.12.2015.
@@ -69,6 +76,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     private LinearLayout manualItemsHolder;
 
     private final String TAG = ManualFragment.class.getSimpleName();
+
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -91,6 +99,13 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
         afBracketSettingsView = view.findViewById(id.manualFragment_afbsettings);
         afBracketSettingsView.setVisibility(View.GONE);
+        EventBusHelper.register(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBusHelper.unregister(this);
     }
 
     @Override
@@ -104,7 +119,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         seekbar.setVisibility(View.GONE);
         if (currentButton != null) {
             currentButton.SetActive(false);
-            currentButton.SetParameterListner(null);
             currentButton = null;
         }
         afBracketSettingsView.setVisibility(View.GONE);
@@ -112,7 +126,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
         if (cameraUiWrapper != null)
         {
-            cameraUiWrapper.getModuleHandler().addListner(this);
             SettingsManager aps = SettingsManager.getInstance();
             AbstractParameterHandler parms = cameraUiWrapper.getParameterHandler();
             if (parms.get(SettingKeys.M_Zoom) != null)
@@ -128,17 +141,22 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 manualItemsHolder.addView(btn);
             }
             if (parms.get(SettingKeys.M_ManualIso) != null) {
-                ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_ManualIso), R.drawable.manual_iso);
+                ManualButton btn = new ManualButtonIso(getContext(), parms.get(SettingKeys.M_ManualIso), R.drawable.manual_iso);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
             if (parms.get(SettingKeys.M_ExposureTime) != null) {
-                ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_ExposureTime), R.drawable.manual_shutter);
+                ManualButton btn = new ManualButtonShutter(getContext(), parms.get(SettingKeys.M_ExposureTime), R.drawable.manual_shutter);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
             if (parms.get(SettingKeys.M_Fnumber) != null) {
                 ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_Fnumber), R.drawable.manual_fnum);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.get(SettingKeys.M_Aperture) != null) {
+                ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_Aperture), R.drawable.manual_fnum);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
@@ -223,7 +241,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
             {
                 ManualButtonToneCurve btn = new ManualButtonToneCurve(getContext(), parms.get(SettingKeys.TONE_CURVE_PARAMETER), R.drawable.manual_midtones);
                 btn.setOnClickListener(manualButtonClickListner);
-                btn.onStringValueChanged("");
+                //btn.onStringValueChanged("");
                 manualItemsHolder.addView(btn);
             }
             curveView.setVisibility(View.GONE);
@@ -231,7 +249,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
             seekbar.setVisibility(View.GONE);
             afBracketSettingsView.SetCameraWrapper(cameraUiWrapper);
-            if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_afbracket))
+            if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_afbracket))
                     && currentButton instanceof ManualButtonMF
                     && seekbar.getVisibility() == View.VISIBLE)
                 afBracketSettingsView.setVisibility(View.VISIBLE);
@@ -245,8 +263,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         @Override
         public void onClick(View v)
         {
-            if (currentButton != null)
-                currentButton.RemoveParameterListner(ManualFragment.this);
             //when same button gets clicked second time
             if(v == currentButton && seekbar.getVisibility() == View.VISIBLE)
             {
@@ -266,8 +282,8 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 //set the returned view as active and fill seekbar
                 currentButton = (ManualButton) v;
                 currentButton.SetActive(true);
-                currentButton.SetParameterListner(ManualFragment.this);
-                if (currentButton instanceof ManualButtonMF && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_afbracket)))
+
+                if (currentButton instanceof ManualButtonMF && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_afbracket)))
                     afBracketSettingsView.setVisibility(View.VISIBLE);
                 else
                     afBracketSettingsView.setVisibility(View.GONE);
@@ -311,7 +327,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         currentValuePos = progress;
         if (!(cameraUiWrapper instanceof SonyCameraRemoteFragment)) {
             currentButton.setValueToParameters(progress);
-            currentButton.onIntValueChanged(progress);
+
         }
     }
 
@@ -324,7 +340,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     public void onStopTrackingTouch(SeekBar seekBar) {
         if (cameraUiWrapper instanceof SonyCameraRemoteFragment) {
             currentButton.setValueToParameters(currentValuePos);
-            currentButton.onIntValueChanged(currentValuePos);
+
         }
     }
 
@@ -371,6 +387,12 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     }
 
+    @Subscribe
+    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
+    {
+        onModuleChanged(event.NewModuleName);
+    }
+
     /**
      * Gets called when the module has changed
      *
@@ -379,7 +401,9 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     @Override
     public void onModuleChanged(String module)
     {
-        if (module.equals(cameraUiWrapper.getResString(R.string.module_afbracket)) && seekbar.getVisibility() == View.VISIBLE)
+        if (cameraUiWrapper == null || cameraUiWrapper.getActivityInterface() == null)
+            return;
+        if (module.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_afbracket)) && seekbar.getVisibility() == View.VISIBLE)
             afBracketSettingsView.setVisibility(View.VISIBLE);
         else
             afBracketSettingsView.setVisibility(View.GONE);

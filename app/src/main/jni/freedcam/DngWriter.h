@@ -7,18 +7,18 @@
 
 
 #include "../tiff/libtiff/tiffio.h"
+#include "../tiff/libtiff/tiffiop.h"
 #include "ExifInfo.h"
 #include "GpsInfo.h"
 #include "DngProfile.h"
 #include "CustomMatrix.h"
-#include "DngTags.h"
 #include "OpCode.h"
 #include <android/log.h>
 #include <../tiff/libtiff/tif_dir.h>
 #include <assert.h>
 #include <stdlib.h>
 
-typedef unsigned long long uint64;
+//typedef unsigned long long uint64;
 class DngWriter
 {
 

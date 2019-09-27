@@ -50,20 +50,7 @@ public class BaseManualParameter extends AbstractParameter
     protected String key_value;
 
 
-    private int default_value;
-    public void Set_Default_Value(int val){
-        default_value = val; Log.d(TAG, "set default to:" + val);}
-    public int Get_Default_Value(){return default_value;}
 
-    public void ResetToDefault()
-    {
-        if (settingMode != null && settingMode.isSupported())
-        {
-            Log.d(TAG,"Reset Back from:" + currentInt + " to:" + default_value);
-            SetValue(default_value, true);
-            fireIntValueChanged(default_value);
-        }
-    }
 
     public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode)
     {
@@ -98,58 +85,4 @@ public class BaseManualParameter extends AbstractParameter
             Log.WriteEx(ex);
         }
     }
-
-
-    public ParameterEvents GetPicFormatListner()
-    {
-        return picformatListner;
-    }
-
-    private final ParameterEvents picformatListner = new ParameterEvents()
-    {
-
-
-        @Override
-        public void onViewStateChanged(ViewState value) {
-
-        }
-
-        @Override
-        public void onIntValueChanged(int current) {
-
-        }
-
-        @Override
-        public void onValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onStringValueChanged(String val) {
-            if (val.equals(cameraUiWrapper.getResString(R.string.jpeg_)) && settingMode.isSupported())
-            {
-                setViewState(ViewState.Visible);
-            }
-            else {
-                setViewState(ViewState.Hidden);
-                ResetToDefault();
-            }
-        }
-    };
-
-    public ModuleChangedEvent GetModuleListner()
-    {
-        return moduleListner;
-    }
-
-    private final ModuleChangedEvent moduleListner = module -> {
-        if (module.equals(cameraUiWrapper.getResString(R.string.module_video)) && settingMode.isSupported())
-            setViewState(ViewState.Visible);
-        else if (module.equals(cameraUiWrapper.getResString(R.string.module_picture))
-                || module.equals(cameraUiWrapper.getResString(R.string.module_interval))
-                || module.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
-        {
-            setViewState(getViewState());
-        }
-    };
 }

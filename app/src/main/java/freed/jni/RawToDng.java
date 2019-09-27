@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.Date;
 
 import freed.cam.ui.themesample.cameraui.HelpFragment;
@@ -263,6 +265,16 @@ public class RawToDng
             byte[] data = new byte[length];
             f.readFully(data);
             return data;
+        } finally {
+            f.close();
+        }
+    }
+
+    public static MappedByteBuffer readFileToMemoryMap(File file) throws IOException {
+        // Open file
+        RandomAccessFile f = new RandomAccessFile(file, "rw");
+        try {
+           return f.getChannel().map(FileChannel.MapMode.READ_WRITE, 0, f.length());
         } finally {
             f.close();
         }

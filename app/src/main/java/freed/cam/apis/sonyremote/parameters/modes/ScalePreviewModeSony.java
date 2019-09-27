@@ -19,8 +19,6 @@
 
 package freed.cam.apis.sonyremote.parameters.modes;
 
-import android.os.Build;
-
 import com.troop.freedcam.R;
 
 import java.util.Set;

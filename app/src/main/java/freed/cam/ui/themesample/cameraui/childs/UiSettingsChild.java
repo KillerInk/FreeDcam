@@ -35,8 +35,15 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.ModuleHasChangedEvent;
+import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.utils.Log;
 
@@ -45,13 +52,48 @@ import freed.utils.Log;
  */
 public class UiSettingsChild extends SettingsChildAbstract
 {
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onViewStateChanged(ValueChangedEvent<AbstractParameter.ViewState> viewStateValueChangedEvent)
+    {
+        if (viewStateValueChangedEvent.type != AbstractParameter.ViewState.class || parameter == null || parameter.getKey() == null)
+            return;
+        if (viewStateValueChangedEvent.key == parameter.getKey())
+            onViewStateChanged(viewStateValueChangedEvent.newValue);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onStringValueChanged(ValueChangedEvent<String> value) {
+        if (value.type != String.class || parameter == null)
+            return;
+        if (value.key == parameter.getKey())
+            onStringValueChanged(value.newValue);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
+    {
+        onModuleChanged(event.NewModuleName);
+    }
+
+
     private String headerText;
     private LinearLayout laybg;
-
-
-
     private String TAG;
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        EventBusHelper.register(this);
+        if (parameter != null)
+            parameter.fireStringValueChanged(parameter.GetStringValue());
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        EventBusHelper.unregister(this);
+    }
 
     public UiSettingsChild(Context context) {
         super(context);
@@ -107,6 +149,7 @@ public class UiSettingsChild extends SettingsChildAbstract
         valueText = findViewById(id.textView2);
         valueText.setSelected(true);
         setOnClickListener(this);
+        setTextToTextBox(parameter);
 
     }
 
@@ -138,7 +181,6 @@ public class UiSettingsChild extends SettingsChildAbstract
         }
 
     }
-
 
     @Override
     public void onViewStateChanged(AbstractParameter.ViewState value) {
@@ -182,7 +224,8 @@ public class UiSettingsChild extends SettingsChildAbstract
     @Override
     public void onStringValueChanged(String value) {
         sendLog("Set Value to:" + value);
-        valueText.setText(value);
+        if (valueText != null)
+            valueText.setText(value);
     }
 
 

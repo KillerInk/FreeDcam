@@ -9,22 +9,21 @@ android {
             storePassword 'freedcam'
         }
     }
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 139
-        versionName '4.1'
+        versionCode 142
+        versionName '4.2'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 19
         externalNativeBuild {
             ndkBuild {
                 arguments "-j4"
-                abiFilters 'armeabi-v7a','arm64-v8a'
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
             }
         }
-        versionNameSuffix 'beta9'
     }
     lintOptions { checkReleaseBuilds false }
     buildTypes {
@@ -46,9 +45,15 @@ android {
     productFlavors {
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+		sourceCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.android.support:documentfile:28.0.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }
 
 android.applicationVariants.all { variant ->
@@ -57,7 +62,4 @@ android.applicationVariants.all { variant ->
     }
 }
 
-dependencies {
-    implementation 'com.android.support:appcompat-v7:27.0.2'
-}
 

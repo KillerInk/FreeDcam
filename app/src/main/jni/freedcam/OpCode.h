@@ -15,8 +15,8 @@ public:
 
     void clear()
     {
-        delete[] op2;
-        delete[] op3;
+        op2 = nullptr;
+        op3 = nullptr;
         op2Size = 0;
         op2Size = 0;
     }

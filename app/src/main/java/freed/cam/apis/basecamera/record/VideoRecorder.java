@@ -11,12 +11,15 @@ import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 import android.view.Surface;
 
+import com.troop.freedcam.R;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
@@ -102,17 +105,33 @@ public class VideoRecorder {
         mediaRecorder.stop();
     }
 
-    public void prepare()
+    public boolean prepare()
     {
         mediaRecorder.reset();
         if (camera != null)
             mediaRecorder.setCamera(camera);
         if (previewSurface != null)
             mediaRecorder.setPreviewDisplay(previewSurface);
-        if (currentVideoProfile.maxRecordingSize != 0)
-            mediaRecorder.setMaxFileSize(currentVideoProfile.maxRecordingSize);
-        if (currentVideoProfile.duration != 0)
-            mediaRecorder.setMaxDuration(currentVideoProfile.duration);
+        try {
+            if (this.currentVideoProfile.maxRecordingSize != 0)
+                mediaRecorder.setMaxFileSize(this.currentVideoProfile.maxRecordingSize);
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+            //return false;
+        }
+        try {
+            if (this.currentVideoProfile.duration != 0)
+                mediaRecorder.setMaxDuration(this.currentVideoProfile.duration);
+        }
+        catch (RuntimeException ex)
+        {
+            Log.WriteEx(ex);
+            Log.e(TAG,"Failed to set Duration");
+            //return false;
+        }
+
         if (errorListener != null)
             mediaRecorder.setOnErrorListener(errorListener);
 
@@ -124,28 +143,28 @@ public class VideoRecorder {
 
         mediaRecorder.setOrientationHint(orientation);
 
-        switch (currentVideoProfile.Mode)
+        switch (this.currentVideoProfile.Mode)
         {
 
             case Normal:
             case Highspeed:
-                if (currentVideoProfile.isAudioActive)
+                if (this.currentVideoProfile.isAudioActive)
                 {
                     try {
-                        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+                        mediaRecorder.setAudioSource(getAudioSource());
                         //mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
                     }
                     catch (IllegalArgumentException ex)
                     {
                         mediaRecorder.reset();
                         UserMessageHandler.sendMSG("AudioSource not Supported",true);
-                        return;
+                        return false;
                     }
                     catch (IllegalStateException ex)
                     {
                         mediaRecorder.reset();
                         UserMessageHandler.sendMSG("AudioSource not Supported",true);
-                        return;
+                        return false;
                     }
                 }
                 break;
@@ -159,8 +178,8 @@ public class VideoRecorder {
 
         setRecorderFilePath();
 
-        mediaRecorder.setVideoEncodingBitRate(currentVideoProfile.videoBitRate);
-        mediaRecorder.setVideoFrameRate(currentVideoProfile.videoFrameRate);
+        mediaRecorder.setVideoEncodingBitRate(this.currentVideoProfile.videoBitRate);
+        mediaRecorder.setVideoFrameRate(this.currentVideoProfile.videoFrameRate);
 
          /*setCaptureRate
 
@@ -172,9 +191,9 @@ public class VideoRecorder {
         Audio related parameters are ignored when a time lapse recording session starts, if an application sets them.*/
         //mediaRecorder.setCaptureRate((double)currentVideoProfile.videoFrameRate);
 
-        mediaRecorder.setVideoSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+        mediaRecorder.setVideoSize(this.currentVideoProfile.videoFrameWidth, this.currentVideoProfile.videoFrameHeight);
         try {
-            mediaRecorder.setVideoEncoder(currentVideoProfile.videoCodec);
+            mediaRecorder.setVideoEncoder(this.currentVideoProfile.videoCodec);
         }
         catch (IllegalArgumentException ex)
         {
@@ -182,23 +201,24 @@ public class VideoRecorder {
             UserMessageHandler.sendMSG("VideoCodec not Supported",false);
         }
 
-        switch (currentVideoProfile.Mode)
+        switch (this.currentVideoProfile.Mode)
         {
             case Normal:
             case Highspeed:
-                if (currentVideoProfile.isAudioActive)
+                if (this.currentVideoProfile.isAudioActive)
                 {
                     try {
-                        mediaRecorder.setAudioEncoder(currentVideoProfile.audioCodec);
+                        mediaRecorder.setAudioEncoder(this.currentVideoProfile.audioCodec);
                     }
                     catch (IllegalArgumentException ex)
                     {
                         mediaRecorder.reset();
                         UserMessageHandler.sendMSG("AudioCodec not Supported",false);
+                        return false;
                     }
-                    mediaRecorder.setAudioChannels(currentVideoProfile.audioChannels);
-                    mediaRecorder.setAudioEncodingBitRate(currentVideoProfile.audioBitRate);
-                    mediaRecorder.setAudioSamplingRate(currentVideoProfile.audioSampleRate);
+                    mediaRecorder.setAudioChannels(this.currentVideoProfile.audioChannels);
+                    mediaRecorder.setAudioEncodingBitRate(this.currentVideoProfile.audioBitRate);
+                    mediaRecorder.setAudioSamplingRate(this.currentVideoProfile.audioSampleRate);
                 }
                 break;
             case Timelapse:
@@ -215,8 +235,9 @@ public class VideoRecorder {
         } catch (IOException ex) {
             Log.WriteEx(ex);
             UserMessageHandler.sendMSG("Prepare failed :" + ex.getMessage(),false);
-            return;
+            return false;
         }
+        return true;
     }
 
     private void setRecorderFilePath() {
@@ -246,6 +267,26 @@ public class VideoRecorder {
     public void release()
     {
         mediaRecorder.release();
+    }
+
+    public void reset(){
+        mediaRecorder.reset();
+    }
+
+    public int getAudioSource()
+    {
+        String as = SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).get();
+        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_mic)))
+            return MediaRecorder.AudioSource.MIC;
+        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_camcorder)))
+            return MediaRecorder.AudioSource.CAMCORDER;
+        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_voice_recognition)))
+            return MediaRecorder.AudioSource.VOICE_RECOGNITION;
+        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_voice_communication)))
+            return MediaRecorder.AudioSource.VOICE_COMMUNICATION;
+        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_unprocessed)))
+            return MediaRecorder.AudioSource.UNPROCESSED;
+        return MediaRecorder.AudioSource.DEFAULT;
     }
 
 }

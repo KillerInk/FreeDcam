@@ -40,6 +40,7 @@ public class SettingKeys{
     public final static Key<SettingMode> AntiBandingMode = new Key(SettingMode.class, R.string.aps_antibandingmode);
     public final static Key<SettingMode> WhiteBalanceMode = new Key(SettingMode.class, R.string.aps_whitebalancemode);
     public final static Key<SettingMode> PictureSize = new Key(SettingMode.class, R.string.aps_picturesize);
+    public final static Key<SettingMode> RawSize = new Key(SettingMode.class, R.string.aps_rawsize);
     public final static Key<SettingMode> PictureFormat = new Key(SettingMode.class, R.string.aps_pictureformat);
 
     public final static Key<SettingMode> JpegQuality = new Key(SettingMode.class, R.string.aps_jpegquality);
@@ -104,6 +105,7 @@ public class SettingKeys{
     public final static Key<SettingMode> CONTROL_MODE = new Key(SettingMode.class, R.string.aps_controlmode);
     public final static Key<SettingMode> OIS_MODE = new Key(SettingMode.class, R.string.aps_ois);
     public final static Key<SettingMode> SD_SAVE_LOCATION = new Key(SettingMode.class, R.string.aps_sdcard);
+    public final static Key<SettingMode> EXTERNAL_SHUTTER = new Key(SettingMode.class, R.string.aps_externalshutter);
     public final static Key<SettingMode> LOCATION_MODE = new Key(SettingMode.class, R.string.aps_location);
     public final static Key<SettingMode> INTERVAL_DURATION = new Key(SettingMode.class, R.string.aps_interval_duration);
     public final static Key<SettingMode> INTERVAL_SHUTTER_SLEEP = new Key(SettingMode.class, R.string.aps_interval);
@@ -116,6 +118,7 @@ public class SettingKeys{
     public final static Key<SettingMode> selfTimer = new Key(SettingMode.class, R.string.aps_selftimer);
 
     public final static Key<SettingMode> FOCUSPEAK_COLOR = new Key(SettingMode.class, R.string.aps_focuspeakcolor);
+    public final static Key<SettingMode> VIDEO_AUDIO_SOURCE = new Key(SettingMode.class, R.string.aps_video_audio_source);
 
     public final static Key<TypedSettingMode> M_ManualIso = new Key(TypedSettingMode.class, R.string.aps_manualiso);
     public final static Key<TypedSettingMode> M_Whitebalance = new Key(TypedSettingMode.class, R.string.aps_manualwb);
@@ -145,6 +148,7 @@ public class SettingKeys{
     public final static Key<SettingMode> HISTOGRAM = new Key(SettingMode.class, R.string.aps_histogram);
     public final static Key<SettingMode> CLIPPING = new Key(SettingMode.class, R.string.aps_histogram);
 
+    public final static Key<SettingMode> ApiSettingsMode = new Key(SettingMode.class, R.string.aps_api);
     /**
      *
      * @return a list with all statics keys in this class

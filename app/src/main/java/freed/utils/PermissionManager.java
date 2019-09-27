@@ -14,6 +14,15 @@ import java.util.Arrays;
 
 public class PermissionManager
 {
+
+    public enum Permissions
+    {
+        SdCard,
+        Camera,
+        Location,
+        Wifi,
+    }
+
     private final String TAG = PermissionManager.class.getSimpleName();
     private PermissionCallback callbackToReturn;
 
@@ -42,6 +51,14 @@ public class PermissionManager
     public boolean hasExternalSDPermission(PermissionCallback callbackToReturn)
     {
         return hasPermission(callbackToReturn, new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE});
+    }
+
+    public boolean hasLocationPermission()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            return activity.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        else
+            return true;
     }
 
     public boolean hasLocationPermission(PermissionCallback callbackToReturn)
@@ -105,9 +122,9 @@ public class PermissionManager
     }
 
 
-    public void hasCameraAndSdPermission(PermissionCallback callbackToReturn)
+    public boolean hasCameraAndSdPermission(PermissionCallback callbackToReturn)
     {
-        hasPermission(callbackToReturn, new String[]{
+        return hasPermission(callbackToReturn, new String[]{
                 Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
         });
     }

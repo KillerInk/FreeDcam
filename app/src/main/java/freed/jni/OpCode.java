@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import freed.utils.Log;
-import freed.utils.StringUtils;
 
 public class OpCode
 {
 
     private final String TAG = OpCode.class.getSimpleName();
+    private byte[] op2bytes;
+    private byte[] op3bytes;
 
     static
     {
@@ -31,7 +32,8 @@ public class OpCode
         if (op2.exists()) {
             try {
                 Log.d(TAG,"load op2");
-                setOp2(byteBuffer,RawToDng.readFile(op2));
+                op2bytes = RawToDng.readFile(op2);
+                setOp2(byteBuffer,op2bytes);
                 Log.d(TAG,"load op2 done");
             } catch (IOException e) {
                 Log.WriteEx(e);
@@ -40,7 +42,8 @@ public class OpCode
         if (op3.exists()) {
             try {
                 Log.d(TAG,"load op3");
-                setOp3(byteBuffer,RawToDng.readFile(op3));
+                op3bytes = RawToDng.readFile(op3);
+                setOp3(byteBuffer,op3bytes);
                 Log.d(TAG,"load op3 done");
             } catch (IOException e) {
                 Log.WriteEx(e);

@@ -28,6 +28,10 @@
     <string name="setting_video_group_header">Video Mode</string>
     <string name="setting_videoprofile_description">Media Profile used VideoRecording</string>
     <string name="setting_videoprofile_header">Video Profile: </string>
+
+    <string name="setting_videoaudiosource_description">Audio Source for recording</string>
+    <string name="setting_videoaudiosource_header">AudioSource: </string>
+
     <string name="setting_videoprofileeditor_description">Create Custom VideoProfiles</string>
     <string name="setting_videoprofileeditor_header">Video Profile Editor </string>
     <string name="setting_videohdr_description">turn on to enable hdr video</string>
@@ -134,8 +138,8 @@
     <string name="setting_truepotrait_header">True Potrait: </string>
     <string name="setting_truepotrait_description">Description pending</string>
     <string name="setting_optizoom_header">Optizoom: </string>
-    <string name="setting_optizoom_description">Description pending</string>
-    <string name="setting_chroma_header">Optizoom: </string>
+    <string name="setting_optizoom_description">Auto track zoom object</string>
+    <string name="setting_chroma_header">Chroma Flash: </string>
     <string name="setting_chroma_description">MultiFRame flash image</string>
 
 
@@ -300,8 +304,9 @@
     <string name="pictureformat_dng12">12bitDNG</string>
     <string name="pictureformat_dng16">16bitDNG</string>
     <string name="pictureformat_jpeg">Jpeg</string>
-    <string name="pictureformat_bayer">Bayer</string>
-    <string name="pictureformat_jpg_p_dng">Jpg+Dng</string>
+    <string name="pictureformat_bayer">Bayer16</string>
+    <string name="pictureformat_bayer10">Bayer10</string>
+    <string name="pictureformat_jpg_p_dng">Jpg+16bitDng</string>
 
     <string name="colorcorrection_transform_matrix">Transform Matrix</string>
     <string name="customrowsize">Custom Row Size</string>
@@ -321,8 +326,17 @@
     <string name="fcolor_magenta">Magenta</string>
     <string name="fcolor_cyan">Cyan</string>
 
-
-
+    <string name="video_audio_source_default">Default</string>
+    <string name="video_audio_source_mic">Mic</string>
+    <string name="video_audio_source_voiceuplink">Voice Uplink</string>
+    <string name="video_audio_source_voicedownlink">Voice Downlink</string>
+    <string name="video_audio_source_voice_call">Voice Call</string>
+    <string name="video_audio_source_camcorder">Camcorder</string>
+    <string name="video_audio_source_voice_recognition">Voice Recognition</string>
+    <string name="video_audio_source_voice_communication">Voice Communication</string>
+    <string name="video_audio_source_unprocessed">Unprocessed</string>
+    <string name="setting_rawsize_header">Raw Size</string>
+    <string name="setting_rawsize_description">Size of the Raw</string>
 
 
 </resources>

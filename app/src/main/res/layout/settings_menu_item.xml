@@ -1,56 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
     android:id="@+id/menu_item_toplayout"
-    android:background="@color/uiSettingsBackground">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
+    android:background="@color/uiSettingsBackground"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
         android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp">
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/textview_menuitem_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Header:"
-            android:id="@+id/textview_menuitem_header"
-            android:textSize="@dimen/settings_menu_item_header"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/holo_green_dark"
+            android:textSize="@dimen/settings_menu_item_header"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/textview_menuitem_header_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="value"
-            android:id="@+id/textview_menuitem_header_value"
-            android:textSize="@dimen/settings_menu_item_header_value"
-            android:textColor="@color/uiSettingsTextColor"
             android:layout_marginLeft="2dp"
+            android:text="value"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/uiSettingsTextColor"
+            android:textSize="@dimen/settings_menu_item_header_value"
             android:typeface="sans" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
         android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp">
+        android:layout_marginRight="3dp"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textview_menuitem_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Description"
-            android:id="@+id/textview_menuitem_description"
-            android:textSize="@dimen/settings_menu_item_description"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/holo_orange_dark"
+            android:textSize="@dimen/settings_menu_item_description"
             android:typeface="monospace" />
     </LinearLayout>
 </LinearLayout>

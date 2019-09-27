@@ -2,18 +2,25 @@ package freed.cam.apis;
 
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.troop.freedcam.R;
 
+import org.greenrobot.eventbus.Subscribe;
+
+import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.CameraStateEvents;
+import freed.cam.apis.basecamera.CameraToMainHandler;
+import freed.cam.apis.basecamera.MainToCameraHandler;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.featuredetector.CameraFeatureDetectorFragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.EventBusLifeCycle;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -28,26 +35,29 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     private CameraFragmentAbstract cameraFragment;
     private RenderScriptManager renderScriptManager;
 
-    /*private Object cameraLock = new Object();
-    private HandlerThread mBackgroundThread;*/
-    private CameraStateEvents cameraStateEventListner;
     private CameraFeatureDetectorFragment fd;
-    private static BackgroundHandlerThread backgroundHandlerThread;
+    private BackgroundHandlerThread backgroundHandlerThread;
+    private MainToCameraHandler mainToCameraHandler;
+    private CameraToMainHandler cameraToMainHandler;
+    private ActivityInterface activityInterface;
 
-    public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context, CameraStateEvents cameraStateEventListner)
+    public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context, ActivityInterface activityInterface)
     {
         this.fragmentManager = fragmentManager;
         this.fragmentHolderId = fragmentHolderId;
-        this.cameraStateEventListner = cameraStateEventListner;
         if (RenderScriptManager.isSupported())
             renderScriptManager = new RenderScriptManager(context);
+        Log.d(TAG,"Create camera BackgroundHandler");
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         backgroundHandlerThread.create();
-        /*startBackgroundThread();*/
+        cameraToMainHandler = new CameraToMainHandler();
+        this.mainToCameraHandler = new MainToCameraHandler(backgroundHandlerThread.getThread().getLooper());
+        this.activityInterface = activityInterface;
     }
 
     public void destroy()
     {
+        Log.d(TAG,"Destroy camera BackgroundHandler");
         backgroundHandlerThread.destroy();
     }
 
@@ -90,8 +100,18 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         }
     }
 
+    public void onResume()
+    {
+        if (cameraFragment != null) {
+            mainToCameraHandler.setCameraInterface(cameraFragment);
+            cameraFragment.init(mainToCameraHandler, cameraToMainHandler,activityInterface);
+            cameraFragment.setRenderScriptManager(renderScriptManager);
+        }
+    }
+
     public void switchCameraFragment()
     {
+        Log.d(TAG, "BackgroundHandler is null: " + (backgroundHandlerThread.getThread() == null));
         if ((!SettingsManager.get(SettingKeys.areFeaturesDetected).get() || SettingsManager.getInstance().appVersionHasChanged()) && fd == null)
         {
             if (cameraFragment != null)
@@ -104,24 +124,31 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
                 String api = SettingsManager.getInstance().getCamApi();
                 switch (api) {
                     case SettingsManager.API_SONY:
-                        cameraFragment = SonyCameraRemoteFragment.getInstance(backgroundHandlerThread.getThread());
+                        cameraFragment = SonyCameraRemoteFragment.getInstance();
                         break;
                     case SettingsManager.API_2:
-                        cameraFragment = Camera2Fragment.getInstance(backgroundHandlerThread.getThread());
+                        cameraFragment = Camera2Fragment.getInstance();
                         break;
                     default:
-                        cameraFragment = Camera1Fragment.getInstance(backgroundHandlerThread.getThread());
+                        cameraFragment = Camera1Fragment.getInstance();
                         break;
                 }
+
+                mainToCameraHandler.setCameraInterface(cameraFragment);
+                cameraFragment.init(mainToCameraHandler,cameraToMainHandler,activityInterface);
                 cameraFragment.setRenderScriptManager(renderScriptManager);
-                cameraFragment.setCameraEventListner(cameraStateEventListner);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
-            } else cameraFragment.startCameraAsync();
+            } else {
+                mainToCameraHandler.setCameraInterface(cameraFragment);
+                cameraFragment.init(mainToCameraHandler,cameraToMainHandler,activityInterface);
+                cameraFragment.startCameraAsync();
+            }
         }
     }
 
     public void unloadCameraFragment()
     {
+        Log.d(TAG, "unloadCameraFragment");
         if (cameraFragment != null) {
             //kill the cam befor the fragment gets removed to make sure when
             //new cameraFragment gets created and its texture view is created the cam get started
@@ -132,6 +159,9 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
             transaction.remove(cameraFragment);
             transaction.commit();
             cameraFragment = null;
+            mainToCameraHandler.setCameraInterface(null);
         }
     }
+
+
 }

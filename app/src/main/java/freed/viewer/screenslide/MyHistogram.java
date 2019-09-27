@@ -137,6 +137,8 @@ public class MyHistogram extends View {
     }
 
 
+
+
     private Runnable redrawHisto = () -> {
         bringToFront();
         invalidate();

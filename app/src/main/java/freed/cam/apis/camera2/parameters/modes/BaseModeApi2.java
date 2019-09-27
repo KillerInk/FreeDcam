@@ -32,7 +32,6 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 
@@ -105,7 +104,7 @@ public class BaseModeApi2 extends AbstractParameter
     public String GetStringValue()
     {
         if (parameterValues == null && captureSessionHandler == null)
-            return "";
+            return null;
         try {
             int i = captureSessionHandler.getPreviewParameter(parameterKey);
             for (Map.Entry s : parameterValues.entrySet())
@@ -117,7 +116,7 @@ public class BaseModeApi2 extends AbstractParameter
             Log.WriteEx(ex);
         }
 
-        return "";
+        return null;
     }
 
 }

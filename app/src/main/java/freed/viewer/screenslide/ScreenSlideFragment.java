@@ -33,17 +33,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
+
+
 import android.support.v4.provider.DocumentFile;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.dimen;
@@ -71,7 +73,7 @@ import freed.viewer.screenslide.ImageFragment.I_WaitForWorkFinish;
 /**
  * Created by troop on 18.09.2015.
  */
-public class ScreenSlideFragment extends Fragment implements OnPageChangeListener, I_OnActivityResultCallback, I_WaitForWorkFinish
+public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageChangeListener, I_OnActivityResultCallback, I_WaitForWorkFinish
 {
     public final String TAG = ScreenSlideFragment.class.getSimpleName();
     public interface ButtonClick

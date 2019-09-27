@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import com.lge.hardware.LGCameraRef;
 import com.troop.freedcam.R;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -81,6 +80,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
                 SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
             }
+
+            SettingsManager.get(SettingKeys.LOCATION_MODE).setIsSupported(true);
+
+            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(SettingsManager.getInstance().getResString(R.string.video_audio_source_default));
+            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.video_audio_source));
+            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
+
 
             detectedPictureFormats(parameters);
             publishProgress("DngSupported:" + (SettingsManager.getInstance().getDngProfilesMap() != null && SettingsManager.getInstance().getDngProfilesMap().size() > 0) + " RawSupport:"+ SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported());
@@ -479,20 +485,33 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("shutter-value");
                 SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_MEIZU);
             }
-            //krillin shutter
-            else if (parameters.get("hw-manual-exposure-value") != null) {
-                Log.d(TAG, "ManualExposureTime Krilin");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.shutter_values_krillin));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("hw-manual-exposure-value");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_KRILLIN);
-            }
-            else if (parameters.get("hw-max-exposure-time") != null) {
-                Log.d(TAG, "ManualExposureTime huawei");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.shutter_values_krillin));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("hw-sensor-exposure-time");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_KRILLIN);
+            //kirin shutter
+            else if (parameters.get("hw-sensor-exposure-time-range") != null) {
+                try {
+                    Log.d(TAG, "ManualExposureTime huawei");
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
+                    String split[] = parameters.get("hw-sensor-exposure-time-range").split(",");//=1/4000,30"
+                    String split2[] = split[0].split("/");
+                    float a = (Float.parseFloat(split2[0]) / Float.parseFloat(split2[1])) * 1000000f;
+                    long min = (long) a;
+                    long max;
+                    if (split2[1].contains("/")) {
+                        String split3[] = split2[1].split("/");
+                        float tmp = (Float.parseFloat(split3[0]) / Float.parseFloat(split3[1])) * 1000000f;
+                        max = (long) tmp;
+                    } else
+                        max = Long.parseLong(split[1]) * 1000000;
+
+                    String values[] = getSupportedShutterValues(min, max, true);
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setValues(values);
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("hw-sensor-exposure-time");
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_KRILLIN);
+                }
+                catch (NumberFormatException ex)
+                {
+                    Log.WriteEx(ex);
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
+                }
             }
             //sony shutter
             else if (parameters.get("sony-max-shutter-speed") != null) {
@@ -756,6 +775,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     SettingsManager.get(SettingKeys.M_Saturation).setKEY(camstring(R.string.saturation));
                     SettingsManager.get(SettingKeys.M_Saturation).set(parameters.get(camstring(R.string.saturation)));
                 }
+                else if (parameters.get("saturation-values") != null)
+                {
+                    SettingsManager.get(SettingKeys.M_Saturation).setValues(parameters.get("saturation-values").split(","));
+                    SettingsManager.get(SettingKeys.M_Saturation).setKEY("saturation");
+                    SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.M_Saturation).set("2");
+                }
                 Log.d(TAG, "Saturation Max:" + max);
                 if (max > 0) {
                     SettingsManager.get(SettingKeys.M_Saturation).setValues(createStringArray(min, max, 1));
@@ -797,6 +823,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     SettingsManager.get(SettingKeys.M_Sharpness).setKEY(camstring(R.string.sharpness));
                     SettingsManager.get(SettingKeys.M_Sharpness).set(parameters.get(camstring(R.string.sharpness)));
                 }
+                else if (parameters.get("sharpness-values") != null)
+                {
+                    SettingsManager.get(SettingKeys.M_Sharpness).setValues(parameters.get("sharpness-values").split(","));
+                    SettingsManager.get(SettingKeys.M_Sharpness).setKEY("sharpness");
+                    SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
+                }
                 Log.d(TAG, "Sharpness Max:" +max);
                 if (max > 0) {
                     SettingsManager.get(SettingKeys.M_Sharpness).setValues(createStringArray(min, max, 1));
@@ -833,6 +865,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     min = Integer.parseInt(parameters.get(camstring(R.string.min_brightness)));
                     max = Integer.parseInt(parameters.get(camstring(R.string.max_brightness)));
                     Log.d(TAG, "Brightness: Default");
+                }
+                else if (parameters.get("brightness-values") != null)
+                {
+                    SettingsManager.get(SettingKeys.M_Brightness).setValues(parameters.get("brightness-values").split(","));
+                    SettingsManager.get(SettingKeys.M_Brightness).setKEY("brightness");
+                    SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.M_Brightness).set("2");
                 }
                 Log.d(TAG, "Brightness Max:" + max);
                 if (max > 0) {
@@ -873,6 +912,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     min = Integer.parseInt(parameters.get(camstring(R.string.min_contrast)));
                     max = Integer.parseInt(parameters.get(camstring(R.string.max_contrast)));
 
+                }
+                else if (parameters.get("contrast-values") != null)
+                {
+                    SettingsManager.get(SettingKeys.M_Contrast).setValues(parameters.get("contrast-values").split(","));
+                    SettingsManager.get(SettingKeys.M_Contrast).setKEY("contrast"); // constrast is not a typo. on huawei side it is
+                    SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.M_Contrast).set("2");
                 }
                 Log.d(TAG, "Contrast Max:" +max);
                 if (max > 0) {
@@ -989,10 +1035,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 Log.WriteEx(ex);
                 SettingsManager.get(SettingKeys.M_Focus).setIsSupported(false);
             }
-            //create mf values
-            if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
-                SettingsManager.get(SettingKeys.M_Focus).setValues(createManualFocusValues(min, max,step));
+
         }
+        //create mf values
+        if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
+            SettingsManager.get(SettingKeys.M_Focus).setValues(createManualFocusValues(min, max,step));
 
     }
 
@@ -1018,7 +1065,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     }
 
 
-
+    private LGCameraRef lgCamera = null;
     private Camera.Parameters getParameters(int currentcamera)
     {
         Camera camera = null;
@@ -1027,12 +1074,15 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             case LG:
             {
                 Log.d(TAG,"Open LG Camera");
-                LGCameraRef lgCamera = null;
                 if (SettingsManager.get(SettingKeys.openCamera1Legacy).get())
                     lgCamera = new LGCameraRef(currentcamera, 256);
                 if (lgCamera == null)
                     lgCamera = new LGCameraRef(currentcamera);
-                return lgCamera.getParameters();
+                Camera.Parameters parameters = lgCamera.getCamera().getParameters();
+                lgCamera.getCamera().release();
+                lgCamera.release();
+                lgCamera = null;
+                return parameters;
             }
             case Moto_Ext:
             {
@@ -1083,10 +1133,20 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                }
                else
                {
-                   camera = Camera.open(currentcamera);
-                   Camera.Parameters parameters = camera.getParameters();
-                   camera.release();
-                   return parameters;
+                   try {
+                       if (camera != null)
+                           camera.release();
+                       camera = Camera.open(currentcamera);
+                       Camera.Parameters parameters = camera.getParameters();
+                       camera.release();
+                       return parameters;
+                   }
+                   catch (RuntimeException ex)
+                   {
+                       Log.WriteEx(ex);
+                       return null;
+                   }
+
                }
             }
 
@@ -1263,7 +1323,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else if (parameters.get(camstring(R.string.lg_iso_values))!= null) {
             detectMode(parameters,R.string.iso,R.string.lg_iso_values, SettingsManager.get(SettingKeys.IsoMode));
         }
-        if (SettingsManager.get(SettingKeys.IsoMode).getValues().length >1)
+        if (SettingsManager.get(SettingKeys.IsoMode).getValues() != null && SettingsManager.get(SettingKeys.IsoMode).getValues().length >1)
             SettingsManager.get(SettingKeys.IsoMode).setIsSupported(true);
         else
             SettingsManager.get(SettingKeys.IsoMode).setIsSupported(false);
@@ -1345,7 +1405,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectMode(parameters, R.string.zsd_mode, R.string.zsd_mode_values, SettingsManager.get(SettingKeys.ZSL));
         }
 
-        if (SettingsManager.get(SettingKeys.ZSL).getValues().length == 0)
+        if (SettingsManager.get(SettingKeys.ZSL).getValues() != null && SettingsManager.get(SettingKeys.ZSL).getValues().length == 0)
             SettingsManager.get(SettingKeys.ZSL).setIsSupported(false);
     }
 
@@ -1438,10 +1498,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         final String _2160p = "2160p";
         final String _2160pDCI = "2160pDCI";
         HashMap<String,VideoMediaProfile> supportedProfiles;
+        SupportedVideoProfilesDetector videoProfilesDetector = new SupportedVideoProfilesDetector();
         if(SettingsManager.getInstance().getFrameWork() == Frameworks.LG)
-            supportedProfiles =  getLGVideoMediaProfiles(cameraid);
+            supportedProfiles =  videoProfilesDetector.getLGVideoMediaProfiles(cameraid);
         else
-            supportedProfiles= getDefaultVideoMediaProfiles(cameraid);
+            supportedProfiles= videoProfilesDetector.getDefaultVideoMediaProfiles(cameraid);
 
         if (supportedProfiles.get(_720phfr) == null && SettingsManager.get(SettingKeys.VideoHighFramerate).isSupported() && SettingsManager.get(SettingKeys.VideoHighFramerate).contains("120"))
         {

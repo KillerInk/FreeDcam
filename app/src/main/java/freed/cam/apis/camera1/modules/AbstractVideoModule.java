@@ -24,12 +24,10 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
-import android.support.v4.provider.DocumentFile;
 
 import com.troop.freedcam.R;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -54,7 +52,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     AbstractVideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        name = cameraUiWrapper.getResString(R.string.module_video);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video);
     }
 
     @Override
@@ -63,6 +61,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         changeCaptureState(CaptureStates.video_recording_stop);
         initRecorder();
     }
+
 
     @Override
     public String ShortName() {
@@ -88,15 +87,25 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     private void startStopRecording()
     {
-        if (!isWorking)
+        if (!isWorking && !isLowStorage) {
             startRecording();
-        else
+        }
+        else if( isWorking ) {
             stopRecording();
+        }
+        if( isLowStorage ) {
+            UserMessageHandler.sendMSG("Can't Record due to low storage space. Free some and try again.", false);
+        }
     }
 
     @Override
     public boolean IsWorking() {
         return isWorking;
+    }
+
+    @Override
+    public void IsLowStorage(Boolean x) {
+        isLowStorage = x;
     }
 //ModuleInterface END
 
@@ -104,7 +113,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     private void startRecording()
     {
         if (cameraUiWrapper.getActivityInterface().getPermissionManager().hasRecordAudioPermission(null)) {
-            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
                 cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             prepareRecorder();
         }
@@ -140,25 +149,30 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
             recorder.setPreviewSurface(((CameraHolder) cameraUiWrapper.getCameraHolder()).getSurfaceHolder());
 
-            try {
-                Log.d(TAG,"Preparing Recorder");
-                recorder.prepare();
-                Log.d(TAG, "Recorder Prepared, Starting Recording");
-                recorder.start();
-                Log.d(TAG, "Recording started");
-                sendStartToUi();
 
-            } catch (Exception ex)
-            {
-                Log.e(TAG,"Recording failed");
-                UserMessageHandler.sendMSG("Start Recording failed " + ex.getLocalizedMessage(),false);
-                Log.WriteEx(ex);
-                isWorking = false;
-                ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
-                recorder.release();
-                isWorking = false;
-                sendStopToUi();
-            }
+                Log.d(TAG,"Preparing Recorder");
+                if(recorder.prepare()) {
+                    Log.d(TAG, "Recorder Prepared, Starting Recording");
+                    recorder.start();
+
+                //fix exposer flick after video recording on first set parameters to camera.
+                // first call will under expose then second call will fix exposure.
+                cameraUiWrapper.getParameterHandler().SetParameters();
+                cameraUiWrapper.getParameterHandler().SetParameters();
+
+                    Log.d(TAG, "Recording started");
+                    sendStartToUi();
+                }
+                else
+                {
+                    Log.e(TAG,"Recording failed");
+                    UserMessageHandler.sendMSG("Start Recording failed ",false);
+                    isWorking = false;
+                    ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
+                    recorder.reset();
+                    isWorking = false;
+                    sendStopToUi();
+                }
         }
         catch (NullPointerException ex)
         {
@@ -166,7 +180,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             UserMessageHandler.sendMSG("Start Recording failed",false);
             isWorking = false;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
-            recorder.release();
+            recorder.reset();
             isWorking = false;
             sendStopToUi();
 
@@ -201,7 +215,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         finally
         {
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
-            recorder.release();
+            recorder.reset();
             isWorking = false;
             try {
                 if (VERSION.SDK_INT > VERSION_CODES.KITKAT && fileDescriptor != null) {
@@ -217,31 +231,6 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             sendStopToUi();
         }
     }
-
-    /*private void setRecorderOutPutFile(String s)
-    {
-        if (VERSION.SDK_INT < VERSION_CODES.KITKAT
-                || !SettingsManager.getInstance().GetWriteExternal() && VERSION.SDK_INT >= VERSION_CODES.KITKAT)
-            recorder.setOutputFile(s);
-        else
-        {
-            File f = new File(s);
-            DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();*/
-            //DocumentFile wr = df.createFile("*/*", f.getName());
-            /*try {
-                fileDescriptor = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-                recorder.setOutputFile(fileDescriptor.getFileDescriptor());
-            } catch (FileNotFoundException ex) {
-                Log.WriteEx(ex);
-                try {
-                    fileDescriptor.close();
-                } catch (IOException ex1) {
-                   Log.WriteEx(ex1);
-                }
-            }
-        }
-
-    }*/
 
     @Override
     public void onInfo(MediaRecorder mr, int what, int extra) {

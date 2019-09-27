@@ -41,7 +41,7 @@ public class VideoModuleSony extends ModuleAbstract implements I_CameraStatusCha
 
     public VideoModuleSony(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        name = cameraUiWrapper.getResString(R.string.module_video);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video);
         cameraHolder = (CameraHolderSony)cameraUiWrapper.getCameraHolder();
 
     }

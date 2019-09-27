@@ -46,11 +46,12 @@ import freed.utils.Log;
 /**
  * Created by troop on 14.06.2015.
  */
-public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
+public abstract class AbstractInfoOverlayHandler
 {
     private final Handler handler;
     private CameraWrapperInterface cameraUiWrapper;
     private boolean started;
+    private boolean isStopped;
     private final Context context;
 
     String batteryLevel;
@@ -79,12 +80,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     public void setCameraUIWrapper(CameraWrapperInterface cameraUIWrapper)
     {
         cameraUiWrapper = cameraUIWrapper;
-        if (cameraUIWrapper != null && cameraUIWrapper.getModuleHandler() != null)
-            cameraUIWrapper.getModuleHandler().addListner(this);
-    }
 
-    @Override
-    public void onModuleChanged(String module) {
     }
 
     private void startLooperThread()
@@ -149,7 +145,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
 
     private void getFormat()
     {
-        if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
+        if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
         {
             ParameterInterface videoprofile = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoProfiles);
             if (videoprofile != null)
@@ -178,7 +174,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         try
         {
             //defcomg was here 24/01/2015
-            if(!cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
+            if(!cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
                 storageSpace = Avail4PIC();
             else
                 storageSpace = readableFileSize(SDspace());
@@ -192,8 +188,21 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     }
 
     private String readableFileSize(long size) {
-        if(size <= 0) return "0";
+        if( size < 524288000 ){ //at least leave 500MB so that OS can work properly.
+            //set not enough storage recording state
+            cameraUiWrapper.getModuleHandler().SetIsLowStorage(true);
+            if( !isStopped ) {
+                //low storage reached; automatically stop the video.
+                cameraUiWrapper.getModuleHandler().startWork();
+                isStopped = true;
+            }
+        }
+        else{
+            isStopped = false;
+            cameraUiWrapper.getModuleHandler().SetIsLowStorage(false);
+        }
 
+        if(size <= 0) return "0";
         int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
         return decimalFormat.format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }

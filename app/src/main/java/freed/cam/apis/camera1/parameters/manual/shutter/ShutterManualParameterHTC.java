@@ -50,7 +50,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
     {
         currentInt = valueToSet;
         String shutterstring = stringvalues[currentInt];
-        if(!shutterstring.equals(cameraUiWrapper.getResString(R.string.auto_)))
+        if(!shutterstring.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_)))
         {
             if (shutterstring.contains("/")) {
                 String[] split = shutterstring.split("/");

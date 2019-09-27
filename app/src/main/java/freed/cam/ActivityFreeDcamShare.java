@@ -50,8 +50,8 @@ public class ActivityFreeDcamShare extends ActivityFreeDcamMain implements I_Wor
     }
 
     @Override
-    protected void initOnCreate() {
-        super.initOnCreate();
+    public void onCreatePermissionGranted() {
+        super.onCreatePermissionGranted();
         Intent callerIntent = getIntent();
         Log.d(TAG, callerIntent.getAction());
         if (callerIntent.getAction().equals(MediaStore.ACTION_IMAGE_CAPTURE)) {

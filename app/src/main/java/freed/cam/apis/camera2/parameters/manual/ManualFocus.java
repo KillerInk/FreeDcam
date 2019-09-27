@@ -28,6 +28,9 @@ import com.troop.freedcam.R;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.FocusPositionChangedEvent;
+import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -89,6 +92,7 @@ public class ManualFocus extends AbstractParameter
             if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).GetStringValue().equals(cameraUiWrapper.getContext().getString(R.string.off)))
             {
                 //apply turn off direct to the capturesession, else it get stored in settings.
+                cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).fireStringValueChanged(cameraUiWrapper.getContext().getString(R.string.off));
                 ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL,setToCamera);
                 ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,setToCamera);
             }
@@ -113,5 +117,12 @@ public class ManualFocus extends AbstractParameter
     public String getStringValue(int index)
     {
         return focusvalues.getKey(index);
+    }
+
+    @Override
+    public void fireStringValueChanged(String value)
+    {
+        currentString = value;
+        EventBusHelper.post(new FocusPositionChangedEvent(key,value, String.class));
     }
 }

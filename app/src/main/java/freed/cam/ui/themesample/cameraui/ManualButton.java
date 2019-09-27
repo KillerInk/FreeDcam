@@ -24,7 +24,6 @@ import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuff.Mode;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -37,33 +36,106 @@ import android.widget.TextView;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.ValueChangedEvent;
 import freed.utils.Log;
 
 
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualButton extends LinearLayout implements ParameterEvents, ManualButtonHandler.ManualMessageEvent
+public class ManualButton extends LinearLayout
 {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onViewStateChanged(ValueChangedEvent<AbstractParameter.ViewState> viewStateValueChangedEvent)
+    {
+        if (viewStateValueChangedEvent.type != AbstractParameter.ViewState.class)
+            return;
+        if (viewStateValueChangedEvent.key == parameter.getKey())
+        {
+            AbstractParameter.ViewState state = viewStateValueChangedEvent.newValue;
+            switch (state)
+            {
+                case Enabled:
+                    if (ManualButton.this.getVisibility() == View.GONE)
+                        ManualButton.this.setVisibility(VISIBLE);
+                    ManualButton.this.setEnabled(true);
+                    if (imageView != null)
+                        imageView.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
+                    break;
+                case Disabled:
+                    if (ManualButton.this.getVisibility() == View.GONE)
+                        ManualButton.this.setVisibility(VISIBLE);
+                    ManualButton.this.setEnabled(false);
+                    if (imageView != null)
+                        imageView.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                    break;
+                case Visible:
+                    ManualButton.this.setVisibility(View.VISIBLE);
+                    ManualButton.this.setEnabled(true);
+                    animate().setListener(null).scaleY(1f).setDuration(300);
+                    break;
+                case Hidden:
+                    animate().setListener(hideListner).scaleY(0f).setDuration(300);
+                    break;
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onIntValueChanged(ValueChangedEvent<Integer> current)
+    {
+        if (current.type != Integer.class)
+            return;
+        if (current.key == parameter.getKey()) {
+            pos = current.newValue;
+            Log.d(TAG, "onIntValueChanged current:" + current + " pos:" + pos);
+            String txt = getStringValue(current.newValue);
+            if (txt != null && !TextUtils.isEmpty(txt) && !txt.equals("null"))
+                valueTextView.setText(txt);
+            else
+                valueTextView.setText(String.valueOf(current.newValue));
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onValuesChanged(ValueChangedEvent<String[]> values) {
+        if (values.type != String[].class)
+            return;
+        if (values.key == parameter.getKey()) {
+            parameterValues = values.newValue;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onStringValueChanged(ValueChangedEvent<String> value) {
+        if (value.type != String.class)
+            return;
+        if (value.key == parameter.getKey())
+            valueTextView.setText(value.newValue);
+    }
+
     private final String TAG = ManualButton.class.getSimpleName();
     private String[] parameterValues;
-    private ParameterInterface parameter;
-    private TextView valueTextView;
+    protected ParameterInterface parameter;
+    protected TextView valueTextView;
     private ImageView imageView;
     private final int backgroundColorActive = Color.parseColor("#46FFFFFF");
     private final int backgroundColor = Color.parseColor("#00000000");
     private int pos;
     protected ActivityInterface fragment_activityInterface;
-    private ManualButtonHandler handler;
 
     public ManualButton(Context context, ParameterInterface parameter, int drawableImg)
     {
         super(context);
-        handler = new ManualButtonHandler(this);
         init(context);
         SetManualParameter(parameter);
         imageView.setImageDrawable(getResources().getDrawable(drawableImg));
@@ -78,21 +150,23 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
         imageView = findViewById(id.imageView_ManualButton);
     }
 
-    public void RemoveParameterListner( ParameterEvents t)
-    {
-        parameter.removeEventListner(t);
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        EventBusHelper.register(this);
     }
 
-    public void SetParameterListner( ParameterEvents t)
-    {
-        parameter.addEventListner(t);
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        EventBusHelper.unregister(this);
     }
+
 
     public void SetManualParameter(@Nullable ParameterInterface parameter)
     {
         this.parameter = parameter;
         if (parameter != null) {
-            parameter.addEventListner(this);
 
             String txt = parameter.GetStringValue();
             if (valueTextView != null) {
@@ -104,7 +178,7 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
             createStringParametersStrings(parameter);
 
         }
-        onViewStateChanged(parameter.getViewState());
+        //onViewStateChanged(parameter.getViewState());
 
     }
 
@@ -133,30 +207,6 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
 
         }
     };
-
-
-    @Override
-    public void onViewStateChanged(AbstractParameter.ViewState value) {
-        handler.set_ON_SET_VIEW_STATE(value);
-    }
-
-    @Override
-    public void onIntValueChanged(int current)
-    {
-        pos = current;
-        Log.d(TAG, "onIntValueChanged current:"+current +" pos:" + pos);
-        handler.setON_INT_VALUE_CHANGED(current);
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-        parameterValues = values;
-    }
-
-    @Override
-    public void onStringValueChanged(final String value) {
-        handler.setON_STRING_VALUE_CHANGED(value);
-    }
 
     private String getStringValue(int pos)
     {
@@ -188,7 +238,7 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
     public void setValueToParameters(final int value)
     {
         parameter.SetValue(value, true);
-        handler.setON_UPDATE_SETTING(value);
+
     }
 
     public void SetActive(boolean active) {
@@ -196,52 +246,6 @@ public class ManualButton extends LinearLayout implements ParameterEvents, Manua
             setBackgroundColor(backgroundColorActive);
         } else {
             setBackgroundColor(backgroundColor);
-        }
-    }
-
-    @Override
-    public void handelMainMessage(Message msg) {
-        switch (msg.what)
-        {
-            case ManualButtonHandler.ON_SET_VIEW_STATE:
-                AbstractParameter.ViewState state = (AbstractParameter.ViewState)msg.obj;
-                switch (state)
-                {
-                    case Enabled:
-                        if (ManualButton.this.getVisibility() == View.GONE)
-                            ManualButton.this.setVisibility(VISIBLE);
-                        ManualButton.this.setEnabled(true);
-                        if (imageView != null)
-                            imageView.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
-                        break;
-                    case Disabled:
-                        if (ManualButton.this.getVisibility() == View.GONE)
-                            ManualButton.this.setVisibility(VISIBLE);
-                        ManualButton.this.setEnabled(false);
-                        if (imageView != null)
-                            imageView.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-                        break;
-                    case Visible:
-                        ManualButton.this.setVisibility(View.VISIBLE);
-                        ManualButton.this.setEnabled(true);
-                        animate().setListener(null).scaleY(1f).setDuration(300);
-                        break;
-                    case Hidden:
-                        animate().setListener(hideListner).scaleY(0f).setDuration(300);
-                        break;
-                }
-                break;
-            case ManualButtonHandler.ON_STRING_VALUE_CHANGED:
-                valueTextView.setText(String.valueOf(msg.obj));
-                break;
-            case ManualButtonHandler.ON_INT_VALUE_CHANGED:
-                String txt = getStringValue((int)msg.obj);
-                if (txt != null && !TextUtils.isEmpty(txt) && !txt.equals("null"))
-                    valueTextView.setText(txt);
-                else
-                    valueTextView.setText(String.valueOf(msg.obj));
-                //Log.d(TAG, "setTextValue:" + valueTextView.getText());
-                break;
         }
     }
 

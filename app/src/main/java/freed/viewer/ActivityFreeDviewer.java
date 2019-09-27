@@ -38,6 +38,8 @@ import java.util.List;
 import freed.ActivityAbstract;
 import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
+import freed.utils.Log;
+import freed.utils.PermissionManager;
 import freed.utils.StorageFileManager;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;
@@ -49,6 +51,7 @@ import freed.viewer.screenslide.ScreenSlideFragment;
  */
 public class ActivityFreeDviewer extends ActivityAbstract
 {
+    private final String TAG = ActivityFreeDviewer.class.getSimpleName();
     private final String TAGGrid = GridViewFragment.class.getSimpleName();
     private final String TAGSlide = ScreenSlideFragment.class.getSimpleName();
     private GridViewFragment gridViewFragment;
@@ -58,6 +61,8 @@ public class ActivityFreeDviewer extends ActivityAbstract
     private AnimatorSet mCurrentAnimator;
     private int mShortAnimationDuration;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -65,19 +70,20 @@ public class ActivityFreeDviewer extends ActivityAbstract
     }
 
     @Override
-    protected void initOnCreate() {
-        super.initOnCreate();
+    public void onCreatePermissionGranted() {
+        super.onCreatePermissionGranted();
         init();
     }
 
     @Override
     protected void setContentToView() {
+        Log.d(TAG, "Set Content to view");
         setContentView(R.layout.freedviewer_activity);
     }
 
     private void init()
     {
-
+        Log.d(TAG,"init");
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         storageHandler = new StorageFileManager();
         FreeDPool.Execute(() -> LoadDCIMDirs());
@@ -121,6 +127,8 @@ public class ActivityFreeDviewer extends ActivityAbstract
     public LocationManager getLocationManager() {
         return null;
     }
+
+
 
     /**
      * Loads all Folders from DCIM dir from internal and external SD
@@ -349,7 +357,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        //super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == gridViewFragment.STACK_REQUEST || requestCode == gridViewFragment.DNGCONVERT_REQUEST)
         {
             List<FileHolder> files = getFiles();

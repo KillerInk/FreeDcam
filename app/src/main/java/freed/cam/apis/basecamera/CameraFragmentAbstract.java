@@ -20,14 +20,15 @@
 package freed.cam.apis.basecamera;
 
 import android.os.Bundle;
-import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,20 +36,21 @@ import java.util.List;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
+import freed.cam.events.CameraStateEvents;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessorInterface;
+import freed.utils.Log;
 
 /**
  * Created by troop on 06.06.2015.
  * That Fragment is used as base for all camera apis added.
  */
-public abstract class CameraFragmentAbstract extends Fragment implements CameraInterface ,CameraWrapperInterface, CameraToMainHandler.MainMessageEvent {
+public abstract class CameraFragmentAbstract extends Fragment implements CameraInterface ,CameraWrapperInterface {
     private final String TAG = CameraFragmentAbstract.class.getSimpleName();
 
 
 
     protected View view;
-    //holds the appsettings
     protected RenderScriptManager renderScriptManager;
 
     public ModuleHandlerAbstract moduleHandler;
@@ -66,54 +68,49 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     public AbstractFocusHandler Focus;
 
     protected boolean PreviewSurfaceRdy;
-
-    /**
-     * holds the listners that get informed when the camera state change
-     */
-    private final List<CameraStateEvents> cameraChangedListners;
-
+    private ActivityInterface activityInterface;
 
 
     public abstract String CameraApiName();
 
     /**
-     * holds handler to invoke stuff in ui thread
+     * holds handler to invoke stuff in ui or camera thread
      */
-    protected CameraToMainHandler cameraToMainHandler;
     protected MainToCameraHandler mainToCameraHandler;
-    protected HandlerThread handlerThread;
+    protected CameraToMainHandler cameraToMainHandler;
 
-    public static CameraFragmentAbstract getInstance(HandlerThread handlerThread)
+    public static CameraFragmentAbstract getInstance()
     {
         return null;
     }
 
     public CameraFragmentAbstract()
     {
-        cameraChangedListners = new ArrayList<>();
-        cameraToMainHandler = new CameraToMainHandler(this    );
+
     }
 
-    protected void init(HandlerThread mBackgroundThread)
+    public void init(MainToCameraHandler mainToCameraHandler, CameraToMainHandler cameraToMainHandler, ActivityInterface activityInterface)
     {
-        this.handlerThread = mBackgroundThread;
-        this.mainToCameraHandler = new MainToCameraHandler(handlerThread.getLooper(),this);
+        Log.d(TAG, "init handler");
+        this.mainToCameraHandler = mainToCameraHandler;
+        this.cameraToMainHandler = cameraToMainHandler;
+        this.activityInterface = activityInterface;
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater layoutInflater, @Nullable ViewGroup viewGroup, @Nullable Bundle bundle) {
-        cameraChangedListners.add(this);
+        Log.d(TAG, "onCreateView");
+
         return super.onCreateView(layoutInflater, viewGroup, bundle);
     }
 
     @Override
     public void onDestroyView()
     {
-        if (moduleHandler != null) {
-            moduleHandler.CLEAR();
-            moduleHandler.CLEARWORKERLISTNER();
-        }
+        Log.d(TAG, "onDestroyView");
+
         super.onDestroyView();
 
     }
@@ -123,73 +120,79 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
         this.renderScriptManager = renderScriptManager;
     }
 
-    /**
-     * adds a new listner for camera state changes
-     * @param cameraChangedListner to add
-     */
-    public void setCameraEventListner(final CameraStateEvents cameraChangedListner)
-    {
-        cameraToMainHandler.setCameraStateChangedListner(cameraChangedListner);
-    }
-
     @Override
     public void startCameraAsync() {
-        mainToCameraHandler.startCamera();
+        if (mainToCameraHandler != null)
+            mainToCameraHandler.startCamera();
+        else
+            Log.d(TAG, "MainToCameraHandler is null");
     }
 
     @Override
     public void stopCameraAsync() {
-        mainToCameraHandler.stopCamera();
+        if (mainToCameraHandler != null)
+            mainToCameraHandler.stopCamera();
+        else
+            Log.d(TAG, "MainToCameraHandler is null");
     }
 
     @Override
     public void restartCameraAsync() {
-        mainToCameraHandler.restartCamera();
+        if (mainToCameraHandler != null)
+            mainToCameraHandler.restartCamera();
+        else
+            Log.d(TAG, "MainToCameraHandler is null");
     }
 
     @Override
     public void startPreviewAsync() {
-        mainToCameraHandler.startPreview();
+        if (mainToCameraHandler != null)
+            mainToCameraHandler.startPreview();
+        else
+            Log.d(TAG, "MainToCameraHandler is null");
     }
 
     @Override
     public void stopPreviewAsync() {
-        mainToCameraHandler.stopPreview();
+        if (mainToCameraHandler != null)
+            mainToCameraHandler.stopPreview();
+        else
+            Log.d(TAG, "MainToCameraHandler is null");
     }
 
     @Override
     public void fireCameraOpen()
     {
-        cameraToMainHandler.onCameraOpen();
+        CameraStateEvents.fireCameraOpenEvent();
     }
 
     @Override
     public void fireCameraError(final String error) {
-        cameraToMainHandler.onCameraError(error);
+        CameraStateEvents.fireCameraErrorEvent(error);
     }
 
 
     @Override
     public void fireCameraClose()
     {
-        cameraToMainHandler.onCameraClose("");
+        CameraStateEvents.fireCameraCloseEvent();
     }
 
     @Override
     public void firePreviewOpen()
     {
-        cameraToMainHandler.onPreviewOpen("");
+        CameraStateEvents.firePreviewOpenEvent();
     }
 
     @Override
     public void firePreviewClose() {
-        cameraToMainHandler.onPreviewClose("");
+        CameraStateEvents.firePreviewCloseEvent();
     }
 
     @Override
     public void fireCameraOpenFinished()
     {
-        cameraToMainHandler.onCameraOpenFinish();
+        CameraStateEvents.fireCameraOpenFinishEvent();
     }
 
     public abstract int getMargineLeft();
@@ -206,7 +209,7 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
 
     @Override
     public ActivityInterface getActivityInterface() {
-        return (ActivityInterface)getActivity();
+        return activityInterface;
     }
 
     @Override
@@ -239,42 +242,4 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
         return moduleHandler;
     }
 
-    @Override
-    public HandlerThread getCameraHandlerThread() {
-        return handlerThread;
-    }
-
-    @Override
-    public void handelMainMessage(Message msg)
-    {
-        switch (msg.what) {
-            case CameraToMainHandler.MSG_SET_CAMERASTAUSLISTNER:
-                cameraChangedListners.add((CameraStateEvents)msg.obj);
-                break;
-            case CameraToMainHandler.MSG_ON_CAMERA_OPEN:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onCameraOpen();
-                break;
-            case CameraToMainHandler.MSG_ON_CAMERA_ERROR:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onCameraError((String)msg.obj);
-                break;
-            case CameraToMainHandler.MSG_ON_CAMERA_CLOSE:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onCameraClose((String)msg.obj);
-                break;
-            case CameraToMainHandler.MSG_ON_PREVIEW_OPEN:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onPreviewOpen((String)msg.obj);
-                break;
-            case CameraToMainHandler.MSG_ON_PREVIEW_CLOSE:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onPreviewClose((String)msg.obj);
-                break;
-            case CameraToMainHandler.MSG_ON_CAMERA_OPEN_FINISHED:
-                for (final CameraStateEvents cameraChangedListner : cameraChangedListners)
-                    cameraChangedListner.onCameraOpenFinish();
-                break;
-        }
-    }
 }

@@ -42,6 +42,7 @@
 
 
     <application
+        android:name="freed.FreedApplication"
         android:allowBackup="true"
         android:icon="@drawable/launcher_freedcam"
         android:label="FreeDCam"
@@ -49,7 +50,7 @@
         android:theme="@style/FullscreenTheme"
         android:hardwareAccelerated="true"
         android:largeHeap="true"
-        android:extractNativeLibs="false">
+        android:extractNativeLibs="true">
 
         <activity
             android:name="freed.cam.ActivityFreeDcamMain"

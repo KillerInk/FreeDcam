@@ -200,7 +200,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
         add(SettingKeys.NightMode, new NightModeSony(surfaceView));
         parametersChangedList.add((BaseModeParameterSony) get(SettingKeys.NightMode));
-        get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.NightMode));
+        //get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.NightMode));
 
         add(SettingKeys.M_PreviewZoom, new PreviewZoomManual(surfaceView, cameraUiWrapper));
 

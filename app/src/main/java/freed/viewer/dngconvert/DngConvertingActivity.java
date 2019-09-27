@@ -21,10 +21,12 @@ package freed.viewer.dngconvert;
 
 import android.R.id;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+
+import androidx.fragment.app.FragmentTransaction;
 
 import freed.ActivityAbstract;
 import freed.utils.LocationManager;
+import freed.utils.PermissionManager;
 import freed.viewer.holder.FileHolder;
 
 /**
@@ -33,6 +35,8 @@ import freed.viewer.holder.FileHolder;
 public class DngConvertingActivity extends ActivityAbstract
 {
     private final String TAG = DngConvertingActivity.class.getSimpleName();
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
@@ -56,5 +60,15 @@ public class DngConvertingActivity extends ActivityAbstract
     @Override
     public LocationManager getLocationManager() {
         return null;
+    }
+
+    @Override
+    public String getStringFromRessources(int id) {
+        return null;
+    }
+
+    @Override
+    protected void setContentToView() {
+
     }
 }

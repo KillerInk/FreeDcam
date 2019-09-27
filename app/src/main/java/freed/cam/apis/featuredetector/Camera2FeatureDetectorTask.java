@@ -82,11 +82,17 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 SettingsManager.get(SettingKeys.selfTimer).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.selftimervalues));
                 SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
 
+                SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(SettingsManager.getInstance().getResString(R.string.video_audio_source_default));
+                SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.video_audio_source));
+                SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
+
                 if (RenderScriptManager.isSupported()) {
                     SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.focuspeakColors));
                     SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
                     SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
                 }
+
+                SettingsManager.get(SettingKeys.LOCATION_MODE).setIsSupported(true);
 
                 publishProgress("Camera 2 Level:" + hwlvl);
 
@@ -278,6 +284,15 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     }
 
                     try {
+                        publishProgress("Detect Aperture");
+                        detectManualApeture(characteristics);
+                        sendProgress(SettingsManager.get(SettingKeys.M_Aperture), "Aperture:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        publishProgress("Detect Aperture failed");
+                    }
+
+                    try {
                         publishProgress("Detect ColorCorrection");
                         detectColorcorrectionMode(characteristics);
                         sendProgress(SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE), "ColorCorrection");
@@ -295,6 +310,19 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     {
                         Log.WriteEx(ex);
                         publishProgress("Detect Tonemap Mode failed");
+                    }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        try {
+                            publishProgress("Detect Shading Mode");
+                            detectIntMode(characteristics, CameraCharacteristics.SHADING_AVAILABLE_MODES, SettingsManager.get(SettingKeys.LensShade),R.array.shadingmodes);
+                            sendProgress(SettingsManager.get(SettingKeys.LensShade), "Tonemap");
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.WriteEx(ex);
+                            publishProgress("Detect Tonemap Mode failed");
+                        }
                     }
 
                     try {
@@ -319,13 +347,21 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     if (aetargetfps != null && aetargetfps.length>1)
                     {
                         String[] t = new String[aetargetfps.length];
+                        int min = 30,max = 0;
                         for (int i = 0;i < aetargetfps.length; i++)
                         {
+
+                            if ((int)aetargetfps[i].getLower() <= min && (int)aetargetfps[i].getUpper() > max)
+                            {
+                                min = (int)aetargetfps[i].getLower();
+                                max = (int)aetargetfps[i].getUpper();
+                            }
+
                             t[i] = aetargetfps[i].getLower()+","+aetargetfps[i].getUpper();
                         }
                         SettingsManager.get(SettingKeys.Ae_TargetFPS).setValues(t);
                         SettingsManager.get(SettingKeys.Ae_TargetFPS).setIsSupported(true);
-                        SettingsManager.get(SettingKeys.Ae_TargetFPS).set(t[0]);
+                        SettingsManager.get(SettingKeys.Ae_TargetFPS).set(min+","+max);
                     }
 
                     detectHuaweiParameters(characteristics);
@@ -638,8 +674,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         HashMap<String, Integer> hmap = new HashMap<>();
         try {
-            if (smap.isOutputSupportedFor(ImageFormat.RAW10))
+            if (smap.isOutputSupportedFor(ImageFormat.RAW10)) {
                 hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10), ImageFormat.RAW10);
+                hmap.put(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer10), ImageFormat.RAW10);
+            }
         } catch (Exception e) {
             Log.WriteEx(e);
         }
@@ -651,6 +689,21 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 if (size != null)
                 {
                     Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
+                    if (size.length > 1)
+                    {
+                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(true);
+                        String[] rawsizes = new String[size.length];
+                        for (int i = 0; i<size.length;i++)
+                        {
+                            rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
+                        }
+                        SettingsManager.get(SettingKeys.RawSize).setValues(rawsizes);
+                        SettingsManager.get(SettingKeys.RawSize).set(rawsizes[0]);
+                    }
+                    else
+                    {
+                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(false);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -665,6 +718,22 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 if (size != null)
                 {
                     Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
+                    if (size.length > 1)
+                    {
+                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(true);
+                        String[] rawsizes = new String[size.length];
+                        for (int i = 0; i<size.length;i++)
+                        {
+                            rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
+                            Log.d(TAG, "Add new RawSize:" + rawsizes[i]);
+                        }
+                        SettingsManager.get(SettingKeys.RawSize).setValues(rawsizes);
+                        SettingsManager.get(SettingKeys.RawSize).set(rawsizes[0]);
+                    }
+                    else
+                    {
+                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(false);
+                    }
                 }
             }
         } catch (IllegalArgumentException | NullPointerException e) {
@@ -761,13 +830,32 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     {
         StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         Size[] size = smap.getOutputSizes(ImageFormat.JPEG);
-        java.util.Arrays.sort(size,new SizeComparer());
-        String[] ar = new String[size.length];
+
+
+        Size[] highsize = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            highsize = smap.getHighResolutionOutputSizes(ImageFormat.JPEG);
+            if (highsize != null)
+                java.util.Arrays.sort(highsize,new SizeComparer());
+        }
+        String[] ar;
+        if (highsize != null)
+            ar = new String[size.length + highsize.length];
+        else
+            ar = new String[size.length];
         int i = 0;
         for (Size s : size)
         {
             ar[i++] = s.getWidth()+"x"+s.getHeight();
         }
+        if (highsize != null)
+        {
+            for (Size s : highsize)
+            {
+                ar[i++] = s.getWidth()+"x"+s.getHeight();
+            }
+        }
+
 
         SettingsManager.get(SettingKeys.PictureSize).setIsSupported(true);
         SettingsManager.get(SettingKeys.PictureSize).set(ar[0]);
@@ -873,10 +961,12 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         publishProgress("detectIntMode "+settingMode+" "+ressourceArray);
         if (SettingsManager.getInstance().hasCamera2Features() && characteristics.get(requestKey) != null) {
             int[]  scenes = characteristics.get(requestKey);
-            if (scenes.length >0)
+            if (scenes.length >1)
                 settingMode.setIsSupported(true);
-            else
+            else {
                 settingMode.setIsSupported(false);
+                return;
+            }
             String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(ressourceArray);
             HashMap<String,Integer> map = new HashMap<>();
             for (int i = 0; i< scenes.length; i++)
@@ -922,6 +1012,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     {
         SettingMode mf = SettingsManager.get(SettingKeys.M_Focus);
         float maxfocusrange = cameraCharacteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
+        if (SettingsManager.getInstance().getCamera2MinFocusPosition() > 0)
+            maxfocusrange = SettingsManager.getInstance().getCamera2MinFocusPosition();
         if (maxfocusrange == 0)
         {
             mf.setIsSupported(false);
@@ -976,6 +1068,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         if (strings.size() > 0) {
             exposure.setIsSupported(true);
             exposure.setValues(strings.toArray(new String[strings.size()]));
+            exposure.set(strings.size()/2+"");
         }
         else
             exposure.setIsSupported(false);
@@ -1036,6 +1129,22 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         return tmp;
     }
 
+    private void detectManualApeture(CameraCharacteristics characteristics) {
+        float[] apetures = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_APERTURES);
+        if (apetures.length > 1)
+        {
+            String[] ar = new String[apetures.length];
+            for (int i = 0; i < apetures.length;i++)
+            {
+                ar[i] = String.valueOf(apetures[i]);
+            }
+            SettingsManager.get(SettingKeys.M_Aperture).setValues(ar);
+            SettingsManager.get(SettingKeys.M_Aperture).setIsSupported(true);
+            SettingsManager.get(SettingKeys.M_Aperture).set(String.valueOf(0));
+
+        }
+    }
+
     private void detectManualIso(CameraCharacteristics characteristics)
     {
         int max  = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
@@ -1069,7 +1178,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectVideoMediaProfiles(int cameraid)
     {
-        HashMap<String,VideoMediaProfile> supportedProfiles = getDefaultVideoMediaProfiles(cameraid);
+        HashMap<String,VideoMediaProfile> supportedProfiles = new SupportedVideoProfilesDetector().getDefaultVideoMediaProfiles(cameraid);
 
         if (supportedProfiles.get("2160p") == null && has2160pSize()) {
             supportedProfiles.put("2160p", new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 2160p Normal true"));

@@ -4,13 +4,15 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.R;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
@@ -19,7 +21,7 @@ import freed.settings.mode.SettingMode;
  * Created by GeorgeKiarie on 5/11/2017.
  */
 
-public class MotoHDR extends BaseModeParameter implements ParameterEvents
+public class MotoHDR extends BaseModeParameter
 {
     final String TAG = MotoHDR.class.getSimpleName();
     private boolean visible = true;
@@ -36,12 +38,12 @@ public class MotoHDR extends BaseModeParameter implements ParameterEvents
     @Override
     public void SetValue(String valueToSet, boolean setToCam) {
 
-        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
-            parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.scene_mode_hdr));
-        else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.off_)))
-            parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.auto_));
-        else if (valueToSet.equals(cameraUiWrapper.getResString(R.string.auto_)))
-            parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getResString(R.string.auto_hdr));
+        if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
+            parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.scene_mode_hdr));
+        else if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_)))
+            parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_));
+        else if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_)))
+            parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_hdr));
         if (setToCam)
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         fireStringValueChanged(valueToSet);
@@ -50,24 +52,24 @@ public class MotoHDR extends BaseModeParameter implements ParameterEvents
 
     @Override
     public String GetStringValue() {
-        if (parameters.get(cameraUiWrapper.getResString(R.string.scene_mode)) == null)
-            return cameraUiWrapper.getResString(R.string.off_);
+        if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.scene_mode)) == null)
+            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_);
 
-        if (parameters.get(cameraUiWrapper.getResString(R.string.scene_mode)).equals(cameraUiWrapper.getResString(R.string.auto_)))
-            return cameraUiWrapper.getResString(R.string.off_);
-        else if (parameters.get(cameraUiWrapper.getResString(R.string.scene_mode)).equals(cameraUiWrapper.getResString(R.string.scene_mode_hdr)))
-            return cameraUiWrapper.getResString(R.string.on_);
+        if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.scene_mode)).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_)))
+            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_);
+        else if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.scene_mode)).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.scene_mode_hdr)))
+            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_);
         else
-            return cameraUiWrapper.getResString(R.string.auto_);
+            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_);
 
     }
 
     @Override
     public String[] getStringValues() {
         List<String> hdrVals =  new ArrayList<>();
-        hdrVals.add(cameraUiWrapper.getResString(R.string.off_));
-        hdrVals.add(cameraUiWrapper.getResString(R.string.on_));
-        hdrVals.add(cameraUiWrapper.getResString(R.string.auto_));
+        hdrVals.add(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
+        hdrVals.add(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
+        hdrVals.add(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_));
         return hdrVals.toArray(new String[hdrVals.size()]);
     }
 
@@ -75,48 +77,37 @@ public class MotoHDR extends BaseModeParameter implements ParameterEvents
     public void onModuleChanged(String module)
     {
         curmodule = module;
-        if (curmodule.equals(cameraUiWrapper.getResString(R.string.module_video))|| curmodule.equals(cameraUiWrapper.getResString(R.string.module_video)))
+        if (curmodule.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video))|| curmodule.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
         {
             Hide();
-            SetValue(cameraUiWrapper.getResString(R.string.off_),true);
+            SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_),true);
         }
         else
         {
-            if (format.contains(cameraUiWrapper.getResString(R.string.jpeg_))) {
+            if (format.contains(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.jpeg_))) {
                 Show();
                 setViewState(ViewState.Visible);
             }
             else
             {
                 Hide();
-                SetValue(cameraUiWrapper.getResString(R.string.off_),true);
+                SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_),true);
             }
         }
     }
 
-    @Override
-    public void onViewStateChanged(ViewState value) {
 
-    }
+    @Subscribe
+    public void onPictureFormatChanged(ValueChangedEvent<String> valueChangedEvent)
+    {
+        if (valueChangedEvent.key == SettingKeys.PictureFormat) {
+            format = valueChangedEvent.newValue;
+            if (format.contains(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.jpeg_)) && !visible && !curmodule.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_hdr)))
+                Show();
 
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onStringValueChanged(String val) {
-        format = val;
-        if (val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&&!visible &&!curmodule.equals(cameraUiWrapper.getResString(R.string.module_hdr)))
-            Show();
-
-        else if (!val.contains(cameraUiWrapper.getResString(R.string.jpeg_))&& visible) {
-            Hide();
+            else if (!format.contains(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.jpeg_)) && visible) {
+                Hide();
+            }
         }
     }
 
@@ -124,8 +115,8 @@ public class MotoHDR extends BaseModeParameter implements ParameterEvents
     {
         state = GetStringValue();
         visible = false;
-        SetValue(cameraUiWrapper.getResString(R.string.off_),true);
-        fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
+        SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_),true);
+        fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
         setViewState(ViewState.Hidden);
     }
     private void Show()

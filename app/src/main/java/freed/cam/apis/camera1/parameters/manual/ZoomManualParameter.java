@@ -36,13 +36,19 @@ public class ZoomManualParameter extends  BaseManualParameter
     public ZoomManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key)
     {
         super(parameters,cameraUiWrapper,key);
-        key_value = cameraUiWrapper.getResString(R.string.zoom);
-        if (parameters.get(cameraUiWrapper.getResString(R.string.zoom_supported))!= null)
-            if (parameters.get(cameraUiWrapper.getResString(R.string.zoom_supported)).equals(cameraUiWrapper.getResString(R.string.true_))) {
-               setViewState(ViewState.Visible);
-                Set_Default_Value(GetValue());
-                stringvalues = createStringArray(0,Integer.parseInt(parameters.get(cameraUiWrapper.getResString(R.string.zoom_max))),1);
-                currentInt = Integer.parseInt(parameters.get(key_value));
+        key_value = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.zoom);
+        if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.zoom_supported))!= null)
+            if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.zoom_supported)).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_))) {
+                setViewState(ViewState.Visible);
+                stringvalues = createStringArray(0,Integer.parseInt(parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.zoom_max))),1);
+                try {
+                    currentInt = Integer.parseInt(parameters.get(key_value));
+                }
+                catch (NullPointerException ex)
+                {
+                    currentInt = 0;
+                }
+
             }
     }
 

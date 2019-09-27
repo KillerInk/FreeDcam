@@ -50,8 +50,8 @@ public class FocusManualMTK extends BaseFocusManual {
 
         if (valueToSet == 0)
         {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(cameraUiWrapper.getResString(R.string.auto_), true);
-            ((SettingMode)SettingsManager.get(key)).set(cameraUiWrapper.getResString(R.string.auto_));
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_), true);
+            ((SettingMode)SettingsManager.get(key)).set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_));
         }
         else
         {

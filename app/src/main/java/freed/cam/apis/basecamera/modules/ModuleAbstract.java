@@ -24,11 +24,17 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.io.File;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
+
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.events.CaptureStateChangedEvent;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.StartWorkEvent;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.holder.FileHolder;
@@ -39,55 +45,32 @@ import freed.viewer.holder.FileHolder;
 public abstract class ModuleAbstract implements ModuleInterface
 {
 
+    @Subscribe
+    public void startWork(StartWorkEvent event)
+    {
+        DoWork();
+    }
+
+
     protected boolean isWorking;
+    protected boolean isLowStorage;
     public String name;
 
-    protected CaptureStateChanged captureStateChangedListner;
+    //protected CaptureStateChanged captureStateChangedListner;
     private final String TAG = ModuleAbstract.class.getSimpleName();
     protected CaptureStates currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;
     protected Handler mBackgroundHandler;
-    protected UiHandler mainHandler;
+    protected Handler mainHandler;
     //used to redirect workevents to the module subscribe to it.
     protected WorkFinishEvents workFinishEventsListner;
 
-    private final int MSG_ONCAPTURESTATECHANGED = 0;
-
-    public class UiHandler extends Handler
-    {
-        UiHandler(Looper looper)
-        {
-            super(looper);
-        }
-
-
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_ONCAPTURESTATECHANGED:
-                    if (captureStateChangedListner != null)
-                        captureStateChangedListner.onCaptureStateChanged((CaptureStates)msg.obj);
-                    break;
-                default:
-                super.handleMessage(msg);
-            }
-        }
-
-    }
 
     public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.mBackgroundHandler = mBackgroundHandler;
-        this.mainHandler = new UiHandler(Looper.getMainLooper());
-    }
-
-    public void SetCaptureStateChangedListner(CaptureStateChanged captureStateChangedListner)
-    {
-        this.captureStateChangedListner = captureStateChangedListner;
-        if (captureStateChangedListner != null)
-            captureStateChangedListner.onCaptureStateChanged(currentWorkState);
+        this.mainHandler = new Handler(Looper.getMainLooper());
     }
 
     public void setOverrideWorkFinishListner(WorkFinishEvents workFinishEvents)
@@ -102,7 +85,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     {
         Log.d(TAG, "work started");
         currentWorkState = captureStates;
-        mainHandler.obtainMessage(MSG_ONCAPTURESTATECHANGED, captureStates).sendToTarget();
+        EventBusHelper.post(new CaptureStateChangedEvent(captureStates));
     }
 
     @Override
@@ -119,12 +102,18 @@ public abstract class ModuleAbstract implements ModuleInterface
         return isWorking;
     }
 
+    @Override
+    public void IsLowStorage(Boolean x) {
+        isLowStorage = x;
+    }
+
     /**
      * this gets called when the module gets loaded. set here specific parameters that are needed by the module
      */
     @Override
     public void InitModule()
     {
+        EventBusHelper.register(this);
         isWorking = false;
     }
 
@@ -132,7 +121,10 @@ public abstract class ModuleAbstract implements ModuleInterface
      * this gets called when module gets unloaded reset the parameters that where set on InitModule
      */
     @Override
-    public abstract void DestroyModule();
+    public void DestroyModule()
+    {
+        EventBusHelper.unregister(this);
+    }
 
     @Override
     public abstract String LongName();

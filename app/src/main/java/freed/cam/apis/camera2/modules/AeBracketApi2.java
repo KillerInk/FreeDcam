@@ -55,7 +55,7 @@ public class AeBracketApi2 extends PictureModuleApi2
 
     public AeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        name = cameraUiWrapper.getResString(R.string.module_hdr);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_hdr);
     }
 
     @Override

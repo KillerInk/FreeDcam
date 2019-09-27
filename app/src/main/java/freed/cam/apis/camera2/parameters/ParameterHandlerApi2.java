@@ -34,12 +34,14 @@ import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
+import freed.cam.apis.basecamera.parameters.modes.VideoAudioSourceMode;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.FocusHandler;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
 import freed.cam.apis.camera2.parameters.ae.AeManagerHuaweiCamera2;
 import freed.cam.apis.camera2.parameters.manual.BurstApi2;
+import freed.cam.apis.camera2.parameters.manual.ManualApertureApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualWbCtApi2Hw;
@@ -52,6 +54,7 @@ import freed.cam.apis.camera2.parameters.modes.FocusMode;
 import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
+import freed.cam.apis.camera2.parameters.modes.RawSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.SecondarySensorSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.settings.Frameworks;
@@ -70,6 +73,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
     private CameraHolderApi2 cameraHolder;
     private Camera2Fragment camera2Fragment;
+    private ManualToneMapCurveApi2 manualToneMapCurveApi2;
 
     public ParameterHandlerApi2(CameraWrapperInterface wrapper)
     {
@@ -105,7 +109,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             add(SettingKeys.OIS_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.OIS_MODE,CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
         if (SettingsManager.get(SettingKeys.FocusMode).isSupported()) {
             add(SettingKeys.FocusMode, new FocusMode(cameraUiWrapper, SettingKeys.FocusMode, CaptureRequest.CONTROL_AF_MODE));
-            get(SettingKeys.FocusMode).addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
         }
         if (SettingsManager.get(SettingKeys.HOT_PIXEL_MODE).isSupported())
             add(SettingKeys.HOT_PIXEL_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.HOT_PIXEL_MODE,CaptureRequest.HOT_PIXEL_MODE));
@@ -171,7 +174,13 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         //MF END
 
-        ManualToneMapCurveApi2 manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
+        if (SettingsManager.get(SettingKeys.M_Aperture).isSupported())
+        {
+            add(SettingKeys.M_Aperture, new ManualApertureApi2(cameraUiWrapper, SettingKeys.M_Aperture));
+        }
+
+        manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
+        manualToneMapCurveApi2.startListning();
         /*ManualContrast = manualToneMapCurveApi2.contrast;
         ManualBrightness = manualToneMapCurveApi2.brightness;
         black = manualToneMapCurveApi2.black;
@@ -182,7 +191,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         add(SettingKeys.TONE_CURVE_PARAMETER, manualToneMapCurveApi2.toneCurveParameter);
 
         add(SettingKeys.TONE_MAP_MODE,new BaseModeApi2(cameraUiWrapper, SettingKeys.TONE_MAP_MODE,CaptureRequest.TONEMAP_MODE));
-        get(SettingKeys.TONE_MAP_MODE).addEventListner(manualToneMapCurveApi2);
+
 
         add(SettingKeys.PictureFormat, new PictureFormatParameterApi2(cameraUiWrapper, SettingKeys.PictureFormat, null));
 
@@ -190,13 +199,27 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         add(SettingKeys.M_Burst, new BurstApi2(cameraUiWrapper));
         add(SettingKeys.VideoProfiles, new VideoProfilesApi2(cameraUiWrapper));
+        add(SettingKeys.VIDEO_AUDIO_SOURCE, new VideoAudioSourceMode(cameraUiWrapper,SettingKeys.VIDEO_AUDIO_SOURCE));
         add(SettingKeys.MATRIX_SET, new MatrixChooserParameter(SettingsManager.getInstance().getMatrixesMap()));
         add(SettingKeys.TONEMAP_SET, new ToneMapChooser(SettingsManager.getInstance().getToneMapProfiles()));
         add(SettingKeys.M_Zoom, new ZoomApi2(cameraUiWrapper));
 
         if (SettingsManager.get(SettingKeys.secondarySensorSize).isSupported())
             add(SettingKeys.secondarySensorSize, new SecondarySensorSizeModeApi2(cameraUiWrapper));
+
+        if (SettingsManager.get(SettingKeys.RawSize).isSupported())
+            add(SettingKeys.RawSize, new RawSizeModeApi2(cameraUiWrapper, SettingKeys.RawSize));
+        if (SettingsManager.get(SettingKeys.LensShade).isSupported())
+            add(SettingKeys.LensShade, new BaseModeApi2(cameraUiWrapper,SettingKeys.LensShade,CaptureRequest.SHADING_MODE));
+
+        registerListners();
         SetAppSettingsToParameters();
+    }
+
+    @Override
+    public void unregisterListners() {
+        super.unregisterListners();
+        manualToneMapCurveApi2.stopListning();
     }
 
     @Override

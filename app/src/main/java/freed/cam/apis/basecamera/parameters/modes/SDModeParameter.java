@@ -26,6 +26,7 @@ import java.io.File;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.StringUtils;
 
@@ -38,13 +39,9 @@ public class SDModeParameter extends AbstractParameter
     public static final String external ="External";
 
     public SDModeParameter() {
-        super(null);
+        super(SettingKeys.SD_SAVE_LOCATION);
     }
 
-    @Override
-    public void addEventListner(ParameterEvents eventListner) {
-        super.addEventListner(eventListner);
-    }
 
     @Override
     public ViewState getViewState() {

@@ -34,9 +34,11 @@ import freed.cam.apis.basecamera.parameters.modes.HistogramParameter;
 import freed.cam.apis.basecamera.parameters.modes.Horizont;
 import freed.cam.apis.basecamera.parameters.modes.IntervalDurationParameter;
 import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
-import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
+import freed.cam.apis.basecamera.parameters.modes.GpsParameter;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
+import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
+import freed.cam.events.EventBusLifeCycle;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -64,8 +66,9 @@ public abstract class AbstractParameterHandler
     protected AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
         add(SettingKeys.GuideList, new GuideList());
-        add(SettingKeys.LOCATION_MODE, new LocationParameter(cameraUiWrapper));
+        add(SettingKeys.LOCATION_MODE, new GpsParameter(cameraUiWrapper));
         add(SettingKeys.INTERVAL_DURATION, new IntervalDurationParameter(cameraUiWrapper));
+        add(SettingKeys.EXTERNAL_SHUTTER, new ParameterExternalShutter());
         add(SettingKeys.INTERVAL_SHUTTER_SLEEP, new IntervalShutterSleepParameter(cameraUiWrapper));
         add(SettingKeys.HorizontLvl, new Horizont());
         add(SettingKeys.SD_SAVE_LOCATION, new SDModeParameter());
@@ -73,20 +76,36 @@ public abstract class AbstractParameterHandler
         if (RenderScriptManager.isSupported() && cameraUiWrapper.getFocusPeakProcessor() != null) {
             add(SettingKeys.EnableRenderScript, new EnableRenderScriptMode(cameraUiWrapper, SettingsManager.get(SettingKeys.EnableRenderScript)));
             add(SettingKeys.FOCUSPEAK_COLOR, new FocusPeakColorMode(cameraUiWrapper.getFocusPeakProcessor(), SettingKeys.FOCUSPEAK_COLOR));
-            get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.FOCUSPEAK_COLOR));
             add(SettingKeys.Focuspeak, new FocusPeakMode(cameraUiWrapper));
-            get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.Focuspeak));
             add(SettingKeys.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
-            get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.HISTOGRAM));
             add(SettingKeys.CLIPPING, new ClippingMode(cameraUiWrapper));
-            get(SettingKeys.EnableRenderScript).addEventListner((ParameterEvents) get(SettingKeys.CLIPPING));
         }
     }
 
     public void add(SettingKeys.Key parameters, ParameterInterface parameterInterface)
     {
-        Log.d(TAG, "add "+parameters.getClass().getSimpleName());
+        Log.d(TAG, "add "+SettingsManager.getInstance().getResString(parameters.getRessourcesStringID()));
         parameterHashMap.put(parameters, parameterInterface);
+    }
+
+    public void unregisterListners()
+    {
+        for (EventBusLifeCycle life : parameterHashMap.values()) {
+            life.stopListning();
+        }
+    }
+
+    public void registerListners()
+    {
+        for (EventBusLifeCycle life : parameterHashMap.values()) {
+            try {
+                life.startListning();
+            }
+            catch(org.greenrobot.eventbus.EventBusException ex)
+            {
+                ex.printStackTrace();
+            }
+        }
     }
 
     public ParameterInterface get(SettingKeys.Key parameters)
@@ -106,13 +125,14 @@ public abstract class AbstractParameterHandler
 
     protected void SetAppSettingsToParameters()
     {
-        setMode(get(SettingKeys.LOCATION_MODE), SettingsManager.SETTING_LOCATION);
+        setAppSettingsToCamera(SettingKeys.LOCATION_MODE,false);
         setAppSettingsToCamera(SettingKeys.ColorMode,false);
         setAppSettingsToCamera(SettingKeys.FlashMode,false);
         setAppSettingsToCamera(SettingKeys.IsoMode,false);
         setAppSettingsToCamera(SettingKeys.AntiBandingMode,false);
         setAppSettingsToCamera(SettingKeys.WhiteBalanceMode,false);
         setAppSettingsToCamera(SettingKeys.PictureSize,false);
+        setAppSettingsToCamera(SettingKeys.RawSize,false);
         setAppSettingsToCamera(SettingKeys.PictureFormat,false);
         setAppSettingsToCamera(SettingKeys.BAYERFORMAT,false);
         setAppSettingsToCamera(SettingKeys.OIS_MODE,false);
@@ -144,7 +164,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(SettingKeys.CONTROL_MODE,false);
         setAppSettingsToCamera(SettingKeys.INTERVAL_DURATION,false);
         setAppSettingsToCamera(SettingKeys.INTERVAL_SHUTTER_SLEEP,false);
-        setMode(get(SettingKeys.HorizontLvl), SettingsManager.SETTING_HORIZONT);
+        setAppSettingsToCamera(SettingKeys.HorizontLvl,false);
 
         setAppSettingsToCamera(SettingKeys.HDRMode,false);
 
@@ -176,7 +196,7 @@ public abstract class AbstractParameterHandler
         setManualMode(SettingKeys.M_ExposureCompensation,true);
     }
 
-    protected void SetParameters()
+    public void SetParameters()
     {}
 
     private void setMode(ParameterInterface parameter, String settings_key)
@@ -209,7 +229,7 @@ public abstract class AbstractParameterHandler
                 if (TextUtils.isEmpty(settingMode.get()))
                     return;
                 String toset = settingMode.get();
-                Log.d(TAG,"set to :" + toset);
+                Log.d(TAG,"set " + SettingsManager.getInstance().getResString(parametertolook.getRessourcesStringID())+ " to :" + toset);
                 if (TextUtils.isEmpty(toset) || toset.equals("none"))
                     settingMode.set(parameter.GetStringValue());
                 else
@@ -228,10 +248,12 @@ public abstract class AbstractParameterHandler
                 Log.d(TAG, parameter.getClass().getSimpleName());
                 if (TextUtils.isEmpty(settingMode.get()) || settingMode.get() == null) {
                     String tmp = parameter.GetValue() + "";
+                    Log.d(TAG, "settingmode is empty: " + SettingsManager.getInstance().getResString(parametertolook.getRessourcesStringID()) + " get from parameter: " + tmp);
                     settingMode.set(tmp);
                 } else {
                     try {
                         int tmp = Integer.parseInt(settingMode.get());
+                        Log.d(TAG, "settingmode : " +  SettingsManager.getInstance().getResString(parametertolook.getRessourcesStringID()) + " set from settings: " + tmp);
                         parameter.SetValue(tmp, setToCamera);
                     } catch (NumberFormatException ex) {
                         Log.WriteEx(ex);

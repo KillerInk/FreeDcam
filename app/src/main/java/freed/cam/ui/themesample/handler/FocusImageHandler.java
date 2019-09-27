@@ -109,8 +109,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             meteringArea.setVisibility(View.GONE);
             meteringIsSupported = false;
         }
-        if (wrapper.getFocusHandler() != null)
+        if (wrapper.getFocusHandler() != null) {
             wrapper.getFocusHandler().focusEvent = this;
+            TouchToFocusSupported(wrapper.getFocusHandler().isTouchSupported());
+        }
         focusImageView.setVisibility(View.GONE);
     }
 
@@ -151,7 +153,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             focusImageView.post(() -> {
                 focusImageView.setFocusCheck(success);
                 focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
-                if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(wrapper.getResString(R.string.module_video)))
+                if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(wrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
                     wrapper.getModuleHandler().startWork();
 
 
