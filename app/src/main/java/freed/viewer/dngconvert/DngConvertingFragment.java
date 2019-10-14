@@ -30,9 +30,6 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +44,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.ortiz.touch.TouchImageView;
@@ -107,7 +105,7 @@ public class DngConvertingFragment extends Fragment
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         editTextCusotmRowSize = view.findViewById(id.editText_customrowsize);
         editTextwidth = view.findViewById(id.editText_width);

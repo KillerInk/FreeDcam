@@ -39,7 +39,6 @@ import freed.ActivityAbstract;
 import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
 import freed.utils.Log;
-import freed.utils.PermissionManager;
 import freed.utils.StorageFileManager;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;

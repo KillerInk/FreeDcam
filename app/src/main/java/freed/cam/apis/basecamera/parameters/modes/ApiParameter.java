@@ -22,7 +22,6 @@ package freed.cam.apis.basecamera.parameters.modes;
 import android.os.Build.VERSION;
 import android.text.TextUtils;
 
-import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.SwichCameraFragmentEvent;

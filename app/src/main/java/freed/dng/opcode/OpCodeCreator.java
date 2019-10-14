@@ -6,7 +6,9 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.params.LensShadingMap;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+
+
+import androidx.annotation.RequiresApi;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

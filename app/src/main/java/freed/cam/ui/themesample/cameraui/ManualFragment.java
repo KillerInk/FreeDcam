@@ -21,7 +21,6 @@ package freed.cam.ui.themesample.cameraui;
 
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,7 +33,6 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import freed.ActivityInterface;
@@ -85,7 +83,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragment_activityInterface = (ActivityInterface)getActivity();
         seekbar = view.findViewById(id.seekbar);

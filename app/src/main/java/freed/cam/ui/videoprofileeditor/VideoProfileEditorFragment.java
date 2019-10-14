@@ -22,8 +22,6 @@ package freed.cam.ui.videoprofileeditor;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -109,7 +107,6 @@ public class VideoProfileEditorFragment extends Fragment {
     private Switch switch_Audio;
 
     private HashMap<String, VideoMediaProfile> videoMediaProfiles;
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -117,7 +114,7 @@ public class VideoProfileEditorFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view,  Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         button_profile = view.findViewById(id.button_Profile);
         button_profile.setOnClickListener(profileClickListner);

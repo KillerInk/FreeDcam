@@ -33,7 +33,6 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
-import android.support.annotation.NonNull;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
@@ -255,7 +254,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
         @Override
-        public void onOpened(@NonNull CameraDevice cameraDevice) {
+        public void onOpened( CameraDevice cameraDevice) {
             // This method is called when the camera is opened.  We start camera previewSize here.
 //            mCameraOpenCloseLock.release();
             CameraHolderApi2.this.mCameraDevice = cameraDevice;
@@ -265,7 +264,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
 
         @Override
-        public void onDisconnected(@NonNull CameraDevice cameraDevice)
+        public void onDisconnected( CameraDevice cameraDevice)
         {
             Log.d(TAG,"Camera Disconnected");
 //            mCameraOpenCloseLock.release();
@@ -277,7 +276,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
 
         @Override
-        public void onError(@NonNull CameraDevice cameraDevice, final int error)
+        public void onError(CameraDevice cameraDevice, final int error)
         {
             Log.d(TAG, "Camera Error" + error);
 //            mCameraOpenCloseLock.release();

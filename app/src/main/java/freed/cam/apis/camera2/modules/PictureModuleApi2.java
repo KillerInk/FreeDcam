@@ -28,7 +28,6 @@ import android.media.ImageReader;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.renderscript.RenderScript;
 import android.renderscript.RenderScript.RSErrorHandler;
 import android.text.TextUtils;
 import android.util.Size;

@@ -37,7 +37,6 @@ import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.basecamera.parameters.modes.VideoAudioSourceMode;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
-import freed.cam.apis.camera2.FocusHandler;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
 import freed.cam.apis.camera2.parameters.ae.AeManagerHuaweiCamera2;
 import freed.cam.apis.camera2.parameters.manual.BurstApi2;

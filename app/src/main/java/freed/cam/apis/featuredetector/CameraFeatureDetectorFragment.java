@@ -3,7 +3,6 @@ package freed.cam.apis.featuredetector;
 import android.hardware.camera2.CameraCharacteristics;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -44,15 +43,15 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
         this.featureDetectorEvents = events;
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.camerafeaturedetector, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loggerview = (TextView)view.findViewById(R.id.textview_log);
         loggerview.setMovementMethod(new ScrollingMovementMethod());

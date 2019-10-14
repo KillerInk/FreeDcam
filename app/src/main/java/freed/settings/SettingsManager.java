@@ -19,7 +19,6 @@
 
 package freed.settings;
 
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.text.TextUtils;
 
@@ -28,23 +27,12 @@ import androidx.collection.LongSparseArray;
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;

@@ -24,11 +24,14 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 import freed.ActivityAbstract;
 import freed.cam.apis.CameraFragmentManager;
 import freed.cam.events.CameraStateEvents;
@@ -48,7 +51,6 @@ import freed.utils.Log;
 import freed.utils.MediaScannerManager;
 import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
-import freed.utils.PermissionManager;
 import freed.utils.StorageFileManager;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;

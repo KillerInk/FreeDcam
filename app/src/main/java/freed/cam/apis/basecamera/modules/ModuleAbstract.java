@@ -22,15 +22,12 @@ package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;

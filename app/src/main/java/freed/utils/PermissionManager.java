@@ -4,7 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
+
 
 import java.util.Arrays;
 
@@ -156,7 +156,7 @@ public class PermissionManager
     }
 
 
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults)
     {
         if (callbackToReturn == null)
             return;

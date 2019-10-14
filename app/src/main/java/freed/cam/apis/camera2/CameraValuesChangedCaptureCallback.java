@@ -8,7 +8,6 @@ import android.os.Build;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.R;
@@ -115,7 +114,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     boolean aeLocked = false;
     boolean afLocked = false;
     @Override
-    public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
+    public void onCaptureCompleted( CameraCaptureSession session,  CaptureRequest request,  TotalCaptureResult result) {
         if (result == null)
             return;
         if (waitForFirstFrame)
@@ -206,7 +205,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         }
     }
 
-    private void processDefaultFocus(@NonNull TotalCaptureResult result) {
+    private void processDefaultFocus( TotalCaptureResult result) {
         if (result.get(CaptureResult.CONTROL_AF_STATE) != null /*&& afState != result.get(CaptureResult.CONTROL_AF_STATE)*/)
         {
             afState =  result.get(CaptureResult.CONTROL_AF_STATE);
@@ -258,7 +257,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         }
     }
 
-    private void processDefaultAEValues(@NonNull TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
+    private void processDefaultAEValues( TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
         if (expotime != null && expotime.getViewState() == AbstractParameter.ViewState.Visible || expotime.getViewState() == AbstractParameter.ViewState.Disabled) {
             if (result != null && result.getKeys().size() > 0) {
                 try {
@@ -292,7 +291,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         }
     }
 
-    private void processHuaweiAEValues(@Nullable TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
+    private void processHuaweiAEValues(TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
         if (expotime.GetValue() == 0) {
             Long expoTime = result.get(CaptureResult.SENSOR_EXPOSURE_TIME);
             if (expoTime != null) {

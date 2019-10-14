@@ -26,7 +26,7 @@ import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.support.v4.provider.DocumentFile;
+
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -39,6 +39,7 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.troop.freedcam.R.id;

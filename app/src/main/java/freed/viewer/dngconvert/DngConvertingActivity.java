@@ -26,7 +26,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import freed.ActivityAbstract;
 import freed.utils.LocationManager;
-import freed.utils.PermissionManager;
 import freed.viewer.holder.FileHolder;
 
 /**

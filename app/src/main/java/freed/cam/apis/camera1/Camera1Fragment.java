@@ -23,22 +23,17 @@ import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.Surface;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.RequiresApi;
-
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -48,11 +43,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.CameraToMainHandler;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLG;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;

@@ -37,7 +37,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;

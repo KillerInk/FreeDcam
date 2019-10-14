@@ -1,17 +1,7 @@
 package freed.cam.apis.featuredetector;
 
-import android.media.CamcorderProfile;
-import android.os.Build;
-
-import com.lge.media.CamcorderProfileExRef;
-
-import java.util.HashMap;
-
-import freed.settings.SettingsManager;
 import freed.settings.mode.SettingInterface;
 import freed.settings.mode.SettingMode;
-import freed.utils.Log;
-import freed.utils.VideoMediaProfile;
 
 /**
  * Created by troop on 23.01.2017.

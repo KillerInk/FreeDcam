@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,12 +47,12 @@ public class CurveView extends View {
         init();
     }
 
-    public CurveView(Context context, @Nullable AttributeSet attrs) {
+    public CurveView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public CurveView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CurveView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }

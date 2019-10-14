@@ -20,15 +20,7 @@
 package freed.cam.apis.basecamera;
 
 import android.content.Context;
-import android.os.HandlerThread;
-import android.os.Looper;
 import android.view.SurfaceView;
-
-import freed.ActivityInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.renderscript.RenderScriptManager;
-import freed.renderscript.RenderScriptProcessorInterface;
 
 /**
  * Created by troop on 09.12.2014.

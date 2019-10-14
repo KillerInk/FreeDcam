@@ -10,7 +10,6 @@ import com.troop.freedcam.R;
 import freed.ActivityAbstract;
 import freed.jni.DngStack;
 import freed.utils.LocationManager;
-import freed.utils.PermissionManager;
 import freed.viewer.dngconvert.DngConvertingFragment;
 import freed.viewer.holder.FileHolder;
 

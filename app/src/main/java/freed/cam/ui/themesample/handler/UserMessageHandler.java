@@ -24,8 +24,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.UserMessageEvent;

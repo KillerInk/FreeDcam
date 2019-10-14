@@ -29,14 +29,9 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.WindowManager.LayoutParams;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.documentfile.provider.DocumentFile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,7 +43,6 @@ import freed.image.ImageManager;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
-import freed.utils.PermissionManager;
 import freed.utils.StorageFileManager;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;

@@ -6,8 +6,9 @@ import android.hardware.camera2.DngCreator;
 import android.location.Location;
 import android.media.Image;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.provider.DocumentFile;
+
+import androidx.annotation.RequiresApi;
+import androidx.documentfile.provider.DocumentFile;
 
 import java.io.File;
 import java.io.FileOutputStream;

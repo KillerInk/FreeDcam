@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.hardware.Camera;
-
 import android.util.AttributeSet;
 import android.util.TypedValue;
 

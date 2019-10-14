@@ -1,14 +1,6 @@
 package freed.cam.apis.basecamera.parameters;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-
-import org.greenrobot.eventbus.EventBus;
-
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.EventBusHelper;

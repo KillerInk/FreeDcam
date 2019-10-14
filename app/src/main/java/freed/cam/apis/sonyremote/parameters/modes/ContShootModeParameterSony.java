@@ -19,7 +19,6 @@
 
 package freed.cam.apis.sonyremote.parameters.modes;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
