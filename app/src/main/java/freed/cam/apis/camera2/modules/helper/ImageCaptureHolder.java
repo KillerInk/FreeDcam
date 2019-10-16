@@ -192,7 +192,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
             img = reader.acquireLatestImage();
             Log.d(TAG, "ImageFormat:" + img.getFormat() +  " CaptureType:" + captureType + " Size in Bytes: " +img.getPlanes()[0].getBuffer().remaining());
             Log.d(TAG, "Img WxH:" + img.getWidth() +"x" + img.getHeight());
-            Log.d(TAG, "Reader WxH:" + witdh +"x" + height);
+
             switch (captureType)
             {
                 case Jpeg:
