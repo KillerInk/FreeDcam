@@ -78,13 +78,13 @@ public class CameraHolderMTK extends CameraHolder
                 throw new  NoSuchMethodException();
             app.invoke(null, "client.appmode", "MtkEng");
         } catch (ClassNotFoundException e) {
-            Log.e(TAG,e.getMessage());
+            Log.WriteEx(e);
         } catch (InvocationTargetException e) {
-            Log.e(TAG,e.getMessage());
+            Log.WriteEx(e);
         } catch (NoSuchMethodException e) {
-            Log.e(TAG,e.getMessage());
+            Log.WriteEx(e);
         } catch (IllegalAccessException e) {
-            Log.e(TAG,e.getMessage());
+            Log.WriteEx(e);
         }
     }
 }
