@@ -32,9 +32,12 @@ import freed.cam.ui.themesample.settings.childs.SettingsChild_BooleanSetting;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.BooleanSettingModeInterface;
+import freed.utils.Log;
 
 public class SettingsMenuItemFactory
 {
+
+    private static final String TAG = SettingsMenuItemFactory.class.getSimpleName();
 
     public void fillLeftSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click, LinearLayout settingsChildHolder, ActivityInterface activityInterface)
     {
@@ -42,135 +45,134 @@ public class SettingsMenuItemFactory
 
             SettingsManager apS = SettingsManager.getInstance();
             AbstractParameterHandler params = cameraUiWrapper.getParameterHandler();
+            if (params != null) {
         /*
             VIDEOGROUP
          */
-            GroupChild videoGroup = new GroupChild(context, context.getResources().getString(R.string.setting_video_group_header));
+                GroupChild videoGroup = new GroupChild(context, context.getResources().getString(R.string.setting_video_group_header));
 
-            if (params.get(SettingKeys.VideoProfiles) != null) {
-                SettingsChildMenuVideoProfile videoProfile = new SettingsChildMenuVideoProfile(context,
-                        params.get(SettingKeys.VideoProfiles), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
-                videoProfile.SetUiItemClickListner(click);
-                videoGroup.addView(videoProfile);
+                if (params.get(SettingKeys.VideoProfiles) != null) {
+                    SettingsChildMenuVideoProfile videoProfile = new SettingsChildMenuVideoProfile(context,
+                            params.get(SettingKeys.VideoProfiles), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
+                    videoProfile.SetUiItemClickListner(click);
+                    videoGroup.addView(videoProfile);
 
-                SettingsChildMenuTimeLapseFrames timeLapseFrames = new SettingsChildMenuTimeLapseFrames(context);
-                timeLapseFrames.setVisibility(View.VISIBLE);
-                videoGroup.addView(timeLapseFrames);
+                    SettingsChildMenuTimeLapseFrames timeLapseFrames = new SettingsChildMenuTimeLapseFrames(context);
+                    timeLapseFrames.setVisibility(View.VISIBLE);
+                    videoGroup.addView(timeLapseFrames);
 
 
-                SettingsChildMenu_VideoProfEditor videoProfileEditor = new SettingsChildMenu_VideoProfEditor(context, R.string.setting_videoprofileeditor_header, R.string.setting_videoprofileeditor_description);
-                videoGroup.addView(videoProfileEditor);
-            }
-            if (params.get(SettingKeys.VideoHDR) != null) {
-                SettingsChildMenuVideoHDR videoHDR = new SettingsChildMenuVideoHDR(context, params.get(SettingKeys.VideoHDR), R.string.setting_videohdr_header, R.string.setting_videohdr_description);
-                videoHDR.SetCameraInterface(cameraUiWrapper);
-                videoHDR.SetUiItemClickListner(click);
-                videoGroup.addView(videoHDR);
-            }
+                    SettingsChildMenu_VideoProfEditor videoProfileEditor = new SettingsChildMenu_VideoProfEditor(context, R.string.setting_videoprofileeditor_header, R.string.setting_videoprofileeditor_description);
+                    videoGroup.addView(videoProfileEditor);
+                }
+                if (params.get(SettingKeys.VideoHDR) != null) {
+                    SettingsChildMenuVideoHDR videoHDR = new SettingsChildMenuVideoHDR(context, params.get(SettingKeys.VideoHDR), R.string.setting_videohdr_header, R.string.setting_videohdr_description);
+                    videoHDR.SetCameraInterface(cameraUiWrapper);
+                    videoHDR.SetUiItemClickListner(click);
+                    videoGroup.addView(videoHDR);
+                }
 
-            if (params.get(SettingKeys.VideoSize) != null && (cameraUiWrapper instanceof SonyCameraRemoteFragment)) {
+                if (params.get(SettingKeys.VideoSize) != null && (cameraUiWrapper instanceof SonyCameraRemoteFragment)) {
 
-                SettingsChildMenu VideoSize = new SettingsChildMenu(context, params.get(SettingKeys.VideoSize), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
-                VideoSize.SetUiItemClickListner(click);
-                videoGroup.addView(VideoSize);
-            }
+                    SettingsChildMenu VideoSize = new SettingsChildMenu(context, params.get(SettingKeys.VideoSize), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
+                    VideoSize.SetUiItemClickListner(click);
+                    videoGroup.addView(VideoSize);
+                }
 
-            if (params.get(SettingKeys.VideoStabilization) != null) {
-                SettingsChildMenu videoStabilization = new SettingsChildMenu(context, params.get(SettingKeys.VideoStabilization), R.string.setting_vs_header, R.string.setting_vs_description);
-                videoStabilization.SetUiItemClickListner(click);
-                videoGroup.addView(videoStabilization);
-            }
-            if (params.get(SettingKeys.VIDEO_AUDIO_SOURCE)!= null)
-            {
-                SettingsChildMenu videoaudio = new SettingsChildMenu(context, params.get(SettingKeys.VIDEO_AUDIO_SOURCE), R.string.setting_videoaudiosource_header, R.string.setting_videoaudiosource_description);
-                videoaudio.SetUiItemClickListner(click);
-                videoGroup.addView(videoaudio);
-            }
+                if (params.get(SettingKeys.VideoStabilization) != null) {
+                    SettingsChildMenu videoStabilization = new SettingsChildMenu(context, params.get(SettingKeys.VideoStabilization), R.string.setting_vs_header, R.string.setting_vs_description);
+                    videoStabilization.SetUiItemClickListner(click);
+                    videoGroup.addView(videoStabilization);
+                }
+                if (params.get(SettingKeys.VIDEO_AUDIO_SOURCE) != null) {
+                    SettingsChildMenu videoaudio = new SettingsChildMenu(context, params.get(SettingKeys.VIDEO_AUDIO_SOURCE), R.string.setting_videoaudiosource_header, R.string.setting_videoaudiosource_description);
+                    videoaudio.SetUiItemClickListner(click);
+                    videoGroup.addView(videoaudio);
+                }
 
-            if (videoGroup.childSize() > 0)
-                settingsChildHolder.addView(videoGroup);
+                if (videoGroup.childSize() > 0)
+                    settingsChildHolder.addView(videoGroup);
 
         /*
             PictureGroup
          */
-            GroupChild picGroup = new GroupChild(context, context.getResources().getString(R.string.setting_picture_group_header));
+                GroupChild picGroup = new GroupChild(context, context.getResources().getString(R.string.setting_picture_group_header));
 
-            if (params.get(SettingKeys.PictureSize) != null) {
-                SettingsChildMenu pictureSize = new SettingsChildMenu(context, params.get(SettingKeys.PictureSize), R.string.setting_picturesize_header, R.string.setting_picturesize_description);
-                pictureSize.SetUiItemClickListner(click);
-                picGroup.addView(pictureSize);
-            }
-
-            if (params.get(SettingKeys.secondarySensorSize) != null) {
-                SettingsChildMenu pictureSize = new SettingsChildMenu(context, params.get(SettingKeys.secondarySensorSize), R.string.setting_secondarypicturesize_header, R.string.setting_secondarypicturesize_description);
-                pictureSize.SetUiItemClickListner(click);
-                picGroup.addView(pictureSize);
-            }
-
-            if (params.get(SettingKeys.JpegQuality) != null) {
-                SettingsChildMenu jpegQuality = new SettingsChildMenu(context, params.get(SettingKeys.JpegQuality), R.string.setting_jpegquality_header, R.string.setting_jpegquality_description);
-                jpegQuality.SetUiItemClickListner(click);
-                picGroup.addView(jpegQuality);
-            }
-
-            GroupChild intervalGroup = new GroupChild(context, context.getResources().getString(R.string.setting_Automation));
-
-            SettingsChildMenuInterval menuInterval = new SettingsChildMenuInterval(context, params.get(SettingKeys.INTERVAL_SHUTTER_SLEEP), R.string.setting_interval_header, R.string.setting_interval_texter);
-            menuInterval.SetUiItemClickListner(click);
-            intervalGroup.addView(menuInterval);
-
-            SettingsChildMenuIntervalDuration menuIntervalDuration = new SettingsChildMenuIntervalDuration(context, params.get(SettingKeys.INTERVAL_DURATION), R.string.setting_interval_duration_header, R.string.setting_interval_duration_text);
-            menuIntervalDuration.SetUiItemClickListner(click);
-            intervalGroup.addView(menuIntervalDuration);
-
-            picGroup.addView(intervalGroup);
-
-            GroupChild dngGroup = new GroupChild(context, context.getResources().getString(R.string.setting_raw_group_header));
-
-            if (params.get(SettingKeys.OPCODE) != null) {
-                SettingsChildMenu opcode = new SettingsChildMenu(context, params.get(SettingKeys.OPCODE), R.string.setting_opcode_header, R.string.setting_opcode_description);
-                opcode.SetUiItemClickListner(click);
-                dngGroup.addView(opcode);
-            }
-
-            if (params.get(SettingKeys.BAYERFORMAT) != null && params.get(SettingKeys.BAYERFORMAT).getViewState() == AbstractParameter.ViewState.Visible && apS.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported()) {
-                SettingsChildMenu bayerFormatItem = new SettingsChildMenu(context, params.get(SettingKeys.BAYERFORMAT), R.string.setting_bayerformat_header, R.string.setting_bayerformat_description);
-                bayerFormatItem.SetUiItemClickListner(click);
-                dngGroup.addView(bayerFormatItem);
-            }
-            if (params.get(SettingKeys.MATRIX_SET) != null && params.get(SettingKeys.MATRIX_SET).getViewState() == AbstractParameter.ViewState.Visible) {
-                SettingsChildMenu matrixChooser = new SettingsChildMenu(context, params.get(SettingKeys.MATRIX_SET), R.string.setting_matrixchooser_header, R.string.setting_matrixchooser_description);
-                matrixChooser.SetUiItemClickListner(click);
-                dngGroup.addView(matrixChooser);
-            }
-            if (params.get(SettingKeys.TONEMAP_SET) != null && params.get(SettingKeys.TONEMAP_SET).getViewState() == AbstractParameter.ViewState.Visible) {
-                SettingsChildMenu matrixChooser = new SettingsChildMenu(context, params.get(SettingKeys.TONEMAP_SET), R.string.setting_tonemapchooser_header, R.string.setting_tonemapchooser_description);
-                matrixChooser.SetUiItemClickListner(click);
-                dngGroup.addView(matrixChooser);
-            }
-            if (cameraUiWrapper instanceof Camera2Fragment)
-            {
-                SettingsChildMenuForceRawToDng rawToDng = new SettingsChildMenuForceRawToDng(context, R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description);
-                rawToDng.SetUiItemClickListner(click);
-                dngGroup.addView(rawToDng);
-
-                SettingsChild_BooleanSetting useCustomMatrix = new SettingsChild_BooleanSetting(context,SettingsManager.get(SettingKeys.useCustomMatrixOnCamera2),R.string.setting_usecustomdngprofile_header, R.string.setting_usecustomdngprofile_description);
-                dngGroup.addView(useCustomMatrix);
-                if (params.get(SettingKeys.RawSize) != null && params.get(SettingKeys.RawSize).getViewState() == AbstractParameter.ViewState.Visible)
-                {
-                    SettingsChildMenu rawsize = new SettingsChildMenu(context, params.get(SettingKeys.RawSize), R.string.setting_rawsize_header, R.string.setting_rawsize_description);
-                    rawsize.SetUiItemClickListner(click);
-                    dngGroup.addView(rawsize);
+                if (params.get(SettingKeys.PictureSize) != null) {
+                    SettingsChildMenu pictureSize = new SettingsChildMenu(context, params.get(SettingKeys.PictureSize), R.string.setting_picturesize_header, R.string.setting_picturesize_description);
+                    pictureSize.SetUiItemClickListner(click);
+                    picGroup.addView(pictureSize);
                 }
-            }
-            if (dngGroup.childSize() > 0)
-                picGroup.addView(dngGroup);
 
-            settingsChildHolder.addView(picGroup);
-        }
+                if (params.get(SettingKeys.secondarySensorSize) != null) {
+                    SettingsChildMenu pictureSize = new SettingsChildMenu(context, params.get(SettingKeys.secondarySensorSize), R.string.setting_secondarypicturesize_header, R.string.setting_secondarypicturesize_description);
+                    pictureSize.SetUiItemClickListner(click);
+                    picGroup.addView(pictureSize);
+                }
+
+                if (params.get(SettingKeys.JpegQuality) != null) {
+                    SettingsChildMenu jpegQuality = new SettingsChildMenu(context, params.get(SettingKeys.JpegQuality), R.string.setting_jpegquality_header, R.string.setting_jpegquality_description);
+                    jpegQuality.SetUiItemClickListner(click);
+                    picGroup.addView(jpegQuality);
+                }
+
+                GroupChild intervalGroup = new GroupChild(context, context.getResources().getString(R.string.setting_Automation));
+
+                SettingsChildMenuInterval menuInterval = new SettingsChildMenuInterval(context, params.get(SettingKeys.INTERVAL_SHUTTER_SLEEP), R.string.setting_interval_header, R.string.setting_interval_texter);
+                menuInterval.SetUiItemClickListner(click);
+                intervalGroup.addView(menuInterval);
+
+                SettingsChildMenuIntervalDuration menuIntervalDuration = new SettingsChildMenuIntervalDuration(context, params.get(SettingKeys.INTERVAL_DURATION), R.string.setting_interval_duration_header, R.string.setting_interval_duration_text);
+                menuIntervalDuration.SetUiItemClickListner(click);
+                intervalGroup.addView(menuIntervalDuration);
+
+                picGroup.addView(intervalGroup);
+
+                GroupChild dngGroup = new GroupChild(context, context.getResources().getString(R.string.setting_raw_group_header));
+
+                if (params.get(SettingKeys.OPCODE) != null) {
+                    SettingsChildMenu opcode = new SettingsChildMenu(context, params.get(SettingKeys.OPCODE), R.string.setting_opcode_header, R.string.setting_opcode_description);
+                    opcode.SetUiItemClickListner(click);
+                    dngGroup.addView(opcode);
+                }
+
+                if (params.get(SettingKeys.BAYERFORMAT) != null && params.get(SettingKeys.BAYERFORMAT).getViewState() == AbstractParameter.ViewState.Visible && apS.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported()) {
+                    SettingsChildMenu bayerFormatItem = new SettingsChildMenu(context, params.get(SettingKeys.BAYERFORMAT), R.string.setting_bayerformat_header, R.string.setting_bayerformat_description);
+                    bayerFormatItem.SetUiItemClickListner(click);
+                    dngGroup.addView(bayerFormatItem);
+                }
+                if (params.get(SettingKeys.MATRIX_SET) != null && params.get(SettingKeys.MATRIX_SET).getViewState() == AbstractParameter.ViewState.Visible) {
+                    SettingsChildMenu matrixChooser = new SettingsChildMenu(context, params.get(SettingKeys.MATRIX_SET), R.string.setting_matrixchooser_header, R.string.setting_matrixchooser_description);
+                    matrixChooser.SetUiItemClickListner(click);
+                    dngGroup.addView(matrixChooser);
+                }
+                if (params.get(SettingKeys.TONEMAP_SET) != null && params.get(SettingKeys.TONEMAP_SET).getViewState() == AbstractParameter.ViewState.Visible) {
+                    SettingsChildMenu matrixChooser = new SettingsChildMenu(context, params.get(SettingKeys.TONEMAP_SET), R.string.setting_tonemapchooser_header, R.string.setting_tonemapchooser_description);
+                    matrixChooser.SetUiItemClickListner(click);
+                    dngGroup.addView(matrixChooser);
+                }
+                if (cameraUiWrapper instanceof Camera2Fragment) {
+                    SettingsChildMenuForceRawToDng rawToDng = new SettingsChildMenuForceRawToDng(context, R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description);
+                    rawToDng.SetUiItemClickListner(click);
+                    dngGroup.addView(rawToDng);
+
+                    SettingsChild_BooleanSetting useCustomMatrix = new SettingsChild_BooleanSetting(context, SettingsManager.get(SettingKeys.useCustomMatrixOnCamera2), R.string.setting_usecustomdngprofile_header, R.string.setting_usecustomdngprofile_description);
+                    dngGroup.addView(useCustomMatrix);
+                    if (params.get(SettingKeys.RawSize) != null && params.get(SettingKeys.RawSize).getViewState() == AbstractParameter.ViewState.Visible) {
+                        SettingsChildMenu rawsize = new SettingsChildMenu(context, params.get(SettingKeys.RawSize), R.string.setting_rawsize_header, R.string.setting_rawsize_description);
+                        rawsize.SetUiItemClickListner(click);
+                        dngGroup.addView(rawsize);
+                    }
+                }
+                if (dngGroup.childSize() > 0)
+                    picGroup.addView(dngGroup);
+
+                settingsChildHolder.addView(picGroup);
+            }
          /*
             Gobal settings
          */
+        }
 
         GroupChild globalSettingGroup = new GroupChild(context,context.getResources().getString(R.string.setting_freedcam_));
 
@@ -183,7 +185,7 @@ public class SettingsMenuItemFactory
 
 
 
-        if (cameraUiWrapper != null) {
+        if (cameraUiWrapper != null && cameraUiWrapper.getParameterHandler() != null) {
 
             SettingsChildMenu externalShutter = new SettingsChildMenu(context,cameraUiWrapper.getParameterHandler().get(SettingKeys.EXTERNAL_SHUTTER), R.string.setting_externalshutter_header, R.string.setting_externalshutter_description);
             externalShutter.SetUiItemClickListner(click);
@@ -252,8 +254,13 @@ public class SettingsMenuItemFactory
             SettingsManager apS = SettingsManager.getInstance();
             AbstractParameterHandler params = cameraUiWrapper.getParameterHandler();
 
-            GroupChild settingsgroup = new GroupChild(context,  context.getResources().getString(R.string.setting_camera_));
 
+            GroupChild settingsgroup = new GroupChild(context,  context.getResources().getString(R.string.setting_camera_));
+            if (params == null)
+            {
+                Log.d(TAG, "ParameterHandler is null");
+                return settingsgroup;
+            }
 
             if (params.get(SettingKeys.EnableRenderScript) != null) {
                 SettingsChild_BooleanSetting ers = new SettingsChild_BooleanSetting(context, (BooleanSettingModeInterface) params.get(SettingKeys.EnableRenderScript), R.string.setting_enablerenderscript_header, R.string.setting_enablerenderscript_description);
