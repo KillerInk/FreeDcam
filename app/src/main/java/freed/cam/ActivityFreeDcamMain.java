@@ -368,7 +368,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     /**
      * Loads the files stored from that folder
-     * and notfiy the stored screenslide fragment in sampletheme that
+     * and notfiy the screenslide fragment that
      * files got changed
      * @param fileHolder the folder to lookup
      * @param types the file format to load

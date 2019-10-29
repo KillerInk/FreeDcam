@@ -45,35 +45,35 @@ public class Log
 
     public static void v(String TAG, String msg)
     {
-        if (fileLog != null)
+        if (fileLog != null && msg != null)
             fileLog.writeString("V:" + DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime())+ ":" + TAG + ":" + msg);
         android.util.Log.v(TAG,msg);
     }
 
     public static void d(String TAG, String msg)
     {
-        if (fileLog != null)
+        if (fileLog != null && msg != null)
             fileLog.writeString("D:" + DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime()) + ":" + TAG + ":" + msg);
         android.util.Log.d(TAG,msg);
     }
 
     public static void i(String TAG, String msg)
     {
-        if (fileLog != null)
+        if (fileLog != null && msg != null)
             fileLog.writeString("I:" + DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime())+ ":" + TAG + ":" + msg);
         android.util.Log.d(TAG,msg);
     }
 
     public static void w(String TAG, String msg)
     {
-        if (fileLog != null)
+        if (fileLog != null && msg != null)
             fileLog.writeString("W:" + DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime())+ ":" + TAG + ":" + msg);
         android.util.Log.d(TAG,msg);
     }
 
     public static void e(String TAG, String msg)
     {
-        if (fileLog != null)
+        if (fileLog != null && msg != null)
             fileLog.writeString("E:" +DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime())+ ":" + TAG + ":" + msg);
         android.util.Log.d(TAG,msg);
     }

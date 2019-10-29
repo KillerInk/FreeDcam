@@ -30,9 +30,11 @@ public class FocusMode extends BaseModeApi2 {
             case CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE:
             case CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO:
                 if (!SettingsManager.getInstance().getIsFrontCamera()) {
-                    captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, null);
-                    captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
-                    captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE, true);
+                    //captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, null);
+                    if (captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER) != CaptureRequest.CONTROL_AF_TRIGGER_IDLE) {
+                        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
+                        captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE, true);
+                    }
                 }
                 break;
         }
