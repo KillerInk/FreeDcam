@@ -23,7 +23,6 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 
 /**

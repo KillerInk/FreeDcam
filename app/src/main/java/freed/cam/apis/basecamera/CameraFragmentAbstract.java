@@ -20,18 +20,13 @@
 package freed.cam.apis.basecamera;
 
 import android.os.Bundle;
-import android.os.Looper;
-import android.os.Message;
-import android.support.annotation.Nullable;
+
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
@@ -98,9 +93,8 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
 
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater layoutInflater, @Nullable ViewGroup viewGroup, @Nullable Bundle bundle) {
+    public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
         Log.d(TAG, "onCreateView");
 
         return super.onCreateView(layoutInflater, viewGroup, bundle);

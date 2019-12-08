@@ -25,11 +25,8 @@ import android.view.View;
 
 import com.troop.freedcam.R;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;

@@ -20,23 +20,13 @@
 package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.support.annotation.Nullable;
 
 import com.troop.freedcam.R;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.lang.ref.WeakReference;
 import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import freed.cam.apis.basecamera.CameraInterface;
-import freed.cam.apis.basecamera.CameraObjects;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.utils.BackgroundHandlerThread;
@@ -110,7 +100,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     }
 
     @Override
-    public @Nullable ModuleInterface getCurrentModule() {
+    public ModuleInterface getCurrentModule() {
         if (currentModule != null)
             return currentModule;
         return null;

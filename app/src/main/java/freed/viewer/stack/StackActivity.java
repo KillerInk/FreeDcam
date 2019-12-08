@@ -28,13 +28,14 @@ import android.os.Bundle;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.Type;
-import android.support.v4.provider.DocumentFile;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.documentfile.provider.DocumentFile;
 
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
@@ -50,7 +51,6 @@ import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
-import freed.utils.PermissionManager;
 import freed.utils.StorageFileManager;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingFragment;

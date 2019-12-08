@@ -24,8 +24,6 @@ import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Message;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,13 +34,11 @@ import android.widget.TextView;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ValueChangedEvent;
@@ -163,7 +159,7 @@ public class ManualButton extends LinearLayout
     }
 
 
-    public void SetManualParameter(@Nullable ParameterInterface parameter)
+    public void SetManualParameter(ParameterInterface parameter)
     {
         this.parameter = parameter;
         if (parameter != null) {

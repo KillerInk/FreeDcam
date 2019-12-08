@@ -7,7 +7,6 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.util.Range;
 import android.util.Size;
 
@@ -1092,7 +1091,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     }
 
-    @NonNull
+
     private ArrayList<String> getShutterStrings(long max, long min,boolean withAutoMode) {
         String[] allvalues = SettingsManager.getInstance().getResources().getStringArray(R.array.shutter_values_autocreate);
         boolean foundmin = false;
@@ -1158,7 +1157,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             SettingsManager.get(SettingKeys.M_ManualIso).setValues(ar.toArray(new String[ar.size()]));
     }
 
-    @NonNull
     private ArrayList<String> getIsoStrings(int max, int min) {
         ArrayList<String> ar = new ArrayList<>();
         ar.add(SettingsManager.getInstance().getResString(R.string.auto_));

@@ -27,3 +27,4 @@ app/.externalNativeBuild/*
 app/build.gradle
 *.apk
 app/release
+/app/.cxx/

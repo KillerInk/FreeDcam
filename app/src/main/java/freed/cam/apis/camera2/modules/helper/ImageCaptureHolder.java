@@ -14,9 +14,10 @@ import android.location.Location;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.util.Pair;
 import android.util.Rational;
+
+import androidx.annotation.NonNull;
 
 import com.troop.freedcam.R;
 
@@ -431,7 +432,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
 
 
 
-    @NonNull
+
     private ImageTask process_jpeg(Image image, File file) {
 
         Log.d(TAG, "Create JPEG");
@@ -449,13 +450,13 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     }
 
 
-    @NonNull
+
     private ImageTask process_rawSensor(Image image, File file) {
         ImageTaskDngConverter taskDngConverter = new ImageTaskDngConverter(captureResult,image,characteristics,file,activityInterface,orientation,location,moduleInterface);
         return taskDngConverter;
     }
 
-    @NonNull
+
     private ImageTask process_rawWithDngConverter(Image image, int rawFormat,File file) {
         ImageSaveTask saveTask = new ImageSaveTask(activityInterface,moduleInterface);
         Log.d(TAG, "Create DNG VIA RAw2DNG");
@@ -543,7 +544,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         return saveTask;
     }
 
-    @NonNull
+
     protected DngProfile getDngProfile(int rawFormat, int width, int height) {
         int black, white,c;
         try {

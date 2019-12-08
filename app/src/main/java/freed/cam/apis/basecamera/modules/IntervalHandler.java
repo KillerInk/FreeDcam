@@ -21,17 +21,12 @@ package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.text.TextUtils;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.Date;
 
-import freed.cam.events.StartWorkEvent;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
 /**

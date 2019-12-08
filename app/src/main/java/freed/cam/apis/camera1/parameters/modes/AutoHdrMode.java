@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;

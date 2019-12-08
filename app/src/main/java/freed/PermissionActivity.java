@@ -1,7 +1,7 @@
 package freed;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
 
 import freed.utils.PermissionManager;
 
@@ -27,7 +27,7 @@ public abstract class PermissionActivity extends HideNavBarActivity {
     protected abstract void setContentToView();
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults)
     {
         permissionManager.onRequestPermissionsResult(requestCode,permissions,grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

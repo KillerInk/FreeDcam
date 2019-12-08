@@ -20,9 +20,6 @@
 package freed.cam.apis.basecamera;
 
 import android.graphics.Rect;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.view.MotionEvent;
 
 import org.greenrobot.eventbus.Subscribe;

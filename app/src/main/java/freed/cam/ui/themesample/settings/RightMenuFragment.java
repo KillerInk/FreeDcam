@@ -20,28 +20,20 @@
 package freed.cam.ui.themesample.settings;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
-import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
-import freed.cam.ui.themesample.settings.childs.SettingsChild_BooleanSetting;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
-import freed.settings.mode.BooleanSettingModeInterface;
 
 /**
  * Created by troop on 15.06.2015.
@@ -63,7 +55,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         settingchildholder = view.findViewById(id.SettingChildHolder);
         setCameraToUi(cameraUiWrapper);
