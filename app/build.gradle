@@ -8,13 +8,20 @@ android {
             storeFile file('../key/freedcamkey.jks')
             storePassword 'freedcam'
         }
+        debug {
+            storeFile file('..\\key\\freedcamkey.jks')
+            storePassword 'freedcam'
+            keyAlias = 'freedcamkey'
+            keyPassword 'freedcam'
+        }
     }
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 27
-        versionCode 142
+        targetSdkVersion 29
+        versionCode 150
         versionName '4.2'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 19
@@ -24,6 +31,8 @@ android {
                 abiFilters 'armeabi-v7a', 'arm64-v8a'
             }
         }
+        versionNameSuffix = 'alpha37'
+        signingConfig signingConfigs.config
     }
     lintOptions { checkReleaseBuilds false }
     buildTypes {
@@ -35,6 +44,9 @@ android {
         debug {
             jniDebuggable true
             signingConfig signingConfigs.config
+            ndk {
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
+            }
         }
     }
     externalNativeBuild {
@@ -44,11 +56,15 @@ android {
     }
     productFlavors {
     }
+
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
 		sourceCompatibility JavaVersion.VERSION_1_8
     }
+
 }
+
+
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
