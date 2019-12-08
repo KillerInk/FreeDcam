@@ -19,6 +19,7 @@
 
 package freed.settings;
 
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.text.TextUtils;
 
