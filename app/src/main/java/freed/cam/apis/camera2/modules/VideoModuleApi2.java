@@ -27,6 +27,7 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.StateCallback;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.VideoSource;
@@ -328,6 +329,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             }
             else
             {
+                int index = getHFRResIndex();
+                cameraHolder.setOpModeForHFRVideoStreamToActiveCamera(index);
                 cameraUiWrapper.captureSessionHandler.StartHighspeedCaptureSession();
             }
             videoRecorder.start();
@@ -346,5 +349,18 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void internalFireOnWorkDone(File file) {
 
+    }
+
+    private int getHFRResIndex()
+    {
+        int index = -1;
+        StreamConfigurationMap smap = cameraHolder.characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        Size sizes[] = smap.getHighSpeedVideoSizes();
+        for (int i = 0; i < sizes.length; i++)
+        {
+            if (sizes[i].getWidth() == currentVideoProfile.videoFrameWidth && sizes[i].getHeight() == currentVideoProfile.videoFrameHeight)
+                return index;
+        }
+        return index;
     }
 }

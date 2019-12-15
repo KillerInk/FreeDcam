@@ -37,6 +37,8 @@ import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.List;
 
@@ -66,15 +68,42 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     boolean errorRecieved;
 
+    private Method method_setVendorStreamConfigMode = null;
+
     @TargetApi(VERSION_CODES.LOLLIPOP)
     public CameraHolderApi2(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
         manager = (CameraManager) cameraUiWrapper.getContext().getSystemService(Context.CAMERA_SERVICE);
-
+        checkSetOpMode();
      }
 
 
+     private void checkSetOpMode()
+     {
+         try {
+             if (method_setVendorStreamConfigMode == null) {
+                 method_setVendorStreamConfigMode = CameraDevice.class.getDeclaredMethod(
+                         "setVendorStreamConfigMode", int.class);
+             }
+         } catch (Exception exception) {
+             Log.w(TAG, "setOpModeForVideoStream method is not exist");
+             exception.printStackTrace();
+         }
+     }
+
+     public void setOpModeForHFRVideoStreamToActiveCamera(int hfrResIndex)
+     {
+         if (method_setVendorStreamConfigMode != null) {
+             try {
+                 method_setVendorStreamConfigMode.invoke(mCameraDevice, hfrResIndex);
+             } catch (IllegalAccessException e) {
+                 e.printStackTrace();
+             } catch (InvocationTargetException e) {
+                 e.printStackTrace();
+             }
+         }
+     }
 
 
     //###########################  public camera methods
