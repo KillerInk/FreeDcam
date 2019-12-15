@@ -334,7 +334,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     }
 
 
-    private void saveImage(Image image,String f) {
+    protected void saveImage(Image image,String f) {
         File file = null;
         ImageTask task = null;
 

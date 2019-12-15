@@ -19,6 +19,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildFeatureDetect;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuForceRawToDng;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuGPS;
+import freed.cam.ui.themesample.settings.childs.SettingsChildMenuIPAddressProfile;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuInterval;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuIntervalDuration;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuOrientationHack;
@@ -27,6 +28,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenuSaveCamParams;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimeLapseFrames;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoProfile;
+import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_IPAddressEditor;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEditor;
 import freed.cam.ui.themesample.settings.childs.SettingsChild_BooleanSetting;
 import freed.settings.SettingKeys;
@@ -92,6 +94,22 @@ public class SettingsMenuItemFactory
 
                 if (videoGroup.childSize() > 0)
                     settingsChildHolder.addView(videoGroup);
+
+                // SET IP ADDRESS + PORT
+                GroupChild ipportGroup = new GroupChild(context, activityInterface.getStringFromRessources(R.string.setting_ipport_group_header));
+
+                if (true){//params.get(SettingKeys.IP_PORT) != null) {
+                    SettingsChildMenuIPAddressProfile IPAddress = new SettingsChildMenuIPAddressProfile(context,
+                            params.get(SettingKeys.VideoProfiles), R.string.setting_ipportprofile_header, R.string.setting_ipportprofile_description);
+                    IPAddress.SetUiItemClickListner(click);
+                    ipportGroup.addView(IPAddress);
+
+                    SettingsChildMenu_IPAddressEditor IPAddressEditor = new SettingsChildMenu_IPAddressEditor(context, R.string.setting_ipportprofile_header, R.string.setting_ipportprofile_description);
+                    ipportGroup.addView(IPAddressEditor);
+                }
+
+                if (ipportGroup.childSize() > 0)
+                    settingsChildHolder.addView(ipportGroup);
 
         /*
             PictureGroup

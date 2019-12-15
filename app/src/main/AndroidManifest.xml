@@ -148,5 +148,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="freed.cam.ui.ipaddresseditor.IPAddressEditorActivity"
+            android:label="GridView"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

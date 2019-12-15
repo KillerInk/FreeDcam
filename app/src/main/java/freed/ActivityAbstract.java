@@ -72,10 +72,6 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
     protected  List<FileHolder> files =  new ArrayList<>();
     protected StorageFileManager storageHandler;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

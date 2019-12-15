@@ -338,5 +338,9 @@
     <string name="setting_rawsize_header">Raw Size</string>
     <string name="setting_rawsize_description">Size of the Raw</string>
 
+    <string name="setting_ipport_group_header">IP Port</string>
+    <string name="setting_ipportprofile_header">IP-Port Profile: </string>
+    <string name="setting_ipportprofileeditor_header">IP-Port Profile Editor </string>
+    <string name="setting_ipportprofile_description">Media Profile used VideoRecording</string>
 
 </resources>

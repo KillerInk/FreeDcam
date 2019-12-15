@@ -149,6 +149,8 @@ public class SettingKeys{
     public final static Key<SettingMode> CLIPPING = new Key(SettingMode.class, R.string.aps_clipping);
 
     public final static Key<SettingMode> ApiSettingsMode = new Key(SettingMode.class, R.string.aps_api);
+    public final static Key<SettingMode> IP_PORT = new Key(SettingMode.class, R.string.aps_ip_port);
+    public final static Key<SettingMode> mCropsize = new Key(SettingMode.class, R.string.aps_cropsize);
     /**
      *
      * @return a list with all statics keys in this class
