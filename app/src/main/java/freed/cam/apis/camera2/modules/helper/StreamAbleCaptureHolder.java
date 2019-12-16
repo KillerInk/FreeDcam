@@ -1,5 +1,7 @@
 package freed.cam.apis.camera2.modules.helper;
 
+import android.graphics.ImageFormat;
+import android.graphics.PixelFormat;
 import android.hardware.camera2.CameraCharacteristics;
 import android.media.Image;
 import android.os.Build;
@@ -20,6 +22,7 @@ import freed.cam.apis.basecamera.modules.WorkFinishEvents;
 
 public class StreamAbleCaptureHolder extends ImageCaptureHolder {
 
+    private static final String TAG = StreamAbleCaptureHolder.class.getSimpleName();
     //the connection to the server
     private Socket socket;
     //used to send data to the target
@@ -47,21 +50,22 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void saveImage(Image image, String f) {
-        //ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-        //byte[] bytes = new byte[buffer.remaining()];
-        //buffer.get(bytes);
-        byte[] bytes = cropByteArray(x_crop_pos, y_crop_pos, mCropsize, mCropsize, image);
-        image.close();
-        try {
-            //sending plain bayer bytearray with simple start end of file
-            //bufferedOutputStream.write("START".getBytes());
-            bufferedOutputStream.write(bytes);
-            //bufferedOutputStream.write("END".getBytes());
-            bufferedOutputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (image.getFormat() == ImageFormat.RAW_SENSOR) {
+            byte[] bytes = cropByteArray(x_crop_pos, y_crop_pos, mCropsize, mCropsize, image);
+            image.close();
+            try {
+                //sending plain bayer bytearray with simple start end of file
+                bufferedOutputStream.write("START".getBytes());
+                Log.d(TAG, "Send data : " + bytes.length);
+                bufferedOutputStream.write(bytes);
+                bufferedOutputStream.write("END".getBytes());
+                bufferedOutputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            workerfinish.internalFireOnWorkDone(null);
         }
-        workerfinish.internalFireOnWorkDone(null);
+        else image.close();
     }
 
     /**
