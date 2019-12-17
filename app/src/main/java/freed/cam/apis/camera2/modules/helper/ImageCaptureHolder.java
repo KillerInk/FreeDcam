@@ -76,7 +76,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     private CaptureType captureType;
 
     private ActivityInterface activityInterface;
-    private RdyToSaveImg rdyToSaveImg;
+    protected RdyToSaveImg rdyToSaveImg;
     private ModuleInterface moduleInterface;
     private int cropWidth, cropHeight;
 

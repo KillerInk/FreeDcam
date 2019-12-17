@@ -75,7 +75,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
     protected ImageCaptureHolder currentCaptureHolder;
-    private final int MAX_IMAGES = 8;
+    private final int MAX_IMAGES = 6;
     protected List<File> filesSaved;
 
     private boolean isBurstCapture = false;
@@ -555,7 +555,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         }
     }
 
-    private void onSesssionRdy()
+    protected void onSesssionRdy()
     {
         Log.d(TAG, "onSessionRdy() ######################### Rdy to Start Preview, CAPTURE CYCLE DONE #####################");
         cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();

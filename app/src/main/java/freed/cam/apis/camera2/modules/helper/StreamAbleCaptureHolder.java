@@ -1,25 +1,31 @@
 package freed.cam.apis.camera2.modules.helper;
 
 import android.graphics.ImageFormat;
-import android.graphics.PixelFormat;
+import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.TotalCaptureResult;
 import android.media.Image;
+import android.media.ImageReader;
 import android.os.Build;
-import android.util.Log;
+
 
 import androidx.annotation.RequiresApi;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.modules.WorkFinishEvents;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.utils.Log;
 
+@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class StreamAbleCaptureHolder extends ImageCaptureHolder {
 
     private static final String TAG = StreamAbleCaptureHolder.class.getSimpleName();
@@ -27,11 +33,19 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
     private Socket socket;
     //used to send data to the target
     private BufferedOutputStream bufferedOutputStream;
+    private final BlockingQueue<Image> imageBlockingQueue;
+    private FileStreamRunner fileStreamRunner;
 
     // Settings for cropping the image
     private int mCropsize = 100;
     private int x_crop_pos = 0;
     private int y_crop_pos = 0;
+
+    public void stop()
+    {
+        if (fileStreamRunner != null)
+            fileStreamRunner.stop();
+    }
 
     public void setCropsize(int myCropsize){
         this.mCropsize = myCropsize;
@@ -43,29 +57,46 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
         try {
             this.bufferedOutputStream = new BufferedOutputStream(socket.getOutputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
+        }
+        catch (NullPointerException e)
+        {
+            Log.WriteEx(e);
+        }
+        imageBlockingQueue = new LinkedBlockingQueue<>(4);
+        if (bufferedOutputStream != null) {
+            fileStreamRunner = new FileStreamRunner();
+            Thread thread = new Thread(fileStreamRunner);
+            thread.start();
+            UserMessageHandler.sendMSG("Not Connected to Server " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort(),false);
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public void saveImage(Image image, String f) {
-        if (image.getFormat() == ImageFormat.RAW_SENSOR) {
-            byte[] bytes = cropByteArray(x_crop_pos, y_crop_pos, mCropsize, mCropsize, image);
+    public void onImageAvailable(ImageReader reader) {
+        Log.d(TAG, "OnRawAvailible waiting: ");
+
+        final Image image = reader.acquireLatestImage();
+        if (image == null)
+            return;
+        if (image.getFormat() != ImageFormat.RAW_SENSOR)
             image.close();
+        else {
+            Log.d(TAG, "add image to Queue left:" + imageBlockingQueue.remainingCapacity());
             try {
-                //sending plain bayer bytearray with simple start end of file
-                bufferedOutputStream.write("START".getBytes());
-                Log.d(TAG, "Send data : " + bytes.length);
-                bufferedOutputStream.write(bytes);
-                bufferedOutputStream.write("END".getBytes());
-                bufferedOutputStream.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
+                imageBlockingQueue.put(image);
+            } catch (InterruptedException e) {
+                Log.WriteEx(e);
             }
-            workerfinish.internalFireOnWorkDone(null);
+            rdyToSaveImg.onRdyToSaveImg(StreamAbleCaptureHolder.this);
         }
-        else image.close();
+
+    }
+
+    @Override
+    public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+        SetCaptureResult(result);
+
     }
 
     /**
@@ -99,10 +130,57 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
                 }
             }
         }
-
-
-
-
+        if (buffer != null) {
+            buffer.clear();
+            buffer = null;
+        }
         return bytes;
+    }
+
+    private class FileStreamRunner implements Runnable
+    {
+        boolean run = false;
+        private int count = 0;
+        public FileStreamRunner()
+        {
+            run = true;
+            count = 0;
+        }
+
+        public void stop(){ run = false; }
+
+        @Override
+        public void run() {
+            if (bufferedOutputStream == null)
+                return;
+            Image image = null;
+            while (run) {
+                try {
+                    image = imageBlockingQueue.take();
+                } catch (InterruptedException e) {
+                    Log.WriteEx(e);
+                }
+
+                Log.d(TAG,"Send img " + count++);
+                byte[] bytes = cropByteArray(x_crop_pos, y_crop_pos, mCropsize, mCropsize, image);
+                image.close();
+                image = null;
+                try {
+                    //sending plain bayer bytearray with simple start end of file
+                    bufferedOutputStream.write("START".getBytes());
+                    Log.d(TAG, "Send data : " + bytes.length);
+                    bufferedOutputStream.write(bytes);
+                    bufferedOutputStream.write("END".getBytes());
+                    bufferedOutputStream.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                /*synchronized (StreamAbleCaptureHolder.class) {
+                    StreamAbleCaptureHolder.class.notify();
+                }*/
+            }
+        }
     }
 }

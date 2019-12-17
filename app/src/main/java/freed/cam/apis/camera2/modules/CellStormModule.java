@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.text.TextUtils;
 
+import androidx.annotation.RequiresApi;
+
 import com.troop.freedcam.R;
 
 import java.io.BufferedReader;
@@ -23,10 +25,12 @@ import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.modules.helper.CaptureType;
 import freed.cam.apis.camera2.modules.helper.ImageCaptureHolder;
 import freed.cam.apis.camera2.modules.helper.StreamAbleCaptureHolder;
+import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CellStormModule extends PictureModuleApi2 {
     // THIS IS THE OLD VERSION WITHOUT GITHUB SUPPORT!
 
@@ -97,12 +101,19 @@ public class CellStormModule extends PictureModuleApi2 {
 
     @Override
     public void DoWork() {
-        Log.i(TAG, "This is cellSTORM!");
-        if (continueCapture)
+        Log.i(TAG, "This is cellSTORM!" + continueCapture);
+        if (continueCapture) {
             continueCapture = false;
+            mBackgroundHandler.post(()->{
+                Log.d(TAG, "cancel capture");
+                cameraUiWrapper.captureSessionHandler.cancelCapture();
+                finishCapture();
+                changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
+            });
+        }
         else {
             continueCapture = true;
-            super.DoWork();
+            mBackgroundHandler.post(()->TakePicture());
         }
     }
 
@@ -143,11 +154,9 @@ public class CellStormModule extends PictureModuleApi2 {
         }
     }
 
-
     @Override
-    public void captureStillPicture() {
-
-        Log.d(TAG,"########### captureStillPicture ###########");
+    protected void TakePicture() {
+        isWorking = true;
         currentCaptureHolder = new StreamAbleCaptureHolder(cameraHolder.characteristics, CaptureType.Bayer16, cameraUiWrapper.getActivityInterface(),this,this, this,mysocket);
         currentCaptureHolder.setCropSize(cropSize,cropSize);
         currentCaptureHolder.setFilePath(getFileString(), SettingsManager.getInstance().GetWriteExternal());
@@ -174,10 +183,42 @@ public class CellStormModule extends PictureModuleApi2 {
         prepareCaptureBuilder(BurstCounter.getImageCaptured());
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
         Log.d(TAG, "StartStillCapture");
+        super.TakePicture();
+    }
+
+    @Override
+    protected void captureStillPicture() {
+        Log.d(TAG, "#################### captureStillPicture #################");
+        prepareCaptureBuilder(BurstCounter.getImageCaptured());
+        changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
+        Log.d(TAG, "StartStillCapture");
         cameraUiWrapper.captureSessionHandler.StartImageCapture(currentCaptureHolder, mBackgroundHandler);
-        //currentCaptureHolder.save();
-        //changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
     }
 
 
+    @Override
+    protected void finishCapture() {
+        isWorking = false;
+        changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
+        try
+        {
+            if (continueCapture)
+                captureStillPicture();
+            else if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&
+                    cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME)> AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME) {
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME);
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_FRAME_DURATION, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME);
+                Log.d(TAG, "CancelRepeatingCaptureSessoion set onSessionRdy");
+                cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
+                onSesssionRdy();
+                ((StreamAbleCaptureHolder)currentCaptureHolder).stop();
+            }
+            else {
+                onSesssionRdy();
+            }
+        }
+        catch (NullPointerException ex) {
+            Log.WriteEx(ex);
+        }
+    }
 }
