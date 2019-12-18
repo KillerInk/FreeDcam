@@ -174,6 +174,8 @@ public class CellStormModule extends PictureModuleApi2 {
             currentCaptureHolder.setCustomMatrix(SettingsManager.getInstance().getMatrixesMap().get(cmat));
         }
 
+        if (jpegReader != null)
+            jpegReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             rawReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
         }
@@ -183,7 +185,7 @@ public class CellStormModule extends PictureModuleApi2 {
         prepareCaptureBuilder(BurstCounter.getImageCaptured());
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
         Log.d(TAG, "StartStillCapture");
-        super.TakePicture();
+        captureStillPicture();
     }
 
     @Override
@@ -192,9 +194,9 @@ public class CellStormModule extends PictureModuleApi2 {
         prepareCaptureBuilder(BurstCounter.getImageCaptured());
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
         Log.d(TAG, "StartStillCapture");
+        cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         cameraUiWrapper.captureSessionHandler.StartImageCapture(currentCaptureHolder, mBackgroundHandler);
     }
-
 
     @Override
     protected void finishCapture() {

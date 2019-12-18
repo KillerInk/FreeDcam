@@ -68,11 +68,13 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
             fileStreamRunner = new FileStreamRunner();
             Thread thread = new Thread(fileStreamRunner);
             thread.start();
-            UserMessageHandler.sendMSG("Not Connected to Server " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort(),false);
+
         }
+        else
+            UserMessageHandler.sendMSG("Not Connected to Server " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort(),false);
     }
 
-    @Override
+   /* @Override
     public void onImageAvailable(ImageReader reader) {
         Log.d(TAG, "OnRawAvailible waiting: ");
 
@@ -97,6 +99,16 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
     public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
         SetCaptureResult(result);
 
+    }*/
+
+    @Override
+    protected void saveImage(Image image, String f) {
+        Log.d(TAG, "add image to Queue left:" + imageBlockingQueue.remainingCapacity());
+        try {
+            imageBlockingQueue.put(image);
+        } catch (InterruptedException e) {
+            Log.WriteEx(e);
+        }
     }
 
     /**
