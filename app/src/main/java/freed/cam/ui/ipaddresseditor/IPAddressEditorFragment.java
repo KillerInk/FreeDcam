@@ -21,6 +21,7 @@ package freed.cam.ui.ipaddresseditor;
 
 import android.os.Bundle;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 
 import android.view.View;
@@ -74,6 +75,9 @@ public class IPAddressEditorFragment extends Fragment {
 
         Button button_save = view.findViewById(id.button_Save_profile);
         button_save.setOnClickListener(onSavebuttonClick);
+        if (!SettingsManager.getInstance().isInit()){
+            SettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()), getResources());
+        }
 
         // get previously saved IPPort settings and set it to the GUI
         setGUI();

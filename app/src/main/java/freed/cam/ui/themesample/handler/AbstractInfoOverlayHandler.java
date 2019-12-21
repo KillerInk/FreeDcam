@@ -156,7 +156,14 @@ public abstract class AbstractInfoOverlayHandler
         {
             ParameterInterface pictureFormat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat);
             if (pictureFormat != null)
-                format = pictureFormat.GetStringValue();
+                try {
+                    format = pictureFormat.GetStringValue();
+                }
+            catch (NullPointerException ex)
+            {
+                Log.WriteEx(ex);
+            }
+
             else
                 format = "";
 

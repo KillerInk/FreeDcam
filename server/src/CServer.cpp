@@ -29,7 +29,7 @@ DngProfile * getDngP9()
     prof->whitelevel = 1023;
     prof->rawheight = 100;
     prof->rawwidht = 100;
-    prof->bayerformat = "bggr";
+    prof->bayerformat = "rggb";
     prof->rawType = 6;
     prof->rowSize = 0;
 
@@ -41,7 +41,7 @@ CustomMatrix * getP9Matrix()
     CustomMatrix * matrix = new CustomMatrix();
     matrix->colorMatrix1 = new float[9]{1.068359018f ,-0.2988280055f, -0.1425780054f, -0.4316410122f, 1.355468989f, 0.05078099996f, -0.1015620004f, 0.2441409972f, 0.5859379766f};
     matrix->colorMatrix2 = new float[9]{2.209960938f, -1.332031012f, -0.1416019942f, -0.1894530054f, 1.227538943f, -0.05468700037f, -0.02343700036f, 0.1826169934f, 0.6035159824f};
-    matrix->neutralColorMatrix = new float[3]{0.3796940146f, 1, 0.6928933858f};
+    matrix->neutralColorMatrix = new float[3]{1, 1, 1};
     return matrix;
 }
 
@@ -136,40 +136,43 @@ int __cdecl main(void)
 
     // No longer need server socket
     closesocket(ListenSocket);
-
     // Receive until the peer shuts down the connection
     do {
 
         iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
         if (iResult > 0) {
             printf("Bytes received: %d\n", iResult);
-            for (int i = 0; i < recvbuflen; i++) {
-                imagedata[byteCount++] = recvbuf[i];
-                if(byteCount == IMAGEDATALENGTH)
-                {
-                    string fname = string("img_") + to_string(imagesRecieved++) + string(".dng");
+            if(iResult == 1)
+            {
+                printf("New Frame\n");
+            }
+            else
+            {
+                for (int i = 0; i < recvbuflen; i++) {
+                    imagedata[byteCount++] = recvbuf[i];
+                    if(byteCount == IMAGEDATALENGTH)
+                    {
+                        string fname = string("img_") + to_string(imagesRecieved++) + string(".dng");
+                        dngw->bayerBytes = (unsigned char*)(&imagedata);
+                        dngw->rawSize = IMAGEDATALENGTH;
+                        dngw->fileSavePath = new char[fname.size()];
+                        strcpy(dngw->fileSavePath, fname.c_str());
+                        fname.clear();
+                        printf("File path: %s\n", dngw->fileSavePath);
+                        dngw->_make = "dngwriter";
+                        dngw->_model = "model";
 
-
-
-                    dngw->bayerBytes = (unsigned char*)imagedata;
-                    dngw->rawSize = IMAGEDATALENGTH;
-                    dngw->fileSavePath = new char[fname.size()+1];
-                    copy(fname.begin(),fname.end(),dngw->fileSavePath);
-                    printf("File path: %s\n", dngw->fileSavePath);
-                    dngw->_make = "dngwriter";
-                    dngw->_model = "model";
-
-                    printf("write dng\n");
-                    dngw->WriteDNG();
-                    printf("done write dng\n");
-                    /*FILE* file = fopen(fname.c_str(), "wb" );
-                    fwrite(imagedata, 1, sizeof(imagedata), file);
-                    fclose(file);*/
-                    byteCount = 0;
-                    printf("saved file %s\n", fname);
+                        printf("write dng\n");
+                        dngw->WriteDNG();
+                        printf("done write dng\n");
+                        /*FILE* file = fopen(fname.c_str(), "wb" );
+                        fwrite(imagedata, 1, sizeof(imagedata), file);
+                        fclose(file);*/
+                        byteCount = 0;
+                        printf("saved file %s\n", fname);
+                    }
                 }
             }
-
         }
         else if (iResult == 0)
             printf("Connection closing...\n");
@@ -182,6 +185,7 @@ int __cdecl main(void)
 
     } while (iResult > 0);
 
+    //dngw->clear();
     // shutdown the connection since we're done
     iResult = shutdown(ClientSocket, SD_SEND);
     if (iResult == SOCKET_ERROR) {

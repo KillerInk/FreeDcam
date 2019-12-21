@@ -16,6 +16,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -35,6 +36,7 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
     private BufferedOutputStream bufferedOutputStream;
     private final BlockingQueue<Image> imageBlockingQueue;
     private FileStreamRunner fileStreamRunner;
+    private final byte FRAME_START_FLAG = (byte)0xff;
 
     // Settings for cropping the image
     private int mCropsize = 100;
@@ -71,7 +73,7 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
 
         }
         else
-            UserMessageHandler.sendMSG("Not Connected to Server " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort(),false);
+            UserMessageHandler.sendMSG("Not Connected to Server ",false);
     }
 
    /* @Override
@@ -122,24 +124,20 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
      */
     private byte[] cropByteArray(int x_crop_pos ,int y_crop_pos, int buf_width, int buf_height, Image image)
     {
+        int x_center = image.getWidth() / 2 ;
+        int y_center = image.getHeight() / 2 ;
+        int x_offset = x_center - (buf_width/2);
+        int x_end = (x_offset +buf_width);
+        int y_offset =  y_center - (buf_height/2);
+        int y_end = (y_offset +buf_height);
+        int rawsize = buf_height*buf_width*2;
         byte bytes[] = new byte[buf_width*buf_height*2];
+        int rowsize = image.getWidth()*2;
         int bytepos = 0;
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-        int rowsize = buf_width*2;
-        for (int y = y_crop_pos; y < y_crop_pos+buf_height; y++)
-        {
-            for (int x = x_crop_pos; x < x_crop_pos+buf_width; x++)
-            {
-                try {
-                    // low-byte
-                    bytes[bytepos] = buffer.get((y * rowsize + x)*2);
-                    // high-byte
-                    bytes[bytepos+1] = buffer.get((y * rowsize + x)*2 + 1);
-                    bytepos = bytepos+2;
-                }
-                catch(ArrayIndexOutOfBoundsException e){
-                    Log.e("BUFFER ERROR", String.valueOf(x)+'/'+String.valueOf(y)+'/'+String.valueOf(bytepos));
-                }
+        for (int y = y_offset; y < y_end; y++) {
+            for (int x = x_offset*2; x < x_end*2; x++) {
+                bytes[bytepos++] = buffer.get(y*rowsize+x);
             }
         }
         if (buffer != null) {
@@ -180,6 +178,7 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
                 try {
                     //sending plain bayer bytearray with simple start end of file
                     //bufferedOutputStream.write("START".getBytes());
+                    bufferedOutputStream.write(FRAME_START_FLAG);
                     Log.d(TAG, "Send data : " + bytes.length);
                     bufferedOutputStream.write(bytes);
                     //bufferedOutputStream.write("END".getBytes());

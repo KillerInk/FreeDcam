@@ -23,6 +23,7 @@ import android.R.id;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import freed.ActivityAbstract;
@@ -33,7 +34,7 @@ import freed.viewer.holder.FileHolder;
 /**
  * Created by troop on 15.02.2016.
  */
-public class IPAddressEditorActivity extends ActivityAbstract
+public class IPAddressEditorActivity extends FragmentActivity
 {
     private final String TAG = IPAddressEditorActivity.class.getSimpleName();
 
@@ -50,25 +51,5 @@ public class IPAddressEditorActivity extends ActivityAbstract
             ft.replace(id.content, new IPAddressEditorFragment(), TAG);
             ft.commit();
         }
-    }
-
-    @Override
-    protected void setContentToView() {
-
-    }
-
-    @Override
-    public LocationManager getLocationManager() {
-        return null;
-    }
-
-    @Override
-    public void WorkHasFinished(FileHolder fileHolder) {
-
-    }
-
-    @Override
-    public void WorkHasFinished(FileHolder[] fileHolder) {
-
     }
 }

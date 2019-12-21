@@ -63,6 +63,8 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
 
     @Override
     public String GetStringValue() {
-        return SettingsManager.get(SettingKeys.PictureFormat).get();
+        if (SettingsManager.getInstance() != null && SettingsManager.get(SettingKeys.PictureFormat) != null)
+            return SettingsManager.get(SettingKeys.PictureFormat).get();
+        else return null;
     }
 }

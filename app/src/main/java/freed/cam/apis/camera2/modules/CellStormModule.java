@@ -82,7 +82,8 @@ public class CellStormModule extends PictureModuleApi2 {
     public void DestroyModule() {
         super.DestroyModule();
         try {
-            mysocket.close();
+            if (mysocket != null)
+                mysocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -176,7 +177,7 @@ public class CellStormModule extends PictureModuleApi2 {
 
         if (jpegReader != null)
             jpegReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && rawReader != null) {
             rawReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
         }
 
