@@ -1,0 +1,76 @@
+
+
+apply plugin: "cpp"
+
+
+model{
+
+    platforms {
+        x86 {
+            architecture "x86"
+        }
+        x64 {
+            architecture "x64"
+        }
+    }
+
+    components{
+
+        cserver(NativeExecutableSpec) {
+
+           /* targetPlatform "x86"
+            sources {
+                cpp {
+                    source {
+                        srcDirs "src/","src/tiff/libtiff/"
+                        include "CServer.cpp","DngWriter.cpp"
+                    }
+                }
+            }*/
+            targetPlatform "x64"
+            sources {
+                cpp {
+                    source {
+                        srcDirs "src/","src/tiff/libtiff/"
+                        include "CServer.cpp","DngWriter.cpp"
+                    }
+                }
+            }
+            binaries{
+                all {
+                    if (toolChain in VisualCpp) {
+                        // "/bin" assumes Makefile build for Halide; "/build/lib" assumes CMake build
+                        linker.args "${projectDir}/src/lib/tiff.lib", "/LIBPATH:${projectDir}/src/lib/tiff.dll"
+                        logger.quiet("binaries all")
+                    }
+                    else
+                    {
+                        logger.quiet("binaries.all Error the compiler not implemented")
+                    }
+
+                }
+            }
+
+
+
+
+
+
+
+
+
+            //hook into build
+            build{
+
+                //the compiler runs after doFirst and calls doLast
+                doFirst {
+                    logger.quiet("build.doFirst")
+                }
+
+                doLast {
+                    logger.quiet("build.doLast")
+                }
+            }
+        }
+    }
+}
