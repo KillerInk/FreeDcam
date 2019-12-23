@@ -240,9 +240,9 @@ public class ImageSaveTask extends ImageTask
         else
             rawToDng.SetBayerDataFD(bytesTosave,pfd,filename.getAbsolutePath());
 
-        if (cropHeight >0 && cropWidth >0) {
+        /*if (cropHeight >0 && cropWidth >0) {
             rawToDng.cropCenter(cropWidth, cropHeight);
-        }
+        }*/
 
         rawToDng.WriteDngWithProfile(profile);
         if (pfd != null)

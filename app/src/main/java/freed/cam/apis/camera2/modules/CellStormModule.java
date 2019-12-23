@@ -18,14 +18,18 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.modules.helper.CaptureType;
 import freed.cam.apis.camera2.modules.helper.ImageCaptureHolder;
+import freed.cam.apis.camera2.modules.helper.MySocket;
 import freed.cam.apis.camera2.modules.helper.StreamAbleCaptureHolder;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -39,11 +43,11 @@ public class CellStormModule extends PictureModuleApi2 {
     private boolean continueCapture = false;
     private int cropSize = 100;
 
-    String my_server_ip ="192.168.2.100"; // "172.26.19.190"; //// "172.26.19.190";// "192.168.43.86";//"192.168.2.100";//"172.26.19.190";//"192.168.43.86"; //
-    int my_portnumber = 4444;
-    Socket mysocket;
-    PrintWriter myprintwriter;
-    private boolean hasConnection = false;
+    private MySocket my_socket;
+
+    private boolean doStream = false;
+    private List<File> fileList;
+
 
     public CellStormModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
@@ -56,14 +60,23 @@ public class CellStormModule extends PictureModuleApi2 {
     @Override
     public void InitModule() {
         super.InitModule();
-        if (cameraUiWrapper.getActivityInterface().getPermissionManager().hasWifiPermission(null)) {
-            try {
-                // connect to server for streaming the bytes
-                connectServer();
-            } catch (Exception e) {
-                e.printStackTrace();
+        fileList = new ArrayList<>();
+        if (doStream) {
+            if (cameraUiWrapper.getActivityInterface().getPermissionManager().hasWifiPermission(null)) {
+                try {
+                    // connect to server for streaming the bytes
+                    connectServer();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
+        else
+            if (my_socket != null)
+            {
+                my_socket.closeConnection();
+                my_socket = null;
+            }
 
         // Set cropsize derived from settingsmanager
         String mCropsize = SettingsManager.get(SettingKeys.mCropsize).get();
@@ -73,21 +86,14 @@ public class CellStormModule extends PictureModuleApi2 {
         catch(NumberFormatException e){
             cropSize = cropSize;
         }
-
-        Log.i(TAG, "Values set:" + my_server_ip + ":" + String.valueOf(my_portnumber) + "- cropsize: " + String.valueOf(cropSize));
-
     }
 
     @Override
     public void DestroyModule() {
         super.DestroyModule();
-        try {
-            if (mysocket != null)
-                mysocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        hasConnection = false;
+        if (my_socket != null)
+            my_socket.closeConnection();
+        my_socket = null;
     }
 
     @Override
@@ -120,46 +126,42 @@ public class CellStormModule extends PictureModuleApi2 {
 
     @Override
     protected void prepareCaptureBuilder(int captureNum) {
-        currentCaptureHolder.setCropSize(cropSize, cropSize);
+        //currentCaptureHolder.setCropSize(cropSize, cropSize);
     }
 
     @Override
     public void internalFireOnWorkDone(File file) {
-        if (continueCapture)
+        if (continueCapture) {
             captureStillPicture();
+            fileList.add(file);
+        }
+        else {
+            fireOnWorkFinish(fileList.toArray(new File[fileList.size()]));
+            fileList.clear();
+        }
 
     }
 
 
     public void connectServer() throws Exception {
-        if (hasConnection)
+        if (my_socket.isConnected())
             return;
         String ip_port = SettingsManager.get(SettingKeys.IP_PORT).get();
         String splitIP_Port[] = ip_port.split(":");
         if (splitIP_Port == null || splitIP_Port.length !=2)
             throw  new Exception("Ip or port is empty");
-        my_server_ip = splitIP_Port[0];
-        my_portnumber = Integer.parseInt(splitIP_Port[1]);
-        try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
-            mysocket = new Socket(my_server_ip, my_portnumber);
-            hasConnection = true;
-
-        } catch (IOException e) {
-            hasConnection = false;
-            e.printStackTrace();
-            Log.e(TAG, String.valueOf(e));
-        }
+        my_socket = new MySocket(splitIP_Port[0],Integer.parseInt(splitIP_Port[1]));
+        if(my_socket.connect())
+            UserMessageHandler.sendMSG("Connected to " + SettingsManager.get(SettingKeys.IP_PORT).get(), false);
+        else
+            UserMessageHandler.sendMSG("Failed to connect to" + SettingsManager.get(SettingKeys.IP_PORT).get(), false);
     }
 
     @Override
     protected void TakePicture() {
         isWorking = true;
-        currentCaptureHolder = new StreamAbleCaptureHolder(cameraHolder.characteristics, CaptureType.Bayer16, cameraUiWrapper.getActivityInterface(),this,this, this,mysocket);
-        currentCaptureHolder.setCropSize(cropSize,cropSize);
+        currentCaptureHolder = new StreamAbleCaptureHolder(cameraHolder.characteristics, CaptureType.Bayer16, cameraUiWrapper.getActivityInterface(),this,this, this,my_socket);
+        //currentCaptureHolder.setCropSize(cropSize,cropSize);
         currentCaptureHolder.setFilePath(getFileString(), SettingsManager.getInstance().GetWriteExternal());
         currentCaptureHolder.setForceRawToDng(SettingsManager.get(SettingKeys.forceRawToDng).get());
         currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().get(SettingKeys.TONEMAP_SET)).getToneMap());
@@ -206,7 +208,7 @@ public class CellStormModule extends PictureModuleApi2 {
         try
         {
             if (continueCapture)
-                captureStillPicture();
+                return;
             else if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&
                     cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME)> AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME) {
                 cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME);
@@ -215,13 +217,17 @@ public class CellStormModule extends PictureModuleApi2 {
                 cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
                 onSesssionRdy();
                 ((StreamAbleCaptureHolder)currentCaptureHolder).stop();
+                currentCaptureHolder = null;
             }
             else {
                 onSesssionRdy();
+                ((StreamAbleCaptureHolder)currentCaptureHolder).stop();
+                currentCaptureHolder = null;
             }
         }
         catch (NullPointerException ex) {
             Log.WriteEx(ex);
         }
     }
+
 }

@@ -56,9 +56,9 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     }
 
     private final String TAG = ImageCaptureHolder.class.getSimpleName();
-    private CaptureResult captureResult;
+    protected CaptureResult captureResult;
     private List<Image> images;
-    private CameraCharacteristics characteristics;
+    protected CameraCharacteristics characteristics;
     private CustomMatrix customMatrix;
     private ToneMapProfile toneMapProfile;
     private int orientation = 0;
@@ -75,9 +75,9 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
     private boolean support12bitRaw = false;
     private CaptureType captureType;
 
-    private ActivityInterface activityInterface;
+    protected ActivityInterface activityInterface;
     protected RdyToSaveImg rdyToSaveImg;
-    private ModuleInterface moduleInterface;
+    protected ModuleInterface moduleInterface;
     private int cropWidth, cropHeight;
 
     WorkFinishEvents workerfinish;
@@ -198,8 +198,15 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         Log.d(TAG, "OnRawAvailible, in buffer: " + images.size());
         try {
             img = reader.acquireLatestImage();
-            Log.d(TAG, "ImageFormat:" + img.getFormat() +  " CaptureType:" + captureType + " Size in Bytes: " +img.getPlanes()[0].getBuffer().remaining());
-            Log.d(TAG, "Img WxH:" + img.getWidth() +"x" + img.getHeight());
+            try {
+                Log.d(TAG, "ImageFormat:" + img.getFormat() +  " CaptureType:" + captureType + " Size in Bytes: " +img.getPlanes()[0].getBuffer().remaining());
+                Log.d(TAG, "Img WxH:" + img.getWidth() +"x" + img.getHeight());
+            }
+            catch (NullPointerException ex)
+            {
+                Log.WriteEx(ex);
+            }
+
 
             switch (captureType)
             {

@@ -39,6 +39,7 @@ public class DngProfile
     public static final int Mipi12 = 4;
     //shift 16bit data into readable 12bit order
     public static final int Pure16bit_To_12bit = 5;
+    public static final int Pure16bit_To_16bit = 6;
 
     public static final String BGGR = "bggr";
     public static final String RGGB = "rggb";

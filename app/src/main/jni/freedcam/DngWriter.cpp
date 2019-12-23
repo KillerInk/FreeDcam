@@ -25,6 +25,9 @@
 
 #define RAW_16BIT_TO_12BIT 5
 
+//write 16bit data
+#define RAW_16BIT 6
+
 #ifdef LOG_RAW_DATA
 const char *bit_rep[16] = {
         [ 0] = "0000", [ 1] = "0001", [ 2] = "0010", [ 3] = "0011",
@@ -60,9 +63,9 @@ void DngWriter::writeIfd0(TIFF *tif) {
     TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
     LOGD("subfiletype");
     assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, dngProfile->rawwidht) != 0);
-    LOGD("width");
+    LOGD("width %i",dngProfile->rawwidht);
     assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, dngProfile->rawheight) != 0);
-    LOGD("height");
+    LOGD("height %i", dngProfile->rawheight);
     if(dngProfile->rawType == RAW_10BIT_LOOSE_SHIFT || dngProfile->rawType == RAW_10BIT_TO_16BIT)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
     else if (dngProfile->rawType == RAW_12BIT_SHIFT || dngProfile->rawType == RAW_16BIT_TO_12BIT)
@@ -471,7 +474,7 @@ void DngWriter::processLoose(TIFF *tif) {
 
 void DngWriter::processSXXX16(TIFF *tif) {
     int j, row, col;
-    unsigned short pixel[dngProfile->rawwidht];
+    unsigned short * pixel = new unsigned short[dngProfile->rawwidht];
     unsigned short low, high;
     j=0;
     for (row=0; row < dngProfile->rawheight; row ++)
@@ -491,7 +494,6 @@ void DngWriter::processSXXX16(TIFF *tif) {
             LOGD("Error writing TIFF scanline.");
         }
     }
-
     LOGD("Finalizng DNG");
     LOGD("Free Memory");
     free(pixel);
@@ -669,6 +671,8 @@ void DngWriter::writeRawStuff(TIFF *tif) {
         LOGD("process16to12(tif);");
         process16to12(tif);
     }
+    else if (dngProfile->rawType == RAW_16BIT)
+        processSXXX16(tif);
     else
         LOGD("rawType is not implented");
 }
@@ -729,6 +733,7 @@ void DngWriter::WriteDNG() {
     LOGD("TIFFCheckpointDirectory");
     TIFFCheckpointDirectory(tif);
     TIFFWriteDirectory(tif);
+    TIFFSetDirectory(tif, 0);
     
 
     if(gpsInfo != NULL)
