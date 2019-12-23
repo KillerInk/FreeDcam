@@ -21,8 +21,8 @@ model{
             sources {
                 cpp {
                     source {
-                        srcDirs "src/", "src/tiff/libtiff"
-                        include "CServer.cpp", "DngProfile.h","CustomMatrix.h","DngWriter.h","DngWriter.cpp"
+                        srcDirs "src/","src/tiff/libtiff/"
+                        include "CServer.cpp","DngWriter.cpp"
                     }
                 }
             }
