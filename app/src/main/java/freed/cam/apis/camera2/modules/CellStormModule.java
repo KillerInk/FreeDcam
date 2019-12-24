@@ -45,7 +45,7 @@ public class CellStormModule extends PictureModuleApi2 {
 
     private MySocket my_socket;
 
-    private boolean doStream = false;
+    private boolean doStream = true;
     private List<File> fileList;
 
 
@@ -86,13 +86,16 @@ public class CellStormModule extends PictureModuleApi2 {
         catch(NumberFormatException e){
             cropSize = cropSize;
         }
+        Log.d(TAG, "Cropsize " + cropSize);
     }
 
     @Override
     public void DestroyModule() {
         super.DestroyModule();
-        if (my_socket != null)
+        if (my_socket != null) {
             my_socket.closeConnection();
+            my_socket.destroy();
+        }
         my_socket = null;
     }
 
@@ -133,7 +136,8 @@ public class CellStormModule extends PictureModuleApi2 {
     public void internalFireOnWorkDone(File file) {
         if (continueCapture) {
             captureStillPicture();
-            fileList.add(file);
+            if (file != null)
+                fileList.add(file);
         }
         else {
             fireOnWorkFinish(fileList.toArray(new File[fileList.size()]));
@@ -144,31 +148,28 @@ public class CellStormModule extends PictureModuleApi2 {
 
 
     public void connectServer() throws Exception {
-        if (my_socket.isConnected())
+        if (my_socket != null && my_socket.isConnected()) {
+            Log.d(TAG, "################Socket is already connected");
             return;
+        }
         String ip_port = SettingsManager.get(SettingKeys.IP_PORT).get();
         String splitIP_Port[] = ip_port.split(":");
         if (splitIP_Port == null || splitIP_Port.length !=2)
             throw  new Exception("Ip or port is empty");
         my_socket = new MySocket(splitIP_Port[0],Integer.parseInt(splitIP_Port[1]));
-        if(my_socket.connect())
-            UserMessageHandler.sendMSG("Connected to " + SettingsManager.get(SettingKeys.IP_PORT).get(), false);
-        else
-            UserMessageHandler.sendMSG("Failed to connect to" + SettingsManager.get(SettingKeys.IP_PORT).get(), false);
+        my_socket.connect();
+
     }
 
     @Override
     protected void TakePicture() {
         isWorking = true;
         currentCaptureHolder = new StreamAbleCaptureHolder(cameraHolder.characteristics, CaptureType.Bayer16, cameraUiWrapper.getActivityInterface(),this,this, this,my_socket);
-        //currentCaptureHolder.setCropSize(cropSize,cropSize);
+        ((StreamAbleCaptureHolder)currentCaptureHolder).setCropsize(cropSize);
         currentCaptureHolder.setFilePath(getFileString(), SettingsManager.getInstance().GetWriteExternal());
         currentCaptureHolder.setForceRawToDng(SettingsManager.get(SettingKeys.forceRawToDng).get());
         currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().get(SettingKeys.TONEMAP_SET)).getToneMap());
         currentCaptureHolder.setSupport12bitRaw(SettingsManager.get(SettingKeys.support12bitRaw).get());
-        //currentCaptureHolder.setCropSize(cropSize, cropSize);
-
-        //currentCaptureHolder.setOutputStream(myOutputStream);
 
         Log.d(TAG, "captureStillPicture ImgCount:"+ BurstCounter.getImageCaptured() +  " ImageCaptureHolder Path:" + currentCaptureHolder.getFilepath());
 

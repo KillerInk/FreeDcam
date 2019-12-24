@@ -48,7 +48,9 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
 
     // Settings for cropping the image
     private int mCropsize = 100;
+    //get currently ignored and use the center of the image
     private int x_crop_pos = 0;
+    //get currently ignored and use the center of the image
     private int y_crop_pos = 0;
     private int capturecount = 0;
 
@@ -56,6 +58,7 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
     {
         if (fileStreamRunner != null)
             fileStreamRunner.stop();
+
     }
 
     public void setCropsize(int myCropsize){
@@ -234,6 +237,7 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                moduleInterface.internalFireOnWorkDone(null);
             }
         }
     }

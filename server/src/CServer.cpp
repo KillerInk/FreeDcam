@@ -19,7 +19,7 @@ using namespace std;
 #pragma comment (lib, "Ws2_32.lib")
 // #pragma comment (lib, "Mswsock.lib")
 
-#define DEFAULT_BUFLEN 2048
+#define DEFAULT_BUFLEN 20000
 #define DEFAULT_PORT "1111"
 
 DngProfile * getDngP9()
@@ -27,10 +27,10 @@ DngProfile * getDngP9()
     DngProfile * prof = new DngProfile();
     prof->blacklevel = new float[4] {0,0,0,0};
     prof->whitelevel = 1023;
-    prof->rawheight = 100;
-    prof->rawwidht = 100;
+    prof->rawheight = 500;
+    prof->rawwidht = 500;
     prof->bayerformat = "rggb";
-    prof->rawType = 6;
+    prof->rawType = 5;
     prof->rowSize = 0;
 
     return prof;
@@ -52,6 +52,8 @@ int __cdecl main(void)
 
     SOCKET ListenSocket = INVALID_SOCKET;
     SOCKET ClientSocket = INVALID_SOCKET;
+    printf("get dng profile \n");
+    DngProfile * profile = getDngP9();
 
     struct addrinfo *result = NULL;
     struct addrinfo hints;
@@ -59,12 +61,11 @@ int __cdecl main(void)
     int iSendResult;
     char recvbuf[DEFAULT_BUFLEN];
     int recvbuflen = DEFAULT_BUFLEN;
-    int IMAGEDATALENGTH = 20000;
-    unsigned char imagedata[20000];
+    int IMAGEDATALENGTH = profile->rawheight * profile->rawwidht * 2;
+    unsigned char imagedata[500*500 * 2];
     int byteCount = 0;
     int imagesRecieved = 0;
-    printf("get dng profile \n");
-    DngProfile * profile = getDngP9();
+
     printf("get matrix \n");
     CustomMatrix * customMatrix = getP9Matrix();
 

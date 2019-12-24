@@ -6,6 +6,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
 public class MySocket {
@@ -16,59 +17,72 @@ public class MySocket {
     private int port;
     private Socket mysocket;
     private BufferedOutputStream outputStream;
+    private BackgroundHandlerThread backgroundHandlerThread;
     public MySocket(String ip, int port)
     {
         this.port = port;
         this.ip = ip;
+        backgroundHandlerThread = new BackgroundHandlerThread("SocketThread");
+        backgroundHandlerThread.create();
     }
 
-    public  boolean connect()
+    public void destroy()
     {
-        try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+        backgroundHandlerThread.destroy();
+    }
 
-            mysocket = new Socket(ip, port);
+    public  void connect()
+    {
+        backgroundHandlerThread.execute(()->{
             try {
-                this.outputStream = new BufferedOutputStream(mysocket.getOutputStream());
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                        .permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+
+                mysocket = new Socket(ip, port);
+                Log.d(TAG, "Connected to " + ip + ":" + port);
+                try {
+                    this.outputStream = new BufferedOutputStream(mysocket.getOutputStream());
+
+                } catch (IOException e) {
+                    Log.WriteEx(e);
+                }
+                catch (NullPointerException e)
+                {
+                    Log.WriteEx(e);
+                }
+                hasConnection = true;
 
             } catch (IOException e) {
-                Log.WriteEx(e);
+                hasConnection = false;
+                Log.d(TAG, "failed Connected to " + ip + ":" + port);
+                e.printStackTrace();
+                Log.e(TAG, String.valueOf(e));
             }
-            catch (NullPointerException e)
-            {
-                Log.WriteEx(e);
-            }
-            hasConnection = true;
-
-        } catch (IOException e) {
-            hasConnection = false;
-            e.printStackTrace();
-            Log.e(TAG, String.valueOf(e));
-        }
-        return hasConnection;
+        });
     }
 
     public void closeConnection()
     {
-        if (mysocket != null) {
-            if (outputStream != null) {
+        backgroundHandlerThread.execute(()->{
+            if (mysocket != null) {
+                if (outputStream != null) {
+                    try {
+                        outputStream.close();
+                        outputStream = null;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 try {
-                    outputStream.close();
-                    outputStream = null;
+                    mysocket.close();
+                    mysocket = null;
+                    hasConnection = false;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            try {
-                mysocket.close();
-                mysocket = null;
-                hasConnection = false;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        });
     }
 
     public boolean isConnected()
