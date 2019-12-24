@@ -44,7 +44,7 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
     //used to send data to the target
     private final BlockingQueue<Image> imageBlockingQueue;
     private FileStreamRunner fileStreamRunner;
-    private final byte FRAME_START_FLAG = (byte)0xff;
+    private final byte FRAME_START_FLAG = 127;
 
     // Settings for cropping the image
     private int mCropsize = 100;
@@ -230,7 +230,7 @@ public class StreamAbleCaptureHolder extends ImageCaptureHolder {
                 image = null;
                 try {
                     //sending plain bayer bytearray with simple start end of file
-                    socket.write(FRAME_START_FLAG);
+                    //socket.write(FRAME_START_FLAG);
                     Log.d(TAG, "Send data : " + bytes.length);
                     socket.write(bytes);
 

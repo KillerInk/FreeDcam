@@ -98,7 +98,9 @@ public class MySocket {
     }
 
     public void write(byte b) throws IOException {
-        if (outputStream != null)
+        if (outputStream != null) {
             outputStream.write(b);
+            outputStream.flush();
+        }
     }
 }

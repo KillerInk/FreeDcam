@@ -19,7 +19,7 @@ using namespace std;
 #pragma comment (lib, "Ws2_32.lib")
 // #pragma comment (lib, "Mswsock.lib")
 
-#define DEFAULT_BUFLEN 20000
+#define DEFAULT_BUFLEN 50000
 #define DEFAULT_PORT "1111"
 
 DngProfile * getDngP9()
@@ -61,10 +61,11 @@ int __cdecl main(void)
     int iSendResult;
     char recvbuf[DEFAULT_BUFLEN];
     int recvbuflen = DEFAULT_BUFLEN;
-    int IMAGEDATALENGTH = profile->rawheight * profile->rawwidht * 2;
+    int IMAGEDATALENGTH = 500*500 * 2;
     unsigned char imagedata[500*500 * 2];
     int byteCount = 0;
     int imagesRecieved = 0;
+    long totalbytes = 0;
 
     printf("get matrix \n");
     CustomMatrix * customMatrix = getP9Matrix();
@@ -143,37 +144,31 @@ int __cdecl main(void)
         iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
         if (iResult > 0) {
             printf("Bytes received: %d\n", iResult);
-            if(iResult == 1)
-            {
-                printf("New Frame\n");
-            }
-            else
-            {
-                for (int i = 0; i < recvbuflen; i++) {
-                    imagedata[byteCount++] = recvbuf[i];
-                    if(byteCount == IMAGEDATALENGTH)
-                    {
-                        string fname = string("img_") + to_string(imagesRecieved++) + string(".dng");
-                        dngw->bayerBytes = (unsigned char*)(&imagedata);
-                        dngw->rawSize = IMAGEDATALENGTH;
-                        dngw->fileSavePath = new char[fname.size()];
-                        strcpy(dngw->fileSavePath, fname.c_str());
-                        fname.clear();
-                        printf("File path: %s\n", dngw->fileSavePath);
-                        dngw->_make = "dngwriter";
-                        dngw->_model = "model";
+            totalbytes += iResult;
 
-                        printf("write dng\n");
-                        dngw->WriteDNG();
-                        printf("done write dng\n");
-                        /*FILE* file = fopen(fname.c_str(), "wb" );
-                        fwrite(imagedata, 1, sizeof(imagedata), file);
-                        fclose(file);*/
-                        byteCount = 0;
-                        printf("saved file %s\n", fname);
-                    }
-                }
+            for (int i = 0; i < iResult; i++) {
+                imagedata[byteCount++] = recvbuf[i];
             }
+
+            if(byteCount == IMAGEDATALENGTH){
+                string fname = string("img_") + to_string(imagesRecieved++) + string(".dng");
+                dngw->bayerBytes = imagedata;
+                dngw->rawSize = IMAGEDATALENGTH;
+                dngw->fileSavePath = new char[fname.size()];
+                strcpy(dngw->fileSavePath, fname.c_str());
+                fname.clear();
+                printf("File path: %s Size %i\n", dngw->fileSavePath, byteCount);
+                dngw->_make = "dngwriter";
+                dngw->_model = "model";
+
+                printf("write dng\n");
+                dngw->WriteDNG();
+                printf("done write dng\n");
+                byteCount = 0;
+                printf("saved file %s\n", fname);
+                printf("totalbytes: %i bytes per img %i \n", totalbytes, (totalbytes/IMAGEDATALENGTH));
+            }
+
         }
         else if (iResult == 0)
             printf("Connection closing...\n");
@@ -185,8 +180,6 @@ int __cdecl main(void)
         }
 
     } while (iResult > 0);
-
-    //dngw->clear();
     // shutdown the connection since we're done
     iResult = shutdown(ClientSocket, SD_SEND);
     if (iResult == SOCKET_ERROR) {
