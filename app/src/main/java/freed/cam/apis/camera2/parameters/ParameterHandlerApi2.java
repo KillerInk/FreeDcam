@@ -218,7 +218,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     @Override
     public void unregisterListners() {
         super.unregisterListners();
-        manualToneMapCurveApi2.stopListning();
+        if (manualToneMapCurveApi2 != null)
+            manualToneMapCurveApi2.stopListning();
     }
 
     @Override
