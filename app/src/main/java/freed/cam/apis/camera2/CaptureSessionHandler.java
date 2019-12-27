@@ -476,6 +476,7 @@ public class CaptureSessionHandler
     {
         Log.d(TAG,"StartImageCapture");
         try {
+
             mCaptureSession.capture(mImageCaptureRequestBuilder.build(),listener,handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
@@ -484,6 +485,10 @@ public class CaptureSessionHandler
             Log.WriteEx(ex);
         }
         catch (IllegalStateException ex)
+        {
+            Log.WriteEx(ex);
+        }
+        catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
         }
