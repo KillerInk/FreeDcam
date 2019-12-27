@@ -9,6 +9,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 
+import freed.utils.Log;
+
 /**
  * Created by KillerInk on 08.12.2017.
  */
@@ -61,11 +63,15 @@ public class ReflectionHelper {
             constructor.setAccessible(true);
             return constructor.newInstance(string,type);
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
+        }
+        catch (IllegalArgumentException e)
+        {
+            Log.WriteEx(e);
         }
         return null;
     }
