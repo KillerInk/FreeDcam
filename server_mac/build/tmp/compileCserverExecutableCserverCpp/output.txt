@@ -1,0 +1,397 @@
+See file:///Users/bene/Downloads/FREEDcam/FreeDcam/server/build/tmp/compileCserverExecutableCserverCpp/output.txt for all output for compileCserverExecutableCserverCpp.
+compiling CServer_MAC.cpp successful.
+clang: warning: -lz, -lstdc++, -ld: 'linker' input unused [-Wunused-command-line-argument]
+In file included from /Users/bene/Downloads/FREEDcam/FreeDcam/server/src/CServer_MAC.cpp:18:
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngProfile.h:23:9: warning: expression result unused [-Wunused-value]
+        bayerformat;
+        ^~~~~~~~~~~
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngProfile.h:24:9: warning: expression result unused [-Wunused-value]
+        blacklevel;
+        ^~~~~~~~~~
+In file included from /Users/bene/Downloads/FREEDcam/FreeDcam/server/src/CServer_MAC.cpp:20:
+In file included from /Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.h:11:
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/GpsInfo.h:20:9: warning: expression result unused [-Wunused-value]
+        Longitude;
+        ^~~~~~~~~
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/GpsInfo.h:21:9: warning: expression result unused [-Wunused-value]
+        Latitude;
+        ^~~~~~~~
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/GpsInfo.h:22:9: warning: expression result unused [-Wunused-value]
+        Provider;
+        ^~~~~~~~
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/GpsInfo.h:23:9: warning: expression result unused [-Wunused-value]
+        gpsDate;
+        ^~~~~~~
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/GpsInfo.h:24:9: warning: expression result unused [-Wunused-value]
+        gpsTime;
+        ^~~~~~~
+In file included from /Users/bene/Downloads/FREEDcam/FreeDcam/server/src/CServer_MAC.cpp:20:
+In file included from /Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.h:14:
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:61:64: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_OPC2, -3, -3, TIFF_BYTE, FIELD_CUSTOM, 0, 1, "OpcodeList2" },
+                                                               ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:62:63: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_OPC3, -3, -3, TIFF_BYTE,FIELD_CUSTOM, 0, 1, "OpcodeList3" },
+                                                              ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:63:77: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_PROFILETONECURVE, -1, -1, TIFF_FLOAT, FIELD_CUSTOM, 0, 1, "ProfileToneCurve" },
+                                                                            ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:64:82: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_PROFILEHUESATMAPDATA1, -1, -1, TIFF_FLOAT, FIELD_CUSTOM, 0, 1, "ProfileHueSatMapData1" },
+                                                                                 ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:65:82: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_PROFILEHUESATMAPDATA2, -1, -1, TIFF_FLOAT, FIELD_CUSTOM, 0, 1, "ProfileHueSatMapData2" },
+                                                                                 ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:66:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_PROFILEHUESATMAPDIMS, -1, -1, TIFF_LONG,  FIELD_CUSTOM, 0, 1, "ProfileHueSatMapDims" },
+                                                                                ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:67:78: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_FOWARDMATRIX1, -1, -1, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "ForwardMatrix1" },
+                                                                             ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:68:78: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_FOWARDMATRIX2, -1, -1, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "ForwardMatrix2" },
+                                                                             ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:69:74: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_NOISEPROFILE, -1, -1, TIFF_DOUBLE, FIELD_CUSTOM, 0, 1, "NoiseProfile" },
+                                                                         ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:70:85: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_BASELINEEXPOSUREOFFSET, 1, 1, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 0, "BaselineExposureOffset" },
+                                                                                    ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:71:75: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_EXPOSURETIME, 1, 1, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "ExposureTime" },
+                                                                          ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:72:70: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_FNUMBER, 1, 1, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "FNumber" },
+                                                                     ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:73:75: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_APERTUREVALUE, 1, 1, TIFF_RATIONAL, FIELD_CUSTOM, 1, 0, "ApertureValue" },
+                                                                          ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:74:76: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_ISOSPEEDRATINGS, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "ISOSpeedRatings" },
+                                                                           ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:75:65: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_FLASH, 1, 1, TIFF_SHORT,  FIELD_CUSTOM, 1, 0, "Flash" },
+                                                                ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:76:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_FOCALLENGTH, 1, 1, TIFF_RATIONAL, FIELD_CUSTOM, 1, 0, "FocalLength" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:77:75: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_EXPOSUREINDEX, 1, 1, TIFF_RATIONAL, FIELD_CUSTOM, 1, 0, "ExposureIndex" },
+                                                                          ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:78:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_EP_STANDARD_ID, 4, 4, TIFF_BYTE,  FIELD_CUSTOM, 0, 0, "TIFFEPStandardID" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:85:69: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSVersionID, 4, 4, TIFF_BYTE, FIELD_CUSTOM, 0, 0, "GPSVersionID" },
+                                                                    ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:86:72: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSLatitudeRef, 2, 2, TIFF_ASCII, FIELD_CUSTOM, 1, 0, "GPSLatitudeRef" },
+                                                                       ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:87:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSLatitude, 3, 3, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "GPSLatitude" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:88:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSLongitudeRef, 2, 2, TIFF_ASCII, FIELD_CUSTOM, 1, 0, "GPSLongitudeRef" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:89:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSLongitude, 3, 3, TIFF_RATIONAL, FIELD_CUSTOM, 1, 0, "GPSLongitude" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:90:74: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSAltitudeRef, -1, -1, TIFF_BYTE,  FIELD_CUSTOM, 1, 1, "GPSAltitudeRef" },
+                                                                         ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:91:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSAltitude, 1, 1, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "GPSAltitude" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:92:74: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSTimeStamp, 3, 3, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "GPSTimeStamp" },
+                                                                         ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:93:74: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSSatellites, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSSatellites" },
+                                                                         ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:94:69: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSStatus, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSStatus" },
+                                                                    ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:95:74: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSMeasureMode, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSMeasureMode" },
+                                                                         ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:96:66: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDOP, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDOP" },
+                                                                 ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:97:72: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSSpeedRef, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSSpeedRef" },
+                                                                       ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:98:69: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSSpeed, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSSpeed" },
+                                                                    ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:99:71: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSTrackRef, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSTrackRef" },
+                                                                      ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:100:68: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSTrack, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSTrack" },
+                                                                   ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:101:79: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSImgDirectionRef, 20, 20, TIFF_ASCII,  FIELD_CUSTOM, 1, 0, "GPSImgDirectionRef" },
+                                                                              ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:102:77: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSImgDirection, 1, 1, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "GPSImgDirection" },
+                                                                            ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:103:72: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSMapDatum, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSMapDatum" },
+                                                                       ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:104:78: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestLatitudeRef, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestLatitudeRef" },
+                                                                             ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:105:75: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestLatitude, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestLatitude" },
+                                                                          ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:106:80: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestLongitudeRef, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSDestLongitudeRef" },
+                                                                               ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:107:76: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestLongitude, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestLongitude" },
+                                                                           ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:108:77: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestBearingRef, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestBearingRef" },
+                                                                            ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:109:74: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestBearing, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestBearing" },
+                                                                         ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:110:78: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestDistanceRef, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestDistanceRef" },
+                                                                             ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:111:76: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestDistance, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSDestDistance" },
+                                                                           ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:112:79: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSProccesingMethod, 14, 14, TIFF_ASCII, FIELD_CUSTOM, 1, 0, "GPSProccesingMethod" },
+                                                                              ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:113:78: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSAreaInformation, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSAreaInformation" },
+                                                                             ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:114:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDateStamp, 11, 11, TIFF_ASCII,  FIELD_CUSTOM, 1, 0, "GPSDateStamp" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:115:76: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDifferential, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSDifferential" }
+                                                                           ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/CServer_MAC.cpp:44:25: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+    prof->bayerformat = "rggb";
+                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/CServer_MAC.cpp:153:31: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+                dngw->_make = "dngwriter";
+                              ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/CServer_MAC.cpp:154:32: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+                dngw->_model = "model";
+                               ^
+59 warnings generated.
+
+compiling DngWriter.cpp successful.
+clang: warning: -lz, -lstdc++, -ld: 'linker' input unused [-Wunused-command-line-argument]
+In file included from /Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.cpp:7:
+In file included from /Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.h:11:
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/GpsInfo.h:20:9: warning: expression result unused [-Wunused-value]
+        Longitude;
+        ^~~~~~~~~
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/GpsInfo.h:21:9: warning: expression result unused [-Wunused-value]
+        Latitude;
+        ^~~~~~~~
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/GpsInfo.h:22:9: warning: expression result unused [-Wunused-value]
+        Provider;
+        ^~~~~~~~
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/GpsInfo.h:23:9: warning: expression result unused [-Wunused-value]
+        gpsDate;
+        ^~~~~~~
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/GpsInfo.h:24:9: warning: expression result unused [-Wunused-value]
+        gpsTime;
+        ^~~~~~~
+In file included from /Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.cpp:7:
+In file included from /Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.h:12:
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngProfile.h:23:9: warning: expression result unused [-Wunused-value]
+        bayerformat;
+        ^~~~~~~~~~~
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngProfile.h:24:9: warning: expression result unused [-Wunused-value]
+        blacklevel;
+        ^~~~~~~~~~
+In file included from /Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.cpp:7:
+In file included from /Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.h:14:
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:61:64: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_OPC2, -3, -3, TIFF_BYTE, FIELD_CUSTOM, 0, 1, "OpcodeList2" },
+                                                               ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:62:63: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_OPC3, -3, -3, TIFF_BYTE,FIELD_CUSTOM, 0, 1, "OpcodeList3" },
+                                                              ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:63:77: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_PROFILETONECURVE, -1, -1, TIFF_FLOAT, FIELD_CUSTOM, 0, 1, "ProfileToneCurve" },
+                                                                            ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:64:82: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_PROFILEHUESATMAPDATA1, -1, -1, TIFF_FLOAT, FIELD_CUSTOM, 0, 1, "ProfileHueSatMapData1" },
+                                                                                 ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:65:82: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_PROFILEHUESATMAPDATA2, -1, -1, TIFF_FLOAT, FIELD_CUSTOM, 0, 1, "ProfileHueSatMapData2" },
+                                                                                 ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:66:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_PROFILEHUESATMAPDIMS, -1, -1, TIFF_LONG,  FIELD_CUSTOM, 0, 1, "ProfileHueSatMapDims" },
+                                                                                ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:67:78: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_FOWARDMATRIX1, -1, -1, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "ForwardMatrix1" },
+                                                                             ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:68:78: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_FOWARDMATRIX2, -1, -1, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 1, "ForwardMatrix2" },
+                                                                             ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:69:74: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_NOISEPROFILE, -1, -1, TIFF_DOUBLE, FIELD_CUSTOM, 0, 1, "NoiseProfile" },
+                                                                         ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:70:85: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_BASELINEEXPOSUREOFFSET, 1, 1, TIFF_SRATIONAL, FIELD_CUSTOM, 0, 0, "BaselineExposureOffset" },
+                                                                                    ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:71:75: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_EXPOSURETIME, 1, 1, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "ExposureTime" },
+                                                                          ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:72:70: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_FNUMBER, 1, 1, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "FNumber" },
+                                                                     ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:73:75: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_APERTUREVALUE, 1, 1, TIFF_RATIONAL, FIELD_CUSTOM, 1, 0, "ApertureValue" },
+                                                                          ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:74:76: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_ISOSPEEDRATINGS, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "ISOSpeedRatings" },
+                                                                           ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:75:65: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_FLASH, 1, 1, TIFF_SHORT,  FIELD_CUSTOM, 1, 0, "Flash" },
+                                                                ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:76:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_FOCALLENGTH, 1, 1, TIFF_RATIONAL, FIELD_CUSTOM, 1, 0, "FocalLength" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:77:75: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { EXIFTAG_EXPOSUREINDEX, 1, 1, TIFF_RATIONAL, FIELD_CUSTOM, 1, 0, "ExposureIndex" },
+                                                                          ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:78:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { TIFFTAG_EP_STANDARD_ID, 4, 4, TIFF_BYTE,  FIELD_CUSTOM, 0, 0, "TIFFEPStandardID" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:85:69: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSVersionID, 4, 4, TIFF_BYTE, FIELD_CUSTOM, 0, 0, "GPSVersionID" },
+                                                                    ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:86:72: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSLatitudeRef, 2, 2, TIFF_ASCII, FIELD_CUSTOM, 1, 0, "GPSLatitudeRef" },
+                                                                       ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:87:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSLatitude, 3, 3, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "GPSLatitude" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:88:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSLongitudeRef, 2, 2, TIFF_ASCII, FIELD_CUSTOM, 1, 0, "GPSLongitudeRef" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:89:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSLongitude, 3, 3, TIFF_RATIONAL, FIELD_CUSTOM, 1, 0, "GPSLongitude" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:90:74: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSAltitudeRef, -1, -1, TIFF_BYTE,  FIELD_CUSTOM, 1, 1, "GPSAltitudeRef" },
+                                                                         ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:91:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSAltitude, 1, 1, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "GPSAltitude" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:92:74: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSTimeStamp, 3, 3, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "GPSTimeStamp" },
+                                                                         ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:93:74: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSSatellites, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSSatellites" },
+                                                                         ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:94:69: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSStatus, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSStatus" },
+                                                                    ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:95:74: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSMeasureMode, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSMeasureMode" },
+                                                                         ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:96:66: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDOP, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDOP" },
+                                                                 ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:97:72: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSSpeedRef, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSSpeedRef" },
+                                                                       ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:98:69: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSSpeed, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSSpeed" },
+                                                                    ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:99:71: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSTrackRef, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSTrackRef" },
+                                                                      ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:100:68: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSTrack, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSTrack" },
+                                                                   ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:101:79: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSImgDirectionRef, 20, 20, TIFF_ASCII,  FIELD_CUSTOM, 1, 0, "GPSImgDirectionRef" },
+                                                                              ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:102:77: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSImgDirection, 1, 1, TIFF_RATIONAL,  FIELD_CUSTOM, 1, 0, "GPSImgDirection" },
+                                                                            ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:103:72: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSMapDatum, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSMapDatum" },
+                                                                       ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:104:78: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestLatitudeRef, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestLatitudeRef" },
+                                                                             ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:105:75: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestLatitude, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestLatitude" },
+                                                                          ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:106:80: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestLongitudeRef, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSDestLongitudeRef" },
+                                                                               ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:107:76: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestLongitude, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestLongitude" },
+                                                                           ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:108:77: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestBearingRef, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestBearingRef" },
+                                                                            ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:109:74: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestBearing, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestBearing" },
+                                                                         ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:110:78: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestDistanceRef, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSDestDistanceRef" },
+                                                                             ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:111:76: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDestDistance, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSDestDistance" },
+                                                                           ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:112:79: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSProccesingMethod, 14, 14, TIFF_ASCII, FIELD_CUSTOM, 1, 0, "GPSProccesingMethod" },
+                                                                              ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:113:78: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSAreaInformation, -1, -1, TIFF_SHORT, FIELD_CUSTOM, 1, 1, "GPSAreaInformation" },
+                                                                             ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:114:73: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDateStamp, 11, 11, TIFF_ASCII,  FIELD_CUSTOM, 1, 0, "GPSDateStamp" },
+                                                                        ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngTags.h:115:76: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        { GPSTAG_GPSDifferential, -1, -1, TIFF_SHORT,  FIELD_CUSTOM, 1, 1, "GPSDifferential" }
+                                                                           ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.cpp:181:25: warning: comparison between NULL and non-pointer ('float' and NULL) [-Wnull-arithmetic]
+    if(baselineExposure != NULL)
+       ~~~~~~~~~~~~~~~~ ^  ~~~~
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.cpp:181:28: warning: implicit conversion of NULL constant to 'float' [-Wnull-conversion]
+    if(baselineExposure != NULL)
+                        ~~ ^~~~
+                           0.0
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.cpp:183:31: warning: comparison between NULL and non-pointer ('float' and NULL) [-Wnull-arithmetic]
+    if(baselineExposureOffset != NULL)
+       ~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.cpp:183:34: warning: implicit conversion of NULL constant to 'float' [-Wnull-conversion]
+    if(baselineExposureOffset != NULL)
+                              ~~ ^~~~
+                                 0.0
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.cpp:349:61: warning: format specifies type 'int' but the argument has type 'long' [-Wformat]
+        printf("writer-RowSize: %d  rawheight:%d ,rawwidht: %d\n", rawSize, dngProfile->rawheight,
+                                ~~                                 ^~~~~~~
+                                %ld
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.cpp:393:62: warning: format specifies type 'int' but the argument has type 'long' [-Wformat]
+        printf("writer-RowSize: %d  rawheight:%d ,rawwidht: %d\n",  rawSize,dngProfile->rawheight, dngProfile->rawwidht);
+                                ~~                                  ^~~~~~~
+                                %ld
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.cpp:635:26: warning: data argument not used by format string [-Wformat-extra-args]
+        printf("cfa pattern\n", cfa[0],cfa[1],cfa[2],cfa[3]);
+               ~~~~~~~~~~~~~~~  ^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.cpp:702:33: warning: invalid conversion specifier 'b' [-Wformat-invalid-specifier]
+        printf("has file description: %b\n", hasFileDes);
+                                      ~^
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/DngWriter.cpp:705:27: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+        tif = openfTIFFFD("", fileDes);
+                          ^
+65 warnings generated.
+
+Finished compileCserverExecutableCserverCpp, see full log file:///Users/bene/Downloads/FREEDcam/FreeDcam/server/build/tmp/compileCserverExecutableCserverCpp/output.txt.

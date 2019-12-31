@@ -1,0 +1,20 @@
+-x
+c++
+-c
+-std=c++11
+"-lz, -lstdc++, -ld"
+-I
+/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/cserver/headers
+-I
+/usr/local/Cellar/libtiff/4.1.0/include
+-I
+/usr/local/Cellar/jpeg/9c/include
+-I
+/usr/local/Cellar/zlib/1.2.11/include
+-isystem
+/Library/Developer/CommandLineTools/usr/include/c++/v1
+-isystem
+/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include
+-isystem
+/Library/Developer/CommandLineTools/usr/include
+-m64

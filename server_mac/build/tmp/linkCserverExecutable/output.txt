@@ -1,0 +1,4 @@
+See file:///Users/bene/Downloads/FREEDcam/FreeDcam/server/build/tmp/linkCserverExecutable/output.txt for all output for linkCserverExecutable.
+linking cserver successful.
+
+Finished linkCserverExecutable, see full log file:///Users/bene/Downloads/FREEDcam/FreeDcam/server/build/tmp/linkCserverExecutable/output.txt.
