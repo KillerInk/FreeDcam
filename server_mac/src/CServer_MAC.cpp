@@ -22,22 +22,13 @@
 
 using namespace std;
 
-// Need to link with Ws2_32.lib
-// #pragma comment (lib, "Ws2_32.lib")
-// #pragma comment (lib, "Mswsock.lib")
-
-#define DEFAULT_BUFLEN 1024
-#define CROP_SIZE 500
 
 
 
-
-
-
-DngProfile * getDngP9()
+DngProfile * getDngP9(int CROP_SIZE)
 {
     DngProfile * prof = new DngProfile();
-    prof->blacklevel = new float[4]();
+    prof->blacklevel = new float[4] {0,0,0,0};
     prof->whitelevel = 1023;
     prof->rawheight = CROP_SIZE;
     prof->rawwidht = CROP_SIZE;
@@ -62,40 +53,44 @@ CustomMatrix * getP9Matrix()
 
 int __cdecl main(void)
 {
+    const int CROP_SIZE = 200;
+    const int DEFAULT_BUFLEN = CROP_SIZE*CROP_SIZE*2;//20000;
+    const int DEFAULT_PORT = 3333;
+
     // Setup server for unix
     // taken from: https://www.geeksforgeeks.org/socket-programming-cc/
-    int DEFAULT_PORT = 2222;
     int server_fd, new_socket, valread;
     struct sockaddr_in address;
     int opt = 1;
     int addrlen = sizeof(address);
-    char buffer[DEFAULT_BUFLEN] = {0};
-
-    printf("get dng profile \n");
-    DngProfile * profile = getDngP9();
-
-    struct addrinfo *result = NULL;
-    struct addrinfo hints;
-
-    int iSendResult;
     char recvbuf[DEFAULT_BUFLEN];
     int recvbuflen = DEFAULT_BUFLEN;
+
+    printf("get dng profile \n");
+    DngProfile * profile = getDngP9(CROP_SIZE);
+
+    printf("Listening on Port: %i\n", DEFAULT_PORT);
+    printf("Setting a crop_size of: %i\n", CROP_SIZE);
+
     int IMAGEDATALENGTH = CROP_SIZE*CROP_SIZE * 2;
-    unsigned char imagedata[CROP_SIZE*CROP_SIZE * 2];
+    unsigned char imagedata[CROP_SIZE*CROP_SIZE * 2] = {0};
+
     int byteCount = 0;
     int imagesRecieved = 0;
     long totalbytes = 0;
 
-    printf("get matrix \n");
+    printf("Get DNG matrix \n");
     CustomMatrix * customMatrix = getP9Matrix();
 
-    printf("Init dng writer\n");
+    printf("Init DNG writer\n");
     DngWriter *dngw = new DngWriter();
-    printf("DOne Init dng writer\n");
+
+    printf("Done Initializing DNG writer\n");
     dngw->dngProfile = profile;
     dngw->customMatrix = customMatrix;
 
     // Creating socket file descriptor
+    printf("Initializing Server Socket\n");
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
     {
         perror("socket failed");
@@ -130,35 +125,41 @@ int __cdecl main(void)
         perror("accept");
         exit(EXIT_FAILURE);
     }
+    printf("Binding to cellphone successfull!\n");
 
+
+    int iter = 0;
     // Receive until the peer shuts down the connection
     do {
-        valread = read( new_socket , buffer, DEFAULT_BUFLEN); //recv(ClientSocket, recvbuf, recvbuflen, 0);
+        //printf("%i", 1);
+        valread = read(new_socket, recvbuf, recvbuflen); //recv(ClientSocket, recvbuf, recvbuflen, 0);
+        //printf("%i", 2);
+        iter++;
         if (valread > 0) {
-            printf("Bytes received: %d\n", valread);
-            totalbytes += valread;
+            //printf("%i - Bytes received: %d\n", iter, valread);
+            totalbytes += recvbuf;
 
             for (int i = 0; i < valread; i++) {
                 imagedata[byteCount++] = recvbuf[i];
             }
 
             if(byteCount == IMAGEDATALENGTH){
+                //printf("totalbytes: %i bytes per img %i \n", totalbytes, (totalbytes/IMAGEDATALENGTH));
                 string fname = string("img_") + to_string(imagesRecieved++) + string(".dng");
                 dngw->bayerBytes = imagedata;
                 dngw->rawSize = IMAGEDATALENGTH;
                 dngw->fileSavePath = new char[fname.size()];
                 strcpy(dngw->fileSavePath, fname.c_str());
                 fname.clear();
-                printf("File path: %s Size %i\n", dngw->fileSavePath, byteCount);
+                //printf("File path: %s Size %i\n", dngw->fileSavePath, byteCount);
                 dngw->_make = "dngwriter";
                 dngw->_model = "model";
-
-                printf("write dng\n");
                 dngw->WriteDNG();
-                printf("done write dng\n");
+                //printf("done write dng\n");
                 byteCount = 0;
                 //printf("saved file "+fname);
-                //printf("totalbytes: %i bytes per img %i \n", totalbytes, (totalbytes/IMAGEDATALENGTH));
+
+                iter = 0;
             }
 
         }
@@ -171,6 +172,7 @@ int __cdecl main(void)
             printf("recv failed with error");//: %d\n", WSAGetLastError());
             return 1;
         }
+
 
     } while (valread > 0);
     // shutdown the connection since we're done

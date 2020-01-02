@@ -4,7 +4,7 @@ c++
 -std=c++11
 "-lz, -lstdc++, -ld"
 -I
-/Users/bene/Downloads/FREEDcam/FreeDcam/server/src/cserver/headers
+/Users/bene/Dropbox/Dokumente/Promotion/PROJECTS/STORMoChip/ANDROID/cellSTORM_CAM/FreeDcam/server_mac/src/cserver/headers
 -I
 /usr/local/Cellar/libtiff/4.1.0/include
 -I
