@@ -18,11 +18,19 @@ import java.util.Calendar;
 public class Log
 {
     private static FileLog fileLog;
+    private static boolean isinit = false;
 
     public Log()
     {
-        if(fileLog == null)
+        if (isinit) {
+            android.util.Log.d("Log", "is already init");
+            return;
+        }
+        if(fileLog == null) {
+            android.util.Log.d("Log", "is created");
             fileLog = new FileLog();
+            isinit = true;
+        }
     }
 
     public static void destroy()
