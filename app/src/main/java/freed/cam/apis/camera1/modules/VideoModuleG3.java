@@ -85,6 +85,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     public void DestroyModule() {
         if (isWorking)
             stopRecording();
+        super.DestroyModule();
     }
 
     private void loadProfileSpecificParameters()

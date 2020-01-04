@@ -141,7 +141,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
 
     @Override
     public void DestroyModule() {
-
+        super.DestroyModule();
     }
 
     @Override

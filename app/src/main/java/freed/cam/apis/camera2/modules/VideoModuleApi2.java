@@ -132,6 +132,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).getValues()[0]);
         }
         parameterHandler.get(SettingKeys.VideoProfiles).fireStringValueChanged(currentVideoProfile.ProfileName);
+        Log.d(TAG, "Create VideoRecorder");
         videoRecorder = new VideoRecorder(cameraUiWrapper,new MediaRecorder());
         startPreview();
         if (parameterHandler.get(SettingKeys.PictureFormat) != null)
@@ -161,6 +162,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         videoRecorder = null;
         previewsurface = null;
+        super.DestroyModule();
     }
 
     @Override
@@ -267,7 +269,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @TargetApi(VERSION_CODES.LOLLIPOP)
     private void startPreviewVideo()
     {
-        recordingFile = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4"));
+        String file = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
+        recordingFile = new File(file);
         videoRecorder.setRecordingFile(recordingFile);
         videoRecorder.setErrorListener((mr, what, extra) -> {
             Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
