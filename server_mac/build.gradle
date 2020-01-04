@@ -1,0 +1,89 @@
+apply plugin: "cpp"
+
+
+model{
+
+    platforms {
+        x86 {
+            architecture "x86"
+        }
+        x64 {
+            architecture "x64"
+        }
+    }
+
+    components{
+
+        cserver(NativeExecutableSpec) {
+
+            //targetPlatform "x86"
+            targetPlatform "x64"
+            sources {
+                cpp {
+                    source {
+                        srcDirs "src/","src/tiffMAC/libtiff/"
+                        include "CServer_MAC.cpp","DngWriter.cpp"
+                    }
+                    lib library: 'tiff', linkage: 'shared'//lib library: 'tiff', linkage: 'static'
+                    lib library: 'jpeg', linkage: 'shared'
+                    lib library: 'zlib', linkage: 'shared'
+                }
+            }
+            binaries{
+                all {
+                    //if (toolChain in VisualCpp) {
+                    cppCompiler.args '-std=c++11', '-lz, -lstdc++, -ld'
+
+                    //cppCompiler.args "src/tiff/libtiff/"
+                    //linker.args "src/lib/tiff.lib", "/LIBPATH:src/lib/tiff.dll"
+                    //linker.args "/LIBPATH:/usr/local/lib/libtiff.dylib", "/usr/local/lib/libtiff.a"
+                    //linker.args '-shared' //
+                    //linker.args '-lz'
+                    logger.quiet("binaries all")
+
+                }
+            }
+
+            model {
+                toolChains {
+                    clang(Clang)
+                }
+                repositories {
+                    libs(PrebuiltLibraries) {
+                        tiff {
+                            headers.srcDir "/usr/local/Cellar/libtiff/4.1.0/include"
+                            binaries.withType(SharedLibraryBinary) {
+                                sharedLibraryFile = file("/usr/local/Cellar/libtiff/4.1.0/lib/libtiff.a")
+                            }
+                        }
+                        jpeg {
+                            headers.srcDir "/usr/local/Cellar/jpeg/9c/include"
+                            binaries.withType(SharedLibraryBinary) {
+                                sharedLibraryFile = file("/usr/local/Cellar/jpeg/9c/lib/libjpeg.a")
+                            }
+                        }
+                        zlib {
+                            headers.srcDir "/usr/local/Cellar/zlib/1.2.11/include"
+                            binaries.withType(SharedLibraryBinary) {
+                                sharedLibraryFile = file("/usr/local/Cellar/zlib/1.2.11/lib/libz.a")
+                            }
+                        }
+                    }
+                }
+            }
+
+            //hook into build
+            build{
+
+                //the compiler runs after doFirst and calls doLast
+                doFirst {
+                    logger.quiet("build.doFirst")
+                }
+
+                doLast{
+                    logger.quiet("build.doLast")
+                }
+            }
+        }
+    }
+}
