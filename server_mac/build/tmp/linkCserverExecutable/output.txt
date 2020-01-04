@@ -1,4 +1,0 @@
-See file:///Users/bene/Dropbox/Dokumente/Promotion/PROJECTS/STORMoChip/ANDROID/cellSTORM_CAM/FreeDcam/server_mac/build/tmp/linkCserverExecutable/output.txt for all output for linkCserverExecutable.
-linking cserver successful.
-
-Finished linkCserverExecutable, see full log file:///Users/bene/Dropbox/Dokumente/Promotion/PROJECTS/STORMoChip/ANDROID/cellSTORM_CAM/FreeDcam/server_mac/build/tmp/linkCserverExecutable/output.txt.

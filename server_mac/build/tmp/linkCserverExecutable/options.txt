@@ -1,8 +1,0 @@
--o
-/Users/bene/Dropbox/Dokumente/Promotion/PROJECTS/STORMoChip/ANDROID/cellSTORM_CAM/FreeDcam/server_mac/build/exe/cserver/cserver
-/Users/bene/Dropbox/Dokumente/Promotion/PROJECTS/STORMoChip/ANDROID/cellSTORM_CAM/FreeDcam/server_mac/build/objs/cserver/cserverCpp/68yw2u7kax7k3i0witdg56sbj/CServer_MAC.o
-/Users/bene/Dropbox/Dokumente/Promotion/PROJECTS/STORMoChip/ANDROID/cellSTORM_CAM/FreeDcam/server_mac/build/objs/cserver/cserverCpp/apwknnx15uum5lmy2bddwjokt/DngWriter.o
-/usr/local/Cellar/libtiff/4.1.0/lib/libtiff.a
-/usr/local/Cellar/jpeg/9c/lib/libjpeg.a
-/usr/local/Cellar/zlib/1.2.11/lib/libz.a
--m64
