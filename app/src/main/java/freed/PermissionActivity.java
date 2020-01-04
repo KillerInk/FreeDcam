@@ -3,11 +3,23 @@ package freed;
 import android.os.Bundle;
 
 
+import androidx.annotation.Nullable;
+
+import freed.utils.Log;
 import freed.utils.PermissionManager;
 
 
 public abstract class PermissionActivity extends HideNavBarActivity {
 
+    private final String TAG = PermissionActivity.class.getSimpleName();
+    public enum AppState
+    {
+        Created,
+        Resumed,
+        Paused,
+        Destroyed,
+    }
+    public AppState currentState = AppState.Destroyed;
 
     private PermissionManager permissionManager;
     public PermissionManager getPermissionManager() {
@@ -18,7 +30,14 @@ public abstract class PermissionActivity extends HideNavBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        currentState = AppState.Created;
         setContentToView();
+
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         permissionManager =new PermissionManager(this);
 
         permissionManager.hasCameraAndSdPermission(logSDPermission);
@@ -34,6 +53,7 @@ public abstract class PermissionActivity extends HideNavBarActivity {
     }
 
     private PermissionManager.PermissionCallback logSDPermission = granted -> {
+        Log.d(TAG, "sd permission granted:" + granted);
         if (granted) {
 
             onCreatePermissionGranted();
@@ -43,11 +63,24 @@ public abstract class PermissionActivity extends HideNavBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (permissionManager.hasCameraAndSdPermission(null)) {
+        currentState = AppState.Resumed;
+        if (permissionManager.isPermissionGranted(PermissionManager.Permissions.Camera) && permissionManager.isPermissionGranted(PermissionManager.Permissions.SdCard)) {
             if (!onCreatePermissioGrantedDidRun)
                 onCreatePermissionGranted();
             onResumePermissionGranted();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        currentState = AppState.Paused;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        currentState = AppState.Destroyed;
     }
 
     public void onCreatePermissionGranted()

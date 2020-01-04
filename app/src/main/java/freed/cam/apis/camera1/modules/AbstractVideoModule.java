@@ -39,6 +39,7 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.PermissionManager;
 
 /**
  * Created by troop on 06.01.2016.
@@ -112,11 +113,13 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     private void startRecording()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionManager().hasRecordAudioPermission(null)) {
+        if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio)) {
             if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
                 cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             prepareRecorder();
         }
+        else
+            cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio,null);
 
     }
 

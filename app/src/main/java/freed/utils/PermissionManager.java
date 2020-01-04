@@ -21,6 +21,7 @@ public class PermissionManager
         Camera,
         Location,
         Wifi,
+        RecordAudio,
     }
 
     private final String TAG = PermissionManager.class.getSimpleName();
@@ -38,87 +39,65 @@ public class PermissionManager
         this.activity = activity;
     }
 
-    public boolean hasCameraPermission(PermissionCallback callbackToReturn)
+    public boolean isPermissionGranted(Permissions permissions)
     {
-        return hasPermission(callbackToReturn, Manifest.permission.CAMERA);
-    }
-
-    public boolean hasRecordAudioPermission(PermissionCallback callbackToReturn)
-    {
-        return hasPermission(callbackToReturn, Manifest.permission.RECORD_AUDIO);
-    }
-
-    public boolean hasExternalSDPermission(PermissionCallback callbackToReturn)
-    {
-        return hasPermission(callbackToReturn, new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE});
-    }
-
-    public boolean hasLocationPermission()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            return activity.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-        else
-            return true;
-    }
-
-    public boolean hasLocationPermission(PermissionCallback callbackToReturn)
-    {
-        this.callbackToReturn = callbackToReturn;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            if (activity.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED)
-            {
-                Log.d(TAG, "Request LocationPermission");
-                activity.requestPermissions(new String[]{
-                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},1);
-                if (callbackToReturn != null)
-                    callbackToReturn.permissionGranted(false);
-                return false;
-            }
+        switch (permissions) {
+            case SdCard:
+                return isPermissionGranted(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE});
+            case Camera:
+                return isPermissionGranted(new String[]{Manifest.permission.CAMERA});
+            case Location:
+                return isPermissionGranted(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION});
+            case Wifi:
+                return isPermissionGranted(new String[]{Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE});
+            case RecordAudio:
+                return isPermissionGranted(new String[]{Manifest.permission.RECORD_AUDIO});
         }
-        if (callbackToReturn != null)
-            callbackToReturn.permissionGranted(true);
+        return false;
+    }
+
+    private boolean isPermissionGranted(String[] permission)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            boolean granted = true;
+            for (String s : permission) {
+                if (activity.checkSelfPermission(s) != PackageManager.PERMISSION_GRANTED) {
+                    granted = false;
+                    break;
+                }
+            }
+            return granted;
+        }
         return true;
     }
 
-    public boolean hasWifiPermission(PermissionCallback callbackToReturn) {
-        this.callbackToReturn = callbackToReturn;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            if (activity.checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE)
-                    != PackageManager.PERMISSION_GRANTED)
-            {
-                Log.d(TAG, "Request wifiPermission");
-                activity.requestPermissions(new String[]{
-                        Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE},1);
-                if (callbackToReturn != null)
-                    callbackToReturn.permissionGranted(false);
-                return false;
-            }
+    public void requestPermission(Permissions permission,PermissionCallback callbackToReturn)
+    {
+        switch (permission) {
+            case SdCard:
+                requestPermission(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},callbackToReturn);
+                break;
+            case Camera:
+                requestPermission(new String[]{Manifest.permission.CAMERA},callbackToReturn);
+                break;
+            case Location:
+                requestPermission(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},callbackToReturn);
+                break;
+            case Wifi:
+                requestPermission(new String[]{Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE},callbackToReturn);
+                break;
+            case RecordAudio:
+                requestPermission(new String[]{Manifest.permission.RECORD_AUDIO}, callbackToReturn);
+                break;
         }
-        if (callbackToReturn != null)
-            callbackToReturn.permissionGranted(true);
-        return true;
     }
 
-    private boolean hasPermission(PermissionCallback callbackToReturn, String permission)
+    private void requestPermission(String[] permissions,PermissionCallback callbackToReturn)
     {
         this.callbackToReturn = callbackToReturn;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            if (activity.checkSelfPermission(permission)
-                    != PackageManager.PERMISSION_GRANTED)
-            {
-                Log.d(TAG, "Request Permission:"+permission);
-                activity.requestPermissions(new String[]{
-                        permission},1);
-                return false;
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activity.requestPermissions(permissions, 1);
         }
-        if (callbackToReturn != null)
-            callbackToReturn.permissionGranted(true);
-        return true;
     }
 
 

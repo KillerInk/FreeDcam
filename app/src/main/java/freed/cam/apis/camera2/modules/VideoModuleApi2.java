@@ -55,6 +55,7 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.PermissionManager;
 import freed.utils.VideoMediaProfile;
 
 /**
@@ -90,8 +91,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void DoWork()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionManager().hasRecordAudioPermission(null))
+        if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio))
             startStopRecording();
+        else
+            cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio,null);
     }
 
     private void startStopRecording()

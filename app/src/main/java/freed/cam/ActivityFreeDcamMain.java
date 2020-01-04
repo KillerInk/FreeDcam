@@ -51,6 +51,7 @@ import freed.utils.Log;
 import freed.utils.MediaScannerManager;
 import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
+import freed.utils.PermissionManager;
 import freed.utils.StorageFileManager;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
@@ -127,11 +128,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //note the ui that cameraFragment is loaded
         uiViewPagerAdapter.setCameraFragment(cameraFragmentManager.getCameraFragment());
         if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(SettingsManager.getInstance().getResString(R.string.on_))
-                && getPermissionManager().hasLocationPermission())
+                && getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location))
             locationManager.startLocationListing();
 
         SetNightOverlay();
-        if(getPermissionManager().hasExternalSDPermission(null) && (files == null || files.size() == 0))
+        if(getPermissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard) && (files == null || files.size() == 0))
             ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
     }
 
@@ -158,11 +159,16 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG,"onCreate: " + currentState);
     }
 
     @Override
     public void onCreatePermissionGranted() {
         super.onCreatePermissionGranted();
+        if (currentState == AppState.Paused || currentState == AppState.Destroyed) {
+            Log.d(TAG, "Wrong AppState" + currentState);
+            return;
+        }
         userMessageHandler = new UserMessageHandler();
         userMessageHandler.setContext(getContext());
         userMessageHandler.startListning();
@@ -192,14 +198,17 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     protected void setContentToView() {
+        if (currentState == AppState.Destroyed || currentState == AppState.Paused)
+            return;
         setContentView(layout.freedcam_main_activity);
+
     }
 
 
     @Override
     public void onResumePermissionGranted() {
         super.onResumePermissionGranted();
-        Log.d(TAG, "onResume()");
+        Log.d(TAG, "onResume()" + currentState);
         // forward to secure camera to handle resume bug
         if (mSecureCamera !=  null)
             mSecureCamera.onResume();
@@ -207,7 +216,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public void onResumeTasks() {
-        Log.d(TAG, "onResumeTasks()");
+        Log.d(TAG, "onResumeTasks() " + currentState);
         activityIsResumed = true;
         if (!SettingsManager.getInstance().isInit() || cameraFragmentManager == null)
             return;
@@ -226,7 +235,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     protected void onPause()
     {
         super.onPause();
-        Log.d(TAG, "onPause()");
+        Log.d(TAG, "onPause() " + currentState);
         // forward to secure camera to handle resume bug
         if (mSecureCamera != null)
             mSecureCamera.onPause();
@@ -236,7 +245,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void onPauseTasks() {
         unloadCameraFragment();
         SettingsManager.getInstance().save();
-        Log.d(TAG, "onPauseTasks()");
+        Log.d(TAG, "onPauseTasks() " + currentState);
         if(orientationManager != null)
             orientationManager.Stop();
         if (locationManager != null)
