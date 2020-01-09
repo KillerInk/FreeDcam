@@ -17,39 +17,24 @@ import freed.utils.Log;
 
 public class ReflectionHelper {
 
-    public static Object getTypeReference(Type type)
-    {
-        Class typedreference = null;
-        try {
-            typedreference = Class.forName("android.hardware.camera2.utils.TypeReference");
-
-            Method method = typedreference.getMethod("createSpecializedTypeReference", Type.class);
-            return method.invoke(null, type);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public static Object getKeyType(String string, Type type, Class myclass)
     {
         try {
-            Object typeref = ReflectionHelper.getTypeReference(type);
-            Constructor<?>[] ctors = myclass.getDeclaredConstructors();
-            Constructor<?> constructor = ctors[1];
+            Class typedreference = Class.forName("android.hardware.camera2.utils.TypeReference");
+            Method method = typedreference.getMethod("createSpecializedTypeReference", Type.class);
+            Constructor<?> constructor = myclass.getConstructor(String.class, typedreference);
             constructor.setAccessible(true);
-            return constructor.newInstance(string, typeref);
+            return constructor.newInstance(string, method.invoke(null, type));
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
@@ -59,7 +44,8 @@ public class ReflectionHelper {
     {
         try {
             Constructor<?>[] ctors = myclass.getDeclaredConstructors();
-            Constructor<?> constructor = ctors[2];
+            Constructor<?> constructor =  myclass.getConstructor(String.class, Class.class);
+
             constructor.setAccessible(true);
             return constructor.newInstance(string,type);
         } catch (InstantiationException e) {
@@ -72,6 +58,8 @@ public class ReflectionHelper {
         catch (IllegalArgumentException e)
         {
             Log.WriteEx(e);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
         }
         return null;
     }
