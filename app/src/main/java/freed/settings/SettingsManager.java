@@ -19,7 +19,7 @@
 
 package freed.settings;
 
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.content.res.Resources;
 import android.text.TextUtils;
 
@@ -144,14 +144,14 @@ public class SettingsManager implements SettingsManagerInterface {
         return key.getType().cast(settingsmap.get(key));
     }
 
-    public synchronized void init(SharedPreferences sharedPreferences, Resources resources)
+    public synchronized void init(Resources resources, Context context)
     {
         //check if its not already init while a other task waited for it
         if (isInit)
             return;
         isInit = true;
         //settings = sharedPreferences;
-        settingsStorage = new SettingsStorage();
+        settingsStorage = new SettingsStorage(context.getExternalFilesDir(null));
         settingsStorage.load();
         this.resources = resources;
         SettingKeys.Key[] keys = SettingKeys.getKeyList();

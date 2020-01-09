@@ -1,5 +1,7 @@
 package freed.settings;
 
+import android.app.Application;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,16 +15,20 @@ import java.util.NavigableSet;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.VideoMediaProfile;
 
 public class SettingsStorage
 {
+    private static final String TAG = SettingsStorage.class.getSimpleName();
     private HashMap<String,Object> settingStore;
     private HashMap<Integer,HashMap<String, VideoMediaProfile>>mediaProfileHashMap;
+    private File appdataFolder;
 
-    public SettingsStorage()
+    public SettingsStorage(File appdataFolder)
     {
+        this.appdataFolder = appdataFolder;
         settingStore = new HashMap<>();
         mediaProfileHashMap = new HashMap<>();
     }
@@ -41,7 +47,7 @@ public class SettingsStorage
 
     private void loadSettings()
     {
-        try (InputStreamReader is = new InputStreamReader(new FileInputStream(StringUtils.GetFreeDcamConfigFolder+"freed.conf"))) {
+        try (InputStreamReader is = new InputStreamReader(new FileInputStream(appdataFolder.getAbsolutePath()+"/freed.config"))) {
             BufferedReader bufferedReader = new BufferedReader(is);
             String receiveString;
             while ((receiveString = bufferedReader.readLine()) != null ) {
@@ -80,13 +86,20 @@ public class SettingsStorage
 
     private void saveSettings()
     {
-        File out =new File(StringUtils.GetFreeDcamConfigFolder);
+        File out =new File(appdataFolder.getAbsolutePath()+"/freed.config");
         if (!out.exists())
         {
             out.getParentFile().mkdirs();
-            out.mkdir();
         }
-        try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(StringUtils.GetFreeDcamConfigFolder+"freed.conf"))) {
+        try {
+            if (!out.exists()) {
+                Log.d(TAG, "Config file does not exists, create it");
+                out.createNewFile();
+            }
+        } catch (IOException e) {
+            Log.WriteEx(e);
+        }
+        try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(out))) {
             TreeMap<String, Object> treeMap = new TreeMap<>(settingStore);
             NavigableSet<String> set = treeMap.descendingKeySet();
             for (String key : set)
