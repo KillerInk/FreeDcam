@@ -51,16 +51,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.ActivityAbstract.FormatTypes;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
+import freed.file.FileListController.FormatTypes;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.UriHolder;
 import freed.image.ImageManager;
 import freed.renderscript.RenderScriptManager;
 import freed.utils.FreeDPool;
+import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.dngconvert.DngConvertingActivity;
 import freed.viewer.dngconvert.DngConvertingFragment;
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
 import freed.viewer.stack.DngStackActivity;
 import freed.viewer.stack.StackActivity;
@@ -77,6 +80,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     protected View view;
     protected boolean pos0ret;
     protected ViewStates currentViewState = ViewStates.normal;
+    private boolean firststart = false;
 
 
 
@@ -118,7 +122,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
 
     private ActivityInterface viewerActivityInterface;
     private ScreenSlideFragment.ButtonClick onGridItemClick;
-    private FileHolder folderToShow;
+    private BaseHolder folderToShow;
 
     public int DEFAULT_ITEM_TO_SET = 0;
 
@@ -149,6 +153,19 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     public void NotifyDataSetChanged()
     {
         mPagerAdapter.notifyDataSetChanged();
+        if (!firststart) {
+            if (viewerActivityInterface.getFileListController() != null
+                    && viewerActivityInterface.getFileListController().getFiles() != null
+                    && viewerActivityInterface.getFileListController().getFiles().size() > 0
+                    && viewerActivityInterface.getFileListController().getFiles().get(0) instanceof UriHolder
+                    ) {
+
+                isRootDir = false;
+                Log.d(TAG, "NotifyDataSetChanged rootdir:" +isRootDir);
+                setViewMode(ViewStates.normal);
+            }
+            firststart = true;
+        }
     }
 
     @Override
@@ -161,7 +178,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         gridView = view.findViewById(id.gridView_base);
         gridView.setOnItemClickListener(this);
         gridView.setOnItemLongClickListener(this);
-
+        gridView.smoothScrollToPosition(DEFAULT_ITEM_TO_SET);
 
         ImageButton gobackButton = view.findViewById(id.button_goback);
         gobackButton.setOnClickListener(onGobBackClick);
@@ -238,9 +255,6 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
             mPagerAdapter = new ImageAdapter(viewerActivityInterface);
             gridView.setAdapter(mPagerAdapter);
             setViewMode(ViewStates.normal);
-            if (viewerActivityInterface.getFiles() == null)
-                viewerActivityInterface.LoadDCIMDirs();
-            gridView.smoothScrollToPosition(DEFAULT_ITEM_TO_SET);
         }
     }
 
@@ -255,26 +269,26 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         {
             case normal:
                 //handel normal griditem click to open screenslide when its not a folder
-                if (!viewerActivityInterface.getFiles().get(position).IsFolder())
+                if (!viewerActivityInterface.getFileListController().getFiles().get(position).IsFolder())
                 {
                     this.onGridItemClick.onButtonClick(position, view);
                 }
                 else //handel folder click
                 {
                     //hold the current folder to show if a format is empty
-                    folderToShow = viewerActivityInterface.getFiles().get(position);
-                    viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(position),formatsToShow);
+                    folderToShow = viewerActivityInterface.getFileListController().getFiles().get(position);
+                    viewerActivityInterface.getFileListController().LoadFolder(viewerActivityInterface.getFileListController().getFiles().get(position),formatsToShow);
                     isRootDir = false;
                     setViewMode(currentViewState);
 
                 }
                 break;
             case selection:
-                if (viewerActivityInterface.getFiles().get(position).IsSelected()) {
-                    viewerActivityInterface.getFiles().get(position).SetSelected(false);
+                if (viewerActivityInterface.getFileListController().getFiles().get(position).IsSelected()) {
+                    viewerActivityInterface.getFileListController().getFiles().get(position).SetSelected(false);
                     filesSelectedCount--;
                 } else {
-                    viewerActivityInterface.getFiles().get(position).SetSelected(true);
+                    viewerActivityInterface.getFileListController().getFiles().get(position).SetSelected(true);
                     filesSelectedCount++;
                 }
                 updateFilesSelected();
@@ -323,7 +337,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                 formatsToShow = FormatTypes.mp4;
             }
             //if (savedInstanceFilePath != null)
-            viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
+            viewerActivityInterface.getFileListController().LoadFolder(folderToShow,formatsToShow);
 
             return false;
 
@@ -335,6 +349,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
 
     private void setViewMode(ViewStates viewState)
     {
+        Log.d(TAG,"setViewMode:  isRootDir" + isRootDir);
         currentViewState = viewState;
         mPagerAdapter.SetViewState(currentViewState);
         if (isRootDir)
@@ -349,7 +364,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                 case normal:
                     if (formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw) {
                         formatsToShow = lastFormat;
-                        viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
+                        viewerActivityInterface.getFileListController().LoadFolder(folderToShow,formatsToShow);
                     }
                     requestMode = RequestModes.none;
                     filetypeButton.setVisibility(View.VISIBLE);
@@ -378,7 +393,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                         case rawToDng:
                             lastFormat = formatsToShow;
                             formatsToShow = FormatTypes.raw;
-                            viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
+                            viewerActivityInterface.getFileListController().LoadFolder(folderToShow,formatsToShow);
                             optionsButton.setVisibility(View.GONE);
                             optionsButton.setVisibility(View.GONE);
                             filetypeButton.setVisibility(View.GONE);
@@ -389,7 +404,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                         case stack:
                             lastFormat = formatsToShow;
                             formatsToShow = FormatTypes.jpg;
-                            viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
+                            viewerActivityInterface.getFileListController().LoadFolder(folderToShow,formatsToShow);
                             optionsButton.setVisibility(View.GONE);
                             filetypeButton.setVisibility(View.GONE);
                             doActionButton.setText("Stack");
@@ -399,7 +414,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                         case dngstack:
                             lastFormat = formatsToShow;
                             formatsToShow = FormatTypes.dng;
-                            viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
+                            viewerActivityInterface.getFileListController().LoadFolder(folderToShow,formatsToShow);
                             optionsButton.setVisibility(View.GONE);
                             filetypeButton.setVisibility(View.GONE);
                             doActionButton.setText("DngStack");
@@ -424,15 +439,15 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
             int fileselected = filesSelectedCount;
 
             int filesdeletedCount = 0;
-            List<FileHolder> to_del = new ArrayList<>();
-            for (int i = 0; i < viewerActivityInterface.getFiles().size(); i++)
+            List<BaseHolder> to_del = new ArrayList<>();
+            for (int i = 0; i < viewerActivityInterface.getFileListController().getFiles().size(); i++)
             {
-                if (viewerActivityInterface.getFiles().get(i).IsSelected())
+                if (viewerActivityInterface.getFileListController().getFiles().get(i).IsSelected())
                 {
-                    to_del.add(viewerActivityInterface.getFiles().get(i));
+                    to_del.add(viewerActivityInterface.getFileListController().getFiles().get(i));
                 }
             }
-            viewerActivityInterface.DeleteFiles(to_del);
+            viewerActivityInterface.getFileListController().DeleteFiles(to_del);
         });
     }
 
@@ -442,13 +457,16 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         {
             if (currentViewState == ViewStates.normal)
             {
-                if (viewerActivityInterface.getFiles() != null && viewerActivityInterface.getFiles().size() > 0)
+                if (viewerActivityInterface.getFileListController().getFiles() != null && viewerActivityInterface.getFileListController().getFiles().size() > 0
+                && viewerActivityInterface.getFileListController().getFiles().get(0) instanceof FileHolder)
                 {
-                    File topPath = viewerActivityInterface.getFiles().get(0).getFile().getParentFile().getParentFile();
+                    FileHolder fileHolder = (FileHolder) viewerActivityInterface.getFileListController().getFiles().get(0);
+                    File topPath = fileHolder.getFile().getParentFile().getParentFile();
                     if (topPath.getName().equals("DCIM") && !isRootDir)
                     {
-                        viewerActivityInterface.LoadDCIMDirs();
+                        viewerActivityInterface.getFileListController().loadDefaultFiles();
                         isRootDir = true;
+                        Log.d(TAG, "onGobBackClick dcim folder rootdir:" +isRootDir);
                         setViewMode(currentViewState);
                     }
                     else if (isRootDir)
@@ -458,22 +476,31 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                     else
                     {
                         isRootDir = false;
-                        viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(0),formatsToShow);
+                        Log.d(TAG, "onGobBackClick load folder rootdir:" +isRootDir);
+                        viewerActivityInterface.getFileListController().loadDefaultFiles();
+                        //viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(0),formatsToShow);
                         setViewMode(currentViewState);
                     }
                 }
+                else if (viewerActivityInterface.getFileListController().getFiles().get(0) instanceof UriHolder)
+                    if (viewerActivityInterface.getFileListController().getFiles().get(0).IsFolder())
+                        getActivity().finish();
+                    else
+                        viewerActivityInterface.getFileListController().loadDefaultFiles();
                 else
                 {
-                    viewerActivityInterface.LoadDCIMDirs();
+                    viewerActivityInterface.getFileListController().loadDefaultFiles();
+                    //viewerActivityInterface.LoadDCIMDirs();
+                    Log.d(TAG, "onGobBackClick dcim folder rootdir:" +isRootDir);
                     isRootDir = true;
                     setViewMode(currentViewState);
                 }
             }
             else if (currentViewState == ViewStates.selection)
             {
-                for (int i = 0; i< viewerActivityInterface.getFiles().size(); i++)
+                for (int i = 0; i< viewerActivityInterface.getFileListController().getFiles().size(); i++)
                 {
-                    FileHolder f = viewerActivityInterface.getFiles().get(i);
+                    BaseHolder f = viewerActivityInterface.getFileListController().getFiles().get(i);
                     f.SetSelected(false);
                 }
                 setViewMode(ViewStates.normal);
@@ -494,7 +521,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     {
         //super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == STACK_REQUEST || requestCode == DNGCONVERT_REQUEST)
-            viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
+            viewerActivityInterface.getFileListController().LoadFolder(folderToShow,formatsToShow);
 
     }
 
@@ -509,14 +536,17 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
             else if (requestMode == RequestModes.stack)
             {
                 ArrayList<String> ar = new ArrayList<>();
-                for (FileHolder f : viewerActivityInterface.getFiles()) {
-                    if (f.IsSelected() && f.getFile().getName().toLowerCase().endsWith(FileEnding.JPG))
+                for (BaseHolder f : viewerActivityInterface.getFileListController().getFiles()) {
+                    if (f.IsSelected() && f.getName().toLowerCase().endsWith(FileEnding.JPG))
                     {
-                        ar.add(f.getFile().getAbsolutePath());
+                        if (f instanceof FileHolder)
+                            ar.add(((FileHolder)f).getFile().getAbsolutePath());
+                        else if (f instanceof UriHolder)
+                            ar.add(((UriHolder)f).getMediaStoreUri().toString());
                     }
 
                 }
-                for (FileHolder f : viewerActivityInterface.getFiles()) {
+                for (BaseHolder f : viewerActivityInterface.getFileListController().getFiles()) {
                     f.SetSelected(false);
                 }
                 setViewMode(ViewStates.normal);
@@ -545,14 +575,17 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
             else if (requestMode == RequestModes.dngstack)
             {
                 ArrayList<String> ar = new ArrayList<>();
-                for (FileHolder f : viewerActivityInterface.getFiles()) {
-                    if (f.IsSelected() && f.getFile().getName().toLowerCase().endsWith(FileEnding.DNG))
+                for (BaseHolder f : viewerActivityInterface.getFileListController().getFiles()) {
+                    if (f.IsSelected() && f.getName().toLowerCase().endsWith(FileEnding.DNG))
                     {
-                        ar.add(f.getFile().getAbsolutePath());
+                        if (f instanceof FileHolder)
+                            ar.add(((FileHolder)f).getFile().getAbsolutePath());
+                        else if (f instanceof UriHolder)
+                            ar.add(((UriHolder)f).getMediaStoreUri().toString());
                     }
 
                 }
-                for (FileHolder f : viewerActivityInterface.getFiles()) {
+                for (BaseHolder f : viewerActivityInterface.getFileListController().getFiles()) {
                     f.SetSelected(false);
                 }
                 setViewMode(ViewStates.normal);
@@ -582,14 +615,17 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
             else if (requestMode == RequestModes.rawToDng)
             {
                 ArrayList<String> ar = new ArrayList<>();
-                for (FileHolder f : viewerActivityInterface.getFiles()) {
+                for (BaseHolder f : viewerActivityInterface.getFileListController().getFiles()) {
                     if (f.IsSelected() &&
-                            (f.getFile().getName().toLowerCase().endsWith(FileEnding.RAW) ||f.getFile().getName().toLowerCase().endsWith(FileEnding.BAYER))) {
-                        ar.add(f.getFile().getAbsolutePath());
+                            (f.getName().toLowerCase().endsWith(FileEnding.RAW) ||f.getName().toLowerCase().endsWith(FileEnding.BAYER))) {
+                        if (f instanceof FileHolder)
+                            ar.add(((FileHolder) f).getFile().getAbsolutePath());
+                        else if (f instanceof UriHolder)
+                            ar.add(((UriHolder) f).getMediaStoreUri().toString());
                     }
 
                 }
-                for (FileHolder f : viewerActivityInterface.getFiles()) {
+                for (BaseHolder f : viewerActivityInterface.getFileListController().getFiles()) {
                     f.SetSelected(false);
                 }
                 setViewMode(ViewStates.normal);
@@ -621,9 +657,9 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
 
                 case DialogInterface.BUTTON_NEGATIVE:
                     setViewMode(ViewStates.normal);
-                    for (int i = 0; i< viewerActivityInterface.getFiles().size(); i++)
+                    for (int i = 0; i< viewerActivityInterface.getFileListController().getFiles().size(); i++)
                     {
-                        FileHolder f = viewerActivityInterface.getFiles().get(i);
+                        BaseHolder f = viewerActivityInterface.getFileListController().getFiles().get(i);
                         f.SetSelected(false);
                     }
                     break;
@@ -644,7 +680,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
             {
                 //check if files are selected
                 boolean hasfilesSelected = false;
-                for (FileHolder f : viewerActivityInterface.getFiles()) {
+                for (BaseHolder f : viewerActivityInterface.getFileListController().getFiles()) {
                     if (f.IsSelected()) {
                         hasfilesSelected = true;
                         break;
@@ -654,7 +690,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                 if (!hasfilesSelected)
                     return;
                 //else show dialog
-                if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || !viewerActivityInterface.getFiles().get(0).isExternalSD())
+                if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || !(viewerActivityInterface.getFileListController().getFiles().get(0) instanceof FileHolder))
                 {
                     Builder builder = new Builder(getContext());
                     builder.setMessage(string.delete_files).setPositiveButton(string.yes, dialogDeleteClickListener)
@@ -663,7 +699,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                 }
                 else
                 {
-                    DocumentFile sdDir = viewerActivityInterface.getExternalSdDocumentFile();
+                    DocumentFile sdDir = viewerActivityInterface.getFileListController().getExternalSdDocumentFile(getContext());
                     if (sdDir == null) {
                         //ActivityInterface fragment_activityInterface = (ActivityInterface) getActivity();
                         viewerActivityInterface.ChooseSDCard(GridViewFragment.this);

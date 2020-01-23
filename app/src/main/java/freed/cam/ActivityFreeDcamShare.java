@@ -34,7 +34,7 @@ import java.io.OutputStream;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.utils.Log;
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.FileHolder;
 
 /**
  * Created by troop on 18.10.2014.

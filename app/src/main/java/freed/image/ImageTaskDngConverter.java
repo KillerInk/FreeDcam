@@ -69,7 +69,7 @@ public class ImageTaskDngConverter extends ImageTask {
                 dngCreator.writeImage(new FileOutputStream(file), image);
             else
             {
-                DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
+                DocumentFile df = activityInterface.getFileListController().getFreeDcamDocumentFolder();
                 DocumentFile wr = df.createFile("image/*", file.getName());
                 dngCreator.writeImage(activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri()), image);
             }

@@ -34,7 +34,7 @@ import freed.cam.events.EventBusHelper;
 import freed.cam.events.StartWorkEvent;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.FileHolder;
 
 /**
  * Created by troop on 15.08.2014.

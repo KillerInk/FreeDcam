@@ -13,7 +13,8 @@ import androidx.viewpager.widget.ViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
 
 /**
  * Created by KillerInk on 03.12.2017.
@@ -23,7 +24,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 {
     private final String TAG = ScreenSlidePagerAdapter.class.getSimpleName();
     private final SparseArray<Fragment> registeredFragments;
-    private List<FileHolder> files =  new ArrayList<>();
+    private List<BaseHolder> files =  new ArrayList<>();
     private ViewPager mPager;
     private ScreenSlideFragment.FragmentClickClistner onClickListener;
 
@@ -35,7 +36,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         registeredFragments = new SparseArray<>();
     }
 
-    public FileHolder getCurrentFile()
+    public BaseHolder getCurrentFile()
     {
         if (files != null && files.size()>0)
             return files.get(mPager.getCurrentItem());
@@ -43,7 +44,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             return null;
     }
 
-    public void setFiles(List<FileHolder> files)
+    public void setFiles(List<BaseHolder> files)
     {
         this.files =files;
         notifyDataSetChanged();
@@ -77,7 +78,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     public int getItemPosition(Object object)
     {
         ImageFragment imageFragment = (ImageFragment) object;
-        FileHolder file = imageFragment.GetFilePath();
+        BaseHolder file = imageFragment.GetFilePath();
         int position = files.indexOf(file);
         // The current data matches the data in this active fragment, so let it be as it is.
         if (position == imageFragment.getPosition){

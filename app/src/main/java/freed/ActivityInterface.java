@@ -22,17 +22,13 @@ package freed;
 import android.content.Context;
 import android.net.Uri;
 
-import androidx.documentfile.provider.DocumentFile;
-
 import java.io.File;
-import java.util.List;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
+import freed.file.FileListController;
 import freed.utils.LocationManager;
 import freed.utils.PermissionManager;
-import freed.utils.StorageFileManager;
 import freed.viewer.helper.BitmapHelper;
-import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 22.03.2015.
@@ -53,22 +49,7 @@ public interface ActivityInterface extends I_WorkEvent
 
     Context getContext();
 
-    StorageFileManager getStorageHandler();
-
-    boolean DeleteFile(FileHolder file);
-    void DeleteFiles(List<FileHolder> files);
-
-    void AddFile(FileHolder file);
-
-    List<FileHolder> getFiles();
-
-    void LoadDCIMDirs();
-    void LoadFreeDcamDCIMDirsFiles();
-
-    void LoadFolder(FileHolder fileHolder, ActivityAbstract.FormatTypes types);
-
-    DocumentFile getFreeDcamDocumentFolder();
-    DocumentFile getExternalSdDocumentFile();
+    FileListController getFileListController();
 
     void DisablePagerTouch(boolean disable);
 

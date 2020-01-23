@@ -213,11 +213,10 @@ public class ImageSaveTask extends ImageTask
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !externalSD)
         {
             checkFileExists(filename);
-
         }
         else
         {
-            DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
+            DocumentFile df = activityInterface.getFileListController().getFreeDcamDocumentFolder();
             Log.d(TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("image/dng", filename.getName().replace(".jpg", ".dng"));
             Log.d(TAG,"Filepath: " + wr.getUri());
@@ -258,7 +257,7 @@ public class ImageSaveTask extends ImageTask
             }
             else
             {
-                DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
+                DocumentFile df = activityInterface.getFileListController().getFreeDcamDocumentFolder();
                 Log.d(TAG,"Filepath: " + df.getUri());
                 DocumentFile wr = df.createFile("image/*", filename.getName());
                 Log.d(TAG,"Filepath: " + wr.getUri());

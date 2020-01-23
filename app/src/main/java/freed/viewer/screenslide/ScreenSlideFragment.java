@@ -21,6 +21,7 @@ package freed.viewer.screenslide;
 
 
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import android.os.ParcelFileDescriptor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,19 +55,21 @@ import com.troop.freedcam.R.layout;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
-import freed.ActivityAbstract;
-import freed.ActivityAbstract.FormatTypes;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
+import freed.file.FileListController;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.UriHolder;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
 import freed.utils.StringUtils.FileEnding;
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.FileHolder;
 import freed.viewer.screenslide.ImageFragment.I_WaitForWorkFinish;
 
 
@@ -110,11 +114,11 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     private MyHistogram histogram;
 
     public int defitem = -1;
-    public FormatTypes filestoshow = ActivityAbstract.FormatTypes.all;
+    public FileListController.FormatTypes filestoshow = FileListController.FormatTypes.all;
     private ButtonClick backClickListner;
     private LinearLayout topbar;
     //hold the showed folder_to_show
-    private FileHolder folder_to_show;
+    private BaseHolder folder_to_show;
     private ExifHandler exifHandler;
 
 
@@ -171,11 +175,15 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         play.setOnClickListener(v -> {
             if (folder_to_show == null)
                 return;
-            if (!folder_to_show.getFile().getName().endsWith(FileEnding.RAW) || !folder_to_show.getFile().getName().endsWith(FileEnding.BAYER)) {
-                    Uri uri = Uri.fromFile(folder_to_show.getFile());
+            if (!folder_to_show.getName().endsWith(FileEnding.RAW) || !folder_to_show.getName().endsWith(FileEnding.BAYER)) {
+                    Uri uri = null;
+                    if (folder_to_show instanceof FileHolder)
+                        uri = Uri.fromFile(((FileHolder)folder_to_show).getFile());
+                    else if (folder_to_show instanceof UriHolder)
+                        uri = ((UriHolder)folder_to_show).getMediaStoreUri();
 
                 Intent i;
-                if (folder_to_show.getFile().getName().endsWith(FileEnding.MP4))
+                if (folder_to_show.getName().endsWith(FileEnding.MP4))
                 {
                     i = new Intent(Intent.ACTION_VIEW);
                     i.setDataAndType(uri, "video/*");
@@ -202,7 +210,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                 builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteButtonClick)
                         .setNegativeButton("No", onDeleteButtonClick).show();
             } else {
-                DocumentFile sdDir = activityInterface.getExternalSdDocumentFile();
+                DocumentFile sdDir = FileListController.getExternalSdDocumentFile(getContext());
                 if (sdDir == null) {
 
                     activityInterface.ChooseSDCard(ScreenSlideFragment.this);
@@ -255,7 +263,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     }
 
 
-    public void NotifyDATAhasChanged(List<FileHolder> files)
+    public void NotifyDATAhasChanged(List<BaseHolder> files)
     {
         Log.d(TAG,"notifyDataHasChanged");
         if (mPagerAdapter != null && mPager != null) {
@@ -339,20 +347,20 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    activityInterface.DeleteFile(folder_to_show);
-                    try {
+                    activityInterface.getFileListController().DeleteFile(folder_to_show);
+                    /*try {
                         MediaScannerManager.ScanMedia(getContext(), folder_to_show.getFile());
                     }
                     catch (NullPointerException ex)
                     {
                         Log.WriteEx(ex);
-                    }
+                    }*/
 
-                    if (activityInterface.getFiles() != null && activityInterface.getFiles().size() >0)
-                        activityInterface.LoadFolder(activityInterface.getFiles().get(0).getParent(),FormatTypes.all);
+                    if (activityInterface.getFileListController().getFiles() != null && activityInterface.getFileListController().getFiles().size() >0 && folder_to_show != null)
+                        activityInterface.getFileListController().LoadFolder(folder_to_show, FileListController.FormatTypes.all);
                     else
                     {
-                        activityInterface.LoadFreeDcamDCIMDirsFiles();
+                        activityInterface.getFileListController().loadDefaultFiles();
                         updateUi(null);
                     }
                     break;
@@ -364,31 +372,31 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         }
     };
 
-    private void updateUi(FileHolder file)
+    private void updateUi(BaseHolder file)
     {
         this.folder_to_show = file;
-        if (file != null)
+        if (file != null && file.getName() != null)
         {
-            filename.setText(file.getFile().getName());
+            filename.setText(file.getName());
             deleteButton.setVisibility(View.VISIBLE);
             infoButton.setVisibility(View.VISIBLE);
-            if (file.getFile().getName().toLowerCase().endsWith(FileEnding.JPG) || file.getFile().getName().toLowerCase().endsWith(FileEnding.JPS)) {
-                processExif(file.getFile());
+            if (file.getName().toLowerCase().endsWith(FileEnding.JPG) || file.getName().toLowerCase().endsWith(FileEnding.JPS)) {
+                processExif(file);
                 if (showExifInfo)
                     exifinfo_holder.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getFile().getName().toLowerCase().endsWith(FileEnding.MP4)) {
+            if (file.getName().toLowerCase().endsWith(FileEnding.MP4)) {
                 exifinfo_holder.setVisibility(View.GONE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getFile().getName().toLowerCase().endsWith(FileEnding.DNG)) {
-                processExif(file.getFile());
+            if (file.getName().toLowerCase().endsWith(FileEnding.DNG)) {
+                processExif(file);
                 if (showExifInfo)
                     exifinfo_holder.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getFile().getName().toLowerCase().endsWith(FileEnding.RAW) || file.getFile().getName().toLowerCase().endsWith(FileEnding.BAYER)) {
+            if (file.getName().toLowerCase().endsWith(FileEnding.RAW) || file.getName().toLowerCase().endsWith(FileEnding.BAYER)) {
                 if (showExifInfo)
                     exifinfo_holder.setVisibility(View.VISIBLE);
                 play.setVisibility(View.GONE);
@@ -406,16 +414,16 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         }
     }
 
-    private void processExif(final File file)
+    private void processExif(final BaseHolder file)
     {
         ImageManager.putImageLoadTask(new ExifLoader(file));
     }
 
     private class ExifLoader extends ImageTask {
 
-        private final File file;
+        private final BaseHolder file;
 
-        public ExifLoader(File file)
+        public ExifLoader(BaseHolder file)
         {
             this.file = file;
         }
@@ -424,9 +432,21 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         public boolean process() {
             ExifInterface exifInterface = null;
             try {
-                exifInterface = new ExifInterface(file.getAbsolutePath());
+                if (file instanceof FileHolder)
+                    exifInterface = new ExifInterface(((FileHolder)file).getFile().getAbsolutePath());
+                else if (file instanceof UriHolder)
+                {
+                    InputStream pfd = getContext().getContentResolver().openInputStream(((UriHolder)file).getMediaStoreUri());
+                    exifInterface = new ExifInterface(pfd);
+                    pfd.close();
+                }
+
             } catch (IOException e) {
                 Log.WriteEx(e);
+            }
+            catch (IllegalArgumentException ex)
+            {
+                Log.WriteEx(ex);
             }
             catch (ArrayIndexOutOfBoundsException ex)
             {

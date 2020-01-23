@@ -391,7 +391,7 @@ public class DngConvertingFragment extends Fragment
         }
         else
         {
-            DocumentFile df = ((ActivityInterface)getActivity()).getFreeDcamDocumentFolder();
+            DocumentFile df = ((ActivityInterface)getActivity()).getFileListController().getFreeDcamDocumentFolder();
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(FileEnding.JPG, FileEnding.DNG));
             ParcelFileDescriptor pfd = null;
             try {

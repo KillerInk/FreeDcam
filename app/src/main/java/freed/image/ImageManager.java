@@ -136,9 +136,9 @@ public class ImageManager {
 
         public void removeTaskFromQueue(ImageTask task)
         {
+            imagesToLoadQueue.remove(task);
             if (task.getThread() != null && !task.getThread().isInterrupted())
                 task.getThread().interrupt();
-            imagesToLoadQueue.remove(task);
         }
     }
 

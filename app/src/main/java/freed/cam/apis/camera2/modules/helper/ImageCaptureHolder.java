@@ -179,6 +179,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
 
     public synchronized boolean rdyToGetSaved()
     {
+        Log.d(TAG, "rdyToGetSaved  " + images.size());
         if (captureType == CaptureType.JpegDng16 || captureType == CaptureType.JpegDng10)
             return images.size() == 2 && captureResult != null;
         else

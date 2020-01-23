@@ -42,6 +42,7 @@ import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.file.FileListController;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.settings.SettingKeys;
@@ -52,9 +53,8 @@ import freed.utils.MediaScannerManager;
 import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
 import freed.utils.PermissionManager;
-import freed.utils.StorageFileManager;
 import freed.viewer.helper.BitmapHelper;
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
 
 /**
@@ -62,7 +62,7 @@ import freed.viewer.screenslide.ScreenSlideFragment;
  */
 public class ActivityFreeDcamMain extends ActivityAbstract
         implements OrientationEvent,
-            SecureCamera.SecureCameraActivity, EventBusLifeCycle
+            SecureCamera.SecureCameraActivity, EventBusLifeCycle, FileListController.NotifyFilesChanged
 {
 
     @Override
@@ -75,11 +75,19 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         EventBusHelper.unregister(this);
     }
 
+    @Override
+    public void onFilesChanged() {
+        if (uiViewPagerAdapter != null) {
+            uiViewPager.post(() -> uiViewPagerAdapter.updateScreenSlideFile(fileListController.getFiles()));
+        }
+
+    }
+
     private class LoadFreeDcamDcimDirsFilesRunner extends ImageTask
     {
         @Override
         public boolean process() {
-            LoadFreeDcamDCIMDirsFiles();
+            fileListController.LoadFreeDcamDCIMDirsFiles();
             return false;
         }
     }
@@ -94,28 +102,21 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateScreenSlide(UpdateScreenSlide updateScreenSlide)
     {
-        if (files == null)
-            return;
-        synchronized (files) {
-            if (uiViewPagerAdapter != null)
-                uiViewPagerAdapter.updateScreenSlideFile(files);
-        }
+       onFilesChanged();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void addFromEventFile(FileHolder fileHolder)
     {
-        AddFile(fileHolder);
-        if (uiViewPagerAdapter != null)
-            uiViewPagerAdapter.updateScreenSlideFile(files);
+        fileListController.AddFile(fileHolder);
+        onFilesChanged();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void addFromEventFiles(FileHolder[] fileHolder)
     {
-        AddFiles(fileHolder);
-        if (uiViewPagerAdapter != null)
-            uiViewPagerAdapter.updateScreenSlideFile(files);
+        fileListController.AddFiles(fileHolder);
+        onFilesChanged();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -132,7 +133,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             locationManager.startLocationListing();
 
         SetNightOverlay();
-        if(getPermissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard) && (files == null || files.size() == 0))
+        if(getPermissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard) && (fileListController.getFiles() == null || fileListController.getFiles().size() == 0))
             ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
     }
 
@@ -174,7 +175,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         userMessageHandler.startListning();
         mSecureCamera.onCreate();
         cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(),this);
-        storageHandler = new StorageFileManager();
+        fileListController = new FileListController(getContext());
+        fileListController.setNotifyFilesChanged(this);
         startListning();
         //listen to phone orientation changes
         orientationManager = new OrientationManager(this, this);
@@ -354,17 +356,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         moveTaskToBack(true);
     }
 
-    /**
-     * Loads all files stored in DCIM/FreeDcam from internal and external SD
-     * and notfiy the stored screenslide fragment in sampletheme that
-     * files got changed
-     */
-    @Override
-    public void LoadFreeDcamDCIMDirsFiles() {
-        Log.d(TAG, "LoadFreeDcamDCIMDirsFiles()");
-        super.LoadFreeDcamDCIMDirsFiles();
-        EventBusHelper.post(new UpdateScreenSlide());
-    }
+
 
     @Override
     public void DisablePagerTouch(boolean disable) {
@@ -376,19 +368,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         return locationManager;
     }
 
-
-    /**
-     * Loads the files stored from that folder
-     * and notfiy the screenslide fragment that
-     * files got changed
-     * @param fileHolder the folder to lookup
-     * @param types the file format to load
-     */
-    @Override
-    public void LoadFolder(final FileHolder fileHolder, FormatTypes types) {
-        super.LoadFolder(fileHolder, types);
-        EventBusHelper.post(new UpdateScreenSlide());
-    }
 
     //get called when the back button from screenslidefragment gets clicked
     private final ScreenSlideFragment.ButtonClick onThumbBackClick = new ScreenSlideFragment.ButtonClick() {

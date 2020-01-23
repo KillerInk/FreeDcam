@@ -130,7 +130,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             Log.d(TAG, "InitMediaRecorder");
             isWorking = true;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().unlock();
-            mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
+            mediaSavePath = cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
             File tosave = new File(mediaSavePath);
             recorder.setRecordingFile(tosave);
             recorder.setErrorListener((mr, what, extra) -> {

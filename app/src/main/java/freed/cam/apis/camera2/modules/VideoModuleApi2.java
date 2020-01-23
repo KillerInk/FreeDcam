@@ -269,7 +269,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @TargetApi(VERSION_CODES.LOLLIPOP)
     private void startPreviewVideo()
     {
-        String file = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
+        String file = cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
         recordingFile = new File(file);
         videoRecorder.setRecordingFile(recordingFile);
         videoRecorder.setErrorListener((mr, what, extra) -> {

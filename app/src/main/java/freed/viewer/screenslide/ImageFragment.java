@@ -39,10 +39,11 @@ import com.troop.freedcam.R.layout;
 import java.lang.ref.WeakReference;
 
 import freed.ActivityInterface;
+import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.utils.Log;
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment.FragmentClickClistner;
 
 /**
@@ -60,7 +61,7 @@ public class ImageFragment extends Fragment
 
     private final String TAG = ImageFragment.class.getSimpleName();
     private TouchImageView imageView;
-    private FileHolder file;
+    private BaseHolder file;
     private FragmentClickClistner onClickListener;
     private ProgressBar progressBar;
     private int [] histogramData;
@@ -72,12 +73,12 @@ public class ImageFragment extends Fragment
      * Set the file to load by this fragment
      * @param filepath
      */
-    public void SetFilePath(FileHolder filepath)
+    public void SetFilePath(BaseHolder filepath)
     {
         file = filepath;
     }
 
-    public FileHolder getFile()
+    public BaseHolder getFile()
     {
         return file;
     }
@@ -97,7 +98,7 @@ public class ImageFragment extends Fragment
      *
      * @return the File attached to this view
      */
-    public FileHolder GetFilePath()
+    public BaseHolder GetFilePath()
     {
         return file;
     }
@@ -150,9 +151,9 @@ public class ImageFragment extends Fragment
     private class BitmapLoader extends ImageTask
     {
         private WeakReference<ImageFragment> imageviewRef;
-        private FileHolder file;
+        private BaseHolder file;
 
-        public BitmapLoader(FileHolder file, ImageFragment imageFragment)
+        public BitmapLoader(BaseHolder file, ImageFragment imageFragment)
         {
             this.file = file;
             imageviewRef = new WeakReference<>(imageFragment);
@@ -164,13 +165,13 @@ public class ImageFragment extends Fragment
                 Log.e(TAG, "ImageLoaderTask: Activity is null");
                 return false;
             }
-            Log.d(TAG, "ImageLoaderTask: LoadImage:" + file.getFile().getName());
+            Log.d(TAG, "ImageLoaderTask: LoadImage:" + file.getName());
             final Bitmap response = ((ActivityInterface)getActivity()).getBitmapHelper().getBitmap(file,false);
             createHistogramm(response);
             if (waitForWorkFinish != null && position >-1)
                 waitForWorkFinish.onHistogramData(histogramData, position);
             waitForWorkFinish = null;
-            Log.d(TAG, "ImageLoaderTask: LoadImage Done:" + file.getFile().getName());
+            Log.d(TAG, "ImageLoaderTask: LoadImage Done:" + file.getName());
             if (imageviewRef != null && response != null) {
                 final ImageFragment imageFragment = imageviewRef.get();
                 if (imageFragment != null && imageFragment.getFile() == file)

@@ -7,7 +7,7 @@ import android.net.Uri;
 
 import java.io.File;
 
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.FileHolder;
 
 /**
  * Created by troop on 25.08.13.

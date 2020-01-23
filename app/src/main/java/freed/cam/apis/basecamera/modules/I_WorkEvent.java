@@ -19,7 +19,7 @@
 
 package freed.cam.apis.basecamera.modules;
 
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.FileHolder;
 
 /**
  * Created by troop on 25.08.2014.

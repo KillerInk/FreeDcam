@@ -250,7 +250,7 @@ public class VideoRecorder {
         else
         {
             Uri uri = Uri.parse(SettingsManager.getInstance().GetBaseFolder());
-            DocumentFile df = cameraWrapperInterface.getActivityInterface().getFreeDcamDocumentFolder();
+            DocumentFile df = cameraWrapperInterface.getActivityInterface().getFileListController().getFreeDcamDocumentFolder();
             DocumentFile wr = df.createFile("*/*", recordingFile.getName());
             ParcelFileDescriptor fileDescriptor = null;
             try {

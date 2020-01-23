@@ -25,27 +25,20 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
-import androidx.documentfile.provider.DocumentFile;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
+import freed.file.FileListController;
 import freed.image.ImageManager;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
-import freed.utils.StorageFileManager;
 import freed.viewer.helper.BitmapHelper;
-import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 28.03.2016.
@@ -56,24 +49,11 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
 
     private final boolean forceLogging = false;
 
-    public enum FormatTypes
-    {
-        all,
-        raw,
-        dng,
-        jpg,
-        jps,
-        mp4,
-    }
+
 
     private final String TAG = ActivityAbstract.class.getSimpleName();
     protected BitmapHelper bitmapHelper;
-    protected  List<FileHolder> files =  new ArrayList<>();
-    protected StorageFileManager storageHandler;
-
-
-
-
+    protected FileListController fileListController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,193 +209,8 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
     }
 
     @Override
-    public StorageFileManager getStorageHandler() {
-        return this.storageHandler;
-    }
-
-    @Override
-    public boolean DeleteFile(FileHolder file) {
-        return deleteFile(file);
-    }
-
-    @Override
-    public void DeleteFiles(List<FileHolder> files) {
-        for (FileHolder f : files)
-            deleteFile(f);
-    }
-
-    private boolean deleteFile(FileHolder file)
-    {
-        boolean del = false;
-        synchronized (files) {
-            bitmapHelper.DeleteCache(file.getFile());
-            if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || file.getFile().canWrite()) {
-                del = file.getFile().delete();
-            }
-            if (!del && VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
-                del = delteDocumentFile(file.getFile());
-            if (del) {
-                if (files != null)
-                    files.remove(file);
-            }
-            MediaScannerManager.ScanMedia(getContext(), file.getFile());
-            return del;
-        }
-    }
-
-    public void AddFile(FileHolder file)
-    {
-        synchronized (files) {
-            files.add(file);
-            SortFileHolder(files);
-        }
-    }
-
-    protected void AddFiles(FileHolder[] fil)
-    {
-        synchronized (files) {
-            for (FileHolder fh : fil)
-            {
-                if (fh != null)
-                    files.add(fh);
-            }
-            SortFileHolder(files);
-        }
-    }
-
-    @Override
-    public List<FileHolder> getFiles() {
-        return this.files;
-    }
-
-    /**
-     * Loads the files stored from that folder
-     * @param fileHolder the folder to lookup
-     * @param types the file format to load
-     */
-    @Override
-    public void LoadFolder(FileHolder fileHolder,FormatTypes types )
-    {
-        synchronized (files) {
-            files.clear();
-            storageHandler.readFilesFromFolder(fileHolder.getFile(), files, types, fileHolder.isExternalSD());
-        }
-    }
-
-    /**
-     * Loads all Folders from DCIM dir from internal and external SD
-     */
-    @Override
-    public void LoadDCIMDirs()
-    {
-        synchronized (files) {
-            files.clear();
-            files = storageHandler.getDCIMDirs();
-        }
-    }
-
-    /**
-     * Loads all files stored in DCIM/FreeDcam from internal and external SD
-     */
-    @Override
-    public void LoadFreeDcamDCIMDirsFiles() {
-        synchronized (files) {
-            files = storageHandler.getFreeDcamDCIMDirsFiles();
-        }
-    }
-
-    private void SortFileHolder(List<FileHolder> f)
-    {
-        Collections.sort(f, (f1, f2) -> Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified()));
-    }
-
-    private  File getStorageDirectory() {
-        String path = System.getenv("ANDROID_STORAGE");
-        return (path == null || TextUtils.isEmpty(path)) ? new File("/storage") : new File(path);
-    }
-
-    @Override
-    public DocumentFile getExternalSdDocumentFile()
-    {
-        DocumentFile sdDir = null;
-        String extSdFolder =  SettingsManager.getInstance().GetBaseFolder();
-        if (extSdFolder == null || TextUtils.isEmpty(extSdFolder))
-            return null;
-        Uri uri = Uri.parse(extSdFolder);
-        sdDir = DocumentFile.fromTreeUri(getContext(), uri);
-        return sdDir;
-    }
-
-    private DocumentFile getDCIMDocumentFolder(boolean create) {
-        DocumentFile documentFile = null;
-        DocumentFile sdDir;
-        if ((sdDir = getExternalSdDocumentFile()) != null) {
-            documentFile = sdDir.findFile("DCIM");
-            if (documentFile == null && create)
-                documentFile = sdDir.createDirectory("DCIM");
-        }
-        return documentFile;
-    }
-
-    @Override
-    public DocumentFile getFreeDcamDocumentFolder()
-    {
-        DocumentFile dcimfolder;
-        DocumentFile freedcamfolder = null;
-        if((dcimfolder = getDCIMDocumentFolder(true)) !=null)
-        {
-            freedcamfolder = dcimfolder.findFile("FreeDcam");
-            if (freedcamfolder == null)
-                freedcamfolder = dcimfolder.createDirectory("FreeDcam");
-        }
-        return freedcamfolder;
-    }
-
-    private boolean delteDocumentFile(File file) throws NullPointerException
-    {
-        if (file.isDirectory())
-        {
-            File[] files = file.listFiles();
-            for (File f : files)
-                deletFile(f);
-            deletFile(file);
-        }
-        else
-        {
-            Boolean d = deletFile(file);
-            if (d != null) return d;
-        }
-        return true;
-    }
-
-
-    private boolean deletFile(File file) {
-        if (!file.delete())
-        {
-            DocumentFile sdDir = getExternalSdDocumentFile();
-            if (sdDir == null)
-                return false;
-            String baseS = sdDir.getName();
-            String fileFolder = file.getAbsolutePath();
-            String[] split = fileFolder.split("/");
-            DocumentFile tmpdir = null;
-            boolean append = false;
-            for (String aSplit : split) {
-                if (aSplit.equals(baseS) || append) {
-                    if (!append) {
-                        append = true;
-                        tmpdir = sdDir;
-                    } else {
-                        tmpdir = tmpdir.findFile(aSplit);
-                    }
-                }
-            }
-            boolean d = false;
-            d = !(tmpdir != null && tmpdir.exists()) || tmpdir.delete();
-            Log.d("delteDocumentFile", "file delted:" + d);
-            return d;
-        }
-        return true;
+    public FileListController getFileListController() {
+        return this.fileListController;
     }
 
     @Override
@@ -423,9 +218,6 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
     {
 
     }
-
-
-
 
     @Override
     public int getOrientation() {

@@ -83,6 +83,8 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         boolean isSupported;
         boolean canSet;
         boolean visible;
+        if (value == null)
+            return;
         if (value.equals("CONTRAST_CURVE"))
         {
             canSet = true;
@@ -143,7 +145,8 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
             return;
         if (valueChangedEvent.key == SettingKeys.TONE_MAP_MODE)
         {
-            onStringValueChanged(valueChangedEvent.newValue);
+            if (valueChangedEvent.newValue != null)
+                onStringValueChanged(valueChangedEvent.newValue);
         }
     }
 

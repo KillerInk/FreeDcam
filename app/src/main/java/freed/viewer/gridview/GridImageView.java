@@ -42,8 +42,8 @@ import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.utils.Log;
 import freed.viewer.helper.BitmapHelper;
-import freed.viewer.holder.BaseHolder;
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
 
 /**
  * Created by troop on 11.12.2015.
@@ -55,7 +55,7 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
     private TextView folderTextView;
     private ImageView checkBox;
     private ImageView sdcard;
-    private FileHolder fileHolder;
+    private BaseHolder fileHolder;
     private ProgressBar progressBar;
     private final String TAG = GridImageView.class.getSimpleName();
     private BitmapHelper bitmapHelper;
@@ -106,7 +106,7 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
     public BaseHolder getFileHolder(){return fileHolder;}
 
 
-    public void SetEventListner(FileHolder fileHolder)
+    public void SetEventListner(BaseHolder fileHolder)
     {
         this.fileHolder = fileHolder;
         SetViewState(fileHolder.GetCurrentViewState());
@@ -183,15 +183,15 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
             checkBox.setImageDrawable(getResources().getDrawable(drawable.cust_cb_unsel));
     }
 
-    public void loadFile(FileHolder fileHolder, int mImageThumbSize)
+    public void loadFile(BaseHolder fileHolder, int mImageThumbSize)
     {
         if (this.fileHolder != fileHolder && bitmapLoadRunnable !=null)
             ImageManager.removeImageLoadTask(bitmapLoadRunnable);
 
         this.fileHolder = fileHolder;
-        Log.d(TAG, "load file:" + fileHolder.getFile().getName());
+        Log.d(TAG, "load file:" + fileHolder.getName());
         imageView.setImageBitmap(null);
-        if (!fileHolder.getFile().isDirectory())
+        if (!fileHolder.IsFolder())
         {
             imageView.setImageResource(drawable.noimage);
             progressBar.setVisibility(View.VISIBLE);
@@ -209,8 +209,8 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
             progressBar.setVisibility(View.GONE);
             imageView.setImageResource(drawable.folder);
         }
-        String f = fileHolder.getFile().getName();
-        if (!fileHolder.getFile().isDirectory()) {
+        String f = fileHolder.getName();
+        if (!fileHolder.IsFolder()) {
             SetFolderName("");
             SetFileEnding(f.substring(f.length() - 3));
         }
@@ -230,9 +230,9 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
     {
         private final String TAG = BitmapLoadRunnable.class.getSimpleName();
         WeakReference<GridImageView>imageviewRef;
-        FileHolder fileHolder;
+        BaseHolder fileHolder;
 
-        public BitmapLoadRunnable(GridImageView imageView, FileHolder fileHolder)
+        public BitmapLoadRunnable(GridImageView imageView, BaseHolder fileHolder)
         {
             imageviewRef = new WeakReference<>(imageView);
             this.fileHolder = fileHolder;
@@ -240,7 +240,7 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
 
         @Override
         public boolean process() {
-            Log.d(TAG, "load file:" + fileHolder.getFile().getName());
+            Log.d(TAG, "load file:" + fileHolder.getName());
             final Bitmap bitmap = bitmapHelper.getBitmap(fileHolder, true);
             if (imageviewRef != null && bitmap != null) {
                 final GridImageView imageView = imageviewRef.get();
@@ -251,13 +251,17 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
                         handler.obtainMessage(MSG_SET_BITMAP, bitmap).sendToTarget();
 
                 }
-                else
+                else {
                     Log.d(TAG, "Imageview has new file already, skipping it");
+                    bitmap.recycle();
+                }
             }
             else {
                 Log.d(TAG, "Imageview or bitmap null");
                 if (handler != null)
                     handler.obtainMessage(MSG_SET_BITMAP, bitmap).sendToTarget();
+                if (bitmap != null)
+                    bitmap.recycle();
             }
             return false;
         }
