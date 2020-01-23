@@ -129,8 +129,8 @@ public class BitmapHelper
         if (response == null && file.getName() !=null)
         {
             if (file.getName().toLowerCase().endsWith(FileEnding.JPG) ||
-                    file.getName().toLowerCase().endsWith(FileEnding.JPS) ||
-                    file.getName().toLowerCase().endsWith(FileEnding.PNG))
+                    file.getName().toLowerCase().endsWith(FileEnding.JPS)
+                    )
             {
                 Options options = new Options();
                 options.inSampleSize = 2;
