@@ -70,7 +70,7 @@ public class IntervalModule extends ModuleAbstract implements IntervalHandler.Su
             Log.d(TAG, "StartInterval");
             isWorking = true;
             intervalHandler.StartInterval();
-            changeCaptureState(CaptureStates.continouse_capture_start);
+            //changeCaptureState(CaptureStates.continouse_capture_start);
         } else {
             Log.d(TAG, "Stop Interval");
 
@@ -78,11 +78,11 @@ public class IntervalModule extends ModuleAbstract implements IntervalHandler.Su
             if (picModule.isWorking)
             {
                 Log.d(TAG, "changeWorkstate to cont_capture_stop_while_working");
-                changeCaptureState(CaptureStates.cont_capture_stop_while_working);
+                //changeCaptureState(CaptureStates.cont_capture_stop_while_working);
             }
             else {
                 Log.d(TAG, "changeWorkstate to cont_capture_stop_while_notworking");
-                changeCaptureState(CaptureStates.cont_capture_stop_while_notworking);
+                //changeCaptureState(CaptureStates.cont_capture_stop_while_notworking);
             }
             isWorking = false;
         }
@@ -95,7 +95,7 @@ public class IntervalModule extends ModuleAbstract implements IntervalHandler.Su
         intervalHandler.Init();
         picModule.InitModule();
         //picModule.SetCaptureStateChangedListner(this);
-        picModule.setOverrideWorkFinishListner(this);
+        //picModule.setOverrideWorkFinishListner(this);
         changeCaptureState(CaptureStates.continouse_capture_stop);
     }
 
@@ -110,7 +110,7 @@ public class IntervalModule extends ModuleAbstract implements IntervalHandler.Su
         Log.d(TAG, "Destroy");
         intervalHandler.Destroy();
         //picModule.SetCaptureStateChangedListner(null);
-        picModule.setOverrideWorkFinishListner(null);
+        //picModule.setOverrideWorkFinishListner(null);
         picModule.DestroyModule();
     }
 
