@@ -305,7 +305,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreateView(inflater,container,savedInstanceState);
+        //super.onCreateView(inflater,container,savedInstanceState);
         Log.d(TAG, "####################ONCREATEDVIEW####################");
         fragment_activityInterface = (ActivityInterface)getActivity();
         touchHandler = new SwipeMenuListner(this);
@@ -316,8 +316,9 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ((ActivityFreeDcamMain)getActivity()).getUserMessageHandler().setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
+        //super.onViewCreated(view, savedInstanceState);
+        if (getActivity() != null)
+            ((ActivityFreeDcamMain)getActivity()).getUserMessageHandler().setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
         manualModes_holder = view.findViewById(id.manualModesHolder);
         left_ui_items_holder = view.findViewById(id.left_ui_holder);
         right_ui_items_top = view.findViewById(id.right_ui_holder_top);
