@@ -96,7 +96,7 @@ public class IntervalModule extends ModuleAbstract implements IntervalHandler.Su
         picModule.InitModule();
         //picModule.SetCaptureStateChangedListner(this);
         //picModule.setOverrideWorkFinishListner(this);
-        changeCaptureState(CaptureStates.continouse_capture_stop);
+        //changeCaptureState(CaptureStates.continouse_capture_stop);
     }
 
     /*@Override

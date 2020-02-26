@@ -87,65 +87,65 @@ public class FileListController {
     private void LoadDCIMDirs()
     {
         Log.d(TAG, "LoadDCIMDirs needStorageAccessFrameWork" + needStorageAccessFrameWork);
-        if (!needStorageAccessFrameWork) {
-            synchronized (files) {
+        synchronized (files) {
+            if (!needStorageAccessFrameWork) {
                 files.clear();
                 files = storageFileManager.getDCIMDirs();
             }
+            if (notifyFilesChanged != null)
+                notifyFilesChanged.onFilesChanged();
         }
-        if (notifyFilesChanged != null)
-            notifyFilesChanged.onFilesChanged();
     }
 
     public void LoadFreeDcamDCIMDirsFiles() {
-        if (!needStorageAccessFrameWork) {
-            synchronized (files) {
+        synchronized (files) {
+            if (!needStorageAccessFrameWork) {
                 files = storageFileManager.getFreeDcamDCIMDirsFiles();
             }
+            else
+            {
+                files = mediaStoreController.getFilesFromFolder("FreeDcam");
+            }
+            if (notifyFilesChanged != null)
+                notifyFilesChanged.onFilesChanged();
         }
-        else
-        {
-            files = mediaStoreController.getFilesFromFolder("FreeDcam");
-        }
-        if (notifyFilesChanged != null)
-            notifyFilesChanged.onFilesChanged();
     }
 
     public void LoadFolder(BaseHolder fileHolder,FormatTypes types )
     {
         Log.d(TAG, "LoadFolder needStorageAccessFrameWork" + needStorageAccessFrameWork);
-        if (!needStorageAccessFrameWork) {
-            synchronized (files) {
+        synchronized (files) {
+            if (!needStorageAccessFrameWork) {
                 files.clear();
                 storageFileManager.readFilesFromFolder(((FileHolder)fileHolder).getFile(), files, types, fileHolder.isExternalSD());
             }
-        }
-        else
-        {
-            files.clear();
-            List<BaseHolder> tmplist =new ArrayList<>();
-            tmplist = mediaStoreController.getFilesFromFolder(fileHolder.getName());
-            if (types != FormatTypes.all) {
-                for (BaseHolder fh : tmplist) {
-                    if (fh.getName() != null) {
-                        if (fh.getName().endsWith("jpg") && types == FormatTypes.jpg)
-                            files.add(fh);
-                        if (fh.getName().endsWith("jps") && types == FormatTypes.jps)
-                            files.add(fh);
-                        if (fh.getName().endsWith("dng") && types == FormatTypes.dng)
-                            files.add(fh);
-                        if (fh.getName().endsWith("bayer") && types == FormatTypes.raw)
-                            files.add(fh);
-                        if (fh.getName().endsWith("mp4") && types == FormatTypes.mp4)
-                            files.add(fh);
+            else
+            {
+                files.clear();
+                List<BaseHolder> tmplist =new ArrayList<>();
+                tmplist = mediaStoreController.getFilesFromFolder(fileHolder.getName());
+                if (types != FormatTypes.all) {
+                    for (BaseHolder fh : tmplist) {
+                        if (fh.getName() != null) {
+                            if (fh.getName().endsWith("jpg") && types == FormatTypes.jpg)
+                                files.add(fh);
+                            if (fh.getName().endsWith("jps") && types == FormatTypes.jps)
+                                files.add(fh);
+                            if (fh.getName().endsWith("dng") && types == FormatTypes.dng)
+                                files.add(fh);
+                            if (fh.getName().endsWith("bayer") && types == FormatTypes.raw)
+                                files.add(fh);
+                            if (fh.getName().endsWith("mp4") && types == FormatTypes.mp4)
+                                files.add(fh);
+                        }
                     }
                 }
+                else
+                    files = tmplist;
             }
-            else
-                files = tmplist;
+            if (notifyFilesChanged != null)
+                notifyFilesChanged.onFilesChanged();
         }
-        if (notifyFilesChanged != null)
-            notifyFilesChanged.onFilesChanged();
     }
 
     private void SortFileHolder(List<BaseHolder> f)
@@ -193,35 +193,31 @@ public class FileListController {
         return freedcamfolder;
     }
 
-
-
-
-
-
     public boolean DeleteFile(BaseHolder file) {
         return deleteFile(file);
     }
 
     public void DeleteFiles(List<BaseHolder> files) {
-        for (BaseHolder f : files)
-            deleteFile(f);
-        if (notifyFilesChanged != null)
-            notifyFilesChanged.onFilesChanged();
+        synchronized (files) {
+            for (BaseHolder f : files)
+                deleteFile(f);
+            if (notifyFilesChanged != null)
+                notifyFilesChanged.onFilesChanged();
+        }
     }
 
     private boolean deleteFile(BaseHolder file)
     {
         boolean del = false;
-        synchronized (files) {
-            //bitmapHelper.DeleteCache(file.getFile());
-            del = file.delete(context);
-            if (del) {
-                if (files != null)
-                    files.remove(file);
-            }
-            //MediaScannerManager.ScanMedia(context, file.getFile());
-            return del;
+
+        del = file.delete(context);
+        if (del) {
+            if (files != null)
+                files.remove(file);
         }
+
+        return del;
+
     }
 
     public void AddFile(BaseHolder file)
@@ -229,9 +225,10 @@ public class FileListController {
         synchronized (files) {
             files.add(file);
             SortFileHolder(files);
+            if (notifyFilesChanged != null)
+                notifyFilesChanged.onFilesChanged();
         }
-        if (notifyFilesChanged != null)
-            notifyFilesChanged.onFilesChanged();
+
     }
 
     public void AddFiles(BaseHolder[] fil)
@@ -243,8 +240,8 @@ public class FileListController {
                     files.add(fh);
             }
             SortFileHolder(files);
+            if (notifyFilesChanged != null)
+                notifyFilesChanged.onFilesChanged();
         }
-        if (notifyFilesChanged != null)
-            notifyFilesChanged.onFilesChanged();
     }
 }
