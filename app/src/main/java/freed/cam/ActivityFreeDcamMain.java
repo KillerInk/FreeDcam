@@ -96,7 +96,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private class UpdateScreenSlide
     {
         public UpdateScreenSlide()
-        {};
+        {}
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -109,14 +109,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void addFromEventFile(FileHolder fileHolder)
     {
         fileListController.AddFile(fileHolder);
-        onFilesChanged();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void addFromEventFiles(FileHolder[] fileHolder)
     {
         fileListController.AddFiles(fileHolder);
-        onFilesChanged();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
