@@ -200,7 +200,8 @@ public class ImageFragment extends Fragment
         Log.d(TAG, "Histodata");
         if(bitmap == null || bitmap.isRecycled())
             return;
-        int [] histo = new int [ 256 * 3 ];
+        if (histogramData == null)
+            histogramData = new int [ 256 * 3 ];
         int w = bitmap.getWidth ();
         int h = bitmap.getHeight ();
         int [] pixels = new int [ w * h ];
@@ -211,13 +212,12 @@ public class ImageFragment extends Fragment
                 int r = Color.red ( pixels [ index ]);
                 int g = Color.green ( pixels [ index ]);
                 int b = Color.blue ( pixels [ index ]);
-                histo [ r ]++;
-                histo [ 256 + g ]++;
-                histo [ 512 + b ]++;
+                histogramData [ r ]++;
+                histogramData [ 256 + g ]++;
+                histogramData [ 512 + b ]++;
             }
         }
         pixels = null;
-        histogramData = histo;
     }
 
 }
