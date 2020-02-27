@@ -267,15 +267,6 @@ public class StackActivity extends ActivityAbstract
         MediaScannerManager.ScanMedia(getContext(), file);
     }
 
-    @Override
-    public void WorkHasFinished(FileHolder fileHolder) {
-
-    }
-
-    @Override
-    public void WorkHasFinished(FileHolder[] fileHolder) {
-
-    }
 
     @Override
     public LocationManager getLocationManager() {

@@ -7,11 +7,17 @@ import android.text.TextUtils;
 
 import androidx.documentfile.provider.DocumentFile;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import freed.cam.ActivityFreeDcamMain;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.UpdateScreenSlide;
 import freed.file.holder.BaseHolder;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -22,6 +28,20 @@ import freed.file.holder.FileHolder;
 public class FileListController {
 
     private final String TAG = FileListController.class.getSimpleName();
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void addFromEventFile(FileHolder fileHolder)
+    {
+        MediaScannerManager.ScanMedia(context,fileHolder.getFile());
+        AddFile(fileHolder);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void addFromEventFiles(FileHolder[] fileHolder)
+    {
+        MediaScannerManager.ScanMedia(context,fileHolder);
+        AddFiles(fileHolder);
+    }
 
     public enum FormatTypes
     {
@@ -46,6 +66,7 @@ public class FileListController {
     private MediaStoreController mediaStoreController;
     private Context context;
     private NotifyFilesChanged notifyFilesChanged;
+    private final Object filesLock = new Object();
 
     public FileListController(Context context)
     {
@@ -87,7 +108,7 @@ public class FileListController {
     private void LoadDCIMDirs()
     {
         Log.d(TAG, "LoadDCIMDirs needStorageAccessFrameWork" + needStorageAccessFrameWork);
-        synchronized (files) {
+        synchronized (filesLock) {
             if (!needStorageAccessFrameWork) {
                 files.clear();
                 files = storageFileManager.getDCIMDirs();
@@ -98,7 +119,7 @@ public class FileListController {
     }
 
     public void LoadFreeDcamDCIMDirsFiles() {
-        synchronized (files) {
+        synchronized (filesLock) {
             if (!needStorageAccessFrameWork) {
                 files = storageFileManager.getFreeDcamDCIMDirsFiles();
             }
@@ -106,15 +127,14 @@ public class FileListController {
             {
                 files = mediaStoreController.getFilesFromFolder("FreeDcam");
             }
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            EventBusHelper.post(new UpdateScreenSlide());
         }
     }
 
     public void LoadFolder(BaseHolder fileHolder,FormatTypes types )
     {
         Log.d(TAG, "LoadFolder needStorageAccessFrameWork" + needStorageAccessFrameWork);
-        synchronized (files) {
+        synchronized (filesLock) {
             if (!needStorageAccessFrameWork) {
                 files.clear();
                 storageFileManager.readFilesFromFolder(((FileHolder)fileHolder).getFile(), files, types, fileHolder.isExternalSD());
@@ -198,7 +218,7 @@ public class FileListController {
     }
 
     public void DeleteFiles(List<BaseHolder> files) {
-        synchronized (files) {
+        synchronized (filesLock) {
             for (BaseHolder f : files)
                 deleteFile(f);
             if (notifyFilesChanged != null)
@@ -222,7 +242,7 @@ public class FileListController {
 
     public void AddFile(BaseHolder file)
     {
-        synchronized (files) {
+        synchronized (filesLock) {
             files.add(file);
             SortFileHolder(files);
             if (notifyFilesChanged != null)
@@ -233,7 +253,7 @@ public class FileListController {
 
     public void AddFiles(BaseHolder[] fil)
     {
-        synchronized (files) {
+        synchronized (filesLock) {
             for (BaseHolder fh : fil)
             {
                 if (fh != null)

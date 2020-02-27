@@ -19,7 +19,6 @@
 
 package freed.cam;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,14 +31,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.utils.Log;
-import freed.file.holder.FileHolder;
 
 /**
  * Created by troop on 18.10.2014.
  */
-public class ActivityFreeDcamShare extends ActivityFreeDcamMain implements I_WorkEvent
+public class ActivityFreeDcamShare extends ActivityFreeDcamMain
 {
     private final String TAG = ActivityFreeDcamShare.class.getSimpleName();
     private File toreturnFile;
@@ -61,7 +58,7 @@ public class ActivityFreeDcamShare extends ActivityFreeDcamMain implements I_Wor
         }
     }
 
-    @Override
+    /*@Override
     public void WorkHasFinished(FileHolder fileHolder)
     {
         if (toreturnFile != null) {
@@ -74,9 +71,7 @@ public class ActivityFreeDcamShare extends ActivityFreeDcamMain implements I_Wor
             setResult(Activity.RESULT_OK, intent);
             finish();
         }
-        else
-            super.WorkHasFinished(fileHolder);
-    }
+    }*/
 
     private void copy(File src, File dst) throws IOException {
         InputStream in = new FileInputStream(src);

@@ -135,7 +135,7 @@ public abstract class ModuleAbstract implements ModuleInterface
      */
     @Override
     public void fireOnWorkFinish(File file) {
-        cameraUiWrapper.getActivityInterface().WorkHasFinished(new FileHolder(file, SettingsManager.getInstance().GetWriteExternal()));
+        EventBusHelper.post(new FileHolder(file, SettingsManager.getInstance().GetWriteExternal()));
     }
 
 
@@ -154,7 +154,7 @@ public abstract class ModuleAbstract implements ModuleInterface
             if (f != null)
                 fileHolders[i++] = new FileHolder(f, SettingsManager.getInstance().GetWriteExternal());
         }
-        cameraUiWrapper.getActivityInterface().WorkHasFinished(fileHolders);
+        EventBusHelper.post(fileHolders);
     }
 
     @Override

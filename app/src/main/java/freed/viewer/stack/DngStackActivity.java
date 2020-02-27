@@ -60,13 +60,4 @@ public class DngStackActivity extends ActivityAbstract
 
     }
 
-    @Override
-    public void WorkHasFinished(FileHolder fileHolder) {
-
-    }
-
-    @Override
-    public void WorkHasFinished(FileHolder[] fileHolder) {
-
-    }
 }

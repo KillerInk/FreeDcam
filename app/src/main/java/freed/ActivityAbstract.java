@@ -28,11 +28,9 @@ import android.net.Uri;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 
 import java.io.File;
 
-import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.file.FileListController;
 import freed.image.ImageManager;
 import freed.settings.SettingsManager;
@@ -43,7 +41,7 @@ import freed.viewer.helper.BitmapHelper;
 /**
  * Created by troop on 28.03.2016.
  */
-public abstract class ActivityAbstract extends PermissionActivity implements ActivityInterface, I_WorkEvent {
+public abstract class ActivityAbstract extends PermissionActivity implements ActivityInterface {
 
     private boolean initDone = false;
 

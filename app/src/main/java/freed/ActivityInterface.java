@@ -24,7 +24,6 @@ import android.net.Uri;
 
 import java.io.File;
 
-import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.file.FileListController;
 import freed.utils.LocationManager;
 import freed.utils.PermissionManager;
@@ -33,7 +32,7 @@ import freed.viewer.helper.BitmapHelper;
 /**
  * Created by troop on 22.03.2015.
  */
-public interface ActivityInterface extends I_WorkEvent
+public interface ActivityInterface
 {
     void SwitchCameraAPI(String Api);
     void closeActivity();

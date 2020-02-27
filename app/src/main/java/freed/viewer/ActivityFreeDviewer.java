@@ -84,7 +84,7 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
     private void init()
     {
         Log.d(TAG,"init");
-        bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
+        bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
         fileListController = new FileListController(getContext());
         fileListController.setNotifyFilesChanged(this);
         FreeDPool.Execute(() -> fileListController.loadDefaultFiles());
@@ -283,7 +283,7 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
 
     }
 
-    @Override
+   /* @Override
     public void WorkHasFinished(final FileHolder fileHolder)
     {
         runOnUiThread(() -> fileHolder.UpdateImage());
@@ -293,7 +293,7 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
     @Override
     public void WorkHasFinished(FileHolder[] fileHolder) {
 
-    }
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)

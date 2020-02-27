@@ -46,15 +46,6 @@ public class DngConvertingActivity extends ActivityAbstract
 
     }
 
-    @Override
-    public void WorkHasFinished(FileHolder fileHolder) {
-
-    }
-
-    @Override
-    public void WorkHasFinished(FileHolder[] fileHolder) {
-
-    }
 
     @Override
     public LocationManager getLocationManager() {

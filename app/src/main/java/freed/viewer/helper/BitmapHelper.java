@@ -21,28 +21,16 @@ package freed.viewer.helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
-import android.graphics.ImageDecoder;
 import android.media.ThumbnailUtils;
-import android.os.Build;
-import android.os.Environment;
-import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore.Video.Thumbnails;
-
-import androidx.documentfile.provider.DocumentFile;
 
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.file.holder.BaseHolder;
-import freed.jni.RawUtils;
 import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
-import freed.file.holder.FileHolder;
 
 /**
  * Created by troop on 09.03.2016.
@@ -52,21 +40,14 @@ public class BitmapHelper
     private static final String TAG = BitmapHelper.class.getSimpleName();
     private CacheHelper CACHE;
     private int mImageThumbSizeW;
-    private I_WorkEvent done;
     private Context context;
 
 
-    public BitmapHelper(Context context, int mImageThumbSizeW, I_WorkEvent done)
+    public BitmapHelper(Context context, int mImageThumbSizeW)
     {
         this.context = context;
         CACHE = new CacheHelper(context);
         this.mImageThumbSizeW = mImageThumbSizeW;
-        this.done = done;
-    }
-
-    public void SetWorkDoneListner(I_WorkEvent event)
-    {
-        this.done = event;
     }
 
     public Bitmap getBitmap(final BaseHolder file, boolean thumb)

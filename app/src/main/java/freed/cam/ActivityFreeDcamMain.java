@@ -38,6 +38,7 @@ import freed.cam.events.CameraStateEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.SwichCameraFragmentEvent;
+import freed.cam.events.UpdateScreenSlide;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
@@ -68,19 +69,19 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void startListning() {
         EventBusHelper.register(this);
+        EventBusHelper.register(fileListController);
     }
 
     @Override
     public void stopListning() {
         EventBusHelper.unregister(this);
+        EventBusHelper.unregister(fileListController);
     }
 
     @Override
     public void onFilesChanged() {
-        if (uiViewPagerAdapter != null) {
-            uiViewPager.post(() -> uiViewPagerAdapter.updateScreenSlideFile(fileListController.getFiles()));
-        }
-
+        if (uiViewPagerAdapter != null)
+            uiViewPagerAdapter.updateScreenSlideFile(fileListController.getFiles());
     }
 
     private class LoadFreeDcamDcimDirsFilesRunner extends ImageTask
@@ -93,28 +94,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     }
 
 
-    private class UpdateScreenSlide
-    {
-        public UpdateScreenSlide()
-        {}
-    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateScreenSlide(UpdateScreenSlide updateScreenSlide)
     {
        onFilesChanged();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void addFromEventFile(FileHolder fileHolder)
-    {
-        fileListController.AddFile(fileHolder);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void addFromEventFiles(FileHolder[] fileHolder)
-    {
-        fileListController.AddFiles(fileHolder);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -178,7 +163,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         startListning();
         //listen to phone orientation changes
         orientationManager = new OrientationManager(this, this);
-        bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
+        bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
         locationManager = new LocationManager(this);
     }
 
@@ -378,22 +363,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         }
 
     };
-
-
-    @Override
-    public void WorkHasFinished(final FileHolder fileHolder) {
-
-        ScanFile(fileHolder.getFile());
-        EventBusHelper.post(fileHolder);
-        Log.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
-    }
-
-    @Override
-    public void WorkHasFinished(final FileHolder[] fileHolder) {
-        MediaScannerManager.ScanMedia(getContext(),fileHolder);
-        EventBusHelper.post(fileHolder);
-    }
-
 
 
     @Override
