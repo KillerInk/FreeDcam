@@ -134,7 +134,7 @@ public class ImageFragment extends Fragment
     }
 
     @Override
-    public void onDestroyView() {
+    public synchronized void onDestroyView() {
         super.onDestroyView();
         histogramData = null;
     }
@@ -195,7 +195,7 @@ public class ImageFragment extends Fragment
         }
     }
 
-    private void createHistogramm(Bitmap bitmap)
+    private synchronized void createHistogramm(Bitmap bitmap)
     {
         Log.d(TAG, "Histodata");
         if(bitmap == null || bitmap.isRecycled())
