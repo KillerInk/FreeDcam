@@ -690,12 +690,14 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                 if (!hasfilesSelected)
                     return;
                 //else show dialog
-                if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || !(viewerActivityInterface.getFileListController().getFiles().get(0) instanceof FileHolder))
+                Builder builder = new Builder(getContext());
+                builder.setMessage(string.delete_files).setPositiveButton(string.yes, dialogDeleteClickListener)
+                        .setNegativeButton(string.no, dialogDeleteClickListener).show();
+                setViewMode(ViewStates.normal);
+
+               /* if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || !(viewerActivityInterface.getFileListController().getFiles().get(0) instanceof FileHolder))
                 {
-                    Builder builder = new Builder(getContext());
-                    builder.setMessage(string.delete_files).setPositiveButton(string.yes, dialogDeleteClickListener)
-                            .setNegativeButton(string.no, dialogDeleteClickListener).show();
-                    setViewMode(ViewStates.normal);
+
                 }
                 else
                 {
@@ -710,7 +712,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                         builder.setMessage(string.delete_files).setPositiveButton(string.yes, dialogDeleteClickListener)
                                 .setNegativeButton(string.no, dialogDeleteClickListener).show();
                     }
-                }
+                }*/
 
             }
             else
