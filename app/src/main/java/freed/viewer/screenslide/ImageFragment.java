@@ -64,6 +64,7 @@ public class ImageFragment extends Fragment
     private BaseHolder file;
     private FragmentClickClistner onClickListener;
     private ProgressBar progressBar;
+	private int [] pixels;
     private int [] histogramData;
     private boolean isWorking;
     private I_WaitForWorkFinish waitForWorkFinish;
@@ -134,7 +135,7 @@ public class ImageFragment extends Fragment
     }
 
     @Override
-    public void onDestroyView() {
+    public synchronized void onDestroyView() {
         super.onDestroyView();
         histogramData = null;
     }
@@ -195,7 +196,7 @@ public class ImageFragment extends Fragment
         }
     }
 
-    private void createHistogramm(Bitmap bitmap)
+    private synchronized void createHistogramm(Bitmap bitmap)
     {
         Log.d(TAG, "Histodata");
         if(bitmap == null || bitmap.isRecycled())
@@ -204,7 +205,8 @@ public class ImageFragment extends Fragment
             histogramData = new int [ 256 * 3 ];
         int w = bitmap.getWidth ();
         int h = bitmap.getHeight ();
-        int [] pixels = new int [ w * h ];
+        if ((pixels == null) || (pixels.length < (w * h)))
+        	pixels = new int [ w * h ];
         bitmap.getPixels(pixels, 0, w, 0, 0, w, h);
         for ( int i = 0 ; i < w ; i+=4) {
             for ( int j = 0 ; j < h ; j+=4) {
@@ -217,7 +219,6 @@ public class ImageFragment extends Fragment
                 histogramData [ 512 + b ]++;
             }
         }
-        pixels = null;
     }
 
 }
