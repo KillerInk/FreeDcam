@@ -21,6 +21,7 @@ package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 
 import java.util.Date;
 
@@ -34,21 +35,20 @@ import freed.utils.Log;
  */
 public class IntervalHandler
 {
-    private final SuperDoWork picmodule;
+    private SuperDoWork picmodule;
 
     private final String TAG = IntervalHandler.class.getSimpleName();
 
     //the sleeptime how long the cam waits for the next capture in ms
     private int sleepTimeBetweenCaptures;
-    private int shutterDelay;
     //how long the interval should run, 0 = infinity, maybe its need a check if sd is full^^
     private int fullIntervalCaptureDuration;
     private long startTime;
     private boolean working;
     //holds the time that is gone bevor next capture happens in Sec
     private int timeGoneTillNextCapture;
-    private boolean extThread;
-    private Handler handler;
+
+    private Thread intervalBackgroundThread;
 
     public interface SuperDoWork
     {
@@ -63,8 +63,6 @@ public class IntervalHandler
     public IntervalHandler(SuperDoWork picmodule)
     {
         this.picmodule = picmodule;
-        handler = new Handler(Looper.getMainLooper());
-
     }
 
     public void Init()
@@ -76,6 +74,7 @@ public class IntervalHandler
     {
         if (working)
             CancelInterval();
+        picmodule = null;
     }
 
     public void StartInterval()
@@ -84,7 +83,8 @@ public class IntervalHandler
             return;
         Log.d(TAG, "Start Interval" + " " + Thread.currentThread().getName());
         working = true;
-        startTime = new Date().getTime();
+
+        startTime = SystemClock.uptimeMillis();
         String sleep = SettingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).get();
         if (sleep.contains(" sec"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" sec",""))*1000;
@@ -103,10 +103,8 @@ public class IntervalHandler
         startInterval();
     }
 
-    private Thread intervalBackgroundThread;
 
-    private Object captureWaitLock = new Object();
-    private boolean waitForCaptureEnd = false;
+
 
     private void startInterval()
     {
@@ -126,18 +124,6 @@ public class IntervalHandler
 
                 }
                 else {
-                   /* if (extThread && picmodule.isWorking()) {
-                        synchronized (captureWaitLock) {
-                            try {
-                                Log.d(TAG, "wait for capture end:");
-                                captureWaitLock.wait();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                    }*/
-                    //EventBus.getDefault().post(new StartWorkEvent());
                     picmodule.SuperDoTheWork();
 
                     timeGoneTillNextCapture = 0;
@@ -169,14 +155,6 @@ public class IntervalHandler
         Log.d(TAG, "Cancel Interval");
         working = false;
         intervalBackgroundThread.interrupt();
-
-        /*while (!intervalBackgroundThread.isInterrupted() || working) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
         intervalBackgroundThread = null;
         timeGoneTillNextCapture = 0;
         sleepTimeBetweenCaptures = 0;
@@ -185,26 +163,12 @@ public class IntervalHandler
     private void sendMsg()
     {
 
-        String t = "Time:"+String.format("%.2f ", (double) (new Date().getTime() - startTime) /1000 / 60);
+        String t = "Time:"+String.format("%.2f ", (double) (SystemClock.uptimeMillis() - startTime) /1000 );
         t+= "/"+ fullIntervalCaptureDuration + " NextIn:" + ((sleepTimeBetweenCaptures /1000) - timeGoneTillNextCapture);
         UserMessageHandler.sendMSG(t,false);
 
     }
 
-
-    public void DoNextInterval()
-    {
-
-        extThread = Thread.currentThread() != intervalBackgroundThread;
-        Log.d(TAG, "isextThread:" + extThread);
-        /*if (extThread) {
-            synchronized (captureWaitLock) {
-                waitForCaptureEnd = false;
-                captureWaitLock.notify();
-            }
-        }*/
-        Log.d(TAG, "Start StartNext Interval in" + sleepTimeBetweenCaptures + " " + getTimeGoneSinceStart() + " " + fullIntervalCaptureDuration);
-    }
 
     private boolean isIntervalCaptureTimeOver()
     {
@@ -213,7 +177,7 @@ public class IntervalHandler
 
     private double getTimeGoneSinceStart()
     {
-        long dif = new Date().getTime() - startTime;
+        long dif = SystemClock.uptimeMillis() - startTime;
         return  (double)(dif /1000) / 60;
     }
 }

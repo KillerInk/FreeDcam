@@ -178,6 +178,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     @Override
     public void DestroyModule()
     {
+        super.DestroyModule();
         Log.d(TAG, "DestroyModule");
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         cameraUiWrapper.getFocusPeakProcessor().kill();
