@@ -24,6 +24,7 @@
 #define RAW_12BIT_SHIFT 4
 
 #define RAW_16BIT_TO_12BIT 5
+#define RAW_16BIT 6
 
 #ifdef LOG_RAW_DATA
 const char *bit_rep[16] = {
@@ -63,7 +64,7 @@ void DngWriter::writeIfd0(TIFF *tif) {
     LOGD("width");
     assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, dngProfile->rawheight) != 0);
     LOGD("height");
-    if(dngProfile->rawType == RAW_10BIT_LOOSE_SHIFT || dngProfile->rawType == RAW_10BIT_TO_16BIT)
+    if(dngProfile->rawType == RAW_10BIT_LOOSE_SHIFT || dngProfile->rawType == RAW_10BIT_TO_16BIT || dngProfile->rawType == RAW_16BIT)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
     else if (dngProfile->rawType == RAW_12BIT_SHIFT || dngProfile->rawType == RAW_16BIT_TO_12BIT)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 12) != 0);
@@ -80,22 +81,27 @@ void DngWriter::writeIfd0(TIFF *tif) {
     LOGD("make");
     TIFFSetField(tif, TIFFTAG_MODEL, _model);
     LOGD("model");
-    try
+    if (exifInfo != NULL)
     {
-        if(0 == strcmp(exifInfo->_orientation,"0") )
-            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
-        if(0 == strcmp(exifInfo->_orientation,"90") )
-            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_RIGHTTOP);
-        if(0 == strcmp(exifInfo->_orientation,"180") )
-            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_BOTRIGHT);
-        if(0 == strcmp(exifInfo->_orientation,"270") )
-            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_LEFTBOT);
-        LOGD("orientation");
+        try
+        {
+            if (0 == strcmp(exifInfo->_orientation, "0"))
+                TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+            if (0 == strcmp(exifInfo->_orientation, "90"))
+                TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_RIGHTTOP);
+            if (0 == strcmp(exifInfo->_orientation, "180"))
+                TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_BOTRIGHT);
+            if (0 == strcmp(exifInfo->_orientation, "270"))
+                TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_LEFTBOT);
+            printf("orientation");
+        }
+        catch (...)
+        {
+            printf("Caught NULL NOT SET Orientation");
+        }
     }
-    catch(...)
-    {
-        LOGD("Caught NULL NOT SET Orientation");
-    }
+    else
+        TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
     assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
     LOGD("planarconfig");
     TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam DNG Writter 2017");
@@ -106,9 +112,11 @@ void DngWriter::writeIfd0(TIFF *tif) {
     TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\004\0\0");
     TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
     LOGD("dngversion");
+    if(_model != NULL)
     TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, _model);
     LOGD("CameraModel");
-    TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, exifInfo->_imagedescription);
+    if(exifInfo != NULL)
+        TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, exifInfo->_imagedescription);
     LOGD("imagedescription");
     TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9,customMatrix->colorMatrix1);
     LOGD("colormatrix1");
@@ -494,7 +502,7 @@ void DngWriter::processSXXX16(TIFF *tif) {
 
     LOGD("Finalizng DNG");
     LOGD("Free Memory");
-    free(pixel);
+
 }
 
 void DngWriter::process16to10(TIFF *tif) {
@@ -612,6 +620,7 @@ void DngWriter::process16to12(TIFF *tif) {
     delete[] pixel;
 }
 
+
 void DngWriter::writeRawStuff(TIFF *tif) {
     char cfa[4] = {0,0,0,0};
     if(0 == strcmp(dngProfile->bayerformat,"bggr")){
@@ -669,6 +678,8 @@ void DngWriter::writeRawStuff(TIFF *tif) {
         LOGD("process16to12(tif);");
         process16to12(tif);
     }
+    else if (dngProfile->rawType == RAW_16BIT)
+        processSXXX16(tif);
     else
         LOGD("rawType is not implented");
 }
@@ -729,6 +740,7 @@ void DngWriter::WriteDNG() {
     LOGD("TIFFCheckpointDirectory");
     TIFFCheckpointDirectory(tif);
     TIFFWriteDirectory(tif);
+    TIFFSetDirectory(tif, 0);
     
 
     if(gpsInfo != NULL)
