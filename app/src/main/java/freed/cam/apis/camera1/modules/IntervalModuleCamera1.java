@@ -91,6 +91,11 @@ public class IntervalModuleCamera1 extends PictureModule implements IntervalHand
     }
 
     @Override
+    public void IntervalCaptureIsDone() {
+        fireOnWorkFinish((File[]) files.toArray());
+    }
+
+    @Override
     public void internalFireOnWorkDone(File file) {
         files.add(file);
     }

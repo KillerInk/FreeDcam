@@ -152,4 +152,9 @@ public class IntervalApi2 extends PictureModuleApi2 implements I_PreviewWrapper,
     public boolean isWorking() {
         return super.isWorking;
     }
+
+    @Override
+    public void IntervalCaptureIsDone() {
+
+    }
 }

@@ -54,7 +54,7 @@ public class IntervalHandler
     {
         void SuperDoTheWork();
         boolean isWorking();
-
+        void IntervalCaptureIsDone();
     }
 
 
@@ -154,6 +154,8 @@ public class IntervalHandler
                 }
                 captureTimeOver=isIntervalCaptureTimeOver();
                 Log.d(TAG,"CaptureTime is Over: " + captureTimeOver);
+                if (captureTimeOver)
+                    picmodule.IntervalCaptureIsDone();
             }
             working = false;
             Log.d(TAG, "Stopped IntervalThread" + " " + Thread.currentThread().getName());
