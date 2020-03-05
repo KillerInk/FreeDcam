@@ -124,6 +124,10 @@ public class IntervalHandler
             working = true;
             picmodule.SuperDoTheWork();
             boolean captureTimeOver=isIntervalCaptureTimeOver();
+            long startTimeCapture = 0;
+            long endTimeCapture = 0;
+            long captureTime = 0;
+            long sleep = 0;
             while (!Thread.currentThread().isInterrupted() && !captureTimeOver && working)
             {
 
@@ -134,6 +138,7 @@ public class IntervalHandler
                 }
                 else {
                     Log.d(TAG, "Start ImageCapture");
+                    startTimeCapture = SystemClock.uptimeMillis();
                     picmodule.SuperDoTheWork();
                     synchronized (waitForCaptureEnd)
                     {
@@ -143,14 +148,19 @@ public class IntervalHandler
                             e.printStackTrace();
                         }
                     }
-                    timeGoneTillNextCapture = 0;
+                    endTimeCapture = SystemClock.uptimeMillis();
+                    captureTime = endTimeCapture - startTimeCapture;
+                    if (captureTime > 0)
+                        sleep = 1000 - captureTime;
+                    else  sleep = 0;
+                    timeGoneTillNextCapture = (int)(captureTime / 1000);
                 }
                 Log.d(TAG,"IntervalDelayCounter:" + timeGoneTillNextCapture );
                 sendMsg();
 
-                if (!Thread.currentThread().isInterrupted() && sleepTimeBetweenCaptures > 0) {
+                if (!Thread.currentThread().isInterrupted() && sleepTimeBetweenCaptures > 0 && sleep > 0) {
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(sleep);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
