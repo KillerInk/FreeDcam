@@ -66,7 +66,9 @@ public class IntervalModuleCamera1 extends PictureModule implements IntervalHand
             Log.d(TAG, "Stop Interval");
 
             intervalHandler.CancelInterval();
-            fireOnWorkFinish((File[]) files.toArray());
+            File file[] = new File[files.size()];
+            files.toArray(file);
+            fireOnWorkFinish(file);
             if (module_isWorking)
             {
                 Log.d(TAG, "changeWorkstate to cont_capture_stop_while_working");
@@ -92,11 +94,14 @@ public class IntervalModuleCamera1 extends PictureModule implements IntervalHand
 
     @Override
     public void IntervalCaptureIsDone() {
-        fireOnWorkFinish((File[]) files.toArray());
+        File file[] = new File[files.size()];
+        files.toArray(file);
+        fireOnWorkFinish(file);
     }
 
     @Override
     public void internalFireOnWorkDone(File file) {
         files.add(file);
+        intervalHandler.notifyImageCaptured();
     }
 }

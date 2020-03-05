@@ -23,6 +23,8 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
+import java.io.File;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalHandler;
 import freed.utils.Log;
@@ -156,5 +158,11 @@ public class IntervalApi2 extends PictureModuleApi2 implements I_PreviewWrapper,
     @Override
     public void IntervalCaptureIsDone() {
 
+    }
+
+    @Override
+    public void internalFireOnWorkDone(File file) {
+        super.internalFireOnWorkDone(file);
+        intervalHandler.notifyImageCaptured();
     }
 }

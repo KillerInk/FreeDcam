@@ -50,6 +50,8 @@ public class IntervalHandler
 
     private Thread intervalBackgroundThread;
 
+    private final Object waitForCaptureEnd = new Object();
+
     public interface SuperDoWork
     {
         void SuperDoTheWork();
@@ -75,6 +77,13 @@ public class IntervalHandler
         if (working)
             CancelInterval();
         picmodule = null;
+    }
+
+    public void notifyImageCaptured()
+    {
+        synchronized (waitForCaptureEnd) {
+            waitForCaptureEnd.notify();
+        }
     }
 
     public void StartInterval()
@@ -124,14 +133,22 @@ public class IntervalHandler
 
                 }
                 else {
+                    Log.d(TAG, "Start ImageCapture");
                     picmodule.SuperDoTheWork();
-
+                    synchronized (waitForCaptureEnd)
+                    {
+                        try {
+                            waitForCaptureEnd.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     timeGoneTillNextCapture = 0;
                 }
                 Log.d(TAG,"IntervalDelayCounter:" + timeGoneTillNextCapture );
                 sendMsg();
 
-                if (!Thread.currentThread().isInterrupted()) {
+                if (!Thread.currentThread().isInterrupted() && sleepTimeBetweenCaptures > 0) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
