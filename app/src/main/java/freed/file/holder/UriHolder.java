@@ -3,7 +3,10 @@ package freed.file.holder;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 
@@ -48,8 +51,10 @@ public class UriHolder extends BaseHolder {
     @Override
     public Bitmap getVideoThumb(Context context) throws IOException {
         Bitmap response = null;
-        if (mediaStoreUri != null)
+        if (mediaStoreUri != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
             response = context.getContentResolver().loadThumbnail(mediaStoreUri,null,null);
+        else if (mediaStoreUri != null)
+            response = MediaStore.Video.Thumbnails.getThumbnail(context.getContentResolver(),ID, MediaStore.Images.Thumbnails.MINI_KIND, null );
         return response;
     }
 
