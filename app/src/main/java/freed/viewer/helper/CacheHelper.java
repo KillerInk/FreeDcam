@@ -156,11 +156,12 @@ public class CacheHelper
                         inputStream = snapshot.getInputStream(0);
                         if (inputStream != null) {
                             FileDescriptor fd = ((FileInputStream) inputStream).getFD();
-                            inputStream.close();
+
 
                             // Decode bitmap, but we don't want to sample so give
                             // MAX_VALUE as the target dimensions
                             bitmap = BitmapFactory.decodeFileDescriptor(fd, null, null);
+                            inputStream.close();
                         }
                     }
                 } catch (IOException e) {
