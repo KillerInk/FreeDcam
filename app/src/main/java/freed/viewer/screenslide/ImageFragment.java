@@ -191,6 +191,7 @@ public class ImageFragment extends Fragment
             {
                 if (response != null)
                     response.recycle();
+                progressBar.post(()-> progressBar.setVisibility(View.GONE));
             }
             return true;
         }
