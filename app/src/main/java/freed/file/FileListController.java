@@ -97,6 +97,7 @@ public class FileListController {
             LoadDCIMDirs();
         else
             files = mediaStoreController.getFolders();
+        SortFileHolder(files);
         Log.d(TAG, "loadDefaultFiles found Files:" + files.size());
         if (notifyFilesChanged != null)
             notifyFilesChanged.onFilesChanged();
@@ -127,6 +128,7 @@ public class FileListController {
             {
                 files = mediaStoreController.getFilesFromFolder("FreeDcam");
             }
+            SortFileHolder(files);
             EventBusHelper.post(new UpdateScreenSlide());
         }
     }
@@ -162,6 +164,7 @@ public class FileListController {
                 }
                 else
                     files = tmplist;
+                SortFileHolder(files);
             }
             if (notifyFilesChanged != null)
                 notifyFilesChanged.onFilesChanged();
