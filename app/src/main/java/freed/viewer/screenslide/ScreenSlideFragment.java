@@ -43,6 +43,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.FileProvider;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
@@ -192,6 +193,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                     i = new Intent(Intent.ACTION_EDIT);
                     i.setDataAndType(uri, "image/*");
                 }
+                i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                 Intent chooser = Intent.createChooser(i, "Choose App");
                 chooser.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
