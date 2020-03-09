@@ -50,7 +50,6 @@ public class StringUtils
     public static String freedcamFolder = "/DCIM/FreeDcam/";
     public static String DCIMFolder = "/DCIM/";
 
-    public static String GetFreeDcamConfigFolder = GetInternalSDCARD()+ freedcamFolder +"config/";
 
     public class FileEnding
     {

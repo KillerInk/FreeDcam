@@ -208,31 +208,36 @@ public class SettingsManager implements SettingsManagerInterface {
         return isInit;
     }
 
+    public File getAppDataFolder()
+    {
+        return  settingsStorage.appdataFolder;
+    }
+
     private void parseXml(SettingsStorage sharedPreferences, Resources resources) {
         XmlParserWriter parser = new XmlParserWriter();
         //first time init
-        matrixes = parser.getMatrixes(resources);
+        matrixes = parser.getMatrixes(resources,settingsStorage.appdataFolder);
         mDevice = sharedPreferences.getString("DEVICE","");
 
-        tonemapProfiles = parser.getToneMapProfiles();
+        tonemapProfiles = parser.getToneMapProfiles(settingsStorage.appdataFolder);
         if (mDevice == null || TextUtils.isEmpty(mDevice))
         {
             Log.d(TAG, "Lookup ConfigFile");
-            parser.parseAndFindSupportedDevice(resources,matrixes);
+            parser.parseAndFindSupportedDevice(resources,matrixes,settingsStorage.appdataFolder);
         }
         else //load only stuff for dng
         {
             Log.d(TAG, "load dngProfiles");
             opcodeUrlList = new ArrayList<>();
         }
-        dngProfileHashMap = parser.getDngProfiles(matrixes);
+        dngProfileHashMap = parser.getDngProfiles(matrixes,settingsStorage.appdataFolder);
     }
 
     private void loadOpCodes()
     {
         new Thread(() -> {
-            File op2 = new File(StringUtils.GetFreeDcamConfigFolder+settingsStorage.getInt(CURRENTCAMERA,0)+"opc2.bin");
-            File op3 = new File(StringUtils.GetFreeDcamConfigFolder+settingsStorage.getInt(CURRENTCAMERA,0)+"opc3.bin");
+            File op2 = new File(settingsStorage.appdataFolder.getAbsolutePath()+settingsStorage.getInt(CURRENTCAMERA,0)+"opc2.bin");
+            File op3 = new File(settingsStorage.appdataFolder.getAbsolutePath()+settingsStorage.getInt(CURRENTCAMERA,0)+"opc3.bin");
             if (op2.exists() || op3.exists())
                 opCode = new OpCode(op2,op3);
             else

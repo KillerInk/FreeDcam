@@ -40,7 +40,7 @@ public class XmlParserWriter
 
 
 
-    public void parseAndFindSupportedDevice(Resources resources, HashMap<String, CustomMatrix> matrixHashMap)
+    public void parseAndFindSupportedDevice(Resources resources, HashMap<String, CustomMatrix> matrixHashMap, File appDataPath)
     {
         try {
             String xmlsource = getString(resources.openRawResource(R.raw.supported_devices));
@@ -275,7 +275,7 @@ public class XmlParserWriter
                             LongSparseArray<DngProfile> dngProfileHashMap = new LongSparseArray<>();
                             getDngStuff(dngProfileHashMap, device_element,matrixHashMap);
                             Log.d(TAG, "Save Dng Profiles:" + dngProfileHashMap.size());
-                            saveDngProfiles(dngProfileHashMap, SettingsManager.getInstance().getDeviceString());
+                            saveDngProfiles(dngProfileHashMap, SettingsManager.getInstance().getDeviceString(), appDataPath);
 
                             break;
                         }
@@ -338,11 +338,11 @@ public class XmlParserWriter
         return ar.toArray(new String[ar.size()]);
     }
 
-    protected LongSparseArray<DngProfile> getDngProfiles(HashMap<String, CustomMatrix> matrixHashMap)
+    protected LongSparseArray<DngProfile> getDngProfiles(HashMap<String, CustomMatrix> matrixHashMap,File appDataFolder)
     {
         LongSparseArray<DngProfile> map = new LongSparseArray<>();
         try {
-            File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
+            File configFile = new File(appDataFolder.getAbsolutePath()+"dngprofiles.xml");
             Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
 
             String xmlsource = getString(new FileInputStream(configFile));
@@ -401,14 +401,14 @@ public class XmlParserWriter
         return new DngProfile(blacklvl,whitelvl,width,height,rawType,colorpattern,rowsize,matrixes.get(matrixset), matrixset);
     }
 
-    protected HashMap<String, CustomMatrix> getMatrixes(Resources resources)
+    protected HashMap<String, CustomMatrix> getMatrixes(Resources resources, File appDataFolder)
     {
         HashMap<String, CustomMatrix> matrixHashMap = new HashMap<>();
         try {
             matrixHashMap.put("off", null);
             String xmlsource = getString(resources.openRawResource(R.raw.matrixes));
             parseMatrixeXml(matrixHashMap, xmlsource);
-            File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"matrixes.xml");
+            File configFile = new File(appDataFolder.getAbsolutePath()+"matrixes.xml");
             if (configFile.exists())
             {
                 xmlsource = getString(new FileInputStream(configFile));
@@ -453,12 +453,12 @@ public class XmlParserWriter
         return buf.toString();
     }
 
-    public void saveDngProfiles(LongSparseArray<DngProfile> dngProfileList, String mDevice)
+    public void saveDngProfiles(LongSparseArray<DngProfile> dngProfileList, String mDevice, File appData)
     {
         BufferedWriter writer = null;
         try {
 
-            File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"dngprofiles.xml");
+            File configFile = new File(appData.getAbsolutePath()+"dngprofiles.xml");
             Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
             Log.d(TAG, configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
             if (!configFile.getParentFile().exists())
@@ -500,10 +500,10 @@ public class XmlParserWriter
         }
     }
 
-    public HashMap<String,VideoMediaProfile> getMediaProfiles()
+    public HashMap<String,VideoMediaProfile> getMediaProfiles(File appData)
     {
         HashMap<String,VideoMediaProfile>  hashMap = new HashMap<>();
-        File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"videoProfiles.xml");
+        File configFile = new File(appData.getAbsolutePath()+"videoProfiles.xml");
         if (configFile.exists())
         {
             try {
@@ -547,7 +547,7 @@ public class XmlParserWriter
      * @param
      * @return
      */
-    public HashMap<String,ToneMapProfile> getToneMapProfiles()
+    public HashMap<String,ToneMapProfile> getToneMapProfiles(File appDataFolder)
     {
         HashMap<String,ToneMapProfile>  hashMap = new HashMap<>();
         hashMap.put("off", null);
@@ -560,7 +560,7 @@ public class XmlParserWriter
             e.printStackTrace();
         }
 
-        File configFile = new File(StringUtils.GetFreeDcamConfigFolder+"tonemapprofiles.xml");
+        File configFile = new File(appDataFolder.getAbsolutePath()+"tonemapprofiles.xml");
         if (configFile.exists())
         {
             try {

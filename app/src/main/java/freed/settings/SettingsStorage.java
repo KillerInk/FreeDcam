@@ -24,7 +24,7 @@ public class SettingsStorage
     private static final String TAG = SettingsStorage.class.getSimpleName();
     private HashMap<String,Object> settingStore;
     private HashMap<Integer,HashMap<String, VideoMediaProfile>>mediaProfileHashMap;
-    private File appdataFolder;
+    public final File appdataFolder;
 
     public SettingsStorage(File appdataFolder)
     {
@@ -135,7 +135,7 @@ public class SettingsStorage
 
     private void loadVideoMediaProfiles()
     {
-        try (InputStreamReader is = new InputStreamReader(new FileInputStream(StringUtils.GetFreeDcamConfigFolder+"videoProfiles.conf"))) {
+        try (InputStreamReader is = new InputStreamReader(new FileInputStream(appdataFolder.getAbsolutePath()+"videoProfiles.conf"))) {
             BufferedReader bufferedReader = new BufferedReader(is);
             String receiveString;
             mediaProfileHashMap.clear();
@@ -166,7 +166,7 @@ public class SettingsStorage
     {
         if (mediaProfileHashMap == null)
             return;
-        try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(StringUtils.GetFreeDcamConfigFolder+"videoProfiles.conf"))) {
+        try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(appdataFolder.getAbsolutePath()+"videoProfiles.conf"))) {
 
             HashMap<String,VideoMediaProfile> map;
             for (int i = 0; i < mediaProfileHashMap.size(); i++) {

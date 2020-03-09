@@ -310,7 +310,7 @@ public class DngConvertingFragment extends Fragment
                     spinnerMatrixProfile.getSelectedItem().toString());
             long filesize = new File(filesToConvert[0]).length();
             SettingsManager.getInstance().getDngProfilesMap().append(filesize,dngprofile);
-            new XmlParserWriter().saveDngProfiles(SettingsManager.getInstance().getDngProfilesMap(), SettingsManager.getInstance().getDeviceString());
+            new XmlParserWriter().saveDngProfiles(SettingsManager.getInstance().getDngProfilesMap(), SettingsManager.getInstance().getDeviceString(), SettingsManager.getInstance().getAppDataFolder());
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };

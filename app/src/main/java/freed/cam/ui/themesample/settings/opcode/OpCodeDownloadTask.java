@@ -23,6 +23,7 @@ import javax.net.ssl.X509TrustManager;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.image.ImageTask;
 import freed.settings.OpCodeUrl;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 
@@ -112,7 +113,7 @@ public class OpCodeDownloadTask extends ImageTask {
 
         // Read stream as String
         FileOutputStream responseBuf = null;
-        File file = new File(StringUtils.GetFreeDcamConfigFolder+fileending);
+        File file = new File(SettingsManager.getInstance().getAppDataFolder().getAbsolutePath()+fileending);
         try {
 
             responseBuf = new FileOutputStream(file);
