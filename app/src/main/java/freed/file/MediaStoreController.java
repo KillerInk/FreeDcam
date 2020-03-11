@@ -26,13 +26,16 @@ public class MediaStoreController {
     public List<BaseHolder> getFolders()
     {
         List<BaseHolder> fileHolders = new ArrayList<>();
-        getImageFolders(fileHolders);
-        getMovieFolders(fileHolders);
+        List<String> folders = new ArrayList<>();
+        getImageFolders(folders);
+        getMovieFolders(folders);
+        for (String name : folders)
+            if (name != null)
+                fileHolders.add(new UriHolder(null, name,0, 0,true,false));
         return fileHolders;
     }
 
-    private void getImageFolders(List<BaseHolder> fileHolders) {
-        List<String> folders = new ArrayList<>();
+    private void getImageFolders(List<String> folders) {
         String[] projection = new String[] {
                 MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
         };
@@ -59,15 +62,12 @@ public class MediaStoreController {
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);*/
 
             }
-            for (String name : folders)
-                if (name != null)
-                    fileHolders.add(new UriHolder(null, name,0, 0,true,false));
+
 
         }
     }
 
-    private void getMovieFolders(List<BaseHolder> fileHolders) {
-        List<String> folders = new ArrayList<>();
+    private void getMovieFolders(List<String> folders) {
         String[] projection = new String[] {
                 MediaStore.Video.Media.BUCKET_DISPLAY_NAME,
         };
@@ -94,10 +94,6 @@ public class MediaStoreController {
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);*/
 
             }
-            for (String name : folders)
-                if (name != null)
-                    fileHolders.add(new UriHolder(null, name,0, 0,true,false));
-
         }
     }
 
