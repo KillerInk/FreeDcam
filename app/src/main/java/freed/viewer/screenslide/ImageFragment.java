@@ -197,7 +197,7 @@ public class ImageFragment extends Fragment
         }
     }
 
-    private synchronized void createHistogramm(Bitmap bitmap)
+    private void createHistogramm(Bitmap bitmap)
     {
         Log.d(TAG, "Histodata");
         if(bitmap == null || bitmap.isRecycled())

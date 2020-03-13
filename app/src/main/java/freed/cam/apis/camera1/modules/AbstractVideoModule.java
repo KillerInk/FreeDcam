@@ -36,6 +36,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -230,7 +231,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             }
             File file = new File(mediaSavePath);
             cameraUiWrapper.getActivityInterface().ScanFile(file);
-            fireOnWorkFinish(file);
+            fireOnWorkFinish(new FileHolder(file,SettingsManager.getInstance().GetWriteExternal()));
             sendStopToUi();
         }
     }

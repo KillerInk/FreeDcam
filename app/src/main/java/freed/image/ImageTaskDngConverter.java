@@ -5,6 +5,7 @@ import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.DngCreator;
 import android.location.Location;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -16,6 +17,9 @@ import java.io.IOException;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
+import freed.file.holder.UriHolder;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -51,6 +55,7 @@ public class ImageTaskDngConverter extends ImageTask {
         Log.d(TAG, "Create DNG");
 
         DngCreator dngCreator = new DngCreator(characteristics, captureResult);
+        BaseHolder fileholder = null;
         //Orientation 90 is not a valid EXIF orientation value, android doc says that is valid!
         //The clockwise rotation angle in degrees, relative to the orientation to the camera, that the JPEG picture needs to be rotated by, to be viewed upright.
         try {
@@ -65,17 +70,27 @@ public class ImageTaskDngConverter extends ImageTask {
             dngCreator.setLocation(location);
         try
         {
-            if (!SettingsManager.getInstance().GetWriteExternal())
+            if (!SettingsManager.getInstance().GetWriteExternal()) {
                 dngCreator.writeImage(new FileOutputStream(file), image);
-            else
+                fileholder = new FileHolder(file,SettingsManager.getInstance().GetWriteExternal());
+            }
+            else if (activityInterface.getFileListController().getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal())
             {
                 DocumentFile df = activityInterface.getFileListController().getFreeDcamDocumentFolder();
                 DocumentFile wr = df.createFile("image/*", file.getName());
                 dngCreator.writeImage(activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri()), image);
+                fileholder = new UriHolder(wr.getUri(),file.getName(),0, wr.lastModified(),wr.isDirectory(),SettingsManager.getInstance().GetWriteExternal());
+            }
+            else
+            {
+                Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(file.getName());
+                dngCreator.writeImage(activityInterface.getContext().getContentResolver().openOutputStream(uri), image);
+                fileholder = new UriHolder(uri,file.getName(),Long.valueOf(uri.getLastPathSegment()), 0,false,SettingsManager.getInstance().GetWriteExternal());
             }
             dngCreator.close();
             image.close();
-            moduleInterface.internalFireOnWorkDone(file);
+            if (fileholder != null)
+                moduleInterface.internalFireOnWorkDone(fileholder);
             //activityInterface.ScanFile(file);
         } catch (IOException ex) {
             Log.WriteEx(ex);

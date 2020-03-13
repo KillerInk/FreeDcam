@@ -1,11 +1,15 @@
 package freed.file;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 
+import java.io.FileDescriptor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +25,43 @@ public class MediaStoreController {
     public MediaStoreController(Context context)
     {
         this.context = context;
+    }
+
+    public Uri addImg(String name)
+    {
+        // Add a specific media item.
+        ContentResolver resolver = context.getContentResolver();
+
+        Uri extpath = getUri();
+
+        // Publish a new img.
+        ContentValues newImg = new ContentValues();
+        MediaStore.Files
+        newImg.put(MediaStore.Images.Media.DISPLAY_NAME, name);
+
+        return resolver.insert(extpath, newImg);
+
+    }
+
+    private Uri getUri() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
+            return MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        else
+            return MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+    }
+
+    public Uri addMovie(String name)
+    {
+        // Add a specific media item.
+        ContentResolver resolver = context.getContentResolver();
+
+        Uri extpath = getUri();
+
+        // Publish a new img.
+        ContentValues newImg = new ContentValues();
+        newImg.put(MediaStore.Video.Media.DISPLAY_NAME, name);
+        return resolver.insert(extpath, newImg);
+
     }
 
     public List<BaseHolder> getFolders()

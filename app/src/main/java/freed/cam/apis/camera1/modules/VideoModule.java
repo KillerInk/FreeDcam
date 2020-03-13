@@ -25,7 +25,6 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
-import java.io.File;
 import java.util.Arrays;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -33,6 +32,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
+import freed.file.holder.BaseHolder;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -254,7 +254,7 @@ public class VideoModule extends AbstractVideoModule
 
 
     @Override
-    public void internalFireOnWorkDone(File file) {
+    public void internalFireOnWorkDone(BaseHolder file) {
 
     }
 }

@@ -49,6 +49,7 @@ import freed.cam.apis.camera2.modules.helper.FindOutputHelper;
 import freed.cam.apis.camera2.modules.helper.ImageCaptureHolder;
 import freed.cam.apis.camera2.modules.helper.Output;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
+import freed.file.holder.BaseHolder;
 import freed.renderscript.RenderScriptProcessor;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -76,7 +77,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
     private ImageCaptureHolder currentCaptureHolder;
     private final int MAX_IMAGES = 8;
-    protected List<File> filesSaved;
+    protected List<BaseHolder> filesSaved;
 
     private boolean isBurstCapture = false;
 
@@ -571,7 +572,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
 
     @Override
-    public void internalFireOnWorkDone(File file)
+    public void internalFireOnWorkDone(BaseHolder file)
     {
         Log.d(TAG, "internalFireOnWorkDone isBurst" + isBurstCapture + " burstCount/imagecount:" + BurstCounter.getBurstCount() + "/" +BurstCounter.getImageCaptured());
         if (workFinishEventsListner != null)
@@ -584,7 +585,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             }
             if (isBurstCapture && BurstCounter.getBurstCount() == BurstCounter.getImageCaptured()) {
                 Log.d(TAG, "internalFireOnWorkDone Burst done");
-                fireOnWorkFinish(filesSaved.toArray(new File[filesSaved.size()]));
+                fireOnWorkFinish(filesSaved.toArray(new BaseHolder[filesSaved.size()]));
                 filesSaved.clear();
             } else if (!isBurstCapture)
                 fireOnWorkFinish(file);
@@ -592,7 +593,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     }
 
     @Override
-    public void fireOnWorkFinish(File file) {
+    public void fireOnWorkFinish(BaseHolder file) {
         if (workFinishEventsListner != null)
         {
             workFinishEventsListner.fireOnWorkFinish(file);
@@ -602,7 +603,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     }
 
     @Override
-    public void fireOnWorkFinish(File[] files) {
+    public void fireOnWorkFinish(BaseHolder[] files) {
         Log.d(TAG,"fireOnWorkFinish");
         if (workFinishEventsListner != null)
             workFinishEventsListner.fireOnWorkFinish(files);

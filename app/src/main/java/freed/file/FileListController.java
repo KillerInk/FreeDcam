@@ -59,7 +59,7 @@ public class FileListController {
     }
 
 
-    private boolean needStorageAccessFrameWork = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
+    public static boolean needStorageAccessFrameWork = true; //Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
 
     private List<BaseHolder> files =new ArrayList<>();
     private StorageFileManager storageFileManager;
@@ -89,6 +89,7 @@ public class FileListController {
     {
         return storageFileManager;
     }
+    public MediaStoreController getMediaStoreController(){return mediaStoreController; }
 
     public void loadDefaultFiles()
     {

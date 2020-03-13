@@ -1,6 +1,7 @@
 package freed.image;
 
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 
@@ -12,10 +13,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Set;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.dng.DngProfile;
+import freed.file.FileListController;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
+import freed.file.holder.UriHolder;
 import freed.jni.ExifInfo;
 import freed.jni.GpsInfo;
 import freed.jni.OpCode;
@@ -209,12 +215,14 @@ public class ImageSaveTask extends ImageTask
 
         rawToDng.setBaselineExposure(baselineExposure);
         rawToDng.setBayerGreenSplit(greensplit);
+        BaseHolder fileholder;
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !externalSD)
         {
             checkFileExists(filename);
+            fileholder = new FileHolder(filename, SettingsManager.getInstance().GetWriteExternal());
         }
-        else
+        else if (activityInterface.getFileListController().getFreeDcamDocumentFolder() != null && externalSD)
         {
             DocumentFile df = activityInterface.getFileListController().getFreeDcamDocumentFolder();
             Log.d(TAG,"Filepath: " + df.getUri());
@@ -227,6 +235,17 @@ public class ImageSaveTask extends ImageTask
             } catch (FileNotFoundException | IllegalArgumentException e) {
                 Log.WriteEx(e);
             }
+            fileholder = new UriHolder(wr.getUri(),filename.getName(),Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(),wr.isDirectory(),SettingsManager.getInstance().GetWriteExternal());
+        }
+        else
+        {
+            Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(filename.getName());
+            try {
+                pfd = activityInterface.getContext().getContentResolver().openFileDescriptor(uri, "rw");
+            } catch (FileNotFoundException e) {
+                Log.WriteEx(e);
+            }
+            fileholder = new UriHolder(uri,filename.getName(),Long.valueOf(uri.getLastPathSegment()), 0,false,SettingsManager.getInstance().GetWriteExternal());
         }
         if (pfd == null)
             rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath());
@@ -242,26 +261,35 @@ public class ImageSaveTask extends ImageTask
             }
         //rawToDng = null;
         //activityInterface.ScanFile(filename);
-        moduleInterface.internalFireOnWorkDone(filename);
+        moduleInterface.internalFireOnWorkDone(fileholder);
     }
 
     private void saveJpeg()
     {
         Log.d(TAG, "Start Saving Bytes");
         BufferedOutputStream outStream = null;
+        BaseHolder fileholder = null;
         try {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !externalSD)
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !externalSD && !FileListController.needStorageAccessFrameWork)
             {
                 checkFileExists(filename);
                 outStream = new BufferedOutputStream(new FileOutputStream(filename));
+                fileholder = new FileHolder(filename, SettingsManager.getInstance().GetWriteExternal());
             }
-            else
+            else if (activityInterface.getFileListController().getFreeDcamDocumentFolder() != null && externalSD)
             {
                 DocumentFile df = activityInterface.getFileListController().getFreeDcamDocumentFolder();
                 Log.d(TAG,"Filepath: " + df.getUri());
                 DocumentFile wr = df.createFile("image/*", filename.getName());
                 Log.d(TAG,"Filepath: " + wr.getUri());
                 outStream = new BufferedOutputStream(activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri()));
+                fileholder = new UriHolder(wr.getUri(),filename.getName(),Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(),wr.isDirectory(),SettingsManager.getInstance().GetWriteExternal());
+            }
+            else
+            {
+                Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(filename.getName());
+                outStream = new BufferedOutputStream(activityInterface.getContext().getContentResolver().openOutputStream(uri));
+                fileholder = new UriHolder(uri,filename.getName(),Long.valueOf(uri.getLastPathSegment()), 0,false,SettingsManager.getInstance().GetWriteExternal());
             }
             outStream.write(bytesTosave);
             outStream.flush();
@@ -272,7 +300,8 @@ public class ImageSaveTask extends ImageTask
             Log.WriteEx(e);
         }
         //activityInterface.ScanFile(filename);
-        moduleInterface.internalFireOnWorkDone(filename);
+        if (fileholder != null)
+            moduleInterface.internalFireOnWorkDone(fileholder);
         Log.d(TAG, "End Saving Bytes");
     }
 

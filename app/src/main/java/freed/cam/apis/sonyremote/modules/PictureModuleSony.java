@@ -41,6 +41,8 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -198,7 +200,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         }
 
         cameraUiWrapper.getActivityInterface().ScanFile(file);
-        fireOnWorkFinish(file);
+        fireOnWorkFinish(new FileHolder(file,SettingsManager.getInstance().GetWriteExternal()));
 
     }
 
@@ -228,7 +230,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     }
 
     @Override
-    public void internalFireOnWorkDone(File file) {
+    public void internalFireOnWorkDone(BaseHolder file) {
 
     }
 }

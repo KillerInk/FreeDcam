@@ -32,6 +32,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.StartWorkEvent;
+import freed.file.holder.BaseHolder;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.file.holder.FileHolder;
@@ -134,8 +135,8 @@ public abstract class ModuleAbstract implements ModuleInterface
      * @param file that is new
      */
     @Override
-    public void fireOnWorkFinish(File file) {
-        EventBusHelper.post(new FileHolder(file, SettingsManager.getInstance().GetWriteExternal()));
+    public void fireOnWorkFinish(BaseHolder file) {
+        EventBusHelper.post(file);
     }
 
 
@@ -146,15 +147,9 @@ public abstract class ModuleAbstract implements ModuleInterface
      * @param files that are new
      */
     @Override
-    public void fireOnWorkFinish(File files[])
+    public void fireOnWorkFinish(BaseHolder[] files)
     {
-        FileHolder[] fileHolders = new FileHolder[files.length];
-        int i= 0;
-        for (File f : files) {
-            if (f != null)
-                fileHolders[i++] = new FileHolder(f, SettingsManager.getInstance().GetWriteExternal());
-        }
-        EventBusHelper.post(fileHolders);
+        EventBusHelper.post(files);
     }
 
     @Override

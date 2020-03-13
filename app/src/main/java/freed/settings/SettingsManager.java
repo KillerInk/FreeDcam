@@ -112,7 +112,7 @@ public class SettingsManager implements SettingsManagerInterface {
     private OpCode opCode;
     //private SharedPreferences settings;
     private Resources resources;
-    private boolean isInit =false;
+    private static volatile boolean isInit =false;
     private Frameworks frameworks;
 
     private SettingsStorage settingsStorage;
@@ -193,7 +193,7 @@ public class SettingsManager implements SettingsManagerInterface {
         }
     }
 
-    public void release()
+    public synchronized void release()
     {
         settingsStorage.save();
         settingsmap.clear();

@@ -52,6 +52,8 @@ import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -70,7 +72,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     private VideoMediaProfile currentVideoProfile;
     private Surface previewsurface;
     private Surface recorderSurface;
-    private File recordingFile;
+    private BaseHolder recordingFile;
 
     //private MediaRecorder mediaRecorder;
     private VideoRecorder videoRecorder;
@@ -194,7 +196,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
 
         fireOnWorkFinish(recordingFile);
-        cameraUiWrapper.getActivityInterface().ScanFile(recordingFile);
+        //TODO fix mediascan
+        //cameraUiWrapper.getActivityInterface().ScanFile(recordingFile);
 
         cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
     }
@@ -270,8 +273,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     private void startPreviewVideo()
     {
         String file = cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
-        recordingFile = new File(file);
-        videoRecorder.setRecordingFile(recordingFile);
+        recordingFile = new FileHolder(new File(file),SettingsManager.getInstance().GetWriteExternal());
+        //TODO handel uri based holder
+        videoRecorder.setRecordingFile(((FileHolder)recordingFile).getFile());
         videoRecorder.setErrorListener((mr, what, extra) -> {
             Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
             changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
@@ -353,7 +357,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     };
 
     @Override
-    public void internalFireOnWorkDone(File file) {
+    public void internalFireOnWorkDone(BaseHolder file) {
 
     }
 
