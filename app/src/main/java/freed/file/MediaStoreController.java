@@ -36,7 +36,6 @@ public class MediaStoreController {
 
         // Publish a new img.
         ContentValues newImg = new ContentValues();
-        MediaStore.Files
         newImg.put(MediaStore.Images.Media.DISPLAY_NAME, name);
 
         return resolver.insert(extpath, newImg);
