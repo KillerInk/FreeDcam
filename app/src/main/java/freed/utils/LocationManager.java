@@ -106,6 +106,7 @@ public class LocationManager implements LocationListener
             currentLocation = location;
         else
             currentLocation = null;
+        Log.d(TAG, "onLocationChanged:" + (currentLocation == null) + " isListing:" + isStarted);
     }
 
     @Override

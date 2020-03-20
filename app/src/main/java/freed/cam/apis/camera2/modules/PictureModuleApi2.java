@@ -24,6 +24,7 @@ import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
+import android.location.Location;
 import android.media.ImageReader;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
@@ -459,8 +460,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
         if (cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE).GetStringValue().equals(SettingsManager.getInstance().getResString(R.string.on_)))
         {
-            currentCaptureHolder.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
-            cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_GPS_LOCATION,cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+            Location currentLocation = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
+            Log.d(TAG,"currentLocation null:" +(currentLocation == null));
+            currentCaptureHolder.setLocation(currentLocation);
+            cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_GPS_LOCATION,currentLocation);
         }
         cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_ORIENTATION, cameraUiWrapper.getActivityInterface().getOrientation());
 
