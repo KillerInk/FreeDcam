@@ -697,7 +697,8 @@ void DngWriter::clear() {
     LOGD("delete filesavepath");
     if(fileSavePath != NULL)
     {
-        delete[] fileSavePath;
+        if(!hasFileDes)
+            delete[] fileSavePath;
         fileSavePath = NULL;
     }
     LOGD("delete exif");
