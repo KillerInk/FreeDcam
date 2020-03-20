@@ -97,10 +97,10 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             if (picformat.equals(SettingsManager.getInstance().getResString(R.string.dng_)) || picformat.equals(SettingsManager.getInstance().getResString(R.string.bayer_)))
             {
                 if (SettingsManager.get(SettingKeys.ZSL).isSupported()
-                        && cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetStringValue().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
+                        && cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetStringValue().equals(SettingsManager.getInstance().getResString(R.string.on_)))
                 {
                     Log.d(TAG,"ZSL is on turning it off");
-                    cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_), true);
+                    cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).SetValue(SettingsManager.getInstance().getResString(R.string.off_), true);
                     Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetValue());
                 }
 
@@ -115,7 +115,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             }
             else
                 burstcount = 1;
-            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
+            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(SettingsManager.getInstance().getResString(R.string.on_)))
                 cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             startcapturetime =new Date().getTime();
             cameraHolder.TakePicture(PictureModule.this);
