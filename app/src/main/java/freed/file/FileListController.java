@@ -30,14 +30,15 @@ public class FileListController {
     private final String TAG = FileListController.class.getSimpleName();
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void addFromEventFile(FileHolder fileHolder)
+    public void addFromEventFile(BaseHolder fileHolder)
     {
-        MediaScannerManager.ScanMedia(context,fileHolder.getFile());
+
+        MediaScannerManager.ScanMedia(context,fileHolder);
         AddFile(fileHolder);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void addFromEventFiles(FileHolder[] fileHolder)
+    public void addFromEventFiles(BaseHolder[] fileHolder)
     {
         MediaScannerManager.ScanMedia(context,fileHolder);
         AddFiles(fileHolder);
@@ -59,7 +60,7 @@ public class FileListController {
     }
 
 
-    public static boolean needStorageAccessFrameWork = true; //Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
+    public static boolean needStorageAccessFrameWork = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
 
     private List<BaseHolder> files =new ArrayList<>();
     private StorageFileManager storageFileManager;

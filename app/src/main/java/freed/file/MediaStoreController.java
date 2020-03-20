@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 
+import java.io.File;
 import java.io.FileDescriptor;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +37,14 @@ public class MediaStoreController {
 
         // Publish a new img.
         ContentValues newImg = new ContentValues();
-        newImg.put(MediaStore.Images.Media.DISPLAY_NAME, name);
-
-        return resolver.insert(extpath, newImg);
+        newImg.put(MediaStore.MediaColumns.TITLE, name);
+        //newImg.put(MediaStore.Images.Media.DISPLAY_NAME, "fuckyougoogle.dng");
+        newImg.put(MediaStore.Images.Media.MIME_TYPE,"image/*");
+        newImg.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+        newImg.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+        newImg.put(MediaStore.Images.Media.MIME_TYPE, "image/x-adobe-dng");
+        Uri ur = resolver.insert(extpath, newImg);
+        return ur;
 
     }
 

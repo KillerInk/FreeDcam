@@ -1,9 +1,11 @@
 package freed.image;
 
+import android.content.ContentValues;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 
 
 import androidx.documentfile.provider.DocumentFile;
@@ -216,8 +218,8 @@ public class ImageSaveTask extends ImageTask
         rawToDng.setBaselineExposure(baselineExposure);
         rawToDng.setBayerGreenSplit(greensplit);
         BaseHolder fileholder;
-
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !externalSD)
+        String name = filename.getName().replace(".jpg", ".dng");
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !externalSD && !FileListController.needStorageAccessFrameWork)
         {
             checkFileExists(filename);
             fileholder = new FileHolder(filename, SettingsManager.getInstance().GetWriteExternal());
@@ -226,7 +228,7 @@ public class ImageSaveTask extends ImageTask
         {
             DocumentFile df = activityInterface.getFileListController().getFreeDcamDocumentFolder();
             Log.d(TAG,"Filepath: " + df.getUri());
-            DocumentFile wr = df.createFile("image/dng", filename.getName().replace(".jpg", ".dng"));
+            DocumentFile wr = df.createFile("image/dng", name);
             Log.d(TAG,"Filepath: " + wr.getUri());
 
             try {
@@ -235,22 +237,22 @@ public class ImageSaveTask extends ImageTask
             } catch (FileNotFoundException | IllegalArgumentException e) {
                 Log.WriteEx(e);
             }
-            fileholder = new UriHolder(wr.getUri(),filename.getName(),Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(),wr.isDirectory(),SettingsManager.getInstance().GetWriteExternal());
+            fileholder = new UriHolder(wr.getUri(),name,Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(),wr.isDirectory(),SettingsManager.getInstance().GetWriteExternal());
         }
         else
         {
-            Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(filename.getName());
+            Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(name);
             try {
                 pfd = activityInterface.getContext().getContentResolver().openFileDescriptor(uri, "rw");
             } catch (FileNotFoundException e) {
                 Log.WriteEx(e);
             }
-            fileholder = new UriHolder(uri,filename.getName(),Long.valueOf(uri.getLastPathSegment()), 0,false,SettingsManager.getInstance().GetWriteExternal());
+            fileholder = new UriHolder(uri,name,Long.valueOf(uri.getLastPathSegment()), 0,false,SettingsManager.getInstance().GetWriteExternal());
         }
         if (pfd == null)
-            rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath());
+            rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath().replace("jpg","dng"));
         else
-            rawToDng.SetBayerDataFD(bytesTosave,pfd,filename.getAbsolutePath());
+            rawToDng.SetBayerDataFD(bytesTosave,pfd,name);
 
         rawToDng.WriteDngWithProfile(profile);
         if (pfd != null)
@@ -294,7 +296,6 @@ public class ImageSaveTask extends ImageTask
             outStream.write(bytesTosave);
             outStream.flush();
             outStream.close();
-
 
         } catch (IOException e) {
             Log.WriteEx(e);
