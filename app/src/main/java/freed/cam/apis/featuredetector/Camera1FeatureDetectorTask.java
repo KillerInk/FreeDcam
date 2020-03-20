@@ -423,6 +423,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     Log.WriteEx(ex);
                     SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(false);
                 }
+                catch(ArrayIndexOutOfBoundsException ex)
+                {
+                    Log.WriteEx(ex);
+                    SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(false);
+                }
             }
         }
     }
@@ -508,6 +513,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_KRILLIN);
                 }
                 catch (NumberFormatException ex)
+                {
+                    Log.WriteEx(ex);
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
+                }
+                catch(ArrayIndexOutOfBoundsException ex)
                 {
                     Log.WriteEx(ex);
                     SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
