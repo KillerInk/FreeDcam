@@ -44,7 +44,7 @@ public class VideoProfilesApi2 extends VideoProfilesParameter
         if (settingMode != null)
             settingMode.set(valueToSet);
         if (cameraUiWrapper !=null && cameraUiWrapper.getModuleHandler().getCurrentModule() != null
-                && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
+                && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
         {
             cameraUiWrapper.getModuleHandler().getCurrentModule().DestroyModule();
             cameraUiWrapper.getModuleHandler().getCurrentModule().InitModule();

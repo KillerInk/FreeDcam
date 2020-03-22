@@ -37,7 +37,8 @@ public class RawUtils {
     private native byte[] unpackThumbnailBytes(String fileName);
 
     private native Bitmap unpackRAW(String fileName);
-    
+    private native Bitmap unpackRAWFD(int filedescriptor);
+
     public native void unpackRawByte(String fileName, byte[] xraw, int blackLevel,float aperture,float focalLength,float shutterSpeed,float iso);
 
     public native byte[] BitmapExtractor(byte[] xraw, int blackLevel);
@@ -57,6 +58,12 @@ public class RawUtils {
         if (file == null || TextUtils.isEmpty(file))
             return null;
         return unpackRAW(file);
+    }
+
+    public Bitmap UnPackRAWFD(int filedescriptor)
+    {
+
+        return unpackRAWFD(filedescriptor);
     }
 
 

@@ -31,9 +31,6 @@ import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +44,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.documentfile.provider.DocumentFile;
+import androidx.fragment.app.Fragment;
 
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
@@ -100,13 +100,13 @@ public class DngConvertingFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         if (!SettingsManager.getInstance().isInit())
-            SettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()),getResources());
+            SettingsManager.getInstance().init(getResources(),getContext());
 
         return inflater.inflate(R.layout.dngconvertingfragment, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         editTextCusotmRowSize = view.findViewById(id.editText_customrowsize);
         editTextwidth = view.findViewById(id.editText_width);
@@ -310,7 +310,7 @@ public class DngConvertingFragment extends Fragment
                     spinnerMatrixProfile.getSelectedItem().toString());
             long filesize = new File(filesToConvert[0]).length();
             SettingsManager.getInstance().getDngProfilesMap().append(filesize,dngprofile);
-            new XmlParserWriter().saveDngProfiles(SettingsManager.getInstance().getDngProfilesMap(), SettingsManager.getInstance().getDeviceString());
+            new XmlParserWriter().saveDngProfiles(SettingsManager.getInstance().getDngProfilesMap(), SettingsManager.getInstance().getDeviceString(), SettingsManager.getInstance().getAppDataFolder());
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };
@@ -391,7 +391,7 @@ public class DngConvertingFragment extends Fragment
         }
         else
         {
-            DocumentFile df = ((ActivityInterface)getActivity()).getFreeDcamDocumentFolder();
+            DocumentFile df = ((ActivityInterface)getActivity()).getFileListController().getFreeDcamDocumentFolder();
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(FileEnding.JPG, FileEnding.DNG));
             ParcelFileDescriptor pfd = null;
             try {

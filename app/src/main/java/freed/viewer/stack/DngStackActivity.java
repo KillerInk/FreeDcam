@@ -8,10 +8,11 @@ import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
+import freed.file.holder.FileHolder;
 import freed.jni.DngStack;
 import freed.utils.LocationManager;
 import freed.viewer.dngconvert.DngConvertingFragment;
-import freed.viewer.holder.FileHolder;
+
 
 /**
  * Created by troop on 25.10.2016.
@@ -21,6 +22,8 @@ public class DngStackActivity extends ActivityAbstract
 {
     private String[] filesToStack = null;
     private Button stackButton;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +51,13 @@ public class DngStackActivity extends ActivityAbstract
     }
 
     @Override
-    public void WorkHasFinished(FileHolder fileHolder) {
-
+    public String getStringFromRessources(int id) {
+        return null;
     }
 
     @Override
-    public void WorkHasFinished(FileHolder[] fileHolder) {
+    protected void setContentToView() {
 
     }
+
 }

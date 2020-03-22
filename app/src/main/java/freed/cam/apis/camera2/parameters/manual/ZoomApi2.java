@@ -29,6 +29,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.settings.SettingKeys;
 import freed.utils.Log;
 
 /**
@@ -47,7 +48,7 @@ public class ZoomApi2 extends AbstractParameter
     private final int ZOOM_LIMITER = 100;
 
     public ZoomApi2(CameraWrapperInterface cameraUiWrapper)  {
-        super(cameraUiWrapper,null);
+        super(cameraUiWrapper, SettingKeys.M_Zoom);
         maxzoom = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
         sensorSize = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         //1000 - (1000 / 4) = 750 /100 = 7,5
@@ -73,11 +74,17 @@ public class ZoomApi2 extends AbstractParameter
         return zoom;
     }
 
+    @Override
+    public String GetStringValue() {
+        return String.valueOf(zoom);
+    }
+
     @TargetApi(VERSION_CODES.LOLLIPOP)
     @Override
     public void setValue(int valueToSet, boolean setToCamera)
     {
         zoom = valueToSet;
+        fireIntValueChanged(zoom);
         // diff values /2 cause we set it foreach side.
         int cropW = (minCropWidth * zoom)/2;
         int cropH = (minCropHeight * zoom)/2;

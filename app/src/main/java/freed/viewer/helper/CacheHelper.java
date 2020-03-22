@@ -157,19 +157,15 @@ public class CacheHelper
                         if (inputStream != null) {
                             FileDescriptor fd = ((FileInputStream) inputStream).getFD();
 
+
                             // Decode bitmap, but we don't want to sample so give
                             // MAX_VALUE as the target dimensions
                             bitmap = BitmapFactory.decodeFileDescriptor(fd, null, null);
+                            inputStream.close();
                         }
                     }
                 } catch (IOException e) {
                     Log.WriteEx(e);
-                } finally {
-                    try {
-                        if (inputStream != null) {
-                            inputStream.close();
-                        }
-                    } catch (IOException e) {Log.WriteEx(e);}
                 }
             }
             return bitmap;

@@ -36,19 +36,22 @@ import com.troop.freedcam.R;
 import java.util.List;
 
 import freed.ActivityAbstract;
+import freed.file.FileListController;
+import freed.file.holder.BaseHolder;
 import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
-import freed.utils.StorageFileManager;
+import freed.utils.Log;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
 
 /**
  * Created by troop on 11.12.2015.
  */
-public class ActivityFreeDviewer extends ActivityAbstract
+public class ActivityFreeDviewer extends ActivityAbstract implements FileListController.NotifyFilesChanged
 {
+    private final String TAG = ActivityFreeDviewer.class.getSimpleName();
     private final String TAGGrid = GridViewFragment.class.getSimpleName();
     private final String TAGSlide = ScreenSlideFragment.class.getSimpleName();
     private GridViewFragment gridViewFragment;
@@ -58,6 +61,8 @@ public class ActivityFreeDviewer extends ActivityAbstract
     private AnimatorSet mCurrentAnimator;
     private int mShortAnimationDuration;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -65,22 +70,24 @@ public class ActivityFreeDviewer extends ActivityAbstract
     }
 
     @Override
-    protected void initOnCreate() {
-        super.initOnCreate();
+    public void onCreatePermissionGranted() {
+        super.onCreatePermissionGranted();
         init();
     }
 
     @Override
     protected void setContentToView() {
+        Log.d(TAG, "Set Content to view");
         setContentView(R.layout.freedviewer_activity);
     }
 
     private void init()
     {
-
-        bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
-        storageHandler = new StorageFileManager();
-        FreeDPool.Execute(() -> LoadDCIMDirs());
+        Log.d(TAG,"init");
+        bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
+        fileListController = new FileListController(getContext());
+        fileListController.setNotifyFilesChanged(this);
+        FreeDPool.Execute(() -> fileListController.loadDefaultFiles());
 
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
@@ -93,68 +100,10 @@ public class ActivityFreeDviewer extends ActivityAbstract
         slideholder.setVisibility(View.GONE);
     }
 
-    /**
-     * Loads all files stored in DCIM/FreeDcam from internal and external SD
-     * and notfiy gridview and screenslide that files got changed
-     */
-    @Override
-    public void LoadFreeDcamDCIMDirsFiles() {
-        super.LoadFreeDcamDCIMDirsFiles();
-        gridViewFragment.NotifyDataSetChanged();
-        screenSlideFragment.NotifyDATAhasChanged(files);
-    }
-
-    /**
-     * Loads the files stored from that folder
-     * and notfiy gridview and screenslide that files got changed
-     * @param fileHolder the folder to lookup
-     * @param types the file format to load
-     */
-    @Override
-    public void LoadFolder(FileHolder fileHolder, ActivityAbstract.FormatTypes types) {
-        super.LoadFolder(fileHolder, types);
-        gridViewFragment.NotifyDataSetChanged();
-        screenSlideFragment.NotifyDATAhasChanged(files);
-    }
 
     @Override
     public LocationManager getLocationManager() {
         return null;
-    }
-
-    /**
-     * Loads all Folders from DCIM dir from internal and external SD
-     * and notfiy gridview and screenslide that files got changed
-     */
-    @Override
-    public void LoadDCIMDirs()
-    {
-        super.LoadDCIMDirs();
-        runOnUiThread(() -> {
-            if (gridViewFragment != null)
-                gridViewFragment.NotifyDataSetChanged();
-            if (screenSlideFragment != null)
-                screenSlideFragment.NotifyDATAhasChanged(files);
-        });
-
-    }
-
-    @Override
-    public void DeleteFiles(final List<FileHolder> files) {
-        super.DeleteFiles(files);
-        runOnUiThread(() -> {
-            gridViewFragment.NotifyDataSetChanged();
-            screenSlideFragment.NotifyDATAhasChanged(getFiles());
-        });
-    }
-
-    @Override
-    public boolean DeleteFile(FileHolder file)
-    {
-        boolean del = super.DeleteFile(file);
-        gridViewFragment.NotifyDataSetChanged();
-        screenSlideFragment.NotifyDATAhasChanged(files);
-        return del;
     }
 
     private final ScreenSlideFragment.ButtonClick onScreenSlideBackClick = (position, view) -> loadGridView(position,view);
@@ -334,7 +283,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
 
     }
 
-    @Override
+   /* @Override
     public void WorkHasFinished(final FileHolder fileHolder)
     {
         runOnUiThread(() -> fileHolder.UpdateImage());
@@ -344,23 +293,32 @@ public class ActivityFreeDviewer extends ActivityAbstract
     @Override
     public void WorkHasFinished(FileHolder[] fileHolder) {
 
-    }
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        //super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == gridViewFragment.STACK_REQUEST || requestCode == gridViewFragment.DNGCONVERT_REQUEST)
         {
-            List<FileHolder> files = getFiles();
-            if(files.size() > 0) {
+            List<BaseHolder> files = fileListController.getFiles();
+            if(files.size() > 0 && fileListController.getFiles().get(0).IsFolder()) {
 
-                FileHolder f = getFiles().get(0).getParent();
-                LoadFolder(f, gridViewFragment.formatsToShow);
+                BaseHolder f =  fileListController.getFiles().get(0);
+                fileListController.LoadFolder(f, gridViewFragment.formatsToShow);
             }
             else
-                LoadDCIMDirs();
+                fileListController.loadDefaultFiles();
         }
+
+    }
+
+    @Override
+    public void onFilesChanged() {
+        runOnUiThread(()->{
+            gridViewFragment.NotifyDataSetChanged();
+            screenSlideFragment.NotifyDATAhasChanged(fileListController.getFiles());
+        });
 
     }
 }

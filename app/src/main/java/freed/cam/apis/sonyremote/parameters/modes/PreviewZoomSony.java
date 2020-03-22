@@ -23,7 +23,6 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 
 /**
@@ -58,8 +57,4 @@ public class PreviewZoomSony extends AbstractParameter
         return new String[] {"2","4","8","10","12","14","16","18","20"};
     }
 
-    @Override
-    public void addEventListner(ParameterEvents eventListner) {
-        super.addEventListner(eventListner);
-    }
 }

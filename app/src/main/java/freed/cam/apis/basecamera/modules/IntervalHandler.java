@@ -20,7 +20,8 @@
 package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
-import android.text.TextUtils;
+import android.os.Looper;
+import android.os.SystemClock;
 
 import java.util.Date;
 
@@ -34,39 +35,72 @@ import freed.utils.Log;
  */
 public class IntervalHandler
 {
-    private final ModuleAbstract picmodule;
+    private SuperDoWork picmodule;
 
     private final String TAG = IntervalHandler.class.getSimpleName();
 
     //the sleeptime how long the cam waits for the next capture in ms
     private int sleepTimeBetweenCaptures;
-    private int shutterDelay;
     //how long the interval should run, 0 = infinity, maybe its need a check if sd is full^^
     private int fullIntervalCaptureDuration;
-    private final Handler handler;
     private long startTime;
     private boolean working;
+    //holds the time that is gone bevor next capture happens in Sec
+    private int timeGoneTillNextCapture;
+
+    private Thread intervalBackgroundThread;
+
+    private final Object waitForCaptureEnd = new Object();
+
+    public interface SuperDoWork
+    {
+        void SuperDoTheWork();
+        boolean isWorking();
+        void IntervalCaptureIsDone();
+    }
+
 
     public boolean IsWorking() {return working;}
 
-    public IntervalHandler(ModuleAbstract picmodule)
+    public IntervalHandler(SuperDoWork picmodule)
     {
         this.picmodule = picmodule;
-        handler = new Handler();
+    }
+
+    public void Init()
+    {
+
+    }
+
+    public void Destroy()
+    {
+        if (working)
+            CancelInterval();
+        picmodule = null;
+    }
+
+    public void notifyImageCaptured()
+    {
+        synchronized (waitForCaptureEnd) {
+            waitForCaptureEnd.notify();
+        }
     }
 
     public void StartInterval()
     {
-        Log.d(TAG, "Start Interval");
+        if (working)
+            return;
+        Log.d(TAG, "Start Interval" + " " + Thread.currentThread().getName());
         working = true;
-        startTime = new Date().getTime();
-        String sleep = picmodule.cameraUiWrapper.getParameterHandler().get(SettingKeys.INTERVAL_SHUTTER_SLEEP).GetStringValue();
+
+        startTime = SystemClock.uptimeMillis();
+        String sleep = SettingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).get();
         if (sleep.contains(" sec"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" sec",""))*1000;
         if (sleep.contains(" min"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" min",""))*60*1000;
 
-        String duration = picmodule.cameraUiWrapper.getParameterHandler().get(SettingKeys.INTERVAL_DURATION).GetStringValue();
+        String duration = SettingsManager.get(SettingKeys.INTERVAL_DURATION).get();
         if (duration.equals("∞"))
             fullIntervalCaptureDuration = 0;
         else if (duration.contains(" min"))
@@ -74,109 +108,103 @@ public class IntervalHandler
         else if (duration.contains(" h"))
             fullIntervalCaptureDuration = Integer.parseInt(duration.replace(" h",""))*60;
 
-        startShutterDelay();
+        //startShutterDelay();
+        startInterval();
+    }
+
+
+
+
+    private void startInterval()
+    {
+        Log.d(TAG, "Start IntervalThread" + " " + Thread.currentThread().getName());
+        intervalBackgroundThread = new Thread(()->
+        {
+            Log.d(TAG, "Started IntervalThread" + " " + Thread.currentThread().getName());
+            working = true;
+            picmodule.SuperDoTheWork();
+            boolean captureTimeOver=isIntervalCaptureTimeOver();
+            long startTimeCapture = 0;
+            long endTimeCapture = 0;
+            long captureTime = 0;
+            long sleep = 0;
+            while (!Thread.currentThread().isInterrupted() && !captureTimeOver && working)
+            {
+
+                if (timeGoneTillNextCapture < sleepTimeBetweenCaptures /1000) {
+
+                    timeGoneTillNextCapture++;
+
+                }
+                else {
+                    Log.d(TAG, "Start ImageCapture");
+                    startTimeCapture = SystemClock.uptimeMillis();
+                    picmodule.SuperDoTheWork();
+                    synchronized (waitForCaptureEnd)
+                    {
+                        try {
+                            waitForCaptureEnd.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    endTimeCapture = SystemClock.uptimeMillis();
+                    captureTime = endTimeCapture - startTimeCapture;
+                    if (captureTime > 0)
+                        sleep = 1000 - captureTime;
+                    else  sleep = 0;
+                    timeGoneTillNextCapture = (int)(captureTime / 1000);
+                }
+                Log.d(TAG,"IntervalDelayCounter:" + timeGoneTillNextCapture );
+                sendMsg();
+
+                if (!Thread.currentThread().isInterrupted() && sleepTimeBetweenCaptures > 0 && sleep > 0) {
+                    try {
+                        Thread.sleep(sleep);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                captureTimeOver=isIntervalCaptureTimeOver();
+                Log.d(TAG,"CaptureTime is Over: " + captureTimeOver);
+                if (captureTimeOver)
+                    picmodule.IntervalCaptureIsDone();
+            }
+            working = false;
+            Log.d(TAG, "Stopped IntervalThread" + " " + Thread.currentThread().getName());
+        });
+        intervalBackgroundThread.setName("intervalBackgroundThread");
+        intervalBackgroundThread.start();
     }
 
     public void CancelInterval()
     {
         Log.d(TAG, "Cancel Interval");
-        handler.removeCallbacks(intervalDelayRunner);
-        handler.removeCallbacks(shutterDelayRunner);
+        working = false;
+        intervalBackgroundThread.interrupt();
+        intervalBackgroundThread = null;
         timeGoneTillNextCapture = 0;
         sleepTimeBetweenCaptures = 0;
-        fullIntervalCaptureDuration = 0;
-        intervalDelayCounter = 0;
-        timeGoneTillNextCapture = 0;
-        shutterWaitCounter = 0;
-        working = false;
     }
 
     private void sendMsg()
     {
 
-        String t = "Time:"+String.format("%.2f ", (double) (new Date().getTime() - startTime) /1000 / 60);
+        String t = "Time:"+String.format("%.2f ", (double) (SystemClock.uptimeMillis() - startTime) /1000 );
         t+= "/"+ fullIntervalCaptureDuration + " NextIn:" + ((sleepTimeBetweenCaptures /1000) - timeGoneTillNextCapture);
         UserMessageHandler.sendMSG(t,false);
-        //picmodule.cameraUiWrapper.getCameraHolder().SendUIMessage(t);
 
     }
 
-    //holds the time that is gone bevor next capture happens in Sec
-    private int timeGoneTillNextCapture;
-    public void DoNextInterval()
+
+    private boolean isIntervalCaptureTimeOver()
     {
-        long dif = new Date().getTime() - startTime;
-        double min = (double)(dif /1000) / 60;
-        if (min >= fullIntervalCaptureDuration && fullIntervalCaptureDuration > 0)
-        {
-            working = false;
-            return;
-        }
-        Log.d(TAG, "Start StartNext Interval in" + sleepTimeBetweenCaptures + " " + min + " " + fullIntervalCaptureDuration);
-        intervalDelayCounter = 0;
-        handler.post(intervalDelayRunner);
+        return getTimeGoneSinceStart() >= fullIntervalCaptureDuration && fullIntervalCaptureDuration > 0;
     }
 
-    private int intervalDelayCounter;
-    private final Runnable intervalDelayRunner =new Runnable() {
-        @Override
-        public void run()
-        {
-            if (intervalDelayCounter < sleepTimeBetweenCaptures /1000) {
-                handler.postDelayed(intervalDelayRunner, 1000);
-                sendMsg();
-                intervalDelayCounter++;
-                timeGoneTillNextCapture++;
-            }
-            else {
-                picmodule.DoWork();
-                timeGoneTillNextCapture = 0;
-            }
-        }
-    };
-
-    private final Runnable shutterDelayRunner = () -> startShutterDelay();
-
-    private void msg()
+    private double getTimeGoneSinceStart()
     {
-        UserMessageHandler.sendMSG(shutterWaitCounter +"",false);
-        //picmodule.cameraUiWrapper.getCameraHolder().SendUIMessage(shutterWaitCounter +"");
+        long dif = SystemClock.uptimeMillis() - startTime;
+        return  (double)(dif /1000) / 60;
     }
-
-    private int shutterWaitCounter;
-    private void startShutterDelay()
-    {
-        Log.d(TAG, "Start ShutterDelay in " + shutterDelay);
-        if (shutterWaitCounter < shutterDelay / 1000)
-        {
-            handler.postDelayed(shutterDelayRunner, 1000);
-            msg();
-            shutterWaitCounter++;
-        }
-        else
-        {
-            picmodule.DoWork();
-            shutterWaitCounter = 0;
-        }
-    }
-
-    public void StartShutterTime()
-    {
-        String shutterdelay = SettingsManager.getInstance().getApiString(SettingsManager.SETTING_TIMER);
-        try {
-            if (TextUtils.isEmpty(shutterdelay))
-                shutterdelay = "0 sec";
-            if (!shutterdelay.equals("0 sec"))
-                shutterDelay = Integer.parseInt(shutterdelay.replace(" sec", "")) * 1000;
-            else
-                shutterDelay = 0;
-            handler.postDelayed(shutterDelayRunner, shutterDelay);
-        }
-        catch (Exception ex)
-        {
-            Log.d("Freedcam",ex.getMessage());
-        }
-    }
-
-
 }

@@ -1,15 +1,16 @@
 package freed.cam.ui;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
 
 public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
@@ -36,7 +37,7 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
             cameraFragment.getModuleHandler().ModuleHasChanged(cameraFragment.getModuleHandler().getCurrentModuleName());
     }
 
-    public void updateScreenSlideFile(List<FileHolder> files)
+    public void updateScreenSlideFile(List<BaseHolder> files)
     {
         screenSlideFragment.NotifyDATAhasChanged(files);
     }

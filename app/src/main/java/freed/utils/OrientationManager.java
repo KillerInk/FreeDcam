@@ -1,8 +1,9 @@
 package freed.utils;
 
 import android.hardware.SensorManager;
-import android.support.v4.app.FragmentActivity;
 import android.view.OrientationEventListener;
+
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * Created by troop on 17.09.2014.

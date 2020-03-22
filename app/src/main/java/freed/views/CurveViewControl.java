@@ -3,7 +3,6 @@ package freed.views;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -56,12 +55,12 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         init(context);
     }
 
-    public CurveViewControl(Context context, @Nullable AttributeSet attrs) {
+    public CurveViewControl(Context context,AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public CurveViewControl(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CurveViewControl(Context context,AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }

@@ -12,6 +12,7 @@ import com.troop.freedcam.R;
 import java.io.File;
 
 import freed.settings.OpCodeUrl;
+import freed.settings.SettingsManager;
 import freed.utils.StringUtils;
 
 /**
@@ -57,8 +58,8 @@ public class OpcodeItem extends LinearLayout implements OpCodeDownloadTask.Downl
             isDownloadAvail.setChecked(false);
 
 
-        op2 = new File(StringUtils.GetFreeDcamConfigFolder+id+"opc2.bin");
-        op3 = new File(StringUtils.GetFreeDcamConfigFolder+id+"opc3.bin");
+        op2 = new File(SettingsManager.getInstance().getAppDataFolder().getAbsolutePath()+id+"opc2.bin");
+        op3 = new File(SettingsManager.getInstance().getAppDataFolder().getAbsolutePath()+id+"opc3.bin");
         if (op2.exists() || op3.exists())
             isDownloaded.setChecked(true);
         else

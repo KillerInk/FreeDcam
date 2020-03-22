@@ -61,7 +61,7 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
         this.VALUES_TO_GET = VALUES_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;
         mRemoteApi = ((ParameterHandler)cameraUiWrapper.getParameterHandler()).mRemoteApi;
-        addEventListner(this);
+        //addEventListner(this);
 
     }
 

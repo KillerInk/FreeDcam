@@ -423,6 +423,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     Log.WriteEx(ex);
                     SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(false);
                 }
+                catch(ArrayIndexOutOfBoundsException ex)
+                {
+                    Log.WriteEx(ex);
+                    SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(false);
+                }
             }
         }
     }
@@ -508,6 +513,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_KRILLIN);
                 }
                 catch (NumberFormatException ex)
+                {
+                    Log.WriteEx(ex);
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
+                }
+                catch(ArrayIndexOutOfBoundsException ex)
                 {
                     Log.WriteEx(ex);
                     SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
@@ -1323,7 +1333,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else if (parameters.get(camstring(R.string.lg_iso_values))!= null) {
             detectMode(parameters,R.string.iso,R.string.lg_iso_values, SettingsManager.get(SettingKeys.IsoMode));
         }
-        if (SettingsManager.get(SettingKeys.IsoMode).getValues().length >1)
+        if (SettingsManager.get(SettingKeys.IsoMode).getValues() != null && SettingsManager.get(SettingKeys.IsoMode).getValues().length >1)
             SettingsManager.get(SettingKeys.IsoMode).setIsSupported(true);
         else
             SettingsManager.get(SettingKeys.IsoMode).setIsSupported(false);
@@ -1405,7 +1415,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectMode(parameters, R.string.zsd_mode, R.string.zsd_mode_values, SettingsManager.get(SettingKeys.ZSL));
         }
 
-        if (SettingsManager.get(SettingKeys.ZSL).getValues().length == 0)
+        if (SettingsManager.get(SettingKeys.ZSL).getValues() != null && SettingsManager.get(SettingKeys.ZSL).getValues().length == 0)
             SettingsManager.get(SettingKeys.ZSL).setIsSupported(false);
     }
 
@@ -1498,10 +1508,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         final String _2160p = "2160p";
         final String _2160pDCI = "2160pDCI";
         HashMap<String,VideoMediaProfile> supportedProfiles;
+        SupportedVideoProfilesDetector videoProfilesDetector = new SupportedVideoProfilesDetector();
         if(SettingsManager.getInstance().getFrameWork() == Frameworks.LG)
-            supportedProfiles =  getLGVideoMediaProfiles(cameraid);
+            supportedProfiles =  videoProfilesDetector.getLGVideoMediaProfiles(cameraid);
         else
-            supportedProfiles= getDefaultVideoMediaProfiles(cameraid);
+            supportedProfiles= videoProfilesDetector.getDefaultVideoMediaProfiles(cameraid);
 
         if (supportedProfiles.get(_720phfr) == null && SettingsManager.get(SettingKeys.VideoHighFramerate).isSupported() && SettingsManager.get(SettingKeys.VideoHighFramerate).contains("120"))
         {

@@ -9,6 +9,7 @@
     <string name="aps_opencamera1legacy" translatable="false">opencamera1legacy</string>
     <string name="aps_usehuawei_wb" translatable="false">useHuaweiWb</string>
     <string name="aps_usecustom_matrix_oncamera2" translatable="false">useCustomMatrixOnCamera2</string>
+    <string name="aps_api" translatable="false">activeapi</string>
 
     <string name="aps_picturesize" translatable="false">picturesize</string>
     <string name="aps_pictureformat" translatable="false">pictureformat</string>
@@ -126,5 +127,6 @@
     <string name="aps_touchtocapture" translatable="false">touchtocapture</string>
     <string name="aps_focuspeakcolor" translatable="false">focuspeakcolor</string>
     <string name="aps_video_audio_source" translatable="false">videoaudiosource</string>
+    <string name="aps_rawsize" translatable="false">rawsize</string>
 
 </resources>

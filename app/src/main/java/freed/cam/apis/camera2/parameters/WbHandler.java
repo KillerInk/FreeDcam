@@ -65,10 +65,10 @@ public class WbHandler
      */
     private void setWbMode(String wbMode)
     {
-        if (!wbMode.equals(cameraUiWrapper.getResString(R.string.off)))
+        if (!wbMode.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off)))
         {
             //if ON or any other preset set the colorcorrection to fast to let is use hal wb
-            colorCorrectionMode.SetValue(cameraUiWrapper.getResString(R.string.fast),true);
+            colorCorrectionMode.SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.fast),true);
             //hide manual wbct manualitem in ui
             if (manualWbCt != null)
                 manualWbCt.setViewState(AbstractParameter.ViewState.Hidden);
@@ -76,7 +76,7 @@ public class WbHandler
         else //if OFF
         {
             //set colorcorrection to TRANSFORMATRIX to have full control
-            colorCorrectionMode.SetValue(cameraUiWrapper.getResString(R.string.colorcorrection_transform_matrix),true);
+            colorCorrectionMode.SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.colorcorrection_transform_matrix),true);
             //show wbct manual item in ui
             if (manualWbCt != null) {
                 manualWbCt.fireStringValueChanged(manualWbCt.GetStringValue());
@@ -191,7 +191,7 @@ public class WbHandler
             float rf,gf,bf = 0;
 
             rf = (float) getRGBToDouble(rgb[0]);
-            gf =1; //(float) getRGBToDouble(rgb[1])/2;//we have two green channels
+            gf =(float) getRGBToDouble(rgb[1])/2;//we have two green channels
             bf = (float) getRGBToDouble(rgb[2]);
             if (gf < MINCAP)
                 gf= (float)MINCAP;
@@ -225,7 +225,7 @@ public class WbHandler
         public ViewState getViewState() {
             if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode) == null)
                 return ViewState.Hidden;
-            else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).GetStringValue().equals("OFF"))
+            else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).GetStringValue().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off)))
                 return ViewState.Visible;
             return ViewState.Hidden;
         }
@@ -257,6 +257,7 @@ public class WbHandler
         public void setValue(String valueToSet, boolean setToCamera)
         {
             ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_MODE, parameterValues.get(valueToSet),setToCamera);
+            ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, null,setToCamera);
             fireStringValueChanged(valueToSet);
         }
 

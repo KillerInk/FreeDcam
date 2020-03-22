@@ -31,6 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.file.holder.BaseHolder;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -45,11 +46,11 @@ public class BracketModule extends PictureModule {
     private final String TAG = BracketModule.class.getSimpleName();
 
     private int hdrCount;
-    private File[] files;
+    private BaseHolder[] files;
 
     public BracketModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
-        name = cameraUiWrapper.getResString(R.string.module_hdr);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_hdr);
     }
 
     //ModuleInterface START
@@ -61,9 +62,9 @@ public class BracketModule extends PictureModule {
     @Override
     public void DoWork() {
         mBackgroundHandler.post(() -> {
-            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
                 cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
-            files = new File[3];
+            files = new BaseHolder[3];
             hdrCount = 0;
             String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
             if (picformat.equals(SettingsManager.getInstance().getResString(R.string.dng_)) || picformat.equals(SettingsManager.getInstance().getResString(R.string.bayer_))) {
@@ -146,7 +147,7 @@ public class BracketModule extends PictureModule {
 
     @Override
     protected File getFile(String fileending) {
-        return new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePathHDR(SettingsManager.getInstance().GetWriteExternal(), fileending, hdrCount));
+        return new File(cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePathHDR(SettingsManager.getInstance().GetWriteExternal(), fileending, hdrCount));
     }
 
     private void sleep(int time) {
@@ -158,7 +159,7 @@ public class BracketModule extends PictureModule {
     }
 
     @Override
-    public void internalFireOnWorkDone(File file) {
+    public void internalFireOnWorkDone(BaseHolder file) {
         files[hdrCount - 1] = file;
     }
 

@@ -20,7 +20,6 @@
 package freed.cam.ui.themesample.cameraui;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +27,13 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
+import androidx.fragment.app.Fragment;
+
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.cameraui.childs.SimpleValueChild;
 
@@ -98,11 +98,6 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
         return linearLayout;
     }
 
-
-    public void ListenToParameter(ParameterInterface parameter)
-    {
-        parameter.addEventListner(this);
-    }
 
     /*
     this gets attached to the Simplevalue childes and returns the value from the clicked SimpleValueChild

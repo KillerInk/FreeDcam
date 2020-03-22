@@ -30,7 +30,7 @@ public class ExposureTime_MS extends AbstractParameter {
         super.setValue(valueToset,setToCamera);
         currentInt = valueToset;
         String shutterstring = stringvalues[currentInt];
-        if(!shutterstring.equals(cameraUiWrapper.getResString(R.string.auto_)))
+        if(!shutterstring.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_)))
         {
             if (stringvalues[currentInt].contains("/")) {
                 String[] split = stringvalues[currentInt].split("/");

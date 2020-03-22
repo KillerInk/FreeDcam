@@ -51,9 +51,6 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
 
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-
-        cameraUiWrapper.getModuleHandler().addListner(this);
-
         onModuleChanged(cameraUiWrapper.getModuleHandler().getCurrentModuleName());
         if (SettingsManager.get(SettingKeys.EnableRenderScript).get())
             onViewStateChanged(AbstractParameter.ViewState.Visible);
@@ -72,6 +69,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
             parameter.SetValue(getResources().getString(R.string.on_),false);}
 
     }
+
 
     @Override
     public void onModuleChanged(String module)

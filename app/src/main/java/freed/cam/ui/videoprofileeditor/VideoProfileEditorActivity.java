@@ -22,8 +22,9 @@ package freed.cam.ui.videoprofileeditor;
 import android.R.id;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * Created by troop on 15.02.2016.

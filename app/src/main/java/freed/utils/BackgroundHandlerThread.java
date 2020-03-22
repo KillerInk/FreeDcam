@@ -48,4 +48,8 @@ public class BackgroundHandlerThread
     {
         mBackgroundHandler.post(runnable);
     }
+    public void executeDelayed(Runnable runnable, long delay)
+    {
+        mBackgroundHandler.postDelayed(runnable, delay);
+    }
 }

@@ -19,7 +19,9 @@
 
 package freed.cam.ui.themesample;
 
-import android.support.v4.app.Fragment;
+
+
+import androidx.fragment.app.Fragment;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;

@@ -66,7 +66,7 @@ public class ExposureLockParameter extends BaseModeParameter
 
     @Override
     public String[] getStringValues() {
-        return new String[]{cameraUiWrapper.getResString(R.string.true_), cameraUiWrapper.getResString(R.string.false_)};
+        return new String[]{cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.false_)};
     }
 
 }

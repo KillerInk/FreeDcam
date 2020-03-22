@@ -63,7 +63,7 @@ public class VideoProfilesParameter extends AbstractParameter
         super.setValue(valueToSet, setToCamera);
         profile = valueToSet;
         if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null
-                && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
+                && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
             cameraUiWrapper.getModuleHandler().getCurrentModule().InitModule();
     }
 

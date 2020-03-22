@@ -19,7 +19,7 @@ public class ToneMapChooser extends AbstractParameter {
     private HashMap<String, ToneMapProfile> toneMapProfileHashMap;
     public ToneMapChooser(HashMap<String, ToneMapProfile> toneMapProfileHashMap)
     {
-        super(null);
+        super(SettingKeys.TONEMAP_SET);
         this.toneMapProfileHashMap = toneMapProfileHashMap;
         setViewState(ViewState.Visible);
         currentString = SettingsManager.get(SettingKeys.TONEMAP_SET).get();

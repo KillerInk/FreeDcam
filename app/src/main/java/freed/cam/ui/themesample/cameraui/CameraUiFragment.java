@@ -22,9 +22,6 @@ package freed.cam.ui.themesample.cameraui;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,6 +33,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.dimen;
@@ -44,8 +44,8 @@ import com.troop.freedcam.R.layout;
 
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
@@ -64,7 +64,6 @@ import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildSelfTimer;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsFocusPeak;
 import freed.cam.ui.themesample.handler.FocusImageHandler;
 import freed.cam.ui.themesample.handler.SampleInfoOverlayHandler;
-import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -72,7 +71,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 14.06.2015.
  */
-public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener, ModuleHandlerAbstract.CaptureStateChanged
+public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
     //button to switch between front and back cam
@@ -267,7 +266,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 shutterButton.setVisibility(View.VISIBLE);
                 shutterButton.SetCameraUIWrapper(cameraUiWrapper);
 
-                cameraUiWrapper.getModuleHandler().setWorkListner(this);
+                //cameraUiWrapper.getModuleHandler().setWorkListner(this);
 
                 if (manualModesFragment != null)
                     manualModesFragment.setCameraToUi(cameraUiWrapper);
@@ -290,15 +289,15 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
                 if (cameraUiWrapper instanceof SonyCameraRemoteFragment) {
                     joyPad.setVisibility(View.GONE);
-                    if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_PreviewZoom) != null)
-                        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_PreviewZoom).addEventListner(joyPad);
+                    /*if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_PreviewZoom) != null)
+                        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_PreviewZoom).addEventListner(joyPad);*/
                     joyPad.setNavigationClickListner((SimpleStreamSurfaceView) cameraUiWrapper.getSurfaceView());
                 } else
                     joyPad.setVisibility(View.GONE);
 
                 //register timer to to moduleevent handler that it get shown/hidden when its video or not
                 //and start/stop working when recording starts/stops
-                cameraUiWrapper.getModuleHandler().addListner(settingsChildSelfTimer);
+                //cameraUiWrapper.getModuleHandler().addListner(settingsChildSelfTimer);
             }
         }
     }
@@ -306,7 +305,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreateView(inflater,container,savedInstanceState);
+        //super.onCreateView(inflater,container,savedInstanceState);
         Log.d(TAG, "####################ONCREATEDVIEW####################");
         fragment_activityInterface = (ActivityInterface)getActivity();
         touchHandler = new SwipeMenuListner(this);
@@ -316,9 +315,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        UserMessageHandler.setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        //super.onViewCreated(view, savedInstanceState);
+        if ((getActivity() != null) && (((ActivityFreeDcamMain)getActivity()).getUserMessageHandler() != null))
+            ((ActivityFreeDcamMain)getActivity()).getUserMessageHandler().setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
         manualModes_holder = view.findViewById(id.manualModesHolder);
         left_ui_items_holder = view.findViewById(id.left_ui_holder);
         right_ui_items_top = view.findViewById(id.right_ui_holder_top);
@@ -385,7 +385,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onDestroy() {
         super.onDestroy();
-        UserMessageHandler.setMessageTextView(null,null);
+        ((ActivityFreeDcamMain)getActivity()).getUserMessageHandler().setMessageTextView(null,null);
     }
 
     @Override
@@ -460,8 +460,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         String[] tmo = item.GetValues();
         if (tmo != null && tmo.length >0)
             horizontalValuesFragment.SetStringValues(tmo, this);
-        else
-            horizontalValuesFragment.ListenToParameter(item.GetParameter());
         infalteIntoHolder(id.cameraui_values_fragment_holder, horizontalValuesFragment);
 
     }
@@ -537,10 +535,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     }
 
-    @Override
+   /* @Override
     public void onCaptureStateChanged(ModuleHandlerAbstract.CaptureStates captureStates)
     {
-    }
+    }*/
 
 
     interface i_HelpFragment

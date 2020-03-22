@@ -65,7 +65,9 @@ public class ImageManager {
         private final ThreadPoolExecutor imageSaveExecutor;
 
         private ImageSaveManager() {
+
             int coresize = Runtime.getRuntime().availableProcessors()/2;
+            Log.d(TAG,"Cores Avail: "+Runtime.getRuntime().availableProcessors() + " CoreSize" + coresize);
             if (coresize>4)
                 coresize = 4;
             if (coresize == 0)
@@ -134,9 +136,9 @@ public class ImageManager {
 
         public void removeTaskFromQueue(ImageTask task)
         {
+            imagesToLoadQueue.remove(task);
             if (task.getThread() != null && !task.getThread().isInterrupted())
                 task.getThread().interrupt();
-            imagesToLoadQueue.remove(task);
         }
     }
 

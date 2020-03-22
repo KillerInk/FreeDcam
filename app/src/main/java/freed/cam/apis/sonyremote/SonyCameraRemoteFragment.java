@@ -20,7 +20,6 @@
 package freed.cam.apis.sonyremote;
 
 import android.os.Bundle;
-import android.os.HandlerThread;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -31,6 +30,7 @@ import android.widget.TextView;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,6 +54,10 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.cam.apis.sonyremote.sonystuff.WifiHandler;
+import freed.cam.events.CameraStateEvents;
+import freed.cam.events.CaptureStateChangedEvent;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.EventBusLifeCycle;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -62,7 +66,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 06.06.2015.
  */
-public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements SurfaceHolder.Callback, WifiHandler.WifiEvents, CameraHolderSony.CameraRemoteEvents
+public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements SurfaceHolder.Callback, WifiHandler.WifiEvents, CameraHolderSony.CameraRemoteEvents, EventBusLifeCycle
 {
     private final String TAG = SonyCameraRemoteFragment.class.getSimpleName();
     private SimpleStreamSurfaceView surfaceView;
@@ -109,8 +113,19 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     }
 
     @Override
+    public void startListning() {
+        EventBusHelper.register(this);
+    }
+
+    @Override
+    public void stopListning() {
+        EventBusHelper.unregister(this);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        startListning();
         wifiHandler.onResume();
         startCameraAsync();
 
@@ -122,7 +137,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         Log.d(TAG, "onPause.stopCamera");
         wifiHandler.onPause();
         stopCameraAsync();
-
+        stopListning();
     }
 
 
@@ -212,13 +227,13 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
 
             if (JsonUtils.isApiSupported("startContShooting",mAvailableCameraApiSet))
-                moduleHandler.changeCaptureState(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_working);
+                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_working));
             else if (JsonUtils.isApiSupported("stopContShooting",mAvailableCameraApiSet))
-                moduleHandler.changeCaptureState(ModuleHandlerAbstract.CaptureStates.continouse_capture_start);
+                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.continouse_capture_start));
             else if (JsonUtils.isApiSupported("actTakePicture",mAvailableCameraApiSet))
-                moduleHandler.changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
+                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.image_capture_stop));
             else if (JsonUtils.isApiSupported("awaitTakePicture",mAvailableCameraApiSet))
-                moduleHandler.changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
+                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.image_capture_start));
 
             if (!JsonUtils.isApiSupported("setCameraFunction", mAvailableCameraApiSet) &&
                     !(JsonUtils.isApiSupported("startContShooting",mAvailableCameraApiSet) && JsonUtils.isApiSupported("stopContShooting",mAvailableCameraApiSet))) {
@@ -413,11 +428,6 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     }
 
     @Override
-    public String getResString(int id) {
-        return SettingsManager.getInstance().getResString(id);
-    }
-
-    @Override
     public SurfaceView getSurfaceView() {
         return surfaceView;
     }
@@ -460,40 +470,20 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     }
 
 
-    @Override
-    public void onCameraOpen()
-    {
 
-        //this.onCameraOpenFinish("");
-    }
 
-    @Override
-    public void onCameraOpenFinish() {
-
-    }
-
-    @Override
-    public void onCameraClose(String message) {
+    @Subscribe
+    public void onCameraClose(CameraStateEvents.CameraCloseEvent message) {
         if(mEventObserver != null)
             mEventObserver.release();
     }
 
-    @Override
-    public void onPreviewOpen(String message) {
-
-    }
-
-    @Override
-    public void onPreviewClose(String message) {
-
-    }
-
-    @Override
-    public void onCameraError(String error)
+    @Subscribe
+    public void onCameraError(CameraStateEvents.CameraErrorEvent error)
     {
         Log.d(TAG, "###################### onCamerError:"+ error + " ################################");
         hideTextViewWifi(false);
-        setTextFromWifi(error);
+        setTextFromWifi(error.msg);
         serverDevice = null;
         STATE = STATE_IDEL;
         mEventObserver.stop();

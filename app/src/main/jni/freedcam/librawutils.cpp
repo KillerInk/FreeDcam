@@ -399,3 +399,111 @@ extern "C" JNIEXPORT jobject JNICALL Java_freed_jni_RawUtils_unpackRAW(JNIEnv * 
 
     return newBitmap;
 }
+
+extern "C" JNIEXPORT jobject JNICALL Java_freed_jni_RawUtils_unpackRAWFD(JNIEnv * env, jobject obj, int fd) {
+	int ret;
+	LibRaw raw;
+#define P1 raw.imgdata.idata
+#define S raw.imgdata.sizes
+#define C raw.imgdata.color
+#define T raw.imgdata.thumbnail
+#define P2 raw.imgdata.other
+#define OUT raw.imgdata.params
+	OUT.no_auto_bright = 1;
+	OUT.use_camera_wb = 1;
+	OUT.output_bps = 8;
+	OUT.user_qual = 0;
+	OUT.half_size = 1;
+	jboolean bIsCopy;
+	void *bitmapPixels;
+	LOGD("Open FileDescriptor");
+	//raw.recycle();
+    FILE *f = fdopen(fd, "r" );
+	LOGD("FileDescriptor open");
+	fseek(f, 0, SEEK_END);
+	LOGD("get size");
+	long fsize = ftell(f);
+	LOGD("size:%l",fsize);
+	fseek(f, 0, SEEK_SET);  /* same as rewind(f); */
+	LOGD("malloc ");
+	char *buffer = (char *)malloc((fsize+1)*sizeof(char));
+	LOGD("malloc end, fill buffer");
+	fread(buffer, fsize, 1, f);
+	LOGD("buffer filled, close file");
+	fclose(f); // Close the file
+	LOGD("closed file, libraw open buffer");
+    raw.open_buffer(buffer,fsize);
+
+	LOGD("libraw buffer open, unpack");
+
+    if((ret = raw.unpack()) != LIBRAW_SUCCESS)
+    {
+        LOGD("ERROR unpack File %s",libraw_strerror(ret));
+	    return NULL;
+    }
+	LOGD("unpacked img %i", ret);
+	if((ret = raw.dcraw_process()) != LIBRAW_SUCCESS)
+	{
+        LOGD("ERROR unpack File %s",libraw_strerror(ret));
+        return NULL;
+    }
+	LOGD("processing dcraw %i", ret);
+	libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
+
+	LOGD("processed image, creating bitmap");
+	if(image->width == 0 || image->height == 0)
+		return NULL;
+
+	jclass bitmapCls = env->FindClass("android/graphics/Bitmap");
+    jmethodID createBitmapFunction = env->GetStaticMethodID(bitmapCls, "createBitmap", "(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;");
+    jstring configName = env->NewStringUTF("ARGB_8888");
+    jclass bitmapConfigClass = env->FindClass("android/graphics/Bitmap$Config");
+    jmethodID valueOfBitmapConfigFunction = env->GetStaticMethodID(bitmapConfigClass, "valueOf", "(Ljava/lang/String;)Landroid/graphics/Bitmap$Config;");
+    jobject bitmapConfig = env->CallStaticObjectMethod(bitmapConfigClass, valueOfBitmapConfigFunction, configName);
+    jobject newBitmap = env->CallStaticObjectMethod(bitmapCls, createBitmapFunction, image->width, image->height, bitmapConfig);
+	if(image->data_size > 0)
+	{
+    	LOGD("orginal size: %i",image->data_size);
+
+		if ((ret = AndroidBitmap_lockPixels(env, newBitmap, &bitmapPixels)) < 0)
+        {
+        	LOGD("AndroidBitmap_lockPixels() failed ! error=%d", ret);
+
+             return NULL;
+        }
+        LOGD("pixel locked");
+        uint32_t *newBitmapPixels = (uint32_t*) bitmapPixels;
+        LOGD("memcopy start");
+        int bufrow = 0;
+        int size = image->width* image->height;
+        for (int count = 0; count < size; count++)
+        {
+        	uint32_t p =  (0xff << 24) |
+        					(image->data[bufrow+2] << 16) |
+                            (image->data[bufrow+1] << 8) |
+                            image->data[bufrow+0];
+            newBitmapPixels[count] = p;
+            bufrow += 3;
+        }
+        LOGD("memcopy end");
+
+
+		LOGD("dcraw mem cleared");
+        AndroidBitmap_unlockPixels(env, newBitmap);
+        LOGD("pixel unlocked");
+		//raw.free_image();
+		//LibRaw::dcraw_clear_mem(image);
+
+	}
+	// recycle() is needed only if we want to free the resources right now.
+    // If we process files in a cycle, the next open_file()
+    // will also call recycle(). If a fatal error has happened, it means that recycle()
+    // has already been called (repeated call will not cause any harm either).
+	// we don't evoke recycle() or call the desctructor; C++ will do everything for us
+	delete image;
+	free(buffer);
+	raw.recycle();
+	LOGD("rawdata recycled");
+
+    return newBitmap;
+}

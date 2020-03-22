@@ -24,7 +24,7 @@ package freed.cam.apis.basecamera.modules;
  */
 public interface ModuleInterface extends WorkFinishEvents
 {
-    void SetCaptureStateChangedListner(ModuleHandlerAbstract.CaptureStateChanged captureStateChangedListner);
+    //void SetCaptureStateChangedListner(ModuleHandlerAbstract.CaptureStateChanged captureStateChangedListner);
     /**
      * holds the modulename
      * @return the name of the module

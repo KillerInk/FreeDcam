@@ -6,10 +6,13 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.RequiresApi;
-import android.support.v4.provider.DocumentFile;
+
+
 import android.text.TextUtils;
 import android.view.Surface;
+
+import androidx.annotation.RequiresApi;
+import androidx.documentfile.provider.DocumentFile;
 
 import com.troop.freedcam.R;
 
@@ -247,7 +250,7 @@ public class VideoRecorder {
         else
         {
             Uri uri = Uri.parse(SettingsManager.getInstance().GetBaseFolder());
-            DocumentFile df = cameraWrapperInterface.getActivityInterface().getFreeDcamDocumentFolder();
+            DocumentFile df = cameraWrapperInterface.getActivityInterface().getFileListController().getFreeDcamDocumentFolder();
             DocumentFile wr = df.createFile("*/*", recordingFile.getName());
             ParcelFileDescriptor fileDescriptor = null;
             try {

@@ -5,10 +5,10 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.util.Pair;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.R;
 
@@ -65,9 +65,16 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private boolean waitForFirstFrame = false;
     private WaitForFirstFrameCallback waitForFirstFrameCallback;
 
+    private boolean focusIsIdel = true;
+
     public CameraValuesChangedCaptureCallback(Camera2Fragment camera2Fragment)
     {
         this.camera2Fragment =camera2Fragment;
+    }
+
+    public void setFocusIsIdel(boolean idel)
+    {
+        focusIsIdel = idel;
     }
 
     public void setWaitForFirstFrame()
@@ -107,7 +114,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     boolean aeLocked = false;
     boolean afLocked = false;
     @Override
-    public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
+    public void onCaptureCompleted( CameraCaptureSession session,  CaptureRequest request,  TotalCaptureResult result) {
         if (result == null)
             return;
         if (waitForFirstFrame)
@@ -117,10 +124,6 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             waitForFirstFrame = false;
         }
 
-
-
-        /*if (request.get(CaptureRequest.COLOR_CORRECTION_GAINS) != null)
-            Log.d(TAG, request.get(CaptureRequest.COLOR_CORRECTION_GAINS).toString());*/
 
         ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);
         ParameterInterface iso = camera2Fragment.getParameterHandler().get(SettingKeys.M_ManualIso);
@@ -202,7 +205,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         }
     }
 
-    private void processDefaultFocus(@NonNull TotalCaptureResult result) {
+    private void processDefaultFocus( TotalCaptureResult result) {
         if (result.get(CaptureResult.CONTROL_AF_STATE) != null /*&& afState != result.get(CaptureResult.CONTROL_AF_STATE)*/)
         {
             afState =  result.get(CaptureResult.CONTROL_AF_STATE);
@@ -228,14 +231,12 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 case CaptureRequest.CONTROL_AF_STATE_FOCUSED_LOCKED:
                     state = "FOCUSED_LOCKED";
                     afLocked = true;
-                    camera2Fragment.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+
                     if (camera2Fragment.getFocusHandler().focusEvent != null)
                         camera2Fragment.getFocusHandler().focusEvent.FocusFinished(true);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED:
                     state = "NOT_FOCUSED_LOCKED";
-                    afLocked = true;
-                    camera2Fragment.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                     if (camera2Fragment.getFocusHandler().focusEvent != null)
                         camera2Fragment.getFocusHandler().focusEvent.FocusFinished(false);
                     break;
@@ -256,12 +257,11 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         }
     }
 
-    private void processDefaultAEValues(@NonNull TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
+    private void processDefaultAEValues( TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
         if (expotime != null && expotime.getViewState() == AbstractParameter.ViewState.Visible || expotime.getViewState() == AbstractParameter.ViewState.Disabled) {
             if (result != null && result.getKeys().size() > 0) {
                 try {
-                    if (!camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))
-                            && !camera2Fragment.getParameterHandler().get(SettingKeys.CONTROL_MODE).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))) {
+                    if (!camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))) {
                         try {
                             long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                             currentExposureTime = expores;
@@ -291,7 +291,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         }
     }
 
-    private void processHuaweiAEValues(@Nullable TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
+    private void processHuaweiAEValues(TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
         if (expotime.GetValue() == 0) {
             Long expoTime = result.get(CaptureResult.SENSOR_EXPOSURE_TIME);
             if (expoTime != null) {

@@ -23,8 +23,6 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +34,8 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -108,7 +108,6 @@ public class VideoProfileEditorFragment extends Fragment {
     private Switch switch_Audio;
 
     private HashMap<String, VideoMediaProfile> videoMediaProfiles;
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -116,7 +115,7 @@ public class VideoProfileEditorFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view,  Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         button_profile = view.findViewById(id.button_Profile);
         button_profile.setOnClickListener(profileClickListner);
@@ -145,7 +144,7 @@ public class VideoProfileEditorFragment extends Fragment {
 
         if (!SettingsManager.getInstance().isInit()){
 
-            SettingsManager.getInstance().init(PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()), getResources());
+            SettingsManager.getInstance().init(getResources(),getContext());
         }
         SettingsManager.getInstance().getCamApi();
         videoMediaProfiles = SettingsManager.getInstance().getMediaProfiles();

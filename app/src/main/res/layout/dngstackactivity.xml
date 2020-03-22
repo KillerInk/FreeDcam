@@ -16,17 +16,19 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Stack Queue:  "
-            android:id="@+id/textView10" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
 
         <TextView
+            android:id="@+id/rawList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/rawList" />
+            android:textColor="#000000" />
     </LinearLayout>
 
     <Button

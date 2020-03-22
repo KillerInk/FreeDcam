@@ -23,12 +23,13 @@ package freed.viewer.screenslide;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import androidx.fragment.app.Fragment;
 
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R.dimen;
@@ -38,10 +39,11 @@ import com.troop.freedcam.R.layout;
 import java.lang.ref.WeakReference;
 
 import freed.ActivityInterface;
+import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.utils.Log;
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment.FragmentClickClistner;
 
 /**
@@ -59,9 +61,10 @@ public class ImageFragment extends Fragment
 
     private final String TAG = ImageFragment.class.getSimpleName();
     private TouchImageView imageView;
-    private FileHolder file;
+    private BaseHolder file;
     private FragmentClickClistner onClickListener;
     private ProgressBar progressBar;
+	private int [] pixels;
     private int [] histogramData;
     private boolean isWorking;
     private I_WaitForWorkFinish waitForWorkFinish;
@@ -71,12 +74,12 @@ public class ImageFragment extends Fragment
      * Set the file to load by this fragment
      * @param filepath
      */
-    public void SetFilePath(FileHolder filepath)
+    public void SetFilePath(BaseHolder filepath)
     {
         file = filepath;
     }
 
-    public FileHolder getFile()
+    public BaseHolder getFile()
     {
         return file;
     }
@@ -96,7 +99,7 @@ public class ImageFragment extends Fragment
      *
      * @return the File attached to this view
      */
-    public FileHolder GetFilePath()
+    public BaseHolder GetFilePath()
     {
         return file;
     }
@@ -132,7 +135,7 @@ public class ImageFragment extends Fragment
     }
 
     @Override
-    public void onDestroyView() {
+    public synchronized void onDestroyView() {
         super.onDestroyView();
         histogramData = null;
     }
@@ -149,9 +152,9 @@ public class ImageFragment extends Fragment
     private class BitmapLoader extends ImageTask
     {
         private WeakReference<ImageFragment> imageviewRef;
-        private FileHolder file;
+        private BaseHolder file;
 
-        public BitmapLoader(FileHolder file, ImageFragment imageFragment)
+        public BitmapLoader(BaseHolder file, ImageFragment imageFragment)
         {
             this.file = file;
             imageviewRef = new WeakReference<>(imageFragment);
@@ -163,13 +166,13 @@ public class ImageFragment extends Fragment
                 Log.e(TAG, "ImageLoaderTask: Activity is null");
                 return false;
             }
-            Log.d(TAG, "ImageLoaderTask: LoadImage:" + file.getFile().getName());
+            Log.d(TAG, "ImageLoaderTask: LoadImage:" + file.getName());
             final Bitmap response = ((ActivityInterface)getActivity()).getBitmapHelper().getBitmap(file,false);
             createHistogramm(response);
             if (waitForWorkFinish != null && position >-1)
                 waitForWorkFinish.onHistogramData(histogramData, position);
             waitForWorkFinish = null;
-            Log.d(TAG, "ImageLoaderTask: LoadImage Done:" + file.getFile().getName());
+            Log.d(TAG, "ImageLoaderTask: LoadImage Done:" + file.getName());
             if (imageviewRef != null && response != null) {
                 final ImageFragment imageFragment = imageviewRef.get();
                 if (imageFragment != null && imageFragment.getFile() == file)
@@ -188,6 +191,7 @@ public class ImageFragment extends Fragment
             {
                 if (response != null)
                     response.recycle();
+                progressBar.post(()-> progressBar.setVisibility(View.GONE));
             }
             return true;
         }
@@ -198,10 +202,12 @@ public class ImageFragment extends Fragment
         Log.d(TAG, "Histodata");
         if(bitmap == null || bitmap.isRecycled())
             return;
-        int [] histo = new int [ 256 * 3 ];
+        if (histogramData == null)
+            histogramData = new int [ 256 * 3 ];
         int w = bitmap.getWidth ();
         int h = bitmap.getHeight ();
-        int [] pixels = new int [ w * h ];
+        if ((pixels == null) || (pixels.length < (w * h)))
+        	pixels = new int [ w * h ];
         bitmap.getPixels(pixels, 0, w, 0, 0, w, h);
         for ( int i = 0 ; i < w ; i+=4) {
             for ( int j = 0 ; j < h ; j+=4) {
@@ -209,13 +215,11 @@ public class ImageFragment extends Fragment
                 int r = Color.red ( pixels [ index ]);
                 int g = Color.green ( pixels [ index ]);
                 int b = Color.blue ( pixels [ index ]);
-                histo [ r ]++;
-                histo [ 256 + g ]++;
-                histo [ 512 + b ]++;
+                histogramData [ r ]++;
+                histogramData [ 256 + g ]++;
+                histogramData [ 512 + b ]++;
             }
         }
-        pixels = null;
-        histogramData = histo;
     }
 
 }

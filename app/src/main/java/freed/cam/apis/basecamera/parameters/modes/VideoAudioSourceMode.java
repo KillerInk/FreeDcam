@@ -16,7 +16,7 @@ public class VideoAudioSourceMode extends AbstractParameter {
     @Override
     protected void setValue(String valueToSet, boolean setToCamera) {
         super.setValue(valueToSet, setToCamera);
-        if (cameraUiWrapper.getModuleHandler().getCurrentModuleName() == cameraUiWrapper.getResString(R.string.module_video) && setToCamera)
+        if (cameraUiWrapper.getModuleHandler().getCurrentModuleName() == cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video) && setToCamera)
         {
             cameraUiWrapper.getModuleHandler().getCurrentModule().DestroyModule();
             cameraUiWrapper.getModuleHandler().getCurrentModule().InitModule();

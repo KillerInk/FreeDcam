@@ -3,13 +3,14 @@ package freed.cam.apis.featuredetector;
 import android.hardware.camera2.CameraCharacteristics;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
@@ -42,15 +43,15 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
         this.featureDetectorEvents = events;
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.camerafeaturedetector, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loggerview = (TextView)view.findViewById(R.id.textview_log);
         loggerview.setMovementMethod(new ScrollingMovementMethod());
@@ -120,6 +121,7 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
                 else
                     SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
             }
+            SettingsManager.getInstance().save();
             handler.obtainMessage(FeatureDetectorHandler.MSG_STARTFREEDCAM).sendToTarget();
             return false;
         }

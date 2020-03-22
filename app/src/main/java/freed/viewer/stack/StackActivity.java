@@ -20,21 +20,25 @@
 package freed.viewer.stack;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.Type;
-import android.support.v4.provider.DocumentFile;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.documentfile.provider.DocumentFile;
 
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
@@ -45,15 +49,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import freed.ActivityAbstract;
+import freed.file.FileListController;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.UriHolder;
 import freed.renderscript.RenderScriptManager;
 import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
-import freed.utils.StorageFileManager;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingFragment;
-import freed.viewer.holder.FileHolder;
+import freed.file.holder.FileHolder;
 
 
 /**
@@ -61,7 +67,7 @@ import freed.viewer.holder.FileHolder;
  */
 public class StackActivity extends ActivityAbstract
 {
-    private String[] filesToStack = null;
+    private BaseHolder[] filesToStack = null;
     private RenderScriptManager renderScriptManager;
     private int stackMode = 0;
     private TouchImageView imageView;
@@ -89,9 +95,25 @@ public class StackActivity extends ActivityAbstract
         String[] items =  new String[] {AVARAGE, AVARAGE1x2, AVARAGE1x3, AVARAGE3x3, LIGHTEN, LIGHTEN_V, MEDIAN,EXPOSURE};
         ArrayAdapter<String> stackadapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, items);
         stackvaluesButton.setAdapter(stackadapter);
-        filesToStack = getIntent().getStringArrayExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT);
+        String files[] = getIntent().getStringArrayExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT);
+        filesToStack = new BaseHolder[files.length];
+        int i = 0;
+        for (String s: files)
+        {
+            if (s.toLowerCase().startsWith("content")) {
+                Uri uri = Uri.parse(s);
+                filesToStack[i++] = new UriHolder(uri, uri.getLastPathSegment(),0,0,false,false);
+            }
+            else
+            {
+                File file =new File(s);
+                filesToStack[i++] = new FileHolder(file,false);
+            }
+        }
+
+
         renderScriptManager = new RenderScriptManager(getContext());
-        storageHandler = new StorageFileManager();
+        fileListController = new FileListController(getContext());
 
         stackvaluesButton.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -124,7 +146,7 @@ public class StackActivity extends ActivityAbstract
         closeButton.setVisibility(View.GONE);
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(filesToStack[0],options);
+        filesToStack[0].getBitmap(getContext(), options);
         final int mWidth = options.outWidth;
         final int mHeight = options.outHeight;
         Type.Builder tbIn2 = new Type.Builder(renderScriptManager.GetRS(), Element.RGBA_8888(renderScriptManager.GetRS()));
@@ -149,13 +171,13 @@ public class StackActivity extends ActivityAbstract
         }
         FreeDPool.Execute(() -> {
             int count = 0;
-            for (String f : filesToStack)
+            for (BaseHolder f : filesToStack)
             {
                 updateCounter(count++);
-                BitmapFactory.decodeFile(f,options);
+                f.getBitmap(getContext(),options);
                 if(mWidth != options.outWidth || mHeight != options.outHeight)
                     return;
-                renderScriptManager.GetIn().copyFrom(BitmapFactory.decodeFile(f));
+                renderScriptManager.GetIn().copyFrom(f.getBitmap(getContext(),null));
                 switch (stackMode)
                 {
                     case 0: //AVARAGE
@@ -196,9 +218,9 @@ public class StackActivity extends ActivityAbstract
                 minValues.destroy();
                 maxValues.destroy();
             }
-            File file = new File(filesToStack[0]);
+            File file = new File(filesToStack[0].getName());
             String parent = file.getParent();
-            saveBitmapToFile(outputBitmap,new File(parent+"/" + getStorageHandler().getNewFileDatedName("_Stack.jpg")));
+            saveBitmapToFile(outputBitmap,new File(parent+"/" + fileListController.getStorageFileManager().getNewFileDatedName("_Stack.jpg")));
             runOnUiThread(() -> closeButton.setVisibility(View.VISIBLE));
         }
         );
@@ -227,13 +249,17 @@ public class StackActivity extends ActivityAbstract
         }
         else
         {
-            DocumentFile df =  getFreeDcamDocumentFolder();
+            ContentValues values = new ContentValues(4);
+            values.put(MediaStore.Images.Media.DATE_TAKEN,  System.currentTimeMillis());
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
+            values.put(MediaStore.Images.Media.DISPLAY_NAME, file.getName());
+            Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
-            DocumentFile wr = df.createFile("image/*", file.getName());
             try {
-                outStream = getContentResolver().openOutputStream(wr.getUri());
+                outStream = getContentResolver().openOutputStream(uri);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
                 outStream.close();
+                getContentResolver().update(uri,values,null,null);
             } catch (IOException e) {
                 Log.WriteEx(e);
             }
@@ -241,19 +267,20 @@ public class StackActivity extends ActivityAbstract
         MediaScannerManager.ScanMedia(getContext(), file);
     }
 
-    @Override
-    public void WorkHasFinished(FileHolder fileHolder) {
-
-    }
-
-    @Override
-    public void WorkHasFinished(FileHolder[] fileHolder) {
-
-    }
 
     @Override
     public LocationManager getLocationManager() {
         return null;
+    }
+
+    @Override
+    public String getStringFromRessources(int id) {
+        return null;
+    }
+
+    @Override
+    protected void setContentToView() {
+
     }
 
     private void updateCounter(final int count)

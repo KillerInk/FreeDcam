@@ -27,6 +27,7 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.StateCallback;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.VideoSource;
@@ -51,9 +52,12 @@ import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.PermissionManager;
 import freed.utils.VideoMediaProfile;
 
 /**
@@ -68,7 +72,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     private VideoMediaProfile currentVideoProfile;
     private Surface previewsurface;
     private Surface recorderSurface;
-    private File recordingFile;
+    private BaseHolder recordingFile;
 
     //private MediaRecorder mediaRecorder;
     private VideoRecorder videoRecorder;
@@ -77,7 +81,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     public VideoModuleApi2( CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         this.cameraUiWrapper = (Camera2Fragment)cameraUiWrapper;
-        name = cameraUiWrapper.getResString(R.string.module_video);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video);
         videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
     }
 
@@ -89,8 +93,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void DoWork()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionManager().hasRecordAudioPermission(null))
+        if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio))
             startStopRecording();
+        else
+            cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio,null);
     }
 
     private void startStopRecording()
@@ -128,6 +134,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).getValues()[0]);
         }
         parameterHandler.get(SettingKeys.VideoProfiles).fireStringValueChanged(currentVideoProfile.ProfileName);
+        Log.d(TAG, "Create VideoRecorder");
         videoRecorder = new VideoRecorder(cameraUiWrapper,new MediaRecorder());
         startPreview();
         if (parameterHandler.get(SettingKeys.PictureFormat) != null)
@@ -157,6 +164,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         videoRecorder = null;
         previewsurface = null;
+        super.DestroyModule();
     }
 
     @Override
@@ -188,7 +196,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
 
         fireOnWorkFinish(recordingFile);
-        cameraUiWrapper.getActivityInterface().ScanFile(recordingFile);
+        //TODO fix mediascan
+        //cameraUiWrapper.getActivityInterface().ScanFile(recordingFile);
 
         cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
     }
@@ -197,7 +206,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview()
     {
-        Size previewSize = getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+        Size previewSize;
+        if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
+            previewSize = getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+        else
+            previewSize = new Size(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         int orientation = 0;
         int orientationToSet = (360 + sensorOrientation)%360;
@@ -258,8 +272,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @TargetApi(VERSION_CODES.LOLLIPOP)
     private void startPreviewVideo()
     {
-        recordingFile = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4"));
-        videoRecorder.setRecordingFile(recordingFile);
+        String file = cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
+        recordingFile = new FileHolder(new File(file),SettingsManager.getInstance().GetWriteExternal());
+        //TODO handel uri based holder
+        videoRecorder.setRecordingFile(((FileHolder)recordingFile).getFile());
         videoRecorder.setErrorListener((mr, what, extra) -> {
             Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
             changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
@@ -276,7 +292,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             }
         });
 
-        if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_))){
+        if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_))){
             Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
             if (location != null)
                 videoRecorder.setLocation(location);
@@ -323,6 +339,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             }
             else
             {
+                int index = getHFRResIndex();
+                cameraHolder.setOpModeForHFRVideoStreamToActiveCamera(index);
                 cameraUiWrapper.captureSessionHandler.StartHighspeedCaptureSession();
             }
             videoRecorder.start();
@@ -339,7 +357,20 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     };
 
     @Override
-    public void internalFireOnWorkDone(File file) {
+    public void internalFireOnWorkDone(BaseHolder file) {
 
+    }
+
+    private int getHFRResIndex()
+    {
+        int index = -1;
+        StreamConfigurationMap smap = cameraHolder.characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        Size sizes[] = smap.getHighSpeedVideoSizes();
+        for (int i = 0; i < sizes.length; i++)
+        {
+            if (sizes[i].getWidth() == currentVideoProfile.videoFrameWidth && sizes[i].getHeight() == currentVideoProfile.videoFrameHeight)
+                return index;
+        }
+        return index;
     }
 }

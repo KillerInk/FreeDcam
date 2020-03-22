@@ -31,15 +31,15 @@ import freed.settings.SettingKeys;
  * Created by Ar4eR on 10.12.15.
  */
 public class VideoStabilizationParameter extends  BaseModeParameter {
-    private final String[] vs_values = {cameraUiWrapper.getResString(R.string.true_), cameraUiWrapper.getResString(R.string.false_)};
+    private final String[] vs_values = {cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.false_)};
     public VideoStabilizationParameter(Parameters parameters, CameraWrapperInterface parameterChanged)
     {
         super(parameters, parameterChanged, SettingKeys.VideoStabilization);
-        if (parameters.get(cameraUiWrapper.getResString(R.string.video_stabilization_supported)) != null
-                && parameters.get(cameraUiWrapper.getResString(R.string.video_stabilization_supported)).equals(cameraUiWrapper.getResString(R.string.true_)))
+        if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.video_stabilization_supported)) != null
+                && parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.video_stabilization_supported)).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_)))
         {
             setViewState(ViewState.Visible);
-            key_value = cameraUiWrapper.getResString(R.string.video_stabilization);
+            key_value = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.video_stabilization);
         }
 
     }
@@ -52,7 +52,7 @@ public class VideoStabilizationParameter extends  BaseModeParameter {
     @Override
     public String GetStringValue()
     {
-        String vs = parameters.get(cameraUiWrapper.getResString(R.string.video_stabilization));
+        String vs = parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.video_stabilization));
         if (vs != null && !TextUtils.isEmpty(vs))
             return vs;
         else

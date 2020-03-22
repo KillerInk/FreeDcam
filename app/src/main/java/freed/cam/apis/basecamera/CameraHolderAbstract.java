@@ -20,8 +20,6 @@
 package freed.cam.apis.basecamera;
 
 import android.location.Location;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.SurfaceHolder;
 
 /**
@@ -31,12 +29,8 @@ import android.view.SurfaceHolder;
 public abstract class CameraHolderAbstract implements CameraHolderInterface
 {
     protected boolean isRdy;
-    //handler wich runs in mainthread
-    protected Handler UIHandler;
 
     protected CameraWrapperInterface cameraUiWrapper;
-
-    //protected ModuleHandlerAbstract moduleHandler;
 
     /**
      *
@@ -45,8 +39,6 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
     protected CameraHolderAbstract(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        //this.moduleHandler = cameraUiWrapper.getModuleHandler();
-        UIHandler = new Handler(Looper.getMainLooper());
     }
 
     @Override

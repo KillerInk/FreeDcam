@@ -40,6 +40,7 @@ public class SettingKeys{
     public final static Key<SettingMode> AntiBandingMode = new Key(SettingMode.class, R.string.aps_antibandingmode);
     public final static Key<SettingMode> WhiteBalanceMode = new Key(SettingMode.class, R.string.aps_whitebalancemode);
     public final static Key<SettingMode> PictureSize = new Key(SettingMode.class, R.string.aps_picturesize);
+    public final static Key<SettingMode> RawSize = new Key(SettingMode.class, R.string.aps_rawsize);
     public final static Key<SettingMode> PictureFormat = new Key(SettingMode.class, R.string.aps_pictureformat);
 
     public final static Key<SettingMode> JpegQuality = new Key(SettingMode.class, R.string.aps_jpegquality);
@@ -145,8 +146,9 @@ public class SettingKeys{
     public final static Key<ApiBooleanSettingMode> EnableRenderScript = new Key(ApiBooleanSettingMode.class, R.string.aps_enable_renderscript);
     public final static Key<SettingMode> Focuspeak = new Key(SettingMode.class, R.string.aps_focuspeak);
     public final static Key<SettingMode> HISTOGRAM = new Key(SettingMode.class, R.string.aps_histogram);
-    public final static Key<SettingMode> CLIPPING = new Key(SettingMode.class, R.string.aps_histogram);
+    public final static Key<SettingMode> CLIPPING = new Key(SettingMode.class, R.string.aps_clipping);
 
+    public final static Key<SettingMode> ApiSettingsMode = new Key(SettingMode.class, R.string.aps_api);
     /**
      *
      * @return a list with all statics keys in this class

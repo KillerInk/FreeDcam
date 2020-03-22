@@ -20,20 +20,12 @@
 package freed.cam.apis.basecamera;
 
 import android.content.Context;
-import android.os.HandlerThread;
-import android.os.Looper;
 import android.view.SurfaceView;
-
-import freed.ActivityInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.renderscript.RenderScriptManager;
-import freed.renderscript.RenderScriptProcessorInterface;
 
 /**
  * Created by troop on 09.12.2014.
  */
-public interface CameraWrapperInterface extends CameraStateEvents
+public interface CameraWrapperInterface extends CameraObjects
 {
     /**
      * Start the Camera
@@ -48,32 +40,6 @@ public interface CameraWrapperInterface extends CameraStateEvents
 
     void startPreviewAsync();
     void stopPreviewAsync();
-
-    /*void initCamera();
-    void createCamera();*/
-
-    /**
-     * Get the current active CameraHolderSony
-     * @return
-     */
-    CameraHolderInterface getCameraHolder();
-
-    /**
-     * get the active parameterhandler
-     * @return
-     */
-    AbstractParameterHandler getParameterHandler();
-
-    ModuleHandlerAbstract getModuleHandler();
-    SurfaceView getSurfaceView();
-    AbstractFocusHandler getFocusHandler();
-
-    /**
-     * set the listner that get notifyed when camera state has changed
-     * @param cameraChangedListner to notify
-     */
-    void setCameraEventListner(CameraStateEvents cameraChangedListner);
-
 
     /**
      * get the left margine between display and preview
@@ -104,16 +70,8 @@ public interface CameraWrapperInterface extends CameraStateEvents
     boolean isAeMeteringSupported();
 
     Context getContext();
+    SurfaceView getSurfaceView();
 
-    RenderScriptProcessorInterface getFocusPeakProcessor();
-
-    RenderScriptManager getRenderScriptManager();
-
-    ActivityInterface getActivityInterface();
-
-    String getResString(int id);
-
-    Looper getCameraHandlerLooper();
 
     void fireCameraOpen();
     void fireCameraOpenFinished();

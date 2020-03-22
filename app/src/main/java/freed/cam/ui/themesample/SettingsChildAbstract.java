@@ -27,7 +27,6 @@ import android.widget.TextView;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.utils.Log;
@@ -35,7 +34,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 16.06.2016.
  */
-public abstract class SettingsChildAbstract extends LinearLayout implements SettingsChildInterface, ParameterEvents
+public abstract class SettingsChildAbstract extends LinearLayout implements SettingsChildInterface
 {
 
     public interface SettingsChildClick
@@ -60,10 +59,9 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     {
         super(context);
         this.parameter = parameter;
-        if (parameter == null)
+        if (parameter == null || parameter.GetStringValue() == null)
             return;
         String value = parameter.GetStringValue();
-        parameter.addEventListner(this);
         parameter.fireStringValueChanged(value);
     }
 
@@ -106,7 +104,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         }
         else
         {
-            parameter.addEventListner(this);
+            //parameter.addEventListner(this);
             this.parameter = parameter;
             onViewStateChanged(parameter.getViewState());
         }

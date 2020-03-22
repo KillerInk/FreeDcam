@@ -57,7 +57,7 @@ public class ShutterManualZTE extends AbstractParameter
             Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
             shutterstring = "" + a;
         }
-        if(!stringvalues[currentInt].equals(cameraUiWrapper.getResString(R.string.auto_)))
+        if(!stringvalues[currentInt].equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_)))
         {
             try {
                 shutterstring = setExposureTimeToParameter(shutterstring);

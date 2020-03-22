@@ -29,17 +29,21 @@ import android.view.MotionEvent;
 
 import com.troop.freedcam.R;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.EventBusLifeCycle;
+import freed.cam.events.ValueChangedEvent;
+import freed.settings.SettingKeys;
 import freed.utils.Log;
 
 /**
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class FocusHandler extends AbstractFocusHandler
+public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCycle
 {
     private int mState;
     private boolean focusenabled;
@@ -53,40 +57,26 @@ public class FocusHandler extends AbstractFocusHandler
         super(cameraUiWrapper);
     }
 
-    public ParameterEvents focusModeListner = new ParameterEvents() {
 
-
-        @Override
-        public void onViewStateChanged(AbstractParameter.ViewState value) {
-
-        }
-
-        @Override
-        public void onIntValueChanged(int current) {
-
-        }
-
-        @Override
-        public void onValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onStringValueChanged(String val) {
-            if (val.contains("Continous")|| val.equals(cameraUiWrapper.getContext().getString(R.string.off)))
-            {
+    @Subscribe
+    public void onFocusModeValueChanged(ValueChangedEvent<String> valueChangedEvent)
+    {
+        if (valueChangedEvent.type != String.class || cameraUiWrapper == null || cameraUiWrapper.getContext() == null)
+            return;
+        if (valueChangedEvent.key == SettingKeys.FocusMode) {
+            Log.d(TAG, "onFocusModeValueChanged");
+            String val = valueChangedEvent.newValue;
+            if (val.contains("Continous") || val.equals(cameraUiWrapper.getContext().getString(R.string.off))) {
                 focusenabled = false;
                 if (focusEvent != null)
                     focusEvent.TouchToFocusSupported(false);
-            }
-            else
-            {
+            } else {
                 focusenabled = true;
                 if (focusEvent != null)
                     focusEvent.TouchToFocusSupported(true);
             }
         }
-    };
+    }
 
     @Override
     public void StartFocus() {
@@ -109,7 +99,7 @@ public class FocusHandler extends AbstractFocusHandler
 
         Rect sensorSize =  ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         logRect(sensorSize);
-        int areasize = (sensorSize.width() /8);
+        int areasize = (sensorSize.width() /10);
         float xf = (float)viewCoordinates.x * sensorSize.width() / viewCoordinates.width;
         float yf = (float)viewCoordinates.y * sensorSize.height() /  viewCoordinates.height;
         int x_c = (int)xf; //(int)((float)x/width * m.right);
@@ -146,37 +136,6 @@ public class FocusHandler extends AbstractFocusHandler
         ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
     }
 
-    public ParameterEvents aeModeListner = new ParameterEvents() {
-
-
-        @Override
-        public void onViewStateChanged(AbstractParameter.ViewState value) {
-
-        }
-
-        @Override
-        public void onIntValueChanged(int current) {
-
-        }
-
-        @Override
-        public void onValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onStringValueChanged(String val) {
-            if (val.equals("off"))
-            {
-                if (focusEvent != null)
-                    focusEvent.AEMeteringSupported(false);
-            }
-            else {
-                if (focusEvent != null)
-                    focusEvent.AEMeteringSupported(true);
-            }
-        }
-    };
 
     @Override
     public void SetMeteringAreas(int x, int y, int width, int height)
@@ -213,8 +172,22 @@ public class FocusHandler extends AbstractFocusHandler
     }
 
     @Override
+    public boolean isTouchSupported() {
+        return focusenabled;
+    }
+
+    @Override
     public void SetMotionEvent(MotionEvent event) {
 
     }
 
+    @Override
+    public void startListning() {
+        EventBusHelper.register(this);
+    }
+
+    @Override
+    public void stopListning() {
+        EventBusHelper.unregister(this);
+    }
 }

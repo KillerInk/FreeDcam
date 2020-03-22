@@ -33,7 +33,7 @@ public class ExposureTime_MicroSec extends AbstractParameter {
         super.setValue(valueToset,setToCamera);
         currentInt = valueToset;
         String shutterstring = stringvalues[currentInt];
-        if(!shutterstring.equals(cameraUiWrapper.getResString(R.string.auto_)))
+        if(!shutterstring.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_)))
         {
             if (shutterstring.contains("/")) {
                 String[] split = shutterstring.split("/");

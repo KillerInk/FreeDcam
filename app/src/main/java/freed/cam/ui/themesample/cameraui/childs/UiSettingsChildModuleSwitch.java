@@ -42,8 +42,6 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if(cameraUiWrapper.getModuleHandler() != null)
-            cameraUiWrapper.getModuleHandler().addListner(this);
         SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.Module));
         if (cameraUiWrapper.getModuleHandler() == null)
             return;

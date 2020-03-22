@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MainLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#1b1b1b"
     android:keepScreenOn="true"
     android:longClickable="false"
-    android:touchscreenBlocksFocus="true"
-    android:id="@+id/MainLayout">
+    android:orientation="vertical">
 
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/cameraFragmentHolder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/cameraFragmentHolder"></LinearLayout>
-
-
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
 
 
     <freed.cam.ui.themesample.PagingView
+        android:id="@+id/viewPager_fragmentHolder"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/viewPager_fragmentHolder" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/nightoverlay"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/nightoverlay"
-
-        android:layout_alignParentLeft="true"
         android:background="#7fff0000"
-        android:visibility="gone">
-    </LinearLayout>
-</RelativeLayout>
+
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

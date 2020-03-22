@@ -2,14 +2,15 @@ package freed.cam.apis;
 
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.troop.freedcam.R;
 
+import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.CameraStateEvents;
 import freed.cam.apis.basecamera.CameraToMainHandler;
 import freed.cam.apis.basecamera.MainToCameraHandler;
 import freed.cam.apis.camera1.Camera1Fragment;
@@ -29,17 +30,17 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     private FragmentManager fragmentManager;
     private CameraFragmentAbstract cameraFragment;
     private RenderScriptManager renderScriptManager;
-    private CameraStateEvents cameraStateEventListner;
+
     private CameraFeatureDetectorFragment fd;
     private BackgroundHandlerThread backgroundHandlerThread;
     private MainToCameraHandler mainToCameraHandler;
     private CameraToMainHandler cameraToMainHandler;
+    private ActivityInterface activityInterface;
 
-    public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context, CameraStateEvents cameraStateEventListner)
+    public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context, ActivityInterface activityInterface)
     {
         this.fragmentManager = fragmentManager;
         this.fragmentHolderId = fragmentHolderId;
-        this.cameraStateEventListner = cameraStateEventListner;
         if (RenderScriptManager.isSupported())
             renderScriptManager = new RenderScriptManager(context);
         Log.d(TAG,"Create camera BackgroundHandler");
@@ -47,6 +48,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         backgroundHandlerThread.create();
         cameraToMainHandler = new CameraToMainHandler();
         this.mainToCameraHandler = new MainToCameraHandler(backgroundHandlerThread.getThread().getLooper());
+        this.activityInterface = activityInterface;
     }
 
     public void destroy()
@@ -94,6 +96,15 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         }
     }
 
+    public void onResume()
+    {
+        if (cameraFragment != null) {
+            mainToCameraHandler.setCameraInterface(cameraFragment);
+            cameraFragment.init(mainToCameraHandler, cameraToMainHandler,activityInterface);
+            cameraFragment.setRenderScriptManager(renderScriptManager);
+        }
+    }
+
     public void switchCameraFragment()
     {
         Log.d(TAG, "BackgroundHandler is null: " + (backgroundHandlerThread.getThread() == null));
@@ -120,16 +131,12 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
                 }
 
                 mainToCameraHandler.setCameraInterface(cameraFragment);
-                cameraToMainHandler.setMainMessageEventWeakReference(cameraFragment);
-                cameraFragment.init(mainToCameraHandler,cameraToMainHandler);
+                cameraFragment.init(mainToCameraHandler,cameraToMainHandler,activityInterface);
                 cameraFragment.setRenderScriptManager(renderScriptManager);
-                cameraFragment.setCameraEventListner(cameraStateEventListner);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
             } else {
-
                 mainToCameraHandler.setCameraInterface(cameraFragment);
-                cameraToMainHandler.setMainMessageEventWeakReference(cameraFragment);
-                cameraFragment.init(mainToCameraHandler,cameraToMainHandler);
+                cameraFragment.init(mainToCameraHandler,cameraToMainHandler,activityInterface);
                 cameraFragment.startCameraAsync();
             }
         }
@@ -149,7 +156,8 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
             transaction.commit();
             cameraFragment = null;
             mainToCameraHandler.setCameraInterface(null);
-            cameraToMainHandler.setMainMessageEventWeakReference(null);
         }
     }
+
+
 }

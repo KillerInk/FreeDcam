@@ -17,7 +17,13 @@
  * /
  */
 
-package freed.viewer.holder;
+package freed.file.holder;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.io.IOException;
 
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.gridview.GridViewFragment.ViewStates;
@@ -25,12 +31,23 @@ import freed.viewer.gridview.GridViewFragment.ViewStates;
 /**
  * Created by Ingo on 27.12.2015.
  */
-public class BaseHolder
+public abstract class BaseHolder
 {
     protected ViewStates currentstate = GridViewFragment.ViewStates.normal;
     protected EventHandler handler;
     protected boolean selected;
+    private String name;
+    private long lastmodified;
+    private boolean isFolder;
+    private boolean isSDCard;
 
+    public BaseHolder(String name, long lastmodified, boolean isFolder,boolean isSDCard)
+    {
+        this.name = name;
+        this.lastmodified = lastmodified;
+        this.isFolder = isFolder;
+        this.isSDCard = isSDCard;
+    }
 
     public GridViewFragment.ViewStates GetCurrentViewState()
     {
@@ -71,4 +88,22 @@ public class BaseHolder
         if (handler !=null)
             handler.onSelectionChanged(selected);
     }
+
+    public String getName()
+    {
+        return name;
+    }
+    public Long lastModified() {
+        return lastmodified;
+    }
+    public boolean IsFolder()
+    {
+        return isFolder;
+    }
+    public boolean isExternalSD() { return isSDCard; }
+
+    public abstract Bitmap getBitmap(Context context, BitmapFactory.Options options);
+    public abstract Bitmap getVideoThumb(Context context) throws IOException;
+    public abstract Bitmap getBitmapFromDng(Context context) throws IOException;
+    public abstract boolean delete(Context context);
 }

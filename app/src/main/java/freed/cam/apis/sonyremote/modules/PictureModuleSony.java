@@ -22,7 +22,8 @@ package freed.cam.apis.sonyremote.modules;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
-import android.support.v4.provider.DocumentFile;
+
+import androidx.documentfile.provider.DocumentFile;
 
 import com.troop.freedcam.R;
 
@@ -40,6 +41,8 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -54,7 +57,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
 
     public PictureModuleSony(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        name = cameraUiWrapper.getResString(R.string.module_picture);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_picture);
         cameraHolder = (CameraHolderSony)cameraUiWrapper.getCameraHolder();
 
 
@@ -151,7 +154,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     @Override
     public void onPictureTaken(URL url)
     {
-        File file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".jpg"));
+        File file = new File(cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".jpg"));
         try {
             file.createNewFile();
         } catch (IOException ex) {
@@ -165,7 +168,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
                 output = new FileOutputStream(file);
             else
             {
-                DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
+                DocumentFile df = cameraUiWrapper.getActivityInterface().getFileListController().getFreeDcamDocumentFolder();
                 DocumentFile wr = df.createFile("image/jpeg", file.getName());
                 output = cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri());
             }
@@ -197,7 +200,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         }
 
         cameraUiWrapper.getActivityInterface().ScanFile(file);
-        fireOnWorkFinish(file);
+        fireOnWorkFinish(new FileHolder(file,SettingsManager.getInstance().GetWriteExternal()));
 
     }
 
@@ -227,7 +230,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     }
 
     @Override
-    public void internalFireOnWorkDone(File file) {
+    public void internalFireOnWorkDone(BaseHolder file) {
 
     }
 }

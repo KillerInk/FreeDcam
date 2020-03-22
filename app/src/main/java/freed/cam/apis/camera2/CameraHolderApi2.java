@@ -33,11 +33,12 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
-import android.support.annotation.NonNull;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.List;
 
@@ -67,15 +68,42 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     boolean errorRecieved;
 
+    private Method method_setVendorStreamConfigMode = null;
+
     @TargetApi(VERSION_CODES.LOLLIPOP)
     public CameraHolderApi2(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
         manager = (CameraManager) cameraUiWrapper.getContext().getSystemService(Context.CAMERA_SERVICE);
-
+        checkSetOpMode();
      }
 
 
+     private void checkSetOpMode()
+     {
+         try {
+             if (method_setVendorStreamConfigMode == null) {
+                 method_setVendorStreamConfigMode = CameraDevice.class.getDeclaredMethod(
+                         "setVendorStreamConfigMode", int.class);
+             }
+         } catch (Exception exception) {
+             Log.w(TAG, "setOpModeForVideoStream method is not exist");
+             exception.printStackTrace();
+         }
+     }
+
+     public void setOpModeForHFRVideoStreamToActiveCamera(int hfrResIndex)
+     {
+         if (method_setVendorStreamConfigMode != null) {
+             try {
+                 method_setVendorStreamConfigMode.invoke(mCameraDevice, hfrResIndex);
+             } catch (IllegalAccessException e) {
+                 e.printStackTrace();
+             } catch (InvocationTargetException e) {
+                 e.printStackTrace();
+             }
+         }
+     }
 
 
     //###########################  public camera methods
@@ -255,7 +283,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
         @Override
-        public void onOpened(@NonNull CameraDevice cameraDevice) {
+        public void onOpened( CameraDevice cameraDevice) {
             // This method is called when the camera is opened.  We start camera previewSize here.
 //            mCameraOpenCloseLock.release();
             CameraHolderApi2.this.mCameraDevice = cameraDevice;
@@ -265,7 +293,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
 
         @Override
-        public void onDisconnected(@NonNull CameraDevice cameraDevice)
+        public void onDisconnected( CameraDevice cameraDevice)
         {
             Log.d(TAG,"Camera Disconnected");
 //            mCameraOpenCloseLock.release();
@@ -277,7 +305,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
 
         @Override
-        public void onError(@NonNull CameraDevice cameraDevice, final int error)
+        public void onError(CameraDevice cameraDevice, final int error)
         {
             Log.d(TAG, "Camera Error" + error);
 //            mCameraOpenCloseLock.release();

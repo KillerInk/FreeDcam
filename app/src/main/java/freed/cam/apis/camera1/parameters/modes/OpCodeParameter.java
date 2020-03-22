@@ -149,7 +149,7 @@ public class OpCodeParameter extends AbstractParameter
 
         // Read stream as String
         FileOutputStream responseBuf = null;
-        File file = new File(StringUtils.GetFreeDcamConfigFolder+fileending);
+        File file = new File(SettingsManager.getInstance().getAppDataFolder().getAbsolutePath()+fileending);
         try {
 
             responseBuf = new FileOutputStream(file);

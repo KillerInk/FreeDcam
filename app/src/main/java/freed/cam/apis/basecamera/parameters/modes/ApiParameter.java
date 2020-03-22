@@ -22,8 +22,10 @@ package freed.cam.apis.basecamera.parameters.modes;
 import android.os.Build.VERSION;
 import android.text.TextUtils;
 
-import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.SwichCameraFragmentEvent;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -31,12 +33,10 @@ import freed.settings.SettingsManager;
  */
 public class ApiParameter extends AbstractParameter
 {
-    private final ActivityInterface fragment_activityInterface;
-    private final boolean DEBUG = false;
 
-    public ApiParameter(ActivityInterface fragment_activityInterface) {
-        super(null);
-        this.fragment_activityInterface = fragment_activityInterface;
+    public ApiParameter() {
+        super(SettingKeys.ApiSettingsMode);
+        fireStringValueChanged(GetStringValue());
     }
 
     @Override
@@ -63,7 +63,8 @@ public class ApiParameter extends AbstractParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
         SettingsManager.getInstance().setCamApi(valueToSet);
-        fragment_activityInterface.SwitchCameraAPI(valueToSet);
+        EventBusHelper.post(new SwichCameraFragmentEvent());
+        fireStringValueChanged(valueToSet);
     }
 
     @Override

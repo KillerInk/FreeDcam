@@ -37,7 +37,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -46,7 +45,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 14.06.2015.
  */
-public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
+public abstract class AbstractInfoOverlayHandler
 {
     private final Handler handler;
     private CameraWrapperInterface cameraUiWrapper;
@@ -80,12 +79,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     public void setCameraUIWrapper(CameraWrapperInterface cameraUIWrapper)
     {
         cameraUiWrapper = cameraUIWrapper;
-        if (cameraUIWrapper != null && cameraUIWrapper.getModuleHandler() != null)
-            cameraUIWrapper.getModuleHandler().addListner(this);
-    }
 
-    @Override
-    public void onModuleChanged(String module) {
     }
 
     private void startLooperThread()
@@ -150,7 +144,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
 
     private void getFormat()
     {
-        if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
+        if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
         {
             ParameterInterface videoprofile = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoProfiles);
             if (videoprofile != null)
@@ -179,7 +173,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         try
         {
             //defcomg was here 24/01/2015
-            if(!cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getResString(R.string.module_video)))
+            if(!cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
                 storageSpace = Avail4PIC();
             else
                 storageSpace = readableFileSize(SDspace());

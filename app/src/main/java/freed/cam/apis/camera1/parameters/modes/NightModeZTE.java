@@ -40,14 +40,13 @@ public class NightModeZTE extends BaseModeParameter implements ParameterEvents
     public NightModeZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper,SettingKeys.NightMode);
         setViewState(ViewState.Visible);
-        cameraUiWrapper.getModuleHandler().addListner(this);
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
+        //cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        parameters.set(cameraUiWrapper.getResString(R.string.night_key), valueToSet);
+        parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.night_key), valueToSet);
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         fireStringValueChanged(valueToSet);
 
@@ -55,15 +54,15 @@ public class NightModeZTE extends BaseModeParameter implements ParameterEvents
 
     @Override
     public String GetStringValue() {
-            return parameters.get(cameraUiWrapper.getResString(R.string.night_key));
+            return parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.night_key));
     }
 
     @Override
     public String[] getStringValues() {
         return new String[] {
-                cameraUiWrapper.getResString(R.string.off_),
-                cameraUiWrapper.getResString(R.string.on_),
-                cameraUiWrapper.getResString(R.string.night_mode_tripod)};
+                cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_),
+                cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_),
+                cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.night_mode_tripod)};
     }
 
     @Override

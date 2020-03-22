@@ -22,9 +22,11 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import com.troop.freedcam.R;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.events.ValueChangedEvent;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -32,10 +34,10 @@ import freed.settings.SettingsManager;
 /**
  * Created by troop on 10.09.2015.
  */
-public class FocusPeakMode extends AbstractParameter implements ParameterEvents {
+public class FocusPeakMode extends AbstractParameter {
     public FocusPeakMode(CameraWrapperInterface cameraUiWrapper)
     {
-        super(cameraUiWrapper,null);
+        super(cameraUiWrapper,SettingKeys.Focuspeak);
     }
 
 
@@ -50,14 +52,14 @@ public class FocusPeakMode extends AbstractParameter implements ParameterEvents 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.equals(cameraUiWrapper.getResString(R.string.on_)))
+        if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
         {
             cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(true);
-            fireStringValueChanged(cameraUiWrapper.getResString(R.string.on_));
+            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
         }
         else {
             cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(false);
-            fireStringValueChanged(cameraUiWrapper.getResString(R.string.off_));
+            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
         }
 
     }
@@ -65,36 +67,27 @@ public class FocusPeakMode extends AbstractParameter implements ParameterEvents 
     @Override
     public String GetStringValue() {
         if (cameraUiWrapper.getFocusPeakProcessor().isEnabled())
-            return cameraUiWrapper.getResString(R.string.on_);
+            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_);
         else
-            return cameraUiWrapper.getResString(R.string.off_);
+            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_);
     }
 
     @Override
     public String[] getStringValues() {
-        return new String[] {cameraUiWrapper.getResString(R.string.on_), cameraUiWrapper.getResString(R.string.off_)};
+        return new String[] {cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_)};
     }
 
-    @Override
-    public void onViewStateChanged(ViewState value) {
 
-    }
 
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onStringValueChanged(String value) {
-        if (value.equals(SettingsManager.getInstance().getResString(R.string.off_)))
-            setViewState(ViewState.Hidden);
-        else
-            setViewState(ViewState.Visible);
+    @Subscribe
+    public void onStringValueChanged(ValueChangedEvent<String> valueob)
+    {
+        if (valueob.key == SettingKeys.EnableRenderScript) {
+            String value = valueob.newValue;
+            if (value.equals(SettingsManager.getInstance().getResString(R.string.off_)))
+                setViewState(ViewState.Hidden);
+            else
+                setViewState(ViewState.Visible);
+        }
     }
 }

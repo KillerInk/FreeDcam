@@ -90,6 +90,11 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, I
     }
 
     @Override
+    public boolean isTouchSupported() {
+        return false;
+    }
+
+    @Override
     public void SetMotionEvent(MotionEvent event) {
         this.cameraUiWrapper.getSurfaceView().onTouchEvent(event);
     }

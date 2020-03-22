@@ -14,12 +14,12 @@ import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.huawei.camera2ex.CaptureRequestEx;
 
@@ -48,7 +48,7 @@ public class CaptureSessionHandler
     private CameraCaptureSession mCaptureSession;
     private Camera2Fragment cameraUiWrapper;
     private CameraHolderApi2 cameraHolderApi2;
-    private CameraCaptureSession.CaptureCallback cameraBackroundValuesChangedListner;
+    private CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean isHighSpeedSession = false;
     private BackgroundHandlerThread backgroundHandlerThread;
     private Handler handler;
@@ -57,6 +57,7 @@ public class CaptureSessionHandler
 
 
     private volatile boolean captureSessionRdy = false;
+    private boolean captureSessionOpen = false;
 
 
     CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
@@ -101,7 +102,7 @@ public class CaptureSessionHandler
         }
 
         @Override
-        public void onReady(@NonNull CameraCaptureSession session) {
+        public void onReady( CameraCaptureSession session) {
             super.onReady(session);
             captureSessionRdy = true;
             Log.d(TAG, "onReady()");
@@ -112,7 +113,7 @@ public class CaptureSessionHandler
         }
 
         @Override
-        public void onClosed(@NonNull CameraCaptureSession session) {
+        public void onClosed( CameraCaptureSession session) {
             captureSessionRdy = false;
             super.onClosed(session);
             Log.d(TAG, "onClosed()");
@@ -124,14 +125,14 @@ public class CaptureSessionHandler
         }
 
         @Override
-        public void onActive(@NonNull CameraCaptureSession session) {
+        public void onActive( CameraCaptureSession session) {
             captureSessionRdy = false;
             super.onActive(session);
             Log.d(TAG, "onActive()");
         }
 
         @Override
-        public void onSurfacePrepared(@NonNull CameraCaptureSession session, @NonNull Surface surface) {
+        public void onSurfacePrepared( CameraCaptureSession session,  Surface surface) {
             super.onSurfacePrepared(session, surface);
             Log.d(TAG,"onSurfacePrepared");
         }
@@ -143,13 +144,13 @@ public class CaptureSessionHandler
         return captureSessionRdy;
     }
 
-    public CaptureSessionHandler(Camera2Fragment cameraUiWrapper,CameraCaptureSession.CaptureCallback cameraBackroundValuesChangedListner)
+    public CaptureSessionHandler(Camera2Fragment cameraUiWrapper, CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.cameraHolderApi2 = (CameraHolderApi2) cameraUiWrapper.cameraHolder;
+        this.cameraHolderApi2 = (CameraHolderApi2) cameraUiWrapper.getCameraHolder();
         this.cameraBackroundValuesChangedListner = cameraBackroundValuesChangedListner;
         surfaces = new ArrayList<>();
-        Display display = ((WindowManager) cameraUiWrapper.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Display display = ((WindowManager) cameraUiWrapper.getActivityInterface().getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
         display.getRealSize(displaySize);
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
@@ -291,6 +292,7 @@ public class CaptureSessionHandler
         } catch (InterruptedException e) {
             Log.WriteEx(e);
         }
+        captureSessionOpen = true;
 
     }
 
@@ -318,6 +320,7 @@ public class CaptureSessionHandler
         } catch (InterruptedException e) {
             Log.WriteEx(e);
         }
+        captureSessionOpen = true;
     }
 
 
@@ -334,6 +337,7 @@ public class CaptureSessionHandler
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }
+        captureSessionOpen = true;
     }
 
     public void StopRepeatingCaptureSession()
@@ -468,10 +472,11 @@ public class CaptureSessionHandler
         }
     }
 
-    public void StartImageCapture(@Nullable CameraCaptureSession.CaptureCallback listener, Handler handler)
+    public void StartImageCapture(CameraCaptureSession.CaptureCallback listener, Handler handler)
     {
         Log.d(TAG,"StartImageCapture");
         try {
+
             mCaptureSession.capture(mImageCaptureRequestBuilder.build(),listener,handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
@@ -480,6 +485,10 @@ public class CaptureSessionHandler
             Log.WriteEx(ex);
         }
         catch (IllegalStateException ex)
+        {
+            Log.WriteEx(ex);
+        }
+        catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
         }
@@ -506,7 +515,9 @@ public class CaptureSessionHandler
     public void CloseCaptureSession()
     {
         Log.d(TAG, "CloseCaptureSession");
-
+        if (!captureSessionOpen)
+            return;
+        captureSessionOpen = false;
         synchronized (waitLock) {
             Clear();
             if (mCaptureSession == null)
@@ -517,6 +528,8 @@ public class CaptureSessionHandler
             handler.post(() -> {
                 try
                 {
+                    if (!captureSessionOpen)
+                        return;
                     mCaptureSession.close();
                 }
                 catch (NullPointerException ex)
@@ -525,30 +538,18 @@ public class CaptureSessionHandler
                 }
             });
 
-
-
-           /* try {
-                Log.d(TAG,"CloseCaptureSession Enter Wait State");
-                waitLock.wait();
-                Log.d(TAG,"CloseCaptureSession Wait done");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
-
             mCaptureSession = null;
         }
 
 
     }
 
-    public <T> void SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean setToCamera)
+    public <T> void SetParameterRepeating( CaptureRequest.Key<T> key, T value, boolean setToCamera)
     {
-        Log.d(TAG," SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean setToCamera)");
-        if (key != null)
-            Log.d(TAG," SetParameterRepeating(" + key.getName());
+        if (key != null && value != null)
+            Log.d(TAG," SetParameterRepeating(" + key.getName() + " " + value+")");
         if (mPreviewRequestBuilder == null )
             return;
-        //Log.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
         if (mImageCaptureRequestBuilder != null)
             mImageCaptureRequestBuilder.set(key,value);
@@ -561,9 +562,9 @@ public class CaptureSessionHandler
         }
     }
 
-    public <T> void SetPreviewParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean apply)
+    public <T> void SetPreviewParameterRepeating( CaptureRequest.Key<T> key, T value, boolean apply)
     {
-        Log.d(TAG,"SetPreviewParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, boolean apply)");
+        Log.d(TAG,"SetPreviewParameterRepeating( CaptureRequest.Key<T> key, T value, boolean apply)");
         if (mPreviewRequestBuilder == null )
             return;
         Log.d(TAG, "Set :" + key.getName() + " to " + value);
@@ -576,7 +577,7 @@ public class CaptureSessionHandler
         }
     }
 
-    public <T> void SetPreviewParameter(@NonNull CaptureRequest.Key<T> key, T value)
+    public <T> void SetPreviewParameter( CaptureRequest.Key<T> key, T value)
     {
         if (mPreviewRequestBuilder == null || mCaptureSession == null)
             return;
@@ -599,7 +600,7 @@ public class CaptureSessionHandler
     }
 
 
-    public <T> void SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value, CameraCaptureSession.CaptureCallback captureCallback)
+    public <T> void SetParameterRepeating( CaptureRequest.Key<T> key, T value, CameraCaptureSession.CaptureCallback captureCallback)
     {
         if (mPreviewRequestBuilder == null )
             return;
@@ -610,7 +611,7 @@ public class CaptureSessionHandler
         StartRepeatingCaptureSession(captureCallback);
     }
 
-    public <T> void SetParameter(@NonNull CaptureRequest.Key<T> key, T value)
+    public <T> void SetParameter( CaptureRequest.Key<T> key, T value)
     {
         if (mPreviewRequestBuilder == null|| mCaptureSession == null)
             return;
@@ -638,7 +639,7 @@ public class CaptureSessionHandler
         }
     }
 
-    public <T> void SetCaptureParameter(@NonNull CaptureRequest.Key<T> key, T value)
+    public <T> void SetCaptureParameter( CaptureRequest.Key<T> key, T value)
     {
         if (mImageCaptureRequestBuilder == null|| mCaptureSession == null)
             return;
@@ -760,8 +761,9 @@ public class CaptureSessionHandler
         SetPreviewParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
-    public <T> void SetFocusArea(@NonNull CaptureRequest.Key<T> key, T value)
+    public <T> void SetFocusArea( CaptureRequest.Key<T> key, T value)
     {
+        handler.post(()->{
         //SetParameter(key,null);
         /*captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);*/
         if (value != null)
@@ -789,10 +791,15 @@ public class CaptureSessionHandler
             }
         }
         else {
-            SetParameter(key, value);
+            //SetParameter(key, value);
+            cameraBackroundValuesChangedListner.setFocusIsIdel(false);
+            mPreviewRequestBuilder.set(key,value);
+            SetPreviewParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
             if (value != null)
                 SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+            SetPreviewParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
         }
+        });
     }
 
 }

@@ -42,12 +42,13 @@ public class MatrixChooserParameter extends AbstractParameter
 
     public MatrixChooserParameter(HashMap<String, CustomMatrix> matrixHashMap)
     {
-        super(null);
+        super(SettingKeys.MATRIX_SET);
         this.custommatrixes = matrixHashMap;
         setViewState(ViewState.Visible);
         currentval = SettingsManager.get(SettingKeys.MATRIX_SET).get();
         if (TextUtils.isEmpty(currentval))
             currentval = "off";
+        fireStringValueChanged(currentval);
     }
 
     @Override

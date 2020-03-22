@@ -104,7 +104,7 @@ public class BaseModeApi2 extends AbstractParameter
     public String GetStringValue()
     {
         if (parameterValues == null && captureSessionHandler == null)
-            return "";
+            return null;
         try {
             int i = captureSessionHandler.getPreviewParameter(parameterKey);
             for (Map.Entry s : parameterValues.entrySet())
@@ -116,7 +116,7 @@ public class BaseModeApi2 extends AbstractParameter
             Log.WriteEx(ex);
         }
 
-        return "";
+        return null;
     }
 
 }

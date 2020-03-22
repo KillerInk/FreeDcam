@@ -36,9 +36,11 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.PermissionManager;
 
 /**
  * Created by troop on 06.01.2016.
@@ -52,7 +54,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     AbstractVideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        name = cameraUiWrapper.getResString(R.string.module_video);
+        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video);
     }
 
     @Override
@@ -112,11 +114,13 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     private void startRecording()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionManager().hasRecordAudioPermission(null)) {
-            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getResString(R.string.on_)))
+        if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio)) {
+            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
                 cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             prepareRecorder();
         }
+        else
+            cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio,null);
 
     }
 
@@ -127,7 +131,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             Log.d(TAG, "InitMediaRecorder");
             isWorking = true;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().unlock();
-            mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
+            mediaSavePath = cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
             File tosave = new File(mediaSavePath);
             recorder.setRecordingFile(tosave);
             recorder.setErrorListener((mr, what, extra) -> {
@@ -227,7 +231,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             }
             File file = new File(mediaSavePath);
             cameraUiWrapper.getActivityInterface().ScanFile(file);
-            fireOnWorkFinish(file);
+            fireOnWorkFinish(new FileHolder(file,SettingsManager.getInstance().GetWriteExternal()));
             sendStopToUi();
         }
     }
