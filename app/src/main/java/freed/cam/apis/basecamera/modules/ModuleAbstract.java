@@ -23,33 +23,18 @@ package freed.cam.apis.basecamera.modules;
 import android.os.Handler;
 import android.os.Looper;
 
-import org.greenrobot.eventbus.Subscribe;
-
-import java.io.File;
-
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
-import freed.cam.events.StartWorkEvent;
 import freed.file.holder.BaseHolder;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
-import freed.file.holder.FileHolder;
 
 /**
  * Created by troop on 15.08.2014.
  */
 public abstract class ModuleAbstract implements ModuleInterface
 {
-
-    @Subscribe
-    public void startWork(StartWorkEvent event)
-    {
-        DoWork();
-    }
-
-
     protected boolean isWorking;
     protected boolean isLowStorage;
     public String name;
@@ -111,7 +96,6 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public void InitModule()
     {
-        EventBusHelper.register(this);
         isWorking = false;
     }
 
@@ -121,7 +105,6 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public void DestroyModule()
     {
-        EventBusHelper.unregister(this);
     }
 
     @Override
