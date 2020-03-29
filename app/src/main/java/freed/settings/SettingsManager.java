@@ -236,8 +236,8 @@ public class SettingsManager implements SettingsManagerInterface {
     private void loadOpCodes()
     {
         new Thread(() -> {
-            File op2 = new File(settingsStorage.appdataFolder.getAbsolutePath()+settingsStorage.getInt(CURRENTCAMERA,0)+"opc2.bin");
-            File op3 = new File(settingsStorage.appdataFolder.getAbsolutePath()+settingsStorage.getInt(CURRENTCAMERA,0)+"opc3.bin");
+            File op2 = new File(settingsStorage.appdataFolder.getAbsolutePath()+"/"+settingsStorage.getInt(CURRENTCAMERA,0)+"opc2.bin");
+            File op3 = new File(settingsStorage.appdataFolder.getAbsolutePath()+"/"+settingsStorage.getInt(CURRENTCAMERA,0)+"opc3.bin");
             if (op2.exists() || op3.exists())
                 opCode = new OpCode(op2,op3);
             else

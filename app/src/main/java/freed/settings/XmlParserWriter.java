@@ -560,7 +560,7 @@ public class XmlParserWriter
             e.printStackTrace();
         }
 
-        File configFile = new File(appDataFolder.getAbsolutePath()+"tonemapprofiles.xml");
+        File configFile = new File(appDataFolder.getAbsolutePath()+"/tonemapprofiles.xml");
         if (configFile.exists())
         {
             try {
