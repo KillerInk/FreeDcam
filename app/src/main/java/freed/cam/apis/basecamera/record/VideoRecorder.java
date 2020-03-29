@@ -16,12 +16,14 @@ import androidx.documentfile.provider.DocumentFile;
 
 import com.troop.freedcam.R;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.file.FileListController;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -244,10 +246,11 @@ public class VideoRecorder {
     }
 
     private void setRecorderFilePath() {
-        if (!SettingsManager.getInstance().GetWriteExternal()) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !SettingsManager.getInstance().GetWriteExternal() && !FileListController.needStorageAccessFrameWork)
+        {
             mediaRecorder.setOutputFile(recordingFile.getAbsolutePath());
         }
-        else
+        else if (cameraWrapperInterface.getActivityInterface().getFileListController().getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal())
         {
             Uri uri = Uri.parse(SettingsManager.getInstance().GetBaseFolder());
             DocumentFile df = cameraWrapperInterface.getActivityInterface().getFileListController().getFreeDcamDocumentFolder();
@@ -255,6 +258,22 @@ public class VideoRecorder {
             ParcelFileDescriptor fileDescriptor = null;
             try {
                 fileDescriptor = cameraWrapperInterface.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                mediaRecorder.setOutputFile(fileDescriptor.getFileDescriptor());
+            } catch (FileNotFoundException e) {
+                Log.WriteEx(e);
+                try {
+                    fileDescriptor.close();
+                } catch (IOException e1) {
+                    Log.WriteEx(e1);
+                }
+            }
+        }
+        else
+        {
+            Uri uri = cameraWrapperInterface.getActivityInterface().getFileListController().getMediaStoreController().addMovie(recordingFile);
+            ParcelFileDescriptor fileDescriptor = null;
+            try {
+                fileDescriptor = cameraWrapperInterface.getContext().getContentResolver().openFileDescriptor(uri, "rw");
                 mediaRecorder.setOutputFile(fileDescriptor.getFileDescriptor());
             } catch (FileNotFoundException e) {
                 Log.WriteEx(e);

@@ -83,7 +83,7 @@ public class ImageTaskDngConverter extends ImageTask {
             }
             else
             {
-                Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(file.getName());
+                Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(file);
                 dngCreator.writeImage(activityInterface.getContext().getContentResolver().openOutputStream(uri), image);
                 fileholder = new UriHolder(uri,file.getName(),Long.valueOf(uri.getLastPathSegment()), 0,false,SettingsManager.getInstance().GetWriteExternal());
             }

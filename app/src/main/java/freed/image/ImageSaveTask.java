@@ -200,7 +200,6 @@ public class ImageSaveTask extends ImageTask
     {
         RawToDng rawToDng = RawToDng.GetInstance();
         ParcelFileDescriptor pfd = null;
-        int pfdint = -1;
         if (location != null)
         {
             GpsInfo gpsInfo = new GpsInfo(location);
@@ -218,7 +217,7 @@ public class ImageSaveTask extends ImageTask
         rawToDng.setBaselineExposure(baselineExposure);
         rawToDng.setBayerGreenSplit(greensplit);
         BaseHolder fileholder;
-        String name = filename.getName().replace(".jpg", ".dng");
+
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !externalSD && !FileListController.needStorageAccessFrameWork)
         {
             checkFileExists(filename);
@@ -228,31 +227,30 @@ public class ImageSaveTask extends ImageTask
         {
             DocumentFile df = activityInterface.getFileListController().getFreeDcamDocumentFolder();
             Log.d(TAG,"Filepath: " + df.getUri());
-            DocumentFile wr = df.createFile("image/dng", name);
+            DocumentFile wr = df.createFile("image/dng", filename.getName());
             Log.d(TAG,"Filepath: " + wr.getUri());
 
             try {
                 pfd = activityInterface.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-                pfdint =pfd.getFd();
             } catch (FileNotFoundException | IllegalArgumentException e) {
                 Log.WriteEx(e);
             }
-            fileholder = new UriHolder(wr.getUri(),name,Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(),wr.isDirectory(),SettingsManager.getInstance().GetWriteExternal());
+            fileholder = new UriHolder(wr.getUri(),filename.getName(),Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(),wr.isDirectory(),SettingsManager.getInstance().GetWriteExternal());
         }
         else
         {
-            Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(name);
+            Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(filename);
             try {
                 pfd = activityInterface.getContext().getContentResolver().openFileDescriptor(uri, "rw");
             } catch (FileNotFoundException e) {
                 Log.WriteEx(e);
             }
-            fileholder = new UriHolder(uri,name,Long.valueOf(uri.getLastPathSegment()), 0,false,SettingsManager.getInstance().GetWriteExternal());
+            fileholder = new UriHolder(uri,filename.getName(),Long.valueOf(uri.getLastPathSegment()), 0,false,SettingsManager.getInstance().GetWriteExternal());
         }
         if (pfd == null)
-            rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath().replace("jpg","dng"));
+            rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath());
         else
-            rawToDng.SetBayerDataFD(bytesTosave,pfd,name);
+            rawToDng.SetBayerDataFD(bytesTosave,pfd,filename.getName());
 
         rawToDng.WriteDngWithProfile(profile);
         if (pfd != null)
@@ -261,8 +259,6 @@ public class ImageSaveTask extends ImageTask
             } catch (IOException e) {
                 Log.WriteEx(e);
             }
-        //rawToDng = null;
-        //activityInterface.ScanFile(filename);
         moduleInterface.internalFireOnWorkDone(fileholder);
     }
 
@@ -289,7 +285,7 @@ public class ImageSaveTask extends ImageTask
             }
             else
             {
-                Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(filename.getName());
+                Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(filename);
                 outStream = new BufferedOutputStream(activityInterface.getContext().getContentResolver().openOutputStream(uri));
                 fileholder = new UriHolder(uri,filename.getName(),Long.valueOf(uri.getLastPathSegment()), 0,false,SettingsManager.getInstance().GetWriteExternal());
             }
@@ -300,7 +296,6 @@ public class ImageSaveTask extends ImageTask
         } catch (IOException e) {
             Log.WriteEx(e);
         }
-        //activityInterface.ScanFile(filename);
         if (fileholder != null)
             moduleInterface.internalFireOnWorkDone(fileholder);
         Log.d(TAG, "End Saving Bytes");

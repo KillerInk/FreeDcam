@@ -28,7 +28,7 @@ public class MediaStoreController {
         this.context = context;
     }
 
-    public Uri addImg(String name)
+    public Uri addImg(File name)
     {
         // Add a specific media item.
         ContentResolver resolver = context.getContentResolver();
@@ -37,12 +37,36 @@ public class MediaStoreController {
 
         // Publish a new img.
         ContentValues newImg = new ContentValues();
-        newImg.put(MediaStore.MediaColumns.TITLE, name);
-        //newImg.put(MediaStore.Images.Media.DISPLAY_NAME, "fuckyougoogle.dng");
+        newImg.put(MediaStore.MediaColumns.TITLE, name.getName());
         newImg.put(MediaStore.Images.Media.MIME_TYPE,"image/*");
         newImg.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
         newImg.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
-        newImg.put(MediaStore.Images.Media.MIME_TYPE, "image/x-adobe-dng");
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
+            newImg.put(MediaStore.Images.Media.DATA, name.getAbsolutePath());
+        else
+            newImg.put(MediaStore.Images.Media.RELATIVE_PATH, "FreeDcam");
+        Uri ur = resolver.insert(extpath, newImg);
+        return ur;
+
+    }
+
+    public Uri addMovie(File name)
+    {
+        // Add a specific media item.
+        ContentResolver resolver = context.getContentResolver();
+
+        Uri extpath = getUri();
+
+        // Publish a new img.
+        ContentValues newImg = new ContentValues();
+        newImg.put(MediaStore.MediaColumns.TITLE, name.getName());
+        newImg.put(MediaStore.Video.Media.MIME_TYPE,"video/*");
+        newImg.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+        newImg.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
+            newImg.put(MediaStore.Video.Media.DATA, name.getAbsolutePath());
+        else
+            newImg.put(MediaStore.Video.Media.RELATIVE_PATH, "FreeDcam");
         Uri ur = resolver.insert(extpath, newImg);
         return ur;
 
@@ -55,19 +79,6 @@ public class MediaStoreController {
             return MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
     }
 
-    public Uri addMovie(String name)
-    {
-        // Add a specific media item.
-        ContentResolver resolver = context.getContentResolver();
-
-        Uri extpath = getUri();
-
-        // Publish a new img.
-        ContentValues newImg = new ContentValues();
-        newImg.put(MediaStore.Video.Media.DISPLAY_NAME, name);
-        return resolver.insert(extpath, newImg);
-
-    }
 
     public List<BaseHolder> getFolders()
     {
