@@ -31,7 +31,6 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.VideoSource;
-import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.util.Range;
@@ -45,7 +44,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ASUS.Zenfone6;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -342,7 +340,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
                     cameraHolder.setOpModeForHFRVideoStreamToActiveCamera(Zenfone6.OP_EIS);
 
                 }*/
-                cameraHolder.setOpModeForHFRVideoStreamToActiveCamera(120);
+
 
                 cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
             }

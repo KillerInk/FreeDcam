@@ -21,6 +21,7 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
+import Camera2EXT.OpModes;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
@@ -295,7 +296,7 @@ public class CaptureSessionHandler
                         {
                             outputConfigurations.add(new OutputConfiguration(surface));
                         }
-                        createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations,61448,previewStateCallBackRestart,handler);
+                        createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OpModes.OP_EISv3,previewStateCallBackRestart,handler);
 
                     } catch (Exception  ex) {
                         Log.WriteEx(ex);
