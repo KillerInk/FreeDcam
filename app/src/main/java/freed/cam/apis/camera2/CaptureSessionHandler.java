@@ -1,5 +1,6 @@
 package freed.cam.apis.camera2;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Matrix;
@@ -12,6 +13,8 @@ import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.params.InputConfiguration;
+import android.hardware.camera2.params.OutputConfiguration;
 import android.os.Build;
 import android.os.Handler;
 import android.view.Display;
@@ -23,6 +26,8 @@ import androidx.annotation.RequiresApi;
 
 import com.huawei.camera2ex.CaptureRequestEx;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -264,6 +269,7 @@ public class CaptureSessionHandler
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void CreateCaptureSession()
     {
         Log.d(TAG, "CreateCaptureSession:");
@@ -282,8 +288,16 @@ public class CaptureSessionHandler
                 cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
                 handler.post(() -> {
                     try {
-                        cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, handler);
-                    } catch (CameraAccessException | SecurityException ex) {
+                        //cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, handler);
+
+                        List<OutputConfiguration> outputConfigurations = new ArrayList<>(surfaces.size());
+                        for (Surface surface : surfaces)
+                        {
+                            outputConfigurations.add(new OutputConfiguration(surface));
+                        }
+                        createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations,61448,previewStateCallBackRestart,handler);
+
+                    } catch (Exception  ex) {
                         Log.WriteEx(ex);
                     }
                 });
@@ -293,6 +307,24 @@ public class CaptureSessionHandler
             Log.WriteEx(e);
         }
         captureSessionOpen = true;
+
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void createCustomCaptureSession(CameraDevice cdv,InputConfiguration var1, List<OutputConfiguration> var2, int var3, CameraCaptureSession.StateCallback var4, Handler var5)
+    {
+        try {
+            Method ccreateCustomCaptureSession = CameraDevice.class.getMethod("createCustomCaptureSession",InputConfiguration.class,
+                    List.class,Integer.TYPE,CameraCaptureSession.StateCallback.class,Handler.class);
+                    ccreateCustomCaptureSession.invoke(cdv,var1,var2,var3,var4,var5);
+
+        }catch (NoSuchMethodException e)
+        {e.printStackTrace();} catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
     }
 
