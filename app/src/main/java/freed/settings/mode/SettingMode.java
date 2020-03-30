@@ -82,7 +82,7 @@ public class SettingMode extends AbstractSettingMode {
         String[] values = getValues();
         for (String v : values)
         {
-            if (v.equals(value))
+            if (v.contains(value))
                 return true;
         }
         return false;

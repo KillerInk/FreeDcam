@@ -135,7 +135,7 @@ public class SettingsStorage
 
     private void loadVideoMediaProfiles()
     {
-        try (InputStreamReader is = new InputStreamReader(new FileInputStream(appdataFolder.getAbsolutePath()+"videoProfiles.conf"))) {
+        try (InputStreamReader is = new InputStreamReader(new FileInputStream(appdataFolder.getAbsolutePath()+"/videoProfiles.conf"))) {
             BufferedReader bufferedReader = new BufferedReader(is);
             String receiveString;
             mediaProfileHashMap.clear();
@@ -166,7 +166,7 @@ public class SettingsStorage
     {
         if (mediaProfileHashMap == null)
             return;
-        try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(appdataFolder.getAbsolutePath()+"videoProfiles.conf"))) {
+        try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(appdataFolder.getAbsolutePath()+"/videoProfiles.conf"))) {
 
             HashMap<String,VideoMediaProfile> map;
             for (int i = 0; i < mediaProfileHashMap.size(); i++) {

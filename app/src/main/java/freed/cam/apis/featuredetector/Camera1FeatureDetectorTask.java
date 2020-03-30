@@ -243,6 +243,16 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 e.printStackTrace();
                 SettingsManager.get(SettingKeys.VideoStabilization).setIsSupported(false);
             }
+            catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.VideoStabilization).setIsSupported(false);
+            }
+            catch(ArrayIndexOutOfBoundsException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.VideoStabilization).setIsSupported(false);
+            }
 
             if (parameters.get("hw-dual-primary-supported") != null)
             {
@@ -269,36 +279,60 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             SettingsManager.get(SettingKeys.HDRMode).setIsSupported(false);
             return;
         }
-        String autohdr = parameters.get(camstring(R.string.auto_hdr_supported));
-        if (autohdr != null
-                && !TextUtils.isEmpty(autohdr)
-                && autohdr.equals(camstring(R.string.true_))
-                && parameters.get(camstring(R.string.auto_hdr_enable)) != null) {
+        try {
+            String autohdr = parameters.get(camstring(R.string.auto_hdr_supported));
+            if (autohdr != null
+                    && !TextUtils.isEmpty(autohdr)
+                    && autohdr.equals(camstring(R.string.true_))
+                    && parameters.get(camstring(R.string.auto_hdr_enable)) != null) {
 
-            List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(SettingsManager.getInstance().getResString(R.string.scene_mode_values)).split(",")));
+                List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(SettingsManager.getInstance().getResString(R.string.scene_mode_values)).split(",")));
 
-            List<String> hdrVals =  new ArrayList<>();
-            hdrVals.add(camstring(R.string.off_));
+                List<String> hdrVals = new ArrayList<>();
+                hdrVals.add(camstring(R.string.off_));
 
-            if (Scenes.contains(camstring(R.string.scene_mode_hdr))) {
-                hdrVals.add(camstring(R.string.on_));
+                if (Scenes.contains(camstring(R.string.scene_mode_hdr))) {
+                    hdrVals.add(camstring(R.string.on_));
+                }
+                if (Scenes.contains(camstring(R.string.scene_mode_asd))) {
+                    hdrVals.add(camstring(R.string.auto_));
+                }
+                SettingsManager.get(SettingKeys.HDRMode).setValues(hdrVals.toArray(new String[hdrVals.size()]));
+                SettingsManager.get(SettingKeys.HDRMode).setIsSupported(true);
+                SettingsManager.get(SettingKeys.HDRMode).setType(1);
             }
-            if (Scenes.contains(camstring(R.string.scene_mode_asd))) {
-                hdrVals.add(camstring(R.string.auto_));
-            }
-            SettingsManager.get(SettingKeys.HDRMode).setValues(hdrVals.toArray(new String[hdrVals.size()]));
-            SettingsManager.get(SettingKeys.HDRMode).setIsSupported(true);
-            SettingsManager.get(SettingKeys.HDRMode).setType(1);
+        }
+        catch (NumberFormatException ex)
+        {
+            Log.WriteEx(ex);
+            SettingsManager.get(SettingKeys.HDRMode).setIsSupported(false);
+        }
+        catch(ArrayIndexOutOfBoundsException ex)
+        {
+            Log.WriteEx(ex);
+            SettingsManager.get(SettingKeys.HDRMode).setIsSupported(false);
         }
     }
 
     private void detectPreviewFpsRanges(Camera.Parameters parameters) {
         if (parameters.get(camstring(R.string.preview_fps_range_values))!= null)
         {
-            SettingsManager.get(SettingKeys.PreviewFpsRange).setIsSupported(true);
-            SettingsManager.get(SettingKeys.PreviewFpsRange).setValues(parameters.get(camstring(R.string.preview_fps_range_values)).split(","));
-            SettingsManager.get(SettingKeys.PreviewFpsRange).setKEY(camstring(R.string.preview_fps_range));
-            SettingsManager.get(SettingKeys.PreviewFpsRange).set(parameters.get(camstring(R.string.preview_fps_range)));
+            try {
+                SettingsManager.get(SettingKeys.PreviewFpsRange).setIsSupported(true);
+                SettingsManager.get(SettingKeys.PreviewFpsRange).setValues(parameters.get(camstring(R.string.preview_fps_range_values)).split(","));
+                SettingsManager.get(SettingKeys.PreviewFpsRange).setKEY(camstring(R.string.preview_fps_range));
+                SettingsManager.get(SettingKeys.PreviewFpsRange).set(parameters.get(camstring(R.string.preview_fps_range)));
+            }
+            catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.PreviewFpsRange).setIsSupported(false);
+            }
+            catch(ArrayIndexOutOfBoundsException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.PreviewFpsRange).setIsSupported(false);
+            }
         }
     }
 
@@ -349,7 +383,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     Log.d(TAG, "Failed to lookup wbct:" + " " +wbmax + " " + wbmin + " " +wbModeval);
                     SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
                 }
-            }catch (NumberFormatException ex)
+            }
+            catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
+            }
+            catch(ArrayIndexOutOfBoundsException ex)
             {
                 Log.WriteEx(ex);
                 SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
@@ -555,8 +595,15 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                         SettingsManager.get(SettingKeys.M_ExposureTime).setKEY(camstring(R.string.exposure_time));
                         SettingsManager.get(SettingKeys.M_ExposureTime).setValues(getSupportedShutterValues(min, max, true));
                     }
-                }catch (NumberFormatException ex)
+                }
+                catch (NumberFormatException ex)
                 {
+                    Log.WriteEx(ex);
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
+                }
+                catch(ArrayIndexOutOfBoundsException ex)
+                {
+                    Log.WriteEx(ex);
                     SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
                 }
             }
@@ -615,8 +662,22 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         else
         {
-            detectMode(parameters,R.string.tnr,R.string.tnr_mode, SettingsManager.get(SettingKeys.TNR));
-            detectMode(parameters,R.string.tnr_v,R.string.tnr_mode_v, SettingsManager.get(SettingKeys.TNR_V));
+            try {
+                detectMode(parameters, R.string.tnr, R.string.tnr_mode, SettingsManager.get(SettingKeys.TNR));
+                detectMode(parameters, R.string.tnr_v, R.string.tnr_mode_v, SettingsManager.get(SettingKeys.TNR_V));
+            }
+            catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.TNR).setIsSupported(false);
+                SettingsManager.get(SettingKeys.TNR_V).setIsSupported(false);
+            }
+            catch(ArrayIndexOutOfBoundsException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.TNR).setIsSupported(false);
+                SettingsManager.get(SettingKeys.TNR_V).setIsSupported(false);
+            }
         }
 
     }
@@ -726,12 +787,24 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             return;
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
         {
-            if(parameters.get(camstring(R.string.mtk_3dnr_mode))!=null) {
-                if (parameters.get(camstring(R.string.mtk_3dnr_mode_values)).equals("on,off")) {
-                    SettingsManager.get(SettingKeys.Denoise).setIsSupported(true);
-                    SettingsManager.get(SettingKeys.Denoise).setKEY(camstring(R.string.mtk_3dnr_mode));
-                    SettingsManager.get(SettingKeys.Denoise).setValues(parameters.get(camstring(R.string.mtk_3dnr_mode_values)).split(","));
+            try {
+                if (parameters.get(camstring(R.string.mtk_3dnr_mode)) != null) {
+                    if (parameters.get(camstring(R.string.mtk_3dnr_mode_values)).equals("on,off")) {
+                        SettingsManager.get(SettingKeys.Denoise).setIsSupported(true);
+                        SettingsManager.get(SettingKeys.Denoise).setKEY(camstring(R.string.mtk_3dnr_mode));
+                        SettingsManager.get(SettingKeys.Denoise).setValues(parameters.get(camstring(R.string.mtk_3dnr_mode_values)).split(","));
+                    }
                 }
+            }
+            catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.Denoise).setIsSupported(false);
+            }
+            catch(ArrayIndexOutOfBoundsException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.Denoise).setIsSupported(false);
             }
         }
         else
@@ -754,12 +827,24 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     {
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
         {
-            Log.d(TAG, "Saturation: MTK");
-            if (parameters.get(camstring(R.string.saturation))!= null && parameters.get(camstring(R.string.saturation_values))!= null) {
-                SettingsManager.get(SettingKeys.M_Saturation).setValues(parameters.get(camstring(R.string.saturation_values)).split(","));
-                SettingsManager.get(SettingKeys.M_Saturation).setKEY(camstring(R.string.saturation));
-                SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_Saturation).set(parameters.get(camstring(R.string.saturation)));
+            try {
+                Log.d(TAG, "Saturation: MTK");
+                if (parameters.get(camstring(R.string.saturation)) != null && parameters.get(camstring(R.string.saturation_values)) != null) {
+                    SettingsManager.get(SettingKeys.M_Saturation).setValues(parameters.get(camstring(R.string.saturation_values)).split(","));
+                    SettingsManager.get(SettingKeys.M_Saturation).setKEY(camstring(R.string.saturation));
+                    SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.M_Saturation).set(parameters.get(camstring(R.string.saturation)));
+                }
+            }
+            catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(false);
+            }
+            catch(ArrayIndexOutOfBoundsException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(false);
             }
         }
         else {
@@ -799,6 +884,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 }
             }
             catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(false);
+            }
+            catch(ArrayIndexOutOfBoundsException ex)
             {
                 Log.WriteEx(ex);
                 SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(false);
@@ -846,6 +936,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 }
             }
             catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(false);
+            }
+            catch(ArrayIndexOutOfBoundsException ex)
             {
                 Log.WriteEx(ex);
                 SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(false);
@@ -899,6 +994,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 Log.WriteEx(ex);
                 SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(false);
             }
+            catch(ArrayIndexOutOfBoundsException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(false);
+            }
         }
     }
 
@@ -939,6 +1039,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 }
             }
             catch (NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(false);
+            }
+            catch(ArrayIndexOutOfBoundsException ex)
             {
                 Log.WriteEx(ex);
                 SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(false);
@@ -1041,6 +1146,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
 
             } catch(NumberFormatException ex)
+            {
+                Log.WriteEx(ex);
+                SettingsManager.get(SettingKeys.M_Focus).setIsSupported(false);
+            }
+            catch(ArrayIndexOutOfBoundsException ex)
             {
                 Log.WriteEx(ex);
                 SettingsManager.get(SettingKeys.M_Focus).setIsSupported(false);
@@ -1170,12 +1280,26 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             mode.setIsSupported(false);
             return;
         }
-        mode.setValues(parameters.get(camstring(keyvalues)).split(","));
-        mode.setKEY(camstring(key));
-        mode.set(parameters.get(mode.getKEY()));
+        try {
+            mode.setValues(parameters.get(camstring(keyvalues)).split(","));
+            mode.setKEY(camstring(key));
+            mode.set(parameters.get(mode.getKEY()));
 
-        if (mode.getValues().length >0)
-            mode.setIsSupported(true);
+            if (mode.getValues().length > 0)
+                mode.setIsSupported(true);
+        }
+        catch (NumberFormatException ex)
+        {
+            Log.WriteEx(ex);
+            mode.setIsSupported(false);
+
+        }
+        catch(ArrayIndexOutOfBoundsException ex)
+        {
+            Log.WriteEx(ex);
+            mode.setIsSupported(false);
+        }
+
     }
 
     private void detectedPictureFormats(Camera.Parameters parameters)
@@ -1460,10 +1584,17 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             if (!hfrvals.equals("off"))
             {
                 if (TextUtils.isEmpty(hfrvals)) {
-                    SettingsManager.get(SettingKeys.VideoHighFramerate).setValues("off,60,120".split(","));
-                    SettingsManager.get(SettingKeys.VideoHighFramerate).setKEY("video-hfr");
-                    SettingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(true);
-                    SettingsManager.get(SettingKeys.VideoHighFramerate).set(parameters.get("video-hfr"));
+                    try {
+                        SettingsManager.get(SettingKeys.VideoHighFramerate).setValues("off,60,120".split(","));
+                        SettingsManager.get(SettingKeys.VideoHighFramerate).setKEY("video-hfr");
+                        SettingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(true);
+                        SettingsManager.get(SettingKeys.VideoHighFramerate).set(parameters.get("video-hfr"));
+                    }
+                    catch(ArrayIndexOutOfBoundsException ex)
+                    {
+                        Log.WriteEx(ex);
+                        SettingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(false);
+                    }
                 }
                 else
                     SettingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(false);
@@ -1480,25 +1611,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             else
                 SettingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(false);
-        }
-        else
-        {
-            /*switch (AppSettingsManager.getInstance().getDevice())
-            {
-                case Htc_M8:
-                case Htc_M9:
-                case HTC_OneA9:
-                case HTC_OneE8:
-                    AppSettingsManager.get(Settings.VideoHighFramerate).setValues("off,60,120".split(","));
-                    AppSettingsManager.get(Settings.VideoHighFramerate).setKEY("video-mode");
-                    AppSettingsManager.get(Settings.VideoHighFramerate).setIsSupported(true);
-                    AppSettingsManager.get(Settings.VideoHighFramerate).set(parameters.get("video-mode"));
-                    break;
-                default:
-                    AppSettingsManager.get(Settings.VideoHighFramerate).setIsSupported(false);
-                    break;
-            }*/
-
         }
     }
 

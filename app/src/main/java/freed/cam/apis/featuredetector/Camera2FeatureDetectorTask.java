@@ -159,6 +159,16 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect EDGE_MODE");
                         detectIntMode(characteristics, CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, SettingsManager.get(SettingKeys.EDGE_MODE), R.array.edgeModes);
+                        String vals[] = SettingsManager.get(SettingKeys.EDGE_MODE).getValues();
+                        String newvals[] = new String[vals.length-1];
+                        String zsldnoise= SettingsManager.getInstance().getResString(R.string.zeroshutterlag);
+                        int t = 0;
+                        for (int i = 0; i< vals.length; i++)
+                        {
+                            if (!vals[i].contains(zsldnoise))
+                                newvals[t++] = vals[i];
+                        }
+                        SettingsManager.get(SettingKeys.EDGE_MODE).setValues(newvals);
                         sendProgress(SettingsManager.get(SettingKeys.EDGE_MODE), "EDGE_MODE");
                     } catch (Exception e) {
                         Log.WriteEx(e);
@@ -207,6 +217,19 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect Denoise");
                         detectIntMode(characteristics, CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES, SettingsManager.get(SettingKeys.Denoise), R.array.denoiseModes);
+                        if (SettingsManager.get(SettingKeys.Denoise).contains(SettingsManager.getInstance().getResString(R.string.denoise_zsl)))
+                        {
+                            String vals[] = SettingsManager.get(SettingKeys.Denoise).getValues();
+                            String newvals[] = new String[vals.length-1];
+                            String zsldnoise= SettingsManager.getInstance().getResString(R.string.denoise_zsl);
+                            int t = 0;
+                            for (int i = 0; i< vals.length; i++)
+                            {
+                                if (!vals[i].contains(zsldnoise))
+                                    newvals[t++] = vals[i];
+                            }
+                            SettingsManager.get(SettingKeys.Denoise).setValues(newvals);
+                        }
                         sendProgress(SettingsManager.get(SettingKeys.Denoise), "Denoise");
                     } catch (Exception e) {
                         Log.WriteEx(e);
@@ -322,7 +345,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         catch (Exception ex)
                         {
                             Log.WriteEx(ex);
-                            publishProgress("Detect Tonemap Mode failed");
+                            publishProgress("Detect Shading Mode failed");
                         }
                     }
 

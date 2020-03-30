@@ -113,7 +113,7 @@ public class OpCodeDownloadTask extends ImageTask {
 
         // Read stream as String
         FileOutputStream responseBuf = null;
-        File file = new File(SettingsManager.getInstance().getAppDataFolder().getAbsolutePath()+fileending);
+        File file = new File(SettingsManager.getInstance().getAppDataFolder().getAbsolutePath()+"/"+fileending);
         try {
 
             responseBuf = new FileOutputStream(file);
