@@ -350,21 +350,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
                     activityInterface.getFileListController().DeleteFile(folder_to_show);
-                    /*try {
-                        MediaScannerManager.ScanMedia(getContext(), folder_to_show.getFile());
-                    }
-                    catch (NullPointerException ex)
-                    {
-                        Log.WriteEx(ex);
-                    }*/
-
-                    if (activityInterface.getFileListController().getFiles() != null && activityInterface.getFileListController().getFiles().size() >0 && folder_to_show != null)
-                        activityInterface.getFileListController().LoadFolder(folder_to_show, FileListController.FormatTypes.all);
-                    else
-                    {
-                        activityInterface.getFileListController().loadDefaultFiles();
-                        updateUi(null);
-                    }
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:

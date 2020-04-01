@@ -482,7 +482,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                         setViewMode(currentViewState);
                     }
                 }
-                else if (viewerActivityInterface.getFileListController().getFiles().get(0) instanceof UriHolder)
+                else if (viewerActivityInterface.getFileListController().getFiles().size() > 0 && viewerActivityInterface.getFileListController().getFiles().get(0) instanceof UriHolder)
                     if (viewerActivityInterface.getFileListController().getFiles().get(0).IsFolder())
                         getActivity().finish();
                     else

@@ -219,7 +219,12 @@ public class FileListController {
     }
 
     public boolean DeleteFile(BaseHolder file) {
-        return deleteFile(file);
+        boolean deleted = false;
+        synchronized (filesLock) {
+            deleted = deleteFile(file);
+
+        }
+        return deleted;
     }
 
     public void DeleteFiles(List<BaseHolder> files) {
@@ -236,10 +241,8 @@ public class FileListController {
         boolean del = false;
 
         del = file.delete(context);
-        if (del) {
-            if (files != null)
-                files.remove(file);
-        }
+        if (files != null)
+            files.remove(file);
 
         return del;
 
