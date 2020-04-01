@@ -43,22 +43,21 @@ import freed.viewer.helper.BitmapHelper;
  */
 public abstract class ActivityAbstract extends PermissionActivity implements ActivityInterface {
 
-    private boolean initDone = false;
-
     private final boolean forceLogging = false;
-
-
 
     private final String TAG = ActivityAbstract.class.getSimpleName();
     protected BitmapHelper bitmapHelper;
     protected FileListController fileListController;
+    private I_OnActivityResultCallback resultCallback;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.d(TAG,"onCreate setContentToView");
-
+        Log.d(TAG,"onCreate");
+        if (!SettingsManager.getInstance().isInit()) {
+            SettingsManager.getInstance().init(getBaseContext().getResources(),getContext());
+        }
 
     }
 
@@ -66,7 +65,6 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         ImageManager.getInstance(); // init it
-        SettingsManager.getInstance();
     }
 
     @Override
@@ -86,23 +84,14 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
         else
         {
             new Log();
-
         }
-        initDone = true;
         Log.d(TAG, "initOnCreate()");
-        if (!SettingsManager.getInstance().isInit()) {
-           SettingsManager.getInstance().init(getBaseContext().getResources(),getContext());
-        }
     }
-
 
     @Override
     public String getStringFromRessources(int id) {
         return getResources().getString(id);
     }
-
-
-
 
     @Override
     protected void onDestroy() {
@@ -115,8 +104,6 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
             Log.destroy();*/
     }
 
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -125,9 +112,7 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
 
     @Override
     public void onResumePermissionGranted() {
-        if (!SettingsManager.getInstance().isInit()) {
-            SettingsManager.getInstance().init(getBaseContext().getResources(),getContext());
-        }
+
     }
 
     @Override
@@ -136,11 +121,6 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
         super.onPause();
         Log.flush();
     }
-
-
-
-
-    private I_OnActivityResultCallback resultCallback;
 
     @Override
     public void SwitchCameraAPI(String Api) {
