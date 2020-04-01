@@ -37,6 +37,7 @@ import android.util.Range;
 import android.util.Size;
 import android.view.Surface;
 
+import com.QTI.SOC;
 import com.troop.freedcam.R;
 
 import java.io.File;
@@ -44,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -184,6 +186,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         startPreviewVideo();
     }
 
+    @RequiresApi(api = VERSION_CODES.N)
     private void stopRecording()
     {
         Log.d(TAG, "stopRecording");
@@ -202,15 +205,31 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
     }
 
-    @TargetApi(VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = VERSION_CODES.N)
     @Override
     public void startPreview()
     {
         Size previewSize;
-        if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
-            previewSize = getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
-        else
-            previewSize = new Size(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+        if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
+            if(currentVideoProfile.videoFrameWidth > 3840){
+                previewSize = new Size(3840, 2160);
+            }
+            else {
+
+                previewSize = getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+
+
+            }
+        }
+        else {
+                if(currentVideoProfile.videoFrameWidth > 3840){
+                    previewSize = new Size(3840, 2160);
+                }
+                else {
+                    previewSize = new Size(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+                }
+
+        }
 
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         int orientation = 0;
@@ -237,11 +256,14 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,false));
 
         SurfaceTexture texture = cameraUiWrapper.captureSessionHandler.getSurfaceTexture();
-        texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+        texture.setDefaultBufferSize(w, h);
         previewsurface = new Surface(texture);
+
         cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface,true);
 
         cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
+
+
     }
 
     public Size getSizeForPreviewDependingOnImageSize(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
@@ -307,13 +329,16 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         if(videoRecorder.prepare()) {
             recorderSurface = videoRecorder.getSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
-            Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
-            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps);
+
 
             if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
                 cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewrdy);
             else
                 cameraUiWrapper.captureSessionHandler.CreateHighSpeedCaptureSession(previewrdy);
+
+            Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps);
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(SOC.EIS_MODE, (byte)1);
         }
         else{
             isRecording = false;

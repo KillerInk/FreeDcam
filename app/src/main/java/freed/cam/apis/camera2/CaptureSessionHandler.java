@@ -17,6 +17,7 @@ import android.hardware.camera2.params.InputConfiguration;
 import android.hardware.camera2.params.OutputConfiguration;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Range;
 import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
@@ -61,10 +62,17 @@ public class CaptureSessionHandler
 
     private final Object waitLock = new Object();
 
+    private static int OPMODE = 0;
+
 
     private volatile boolean captureSessionRdy = false;
     private boolean captureSessionOpen = false;
 
+
+    public static void setOPMODE(int opmode){
+        OPMODE = opmode;
+
+}
 
     CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
     {
@@ -289,14 +297,15 @@ public class CaptureSessionHandler
                 cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
                 handler.post(() -> {
                     try {
-                        //cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, handler);
+                       //cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, handler);
 
                         List<OutputConfiguration> outputConfigurations = new ArrayList<>(surfaces.size());
                         for (Surface surface : surfaces)
                         {
                             outputConfigurations.add(new OutputConfiguration(surface));
                         }
-                        createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OpModes.OP_EISv3,previewStateCallBackRestart,handler);
+                        createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OpModes.OP_VidHanceEIS60,previewStateCallBackRestart,handler);
+
 
                     } catch (Exception  ex) {
                         Log.WriteEx(ex);
@@ -357,6 +366,7 @@ public class CaptureSessionHandler
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void CreateCaptureSession(CameraCaptureSession.StateCallback customCallback)
     {
         Log.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
@@ -366,8 +376,16 @@ public class CaptureSessionHandler
         isHighSpeedSession = false;
 
         try {
-            cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, customCallback, handler);
-        } catch (CameraAccessException ex) {
+           // cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, customCallback, handler);
+
+            List<OutputConfiguration> outputConfigurations = new ArrayList<>(surfaces.size());
+            for (Surface surface : surfaces)
+            {
+                outputConfigurations.add(new OutputConfiguration(surface));
+            }
+            createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OpModes.OP_VidHanceEIS60,customCallback,handler);
+
+        } catch (Exception ex) {
             Log.WriteEx(ex);
         }
         captureSessionOpen = true;
