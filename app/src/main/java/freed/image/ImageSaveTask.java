@@ -5,6 +5,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 
 
@@ -245,7 +246,7 @@ public class ImageSaveTask extends ImageTask
             } catch (FileNotFoundException e) {
                 Log.WriteEx(e);
             }
-            fileholder = new UriHolder(uri,filename.getName(),Long.valueOf(uri.getLastPathSegment()), 0,false,SettingsManager.getInstance().GetWriteExternal());
+            fileholder = new UriHolder(uri,filename.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,SettingsManager.getInstance().GetWriteExternal());
         }
         if (pfd == null)
             rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath());
@@ -287,7 +288,7 @@ public class ImageSaveTask extends ImageTask
             {
                 Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(filename);
                 outStream = new BufferedOutputStream(activityInterface.getContext().getContentResolver().openOutputStream(uri));
-                fileholder = new UriHolder(uri,filename.getName(),Long.valueOf(uri.getLastPathSegment()), 0,false,SettingsManager.getInstance().GetWriteExternal());
+                fileholder = new UriHolder(uri,filename.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,SettingsManager.getInstance().GetWriteExternal());
             }
             outStream.write(bytesTosave);
             outStream.flush();
