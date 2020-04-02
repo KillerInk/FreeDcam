@@ -338,6 +338,7 @@ public class CaptureSessionHandler
 
     }
 
+
     @TargetApi(Build.VERSION_CODES.M)
     public void CreateHighSpeedCaptureSession(CameraCaptureSession.StateCallback customCallback)
     {
