@@ -10,7 +10,7 @@ public class OpModes {
 
     public static final int OP_EIS_HW = 32784;
 
-    public static final int OP_VidHanceEIS60 = 61448;
+    public static final int OP_VidHanceEIS60 = 40960;
     public static final int OP_VidHanceEIS30 = 40976;
 
     public static final int OP_UNK1 = 61456;

@@ -304,7 +304,7 @@ public class CaptureSessionHandler
                         {
                             outputConfigurations.add(new OutputConfiguration(surface));
                         }
-                        createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OpModes.OP_VidHanceEIS60,previewStateCallBackRestart,handler);
+                        createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OPMODE,previewStateCallBackRestart,handler);
 
 
                     } catch (Exception  ex) {
@@ -384,7 +384,7 @@ public class CaptureSessionHandler
             {
                 outputConfigurations.add(new OutputConfiguration(surface));
             }
-            createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OpModes.OP_VidHanceEIS60,customCallback,handler);
+            createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OPMODE,customCallback,handler);
 
         } catch (Exception ex) {
             Log.WriteEx(ex);

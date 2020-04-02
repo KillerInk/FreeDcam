@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import Camera2EXT.OpModes;
 import androidx.annotation.RequiresApi;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
@@ -57,6 +58,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.file.holder.BaseHolder;
@@ -97,6 +99,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         return name;
     }
 
+    @RequiresApi(api = VERSION_CODES.N)
     @Override
     public void DoWork() {
         if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio))
@@ -105,6 +108,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio, null);
     }
 
+    @RequiresApi(api = VERSION_CODES.N)
     private void startStopRecording() {
         mBackgroundHandler.post(() -> {
             if (!isRecording && !isLowStorage) {
@@ -124,6 +128,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         isLowStorage = x;
     }
 
+    @RequiresApi(api = VERSION_CODES.N)
     @Override
     public void InitModule() {
         Log.d(TAG, "InitModule");
@@ -145,7 +150,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             parameterHandler.get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Hidden);
     }
 
-    @TargetApi(VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = VERSION_CODES.N)
     @Override
     public void DestroyModule() {
         if (parameterHandler.get(SettingKeys.PictureFormat) != null)
@@ -256,15 +261,31 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
 
 
-        PicReader = ImageReader.newInstance(4000, 2250, ImageFormat.JPEG, 2);
+        if(currentVideoProfile.videoFrameWidth <= 5120 && currentVideoProfile.videoFrameHeight <= 2880){
+            PicReader = ImageReader.newInstance(4000, 2250, ImageFormat.JPEG, 2);
+            cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
 
-      cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
+
+        }
+
+        if(currentVideoProfile.videoFrameWidth > 5120 && currentVideoProfile.videoFrameHeight > 2880){
+            CaptureSessionHandler.setOPMODE(0);
+        }
+        else
+
+        {
+            CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
+        }
 
         cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
+
+
         Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps);
-        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(SOC.EIS_MODE, (byte) 1);
 
+        if(currentVideoProfile.videoFrameWidth <= 5120 && currentVideoProfile.videoFrameHeight <= 2880) {
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(SOC.EIS_MODE, (byte) 1);
+        }
 
     }
 
@@ -289,6 +310,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         }
     }
 
+    @RequiresApi(api = VERSION_CODES.N)
     @Override
     public void stopPreview() {
         DestroyModule();
@@ -334,19 +356,32 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             recorderSurface = videoRecorder.getSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
 
-            //PicReader = ImageReader.newInstance(3840, 2160, ImageFormat.JPEG, 2);
 
-            //cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
+            if(currentVideoProfile.videoFrameWidth > 5120 && currentVideoProfile.videoFrameHeight > 2880){
+                CaptureSessionHandler.setOPMODE(0);
+            }
+            else
 
+            {
+                CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
+            }
 
             if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
                 cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewrdy);
             else
                 cameraUiWrapper.captureSessionHandler.CreateHighSpeedCaptureSession(previewrdy);
 
+
+
+
+
+
             Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
             cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps);
-            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(SOC.EIS_MODE, (byte) 1);
+
+            if(currentVideoProfile.videoFrameWidth <= 5120 && currentVideoProfile.videoFrameHeight <= 2880) {
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(SOC.EIS_MODE, (byte) 1);
+            }
 
 
         }
