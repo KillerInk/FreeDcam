@@ -38,13 +38,16 @@ public class MediaStoreController {
         // Publish a new img.
         ContentValues newImg = new ContentValues();
         newImg.put(MediaStore.MediaColumns.TITLE, name.getName());
+
         newImg.put(MediaStore.Images.Media.MIME_TYPE,"image/*");
         newImg.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
         newImg.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
             newImg.put(MediaStore.Images.Media.DATA, name.getAbsolutePath());
-        else
-            newImg.put(MediaStore.Images.Media.RELATIVE_PATH, "FreeDcam");
+        else {
+            newImg.put(MediaStore.Images.Media.DISPLAY_NAME, name.getName());
+            newImg.put(MediaStore.Images.Media.RELATIVE_PATH, "DCIM/FreeDcam/");
+        }
         Uri ur = resolver.insert(extpath, newImg);
         return ur;
 
@@ -65,8 +68,10 @@ public class MediaStoreController {
         newImg.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
             newImg.put(MediaStore.Video.Media.DATA, name.getAbsolutePath());
-        else
-            newImg.put(MediaStore.Video.Media.RELATIVE_PATH, "FreeDcam");
+        else {
+            newImg.put(MediaStore.Video.Media.DISPLAY_NAME, name.getName());
+            newImg.put(MediaStore.Video.Media.RELATIVE_PATH, "DCIM/FreeDcam/");
+        }
         Uri ur = resolver.insert(extpath, newImg);
         return ur;
 
