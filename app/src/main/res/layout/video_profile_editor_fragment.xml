@@ -2,75 +2,75 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="#aaa">
+    android:background="#121212"
+    android:orientation="vertical">
 
     <ScrollView
+        android:id="@+id/scrollView5"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/scrollView5" >
+        android:layout_height="fill_parent">
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Profile:"
-                    android:id="@+id/textView15"
-                    android:layout_weight="1"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="30dp">
 
                 <Button
+                    android:id="@+id/button_Profile"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/black_overlay"
                     android:text="New Button"
-                    android:id="@+id/button_Profile"
-                    android:layout_weight="1" />
+                    android:textColor="@color/menuTextColor" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="clip_horizontal|center"
+                    android:text="Profile:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent" >
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
+
+                <EditText
+                    android:id="@+id/editText_ProfileName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_weight="1"
+                    android:gravity="clip_horizontal|center"
                     android:text="ProfileName:"
-                    android:layout_weight="1"
-                    android:textColor="@color/abc_primary_text_material_light" />
-
-                <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:id="@+id/editText_ProfileName"
-                    android:layout_weight="1"
-                    android:inputType="text" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Width:"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
                 <EditText
                     android:id="@+id/editText_Profilewidth"
@@ -79,20 +79,22 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="text" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Height:"
+                    android:gravity="clip_horizontal|center"
+                    android:text="Width:"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                    android:textColor="@color/menuTextColor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
                 <EditText
                     android:id="@+id/editText_Profileheight"
@@ -101,135 +103,145 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="text" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="clip_horizontal|center"
+                    android:text="Height:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent" >
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Audio Capture:"
-                    android:id="@+id/textView22"
-                    android:layout_weight="1"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
                 <Switch
+                    android:id="@+id/switchAudio"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/switchAudio" />
+                    android:layout_weight="1"
+                    android:text="Audio Capture:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent">
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="AudioBitRate:"
-                    android:id="@+id/textView16"
-                    android:layout_weight="1"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
                 <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberSigned"
-                    android:ems="10"
                     android:id="@+id/editText_audioBitrate"
-                    android:layout_weight="1" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="numberSigned" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="clip_horizontal|center"
+                    android:text="AudioBitRate:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="AudioSampleRate:"
-                    android:id="@+id/textView17"
-                    android:layout_weight="1"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
                 <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberSigned"
-                    android:ems="10"
                     android:id="@+id/editText_audioSampleRate"
-                    android:layout_weight="1" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="numberSigned" />
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="clip_horizontal|center"
+                    android:text="AudioSampleRate:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="VideoBitrate:"
-                    android:id="@+id/textView18"
-                    android:layout_weight="1"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
                 <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberSigned"
-                    android:ems="10"
                     android:id="@+id/editText_videoBitrate"
-                    android:layout_weight="1" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="numberSigned" />
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="clip_horizontal|center"
+                    android:text="VideoBitrate:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="VideoFrameRate:"
-                    android:id="@+id/textView19"
-                    android:layout_weight="1"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
                 <EditText
+                    android:id="@+id/editText_videoframerate"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberSigned"
+                    android:layout_weight="1"
                     android:ems="10"
-                    android:id="@+id/editText_videoframerate"
-                    android:layout_weight="1" />
+                    android:inputType="numberSigned" />
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="clip_horizontal|center"
+                    android:text="VideoFrameRate:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textViewrecsize"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="MaxRecordSize in MB:"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
                 <EditText
                     android:id="@+id/editText_recordsize"
@@ -238,113 +250,140 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="numberSigned" />
+
+                <TextView
+                    android:id="@+id/textViewrecsize"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="clip_horizontal|center"
+                    android:text="MaxRecordSize in MB:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="MaxRecordTime in MIN:"
-                    android:id="@+id/textView20"
-                    android:layout_weight="1"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
                 <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberSigned"
-                    android:ems="10"
                     android:id="@+id/editText_recordtime"
-                    android:layout_weight="1" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="numberSigned" />
+
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="clip_horizontal|center"
+                    android:text="MaxRecordTime in MIN:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="RecordMode:"
-                    android:id="@+id/textView23"
-                    android:layout_weight="1"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="New Button"
                     android:id="@+id/button_recordMode"
-                    android:layout_weight="1" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/black_overlay"
+                    android:text="New Button"
+                    android:textColor="@color/menuTextColor" />
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="clip_horizontal|center"
+                    android:text="RecordMode:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="VideoCodec:"
-                    android:layout_weight="1"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="New Button"
                     android:id="@+id/button_videoCodec"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/black_overlay"
+                    android:text="New Button"
+                    android:textColor="@color/menuTextColor" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="AudioCodec:"
                     android:layout_weight="1"
-                    android:textColor="@color/abc_primary_text_material_light" />
-
-                <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="New Button"
-                    android:id="@+id/button_audioCodec"
-                    android:layout_weight="1" />
+                    android:gravity="clip_horizontal|center"
+                    android:text="VideoCodec:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
             </LinearLayout>
+
             <LinearLayout
-                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_audioCodec"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/black_overlay"
+                    android:text="New Button"
+                    android:textColor="@color/menuTextColor" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="clip_horizontal|center"
+                    android:text="AudioCodec:"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menuTextColor" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Save"
                     android:id="@+id/button_Save_profile"
-                    android:layout_weight="1" />
-
-                <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Remove"
+                    android:layout_weight="1"
+                    android:background="@color/black_overlay"
+                    android:text="Save"
+                    android:textColor="@color/menuTextColor" />
+
+                <Button
                     android:id="@+id/button_delete_profile"
-                    android:layout_weight="1" />
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/black_overlay"
+                    android:text="Remove"
+                    android:textColor="@color/menuTextColor" />
             </LinearLayout>
 
         </LinearLayout>
