@@ -116,8 +116,15 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             locationManager.startLocationListing();
 
         SetNightOverlay();
-        if(getPermissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard) && (fileListController.getFiles() == null || fileListController.getFiles().size() == 0))
-            ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
+        if (!FileListController.needStorageAccessFrameWork) {
+            if (getPermissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard) && (fileListController.getFiles() == null || fileListController.getFiles().size() == 0))
+                ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
+        }
+        else
+        {
+            if (fileListController.getFiles() == null || fileListController.getFiles().size() == 0)
+                ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
+        }
     }
 
     @Subscribe

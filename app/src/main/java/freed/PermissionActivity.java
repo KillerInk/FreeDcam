@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import freed.file.FileListController;
+import freed.file.MediaStoreController;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
 
@@ -32,15 +34,15 @@ public abstract class PermissionActivity extends HideNavBarActivity {
         super.onCreate(savedInstanceState);
         currentState = AppState.Created;
         setContentToView();
+        permissionManager =new PermissionManager(this);
 
+        permissionManager.hasCameraAndSdPermission(logSDPermission);
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        permissionManager =new PermissionManager(this);
 
-        permissionManager.hasCameraAndSdPermission(logSDPermission);
     }
 
     protected abstract void setContentToView();
@@ -64,10 +66,20 @@ public abstract class PermissionActivity extends HideNavBarActivity {
     protected void onResume() {
         super.onResume();
         currentState = AppState.Resumed;
-        if (permissionManager.isPermissionGranted(PermissionManager.Permissions.Camera) && permissionManager.isPermissionGranted(PermissionManager.Permissions.SdCard)) {
-            if (!onCreatePermissioGrantedDidRun)
-                onCreatePermissionGranted();
-            onResumePermissionGranted();
+        if (!FileListController.needStorageAccessFrameWork){
+            if (permissionManager.isPermissionGranted(PermissionManager.Permissions.Camera) && permissionManager.isPermissionGranted(PermissionManager.Permissions.SdCard)) {
+                if (!onCreatePermissioGrantedDidRun)
+                    onCreatePermissionGranted();
+                onResumePermissionGranted();
+            }
+        }
+        else
+        {
+            if (permissionManager.isPermissionGranted(PermissionManager.Permissions.Camera)) {
+                if (!onCreatePermissioGrantedDidRun)
+                    onCreatePermissionGranted();
+                onResumePermissionGranted();
+            }
         }
     }
 
