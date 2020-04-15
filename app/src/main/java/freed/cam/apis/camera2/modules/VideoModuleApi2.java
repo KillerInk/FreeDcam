@@ -261,21 +261,42 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
 
 
-        if(currentVideoProfile.videoFrameWidth <= 5120 && currentVideoProfile.videoFrameHeight <= 2880){
+        if(currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3")||currentVideoProfile.ProfileName.contains("xEISx")){
             PicReader = ImageReader.newInstance(4000, 2250, ImageFormat.JPEG, 2);
             cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
 
 
         }
 
-        if(currentVideoProfile.videoFrameWidth > 5120 && currentVideoProfile.videoFrameHeight > 2880){
+        if(currentVideoProfile.ProfileName.contains("2EIS2"))
+        {
+            CaptureSessionHandler.setOPMODE(OpModes.OP_RealTimeEIS);
+        }
+
+        else if(currentVideoProfile.ProfileName.contains("3EIS3"))
+        {
+            CaptureSessionHandler.setOPMODE(OpModes.OP_LookAheadEIS);
+        }
+        else if (currentVideoProfile.ProfileName.contains("xEISx"))
+        {
+            CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
+        }
+        else if (currentVideoProfile.ProfileName.contains("3hdr"))
+        {
+            CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
+        }
+        else {
+            CaptureSessionHandler.setOPMODE(0);
+        }
+
+        /*if(currentVideoProfile.videoFrameWidth > 5120 && currentVideoProfile.videoFrameHeight > 2880){
             CaptureSessionHandler.setOPMODE(0);
         }
         else
 
         {
             CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
-        }
+        }*/
 
         cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
 
@@ -283,7 +304,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps);
 
-        if(currentVideoProfile.videoFrameWidth <= 5120 && currentVideoProfile.videoFrameHeight <= 2880) {
+        if(currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3")||currentVideoProfile.ProfileName.contains("xEISx")) {
             cameraUiWrapper.captureSessionHandler.SetPreviewParameter(SOC.EIS_MODE, (byte) 1);
         }
 
@@ -356,15 +377,36 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             recorderSurface = videoRecorder.getSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
 
+            if(currentVideoProfile.ProfileName.contains("2EIS2"))
+            {
+                CaptureSessionHandler.setOPMODE(OpModes.OP_RealTimeEIS);
+            }
 
-            if(currentVideoProfile.videoFrameWidth > 5120 && currentVideoProfile.videoFrameHeight > 2880){
+            else if(currentVideoProfile.ProfileName.contains("3EIS3"))
+            {
+                CaptureSessionHandler.setOPMODE(OpModes.OP_LookAheadEIS);
+            }
+            else if (currentVideoProfile.ProfileName.contains("xEISx"))
+            {
+                CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
+            }
+            else if (currentVideoProfile.ProfileName.contains("3hdr"))
+            {
+                CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
+            }
+            else {
+                CaptureSessionHandler.setOPMODE(0);
+            }
+
+
+            /*if(currentVideoProfile.videoFrameWidth > 5120 && currentVideoProfile.videoFrameHeight > 2880){
                 CaptureSessionHandler.setOPMODE(0);
             }
             else
 
             {
                 CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
-            }
+            }*/
 
             if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
                 cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewrdy);
@@ -379,7 +421,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
             cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps);
 
-            if(currentVideoProfile.videoFrameWidth <= 5120 && currentVideoProfile.videoFrameHeight <= 2880) {
+            if(currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3")||currentVideoProfile.ProfileName.contains("xEISx")) {
                 cameraUiWrapper.captureSessionHandler.SetPreviewParameter(SOC.EIS_MODE, (byte) 1);
             }
 

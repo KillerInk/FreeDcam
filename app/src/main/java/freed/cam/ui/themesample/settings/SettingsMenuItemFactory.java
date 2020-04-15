@@ -116,6 +116,13 @@ public class SettingsMenuItemFactory
                     picGroup.addView(jpegQuality);
                 }
 
+
+                if (params.get(SettingKeys.MFNR) != null) {
+                    SettingsChildMenu mfnr = new SettingsChildMenu(context, params.get(SettingKeys.MFNR), R.string.setting_mfnr_header,R.string.setting_mfnr_description);
+                    mfnr.SetUiItemClickListner(click);
+                    picGroup.addView(mfnr);
+                }
+
                 GroupChild intervalGroup = new GroupChild(context, context.getResources().getString(R.string.setting_Automation));
 
                 SettingsChildMenuInterval menuInterval = new SettingsChildMenuInterval(context, params.get(SettingKeys.INTERVAL_SHUTTER_SLEEP), R.string.setting_interval_header, R.string.setting_interval_texter);

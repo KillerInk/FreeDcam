@@ -73,6 +73,18 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 publishProgress("Check camera features:" + s);
                 CameraCharacteristics characteristics = manager.getCameraCharacteristics(s);
                 boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
+
+                //AUX Camera WIDE
+               /* switch (characteristics.get(CameraCharacteristics.LENS_FACING))
+                {
+                    case CameraCharacteristics.LENS_FACING_BACK:
+                        SettingsManager.getInstance().setIsFrontCamera(true);
+                        break;
+
+                    case CameraCharacteristics.LENS_FACING_EXTERNAL:
+                        SettingsManager.getInstance().setIsAUXR(true);
+                }*/
+
                 SettingsManager.get(SettingKeys.Module).set(SettingsManager.getInstance().getResString(R.string.module_picture));
                 SettingsManager.getInstance().SetCurrentCamera(Integer.parseInt(s));
                 SettingsManager.getInstance().setIsFrontCamera(front);

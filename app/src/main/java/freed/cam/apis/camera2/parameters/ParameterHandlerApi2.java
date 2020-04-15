@@ -51,6 +51,7 @@ import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 import freed.cam.apis.camera2.parameters.modes.DualCameraModeHuaweiApi2;
 import freed.cam.apis.camera2.parameters.modes.FocusMode;
 import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
+import freed.cam.apis.camera2.parameters.modes.MFNR;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.RawSizeModeApi2;
@@ -123,6 +124,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             add(SettingKeys.VideoStabilization, new BaseModeApi2(cameraUiWrapper,SettingKeys.VideoStabilization, CaptureRequest.CONTROL_VIDEO_STABILIZATION_MODE));
 
         add(SettingKeys.JpegQuality, new JpegQualityModeApi2(cameraUiWrapper));
+        add(SettingKeys.MFNR, new MFNR(cameraUiWrapper));
 
         if (SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported() ) {
             try {

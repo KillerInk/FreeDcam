@@ -425,6 +425,7 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public int GetCurrentCamera() {
         return settingsStorage.getInt(CURRENTCAMERA, 0);
+
     }
 
     public void SetCurrentModule(String modulename) {
@@ -523,6 +524,13 @@ public class SettingsManager implements SettingsManagerInterface {
     {
         settingsStorage.setApiBoolean(FRONTCAMERA, isFront);
     }
+
+    public static final String AUXR ="wideRear";
+    public void setIsAUXR(boolean isAUXR)
+    {
+        settingsStorage.setApiBoolean(AUXR, isAUXR);
+    }
+
 
     public boolean getIsFrontCamera()
     {
