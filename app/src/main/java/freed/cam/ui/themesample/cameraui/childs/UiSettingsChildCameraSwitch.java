@@ -70,6 +70,25 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         }
     }
 
+    public void switchCameraLens()
+    {
+        int TempID = 0;
+
+        if(currentCamera == 0)
+            TempID = 2;
+        else if(currentCamera == 1)
+            TempID = 3;
+        else if(currentCamera == 2)
+            TempID = 0;
+        else if(currentCamera == 3)
+            TempID =1;
+
+        SettingsManager.getInstance().SetCurrentCamera(TempID);
+        sendLog("Stop Preview and Camera");
+        cameraUiWrapper.restartCameraAsync();
+        //valueText.setText(getCamera(TempID));
+    }
+
     private void switchCamera()
     {
         int maxcams = cameraUiWrapper.getCameraHolder().CameraCout();
@@ -88,6 +107,10 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
             return "Back";
         else if (i == 1)
             return "Front";
+        else if (i == 2)
+            return "BackW";
+        else if (i == 3)
+            return "FrontW";
         else
             return "3D";
     }
