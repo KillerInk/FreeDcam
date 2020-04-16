@@ -170,7 +170,13 @@ public abstract class AeManager implements AeManagerInterface
 
         @Override
         public String GetStringValue() {
-            return stringvalues[currentInt];
+            try {
+                return stringvalues[currentInt];
+            }
+            catch (NullPointerException e)
+            {
+                return "0";
+            }
         }
 
         @Override
