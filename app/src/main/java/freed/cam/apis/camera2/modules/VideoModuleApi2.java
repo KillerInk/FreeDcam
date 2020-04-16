@@ -212,7 +212,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         Size previewSize;
         if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
             if (currentVideoProfile.videoFrameWidth > 3840) {
-                previewSize = new Size(3840, 2160);
+                previewSize = new Size(1280, 720);
             } else {
 
                 previewSize = getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
@@ -262,7 +262,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
 
         if(currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3")||currentVideoProfile.ProfileName.contains("xEISx")){
-            PicReader = ImageReader.newInstance(4000, 2250, ImageFormat.JPEG, 2);
+            PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 2);
             cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
 
 
@@ -284,6 +284,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         else if (currentVideoProfile.ProfileName.contains("3hdr"))
         {
             CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
+        }
+        else if (currentVideoProfile.ProfileName.contains("hs"))
+        {
+            CaptureSessionHandler.setOPMODE(1);
         }
         else {
             CaptureSessionHandler.setOPMODE(0);
@@ -391,6 +395,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
             }
             else if (currentVideoProfile.ProfileName.contains("3hdr"))
+            {
+                CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
+            }
+            else if (currentVideoProfile.ProfileName.contains("hs"))
             {
                 CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
             }
