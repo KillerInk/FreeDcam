@@ -424,6 +424,13 @@ public class SettingsManager implements SettingsManagerInterface {
     }
 
     public int GetCurrentCamera() {
+
+        if (settingsStorage.getInt(CURRENTCAMERA, 0) == 2)
+        {
+            return 0;
+        }else
+
+
         return settingsStorage.getInt(CURRENTCAMERA, 0);
 
     }
