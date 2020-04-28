@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -47,17 +48,22 @@ public class SettingsStorage
 
     private void loadSettings()
     {
-        try (InputStreamReader is = new InputStreamReader(new FileInputStream(appdataFolder.getAbsolutePath()+"/freed.config"))) {
+        Log.d(TAG, "load Settings()");
+        File f = new File(appdataFolder.getAbsolutePath(),"freed.txt");
+        boolean exists = f.exists();
+        try (FileReader is = new FileReader(f)) {
             BufferedReader bufferedReader = new BufferedReader(is);
             String receiveString;
             while ((receiveString = bufferedReader.readLine()) != null ) {
                 getSettingFromString(receiveString,settingStore);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+           Log.WriteEx(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
+
+        Log.d(TAG, "loaded Settings()");
     }
 
     private void getSettingFromString(String input, HashMap<String, Object> map)
@@ -86,7 +92,7 @@ public class SettingsStorage
 
     private void saveSettings()
     {
-        File out =new File(appdataFolder.getAbsolutePath()+"/freed.config");
+        File out =new File(appdataFolder.getAbsolutePath()+"/freed.txt");
         if (!out.exists())
         {
             out.getParentFile().mkdirs();
@@ -105,9 +111,9 @@ public class SettingsStorage
             for (String key : set)
                 writeSettingsString(key, settingStore.get(key), os);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
     }
 

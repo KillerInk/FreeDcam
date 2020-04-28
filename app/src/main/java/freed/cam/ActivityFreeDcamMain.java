@@ -214,8 +214,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             return;
 
         cameraFragmentManager.onResume();
-        if (SettingsManager.getInstance().appVersionHasChanged())
+        if (SettingsManager.getInstance().appVersionHasChanged()) {
+            Log.d(TAG, "appVersion Has Changed, start featuredetector for Settings");
             cameraFragmentManager.switchCameraFragment();
+        }
         else {
             if (uiViewPagerAdapter == null)
                 initScreenSlide();
@@ -228,6 +230,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     {
         super.onPause();
         Log.d(TAG, "onPause() " + currentState);
+        SettingsManager.getInstance().save();
         // forward to secure camera to handle resume bug
         if (mSecureCamera != null)
             mSecureCamera.onPause();
@@ -236,7 +239,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void onPauseTasks() {
         unloadCameraFragment();
-        SettingsManager.getInstance().save();
+
         Log.d(TAG, "onPauseTasks() " + currentState);
         if(orientationManager != null)
             orientationManager.Stop();

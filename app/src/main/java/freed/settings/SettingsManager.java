@@ -135,6 +135,7 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public void save()
     {
+        Log.d(TAG,"save, storage is null =" + (settingsStorage == null));
         if (settingsStorage != null)
             settingsStorage.save();
     }
@@ -152,6 +153,7 @@ public class SettingsManager implements SettingsManagerInterface {
         isInit = true;
         //settings = sharedPreferences;
         settingsStorage = new SettingsStorage(context.getExternalFilesDir(null));
+        Log.d(TAG, "load Settings");
         settingsStorage.load();
         this.resources = resources;
         SettingKeys.Key[] keys = SettingKeys.getKeyList();
@@ -195,7 +197,7 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public synchronized void release()
     {
-        settingsStorage.save();
+        //settingsStorage.save();
         settingsmap.clear();
         isInit = false;
         resources = null;
