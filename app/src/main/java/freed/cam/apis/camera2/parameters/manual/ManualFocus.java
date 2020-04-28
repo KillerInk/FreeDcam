@@ -47,19 +47,12 @@ public class ManualFocus extends AbstractParameter
     public ManualFocus(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper,SettingKeys.M_Focus);
-        if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
-        {
+        if (stringvalues != null && stringvalues.length > 0) {
+            focusvalues = new StringFloatArray(stringvalues);
             setViewState(ViewState.Visible);
-            String[] arr = SettingsManager.get(SettingKeys.M_Focus).getValues();
-            if (arr == null || arr.length == 0) {
-                setViewState(ViewState.Hidden);
-                Log.d(TAG, "No mf values from Appsettings");
-            }
-            else
-                focusvalues = new StringFloatArray(arr);
-            currentInt = 0;
         }
-
+        else
+            setViewState(ViewState.Hidden);
     }
 
     @Override
@@ -77,7 +70,7 @@ public class ManualFocus extends AbstractParameter
     @Override
     public void setValue(int valueToSet, boolean setToCamera)
     {
-        currentInt = valueToSet;
+        super.setValue(valueToSet,setToCamera);
         //set to auto
         if(valueToSet == 0)
         {
