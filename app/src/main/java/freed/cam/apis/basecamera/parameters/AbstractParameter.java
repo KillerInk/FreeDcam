@@ -48,8 +48,10 @@ public abstract class AbstractParameter implements ParameterInterface {
     public AbstractParameter(SettingKeys.Key  key)
     {
         this.key = key;
-        if (key == null || SettingsManager.get(key) == null)
+        if (key == null || SettingsManager.get(key) == null) {
+            setViewState(ViewState.Hidden);
             return;
+        }
         if (SettingsManager.get(key) instanceof  SettingMode) {
             this.settingMode = (SettingMode) SettingsManager.get(key);
             stringvalues = settingMode.getValues();

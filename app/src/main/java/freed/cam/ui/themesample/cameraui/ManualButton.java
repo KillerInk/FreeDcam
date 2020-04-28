@@ -58,31 +58,35 @@ public class ManualButton extends LinearLayout
         if (viewStateValueChangedEvent.key == parameter.getKey())
         {
             AbstractParameter.ViewState state = viewStateValueChangedEvent.newValue;
-            switch (state)
-            {
-                case Enabled:
-                    if (ManualButton.this.getVisibility() == View.GONE)
-                        ManualButton.this.setVisibility(VISIBLE);
-                    ManualButton.this.setEnabled(true);
-                    if (imageView != null)
-                        imageView.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
-                    break;
-                case Disabled:
-                    if (ManualButton.this.getVisibility() == View.GONE)
-                        ManualButton.this.setVisibility(VISIBLE);
-                    ManualButton.this.setEnabled(false);
-                    if (imageView != null)
-                        imageView.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-                    break;
-                case Visible:
-                    ManualButton.this.setVisibility(View.VISIBLE);
-                    ManualButton.this.setEnabled(true);
-                    animate().setListener(null).scaleY(1f).setDuration(300);
-                    break;
-                case Hidden:
-                    animate().setListener(hideListner).scaleY(0f).setDuration(300);
-                    break;
-            }
+            applyViewState(state);
+        }
+    }
+
+    private void applyViewState(AbstractParameter.ViewState state) {
+        switch (state)
+        {
+            case Enabled:
+                if (ManualButton.this.getVisibility() == View.GONE)
+                    ManualButton.this.setVisibility(VISIBLE);
+                ManualButton.this.setEnabled(true);
+                if (imageView != null)
+                    imageView.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
+                break;
+            case Disabled:
+                if (ManualButton.this.getVisibility() == View.GONE)
+                    ManualButton.this.setVisibility(VISIBLE);
+                ManualButton.this.setEnabled(false);
+                if (imageView != null)
+                    imageView.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                break;
+            case Visible:
+                ManualButton.this.setVisibility(View.VISIBLE);
+                ManualButton.this.setEnabled(true);
+                animate().setListener(null).scaleY(1f).setDuration(300);
+                break;
+            case Hidden:
+                animate().setListener(hideListner).scaleY(0f).setDuration(300);
+                break;
         }
     }
 
@@ -174,7 +178,7 @@ public class ManualButton extends LinearLayout
             createStringParametersStrings(parameter);
 
         }
-        //onViewStateChanged(parameter.getViewState());
+        applyViewState(parameter.getViewState());
 
     }
 
