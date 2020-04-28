@@ -242,6 +242,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface,true);
 
         cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
+        Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
+        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps);
     }
 
     public Size getSizeForPreviewDependingOnImageSize(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
@@ -307,8 +309,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         if(videoRecorder.prepare()) {
             recorderSurface = videoRecorder.getSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
-            Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
-            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps);
 
             if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
                 cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewrdy);
