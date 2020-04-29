@@ -58,7 +58,7 @@ public class MediaStoreController {
         // Add a specific media item.
         ContentResolver resolver = context.getContentResolver();
 
-        Uri extpath = getUri();
+        Uri extpath = getVideoUri();
 
         // Publish a new img.
         ContentValues newImg = new ContentValues();
@@ -82,6 +82,13 @@ public class MediaStoreController {
             return MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
         else
             return MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+    }
+
+    private Uri getVideoUri() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
+            return MediaStore.Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        else
+            return MediaStore.Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
     }
 
 
