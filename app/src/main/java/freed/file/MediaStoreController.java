@@ -16,10 +16,11 @@ import java.util.List;
 
 import freed.file.holder.BaseHolder;
 import freed.file.holder.UriHolder;
+import freed.utils.Log;
 
 public class MediaStoreController {
 
-
+    private final String TAG = MediaStoreController.class.getSimpleName();
 
     private Context context;
 
@@ -38,14 +39,15 @@ public class MediaStoreController {
         // Publish a new img.
         ContentValues newImg = new ContentValues();
         newImg.put(MediaStore.MediaColumns.TITLE, name.getName());
-
+        newImg.put(MediaStore.Images.Media.DISPLAY_NAME, name.getName());
         newImg.put(MediaStore.Images.Media.MIME_TYPE,"image/*");
-        newImg.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
-        newImg.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+        newImg.put(MediaStore.Images.Media.DATE_ADDED, (System.currentTimeMillis()/1000));
+        newImg.put(MediaStore.Images.Media.DATE_TAKEN, (System.currentTimeMillis()/1000));
+        newImg.put(MediaStore.Images.Media.DATE_MODIFIED, (System.currentTimeMillis()/1000));
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
             newImg.put(MediaStore.Images.Media.DATA, name.getAbsolutePath());
         else {
-            newImg.put(MediaStore.Images.Media.DISPLAY_NAME, name.getName());
+
             newImg.put(MediaStore.Images.Media.RELATIVE_PATH, "DCIM/FreeDcam/");
         }
         Uri ur = resolver.insert(extpath, newImg);
@@ -64,8 +66,9 @@ public class MediaStoreController {
         ContentValues newImg = new ContentValues();
         newImg.put(MediaStore.MediaColumns.TITLE, name.getName());
         newImg.put(MediaStore.Video.Media.MIME_TYPE,"video/*");
-        newImg.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
-        newImg.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
+        newImg.put(MediaStore.Video.Media.DATE_ADDED, (System.currentTimeMillis() / 1000));
+        newImg.put(MediaStore.Video.Media.DATE_TAKEN, (System.currentTimeMillis()/1000));
+        newImg.put(MediaStore.Video.Media.DATE_MODIFIED, (System.currentTimeMillis()/1000));
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
             newImg.put(MediaStore.Video.Media.DATA, name.getAbsolutePath());
         else {
@@ -179,6 +182,7 @@ public class MediaStoreController {
                 MediaStore.Images.Media._ID,
                 MediaStore.Images.Media.DISPLAY_NAME,
                 MediaStore.Images.Media.DATE_MODIFIED,
+                MediaStore.Images.Media.DATE_ADDED,
                 MediaStore.Images.Media.SIZE,
         };
 
@@ -197,6 +201,12 @@ public class MediaStoreController {
                     cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME);
             int datetakenCol =
                     cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED);
+
+            int dateaddedCol =
+                    cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED);
+
+            Log.d(TAG,"Date Mod: " + dateaddedCol + " date added: " + dateaddedCol);
+
             int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
             //int relativPathColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.RELATIVE_PATH);
 
