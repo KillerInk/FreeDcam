@@ -11,6 +11,7 @@ import android.util.Range;
 import android.util.Size;
 
 import com.huawei.camera2ex.CameraCharacteristicsEx;
+import com.qcom.CameraCharacteristicsQcom;
 import com.troop.freedcam.R;
 
 import java.util.ArrayList;
@@ -386,6 +387,44 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         SettingsManager.get(SettingKeys.Ae_TargetFPS).setValues(t);
                         SettingsManager.get(SettingKeys.Ae_TargetFPS).setIsSupported(true);
                         SettingsManager.get(SettingKeys.Ae_TargetFPS).set(min+","+max);
+                    }
+
+                    try{
+                        int sharprange[] = characteristics.get(CameraCharacteristicsQcom.sharpness_range);
+                        int min = sharprange[0];
+                        int max = sharprange[1];
+                        String[] t = new String[max - min + 1];
+                        for (int i= 0; i < t.length; i++)
+                            t[i] = ""+(min+i);
+                        if (sharprange.length > 0) {
+                            SettingsManager.get(SettingKeys.M_Sharpness).setValues(t);
+                            SettingsManager.get(SettingKeys.M_Sharpness).set(max + "");
+                            SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.WriteEx(e);
+                        publishProgress("Detect sharpness failed");
+                    }
+
+                    try{
+                        int contrastrange[] = characteristics.get(CameraCharacteristicsQcom.saturation_range);
+                        int min = contrastrange[0];
+                        int max = contrastrange[1];
+                        String[] t = new String[max - min + 1];
+                        for (int i= 0; i < t.length; i++)
+                            t[i] = ""+(min+i);
+                        if (contrastrange.length > 0) {
+                            SettingsManager.get(SettingKeys.M_Saturation).setValues(t);
+                            SettingsManager.get(SettingKeys.M_Saturation).set(max + "");
+                            SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.WriteEx(e);
+                        publishProgress("Detect saturation failed");
                     }
 
                     detectHuaweiParameters(characteristics);

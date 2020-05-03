@@ -41,7 +41,9 @@ import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
 import freed.cam.apis.camera2.parameters.ae.AeManagerHuaweiCamera2;
 import freed.cam.apis.camera2.parameters.manual.BurstApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualApertureApi2;
+import freed.cam.apis.camera2.parameters.manual.ManualSaturationQcomApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
+import freed.cam.apis.camera2.parameters.manual.ManualSharpnessQcomApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualWbCtApi2Hw;
 import freed.cam.apis.camera2.parameters.manual.ZoomApi2;
@@ -177,6 +179,12 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         {
             add(SettingKeys.M_Aperture, new ManualApertureApi2(cameraUiWrapper, SettingKeys.M_Aperture));
         }
+
+        if (SettingsManager.get(SettingKeys.M_Sharpness).isSupported())
+            add(SettingKeys.M_Sharpness, new ManualSharpnessQcomApi2(cameraUiWrapper));
+
+        if (SettingsManager.get(SettingKeys.M_Saturation).isSupported())
+            add(SettingKeys.M_Saturation, new ManualSaturationQcomApi2(cameraUiWrapper));
 
         manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
         manualToneMapCurveApi2.startListning();
