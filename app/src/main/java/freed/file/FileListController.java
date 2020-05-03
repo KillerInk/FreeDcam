@@ -175,7 +175,7 @@ public class FileListController {
 
     private void SortFileHolder(List<BaseHolder> f)
     {
-        Collections.sort(f, (f1, f2) -> Long.valueOf(f2.lastModified()).compareTo(f1.lastModified()));
+        Collections.sort(f, (f1, f2) -> Long.valueOf(f2.lastModified()).compareTo(Long.valueOf(f1.lastModified())));
     }
 
     private File getStorageDirectory() {

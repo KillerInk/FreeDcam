@@ -177,11 +177,11 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             if (folder_to_show == null)
                 return;
             if (!folder_to_show.getName().endsWith(FileEnding.RAW) || !folder_to_show.getName().endsWith(FileEnding.BAYER)) {
-                    Uri uri = null;
-                    if (folder_to_show instanceof FileHolder)
-                        uri = Uri.fromFile(((FileHolder)folder_to_show).getFile());
-                    else if (folder_to_show instanceof UriHolder)
-                        uri = ((UriHolder)folder_to_show).getMediaStoreUri();
+                Uri uri = null;
+                if (folder_to_show instanceof FileHolder)
+                    uri = Uri.fromFile(((FileHolder)folder_to_show).getFile());
+                else if (folder_to_show instanceof UriHolder)
+                    uri = ((UriHolder)folder_to_show).getMediaStoreUri();
 
                 Intent i;
                 if (folder_to_show.getName().endsWith(FileEnding.MP4))
@@ -419,6 +419,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         public boolean process() {
             ExifInterface exifInterface = null;
             try {
+                Log.d(TAG, "File: " + file.getName() + " DateModded: " + file.lastModified());
                 if (file instanceof FileHolder)
                     exifInterface = new ExifInterface(((FileHolder)file).getFile().getAbsolutePath());
                 else if (file instanceof UriHolder)
