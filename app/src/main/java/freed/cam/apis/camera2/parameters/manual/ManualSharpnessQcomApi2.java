@@ -18,17 +18,6 @@ public class ManualSharpnessQcomApi2 extends AbstractParameter {
 
     public ManualSharpnessQcomApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.M_Sharpness);
-        if (SettingsManager.get(SettingKeys.M_Sharpness).isSupported())
-        {
-            setViewState(ViewState.Visible);
-            stringvalues = SettingsManager.get(SettingKeys.M_Sharpness).getValues();
-            if (stringvalues == null || stringvalues.length == 0) {
-                setViewState(ViewState.Hidden);
-            }
-            else
-                setViewState(ViewState.Visible);
-            currentInt = 0;
-        }
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
