@@ -44,6 +44,7 @@ import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.utils.Log;
 
 /**
  * Created by Ar4eR on 15.01.16.
@@ -155,11 +156,18 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     @Override
     public void onResume(){
         super.onResume();
-        if (SettingsManager.get(SettingKeys.HorizontLvl).get().equals(SettingsManager.getInstance().getResString(string.off))
-                || TextUtils.isEmpty(SettingsManager.get(SettingKeys.HorizontLvl).get()))
-            view.setVisibility(View.GONE);
-        else
-            startSensorListing();
+        try {
+            if (SettingsManager.get(SettingKeys.HorizontLvl).get() != null && SettingsManager.get(SettingKeys.HorizontLvl).get().equals(SettingsManager.getInstance().getResString(string.off))
+                    || TextUtils.isEmpty(SettingsManager.get(SettingKeys.HorizontLvl).get()))
+                view.setVisibility(View.GONE);
+            else
+                startSensorListing();
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
+
     }
 
     private class MySensorListener implements SensorEventListener {
