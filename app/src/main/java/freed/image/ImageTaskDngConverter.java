@@ -17,6 +17,7 @@ import java.io.IOException;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
+import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
@@ -70,7 +71,7 @@ public class ImageTaskDngConverter extends ImageTask {
             dngCreator.setLocation(location);
         try
         {
-            if (!SettingsManager.getInstance().GetWriteExternal()) {
+            if (!SettingsManager.getInstance().GetWriteExternal() && !FileListController.needStorageAccessFrameWork) {
                 dngCreator.writeImage(new FileOutputStream(file), image);
                 fileholder = new FileHolder(file,SettingsManager.getInstance().GetWriteExternal());
             }
