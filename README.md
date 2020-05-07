@@ -81,7 +81,7 @@ In that case send us the raw/bayer file and it will work soon.
 - Select Highspeed
 - Save the Profile and close the VideoProfileEditor.
 
-* **Q** Why cant i decompile apps build with nougat sdk
+* **Q** Why cant i decompile apps build with nougat sdk  
 **A** They changed the dex header version. Use a hexeditor to change the version from 37 to 35 and dex2jar works
 
 
@@ -123,7 +123,7 @@ Camera Ui Icons
                 </tr>
                 <tr>
                     <td><img src="/app/src/main/res/drawable-hdpi/quck_set_ae.png" width="50" height="50"></td>
-                    <td>Exposure Mode Mode</td>
+                    <td>Exposure Mode</td>
                 </tr>
                 <tr>
                     <td><img src="/app/src/main/res/drawable-hdpi/ae_priority.png" width="50" height="50"></td>
