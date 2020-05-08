@@ -44,7 +44,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             return null;
     }
 
-    public void setFiles(List<BaseHolder> files)
+    public synchronized void setFiles(List<BaseHolder> files)
     {
         this.files =files;
         notifyDataSetChanged();
