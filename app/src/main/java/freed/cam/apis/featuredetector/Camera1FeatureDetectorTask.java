@@ -67,7 +67,23 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectFrontCamera(i);
             publishProgress("isFrontCamera:"+SettingsManager.getInstance().getIsFrontCamera() + " CameraID:"+ i);
 
-            Camera.Parameters parameters = getParameters(i);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Camera.Parameters parameters = null;
+            try {
+                 parameters = getParameters(i);
+            }
+            catch(RuntimeException ex)
+            {
+                Log.d(TAG, "Failed to get Parameters from Camera:" + i);
+                Log.WriteEx(ex);
+            }
+            if(parameters == null)
+                return;
+
             publishProgress("Detecting Features");
 
             SettingsManager.get(SettingKeys.selfTimer).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.selftimervalues));
