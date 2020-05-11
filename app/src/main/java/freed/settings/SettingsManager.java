@@ -83,6 +83,7 @@ public class SettingsManager implements SettingsManagerInterface {
     public static final int ISOMANUAL_Xiaomi =5;
 
     public static final String CURRENTCAMERA = "currentcamera";
+    public static final String CAMERA_IDS = "camera_ids";
     public static final String NIGHTMODE = "nightmode";
     public static final String TIMELAPSEFRAME = "timelapseframe";
     public static final String SETTING_API = "sonyapi";
@@ -429,6 +430,16 @@ public class SettingsManager implements SettingsManagerInterface {
         return settingsStorage.getInt(CURRENTCAMERA, 0);
     }
 
+    public void setCameraIds(String[] cameras)
+    {
+        settingsStorage.setStringArray(CAMERA_IDS, cameras);
+    }
+
+    public String[] getCameraIds()
+    {
+        return settingsStorage.getStringArray(CAMERA_IDS, null);
+    }
+
     public void SetCurrentModule(String modulename) {
         get(SettingKeys.Module).set(modulename);
     }
@@ -457,7 +468,7 @@ public class SettingsManager implements SettingsManagerInterface {
         return settingsStorage.getBoolean(HAS_CAMERA2_FEATURES,false);
     }
 
-    public void setCamerasCount(int count)
+    /*public void setCamerasCount(int count)
     {
         setApiInt("camerascount",count);
     }
@@ -465,7 +476,7 @@ public class SettingsManager implements SettingsManagerInterface {
     public int getCamerasCount()
     {
         return getApiInt("camerascount");
-    }
+    }*/
 
     @Override
     public String getApiString(String valueToGet) {

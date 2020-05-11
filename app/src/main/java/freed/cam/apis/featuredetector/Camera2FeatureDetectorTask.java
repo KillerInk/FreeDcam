@@ -62,20 +62,39 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         try {
             publishProgress("Check Camera2");
             CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-            String cameras[] = manager.getCameraIdList();
-            SettingsManager.getInstance().setCamerasCount(cameras.length);
+            //String cameras[] = manager.getCameraIdList();
+            //SettingsManager.getInstance().setCamerasCount(cameras.length);
 
-            for (String s : cameras)
+            List<String> cameraids =new ArrayList<>();
+            for (int i = 0; i< 100; i++)
+            {
+                try {
+                    CameraCharacteristics characteristics = manager.getCameraCharacteristics(String.valueOf(i));
+                    if (characteristics != null)
+                        cameraids.add(String.valueOf(i));
+                }
+                catch (IllegalArgumentException ex)
+                {
+                    Log.WriteEx(ex);
+                }
+            }
+
+            SettingsManager.getInstance().setCameraIds(cameraids.toArray(new String[cameraids.size()]));
+            SettingsManager.getInstance().SetCurrentCamera(0);
+
+
+            for (int c = 0; c < cameraids.size();c++)
             {
 
                 publishProgress("###################");
-                publishProgress("#####CameraID:"+s+"####");
+                publishProgress("#####CameraID:"+cameraids.get(c)+"####");
                 publishProgress("###################");
-                publishProgress("Check camera features:" + s);
-                CameraCharacteristics characteristics = manager.getCameraCharacteristics(s);
+                publishProgress("Check camera features:" + cameraids.get(c));
+                CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraids.get(c));
                 boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
                 SettingsManager.get(SettingKeys.Module).set(SettingsManager.getInstance().getResString(R.string.module_picture));
-                SettingsManager.getInstance().SetCurrentCamera(Integer.parseInt(s));
+                //SettingsManager.getInstance().SetCurrentCamera(Integer.parseInt(s));
+                SettingsManager.getInstance().SetCurrentCamera(c);
                 SettingsManager.getInstance().setIsFrontCamera(front);
                 hwlvl = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
 
@@ -266,7 +285,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect Video Profiles");
-                        detectVideoMediaProfiles(SettingsManager.getInstance().GetCurrentCamera());
+                        int camid = Integer.parseInt(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]);
+                        detectVideoMediaProfiles(camid);
                     } catch (Exception e) {
                         Log.WriteEx(e);
                         publishProgress("Detect Video Profiles failed");

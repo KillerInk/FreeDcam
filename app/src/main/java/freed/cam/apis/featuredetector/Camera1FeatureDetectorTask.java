@@ -56,7 +56,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
 
         int cameraCounts = Camera.getNumberOfCameras();
-        SettingsManager.getInstance().setCamerasCount(cameraCounts);
+        String cams[] = new String[cameraCounts];
+        for (int i = 0; i < cameraCounts;i++)
+            cams[i] = String.valueOf(i);
+        SettingsManager.getInstance().setCameraIds(cams);
+        //SettingsManager.getInstance().setCamerasCount(cameraCounts);
+
         Log.d(TAG, "Cameras Found: " + cameraCounts);
         for (int i = 0; i < cameraCounts; i++)
         {
@@ -64,6 +69,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             publishProgress("#####CameraID:"+i+"####");
             publishProgress("###################");
             SettingsManager.getInstance().SetCurrentCamera(i);
+
             detectFrontCamera(i);
             publishProgress("isFrontCamera:"+SettingsManager.getInstance().getIsFrontCamera() + " CameraID:"+ i);
 

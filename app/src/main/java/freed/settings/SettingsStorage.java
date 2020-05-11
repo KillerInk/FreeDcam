@@ -234,6 +234,16 @@ public class SettingsStorage
         return get(getApiSettingString(settingName),def);
     }
 
+    public void setStringArray(String settingName, String[] value)
+    {
+        set(settingName,value);
+    }
+
+    public String[] getStringArray(String settingName,String[] def)
+    {
+        return get(settingName,def);
+    }
+
 
     public void setString(String settingName, String value)
     {

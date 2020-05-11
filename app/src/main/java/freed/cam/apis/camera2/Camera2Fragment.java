@@ -336,7 +336,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         cameraHolder.CloseCamera();
         cameraIsOpen = false;
         if (!cameraIsOpen)
-            cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
+            cameraIsOpen = cameraHolder.OpenCamera(Integer.parseInt(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]));
     }
 
     @Override

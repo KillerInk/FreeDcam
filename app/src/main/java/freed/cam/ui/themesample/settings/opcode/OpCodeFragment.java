@@ -43,7 +43,7 @@ public class OpCodeFragment extends Fragment implements ListView.OnItemClickList
         List<OpCodeUrl> list = SettingsManager.getInstance().opcodeUrlList;
         if (list == null)
             list = new ArrayList<>();
-        int camercount = SettingsManager.getInstance().getCamerasCount();
+        int camercount = SettingsManager.getInstance().getCameraIds().length;
         for (int i = 0; i< camercount;i++)
         {
             boolean added = false;

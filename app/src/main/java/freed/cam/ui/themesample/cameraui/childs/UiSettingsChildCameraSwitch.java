@@ -72,7 +72,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
     private void switchCamera()
     {
-        int maxcams = cameraUiWrapper.getCameraHolder().CameraCout();
+        int maxcams = SettingsManager.getInstance().getCameraIds().length;
         if (currentCamera++ >= maxcams - 1)
             currentCamera = 0;
 
@@ -84,12 +84,10 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
     private String getCamera(int i)
     {
-        if (i == 0)
-            return "Back";
-        else if (i == 1)
-            return "Front";
+        if (SettingsManager.getInstance().getIsFrontCamera())
+            return "Front " + i;
         else
-            return "3D";
+            return "Back " + i;
     }
 
     @Override
