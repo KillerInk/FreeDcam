@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -178,8 +179,12 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                 return;
             if (!folder_to_show.getName().endsWith(FileEnding.RAW) || !folder_to_show.getName().endsWith(FileEnding.BAYER)) {
                 Uri uri = null;
-                if (folder_to_show instanceof FileHolder)
-                    uri = Uri.fromFile(((FileHolder)folder_to_show).getFile());
+                if (folder_to_show instanceof FileHolder) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                        uri = FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".provider", ((FileHolder) folder_to_show).getFile());
+                    else
+                        uri = Uri.fromFile(((FileHolder) folder_to_show).getFile());
+                }
                 else if (folder_to_show instanceof UriHolder)
                     uri = ((UriHolder)folder_to_show).getMediaStoreUri();
 
