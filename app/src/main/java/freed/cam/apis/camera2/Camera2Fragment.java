@@ -309,7 +309,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public void startCamera() {
         if (!cameraIsOpen) {
             Log.d(TAG, "Start Camera");
-            cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
+            cameraIsOpen = cameraHolder.OpenCamera(Integer.parseInt(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]));
         } else
             Log.d(TAG, "Camera is already open");
     }

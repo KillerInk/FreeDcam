@@ -422,22 +422,22 @@ public class SettingsManager implements SettingsManagerInterface {
     }
 
     public void SetCurrentCamera(int currentcamera) {
-        settingsStorage.setInt(CURRENTCAMERA, currentcamera);
+        settingsStorage.setInt(getCamApi()+CURRENTCAMERA, currentcamera);
         loadOpCodes();
     }
 
     public int GetCurrentCamera() {
-        return settingsStorage.getInt(CURRENTCAMERA, 0);
+        return settingsStorage.getInt(getCamApi()+CURRENTCAMERA, 0);
     }
 
     public void setCameraIds(String[] cameras)
     {
-        settingsStorage.setStringArray(CAMERA_IDS, cameras);
+        settingsStorage.setStringArray(getCamApi()+CAMERA_IDS, cameras);
     }
 
     public String[] getCameraIds()
     {
-        return settingsStorage.getStringArray(CAMERA_IDS, null);
+        return settingsStorage.getStringArray(getCamApi()+CAMERA_IDS, null);
     }
 
     public void SetCurrentModule(String modulename) {

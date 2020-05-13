@@ -211,7 +211,7 @@ public class SettingsStorage
     }
 
     private String getApiSettingString(String settingsName) {
-        return getString(SettingsManager.SETTING_API, SettingsManager.API_1)+settingsName+getInt(SettingsManager.CURRENTCAMERA,0);
+        return getString(SettingsManager.SETTING_API, SettingsManager.API_1)+settingsName+getInt(getString(SettingsManager.SETTING_API, SettingsManager.API_1)+SettingsManager.CURRENTCAMERA,0);
     }
 
     public void setApiString(String settingName, String value)
