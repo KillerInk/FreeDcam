@@ -261,6 +261,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
                 cameraSwitch.setVisibility(View.VISIBLE);
                 cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
+                cameraSwitch.SetUiItemClickListner(this);
                 focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
 
                 shutterButton.setVisibility(View.VISIBLE);

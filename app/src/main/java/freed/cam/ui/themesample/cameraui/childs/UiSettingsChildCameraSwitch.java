@@ -43,12 +43,12 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         super(context, attrs);
     }
 
-    @Override
+    /*@Override
     protected void init(Context context) {
         super.init(context);
 
-        setOnClickListener(v -> switchCamera());
-    }
+        //setOnClickListener(v -> switchCamera());
+    }*/
 
     @Override
     public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue) {
@@ -56,6 +56,12 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
         currentCamera = SettingsManager.getInstance().GetCurrentCamera();
         valueText.setText(getCamera(currentCamera));
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onItemClick != null)
+            onItemClick.onSettingsChildClick(this, fromleft);
     }
 
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
@@ -68,6 +74,16 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         else {
             setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void SetValue(String value)
+    {
+        String[] split = value.split(" ");
+        currentCamera = Integer.parseInt(split[1]);
+        SettingsManager.getInstance().SetCurrentCamera(currentCamera);
+        cameraUiWrapper.restartCameraAsync();
+        valueText.setText(getCamera(currentCamera));
     }
 
     private void switchCamera()
@@ -92,7 +108,16 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
     @Override
     public String[] GetValues() {
-        return null;
+        String[] camids = SettingsManager.getInstance().getCameraIds();
+        String[] retarr = new String[camids.length];
+        for (int i = 0; i < camids.length; i++)
+        {
+            if (SettingsManager.getInstance().getCamIsFrontCamera(i))
+                retarr[i] = "Front "+i;
+            else
+                retarr[i] = "Back "+i;
+        }
+        return retarr;
     }
 
 

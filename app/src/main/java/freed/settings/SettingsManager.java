@@ -542,6 +542,12 @@ public class SettingsManager implements SettingsManagerInterface {
         return settingsStorage.getApiBoolean(FRONTCAMERA, false);
     }
 
+    public boolean getCamIsFrontCamera(int id)
+    {
+        String settingsName = settingsStorage.getString(SettingsManager.SETTING_API, SettingsManager.API_1)+FRONTCAMERA+id;
+        return settingsStorage.getBoolean(settingsName, false);
+    }
+
     public OpCode getOpCode() {
         return opCode;
     }
