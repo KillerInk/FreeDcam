@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.NavigableSet;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import freed.utils.Log;
 import freed.utils.StringUtils;
@@ -23,14 +24,14 @@ import freed.utils.VideoMediaProfile;
 public class SettingsStorage
 {
     private static final String TAG = SettingsStorage.class.getSimpleName();
-    private HashMap<String,Object> settingStore;
+    private ConcurrentHashMap<String,Object> settingStore;
     private HashMap<Integer,HashMap<String, VideoMediaProfile>>mediaProfileHashMap;
     public final File appdataFolder;
 
     public SettingsStorage(File appdataFolder)
     {
         this.appdataFolder = appdataFolder;
-        settingStore = new HashMap<>();
+        settingStore = new ConcurrentHashMap<>();
         mediaProfileHashMap = new HashMap<>();
     }
 
@@ -66,7 +67,7 @@ public class SettingsStorage
         Log.d(TAG, "loaded Settings()");
     }
 
-    private void getSettingFromString(String input, HashMap<String, Object> map)
+    private void getSettingFromString(String input, ConcurrentHashMap<String, Object> map)
     {
         String split[] = input.split(";");
         String key = split[0];
@@ -317,11 +318,11 @@ public class SettingsStorage
 
     public void setApiVideoMediaProfiles(String settingName, HashMap<String,VideoMediaProfile> value)
     {
-        mediaProfileHashMap.put(getInt(SettingsManager.CURRENTCAMERA,0), value);
+        mediaProfileHashMap.put(getInt(getString(SettingsManager.SETTING_API, SettingsManager.API_1)+SettingsManager.CURRENTCAMERA,0), value);
     }
 
     public HashMap<String,VideoMediaProfile> getApiVideoMediaProfiles(String settingName,HashMap<String,VideoMediaProfile> defaultval)
     {
-        return mediaProfileHashMap.get(getInt(SettingsManager.CURRENTCAMERA,0));
+        return mediaProfileHashMap.get(getInt(getString(SettingsManager.SETTING_API, SettingsManager.API_1)+SettingsManager.CURRENTCAMERA,0));
     }
 }
