@@ -369,7 +369,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     public void startCamera() {
         EventBusHelper.register(this);
         if (!cameraIsOpen)
-            cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
+            cameraIsOpen = cameraHolder.OpenCamera(Integer.parseInt(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]));
         Log.d(TAG, "startCamera");
     }
 
@@ -391,7 +391,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         cameraHolder.CloseCamera();
         cameraIsOpen = false;
         if (!cameraIsOpen)
-            cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().GetCurrentCamera());
+            cameraIsOpen = cameraHolder.OpenCamera(Integer.parseInt(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]));
         Log.d(TAG, "startCamera");
     }
 

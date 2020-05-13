@@ -3,6 +3,7 @@ package freed.cam.apis.featuredetector;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.ImageFormat;
+import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
@@ -66,7 +67,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             //SettingsManager.getInstance().setCamerasCount(cameras.length);
 
             List<String> cameraids =new ArrayList<>();
-            for (int i = 0; i< 100; i++)
+            for (int i = 0; i< 200; i++)
             {
                 try {
                     CameraCharacteristics characteristics = manager.getCameraCharacteristics(String.valueOf(i));
@@ -74,6 +75,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         cameraids.add(String.valueOf(i));
                 }
                 catch (IllegalArgumentException ex)
+                {
+                    Log.WriteEx(ex);
+                }
+                catch (CameraAccessException ex)
                 {
                     Log.WriteEx(ex);
                 }

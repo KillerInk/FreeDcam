@@ -54,16 +54,25 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             SettingsManager.getInstance().setFramework(FrameworkDetector.getFramework());
         publishProgress("FrameWork:"+ SettingsManager.getInstance().getFrameWork());
 
+        List<String> cam_ids = new ArrayList<>();
+        for (int i = 0; i < 200; i++)
+        {
+            Camera.Parameters parameters = null;
+            try {
+                parameters = getParameters(i);
+                if (parameters != null)
+                    cam_ids.add(String.valueOf(i));
+            }
+            catch(RuntimeException ex)
+            {
+                Log.d(TAG, "Failed to get Parameters from Camera:" + i);
+                Log.WriteEx(ex);
+            }
+        }
+        SettingsManager.getInstance().setCameraIds(cam_ids.toArray(new String[cam_ids.size()]));
 
-        int cameraCounts = Camera.getNumberOfCameras();
-        String cams[] = new String[cameraCounts];
-        for (int i = 0; i < cameraCounts;i++)
-            cams[i] = String.valueOf(i);
-        SettingsManager.getInstance().setCameraIds(cams);
-        //SettingsManager.getInstance().setCamerasCount(cameraCounts);
-
-        Log.d(TAG, "Cameras Found: " + cameraCounts);
-        for (int i = 0; i < cameraCounts; i++)
+        Log.d(TAG, "Cameras Found: " + cam_ids.size());
+        for (int i = 0; i < cam_ids.size(); i++)
         {
             publishProgress("###################");
             publishProgress("#####CameraID:"+i+"####");
@@ -73,14 +82,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             detectFrontCamera(i);
             publishProgress("isFrontCamera:"+SettingsManager.getInstance().getIsFrontCamera() + " CameraID:"+ i);
 
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             Camera.Parameters parameters = null;
             try {
-                 parameters = getParameters(i);
+                 parameters = getParameters(Integer.parseInt(cam_ids.get(i)));
             }
             catch(RuntimeException ex)
             {
