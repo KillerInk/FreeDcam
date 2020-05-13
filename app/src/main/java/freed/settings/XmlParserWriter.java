@@ -342,7 +342,7 @@ public class XmlParserWriter
     {
         LongSparseArray<DngProfile> map = new LongSparseArray<>();
         try {
-            File configFile = new File(appDataFolder.getAbsolutePath()+"dngprofiles.xml");
+            File configFile = new File(appDataFolder.getAbsolutePath()+"/dngprofiles.xml");
             Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
 
             String xmlsource = getString(new FileInputStream(configFile));
