@@ -22,6 +22,10 @@ package freed.utils;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -166,6 +170,17 @@ public class StringUtils
                 return true;
         }
         return false;
+    }
+
+    public static String getString(InputStream inputStream) throws IOException {
+        BufferedInputStream bis = new BufferedInputStream(inputStream);
+        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+        int result = bis.read();
+        while(result != -1) {
+            buf.write((byte) result);
+            result = bis.read();
+        }
+        return buf.toString();
     }
 
 }

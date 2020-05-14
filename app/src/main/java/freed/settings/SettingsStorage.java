@@ -25,26 +25,30 @@ public class SettingsStorage
 {
     private static final String TAG = SettingsStorage.class.getSimpleName();
     private ConcurrentHashMap<String,Object> settingStore;
-    private HashMap<Integer,HashMap<String, VideoMediaProfile>>mediaProfileHashMap;
+    //private HashMap<Integer,HashMap<String, VideoMediaProfile>>mediaProfileHashMap;
     public final File appdataFolder;
+    private MediaProfilesManager mediaProfilesManager;
 
     public SettingsStorage(File appdataFolder)
     {
         this.appdataFolder = appdataFolder;
         settingStore = new ConcurrentHashMap<>();
-        mediaProfileHashMap = new HashMap<>();
+        //mediaProfileHashMap = new HashMap<>();
+        mediaProfilesManager = new MediaProfilesManager();
     }
 
     public void save()
     {
         saveSettings();
-        saveVideoMediaProfiles();
+        mediaProfilesManager.save(appdataFolder);
+        //saveVideoMediaProfiles();
     }
 
     public void load()
     {
         loadSettings();
-        loadVideoMediaProfiles();
+        mediaProfilesManager.load(appdataFolder);
+        //loadVideoMediaProfiles();
     }
 
     private void loadSettings()
@@ -140,7 +144,7 @@ public class SettingsStorage
             os.write(key + ";Long;" + settings +"\n");
     }
 
-    private void loadVideoMediaProfiles()
+    /*private void loadVideoMediaProfiles()
     {
         try (InputStreamReader is = new InputStreamReader(new FileInputStream(appdataFolder.getAbsolutePath()+"/videoProfiles.conf"))) {
             BufferedReader bufferedReader = new BufferedReader(is);
@@ -189,14 +193,13 @@ public class SettingsStorage
         } catch(IOException e){
             e.printStackTrace();
         }
-    }
+    }*/
 
     public void reset()
     {
         if (settingStore != null)
             settingStore.clear();
-        if (mediaProfileHashMap != null)
-            mediaProfileHashMap.clear();
+        mediaProfilesManager.reset();
     }
 
     private <T> T get(String settingName,T defaultVal)
@@ -316,13 +319,18 @@ public class SettingsStorage
         return get(settingName,defaultval);
     }
 
-    public void setApiVideoMediaProfiles(String settingName, HashMap<String,VideoMediaProfile> value)
+    public void setApiVideoMediaProfiles(HashMap<String,VideoMediaProfile> value)
     {
-        mediaProfileHashMap.put(getInt(getString(SettingsManager.SETTING_API, SettingsManager.API_1)+SettingsManager.CURRENTCAMERA,0), value);
+        String api = getString(SettingsManager.SETTING_API, SettingsManager.API_1);
+        int  camid = getInt(getString(SettingsManager.SETTING_API, SettingsManager.API_1)+SettingsManager.CURRENTCAMERA,0);
+        mediaProfilesManager.addMediaProfilesToApiAndCamera(api,camid,value);
+        //mediaProfileHashMap.put(getInt(getString(SettingsManager.SETTING_API, SettingsManager.API_1)+SettingsManager.CURRENTCAMERA,0), value);
     }
 
-    public HashMap<String,VideoMediaProfile> getApiVideoMediaProfiles(String settingName,HashMap<String,VideoMediaProfile> defaultval)
+    public HashMap<String,VideoMediaProfile> getApiVideoMediaProfiles()
     {
-        return mediaProfileHashMap.get(getInt(getString(SettingsManager.SETTING_API, SettingsManager.API_1)+SettingsManager.CURRENTCAMERA,0));
+        String api = getString(SettingsManager.SETTING_API, SettingsManager.API_1);
+        int  camid = getInt(getString(SettingsManager.SETTING_API, SettingsManager.API_1)+SettingsManager.CURRENTCAMERA,0);
+        return mediaProfilesManager.getMediaProfilesForApiAndCamera(api,camid);
     }
 }

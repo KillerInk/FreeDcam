@@ -510,13 +510,12 @@ public class SettingsManager implements SettingsManagerInterface {
     
     public HashMap<String,VideoMediaProfile> getMediaProfiles()
     {
-        return settingsStorage.getApiVideoMediaProfiles(videoprofiles,null);
+        return settingsStorage.getApiVideoMediaProfiles();
     }
 
-    private final String videoprofiles = "videoProfileshashmap";
     public void saveMediaProfiles(HashMap<String,VideoMediaProfile> mediaProfileHashMap)
     {
-        settingsStorage.setApiVideoMediaProfiles(videoprofiles, mediaProfileHashMap);
+        settingsStorage.setApiVideoMediaProfiles(mediaProfileHashMap);
     }
 
     public void setFramework(Frameworks frameWork)

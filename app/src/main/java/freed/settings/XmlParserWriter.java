@@ -43,7 +43,7 @@ public class XmlParserWriter
     public void parseAndFindSupportedDevice(Resources resources, HashMap<String, CustomMatrix> matrixHashMap, File appDataPath)
     {
         try {
-            String xmlsource = getString(resources.openRawResource(R.raw.supported_devices));
+            String xmlsource = StringUtils.getString(resources.openRawResource(R.raw.supported_devices));
             XmlElement rootElement = XmlElement.parse(xmlsource);
             if (rootElement.getTagName().equals("devices"))
             {
@@ -345,7 +345,7 @@ public class XmlParserWriter
             File configFile = new File(appDataFolder.getAbsolutePath()+"/dngprofiles.xml");
             Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
 
-            String xmlsource = getString(new FileInputStream(configFile));
+            String xmlsource = StringUtils.getString(new FileInputStream(configFile));
             Log.d(TAG, xmlsource);
             XmlElement rootElement = XmlElement.parse(xmlsource);
             if (rootElement.getTagName().equals("devices"))
@@ -406,12 +406,12 @@ public class XmlParserWriter
         HashMap<String, CustomMatrix> matrixHashMap = new HashMap<>();
         try {
             matrixHashMap.put("off", null);
-            String xmlsource = getString(resources.openRawResource(R.raw.matrixes));
+            String xmlsource = StringUtils.getString(resources.openRawResource(R.raw.matrixes));
             parseMatrixeXml(matrixHashMap, xmlsource);
             File configFile = new File(appDataFolder.getAbsolutePath()+"matrixes.xml");
             if (configFile.exists())
             {
-                xmlsource = getString(new FileInputStream(configFile));
+                xmlsource = StringUtils.getString(new FileInputStream(configFile));
                 parseMatrixeXml(matrixHashMap,xmlsource);
             }
         } catch (IOException e) {
@@ -442,23 +442,12 @@ public class XmlParserWriter
         }
     }
 
-    private String getString(InputStream inputStream) throws IOException {
-        BufferedInputStream bis = new BufferedInputStream(inputStream);
-        ByteArrayOutputStream buf = new ByteArrayOutputStream();
-        int result = bis.read();
-        while(result != -1) {
-            buf.write((byte) result);
-            result = bis.read();
-        }
-        return buf.toString();
-    }
-
     public void saveDngProfiles(LongSparseArray<DngProfile> dngProfileList, String mDevice, File appData)
     {
         BufferedWriter writer = null;
         try {
 
-            File configFile = new File(appData.getAbsolutePath()+"dngprofiles.xml");
+            File configFile = new File(appData.getAbsolutePath()+"/dngprofiles.xml");
             Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
             Log.d(TAG, configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
             if (!configFile.getParentFile().exists())
@@ -507,7 +496,7 @@ public class XmlParserWriter
         if (configFile.exists())
         {
             try {
-                String xmlsource = getString(new FileInputStream(configFile));
+                String xmlsource = StringUtils.getString(new FileInputStream(configFile));
                 XmlElement xmlElement = XmlElement.parse(xmlsource);
                 if (SettingsManager.getInstance().getCamApi().equals(SettingsManager.API_1)){
                     XmlElement camera1node = xmlElement.findChild("camera1");
@@ -553,7 +542,7 @@ public class XmlParserWriter
         hashMap.put("off", null);
 
         try {
-            String xmlsource = getString(SettingsManager.getInstance().getResources().openRawResource(R.raw.tonemapprofiles));
+            String xmlsource = StringUtils.getString(SettingsManager.getInstance().getResources().openRawResource(R.raw.tonemapprofiles));
             XmlElement xmlElement = XmlElement.parse(xmlsource);
             getTonemapProfiles(hashMap, xmlElement);
         } catch (IOException e) {
@@ -564,7 +553,7 @@ public class XmlParserWriter
         if (configFile.exists())
         {
             try {
-                String xmlsource = getString(new FileInputStream(configFile));
+                String xmlsource = StringUtils.getString(new FileInputStream(configFile));
                 XmlElement xmlElement = XmlElement.parse(xmlsource);
                 getTonemapProfiles(hashMap, xmlElement);
 
