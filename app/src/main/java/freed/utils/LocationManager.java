@@ -24,31 +24,54 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+
+import com.troop.freedcam.R;
+
 import freed.ActivityInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 02.08.2016.
  */
-public class LocationManager implements LocationListener
+public class LocationManager implements LocationListener, LifecycleObserver
 {
     private final String TAG = LocationManager.class.getSimpleName();
     private final android.location.LocationManager locationManager;
     private ActivityInterface activityInterface;
+    private Lifecycle lifecycle;
     private Location currentLocation;
     private boolean isStarted = false;
 
-
-    public LocationManager(ActivityInterface activityInterface)
+    public LocationManager(ActivityInterface activityInterface, Lifecycle lifecycle)
     {
         this.activityInterface = activityInterface;
+        this.lifecycle = lifecycle;
         locationManager = (android.location.LocationManager) activityInterface.getContext().getSystemService(Context.LOCATION_SERVICE);
+        lifecycle.addObserver(this);
     }
 
     public Location getCurrentLocation()
     {
         return currentLocation;
     }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    public void onPause()
+    {
+        stopLocationListining();
+    }
+
+    /*@OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void onResume()
+    {
+        startLocationListing();
+    }*/
+
 
     public void stopLocationListining()
     {
@@ -58,7 +81,16 @@ public class LocationManager implements LocationListener
         isStarted = false;
     }
 
-    public void startLocationListing()
+    public void startListing()
+    {
+        boolean isON = SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(SettingsManager.getInstance().getResString(R.string.on_));
+        boolean permissiongranted = activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
+        if (isON && permissiongranted)
+            startLocationListing();
+    }
+
+
+    private void startLocationListing()
     {
         Log.d(TAG, "start location");
         isStarted = true;

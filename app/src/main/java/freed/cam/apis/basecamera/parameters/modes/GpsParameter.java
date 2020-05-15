@@ -80,7 +80,7 @@ public class GpsParameter extends AbstractParameter
                 fireStringValueChanged(SettingsManager.getInstance().getResString(R.string.off_));
             }
             if (valueToSet.equals(SettingsManager.getInstance().getResString(R.string.on_))) {
-                cameraUiWrapper.getActivityInterface().getLocationManager().startLocationListing();
+                cameraUiWrapper.getActivityInterface().getLocationManager().startListing();
                 fireStringValueChanged(SettingsManager.getInstance().getResString(R.string.on_));
             }
         }

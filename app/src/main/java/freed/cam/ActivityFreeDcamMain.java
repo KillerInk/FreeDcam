@@ -111,9 +111,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             initScreenSlide();
         //note the ui that cameraFragment is loaded
         uiViewPagerAdapter.setCameraFragment(cameraFragmentManager.getCameraFragment());
-        if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(SettingsManager.getInstance().getResString(R.string.on_))
-                && getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location))
-            locationManager.startLocationListing();
 
         SetNightOverlay();
         if (!FileListController.needStorageAccessFrameWork) {
@@ -151,6 +148,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG,"onCreate: " + currentState);
+        locationManager = new LocationManager(this,getLifecycle());
     }
 
     @Override
@@ -171,7 +169,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //listen to phone orientation changes
         orientationManager = new OrientationManager(this, this);
         bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
-        locationManager = new LocationManager(this);
+
     }
 
     @Override
@@ -243,8 +241,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         Log.d(TAG, "onPauseTasks() " + currentState);
         if(orientationManager != null)
             orientationManager.Stop();
-        if (locationManager != null)
-            locationManager.stopLocationListining();
         activityIsResumed = false;
     }
 
