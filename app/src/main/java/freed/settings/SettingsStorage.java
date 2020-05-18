@@ -1,25 +1,39 @@
 package freed.settings;
 
 import android.app.Application;
+import android.util.Xml;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.NavigableSet;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import freed.cam.apis.sonyremote.sonystuff.XmlElement;
+import freed.settings.mode.ApiBooleanSettingMode;
+import freed.settings.mode.GlobalBooleanSettingMode;
+import freed.settings.mode.GlobalStringSetting;
+import freed.settings.mode.SettingInterface;
+import freed.settings.mode.SettingMode;
+import freed.settings.mode.TypedSettingMode;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.VideoMediaProfile;
+import freed.utils.XmlUtil;
 
 public class SettingsStorage
 {
@@ -28,6 +42,10 @@ public class SettingsStorage
     //private HashMap<Integer,HashMap<String, VideoMediaProfile>>mediaProfileHashMap;
     public final File appdataFolder;
     private MediaProfilesManager mediaProfilesManager;
+    // api > camera id > setting
+    private SettingLayout settings;
+    private HashMap<String, HashMap<Integer, HashMap<SettingKeys.Key, SettingInterface>>> allSettings = new HashMap<>();
+    private HashMap<SettingKeys.Key, SettingInterface> globalSettings = new HashMap<>();
 
     public SettingsStorage(File appdataFolder)
     {
@@ -35,18 +53,71 @@ public class SettingsStorage
         settingStore = new ConcurrentHashMap<>();
         //mediaProfileHashMap = new HashMap<>();
         mediaProfilesManager = new MediaProfilesManager();
+        settings = new SettingLayout();
     }
+
+    public <T> T get(SettingKeys.Key<T> key) {
+        T settingInterface = null;
+        if (key.getType() == GlobalBooleanSettingMode.class || key.getType() == GlobalStringSetting.class) {
+            settingInterface = (T)globalSettings.get(key);
+            if (settingInterface == null) {
+                settingInterface = getNewSetting(key);
+                globalSettings.put(key, (SettingInterface) settingInterface);
+            }
+        }
+        else {
+            String api = getApi();
+            settingInterface = key.getType().cast(allSettings.get(api).get(id).get(key));
+            if (settingInterface == null) {
+                settingInterface = getNewSetting(key);
+                allSettings.get(api).get(id).put(key, (SettingInterface) settingInterface);
+            }
+        }
+
+        if (settingInterface == null)
+            settingInterface = getNewSetting(key);
+        return settingInterface;
+    }
+
+    private String getApi()
+    {
+        return getGlobalSetting(SettingKeys.ApiSettingsMode).get();
+    }
+
+    private <T> T getGlobalSetting(SettingKeys.Key<T> key)
+    {
+        return key.getType().cast(globalSettings.get(key));
+    }
+
+    private <T extends SettingInterface> T getNewSetting(SettingKeys.Key key)
+    {
+        Constructor ctr = key.getType().getConstructors()[0];
+        T settingInterface = null;
+        try {
+            settingInterface = (T)ctr.newInstance(SettingsManager.getInstance().getResString(key.getRessourcesStringID()));
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return settingInterface;
+    }
+
 
     public void save()
     {
-        saveSettings();
+        //saveSettings();
+        saveSettingsXml();
         mediaProfilesManager.save(appdataFolder);
         //saveVideoMediaProfiles();
     }
 
     public void load()
     {
-        loadSettings();
+        //loadSettings();
+        loadSettingsXml();
         mediaProfilesManager.load(appdataFolder);
         //loadVideoMediaProfiles();
     }
@@ -69,6 +140,137 @@ public class SettingsStorage
         }
 
         Log.d(TAG, "loaded Settings()");
+    }
+
+    private void saveSettingsXml()
+    {
+        File configFile = new File(appdataFolder.getAbsolutePath() + "/settings.xml");
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
+            XmlUtil.writeLine(writer,"<apis>");
+            for(String api: allSettings.keySet())
+            {
+                XmlUtil.writeNodeWithName(writer,"api",api);
+                writeApiNode(writer,api, allSettings.get(api));
+                XmlUtil.writeTagEnd(writer,"api");
+            }
+            XmlUtil.writeTagEnd(writer,"apis");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void writeApiNode(BufferedWriter writer, String api, HashMap<Integer, HashMap<SettingKeys.Key, SettingInterface>> integerHashMapHashMap) throws IOException {
+        for (int s : integerHashMapHashMap.keySet()) {
+            XmlUtil.writeNodeWithName(writer, "id", String.valueOf(s));
+            writeCameraIdSettings(writer, integerHashMapHashMap.get(s));
+            XmlUtil.writeTagEnd(writer,"id");
+        }
+    }
+
+    private void writeCameraIdSettings(BufferedWriter writer, HashMap<SettingKeys.Key, SettingInterface> stringVideoMediaProfileHashMap) throws IOException {
+        for (SettingKeys.Key s : stringVideoMediaProfileHashMap.keySet())
+        {
+            writer.write(stringVideoMediaProfileHashMap.get(s).getXmlString());
+        }
+    }
+
+    private void loadSettingsXml() {
+        File configFile = new File(appdataFolder.getAbsolutePath() + "/settings.xml");
+        if (configFile.exists()) {
+            try {
+                String xmlsource = StringUtils.getString(new FileInputStream(configFile));
+                XmlElement xmlElement = XmlElement.parse(xmlsource);
+                List<XmlElement> apilist = xmlElement.findChildren("api");
+                for (XmlElement element: apilist)
+                {
+                    String api_name = element.getAttribute("name","camera1");
+                    HashMap<Integer,HashMap<SettingKeys.Key, SettingInterface>> cameraids = new HashMap<>();
+                    allSettings.put(api_name,cameraids);
+                    getCameraIdMaps(cameraids, element);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void getCameraIdMaps(HashMap<Integer, HashMap<SettingKeys.Key, SettingInterface>> api, XmlElement element) {
+        List<XmlElement> cameralist = element.findChildren("id");
+        for(XmlElement cameraid : cameralist)
+        {
+            String camid = cameraid.getAttribute("name","0");
+            HashMap<SettingKeys.Key,SettingInterface> hashMap = new HashMap<>();
+            api.put(Integer.parseInt(camid), hashMap);
+            List<XmlElement> xmlprofiles = cameraid.findChildren("setting");
+            for (XmlElement profile : xmlprofiles)
+            {
+                addSettingElement(hashMap, profile);
+            }
+        }
+    }
+
+    //<setting type = AbstractSettingMode name = manualmf > </setting>
+    private void addSettingElement(HashMap<SettingKeys.Key, SettingInterface> hashMap, XmlElement profile) {
+        String type  = profile.getAttribute("type","AbstractSettingMode");
+        String key = profile.getAttribute("name","manualmf");
+        SettingKeys.Key foundKey = findKey(key);
+        if (type.equals(ApiBooleanSettingMode.class.getSimpleName()))
+        {
+            ApiBooleanSettingMode apiBooleanSettingMode = new ApiBooleanSettingMode(key);
+            hashMap.put(foundKey,apiBooleanSettingMode);
+            apiBooleanSettingMode.set(profile.findChild("value").getBooleanValue());
+        }
+        else if (type.equals(GlobalBooleanSettingMode.class.getSimpleName()))
+        {
+            GlobalBooleanSettingMode apiBooleanSettingMode = new GlobalBooleanSettingMode(key);
+            hashMap.put(foundKey,apiBooleanSettingMode);
+            apiBooleanSettingMode.set(profile.findChild("value").getBooleanValue());
+        }
+        else if (type.equals(SettingMode.class.getSimpleName()))
+        {
+            TypedSettingMode apiBooleanSettingMode = new TypedSettingMode(key);
+            hashMap.put(foundKey,apiBooleanSettingMode);
+            apiBooleanSettingMode.set(profile.findChild("value").getValue());
+            List<XmlElement> strinarr = profile.findChild("values").findChildren("val");
+            String[] tosetar = new String[strinarr.size()];
+            for (int i = 0; i < strinarr.size(); i++)
+            {
+                tosetar[i] = strinarr.get(i).getValue();
+            }
+            apiBooleanSettingMode.setValues(tosetar);
+            apiBooleanSettingMode.setIsPresetted(profile.findChild("preseted").getBooleanValue());
+            apiBooleanSettingMode.setIsSupported(profile.findChild("supported").getBooleanValue());
+            apiBooleanSettingMode.setType(profile.findChild("type").getIntValue(0));
+            apiBooleanSettingMode.setMode(profile.findChild("mode").getValue());
+        }
+        else if (type.equals(SettingMode.class.getSimpleName()))
+        {
+            SettingMode apiBooleanSettingMode = new SettingMode(key);
+            hashMap.put(foundKey,apiBooleanSettingMode);
+            apiBooleanSettingMode.set(profile.findChild("value").getValue());
+            List<XmlElement> strinarr = profile.findChild("values").findChildren("val");
+            String[] tosetar = new String[strinarr.size()];
+            for (int i = 0; i < strinarr.size(); i++)
+            {
+                tosetar[i] = strinarr.get(i).getValue();
+            }
+            apiBooleanSettingMode.setValues(tosetar);
+            apiBooleanSettingMode.setIsPresetted(profile.findChild("preseted").getBooleanValue());
+            apiBooleanSettingMode.setIsSupported(profile.findChild("supported").getBooleanValue());
+        }
+    }
+
+    private SettingKeys.Key findKey(String val)
+    {
+        SettingKeys.Key[] key = SettingKeys.getKeyList();
+        for (SettingKeys.Key k : key)
+            if (SettingsManager.getInstance().getResString(k.getRessourcesStringID()).equals(val))
+                return k;
+        return null;
     }
 
     private void getSettingFromString(String input, ConcurrentHashMap<String, Object> map)
@@ -144,56 +346,6 @@ public class SettingsStorage
             os.write(key + ";Long;" + settings +"\n");
     }
 
-    /*private void loadVideoMediaProfiles()
-    {
-        try (InputStreamReader is = new InputStreamReader(new FileInputStream(appdataFolder.getAbsolutePath()+"/videoProfiles.conf"))) {
-            BufferedReader bufferedReader = new BufferedReader(is);
-            String receiveString;
-            mediaProfileHashMap.clear();
-            int cameraid = 0;
-            HashMap<String, VideoMediaProfile> activemap  = null;
-            while ((receiveString = bufferedReader.readLine()) != null ) {
-                if (receiveString.startsWith("#"))
-                {
-                    cameraid = Integer.parseInt(receiveString.substring(1));
-                    activemap = new HashMap<>();
-                    mediaProfileHashMap.put(cameraid,activemap);
-                }
-                else
-                {
-                    VideoMediaProfile profile = new VideoMediaProfile(receiveString);
-                    activemap.put(profile.ProfileName,profile);
-                }
-
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveVideoMediaProfiles()
-    {
-        if (mediaProfileHashMap == null)
-            return;
-        try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(appdataFolder.getAbsolutePath()+"/videoProfiles.conf"))) {
-
-            HashMap<String,VideoMediaProfile> map;
-            for (int i = 0; i < mediaProfileHashMap.size(); i++) {
-                os.write("#" + i +"\n");
-                map = mediaProfileHashMap.get(i);
-                for (VideoMediaProfile profile : map.values()) {
-                    os.write(profile.GetString() + "\n");
-                }
-                os.flush();
-            }
-        } catch(FileNotFoundException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-    }*/
 
     public void reset()
     {

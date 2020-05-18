@@ -3,78 +3,67 @@ package freed.settings.mode;
 import com.troop.freedcam.R;
 
 import freed.settings.SettingsManagerInterface;
+import freed.utils.XmlUtil;
 
 /**
  * Created by KillerInk on 31.12.2017.
  */
 
-public class SettingMode extends AbstractSettingMode {
+public class SettingMode extends AbstractSettingMode<String> {
 
-    protected String presetKey;
+    protected boolean preseted;
     //String to get if supported
-    private String supported_key;
+    private boolean supported;
     //String to get the values
-    private String values_key;
+    private String[] values;
     //String to get the value
-    private String value_key;
+    private String value;
 
-    public SettingMode(SettingsManagerInterface settingsManagerInterface, String key)
+    public SettingMode(String key)
     {
-        super(settingsManagerInterface,key);
-        this.presetKey = key + "preset";
-        this.supported_key= key + settingsManagerInterface.getResString(R.string.aps_supported);
-        this.value_key = key + settingsManagerInterface.getResString(R.string.aps_key);
-        this.values_key = key + settingsManagerInterface.getResString(R.string.aps_values);
+        super(key);
     }
 
     public boolean isPresetted()
     {
-        return settingsManagerInterface.getApiBoolean(presetKey,false);
+        return preseted;
     }
 
     public void setIsPresetted(boolean preset)
     {
-        settingsManagerInterface.setApiBoolean(presetKey, preset);
+        this.preseted = preset;
     }
 
     public boolean isSupported()
     {
-        return settingsManagerInterface.getApiBoolean(supported_key,false);
+        return supported;
     }
 
     public void setIsSupported(boolean supported)
     {
-        settingsManagerInterface.setApiBoolean(supported_key, supported);
+        this.supported = supported;
     }
 
-    public String getKEY()
-    {
-        return settingsManagerInterface.getApiString(KEY_value);
-    }
-
-    public void setKEY(String KEY)
-    {
-        settingsManagerInterface.setApiString(KEY_value,KEY);
-    }
-
+    @Override
     public String get()
     {
-        return settingsManagerInterface.getApiString(value_key);
+        return value;
     }
 
+    @Override
     public void set(String valueToSet)
     {
-        settingsManagerInterface.setApiString(value_key,valueToSet);
+        this.value = valueToSet;
     }
 
     public void setValues(String[] ar)
     {
-        settingsManagerInterface.setStringArray(values_key, ar);
+        this.values = ar;
     }
 
     public String[] getValues()
     {
-        return settingsManagerInterface.getStringArray(values_key);
+        return values;
     }
 
     public boolean contains(String value)
@@ -86,5 +75,19 @@ public class SettingMode extends AbstractSettingMode {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public String getXmlString() {
+        String t = "<setting name = \""+ KEY_value +"\" type = \""+ SettingMode.class.getSimpleName() +"\">";
+        t+= XmlUtil.getTagStringWithValue("preseted", String.valueOf(preseted));
+        t+= XmlUtil.getTagStringWithValue("supported", String.valueOf(supported));
+        t+= XmlUtil.getTagStringWithValue("value", String.valueOf(value));
+        String sub = "";
+        for (int i = 0; i< values.length; i++)
+            sub += XmlUtil.getTagStringWithValue("val", values[i]);
+        t+= XmlUtil.getTagStringWithValue("values", sub);
+        t += "</setting>\r\n";
+        return t;
     }
 }

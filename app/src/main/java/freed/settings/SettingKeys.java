@@ -9,6 +9,7 @@ import java.util.List;
 
 import freed.settings.mode.ApiBooleanSettingMode;
 import freed.settings.mode.GlobalBooleanSettingMode;
+import freed.settings.mode.GlobalStringSetting;
 import freed.settings.mode.SettingMode;
 import freed.settings.mode.TypedSettingMode;
 
@@ -149,6 +150,7 @@ public class SettingKeys{
     public final static Key<SettingMode> CLIPPING = new Key(SettingMode.class, R.string.aps_clipping);
 
     public final static Key<SettingMode> ApiSettingsMode = new Key(SettingMode.class, R.string.aps_api);
+    public final static Key<GlobalStringSetting> APP_VERSION = new Key(SettingMode.class, R.string.aps_api);
     /**
      *
      * @return a list with all statics keys in this class
@@ -172,6 +174,7 @@ public class SettingKeys{
         }
         return keys.toArray(new Key[keys.size()]);
     }
+
 
 
     public static class Key<T>

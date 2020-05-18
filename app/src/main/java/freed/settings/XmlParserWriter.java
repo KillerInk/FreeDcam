@@ -3,20 +3,14 @@ package freed.settings;
 import android.content.res.Resources;
 import android.os.Build;
 import android.text.TextUtils;
-
 import androidx.collection.LongSparseArray;
-
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +22,6 @@ import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.utils.Log;
 import freed.utils.StringUtils;
-import freed.utils.VideoMediaProfile;
 
 /**
  * Created by troop on 25.06.2017.
@@ -37,8 +30,6 @@ import freed.utils.VideoMediaProfile;
 public class XmlParserWriter
 {
     private final String TAG = XmlParserWriter.class.getSimpleName();
-
-
 
     public void parseAndFindSupportedDevice(Resources resources, HashMap<String, CustomMatrix> matrixHashMap, File appDataPath)
     {
@@ -486,47 +477,6 @@ public class XmlParserWriter
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-        }
-    }
-
-    public HashMap<String,VideoMediaProfile> getMediaProfiles(File appData)
-    {
-        HashMap<String,VideoMediaProfile>  hashMap = new HashMap<>();
-        File configFile = new File(appData.getAbsolutePath()+"videoProfiles.xml");
-        if (configFile.exists())
-        {
-            try {
-                String xmlsource = StringUtils.getString(new FileInputStream(configFile));
-                XmlElement xmlElement = XmlElement.parse(xmlsource);
-                if (SettingsManager.getInstance().getCamApi().equals(SettingsManager.API_1)){
-                    XmlElement camera1node = xmlElement.findChild("camera1");
-                    if (SettingsManager.getInstance().getIsFrontCamera())
-                    {
-                        XmlElement frontnode = camera1node.findChild("front");
-                        getMediaProfilesFromXmlNode(hashMap,frontnode);
-                    }
-                    else
-                    {
-                        XmlElement backnode = camera1node.findChild("back");
-                        getMediaProfilesFromXmlNode(hashMap,backnode);
-                    }
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        return hashMap;
-    }
-
-    private void getMediaProfilesFromXmlNode(HashMap<String,VideoMediaProfile> map,XmlElement element)
-    {
-        List<XmlElement> xmlprofiles = element.findChildren("mediaprofile");
-        for (XmlElement profile : xmlprofiles)
-        {
-            VideoMediaProfile videoMediaProfile = new VideoMediaProfile(profile);
-            map.put(videoMediaProfile.ProfileName, videoMediaProfile);
         }
     }
 

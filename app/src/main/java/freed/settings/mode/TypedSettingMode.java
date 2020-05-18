@@ -3,6 +3,7 @@ package freed.settings.mode;
 import com.troop.freedcam.R;
 
 import freed.settings.SettingsManagerInterface;
+import freed.utils.XmlUtil;
 
 /**
  * Created by KillerInk on 31.12.2017.
@@ -10,35 +11,46 @@ import freed.settings.SettingsManagerInterface;
 
 public class TypedSettingMode extends SettingMode {
 
-    private String type;
+    private int type;
     private String mode;
 
-    public TypedSettingMode(SettingsManagerInterface settingsManagerInterface, String value_key) {
-        super(settingsManagerInterface,value_key);
-        this.type = value_key + settingsManagerInterface.getResString(R.string.aps_type);
-        this.mode = value_key + settingsManagerInterface.getResString(R.string.aps_mode);
+    public TypedSettingMode(String value_key) {
+        super(value_key);
     }
 
     public int getType()
     {
-        return settingsManagerInterface.getApiInt(type);
+        return type;
     }
 
     public void setType(int typevalue)
     {
-        settingsManagerInterface.setApiInt(type,typevalue);
+        this.type = typevalue;
     }
 
     public String getMode()
     {
-        return settingsManagerInterface.getApiString(mode);
+        return mode;
     }
 
     public void setMode(String modevalue)
     {
-        settingsManagerInterface.setApiString(mode,modevalue);
+        this.mode = modevalue;
     }
 
-
-
+    @Override
+    public String getXmlString() {
+        String t = "<setting name = \""+ KEY_value +"\" type = \""+ TypedSettingMode.class.getSimpleName() +"\">";
+        t+= XmlUtil.getTagStringWithValue("preseted", String.valueOf(preseted));
+        t+= XmlUtil.getTagStringWithValue("supported", String.valueOf(isSupported()));
+        t+= XmlUtil.getTagStringWithValue("mode", mode);
+        t+= XmlUtil.getTagStringWithValue("type", String.valueOf(type));
+        t+= XmlUtil.getTagStringWithValue("value", String.valueOf(get()));
+        String sub = "";
+        for (int i = 0; i< getValues().length; i++)
+            sub += XmlUtil.getTagStringWithValue("val", getValues()[i]);
+        t+= XmlUtil.getTagStringWithValue("values", sub);
+        t += "</setting>\r\n";
+        return t;
+    }
 }

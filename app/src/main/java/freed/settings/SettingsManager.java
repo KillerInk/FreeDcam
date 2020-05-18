@@ -120,7 +120,7 @@ public class SettingsManager implements SettingsManagerInterface {
 
     private static SettingsManager settingsManager = new SettingsManager();
 
-    private static HashMap<SettingKeys.Key, SettingInterface> settingsmap = new HashMap<>();
+    //private static HashMap<SettingKeys.Key, SettingInterface> settingsmap = new HashMap<>();
 
 
 
@@ -143,6 +143,7 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public static <T> T get(SettingKeys.Key<T> key)
     {
+
         return key.getType().cast(settingsmap.get(key));
     }
 
@@ -157,10 +158,10 @@ public class SettingsManager implements SettingsManagerInterface {
         Log.d(TAG, "load Settings");
         settingsStorage.load();
         this.resources = resources;
-        SettingKeys.Key[] keys = SettingKeys.getKeyList();
+       /* SettingKeys.Key[] keys = SettingKeys.getKeyList();
 
         for (SettingKeys.Key k: keys)
-            createSetting(k);
+            createSetting(k,settingsmap);*/
 
         try {
             String fw = settingsStorage.getString(FRAMEWORK,"Default");
@@ -181,12 +182,21 @@ public class SettingsManager implements SettingsManagerInterface {
 
     }
 
-    private void createSetting(SettingKeys.Key key)
+    /*public HashMap<SettingKeys.Key, SettingInterface> getEmptySettings()
+    {
+        SettingKeys.Key[] keys = SettingKeys.getKeyList();
+        HashMap<SettingKeys.Key, SettingInterface> emptymap = new HashMap<>();
+        for (SettingKeys.Key k: keys)
+            createSetting(k,emptymap);
+        return emptymap;
+    }*/
+
+   /* private void createSetting(SettingKeys.Key key,HashMap<SettingKeys.Key, SettingInterface> emptymap)
     {
         Constructor ctr = key.getType().getConstructors()[0];
         try {
-            SettingInterface settingInterface = (SettingInterface)ctr.newInstance(this,getResString(key.getRessourcesStringID()));
-            settingsmap.put(key,settingInterface);
+            SettingInterface settingInterface = (SettingInterface)ctr.newInstance(getResString(key.getRessourcesStringID()));
+            emptymap.put(key,settingInterface);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -196,19 +206,38 @@ public class SettingsManager implements SettingsManagerInterface {
         }
     }
 
+    private SettingInterface getNewSetting(SettingKeys.Key key)
+    {
+        Constructor ctr = key.getType().getConstructors()[0];
+        SettingInterface settingInterface = null;
+        try {
+            settingInterface = (SettingInterface)ctr.newInstance(getResString(key.getRessourcesStringID()));
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return settingInterface;
+    }*/
+
     public synchronized void release()
     {
-        //settingsStorage.save();
-        settingsmap.clear();
+        //settingsmap.clear();
         isInit = false;
         resources = null;
-        //settings = null;
         settingsStorage.reset();
     }
 
     public boolean isInit()
     {
         return isInit;
+    }
+
+    private <T extends SettingInterface> T getSetting(SettingKeys.Key key)
+    {
+        return key.getType().cast(settingsStorage.get(key));
     }
 
     public File getAppDataFolder()
@@ -247,7 +276,6 @@ public class SettingsManager implements SettingsManagerInterface {
                 opCode = null;
 
         }).start();
-
     }
 
     public void RESET()
