@@ -10,6 +10,8 @@ import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.huawei.camera2ex.CaptureRequestEx;
+import com.huawei.camera2ex.CaptureResultEx;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -261,7 +263,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         if (expotime != null && expotime.getViewState() == AbstractParameter.ViewState.Visible || expotime.getViewState() == AbstractParameter.ViewState.Disabled) {
             if (result != null && result.getKeys().size() > 0) {
                 try {
-                    if (!camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off))) {
+                    if (!camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off)) || camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode)==null)
+                    {
                         try {
                             long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                             currentExposureTime = expores;
