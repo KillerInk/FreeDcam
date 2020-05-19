@@ -13,6 +13,7 @@ import android.util.Size;
 
 import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.qcom.CameraCharacteristicsQcom;
+import com.qcom.CaptureRequestQcom;
 import com.troop.freedcam.R;
 
 import java.util.ArrayList;
@@ -76,11 +77,15 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
                 catch (IllegalArgumentException ex)
                 {
-                    Log.WriteEx(ex);
+                    Log.d(TAG, "unsupported id: " + i);
                 }
                 catch (CameraAccessException ex)
                 {
-                    Log.WriteEx(ex);
+                    Log.d(TAG, "unsupported id: " + i);
+                }
+                catch (Exception ex)
+                {
+                    Log.d(TAG, "unsupported id: " + i);
                 }
             }
 

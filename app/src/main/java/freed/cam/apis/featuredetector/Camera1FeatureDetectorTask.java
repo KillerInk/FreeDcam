@@ -1289,7 +1289,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                    }
                    catch (RuntimeException ex)
                    {
-                       Log.WriteEx(ex);
+                       Log.d(TAG, "unsupported id: " + currentcamera);
                        return null;
                    }
 
