@@ -61,6 +61,7 @@ import java.io.IOException;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.dng.DngProfile;
+import freed.file.FileListController;
 import freed.jni.ExifInfo;
 import freed.jni.RawToDng;
 import freed.jni.RawUtils;
@@ -384,23 +385,36 @@ public class DngConvertingFragment extends Fragment
         /*dng.setOpcode3(AppSettingsManager.getInstance().getOpcode3());
         dng.setOpcode2(AppSettingsManager.getInstance().getOpcode2());*/
         String intsd = StringUtils.GetInternalSDCARD();
-        if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
-                || file.getAbsolutePath().contains(intsd)) {
+        if ((VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
+                || file.getAbsolutePath().contains(intsd)) && !FileListController.needStorageAccessFrameWork) {
             File s = new File(out);
             dng.setBayerData(data, out);
         }
         else
         {
-            DocumentFile df = ((ActivityInterface)getActivity()).getFileListController().getFreeDcamDocumentFolder();
-            DocumentFile wr = df.createFile("image/dng", file.getName().replace(FileEnding.JPG, FileEnding.DNG));
             ParcelFileDescriptor pfd = null;
-            try {
+            if (((ActivityInterface)getActivity()).getFileListController().getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal()) {
+                DocumentFile df = ((ActivityInterface) getActivity()).getFileListController().getFreeDcamDocumentFolder();
+                DocumentFile wr = df.createFile("image/dng", file.getName().replace(FileEnding.JPG, FileEnding.DNG));
+                try {
 
-                pfd = getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-            } catch (FileNotFoundException | IllegalArgumentException ex) {
-                Log.WriteEx(ex);
-                return null;
+                    pfd = getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                } catch (FileNotFoundException | IllegalArgumentException ex) {
+                    Log.WriteEx(ex);
+                    return null;
+                }
             }
+            else {
+                File f = new File(file.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
+                Uri uri = ((ActivityInterface)getActivity()).getFileListController().getMediaStoreController().addImg(f);
+                try {
+                    pfd = getContext().getContentResolver().openFileDescriptor(uri, "rw");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
             if (pfd != null) {
                 dng.SetBayerDataFD(data, pfd, file.getName());
                 try {
@@ -412,6 +426,7 @@ public class DngConvertingFragment extends Fragment
                 pfd = null;
             }
         }
+
         dng.setExifData(new ExifInfo(100,0,0,0,0,0,"",""));
         /*long gpsTime = 1477324747000l;
         String provider = "gps";
