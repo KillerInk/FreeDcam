@@ -228,10 +228,10 @@ public class VideoRecorder {
                 break;
             case Timelapse:
                 float frame = 30;
-                if (!TextUtils.isEmpty(SettingsManager.getInstance().getApiString(SettingsManager.TIMELAPSEFRAME)))
-                    frame = Float.parseFloat(SettingsManager.getInstance().getApiString(SettingsManager.TIMELAPSEFRAME).replace(",", "."));
+                if (!TextUtils.isEmpty(SettingsManager.get(SettingKeys.TIMELAPSE_FRAMES).get()))
+                    frame = Float.parseFloat(SettingsManager.get(SettingKeys.TIMELAPSE_FRAMES).get().replace(",", "."));
                 else
-                    SettingsManager.getInstance().setApiString(SettingsManager.TIMELAPSEFRAME, "" + frame);
+                    SettingsManager.get(SettingKeys.TIMELAPSE_FRAMES).set(String.valueOf(frame));
                 mediaRecorder.setCaptureRate(frame);
                 break;
         }

@@ -84,9 +84,11 @@ public class SettingMode extends AbstractSettingMode<String> {
         t+= XmlUtil.getTagStringWithValue("supported", String.valueOf(supported));
         t+= XmlUtil.getTagStringWithValue("value", String.valueOf(value));
         String sub = "";
-        for (int i = 0; i< values.length; i++)
-            sub += XmlUtil.getTagStringWithValue("val", values[i]);
-        t+= XmlUtil.getTagStringWithValue("values", sub);
+        if (values != null) {
+            for (int i = 0; i < values.length; i++)
+                sub += XmlUtil.getTagStringWithValue("val", values[i]);
+            t += XmlUtil.getTagStringWithValue("values", sub);
+        }
         t += "</setting>\r\n";
         return t;
     }

@@ -47,9 +47,11 @@ public class TypedSettingMode extends SettingMode {
         t+= XmlUtil.getTagStringWithValue("type", String.valueOf(type));
         t+= XmlUtil.getTagStringWithValue("value", String.valueOf(get()));
         String sub = "";
-        for (int i = 0; i< getValues().length; i++)
-            sub += XmlUtil.getTagStringWithValue("val", getValues()[i]);
-        t+= XmlUtil.getTagStringWithValue("values", sub);
+        if (getValues() != null) {
+            for (int i = 0; i < getValues().length; i++)
+                sub += XmlUtil.getTagStringWithValue("val", getValues()[i]);
+            t += XmlUtil.getTagStringWithValue("values", sub);
+        }
         t += "</setting>\r\n";
         return t;
     }

@@ -47,12 +47,14 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        Log.d(TAG, "onCreateView");
         return inflater.inflate(R.layout.camerafeaturedetector, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated");
         loggerview = (TextView)view.findViewById(R.id.textview_log);
         loggerview.setMovementMethod(new ScrollingMovementMethod());
 
@@ -61,6 +63,7 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume");
         if (featureRunner == null){
             featureRunner = new CameraFeatureRunner();
             ImageManager.putImageLoadTask(featureRunner);
@@ -79,7 +82,7 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
     {
         featureRunner = null;
         SettingsManager.getInstance().setAppVersion(BuildConfig.VERSION_CODE);
-        SettingsManager.get(SettingKeys.areFeaturesDetected).set(true);
+        SettingsManager.getInstance().setAreFeaturesDetected(true);
         featureDetectorEvents.featuredetectorDone();
         Log.d(TAG,"startFreeDcam");
     }
@@ -103,10 +106,11 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
     {
         @Override
         public boolean process() {
+            Log.d(TAG, "CameraFeatureRunner process");
             SettingsManager.getInstance().setCamApi(SettingsManager.API_SONY);
-            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(getResources().getStringArray(R.array.focuspeakColors));
-            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
-            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
+            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setValues(getResources().getStringArray(R.array.focuspeakColors));
+            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
+            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
             Camera2FeatureDetectorTask task  = null;
             Camera1FeatureDetectorTask task1 = null;
             if (Build.VERSION.SDK_INT >= 21) {

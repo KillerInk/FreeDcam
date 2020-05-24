@@ -120,6 +120,9 @@ public class SettingKeys{
 
     public final static Key<SettingMode> FOCUSPEAK_COLOR = new Key(SettingMode.class, R.string.aps_focuspeakcolor);
     public final static Key<SettingMode> VIDEO_AUDIO_SOURCE = new Key(SettingMode.class, R.string.aps_video_audio_source);
+    public final static Key<SettingMode> AF_BRACKET_MIN = new Key(SettingMode.class, R.string.aps_afbracketmin);
+    public final static Key<SettingMode> AF_BRACKET_MAX = new Key(SettingMode.class, R.string.aps_afbracketmax);
+    public final static Key<SettingMode> TIMELAPSE_FRAMES = new Key(SettingMode.class, R.string.aps_timelapseframes);
 
     public final static Key<TypedSettingMode> M_ManualIso = new Key(TypedSettingMode.class, R.string.aps_manualiso);
     public final static Key<TypedSettingMode> M_Whitebalance = new Key(TypedSettingMode.class, R.string.aps_manualwb);
@@ -129,7 +132,6 @@ public class SettingKeys{
     public final static Key<TypedSettingMode> HDRMode = new Key(TypedSettingMode.class, R.string.aps_hdrmode);
     public final static Key<GlobalBooleanSettingMode> needRestartAfterCapture = new Key(GlobalBooleanSettingMode.class, R.string.aps_needrestartaftercapture);
     public final static Key<GlobalBooleanSettingMode> forceRawToDng = new Key(GlobalBooleanSettingMode.class, R.string.aps_forcerawtondng);
-    public final static Key<GlobalBooleanSettingMode> areFeaturesDetected = new Key(GlobalBooleanSettingMode.class, R.string.aps_arefeaturesdetected);
     public final static Key<GlobalBooleanSettingMode> NightOverlay = new Key(GlobalBooleanSettingMode.class, R.string.aps_nightoverlay);
     public final static Key<GlobalBooleanSettingMode> TouchToCapture = new Key(GlobalBooleanSettingMode.class, R.string.aps_touchtocapture);
 
@@ -150,7 +152,6 @@ public class SettingKeys{
     public final static Key<SettingMode> CLIPPING = new Key(SettingMode.class, R.string.aps_clipping);
 
     public final static Key<SettingMode> ApiSettingsMode = new Key(SettingMode.class, R.string.aps_api);
-    public final static Key<GlobalStringSetting> APP_VERSION = new Key(SettingMode.class, R.string.aps_api);
     /**
      *
      * @return a list with all statics keys in this class

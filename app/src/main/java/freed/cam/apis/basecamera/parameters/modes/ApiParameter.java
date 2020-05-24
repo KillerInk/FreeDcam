@@ -35,7 +35,7 @@ public class ApiParameter extends AbstractParameter
 {
 
     public ApiParameter() {
-        super(SettingKeys.ApiSettingsMode);
+        super(null);
         fireStringValueChanged(GetStringValue());
     }
 

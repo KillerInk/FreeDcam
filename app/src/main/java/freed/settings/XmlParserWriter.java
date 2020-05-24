@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.featuredetector.Camera1FeatureDetectorTask;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.dng.CustomMatrix;
@@ -54,6 +55,7 @@ public class XmlParserWriter
 
 
                             if (!camera1element.isEmpty()) {
+                                SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
                                 Log.d(TAG, "Found camera1 overrides");
                                 Log.v(TAG, camera1element.dumpChildElementsTagNames());
                                 if (!camera1element.findChild("framework").isEmpty())
@@ -64,11 +66,11 @@ public class XmlParserWriter
                                     SettingsManager.getInstance().setFramework(FrameworkDetector.getFramework());
 
                                 if (!camera1element.findChild("opencameralegacy").isEmpty()) {
-                                    SettingsManager.get(SettingKeys.openCamera1Legacy).set(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
-                                    SettingsManager.get(SettingKeys.openCamera1Legacy).setIsPresetted(true);
+                                    SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).set(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
+                                    SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).setIsPresetted(true);
                                 }
 
-                                Log.d(TAG, "OpenLegacy: " + SettingsManager.get(SettingKeys.openCamera1Legacy).get() + " isPresetted:" + SettingsManager.get(SettingKeys.openCamera1Legacy).isPresetted());
+                                Log.d(TAG, "OpenLegacy: " + SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).get() + " isPresetted:" + SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).isPresetted());
 
                                 if (!camera1element.findChild("zteae").isEmpty())
                                     SettingsManager.getInstance().setZteAe(Boolean.parseBoolean(camera1element.findChild("zte").getValue()));
@@ -243,6 +245,7 @@ public class XmlParserWriter
 
                             XmlElement camera2element = device_element.findChild("camera2");
                             if (!camera2element.isEmpty()) {
+                                SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
                                 Log.d(TAG,"Found Camera2 overrides");
                                 if (!camera2element.findChild("forcerawtodng").isEmpty())
                                     SettingsManager.get(SettingKeys.forceRawToDng).set(camera2element.findChild("forcerawtodng").getBooleanValue());
@@ -309,7 +312,7 @@ public class XmlParserWriter
         else if (!element.findChild("values").isEmpty())
         {
             String name = element.findChild("values").getValue();
-            SettingsManager.get(SettingKeys.M_ManualIso).setValues(SettingsManager.getInstance().getResources().getStringArray(SettingsManager.getInstance().getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
+            SettingsManager.get(SettingKeys.M_ManualIso).setValues(FreedApplication.context.getResources().getStringArray(FreedApplication.context.getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
             SettingsManager.get(SettingKeys.M_ManualIso).setKEY(element.findChild("key").getValue());
             int type = element.findChild("type").getIntValue(0);
             SettingsManager.get(SettingKeys.M_ManualIso).setType(type);
@@ -492,7 +495,7 @@ public class XmlParserWriter
         hashMap.put("off", null);
 
         try {
-            String xmlsource = StringUtils.getString(SettingsManager.getInstance().getResources().openRawResource(R.raw.tonemapprofiles));
+            String xmlsource = StringUtils.getString(FreedApplication.context.getResources().openRawResource(R.raw.tonemapprofiles));
             XmlElement xmlElement = XmlElement.parse(xmlsource);
             getTonemapProfiles(hashMap, xmlElement);
         } catch (IOException e) {

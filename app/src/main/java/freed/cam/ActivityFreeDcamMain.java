@@ -375,6 +375,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void SetNightOverlay() {
         if (nightoverlay == null)
             nightoverlay = findViewById(id.nightoverlay);
+        Log.d(TAG, "NightOverlay:" + SettingsManager.get(SettingKeys.NightOverlay).get());
         if (SettingsManager.get(SettingKeys.NightOverlay).get())
             nightoverlay.setVisibility(View.VISIBLE);
         else
@@ -384,10 +385,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void runFeatureDetector() {
         unloadCameraFragment();
-        boolean legacy = SettingsManager.get(SettingKeys.openCamera1Legacy).get();
+        boolean legacy = SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).get();
         boolean showHelpOverlay = SettingsManager.getInstance().getShowHelpOverlay();
         SettingsManager.getInstance().RESET();
-        SettingsManager.get(SettingKeys.openCamera1Legacy).set(legacy);
+        SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).set(legacy);
         SettingsManager.getInstance().setshowHelpOverlay(showHelpOverlay);
         cameraFragmentManager.switchCameraFragment();
     }

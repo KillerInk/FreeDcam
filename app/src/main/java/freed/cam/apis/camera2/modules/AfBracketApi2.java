@@ -26,6 +26,8 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
+import java.util.Set;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
@@ -89,8 +91,8 @@ public class AfBracketApi2 extends PictureModuleApi2
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF);
         int max  = 0;
         try {
-            min = Integer.parseInt(SettingsManager.getInstance().getApiString(SettingsManager.SETTING_AFBRACKETMIN));
-            max = Integer.parseInt(SettingsManager.getInstance().getApiString(SettingsManager.SETTING_AFBRACKETMAX));
+            min = Integer.parseInt(SettingsManager.get(SettingKeys.AF_BRACKET_MIN).get());
+            max = Integer.parseInt(SettingsManager.get(SettingKeys.AF_BRACKET_MAX).get());
         }
         catch (NumberFormatException ex)
         {

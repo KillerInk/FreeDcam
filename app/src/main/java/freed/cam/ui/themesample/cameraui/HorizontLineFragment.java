@@ -114,7 +114,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
 
     @Override
     public void onStringValueChanged(String value) {
-        if(SettingsManager.get(SettingKeys.HorizontLvl).get().equals(SettingsManager.getInstance().getResString(string.on)))
+        if(SettingsManager.get(SettingKeys.HorizontLvl).get() != null && SettingsManager.get(SettingKeys.HorizontLvl).get().equals(SettingsManager.getInstance().getResString(string.on)))
         {
             startSensorListing();
             view.setVisibility(View.VISIBLE);

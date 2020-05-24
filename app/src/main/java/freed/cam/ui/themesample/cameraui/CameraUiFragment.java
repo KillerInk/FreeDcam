@@ -296,6 +296,9 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 } else
                     joyPad.setVisibility(View.GONE);
 
+                cameraSwitch.SetStuff(fragment_activityInterface, SettingsManager.CURRENTCAMERA);
+                settingsChildSelfTimer.SetStuff(SettingsManager.get(SettingKeys.selfTimer));
+                aelock.SetStuff(fragment_activityInterface, "");
                 //register timer to to moduleevent handler that it get shown/hidden when its video or not
                 //and start/stop working when recording starts/stops
                 //cameraUiWrapper.getModuleHandler().addListner(settingsChildSelfTimer);
@@ -326,7 +329,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         addexit();
 
         cameraSwitch = view.findViewById(id.camera_switch);
-        cameraSwitch.SetStuff(fragment_activityInterface, SettingsManager.CURRENTCAMERA);
+
 
         infoOverlayHandler = new SampleInfoOverlayHandler(view);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
@@ -339,11 +342,11 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
         aelock = view.findViewById(id.ae_lock);
         aelock.SetUiItemClickListner(this);
-        aelock.SetStuff(fragment_activityInterface, "");
+
 
         settingsChildSelfTimer = view.findViewById(id.selftimer);
         settingsChildSelfTimer.SetUiItemClickListner(this);
-        settingsChildSelfTimer.SetStuff(SettingsManager.get(SettingKeys.selfTimer));
+
 
 
         manualModesFragment = new ManualFragment();

@@ -43,7 +43,7 @@ public class CameraHolderLG extends CameraHolder
     {
         try {
 
-            if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
+            if (SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).get()) {
                 lgCamera = new LGCameraRef(camera, 256);
                 Log.d(CameraHolderLG.class.getSimpleName(), "open LG camera legacy");
             }

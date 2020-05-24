@@ -129,5 +129,8 @@
     <string name="aps_focuspeakcolor" translatable="false">focuspeakcolor</string>
     <string name="aps_video_audio_source" translatable="false">videoaudiosource</string>
     <string name="aps_rawsize" translatable="false">rawsize</string>
+    <string name="aps_afbracketmax" translatable="false">afbracketmax</string>
+    <string name="aps_afbracketmin" translatable="false">afbracketmin</string>
+    <string name="aps_timelapseframes" translatable="false">timelapsframes</string>
 
 </resources>

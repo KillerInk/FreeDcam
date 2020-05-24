@@ -62,7 +62,7 @@ public class BracketModule extends PictureModule {
     @Override
     public void DoWork() {
         mBackgroundHandler.post(() -> {
-            if (SettingsManager.getInstance().getApiString(SettingsManager.SETTING_LOCATION).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
+            if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
                 cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             files = new BaseHolder[3];
             hdrCount = 0;

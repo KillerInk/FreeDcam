@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.renderscript.RenderScriptManager;
@@ -69,7 +70,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 Log.WriteEx(ex);
             }
         }
-        SettingsManager.getInstance().setCameraIds(cam_ids.toArray(new String[cam_ids.size()]));
+        int arr[] = new int[cam_ids.size()];
+        for (int i = 0; i<arr.length;i++)
+            arr[i] = Integer.parseInt(cam_ids.get(i));
+        SettingsManager.getInstance().setCameraIds(arr);
 
         Log.d(TAG, "Cameras Found: " + cam_ids.size());
         for (int i = 0; i < cam_ids.size(); i++)
@@ -79,7 +83,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             publishProgress("###################");
             SettingsManager.getInstance().SetCurrentCamera(i);
 
-            detectFrontCamera(i);
+            detectFrontCamera(arr[i]);
             publishProgress("isFrontCamera:"+SettingsManager.getInstance().getIsFrontCamera() + " CameraID:"+ i);
 
             Camera.Parameters parameters = null;
@@ -96,21 +100,21 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
             publishProgress("Detecting Features");
 
-            SettingsManager.get(SettingKeys.selfTimer).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.selftimervalues));
+            SettingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.context.getResources().getStringArray(R.array.selftimervalues));
             SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
 
-            SettingsManager.get(SettingKeys.GuideList).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.guidelist));
+            SettingsManager.get(SettingKeys.GuideList).setValues(FreedApplication.context.getResources().getStringArray(R.array.guidelist));
             SettingsManager.get(SettingKeys.GuideList).set(SettingsManager.get(SettingKeys.GuideList).getValues()[0]);
             if (RenderScriptManager.isSupported()) {
-                SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.focuspeakColors));
+                SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.context.getResources().getStringArray(R.array.focuspeakColors));
                 SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
                 SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
             }
 
             SettingsManager.get(SettingKeys.LOCATION_MODE).setIsSupported(true);
 
-            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(SettingsManager.getInstance().getResString(R.string.video_audio_source_default));
-            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.video_audio_source));
+            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(FreedApplication.context.getResources().getString(R.string.video_audio_source_default));
+            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(FreedApplication.context.getResources().getStringArray(R.array.video_audio_source));
             SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
 
 
@@ -524,7 +528,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         {
             Log.d(TAG, "ManualExposureTime MTK");
             SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-            SettingsManager.get(SettingKeys.M_ExposureTime).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.mtk_shutter));
+            SettingsManager.get(SettingKeys.M_ExposureTime).setValues(FreedApplication.context.getResources().getStringArray(R.array.mtk_shutter));
             SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("m-ss");
             SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_MTK);
         }
@@ -534,7 +538,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             if (parameters.get(SettingsManager.getInstance().getResString(R.string.shutter)) != null) {
                 Log.d(TAG, "ManualExposureTime HTC");
                 SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.htc));
+                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(FreedApplication.context.getResources().getStringArray(R.array.htc));
                 SettingsManager.get(SettingKeys.M_ExposureTime).setKEY(SettingsManager.getInstance().getResString(R.string.shutter));
                 SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_HTC);
             }
@@ -552,7 +556,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             else if (parameters.get("shutter-value") != null) {
                 Log.d(TAG, "ManualExposureTime Meizu");
                 SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.shutter_values_meizu));
+                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(FreedApplication.context.getResources().getStringArray(R.array.shutter_values_meizu));
                 SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("shutter-value");
                 SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_MEIZU);
             }
@@ -637,7 +641,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     }
 
     private String[] getSupportedShutterValues(long minMillisec, long maxMiliisec, boolean withautomode) {
-        String[] allvalues = SettingsManager.getInstance().getResources().getStringArray(R.array.shutter_values_autocreate);
+        String[] allvalues = FreedApplication.context.getResources().getStringArray(R.array.shutter_values_autocreate);
         boolean foundmin = false;
         boolean foundmax = false;
         ArrayList<String> tmp = new ArrayList<>();
@@ -1220,7 +1224,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             case LG:
             {
                 Log.d(TAG,"Open LG Camera");
-                if (SettingsManager.get(SettingKeys.openCamera1Legacy).get())
+                if (SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).get())
                     lgCamera = new LGCameraRef(currentcamera, 256);
                 if (lgCamera == null)
                     lgCamera = new LGCameraRef(currentcamera);
@@ -1252,7 +1256,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             default:
             {
-               if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
+               if (SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).get()) {
                    Log.d(TAG, "Open Try legacy Camera");
                    try {
                        camera = CameraHolderLegacy.openWrapper(currentcamera);

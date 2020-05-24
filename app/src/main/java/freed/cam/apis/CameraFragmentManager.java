@@ -108,7 +108,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     public void switchCameraFragment()
     {
         Log.d(TAG, "BackgroundHandler is null: " + (backgroundHandlerThread.getThread() == null));
-        if ((!SettingsManager.get(SettingKeys.areFeaturesDetected).get() || SettingsManager.getInstance().appVersionHasChanged()) && fd == null)
+        if ((!SettingsManager.getInstance().getAreFeaturesDetected() || SettingsManager.getInstance().appVersionHasChanged()) && fd == null)
         {
             if (cameraFragment != null)
                 unloadCameraFragment();

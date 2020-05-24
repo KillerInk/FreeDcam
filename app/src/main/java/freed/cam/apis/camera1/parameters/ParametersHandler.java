@@ -473,7 +473,7 @@ public class ParametersHandler extends AbstractParameterHandler
             add(SettingKeys.dualPrimaryCameraMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.dualPrimaryCameraMode));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            add(SettingKeys.openCamera1Legacy, new LegacyMode(cameraUiWrapper,SettingsManager.get(SettingKeys.openCamera1Legacy)));
+            add(SettingKeys.openCamera1Legacy, new LegacyMode(cameraUiWrapper,SettingsManager.getGlobal(SettingKeys.openCamera1Legacy)));
 
 
         registerListners();
