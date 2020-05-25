@@ -38,7 +38,7 @@ public class ManualIsoSony extends AbstractParameter
                 parameters.set("sony-ae-mode", "iso-prio");
             else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime).GetValue() >0 && !parameters.get("sony-ae-mode").equals("manual"))
                 parameters.set("sony-ae-mode", "manual");
-            parameters.set(SettingsManager.get(SettingKeys.M_ManualIso).getKEY(), stringvalues[currentInt]);
+            parameters.set(SettingsManager.get(SettingKeys.M_ManualIso).getCamera1ParameterKEY(), stringvalues[currentInt]);
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }

@@ -79,7 +79,7 @@ public class ShutterManualMeizu extends AbstractParameter
 
     private String setExposureTimeToParameter(String shutterstring)
     {
-        parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getKEY(), shutterstring);
+        parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), shutterstring);
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         cameraUiWrapper.stopPreviewAsync();
         cameraUiWrapper.startPreviewAsync();

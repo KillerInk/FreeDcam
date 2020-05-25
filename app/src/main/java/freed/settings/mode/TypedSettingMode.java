@@ -1,8 +1,8 @@
 package freed.settings.mode;
 
-import com.troop.freedcam.R;
-
-import freed.settings.SettingsManagerInterface;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
+import freed.utils.Log;
 import freed.utils.XmlUtil;
 
 /**
@@ -11,10 +11,12 @@ import freed.utils.XmlUtil;
 
 public class TypedSettingMode extends SettingMode {
 
+    private final String TAG = TypedSettingMode.class.getSimpleName();
+
     private int type;
     private String mode;
 
-    public TypedSettingMode(String value_key) {
+    public TypedSettingMode(SettingKeys.Key value_key) {
         super(value_key);
     }
 
@@ -40,19 +42,23 @@ public class TypedSettingMode extends SettingMode {
 
     @Override
     public String getXmlString() {
-        String t = "<setting name = \""+ KEY_value +"\" type = \""+ TypedSettingMode.class.getSimpleName() +"\">";
-        t+= XmlUtil.getTagStringWithValue("preseted", String.valueOf(preseted));
-        t+= XmlUtil.getTagStringWithValue("supported", String.valueOf(isSupported()));
-        t+= XmlUtil.getTagStringWithValue("mode", mode);
-        t+= XmlUtil.getTagStringWithValue("type", String.valueOf(type));
-        t+= XmlUtil.getTagStringWithValue("value", String.valueOf(get()));
-        String sub = "";
+        StringBuilder sub = new StringBuilder();
+        sub.append("<setting name = \""+ SettingsManager.getInstance().getResString(settingKey.getRessourcesStringID()) +"\" type = \""+ TypedSettingMode.class.getSimpleName() +"\">\r\n");
+        sub.append(XmlUtil.getTagStringWithValue("preseted", String.valueOf(preseted))).append(XmlUtil.LINE_END);
+        sub.append(XmlUtil.getTagStringWithValue("supported", String.valueOf(isSupported()))).append(XmlUtil.LINE_END);
+        sub.append(XmlUtil.getTagStringWithValue("value", String.valueOf(get()))).append(XmlUtil.LINE_END);
+        sub.append(XmlUtil.getTagStringWithValue("mode", mode)).append(XmlUtil.LINE_END);
+        sub.append(XmlUtil.getTagStringWithValue("type", String.valueOf(type))).append(XmlUtil.LINE_END);
         if (getValues() != null) {
+            sub.append("<values>\r\n");
             for (int i = 0; i < getValues().length; i++)
-                sub += XmlUtil.getTagStringWithValue("val", getValues()[i]);
-            t += XmlUtil.getTagStringWithValue("values", sub);
+                sub.append(XmlUtil.getTagStringWithValue("val", getValues()[i])).append("\r\n");
+            sub.append("</values>\r\n");
         }
-        t += "</setting>\r\n";
-        return t;
+        else
+            Log.d(TAG, "values are null: " + getCamera1ParameterKEY());
+        sub.append("</setting>\r\n");
+        Log.d(TAG, sub.toString());
+        return sub.toString();
     }
 }

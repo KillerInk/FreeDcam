@@ -117,4 +117,6 @@ public class ManualFocus extends AbstractParameter
         currentString = value;
         EventBusHelper.post(new FocusPositionChangedEvent(key,value, String.class));
     }
+
+
 }

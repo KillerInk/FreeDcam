@@ -1,41 +1,12 @@
 package freed.settings;
 
-import android.app.Application;
-import android.util.Xml;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.NavigableSet;
-import java.util.Objects;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.concurrent.ConcurrentHashMap;
 
-import freed.FreedApplication;
-import freed.cam.apis.sonyremote.sonystuff.XmlElement;
-import freed.settings.mode.ApiBooleanSettingMode;
-import freed.settings.mode.GlobalBooleanSettingMode;
-import freed.settings.mode.GlobalStringSetting;
 import freed.settings.mode.SettingInterface;
-import freed.settings.mode.SettingMode;
-import freed.settings.mode.TypedSettingMode;
-import freed.utils.Log;
-import freed.utils.StringUtils;
 import freed.utils.VideoMediaProfile;
-import freed.utils.XmlUtil;
 
 public class SettingsStorage
 {
@@ -80,7 +51,7 @@ public class SettingsStorage
         Constructor ctr = key.getType().getConstructors()[0];
         T settingInterface = null;
         try {
-            settingInterface = (T)ctr.newInstance(SettingsManager.getInstance().getResString(key.getRessourcesStringID()));
+            settingInterface = (T)ctr.newInstance(key);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -91,17 +62,22 @@ public class SettingsStorage
         return settingInterface;
     }
 
+    private Object waitlock = new Object();
 
     public void save()
     {
-        new SettingsSaver().saveSettings(settings,appdataFolder);
-        mediaProfilesManager.save(appdataFolder);
+        synchronized (waitlock) {
+            new SettingsSaver().saveSettings(settings, appdataFolder);
+            mediaProfilesManager.save(appdataFolder);
+        }
     }
 
     public void load()
     {
-        new SettingsLoader().loadSettings(settings,appdataFolder);
-        mediaProfilesManager.load(appdataFolder);
+        synchronized (waitlock) {
+            new SettingsLoader().loadSettings(settings, appdataFolder);
+            mediaProfilesManager.load(appdataFolder);
+        }
     }
 
     public void reset()

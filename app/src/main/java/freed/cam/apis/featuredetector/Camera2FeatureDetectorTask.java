@@ -77,11 +77,11 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
                 catch (IllegalArgumentException ex)
                 {
-                    Log.WriteEx(ex);
+                    Log.e(TAG, "Failed to get parameters from cam :" + i);
                 }
                 catch (CameraAccessException ex)
                 {
-                    Log.WriteEx(ex);
+                    Log.e(TAG, "Failed to get parameters from cam :" + i);
                 }
             }
 

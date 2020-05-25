@@ -1,6 +1,7 @@
 package freed.settings.mode;
 
-import freed.settings.SettingsManagerInterface;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.XmlUtil;
 
 /**
@@ -11,17 +12,17 @@ public class ApiBooleanSettingMode extends GlobalBooleanSettingMode implements B
     private boolean preseted;
     private boolean value;
 
-    public ApiBooleanSettingMode(String key) {
+    public ApiBooleanSettingMode(SettingKeys.Key key) {
         super(key);
     }
 
     @Override
-    public Boolean get()
+    public boolean get()
     {
         return value;
     }
     @Override
-    public void set(Boolean enable)
+    public void set(boolean enable)
     {
         this.value = enable;
     }
@@ -38,7 +39,7 @@ public class ApiBooleanSettingMode extends GlobalBooleanSettingMode implements B
 
     @Override
     public String getXmlString() {
-        String t = "<setting name = \""+ KEY_value +"\" type = \""+ ApiBooleanSettingMode.class.getSimpleName() +"\">";
+        String t = "<setting name = \""+ SettingsManager.getInstance().getResString(settingKey.getRessourcesStringID()) +"\" type = \""+ ApiBooleanSettingMode.class.getSimpleName() +"\">";
         t+= XmlUtil.getTagStringWithValue("value", String.valueOf(value));
         t+= XmlUtil.getTagStringWithValue("preseted", String.valueOf(preseted));
         t += "</setting>\r\n";

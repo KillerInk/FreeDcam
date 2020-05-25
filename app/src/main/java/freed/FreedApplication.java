@@ -14,7 +14,7 @@ public class FreedApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        EventBus.builder().throwSubscriberException(BuildConfig.DEBUG).installDefaultEventBus();
+        //EventBus.builder().throwSubscriberException(BuildConfig.DEBUG).installDefaultEventBus();
         context = getApplicationContext();
     }
 

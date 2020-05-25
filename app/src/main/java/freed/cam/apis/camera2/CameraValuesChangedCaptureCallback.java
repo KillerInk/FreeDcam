@@ -250,7 +250,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                     focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
                     camera2Fragment.getParameterHandler().get(SettingKeys.M_Focus).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
                 } catch (NullPointerException ex) {
-                    Log.WriteEx(ex);
+                    Log.v(TAG, "cant get focus distance");
                 }
 
             }
@@ -272,7 +272,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
                             //Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
                         } catch (Exception ex) {
-                            Log.WriteEx(ex);
+                            Log.v(TAG, "cant get expo time");
                         }
                         try {
                             int isova = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
@@ -280,12 +280,12 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                             iso.fireStringValueChanged("" + isova);
                             //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
                         } catch (NullPointerException ex) {
-                            Log.WriteEx(ex);
+                            Log.v(TAG, "cant get iso");
                         }
 
                     }
                 } catch (NullPointerException ex) {
-                    Log.WriteEx(ex);
+                    Log.v(TAG, "cant get exposuremode");
                 }
             }
         }

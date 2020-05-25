@@ -108,7 +108,7 @@ public class XmlParserWriter
                                     int min = camera1element.findChild("whitebalance").findChild("min").getIntValue(2000);
                                     int max  = camera1element.findChild("whitebalance").findChild("max").getIntValue(8000);
                                     int step = camera1element.findChild("whitebalance").findChild("step").getIntValue(100);
-                                    SettingsManager.get(SettingKeys.M_Whitebalance).setKEY(camera1element.findChild("whitebalance").findChild("key").getValue());
+                                    SettingsManager.get(SettingKeys.M_Whitebalance).setCamera1ParameterKEY(camera1element.findChild("whitebalance").findChild("key").getValue());
                                     SettingsManager.get(SettingKeys.M_Whitebalance).setMode(camera1element.findChild("whitebalance").findChild("mode").getValue());
                                     SettingsManager.get(SettingKeys.M_Whitebalance).setValues(Camera1FeatureDetectorTask.createWBStringArray(min,max,step));
                                     SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(true);
@@ -158,7 +158,7 @@ public class XmlParserWriter
                                     }
                                     if (!camera1element.findChild("exposuretime").findChild("key").isEmpty())
                                     {
-                                        SettingsManager.get(SettingKeys.M_ExposureTime).setKEY(camera1element.findChild("exposuretime").findChild("key").getValue());
+                                        SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY(camera1element.findChild("exposuretime").findChild("key").getValue());
                                     }
                                     if (!camera1element.findChild("exposuretime").findChild("key").isEmpty())
                                     {
@@ -167,7 +167,7 @@ public class XmlParserWriter
                                     }
                                     else {
                                         SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
-                                        SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("unsupported");
+                                        SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("unsupported");
                                     }
                                     SettingsManager.get(SettingKeys.M_ExposureTime).setIsPresetted(true);
                                 }
@@ -289,7 +289,7 @@ public class XmlParserWriter
             SettingsManager.get(SettingKeys.M_Focus).setType(element.findChild("type").getIntValue(-1));
             SettingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
             SettingsManager.get(SettingKeys.M_Focus).setIsPresetted(true);
-            SettingsManager.get(SettingKeys.M_Focus).setKEY(element.findChild("key").getValue());
+            SettingsManager.get(SettingKeys.M_Focus).setCamera1ParameterKEY(element.findChild("key").getValue());
             SettingsManager.get(SettingKeys.M_Focus).setValues(Camera1FeatureDetectorTask.createManualFocusValues(element.findChild("min").getIntValue(0),element.findChild("max").getIntValue(0),element.findChild("step").getIntValue(0)));
         }
         else
@@ -304,7 +304,7 @@ public class XmlParserWriter
             int step = element.findChild("step").getIntValue(50);
             int type = element.findChild("type").getIntValue(0);
             SettingsManager.get(SettingKeys.M_ManualIso).setType(type);
-            SettingsManager.get(SettingKeys.M_ManualIso).setKEY(element.findChild("key").getValue());
+            SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(element.findChild("key").getValue());
             SettingsManager.get(SettingKeys.M_ManualIso).setValues(Camera1FeatureDetectorTask.createIsoValues(min, max, step,SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi));
             SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
             SettingsManager.get(SettingKeys.M_ManualIso).setIsPresetted(true);
@@ -313,7 +313,7 @@ public class XmlParserWriter
         {
             String name = element.findChild("values").getValue();
             SettingsManager.get(SettingKeys.M_ManualIso).setValues(FreedApplication.context.getResources().getStringArray(FreedApplication.context.getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
-            SettingsManager.get(SettingKeys.M_ManualIso).setKEY(element.findChild("key").getValue());
+            SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(element.findChild("key").getValue());
             int type = element.findChild("type").getIntValue(0);
             SettingsManager.get(SettingKeys.M_ManualIso).setType(type);
             SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);

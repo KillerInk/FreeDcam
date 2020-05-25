@@ -224,10 +224,15 @@ public class WbHandler
 
         @Override
         public ViewState getViewState() {
-            if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode) == null)
-                return ViewState.Hidden;
-            else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).GetStringValue().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off)))
-                return ViewState.Visible;
+            try {
+                if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode) == null)
+                    return ViewState.Hidden;
+                else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).GetStringValue().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off)))
+                    return ViewState.Visible;
+            }
+            catch (NullPointerException ex) {
+                Log.WriteEx(ex);
+            }
             return ViewState.Hidden;
         }
 

@@ -15,6 +15,7 @@ import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
+import freed.cam.ui.themesample.settings.childs.SettingsChildApi;
 import freed.cam.ui.themesample.settings.childs.SettingsChildFeatureDetect;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuForceRawToDng;
@@ -177,7 +178,7 @@ public class SettingsMenuItemFactory
         GroupChild globalSettingGroup = new GroupChild(context,context.getResources().getString(R.string.setting_freedcam_));
 
 
-        SettingsChildMenu api = new SettingsChildMenu(context,R.string.setting_api_header, R.string.setting_api_description);
+        SettingsChildApi api = new SettingsChildApi(context,R.string.setting_api_header, R.string.setting_api_description);
         api.SetStuff(activityInterface, "");
         api.SetParameter(new ApiParameter());
         api.SetUiItemClickListner(click);

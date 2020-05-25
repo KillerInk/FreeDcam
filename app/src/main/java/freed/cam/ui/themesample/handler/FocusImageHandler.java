@@ -47,6 +47,7 @@ import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.utils.Log;
 
 
 /**
@@ -54,6 +55,7 @@ import freed.settings.SettingsManager;
  */
 public class FocusImageHandler extends AbstractFocusImageHandler
 {
+    private static final String TAG =  FocusImageHandler.class.getSimpleName();
     private CameraWrapperInterface wrapper;
     private final FocusSelector focusImageView;
     private int disHeight;
@@ -63,6 +65,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private final ImageView meteringArea;
     private boolean touchToFocusIsSupported = false;
     private boolean meteringIsSupported = false;
+    private boolean waitForFocusEnd = false;
 
 
     public FocusImageHandler(View view, ActivityAbstract fragment)
@@ -119,6 +122,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void FocusStarted(int x, int y)
     {
+        waitForFocusEnd = true;
         if (!(wrapper instanceof SonyCameraRemoteFragment))
         {
             disWidth = wrapper.getPreviewWidth();
@@ -149,18 +153,21 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void FocusFinished(final boolean success)
     {
-        if (!(wrapper instanceof SonyCameraRemoteFragment)) {
-            focusImageView.post(() -> {
-                focusImageView.setFocusCheck(success);
-                focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
-                if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(wrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
-                    wrapper.getModuleHandler().startWork();
+        if (waitForFocusEnd) {
+            waitForFocusEnd = false;
+            if (!(wrapper instanceof SonyCameraRemoteFragment)) {
+                focusImageView.post(() -> {
+                    focusImageView.setFocusCheck(success);
+                    focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
+                    Log.d(TAG,"Focus success:" + success + " TouchtoCapture:" + SettingsManager.get(SettingKeys.TouchToCapture).get());
+                    if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(wrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
+                        wrapper.getModuleHandler().startWork();
 
 
-                focusImageView.setAnimation(null);
-            });
+                    focusImageView.setAnimation(null);
+                });
+            }
         }
-
     }
 
     @Override

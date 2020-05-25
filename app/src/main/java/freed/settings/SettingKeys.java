@@ -9,7 +9,6 @@ import java.util.List;
 
 import freed.settings.mode.ApiBooleanSettingMode;
 import freed.settings.mode.GlobalBooleanSettingMode;
-import freed.settings.mode.GlobalStringSetting;
 import freed.settings.mode.SettingMode;
 import freed.settings.mode.TypedSettingMode;
 

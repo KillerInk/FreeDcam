@@ -128,24 +128,24 @@ public class SettingsManager implements SettingsManagerInterface {
         return settingsManager;
     }
 
-    public synchronized void save()
+    public void save()
     {
         Log.d(TAG,"save, storage is null =" + (settingsStorage == null));
         if (settingsStorage != null)
             settingsStorage.save();
     }
 
-    public synchronized static <T> T get(SettingKeys.Key<T> key)
+    public static <T> T get(SettingKeys.Key<T> key)
     {
         return key.getType().cast(getInstance().settingsStorage.get(key));
     }
 
-    public synchronized static <T> T getGlobal(SettingKeys.Key<T> key)
+    public static <T> T getGlobal(SettingKeys.Key<T> key)
     {
         return key.getType().cast(getInstance().settingsStorage.getGlobal(key));
     }
 
-    public synchronized void init()
+    public void init()
     {
         //check if its not already init while a other task waited for it
         if (isInit)
@@ -159,7 +159,7 @@ public class SettingsManager implements SettingsManagerInterface {
         parseXml();
     }
 
-    public synchronized void release()
+    public void release()
     {
         //settingsmap.clear();
         isInit = false;

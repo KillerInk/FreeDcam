@@ -2,6 +2,6 @@ package freed.settings.mode;
 
 
 public interface BooleanSettingModeInterface {
-    Boolean get();
-    void set(Boolean bool);
+    boolean get();
+    void set(boolean bool);
 }

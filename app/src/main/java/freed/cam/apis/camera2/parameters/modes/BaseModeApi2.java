@@ -25,7 +25,9 @@ import android.os.Build.VERSION_CODES;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -107,7 +109,12 @@ public class BaseModeApi2 extends AbstractParameter
             return null;
         try {
             int i = captureSessionHandler.getPreviewParameter(parameterKey);
-            for (Map.Entry s : parameterValues.entrySet())
+            if (parameterValues == null)
+                return null;
+            Set<Map.Entry<String,Integer>> maps = parameterValues.entrySet();
+            if (maps == null || maps.size() == 0)
+                return null;
+            for (Map.Entry s : maps)
                 if (s.getValue().equals(i))
                     return s.getKey().toString();
         }

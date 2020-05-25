@@ -37,10 +37,14 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.string;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -73,6 +77,15 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     float[] I = new float[9];
 
 
+
+    @Subscribe
+    public void onHorizontModeChanged(ValueChangedEvent<String> valueChangedEvent)
+    {
+        if (valueChangedEvent.key == SettingKeys.HorizontLvl)
+        {
+            onStringValueChanged(valueChangedEvent.newValue);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -152,10 +165,12 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     public void onPause(){
         super.onPause();
         stopSensorListing();
+        EventBusHelper.unregister(this);
     }
     @Override
     public void onResume(){
         super.onResume();
+        EventBusHelper.register(this);
         try {
             if (SettingsManager.get(SettingKeys.HorizontLvl).get() != null && SettingsManager.get(SettingKeys.HorizontLvl).get().equals(SettingsManager.getInstance().getResString(string.off))
                     || TextUtils.isEmpty(SettingsManager.get(SettingKeys.HorizontLvl).get()))

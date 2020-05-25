@@ -33,12 +33,12 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
     }
 
     @Override
-    public Boolean get() {
+    public boolean get() {
         return settingMode.get();
     }
 
     @Override
-    public void set(Boolean bool) {
+    public void set(boolean bool) {
         if (bool)
         {
             fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
