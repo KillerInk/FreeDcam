@@ -4,16 +4,16 @@ package freed.cam.apis.basecamera.parameters.modes;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.settings.mode.ApiBooleanSettingMode;
 import freed.settings.mode.BooleanSettingModeInterface;
 
 public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSettingModeInterface {
 
-    protected ApiBooleanSettingMode settingMode;
 
-    public EnableRenderScriptMode(CameraWrapperInterface cameraUiWrapper, ApiBooleanSettingMode settingMode) {
+    public EnableRenderScriptMode(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
-        this.settingMode = settingMode;
     }
 
     @Override
@@ -21,11 +21,11 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
     {
         if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
         {
-            settingMode.set(true);
+            SettingsManager.get(SettingKeys.EnableRenderScript).set(true);
             fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
         }
         else {
-            settingMode.set(false);
+            SettingsManager.get(SettingKeys.EnableRenderScript).set(false);
             fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
         }
         cameraUiWrapper.restartCameraAsync();
@@ -34,7 +34,7 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
 
     @Override
     public boolean get() {
-        return settingMode.get();
+        return SettingsManager.get(SettingKeys.EnableRenderScript).get();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
         }
         else
             fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
-        settingMode.set(bool);
+        SettingsManager.get(SettingKeys.EnableRenderScript).set(bool);
         cameraUiWrapper.restartCameraAsync();
     }
 }

@@ -74,7 +74,7 @@ public abstract class AbstractParameterHandler
         add(SettingKeys.SD_SAVE_LOCATION, new SDModeParameter());
         add(SettingKeys.NightOverlay, new NightOverlayParameter(cameraUiWrapper));
         if (RenderScriptManager.isSupported() && cameraUiWrapper.getFocusPeakProcessor() != null) {
-            add(SettingKeys.EnableRenderScript, new EnableRenderScriptMode(cameraUiWrapper, SettingsManager.get(SettingKeys.EnableRenderScript)));
+            add(SettingKeys.EnableRenderScript, new EnableRenderScriptMode(cameraUiWrapper));
             add(SettingKeys.FOCUSPEAK_COLOR, new FocusPeakColorMode(cameraUiWrapper.getFocusPeakProcessor(), SettingKeys.FOCUSPEAK_COLOR));
             add(SettingKeys.Focuspeak, new FocusPeakMode(cameraUiWrapper));
             add(SettingKeys.HISTOGRAM, new HistogramParameter(cameraUiWrapper));

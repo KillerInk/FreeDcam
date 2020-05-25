@@ -1224,7 +1224,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             case LG:
             {
                 Log.d(TAG,"Open LG Camera");
-                if (SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).get())
+                if (SettingsManager.get(SettingKeys.openCamera1Legacy).get())
                     lgCamera = new LGCameraRef(currentcamera, 256);
                 if (lgCamera == null)
                     lgCamera = new LGCameraRef(currentcamera);
@@ -1256,7 +1256,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             default:
             {
-               if (SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).get()) {
+               if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
                    Log.d(TAG, "Open Try legacy Camera");
                    try {
                        camera = CameraHolderLegacy.openWrapper(currentcamera);

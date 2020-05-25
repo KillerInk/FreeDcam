@@ -108,9 +108,6 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
         public boolean process() {
             Log.d(TAG, "CameraFeatureRunner process");
             SettingsManager.getInstance().setCamApi(SettingsManager.API_SONY);
-            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setValues(getResources().getStringArray(R.array.focuspeakColors));
-            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
-            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
             Camera2FeatureDetectorTask task  = null;
             Camera1FeatureDetectorTask task1 = null;
             if (Build.VERSION.SDK_INT >= 21) {

@@ -386,10 +386,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void runFeatureDetector() {
         unloadCameraFragment();
-        boolean legacy = SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).get();
+        boolean legacy = SettingsManager.get(SettingKeys.openCamera1Legacy).get();
         boolean showHelpOverlay = SettingsManager.getInstance().getShowHelpOverlay();
         SettingsManager.getInstance().RESET();
-        SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).set(legacy);
+        SettingsManager.get(SettingKeys.openCamera1Legacy).set(legacy);
         SettingsManager.getInstance().setshowHelpOverlay(showHelpOverlay);
         cameraFragmentManager.switchCameraFragment();
     }

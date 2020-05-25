@@ -317,7 +317,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Override
     public void createCamera() {
-        Log.d(TAG,"FrameWork:" + SettingsManager.getInstance().getFrameWork() + " openlegacy:" + SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).get());
+        Log.d(TAG,"FrameWork:" + SettingsManager.getInstance().getFrameWork() + " openlegacy:" + SettingsManager.get(SettingKeys.openCamera1Legacy).get());
 
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.LG) {
             cameraHolder = new CameraHolderLG(Camera1Fragment.this, Frameworks.LG);
@@ -335,7 +335,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         {
             cameraHolder = new CameraHolderSony(Camera1Fragment.this, Frameworks.SonyCameraExtension);
         }
-        else if (SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).get()) {
+        else if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
             cameraHolder = new CameraHolderLegacy(Camera1Fragment.this, Frameworks.Default);
             Log.d(TAG, "create Legacy camera");
         }

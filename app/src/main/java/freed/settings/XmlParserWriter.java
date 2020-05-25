@@ -66,11 +66,11 @@ public class XmlParserWriter
                                     SettingsManager.getInstance().setFramework(FrameworkDetector.getFramework());
 
                                 if (!camera1element.findChild("opencameralegacy").isEmpty()) {
-                                    SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).set(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
-                                    SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).setIsPresetted(true);
+                                    SettingsManager.get(SettingKeys.openCamera1Legacy).set(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
+                                    SettingsManager.get(SettingKeys.openCamera1Legacy).setIsPresetted(true);
                                 }
 
-                                Log.d(TAG, "OpenLegacy: " + SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).get() + " isPresetted:" + SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).isPresetted());
+                                Log.d(TAG, "OpenLegacy: " + SettingsManager.get(SettingKeys.openCamera1Legacy).get() + " isPresetted:" + SettingsManager.get(SettingKeys.openCamera1Legacy).isPresetted());
 
                                 if (!camera1element.findChild("zteae").isEmpty())
                                     SettingsManager.getInstance().setZteAe(Boolean.parseBoolean(camera1element.findChild("zte").getValue()));

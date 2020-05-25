@@ -465,11 +465,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             if (!hasCamera2Features || hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
                 SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
             }
-
-            if (SettingsManager.getInstance().hasCamera2Features() && !SettingsManager.get(SettingKeys.openCamera1Legacy).isPresetted() && hwlvl != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
-                SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).set(true);
-            }
-            Log.d(TAG, "Can Open Legacy: " + SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).get() + " was presetted: " + SettingsManager.getGlobal(SettingKeys.openCamera1Legacy).isPresetted());
         }
         catch (Throwable ex) {
             Log.WriteEx(ex);
